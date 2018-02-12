@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelCurriculum
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Class provides methods for building a model of the curriculum in JSON format
- * *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class builds a model of a set of curriculum resources in JSON format.
  */
 class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
 {
@@ -32,6 +26,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * Method to select the Tree of the current major
      *
      * @return string  the json encoded string modeling the curriculum
+     * @throws Exception
      */
     public function getCurriculum()
     {
@@ -63,6 +58,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param int $right the right value for the program
      *
      * @return mixed  array on success, otherwise false
+     * @throws Exception
      */
     private function getFieldColors($left, $right)
     {
@@ -345,6 +341,7 @@ class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
      * @param object &$subjectData an object containing subject data
      *
      * @return void
+     * @throws Exception
      */
     private function setTeacherProperties(&$subjectData)
     {

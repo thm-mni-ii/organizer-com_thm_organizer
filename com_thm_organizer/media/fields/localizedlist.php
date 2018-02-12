@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        JFormFieldLocalizedList
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,11 +13,8 @@ JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class loads a list of of localized entries for selection
- *
- * @category    Joomla.Component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. Both the
+ * value and the text are localized.
  */
 class JFormFieldLocalizedList extends JFormFieldList
 {
@@ -37,6 +32,7 @@ class JFormFieldLocalizedList extends JFormFieldList
      * Use the show_root attribute to specify whether to show the global category root in the list.
      *
      * @return array  The field option objects.
+     * @throws Exception
      */
     protected function getOptions()
     {

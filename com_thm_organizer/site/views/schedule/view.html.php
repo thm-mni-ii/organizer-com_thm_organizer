@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        thm_organizerViewOrganizer
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,11 +17,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * View class for the display of schedules
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads the schedule form into the display context.
  */
 class THM_OrganizerViewSchedule extends JViewLegacy
 {
@@ -88,6 +83,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
      * @param null $tpl template
      *
      * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -106,6 +102,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
      * Adds resource files to the document
      *
      * @return void
+     * @throws Exception
      */
     private function modifyDocument()
     {
@@ -124,6 +121,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
      * Generates required params for Javascript and adds them to the document
      *
      * @return void
+     * @throws Exception
      */
     private function addScriptOptions()
     {

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        JFormFieldGenericList
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,11 +11,8 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Class loads a list of of entries for selection
- *
- * @category    Joomla.Component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While the
+ * display text can be localized, the value cannot be.
  */
 class JFormFieldGenericList extends JFormFieldList
 {
@@ -193,6 +188,7 @@ class JFormFieldGenericList extends JFormFieldList
      * @param array &$options the input options
      *
      * @return void  sets option values
+     * @throws Exception
      */
     private function setValueParameters(&$options)
     {

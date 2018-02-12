@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class provides methods for getting information about course participants
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads a form for editing participant data.
  */
 class THM_OrganizerModelParticipant_Edit extends JModelForm
 {
@@ -26,6 +22,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
      * Loads user registration information from the database
      *
      * @return object  filled with user registration data on success, otherwise empty
+     * @throws Exception
      */
     public function getItem()
     {

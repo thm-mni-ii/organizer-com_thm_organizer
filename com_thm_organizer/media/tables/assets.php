@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerTableAssets
- * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,13 +11,9 @@ defined('_JEXEC') or die;
 jimport('joomla.database.table');
 
 /**
- * Class representing the assets table.
- *
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * Abstract class for use by resource tables whose access rules are to be stored in the Joomla assets table.
  */
-class THM_OrganizerTableAssets extends JTable
+abstract class THM_OrganizerTableAssets extends JTable
 {
     public $asset_id;
 

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelSubject_Ajax
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,26 +13,15 @@ jimport('joomla.application.component.model');
 require_once JPATH_BASE . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
- * Class provides methods for building a model of the curriculum in JSON format
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class which retrieves dynamic subject information.
  */
 class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 {
     /**
-     * Constructor to set up the class variables and call the parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Retrieves subject entries from the database
      *
      * @return string  the subjects which fit the selected resource
+     * @throws Exception
      */
     public function getSubjects()
     {
@@ -99,6 +86,7 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      * Retrieves the left and right boundaries of the nested program or pool
      *
      * @return array
+     * @throws Exception
      */
     private function getBoundaries()
     {

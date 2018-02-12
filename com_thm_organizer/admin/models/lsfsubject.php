@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelLSFSubject
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -22,11 +20,7 @@ defined('RESPONSIBLE') or define('RESPONSIBLE', 1);
 defined('TEACHER') or define('TEACHER', 2);
 
 /**
- * Provides persistence handling for subjects
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class used to import lsf subject data.
  */
 class THM_OrganizerModelLSFSubject extends JModelLegacy
 {
@@ -69,6 +63,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param array $programs              the programs to which the subject is mapped [id, name, lft, rgt)
      *
      * @return array the subject details for subjects with dependencies
+     * @throws Exception
      */
     private function checkForMappedSubjects($possibleModuleNumbers, $programs)
     {
@@ -202,6 +197,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int   $subjectID the id of the subject being iterated
      *
      * @return array|mixed the mapping ids for the subject or null if the query failed
+     * @throws Exception
      */
     private function getProgramMappings($program, $subjectID)
     {
@@ -226,6 +222,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * Method to import data associated with subjects from LSF
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     public function importBatch()
     {
@@ -261,6 +258,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int $subjectID the id of the subject entry
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function importSingle($subjectID)
     {
@@ -303,6 +301,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      *                            LSF response
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     private function parseAttributes(&$subject, &$dataObject)
     {
@@ -423,6 +422,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int    $departmentID the id of the department to which this data belongs
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception
      */
     public function processStub(&$stub, $departmentID)
     {
@@ -471,6 +471,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param string $subjectID the id of the subject being processed
      *
      * @return bool true on success, otherwise false
+     * @throws Exception
      */
     public function resolveDependencies($subjectID)
     {
@@ -572,6 +573,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param string $type         the type (direction) of dependency: pre|post
      *
      * @return bool
+     * @throws Exception
      */
     private function saveDependencies($programs, $subjectID, $dependencies, $type)
     {
@@ -788,6 +790,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param object &$dataObject an object containing the lsf response
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     private function setTeachers($subjectID, &$dataObject)
     {
@@ -820,6 +823,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int   $responsibility the teacher's responsibility level
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     private function setTeachersByResponsibility($subjectID, &$teachers, $responsibility)
     {
@@ -896,6 +900,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param array $subjectMappings      the mappings for the subject for the program
      *
      * @return bool true on success otherwise false
+     * @throws Exception
      */
     private function savePrerequisites($prerequisiteMappings, $subjectMappings)
     {

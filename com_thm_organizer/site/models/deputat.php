@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelDeputat
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,12 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Class THM_OrganizerModelConsumption for component com_thm_organizer
- * Class provides methods to get the neccessary data to display a schedule consumption
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class which calculates the number of hours teachers taught individual lessons.
  */
 class THM_OrganizerModelDeputat extends JModelLegacy
 {
@@ -49,6 +42,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Sets construction model properties
      *
      * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+     *
+     * @throws Exception
      */
     public function __construct($config = [])
     {
@@ -67,6 +62,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Sets object properties
      *
      * @return void
+     * @throws Exception
      */
     private function setObjectProperties()
     {
@@ -93,6 +89,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param int $departmentID the id of the department
      *
      * @return void  sets the object variable $departmentName on success
+     * @throws Exception
      */
     private function setDepartmentName($departmentID)
     {
@@ -118,6 +115,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Gets all schedules in the database
      *
      * @return array An array with the schedules
+     * @throws Exception
      */
     public function getDepartmentSchedules()
     {
@@ -163,6 +161,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Method to set a schedule by its id from the database
      *
      * @return void sets the instance's schedule variable
+     * @throws Exception
      */
     public function setSchedule()
     {
@@ -186,6 +185,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Calculates resource consumption from a schedule
      *
      * @return void sets the instance's lesson values variable
+     * @throws Exception
      */
     public function calculateDeputat()
     {
@@ -460,13 +460,13 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     }
 
     /**
-     * Creates a concatenated pool name from the relevant pool keys for the lesson
+     * Retrieves the unique pool ids associated
      *
      * @param object &$schedule the schedule being processed
      * @param string $lessonID  the id of the lesson
      * @param string $teacherID the id of the teacher
      *
-     * @return string  the concatenated name of the subject(s)
+     * @return array the associated pool ids
      */
     private function getPools(&$schedule, $lessonID, $teacherID)
     {
@@ -516,6 +516,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Converts the individual lessons into the actual deputat
      *
      * @return void  sets the deputat object variable
+     * @throws Exception
      */
     private function convertLessonValues()
     {
@@ -604,6 +605,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param array  &$lessonValues the values for the lesson being iterated
      *
      * @return void  sets values in the object variable $deputat
+     * @throws Exception
      */
     private function setTallyDeputat($teacherID, &$lessonValues)
     {
@@ -634,6 +636,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $subjectName the 'subject' name
      *
      * @return float|int  the conversion rate
+     * @throws Exception
      */
     private function getRate($subjectName)
     {
@@ -692,7 +695,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      *
      * @SuppressWarnings(PMD.UnusedPrivateMethod)
      */
-    /** @noinspection PhpUnusedPrivateMethodInspection */
     private static function periodSort($keyOne, $keyTwo)
     {
         list($dayOne, $blockOne) = explode('-', $keyOne);
@@ -844,6 +846,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Gets the list of selected teachers
      *
      * @return void
+     * @throws Exception
      */
     private function setSelected()
     {
@@ -891,6 +894,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $endDate   the end date of the original schedule
      *
      * @return void  adds deputat to the lesson values array
+     * @throws Exception
      */
     private function checkOtherSchedules($teachers, $startDate, $endDate)
     {
@@ -920,6 +924,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $endDate   the end date of the original schedule
      *
      * @return mixed  array on success, otherwise null
+     * @throws Exception
      */
     private function getPlausibleScheduleIDs($startDate, $endDate)
     {
@@ -945,6 +950,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param int $scheduleID the id of the schedule to be iterated
      *
      * @return mixed  array on success, otherwise null
+     * @throws Exception
      */
     private function getSchedule($scheduleID)
     {

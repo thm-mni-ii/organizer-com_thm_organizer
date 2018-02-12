@@ -32,6 +32,7 @@ class JFormFieldCampusID extends JFormFieldList
      * Use the multiple attribute to enable multiselect.
      *
      * @return string  The field input markup.
+     * @throws Exception
      */
     protected function getInput()
     {
@@ -90,6 +91,7 @@ class JFormFieldCampusID extends JFormFieldList
      * Returns an array of pool options
      *
      * @return array  the pool options
+     * @throws Exception
      */
     protected function getOptions()
     {

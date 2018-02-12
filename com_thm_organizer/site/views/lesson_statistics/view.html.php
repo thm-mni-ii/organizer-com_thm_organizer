@@ -1,9 +1,7 @@
 <?php
 /**
- * @category    Joomla component
- * @package     com_thm_organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewLesson_Statistics
+ * @package     THM_Organizer
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -16,11 +14,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class loads lesson statistic information into the view context
- *
- * @category    Joomla.com_thm_organizer.site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads lesson statistic information into the display context.
  */
 class THM_OrganizerViewLesson_Statistics extends JViewLegacy
 {

@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_admin
- * @name        JFormFieldDepartmentList
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,9 +17,8 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 /**
  * Class loads a list of department entries for selection and implements javascript for updating other fields in form
  *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * @todo Does this need its own field? Can the js not just be included with the schedule? Is the normal js field not
+ *       adequate for the selection itself?
  */
 class JFormFieldDepartmentList extends JFormFieldList
 {

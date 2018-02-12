@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerModelMerge
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Class provides methods for database abstraction for mergeable resources
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class provides methods for merging resources. Resource specific tasks are implemented in the extending classes.
  */
 abstract class THM_OrganizerModelMerge extends JModelLegacy
 {
@@ -26,6 +20,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param string $resource the resource type being merged
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function autoMerge($resource)
     {
@@ -103,6 +98,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param string $resource the name of the resource type being deleted
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function delete($resource)
     {
@@ -193,6 +189,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param bool   $onlySelected whether or not to retrieve all entries
      *
      * @return mixed  array on success, otherwise null
+     * @throws Exception
      */
     protected function getEntries($tableName, $onlySelected = true)
     {
@@ -224,6 +221,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * Retrieves the ids of all saved schedules
      *
      * @return mixed  array on success, otherwise null
+     * @throws Exception
      */
     protected function getAllSchedulesIDs()
     {
@@ -247,6 +245,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param int $scheduleID the id of the schedule
      *
      * @return mixed  object on success, otherwise null
+     * @throws Exception
      */
     protected function getScheduleObject($scheduleID)
     {
@@ -274,6 +273,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param array  $data     the data when called from auto merge
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function merge($resource, $data = null)
     {
@@ -341,6 +341,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param string $resource the name of the resource type being merged
      *
      * @return mixed  integer on success, otherwise false
+     * @throws Exception
      */
     public function save()
     {
@@ -445,6 +446,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param array  $data         the data from the request
      *
      * @return bool true on success, otherwise false
+     * @throws Exception
      */
     private function updateDepartments($resourceName, $data)
     {
@@ -624,6 +626,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param array  $data          the data for the schedule db entry
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     public function updateSchedules($newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs, $data = [])
     {

@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelPool
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Provides persistence handling for subject pools
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class which manages stored (subject) pool data.
  */
 class THM_OrganizerModelPool extends JModelLegacy
 {
@@ -24,6 +18,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      * Attempts to delete the selected subject pool entries and related mappings
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception
      */
     public function delete()
     {
@@ -78,6 +73,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      *
      * @return mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
+     * @throws Exception
      */
     public function save($new = false)
     {
@@ -147,6 +143,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      *
      * @return mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
+     * @throws Exception
      */
     public function save2copy()
     {

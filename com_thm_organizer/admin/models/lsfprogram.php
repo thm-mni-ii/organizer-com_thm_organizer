@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelLSFProgram
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +14,7 @@ require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
- * Provides persistence handling for degree programs
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class used to import lsf program data.
  */
 class THM_OrganizerModelLSFProgram extends JModelLegacy
 {
@@ -30,6 +24,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * @param int $programID the id of the degree program
      *
      * @return array  empty if the program could not be found
+     * @throws Exception
      */
     private function getSavedProgramData($programID)
     {
@@ -57,6 +52,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * @param int $programID the program's id
      *
      * @return array|mixed the subject ids
+     * @throws Exception
      */
     private function getSubjectIDs($programID)
     {
@@ -83,6 +79,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * Method to import data associated with degree programs from LSF
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     public function importBatch()
     {
@@ -109,6 +106,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * @param int $programID the id of the program to be imported
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function importSingle($programID)
     {
@@ -213,6 +211,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * Method to update subject data associated with degree programs from LSF
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     public function updateBatch()
     {

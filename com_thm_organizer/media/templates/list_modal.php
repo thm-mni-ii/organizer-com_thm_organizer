@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerTemplateList_Modal
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @author      Ilja Michajlow, <Ilja.Michajlow@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 /**
- * Class provides a modal template for list items
- *
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * Class provides a standardized display of listed resources in a modal context. Elements normally displayed by the
+ * framework such as buttons and filters are explicitly a part of the template.
  */
 class THM_OrganizerTemplateList_Modal
 {
@@ -26,6 +20,7 @@ class THM_OrganizerTemplateList_Modal
      * @param object &$view the view context calling the function
      *
      * @return void
+     * @throws Exception
      */
     public static function render(&$view)
     {

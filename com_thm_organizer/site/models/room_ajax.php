@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelTeacher_Ajax
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -17,11 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
 
 /**
- * Class provides methods for building a model of the curriculum in JSON format
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves dynamic room options.
  */
 class THM_OrganizerModelRoom_Ajax extends JModelLegacy
 {

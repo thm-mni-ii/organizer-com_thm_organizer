@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelSearch
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,11 +13,7 @@ defined('_JEXEC') or die();
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class THM_OrganizerModelSchedule for loading the chosen schedule from the database
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class searches THM Organizer resources for resources and views relevant to the given search query.
  */
 class THM_OrganizerModelSearch extends JModelLegacy
 {
@@ -114,6 +108,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $terms the search terms
      *
      * @return array an array of degreeIDs, grouped by strength
+     * @throws Exception
      */
     private function getDegrees($terms)
     {
@@ -168,6 +163,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Searches for Organizer resources and creates links to relevant views
      *
      * @return array the results grouped by match strength
+     * @throws Exception
      */
     public function getResults()
     {
@@ -215,6 +211,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param int   $capacity the requested capacity
      *
      * @return array the room type ids which matched the criteria
+     * @throws Exception
      */
     private function getRoomTypes(&$misc, $capacity = 0)
     {
@@ -286,7 +283,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      *
      * @param array $results the department results
      *
-     * @return void modifies the results propery
+     * @return array modifies the results property
      */
     private function processDepartments($results)
     {
@@ -351,7 +348,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $pResults  the program documentation results
      * @param array $ppResults the program planning results lesson results
      *
-     * @return void modifies the results property
+     * @return array $programs
      */
     private function processPrograms($pResults, $ppResults)
     {
@@ -485,7 +482,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $sResults  the subject documentation results
      * @param array $psResults the subject lesson results
      *
-     * @return void modifies the results property
+     * @return array $subjects
      */
     private function processSubjects($sResults, $psResults)
     {
@@ -562,7 +559,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      *
      * @param array $results the teacher results
      *
-     * @return void modifies the results propery
+     * @return array $teachers
      */
     private function processTeachers($results)
     {
@@ -607,6 +604,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized department search results
      *
      * @return void adds to the results property
+     * @throws Exception
      */
     private function searchDepartments()
     {
@@ -686,6 +684,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized pool search results
      *
      * @return void adds to the results property
+     * @throws Exception
      */
     private function searchPools()
     {
@@ -801,6 +800,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized room search results
      *
      * @return void adds to the results property
+     * @throws Exception
      */
     private function searchRooms()
     {
@@ -949,6 +949,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized subject/lesson search results
      *
      * @return void adds to the results property
+     * @throws Exception
      */
     private function searchSubjects()
     {
@@ -1232,6 +1233,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized teacher search results
      *
      * @return void adds to the results property
+     * @throws Exception
      */
     private function searchTeachers()
     {
@@ -1337,7 +1339,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
     /**
      * Finds programs which can be associated with the terms. Possible return strengths exact and strong.
      *
-     * @return void sets the object attribute programResults
+     * @return void set the program results property
+     * @throws Exception
      */
     private function setPrograms()
     {
@@ -1402,7 +1405,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             } catch (Exception $exception) {
                 JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
-                return [];
+                return;
             }
 
             $programResults['exact'] = $this->processPrograms($programs, $planPrograms);
@@ -1424,7 +1427,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             } catch (Exception $exception) {
                 JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
-                return [];
+                return;
             }
 
             $programResults['strong'] = $this->processPrograms($programs, $planPrograms);
@@ -1456,7 +1459,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             } catch (Exception $exception) {
                 JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
-                return [];
+                return;
             }
 
             $programResults['good'] = $this->processPrograms($programs, $planPrograms);

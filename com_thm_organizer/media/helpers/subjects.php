@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperSubjects
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,12 +11,9 @@ defined('_JEXEC') or die;
 
 require_once 'departments.php';
 
+
 /**
- * Provides validation methods for xml subject objects
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for subject access checks, data retrieval and display.
  */
 class THM_OrganizerHelperSubjects
 {
@@ -49,6 +44,7 @@ class THM_OrganizerHelperSubjects
      * @param boolean $withNumber
      *
      * @return string the (plan) subject name
+     * @throws Exception
      */
     public static function getName($subjectID, $type, $withNumber = false)
     {
@@ -148,8 +144,7 @@ class THM_OrganizerHelperSubjects
      * @param string $type      the type of the reference subject (plan|real)
      *
      * @return array the associated program names
-     *
-     * @since version
+     * @throws Exception
      */
     public static function getPrograms($subjectID, $type)
     {

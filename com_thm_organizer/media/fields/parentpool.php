@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        JFormFieldParentPool
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,13 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
- * Class JFormFieldParent for component com_thm_organizer
- *
- * Class provides methods to create a form field
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Class creates a select box for superordinate (subject) pool mappings.
  */
 class JFormFieldParentPool extends JFormField
 {
@@ -35,6 +27,7 @@ class JFormFieldParentPool extends JFormField
      * Returns a select box in which pools can be chosen as a parent node
      *
      * @return string  the HTML for the parent pool select box
+     * @throws Exception
      */
     public function getInput()
     {
@@ -49,6 +42,7 @@ class JFormFieldParentPool extends JFormField
      * Gets pool options for a select list. All parameters come from the
      *
      * @return array  the options
+     * @throws Exception
      */
     public function getOptions()
     {

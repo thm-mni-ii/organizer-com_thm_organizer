@@ -1,20 +1,20 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTemplateDepartment_Statistics_XLS
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 /** @noinspection PhpIncludeInspection */
 jimport('phpexcel.library.PHPExcel');
 
+/**
+ * Class generates the department statistics XLS file.
+ */
 class THM_OrganizerTemplateDepartment_Statistics_XLS
 {
 

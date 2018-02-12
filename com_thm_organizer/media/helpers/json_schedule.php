@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelXML_Schedule
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Class encapsulating data abstraction and business logic for json schedules.
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class which models, validates and compares schedule data to and from json objects.
  */
 class THM_OrganizerModelJSONSchedule extends JModelLegacy
 {
@@ -40,6 +34,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object &$schedule the schedule object for direct processing
      *
      * @param null   $schedule
+     *
+     * @throws Exception
      */
     public function __construct(&$schedule = null)
     {
@@ -156,6 +152,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * Maps configurations to calendar entries
      *
      * @return bool true on success, otherwise false
+     * @throws Exception
      */
     private function mapConfigurations()
     {
@@ -324,6 +321,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param int   $calendarID the valid calendar entry id
      *
      * @return bool true on success, otherwise false
+     * @throws Exception
      */
     private function removeCalendarDuplicates($calData, $calendarID)
     {
@@ -552,6 +550,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object &$schedule the schedule being processed
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception
      */
     public function save(&$schedule = null)
     {
@@ -593,6 +592,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * Creates calendar entries in the database
      *
      * @return bool true on success, otherwise false
+     * @throws Exception
      */
     private function saveCalendar()
     {
@@ -723,6 +723,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * Saves the lessons from the schedule object to the database and triggers functions for saving lesson associations.
      *
      * @return boolean true if the save process was successful, otherwise false
+     * @throws Exception
      */
     private function saveLessons()
     {
@@ -780,6 +781,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param string $subjectNo       the subject's id in documentation
      *
      * @return boolean true if the save process was successful, otherwise false
+     * @throws Exception
      */
     private function saveLessonPools($lessonSubjectID, $pools, $subjectID, $subjectNo)
     {
@@ -831,6 +833,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object $subjects the subjects associated with the lesson
      *
      * @return boolean true if the save process was successful, otherwise false
+     * @throws Exception
      */
     private function saveLessonSubjects($lessonID, $subjects)
     {
@@ -890,6 +893,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object $teachers  the teachers associated with the subject
      *
      * @return boolean true if the save process was successful, otherwise false
+     * @throws Exception
      */
     private function saveLessonTeachers($subjectID, $teachers)
     {
@@ -938,6 +942,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param string $subjectNo     the subject id used in documentation
      *
      * @return void saves/updates a database entry
+     * @throws Exception
      */
     private function savePlanSubjectMapping($planSubjectID, $poolID, $subjectNo)
     {
@@ -998,6 +1003,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object $active    the active schedule
      *
      * @return boolean true on successful delta creation, otherwise false
+     * @throws Exception
      */
     public function setReference($reference, $active)
     {
@@ -1323,13 +1329,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
     {
         $source = $status == 'new' ? 'schedule' : 'refSchedule';
         foreach ($lessonIDs as $lessonID) {
-            $instance        = $this->$source->calendar->$date->$time->$lessonID;
-            $instance->delta = $status;
+            $instance = $this->$source->calendar->$date->$time->$lessonID;
 
-            // TODO: find out what is making these into objects
-            if (!is_array($instance->configurations)) {
-                $instance->configurations = (array)$instance->configurations;
-            }
+            $instance->delta          = $status;
+            $instance->configurations = (array)$instance->configurations;
 
             $this->setConfigurations($instance, $configurations, $source);
             $this->schedule->calendar->$date->$time->$lessonID = $instance;

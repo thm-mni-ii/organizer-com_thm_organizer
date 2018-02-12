@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participants.php';
 
 /**
- * Class provides methods for handling course participants
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class which manages stored participant data.
  */
 class THM_OrganizerModelParticipant extends JModelLegacy
 {
@@ -30,6 +26,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
      * @param string $state         the state requested by the user
      *
      * @return boolean true on success, false on error
+     * @throws Exception
      */
     public function register($participantID, $courseID, $state)
     {
@@ -43,6 +40,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
      * Saves user information to database
      *
      * @return boolean true on success, false on error
+     * @throws Exception
      */
     public function save()
     {

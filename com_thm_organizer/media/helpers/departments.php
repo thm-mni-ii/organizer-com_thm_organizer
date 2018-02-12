@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperDepartments
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once 'language.php';
 
 /**
- * Provides validation methods for department resources
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for department access checks, data retrieval and display.
  */
 class THM_OrganizerHelperDepartments
 {
@@ -28,6 +22,7 @@ class THM_OrganizerHelperDepartments
      * @param int $departmentID the
      *
      * @return string  the name of the department in the active language
+     * @throws Exception
      */
     public static function getName($departmentID)
     {
@@ -94,6 +89,7 @@ class THM_OrganizerHelperDepartments
      * @return array
      *
      * @throws RuntimeException
+     * @throws Exception
      */
     public static function getPlanDepartments($short = true)
     {

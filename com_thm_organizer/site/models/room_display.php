@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelRoom_Display
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -23,11 +21,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Retrieves lesson and event data for a single room and day
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves information about daily events for display on monitors.
  */
 class THM_OrganizerModelRoom_Display extends JModelLegacy
 {
@@ -43,8 +37,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Constructor
      *
      * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
-     *
-     * @since   12.2
      * @throws  Exception
      */
     public function __construct($config = [])
@@ -61,6 +53,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Redirects to the component template if it has not already been done
      *
      * @return void redirects to component template
+     * @throws Exception
      */
     protected function ensureComponentTemplate()
     {
@@ -76,6 +69,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Gets the room information for a day
      *
      * @return void  room information for the given day is added to the $blocks object variable
+     * @throws Exception
      */
     private function getDay()
     {
@@ -98,11 +92,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Sets event information for the given block in the given schedule
      *
-     * @param array  &$blocks the array where the information is stored
-     * @param int    $blockNo the index of the block being iterated
-     * @param object $events  the events in the block being iterated
+     * @param string $date the date on which the events occur
      *
      * @return array the events for the given date
+     * @throws Exception
      */
     protected function getEvents($date)
     {
@@ -252,8 +245,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
     /**
      * Sets display parameters
      *
-     * @param object &$monitorEntry the JTable object for the monitors table
-     *
      * @return void
      */
     private function setDisplayParams()
@@ -300,6 +291,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Gets the main grid from the first schedule
      *
      * @return void  sets the object grid variable
+     * @throws Exception
      */
     private function setGrid()
     {
@@ -322,6 +314,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Checks whether the accessing agent is a registered monitor
      *
      * @return void sets instance variables
+     * @throws Exception
      */
     private function setRoomData()
     {

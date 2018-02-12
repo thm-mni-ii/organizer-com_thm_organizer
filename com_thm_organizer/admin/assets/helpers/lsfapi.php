@@ -1,21 +1,15 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerLSFClient
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 /**
- * Class provides methods for lsf communication
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class provides methods for communication with the LSF curriculum documentation system.
  */
 class THM_OrganizerLSFClient
 {
@@ -65,6 +59,7 @@ class THM_OrganizerLSFClient
      * @param string $query Query structure
      *
      * @return mixed  SimpleXMLElement if the query was successful, otherwise false
+     * @throws Exception
      */
     private function getDataXML($query)
     {
@@ -94,6 +89,7 @@ class THM_OrganizerLSFClient
      * @param int $moduleID The module mni number
      *
      * @return Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
+     * @throws Exception
      */
     public function getModuleByModulid($moduleID)
     {
@@ -110,6 +106,7 @@ class THM_OrganizerLSFClient
      * @param string $moduleID The module mni number
      *
      * @return Mixed <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
+     * @throws Exception
      */
     public function getModuleByNrMni($moduleID)
     {
@@ -129,6 +126,7 @@ class THM_OrganizerLSFClient
      * @param string $year    year of accreditation
      *
      * @return SimpleXMLElement
+     * @throws Exception
      */
     public function getModules($program, $degree = null, $year = null)
     {

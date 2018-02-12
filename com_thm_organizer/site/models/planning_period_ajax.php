@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelTeacher_Ajax
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -17,18 +15,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**
- * Class provides methods for building a model of the curriculum in JSON format
+ * Class seems to provide planning period 'options' for a given date. Seems self-defeating.
  *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * @todo what was i thinking?
  */
 class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
 {
     /**
      * Gets the pool options as a string
-     *
-     * @param bool $short whether or not the options should use abbreviated names
      *
      * @return string the concatenated plan pool options
      */

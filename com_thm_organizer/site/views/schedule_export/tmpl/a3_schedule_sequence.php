@@ -1,18 +1,18 @@
 <?php
-
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTemplateSchedule_Export_PDF_A3
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 require_once 'pdf_schedule_sequence.php';
 
+/**
+ * Class generates a PDF file in A3 format.
+ */
 class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSchedule_Sequence_PDF
 {
     private $resources;
@@ -105,12 +105,12 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
     /**
      * Creates the basic pdf object
      *
-     * @return THM_Organizer_PDF_Schedule_Export
+     * @return THM_OrganizerTCPDFScheduleA3
      */
     protected function getDocument()
     {
         $orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
-        $document    = new THM_OrganizerTCPDFSchedule($orientation);
+        $document    = new THM_OrganizerTCPDFScheduleA3($orientation);
         $document->SetCreator('THM Organizer');
         $document->SetAuthor(JFactory::getUser()->name);
         $document->SetTitle($this->parameters['pageTitle']);
@@ -621,6 +621,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
      *
      * @param int    $height the estimated cell height
      * @param string $text   the time text
+     * @param string $border the sides of the cell to add a border to
      *
      * @return void
      */
@@ -741,13 +742,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 }
 
 /**
- * Class extends TCPDF for ease of instanciation and customized header/footer
- *
- * @category    Joomla.Component.site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class extends TCPDF for ease of instantiation and customized header/footer.
  */
-class THM_OrganizerTCPDFSchedule extends TCPDF
+class THM_OrganizerTCPDFScheduleA3 extends TCPDF
 {
 
     /**

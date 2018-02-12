@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerModelPlanning_Period
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,12 +11,9 @@ defined('_JEXEC') or die;
 
 require_once 'departments.php';
 
+
 /**
- * Provides methods for handling planning period resources.
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for planning_period access checks, data retrieval and display.
  */
 class THM_OrganizerHelperPlanning_Periods
 {
@@ -26,6 +21,7 @@ class THM_OrganizerHelperPlanning_Periods
      * Gets the id of the planning period whose dates encompass the current date
      *
      * @return int the id of the planning period for the dates used on success, otherwise 0
+     * @throws Exception
      */
     public static function getCurrentID()
     {
@@ -54,6 +50,7 @@ class THM_OrganizerHelperPlanning_Periods
      * @param array $data the planning period's data
      *
      * @return mixed  int the id if the room could be resolved/added, otherwise null
+     * @throws Exception
      */
     public static function getID($data)
     {
@@ -86,6 +83,7 @@ class THM_OrganizerHelperPlanning_Periods
      * @param string $ppID the planning period's id
      *
      * @return mixed  string the name if the planning period could be resolved, otherwise null
+     * @throws Exception
      */
     public static function getName($ppID)
     {
@@ -109,6 +107,7 @@ class THM_OrganizerHelperPlanning_Periods
      * @return string  all pools in JSON format
      *
      * @throws RuntimeException
+     * @throws Exception
      */
     public static function getPlanningPeriods()
     {

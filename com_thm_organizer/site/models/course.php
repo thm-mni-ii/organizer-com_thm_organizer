@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
 /**
- * Class provides methods for editing courses
+ * Class which manages stored course data.
  */
 class THM_OrganizerModelCourse extends JModelLegacy
 {

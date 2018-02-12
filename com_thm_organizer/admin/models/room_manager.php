@@ -14,12 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class THM_OrganizerModelRooms for component com_thm_organizer
- * Class provides methods to deal with rooms
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class retrieves information for a filtered set of rooms.
  */
 class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 {

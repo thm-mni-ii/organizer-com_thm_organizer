@@ -1,12 +1,12 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     THM_Organizer
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.thm.de
  */
-
 defined('JPATH_BASE') or die;
 
 JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
@@ -14,26 +14,17 @@ JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_module
 JFormHelper::loadFieldClass('list');
 
 /**
- * Modules Position field.
- *
- * @since  3.4.2
+ * Class creates a select box for module positions.
  */
 class JFormFieldModulesPosition extends JFormFieldList
 {
-    /**
-     * The form field type.
-     *
-     * @var    string
-     * @since  3.4.2
-     */
     protected $type = 'ModulesPosition';
 
     /**
      * Method to get the field options.
      *
      * @return array  The field option objects.
-     *
-     * @since   3.4.2
+     * @throws Exception
      */
     public function getOptions()
     {

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelDepartment
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,12 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
- * Class THM_OrganizerModelField for component com_thm_organizer
- * Class provides methods to deal with color
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class which manages stored department data.
  */
 class THM_OrganizerModelDepartment extends JModelLegacy
 {
@@ -27,6 +20,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      * Attempts to save the form data
      *
      * @return mixed  int department id on success, otherwise false
+     * @throws Exception
      */
     public function save()
     {
@@ -56,6 +50,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      * Attempts to save altered form data as a new entry
      *
      * @return mixed  int department id on success, otherwise false
+     * @throws Exception
      */
     public function save2copy()
     {

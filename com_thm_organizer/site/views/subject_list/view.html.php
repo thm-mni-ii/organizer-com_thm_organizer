@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewSubject_List
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,12 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class loads a list of subjects sorted according to different criteria into
- * the view context
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads a filtered set of subjects into the display context.
  */
 class THM_OrganizerViewSubject_List extends JViewLegacy
 {
@@ -43,6 +36,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {

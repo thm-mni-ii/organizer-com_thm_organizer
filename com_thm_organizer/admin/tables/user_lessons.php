@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerTableUser_Lessons
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,11 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.database.table');
 
 /**
- * Class representing the user_lesson table.
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class instantiates a JTable Object associated with the user_lessons table.
  */
 class THM_OrganizerTableUser_Lessons extends JTable
 {
@@ -29,7 +24,7 @@ class THM_OrganizerTableUser_Lessons extends JTable
     protected $_jsonEncode = ['configuration'];
 
     /**
-     * Constructor for the user_lesson table, makes 'id' the primary key.
+     * Declares the associated table
      *
      * @param JDatabaseDriver &$dbo A database connector object
      */

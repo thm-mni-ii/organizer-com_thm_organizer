@@ -1,26 +1,19 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelGrid
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
- * Class THM_OrganizerModelGrid for component com_thm_organizer
- * Class provides methods to deal with grids for schedules.
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class which manages stored grid data.
  */
 class THM_OrganizerModelGrid extends JModelLegacy
 {
@@ -28,6 +21,7 @@ class THM_OrganizerModelGrid extends JModelLegacy
      * Save the form data for a new grid
      *
      * @return bool true on success, otherwise false
+     * @throws Exception
      */
     public function save()
     {

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        JFormFieldPrograms
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
- * Class creates a form field for subject-degree program association
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Class creates a select box for (degree) program mappings.
  */
 class JFormFieldPrograms extends JFormField
 {

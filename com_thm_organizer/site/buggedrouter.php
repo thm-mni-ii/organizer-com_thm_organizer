@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @description the base file for the component frontend
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -17,6 +15,7 @@ defined('_JEXEC') or die;
  * @param array &$query an array of URL arguments
  *
  * @return array  the URL arguments to use to assemble the subsequent URL.
+ * @throws Exception
  */
 function THM_organizerBuildRoute(&$query)
 {
@@ -53,6 +52,7 @@ function THM_organizerBuildRoute(&$query)
  * @param array &$segments the segments for the sef url
  *
  * @return void
+ * @throws Exception
  */
 function setSubjectDetailsSegments(&$query, &$segments)
 {
@@ -94,6 +94,7 @@ function setSubjectDetailsSegments(&$query, &$segments)
  * @param object &$item     the associated menu item (if applicable)
  *
  * @return void
+ * @throws Exception
  */
 function setSubjectListSegments(&$query, &$segments, &$item)
 {

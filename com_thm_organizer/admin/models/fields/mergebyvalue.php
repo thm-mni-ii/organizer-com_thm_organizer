@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldProgramID
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,11 +11,7 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Class creates a form field for subject-degree program association
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class creates a generalized select box for selection of a single column value among those already selected.
  */
 class JFormFieldMergeByValue extends JFormFieldList
 {
@@ -30,6 +24,7 @@ class JFormFieldMergeByValue extends JFormFieldList
      * Returns a select box where resource attributes can be selected
      *
      * @return array the options for the select box
+     * @throws Exception
      */
     public function getOptions()
     {

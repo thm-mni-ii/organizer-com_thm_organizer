@@ -1,15 +1,13 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
  * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 ?>
 <form action="index.php?task=course.save" method="post" id="adminForm" name="adminForm">
     <input type="hidden" name="option" value="com_thm_organizer"/>

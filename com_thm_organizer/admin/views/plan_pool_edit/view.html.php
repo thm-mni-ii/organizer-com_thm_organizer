@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewPlan_Pool_Edit
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
- * Class provides loads plan_pool information into the view context
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class loads the plan (subject) pool form into display context.
  */
 class THM_OrganizerViewPlan_Pool_Edit extends THM_OrganizerViewEdit
 {

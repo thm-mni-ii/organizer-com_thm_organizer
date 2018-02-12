@@ -1,30 +1,24 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTableRooms
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.application.component.table');
+jimport('joomla.database.table');
 
 /**
- * Class representing the rooms table.
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class instantiates a JTable Object associated with the rooms table.
  */
 class THM_OrganizerTableRooms extends JTable
 {
     /**
-     * Constructor to call the parent constructor
+     * Declares the associated table
      *
-     * @param object &$dbo a database connector object
+     * @param JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

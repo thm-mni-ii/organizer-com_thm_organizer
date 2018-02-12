@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperXMLPrograms
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,12 +12,9 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'language.php';
 
+
 /**
- * Provides validation methods for xml degree (department) objects
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for program access checks, data retrieval and display.
  */
 class THM_OrganizerHelperPrograms
 {
@@ -61,6 +56,7 @@ class THM_OrganizerHelperPrograms
      * @param string $type      the type of the id (real or plan)
      *
      * @return string the name of the (plan) program, otherwise empty
+     * @throws Exception
      */
     public static function getName($programID, $type)
     {
@@ -102,6 +98,7 @@ class THM_OrganizerHelperPrograms
      * @return array an array of program information
      *
      * @throws RuntimeException
+     * @throws Exception
      */
     public static function getPlanPrograms()
     {
@@ -143,6 +140,7 @@ class THM_OrganizerHelperPrograms
      * @param object $program the program object
      *
      * @return mixed int on success, otherwise null
+     * @throws Exception
      */
     public static function getPlanResourceID($program)
     {
@@ -204,6 +202,7 @@ class THM_OrganizerHelperPrograms
      * @param string $tempName    the name to be used if no entry already exists
      *
      * @return mixed int on success, otherwise false
+     * @throws Exception
      */
     private static function getProgramID($programData, $tempName)
     {

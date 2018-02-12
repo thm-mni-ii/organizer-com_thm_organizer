@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelIndex
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Class creates a model
- *
- * @category    Joomla.Component.Site
- * @package     thm_urriculum
- * @subpackage  com_thm_organizer.site
+ * Class loads curriculum information into the view context.
  */
 class THM_OrganizerModelCurriculum extends JModelItem
 {
@@ -30,6 +24,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * Method to get an array of data items.
      *
      * @return mixed  An array of data items on success, false on failure.
+     * @throws Exception
      */
     public function getItem()
     {
@@ -73,6 +68,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param object &$program the object modeling the program data
      *
      * @return void  sets object attributes
+     * @throws Exception
      */
     private function setProgramInformation(&$program)
     {
@@ -102,6 +98,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param object &$element the object modeling the program data
      *
      * @return void  sets object attributes
+     * @throws Exception
      */
     private function setChildren(&$element)
     {
@@ -149,6 +146,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param int $mappingID the mapping id
      *
      * @return mixed  object on success, otherwise null
+     * @throws Exception
      */
     private function getPool($poolID, $mappingID)
     {
@@ -187,6 +185,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param int $mappingID the mapping id
      *
      * @return mixed  object on success, otherwise null
+     * @throws Exception
      */
     private function getSubject($subjectID, $mappingID)
     {

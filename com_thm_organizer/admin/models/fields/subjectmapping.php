@@ -1,14 +1,16 @@
 <?php
-
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldSubjectMappings
- * @author      Florian Fenz, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
+ */
+
+/**
+ * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done implicitly
+ * during the schedule import process according to degree programs and the subject's module number.
  */
 class JFormFieldSubjectMapping extends JFormField
 {
@@ -18,6 +20,7 @@ class JFormFieldSubjectMapping extends JFormField
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
      *
      * @return string  the HTML output
+     * @throws Exception
      */
     public function getInput()
     {

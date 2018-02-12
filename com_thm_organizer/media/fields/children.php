@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        JFormFieldChildren
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Class provides methods to create a form field that contains the colors
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
  */
 class JFormFieldChildren extends JFormField
 {
@@ -31,6 +25,7 @@ class JFormFieldChildren extends JFormField
      * Generates a text for the management of child elements
      *
      * @return string  the HTML for the input
+     * @throws Exception
      */
     public function getInput()
     {
@@ -47,6 +42,7 @@ class JFormFieldChildren extends JFormField
      * Retrieves child mappings for the resource being edited
      *
      * @return array  empty if no child data exists
+     * @throws Exception
      */
     private function getChildren()
     {
@@ -109,6 +105,7 @@ class JFormFieldChildren extends JFormField
      * @param array &$children the subordinate resource data
      *
      * @return void  adds data to the &$children array
+     * @throws Exception
      */
     private function setTypeData(&$children)
     {
@@ -134,6 +131,7 @@ class JFormFieldChildren extends JFormField
      * @param string $resourceType the child element's type
      *
      * @return string  the name of the child element
+     * @throws Exception
      */
     private function getResourceName($resourceID, $resourceType)
     {

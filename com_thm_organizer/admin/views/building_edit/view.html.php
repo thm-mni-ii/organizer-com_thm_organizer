@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
- * Class loads persistent building information into display context.
+ * Class loads the building form into display context.
  */
 class THM_OrganizerViewBuilding_Edit extends THM_OrganizerViewEdit
 {

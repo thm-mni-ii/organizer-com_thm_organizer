@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelMonitor_Manager
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -19,11 +17,7 @@ define('CONTENT', 3);
 define('LESSON_LIST', 4);
 
 /**
- * Class compiling a list of saved monitors
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class retrieves information for a filtered set of monitors.
  */
 class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 {

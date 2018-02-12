@@ -1,18 +1,18 @@
 <?php
-
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTemplateSchedule_Export_PDF
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 require_once 'pdf_schedule_sequence.php';
 
+/**
+ * Class generates a PDF file in A4 format.
+ */
 class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSchedule_Sequence_PDF
 {
     /**
@@ -43,12 +43,12 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
     /**
      * Creates the basic pdf object
      *
-     * @return THM_Organizer_PDF_Schedule_Export
+     * @return THM_OrganizerTCPDFScheduleA4
      */
     protected function getDocument()
     {
         $orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
-        $document    = new THM_OrganizerTCPDFSchedule($orientation);
+        $document    = new THM_OrganizerTCPDFScheduleA4($orientation);
         $document->SetCreator('THM Organizer');
         $document->SetAuthor(JFactory::getUser()->name);
         $document->SetTitle($this->parameters['pageTitle']);
@@ -124,11 +124,10 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
     /**
      * Outputs the lessons organized according to a grid structure with times
      *
-     * @param $rowHeaders
-     * @param $columnHeaders
-     * @param $dimensions
-     * @param $startDate
-     * @param $breakDate
+     * @param array  &$columnHeaders the object with the column headers
+     * @param array  $dimensions     the dimensions
+     * @param string $startDate      the start date for the interval
+     * @param string $breakDate      the end date for the interval
      *
      * @return void
      */
@@ -383,13 +382,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 }
 
 /**
- * Class extends TCPDF for ease of instanciation and customized header/footer
- *
- * @category    Joomla.Component.site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class extends TCPDF for ease of instanciation and customized header/footer.
  */
-class THM_OrganizerTCPDFSchedule extends TCPDF
+class THM_OrganizerTCPDFScheduleA4 extends TCPDF
 {
 
     /**

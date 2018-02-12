@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
- * Class retrieves the data for a specific building.
+ * Class loads a form for editing building data.
  */
 class THM_OrganizerModelBuilding_Edit extends THM_OrganizerModelEdit
 {

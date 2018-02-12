@@ -1,15 +1,12 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        default .php
- * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 defined('_JEXEC') or die;
 $mobile      = $this->isMobile ? 'mobile' : '';
 $displayName = empty($this->model->displayName) ?

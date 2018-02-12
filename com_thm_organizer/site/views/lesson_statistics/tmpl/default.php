@@ -1,16 +1,12 @@
 <?php
 /**
- * @category    Joomla component
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
- * @name        lesson statistics default template
+ * @package     THM_Organizer
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
-
 $action = THM_OrganizerHelperComponent::getRedirectBase();
 $menuID = JFactory::getApplication()->input->getInt('Itemid');
 

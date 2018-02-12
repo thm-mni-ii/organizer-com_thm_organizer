@@ -1,22 +1,17 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldMergeID
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Class fills the id and other id values for a merge form
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class creates a two hidden fields for merging. One has the lowest selected id as its value, the other has all
+ * other selected ids (comma separated) as its value.
  */
 class JFormFieldMergeID extends JFormField
 {
@@ -26,6 +21,7 @@ class JFormFieldMergeID extends JFormField
      * Returns a hidden in put field
      *
      * @return string
+     * @throws Exception
      */
     public function getInput()
     {

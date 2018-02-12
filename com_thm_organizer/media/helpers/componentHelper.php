@@ -3,7 +3,7 @@
  * @package     THM_Organizer
  * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @author      Wolf Rost, <wolf.rost@mni.thm.de>
+ * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
  * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
@@ -20,6 +20,7 @@ class THM_OrganizerHelperComponent
      * @param object &$object the object calling the function (manager model or edit view)
      *
      * @return void
+     * @throws Exception
      */
     public static function addActions(&$object)
     {
@@ -43,7 +44,7 @@ class THM_OrganizerHelperComponent
             $manage     = false;
             $schedules  = false;
 
-            if ($user->authorise('core.admin')) {
+            if ($user->authorise('core.admin', 'com_thm_organizer')) {
                 $department = true;
                 $manage     = true;
                 $schedules  = true;
@@ -260,6 +261,7 @@ class THM_OrganizerHelperComponent
      * @param string $resource the resource type
      *
      * @return bool  true if the user has access to at least one department, otherwise false
+     * @throws Exception
      */
     public static function allowDeptResourceCreate($resource)
     {
@@ -276,6 +278,7 @@ class THM_OrganizerHelperComponent
      * @param int    $itemID the id if the resource to be edited (empty for new entries)
      *
      * @return bool  true if the user can access the edit view, otherwise false
+     * @throws Exception
      */
     public static function allowEdit(&$model, $itemID = 0)
     {

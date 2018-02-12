@@ -1,12 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewSchedule_Export
- * @author      Wolf Rost, <wolf.rost@mni.thm.de>
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,11 +15,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 jimport('phpexcel.library.PHPExcel');
 
 /**
- * Class provides methods to create xls documents based upon schedule data
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class creates a XLS file for the display of the filtered schedule information.
  */
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {

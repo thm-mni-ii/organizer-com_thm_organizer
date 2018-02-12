@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldDepartments
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class loads a list of teachers for selection
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class creates a select box for departments.
  */
 class JFormFieldDepartments extends JFormField
 {
@@ -28,6 +22,7 @@ class JFormFieldDepartments extends JFormField
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
      *
      * @return string the HTML which forms the select box
+     * @throws Exception
      */
     public function getInput()
     {

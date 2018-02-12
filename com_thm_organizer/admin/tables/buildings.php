@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 jimport('joomla.database.table');
 
 /**
- * Class models the buildings table.
+ * Class instantiates a JTable Object associated with the buildings table.
  */
 class THM_OrganizerTableBuildings extends JTable
 {
     /**
-     * Constructor function for the class representing the lesson_teachers table
+     * Declares the associated table
      *
      * @param JDatabaseDriver &$dbo A database connector object
      */

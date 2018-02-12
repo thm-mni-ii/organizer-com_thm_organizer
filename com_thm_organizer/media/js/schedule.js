@@ -1680,7 +1680,7 @@ const ScheduleApp = function (variables) {
         /**
          * Updates user schedule and refresh other schedules
          */
-        this.updateUserSchedule = function() {
+        this.updateUserSchedule = function () {
             this.userSchedule.requestUpdate(false, true);
         };
     }

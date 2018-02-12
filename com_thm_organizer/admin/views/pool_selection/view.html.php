@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerViewPool_Selection
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,11 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 JHtml::_('jquery.framework');
 
 /**
- * Class provides methods to display the view degrees
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class loads pool information into the display context.
  */
 class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
 {

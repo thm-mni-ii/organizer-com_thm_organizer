@@ -1,12 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldColor
- * @description JFormFieldColor component admin field
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -17,13 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class JFormFieldColor for component com_thm_organizer
- *
- * Class provides methods to create a form field that contains the colors
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class creates a select box for predefined colors.
  */
 class JFormFieldColors extends JFormField
 {
@@ -38,6 +29,7 @@ class JFormFieldColors extends JFormField
      * Returns a select box which contains the colors
      *
      * @return string  the HTML for the color select box
+     * @throws Exception
      */
     public function getInput()
     {

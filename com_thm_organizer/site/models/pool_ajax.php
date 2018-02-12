@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelPool_Ajax
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 
 /**
- * Class provides methods to retrieve data for pool ajax calls
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves dynamic pool options.
  */
 class THM_OrganizerModelPool_Ajax extends JModelLegacy
 {
@@ -28,6 +22,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * Retrieves pool options for a given curriculum element
      *
      * @return string
+     * @throws Exception
      */
     public function parentOptions()
     {
@@ -152,6 +147,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * teacher
      *
      * @return string  the subjects which fit the selected resource
+     * @throws Exception
      */
     public function poolsByProgramOrTeacher()
     {

@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelSchedule_Ajax
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -30,11 +29,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/schedule.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Class provides methods for retrieving program data
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves dynamic schedule information.
  */
 class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
 {
@@ -64,6 +59,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Getter method for pools
      *
      * @return string  all pools in JSON format
+     * @throws Exception
      */
     public function getPools()
     {
@@ -77,8 +73,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
     /**
      * Getter method for room types
      *
-     * @throws RuntimeException
      * @return string  all room types in JSON format
+     * @throws Exception
      */
     public function getRoomTypes()
     {
@@ -109,7 +105,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         try {
             // Like teachers, pools etc. roomTypes are returned as an ["name" => "id"] array instead of an object
             $result = $this->_db->loadAssocList('name', 'id');
-        } catch (RuntimeException $exc) {
+        } catch (Exception $exc) {
             return '[]';
         }
 
@@ -125,8 +121,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
     /**
      * Getter method for rooms in database
      *
-     * @throws RuntimeException
      * @return string  all rooms in JSON format
+     * @throws Exception
      */
     public function getRooms()
     {
@@ -152,7 +148,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         try {
             // Like teachers, pools etc. rooms are returned as an ["name" => "id"] array instead of an object
             $result = $this->_db->loadAssocList('name', 'id');
-        } catch (RuntimeException $exc) {
+        } catch (Exception $exc) {
             return '[]';
         }
 
@@ -175,6 +171,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * get lessons by chosen resource
      *
      * @return string JSON coded lessons
+     * @throws Exception
      */
     public function getLessons()
     {
@@ -212,6 +209,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * saves lessons in the personal schedule of the logged in user
      *
      * @return string JSON coded and saved ccmIDs
+     * @throws Exception
      */
     public function saveLesson()
     {
@@ -316,6 +314,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * deletes lessons in the personal schedule of a logged in user
      *
      * @return string JSON coded and deleted ccmIDs
+     * @throws Exception
      */
     public function deleteLesson()
     {
@@ -376,6 +375,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Returns title of given resource
      *
      * @return string
+     * @throws Exception
      */
     public function getTitle()
     {

@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,11 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
- * Class provides methods for editing the subject table in frontend
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class which manages stored subject data.
  */
 class THM_OrganizerModelSubject extends JModelLegacy
 {
@@ -41,6 +37,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *    Saves course data to database
      *
      * @return bool true on success, false on error
+     * @throws Exception
      */
     public function save()
     {

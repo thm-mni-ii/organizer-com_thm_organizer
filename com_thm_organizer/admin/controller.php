@@ -1,24 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerController
- * @description main controller class for thm organizer admin area
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 defined('_JEXEC') or die;
 
 /**
- * Class for non-specific component calls
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class receives user actions and performs access checks and redirection.
  */
 class THM_OrganizerController extends JControllerLegacy
 {
@@ -27,7 +19,9 @@ class THM_OrganizerController extends JControllerLegacy
     /**
      * Class constructor
      *
-     * @param [] $config An optional associative [] of configuration settings.
+     * @param array $config An optional associative [] of configuration settings.
+     *
+     * @throws Exception
      */
     public function __construct($config = [])
     {
@@ -43,6 +37,7 @@ class THM_OrganizerController extends JControllerLegacy
      * schedule model.
      *
      * @return void
+     * @throws Exception
      */
     public function activate()
     {
@@ -80,6 +75,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Redirects to the edit view without an item id. Access checks performed in the view.
      *
      * @return void
+     * @throws Exception
      */
     public function add()
     {
@@ -91,6 +87,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save function, and redirects to the manager view.
      *
      * @return void
+     * @throws Exception
      */
     public function apply()
     {
@@ -115,6 +112,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Redirects to the manager from the form.
      *
      * @return void
+     * @throws Exception
      */
     public function cancel()
     {
@@ -126,6 +124,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's delete function, and redirects to the manager view.
      *
      * @return void
+     * @throws Exception
      */
     public function delete()
     {
@@ -164,6 +163,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's importLSFData function, and redirects to the manager view.
      *
      * @return void
+     * @throws Exception
      */
     public function importLSFData()
     {
@@ -188,6 +188,7 @@ class THM_OrganizerController extends JControllerLegacy
      * redirects to the room manager view
      *
      * @return void
+     * @throws Exception
      */
     public function merge()
     {
@@ -211,6 +212,7 @@ class THM_OrganizerController extends JControllerLegacy
      * the merge view if the automatic merge was unavailable or implausible.
      *
      * @return void
+     * @throws Exception
      */
     public function mergeView()
     {
@@ -242,6 +244,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save function, and redirects to the manager view.
      *
      * @return void
+     * @throws Exception
      */
     public function save()
     {
@@ -265,6 +268,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save2copy function, and redirects to the manager view.
      *
      * @return void
+     * @throws Exception
      */
     public function save2copy()
     {
@@ -287,6 +291,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save2new function, and redirects to the edit view.
      *
      * @return void
+     * @throws Exception
      */
     public function save2new()
     {
@@ -311,6 +316,7 @@ class THM_OrganizerController extends JControllerLegacy
      * context of its planning period, and redirects to the schedule manager view
      *
      * @return void
+     * @throws Exception
      */
     public function setReference()
     {
@@ -348,6 +354,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Toggles category behaviour properties
      *
      * @return void
+     * @throws Exception
      */
     public function toggle()
     {
@@ -378,6 +385,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's updateLSFData function, and redirects to the manager view.
      *
      * @return void
+     * @throws Exception
      */
     public function updateLSFData()
     {
@@ -403,6 +411,7 @@ class THM_OrganizerController extends JControllerLegacy
      * and save the file to the database should validation be successful
      *
      * @return void
+     * @throws Exception
      */
     public function upload()
     {

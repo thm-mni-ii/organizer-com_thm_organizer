@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelPool_Selection
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -20,12 +19,9 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
- * Class THM_OrganizerModelPool_Selection for component com_thm_organizer
- * Class provides methods to deal with adding pools
+ * Class retrieves information for a filtered set of (subject) pools. Modal view.
  *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * @todo does so much of this need to be explicitly implemented?
  */
 class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
 {
@@ -154,6 +150,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
      * @param string $idColumn not used
      *
      * @return integer  The total number of items available in the data set.
+     * @throws Exception
      */
     public function getTotal($idColumn = null)
     {

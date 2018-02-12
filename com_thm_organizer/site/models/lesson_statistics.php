@@ -1,26 +1,19 @@
 <?php
 /**
- * @category    Joomla component
- * @package     com_thm_organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelLesson_Statistics
+ * @package     THM_Organizer
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**
- * Retrieves lesson information for the generation of statisitics
- *
- * @category    Joomla.com_thm_organizer.site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class calculates lesson statistics and loads them into the view context.
  */
 class THM_OrganizerModelLesson_Statistics extends JModelForm
 {
@@ -322,6 +315,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Method to auto-populate the model state.
      *
      * @return void
+     * @throws Exception
      */
     protected function populateState()
     {

@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerViewForm
- * @author      Melih Cakir, <melih.cakir@mni.thm.de>
- * @author      James Antrim, <james.antrim@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 /**
- * Class provides standardized output of a form without an item
- *
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by
+ * extending class.
  */
 abstract class THM_OrganizerViewForm extends JViewLegacy
 {

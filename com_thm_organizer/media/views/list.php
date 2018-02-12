@@ -1,22 +1,15 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerViewList
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @author      Ilja Michajlow, <Ilja.Michajlow@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 /**
- * Class provides standardized output of list items
- *
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * Class loads a filtered set of resources into the display context. Specific resource determined by extending class.
  */
 abstract class THM_OrganizerViewList extends JViewLegacy
 {

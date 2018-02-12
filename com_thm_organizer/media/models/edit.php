@@ -44,8 +44,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
      * @param integer $pk The id of the primary key.
      *
      * @return mixed    Object on success, false on failure.
-     *
-     * @throws  exception  if the user is not authorized to access the view
+     * @throws Exception
      */
     public function getItem($pk = null)
     {
@@ -91,7 +90,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
      * Method to load the form data
      *
      * @return object
-     * @throws exception
+     * @throws Exception
      */
     protected function loadFormData()
     {

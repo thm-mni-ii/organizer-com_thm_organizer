@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelRoom_Statistics
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -22,11 +20,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 
 /**
- * Class provides methods for retrieving program data
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class calculates room usage statistics.
  */
 class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 {
@@ -319,6 +313,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * @param int $roomID the id of the room being iterated
      *
      * @return bool true if room information was found, otherwise false
+     * @throws Exception
      */
     private function setData($roomID)
     {
@@ -373,9 +368,8 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
     /**
      * Resolves form date information into where clauses for the query being built
      *
-     * @param object &$query the query being built
-     *
-     * @return array the corresponding start and end dates
+     * @return void the corresponding start and end dates
+     * @throws Exception
      */
     private function setDates()
     {
@@ -424,6 +418,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * Retrieves the selected grid from the database
      *
      * @return void sets object variables
+     * @throws Exception
      */
     private function setGrid()
     {
@@ -467,6 +462,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * @param array $lsIDs the lesson subject database ids
      *
      * @return void sets object variable indexes
+     * @throws Exception
      */
     private function setLSData($lsIDs)
     {
@@ -544,6 +540,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * Sets the available room types based on the rooms
      *
      * @return void sets the room types object variable
+     * @throws Exception
      */
     private function setRoomTypes()
     {

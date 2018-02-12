@@ -1,12 +1,11 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewSubject_Details
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Wolf Rost,  <Wolf.Rost@mni.thm.de>
- * @author      James Antrim,  <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @author      Alexander Boll, <alexander.boll@mni.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class loads information about a subject into the view context
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class loads the subject into the display context.
  */
 class THM_OrganizerViewSubject_Details extends JViewLegacy
 {
@@ -53,6 +48,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -258,6 +254,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      * @param string $type the type of dependency
      *
      * @return string the HTML for the depencency output
+     * @throws Exception
      */
     public function getDependencies($type)
     {

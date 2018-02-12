@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelSchedule_Export
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -26,11 +24,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Class provides methods for retrieving program data
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves information for the creation of a schedule export form.
  */
 class THM_OrganizerModelSchedule_Export extends JModelLegacy
 {
@@ -88,6 +82,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves grid options
      *
      * @return array an array of grid options
+     * @throws Exception
      */
     public function getGridOptions()
     {
@@ -142,6 +137,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
+     * @throws Exception
      */
     private function getPoolTitles()
     {
@@ -209,6 +205,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * @param array  &$parameters  the parameters array for the model
      *
      * @return void sets indexes in $parameters
+     * @throws Exception
      */
     private function setResourceArray($resourceName, &$parameters)
     {
@@ -264,6 +261,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
+     * @throws Exception
      */
     private function getRoomTitles()
     {
@@ -309,6 +307,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
+     * @throws Exception
      */
     private function getSubjectTitles()
     {
@@ -395,6 +394,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
+     * @throws Exception
      */
     private function getTeacherTitles()
     {
@@ -441,6 +441,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves the selected grid from the database
      *
      * @return void sets object variables
+     * @throws Exception
      */
     private function setGrid()
     {
@@ -477,6 +478,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Sets the basic parameters from the request
      *
      * @return void sets object variables
+     * @throws Exception
      */
     private function setParameters()
     {
@@ -544,6 +546,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Sets the document and page titles
      *
      * @return void sets object variables
+     * @throws Exception
      */
     private function setTitles()
     {

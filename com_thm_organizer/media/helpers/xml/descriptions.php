@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperXMLDescriptions
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Provides validation methods for xml description objects
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides functions for XML description validation and modeling.
  */
 class THM_OrganizerHelperXMLDescriptions
 {
@@ -29,6 +23,7 @@ class THM_OrganizerHelperXMLDescriptions
      * @param string $constant       the text constant for message output
      *
      * @return bool  true if the entry already exists, otherwise false
+     * @throws Exception
      */
     private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
     {
@@ -62,6 +57,7 @@ class THM_OrganizerHelperXMLDescriptions
      * @param object &$xmlObject     the xml object being validated
      *
      * @return void
+     * @throws Exception
      */
     public static function validate(&$scheduleModel, &$xmlObject)
     {

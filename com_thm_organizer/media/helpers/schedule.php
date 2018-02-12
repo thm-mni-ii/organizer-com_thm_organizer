@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.general
- * @name        THM_OrganizerHelperSchedule
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -22,12 +20,9 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/courses.php';
 
+
 /**
- * Class offering static schedule functions
- *
- * @category    Joomla.Component.General
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for schedule access checks, data retrieval and display.
  */
 class THM_OrganizerHelperSchedule
 {
@@ -38,6 +33,7 @@ class THM_OrganizerHelperSchedule
      * @param string $deltaDate representing date in which deltas gets accepted
      *
      * @return array
+     * @throws Exception
      */
     private static function aggregateInstances($lessons, $deltaDate)
     {
@@ -137,6 +133,7 @@ class THM_OrganizerHelperSchedule
      * @param object &$query     the query object
      *
      * @return void modifies the query object
+     * @throws Exception
      */
     private static function addDateClauses($parameters, &$query)
     {
@@ -436,6 +433,7 @@ class THM_OrganizerHelperSchedule
      * @param array $parameters the schedule configuration parameters
      *
      * @return array the corresponding start and end dates
+     * @throws Exception
      */
     public static function getDates($parameters)
     {
@@ -594,6 +592,7 @@ class THM_OrganizerHelperSchedule
      * @param int   $userID  the user id for personal lessons
      *
      * @return array lessonIDs as keys and ccmIDs as values
+     * @throws Exception
      */
     private static function getUserFilteredLessons($lessons, $userID)
     {

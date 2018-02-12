@@ -1,25 +1,18 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.general
- * @name        Com_THM_OrganizerInstallerScript
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 defined('_JEXEC') or die;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 /**
  * Class for the execution of processes during changes to the component itself.
- *
- * @category    Joomla.Component.General
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.general
  */
 class Com_THM_OrganizerInstallerScript
 {
@@ -45,6 +38,9 @@ class Com_THM_OrganizerInstallerScript
      *
      * It also seems that under 3.x this function is ignored if the method is upgrade even if no prior installation
      * existed.
+     *
+     * @param  \stdClass $parent - Parent object calling this method.
+     *
      * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

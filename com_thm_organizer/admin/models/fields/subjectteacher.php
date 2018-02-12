@@ -1,22 +1,16 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldSubjectTeachers
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Class loads a list of teachers for selection
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class creates a select box for the association of teachers with subject documentation.
  */
 class JFormFieldSubjectTeacher extends JFormField
 {
@@ -26,6 +20,7 @@ class JFormFieldSubjectTeacher extends JFormField
      * Returns a select box where stored teachers can be associated with a subject
      *
      * @return string  the HTML output
+     * @throws Exception
      */
     public function getInput()
     {

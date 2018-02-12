@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelSubject
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('RESPONSIBLE') or define('RESPONSIBLE', 1);
 defined('TEACHER') or define('TEACHER', 2);
 
 /**
- * Provides persistence handling for subjects
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class which manages stored subject data.
  */
 class THM_OrganizerModelSubject extends JModelLegacy
 {
@@ -26,6 +20,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * Attempts to delete the selected subject entries and related mappings
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception
      */
     public function delete()
     {
@@ -75,6 +70,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * necessary.
      *
      * @return true on success, otherwise false
+     * @throws Exception
      */
     public function save()
     {
@@ -155,6 +151,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array &$data the post data
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     private function processFormTeachers(&$data)
     {
@@ -193,6 +190,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int $responsibility the teacher responsibility level (1|2)
      *
      * @return boolean
+     * @throws Exception
      */
     public function removeTeachers($subjectID, $responsibility = null)
     {
@@ -223,6 +221,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *                              subject
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     public function addTeacher($subjectID, $teacherID, $responsibility)
     {
@@ -247,6 +246,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array &$data the post data
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     private function processFormSubjectMappings(&$data)
     {
@@ -271,6 +271,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int $subjectID the subject id
      *
      * @return boolean
+     * @throws Exception
      */
     public function removeSubjectMappings($subjectID)
     {
@@ -296,6 +297,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array $planSubjectIDs the id of the planSubject
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     public function addSubjectMappings($subjectID, $planSubjectIDs)
     {
@@ -323,6 +325,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array &$data the post data
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     private function processFormPrerequisites(&$data)
     {
@@ -359,6 +362,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int $subjectID the subject id
      *
      * @return boolean
+     * @throws Exception
      */
     public function removePrerequisites($subjectID)
     {
@@ -383,6 +387,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array $prerequisite the id of the prerequisite
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     public function addPrerequisite($subjectID, $prerequisite)
     {

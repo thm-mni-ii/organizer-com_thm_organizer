@@ -1,10 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -12,11 +12,7 @@
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 
 /**
- * Class provides methods for handling the prep course list
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves the data regarding a filtered set of courses.
  */
 class THM_OrganizerModelCourse_List extends JModelList
 {
@@ -24,8 +20,7 @@ class THM_OrganizerModelCourse_List extends JModelList
      * Method to get an array of data items.
      *
      * @return mixed  An array of data items on success, false on failure.
-     *
-     * @since   1.6
+     * @throws Exception
      */
     public function getItems()
     {
@@ -113,6 +108,7 @@ class THM_OrganizerModelCourse_List extends JModelList
      * @param string $direction An optional direction (asc|desc).
      *
      * @return void
+     * @throws Exception
      */
     protected function populateState($ordering = null, $direction = null)
     {

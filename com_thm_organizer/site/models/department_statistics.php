@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelDepartment_Statistics
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -22,11 +20,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 
 /**
- * Class provides methods for retrieving program data
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class which calculates department statistic data.
  */
 class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 {
@@ -260,6 +254,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * Creates year selection options
      *
      * @return array
+     * @throws Exception
      */
     public function getYearOptions()
     {
@@ -296,6 +291,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * @param int $roomID the id of the room being iterated
      *
      * @return bool true if room information was found, otherwise false
+     * @throws Exception
      */
     private function setData($roomID)
     {
@@ -365,6 +361,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * Sets the available room types based on the rooms
      *
      * @return void sets the room types object variable
+     * @throws Exception
      */
     private function setRoomTypes()
     {
@@ -399,6 +396,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * @param string $year the year used for the statistics generation
      *
      * @return bool true if the query was successfull, otherwise false
+     * @throws Exception
      */
     private function setPlanningPeriods($year)
     {

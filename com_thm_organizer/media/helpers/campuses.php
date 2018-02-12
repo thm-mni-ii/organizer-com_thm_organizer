@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerModelCampuses
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once 'language.php';
 
 /**
- * Provides methods for room type objects
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for campus access checks, data retrieval and display.
  */
 class THM_OrganizerHelperCampuses
 {
@@ -91,6 +85,7 @@ class THM_OrganizerHelperCampuses
      * @param bool $used whether or not only campuses associated with subjects or lessons should be returned.
      *
      * @return array campuses in the form of id => name
+     * @throws Exception
      */
     public static function getOptions($used = false)
     {

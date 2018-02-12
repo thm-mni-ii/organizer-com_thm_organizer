@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelSchedule
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/xml/schedule.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json_schedule.php';
 
 /**
- * Class enapsulating data abstraction and business logic for schedules.
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class which manages stored schedule data.
  */
 class THM_OrganizerModelSchedule extends JModelLegacy
 {
@@ -42,6 +36,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Activates the selected schedule
      *
      * @return true on success, otherwise false
+     * @throws Exception
      */
     public function activate()
     {
@@ -70,6 +65,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Checks if the first selected schedule is active
      *
      * @return boolean true if the schedule is active otherwise false
+     * @throws Exception
      */
     public function checkIfActive()
     {
@@ -90,6 +86,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      *
      * @return boolean true on successful deletion of all selected schedules
      *                 otherwise false
+     * @throws Exception
      */
     public function delete()
     {
@@ -139,6 +136,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * @param int $planningPeriodID the planning period id of the reference row
      *
      * @return mixed  object if successful, otherwise null
+     * @throws Exception
      */
     private function getScheduleRow($departmentID = null, $planningPeriodID = null)
     {
@@ -177,6 +175,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Creates the delta to the chosen reference schedule
      *
      * @return boolean true on successful delta creation, otherwise false
+     * @throws Exception
      */
     public function setReference()
     {
@@ -202,6 +201,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Toggles the schedule's active status
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function toggle()
     {
@@ -225,6 +225,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * saves a schedule in the database for later use
      *
      * @return  boolean true on success, otherwise false
+     * @throws Exception
      */
     public function upload()
     {

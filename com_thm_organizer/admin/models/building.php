@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
- * Class which modifies stored building data.
+ * Class which manages stored building data.
  */
 class THM_OrganizerModelBuilding extends JModelLegacy
 {

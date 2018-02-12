@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerViewRoom_Event_List
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,10 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Loads lesson and event data for a single room and day into view context
- *
- * @category  Joomla.Component.Site
- * @package   thm_organizer
+ * Class loads filtered events into the display context.
  */
 class THM_OrganizerViewEvent_List extends JViewLegacy
 {

@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperMapping
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class provides methods used by organizer files for mappings
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Provides general functions for mapping data retrieval.
  */
 class THM_OrganizerHelperMapping
 {
@@ -104,6 +98,7 @@ class THM_OrganizerHelperMapping
      * @param array &$mappings the current mappings of the pool
      *
      * @return array  the ids of the children of a pool
+     * @throws Exception
      */
     public static function getChildren(&$mappings)
     {
@@ -165,6 +160,7 @@ class THM_OrganizerHelperMapping
      * @param int $resourceID the id of the resource
      *
      * @return string  string representing the associated program(s)
+     * @throws Exception
      */
     public static function getPoolName($resourceID)
     {
@@ -192,6 +188,7 @@ class THM_OrganizerHelperMapping
      * @param array &$selectedParents the selected parents
      *
      * @return string  HTML option
+     * @throws Exception
      */
     public static function getPoolOption(&$mapping, &$selectedParents)
     {
@@ -302,6 +299,7 @@ class THM_OrganizerHelperMapping
      * @param int    $resourceID   the id of the resource
      *
      * @return string  string representing the associated program(s)
+     * @throws Exception
      */
     public static function getProgramName($resourceType, $resourceID)
     {
@@ -370,6 +368,7 @@ class THM_OrganizerHelperMapping
      * @param bool  $getIDs         whether or not the program ids should be included in the return value
      *
      * @return mixed array the names of the programs to which the pool is ordered on success, otherwise false
+     * @throws Exception
      */
     public static function getResourcePrograms($resourceRanges, $getIDs = false)
     {
@@ -412,6 +411,7 @@ class THM_OrganizerHelperMapping
      * @param int    $resourceID   the id of the mapped resource
      *
      * @return array contains the sought left and right values
+     * @throws Exception
      */
     public static function getResourceRanges($resourceType, $resourceID)
     {
@@ -447,6 +447,7 @@ class THM_OrganizerHelperMapping
      * @param int $subjectID the id of the subject
      *
      * @return array the program boundaries
+     * @throws exception
      */
     public static function getSubjectPrograms($subjectID)
     {
@@ -481,6 +482,7 @@ class THM_OrganizerHelperMapping
      * @param array $ranges the left and right values of the resource's mappings
      *
      * @return array  the names of the programs to which the pool is ordered
+     * @throws Exception
      */
     public static function getSubjectPools($ranges)
     {
@@ -725,6 +727,7 @@ class THM_OrganizerHelperMapping
      * @param string $formResourceType the type of the resource from the form
      *
      * @return void  sets query object variables
+     * @throws Exception
      */
     public static function setResourceIDFilter(&$query, $resourceID, $resourceType, $formResourceType)
     {

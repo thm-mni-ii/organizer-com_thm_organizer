@@ -1,22 +1,17 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        JFormFieldPublishing
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
 
 /**
- * Class creates a form field for merging plan pool programs
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
+ * planning periods.
  */
 class JFormFieldPlanningPeriodPublishing extends JFormField
 {
@@ -29,6 +24,7 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
      * Returns a select box where resource attributes can be selected
      *
      * @return string  the HTML select box
+     * @throws Exception
      */
     protected function getInput()
     {

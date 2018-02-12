@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        schedule model
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Franciska Perisa, <franciska.perisa@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -20,11 +19,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class THM_OrganizerModelSchedule for loading the chosen schedule from the database
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves information for use in a schedule display form.
  */
 class THM_OrganizerModelSchedule extends JModelLegacy
 {
@@ -40,6 +35,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * THM_OrganizerModelSchedule constructor.
      *
      * @param array $config options
+     *
+     * @throws Exception
      */
     public function __construct(array $config)
     {
@@ -53,6 +50,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Getter method for all grids in database
      *
      * @return array
+     * @throws Exception
      */
     public function getGrids()
     {
@@ -136,6 +134,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Sets the parameters used to configure the display
      *
      * @return void
+     * @throws Exception
      */
     private function setParams()
     {
@@ -352,6 +351,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * @param string $resourceName the name of the resource type
      *
      * @return void sets object variable indexes
+     * @throws Exception
      */
     private function setResourceArray($resourceName)
     {

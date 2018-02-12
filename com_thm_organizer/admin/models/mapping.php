@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.admin
- * @name        THM_OrganizerModelMapping
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,11 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
 
 /**
- * Provides methods dealing with the persistence of mappings
- *
- * @category    Joomla.Component.Admin
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.admin
+ * Class which manages stored (curriculum) mapping data.
  */
 class THM_OrganizerModelMapping extends JModelLegacy
 {
@@ -30,6 +24,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param SimpleXMLObject &$lsfData  the data recieved from the LSF system
      *
      * @return boolean  true if the data was mapped, otherwise false
+     * @throws Exception
      */
     public function addLSFMappings($programID, &$lsfData)
     {
@@ -64,6 +59,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int    $parentMappingID the id of the program mapping
      *
      * @return boolean  true if the pool is mapped, otherwise false
+     * @throws Exception
      */
     private function addLSFPool(&$pool, $parentMappingID)
     {
@@ -135,6 +131,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *                                mappings table
      *
      * @return boolean  true if the mapping exists, otherwise false
+     * @throws Exception
      */
     private function addLSFSubject(&$subject, $parentMappingID)
     {
@@ -190,6 +187,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *                     children
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     private function addPool(&$pool)
     {
@@ -251,6 +249,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$subject an array containing data about a subject
      *
      * @return boolean
+     * @throws Exception
      */
     private function addSubject(&$subject)
     {
@@ -291,6 +290,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $resourceType the type of the resource
      *
      * @return bool true if the resource has an existing mapping, otherwise false
+     * @throws Exception
      */
     public function checkForMapping($resourceID, $resourceType)
     {
@@ -317,6 +317,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $type       the mapping's type
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception
      */
     public function deleteByResourceID($resourceID, $type)
     {
@@ -368,6 +369,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $mappingID the id of the mapping
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception
      */
     public function deleteChildren($mappingID)
     {
@@ -403,6 +405,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $entryID the id value of the entry to be deleted
      *
      * @return bool  true on success, otherwise false
+     * @throws Exception
      */
     private function deleteEntry($entryID)
     {
@@ -534,6 +537,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *                           children iteratively or not (default: false)
      *
      * @return array  empty if no child data exists
+     * @throws Exception
      */
     public function getChildren($resourceID, $type = 'pool', $deep = true)
     {
@@ -634,6 +638,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $type       the type of resource being ordered
      *
      * @return int  the value of the highest existing ordering or 1 if none exist
+     * @throws Exception
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
@@ -684,6 +689,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $parentID the id of the parent item
      *
      * @return array  the parent mapping
+     * @throws Exception
      */
     private function getParent($parentID)
     {
@@ -723,6 +729,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$data the pool form data from the post request
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function savePool(&$data)
     {
@@ -769,6 +776,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *
      * @return boolean  true if the program root mapping exists/was created,
      *                   otherwise false
+     * @throws Exception
      */
     public function saveProgram($programID)
     {
@@ -844,6 +852,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$data the subject form data from the post request
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     public function saveSubject(&$data)
     {
@@ -880,6 +889,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $type       the type of resource entry being searched for
      *
      * @return mixed  array on success, otherwise false
+     * @throws Exception
      */
     private function getExistingMappings($resourceID, $type = 'subject')
     {
@@ -906,6 +916,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array $existingMappings the existing mappings for the subject
      *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
     private function processExistingSubjects(&$selectedParents, $existingMappings)
     {

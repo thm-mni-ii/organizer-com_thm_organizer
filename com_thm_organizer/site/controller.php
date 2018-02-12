@@ -1,11 +1,11 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Wolf Rost, <wolf.rost@mni.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -17,11 +17,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Site main controller
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class receives user actions and performs access checks and redirection.
  */
 class THM_OrganizerController extends JControllerLegacy
 {
@@ -30,6 +26,7 @@ class THM_OrganizerController extends JControllerLegacy
      * then redirect to course list view
      *
      * @return void
+     * @throws Exception
      */
     public function changeParticipantState()
     {
@@ -68,6 +65,7 @@ class THM_OrganizerController extends JControllerLegacy
      * Sends an circular email to all course participants
      *
      * @return void
+     * @throws Exception
      */
     public function circular()
     {
@@ -95,6 +93,7 @@ class THM_OrganizerController extends JControllerLegacy
      * participant edit view. Otherwise register/deregister the user from the course.
      *
      * @return void
+     * @throws Exception
      */
     public function register()
     {
@@ -200,6 +199,7 @@ class THM_OrganizerController extends JControllerLegacy
      * then redirect to course list view
      *
      * @return void
+     * @throws Exception
      */
     public function save()
     {

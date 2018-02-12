@@ -47,7 +47,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      *
      * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
      *
-     * @throws  Exception
+     * @throws Exception
      */
     public function __construct($config = [])
     {
@@ -154,6 +154,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * Sets the data object variable with corresponding room information
      *
      * @return void  modifies the object data variable
+     * @throws Exception
      */
     private function setData()
     {
@@ -218,6 +219,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * @param string $date the date string
      *
      * @return void  room information for the given day is added to the $blocks object variable
+     * @throws Exception
      */
     private function getDay($date)
     {

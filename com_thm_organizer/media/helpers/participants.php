@@ -1,25 +1,20 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
+
 /**
- * Provides helper methods for course participant information
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for participant access checks, data retrieval and display.
  */
 class THM_OrganizerHelperParticipants
 {
@@ -31,6 +26,7 @@ class THM_OrganizerHelperParticipants
      * @param int $state         the requested state
      *
      * @return bool true on success, otherwise false
+     * @throws Exception
      */
     public static function changeState($participantID, $courseID, $state)
     {
@@ -103,6 +99,7 @@ class THM_OrganizerHelperParticipants
      * @param int $state         the requested state
      *
      * @return void
+     * @throws Exception
      */
     private static function notify($participantID, $courseID, $state)
     {

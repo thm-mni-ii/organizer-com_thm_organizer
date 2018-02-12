@@ -9,12 +9,9 @@
  */
 defined('_JEXEC') or die;
 
+
 /**
- * Class provides methods used by organizer models for retrieving teacher data
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Provides general functions for language data retrieval and display.
  */
 class THM_OrganizerHelperLanguage
 {
@@ -22,6 +19,7 @@ class THM_OrganizerHelperLanguage
      * Sets the Joomla Language based on input from the language switch
      *
      * @return JLanguage
+     * @throws Exception
      */
     public static function getLanguage()
     {
@@ -51,6 +49,7 @@ class THM_OrganizerHelperLanguage
      * Retrieves the two letter language identifier
      *
      * @return string
+     * @throws Exception
      */
     public static function getLongTag()
     {
@@ -61,6 +60,7 @@ class THM_OrganizerHelperLanguage
      * Retrieves the two letter language identifier
      *
      * @return string
+     * @throws Exception
      */
     public static function getShortTag()
     {

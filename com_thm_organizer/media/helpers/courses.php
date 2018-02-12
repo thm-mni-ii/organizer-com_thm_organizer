@@ -2,6 +2,7 @@
 /**
  * @package     THM_Organizer
  * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
  * @copyright   2017 TH Mittelhessen
  * @license     GNU GPL v.2
@@ -15,11 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participants.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 
 /**
- * Provides helper methods for course information
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for course access checks, data retrieval and display.
  */
 class THM_OrganizerHelperCourses
 {
@@ -119,14 +116,12 @@ class THM_OrganizerHelperCourses
      * @param int    $courseID the id of the course
      *
      * @return string the HTML for the action button as appropriate for the user
-     *
-     * @since version
      * @throws Exception
      */
     public static function getActionButton($view, $courseID)
     {
-        $expired = !self::isRegistrationOpen($courseID);
-        $authorized   = self::authorized($courseID);
+        $expired    = !self::isRegistrationOpen($courseID);
+        $authorized = self::authorized($courseID);
 
         $lang            = THM_OrganizerHelperLanguage::getLanguage();
         $shortTag        = THM_OrganizerHelperLanguage::getShortTag();
@@ -584,9 +579,9 @@ class THM_OrganizerHelperCourses
      */
     public static function getStatusDisplay($courseID)
     {
-        $lang    = THM_OrganizerHelperLanguage::getLanguage();
-        $expired = !self::isRegistrationOpen($courseID);
-        $authorized   = self::authorized($courseID);
+        $lang       = THM_OrganizerHelperLanguage::getLanguage();
+        $expired    = !self::isRegistrationOpen($courseID);
+        $authorized = self::authorized($courseID);
 
         // Personal Status
         $none        = $expired ?
@@ -754,6 +749,7 @@ class THM_OrganizerHelperCourses
      * @param int $courseID
      *
      * @return string
+     * @throws Exception
      */
     public static function getName($courseID = 0)
     {

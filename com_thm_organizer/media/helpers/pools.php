@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperXMLPools
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,12 +13,9 @@ require_once 'departments.php';
 require_once 'language.php';
 require_once 'programs.php';
 
+
 /**
- * Provides validation methods for xml pool (class) objects
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for (subject) pool access checks, data retrieval and display.
  */
 class THM_OrganizerHelperPools
 {
@@ -99,6 +94,7 @@ class THM_OrganizerHelperPools
      * @return string  all pools in JSON format
      *
      * @throws RuntimeException
+     * @throws Exception
      */
     public static function getPlanPools($short = true)
     {

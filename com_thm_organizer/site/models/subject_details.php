@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelSubject_Details
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -18,13 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Class THM_OrganizerModeldetails for component com_thm_organizer
- *
- * Class provides methods to get details about modules
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class which retrieves subject information for a detailed display of subject attributes.
  */
 class THM_OrganizerModelSubject_Details extends JModelLegacy
 {
@@ -32,6 +24,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      * Loads subject information from the database
      *
      * @return object  filled with subject data on success, otherwise empty
+     * @throws Exception
      */
     public function getItem()
     {
@@ -80,6 +73,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      * Attempts to determine the desired subject id
      *
      * @return mixed  int on success, otherwise null
+     * @throws Exception
      */
     private function resolveID()
     {

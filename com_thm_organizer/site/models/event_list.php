@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelRoom_display
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -21,11 +19,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Retrieves lesson and event data for a single room and day
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves information about upcoming events for display on monitors.
  */
 class THM_OrganizerModelEvent_List extends JModelLegacy
 {
@@ -73,7 +67,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     /**
      * Aggregates events belonging to the same lesson occuring at the same time
      *
-     * @return array the horizonally aggregated events
+     * @param array $events the previous event results
+     *
+     * @return array the horizontally aggregated events
      */
     private function aggregateConcurrent($events)
     {
@@ -119,7 +115,9 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     }
 
     /**
-     * Aggregates events belonging to the same lesson occuring at the same time
+     * Aggregates events belonging to the same lesson occurring at the same time
+     *
+     * @param array &$blockEvents the events aggregated by their times
      *
      * @return array the vertically aggregated events
      */
@@ -220,7 +218,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      *
      * @param array $instanceRooms the rooms associated with the instance
      *
-     * @return bool true if the instance is associated with a requested room
+     * @return array $rooms
      */
     private function getEventRooms(&$instanceRooms)
     {
@@ -242,6 +240,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Gets the raw events from the database
      *
      * @return void sets the object variable events
+     * @throws Exception
      */
     private function getEvents()
     {
@@ -330,6 +329,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Checks whether the accessing agent is a registered monitor
      *
      * @return mixed  int roomID on success, otherwise boolean false
+     * @throws Exception
      */
     private function isRegistered()
     {
@@ -453,6 +453,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Sets the events for display
      *
      * @return void  sets object variables
+     * @throws Exception
      */
     private function setEvents()
     {
@@ -465,6 +466,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Retrieves the name and id of the room
      *
      * @return void  sets object variables
+     * @throws Exception
      */
     private function setRooms()
     {

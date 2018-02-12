@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerHelperTeachers
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -13,12 +11,9 @@ defined('_JEXEC') or die;
 
 require_once 'departments.php';
 
+
 /**
- * Provides validation methods for xml teacher objects
- *
- * @category    Joomla.Component.Media
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.media
+ * Provides general functions for teacher access checks, data retrieval and display.
  */
 class THM_OrganizerHelperTeachers
 {
@@ -55,6 +50,7 @@ class THM_OrganizerHelperTeachers
      * @param bool $unique         whether or not unique results are desired
      *
      * @return array  an array of teacher data
+     * @throws Exception
      */
     public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false, $unique = true)
     {
@@ -125,7 +121,7 @@ class THM_OrganizerHelperTeachers
     /**
      * Generates a preformatted teacher text based upon organizer's internal data
      *
-     * @param int   $teacherID the teacher's id
+     * @param int  $teacherID the teacher's id
      * @param bool $short     Whether or not the teacher's forename should be abbrevieated
      *
      * @return string  the default name of the teacher
@@ -156,6 +152,7 @@ class THM_OrganizerHelperTeachers
      * @param string $gpuntisID      the teacher's gpuntis ID
      *
      * @return int the id of the teacher on success, otherwise 0
+     * @throws Exception
      */
     public static function getID($gpuntisID, $data)
     {
@@ -200,6 +197,7 @@ class THM_OrganizerHelperTeachers
      * @return string  all pools in JSON format
      *
      * @throws RuntimeException
+     * @throws Exception
      */
     public static function getPlanTeachers($short = true)
     {
@@ -260,6 +258,7 @@ class THM_OrganizerHelperTeachers
      * @param int    $teacherID the id of the teacher being checked
      *
      * @return bool true if the teacher is assigned to a lesson
+     * @throws Exception
      */
     public static function teaches($table, $teacherID)
     {

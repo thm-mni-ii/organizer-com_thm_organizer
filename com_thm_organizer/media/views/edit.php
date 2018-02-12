@@ -1,22 +1,15 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
- * @name        THM_OrganizerViewEdit
- * @author      Melih Cakir, <melih.cakir@mni.thm.de>
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
 
 /**
- * Class provides standardized output of an item being edited
- *
- * @category    Joomla component
- * @package     THM_Organizer
- * @subpackage  com_thm_organizer.media
+ * Class loads the resource form into display context. Specific resource determined by extending class.
  */
 abstract class THM_OrganizerViewEdit extends JViewLegacy
 {

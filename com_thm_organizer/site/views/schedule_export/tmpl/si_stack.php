@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerTemplateExport_XLS
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -15,6 +13,9 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 /** @noinspection PhpIncludeInspection */
 jimport('phpexcel.library.PHPExcel');
 
+/**
+ * Class generates an XLS file for the schedule where lessons are listed as aggregates.
+ */
 class THM_OrganizerTemplateExport_XLS
 {
     private $spreadSheet;
@@ -73,6 +74,10 @@ class THM_OrganizerTemplateExport_XLS
 
     /**
      * Iterates the dates / times and calls the function to add the event data
+     *
+     * @param string $startDate the start date for the interval
+     * @param string $breakDate the end date for the interval
+     *
      * @return void
      */
     private function addData($startDate, $breakDate)
@@ -157,6 +162,9 @@ class THM_OrganizerTemplateExport_XLS
 
     /**
      * Adds column headers to the sheet
+     *
+     * @param int    $sheetNumber  the sheet number to be added
+     * @param string $rawStartDate the start date for the sheet
      *
      * @return void
      */

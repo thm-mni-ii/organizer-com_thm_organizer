@@ -1,11 +1,9 @@
 <?php
 /**
- * @category    Joomla component
  * @package     THM_Organizer
- * @subpackage  com_thm_organizer.site
- * @name        THM_OrganizerModelSubject_List
+ * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2016 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -16,11 +14,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php'
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
- * Class creates a model
- *
- * @category    Joomla.Component.Site
- * @package     thm_organizer
- * @subpackage  com_thm_organizer.site
+ * Class retrieves the data regarding a filtered set of subjects.
  */
 class THM_OrganizerModelSubject_List extends JModelList
 {
@@ -120,6 +114,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * Method to get an array of data items.
      *
      * @return mixed  An array of data items on success, false on failure.
+     * @throws Exception
      */
     public function getItems()
     {
@@ -182,6 +177,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * This method ensures that the query is constructed only once for a given state of the model.
      *
      * @return object  a JDatabaseQuery object
+     * @throws Exception
      */
     protected function getListQuery()
     {
@@ -234,6 +230,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * Retrieves pool information (name and nesting values)
      *
      * @return mixed  array on success, otherwise false
+     * @throws Exception
      */
     private function getPoolInformation()
     {
@@ -284,6 +281,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * Retrieves program information (name and nesting values)
      *
      * @return mixed  array on success, otherwise false
+     * @throws Exception
      */
     private function getProgramInformation()
     {
@@ -412,6 +410,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * @param int $index the index of the subject (item) being currently indexed
      *
      * @return void
+     * @throws Exception
      */
     private function getPrograms($index)
     {
@@ -599,6 +598,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      * @param string $direction An optional direction (asc|desc).
      *
      * @return void
+     * @throws Exception
      */
     protected function populateState($ordering = null, $direction = null)
     {

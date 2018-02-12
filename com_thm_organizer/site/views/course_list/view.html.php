@@ -2,8 +2,9 @@
 /**
  * @package     THM_Organizer
  * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
- * @copyright   2017 TH Mittelhessen
+ * @copyright   2018 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -41,6 +42,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -78,6 +80,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
      * Sets various filter elements
      *
      * @return void  sets the filter object variables
+     * @throws Exception
      */
     private function setFilters()
     {

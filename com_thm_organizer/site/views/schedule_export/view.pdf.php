@@ -16,7 +16,7 @@ jimport('tcpdf.tcpdf');
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
 
 /**
- * Class loads persistent information a filtered set of lessons into the display context.
+ * Class creates a PDF file for the display of the filtered schedule information.
  */
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
@@ -28,6 +28,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * @param string $tpl template
      *
      * @return void
+     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -51,6 +52,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * Imports libraries and sets library variables
      *
      * @return bool true if the tcpdf library is installed, otherwise false
+     * @throws Exception
      */
     private function checkLibraries()
     {
