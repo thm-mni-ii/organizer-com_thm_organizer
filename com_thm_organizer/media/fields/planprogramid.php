@@ -32,6 +32,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT ppr.id AS value, ppr.name AS text");
         $query->from("#__thm_organizer_plan_programs AS ppr");
+        $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
         $query->order('text ASC');
 
         // For use in the merge view
@@ -42,15 +43,32 @@ class JFormFieldPlanProgramID extends JFormFieldList
             $query->where("ppl.id IN ( '" . implode("', '", $selectedIDs) . "' )");
         }
 
-        $departmentRestrict = $this->getAttribute('departmentRestrict', 'false');
+        // Ensures a boolean value and avoids double checking the variable because of false string positives.
+        $accessRequired     = $this->getAttribute('access', 'false') == 'true';
+        $departmentRestrict = $this->getAttribute('departmentRestrict', 'false') == 'true';
 
-        if ($departmentRestrict == 'true') {
-            $formData     = JFactory::getApplication()->input->get('jform', [], 'array');
-            $departmentID = (!empty($formData) and !empty($formData['departmentID']) and is_numeric($formData['departmentID'])) ?
-                $formData['departmentID'] : 0;
+        $allowedDepartments = $accessRequired ? THM_OrganizerHelperComponent::getAccessibleDepartments('schedule') : [];
 
-            if (!empty($departmentID)) {
-                $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
+        if ($departmentRestrict) {
+
+            // Direct input
+            $input        = JFactory::getApplication()->input;
+            $departmentID = $input->getInt('departmentID', 0);
+
+            // Possible frontend form (jform)
+            $feFormData      = $input->get('jform', [], 'array');
+            $plausibleFormID = (!empty($feFormData) and !empty($feFormData['departmentID']) and is_numeric($feFormData['departmentID']));
+            $departmentID    = $plausibleFormID ? $feFormData['departmentID'] : $departmentID;
+
+            // Possible backend form (list)
+            $beFormData      = $input->get('list', [], 'array');
+            $plausibleFormID = (!empty($beFormData) and !empty($beFormData['departmentID']) and is_numeric($beFormData['departmentID']));
+            $departmentID    = $plausibleFormID ? $beFormData['departmentID'] : $departmentID;
+
+            $restrict = (!empty($departmentID)
+                and (empty($allowedDepartments) or in_array($departmentID, $allowedDepartments)));
+
+            if ($restrict) {
                 $query->where("dr.departmentID = '$departmentID'");
             }
         }

@@ -55,8 +55,8 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
             ->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id')
             ->leftJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
 
-        $this->setSearchFilter($query, ['longname', 'buildingName']);
-        $this->setValueFilters($query, ['longname', 'buildingID', 'typeID']);
+        $this->setSearchFilter($query, ['r.longname', 'b.name', 't.name_de', 't.name_en']);
+        $this->setValueFilters($query, ['r.longname', 'r.buildingID', 'r.typeID']);
 
         $this->setOrdering($query);
 
