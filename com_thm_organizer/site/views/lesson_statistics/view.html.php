@@ -37,7 +37,7 @@ class THM_OrganizerViewLesson_Statistics extends JViewLegacy
      *
      * @param  string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return mixed  A string if successful, otherwise an Error object.
+     * @return void sets context variables and uses the parent's display method
      */
     public function display($tpl = null)
     {
@@ -58,6 +58,6 @@ class THM_OrganizerViewLesson_Statistics extends JViewLegacy
 
         JFactory::getDocument()->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/lesson_statistics.css");
 
-        return parent::display($tpl);
+        parent::display($tpl);
     }
 }

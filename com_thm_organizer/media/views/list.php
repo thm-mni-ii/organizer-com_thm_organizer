@@ -61,7 +61,7 @@ abstract class THM_OrganizerViewList extends JViewLegacy
 
         // Allows for view specific toolbar handling
         $this->addToolBar();
-        parent::display();
+        parent::display($tpl);
     }
 
     /**

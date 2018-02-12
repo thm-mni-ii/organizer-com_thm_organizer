@@ -17,18 +17,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 class THM_OrganizerViewProgram_Edit extends THM_OrganizerViewEdit
 {
     /**
-     * Method to get display
-     *
-     * @param Object $tpl template  (default: null)
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        parent::display($tpl);
-    }
-
-    /**
      * Method to generate buttons for user interaction
      *
      * @return void

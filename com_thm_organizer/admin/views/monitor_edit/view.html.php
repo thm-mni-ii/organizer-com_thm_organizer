@@ -17,18 +17,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 class THM_OrganizerViewMonitor_Edit extends THM_OrganizerViewEdit
 {
     /**
-     * loads monitor information into the view context
-     *
-     * @param object $tpl the template object
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        parent::display($tpl);
-    }
-
-    /**
      * Adds joomla toolbar elements to the view context
      *
      * @return void

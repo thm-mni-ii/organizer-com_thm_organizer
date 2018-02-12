@@ -19,18 +19,6 @@ class THM_OrganizerViewTeacher_Merge extends THM_OrganizerViewForm
     public $form = null;
 
     /**
-     * Method to get display
-     *
-     * @param Object $tpl template  (default: null)
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        parent::display($tpl);
-    }
-
-    /**
      * Method to generate buttons for user interaction
      *
      * @return void

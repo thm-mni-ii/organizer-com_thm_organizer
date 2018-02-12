@@ -8,12 +8,12 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-jimport('joomla.database.table');
+require_once JPATH_ROOT . '/media/com_thm_organizer/tables/nullable.php';
 
 /**
  * Class instantiates a JTable Object associated with the buildings table.
  */
-class THM_OrganizerTableBuildings extends JTable
+class THM_OrganizerTableBuildings extends THM_OrganizerTableNullable
 {
     /**
      * Declares the associated table
@@ -23,18 +23,6 @@ class THM_OrganizerTableBuildings extends JTable
     public function __construct(&$dbo)
     {
         parent::__construct('#__thm_organizer_buildings', 'id', $dbo);
-    }
-
-    /**
-     * Method to store a row in the database from the JTable instance properties.
-     *
-     * @param boolean $updateNulls True to update fields even if they are null.
-     *
-     * @return boolean  True on success.
-     */
-    public function store($updateNulls = true)
-    {
-        return parent::store(true);
     }
 
     /**
