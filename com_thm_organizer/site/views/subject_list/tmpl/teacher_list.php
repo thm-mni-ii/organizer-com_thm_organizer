@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Displays a filtered set of subjects into the display context, grouped by associated teachers/coordinators.

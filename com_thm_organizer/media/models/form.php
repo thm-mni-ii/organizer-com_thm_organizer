@@ -27,9 +27,7 @@ class THM_OrganizerModelForm extends JModelForm
      */
     public function getForm($data = [], $loadData = false)
     {
-        $path = JPATH_ROOT . "/media/com_thm_organizer/helpers/componentHelper.php";
-        /** @noinspection PhpIncludeInspection */
-        require_once $path;
+        require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
 
         THM_OrganizerHelperComponent::addActions($this);
         $allowEdit = THM_OrganizerHelperComponent::allowEdit($this);

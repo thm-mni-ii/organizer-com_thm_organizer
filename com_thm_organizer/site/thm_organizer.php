@@ -11,9 +11,8 @@
 defined('_JEXEC') or die;
 
 try {
-    /** @noinspection PhpIncludeInspection */
-    require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
-    THM_OrganizerHelper::callController(false);
+    require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+    THM_OrganizerHelperComponent::callController(false);
 } catch (Exception $exc) {
     JLog::add($exc->__toString(), JLog::ERROR, "com_thm_organizer");
     throw $exc;

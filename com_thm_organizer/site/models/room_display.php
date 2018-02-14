@@ -14,7 +14,7 @@ define('ALTERNATING', 2);
 define('CONTENT', 3);
 
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
@@ -37,6 +37,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Constructor
      *
      * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+     *
      * @throws  Exception
      */
     public function __construct($config = [])

@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
 /** @noinspection PhpIncludeInspection */
 jimport('phpexcel.library.PHPExcel');
 

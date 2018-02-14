@@ -10,13 +10,13 @@
 
 defined('_JEXEC') or die;
 
+if (!JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
+    throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+}
+
 try {
-    if (!JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
-        throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
-    }
-    /** @noinspection PhpIncludeInspection */
-    require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/thm_organizerHelper.php';
-    THM_OrganizerHelper::callController();
+    require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+    THM_OrganizerHelperComponent::callController(true);
 } catch (Exception $exc) {
     JLog::add($exc->__toString(), JLog::ERROR, 'com_thm_organizer');
     throw $exc;

@@ -13,7 +13,7 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a PDF file for the display of the filtered schedule information.

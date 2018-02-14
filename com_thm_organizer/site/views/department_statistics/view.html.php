@@ -15,7 +15,7 @@ jimport('tcpdf.tcpdf');
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/componentHelper.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class loads department statistics into the display context.

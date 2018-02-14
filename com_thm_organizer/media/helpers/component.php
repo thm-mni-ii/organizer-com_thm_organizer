@@ -420,6 +420,32 @@ class THM_OrganizerHelperComponent
     }
 
     /**
+     * Calls the appropriate controller
+     *
+     * @param boolean $isAdmin whether the file is being called from the backend
+     *
+     * @return void
+     * @throws Exception
+     */
+    public static function callController($isAdmin = true)
+    {
+        $basePath = $isAdmin ? JPATH_COMPONENT_ADMINISTRATOR : JPATH_COMPONENT_SITE;
+
+        $handler = explode(".", JFactory::getApplication()->input->getCmd('task', ''));
+        if (count($handler) == 2) {
+            list($controller, $task) = $handler;
+        } else {
+            $task = $handler[0];
+        }
+
+        require_once $basePath . '/controller.php';
+
+        $controllerObj = new THM_OrganizerController;
+        $controllerObj->execute($task);
+        $controllerObj->redirect();
+    }
+
+    /**
      * Checks for resources which have not yet been saved as an asset allowing transitional edit access
      *
      * @param string $resourceName the name of the resource type
@@ -444,6 +470,33 @@ class THM_OrganizerHelperComponent
         }
 
         return empty($assetID) ? false : true;
+    }
+
+    /**
+     * Attempts to delete entries from a standard table
+     *
+     * @param string $table the table name
+     *
+     * @return boolean  true on success, otherwise false
+     * @throws Exception
+     */
+    public static function delete($table)
+    {
+        $cids         = JFactory::getApplication()->input->get('cid', [], '[]');
+        $formattedIDs = "'" . implode("', '", $cids) . "'";
+
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->delete("#__thm_organizer_$table");
+        $query->where("id IN ( $formattedIDs )");
+        $dbo->setQuery($query);
+        try {
+            $dbo->execute();
+        } catch (Exception $exception) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

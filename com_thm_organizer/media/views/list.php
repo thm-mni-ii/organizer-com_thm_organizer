@@ -49,13 +49,9 @@ abstract class THM_OrganizerViewList extends JViewLegacy
         // Items common across list views
         $this->headers      = $this->get('Headers');
         $this->hiddenFields = $this->get('HiddenFields');
+        $this->items        = $this->get('Items');
 
-        $this->items = $this->get('Items');
-
-        // Allows for component specific menu handling
-        $path = JPATH_ROOT . "/media/com_thm_organizer/helpers/componentHelper.php";
-        /** @noinspection PhpIncludeInspection */
-        require_once $path;
+        require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
 
         THM_OrganizerHelperComponent::addSubmenu($this);
 

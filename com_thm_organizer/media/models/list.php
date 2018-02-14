@@ -35,9 +35,7 @@ abstract class THM_OrganizerModelList extends JModelList
     {
         parent::__construct($config);
 
-        $path = JPATH_ROOT . "/media/com_thm_organizer/helpers/componentHelper.php";
-        /** @noinspection PhpIncludeInspection */
-        require_once $path;
+        require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
 
         THM_OrganizerHelperComponent::addActions($this);
     }

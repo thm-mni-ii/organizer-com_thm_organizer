@@ -7,7 +7,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 

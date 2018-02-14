@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-JTable::addIncludePath(JPATH_BASE . '/administrator/components/com_thm_organizer/tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/xml/schedule.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json_schedule.php';

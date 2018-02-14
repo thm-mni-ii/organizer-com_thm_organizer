@@ -246,6 +246,12 @@ class THM_OrganizerHelperXMLLessons
             return;
         }
 
+        // Should not have been exported
+        if (empty($lessonNode->times->count())) {
+            return;
+        }
+
+        $times   = $lessonNode->times->children();
         $comment = trim((string)$lessonNode->text);
 
         if (empty($comment) or $comment == '.') {
@@ -260,8 +266,6 @@ class THM_OrganizerHelperXMLLessons
 
         // Adjusted dates are used because effective dts are not always accurate for the time frame
         $potentialInstances = $this->truncateInstances($rawInstances, $startDT, $endDT);
-
-        $times = $lessonNode->times->children();
 
         $gridName = empty((string)$lessonNode->timegrid) ? 'Haupt-Zeitraster' : (string)$lessonNode->timegrid;
 
@@ -586,8 +590,10 @@ class THM_OrganizerHelperXMLLessons
         $offset = floor(($start - strtotime($this->scheduleModel->newSchedule->syStartDate)) / 86400);
         $length = floor(($end - $start) / 86400);
 
+        $validOccurrences = substr($raw, $offset, $length);
+
         // Change occurrences from a string to an array of the appropriate length for iteration
-        return str_split(substr($raw, $offset, $length));
+        return empty($validOccurrences) ? [] : str_split($validOccurrences);
     }
 
     /**

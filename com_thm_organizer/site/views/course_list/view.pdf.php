@@ -32,9 +32,9 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
     {
         $input = JFactory::getApplication()->input;
 
-        $lessonID = $input->get("lessonID", 0);
-        $type     = $input->get("type", 0);
-        $validTypes = [0,1,2];
+        $lessonID   = $input->get("lessonID", 0);
+        $type       = $input->get("type", 0);
+        $validTypes = [0, 1, 2];
 
         if (empty($lessonID) OR !in_array($type, $validTypes)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);

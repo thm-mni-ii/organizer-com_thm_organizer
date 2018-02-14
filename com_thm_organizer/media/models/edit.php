@@ -48,9 +48,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
      */
     public function getItem($pk = null)
     {
-        $path = JPATH_ROOT . "/media/com_thm_organizer/helpers/componentHelper.php";
-        /** @noinspection PhpIncludeInspection */
-        require_once $path;
+        require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
 
         THM_OrganizerHelperComponent::addActions($this);
         $item      = parent::getItem($pk);

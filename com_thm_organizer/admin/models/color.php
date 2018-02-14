@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/assets/helpers/thm_organizerHelper.php';
 
 /**
  * Class which manages stored color data.
@@ -39,6 +37,8 @@ class THM_OrganizerModelColor extends JModelLegacy
      */
     public function delete()
     {
-        return THM_OrganizerHelper::delete('colors');
+        require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+
+        return THM_OrganizerHelperComponent::delete('colors');
     }
 }
