@@ -258,7 +258,7 @@ tbody tr:first-child td {
 }
 
 #mapping thead .thm_organizer_pools_ordering, #mappings thead .thm_organizer_pools_ordering {
-    width: 200px;
+    width: 16rem;
 }
 
 #mapping tbody .child-order .btn-small, #mappings tbody .child-order .btn-small {
