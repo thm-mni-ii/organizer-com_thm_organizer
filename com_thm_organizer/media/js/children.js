@@ -1,37 +1,4 @@
-/**
- * Move the buttons from the tool bar to the right place
- */
-function moveButton()
-{
-    var poolButton = jQuery('#toolbar-popup-list').detach(),
-        subjectButton = jQuery('#toolbar-popup-book').detach(),
-        childToolbar = jQuery('#children-toolbar');
-
-    poolButton.appendTo(childToolbar);
-    if (subjectButton.length)
-    {
-        subjectButton.appendTo(childToolbar);
-    }
-
-}
-
-/**
- * Gets all checked items and add the it the children table
- *
- * @param divID the id of the div
- * @param type the type of the source
- */
-function getCheckedItems(divID, type)
-{
-    var iframe = jQuery('iframe');
-    jQuery(divID + ' input:checked', iframe.contents()).each(function () {
-        var id = jQuery(this).val() + type;
-        var name = jQuery(jQuery(this).parent().parent().children()[1]).html();
-        var currentOrder = window.parent.getCurrentOrder();
-        var length = parseInt(currentOrder.length, 10);
-        createNewRow(length, 'childList', id, name, type);
-    });
-}
+"use strict";
 
 /**
  * Calls function getCheckedItems() and calls the close button click event to close the iFrame
@@ -46,284 +13,85 @@ function closeIframeWindow(divID, type)
 }
 
 /**
- * Moves the values of the calling row up one row in the children table
- *
- * @param {int} oldOrder
- *
- * @returns {void}
+ *  Deactivates chosen forms and adds buttons for the selection of children to the form.
  */
-function moveUp(oldOrder)
-{
-    "use strict";
+window.onload = function () {
 
-    var currentOrder, reorderObjects;
+    const forms = document.getElementsByTagName("form"),
+        childToolbar = jQuery('#children-toolbar'),
+        poolButton = jQuery('#toolbar-popup-list').detach(),
+        subjectButton = jQuery('#toolbar-popup-book').detach();
 
-    currentOrder = getCurrentOrder();
-    if (oldOrder <= 1 || (currentOrder.length === Number(oldOrder) && currentOrder[oldOrder - 2].name === ""))
+    let controlGroups, childrenCG;
+
+    poolButton.appendTo(childToolbar);
+
+    if (subjectButton.length)
     {
-        return;
+        subjectButton.appendTo(childToolbar);
     }
 
-    // Gets the two rows needing reordering
-    reorderObjects = currentOrder.splice(oldOrder - 2, 2);
-
-    // Set calling row to one row lower
-    overrideElement((oldOrder - 1), reorderObjects[1]);
-
-    // Set previous lower row to calling positon
-    overrideElement(oldOrder, reorderObjects[0]);
-
-}
-
-/**
- * Moves the values of the calling row down one row in the children table
- *
- * @param {int} oldOrder
- *
- * @returns {void}
- */
-function moveDown(oldOrder)
-{
-    "use strict";
-    var currentOrder = getCurrentOrder();
-    if (oldOrder >= currentOrder.length || (currentOrder.length === Number(oldOrder) + 1 && currentOrder[oldOrder - 1].name === ""))
+    for (var i = 0; i < forms.length; i++)
     {
-        return;
+        forms[i].onsubmit = function () {
+            return false
+        };
     }
-    var reorderObjects = currentOrder.splice(oldOrder - 1, 2);
-
-    // Set current to lower
-    overrideElement(oldOrder, reorderObjects[1]);
-
-    // Set current with lower
-    var newOrder = parseInt(oldOrder, 10) + 1;
-    overrideElement(newOrder, reorderObjects[0]);
-
-}
+};
 
 /**
- * Add new empty row
+ * Increments the indexing of all subsequent rows, and adds replaces the indexed row with a blank.
  *
- * @param {int} position
- *
- * @returns {void}
+ * @param {int} position the index at which a blank row should be added
+ * @returns {void} modifies the dom
  */
-function setEmptyElement(position)
+function addBlankChild(position)
 {
-    "use strict";
-
-    var currentOrder = getCurrentOrder(),
-        length = parseInt(currentOrder.length, 10),
+    let children = getChildren(),
+        length = children.length,
         newOrder,
         oldIndex;
 
-    createNewRow(length, 'childList');
+    // Add a new row to buffer the run off.
+    addChildRow(length);
 
+    // Increments existing rows starting from the last one.
     while (position <= length)
     {
         newOrder = length + 1;
         oldIndex = length - 1;
 
-        overrideElement(newOrder, currentOrder[oldIndex]);
+        cloneChild(newOrder, children[oldIndex]);
         length--;
     }
 
-    overrideElementWithDummy(position);
+    // Empties the information from the current row.
+    clearChildData(position);
 }
 
 /**
- * Pushes all rows a step up.
- * The first row 'position' is moved to the last postion.
+ * Add a new child row to the end of the table.
  *
- * @param {int} position
- * @returns {void}
- */
-function setElementOnLastPosition(position)
-{
-    "use strict";
-
-    var currentOrder = getCurrentOrder();
-    var length = parseInt(currentOrder.length, 10);
-    var tmpElement = currentOrder[position - 1];
-
-    if (tmpElement.name !== "")
-    {
-        pushAllUp(position, length, currentOrder);
-
-        overrideElement(length, tmpElement);
-    }
-}
-
-/**
- * Sets the current values of a row to another row indicated by the value of the
- * order field
- *
- * @param {int} firstPos
- *
- * @returns  {void}
- */
-function orderWithNumber(firstPos)
-{
-    "use strict";
-
-    var currentOrder = getCurrentOrder(), length = currentOrder.length, tmpElement = currentOrder[firstPos - 1],
-        secondPosOrder = jQuery('#child' + firstPos + 'order'), secondPos = secondPosOrder.val();
-
-    secondPos = parseInt(secondPos);
-
-    if (isNaN(secondPos) === true || secondPos > length || (Number(secondPos) === length && tmpElement.name === ""))
-    {
-        secondPosOrder.val(firstPos);
-        return;
-    }
-
-    if (firstPos < secondPos)
-    {
-        pushAllUp(firstPos, secondPos, currentOrder);
-    }
-    else
-    {
-        pushAllDown(firstPos, secondPos, currentOrder);
-    }
-
-    overrideElement(secondPos, tmpElement);
-}
-
-/**
- * Removes a child row from the display
- *
- * @param {int} rowNumber the number of the row to be deleted
- *
- * @returns  {void}
- */
-function removeRow(rowNumber)
-{
-    "use strict";
-
-    var currentOrder = getCurrentOrder();
-    var length = currentOrder.length;
-
-    pushAllUp(rowNumber, length, currentOrder);
-
-    jQuery('#childRow' + length).remove();
-}
-
-/**
- * Push all Ements up.
- *
- * @param {int} position
- * @param {int} length
- * @param {array} elementArray
- * @returns {void}
- */
-function pushAllUp(position, length, elementArray)
-{
-    "use strict";
-
-    while (position < length)
-    {
-        overrideElement(position, elementArray[position]);
-        position++;
-    }
-}
-
-/**
- * Push all Elements down.
- *
- * @param {int} position
- * @param {int} length
- * @param {array} elementArray
- * @returns {void}
- */
-function pushAllDown(position, length, elementArray)
-{
-    "use strict";
-
-    while (position > length)
-    {
-        var newOrder = position;
-        var oldIndex = position - 2;
-
-        overrideElement(newOrder, elementArray[oldIndex]);
-        position--;
-    }
-}
-
-/**
- * Retreives an array of objects mapping form values
- *
- * @returns {array}
- */
-function getCurrentOrder()
-{
-    "use strict";
-    var currentOrder = [];
-
-    // The header row needs to be removed from the count
-    var rowCount = jQuery('#childList').find('tr').length - 1;
-    for (var i = 0; i < rowCount; i++)
-    {
-        var order = i + 1;
-        currentOrder[i] = {};
-        currentOrder[i].class = jQuery('#child' + order + 'icon').attr('class').trim();
-        currentOrder[i].name = jQuery('#child' + order + 'name').text().trim();
-        currentOrder[i].id = jQuery('#child' + order).val();
-        currentOrder[i].link = jQuery('#child' + order + 'link').attr('href');
-        currentOrder[i].order = jQuery('#child' + order + 'order').val();
-    }
-    return currentOrder;
-}
-
-/**
- * Override a DOM-Element with the ID '#child'+newOrder.
- *
- * @param {int} newOrder
- * @param {Object} oldElement
- * @returns {void}
- */
-function overrideElement(newOrder, oldElement)
-{
-    "use strict";
-
-    jQuery('#child' + newOrder + 'icon').attr('class', (oldElement.class));
-    jQuery('#child' + newOrder + 'name').text(oldElement.name);
-    jQuery('#child' + newOrder).val(oldElement.id);
-    jQuery('#child' + newOrder + 'link').attr('href', oldElement.link);
-    jQuery('#child' + newOrder + 'order').val(newOrder);
-}
-
-/**
- * Overrides a DOM-Element with a Dummy-Element.
- *
- * @param {int} position
- * @returns {void}
- */
-function overrideElementWithDummy(position)
-{
-    "use strict";
-
-    jQuery('#child' + position + 'icon').attr('class', '');
-    jQuery('#child' + position + 'name').text('');
-    jQuery('#child' + position).val('');
-    jQuery('#child' + position + 'link').attr('href', "");
-    jQuery('#child' + position + 'order').val(position);
-}
-
-/**
- * Add a new row on the end of the table.
- *
- * @param {int} lastPosition
- * @param {string} tableID
+ * @param {int} lastPosition the index of the last child table element
+ * @param {string} tableID   the html id attribute of the table
  * @param {string} resourceID
  * @param {string} resourceName
  * @param {string} resourceType
  *
  * @returns {void}  adds a new row to the end of the table
  */
-function createNewRow(lastPosition, tableID, resourceID = '', resourceName = '', resourceType = '')
+function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceType = '')
 {
-    "use strict";
-    var mID = 0, name = '', icon = '', rawID, link, nextRowClass, nextRowNumber, html, resourceHTML, orderingHTML;
+    let mID = 0,
+        name = '',
+        icon = '',
+        rawID,
+        link,
+        nextRowClass,
+        nextRowNumber,
+        html,
+        resourceHTML,
+        orderingHTML;
 
     if (resourceID !== '')
     {
@@ -351,7 +119,7 @@ function createNewRow(lastPosition, tableID, resourceID = '', resourceName = '',
         }
     }
 
-    nextRowClass = getNextRowClass(lastPosition);
+    nextRowClass = getNewChildClass(lastPosition);
     nextRowNumber = parseInt(lastPosition, 10) + 1;
 
     html = '<tr id="childRow' + nextRowNumber + '" class="' + nextRowClass + '">';
@@ -365,67 +133,318 @@ function createNewRow(lastPosition, tableID, resourceID = '', resourceName = '',
     resourceHTML += '</td>';
 
     orderingHTML = '<td class="child-order">';
-    orderingHTML += '<button class="btn btn-small" onclick="moveUp(' + nextRowNumber + ');" title="Move Up">';
+
+    orderingHTML += '<button class="btn btn-small" onclick="setFirst(' + nextRowNumber + ');" title="';
+    orderingHTML += Joomla.JText._('COM_THM_ORGANIZER_ACTION_MAKE_FIRST') + '">';
+    orderingHTML += '<span class="icon-first"></span>';
+    orderingHTML += '</button>';
+
+    orderingHTML += '<button class="btn btn-small" onclick="moveChildUp(' + nextRowNumber + ');" title="';
+    orderingHTML += Joomla.JText._('JLIB_HTML_MOVE_UP') + '">';
     orderingHTML += '<span class="icon-previous"></span>';
     orderingHTML += '</button>';
-    orderingHTML += '<input type="text" title="Ordering" name="child' + nextRowNumber + 'order" ';
+
+    orderingHTML += '<input type="text" name="child' + nextRowNumber + 'order" ';
     orderingHTML += 'id="child' + nextRowNumber + 'order" size="2" value="' + nextRowNumber + '" class="text-area-order" ';
-    orderingHTML += 'onchange="orderWithNumber(' + nextRowNumber + ');">';
-    orderingHTML += '<button class="btn btn-small" onclick="setEmptyElement(' + nextRowNumber + ');" title="Add Space">';
+    orderingHTML += 'onchange="moveChildToIndex(' + nextRowNumber + ');">';
+
+    orderingHTML += '<button class="btn btn-small" onclick="addBlankChild(' + nextRowNumber + ');" title="';
+    orderingHTML += Joomla.JText._('COM_THM_ORGANIZER_ACTION_ADD_SPACE') + '">';
     orderingHTML += '<span class="icon-add-Space"></span>';
     orderingHTML += '</button>';
-    orderingHTML += '<button class="btn btn-small" onclick="removeRow(' + nextRowNumber + ');" title="Delete">';
+
+    orderingHTML += '<button class="btn btn-small" onclick="trash(' + nextRowNumber + ');" title="';
+    orderingHTML += Joomla.JText._('JTOOLBAR_DELETE') + '">';
     orderingHTML += '<span class="icon-trash"></span>';
     orderingHTML += '</button>';
-    orderingHTML += '<button class="btn btn-small" onclick="moveDown(' + nextRowNumber + ');" title="Move Down">';
+
+    orderingHTML += '<button class="btn btn-small" onclick="moveChildDown(' + nextRowNumber + ');" title="';
+    orderingHTML += Joomla.JText._('JLIB_HTML_MOVE_DOWN') + '">';
     orderingHTML += '<span class="icon-next"></span>';
     orderingHTML += '</button>';
-    orderingHTML += '<button class="btn btn-small" onclick="setElementOnLastPosition(' + nextRowNumber + ');" title="Make Last">';
+
+    orderingHTML += '<button class="btn btn-small" onclick="setLast(' + nextRowNumber + ');" title="';
+    orderingHTML += Joomla.JText._('COM_THM_ORGANIZER_ACTION_MAKE_LAST') + '">';
     orderingHTML += '<span class="icon-last"></span>';
     orderingHTML += '</button>';
+
     orderingHTML += '</td>';
 
     html += resourceHTML + orderingHTML + '</tr>';
-    jQuery(html).appendTo(document.getElementById(tableID).tBodies[0]);
+    jQuery(html).appendTo(document.getElementById('childList').tBodies[0]);
 }
 
-function getNextRowClass(lastPosition)
+/**
+ * Replaces data with empty values for the row at the given position.
+ *
+ * @param {int} position the row position to clear
+ * @returns {void} modifies the dom
+ */
+function clearChildData(position)
 {
-    var nextRowClass, lastRowClass;
-    var row = document.getElementById('childRow' + lastPosition);
-    if (row)
+    jQuery('#child' + position + 'icon').attr('class', '');
+    jQuery('#child' + position + 'name').text('');
+    jQuery('#child' + position).val('');
+    jQuery('#child' + position + 'link').attr('href', "");
+    jQuery('#child' + position + 'order').val(position);
+}
+
+/**
+ * Replaced the data at the new position with the data from the old position.
+ *
+ * @param {int} position the position to whose data will be replaced with cloned data
+ * @param {Object} child the element whose data will be used for cloning
+ * @returns {void} modifies the dom
+ */
+function cloneChild(position, child)
+{
+    jQuery('#child' + position + 'icon').attr('class', (child.class));
+    jQuery('#child' + position + 'name').text(child.name);
+    jQuery('#child' + position).val(child.id);
+    jQuery('#child' + position + 'link').attr('href', child.link);
+    jQuery('#child' + position + 'order').val(position);
+}
+
+/**
+ * Gets the selected items from the list and adds them to the children table.
+ *
+ * @param {string} divID the id of the div
+ * @param {string} type the type of the source
+ * @return {void} modifies the dom
+ */
+function getCheckedItems(divID, type)
+{
+    const iFrame = jQuery('iframe');
+    let children, id, name;
+
+    jQuery(divID + ' input:checked', iFrame.contents()).each(function () {
+        children = getChildren();
+        id = jQuery(this).val() + type;
+        name = jQuery(jQuery(this).parent().parent().children()[1]).html();
+        addChildRow(children.length, id, name, type);
+    });
+}
+
+/**
+ * Retrieves an array of objects mapping current form values
+ *
+ * @returns {array} the map of the current children and their values
+ */
+function getChildren()
+{
+    // -1 Because of the header row.
+    const childCount = jQuery('#childList').find('tr').length - 1;
+    let currentChildren = [],
+        index,
+        order;
+
+    for (index = 0; index < childCount; index++)
     {
-        lastRowClass = row.className;
-        if (lastRowClass === null)
-        {
-            nextRowClass = 'row1';
-        }
-        else if (lastRowClass === 'row0')
-        {
-            nextRowClass = 'row1';
-        }
-        else
-        {
-            nextRowClass = 'row0';
-        }
+        order = index + 1;
+        currentChildren[index] = {};
+        currentChildren[index].class = jQuery('#child' + order + 'icon').attr('class').trim();
+        currentChildren[index].name = jQuery('#child' + order + 'name').text().trim();
+        currentChildren[index].id = jQuery('#child' + order).val();
+        currentChildren[index].link = jQuery('#child' + order + 'link').attr('href');
+        currentChildren[index].order = jQuery('#child' + order + 'order').val();
+    }
+    return currentChildren;
+}
+
+/**
+ * Gets the class name for the row to be added to the table
+ *
+ * @param {int} lastPosition the current index of the last table row
+ */
+function getNewChildClass(lastPosition)
+{
+    const row = document.getElementById('childRow' + lastPosition);
+
+    if (row.length && (row.className === null || row.className === 'row0'))
+    {
+        return 'row1';
+    }
+
+    return 'row0';
+}
+
+/**
+ * Moves the values of the calling row down one row in the children table
+ *
+ * @param {int} currentOrder
+ *
+ * @returns {void}
+ */
+function moveChildDown(position)
+{
+    let children = getChildren(), currentOrder = parseInt(position, 10), current, next;
+
+    // Child is currently the last child or the child is a blank
+    if (currentOrder >= children.length || (children.length === currentOrder + 1 && children[currentOrder - 1].name === ""))
+    {
+        return;
+    }
+
+    current = children[currentOrder - 1];
+    next = children[currentOrder];
+
+    // Set next child to current index
+    cloneChild(currentOrder, next);
+
+    // Set current child to next index
+    cloneChild(currentOrder + 1, current);
+}
+
+/**
+ * Places the current child an explicit position.
+ *
+ * @param {int} currentPosition
+ *
+ * @returns  {void}
+ */
+function moveChildToIndex(currentPosition)
+{
+    let children = getChildren(),
+        length = children.length,
+        child = children[currentPosition - 1],
+        secondPosOrder = jQuery('#child' + currentPosition + 'order'),
+        requestedPosition = secondPosOrder.val();
+
+    requestedPosition = parseInt(requestedPosition, 10);
+
+    if (isNaN(requestedPosition) === true || requestedPosition > length || (Number(requestedPosition) === length && child.name === ""))
+    {
+        secondPosOrder.val(currentPosition);
+        return;
+    }
+
+    if (currentPosition < requestedPosition)
+    {
+        shiftUp(currentPosition, requestedPosition, children);
     }
     else
     {
-        nextRowClass = 'row0';
+        shiftDown(currentPosition, requestedPosition, children);
+    }
+
+    cloneChild(requestedPosition, child);
+}
+
+/**
+ * Moves the values of the calling row up one row in the children table
+ *
+ * @param {int} position
+ *
+ * @returns {void}
+ */
+function moveChildUp(position)
+{
+    let children = getChildren(), currentOrder = Number(position), current, previous;
+
+    // Child is currently the first child or the child is a blank
+    if (currentOrder <= 1 || (children.length === currentOrder && children[currentOrder - 2].name === ""))
+    {
+        return;
+    }
+
+    previous = children[currentOrder - 2];
+    current = children[currentOrder - 1];
+
+    // Set current child to previous index
+    cloneChild(currentOrder - 1, current);
+
+    // Set previous child to current index
+    cloneChild(currentOrder, previous);
+
+}
+
+/**
+ * Moves the child to the first position in the table. Moves down all children which previously were ordered before it.
+ *
+ * @param {int} position the position of the child to be moved
+ * @returns {void} modifies the dom
+ */
+function setFirst(position)
+{
+    const children = getChildren(), child = children[position - 1];
+
+    if (child.name !== "")
+    {
+        shiftDown(position, 1, children);
+
+        cloneChild(1, child);
     }
 }
 
 /**
- *  deactivated forms for choosen
+ * Moves the child to the last position in the table. Moves up all children subsequent to the child being moved.
+ *
+ * @param {int} position the position of the child to be moved
+ * @returns {void} modifies the dom
  */
-window.onload = function () {
-    var forms = document.getElementsByTagName("form"),
-        controlGroups, childrenCG;
-    for (var i = 0; i < forms.length; i++)
+function setLast(position)
+{
+    const children = getChildren(), child = children[position - 1];
+
+    if (child.name !== "")
     {
-        forms[i].onsubmit = function () {
-            return false
-        };
+        shiftUp(position, children.length, children);
+
+        cloneChild(children.length, child);
     }
-    moveButton();
-};
+}
+
+/**
+ * Shifts all children subsequent to the position down.
+ *
+ * @param {int} position the highest child position which will be replaced
+ * @param {int} stopPosition the position which defines the end of the shift process
+ * @param {array} children the map of the children
+ * @returns {void} modifies the dom
+ */
+function shiftDown(position, stopPosition, children)
+{
+    let newPosition, sourcePosition;
+
+    while (position > stopPosition)
+    {
+        newPosition = position;
+        sourcePosition = position - 2;
+
+        cloneChild(newPosition, children[sourcePosition]);
+        position--;
+    }
+}
+
+/**
+ * Shift all children subsequent to the position up one.
+ *
+ * @param {int} position the lowest child position which will be replaced
+ * @param {int} stopPosition the position which defines the end of the shift process
+ * @param {array} children the map of the children
+ * @returns {void} modifies the dom
+ */
+function shiftUp(position, stopPosition, children)
+{
+    while (position < stopPosition)
+    {
+        cloneChild(position, children[position]);
+        position++;
+    }
+}
+
+/**
+ * Removes a child element from the form.
+ *
+ * @param {int} position the current position of the child to be removed
+ * @returns  {void} modifies the dom
+ */
+function trash(position)
+{
+    let children = getChildren(),
+        length = children.length;
+
+    shiftUp(position, length, children);
+
+    jQuery('#childRow' + length).remove();
+}
