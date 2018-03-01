@@ -45,6 +45,29 @@ class THM_OrganizerHelperPlanning_Periods
     }
 
     /**
+     * Checks for the planning period end date for a given planning period id
+     *
+     * @param string $ppID the planning period's id
+     *
+     * @return mixed  string the end date of the planning period could be resolved, otherwise null
+     * @throws Exception
+     */
+    public static function getEndDate($ppID)
+    {
+        $ppTable = JTable::getInstance('planning_periods', 'thm_organizerTable');
+
+        try {
+            $success = $ppTable->load($ppID);
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
+            return null;
+        }
+
+        return $success ? $ppTable->endDate : null;
+    }
+
+    /**
      * Checks for the planning period entry in the database, creating it as necessary.
      *
      * @param array $data the planning period's data
@@ -98,6 +121,41 @@ class THM_OrganizerHelperPlanning_Periods
         }
 
         return $success ? $ppTable->name : null;
+    }
+
+    /**
+     * Retrieves the ID of the planning period occurring immediately after the reference planning period.
+     *
+     * @param int $currentID the id of the reference planning period
+     *
+     * @return int the id of the subsequent planning period if successful, otherwise 0
+     * @throws Exception
+     */
+    public static function getNextID($currentID = 0)
+    {
+        if (empty($currentID)) {
+            $currentID = self::getCurrentID();
+        }
+
+        $currentEndDate = self::getEndDate($currentID);
+
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('id')
+            ->from('#__thm_organizer_planning_periods')
+            ->where("startDate > '$currentEndDate'")
+            ->order('startDate ASC');
+        $dbo->setQuery($query);
+
+        try {
+            $result = $dbo->loadResult();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+            return 0;
+        }
+
+        return empty($result) ? 0 : $result;
     }
 
     /**

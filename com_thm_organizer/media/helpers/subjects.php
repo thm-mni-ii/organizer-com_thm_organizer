@@ -201,7 +201,7 @@ class THM_OrganizerHelperSubjects
      * @return boolean true if the user is a registered teacher, otherwise false
      * @throws Exception
      */
-    public static function authorized($subjectID = 0)
+    public static function authorized($subjectID)
     {
         $user = JFactory::getUser();
 
@@ -213,18 +213,26 @@ class THM_OrganizerHelperSubjects
             return true;
         }
 
+        require_once 'component.php';
+
+        if (empty($subjectID) or !THM_OrganizerHelperComponent::checkAssetInitialization('subject', $subjectID)) {
+            return THM_OrganizerHelperComponent::allowDeptResourceCreate('subject');
+        }
+
+        $allowedByGroup = THM_OrganizerHelperComponent::allowResourceManage('subject', $subjectID, 'manage');
+
+        if ($allowedByGroup) {
+            return true;
+        }
+
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select("COUNT(*)")
             ->from('#__thm_organizer_subject_teachers AS st')
             ->innerJoin('#__thm_organizer_teachers AS t ON t.id = st.teacherID')
-            ->where("t.username = '{$user->username}'");
-
-        // The difference between A subject and THE subject
-        if (!empty($subjectID)) {
-            $query->where("st.subjectID = '$subjectID'");
-        }
+            ->where("t.username = '{$user->username}'")
+            ->where("st.subjectID = '$subjectID'");
 
         $dbo->setQuery($query);
 

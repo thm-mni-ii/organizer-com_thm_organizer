@@ -24,7 +24,23 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
     {
         parent::__construct($lessonID);
 
-        $this->render();
+        $this->document->SetTitle(
+            $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") . ' - ' .
+            $this->courseData["name"] . ' - ' . $this->courseData["c_start"]
+        );
+        $this->setHeader();
+
+        $this->document->AddPage();
+
+        $this->createParticipantTable();
+
+        $filename = urldecode($this->courseData["name"] . '_' . $this->courseData["c_start"])
+            . '_' .
+            $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") .
+            '.pdf';
+        $this->document->Output($filename, 'I');
+
+        ob_flush();
     }
 
     /**
@@ -94,7 +110,7 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
             }
         }
 
-        // Create empty cells for 25% more participants and rount to a multiple of 6 due to the passports nature
+        // Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
         $emptyCells = (intval((sizeof($participantData) * 1.25) / 6) + 1) * 6;
         for ($id = sizeof($participantData); $id < $emptyCells; ++$id) {
             $cells = [$id + 1, '', '', '', '', ''];
@@ -116,32 +132,5 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
         }
 
         $this->document->Cell(array_sum($widths), 0, '', 'T');
-    }
-
-
-    /**
-     * Output pdf with a Table containing all participants and places for additional participants
-     *
-     * @return void
-     */
-    protected function render()
-    {
-        $this->document->SetTitle(
-            $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") . ' - ' .
-            $this->courseData["name"] . ' - ' . $this->courseData["c_start"]
-        );
-        $this->setHeader();
-
-        $this->document->AddPage();
-
-        $this->createParticipantTable();
-
-        $filename = urldecode($this->courseData["name"] . '_' . $this->courseData["c_start"])
-            . '_' .
-            $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") .
-            '.pdf';
-        $this->document->Output($filename, 'I');
-
-        ob_flush();
     }
 }

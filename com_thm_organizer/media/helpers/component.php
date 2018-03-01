@@ -315,12 +315,11 @@ class THM_OrganizerHelperComponent
             'department_edit',
             'pool_edit',
             'program_edit',
-            'schedule_edit',
-            'subject_edit'
+            'schedule_edit'
         ];
 
         if (in_array($name, $departmentAssetViews)) {
-            $resource = str_replace('_edit', '', $name);;
+            $resource = str_replace('_edit', '', $name);
 
             if (!empty($itemID)) {
                 $initialized = self::checkAssetInitialization($resource, $itemID);
@@ -335,6 +334,11 @@ class THM_OrganizerHelperComponent
             }
 
             return self::allowDeptResourceCreate($resource);
+        }
+
+        if ($name == 'subject_edit') {
+            require_once 'subjects.php';
+            return THM_OrganizerHelperSubjects::authorized($itemID);
         }
 
         if ($name == 'plan_pool_edit') {
@@ -433,7 +437,7 @@ class THM_OrganizerHelperComponent
 
         $handler = explode(".", JFactory::getApplication()->input->getCmd('task', ''));
         if (count($handler) == 2) {
-            list($controller, $task) = $handler;
+            $task = $handler[1];
         } else {
             $task = $handler[0];
         }

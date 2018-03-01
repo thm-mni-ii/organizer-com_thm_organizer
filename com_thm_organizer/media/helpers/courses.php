@@ -223,7 +223,7 @@ class THM_OrganizerHelperCourses
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select('pp.name as planningPeriodName')
+        $query->select('pp.name as planningPeriodName, pp.id as planningPeriodID')
             ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID, l.registration_type')
             ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
             ->select('s.campusID AS abstractCampusID');
