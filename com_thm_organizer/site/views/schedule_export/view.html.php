@@ -66,6 +66,19 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     }
 
     /**
+     * Checks whether the view has been set for seeing impaired users.
+     *
+     * @return bool true if the view has been configured for seeing impaired users, otherwise false
+     * @throws Exception
+     */
+    public function isSeeingImpaired()
+    {
+        $app            = JFactory::getApplication();
+        $activeMenu     = (!empty($app->getMenu()) and !empty($app->getMenu()->getActive()));
+        return (bool)($activeMenu and $app->getMenu()->getActive()->params->get('si', false));
+    }
+
+    /**
      * Modifies document variables and adds links to external files
      *
      * @return void
@@ -73,9 +86,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      */
     private function modifyDocument()
     {
-        $app            = JFactory::getApplication();
-        $activeMenu     = (!empty($app->getMenu()) and !empty($app->getMenu()->getActive()));
-        $seeingImpaired = (bool)($activeMenu and $app->getMenu()->getActive()->params->get('si', false));
+        $seeingImpaired = $this->isSeeingImpaired();
 
         if (empty($seeingImpaired)) {
             JHtml::_('bootstrap.framework');
@@ -158,8 +169,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     {
         $this->fields['formatSettings'] = [];
         $attribs                        = [];
-        $seeingImpaired                 = (bool)JFactory::getApplication()->getMenu()->getActive()->params->get('si',
-            false);
+
+        $seeingImpaired = $this->isSeeingImpaired();
 
         $formatAttribs             = $attribs;
         $formatAttribs['onChange'] = 'setFormat();';
