@@ -73,9 +73,12 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      */
     public function isSeeingImpaired()
     {
-        $app            = JFactory::getApplication();
-        $activeMenu     = (!empty($app->getMenu()) and !empty($app->getMenu()->getActive()));
-        return (bool)($activeMenu and $app->getMenu()->getActive()->params->get('si', false));
+        $app = JFactory::getApplication();
+        if (empty($app->getMenu()) OR empty($app->getMenu()->getActive())) {
+            return false;
+        }
+
+        return (int)$app->getMenu()->getActive()->params->get('si', false);
     }
 
     /**

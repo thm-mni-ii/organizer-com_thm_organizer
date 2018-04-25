@@ -64,20 +64,22 @@ class THM_OrganizerHelperLanguage
      */
     public static function getShortTag()
     {
-        $fullTag    = JFactory::getLanguage()->getTag();
-        $defaultTag = explode('-', $fullTag)[0];
-
         $app          = JFactory::getApplication();
         $requestedTag = $app->input->get('languageTag');
-        $requestedTag = empty($requestedTag) ? $defaultTag : $requestedTag;
 
-        if (empty($app->getMenu()) or empty($app->getMenu()->getActive())) {
+        if (!empty($requestedTag)) {
             return $requestedTag;
         }
 
-        $menuTag = $app->getMenu()->getActive()->params->get('initialLanguage');
+        $fullTag    = JFactory::getLanguage()->getTag();
+        $defaultTag = explode('-', $fullTag)[0];
+        $menu       = $app->getMenu();
 
-        return empty($menuTag) ? $requestedTag : $menuTag;
+        if (empty($menu) or empty($menu->getActive()) or empty($menu->getActive()->params->get('initialLanguage'))) {
+            return $defaultTag;
+        }
+
+        return $menu->getActive()->params->get('initialLanguage');
     }
 
     /**
