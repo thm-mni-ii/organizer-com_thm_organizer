@@ -10,11 +10,13 @@
         <field name="buildingID" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_buildings"
                label="COM_THM_ORGANIZER_BUILDING" onchange="this.form.submit();">
             <option value="">JALL</option>
+            <option value="-1">JNONE</option>
         </field>
         <field name="typeID" type="genericlist" valuecolumn="t.id" textcolumn="name" localized="true"
                table="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON r.typeID = t.id"
                label="COM_THM_ORGANIZER_TYPE" onchange="this.form.submit();">
             <option value="">JALL</option>
+            <option value="-1">JNONE</option>
         </field>
     </fields>
     <fields name="list">

@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 
+require_once 'buildings.php';
 require_once 'departments.php';
 require_once 'language.php';
 
@@ -29,6 +30,22 @@ class THM_OrganizerHelperRooms
      */
     public static function getID($gpuntisID, $data)
     {
+        $buildingName = '';
+
+        $params        = JComponentHelper::getParams('com_thm_organizer');
+        $buildingREGEX = $params->get('buildingRegex');
+        $roomREGEX     = $params->get('roomRegex');
+
+        if (!empty($buildingREGEX) and !empty($roomREGEX) and !empty($data->name)) {
+            $rMatchFound = preg_match("/$roomREGEX/", $data->name, $rMatches);
+            if ($rMatchFound) {
+                $bMatchFound = preg_match("/$buildingREGEX/", $rMatches[0], $bMatches);
+                if ($bMatchFound) {
+                    $buildingName = $bMatches[0];
+                }
+            }
+        }
+
         $roomTable    = JTable::getInstance('rooms', 'thm_organizerTable');
         $loadCriteria = ['gpuntisID' => $gpuntisID];
 
@@ -40,13 +57,22 @@ class THM_OrganizerHelperRooms
             return null;
         }
 
+        $data->buildingID = empty($buildingName) ? null : THM_OrganizerHelperBuildings::getID($buildingName);
+
+        // Room entry already exists
         if ($success) {
+
+            // Fill empty values, but do not overwrite existing
+            foreach ($data as $key => $value) {
+                if (property_exists($roomTable, $key) and empty($roomTable->$key) and !empty($value)) {
+                    $roomTable->set($key, $value);
+                }
+            }
+            $roomTable->store();
+
             return $roomTable->id;
-        } elseif (empty($data)) {
-            return null;
         }
 
-        // Entry not found
         $success = $roomTable->save($data);
 
         return $success ? $roomTable->id : null;

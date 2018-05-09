@@ -94,7 +94,8 @@ class THM_OrganizerHelperXMLRooms
             return;
         }
 
-        $gpuntisID                                                = str_replace('RM_', '', $gpuntisID);
+        $gpuntisID = strtoupper(str_replace('RM_', '', $gpuntisID));
+
         $scheduleModel->newSchedule->rooms->$gpuntisID            = new stdClass;
         $scheduleModel->newSchedule->rooms->$gpuntisID->name      = $gpuntisID;
         $scheduleModel->newSchedule->rooms->$gpuntisID->gpuntisID = $gpuntisID;
