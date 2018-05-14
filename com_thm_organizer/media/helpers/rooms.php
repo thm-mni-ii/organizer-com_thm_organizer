@@ -200,11 +200,17 @@ class THM_OrganizerHelperRooms
      */
     public static function getRooms()
     {
-        $shortTag   = THM_OrganizerHelperLanguage::getShortTag();
-        $input      = JFactory::getApplication()->input;
-        $formData   = $input->get('jform', [], 'array');
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $app      = JFactory::getApplication();
+        $input    = $app->input;
+        $formData = $input->get('jform', [], 'array');
+
+        $menuCampus    = (empty($app->getMenu()) or empty($app->getMenu()->getActive())) ?
+            0 : $app->getMenu()->getActive()->params->get('campusID', 0);
+        $defaultCampus = empty($input->getInt('campusID')) ? $menuCampus : $input->getInt('campusID');
+
         $buildingID = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID   = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
+        $campusID   = (empty($formData) or empty($formData['campusID'])) ? $defaultCampus : (int)$formData['campusID'];
         $typeIDs    = (empty($formData) or empty($formData['types'])) ? [$input->getInt('typeID')] : $formData['types'];
         $roomIDs    = (empty($formData) or empty($formData['rooms'])) ? [$input->getInt('roomID')] : $formData['rooms'];
 
