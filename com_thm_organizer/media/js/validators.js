@@ -6,12 +6,6 @@ jQuery(document).ready(function () {
         }
     );
 
-    document.formvalidator.setHandler('german-alpha',
-        function (value) {
-            return (/^([a-zA-ZäöüÄÖÜß]+ *)+$/).test(value);
-        }
-    );
-
     document.formvalidator.setHandler('german-address',
         function (value) {
             return (/^([a-zA-ZäöüÄÖÜß0-9\-]+ *)+$/).test(value);
