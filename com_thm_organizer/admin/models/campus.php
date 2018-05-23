@@ -24,14 +24,19 @@ class THM_OrganizerModelCampus extends JModelLegacy
      */
     public function save()
     {
-        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
-        $table = JTable::getInstance('campuses', 'thm_organizerTable');
+        $data      = JFactory::getApplication()->input->get('jform', [], 'array');
+        $dataTable = JTable::getInstance('campuses', 'thm_organizerTable');
 
-        if (!empty($data['isCity'])) {
-
+        // Ensure maximal depth of two
+        if (!empty($data['parentID'])) {
+            $parentTable = JTable::getInstance('campuses', 'thm_organizerTable');
+            $parentTable->load($data['parentID']);
+            if (!empty($parentTable->parentID)) {
+                return false;
+            }
         }
 
-        return $table->save($data);
+        return $dataTable->save($data);
     }
 
     /**

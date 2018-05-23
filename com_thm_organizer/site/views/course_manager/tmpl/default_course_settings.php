@@ -9,10 +9,11 @@
  * @link        www.thm.de
  */
 ?>
-<form action="index.php?task=course.save" method="post" id="adminForm" name="adminForm">
+<form action="" method="post" id="adminForm" name="adminForm">
     <input type="hidden" name="option" value="com_thm_organizer"/>
     <?php echo $this->form->getField('id')->input; ?>
     <input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
+    <input type="hidden" name="task" value="course.save"/>
     <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
     <div class="section">
         <div class="left form-header">

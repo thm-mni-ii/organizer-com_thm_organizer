@@ -25,11 +25,11 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     {
         if (empty($this->item->id)) {
             $titleText  = JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_NEW_VIEW_TITLE');
-            $applyText  = JText::_('COM_THM_ORGANIZER_ACTION_APPLY_NEW');
+            $applyText  = JText::_('COM_THM_ORGANIZER_CREATE');
             $cancelText = JText::_('JTOOLBAR_CANCEL');
         } else {
             $titleText  = JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_EDIT_VIEW_TITLE');
-            $applyText  = JText::_('COM_THM_ORGANIZER_ACTION_APPLY_EDIT');
+            $applyText  = JText::_('COM_THM_ORGANIZER_APPLY');
             $cancelText = JText::_('JTOOLBAR_CLOSE');
         }
 

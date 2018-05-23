@@ -88,8 +88,12 @@ class THM_OrganizerHelperCourses
     {
         $course = self::getCourse($courseID);
 
-        // Should not occur.
         if (empty($course)) {
+            return false;
+        }
+
+        $open = self::isRegistrationOpen($courseID);
+        if (empty($open)) {
             return false;
         }
 
@@ -127,10 +131,9 @@ class THM_OrganizerHelperCourses
         $shortTag        = THM_OrganizerHelperLanguage::getShortTag();
         $menuID          = JFactory::getApplication()->input->getInt('Itemid');
         $pathPrefix      = "index.php?option=com_thm_organizer";
+        $managerURL      = "{$pathPrefix}&view=course_manager&languageTag=$shortTag";
         $registrationURL = "$pathPrefix&task=$view.register&languageTag=$shortTag";
         $registrationURL .= $view == 'subject' ? '&id=' . JFactory::getApplication()->input->getInt('id', 0) : "";
-        $manage          = '<span class="icon-cogs"></span>' . $lang->_("COM_THM_ORGANIZER_MANAGE");
-        $managerURL      = "{$pathPrefix}&view=course_manager&languageTag=$shortTag";
 
         if (!empty($menuID)) {
             $managerURL      .= "&Itemid=$menuID";
@@ -141,6 +144,7 @@ class THM_OrganizerHelperCourses
             $lessonURL = "&lessonID=$courseID";
 
             if ($authorized) {
+                $manage       = '<span class="icon-cogs"></span>' . $lang->_("COM_THM_ORGANIZER_MANAGE");
                 $managerRoute = JRoute::_($managerURL . $lessonURL);
                 $register     = "<a class='btn' href='$managerRoute'>$manage</a>";
             } else {
@@ -150,7 +154,6 @@ class THM_OrganizerHelperCourses
                     $register = '';
                 } else {
                     $registerRoute = JRoute::_($registrationURL . $lessonURL);
-                    $disabled      = self::isRegistrationOpen($courseID) ? '' : 'disabled';
 
                     if (!empty($regState)) {
                         $registerText = '<span class="icon-out-2"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_DEREGISTER');
@@ -158,7 +161,7 @@ class THM_OrganizerHelperCourses
                         $registerText = '<span class="icon-apply"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_REGISTER');
                     }
 
-                    $register = "<a class='btn $disabled' href='$registerRoute' type='button'>$registerText</a>";
+                    $register = "<a class='btn href='$registerRoute' type='button'>$registerText</a>";
                 }
             }
         } else {
@@ -224,7 +227,7 @@ class THM_OrganizerHelperCourses
         $query = $dbo->getQuery(true);
 
         $query->select('pp.name as planningPeriodName, pp.id as planningPeriodID')
-            ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID, l.registration_type')
+            ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID, l.registration_type, l.deadline')
             ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
             ->select('s.campusID AS abstractCampusID');
 
@@ -246,6 +249,10 @@ class THM_OrganizerHelperCourses
             return [];
         }
 
+        if (empty($courseData['deadline'])) {
+            $courseData['deadline'] = JComponentHelper::getParams('com_thm_organizer')->get('deadline', 5);
+        }
+
         return empty($courseData) ? [] : $courseData;
     }
 
@@ -265,8 +272,8 @@ class THM_OrganizerHelperCourses
 
         if (!empty($dates)) {
             $dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-            $start      = JHtml::_('date', $dates[0]["schedule_date"], $dateFormat);
-            $end        = JHtml::_('date', end($dates)["schedule_date"], $dateFormat);
+            $start      = JHtml::_('date', $dates[0], $dateFormat);
+            $end        = JHtml::_('date', end($dates), $dateFormat);
 
             return "$start - $end";
         }
@@ -293,7 +300,7 @@ class THM_OrganizerHelperCourses
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select('*');
+        $query->select('DISTINCT schedule_date');
         $query->from('#__thm_organizer_lessons AS l');
         $query->leftJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id');
         $query->where("l.id = '$courseID'");
@@ -302,7 +309,7 @@ class THM_OrganizerHelperCourses
         $dbo->setQuery($query);
 
         try {
-            $dates = $dbo->loadAssocList();
+            $dates = $dbo->loadColumn();
         } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
@@ -657,12 +664,17 @@ class THM_OrganizerHelperCourses
      */
     public static function isRegistrationOpen($courseID = 0)
     {
-        $dates    = self::getDates($courseID);
-        $now      = new DateTime;
-        $deadline = JComponentHelper::getParams('com_thm_organizer')->get('deadline', '5');
-        $now->add(new DateInterval("P{$deadline}D"));
+        $dates = self::getDates($courseID);
+        if (empty($dates)) {
+            return false;
+        }
 
-        return sizeof($dates) > 0 && new DateTime($dates[0]["schedule_date"]) > $now;
+        $startDate    = new DateTime($dates[0]);
+        $deadline     = self::getCourse($courseID)['deadline'];
+        $adjustedDate = new DateTime;
+        $adjustedDate->add(new DateInterval("P{$deadline}D"));
+
+        return $startDate > $adjustedDate;
     }
 
     /**

@@ -29,13 +29,17 @@ class THM_OrganizerModelCourse_List extends JModelList
         $maxValues = [];
 
         foreach ($courses as $index => &$course) {
-            if ($this->state->filter_status == 'current') {
-                if (isset($maxValues[$course->subjectID])) {
-                    if ($maxValues[$course->subjectID]['start'] > $course->start) {
+
+            $campusID = empty($course->campusID) ? $course->abstractCampusID : $course->campusID;
+
+            if ($this->state->get('status') == 'current') {
+
+                if (isset($maxValues[$course->subjectID]) and isset($maxValues[$course->subjectID][$campusID])) {
+                    if ($maxValues[$course->subjectID][$campusID]['start'] > $course->start) {
                         unset($courses[$index]);
                         continue;
                     } else {
-                        $oldIndex = $maxValues[$course->subjectID]['index'];
+                        $oldIndex = $maxValues[$course->subjectID][$campusID]['index'];
                         unset($courses[$oldIndex]);
                     }
                 }
@@ -43,7 +47,7 @@ class THM_OrganizerModelCourse_List extends JModelList
 
             $course->campus = THM_OrganizerHelperCourses::getCampus($course);
 
-            $maxValues[$course->subjectID] = ['start' => $course->start, 'index' => $index];
+            $maxValues[$course->subjectID][$campusID] = ['start' => $course->start, 'index' => $index];
         }
 
         return $courses;
@@ -77,7 +81,7 @@ class THM_OrganizerModelCourse_List extends JModelList
         $courseQuery->where("is_prep_course = '1' and ls.subjectID is not null and sq.start is not null");
         $courseQuery->order("end DESC, name ASC");
 
-        switch ($this->state->filter_status) {
+        switch ($this->state->status) {
             case "pending":
                 $courseQuery->where("sq.expired = '0'");
                 break;
@@ -86,16 +90,22 @@ class THM_OrganizerModelCourse_List extends JModelList
                 break;
         }
 
-        if (!empty($this->state->filter_subject)) {
-            $courseQuery->where("s.id = '{$this->state->filter_subject}'");
+        if (!empty($this->state->subjectID)) {
+            $courseQuery->where("s.id = '{$this->state->subjectID}'");
         }
 
-        if (!empty($this->state->filter_campus)) {
-            $campusID = $this->state->filter_campus;
-            $courseQuery->leftJoin('#__thm_organizer_campuses as c on s.campusID = c.id');
-            $campusConditions = "(l.campusID = '$campusID' OR (l.campusID IS NULL AND ";
-            $campusConditions .= "(c.id = '$campusID' OR c.parentID = '$campusID' OR s.campusID IS NULL)))";
-            $courseQuery->where($campusConditions);
+        if (!empty($this->state->campusID)) {
+            $campusID = $this->state->campusID;
+            $courseQuery->leftJoin('#__thm_organizer_campuses as lc on l.campusID = lc.id');
+            $courseQuery->leftJoin('#__thm_organizer_campuses as sc on s.campusID = sc.id');
+
+            // lesson has a specific campus id
+            $conditions = "(lc.id = '$campusID' OR  lc.parentID = '$campusID' OR ";
+
+            // lesson has no specific campus id, but subject does
+            $conditions .= "(l.campusID = null AND (sc.id = '$campusID' OR  sc.parentID = '$campusID')))";
+
+            $courseQuery->where($conditions);
         }
 
         return $courseQuery;
@@ -112,27 +122,28 @@ class THM_OrganizerModelCourse_List extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
+        $app      = JFactory::getApplication();
+        $formData = $app->input->get('jform', [], 'array');
 
-        $menu = JFactory::getApplication()->getMenu()->getActive();
+        if (empty($formData)) {
+            $menuDefaults = (!empty($app->getMenu()) and !empty($app->getMenu()->getActive()));
 
-        if (empty($menu)) {
-            $defaultCampusID = 0;
-            $campusID        = !isset($formData["filter_campus"]) ? $defaultCampusID : $formData["filter_campus"];
-            $showPrepCourses = 1;
+            if ($menuDefaults) {
+                $params   = $app->getMenu()->getActive()->getParams();
+                $campusID = $params->get('campusID', 0);
+            } else {
+                $campusID = 0;
+            }
+            $status    = 'current';
+            $subjectID = 0;
         } else {
-            $defaultCampusID = $menu->params->get('campusID', 0);
-            $campusID        = !isset($formData["filter_campus"]) ? $defaultCampusID : $formData["filter_campus"];
-            $showPrepCourses = $menu->params->get('show_prep_courses', 1);
+            $campusID  = $formData['campusID'];
+            $status    = empty($formData['status']) ? 'current' : $formData['status'];
+            $subjectID = empty($formData['subjectID']) ? 0 : $formData['subjectID'];
         }
 
-        $this->state->set('filter_campus', $campusID);
-        $this->state->set('filter_prep_courses', $showPrepCourses);
-
-        $status = empty($formData["filter_status"]) ? 'current' : $formData["filter_status"];
-        $this->state->set('filter_status', $status);
-
-        $subject = empty($formData["filter_subject"]) ? 0 : (int)$formData["filter_subject"];
-        $this->state->set('filter_subject', $subject);
+        $this->setState('campusID', $campusID);
+        $this->setState('status', $status);
+        $this->setState('subjectID', $subjectID);
     }
 }

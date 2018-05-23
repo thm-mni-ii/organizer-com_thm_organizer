@@ -75,16 +75,16 @@ if (!empty($menuID)):
         <form action="<?php echo $action; ?>"
               method="post" name="adminForm" id="adminForm">
             <div class="filter-item short-item">
-                <?php echo $this->filters['filter_campus']; ?>
+                <?php echo $this->filters['campusID']; ?>
             </div>
-            <?php if (!empty($this->filters['filter_subject'])): ?>
+            <?php if (!empty($this->filters['subjectID'])): ?>
                 <div class="filter-item short-item">
-                    <?php echo $this->filters['filter_subject']; ?>
+                    <?php echo $this->filters['subjectID']; ?>
                 </div>
             <?php endif; ?>
-            <?php if (!empty($this->filters['filter_status'])): ?>
+            <?php if (!empty($this->filters['status'])): ?>
                 <div class="filter-item short-item">
-                    <?php echo $this->filters['filter_status']; ?>
+                    <?php echo $this->filters['status']; ?>
                 </div>
             <?php endif; ?>
             <input type="hidden" name="languageTag" value="<?php echo $this->shortTag; ?>"/>

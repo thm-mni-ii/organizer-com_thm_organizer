@@ -7,6 +7,8 @@
         </field>
         <field name="max_participants" type="integer" default="300" label="COM_THM_ORGANIZER_MAX_PARTICIPANTS"
                description="COM_THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
+        <field name="deadline" type="integer" default="5" label="COM_THM_ORGANIZER_DEADLINE"
+               description="COM_THM_ORGANIZER_DEADLINE_DESC" first="1" last="30" step="1"/>
     </fieldset>
     <fieldset name="circular">
         <field name="includeWaitList" type="list" class="chzn-color-state" label="" default="0">

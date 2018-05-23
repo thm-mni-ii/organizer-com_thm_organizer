@@ -197,7 +197,7 @@ class JFormFieldGenericList extends JFormFieldList
             return;
         }
         $valueParameters     = explode(',', $valueParameter);
-        $componentParameters = JComponentHelper::getParams(JFactory::getApplication()->input->get('option'));
+        $componentParameters = JComponentHelper::getParams('com_thm_organizer');
         foreach ($valueParameters as $parameter) {
             $componentParameter = $componentParameters->get($parameter);
             if (empty($componentParameter)) {

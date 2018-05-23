@@ -66,6 +66,9 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $this->form->setValue('id', null, $this->course['id']);
         $this->dateText = THM_OrganizerHelperCourses::getDateDisplay();
 
+        $this->course['campus'] = THM_OrganizerHelperCourses::getCampus($this->course);
+        $this->form->setValue('campusID', null, $this->course['campus']['id']);
+
         $allowedParticipants = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
         $this->form->setValue('max_participants', null, $allowedParticipants);
         $accepted           = count(THM_OrganizerHelperCourses::getParticipants($courseID, 1));
@@ -73,13 +76,12 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $capacityText       = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
         $this->capacityText = sprintf($capacityText, $accepted, $allowedParticipants, $waiting);
 
-        $this->course['campus'] = THM_OrganizerHelperCourses::getCampus($this->course);
-        $this->form->setValue('campusID', null, $this->course['campus']['id']);
-        THM_OrganizerHelperComponent::addMenuParameters($this);
+        $this->form->setValue('deadline', null, $this->course['deadline']);
 
         $params                 = ['view' => 'course_manager', 'id' => $courseID];
         $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
         $this->modifyDocument();
+        THM_OrganizerHelperComponent::addMenuParameters($this);
 
         parent::display($tpl);
     }

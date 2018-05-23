@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar` (
   `endTime`       TIME                      DEFAULT NULL,
   `lessonID`      INT(11) UNSIGNED NOT NULL,
   `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
-  `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `lessonID` (`lessonID`)
 )
@@ -179,7 +180,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   `departmentID`      INT(11) UNSIGNED          DEFAULT NULL,
   `planningPeriodID`  INT(11) UNSIGNED          DEFAULT NULL,
   `campusID`          INT(11) UNSIGNED          DEFAULT NULL,
-  `modified`          TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified`          TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
+  `deadline`          INT(2) UNSIGNED           DEFAULT NULL
+  COMMENT 'The deadline in days for registration before the course starts.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),
   KEY `methodID` (`methodID`),
@@ -195,7 +199,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_configurations` (
   `lessonID`      INT(11) UNSIGNED NOT NULL,
   `configuration` TEXT             NOT NULL
   COMMENT 'A configuration of teachers and rooms for a lesson, inclusive of their delta status.',
-  `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `lessonID` (`lessonID`)
 )
@@ -209,7 +214,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_pools` (
   `poolID`    INT(11) UNSIGNED NOT NULL,
   `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
   COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `subjectID` (`subjectID`),
   KEY `poolID` (`poolID`)
@@ -224,7 +230,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_subjects` (
   `subjectID` INT(11) UNSIGNED NOT NULL,
   `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
   COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `lessonID` (`lessonID`),
   KEY `subjectID` (`subjectID`)
@@ -239,7 +246,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
   `teacherID` INT(11) UNSIGNED NOT NULL,
   `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
   COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `subjectID` (`subjectID`),
   KEY `teacherID` (`teacherID`)
