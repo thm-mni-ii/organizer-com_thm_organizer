@@ -38,8 +38,8 @@ abstract class THM_OrganizerTemplatePC_Export
         $course       = THM_OrganizerHelperCourses::getCourse($lessonID);
         $dates        = THM_OrganizerHelperCourses::getDates($lessonID);
         $max_part     = empty($course->lessonP) ? $course["subjectP"] : $course["lessonP"];
-        $start        = explode("-", $dates[0]["schedule_date"]);
-        $finish       = explode("-", end($dates)["schedule_date"]);
+        $start        = explode("-", $dates[0]);
+        $finish       = explode("-", end($dates));
         $participants = THM_OrganizerHelperCourses::getFullParticipantData($lessonID);
 
         $this->courseData = [

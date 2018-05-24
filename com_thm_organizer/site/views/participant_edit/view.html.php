@@ -50,8 +50,8 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
 
         if (!empty($this->course)) {
             $dates                     = THM_OrganizerHelperCourses::getDates();
-            $this->course['startDate'] = THM_OrganizerHelperComponent::formatDate($dates[0]['schedule_date']);
-            $this->course['endDate']   = THM_OrganizerHelperComponent::formatDate(end($dates)['schedule_date']);
+            $this->course['startDate'] = THM_OrganizerHelperComponent::formatDate($dates[0]);
+            $this->course['endDate']   = THM_OrganizerHelperComponent::formatDate(end($dates));
             $this->course['open']      = THM_OrganizerHelperCourses::isRegistrationOpen();
         }
 
