@@ -32,6 +32,10 @@ a [class^="icon-"], a [class*=" icon-"] {
     float: right;
 }
 
+.popover span.si-title {
+    margin-left: .5rem;
+}
+
 .course-manager-view button, .course-manager-view .btn {
     background-color: white;
     font-size: .9rem;
@@ -61,6 +65,10 @@ a [class^="icon-"], a [class*=" icon-"] {
 
 .course-manager-view form {
     margin-bottom: 0;
+}
+
+.course-manager-view span.si-title {
+    font-size: 0;
 }
 
 .course-manager-view .section .control-group, .course-manager-view .section .control-label, .course-manager-view .section .controls {

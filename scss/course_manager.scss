@@ -7,6 +7,10 @@
   float: right;
 }
 
+.popover span.si-title {
+  margin-left: .5rem;
+}
+
 .course-manager-view {
 
   button, .btn {
@@ -40,6 +44,10 @@
 
   form {
     margin-bottom: 0;
+  }
+
+  span.si-title {
+      font-size: 0;
   }
 
   .section {

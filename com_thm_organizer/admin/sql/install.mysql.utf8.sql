@@ -184,6 +184,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   ON UPDATE CURRENT_TIMESTAMP,
   `deadline`          INT(2) UNSIGNED           DEFAULT NULL
   COMMENT 'The deadline in days for registration before the course starts.',
+  `fee` INT(3) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),
   KEY `methodID` (`methodID`),

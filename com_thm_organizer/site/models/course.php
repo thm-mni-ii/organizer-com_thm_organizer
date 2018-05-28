@@ -150,6 +150,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
         $table->campusID         = $formData['campusID'];
         $table->max_participants = $formData['max_participants'];
         $table->deadline         = $formData['deadline'];
+        $table->fee              = $formData['fee'];
 
         $success = $table->store();
 

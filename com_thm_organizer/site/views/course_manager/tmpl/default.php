@@ -29,7 +29,7 @@ if (!empty($this->menu)) {
 <div class="course-manager-view">
     <h1><?php echo "{$this->lang->_('COM_THM_ORGANIZER_COURSE_MANAGEMENT')}: {$this->course["name"]}"; ?></h1>
     <div class="course-descriptors">
-        <div class="left"><?php echo $this->dateText ?></div>
+        <div class="left"><?php echo $this->course['dateText'] ?></div>
     </div>
     <div class="right">
         <?php if (THM_OrganizerHelperSubjects::authorized($this->course["subjectID"])): ?>

@@ -28,10 +28,6 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 
     public $courseAuth = false;
 
-    public $capacityText;
-
-    public $dateText = "";
-
     public $form;
 
     public $lang;
@@ -39,8 +35,6 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
     public $languageSwitches;
 
     public $menu;
-
-    public $participants;
 
     /**
      * Method to get display
@@ -59,26 +53,34 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
-        $this->course       = THM_OrganizerHelperCourses::getCourse();
-        $courseID           = empty($this->course) ? 0 : $this->course["id"];
-        $this->participants = THM_OrganizerHelperCourses::getParticipants($courseID);
-        $this->form         = $this->get('Form');
-        $this->form->setValue('id', null, $this->course['id']);
-        $this->dateText = THM_OrganizerHelperCourses::getDateDisplay();
+        $this->course                 = THM_OrganizerHelperCourses::getCourse();
+        $courseID                     = empty($this->course) ? 0 : $this->course["id"];
+        $this->course['campus']       = THM_OrganizerHelperCourses::getCampus($this->course);
+        $this->course['participants'] = THM_OrganizerHelperCourses::getParticipants($courseID);
+        $this->course['dateText']     = THM_OrganizerHelperCourses::getDateDisplay();
 
-        $this->course['campus'] = THM_OrganizerHelperCourses::getCampus($this->course);
+        $maxParticipants              = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
+        $accepted                     = count(THM_OrganizerHelperCourses::getParticipants($courseID, 1));
+        $waiting                      = count(THM_OrganizerHelperCourses::getParticipants($courseID, 0));
+        $capacityText                 = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
+        $this->course['capacityText'] = sprintf($capacityText, $accepted, $maxParticipants, $waiting);
+
+        $this->form = $this->get('Form');
+        $this->form->setValue('id', null, $courseID);
+
+        $this->prepareLabel('campusID', 'location');
         $this->form->setValue('campusID', null, $this->course['campus']['id']);
-
-        $allowedParticipants = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
-        $this->form->setValue('max_participants', null, $allowedParticipants);
-        $accepted           = count(THM_OrganizerHelperCourses::getParticipants($courseID, 1));
-        $waiting            = count(THM_OrganizerHelperCourses::getParticipants($courseID, 0));
-        $capacityText       = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
-        $this->capacityText = sprintf($capacityText, $accepted, $allowedParticipants, $waiting);
-
+        $this->prepareLabel('max_participants', 'users');
+        $this->form->setValue('max_participants', null, $maxParticipants);
+        $this->prepareLabel('deadline', 'signup');
         $this->form->setValue('deadline', null, $this->course['deadline']);
+        $this->prepareLabel('fee', 'info-euro');
+        $this->form->setValue('fee', null, $this->course['fee']);
+        $this->translateOptions('includeWaitList');
+        $this->prepareLabel('subject');
+        $this->prepareLabel('text');
 
-        $params                 = ['view' => 'course_manager', 'id' => $courseID];
+        $params                 = ['view' => 'course_manager', 'lessonID' => $courseID];
         $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
         $this->modifyDocument();
         THM_OrganizerHelperComponent::addMenuParameters($this);
@@ -99,5 +101,47 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $document->addScriptDeclaration("var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'");
         $document->addScript(JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
+    }
+
+    /**
+     * Translates form fields, and adds icons to them as requested.
+     *
+     * @param string $field the name of the form field
+     * @param string $icon  the specific icon name to add to the text output
+     *
+     * @return void modifies attributes subordinate to the form variable
+     */
+    private function prepareLabel($field, $icon = '')
+    {
+        $title = $this->lang->_($this->form->getFieldAttribute($field, 'label'));
+
+        if (empty($icon)) {
+            $this->form->setFieldAttribute($field, 'label', $title);
+        } else {
+            $iconHTML  = '<span class="icon-' . $icon . '"></span>';
+            $titleHTML = '<span class="si-title">' . $title . '</span>';
+            $this->form->setFieldAttribute($field, 'label', $iconHTML . $titleHTML);
+        }
+        $description = $this->lang->_($this->form->getFieldAttribute($field, 'description'));
+        $this->form->setFieldAttribute($field, 'description', $description);
+
+    }
+
+    /**
+     * Translates the field options for the given field according to the language selected by the user.
+     *
+     * @param string $fieldName the name of the field
+     *
+     * @return void modifies the form
+     */
+    private function translateOptions($fieldName)
+    {
+        $field = $this->form->getFieldXML($fieldName);
+        $index = 0;
+        foreach ($field->option as $option) {
+            $field->option[$index] = $this->lang->_($option[0]);
+            $index++;
+        }
+        $this->form->setField($field, null, true);
     }
 }

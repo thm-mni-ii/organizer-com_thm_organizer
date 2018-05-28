@@ -36,7 +36,7 @@ $dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat
             <h4><?php echo $this->lang->_("COM_THM_ORGANIZER_PARTICIPANT_MANAGEMENT"); ?></h4>
         </div>
         <div class="right">
-            <?php echo $this->capacityText; ?>
+            <?php echo $this->course['capacityText']; ?>
         </div>
         <div class="clear"></div>
         <div class="left">
@@ -93,7 +93,7 @@ $dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($this->participants as $participant): ?>
+        <?php foreach ($this->course['participants'] as $participant): ?>
             <tr>
                 <td>
                     <input type='checkbox' name='checked[]' value='<?php echo $participant['cid']; ?>'
