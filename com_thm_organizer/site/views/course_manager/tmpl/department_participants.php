@@ -8,12 +8,12 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once 'prep_course_export.php';
+require_once 'course_export.php';
 
 /**
  * Class generates statistics of registered participants by department and degree program.
  */
-class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplatePC_Export
+class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplateCourse_Export
 {
     /**
      * THM_OrganizerTemplatePrep_Course_Participant_List_Export_PDF constructor.
@@ -24,7 +24,16 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
     {
         parent::__construct($lessonID);
 
-        $this->render();
+        $exportType = $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS');
+        $this->setNames($exportType);
+
+        $this->setHeader();
+
+        $this->createDepartmentTable();
+
+        $this->document->Output($this->filename, 'I');
+
+        ob_flush();
     }
 
     /**
@@ -36,12 +45,12 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
     {
         $departments = [];
 
-        foreach ($this->courseData["participants"] as $data) {
-            if ($data["departmentName"] === null) {
-                $data["departmentName"] = $this->lang->_("JNONE");
+        foreach ($this->course['participants'] as $data) {
+            if ($data['departmentName'] === null) {
+                $data['departmentName'] = $this->lang->_('JNONE');
             }
 
-            array_push($departments, $data["departmentName"]);
+            array_push($departments, $data['departmentName']);
         }
 
         $departments = array_unique($departments);
@@ -61,17 +70,17 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
         $departmentData = [];
         $departments    = [];
 
-        foreach ($this->courseData["participants"] as $data) {
-            if ($data["programName"] === null) {
-                $data["programName"] = $this->lang->_("JNONE");
+        foreach ($this->course['participants'] as $data) {
+            if ($data['programName'] === null) {
+                $data['programName'] = $this->lang->_('JNONE');
             }
 
-            if ($data["departmentName"] === null) {
-                $data["departmentName"] = $this->lang->_("JNONE");
+            if ($data['departmentName'] === null) {
+                $data['departmentName'] = $this->lang->_('JNONE');
             }
 
-            array_push($departments, $data["departmentName"]);
-            array_push($departmentData, [$data["departmentName"], $data["programName"]]);
+            array_push($departments, $data['departmentName']);
+            array_push($departmentData, [$data['departmentName'], $data['programName']]);
         }
 
         $courseOfStudy = array_count_values(
@@ -105,13 +114,14 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
     private function createDepartmentTable()
     {
         $header = [
-            $this->lang->_("COM_THM_ORGANIZER_DEPARTMENT") . ' - ' . $this->lang->_("COM_THM_ORGANIZER_PROGRAM"),
-            $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS")
+            $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT') . ' - ' . $this->lang->_('COM_THM_ORGANIZER_PROGRAM'),
+            $this->lang->_('COM_THM_ORGANIZER_PARTICIPANTS')
         ];
         $widths = [155, 25];
 
         $departments = $this->getDepartmentsOfCourse();
 
+        $this->document->AddPage();
         $this->document->SetFillColor(210);
         $this->document->SetFont('', 'B');
 
@@ -211,33 +221,5 @@ class THMOrganizerTemplatePC_By_Department_Export extends THM_OrganizerTemplateP
         }
 
         $this->document->Cell(array_sum($widths), 0, '', 'T');
-    }
-
-
-    /**
-     * Output PDF containing information about how many participants from different departments
-     * are signed in to the lesson
-     *
-     * @return void
-     */
-    protected function render()
-    {
-        $this->document->SetTitle(
-            $this->lang->_("COM_THM_ORGANIZER_DEPARTMENT_STATISTICS") . ' - ' .
-            $this->courseData["name"] . ' - ' . $this->courseData["c_start"]
-        );
-        $this->setHeader();
-
-        $this->document->AddPage();
-
-        $this->createDepartmentTable();
-
-        $filename = urlencode($this->courseData["name"] . '_' . $this->courseData["c_start"])
-            . '_' .
-            $this->lang->_("COM_THM_ORGANIZER_DEPARTMENT_STATISTICS") .
-            '.pdf';
-        $this->document->Output($filename, 'I');
-
-        ob_flush();
     }
 }

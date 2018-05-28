@@ -229,7 +229,7 @@ class THM_OrganizerHelperCourses
         $query->select('pp.name as planningPeriodName, pp.id as planningPeriodID')
             ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID, l.registration_type, l.deadline, l.fee')
             ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
-            ->select('s.campusID AS abstractCampusID');
+            ->select('s.campusID AS abstractCampusID, s.is_prep_course');
 
         $query->from('#__thm_organizer_lessons AS l');
         $query->leftJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');

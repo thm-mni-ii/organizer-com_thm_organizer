@@ -11,8 +11,8 @@
 $fieldset = $this->form->getFieldset('participant_management');
 
 $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-$baseURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
-$baseURL  .= "&view=course_list&format=pdf&type=";
+$baseURL  = "?option=com_thm_organizer&view=course_manager&format=pdf";
+$baseURL  .= "&lessonID={$this->course['id']}&languageTag=$shortTag&type=";
 
 $participantListRoute = JRoute::_($baseURL . 0, false);
 $departmentListRoute  = JRoute::_($baseURL . 1, false);

@@ -8,12 +8,12 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once 'prep_course_export.php';
+require_once 'course_export.php';
 
 /**
  * Class generates a list of participants based on the registered participants.
  */
-class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC_Export
+class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Export
 {
     /**
      * THM_OrganizerTemplatePrep_Course_Participant_List_Export_PDF constructor.
@@ -24,21 +24,16 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
     {
         parent::__construct($lessonID);
 
-        $this->document->SetTitle(
-            $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") . ' - ' .
-            $this->courseData["name"] . ' - ' . $this->courseData["c_start"]
-        );
+        $exportType = $this->lang->_('COM_THM_ORGANIZER_PARTICIPANTS');
+        $this->setNames($exportType);
+
         $this->setHeader();
 
         $this->document->AddPage();
 
         $this->createParticipantTable();
 
-        $filename = urldecode($this->courseData["name"] . '_' . $this->courseData["c_start"])
-            . '_' .
-            $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS") .
-            '.pdf';
-        $this->document->Output($filename, 'I');
+        $this->document->Output($this->filename, 'I');
 
         ob_flush();
     }
@@ -50,16 +45,24 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
      */
     private function createParticipantTable()
     {
-        $header          = [
+        $header = [
             '#',
             'Name',
-            $this->lang->_("COM_THM_ORGANIZER_DEPARTMENT"),
-            $this->lang->_("COM_THM_ORGANIZER_PROGRAM"),
-            $this->lang->_("COM_THM_ORGANIZER_ROOM"),
-            $this->lang->_("COM_THM_ORGANIZER_PAID")
+            $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT'),
+            $this->lang->_('COM_THM_ORGANIZER_PROGRAM'),
+            $this->lang->_('COM_THM_ORGANIZER_ROOM')
         ];
-        $widths          = [10, 60, 30, 35, 25, 20];
-        $participantData = $this->courseData["participants"];
+
+        $feeApplies = !empty($this->course['fee']);
+
+        if ($feeApplies) {
+            $header[] = $this->lang->_('COM_THM_ORGANIZER_PAID');
+            $widths   = [10, 60, 30, 35, 25, 20];
+        } else {
+            $widths = [10, 80, 30, 35, 25];
+        }
+
+        $participantData = $this->course['participants'];
 
         $this->document->SetFillColor(210);
         $this->document->SetFont('', 'B');
@@ -74,12 +77,15 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
         foreach ($participantData as $id => $participant) {
             $cells = [
                 $id + 1,
-                $participant["name"],
-                $participant["departmentName"],
-                $participant["programName"],
-                '',
+                $participant['name'],
+                $participant['departmentName'],
+                $participant['programName'],
                 ''
             ];
+
+            if ($feeApplies) {
+                $cells[] = '';
+            }
 
             $startX = $this->document->GetX();
             $startY = $this->document->GetY();
@@ -113,7 +119,11 @@ class THM_OrganizerTemplatePC_Participant_Export extends THM_OrganizerTemplatePC
         // Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
         $emptyCells = (intval((sizeof($participantData) * 1.25) / 6) + 1) * 6;
         for ($id = sizeof($participantData); $id < $emptyCells; ++$id) {
-            $cells = [$id + 1, '', '', '', '', ''];
+            $cells = [$id + 1, '', '', '', ''];
+
+            if ($feeApplies) {
+                $cells[] = '';
+            }
 
             $startX = $this->document->GetX();
             $startY = $this->document->GetY();
