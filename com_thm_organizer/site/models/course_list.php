@@ -103,7 +103,7 @@ class THM_OrganizerModelCourse_List extends JModelList
             $conditions = "(lc.id = '$campusID' OR  lc.parentID = '$campusID' OR ";
 
             // lesson has no specific campus id, but subject does
-            $conditions .= "(l.campusID = null AND (sc.id = '$campusID' OR  sc.parentID = '$campusID')))";
+            $conditions .= "(l.campusID IS NULL AND (sc.id = '$campusID' OR  sc.parentID = '$campusID')))";
 
             $courseQuery->where($conditions);
         }
