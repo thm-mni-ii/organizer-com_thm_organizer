@@ -346,3 +346,7 @@ tbody tr:first-child td {
 .view-monitor_edit .form-horizontal .controls {
     margin-left: 190px;
 }
+
+.adminform .controls textarea {
+    width: 618px;
+}
