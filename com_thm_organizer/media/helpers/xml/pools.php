@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 require_once 'grids.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/grids.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 require_once 'programs.php';
 
@@ -19,34 +20,6 @@ require_once 'programs.php';
  */
 class THM_OrganizerHelperXMLPools
 {
-    /**
-     * Sets grid information for the pool node
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param int    $poolID
-     * @param object &$poolNode      the pool node to be modified
-     *
-     * @return void modifies the $scheduleModel object
-     */
-    private static function setGrid(&$scheduleModel, $poolID, &$poolNode)
-    {
-        $grid = (string)$poolNode->timegrid;
-        if (!empty($grid)) {
-            $scheduleModel->newSchedule->pools->$poolID->grid   = $grid;
-            $scheduleModel->newSchedule->pools->$poolID->gridID = THM_OrganizerHelperXMLGrids::getID($grid);
-        } else {
-            $grid = 'Haupt-Zeitraster';
-
-            $scheduleModel->newSchedule->pools->$poolID->grid = $grid;
-
-            $gridID = THM_OrganizerHelperXMLGrids::getID($grid);
-
-            if (!empty($gridID)) {
-                $scheduleModel->newSchedule->pools->$poolID->gridID = $gridID;
-            }
-        }
-    }
-
     /**
      * Validates the pools (classes) node
      *
@@ -130,7 +103,22 @@ class THM_OrganizerHelperXMLPools
         $scheduleModel->newSchedule->pools->$poolID->restriction = $restriction;
         $scheduleModel->newSchedule->pools->$poolID->degree      = $degreeID;
 
-        self::setGrid($scheduleModel, $poolID, $poolNode);
+        $grid = (string)$poolNode->timegrid;
+
+        if (empty($grid)) {
+            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_MISSING'),
+                $longName, $poolID);
+
+            return;
+        } elseif (empty($scheduleModel->newSchedule->periods->$grid)) {
+            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_LACKING'),
+                $longName, $poolID, $grid);
+
+            return;
+        }
+
+        $scheduleModel->newSchedule->pools->$poolID->grid   = $grid;
+        $scheduleModel->newSchedule->pools->$poolID->gridID = THM_OrganizerHelperGrids::getID($grid);
 
         $planResourceID = THM_OrganizerHelperPools::getPlanResourceID($poolID,
             $scheduleModel->newSchedule->pools->$poolID);

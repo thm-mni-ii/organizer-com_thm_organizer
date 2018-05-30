@@ -169,6 +169,7 @@ class THM_OrganizerHelperPools
 
         $data['name']      = $pool->restriction;
         $data['full_name'] = $pool->longname;
+        $data['gridID']    = $pool->gridID;
 
         $table   = JTable::getInstance('plan_pools', 'thm_organizerTable');
         $success = $table->save($data);

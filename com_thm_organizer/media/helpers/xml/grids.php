@@ -8,28 +8,13 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/grids.php';
 
 /**
  * Provides functions for XML grid validation and modeling.
  */
 class THM_OrganizerHelperXMLGrids
 {
-    /**
-     * Retrieves the table id if existent.
-     *
-     * @param string $gpuntisID the grid name in untis
-     *
-     * @return mixed int id on success, otherwise null
-     */
-    public static function getID($gpuntisID)
-    {
-        $table  = JTable::getInstance('grids', 'thm_organizerTable');
-        $data   = ['gpuntisID' => $gpuntisID];
-        $exists = $table->load($data);
-
-        return empty ($exists) ? null : $table->id;
-    }
-
     /**
      * Saves the grid to the corresponding table if not already existent.
      *
@@ -40,13 +25,9 @@ class THM_OrganizerHelperXMLGrids
      */
     private static function saveGridEntry($gpuntisID, $grid)
     {
-        $gridID = self::getID($gpuntisID);
+        $gridID = THM_OrganizerHelperGrids::getID($gpuntisID);
         if (!empty($gridID)) {
             return;
-        }
-
-        if ($gpuntisID == 'Haupt-Zeitraster') {
-            $grid->default = 1;
         }
 
         $grid->grid = json_encode($grid->grid);
@@ -137,34 +118,47 @@ class THM_OrganizerHelperXMLGrids
     private static function validateIndividual(&$scheduleModel, &$timePeriodNode, &$grids)
     {
         // Not actually referenced but evinces data inconsistencies in Untis
-        $gpuntisID = trim((string)$timePeriodNode[0]['id']);
+        $exportKey = trim((string)$timePeriodNode[0]['id']);
+        $gridName  = (string)$timePeriodNode->timegrid;
         $day       = (int)$timePeriodNode->day;
         $period    = (int)$timePeriodNode->period;
         $startTime = trim((string)$timePeriodNode->starttime);
         $endTime   = trim((string)$timePeriodNode->endtime);
 
-        $invalidPeriod = (empty($gpuntisID) or empty($day) or empty($period) or empty($startTime) or empty($endTime));
-        if ($invalidPeriod and !in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"),
-                $scheduleModel->scheduleErrors)) {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
-        }
+        $invalidKeys   = (empty($exportKey) or empty($gridName) or empty($period));
+        $invalidTimes  = (empty($day) or empty($startTime) or empty($endTime));
+        $invalidPeriod = ($invalidKeys or $invalidTimes);
 
-        $gpuntisID = (string)$timePeriodNode->timegrid;
+        if ($invalidPeriod) {
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
+            }
 
-        // For backward-compatibility a default grid name is set
-        if (empty($gpuntisID)) {
-            $gpuntisID = 'Haupt-Zeitraster';
+            return;
         }
 
         // Set the grid if not already existent
-        if (empty($scheduleModel->newSchedule->periods->$gpuntisID)) {
-            $scheduleModel->newSchedule->periods->$gpuntisID = new stdClass;
+        if (empty($scheduleModel->newSchedule->periods->$gridName)) {
+            $scheduleModel->newSchedule->periods->$gridName = new stdClass;
         }
 
-        $scheduleModel->newSchedule->periods->$gpuntisID->$period            = new stdClass;
-        $scheduleModel->newSchedule->periods->$gpuntisID->$period->startTime = $startTime;
-        $scheduleModel->newSchedule->periods->$gpuntisID->$period->endTime   = $endTime;
+        $scheduleModel->newSchedule->periods->$gridName->$period            = new stdClass;
+        $scheduleModel->newSchedule->periods->$gridName->$period->startTime = $startTime;
+        $scheduleModel->newSchedule->periods->$gridName->$period->endTime   = $endTime;
 
-        self::setGridEntry($grids, $gpuntisID, $day, $period, $startTime, $endTime);
+        $label = (string)$timePeriodNode->label;
+        if (!empty($label)) {
+            $textual = preg_match("/[a-zA-ZäÄöÖüÜß]+/", $label, $output_array);
+
+            if ($textual) {
+                $scheduleModel->newSchedule->periods->$gridName->$period->label_de = $label;
+                $scheduleModel->newSchedule->periods->$gridName->$period->label_en = $label;
+
+                // This is an assumption, which can later be rectified as necessary.
+                $scheduleModel->newSchedule->periods->$gridName->$period->type = 'break';
+            }
+        }
+
+        self::setGridEntry($grids, $gridName, $day, $period, $startTime, $endTime);
     }
 }
