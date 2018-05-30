@@ -35,6 +35,9 @@ class THM_OrganizerTableCampuses extends THM_OrganizerTableNullable
         if (empty($this->parentID)) {
             $this->parentID = null;
         }
+        if (empty($this->gridID)) {
+            $this->gridID = null;
+        }
 
         return true;
     }

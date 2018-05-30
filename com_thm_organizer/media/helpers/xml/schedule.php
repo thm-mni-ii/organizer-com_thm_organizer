@@ -136,8 +136,6 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
         THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
 
-        unset($this->schedule->fields);
-
         $this->newSchedule->calendar = new stdClass;
 
         $lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
@@ -150,8 +148,6 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
 
             return false;
         }
-
-        unset($this->schedule->methods, $this->schedule->room_types);
 
         unset(
             $this->newSchedule->degrees,

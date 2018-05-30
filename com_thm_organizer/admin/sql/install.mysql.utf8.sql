@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_campuses` (
   `address`  VARCHAR(255)     NOT NULL,
   `city`     VARCHAR(60)      NOT NULL,
   `zipCode`  VARCHAR(60)      NOT NULL,
+  `gridID`   INT(11) UNSIGNED          DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parentID` (`parentID`),
   UNIQUE KEY `germanName` (`parentID`, `name_de`),
@@ -184,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
   ON UPDATE CURRENT_TIMESTAMP,
   `deadline`          INT(2) UNSIGNED           DEFAULT NULL
   COMMENT 'The deadline in days for registration before the course starts.',
-  `fee` INT(3) UNSIGNED DEFAULT NULL,
+  `fee`               INT(3) UNSIGNED           DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),
   KEY `methodID` (`methodID`),
@@ -686,6 +687,9 @@ REFERENCES `#__thm_organizer_lesson_configurations` (`id`)
 
 ALTER TABLE `#__thm_organizer_campuses`
   ADD CONSTRAINT `campus_parentID_fk` FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_campuses` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `campus_gridID_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
   ON DELETE SET NULL
   ON UPDATE CASCADE;
 

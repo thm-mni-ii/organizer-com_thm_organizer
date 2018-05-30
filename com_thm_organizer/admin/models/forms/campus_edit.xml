@@ -24,5 +24,10 @@
                label="COM_THM_ORGANIZER_CITY" description="COM_THM_ORGANIZER_CITY_DESC"/>
         <field name="zipCode" type="text" class="inputbox validate-alphanumeric" size="60" maxlength="60"
                label="COM_THM_ORGANIZER_ZIP_CODE" description="COM_THM_ORGANIZER_ZIP_CODE_DESC"/>
+        <field name="gridID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
+               table="thm_organizer_grids" label="COM_THM_ORGANIZER_GRID"
+               description="COM_THM_ORGANIZER_GRID_EXPORT_DESC">
+            <option value="">JNONE</option>
+        </field>
     </fieldset>
 </form>
