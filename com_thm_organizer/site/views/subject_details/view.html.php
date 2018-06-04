@@ -85,7 +85,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
                 }
 
                 // Make no change if the course has no status information or if the status color has already been set to green.
-                if ($course['status'] === null or $this->status === 'green') {
+                if ($course['status'] === null or $this->color === 'green') {
                     continue;
                 }
 
