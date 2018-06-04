@@ -1370,13 +1370,13 @@ const ScheduleApp = function (variables) {
             lessonData = lessons;
             visibleDay = getDateFieldsDateObject().getDay();
 
-            if (useDefaultGrid && !changedGrid)
+            if (changedGrid)
             {
-                setDefaultGrid();
+                timeGrid = getSelectedTimeGrid();
             }
             else
             {
-                timeGrid = getSelectedTimeGrid();
+                setDefaultGrid();
             }
 
             resetTable();

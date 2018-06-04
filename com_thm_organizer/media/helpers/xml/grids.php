@@ -39,42 +39,37 @@ class THM_OrganizerHelperXMLGrids
     /**
      * Sets grid entries for later storage in the database
      *
-     * @param object $grids     the grids container object
-     * @param string $gpuntisID the name used for the grid in untis
-     * @param int    $day       the day number
-     * @param int    $period    the period number
-     * @param int    $startTime the period start time as a 4 digit number
-     * @param int    $endTime   the period end time as a 4 digit number
+     * @param object $grids    the grids container object
+     * @param string $gridName the name used for the grid in untis
+     * @param int    $day      the day number
+     * @param int    $periodNo the period number
+     * @param int    $period   the period start time as a 4 digit number
      *
      * @return void modifies the grids object
      */
-    private static function setGridEntry(&$grids, $gpuntisID, $day, $period, $startTime, $endTime)
+    private static function setGridEntry(&$grids, $gridName, $day, $periodNo, $period)
     {
         // Builds the object for the DB
-        if (!isset($grids->$gpuntisID)) {
-            $grids->$gpuntisID                = new stdClass;
-            $grids->$gpuntisID->gpuntisID     = $gpuntisID;
-            $grids->$gpuntisID->name_de       = $gpuntisID;
-            $grids->$gpuntisID->name_en       = $gpuntisID;
-            $grids->$gpuntisID->grid          = new stdClass;
-            $grids->$gpuntisID->grid->periods = new stdClass;
+        if (!isset($grids->$gridName)) {
+            $grids->$gridName                = new stdClass;
+            $grids->$gridName->gpuntisID     = $gridName;
+            $grids->$gridName->name_de       = $gridName;
+            $grids->$gridName->name_en       = $gridName;
+            $grids->$gridName->grid          = new stdClass;
+            $grids->$gridName->grid->periods = new stdClass;
         }
 
-        $setStartDay = (empty($grids->$gpuntisID->grid->startDay) or $grids->$gpuntisID->grid->startDay > $day);
+        $setStartDay = (empty($grids->$gridName->grid->startDay) or $grids->$gridName->grid->startDay > $day);
         if ($setStartDay) {
-            $grids->$gpuntisID->grid->startDay = $day;
+            $grids->$gridName->grid->startDay = $day;
         }
 
-        $setEndDay = (empty($grids->$gpuntisID->grid->endDay) or $grids->$gpuntisID->grid->endDay < $day);
+        $setEndDay = (empty($grids->$gridName->grid->endDay) or $grids->$gridName->grid->endDay < $day);
         if ($setEndDay) {
-            $grids->$gpuntisID->grid->endDay = $day;
+            $grids->$gridName->grid->endDay = $day;
         }
 
-        if (!isset($grids->$gpuntisID->blocks->$period)) {
-            $grids->$gpuntisID->grid->periods->$period            = new stdClass;
-            $grids->$gpuntisID->grid->periods->$period->startTime = $startTime;
-            $grids->$gpuntisID->grid->periods->$period->endTime   = $endTime;
-        }
+        $grids->$gridName->grid->periods->$periodNo = $period;
     }
 
     /**
@@ -121,11 +116,11 @@ class THM_OrganizerHelperXMLGrids
         $exportKey = trim((string)$timePeriodNode[0]['id']);
         $gridName  = (string)$timePeriodNode->timegrid;
         $day       = (int)$timePeriodNode->day;
-        $period    = (int)$timePeriodNode->period;
+        $periodNo    = (int)$timePeriodNode->period;
         $startTime = trim((string)$timePeriodNode->starttime);
         $endTime   = trim((string)$timePeriodNode->endtime);
 
-        $invalidKeys   = (empty($exportKey) or empty($gridName) or empty($period));
+        $invalidKeys   = (empty($exportKey) or empty($gridName) or empty($periodNo));
         $invalidTimes  = (empty($day) or empty($startTime) or empty($endTime));
         $invalidPeriod = ($invalidKeys or $invalidTimes);
 
@@ -142,23 +137,23 @@ class THM_OrganizerHelperXMLGrids
             $scheduleModel->newSchedule->periods->$gridName = new stdClass;
         }
 
-        $scheduleModel->newSchedule->periods->$gridName->$period            = new stdClass;
-        $scheduleModel->newSchedule->periods->$gridName->$period->startTime = $startTime;
-        $scheduleModel->newSchedule->periods->$gridName->$period->endTime   = $endTime;
+        $scheduleModel->newSchedule->periods->$gridName->$periodNo            = new stdClass;
+        $scheduleModel->newSchedule->periods->$gridName->$periodNo->startTime = $startTime;
+        $scheduleModel->newSchedule->periods->$gridName->$periodNo->endTime   = $endTime;
 
         $label = (string)$timePeriodNode->label;
         if (!empty($label)) {
             $textual = preg_match("/[a-zA-ZäÄöÖüÜß]+/", $label, $output_array);
 
             if ($textual) {
-                $scheduleModel->newSchedule->periods->$gridName->$period->label_de = $label;
-                $scheduleModel->newSchedule->periods->$gridName->$period->label_en = $label;
+                $scheduleModel->newSchedule->periods->$gridName->$periodNo->label_de = $label;
+                $scheduleModel->newSchedule->periods->$gridName->$periodNo->label_en = $label;
 
                 // This is an assumption, which can later be rectified as necessary.
-                $scheduleModel->newSchedule->periods->$gridName->$period->type = 'break';
+                $scheduleModel->newSchedule->periods->$gridName->$periodNo->type = 'break';
             }
         }
 
-        self::setGridEntry($grids, $gridName, $day, $period, $startTime, $endTime);
+        self::setGridEntry($grids, $gridName, $day, $periodNo, $scheduleModel->newSchedule->periods->$gridName->$periodNo);
     }
 }

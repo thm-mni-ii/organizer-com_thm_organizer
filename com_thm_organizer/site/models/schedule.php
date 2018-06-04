@@ -57,7 +57,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
         $query       = $this->_db->getQuery(true);
         $query->select("id, name_$languageTag AS name, grid, defaultGrid")
-            ->from('#__thm_organizer_grids');
+            ->from('#__thm_organizer_grids')
+            ->order("name");
         $this->_db->setQuery($query);
 
         try {
@@ -84,50 +85,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 return $var->defaultGrid;
             }
         );
-
-        if (empty($defaultGrids)) {
-            return $this->getGridFallback();
-        } else {
-            return $defaultGrids[0];
-        }
-    }
-
-    /**
-     * example and fallback of a default time grid
-     *
-     * @return object (json)
-     */
-    private function getGridFallback()
-    {
-        $fallback = '{
-				"periods": {
-				    "1":{
-				        "startTime":"0800",
-			            "endTime":"0930"
-			        },
-			        "2": {
-				        "startTime":"0950",
-			            "endTime":"1120"},
-			        "3": {
-				        "startTime":"1130",
-			            "endTime":"1300"
-			        },
-			        "4": {
-				        "startTime":"1400",
-			            "endTime":"1530"},
-			        "5": {
-				        "startTime":"1545",
-			            "endTime":"1715"},
-			        "6": {
-				        "startTime":"1730",
-			            "endTime":"1900"
-			        }
-			    },
-			    "startDay":1,
-			    "endDay":6
-			}';
-
-        return json_decode($fallback);
+        return current($defaultGrids);
     }
 
     /**
