@@ -161,7 +161,7 @@ class THM_OrganizerHelperCourses
                         $registerText = '<span class="icon-apply"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_REGISTER');
                     }
 
-                    $register = "<a class='btn href='$registerRoute' type='button'>$registerText</a>";
+                    $register = "<a class='btn' href='$registerRoute' type='button'>$registerText</a>";
                 }
             }
         } else {
