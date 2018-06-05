@@ -18,6 +18,61 @@ require_once 'departments.php';
 class THM_OrganizerHelperSubjects
 {
     /**
+     * Check if user is registered as a subject's teacher, optionally for a specific subject
+     *
+     * @param int $subjectID id of the course resource
+     *
+     * @return boolean true if the user is a registered teacher, otherwise false
+     * @throws Exception
+     */
+    public static function allowEdit($subjectID)
+    {
+        $user = JFactory::getUser();
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        if ($user->authorise('core.admin', "com_thm_organizer")) {
+            return true;
+        }
+
+        // Belongs to an explicitly authorized user group
+        require_once 'component.php';
+
+        if (empty($subjectID) or !THM_OrganizerHelperComponent::checkAssetInitialization('subject', $subjectID)) {
+            return THM_OrganizerHelperComponent::allowDeptResourceCreate('subject');
+        }
+
+        if (THM_OrganizerHelperComponent::allowResourceManage('subject', $subjectID, 'manage')) {
+            return true;
+        }
+
+        // Teacher coordinator responsibility association from the documentation system
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+
+        $query->select("COUNT(*)")
+            ->from('#__thm_organizer_subject_teachers AS st')
+            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = st.teacherID')
+            ->where("t.username = '{$user->username}'")
+            ->where("st.subjectID = '$subjectID'")
+            ->where("teacherResp = '1'");
+
+        $dbo->setQuery($query);
+
+        try {
+            $assocCount = $dbo->loadResult();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+
+            return false;
+        }
+
+        return !empty($assocCount);
+    }
+
+    /**
      * Retrieves the table id if existent.
      *
      * @param string $subjectIndex the subject index (dept. abbreviation + gpuntis id)
@@ -191,59 +246,5 @@ class THM_OrganizerHelperSubjects
         }
 
         return $names;
-    }
-
-    /**
-     * Check if user is registered as a subject's teacher, optionally for a specific subject
-     *
-     * @param int $subjectID id of the course resource
-     *
-     * @return boolean true if the user is a registered teacher, otherwise false
-     * @throws Exception
-     */
-    public static function authorized($subjectID)
-    {
-        $user = JFactory::getUser();
-
-        if (empty($user->id)) {
-            return false;
-        }
-
-        if ($user->authorise('core.admin', "com_thm_organizer")) {
-            return true;
-        }
-
-        require_once 'component.php';
-
-        if (empty($subjectID) or !THM_OrganizerHelperComponent::checkAssetInitialization('subject', $subjectID)) {
-            return THM_OrganizerHelperComponent::allowDeptResourceCreate('subject');
-        }
-
-        $allowedByGroup = THM_OrganizerHelperComponent::allowResourceManage('subject', $subjectID, 'manage');
-
-        if ($allowedByGroup) {
-            return true;
-        }
-
-        $dbo   = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-
-        $query->select("COUNT(*)")
-            ->from('#__thm_organizer_subject_teachers AS st')
-            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = st.teacherID')
-            ->where("t.username = '{$user->username}'")
-            ->where("st.subjectID = '$subjectID'");
-
-        $dbo->setQuery($query);
-
-        try {
-            $assocCount = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return false;
-        }
-
-        return !empty($assocCount);
     }
 }

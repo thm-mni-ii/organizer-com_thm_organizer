@@ -18,6 +18,24 @@ require_once 'departments.php';
 class THM_OrganizerHelperTeachers
 {
     /**
+     * Checks whether the user has administrative access to human resources resources
+     *
+     * @return bool  true if the user has administrative access to human resources resources, otherwise false
+     * @throws Exception
+     */
+    public static function allowEdit()
+    {
+        $user = JFactory::getUser();
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        return ($user->authorise('core.admin', 'com_thm_organizer') or $user->authorise('organizer.hr',
+                'com_thm_organizer'));
+    }
+
+    /**
      * Checks for multiple teacher entries (responsibilities) for a subject and removes the lesser
      *
      * @param array &$list the list of teachers responsilbe for a subject

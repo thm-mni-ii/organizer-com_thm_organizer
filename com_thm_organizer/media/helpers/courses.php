@@ -46,7 +46,7 @@ class THM_OrganizerHelperCourses
 
         $subjectID = self::getSubjectID($courseID);
 
-        if (THM_OrganizerHelperSubjects::authorized($subjectID)) {
+        if (THM_OrganizerHelperSubjects::allowEdit($subjectID)) {
             return true;
         }
 
