@@ -56,7 +56,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         $document->SetAutoPageBreak(true, 5);
         $document->setHeaderMargin(5);
         $document->setCellPaddings('', 1, '', 1);
-        $document->SetTextColor(57, 74, 89);
+        $document->SetTextColor(0, 0, 0);
         $document->setHeaderTemplateAutoreset(true);
 
         return $document;
@@ -158,7 +158,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                 continue;
             }
 
-            $this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [57, 74, 89]]);
+            $this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
 
             $originalY = $this->document->getY();
             $newY      = $originalY + $rowHeight + $this->parameters['padding'];
@@ -214,7 +214,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         $this->document->AddPage();
 
         $this->document->SetFont('helvetica', '', 10, '', 'default', true);
-        $this->document->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [74, 92, 102]]);
+        $this->document->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [0, 0, 0]]);
 
         if ($outputTimeGrid) {
             $this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C',
@@ -245,7 +245,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         $originalY = $this->document->getY();
         $this->document->setY($originalY - 4);
 
-        $this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [119, 133, 140]]);
+        $this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
         $this->document->cell(0, 0, '', 'B', 1, 0, 0);
     }
 
@@ -333,7 +333,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                     continue;
                 }
 
-                $this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [57, 74, 89]]);
+                $this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
 
                 $originalY = $this->document->getY();
                 $newY      = $originalY + $rowHeight + $this->parameters['padding'];

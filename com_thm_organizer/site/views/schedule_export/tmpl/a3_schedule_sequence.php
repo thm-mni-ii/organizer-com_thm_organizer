@@ -120,7 +120,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         // This is here to access the bottom margin.
         $document->setPageOrientation($orientation, false, '15');
         $document->setCellPaddings('', .5, '', .5);
-        $document->SetTextColor(57, 74, 89);
+        $document->SetTextColor(0, 0, 0);
         $document->setHeaderTemplateAutoreset(true);
 
         return $document;
