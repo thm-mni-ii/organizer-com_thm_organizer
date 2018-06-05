@@ -46,7 +46,7 @@ class THM_OrganizerTemplateCurriculumPanel
      */
     private static function renderHead(&$pool, $type = 'modal')
     {
-        $crpText   = THM_OrganizerHelperPool::getCrPText($pool);
+        $crpText   = THM_OrganizerHelperPools::getCrPText($pool);
         $headStyle = '';
         if (!empty($pool->bgColor)) {
             $textColor = THM_OrganizerHelperComponent::getTextColor($pool->bgColor);

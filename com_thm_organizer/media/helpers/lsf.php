@@ -11,7 +11,7 @@
 /**
  * Class provides methods for communication with the LSF curriculum documentation system.
  */
-class THM_OrganizerLSFClient
+class THM_OrganizerHelperLSF
 {
     public $clientSet = false;
 
@@ -28,11 +28,9 @@ class THM_OrganizerLSFClient
     {
         $this->username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
         $this->password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
-
-        $options             = [];
-        $options['uri']      = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
-        $options['location'] = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
-        $this->client        = new SoapClient(null, $options);
+        $uri            = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
+        $options        = ['uri' => $uri, 'location' => $uri];
+        $this->client   = new SoapClient(null, $options);
     }
 
     /**
@@ -95,7 +93,7 @@ class THM_OrganizerLSFClient
     {
         $XML = $this->header('ModuleAll');
         $XML .= "<pord.pordnr>$moduleID</pord.pordnr>";
-        $XML .= $this->footer();
+        $XML .= '</filter></SOAPDataService>';
 
         return self::getDataXML($XML);
     }
@@ -112,7 +110,7 @@ class THM_OrganizerLSFClient
     {
         $XML = $this->header('ModuleAll');
         $XML .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
-        $XML .= $this->footer();
+        $XML .= '</filter></SOAPDataService>';
 
         return self::getDataXML($XML);
     }
@@ -134,7 +132,7 @@ class THM_OrganizerLSFClient
         $XML .= "<pord.abschl>$degree</pord.abschl>";
         $XML .= "<pord.pversion>$year</pord.pversion>";
         $XML .= "<pord.stg>$program</pord.stg>";
-        $XML .= $this->footer();
+        $XML .= '</filter></SOAPDataService>';
 
         return self::getDataXML($XML);
     }
@@ -155,16 +153,6 @@ class THM_OrganizerLSFClient
         $header .= "</user-auth><filter>";
 
         return $header;
-    }
-
-    /**
-     * Creates the footer used by all XML queries
-     *
-     * @return string
-     */
-    private function footer()
-    {
-        return '</filter></SOAPDataService>';
     }
 
     /**

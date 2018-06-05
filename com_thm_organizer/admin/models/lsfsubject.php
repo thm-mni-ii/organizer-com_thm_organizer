@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/assets/helpers/lsfapi.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
@@ -276,13 +276,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             return true;
         }
 
-        $client  = new THM_OrganizerLSFClient;
+        $client  = new THM_OrganizerHelperLSF;
         $lsfData = !empty($subject->lsfID) ?
             $client->getModuleByModulid($subject->lsfID) : $client->getModuleByNrMni($subject->externalID);
 
         // The system administrator does not wish to display entries with this value
         $blocked      = strtolower((string)$lsfData->modul->sperrmh) == 'x';
-        $invalidTitle = THM_OrganizerLSFClient::invalidTitle($lsfData, true);
+        $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($lsfData, true);
 
         if ($blocked or $invalidTitle) {
             $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
@@ -442,7 +442,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             $table->load(['lsfID' => $lsfID]);
         }
 
-        $invalidTitle = THM_OrganizerLSFClient::invalidTitle($stub);
+        $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($stub);
         $blocked = !empty($stub->sperrmh) and strtolower((string)$stub->sperrmh) == 'x';
 
         // No row was found => create one

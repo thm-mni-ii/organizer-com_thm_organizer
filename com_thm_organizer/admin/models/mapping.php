@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
 
 /**
  * Class which manages stored (curriculum) mapping data.
@@ -65,7 +65,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
     {
         $lsfID = empty($pool->pordid) ? (string)$pool->modulid : (string)$pool->pordid;
         $blocked = !empty($pool->sperrmh) and strtolower((string)$pool->sperrmh) == 'x';
-        $invalidTitle = THM_OrganizerLSFClient::invalidTitle($pool);
+        $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($pool);
         $noChildren   = !isset($pool->modulliste->modul);
         $poolsTable   = JTable::getInstance('pools', 'THM_OrganizerTable');
         $poolExists   = $poolsTable->load(['lsfID' => $lsfID]);
@@ -137,7 +137,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
     {
         $lsfID = (string)(empty($subject->modulid) ? $subject->pordid : $subject->modulid);
         $blocked = !empty($subject->sperrmh) and strtolower((string)$subject->sperrmh) == 'x';
-        $invalidTitle = THM_OrganizerLSFClient::invalidTitle($subject);
+        $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($subject);
 
         $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
         $subjectExists = $subjectsTable->load(['lsfID' => $lsfID]);

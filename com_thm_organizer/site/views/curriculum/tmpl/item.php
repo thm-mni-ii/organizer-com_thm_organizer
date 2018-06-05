@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT_SITE . '/helpers/pool.php';
 
 /**
  * Class renders curriculum item panel information.
@@ -35,7 +33,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
             $nameHTML         = JHtml::link($element->link, $element->name, $linkAttribs);
         } else {
             $moduleNumberHTML = $moduleNumber;
-            $crpHTML          = THM_OrganizerHelperPool::getCrPText($element);
+            $crpHTML          = THM_OrganizerHelperPools::getCrPText($element);
             $nameHTML         = $element->name;
         }
         if (!empty($element->bgColor)) {

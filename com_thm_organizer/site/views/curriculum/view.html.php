@@ -8,7 +8,9 @@
  * @link        www.thm.de
  */
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 
 /**
  * Class loads curriculum information into the display context.

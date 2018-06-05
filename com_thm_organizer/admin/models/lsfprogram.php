@@ -9,8 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
-/** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -117,7 +116,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
             return false;
         }
 
-        $client  = new THM_OrganizerLSFClient;
+        $client  = new THM_OrganizerHelperLSF;
         $program = $client->getModules($programData['program'], $programData['degree'], $programData['version']);
         if (empty($program)) {
             return false;
@@ -168,7 +167,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         $lsfPoolModel    = JModelLegacy::getInstance('LSFPool', 'THM_OrganizerModel');
 
         foreach ($program->gruppe as $resource) {
-            $type    = THM_OrganizerLSFClient::determineType($resource);
+            $type    = THM_OrganizerHelperLSF::determineType($resource);
             $success = true;
 
             if ($type == 'subject') {

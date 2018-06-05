@@ -48,7 +48,6 @@
         <filename>controller.php</filename>
         <filename>LICENSE.txt</filename>
         <filename>buggedrouter.php</filename>
-        <folder>helpers</folder>
         <folder>models</folder>
         <folder>tables</folder>
         <folder>views</folder>
@@ -67,7 +66,6 @@
             <filename>LICENSE.txt</filename>
             <folder>views</folder>
             <folder>models</folder>
-            <folder>assets</folder>
             <folder>tables</folder>
             <folder>sql</folder>
         </files>

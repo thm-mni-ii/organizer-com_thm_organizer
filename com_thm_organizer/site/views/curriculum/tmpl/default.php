@@ -10,10 +10,6 @@
 defined('_JEXEC') or die;
 require_once 'panel.php';
 require_once 'item.php';
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT_SITE . '/helpers/pool.php';
 ?>
 <div class="componentheader">
     <h1 class="componentheading">

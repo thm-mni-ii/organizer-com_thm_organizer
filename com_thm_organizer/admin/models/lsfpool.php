@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_COMPONENT . '/assets/helpers/lsfapi.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
 
 /**
  * Class used to import lsf pool data.
@@ -32,7 +32,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
             return false;
         }
 
-        $invalidTitle = THM_OrganizerLSFClient::invalidTitle($stub);
+        $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($stub);
         $blocked = !empty($stub->sperrmh) and strtolower((string)$stub->sperrmh) == 'x';
 
         $lsfID = empty($stub->pordid) ? (string)$stub->modulid : (string)$stub->pordid;
@@ -100,7 +100,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
         $lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
 
         foreach ($stub->modulliste->modul as $subStub) {
-            $type    = THM_OrganizerLSFClient::determineType($subStub);
+            $type    = THM_OrganizerHelperLSF::determineType($subStub);
             $success = true;
 
             if ($type == 'subject') {
