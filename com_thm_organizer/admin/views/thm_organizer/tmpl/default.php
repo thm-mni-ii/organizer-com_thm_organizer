@@ -33,13 +33,11 @@ $actions = $this->getModel()->actions;
                         <?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE'); ?>
                     </a>
                 </div>
-                <?php if ($actions->{'core.admin'}): ?>
-                    <div class="action-item">
-                        <a href="index.php?option=com_thm_organizer&view=plan_program_manager">
-                            <?php echo JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'); ?>
-                        </a>
-                    </div>
-                <?php endif; ?>
+                <div class="action-item">
+                    <a href="index.php?option=com_thm_organizer&view=plan_program_manager">
+                        <?php echo JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'); ?>
+                    </a>
+                </div>
                 <div class="action-item">
                     <a href="index.php?option=com_thm_organizer&view=plan_pool_manager">
                         <?php echo JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'); ?>

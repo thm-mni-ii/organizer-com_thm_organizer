@@ -10,15 +10,27 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class loads a form for editing data.
  */
 class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
 {
+    /**
+     * Checks for user authorization to access the view
+     *
+     * @param int $subjectID the id of the subject for which authorization is to be checked
+     *
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
+     */
+    protected function allowEdit($subjectID = null)
+    {
+        return THM_OrganizerHelperSubjects::allowEdit($subjectID);
+    }
+
     /**
      * Method to get a table object, load it if necessary.
      *

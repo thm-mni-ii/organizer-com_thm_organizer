@@ -16,5 +16,15 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
  */
 class THM_OrganizerModelRoom_Type_Merge extends THM_OrganizerModelForm
 {
-    // Everything is taken care of in the inheritance hierarchy.
+    /**
+     * Checks for user authorization to access the view
+     *
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
+     */
+    protected function allowEdit()
+    {
+        $user = JFactory::getUser();
+        return ($user->authorise('core.admin', 'com_thm_organizer') or $user->authorise('organizer.fm', 'com_thm_organizer'));
+    }
 }

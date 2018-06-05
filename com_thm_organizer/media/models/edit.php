@@ -17,6 +17,19 @@ class THM_OrganizerModelEdit extends JModelAdmin
     public $actions;
 
     /**
+     * Checks for user authorization to access the view
+     *
+     * @param int $itemID the id of the item being verified, superfluous where authorization is solely role-based.
+     *
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
+     */
+    protected function allowEdit($itemID = null)
+    {
+        return JFactory::getUser()->authorise('core.admin', 'com_thm_organizer');
+    }
+
+    /**
      * Method to get the form
      *
      * @param array $data     Data         (default: array)
@@ -52,7 +65,7 @@ class THM_OrganizerModelEdit extends JModelAdmin
 
         THM_OrganizerHelperComponent::addActions($this);
         $item      = parent::getItem($pk);
-        $allowEdit = THM_OrganizerHelperComponent::allowEdit($this, $item->id);
+        $allowEdit = $this->allowEdit($item->id);
 
         if ($allowEdit) {
             return $item;

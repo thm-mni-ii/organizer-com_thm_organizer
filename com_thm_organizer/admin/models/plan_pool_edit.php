@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_pools.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
@@ -16,5 +17,21 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelPlan_Pool_Edit extends THM_OrganizerModelEdit
 {
-    // Everything is taken care of in the inheritance hierarchy.
+    /**
+     * Checks access for edit views
+     *
+     * @param int $pPoolID the id of the resource to be edited (empty for new entries)
+     *
+     * @return bool  true if the user can access the edit view, otherwise false
+     * @throws Exception
+     */
+    public function allowEdit($pPoolID = null)
+    {
+        if (empty($pPoolID)) {
+            return false;
+        }
+        $pPoolIDs = [$pPoolID];
+
+        return THM_OrganizerHelperPlan_Pools::allowEdit($pPoolIDs);
+    }
 }

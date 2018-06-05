@@ -17,12 +17,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 class THM_OrganizerModelRoom_Merge extends THM_OrganizerModelForm
 {
     /**
-     * Constructor.
+     * Checks for user authorization to access the view
      *
-     * @param array $config An optional associative array of configuration settings.
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
      */
-    public function __construct($config = [])
+    protected function allowEdit()
     {
-        parent::__construct($config);
+        $user = JFactory::getUser();
+        return ($user->authorise('core.admin', 'com_thm_organizer') or $user->authorise('organizer.fm', 'com_thm_organizer'));
     }
 }

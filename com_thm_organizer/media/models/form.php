@@ -15,6 +15,17 @@ defined('_JEXEC') or die;
 class THM_OrganizerModelForm extends JModelForm
 {
     /**
+     * Checks for user authorization to access the view
+     *
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
+     */
+    protected function allowEdit()
+    {
+        return JFactory::getUser()->authorise('core.admin', 'com_thm_organizer');
+    }
+
+    /**
      * Method to get the form
      *
      * @param array $data     Data         (default: array)
@@ -30,7 +41,7 @@ class THM_OrganizerModelForm extends JModelForm
         require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
 
         THM_OrganizerHelperComponent::addActions($this);
-        $allowEdit = THM_OrganizerHelperComponent::allowEdit($this);
+        $allowEdit = $this->allowEdit();
         if (!$allowEdit) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }

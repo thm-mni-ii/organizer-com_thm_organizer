@@ -16,5 +16,17 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelBuilding_Edit extends THM_OrganizerModelEdit
 {
-    // Everything is taken care of in the inheritance hierarchy.
+    /**
+     * Checks for user authorization to access the view
+     *
+     * @param int $itemID the id of the item being verified, superfluous where authorization is solely role-based.
+     *
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
+     */
+    protected function allowEdit($itemID = null)
+    {
+        $user = JFactory::getUser();
+        return ($user->authorise('core.admin', 'com_thm_organizer') or $user->authorise('organizer.fm', 'com_thm_organizer'));
+    }
 }

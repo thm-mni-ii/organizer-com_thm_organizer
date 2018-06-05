@@ -50,7 +50,7 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
         }
 
-        $authorized = THM_OrganizerHelperSubjects::authorized($this->subjectID);
+        $authorized = THM_OrganizerHelperSubjects::allowEdit($this->subjectID);
 
         if (!$authorized) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);

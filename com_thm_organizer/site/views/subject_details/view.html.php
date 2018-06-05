@@ -66,7 +66,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
         if (!empty($courses)) {
             $this->showRegistration = true;
-            $isCoordinator          = THM_OrganizerHelperSubjects::authorized($this->subjectID);
+            $isCoordinator          = THM_OrganizerHelperSubjects::allowEdit($this->subjectID);
 
             foreach ($courses as $key => &$course) {
                 $courseID                     = $course['id'];

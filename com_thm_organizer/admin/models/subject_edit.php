@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
@@ -16,5 +17,16 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
 {
-    // Everything is taken care of in the inheritance hierarchy.
+    /**
+     * Checks for user authorization to access the view
+     *
+     * @param int $subjectID the id of the subject for which authorization is to be checked
+     *
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
+     */
+    protected function allowEdit($subjectID = null)
+    {
+        return THM_OrganizerHelperSubjects::allowEdit($subjectID);
+    }
 }

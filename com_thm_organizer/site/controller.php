@@ -220,7 +220,7 @@ class THM_OrganizerController extends JControllerLegacy
         $url        = THM_OrganizerHelperComponent::getRedirectBase();
 
         if ($modelName == 'subject') {
-            $authorized = THM_OrganizerHelperSubjects::authorized($formData['id']);
+            $authorized = THM_OrganizerHelperSubjects::allowEdit($formData['id']);
         } elseif ($modelName == 'course') {
             $authorized = THM_OrganizerHelperCourses::authorized($formData['id']);
         } elseif ($modelName == 'participant') {

@@ -140,13 +140,11 @@ class THM_OrganizerHelperComponent
                 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
                 $viewName == 'plan_pool_manager'
             );
-            if ($actions->{'core.admin'}) {
-                JHtmlSidebar::addEntry(
-                    JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
-                    'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
-                    $viewName == 'plan_program_manager'
-                );
-            }
+            JHtmlSidebar::addEntry(
+                JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
+                'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
+                $viewName == 'plan_program_manager'
+            );
         }
 
         if ($actions->{'organizer.menu.department'} or $actions->{'organizer.menu.manage'}) {
@@ -269,114 +267,6 @@ class THM_OrganizerHelperComponent
         $allowedDepartments = self::getAccessibleDepartments($area);
 
         return count($allowedDepartments) ? true : false;
-    }
-
-    /**
-     * Checks access for edit views
-     *
-     * @param object &$model the model checking permissions
-     * @param int    $itemID the id if the resource to be edited (empty for new entries)
-     *
-     * @return bool  true if the user can access the edit view, otherwise false
-     * @throws Exception
-     */
-    public static function allowEdit(&$model, $itemID = 0)
-    {
-        // Admins can edit anything. Department and monitor editing is implicitly covered here.
-        $isAdmin = $model->actions->{'core.admin'};
-        if ($isAdmin) {
-            return true;
-        }
-
-        $name = $model->get('name');
-
-        $facilityManagementViews = [
-            'campus_edit',
-            'building_edit',
-            'equipment_edit',
-            'monitor_edit',
-            'room_edit',
-            'room_merge',
-            'room_type_edit'
-        ];
-
-        if (in_array($name, $facilityManagementViews)) {
-            return $model->actions->{'organizer.fm'};
-        }
-
-        // Views accessible with component create/edit access
-        $humanResourceViews = ['teacher_edit', 'teacher_merge'];
-
-        if (in_array($name, $humanResourceViews)) {
-            return $model->actions->{'organizer.hr'};
-        }
-
-        $departmentAssetViews = [
-            'department_edit',
-            'pool_edit',
-            'program_edit',
-            'schedule_edit'
-        ];
-
-        if (in_array($name, $departmentAssetViews)) {
-            $resource = str_replace('_edit', '', $name);
-
-            if (!empty($itemID)) {
-                $initialized = self::checkAssetInitialization($resource, $itemID);
-
-                if (!$initialized) {
-                    return self::allowDeptResourceCreate($resource);
-                }
-
-                $action = $resource == 'department' ? 'department' : $resource == 'schedule' ? 'schedule' : 'manage';
-
-                return self::allowResourceManage($resource, $itemID, $action);
-            }
-
-            return self::allowDeptResourceCreate($resource);
-        }
-
-        if ($name == 'subject_edit') {
-            require_once 'subjects.php';
-            return THM_OrganizerHelperSubjects::authorized($itemID);
-        }
-
-        if ($name == 'plan_pool_edit') {
-            return self::allowPlanPoolEdit($itemID);
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks whether the given plan pool is associated with an allowed department
-     *
-     * @param int $ppID the id of the plan pool being checked
-     *
-     * @return bool  true if the plan pool is associated with an allowed department, otherwise false
-     * @throws Exception
-     */
-    public static function allowPlanPoolEdit($ppID)
-    {
-        $allowedDepartments = self::getAccessibleDepartments('schedule');
-        $dbo                = JFactory::getDbo();
-        $query              = $dbo->getQuery(true);
-        $query->select('id')
-            ->from('#__thm_organizer_department_resources')
-            ->where("poolID = '$ppID'")
-            ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
-        $dbo->setQuery($query);
-
-        try {
-            $entryID = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
-
-        return empty($entryID) ? false : true;
-
     }
 
     /**

@@ -39,6 +39,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
+        $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query    = $this->_db->getQuery(true);
 
@@ -52,10 +53,12 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
         $query->leftJoin('#__thm_organizer_degrees AS d ON pr.degreeID = d.id');
 
         $departmentID = $this->state->get('list.departmentID');
+        $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
 
-        if ($departmentID) {
-            $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
+        if ($departmentID and in_array($departmentID, $allowedDepartments)) {
             $query->where("dr.departmentID = '$departmentID'");
+        } else {
+            $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
         }
 
         $searchColumns = ['ppr.name', 'ppr.gpuntisID'];

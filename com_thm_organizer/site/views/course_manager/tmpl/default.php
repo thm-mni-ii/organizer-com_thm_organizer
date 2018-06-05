@@ -32,7 +32,7 @@ if (!empty($this->menu)) {
         <div class="left"><?php echo $this->course['dateText'] ?></div>
     </div>
     <div class="right">
-        <?php if (THM_OrganizerHelperSubjects::authorized($this->course["subjectID"])): ?>
+        <?php if (THM_OrganizerHelperSubjects::allowEdit($this->course["subjectID"])): ?>
             <a href="<?php echo JRoute::_($editURL, false); ?>" class="btn btn-mini" type="button">
                 <span class="icon-edit"></span>
                 <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_COURSE_DESCRIPTION") ?>

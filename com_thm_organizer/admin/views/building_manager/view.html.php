@@ -34,7 +34,7 @@ class THM_OrganizerViewBuilding_Manager extends THM_OrganizerViewList
     {
         $actions = $this->getModel()->actions;
 
-        if (!$actions->{'core.admin'}) {
+        if (!$actions->{'core.admin'} and !$actions->{'organizer.fm'}) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 

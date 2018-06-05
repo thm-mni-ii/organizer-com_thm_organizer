@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_pools.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 
 /**
@@ -17,12 +18,15 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 class THM_OrganizerModelPlan_Pool_Merge extends THM_OrganizerModelForm
 {
     /**
-     * Constructor.
+     * Checks for user authorization to access the view
      *
-     * @param array $config An optional associative array of configuration settings.
+     * @return bool  true if the user can access the view, otherwise false
+     * @throws Exception
      */
-    public function __construct($config = [])
+    protected function allowEdit()
     {
-        parent::__construct($config);
+        $poolIDs = JFactory::getApplication()->input->get('cid', [], '[]');
+
+        return THM_OrganizerHelperPlan_Pools::allowEdit($poolIDs);
     }
 }

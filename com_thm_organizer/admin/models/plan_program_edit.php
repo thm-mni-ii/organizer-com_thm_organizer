@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_programs.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
@@ -16,5 +17,21 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelPlan_Program_Edit extends THM_OrganizerModelEdit
 {
-    // Everything is taken care of in the inheritance hierarchy.
+    /**
+     * Checks access for edit views
+     *
+     * @param int $pProgramID the id of the resource to be edited (empty for new entries)
+     *
+     * @return bool  true if the user can access the edit view, otherwise false
+     * @throws Exception
+     */
+    public function allowEdit($pProgramID = null)
+    {
+        if (empty($pProgramID)) {
+            return false;
+        }
+        $pProgramIDs = [$pProgramID];
+
+        return THM_OrganizerHelperPlan_Programs::allowEdit($pProgramIDs);
+    }
 }

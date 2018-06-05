@@ -9,13 +9,41 @@
  */
 defined('_JEXEC') or die;
 
-require_once 'language.php';
-
 /**
  * Provides general functions for department access checks, data retrieval and display.
  */
 class THM_OrganizerHelperDepartments
 {
+    /**
+     * Check if user is authorized to edit a department
+     *
+     * @param int $departmentID id of the department
+     *
+     * @return boolean true if the user is a registered teacher, otherwise false
+     * @throws Exception
+     */
+    public static function allowEdit($departmentID)
+    {
+        $user = JFactory::getUser();
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        if ($user->authorise('core.admin', "com_thm_organizer")) {
+            return true;
+        }
+
+        require_once 'component.php';
+
+        if (empty($departmentID) or !THM_OrganizerHelperComponent::checkAssetInitialization('department',
+                $departmentID)) {
+            return THM_OrganizerHelperComponent::allowDeptResourceCreate('department');
+        }
+
+        return $user->authorise('organizer.department', 'com_thm_organizer.department.' . $departmentID);
+    }
+
     /**
      * Retrieves the department name from the database
      *
@@ -26,6 +54,7 @@ class THM_OrganizerHelperDepartments
      */
     public static function getName($departmentID)
     {
+        require_once 'language.php';
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo         = JFactory::getDbo();
 
@@ -93,6 +122,7 @@ class THM_OrganizerHelperDepartments
      */
     public static function getPlanDepartments($short = true)
     {
+        require_once 'language.php';
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = THM_OrganizerHelperLanguage::getShortTag();
