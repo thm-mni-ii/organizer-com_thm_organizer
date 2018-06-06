@@ -40,11 +40,6 @@ class THM_OrganizerController extends JControllerLegacy
             $app->redirect(JRoute::_($url, false));
         }
 
-        if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
-            $app->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION"), "error");
-            $app->redirect(JRoute::_($url, false));
-        }
-
         $success = $this->getModel('course')->changeParticipantState();
 
         if (empty($success)) {
@@ -112,69 +107,37 @@ class THM_OrganizerController extends JControllerLegacy
         $participantModel   = $this->getModel('participant');
         $participantEditURL = "{$url}&view=participant_edit&lessonID=$courseID";
 
+        // Called from participant profile form
         if (!empty($formData)) {
-            if (!empty($formData['id']) and $formData['id'] == JFactory::getUser()->id) {
-                $participantSaved = $participantModel->save();
+            $participantSaved = $participantModel->save();
 
-                if (empty($participantSaved)) {
-                    $app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL'), 'error');
-                    $app->redirect(JRoute::_($participantEditURL, false));
-
-                    return;
-                }
-            } else {
-                $app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION'), 'error');
-                $app->redirect(JRoute::_($url, false));
+            if (empty($participantSaved)) {
+                $app->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL'), 'error');
+                $app->redirect(JRoute::_($participantEditURL, false));
 
                 return;
             }
         }
 
-        // Always based on the current user, no further validation required.
+        // Always the current user
         $participant = parent::getModel('participant_edit')->getItem();
-
-        // Ensure participant data is complete
-        $invalidParticipant = (empty($participant->address)
-            or empty($participant->zip_code)
-            or empty($participant->city)
-            or empty($participant->programID)
-            or empty($participant->forename)
-            or empty($participant->surname)
-        );
-
-        // Participant entry is incomplete
-        if ($invalidParticipant) {
-            $app->redirect(JRoute::_($participantEditURL, false));
-
-            return;
-        }
-
-        $type = 'error';
-
-        $userState = THM_OrganizerHelperCourses::getParticipantState();
+        $type        = 'error';
+        $userState   = THM_OrganizerHelperCourses::getParticipantState();
 
         // 1 = Register | 2 = Deregister
         $action = empty($userState) ? 1 : 2;
+        $success = $participantModel->register($participant->id, $courseID, $action);
 
-        $return = $participantModel->register($participant->id, $courseID, $action);
-
-        if ($return) {
+        if ($success) {
             $type = 'success';
 
             if (!empty($userState)) {
                 $msg = $lang->_("COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS");
             } else {
-                $newUserState = THM_OrganizerHelperCourses::getParticipantState();
-
-                // This case should not occur.
-                if (is_null($newUserState)) {
-                    $status = 'COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS';
-                } else {
-                    $status = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
-                }
-
-                $statusMessage  = $lang->_($status);
                 $successMessage = $lang->_('COM_THM_ORGANIZER_REGISTRATION_SUCCESS');
+                $newUserState = THM_OrganizerHelperCourses::getParticipantState();
+                $status = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
+                $statusMessage  = $lang->_($status);
                 $msg            = sprintf($successMessage, $statusMessage);
             }
         } else {

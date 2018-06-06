@@ -30,6 +30,11 @@ class THM_OrganizerModelCourse extends JModelLegacy
         $input          = JFactory::getApplication()->input;
         $data           = $input->getArray();
         $formData       = $data['jform'];
+
+        if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $participantIDs = $data["checked"];
         $state          = (int)$data["participantState"];
         $invalidState   = ($state < 0 or $state > 2);

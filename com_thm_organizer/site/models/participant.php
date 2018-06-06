@@ -50,9 +50,54 @@ class THM_OrganizerModelParticipant extends JModelLegacy
             return false;
         }
 
-        // Standardize name casing
-        $data['forename'] = ucfirst(strtolower($data['forename']));
-        $data['surname']  = ucfirst(strtolower($data['surname']));
+        if (empty($data['id']) or $data['id'] !== JFactory::getUser()->id) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
+        $address   = trim($data['address']);
+        $city      = trim($data['city']);
+        $forename  = trim($data['forename']);
+        $programID = trim($data['programID']);
+        $surname   = trim($data['surname']);
+        $zipCode   = trim($data['zip_code']);
+
+        if (empty($address) or empty($city) or empty($forename) or empty($programID)
+            or empty($surname) or empty($zipCode) or !is_numeric($zipCode)) {
+            return false;
+        }
+
+        function normalize(&$item)
+        {
+            if (strpos($item, '-') !== false)
+            {
+                $compoundParts = explode('-', $item);
+                array_walk($compoundParts, 'normalize');
+                $item = implode('-', $compoundParts);
+                return;
+            }
+            $item = ucfirst(strtolower($item));
+        }
+
+        // Standardize name formatting/casing
+
+        $forenames = explode(' ', $forename);
+        array_filter($forenames);
+        array_walk($forenames, 'normalize');
+        $forename = implode(' ', $forenames);
+
+        $surname = str_replace('-', ' ', $surname);
+        $surnames = explode(' ', $surname);
+        $surnames = array_filter($surnames);
+        array_walk($surnames, 'normalize');
+        $surname = implode('-', $surnames);
+
+        $data['address']   = $address;
+        $data['city']      = $city;
+        $data['forename']  = $forename;
+        $data['programID'] = $programID;
+        $data['surname']   = $surname;
+        $data['zip_code']  = $zipCode;
+
 
         JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
         $table = JTable::getInstance('participants', 'THM_OrganizerTable');
