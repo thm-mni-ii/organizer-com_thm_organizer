@@ -122,60 +122,68 @@ class THM_OrganizerHelperComponent
             $viewName == 'thm_organizer'
         );
 
-        if ($actions->{'organizer.menu.schedule'}) {
+        if ($actions->{'core.admin'} or $actions->{'organizer.menu.schedule'}) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_SCHEDULING') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD'),
-                'index.php?option=com_thm_organizer&amp;view=schedule_edit',
-                $viewName == 'schedule_edit'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=schedule_manager',
-                $viewName == 'schedule_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
-                $viewName == 'plan_pool_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
-                $viewName == 'plan_program_manager'
-            );
+
+            $scheduling = [];
+
+            $scheduling[JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]    = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
+                'active' => $viewName == 'plan_pool_manager'
+            ];
+            $scheduling[JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE')] = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
+                'active' => $viewName == 'plan_program_manager'
+            ];
+            $scheduling[JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_manager',
+                'active' => $viewName == 'schedule_manager'
+            ];
+            ksort($scheduling);
+
+            // Uploading a schedule should always be the first menu item and will never be the active submenu item.
+            $prepend = [JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD')  . ' <span class="icon-upload"></span>' => [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_edit',
+                'active' => false
+            ]];
+            $scheduling = $prepend + $scheduling;
+            foreach ($scheduling as $key => $value) {
+                JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
+            }
         }
 
-        if ($actions->{'organizer.menu.department'} or $actions->{'organizer.menu.manage'}) {
+        if ($actions->{'core.admin'} or $actions->{'organizer.menu.manage'}) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
 
+            $documentation = [];
+
             if ($actions->{'organizer.menu.department'}) {
-                JHtmlSidebar::addEntry(
-                    JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE'),
-                    'index.php?option=com_thm_organizer&amp;view=department_manager',
-                    $viewName == 'department_manager'
-                );
+                $documentation[JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')]     = [
+                    'url'    => 'index.php?option=com_thm_organizer&amp;view=department_manager',
+                    'active' => $viewName == 'department_manager'
+                ];
             }
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=pool_manager',
-                $viewName == 'pool_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=program_manager',
-                $viewName == 'program_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=subject_manager',
-                $viewName == 'subject_manager'
-            );
+            $documentation[JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=pool_manager',
+                'active' => $viewName == 'pool_manager'
+            ];
+            $documentation[JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=program_manager',
+                'active' => $viewName == 'program_manager'
+            ];
+            $documentation[JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=subject_manager',
+                'active' => $viewName == 'subject_manager'
+            ];
+            ksort($documentation);
+            foreach ($documentation as $key => $value) {
+                JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
+            }
         }
 
-        if ($actions->{'organizer.hr'}) {
+        if ($actions->{'core.admin'} or $actions->{'organizer.hr'}) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
             JHtmlSidebar::addEntry(
@@ -185,64 +193,68 @@ class THM_OrganizerHelperComponent
             );
         }
 
-        if ($actions->{'organizer.fm'}) {
+        if ($actions->{'core.admin'} or $actions->{'organizer.fm'}) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=campus_manager',
-                $viewName == 'campus_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=building_manager',
-                $viewName == 'building_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=monitor_manager',
-                $viewName == 'monitor_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=room_manager',
-                $viewName == 'room_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=room_type_manager',
-                $viewName == 'room_type_manager'
-            );
+
+            $fmEntries = [];
+
+            $fmEntries[JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=building_manager',
+                'active' => $viewName == 'building_manager'
+            ];
+            $fmEntries[JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=campus_manager',
+                'active' => $viewName == 'campus_manager'
+            ];
+            $fmEntries[JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=monitor_manager',
+                'active' => $viewName == 'monitor_manager'
+            ];
+            $fmEntries[JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_manager',
+                'active' => $viewName == 'room_manager'
+            ];
+            $fmEntries[JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_type_manager',
+                'active' => $viewName == 'room_type_manager'
+            ];
+            ksort($fmEntries);
+            foreach ($fmEntries as $key => $value) {
+                JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
+            }
         }
 
         if ($actions->{'core.admin'}) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_ADMINISTRATION') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=color_manager',
-                $viewName == 'color_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=degree_manager',
-                $viewName == 'degree_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=field_manager',
-                $viewName == 'field_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=grid_manager',
-                $viewName == 'grid_manager'
-            );
-            JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=method_manager',
-                $viewName == 'method_manager'
-            );
+
+            $adminEntries = [];
+
+            $adminEntries[JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=color_manager',
+                'active' => $viewName == 'color_manager'
+            ];
+            $adminEntries[JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=degree_manager',
+                'active' => $viewName == 'degree_manager'
+            ];
+            $adminEntries[JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=field_manager',
+                'active' => $viewName == 'field_manager'
+            ];
+            $adminEntries[JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=grid_manager',
+                'active' => $viewName == 'grid_manager'
+            ];
+            $adminEntries[JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE')]     = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=method_manager',
+                'active' => $viewName == 'method_manager'
+            ];
+            ksort($adminEntries);
+            foreach ($adminEntries as $key => $value) {
+                JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
+            }
         }
 
         $view->sidebar = JHtmlSidebar::render();
