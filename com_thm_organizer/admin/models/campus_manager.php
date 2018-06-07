@@ -39,11 +39,15 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
         $select = "c1.id, c1.name_$shortTag as name, c2.id as parentID, c2.name_$shortTag as parentName, ";
         $select .= "c1.address, c1.city, c1.zipCode, c1.location, ";
         $select .= "c2.address as parentAddress, c2.city as parentCity, c2.zipCode as parentZIPCode, ";
+        $select .= "g1.id as gridID, g1.name_$shortTag as gridName, ";
+        $select .= "g2.id as parentGridID, g2.name_$shortTag as parentGridName, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=campus_edit&id='", "c1.id"];
         $select .= $query->concatenate($parts, "") . " AS link";
         $query->select($select);
         $query->from('#__thm_organizer_campuses as c1');
+        $query->leftJoin('#__thm_organizer_grids as g1 on c1.gridID = g1.id');
         $query->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id');
+        $query->leftJoin('#__thm_organizer_grids as g2 on c2.gridID = g2.id');
 
         $searchColumns = [
             'c1.name_de',
@@ -57,6 +61,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
         ];
         $this->setSearchFilter($query, $searchColumns);
         $this->setCityFilter($query);
+        $this->setGridFilter($query);
 
         return $query;
     }
@@ -101,6 +106,15 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
 
             $return[$index]['address']  = $address;
             $return[$index]['location'] = THM_OrganizerHelperCampuses::getLocation($item->id);
+
+            if (!empty($item->gridName)) {
+                $gridName = $item->gridName;
+            } elseif (!empty($item->parentGridName)) {
+                $gridName = $item->parentGridName;
+            } else {
+                $gridName = JText::_('JNONE');
+            }
+            $return[$index]['gridID'] = $gridName;
         }
 
         asort($return);
@@ -120,12 +134,13 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
         $headers['name']     = JText::_('COM_THM_ORGANIZER_NAME');
         $headers['address']  = JText::_('COM_THM_ORGANIZER_ADDRESS');
         $headers['location'] = JText::_('COM_THM_ORGANIZER_LOCATION');
+        $headers['gridID'] = JText::_('COM_THM_ORGANIZER_GRID');
 
         return $headers;
     }
 
     /**
-     * Provides a default method for setting filters for non-unique values
+     * Filters according to the selected city.
      *
      * @param object &$query the query object
      *
@@ -151,5 +166,34 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
         }
 
         $query->where("(c1.city = '$value' OR (c1.city = '' AND c2.city = '$value'))");
+    }
+
+    /**
+     * Filters according to the selected grid.
+     *
+     * @param object &$query the query object
+     *
+     * @return void
+     */
+    private function setGridFilter(&$query)
+    {
+        $value = $this->state->get("filter.gridID", '');
+
+        if ($value === '') {
+            return;
+        }
+
+        /**
+         * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
+         * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
+         * be extended we could maybe add a parameter for it later.
+         */
+        if ($value == '-1') {
+            $query->where("g1.id IS NULL and g2.id IS NULL");
+
+            return;
+        }
+
+        $query->where("(g1.id = '$value' OR (g1.id IS NULL AND g2.id = '$value'))");
     }
 }
