@@ -136,12 +136,12 @@ class THM_OrganizerHelperComponent
                 $viewName == 'schedule_manager'
             );
             JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE'),
+                JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE'),
                 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
                 $viewName == 'plan_pool_manager'
             );
             JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE'),
+                JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE'),
                 'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
                 $viewName == 'plan_program_manager'
             );
@@ -198,11 +198,6 @@ class THM_OrganizerHelperComponent
                 'index.php?option=com_thm_organizer&amp;view=building_manager',
                 $viewName == 'building_manager'
             );
-            /*JHtmlSidebar::addEntry(
-                JText::_('COM_THM_ORGANIZER_EQUIPMENT_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=equipment_manager',
-                $viewName == 'equipment_manager'
-            );*/
             JHtmlSidebar::addEntry(
                 JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE'),
                 'index.php?option=com_thm_organizer&amp;view=monitor_manager',

@@ -52,7 +52,9 @@ class THM_OrganizerViewCampus_Manager extends THM_OrganizerViewList
         JToolbarHelper::addNew('campus.add');
         JToolbarHelper::editList('campus.edit');
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'campus.delete');
-        JToolbarHelper::divider();
-        JToolbarHelper::preferences('com_thm_organizer');
+        if ($this->getModel()->actions->{'core.admin'}) {
+            JToolbarHelper::divider();
+            JToolbarHelper::preferences('com_thm_organizer');
+        }
     }
 }

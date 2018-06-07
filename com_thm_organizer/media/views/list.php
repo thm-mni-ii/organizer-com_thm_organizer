@@ -21,8 +21,6 @@ abstract class THM_OrganizerViewList extends JViewLegacy
 
     public $filterForm = null;
 
-    public $activeFilters = null;
-
     public $headers = null;
 
     public $hiddenFields = null;
@@ -44,7 +42,6 @@ abstract class THM_OrganizerViewList extends JViewLegacy
 
         // Don't know which of these filters does what if anything active had no effect on the active highlighting
         $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
 
         // Items common across list views
         $this->headers      = $this->get('Headers');

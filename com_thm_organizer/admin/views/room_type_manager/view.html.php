@@ -51,7 +51,9 @@ class THM_OrganizerViewRoom_Type_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_VIEW_TITLE'), 'organizer_room_types');
         JToolbarHelper::addNew('room_type.add');
         JToolbarHelper::editList('room_type.edit');
-        JToolbarHelper::custom('room_type.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        if ($this->getModel()->actions->{'core.admin'}) {
+            JToolbarHelper::custom('room_type.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        }
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room_type.delete');
 
         if ($this->getModel()->actions->{'core.admin'}) {

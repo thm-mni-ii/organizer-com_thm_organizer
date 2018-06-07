@@ -84,7 +84,7 @@ class THM_OrganizerController extends JControllerLegacy
     }
 
     /**
-     * Makes call to the models's save function, and redirects to the manager view.
+     * Makes call to the models's save function, and redirects to the same view.
      *
      * @return void
      * @throws Exception
@@ -105,6 +105,30 @@ class THM_OrganizerController extends JControllerLegacy
         $app->enqueueMessage($msg, $type);
         $app->input->set('view', "{$this->resource}_edit");
         $app->input->set('id', $resourceID);
+        parent::display();
+    }
+
+    /**
+     * Makes call to the models's batch function, and redirects to the manager view.
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function batch()
+    {
+        $success = $this->getModel($this->resource)->batch();
+
+        if ($success) {
+            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            $type = 'message';
+        } else {
+            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+            $type = 'error';
+        }
+
+        $app = JFactory::getApplication();
+        $app->enqueueMessage($msg, $type);
+        $app->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 

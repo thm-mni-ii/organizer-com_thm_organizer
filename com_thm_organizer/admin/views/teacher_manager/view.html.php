@@ -51,10 +51,9 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_VIEW_TITLE'), 'organizer_teachers');
         JToolbarHelper::addNew('teacher.add');
         JToolbarHelper::editList('teacher.edit');
-        JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-        JToolbarHelper::deleteList('', 'teacher.delete');
-
         if ($this->getModel()->actions->{'core.admin'}) {
+            JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+            JToolbarHelper::deleteList('', 'teacher.delete');
             JToolbarHelper::divider();
             JToolbarHelper::preferences('com_thm_organizer');
         }

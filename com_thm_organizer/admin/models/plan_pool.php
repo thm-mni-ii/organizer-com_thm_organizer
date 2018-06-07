@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_pools.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 
 /**
@@ -17,6 +18,33 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 {
     /**
+     * Performs batch processing of plan_pools, specifically their publication per period and their associated grids.
+     *
+     * @return void
+     */
+    public function batch()
+    {
+        $input    = JFactory::getApplication()->input;
+        $pPoolIDs = $input->get('cid', [], 'array');
+        if (empty($pPoolIDs)) {
+            return false;
+        }
+
+        $pPoolIDs = Joomla\Utilities\ArrayHelper::toInteger($pPoolIDs);
+        if (!THM_OrganizerHelperPlan_Pools::allowEdit($pPoolIDs)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
+        foreach ($pPoolIDs as $pPoolID) {
+            if (empty($this->savePublishing($pPoolID))){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Attempts to save a resource entry, updating schedule data as necessary.
      *
      * @return mixed  integer on success, otherwise false
@@ -24,18 +52,43 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      */
     public function save()
     {
-        $poolID = parent::save();
-
-        if (empty($poolID)) {
+        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
+        if (empty($formData['id']) or !is_numeric($formData['id'])) {
             return false;
         }
 
-        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
+        $pPoolID  = $formData['id'];
+        $pPoolIDs = [$pPoolID];
+        if (!THM_OrganizerHelperPlan_Pools::allowEdit($pPoolIDs)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
 
+        if (empty(parent::save())) {
+            return false;
+        }
+
+        if (empty($this->$this->savePublishing($pPoolID))) {
+            return false;
+        }
+
+        return $pPoolID;
+    }
+
+    /**
+     * Saves the publishing data for a plan pool.
+     *
+     * @param int $pPoolID the id of the plan pool
+     *
+     * @return bool true on success, otherwise false
+     * @throws Exception
+     */
+    private function savePublishing($pPoolID)
+    {
+        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
         if (!empty($formData['publishing'])) {
             foreach ($formData['publishing'] as $periodID => $publish) {
                 $table = JTable::getInstance("plan_pool_publishing", 'thm_organizerTable');
-                $data  = ['planPoolID' => $poolID, 'planningPeriodID' => $periodID];
+                $data  = ['planPoolID' => $pPoolID, 'planningPeriodID' => $periodID];
                 $table->load($data);
                 $data['published'] = $publish;
 
@@ -45,7 +98,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             }
         }
 
-        return $poolID;
+        return true;
     }
 
     /**
