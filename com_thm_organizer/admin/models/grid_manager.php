@@ -32,7 +32,6 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query    = $this->getDbo()->getQuery(true);
 
-        // `default` in apostrophes because otherwise it's a keyword in sql
         $select = "id, name_$shortTag AS name, grid, defaultGrid, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", "id"];
         $select .= $query->concatenate($parts, "") . " AS link";
@@ -58,7 +57,6 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
         }
 
         $index = 0;
-
         foreach ($items as $item) {
             $return[$index]             = [];
             $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
@@ -66,18 +64,16 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
             $grid                       = json_decode($item->grid);
 
             if (isset($grid) and isset($grid->periods)) {
-                $periods     = get_object_vars($grid->periods);
-                $firstPeriod = $periods[1];
-                $lastPeriod  = end($periods);
-
+                // 'l' (lowercase L) in date function for full textual day of the week.
                 $startDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->startDay} days")));
                 $endDayConstant   = strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days")));
 
-                // 'l' (lowercase L) in date function for full textual day of the week.
-                $return[$index]['startDay']  = JText::_($startDayConstant);
-                $return[$index]['endDay']    = JText::_($endDayConstant);
-                $return[$index]['startTime'] = THM_OrganizerHelperComponent::formatTime($firstPeriod->startTime);
-                $return[$index]['endTime']   = THM_OrganizerHelperComponent::formatTime($lastPeriod->endTime);
+                $return[$index]['startDay'] = JText::_($startDayConstant);
+                $return[$index]['endDay']   = JText::_($endDayConstant);
+
+                $periods                     = get_object_vars($grid->periods);
+                $return[$index]['startTime'] = THM_OrganizerHelperComponent::formatTime(reset($periods)->startTime);
+                $return[$index]['endTime']   = THM_OrganizerHelperComponent::formatTime(end($periods)->endTime);
             } else {
                 $return[$index]['startDay']  = '';
                 $return[$index]['endDay']    = '';
