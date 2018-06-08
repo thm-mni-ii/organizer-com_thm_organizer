@@ -93,7 +93,7 @@ if (!empty($this->languageSwitches)): ?>
                 echo $this->loadTemplate('day');
             }
             if ($template == WEEK) {
-                echo $this->loadTemplate('interval');
+                echo $this->loadTemplate('week');
             }
         }
         ?>

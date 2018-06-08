@@ -77,13 +77,14 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
     /**
      * Creates a tooltip for individual blocks
      *
-     * @param string $date    the block's date
-     * @param int    $blockNo the block number
-     * @param string $roomNo  the room number
+     * @param string $date      the block's date
+     * @param int    $blockNo   the block number
+     * @param string $blockName the block name to be displayed
+     * @param string $roomNo    the room number
      *
      * @return string  formatted tooltip
      */
-    public function getBlockTip($date, $blockNo, $roomNo)
+    public function getBlockTip($date, $blockNo, $blockName, $roomNo)
     {
         $dayConstant   = strtoupper(date('l', strtotime($date)));
         $day           = $this->lang->_($dayConstant);
@@ -91,13 +92,15 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
         $dateText      = "$day $formattedDate<br />";
 
         $block     = $this->model->grid['periods'][$blockNo];
+        $blockText = is_numeric($blockName) ? "$blockName. Block" :  $blockName;
+
         $startTime = THM_OrganizerHelperComponent::formatTime($block['startTime']);
         $endTime   = THM_OrganizerHelperComponent::formatTime($block['endTime']);
-        $blockText = "$blockNo. Block ($startTime - $endTime)<br />";
+        $timeText = " ($startTime - $endTime)<br />";
 
         $roomText = $this->lang->_('COM_THM_ORGANIZER_ROOM') . " $roomNo<br />";
 
-        return htmlentities('<div>' . $dateText . $blockText . $roomText . '</div>');
+        return htmlentities('<div>' . $dateText . $blockText . $timeText . $roomText . '</div>');
     }
 
     /**

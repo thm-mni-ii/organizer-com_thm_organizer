@@ -148,90 +148,102 @@
 
     width: 100%;
 
+    table, thead, tr {
+      display: block;
+      width: 100%;
+    }
+
     table {
 
       border-bottom: $border-light;
       margin-bottom: 0;
-      width: 100%;
 
       thead tr {
-        display: block;
-        position: relative;
+          position: sticky;
       }
 
       tbody {
-        display: block;
+        display: inline-block;
         max-height: 600px;
         overflow-x: hidden;
         overflow-y: scroll;
-        width: 100%;
+      }
+
+      th, td {
+        padding: .5rem 0;
       }
 
       th {
         background-color: $background-navigation-color;
         border: none;
-        color: $font-color;
-
-        &.day-width {
-          width: 147px;
-        }
-
-        &.block-width {
-          width: 16.6px;
-        }
-
-        &.day-row {
-          border-right: $border-white;
-          text-align: center;
-        }
-
-        &.day-row.day-width {
-          padding: 10px 4px;
-        }
-
-        &.block-row {
-          text-align: center;
-          border-right: $border-white;
-        }
 
         &.room-column {
           border-bottom: $border-white;
-          min-width: 90px;
-          max-width: 90px;
-          padding-right: 10px;
+          width: 5.5rem;
+          padding-left: .5rem;
+          padding-right: .5rem;
           overflow: hidden;
+
+          &.day-row, &.block-row {
+            background-color: $foreground-color;
+          }
+
+          &.day-row {
+            border-bottom: none;
+          }
         }
 
-        &.day-row.room-column, &.block-row.room-column {
-          background-color: $foreground-color;
-          border-bottom: none;
-          border-right: none;
+        &.block-column, &.day-column {
+          border-right: $border-white;
+          &:last-child {
+            border-right: none;
+          }
         }
       }
 
       td {
-        text-align: center;
         border-right: $border-light;
         border-bottom: $border-light;
-
-        &.day-width {
-          min-width: 147px;
-          max-width: 148px;
-        }
-
-        &.block-width {
-          width: 17px;
+        &:last-child {
+          border-right: none;
         }
       }
 
-      th.block-column, td.block-column {
-        padding-left: 0.3em;
-        padding-right: 0.3em;
+      th.block-column, th.day-column, td.block-column {
+        text-align: center;
       }
 
-      th.block-row, th.room-row, td.room-row {
-        padding-top: 0.5em;
-        padding-bottom: 0.5em;
+      th.columns-6, td.columns-6 {
+        width: 9.7rem;
+      }
+
+      th.columns-8, td.columns-8 {
+        width: 7.2rem;
+      }
+
+      th.columns-6-6 {
+        width: 155px;
+      }
+
+      th.columns-36, td.columns-36 {
+        width: 25px;
+      }
+
+      th.columns-36 {
+        font-size: .7rem;
+      }
+
+      td.columns-36 {
+        font-size: .6rem;
+      }
+
+      th.columns-6-8 {
+        width: 151px;
+      }
+
+      th.columns-48, td.columns-48 {
+        font-size: .5rem;
+        width: 18px;
       }
     }
   }

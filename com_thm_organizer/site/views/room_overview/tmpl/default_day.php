@@ -8,9 +8,10 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-$columnClass = 'days-' . count($this->model->grid);
-$startDate   = $this->model->startDate;
-$blocks      = $this->model->data[$startDate];
+$colNo     = count($this->model->grid['periods']);
+$labelIndex = 'label_' . THM_OrganizerHelperLanguage::getShortTag();
+$startDate = $this->model->startDate;
+$blocks    = $this->model->data[$startDate];
 ?>
 <table>
     <thead>
@@ -20,7 +21,8 @@ $blocks      = $this->model->data[$startDate];
         foreach ($this->model->grid['periods'] as $times) {
             $startTime = THM_OrganizerHelperComponent::formatTime($times['startTime']);
             $endTime   = THM_OrganizerHelperComponent::formatTime($times['endTime']);
-            echo '<th class="block-column block-row day-width ' . $columnClass . '">' . $startTime . ' - ' . $endTime . '</th>';
+            $columnText = empty($times[$labelIndex]) ? "$startTime - $endTime" : $times[$labelIndex];
+            echo '<th class="block-column block-row columns-' . $colNo . '">' . $columnText . '</th>';
         }
         ?>
     </tr>
@@ -31,14 +33,21 @@ $blocks      = $this->model->data[$startDate];
         echo '<tr>';
         $roomTip = $this->getRoomTip($room);
         echo '<th class="room-column room-row hasTip" title="' . $roomTip . '">' . $room['name'] . '</th>';
-        foreach ($blocks as $blockNo => $rooms) {
-            $blockTip = $this->getBlockTip($startDate, $blockNo, $room['longname']);
+        $blockNo = 0;
+        foreach ($blocks as $blockKey => $rooms) {
+            if (empty($this->model->grid['periods'][$blockKey][$labelIndex])) {
+                $blockNo++;
+                $blockName = $blockNo;
+            } else {
+                $blockName = $this->model->grid['periods'][$blockKey][$labelIndex];
+            }
+            $blockTip = $this->getBlockTip($startDate, $blockKey, $blockName, $room['longname']);
             if (empty($rooms[$roomID])) {
-                echo '<td class="block-column room-row day-width hasTip" title="' . $blockTip . '"></td>';
+                echo '<td class="block-column room-row columns-' . $colNo . ' hasTip" title="' . $blockTip . '"></td>';
             } else {
                 $iconClass = count($rooms[$roomID]) > 1 ? 'grid' : 'square';
                 $blockTip  .= $this->getEventTips($rooms[$roomID]);
-                echo '<td class="block-column room-row day-width hasTip" title="' . $blockTip . '">';
+                echo '<td class="block-column room-row columns-' . $colNo . ' hasTip" title="' . $blockTip . '">';
                 echo '<span class="icon-' . $iconClass . '"></span>';
                 echo '</td>';
             }

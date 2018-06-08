@@ -161,90 +161,104 @@ a [class^="icon-"], a [class*=" icon-"] {
     width: 100%;
 }
 
+.room-overview-view .overview-container table, .room-overview-view .overview-container thead, .room-overview-view .overview-container tr {
+    display: block;
+    width: 100%;
+}
+
 .room-overview-view .overview-container table {
     border-bottom: 1px solid #f2f5f6;
     margin-bottom: 0;
-    width: 100%;
 }
 
 .room-overview-view .overview-container table thead tr {
-    display: block;
-    position: relative;
+    position: sticky;
 }
 
 .room-overview-view .overview-container table tbody {
-    display: block;
+    display: inline-block;
     max-height: 600px;
     overflow-x: hidden;
     overflow-y: scroll;
-    width: 100%;
+}
+
+.room-overview-view .overview-container table th, .room-overview-view .overview-container table td {
+    padding: .5rem 0;
 }
 
 .room-overview-view .overview-container table th {
     background-color: #dfe5e6;
     border: none;
-    color: #394a59;
-}
-
-.room-overview-view .overview-container table th.day-width {
-    width: 147px;
-}
-
-.room-overview-view .overview-container table th.block-width {
-    width: 16.6px;
-}
-
-.room-overview-view .overview-container table th.day-row {
-    border-right: 1px solid white;
-    text-align: center;
-}
-
-.room-overview-view .overview-container table th.day-row.day-width {
-    padding: 10px 4px;
-}
-
-.room-overview-view .overview-container table th.block-row {
-    text-align: center;
-    border-right: 1px solid white;
 }
 
 .room-overview-view .overview-container table th.room-column {
     border-bottom: 1px solid white;
-    min-width: 90px;
-    max-width: 90px;
-    padding-right: 10px;
+    width: 5.5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
     overflow: hidden;
 }
 
-.room-overview-view .overview-container table th.day-row.room-column, .room-overview-view .overview-container table th.block-row.room-column {
+.room-overview-view .overview-container table th.room-column.day-row, .room-overview-view .overview-container table th.room-column.block-row {
     background-color: white;
+}
+
+.room-overview-view .overview-container table th.room-column.day-row {
     border-bottom: none;
+}
+
+.room-overview-view .overview-container table th.block-column, .room-overview-view .overview-container table th.day-column {
+    border-right: 1px solid white;
+}
+
+.room-overview-view .overview-container table th.block-column:last-child, .room-overview-view .overview-container table th.day-column:last-child {
     border-right: none;
 }
 
 .room-overview-view .overview-container table td {
-    text-align: center;
     border-right: 1px solid #f2f5f6;
     border-bottom: 1px solid #f2f5f6;
 }
 
-.room-overview-view .overview-container table td.day-width {
-    min-width: 147px;
-    max-width: 148px;
+.room-overview-view .overview-container table td:last-child {
+    border-right: none;
 }
 
-.room-overview-view .overview-container table td.block-width {
-    width: 17px;
+.room-overview-view .overview-container table th.block-column, .room-overview-view .overview-container table th.day-column, .room-overview-view .overview-container table td.block-column {
+    text-align: center;
 }
 
-.room-overview-view .overview-container table th.block-column, .room-overview-view .overview-container table td.block-column {
-    padding-left: 0.3em;
-    padding-right: 0.3em;
+.room-overview-view .overview-container table th.columns-6, .room-overview-view .overview-container table td.columns-6 {
+    width: 9.7rem;
 }
 
-.room-overview-view .overview-container table th.block-row, .room-overview-view .overview-container table th.room-row, .room-overview-view .overview-container table td.room-row {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+.room-overview-view .overview-container table th.columns-8, .room-overview-view .overview-container table td.columns-8 {
+    width: 7.2rem;
+}
+
+.room-overview-view .overview-container table th.columns-6-6 {
+    width: 155px;
+}
+
+.room-overview-view .overview-container table th.columns-36, .room-overview-view .overview-container table td.columns-36 {
+    width: 25px;
+}
+
+.room-overview-view .overview-container table th.columns-36 {
+    font-size: .7rem;
+}
+
+.room-overview-view .overview-container table td.columns-36 {
+    font-size: .6rem;
+}
+
+.room-overview-view .overview-container table th.columns-6-8 {
+    width: 151px;
+}
+
+.room-overview-view .overview-container table th.columns-48, .room-overview-view .overview-container table td.columns-48 {
+    font-size: .5rem;
+    width: 18px;
 }
 
 div.no-results {

@@ -52,13 +52,6 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     public function __construct($config = [])
     {
         parent::__construct();
-
-        $app = JFactory::getApplication();
-        if (!empty($app->getMenu()) and !empty($app->getMenu()->getActive())) {
-            $params              = $app->getMenu()->getActive()->params;
-            $this->defaultCampus = $params->get('campusID', 0);
-        }
-
         $this->populateState();
         $this->setRooms();
         $this->setGrid();
@@ -95,15 +88,20 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app         = JFactory::getApplication();
-        $format      = $app->getParams()->get('dateFormat', 'd.m.Y');
-        $formData    = $app->input->get('jform', [], 'array');
-        $defaultDate = date($format);
+        $app           = JFactory::getApplication();
+        $format        = $app->getParams()->get('dateFormat', 'd.m.Y');
+        $formData      = $app->input->get('jform', [], 'array');
+        $defaultDate   = date($format);
+        $defaultCampus = 0;
+
+        if (!empty($app->getMenu()) and !empty($app->getMenu()->getActive())) {
+            $defaultCampus = $app->getMenu()->getActive()->params->get('campusID', 0);
+        }
 
         if (empty($formData)) {
             $formData['template']   = self::DAY;
             $formData['date']       = $defaultDate;
-            $formData['campusID']   = $this->defaultCampus;
+            $formData['campusID']   = $defaultCampus;
             $formData['buildingID'] = '';
             $formData['types']      = [''];
             $formData['rooms']      = [''];
@@ -117,7 +115,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
             $dateValid        = strtotime($reqDate) !== false;
             $formData['date'] = $dateValid ? date($format, strtotime($reqDate)) : $defaultDate;
 
-            $formData['campusID']   = empty($formData['campusID']) ? $this->defaultCampus : (int)$formData['campusID'];
+            $formData['campusID']   = empty($formData['campusID']) ? $defaultCampus : (int)$formData['campusID'];
             $formData['buildingID'] = empty($formData['buildingID']) ? '' : (int)$formData['buildingID'];
 
             if (isset($formData['types'])) {
@@ -144,6 +142,8 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
                 $formData['rooms'] = [''];
             }
         }
+
+        $this->defaultCampus = $formData['campusID'];
 
         foreach ($formData as $index => $value) {
             $this->state->set($index, $value);
@@ -182,18 +182,57 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     private function setGrid()
     {
         $query = $this->_db->getQuery(true);
-        $query->select('grid')->from('#__thm_organizer_grids')->where("defaultGrid = '1'");
+        $query->select('grid')->from('#__thm_organizer_grids as g')->where("defaultGrid = '1'");
         $this->_db->setQuery($query);
 
         try {
-            $rawGrid = $this->_db->loadResult();;
+            $defaultGrid = $this->_db->loadResult();
         } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
             return;
         }
 
-        $this->grid = json_decode($rawGrid, true);
+        $defaultGrid = json_decode($defaultGrid, true);
+
+        if (empty($this->defaultCampus)) {
+            $this->grid = $defaultGrid;
+
+            return;
+        }
+
+        // Attempt to load the default grid for the campus
+        $query = $this->_db->getQuery(true);
+        $query->select('g1.grid as grid, g2.grid as parentGrid')
+            ->from('#__thm_organizer_campuses as c1')
+            ->leftJoin("#__thm_organizer_grids as g1 on c1.gridID = g1.id")
+            ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID')
+            ->leftJoin("#__thm_organizer_grids as g2 on c2.gridID = g2.id")
+            ->where("c1.id = '$this->defaultCampus'")
+            ->where("(c1.gridID IS NOT NULL OR (c1.gridID IS NULL and c2.gridID IS NOT NULL))");
+        $this->_db->setQuery($query);
+
+        try {
+            $campusGrids = $this->_db->loadAssoc();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
+            return;
+        }
+
+        if (empty($campusGrids)) {
+            $this->grid = $defaultGrid;
+
+            return;
+        }
+
+        if (empty($campusGrids['grid'])) {
+            $this->grid = json_decode($campusGrids['parentGrid'], true);
+
+            return;
+        }
+
+        $this->grid = json_decode($campusGrids['grid'], true);
     }
 
     /**
