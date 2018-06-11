@@ -23,16 +23,6 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
     protected $defaultDirection = 'asc';
 
     /**
-     * Constructor to set the config array and call the parent constructor
-     *
-     * @param array $config Configuration  (default: array)
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-    }
-
-    /**
      * Method to get all plan_programs from the database
      *
      * @return JDatabaseQuery
