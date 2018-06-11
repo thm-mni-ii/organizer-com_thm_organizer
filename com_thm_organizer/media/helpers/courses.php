@@ -308,6 +308,7 @@ class THM_OrganizerHelperCourses
         $query->from('#__thm_organizer_lessons AS l');
         $query->leftJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id');
         $query->where("l.id = '$courseID'");
+        $query->where("c.delta != 'removed'");
         $query->order('c.schedule_date');
 
         $dbo->setQuery($query);

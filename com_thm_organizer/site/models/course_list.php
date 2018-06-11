@@ -69,6 +69,7 @@ class THM_OrganizerModelCourse_List extends JModelList
         $subQuery->select('lessonID, MIN(schedule_date) as start, MAX(schedule_date) as end')
             ->select('(MAX(schedule_date) < CURRENT_DATE()) as expired')
             ->from('#__thm_organizer_calendar')
+            ->where("delta != 'removed'")
             ->group('lessonID');
 
         $courseQuery->select("s.id as subjectID, ls.lessonID, s.name_$tag as name, sq.start, sq.end, sq.expired");
