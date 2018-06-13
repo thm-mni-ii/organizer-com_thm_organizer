@@ -10,7 +10,7 @@
  */
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 
 /**
  * Class which manages stored subject data.
@@ -44,7 +44,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $data     = JFactory::getApplication()->input->get('jform', [], 'array');
         $lessonID = JFactory::getApplication()->input->getInt('lessonID', 0);
 
-        if (THM_OrganizerHelperComponent::allowResourceManage('subject', $data["id"])) {
+        if (THM_OrganizerHelperSubjects::allowEdit($data["id"])) {
             $table   = $this->getTable();
             $success = $table->save($data);
         } else {
