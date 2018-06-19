@@ -119,8 +119,25 @@ class THM_OrganizerController extends JControllerLegacy
             }
         }
 
-        // Always the current user
+        // Always based on the current user, no further validation required.
         $participant = parent::getModel('participant_edit')->getItem();
+
+        // Ensure participant data is complete
+        $invalidParticipant = (empty($participant->address)
+            or empty($participant->zip_code)
+            or empty($participant->city)
+            or empty($participant->programID)
+            or empty($participant->forename)
+            or empty($participant->surname)
+        );
+
+        // Participant entry is incomplete
+        if ($invalidParticipant) {
+            $app->redirect(JRoute::_($participantEditURL, false));
+
+            return;
+        }
+
         $type        = 'error';
         $userState   = THM_OrganizerHelperCourses::getParticipantState();
 
