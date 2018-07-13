@@ -7,16 +7,12 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 
 /**
@@ -339,10 +335,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $ringQuery->where("c.delta != 'removed'");
         $ringQuery->where("schedule_date BETWEEN '$this->startDate' AND '$this->endDate'");
 
-        $regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.colon.]][[.{.]]' .
-            '([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-            '[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]' .
-            '[[.quotation-mark.]][^removed]';
+        $regexp = '"rooms":\\{[^{}]+"' . $roomID . '":("new"|"")';
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
 

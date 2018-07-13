@@ -8,24 +8,17 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
-/** @noinspection PhpIncludeInspection */
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/room_types.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/schedule.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
@@ -78,44 +71,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      */
     public function getRoomTypes()
     {
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $types   = THM_OrganizerHelperRoomTypes::getUsedRoomTypes();
+        $default = [JText::_('JALL') => '0'];
 
-        /** @noinspection PhpIncludeInspection */
-        require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
-        $rooms = THM_OrganizerHelperRooms::getPlanRooms();
-
-        $relevantIDs = [];
-        foreach ($rooms as $room) {
-            if (!empty($room['typeID'])) {
-                $relevantIDs[$room['typeID']] = $room['typeID'];
-            }
-        }
-
-        $query = $this->_db->getQuery(true);
-        $query->select("id, name_$languageTag AS name")
-            ->from('#__thm_organizer_room_types AS type');
-
-        if (!empty($relevantIDs)) {
-            $query->where("id IN ('" . implode("','", $relevantIDs) . "')");
-        }
-
-        $query->order('name');
-        $this->_db->setQuery($query);
-
-        try {
-            // Like teachers, pools etc. roomTypes are returned as an ["name" => "id"] array instead of an object
-            $result = $this->_db->loadAssocList('name', 'id');
-        } catch (Exception $exc) {
-            return '[]';
-        }
-
-        if (empty($result)) {
-            return '[]';
-        }
-
-        $default = [JText::_('JALL') => '-1'];
-
-        return json_encode(array_merge($default, $result));
+        return json_encode(array_merge($default, $types));
     }
 
     /**
@@ -126,30 +85,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      */
     public function getRooms()
     {
-        $departmentID = JFactory::getApplication()->input->getInt('departmentIDs');
-        $typeID       = JFactory::getApplication()->input->getInt('roomTypeIDs');
+        $rooms = THM_OrganizerHelperRooms::getRooms();
 
-        $query = $this->_db->getQuery(true);
-        $query->select("roo.id, roo.longname AS name")
-            ->from('#__thm_organizer_rooms AS roo');
-
-        if ($departmentID != 0) {
-            $query->leftJoin('#__thm_organizer_department_resources AS dr ON roo.id = dr.roomID');
-            $query->where("dr.departmentID = $departmentID");
-        }
-
-        if ($typeID != '-1') {
-            $query->where("roo.typeID = $typeID");
-        }
-
-        $query->order('name');
-        $this->_db->setQuery($query);
-
-        try {
-            // Like teachers, pools etc. rooms are returned as an ["name" => "id"] array instead of an object
-            $result = $this->_db->loadAssocList('name', 'id');
-        } catch (Exception $exc) {
-            return '[]';
+        $result = [];
+        foreach ($rooms as $room) {
+            $result[$room['name']] = $room['id'];
         }
 
         return empty($result) ? '[]' : json_encode($result);
@@ -383,18 +323,15 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $value    = JFactory::getApplication()->input->getInt('value');
 
         switch ($resource) {
-            case "room" :
-                /** @noinspection PhpIncludeInspection */
+            case "room":
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
                 $title = JText::_('COM_THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
                 break;
-            case "pool" :
-                /** @noinspection PhpIncludeInspection */
+            case "pool":
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
                 $title = THM_OrganizerHelperPools::getFullName($value);
                 break;
-            case "teacher" :
-                /** @noinspection PhpIncludeInspection */
+            case "teacher":
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
                 $title = JText::_('COM_THM_ORGANIZER_TEACHER') . ' ' . THM_OrganizerHelperTeachers::getDefaultName($value);
                 break;

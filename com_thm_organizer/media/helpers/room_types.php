@@ -41,4 +41,40 @@ class THM_OrganizerHelperRoomTypes
 
         return $success ? $roomTypesTable->$attribute : '';
     }
+
+    /**
+     * Returns room types which are used by rooms.
+     * Optionally filterable by DepartmentIDs.
+     *
+     * @return array
+     * @throws Exception
+     */
+    public static function getUsedRoomTypes()
+    {
+        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $dbo         = JFactory::getDbo();
+
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT t.id, t.name_' . $languageTag . ' AS name')
+            ->from('#__thm_organizer_room_types AS t')
+            ->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
+
+        $departmentID = JFactory::getApplication()->input->getInt('departmentIDs', 0);
+        if (!empty($departmentID)) {
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON r.id = dr.roomID');
+            $query->where('dr.departmentID = ' . $departmentID);
+        }
+
+        $query->order('name');
+        $dbo->setQuery($query);
+
+        try {
+            $results = $dbo->loadAssocList('name', 'id');
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            return [];
+        }
+
+        return empty($results) ? [] : $results;
+    }
 }

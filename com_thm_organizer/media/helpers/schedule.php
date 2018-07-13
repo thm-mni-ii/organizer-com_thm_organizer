@@ -7,17 +7,12 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-defined('_JEXEC') or die;
 
-/** @noinspection PhpIncludeInspection */
+defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/mapping.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/courses.php';
 
 
@@ -160,11 +155,8 @@ class THM_OrganizerHelperSchedule
 
         if (!empty($parameters['teacherIDs'])) {
             foreach ($parameters['teacherIDs'] as $teacherID) {
-                $regexp = '[[.quotation-mark.]]teachers[[.quotation-mark.]][[.colon.]][[.{.]]' .
-                    '([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-                    '[[.quotation-mark.]]' . $teacherID . '[[.quotation-mark.]][[.colon.]]';
-
-                $regexp .= (empty($parameters['delta'])) ? '[[.quotation-mark.]][^removed]' : '';
+                $regexp = '"teachers":\\{[^{}]+"' . $teacherID . '"';
+                $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
 
                 $wherray[] = "lc.configuration REGEXP '$regexp'";
             }
@@ -172,11 +164,8 @@ class THM_OrganizerHelperSchedule
 
         if (!empty($parameters['roomIDs'])) {
             foreach ($parameters['roomIDs'] as $roomID) {
-                $regexp = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.colon.]][[.{.]]' .
-                    '([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-                    '[[.quotation-mark.]]' . $roomID . '[[.quotation-mark.]][[.colon.]]';
-
-                $regexp .= (empty($parameters['delta'])) ? '[[.quotation-mark.]][^removed]' : '';
+                $regexp = '"rooms":\\{[^{}]+"' . $roomID . '"';
+                $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
 
                 $wherray[] = "lc.configuration REGEXP '$regexp'";
             }

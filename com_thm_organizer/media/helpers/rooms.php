@@ -109,75 +109,55 @@ class THM_OrganizerHelperRooms
      */
     public static function getPlanRooms()
     {
-        $dbo           = JFactory::getDbo();
-        $default       = [];
-        $input         = JFactory::getApplication()->input;
-        $selectedRooms = $input->get('roomIDs', [], 'array');
-        $selectedTypes = $input->get('typeIDs', [], 'array');
-
-        $allRoomQuery = $dbo->getQuery(true);
-        $allRoomQuery->select('DISTINCT r.id, r.name, r.typeID')->from('#__thm_organizer_rooms AS r');
-
-        if (!empty($selectedRooms)) {
-            $roomIDs = "'" . implode("', '", $selectedRooms) . "'";
-            $allRoomQuery->where("r.id IN ($roomIDs)");
-        }
-
-        if (!empty($selectedTypes)) {
-            $allRoomQuery->innerJoin("#__thm_organizer_room_types AS rt ON r.typeID = rt.id");
-            $typeIDs = "'" . implode("', '", $selectedTypes) . "'";
-            $allRoomQuery->where("rt.id IN ($typeIDs)");
-        }
-
-        $dbo->setQuery($allRoomQuery);
-
-        try {
-            $allRooms = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return $default;
-        }
+        $allRooms = self::getRooms();
+        $default  = [];
 
         if (empty($allRooms)) {
             return $default;
         }
 
-        $selectedDepartments = $input->getString('departmentIDs');
-        $selectedPrograms    = $input->getString('programIDs');
-        $relevantRooms       = [];
+        $app           = JFactory::getApplication();
+        $dbo           = JFactory::getDbo();
+        $relevantRooms = [];
+
+        $selectedDepartments = $app->input->getString('departmentIDs');
+        $departmentIDs       = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
+        $selectedPrograms    = $app->input->getString('programIDs');
+        $programIDs          = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
 
         foreach ($allRooms as $room) {
-            $relevanceQuery = $dbo->getQuery(true);
-            $relevanceQuery->select("COUNT(DISTINCT lc.id)");
-            $relevanceQuery->from('#__thm_organizer_lesson_configurations AS lc');
-            $relevanceQuery->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lc.lessonID = ls.id');
-            $relevanceQuery->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
+            $query = $dbo->getQuery(true);
+            $query->select('COUNT(DISTINCT lc.id)');
+            $query->from('#__thm_organizer_lesson_configurations AS lc');
 
-            $regex = '[[.quotation-mark.]]rooms[[.quotation-mark.]][[.colon.]][[.{.]]' .
-                '([[.quotation-mark.]][[:alnum:]]*[[.quotation-mark.]][[.colon.]]?[[.comma.]]?)*' .
-                "[[.quotation-mark.]]{$room['id']}[[.quotation-mark.]][[.colon.]]" .
-                '[[.quotation-mark.]][^removed]';
-            $relevanceQuery->where("lc.configuration REGEXP '$regex'");
+            // Negative lookaheads are not possible in MySQL and POSIX (e.g. [[:colon:]]) is not in MariaDB
+            // This regex is compatible with both
+            $regex = '"rooms":\\{[^{}]+"' . $room['id'] . '":("new"|"")';
+            $query->where("lc.configuration REGEXP '$regex'");
+
+            /*
+            * TODO: Insert JSON function for MySQL >= 5.7. (1.55sec instead of 1.99sec with 1.000.000 executions)
+            * $subQuery->where('JSON_UNQUOTE(JSON_EXTRACT(lc.configuration, "$.rooms.' . $room['id'] . '")) NOT LIKE "removed"');
+            */
 
             if (!empty($selectedDepartments)) {
-                $relevanceQuery->innerJoin("#__thm_organizer_department_resources AS dr ON dr.roomID = '{$room['id']}'");
-                $departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
-                $relevanceQuery->where("dr.departmentID IN ($departmentIDs)");
+                $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.roomID = '{$room['id']}'");
+                $query->where("dr.departmentID IN ($departmentIDs)");
             }
 
             if (!empty($selectedPrograms)) {
-                $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-                $relevanceQuery->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id');
-                $relevanceQuery->where("ppo.programID in ($programIDs)");
+                $query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lc.lessonID = ls.id');
+                $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
+                $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id');
+                $query->where("ppo.programID in ($programIDs)");
             }
 
-            $dbo->setQuery($relevanceQuery);
+            $dbo->setQuery($query);
 
             try {
                 $count = $dbo->loadResult();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+                $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
                 return $default;
             }
@@ -207,18 +187,26 @@ class THM_OrganizerHelperRooms
 
         $menuCampus    = (empty($app->getMenu()) or empty($app->getMenu()->getActive())) ?
             0 : $app->getMenu()->getActive()->params->get('campusID', 0);
-        $defaultCampus = empty($input->getInt('campusID')) ? $menuCampus : $input->getInt('campusID');
+        $defaultCampus = $input->getInt('campusID', $menuCampus);
 
-        $buildingID = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID   = (empty($formData) or empty($formData['campusID'])) ? $defaultCampus : (int)$formData['campusID'];
-        $typeIDs    = (empty($formData) or empty($formData['types'])) ? [$input->getInt('typeID')] : $formData['types'];
-        $roomIDs    = (empty($formData) or empty($formData['rooms'])) ? [$input->getInt('roomID')] : $formData['rooms'];
+        $buildingID   = empty($formData['buildingID']) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
+        $campusID     = empty($formData['campusID']) ? $defaultCampus : (int)$formData['campusID'];
+        $departmentID = $input->getInt('departmentIDs', 0);
+        $inputTypes   = (array)$input->getInt('typeID', $input->getInt('typeIDs', $input->getInt('roomTypeIDs')));
+        $typeIDs      = empty($formData['types']) ? $inputTypes : $formData['types'];
+        $inputRooms   = (array)$input->getInt('roomID', $input->getInt('roomIDs'));
+        $roomIDs      = empty($formData['rooms']) ? $inputRooms : $formData['rooms'];
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT r.id, r.*, rt.name_$shortTag AS typeName, rt.description_$shortTag AS typeDesc")
             ->from('#__thm_organizer_rooms AS r')
             ->innerJoin('#__thm_organizer_room_types AS rt ON rt.id = r.typeID');
+
+        if (!empty($departmentID)) {
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.roomID = r.id');
+            $query->where("dr.departmentID = '$departmentID'");
+        }
 
         if (!empty($roomIDs)) {
             $roomIDs   = Joomla\Utilities\ArrayHelper::toInteger($roomIDs);
@@ -233,7 +221,6 @@ class THM_OrganizerHelperRooms
                 $query->where("r.id IN $roomString");
             }
         }
-
 
         if (!empty($typeIDs)) {
             $typeIDs   = Joomla\Utilities\ArrayHelper::toInteger($typeIDs);
