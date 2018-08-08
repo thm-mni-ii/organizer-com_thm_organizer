@@ -132,7 +132,7 @@ class THM_OrganizerHelperRooms
 
             // Negative lookaheads are not possible in MySQL and POSIX (e.g. [[:colon:]]) is not in MariaDB
             // This regex is compatible with both
-            $regex = '"rooms":\\{[^{}]+"' . $room['id'] . '":("new"|"")';
+            $regex = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $room['id'] . '":("new"|"")';
             $query->where("lc.configuration REGEXP '$regex'");
 
             /*

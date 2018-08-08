@@ -311,7 +311,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
         $ringQuery->where("c.delta != 'removed'");
         $ringQuery->where("schedule_date BETWEEN '$this->startDate' AND '$this->endDate'");
 
-        $regexp = '"rooms":\\{[^{}]+"' . $roomID . '":("new"|"")';
+        $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
 
