@@ -2543,7 +2543,13 @@ const ScheduleApp = function (variables) {
      */
     function getDateFieldString()
     {
-        return app.dateField.value.replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3' + '-' + '$2' + '-' + '$1');
+        let date = new Date(), day = date.getDay(), month = date.getMonth() + 1;
+
+        if (app.dateField.value) {
+            return app.dateField.value.replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3' + '-' + '$2' + '-' + '$1');
+        }
+
+        return date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
     }
 
     /**
@@ -2554,11 +2560,13 @@ const ScheduleApp = function (variables) {
     {
         const parts = app.dateField.value.split('.', 3);
 
-        if (parts)
+        if (parts.length === 3)
         {
             // 12:00:00 o'clock for timezone offset
             return new Date(parseInt(parts[2], 10), parseInt(parts[1] - 1, 10), parseInt(parts[0], 10), 12, 0, 0);
         }
+
+        return new Date();
     }
 
     /**
