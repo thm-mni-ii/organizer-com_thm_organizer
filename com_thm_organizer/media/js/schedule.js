@@ -57,15 +57,15 @@ const ScheduleApp = function (variables) {
         datePattern = (function () {
             let pattern = variables.dateFormat;
 
-            pattern = pattern.replace(/d/, '\\d{2}');
-            pattern = pattern.replace(/j/, '\\d{1,2}');
-            pattern = pattern.replace(/m/, '\\d{2}');
-            pattern = pattern.replace(/n/, '\\d{1,2}');
-            pattern = pattern.replace(/y/, '\\d{2}');
-            pattern = pattern.replace(/Y/, '\\d{4}');
+            pattern = pattern.replace(/d/, '([0-9]{2})');
+            pattern = pattern.replace(/j/, '([0-9]{1,2})');
+            pattern = pattern.replace(/m/, '([0-9]{2})');
+            pattern = pattern.replace(/n/, '([0-9]{1,2})');
+            pattern = pattern.replace(/y/, '([0-9]{2})');
+            pattern = pattern.replace(/Y/, '([0-9]{4})');
             // Escape bindings like dots
-            pattern = pattern.replace(/\./g, '\\.');
-            pattern = pattern.replace(/\\/g, '\\');
+            pattern = pattern.replace(/[/]/g, '\\/');
+            pattern = pattern.replace(/[.]/g, '\\.');
 
             return new RegExp(pattern);
         })();
@@ -2532,33 +2532,36 @@ const ScheduleApp = function (variables) {
     }
 
     /**
-     * TODO: universalere Lösung finden statt auf festes lokal-abhängiges value-Format zu setzen
      * Returns the current date field value as a string connected by minus.
      * @returns {string}
      */
     function getDateFieldString()
     {
-        let date = new Date(), day = date.getDay(), month = date.getMonth() + 1;
-
-        if (app.dateField.value) {
-            return app.dateField.value.replace(/(\d{2})\.(\d{2})\.(\d{4})/, '$3' + '-' + '$2' + '-' + '$1');
-        }
+        const date = getDateFieldsDateObject(), day = date.getDay(), month = date.getMonth() + 1;
 
         return date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
     }
 
     /**
-     * Returns a Date object by the current date field value
+     * Returns a Date object by the current date field value, parsing the configured date format
      * @returns {Date}
      */
     function getDateFieldsDateObject()
     {
-        const parts = app.dateField.value.split('.', 3);
+        const matches = app.dateField.value.match(datePattern), firstChar = variables.dateFormat.charAt(0);
 
-        if (parts.length === 3)
+        if (matches)
         {
-            // 12:00:00 o'clock for timezone offset
-            return new Date(parseInt(parts[2], 10), parseInt(parts[1] - 1, 10), parseInt(parts[0], 10), 12, 0, 0);
+            // Year comes first
+            if (firstChar === 'y' || firstChar === 'Y')
+            {
+                // 12:00:00 o'clock for timezone offset
+                return new Date(parseInt(matches[1], 10), parseInt(matches[2] - 1, 10), parseInt(matches[3], 10), 12, 0, 0);
+            }
+            else
+            {
+                return new Date(parseInt(matches[3], 10), parseInt(matches[2] - 1, 10), parseInt(matches[1], 10), 12, 0, 0);
+            }
         }
 
         return new Date();
