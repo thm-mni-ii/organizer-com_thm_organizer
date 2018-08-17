@@ -149,10 +149,8 @@ $displayName = empty($this->model->displayName) ?
                 }
                 ?>
                 <div id="category-input" class="input-wrapper">
-                    <select id="category" required data-input="static">
-                        <option value="placeholder" disabled>
-                            <?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>
-                        </option>
+                    <select id="category" required data-input="static"
+                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>">
                         <?php
                         if (!empty($this->model->params['showPrograms'])) {
                             echo '<option value="program" selected>' . JText::_("COM_THM_ORGANIZER_PROGRAMS") . '</option>';
@@ -169,22 +167,26 @@ $displayName = empty($this->model->displayName) ?
                     </select>
                 </div>
                 <div id="program-input" class="input-wrapper">
-                    <select id="program" data-next="pool">
+                    <select id="program" data-next="pool"
+                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER"); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="pool-input" class="input-wrapper">
-                    <select id="pool" data-next="lesson">
+                    <select id="pool" data-next="lesson"
+                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER"); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="roomType-input" class="input-wrapper">
-                    <select id="roomType" data-next="room">
+                    <select id="roomType" data-next="room"
+                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER"); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="room-input" class="input-wrapper">
-                    <select id="room" data-next="lesson">
+                    <select id="room" data-next="lesson"
+                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER"); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
@@ -288,12 +290,6 @@ $displayName = empty($this->model->displayName) ?
                     <tbody>
                     <?php
                     for ($period = 1; $period <= count($periods); ++$period) {
-                        if ($period == 4) {
-                            echo '<tr class="break-row">';
-                            echo '<td class="break" colspan="7">' . JText::_('COM_THM_ORGANIZER_LUNCHTIME') . '</td>';
-                            echo "</tr>";
-                        }
-
                         echo "<tr>";
                         echo "<td>";
                         echo THM_OrganizerHelperComponent::formatTime($periods[$period]->startTime);
@@ -307,12 +303,6 @@ $displayName = empty($this->model->displayName) ?
                         }
 
                         echo "</tr>";
-
-                        if ($period == 1 or $period == 2 or $period == 4 or $period == 5) {
-                            echo '<tr class="break-row">';
-                            echo '<td class="break" colspan="7"></td>';
-                            echo "</tr>";
-                        }
                     } // Periods
                     ?>
                     </tbody>

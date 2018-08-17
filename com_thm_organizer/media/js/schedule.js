@@ -70,7 +70,7 @@ const ScheduleApp = function (variables) {
             return new RegExp(pattern);
         })();
     // Get initialised in constructor
-    let calendar, changedGrid, form, lessonMenu, scheduleObjects;
+    let calendar, form, lessonMenu, scheduleObjects;
 
     /**
      * Calendar class for a date input field with HTMLTableElement as calendar.
@@ -405,10 +405,9 @@ const ScheduleApp = function (variables) {
 
         /**
          * Sends an Ajax request with the actual date to update the schedule
-         * @param {boolean} [firstUpdate]
          * @param {boolean} [updateOthers=false]
          */
-        this.requestUpdate = function (firstUpdate, updateOthers) {
+        this.requestUpdate = function (updateOthers) {
             ajaxUrl = ajaxUrl.replace(/(date=)\d{4}-\d{2}-\d{2}/, '$1' + getDateFieldString());
             ajaxRequest.open('GET', ajaxUrl, true);
 
@@ -422,7 +421,7 @@ const ScheduleApp = function (variables) {
                      */
                     const response = JSON.parse(ajaxRequest.responseText);
                     lessons = response;
-                    table.update(response, firstUpdate);
+                    table.update(response);
                     that.popUp();
 
                     if (id === getSelectedScheduleID())
@@ -443,7 +442,7 @@ const ScheduleApp = function (variables) {
                         scheduleObjects.schedules.forEach(function (schedule) {
                             if (schedule.getId() !== id)
                             {
-                                schedule.updateTable(false);
+                                schedule.updateTable();
                             }
                         });
                     }
@@ -455,11 +454,9 @@ const ScheduleApp = function (variables) {
 
         /**
          * Updates table with already given lessons, e.g. for changing time grids
-         * @param {boolean} [defaultGrid=true] - whether use default grid of schedule or not
          */
-        this.updateTable = function (defaultGrid) {
-            defaultGrid = typeof defaultGrid === 'undefined' ? true : defaultGrid;
-            table.update(lessons, defaultGrid);
+        this.updateTable = function () {
+            table.update();
             that.popUp();
         };
 
@@ -563,9 +560,9 @@ const ScheduleApp = function (variables) {
          */
         (function () {
             table = new ScheduleTable(that);
-            that.requestUpdate(true);
-            addScheduleToSelection(that);
+            that.requestUpdate();
             scheduleObjects.addSchedule(that);
+            addScheduleToSelection(that);
         })();
     }
 
@@ -576,7 +573,6 @@ const ScheduleApp = function (variables) {
     function ScheduleTable(schedule)
     {
         const table = document.createElement('table'),
-            that = this,
             isUserSchedule = schedule.getId() === 'user',
             weekend = 7;
         let defaultGrid = null,
@@ -587,6 +583,8 @@ const ScheduleApp = function (variables) {
              * @param {number} timeGrid.startDay - 2 for tuesday etc.
              */
             timeGrid = getSelectedTimeGrid(),
+            timeGridID = getSelectedValues('grid'),
+            useDefaultGrid = true,
             visibleDay = getDateFieldsDateObject().getDay();
 
         /**
@@ -664,29 +662,28 @@ const ScheduleApp = function (variables) {
         {
             const hasPeriods = timeGrid.hasOwnProperty('periods'),
                 rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            let period = 1, row;
+            let endTime, period = 1, row, startTime;
+
+            // No periods -> no times
+            if (!timeGrid.periods) {
+                return;
+            }
 
             for (row = 0; row < rows.length; ++row)
             {
-                if (!rows[row].classList.contains('break-row'))
-                {
-                    const timeCell = rows[row].getElementsByTagName('td')[0];
+                const gap = endTime ? timeGrid.periods[period].startTime - timeGrid.periods[period - 1].endTime : 0,
+                    timeCell = rows[row].getElementsByTagName('td')[0];
 
-                    if (hasPeriods)
-                    {
-                        const startTime = timeGrid.periods[period].startTime.replace(/(\d{2})(\d{2})/, '$1:$2'),
-                            endTime = timeGrid.periods[period].endTime.replace(/(\d{2})(\d{2})/, '$1:$2');
-
-                        timeCell.innerHTML = startTime + '<br> - <br>' + endTime;
-                        timeCell.style.display = '';
-
-                        ++period;
-                    }
-                    else
-                    {
-                        timeCell.style.display = 'none';
-                    }
+                // Indicate bigger breaks between blocks (more than 30 minutes)
+                if (gap >= 100) {
+                    rows[row - 1].classList.add('long-break-after');
                 }
+
+                startTime = timeGrid.periods[period].startTime.replace(/(\d{2})(\d{2})/, '$1:$2');
+                endTime = timeGrid.periods[period].endTime.replace(/(\d{2})(\d{2})/, '$1:$2');
+                timeCell.innerHTML = startTime + '<br> - <br>' + endTime;
+
+                ++period;
             }
         }
 
@@ -698,7 +695,7 @@ const ScheduleApp = function (variables) {
             const headItems = table.getElementsByTagName('thead')[0].getElementsByTagName('th'),
                 headerDate = getDateFieldsDateObject(),
                 day = headerDate.getDay();
-            let currentDay = timeGrid.startDay, thElement;
+            let currentDay = parseInt(timeGrid.startDay), thElement;
 
             // Set date to monday of the coming week
             if (day === 0)
@@ -752,7 +749,6 @@ const ScheduleApp = function (variables) {
                         continue;
                     }
 
-                    // gridIndex for grid, rowIndex for rows without break
                     let gridIndex = 1, rowIndex = 0;
 
                     for (block in lessons[date])
@@ -766,32 +762,23 @@ const ScheduleApp = function (variables) {
                         blockStart = blockTimes[1];
                         blockEnd = blockTimes[2];
 
-                        // Prevent going into next grid, when this block fits into previous too
+                        // Prevent going into next period, when this block fits into previous too
                         // e.g. block0 = 08:00 - 09:30, block1 = 08:00 - 10:00 o'clock
                         // tableEndTime from last iterated block
-                        if (gridIndex > 1 && tableEndTime && blockStart <= tableEndTime)
+                        if (gridIndex > 1 && tableEndTime && blockStart < tableEndTime)
                         {
                             --gridIndex;
-                            do
-                            {
-                                --rowIndex;
-                            }
-                            while (rows[rowIndex] && rows[rowIndex].classList.contains('break-row'));
+                            --rowIndex;
                         }
 
                         tableStartTime = timeGrid.periods[gridIndex].startTime;
                         tableEndTime = timeGrid.periods[gridIndex].endTime;
 
                         // Block does not fit? go to next block
-                        while (tableEndTime <= blockStart)
+                        while (tableEndTime <= blockStart && timeGrid.periods[gridIndex + 1])
                         {
-                            do
-                            {
-                                ++rowIndex;
-                            }
-                            while (rows[rowIndex] && rows[rowIndex].classList.contains('break-row'));
-
                             ++gridIndex;
+                            ++rowIndex;
                             tableStartTime = timeGrid.periods[gridIndex].startTime;
                             tableEndTime = timeGrid.periods[gridIndex].endTime;
                         }
@@ -823,11 +810,6 @@ const ScheduleApp = function (variables) {
                             nextBlock = timeGrid.periods[gridIndex + 1];
                             nextRow = rows[rowIndex + 1];
 
-                            if (nextRow && nextRow.classList.contains('break-row'))
-                            {
-                                nextRow = rows[rowIndex + 2];
-                            }
-
                             if (nextRow && nextBlock && blockEnd > nextBlock.startTime)
                             {
                                 nextCell = nextRow.getElementsByTagName('td')[colNumber];
@@ -842,13 +824,13 @@ const ScheduleApp = function (variables) {
                         }
 
                         ++gridIndex;
+                        ++rowIndex;
 
-                        // Jump over break
-                        do
+                        // For the case there are lessons that do not fit into grid
+                        if (!timeGrid.periods[gridIndex])
                         {
-                            ++rowIndex;
+                            break;
                         }
-                        while (rows[rowIndex] && rows[rowIndex].classList.contains('break-row'));
                     }
 
                     ++colNumber;
@@ -1257,19 +1239,33 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Removes all lessons
+         * Removes all lessons and rebuild table structure on time grid
          */
         function resetTable()
         {
-            let index;
-
-            for (index = lessonElements.length - 1; index >= 0; --index)
-            {
-                lessonElements[index].parentNode.className = '';
-                lessonElements[index].parentNode.removeChild(lessonElements[index]);
-            }
+            const newBody = document.createElement('tbody'), oldBody = table.getElementsByTagName('tbody')[0],
+                columnCount = timeGrid.endDay, rowCount = timeGrid.periods ? Object.keys(timeGrid.periods).length : 1;
+            let columnIndex, rowIndex;
 
             lessonElements = [];
+
+            // Build table on time grid filled with rows and cells (with -1 for last position)
+            for (rowIndex = 0; rowIndex < rowCount; ++rowIndex)
+            {
+                const row = newBody.insertRow(-1), type = timeGrid.periods && timeGrid.periods[rowIndex + 1].type;
+
+                if (type)
+                {
+                    row.classList.add(type);
+                }
+
+                for (columnIndex = 0; columnIndex <= columnCount; ++columnIndex)
+                {
+                     row.insertCell(-1);
+                }
+            }
+
+            table.replaceChild(newBody, oldBody);
         }
 
         /**
@@ -1311,9 +1307,10 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Sets default gridID of schedule and select it in grid form field
+         * Sets default gridID of schedule, select it in grid form field and returns it
+         * @return {Object}
          */
-        function setDefaultGrid()
+        function getDefaultGrid()
         {
             if (!defaultGrid)
             {
@@ -1351,47 +1348,46 @@ const ScheduleApp = function (variables) {
                     setGrid(defaultGridID);
                     defaultGrid = JSON.parse(variables.grids[defaultGridID].grid);
                 }
-                else
-                {
-                    defaultGrid = null;
-                }
             }
 
-            timeGrid = defaultGrid || getSelectedTimeGrid();
+            return defaultGrid || timeGrid;
         }
 
         /**
          * Updates the table with the actual selected time grid and given lessons.
-         * @param {Object} lessons - all lessons of a schedule
-         * @param {Object} lessons[][][].gridID - default grid id of lessons
-         * @param {boolean} [useDefaultGrid]
+         * @param {Object} [lessons] - all lessons of a schedule
          */
-        this.update = function (lessons, useDefaultGrid) {
-            lessonData = lessons;
+        this.update = function (lessons) {
+            lessonData = lessons || lessonData;
             visibleDay = getDateFieldsDateObject().getDay();
 
-            if (changedGrid)
-            {
-                timeGrid = getSelectedTimeGrid();
-            }
-            else
-            {
-                setDefaultGrid();
+            if (useDefaultGrid) {
+                timeGrid = getDefaultGrid();
             }
 
             resetTable();
             setGridDays();
             setGridTime();
 
-            if (!(lessons.pastDate || lessons.futureDate))
+            if (!(lessonData.pastDate || lessonData.futureDate))
             {
-                insertLessons(lessons);
+                insertLessons(lessonData);
             }
 
             if (variables.isMobile)
             {
                 setActiveColumn();
             }
+        };
+
+        /**
+         * Change grid to selected grid instead of the default one
+         */
+        this.updateGrid = function() {
+            useDefaultGrid = false;
+            timeGrid = getSelectedTimeGrid();
+            timeGridID = getSelectedValues('grid');
+            this.update();
         };
 
         /**
@@ -1402,6 +1398,14 @@ const ScheduleApp = function (variables) {
             scheduleWrapper.removeChild(document.getElementById(schedule.getId() + '-input'));
             // table element
             scheduleWrapper.removeChild(document.getElementById(schedule.getId() + '-schedule'));
+        };
+
+        /**
+         * Getter for current time grid ID of this table
+         * @returns {int}
+         */
+        this.getGridID = function () {
+            return timeGridID;
         };
 
         /**
@@ -1421,21 +1425,12 @@ const ScheduleApp = function (variables) {
         };
 
         /**
-         * Getter for the active grid
-         * @returns {Object}
-         */
-        this.getGrid = function () {
-            return timeGrid;
-        };
-
-        /**
          * Constructor-like function to build the HTMLTableElement
          */
         (function () {
             createScheduleElement();
             insertTableHead();
             setGridTime();
-            handleBreakRows(that);
         }());
     }
 
@@ -1681,8 +1676,16 @@ const ScheduleApp = function (variables) {
          * Updates user schedule and refresh other schedules
          */
         this.updateUserSchedule = function () {
-            this.userSchedule.requestUpdate(false, true);
+            this.userSchedule.requestUpdate(true);
         };
+
+        /**
+         * Returns the currently selected schedule
+         * @returns {Schedule|boolean}
+         */
+        this.getActiveSchedule = function () {
+            return this.getScheduleById(getSelectedScheduleID());
+        }
     }
 
     /**
@@ -2176,20 +2179,6 @@ const ScheduleApp = function (variables) {
     }
 
     /**
-     * Select the grid of session storage
-     */
-    function selectSessionGrid()
-    {
-        const grid = window.sessionStorage.getItem('scheduleGrid');
-
-        if (grid)
-        {
-            setGrid(grid);
-            changedGrid = true;
-        }
-    }
-
-    /**
      * Selects the given grid id in grid form field
      * @param {string} id - grid id to set as selected
      */
@@ -2392,7 +2381,7 @@ const ScheduleApp = function (variables) {
      */
     function showSchedule(scheduleID)
     {
-        const scheduleElements = jQuery('.schedule-input');
+        const scheduleElements = jQuery('.schedule-input'), schedule = scheduleObjects.getScheduleById(scheduleID);
         let schedulesIndex;
 
         for (schedulesIndex = 0; schedulesIndex < scheduleElements.length; ++schedulesIndex)
@@ -2402,6 +2391,11 @@ const ScheduleApp = function (variables) {
                 scheduleElements[schedulesIndex].checked = 'checked';
                 jQuery('.selected-schedule').removeClass('shown');
                 jQuery('#' + scheduleID).addClass('shown');
+
+                // Set grid of schedule as selected in form field to make changing it easier (except default schedule)
+                if (schedule) {
+                    setGrid(scheduleObjects.getScheduleById(scheduleID).getTable().getGridID());
+                }
             }
         }
 
@@ -2538,6 +2532,7 @@ const ScheduleApp = function (variables) {
     }
 
     /**
+     * TODO: universalere Lösung finden statt auf festes lokal-abhängiges value-Format zu setzen
      * Returns the current date field value as a string connected by minus.
      * @returns {string}
      */
@@ -2702,94 +2697,6 @@ const ScheduleApp = function (variables) {
     }
 
     /**
-     * Add or remove rows for schedule breaks depending on (their) time grid
-     * @param {ScheduleTable} [scheduleTable] - only this table get its breaks
-     */
-    function handleBreakRows(scheduleTable)
-    {
-        const defaultTable = jQuery('default-schedule'),
-            tables = jQuery('.schedule-table'),
-            numberOfColumns = variables.isMobile ? 2 : tables.find('tr:first').find('th').filter(
-                function () {
-                    return jQuery(this).css('display') !== 'none';
-                }
-            ).length,
-            addBreakRow = '<tr class="break-row"><td class="break" colspan=' + numberOfColumns + '></td></tr>',
-            addLunchBreakRow = '<tr class="break-row">' + '<td class="break" colspan=' + numberOfColumns + '>' +
-                Joomla.JText._('COM_THM_ORGANIZER_LUNCHTIME') + '</td></tr>';
-
-        if (scheduleTable)
-        {
-            toggleBreaks(scheduleTable.getTableElement(), scheduleTable.getGrid());
-        }
-        else
-        {
-            scheduleObjects.schedules.forEach(function (schedule) {
-                toggleBreaks(schedule.getTable().getTableElement(), schedule.getTable().getGrid());
-            });
-
-            if (defaultTable)
-            {
-                toggleBreaks(defaultTable, getSelectedTimeGrid());
-            }
-        }
-
-        /**
-         * Inner function to add or remove break rows for one specific table and grid
-         * @param {HTMLTableElement} table
-         * @param {Object} timeGrid
-         * @param {Object.<string, number|Object>} timeGrid.periods - has all blocks with their number, start- and end times
-         */
-        function toggleBreaks(table, timeGrid)
-        {
-            const rows = jQuery(table).find('tbody').find('tr');
-            let endFirst, periods, startSecond;
-
-            if (!timeGrid.hasOwnProperty('periods'))
-            {
-                jQuery('.break').closest('tr').remove();
-                rows.not(':eq(0)').addClass('hide');
-
-                return;
-            }
-
-            endFirst = 'Mon Apr 24 2017 ' + timeGrid.periods[1].endTime.replace(/(\d{2})(\d{2})/, '$1:$2');
-            endFirst = new Date(endFirst);
-            endFirst = endFirst.getTime();
-            startSecond = 'Mon Apr 24 2017 ' + timeGrid.periods[2].startTime.replace(/(\d{2})(\d{2})/, '$1:$2');
-            startSecond = new Date(startSecond);
-            startSecond = startSecond.setSeconds(startSecond.getSeconds() - 60);
-
-            if (endFirst === startSecond)
-            {
-                jQuery('.break').closest('tr').remove();
-                rows.not(':eq(0)').removeClass('hide');
-            }
-            else if (!(rows.hasClass('break-row')))
-            {
-                rows.not(':eq(0)').removeClass('hide');
-
-                for (periods in timeGrid.periods)
-                {
-                    if (!timeGrid.periods.hasOwnProperty(periods))
-                    {
-                        continue;
-                    }
-
-                    if (periods === '3')
-                    {
-                        jQuery(addLunchBreakRow).insertAfter(rows.eq(periods - 1));
-                    }
-                    else if (periods !== '6')
-                    {
-                        jQuery(addBreakRow).insertAfter(rows.eq(periods - 1));
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * EventHandler for moving schedule pop-ups over the page
      * @param {Event} event
      * @param {DataTransfer|Object} event.dataTransfer - drag data store
@@ -2875,17 +2782,10 @@ const ScheduleApp = function (variables) {
     };
 
     /**
-     * Fired by select a time grid and adapt it to all schedule tables
+     * Fired by select a time grid and adapt it to the active schedule table
      */
     this.changeGrid = function () {
-        changedGrid = true;
-
-        scheduleObjects.schedules.forEach(function (schedule) {
-            schedule.updateTable();
-        });
-
-        handleBreakRows();
-        window.sessionStorage.setItem('scheduleGrid', getSelectedValues('grid'));
+        scheduleObjects.getActiveSchedule().getTable().updateGrid();
     };
 
     /**
@@ -3055,7 +2955,6 @@ const ScheduleApp = function (variables) {
         }
 
         changePositionOfDateInput();
-        selectSessionGrid();
         loadSessionSchedules();
 
         /**

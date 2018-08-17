@@ -363,8 +363,22 @@ input[type=radio] {
   table {
     border-top: 0.15rem solid #394a59;
 
-    tr.break-row td, tr.break-row + tr td {
-      border: none;
+    &.cell-border td {
+      border-bottom: 0.2rem solid $green-25;
+    }
+
+    td {
+      border-bottom: 0.2rem solid $green-25;
+    }
+
+    tr {
+      &.long-break-after td {
+        border-bottom: 0.7rem solid $green-25;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
     }
   }
 
@@ -380,6 +394,10 @@ input[type=radio] {
   a:hover {
     text-decoration: underline;
   }
+}
+
+.break td {
+  background-color: $green-25;
 }
 
 .occupied {
