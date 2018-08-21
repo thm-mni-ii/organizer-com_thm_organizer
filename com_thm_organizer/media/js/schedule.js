@@ -849,7 +849,7 @@ const ScheduleApp = function (variables) {
         function insertLessonsWithoutPeriod(lessons)
         {
             const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            let colNumber = variables.isMobile ? visibleDay : 1, date, block, lesson, elementIndex;
+            let colNumber = variables.isMobile ? visibleDay : 0, date, block, lesson, elementIndex;
 
             for (date in lessons)
             {
@@ -860,21 +860,25 @@ const ScheduleApp = function (variables) {
 
                 for (block in lessons[date])
                 {
-                    if (lessons[date].hasOwnProperty(block))
+                    if (!lessons[date].hasOwnProperty(block))
                     {
-                        for (lesson in lessons[date][block])
+                        continue;
+                    }
+
+                    for (lesson in lessons[date][block])
+                    {
+                        if (!lessons[date][block].hasOwnProperty(lesson))
                         {
-                            if (lessons[date][block].hasOwnProperty(lesson))
-                            {
-                                const lessonElements = createLesson(lessons[date][block][lesson], true);
+                            continue;
+                        }
 
-                                for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
-                                {
-                                    const cell = rows[0].getElementsByTagName('td')[colNumber];
+                        const lessonElements = createLesson(lessons[date][block][lesson], true);
 
-                                    cell.appendChild(lessonElements[elementIndex]);
-                                }
-                            }
+                        for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+                        {
+                            const cell = rows[0].getElementsByTagName('td')[colNumber];
+
+                            cell.appendChild(lessonElements[elementIndex]);
                         }
                     }
                 }
@@ -2537,7 +2541,7 @@ const ScheduleApp = function (variables) {
      */
     function getDateFieldString()
     {
-        const date = getDateFieldsDateObject(), day = date.getDay(), month = date.getMonth() + 1;
+        const date = getDateFieldsDateObject(), day = date.getDate(), month = date.getMonth() + 1;
 
         return date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
     }
