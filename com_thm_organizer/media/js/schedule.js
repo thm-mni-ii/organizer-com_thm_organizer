@@ -644,7 +644,7 @@ const ScheduleApp = function (variables) {
                 const th = document.createElement('th');
 
                 th.innerHTML = (headIndex === 0) ? Joomla.JText._('COM_THM_ORGANIZER_TIME') : weekdays[headIndex - 1] +
-                    ' (' + headerDate.getPresentationFormat() + ')';
+                    ' (' + headerDate.getPresentationFormat(true) + ')';
 
                 if (headIndex === visibleDay)
                 {
@@ -660,8 +660,7 @@ const ScheduleApp = function (variables) {
          */
         function setGridTime()
         {
-            const hasPeriods = timeGrid.hasOwnProperty('periods'),
-                rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
             let endTime, period = 1, row, startTime;
 
             // No periods -> no times

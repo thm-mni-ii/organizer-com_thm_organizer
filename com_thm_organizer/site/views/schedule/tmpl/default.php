@@ -206,8 +206,8 @@ $displayName = empty($this->model->displayName) ?
                 <select id="grid" required onchange="scheduleApp.changeGrid();">
                     <?php
                     foreach ($this->getModel()->grids as $grid) {
-                        $checked = ($grid->name == $this->defaultGrid->name) ? 'checked' : '';
-                        echo "<option value='" . $grid->id . "' $checked >$grid->name</option>";
+                        $selected = ($grid->name == $this->defaultGrid->name) ? 'selected' : '';
+                        echo "<option value='" . $grid->id . "' $selected >$grid->name</option>";
                     }
                     ?>
                 </select>
