@@ -131,22 +131,22 @@ class THM_OrganizerHelperPools
         $dbo = JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select('ppo.id, ppo.name, ppo.full_name');
-        $query->from('#__thm_organizer_plan_pools AS ppo');
+        $query->select('ppl.id, ppl.name, ppl.full_name');
+        $query->from('#__thm_organizer_plan_pools AS ppl');
 
         $input               = JFactory::getApplication()->input;
         $selectedDepartments = $input->getString('departmentIDs');
         $selectedPrograms    = $input->getString('programIDs');
 
         if (!empty($selectedDepartments)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.poolID = ppo.id');
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID');
             $departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
             $query->where("dr.departmentID IN ($departmentIDs)");
         }
 
         if (!empty($selectedPrograms)) {
             $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-            $query->where("ppo.programID in ($programIDs)");
+            $query->where("ppl.programID in ($programIDs)");
         }
 
         $dbo->setQuery($query);

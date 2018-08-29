@@ -115,9 +115,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             try {
                 $table->load($resourceID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
-                $this->_db->transactionRollback();
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
 
                 return false;
             }
@@ -127,8 +125,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             try {
                 $table->delete($resourceID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
                 $this->_db->transactionRollback();
 
                 return false;

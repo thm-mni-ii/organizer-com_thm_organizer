@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 
 /**
@@ -17,7 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 class THM_OrganizerModelRoom_Merge extends THM_OrganizerModelForm
 {
     /**
-     * Checks for user authorization to access the view
+     * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the view, otherwise false
      * @throws Exception

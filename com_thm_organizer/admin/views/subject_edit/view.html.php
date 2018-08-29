@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
 
 /**
@@ -48,7 +47,6 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        /** @noinspection PhpIncludeInspection */
         JFactory::getDocument()->addScript(JUri::root() . '/media/com_thm_organizer/js/subject_prep_course.js');
     }
 }

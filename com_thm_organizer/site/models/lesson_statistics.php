@@ -7,9 +7,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**

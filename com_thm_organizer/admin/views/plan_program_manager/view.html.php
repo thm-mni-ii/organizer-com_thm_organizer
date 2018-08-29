@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
@@ -52,7 +51,6 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
         JToolbarHelper::editList('plan_program.edit');
         if ($this->getModel()->actions->{'core.admin'}) {
             JToolbarHelper::custom('plan_program.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-            JToolbarHelper::divider();
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

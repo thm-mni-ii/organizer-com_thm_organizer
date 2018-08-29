@@ -26,7 +26,7 @@ class JFormFieldProgramID extends JFormFieldList
      *
      * @return array  the available degree programs
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $dbo      = JFactory::getDbo();

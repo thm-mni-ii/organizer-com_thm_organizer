@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
 
 /**
@@ -28,7 +27,7 @@ class JFormFieldRoomID extends JFormFieldList
      * @return array  the available degree programs
      * @throws Exception
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
         $rooms          = THM_OrganizerHelperRooms::getRooms();

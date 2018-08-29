@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**
@@ -27,7 +26,7 @@ class JFormFieldPlanningPeriodID extends JFormFieldList
      *
      * @return array  the available degree programs
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $baseOptions = parent::getOptions();
         $dbo         = JFactory::getDbo();

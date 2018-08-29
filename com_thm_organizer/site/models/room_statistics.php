@@ -485,7 +485,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
         // Department Data
         $select .= "d.id AS departmentID, d.short_name_$tag AS department, d.name_$tag AS departmentName";
-        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.poolID = pool.id');
+        $query->innerJoin('#__thm_organizer_department_resources AS dr ON pp.id = dr.programID');
         $query->innerJoin('#__thm_organizer_departments AS d ON dr.departmentID = d.id');
 
         $query->select($select);

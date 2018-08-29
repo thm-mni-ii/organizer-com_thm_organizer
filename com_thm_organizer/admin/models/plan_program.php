@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 
 /**
@@ -35,7 +34,7 @@ class THM_OrganizerModelPlan_Program extends THM_OrganizerModelMerge
     }
 
     /**
-     * Degree programs are not in the new
+     * Processes the data for an individual schedule
      *
      * @param object &$schedule     the schedule being processed
      * @param array  &$data         the data for the schedule db entry

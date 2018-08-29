@@ -6,7 +6,7 @@
     </fields>
     <fields name="list">
         <field name="departmentID" type="departmentID" action="schedule" label="COM_THM_ORGANIZER_DEPARTMENT"
-               description="COM_THM_ORGANIZER_DEPARTMENT_DESC" required="true" onchange="this.form.submit();"/>
+               description="COM_THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();"/>
         <field name="programID" type="planProgramID" valuecolumn="id" textcolumn="name" departmentRestrict="true"
                access="true" table="thm_organizer_plan_programs" label="COM_THM_ORGANIZER_PROGRAM"
                onchange="this.form.submit();">

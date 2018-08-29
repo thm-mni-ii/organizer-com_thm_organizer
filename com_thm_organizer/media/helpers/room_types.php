@@ -59,12 +59,6 @@ class THM_OrganizerHelperRoomTypes
             ->from('#__thm_organizer_room_types AS t')
             ->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
 
-        $departmentID = JFactory::getApplication()->input->getInt('departmentIDs', 0);
-        if (!empty($departmentID)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON r.id = dr.roomID');
-            $query->where('dr.departmentID = ' . $departmentID);
-        }
-
         $query->order('name');
         $dbo->setQuery($query);
 

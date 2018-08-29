@@ -26,7 +26,7 @@ class JFormFieldMergeByValue extends JFormFieldList
      * @return array the options for the select box
      * @throws Exception
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $input       = JFactory::getApplication()->input;
         $selectedIDs = $input->get('cid', [], 'array');

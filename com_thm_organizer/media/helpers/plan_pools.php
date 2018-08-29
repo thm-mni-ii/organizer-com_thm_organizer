@@ -34,36 +34,29 @@ class THM_OrganizerHelperPlan_Pools
             return true;
         }
 
+        $ppIDs = "'" . implode("', '", $ppIDs) . "'";
         $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('id')
-            ->from('#__thm_organizer_department_resources');
+        $query->select('DISTINCT id')
+            ->from('#__thm_organizer_department_resources as dr')
+            ->innerJoin('#__thm_organizer_plan_pools as ppl on ppl.programID = dr.programID')
+            ->where("ppl.id IN ( $ppIDs )")
+            ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
 
-        foreach ($ppIDs as $ppID) {
-            $query->clear('where');
-            $query->where("poolID = '$ppID'")
-                ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
+        $dbo->setQuery($query);
 
-            $dbo->setQuery($query);
+        try {
+            // Only one positive per resource is necessary
+            $assocIDs = $dbo->loadColumn();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                'error');
 
-            try {
-                // Only one positive per resource is necessary
-                $poolID = $dbo->loadResult();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
-
-                return false;
-            }
-
-            if (empty($poolID))
-            {
-                return false;
-            }
+            return false;
         }
 
-        return true;
+        return !empty($assocIDs);
     }
 }

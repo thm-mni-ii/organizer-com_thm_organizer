@@ -11,11 +11,8 @@
 defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -85,6 +82,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
                 return $var->defaultGrid;
             }
         );
+
         return current($defaultGrids);
     }
 
@@ -150,7 +148,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['poolIDs']) === 1 and $setTitle) {
-                /** @noinspection PhpIncludeInspection */
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
                 $this->displayName           .= THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
@@ -172,7 +169,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['teacherIDs']) === 1 and $setTitle) {
-                /** @noinspection PhpIncludeInspection */
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
                 $this->displayName           .= THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
@@ -193,7 +189,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['roomIDs']) === 1 and $setTitle) {
-                /** @noinspection PhpIncludeInspection */
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
                 $this->displayName           .= JText::_('COM_THM_ORGANIZER_ROOM') . ' ';
                 $this->displayName           .= THM_OrganizerHelperRooms::getName($this->params['roomIDs'][0]);
@@ -215,7 +210,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['roomTypeIDs']) === 1 and $setTitle) {
-                /** @noinspection PhpIncludeInspection */
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/room_types.php';
                 $this->displayName           .= JText::_('COM_THM_ORGANIZER_ROOM_TYPE') . ' ';
                 $this->displayName           .= THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
@@ -241,7 +235,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $singleValue                = array_shift($this->params['subjectIDs']);
             $this->params['subjectIDs'] = [$singleValue];
 
-            /** @noinspection PhpIncludeInspection */
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
             $this->displayName           .= THM_OrganizerHelperSubjects::getName(
                 $this->params['subjectIDs'][0],
@@ -262,7 +255,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
 
-            /** @noinspection PhpIncludeInspection */
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
             $this->displayName           .= THM_OrganizerHelperCourses::getName($this->params['lessonIDs'][0]);
             $this->params['displayName'] = $this->displayName;
@@ -282,7 +274,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showTeachers']    = 0;
 
             if (count($this->params['programIDs']) === 1 and $setTitle) {
-                /** @noinspection PhpIncludeInspection */
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
                 $this->displayName           .= THM_OrganizerHelperPrograms::getName(
                     $this->params['programIDs'][0],
@@ -296,7 +287,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         // In the last instance the department name is used if nothing else was requested
         if ($setTitle) {
-            /** @noinspection PhpIncludeInspection */
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
             $this->displayName .= JText::_('COM_THM_ORGANIZER_DEPARTMENT') . ' ';
             $this->displayName .= THM_OrganizerHelperDepartments::getName($this->params['departmentID']);

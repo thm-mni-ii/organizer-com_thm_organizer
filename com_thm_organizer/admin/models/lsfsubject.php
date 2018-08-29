@@ -9,11 +9,8 @@
  */
 defined('_JEXEC') or die;
 
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 defined('RESPONSIBLE') or define('RESPONSIBLE', 1);

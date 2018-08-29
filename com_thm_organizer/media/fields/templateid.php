@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
-/** @noinspection PhpIncludeInspection */
 
 /**
  * Class creates a form field for template selection.
@@ -27,7 +26,7 @@ class JFormFieldTemplateID extends JFormFieldList
      *
      * @return array  the available degree programs
      */
-    public function getOptions()
+    protected function getOptions()
     {
         return THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
     }

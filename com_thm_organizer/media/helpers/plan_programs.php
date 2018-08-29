@@ -17,7 +17,7 @@ class THM_OrganizerHelperPlan_Programs
     /**
      * Checks whether the given plan program is associated with an allowed department
      *
-     * @param array $ppIDs the id of the plan program being checked
+     * @param array $ppIDs the ids of the plan programs being checked
      *
      * @return bool  true if the plan program is associated with an allowed department, otherwise false
      * @throws Exception
@@ -34,36 +34,28 @@ class THM_OrganizerHelperPlan_Programs
             return true;
         }
 
+        $ppIDs = "'" . implode("', '", $ppIDs) . "'";
         $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('id')
-            ->from('#__thm_organizer_department_resources');
+        $query->select('DISTINCT id')
+            ->from('#__thm_organizer_department_resources')
+            ->where("programID IN ( $ppIDs )")
+            ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
 
-        foreach ($ppIDs as $ppID) {
-            $query->clear('where');
-            $query->where("programID = '$ppID'")
-                ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
+        $dbo->setQuery($query);
 
-            $dbo->setQuery($query);
+        try {
+            // Only one positive per resource is necessary
+            $programID = $dbo->loadResult();
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                'error');
 
-            try {
-                // Only one positive per resource is necessary
-                $programID = $dbo->loadResult();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
-
-                return false;
-            }
-
-            if (empty($programID))
-            {
-                return false;
-            }
+            return false;
         }
 
-        return true;
+        return empty($programID) ? false : true;
     }
 }

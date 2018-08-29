@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/xml/schedule.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json_schedule.php';
 
@@ -121,7 +120,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      *
      * @return boolean true on success otherwise false
      */
-    public function deleteSingle($scheduleID)
+    private function deleteSingle($scheduleID)
     {
         $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
         $schedule->load($scheduleID);
@@ -130,7 +129,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * Gets a schedule row for referencing. Implicitly migrating as necessary
+     * Gets a schedule row for referencing.
      *
      * @param int $departmentID     the department id of the reference row
      * @param int $planningPeriodID the planning period id of the reference row
@@ -140,8 +139,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     private function getScheduleRow($departmentID = null, $planningPeriodID = null)
     {
-        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
-
         if (empty($departmentID) or empty($planningPeriodID)) {
             $input = JFactory::getApplication()->input;
 
@@ -166,9 +163,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             ];
         }
 
-        $exists = $scheduleRow->load($pullData);
+        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+        $scheduleRow->load($pullData);
 
-        return $exists ? $scheduleRow : null;
+        return !empty($scheduleRow->id) ? $scheduleRow : null;
     }
 
     /**
@@ -181,13 +179,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     {
         $reference = $this->getScheduleRow();
 
-        if (empty($reference) or empty($reference->id)) {
+        if (empty($reference)) {
             return true;
         }
 
         $active = $this->getScheduleRow($reference->departmentID, $reference->planningPeriodID);
 
-        if (empty($active) or empty($active->id)) {
+        if (empty($active)) {
             return true;
         }
 
@@ -222,7 +220,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * saves a schedule in the database for later use
+     * Saves a schedule in the database for later use
      *
      * @return  boolean true on success, otherwise false
      * @throws Exception

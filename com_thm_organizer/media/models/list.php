@@ -389,7 +389,6 @@ abstract class THM_OrganizerModelList extends JModelList
      */
     protected function setLocalizedFilters(&$query, $filterNames)
     {
-        /** @noinspection PhpIncludeInspection */
         require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
         $tag = THM_OrganizerHelperLanguage::getShortTag();
         foreach ($filterNames as $name) {

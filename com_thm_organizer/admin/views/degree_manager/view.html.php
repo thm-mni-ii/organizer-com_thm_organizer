@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
@@ -46,7 +45,6 @@ class THM_OrganizerViewDegree_Manager extends THM_OrganizerViewList
         JToolbarHelper::addNew('degree.add');
         JToolbarHelper::editList('degree.edit');
         JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'degree.delete');
-        JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }
 }

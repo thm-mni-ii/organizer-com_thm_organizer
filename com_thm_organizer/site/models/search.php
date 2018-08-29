@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die();
 
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -287,7 +286,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function processDepartments($results)
     {
-        /** @noinspection PhpIncludeInspection */
         require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
 
         $departments = [];
@@ -320,7 +318,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function processPools(&$pools, $results, $type)
     {
-        /** @noinspection PhpIncludeInspection */
         require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
 
         foreach ($results as $result) {
@@ -352,7 +349,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function processPrograms($pResults, $ppResults)
     {
-        /** @noinspection PhpIncludeInspection */
         require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
 
         $programs = [];
@@ -486,7 +482,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function processSubjects($sResults, $psResults)
     {
-        /** @noinspection PhpIncludeInspection */
         require_once JPATH_SITE . '/media/com_thm_organizer/helpers/subjects.php';
 
         $subjects = [];
@@ -563,7 +558,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function processTeachers($results)
     {
-        /** @noinspection PhpIncludeInspection */
         require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
         $teachers = [];

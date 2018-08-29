@@ -9,15 +9,10 @@
  */
 defined('_JEXEC') or die;
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**

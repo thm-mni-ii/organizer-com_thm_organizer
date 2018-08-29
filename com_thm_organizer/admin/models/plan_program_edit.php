@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_programs.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 

@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -44,7 +43,7 @@ class JFormFieldParentPool extends JFormField
      * @return array  the options
      * @throws Exception
      */
-    public function getOptions()
+    protected function getOptions()
     {
         // Get basic resource data
         $resourceID   = JFactory::getApplication()->input->getInt('id', 0);

@@ -26,7 +26,7 @@ class JFormFieldModulesPosition extends JFormFieldList
      * @return array  The field option objects.
      * @throws Exception
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $clientId = JFactory::getApplication()->input->get('client_id', 0, 'int');
         $options  = ModulesHelper::getPositions($clientId);

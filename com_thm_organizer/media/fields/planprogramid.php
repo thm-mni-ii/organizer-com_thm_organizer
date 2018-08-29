@@ -26,7 +26,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
      * @return array the options for the select box
      * @throws Exception
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);

@@ -9,7 +9,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/templates/list_modal.php';
 THM_OrganizerTemplateList_Modal::render($this);
 ?>

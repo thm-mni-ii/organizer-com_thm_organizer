@@ -41,7 +41,7 @@ class THM_OrganizerModelPool extends JModelLegacy
     }
 
     /**
-     * Removes a single pool and mappings
+     * Removes a single pool and mappings. No access checks because of the contexts in which it is called.
      *
      * @param int $poolID the pool id
      *
@@ -77,10 +77,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      */
     public function save($new = false)
     {
-        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
-        $table = JTable::getInstance('pools', 'thm_organizerTable');
-
-        $this->_db->transactionStart();
+        $data = JFactory::getApplication()->input->get('jform', [], 'array');
 
         if ($new) {
             unset($data['id']);
@@ -90,6 +87,9 @@ class THM_OrganizerModelPool extends JModelLegacy
         if (empty($data['fieldID'])) {
             unset($data['fieldID']);
         }
+
+        $table = JTable::getInstance('pools', 'thm_organizerTable');
+        $this->_db->transactionStart();
 
         $success = $table->save($data);
 

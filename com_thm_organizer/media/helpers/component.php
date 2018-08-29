@@ -165,15 +165,15 @@ class THM_OrganizerHelperComponent
                     'active' => $viewName == 'department_manager'
                 ];
             }
-            $documentation[JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE')]     = [
+            $documentation[JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE')]    = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=pool_manager',
                 'active' => $viewName == 'pool_manager'
             ];
-            $documentation[JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE')]     = [
+            $documentation[JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=program_manager',
                 'active' => $viewName == 'program_manager'
             ];
-            $documentation[JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE')]     = [
+            $documentation[JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=subject_manager',
                 'active' => $viewName == 'subject_manager'
             ];
@@ -199,23 +199,23 @@ class THM_OrganizerHelperComponent
 
             $fmEntries = [];
 
-            $fmEntries[JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]     = [
+            $fmEntries[JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=building_manager',
                 'active' => $viewName == 'building_manager'
             ];
-            $fmEntries[JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]     = [
+            $fmEntries[JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]    = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=campus_manager',
                 'active' => $viewName == 'campus_manager'
             ];
-            $fmEntries[JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE')]     = [
+            $fmEntries[JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE')]   = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=monitor_manager',
                 'active' => $viewName == 'monitor_manager'
             ];
-            $fmEntries[JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE')]     = [
+            $fmEntries[JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE')]      = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=room_manager',
                 'active' => $viewName == 'room_manager'
             ];
-            $fmEntries[JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')]     = [
+            $fmEntries[JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=room_type_manager',
                 'active' => $viewName == 'room_type_manager'
             ];
@@ -231,23 +231,23 @@ class THM_OrganizerHelperComponent
 
             $adminEntries = [];
 
-            $adminEntries[JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]     = [
+            $adminEntries[JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=color_manager',
                 'active' => $viewName == 'color_manager'
             ];
-            $adminEntries[JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE')]     = [
+            $adminEntries[JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=degree_manager',
                 'active' => $viewName == 'degree_manager'
             ];
-            $adminEntries[JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE')]     = [
+            $adminEntries[JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=field_manager',
                 'active' => $viewName == 'field_manager'
             ];
-            $adminEntries[JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE')]     = [
+            $adminEntries[JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE')]   = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=grid_manager',
                 'active' => $viewName == 'grid_manager'
             ];
-            $adminEntries[JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE')]     = [
+            $adminEntries[JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=method_manager',
                 'active' => $viewName == 'method_manager'
             ];

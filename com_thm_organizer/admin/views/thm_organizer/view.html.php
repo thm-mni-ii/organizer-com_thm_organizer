@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/form.php';
 
 /**
@@ -72,11 +71,11 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
         $actions = $this->getModel()->actions;
 
         $this->menuItems = [
-            'administration' => [],
-            'documentation' => [],
+            'administration'     => [],
+            'documentation'      => [],
             'facilityManagement' => [],
-            'humanResources' => [],
-            'scheduling' => []
+            'humanResources'     => [],
+            'scheduling'         => []
         ];
 
         if ($actions->{'core.admin'} or $actions->{'organizer.menu.schedule'}) {
@@ -117,7 +116,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
         if ($actions->{'core.admin'} or $actions->{'organizer.hr'}) {
             $hrItems = [];
             $hrItems[JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE')]
-                = 'index.php?option=com_thm_organizer&amp;view=teacher_manager';
+                     = 'index.php?option=com_thm_organizer&amp;view=teacher_manager';
             ksort($hrItems);
             $this->menuItems['humanResources'] = $hrItems;
         }
@@ -127,13 +126,13 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $fmItems[JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=building_manager';
             $fmItems[JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]
-                = 'index.php?option=com_thm_organizer&amp;view=campus_manager';
+                     = 'index.php?option=com_thm_organizer&amp;view=campus_manager';
             $fmItems[JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE')]
-                = 'index.php?option=com_thm_organizer&amp;view=monitor_manager';
+                      = 'index.php?option=com_thm_organizer&amp;view=monitor_manager';
             $fmItems[JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE')]
-                = 'index.php?option=com_thm_organizer&amp;view=room_manager';
+                     = 'index.php?option=com_thm_organizer&amp;view=room_manager';
             $fmItems[JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')]
-                = 'index.php?option=com_thm_organizer&amp;view=room_type_manager';
+                     = 'index.php?option=com_thm_organizer&amp;view=room_type_manager';
             ksort($fmItems);
             $this->menuItems['facilityManagement'] = $fmItems;
         }
@@ -141,15 +140,15 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
         if ($actions->{'core.admin'}) {
             $adminItems = [];
             $adminItems[JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]
-                     = 'index.php?option=com_thm_organizer&amp;view=color_manager';
+                        = 'index.php?option=com_thm_organizer&amp;view=color_manager';
             $adminItems[JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE')]
-                     = 'index.php?option=com_thm_organizer&amp;view=degree_manager';
+                        = 'index.php?option=com_thm_organizer&amp;view=degree_manager';
             $adminItems[JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE')]
-                     = 'index.php?option=com_thm_organizer&amp;view=field_manager';
+                        = 'index.php?option=com_thm_organizer&amp;view=field_manager';
             $adminItems[JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE')]
-                     = 'index.php?option=com_thm_organizer&amp;view=grid_manager';
+                        = 'index.php?option=com_thm_organizer&amp;view=grid_manager';
             $adminItems[JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE')]
-                     = 'index.php?option=com_thm_organizer&amp;view=method_manager';
+                        = 'index.php?option=com_thm_organizer&amp;view=method_manager';
             ksort($adminItems);
             $this->menuItems['administration'] = $adminItems;
         }

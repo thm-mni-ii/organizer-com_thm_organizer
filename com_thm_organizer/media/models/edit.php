@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class loads item form data to edit an entry.
  */
-class THM_OrganizerModelEdit extends JModelAdmin
+class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
 {
     public $actions;
 

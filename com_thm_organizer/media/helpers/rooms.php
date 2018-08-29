@@ -120,8 +120,6 @@ class THM_OrganizerHelperRooms
         $dbo           = JFactory::getDbo();
         $relevantRooms = [];
 
-        $selectedDepartments = $app->input->getString('departmentIDs');
-        $departmentIDs       = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
         $selectedPrograms    = $app->input->getString('programIDs');
         $programIDs          = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
 
@@ -134,16 +132,6 @@ class THM_OrganizerHelperRooms
             // This regex is compatible with both
             $regex = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $room['id'] . '":("new"|"")';
             $query->where("lc.configuration REGEXP '$regex'");
-
-            /*
-            * TODO: Insert JSON function for MySQL >= 5.7. (1.55sec instead of 1.99sec with 1.000.000 executions)
-            * $subQuery->where('JSON_UNQUOTE(JSON_EXTRACT(lc.configuration, "$.rooms.' . $room['id'] . '")) NOT LIKE "removed"');
-            */
-
-            if (!empty($selectedDepartments)) {
-                $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.roomID = '{$room['id']}'");
-                $query->where("dr.departmentID IN ($departmentIDs)");
-            }
 
             if (!empty($selectedPrograms)) {
                 $query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lc.lessonID = ls.id');
@@ -191,7 +179,6 @@ class THM_OrganizerHelperRooms
 
         $buildingID   = empty($formData['buildingID']) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
         $campusID     = empty($formData['campusID']) ? $defaultCampus : (int)$formData['campusID'];
-        $departmentID = $input->getInt('departmentIDs', 0);
         $inputTypes   = (array)$input->getInt('typeID', $input->getInt('typeIDs', $input->getInt('roomTypeIDs')));
         $typeIDs      = empty($formData['types']) ? $inputTypes : $formData['types'];
         $inputRooms   = (array)$input->getInt('roomID', $input->getInt('roomIDs'));
@@ -202,11 +189,6 @@ class THM_OrganizerHelperRooms
         $query->select("DISTINCT r.id, r.*, rt.name_$shortTag AS typeName, rt.description_$shortTag AS typeDesc")
             ->from('#__thm_organizer_rooms AS r')
             ->innerJoin('#__thm_organizer_room_types AS rt ON rt.id = r.typeID');
-
-        if (!empty($departmentID)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.roomID = r.id');
-            $query->where("dr.departmentID = '$departmentID'");
-        }
 
         if (!empty($roomIDs)) {
             $roomIDs   = Joomla\Utilities\ArrayHelper::toInteger($roomIDs);

@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
@@ -52,7 +51,6 @@ class THM_OrganizerViewColor_Manager extends THM_OrganizerViewList
         JToolbarHelper::addNew('color.add');
         JToolbarHelper::editList('color.edit');
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'color.delete');
-        JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }
 }

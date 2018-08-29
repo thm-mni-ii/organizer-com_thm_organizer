@@ -8,9 +8,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 JFormHelper::loadFieldClass('list');
 
@@ -29,7 +27,7 @@ class JFormFieldPoolID extends JFormFieldList
      *
      * @return array  the pool options
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $programID = JFactory::getSession()->get('programID');
         if (empty($programID)) {

@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';

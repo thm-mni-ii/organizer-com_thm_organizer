@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 
 /**

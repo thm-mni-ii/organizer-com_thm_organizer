@@ -26,7 +26,7 @@ class JFormFieldMergeByID extends JFormFieldList
      * @return array the options for the select box
      * @throws Exception
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $input       = JFactory::getApplication()->input;
         $selectedIDs = $input->get('cid', [], 'array');
@@ -82,7 +82,6 @@ class JFormFieldMergeByID extends JFormFieldList
         $localized   = $this->getAttribute('localized', false);
 
         if ($localized) {
-            /** @noinspection PhpIncludeInspection */
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
             $tag = THM_OrganizerHelperLanguage::getShortTag();
             foreach ($textColumns as $key => $value) {

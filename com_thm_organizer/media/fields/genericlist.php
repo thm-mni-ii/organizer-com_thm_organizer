@@ -143,7 +143,6 @@ class JFormFieldGenericList extends JFormFieldList
 
         $localized = $this->getAttribute('localized', false);
         if ($localized) {
-            /** @noinspection PhpIncludeInspection */
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
             $tag = THM_OrganizerHelperLanguage::getShortTag();
             foreach ($textColumns as $key => $value) {

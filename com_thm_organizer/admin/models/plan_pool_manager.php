@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 
 /**
@@ -39,7 +38,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
         $select    .= $query->concatenate($linkParts, "") . " AS link";
 
         $query->from('#__thm_organizer_plan_pools AS ppl');
-        $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.poolID = ppl.id");
+        $query->innerJoin("#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID");
 
         $departmentID = $this->state->get('list.departmentID');
 

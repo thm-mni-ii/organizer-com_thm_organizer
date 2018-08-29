@@ -9,7 +9,6 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
