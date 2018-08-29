@@ -9,9 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-
 $showHeading = $this->model->params->get('show_page_heading', '');
 $title       = $this->model->params->get('page_title', '');
 

@@ -48,8 +48,6 @@ abstract class THM_OrganizerViewList extends JViewLegacy
         $this->hiddenFields = $this->get('HiddenFields');
         $this->items        = $this->get('Items');
 
-        require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
-
         THM_OrganizerHelperComponent::addSubmenu($this);
 
         // Allows for view specific toolbar handling

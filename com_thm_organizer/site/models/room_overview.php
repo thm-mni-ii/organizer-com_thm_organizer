@@ -9,9 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';

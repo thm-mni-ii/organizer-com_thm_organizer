@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Provides general functions for campus access checks, data retrieval and display.

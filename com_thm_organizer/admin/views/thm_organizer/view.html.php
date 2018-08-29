@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 /** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/form.php';
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class modifies the document for the output of a menu like list of resource management views.

@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+
 try {
-    require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
     THM_OrganizerHelperComponent::callController(false);
 } catch (Exception $exc) {
     JLog::add($exc->__toString(), JLog::ERROR, "com_thm_organizer");

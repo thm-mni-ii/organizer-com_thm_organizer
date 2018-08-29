@@ -9,9 +9,6 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**

@@ -9,9 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['xlsWeekFormat', 'grouping'];
 $user          = JFactory::getUser();

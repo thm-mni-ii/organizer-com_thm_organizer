@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Displays a filtered set of subjects into the display context, grouped by their corresponding fields of expertise.
