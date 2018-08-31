@@ -13,14 +13,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class creates a select box for predefined colors.
  */
-class JFormFieldColors extends JFormField
+class JFormFieldColorID extends JFormField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'Colors';
+    protected $type = 'colorID';
 
     /**
      * Returns a select box which contains the colors
