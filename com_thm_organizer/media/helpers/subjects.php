@@ -33,18 +33,15 @@ class THM_OrganizerHelperSubjects
             return false;
         }
 
-        if ($user->authorise('core.admin', "com_thm_organizer")) {
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             return true;
         }
 
-        // Belongs to an explicitly authorized user group
-        require_once 'component.php';
-
         if (empty($subjectID) or !THM_OrganizerHelperComponent::checkAssetInitialization('subject', $subjectID)) {
-            return THM_OrganizerHelperComponent::allowDeptResourceCreate('subject');
+            return THM_OrganizerHelperComponent::allowDocumentAccess();
         }
 
-        if (THM_OrganizerHelperComponent::allowResourceManage('subject', $subjectID, 'manage')) {
+        if (THM_OrganizerHelperComponent::allowDocumentAccess('subject', $subjectID)) {
             return true;
         }
 

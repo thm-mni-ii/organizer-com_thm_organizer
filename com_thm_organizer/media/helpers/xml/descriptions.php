@@ -67,9 +67,9 @@ class THM_OrganizerHelperXMLDescriptions
             return;
         }
 
-        $scheduleModel->newSchedule->fields     = new stdClass;
-        $scheduleModel->newSchedule->methods    = new stdClass;
-        $scheduleModel->newSchedule->room_types = new stdClass;
+        $scheduleModel->schedule->fields     = new stdClass;
+        $scheduleModel->schedule->methods    = new stdClass;
+        $scheduleModel->schedule->room_types = new stdClass;
 
         foreach ($xmlObject->descriptions->children() as $descriptionNode) {
             $gpuntisID = trim((string)$descriptionNode[0]['id']);
@@ -123,10 +123,10 @@ class THM_OrganizerHelperXMLDescriptions
 
             $validType = (!empty($type) and !empty($typeID));
             if ($validType) {
-                $scheduleModel->newSchedule->$type->$descriptionID            = new stdClass;
-                $scheduleModel->newSchedule->$type->$descriptionID->gpuntisID = $gpuntisID;
-                $scheduleModel->newSchedule->$type->$descriptionID->name      = $longName;
-                $scheduleModel->newSchedule->$type->$descriptionID->id        = $typeID;
+                $scheduleModel->schedule->$type->$descriptionID            = new stdClass;
+                $scheduleModel->schedule->$type->$descriptionID->gpuntisID = $gpuntisID;
+                $scheduleModel->schedule->$type->$descriptionID->name      = $longName;
+                $scheduleModel->schedule->$type->$descriptionID->id        = $typeID;
             }
         }
     }

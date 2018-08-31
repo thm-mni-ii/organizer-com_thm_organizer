@@ -88,7 +88,7 @@ class THM_OrganizerHelperXMLGrids
             return;
         }
 
-        $scheduleModel->newSchedule->periods = new stdClass;
+        $scheduleModel->schedule->periods = new stdClass;
         $grids                               = new stdClass;
 
         foreach ($xmlObject->timeperiods->children() as $timePeriodNode) {
@@ -133,27 +133,27 @@ class THM_OrganizerHelperXMLGrids
         }
 
         // Set the grid if not already existent
-        if (empty($scheduleModel->newSchedule->periods->$gridName)) {
-            $scheduleModel->newSchedule->periods->$gridName = new stdClass;
+        if (empty($scheduleModel->schedule->periods->$gridName)) {
+            $scheduleModel->schedule->periods->$gridName = new stdClass;
         }
 
-        $scheduleModel->newSchedule->periods->$gridName->$periodNo            = new stdClass;
-        $scheduleModel->newSchedule->periods->$gridName->$periodNo->startTime = $startTime;
-        $scheduleModel->newSchedule->periods->$gridName->$periodNo->endTime   = $endTime;
+        $scheduleModel->schedule->periods->$gridName->$periodNo            = new stdClass;
+        $scheduleModel->schedule->periods->$gridName->$periodNo->startTime = $startTime;
+        $scheduleModel->schedule->periods->$gridName->$periodNo->endTime   = $endTime;
 
         $label = (string)$timePeriodNode->label;
         if (!empty($label)) {
             $textual = preg_match("/[a-zA-ZäÄöÖüÜß]+/", $label, $output_array);
 
             if ($textual) {
-                $scheduleModel->newSchedule->periods->$gridName->$periodNo->label_de = $label;
-                $scheduleModel->newSchedule->periods->$gridName->$periodNo->label_en = $label;
+                $scheduleModel->schedule->periods->$gridName->$periodNo->label_de = $label;
+                $scheduleModel->schedule->periods->$gridName->$periodNo->label_en = $label;
 
                 // This is an assumption, which can later be rectified as necessary.
-                $scheduleModel->newSchedule->periods->$gridName->$periodNo->type = 'break';
+                $scheduleModel->schedule->periods->$gridName->$periodNo->type = 'break';
             }
         }
 
-        self::setGridEntry($grids, $gridName, $day, $periodNo, $scheduleModel->newSchedule->periods->$gridName->$periodNo);
+        self::setGridEntry($grids, $gridName, $day, $periodNo, $scheduleModel->schedule->periods->$gridName->$periodNo);
     }
 }

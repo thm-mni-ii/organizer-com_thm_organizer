@@ -18,5 +18,8 @@
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>
+        <field name="departmentID" type="departmentID" class="inputbox" multiple="multiple" required="true"
+               label="COM_THM_ORGANIZER_DEPARTMENTS" description="COM_THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
+               resource="teacher" />
     </fieldset>
 </form>

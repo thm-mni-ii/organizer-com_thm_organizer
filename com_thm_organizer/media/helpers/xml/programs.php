@@ -33,7 +33,7 @@ class THM_OrganizerHelperXMLPrograms
             return;
         }
 
-        $scheduleModel->newSchedule->degrees = new stdClass;
+        $scheduleModel->schedule->degrees = new stdClass;
 
         foreach ($xmlObject->departments->children() as $degreeNode) {
             self::validateIndividual($scheduleModel, $degreeNode);
@@ -50,8 +50,8 @@ class THM_OrganizerHelperXMLPrograms
      */
     private static function validateIndividual(&$scheduleModel, &$programNode)
     {
-        $gpuntisID = trim((string)$programNode[0]['id']);
-        if (empty($gpuntisID)) {
+        $programID = trim((string)$programNode[0]['id']);
+        if (empty($programID)) {
             if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING"), $scheduleModel->scheduleErrors)) {
                 $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING");
             }
@@ -59,25 +59,22 @@ class THM_OrganizerHelperXMLPrograms
             return;
         }
 
-        $degreeID                                                  = str_replace('DP_', '', $gpuntisID);
-        $scheduleModel->newSchedule->degrees->$degreeID            = new stdClass;
-        $scheduleModel->newSchedule->degrees->$degreeID->gpuntisID = $degreeID;
+        $programID = str_replace('DP_', '', $programID);
 
-        $degreeName = (string)$programNode->longname;
-        if (!isset($degreeName)) {
+        $programName = (string)$programNode->longname;
+        if (!isset($programName)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'),
-                $degreeID);
+                $programID);
 
             return;
         }
 
-        $scheduleModel->newSchedule->degrees->$degreeID->name = $degreeName;
+        $program            = new stdClass;
+        $program->gpuntisID = $programID;
+        $program->name      = $programName;
+        $program->id = THM_OrganizerHelperPrograms::getPlanResourceID($program);
+        THM_OrganizerHelperDepartments::setDepartmentResource($program->id, 'programID');
 
-        $planResourceID = THM_OrganizerHelperPrograms::getPlanResourceID($scheduleModel->newSchedule->degrees->$degreeID);
-
-        if (!empty($planResourceID)) {
-            $scheduleModel->newSchedule->degrees->$degreeID->id = $planResourceID;
-            THM_OrganizerHelperDepartments::setDepartmentResource($planResourceID, 'programID');
-        }
+        $scheduleModel->schedule->degrees->$programID = $program;
     }
 }

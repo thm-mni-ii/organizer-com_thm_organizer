@@ -18,18 +18,11 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json_schedule.php';
 class THM_OrganizerModelSchedule extends JModelLegacy
 {
     /**
-     * JSON Object modeling the schedule (old format)
+     * JSON Object modeling the schedule
      *
      * @var object
      */
     public $schedule = null;
-
-    /**
-     * JSON Object modeling the schedule (old format)
-     *
-     * @var object
-     */
-    public $newSchedule = null;
 
     /**
      * Activates the selected schedule
@@ -59,7 +52,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $reference = $this->getScheduleRow($active->departmentID, $active->planningPeriodID);
 
         if (empty($reference) or empty($reference->id)) {
-            $jsonModel->save($active->newSchedule);
+            $jsonModel->save($active->schedule);
             $active->set('active', 1);
             $active->store();
 
@@ -270,20 +263,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             return false;
         }
 
-        $this->newSchedule = $xmlModel->newSchedule;
+        $this->schedule = $xmlModel->schedule;
 
         $new = JTable::getInstance('schedules', 'thm_organizerTable');
-        $new->set('departmentID', $this->newSchedule->departmentID);
-        $new->set('departmentname', $this->newSchedule->departmentname);
-        $new->set('planningPeriodID', $this->newSchedule->planningPeriodID);
-        $new->set('semestername', $this->newSchedule->semestername);
-        $new->set('creationDate', $this->newSchedule->creationDate);
-        $new->set('creationTime', $this->newSchedule->creationTime);
-        $new->set('startDate', $this->newSchedule->startDate);
-        $new->set('endDate', $this->newSchedule->endDate);
-        $jsonSchedule = json_encode($this->newSchedule);
-        $new->set('schedule', $jsonSchedule);
-        $new->set('newSchedule', $jsonSchedule);
+        $new->set('departmentID', $this->schedule->departmentID);
+        $new->set('planningPeriodID', $this->schedule->planningPeriodID);
+        $new->set('creationDate', $this->schedule->creationDate);
+        $new->set('creationTime', $this->schedule->creationTime);
+        $new->set('schedule', json_encode($this->schedule));
 
         $reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
         $jsonModel = new THM_OrganizerModelJSONSchedule;
@@ -292,7 +279,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $new->set('active', 1);
             $new->store();
 
-            return $jsonModel->save($this->newSchedule);
+            return $jsonModel->save($this->schedule);
         }
 
         return $jsonModel->setReference($reference, $new);

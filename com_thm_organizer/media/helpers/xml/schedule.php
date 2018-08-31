@@ -43,7 +43,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
      *
      * @var object
      */
-    public $newSchedule = null;
+    public $schedule = null;
 
     /**
      * Creates a status report based upon object error and warning messages
@@ -80,7 +80,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         $file        = $formFiles['file'];
         $xmlSchedule = simplexml_load_file($file['tmp_name']);
 
-        $this->newSchedule      = new stdClass;
+        $this->schedule      = new stdClass;
         $this->scheduleErrors   = [];
         $this->scheduleWarnings = [];
 
@@ -104,7 +104,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
             '/[\#\;]/');
 
         $form                            = $input->get('jform', [], 'array');
-        $this->newSchedule->departmentID = $form['departmentID'];
+        $this->schedule->departmentID = $form['departmentID'];
 
         // Planning period start & end dates
         $startDate = trim((string)$xmlSchedule->general->termbegindate);
@@ -123,9 +123,10 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         if ($invalid) {
             $this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
         } elseif ($validSemesterName) {
-            $planningPeriodID                    = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName,
-                $startTimeStamp, $endTimeStamp);
-            $this->newSchedule->planningPeriodID = $planningPeriodID;
+            $planningPeriodID = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp,
+                $endTimeStamp);
+
+            $this->schedule->planningPeriodID = $planningPeriodID;
         }
 
         THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);
@@ -136,32 +137,37 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
         THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
 
-        $this->newSchedule->calendar = new stdClass;
+        $this->schedule->calendar = new stdClass;
 
         $lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
         $lessonsHelper->validate();
         $this->printStatusReport();
 
         if (count($this->scheduleErrors)) {
-            // Don't need the bloat if these won't be used.
-            unset($this->schedule, $this->newSchedule);
+            // Don't need the bloat if this won't be used.
+            unset($this->schedule);
 
             return false;
         }
 
+        // These items are now modeled in the database.
         unset(
-            $this->newSchedule->degrees,
-            $this->newSchedule->fields,
-            $this->newSchedule->methods,
-            $this->newSchedule->periods,
-            $this->newSchedule->pools,
-            $this->newSchedule->programs,
-            $this->newSchedule->room_types,
-            $this->newSchedule->rooms,
-            $this->newSchedule->subjects,
-            $this->newSchedule->syEndDate,
-            $this->newSchedule->syStartDate,
-            $this->newSchedule->teachers
+            $this->schedule->departmentname,
+            $this->schedule->degrees,
+            $this->schedule->endDate,
+            $this->schedule->fields,
+            $this->schedule->methods,
+            $this->schedule->periods,
+            $this->schedule->pools,
+            $this->schedule->programs,
+            $this->schedule->room_types,
+            $this->schedule->rooms,
+            $this->schedule->semestername,
+            $this->schedule->subjects,
+            $this->schedule->startDate,
+            $this->schedule->syEndDate,
+            $this->schedule->syStartDate,
+            $this->schedule->teachers
         );
 
         return true;
@@ -191,7 +197,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
             }
         }
 
-        $this->newSchedule->$name = date('Y-m-d', strtotime($value));
+        $this->schedule->$name = date('Y-m-d', strtotime($value));
 
         return;
     }
@@ -233,7 +239,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
             }
         }
 
-        $this->newSchedule->$name = $value;
+        $this->schedule->$name = $value;
 
         return true;
     }

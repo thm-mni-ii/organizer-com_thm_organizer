@@ -56,21 +56,21 @@ class THM_OrganizerHelperXMLLessons
     private function processInstance($currentDate, $period, $roomIDs)
     {
         // New format calendar items are created as necessary
-        if (!isset($this->scheduleModel->newSchedule->calendar->$currentDate)) {
-            $this->scheduleModel->newSchedule->calendar->$currentDate = new stdClass;
+        if (!isset($this->scheduleModel->schedule->calendar->$currentDate)) {
+            $this->scheduleModel->schedule->calendar->$currentDate = new stdClass;
         }
 
         $times = $period->startTime . '-' . $period->endTime;
-        if (!isset($this->scheduleModel->newSchedule->calendar->$currentDate->$times)) {
-            $this->scheduleModel->newSchedule->calendar->$currentDate->$times = new stdClass;
+        if (!isset($this->scheduleModel->schedule->calendar->$currentDate->$times)) {
+            $this->scheduleModel->schedule->calendar->$currentDate->$times = new stdClass;
         }
 
         $lessonID = $this->lessonID;
 
-        if (!isset($this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID)) {
-            $this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID                 = new stdClass;
-            $this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->delta          = '';
-            $this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations = [];
+        if (!isset($this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID)) {
+            $this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID                 = new stdClass;
+            $this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->delta          = '';
+            $this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations = [];
         }
 
         $config                               = new stdClass;
@@ -81,11 +81,11 @@ class THM_OrganizerHelperXMLLessons
         $config->rooms                        = $roomIDs;
         $existingIndex                        = null;
 
-        if (!empty($this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations)) {
+        if (!empty($this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations)) {
             $compConfig = null;
 
-            foreach ($this->scheduleModel->newSchedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex) {
-                $tempConfig = json_decode($this->scheduleModel->newSchedule->configurations[$configIndex]);
+            foreach ($this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex) {
+                $tempConfig = json_decode($this->scheduleModel->schedule->configurations[$configIndex]);
 
                 if ($tempConfig->subjectID == $this->subjectID) {
                     $compConfig    = $tempConfig;
@@ -126,16 +126,16 @@ class THM_OrganizerHelperXMLLessons
         $jsonConfig = json_encode($config);
 
         if (!empty($existingIndex)) {
-            $this->scheduleModel->newSchedule->configurations[$existingIndex] = $jsonConfig;
+            $this->scheduleModel->schedule->configurations[$existingIndex] = $jsonConfig;
 
             return;
         }
 
-        $this->scheduleModel->newSchedule->configurations[] = $jsonConfig;
-        $configKeys                                         = array_keys($this->scheduleModel->newSchedule->configurations);
+        $this->scheduleModel->schedule->configurations[] = $jsonConfig;
+        $configKeys                                         = array_keys($this->scheduleModel->schedule->configurations);
         $configIndex                                        = end($configKeys);
 
-        $this->scheduleModel->newSchedule->calendar->$date->$times->{$this->lessonID}->configurations[] = $configIndex;
+        $this->scheduleModel->schedule->calendar->$date->$times->{$this->lessonID}->configurations[] = $configIndex;
     }
 
     /**
@@ -177,8 +177,8 @@ class THM_OrganizerHelperXMLLessons
             return;
         }
 
-        $this->scheduleModel->newSchedule->configurations = [];
-        $this->scheduleModel->newSchedule->lessons        = new stdClass;
+        $this->scheduleModel->schedule->configurations = [];
+        $this->scheduleModel->schedule->lessons        = new stdClass;
 
         foreach ($this->xmlObject->lessons->children() as $lessonNode) {
             $this->validateIndividual($lessonNode);
@@ -204,11 +204,11 @@ class THM_OrganizerHelperXMLLessons
         $effBeginDT  = isset($lessonNode->begindate) ?
             strtotime(trim((string)$lessonNode->begindate)) :
             strtotime(trim((string)$lessonNode->effectivebegindate));
-        $termBeginDT = strtotime($this->scheduleModel->newSchedule->startDate);
+        $termBeginDT = strtotime($this->scheduleModel->schedule->startDate);
         $effEndDT    = isset($lessonNode->enddate) ?
             strtotime(trim((string)$lessonNode->enddate)) :
             strtotime(trim((string)$lessonNode->effectiveenddate));
-        $termEndDT   = strtotime($this->scheduleModel->newSchedule->endDate);
+        $termEndDT   = strtotime($this->scheduleModel->schedule->endDate);
 
         // Lesson is not relevant for the uploaded schedule (starts after term ends or ends before term begins)
         if ($effBeginDT > $termEndDT or $effEndDT < $termBeginDT) {
@@ -224,8 +224,8 @@ class THM_OrganizerHelperXMLLessons
             return;
         }
 
-        if (!isset($this->scheduleModel->newSchedule->lessons->{$this->lessonID})) {
-            $this->scheduleModel->newSchedule->lessons->{$this->lessonID} = new stdClass;
+        if (!isset($this->scheduleModel->schedule->lessons->{$this->lessonID})) {
+            $this->scheduleModel->schedule->lessons->{$this->lessonID} = new stdClass;
         }
 
         if (!$this->validateSubject($lessonNode)) {
@@ -258,7 +258,7 @@ class THM_OrganizerHelperXMLLessons
             $comment = '';
         }
 
-        $this->scheduleModel->newSchedule->lessons->{$this->lessonID}->comment = $comment;
+        $this->scheduleModel->schedule->lessons->{$this->lessonID}->comment = $comment;
 
         $rawInstances = trim((string)$lessonNode->occurence);
         $startDT      = $effBeginDT < $termBeginDT ? $termBeginDT : $effBeginDT;
@@ -317,9 +317,9 @@ class THM_OrganizerHelperXMLLessons
         }
 
         $this->subjectUntisID = $untisID;
-        $subjectIndex         = $this->scheduleModel->newSchedule->departmentname . "_" . $untisID;
+        $subjectIndex         = $this->scheduleModel->schedule->departmentname . "_" . $untisID;
 
-        if (empty($this->scheduleModel->newSchedule->subjects->$subjectIndex)) {
+        if (empty($this->scheduleModel->schedule->subjects->$subjectIndex)) {
             $this->scheduleModel->scheduleErrors[] =
                 sprintf(
                     JText::_('COM_THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING'),
@@ -333,21 +333,21 @@ class THM_OrganizerHelperXMLLessons
         // Used for error reporting
         $this->lessonName = $this->subjectUntisID;
 
-        if (!isset($this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects)) {
-            $this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects = new stdClass;
+        if (!isset($this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects)) {
+            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects = new stdClass;
         }
 
         // Used in configurations, teachers and pools
-        $this->subjectID = $this->scheduleModel->newSchedule->subjects->$subjectIndex->id;
+        $this->subjectID = $this->scheduleModel->schedule->subjects->$subjectIndex->id;
 
-        if (!isset($this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID})) {
+        if (!isset($this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID})) {
             $newSubject            = new stdClass;
             $newSubject->delta     = '';
-            $newSubject->subjectNo = $this->scheduleModel->newSchedule->subjects->$subjectIndex->subjectNo;
+            $newSubject->subjectNo = $this->scheduleModel->schedule->subjects->$subjectIndex->subjectNo;
             $newSubject->pools     = new stdClass;
             $newSubject->teachers  = new stdClass;
 
-            $this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID} = $newSubject;
+            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID} = $newSubject;
         }
 
         return true;
@@ -363,7 +363,7 @@ class THM_OrganizerHelperXMLLessons
     private function validateMethod(&$lessonNode)
     {
         $untisID       = str_replace('DS_', '', trim((string)$lessonNode->lesson_description));
-        $invalidMethod = (empty($untisID) or empty($this->scheduleModel->newSchedule->methods->$untisID));
+        $invalidMethod = (empty($untisID) or empty($this->scheduleModel->schedule->methods->$untisID));
 
         if ($invalidMethod) {
             $this->scheduleModel->scheduleWarnings['LESSON-METHOD'] = empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
@@ -374,8 +374,8 @@ class THM_OrganizerHelperXMLLessons
 
         $this->lessonName .= " - $untisID";
 
-        $this->scheduleModel->newSchedule->lessons->{$this->lessonID}->methodID
-            = $this->scheduleModel->newSchedule->methods->$untisID->id;
+        $this->scheduleModel->schedule->lessons->{$this->lessonID}->methodID
+            = $this->scheduleModel->schedule->methods->$untisID->id;
 
         return;
     }
@@ -401,7 +401,7 @@ class THM_OrganizerHelperXMLLessons
         $teacherFound = false;
         $teacherID    = null;
 
-        foreach ($this->scheduleModel->newSchedule->teachers as $teacherKey => $teacher) {
+        foreach ($this->scheduleModel->schedule->teachers as $teacherKey => $teacher) {
             if ($teacher->localUntisID == $untisID) {
                 // Existent but invalid teacher
                 if (empty($teacher->id)) {
@@ -430,7 +430,7 @@ class THM_OrganizerHelperXMLLessons
         }
 
         if (!empty($this->subjectID)) {
-            $this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->teachers->{$this->teacherID} = '';
+            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->teachers->{$this->teacherID} = '';
         }
 
         return true;
@@ -461,7 +461,7 @@ class THM_OrganizerHelperXMLLessons
             $poolFound = false;
             $poolID    = null;
 
-            foreach ($this->scheduleModel->newSchedule->pools as $poolKey => $pool) {
+            foreach ($this->scheduleModel->schedule->pools as $poolKey => $pool) {
                 if ($pool->localUntisID == $untisID) {
                     // The pool is existent but invalid
                     if (empty($pool->id)) {
@@ -487,7 +487,7 @@ class THM_OrganizerHelperXMLLessons
                 return false;
             }
 
-            $this->scheduleModel->newSchedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->pools->$poolID = '';
+            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->pools->$poolID = '';
 
             $this->pools[$untisID] = $untisID;
         }
@@ -517,8 +517,8 @@ class THM_OrganizerHelperXMLLessons
             return false;
         }
 
-        $syStartTime     = strtotime($this->scheduleModel->newSchedule->syStartDate);
-        $syEndTime       = strtotime($this->scheduleModel->newSchedule->syEndDate);
+        $syStartTime     = strtotime($this->scheduleModel->schedule->syStartDate);
+        $syEndTime       = strtotime($this->scheduleModel->schedule->syEndDate);
         $lessonStartDate = date('Y-m-d', $startDT);
 
         $validStartDate = ($startDT >= $syStartTime and $startDT <= $syEndTime);
@@ -587,7 +587,7 @@ class THM_OrganizerHelperXMLLessons
         $end = strtotime('+1 day', $end);
 
         // 86400 is the number of seconds in a day 24 * 60 * 60
-        $offset = floor(($start - strtotime($this->scheduleModel->newSchedule->syStartDate)) / 86400);
+        $offset = floor(($start - strtotime($this->scheduleModel->schedule->syStartDate)) / 86400);
         $length = floor(($end - $start) / 86400);
 
         $validOccurrences = substr($raw, $offset, $length);
@@ -675,7 +675,7 @@ class THM_OrganizerHelperXMLLessons
         }
 
         $currentDate = date('Y-m-d', $currentDT);
-        $period      = $this->scheduleModel->newSchedule->periods->$grid->$periodNo;
+        $period      = $this->scheduleModel->schedule->periods->$grid->$periodNo;
         $this->processInstance($currentDate, $period, $roomsIDs);
 
         return true;
@@ -697,8 +697,8 @@ class THM_OrganizerHelperXMLLessons
 
         foreach ($roomUntisIDs as $roomID) {
 
-            if (!isset($this->scheduleModel->newSchedule->rooms->$roomID)
-                or empty($this->scheduleModel->newSchedule->rooms->$roomID->id)) {
+            if (!isset($this->scheduleModel->schedule->rooms->$roomID)
+                or empty($this->scheduleModel->schedule->rooms->$roomID->id)) {
 
                 $pools        = implode(', ', $this->pools);
                 $dow          = strtoupper(date('l', $currentDT));
@@ -716,7 +716,7 @@ class THM_OrganizerHelperXMLLessons
 
             }
 
-            $roomIDs->{$this->scheduleModel->newSchedule->rooms->$roomID->id} = '';
+            $roomIDs->{$this->scheduleModel->schedule->rooms->$roomID->id} = '';
         }
 
         return $roomIDs;

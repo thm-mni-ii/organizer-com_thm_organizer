@@ -108,17 +108,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
   `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `departmentID` INT(11) UNSIGNED NOT NULL,
   `programID`    INT(11) UNSIGNED          DEFAULT NULL,
-  `poolID`       INT(11) UNSIGNED          DEFAULT NULL,
-  `subjectID`    INT(11) UNSIGNED          DEFAULT NULL,
   `teacherID`    INT(11) UNSIGNED          DEFAULT NULL,
-  `roomID`       INT(11) UNSIGNED          DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `departmentID` (`departmentID`),
   KEY `programID` (`programID`),
-  KEY `poolID` (`poolID`),
-  KEY `subjectID` (`subjectID`),
-  KEY `teacherID` (`teacherID`),
-  KEY `roomID` (`roomID`)
+  KEY `teacherID` (`teacherID`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -517,18 +511,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
   `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `asset_id`         INT(11)          NOT NULL DEFAULT '0',
   `departmentID`     INT(11) UNSIGNED          DEFAULT NULL,
-  `departmentname`   VARCHAR(50)      NOT NULL,
-  `semestername`     VARCHAR(50)      NOT NULL,
   `creationDate`     DATE                      DEFAULT NULL,
   `creationTime`     TIME                      DEFAULT NULL,
   `schedule`         MEDIUMTEXT       NOT NULL,
   `active`           TINYINT(1)       NOT NULL DEFAULT '0',
-  `startDate`        DATE                      DEFAULT NULL,
-  `endDate`          DATE                      DEFAULT NULL,
   `planningPeriodID` INT(11) UNSIGNED          DEFAULT NULL,
-  `newSchedule`      MEDIUMTEXT       NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `semestername` (`semestername`),
   KEY `schedules_departmentid_fk` (`departmentID`),
   KEY `schedules_planningperiodid_fk` (`planningPeriodID`)
 )
@@ -697,16 +685,7 @@ ALTER TABLE `#__thm_organizer_department_resources`
   ADD CONSTRAINT `department_resources_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE,
-  ADD CONSTRAINT `department_resources_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_plan_pools` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
   ADD CONSTRAINT `department_resources_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_plan_programs` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `department_resources_roomid_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `department_resources_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_plan_subjects` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE,
   ADD CONSTRAINT `department_resources_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)

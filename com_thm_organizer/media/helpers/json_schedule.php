@@ -1007,8 +1007,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      */
     public function setReference($reference, $active)
     {
-        $this->refSchedule = json_decode($reference->newSchedule);
-        $this->schedule    = json_decode($active->newSchedule);
+        $this->refSchedule = json_decode($reference->schedule);
+        $this->schedule    = json_decode($active->schedule);
 
         $this->sanitize('refSchedule');
         $this->sanitize('schedule');
@@ -1017,7 +1017,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
         $this->_db->transactionStart();
 
         $this->schedule->referenceID = $reference->id;
-        $reference->set('newSchedule', json_encode($this->refSchedule));
+        $reference->set('schedule', json_encode($this->refSchedule));
         $reference->set('active', 0);
         $refSuccess = $reference->store();
 
@@ -1030,7 +1030,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
         $this->setLessonReference();
         $this->setCalendarReference();
 
-        $active->set('newSchedule', json_encode($this->schedule));
+        $active->set('schedule', json_encode($this->schedule));
         $active->set('active', 1);
         $activeSuccess = $active->store();
 

@@ -36,7 +36,7 @@ class THM_OrganizerHelperXMLPools
             return;
         }
 
-        $scheduleModel->newSchedule->pools = new stdClass;
+        $scheduleModel->schedule->pools = new stdClass;
 
         foreach ($xmlObject->classes->children() as $poolNode) {
             self::validateIndividual($scheduleModel, $poolNode);
@@ -53,103 +53,81 @@ class THM_OrganizerHelperXMLPools
      */
     private static function validateIndividual(&$scheduleModel, &$poolNode)
     {
+        $internalID = trim((string)$poolNode[0]['id']);
+        if (empty($internalID)) {
+            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING"), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING");
+            }
 
-        $gpuntisID = self::validateUntisID($scheduleModel, $poolNode);
-        if (empty($gpuntisID)) {
             return;
         }
 
-        $poolID                                                   = str_replace('CL_', '', $gpuntisID);
-        $scheduleModel->newSchedule->pools->$poolID               = new stdClass;
-        $scheduleModel->newSchedule->pools->$poolID->gpuntisID    = $poolID;
-        $scheduleModel->newSchedule->pools->$poolID->name         = $poolID;
-        $scheduleModel->newSchedule->pools->$poolID->localUntisID = str_replace('CL_', '',
-            trim((string)$poolNode[0]['id']));
-
-        $longName = trim((string)$poolNode->longname);
+        $internalID = str_replace('CL_', '', $internalID);
+        $longName   = trim((string)$poolNode->longname);
 
         if (empty($longName)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING'),
-                $poolID);
-            unset($scheduleModel->newSchedule->pools->$poolID);
+                $internalID);
 
             return;
         }
 
         $restriction = trim((string)$poolNode->classlevel);
-
         if (empty($restriction)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME'), $longName,
-                $poolID);
+                $internalID);
 
             return;
         }
 
         $degreeID = str_replace('DP_', '', trim((string)$poolNode->class_department[0]['id']));
-
         if (empty($degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING'),
-                $longName, $poolID);
+                $longName, $internalID);
 
             return;
-        } elseif (empty($scheduleModel->newSchedule->degrees->$degreeID)) {
+        } elseif (empty($scheduleModel->schedule->degrees->$degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING'),
-                $longName, $poolID, $degreeID);
+                $longName, $internalID, $degreeID);
 
             return;
         }
-
-        $scheduleModel->newSchedule->pools->$poolID->longname    = $longName;
-        $scheduleModel->newSchedule->pools->$poolID->restriction = $restriction;
-        $scheduleModel->newSchedule->pools->$poolID->degree      = $degreeID;
 
         $grid = (string)$poolNode->timegrid;
-
         if (empty($grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_MISSING'),
-                $longName, $poolID);
+                $longName, $internalID);
 
             return;
-        } elseif (empty($scheduleModel->newSchedule->periods->$grid)) {
+        } elseif (empty($scheduleModel->schedule->periods->$grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_LACKING'),
-                $longName, $poolID, $grid);
+                $longName, $internalID, $grid);
 
             return;
         }
 
-        $scheduleModel->newSchedule->pools->$poolID->grid   = $grid;
-        $scheduleModel->newSchedule->pools->$poolID->gridID = THM_OrganizerHelperGrids::getID($grid);
-
-        $planResourceID = THM_OrganizerHelperPools::getPlanResourceID($poolID,
-            $scheduleModel->newSchedule->pools->$poolID);
-
-        if (!empty($planResourceID)) {
-            $scheduleModel->newSchedule->pools->$poolID->id = $planResourceID;
-            THM_OrganizerHelperDepartments::setDepartmentResource($planResourceID, 'poolID');
-        }
-    }
-
-    /**
-     * Validates the pools's gp untis id
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$poolNode      the pool node object
-     *
-     * @return mixed  string id if valid, otherwise false
-     */
-    private static function validateUntisID(&$scheduleModel, &$poolNode)
-    {
-        $externalName = trim((string)$poolNode->external_name);
-        $internalName = trim((string)$poolNode[0]['id']);
-        $gpuntisID    = empty($externalName) ? $internalName : $externalName;
-        if (empty($gpuntisID)) {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING"), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING");
-            }
-
-            return false;
+        $externalID = trim((string)$poolNode->external_name);
+        if (!empty($externalID)) {
+            $poolID = str_replace('CL_', '', $externalID);
+        } else {
+            $poolID = $internalID;
         }
 
-        return $gpuntisID;
+        $pool     = new stdClass;
+        $longName = trim((string)$poolNode->longname);
+
+        $pool->degree       = $degreeID;
+        $pool->gpuntisID    = $poolID;
+        $pool->localUntisID = str_replace('CL_', '', trim((string)$poolNode[0]['id']));
+        $pool->longname     = $longName;
+        $pool->name         = $poolID;
+        $pool->restriction  = $restriction;
+        $pool->grid   = $grid;
+        $pool->gridID = THM_OrganizerHelperGrids::getID($grid);
+
+        // This is dependent on degree, gridID, longname and restriction already being set => order important!
+        $pool->id     = THM_OrganizerHelperPools::getPlanResourceID($poolID, $pool);
+
+        $scheduleModel->schedule->pools->$poolID = $pool;
     }
 }

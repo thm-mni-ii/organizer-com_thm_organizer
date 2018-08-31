@@ -15,33 +15,34 @@ defined('_JEXEC') or die;
 class THM_OrganizerHelperDepartments
 {
     /**
-     * Check if user is authorized to edit a department
+     * Retrieves the ids of the departments associated with the given resources.
      *
-     * @param int $departmentID id of the department
+     * @param string $resource    the name of the resource
+     * @param array  $resourceIDs the ids of the resources selected
      *
-     * @return boolean true if the user is a registered teacher, otherwise false
+     * @return array the department ids associated with the selected resources
      * @throws Exception
      */
-    public static function allowEdit($departmentID)
+    public static function getDepartmentsByResource($resource, $resourceIDs)
     {
-        $user = JFactory::getUser();
+        $resourceIDs = "'" . implode("', '", $resourceIDs) . "'";
 
-        if (empty($user->id)) {
-            return false;
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT departmentID')
+            ->from('#__thm_organizer_department_resources')
+            ->where("{$resource}ID IN ($resourceIDs)");
+        $dbo->setQuery($query);
+
+        try {
+            $departmentIDs = $dbo->loadColumn();
+        } catch (Exception $exception) {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+            return [];
         }
 
-        if ($user->authorise('core.admin', "com_thm_organizer")) {
-            return true;
-        }
-
-        require_once 'component.php';
-
-        if (empty($departmentID) or !THM_OrganizerHelperComponent::checkAssetInitialization('department',
-                $departmentID)) {
-            return THM_OrganizerHelperComponent::allowDeptResourceCreate('department');
-        }
-
-        return $user->authorise('organizer.department', 'com_thm_organizer.department.' . $departmentID);
+        return empty($departmentIDs) ? [] : $departmentIDs;
     }
 
     /**
@@ -78,32 +79,31 @@ class THM_OrganizerHelperDepartments
     /**
      * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
      *
-     * @param int    $planResourceID the db id for the plan resource
-     * @param string $column         the column in which the resource information is stored
+     * @param int    $resourceID the db id for the plan resource
+     * @param string $column     the column in which the resource information is stored
      *
      * @throws Exception
      */
-    public static function setDepartmentResource($planResourceID, $column, $departmentID = null)
+    public static function setDepartmentResource($resourceID, $column)
     {
-        if (empty($departmentID)) {
-            $formData             = JFactory::getApplication()->input->get('jform', [], 'array');
-            $data['departmentID'] = $formData['departmentID'];
-        } else {
-            $data['departmentID'] = $departmentID;
-        }
-
-        $data[$column] = $planResourceID;
-
         $deptResourceTable = JTable::getInstance('department_resources', 'thm_organizerTable');
-        $exists            = $deptResourceTable->load($data);
-        if ($exists) {
+
+        /**
+         * If associations already exist for the resource, further associations should be made explicitly using the
+         * appropriate edit view.
+         */
+        if ($deptResourceTable->load([$column => $resourceID])) {
             return;
         }
 
+        $formData             = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data['departmentID'] = $formData['departmentID'];
+
         try {
-            $deptResourceTable->save($data);
+            $deptResourceTable->departmentID = (int) $formData['departmentID'];
+            $deptResourceTable->store();
         } catch (Exception $exc) {
-            die;
+            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
         }
 
         return;

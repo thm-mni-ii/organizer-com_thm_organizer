@@ -2,14 +2,15 @@
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
         <field name="id" type="hidden"/>
-        <field name="gpuntisID" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_GPUNTISID"
-               description="COM_THM_ORGANIZER_GPUNTISID_DESC" readonly="true"/>
         <field name="name" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_NAME"
                description="COM_THM_ORGANIZER_NAME_DESC" required="true"/>
+        <field name="gpuntisID" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_GPUNTISID"
+               description="COM_THM_ORGANIZER_GPUNTISID_DESC" readonly="true"/>
         <field name="programID" type="programID" access="true" label="COM_THM_ORGANIZER_PROGRAM">
             <option value="">JNONE</option>
         </field>
-        <field name="departments" type="departments" resource="program" class="inputbox"
-               label="COM_THM_ORGANIZER_DEPARTMENTS" description="COM_THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"/>
+        <field name="departmentID" type="departmentID" class="inputbox" multiple="multiple" required="true"
+               label="COM_THM_ORGANIZER_DEPARTMENTS" description="COM_THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
+               resource="program" />
     </fieldset>
 </form>

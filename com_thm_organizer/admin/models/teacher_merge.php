@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-/** @noinspection PhpIncludeInspection */
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/form.php';
 
 /**
@@ -24,7 +23,6 @@ class THM_OrganizerModelTeacher_Merge extends THM_OrganizerModelForm
      */
     protected function allowEdit()
     {
-        $user = JFactory::getUser();
-        return ($user->authorise('core.admin', 'com_thm_organizer') or $user->authorise('organizer.hr', 'com_thm_organizer'));
+        return THM_OrganizerHelperComponent::isAdmin();
     }
 }

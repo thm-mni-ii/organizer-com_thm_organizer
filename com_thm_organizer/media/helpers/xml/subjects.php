@@ -38,7 +38,7 @@ class THM_OrganizerHelperXMLSubjects
             return;
         }
 
-        $scheduleModel->newSchedule->subjects = new stdClass;
+        $scheduleModel->schedule->subjects = new stdClass;
 
         foreach ($xmlObject->subjects->children() as $subjectNode) {
             self::validateIndividual($scheduleModel, $subjectNode);
@@ -70,8 +70,8 @@ class THM_OrganizerHelperXMLSubjects
      */
     private static function validateIndividual(&$scheduleModel, &$subjectNode)
     {
-        $gpuntisID = trim((string)$subjectNode[0]['id']);
-        if (empty($gpuntisID)) {
+        $subjectID = trim((string)$subjectNode[0]['id']);
+        if (empty($subjectID)) {
             if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING"), $scheduleModel->scheduleErrors)) {
                 $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING");
             }
@@ -79,113 +79,47 @@ class THM_OrganizerHelperXMLSubjects
             return;
         }
 
-        $department                                                     = $scheduleModel->newSchedule->departmentname;
-        $gpuntisID                                                      = str_replace('SU_', '', $gpuntisID);
-        $subjectIndex                                                   = $department . "_" . $gpuntisID;
-        $scheduleModel->newSchedule->subjects->$subjectIndex            = new stdClass;
-        $scheduleModel->newSchedule->subjects->$subjectIndex->gpuntisID = $gpuntisID;
-        $scheduleModel->newSchedule->subjects->$subjectIndex->name      = $gpuntisID;
-
-        $longName = self::validateLongName($scheduleModel, $subjectNode, $subjectIndex, $gpuntisID);
-
-        if (!$longName) {
-            unset($scheduleModel->newSchedule->subjects->$subjectIndex);
-
-            return;
-        }
-
-        self::validateSubjectNo($scheduleModel, $subjectNode, $subjectIndex);
-        self::validateField($scheduleModel, $subjectNode, $subjectIndex);
-
-        if (!empty($warningString)) {
-            $warning = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_PROPERTY_MISSING'), $longName, $gpuntisID,
-                $warningString);
-
-            $scheduleModel->scheduleWarnings[] = $warning;
-        }
-
-        $planResourceID = THM_OrganizerHelperSubjects::getPlanResourceID($subjectIndex,
-            $scheduleModel->newSchedule->subjects->$subjectIndex);
-
-        if (!empty($planResourceID)) {
-            $scheduleModel->newSchedule->subjects->$subjectIndex->id = $planResourceID;
-            THM_OrganizerHelperDepartments::setDepartmentResource($planResourceID, 'subjectID');
-        }
-
-        $flags = trim((string)$subjectNode->longname);
-    }
-
-    /**
-     * Validates the subject's longname
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$subjectNode   the subject node object
-     * @param string $subjectIndex   the subject's interdepartment unique identifier
-     * @param string $subjectID      the subject's id
-     *
-     * @return  mixed  string longname if valid, otherwise false
-     */
-    private static function validateLongName(&$scheduleModel, &$subjectNode, $subjectIndex, $subjectID)
-    {
         $longName = trim((string)$subjectNode->longname);
         if (empty($longName)) {
             $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING'),
                 $subjectID);
 
-            return false;
+            return;
         }
 
-        $scheduleModel->newSchedule->subjects->$subjectIndex->longname = $longName;
+        $subjectID    = str_replace('SU_', '', $subjectID);
+        $subjectIndex = $scheduleModel->schedule->departmentname . "_" . $subjectID;
 
-        return $longName;
-    }
+        $subject            = new stdClass;
+        $subject->gpuntisID = $subjectID;
+        $subject->name      = $subjectID;
+        $subject->longname  = $longName;
 
-    /**
-     * Validates the subject's subject number (text) attribute
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$subjectNode   the subject node object
-     * @param string $subjectIndex   the subject's interdepartment unique identifier
-     *
-     * @return  void
-     */
-    private static function validateSubjectNo(&$scheduleModel, &$subjectNode, $subjectIndex)
-    {
         $subjectNo = trim((string)$subjectNode->text);
 
         if (empty($subjectNo)) {
             $scheduleModel->scheduleWarnings['SUBJECT-NO'] = empty($scheduleModel->scheduleWarnings['SUBJECT-NO']) ?
                 1 : $scheduleModel->scheduleWarnings['SUBJECT-NO'] + 1;
 
-            $scheduleModel->newSchedule->subjects->$subjectIndex->subjectNo = '';
-
-            return;
+            $subjectNo = '';
         }
 
-        $scheduleModel->newSchedule->subjects->$subjectIndex->subjectNo = $subjectNo;
-    }
+        $subject->subjectNo = $subjectNo;
 
-    /**
-     * Validates the subject's field (description) attribute
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$subjectNode   the subject node object
-     * @param string $subjectIndex   the subject's interdepartment unique identifier
-     *
-     * @return  void
-     */
-    private static function validateField(&$scheduleModel, &$subjectNode, $subjectIndex)
-    {
-        $untisID      = str_replace('DS_', '', trim($subjectNode->subject_description[0]['id']));
-        $invalidField = (empty($fieldID) OR empty($scheduleModel->newSchedule->fields->$untisID));
+        $fieldID      = str_replace('DS_', '', trim($subjectNode->subject_description[0]['id']));
+        $invalidField = (empty($fieldID) OR empty($scheduleModel->schedule->fields->$fieldID));
 
         if ($invalidField) {
-            $scheduleModel->newSchedule->subjects->$subjectIndex->description = '';
-
-            return;
+            $subject->description = '';
+            $subject->fieldID     = null;
+        } else {
+            $subject->description = $fieldID;
+            $subject->fieldID     = $scheduleModel->schedule->fields->$fieldID->id;
         }
 
-        $scheduleModel->newSchedule->subjects->$subjectIndex->description = $untisID;
-        $scheduleModel->newSchedule->subjects->$subjectIndex->fieldID     = $scheduleModel->newSchedule->fields->$fieldID->id;
+        // This requires the field, gpuntisID, longname and subjectNo have been set (mostly) => order important.
+        $subject->id = THM_OrganizerHelperSubjects::getPlanResourceID($subjectIndex, $subject);
+
+        $scheduleModel->schedule->subjects->$subjectIndex = $subject;
     }
 }

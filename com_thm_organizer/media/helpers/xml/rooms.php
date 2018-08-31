@@ -33,7 +33,7 @@ class THM_OrganizerHelperXMLRooms
             return;
         }
 
-        $scheduleModel->newSchedule->rooms = new stdClass;
+        $scheduleModel->schedule->rooms = new stdClass;
 
         foreach ($xmlObject->rooms->children() as $resourceNode) {
             self::validateIndividual($scheduleModel, $resourceNode);
@@ -55,30 +55,6 @@ class THM_OrganizerHelperXMLRooms
     }
 
     /**
-     * Validates the room's display name
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$roomNode      the room node object
-     * @param string $roomID         the room's id
-     *
-     * @return mixed  string display name if valid, otherwise false
-     */
-    private static function validateDisplayName(&$scheduleModel, &$roomNode, $roomID)
-    {
-        $displayName = trim((string)$roomNode->longname);
-        if (empty($displayName)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING'),
-                $roomID);
-
-            return false;
-        }
-
-        $scheduleModel->newSchedule->rooms->$roomID->longname = $displayName;
-
-        return $displayName;
-    }
-
-    /**
      * Checks whether room nodes have the expected structure and required
      * information
      *
@@ -89,93 +65,63 @@ class THM_OrganizerHelperXMLRooms
      */
     public static function validateIndividual(&$scheduleModel, &$roomNode)
     {
-        $gpuntisID = self::validateUntisID($scheduleModel, $roomNode);
-        if (!$gpuntisID) {
-            return;
-        }
-
-        $gpuntisID = strtoupper(str_replace('RM_', '', $gpuntisID));
-
-        $scheduleModel->newSchedule->rooms->$gpuntisID            = new stdClass;
-        $scheduleModel->newSchedule->rooms->$gpuntisID->name      = $gpuntisID;
-        $scheduleModel->newSchedule->rooms->$gpuntisID->gpuntisID = $gpuntisID;
-        $scheduleModel->newSchedule->rooms->$gpuntisID->localUntisID
-                                                                  = str_replace('RM_', '',
-            trim((string)$roomNode[0]['id']));
-
-        $displayName = self::validateDisplayName($scheduleModel, $roomNode, $gpuntisID);
-        if (!$displayName) {
-            unset($scheduleModel->newSchedule->rooms->$gpuntisID);
-
-            return;
-        }
-
-        $capacity                                                = trim((int)$roomNode->capacity);
-        $scheduleModel->newSchedule->rooms->$gpuntisID->capacity = (empty($capacity)) ? '' : $capacity;
-
-        self::validateType($scheduleModel, $roomNode, $gpuntisID);
-        $roomID = THM_OrganizerHelperRooms::getID($gpuntisID, $scheduleModel->newSchedule->rooms->$gpuntisID);
-
-        if (!empty($roomID)) {
-            $scheduleModel->newSchedule->rooms->$gpuntisID->id = $roomID;
-            THM_OrganizerHelperDepartments::setDepartmentResource($roomID, 'roomID');
-        }
-    }
-
-    /**
-     * Validates the room's description attribute
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$roomNode      the room node object
-     * @param string $roomID         the room's id
-     *
-     * @return void
-     */
-    private static function validateType(&$scheduleModel, &$roomNode, $roomID)
-    {
-        $descriptionID      = str_replace('DS_', '', trim((string)$roomNode->room_description[0]['id']));
-        $invalidDescription = (empty($descriptionID) or empty($scheduleModel->newSchedule->room_types->$descriptionID));
-        if ($invalidDescription) {
-            $scheduleModel->scheduleWarnings['ROOM-TYPE']            = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
-                1 : $scheduleModel->scheduleWarnings['ROOM-TYPE'] + 1;
-            $scheduleModel->newSchedule->rooms->$roomID->description = '';
-
-            return;
-        }
-
-        $scheduleModel->newSchedule->rooms->$roomID->description = $descriptionID;
-        $scheduleModel->newSchedule->rooms->$roomID->typeID      = $scheduleModel->newSchedule->room_types->$descriptionID->id;
-    }
-
-    /**
-     * Validates the room's untis id
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$roomNode      the room node object
-     *
-     * @return mixed  string untis id if valid, otherwise false
-     */
-    private static function validateUntisID(&$scheduleModel, &$roomNode)
-    {
-        $externalID = trim((string)$roomNode->external_name);
         $internalID = trim((string)$roomNode[0]['id']);
         if (empty($internalID)) {
             if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING"), $scheduleModel->scheduleErrors)) {
                 $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING");
             }
 
-            return false;
+            return;
         }
 
+        $internalID = strtoupper(str_replace('RM_', '', $internalID));
+        $roomID = $internalID;
+
+        $displayName = trim((string)$roomNode->longname);
+        if (empty($displayName)) {
+            $scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING',
+                $internalID);
+
+            return;
+        }
+
+        $externalID = trim((string)$roomNode->external_name);
         if (empty($externalID)) {
             $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'] = empty($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']) ?
                 1 : $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'] + 1;
-            $gpuntisID                                          = $internalID;
         } else {
-
-            $gpuntisID = $externalID;
+            $externalID = strtoupper(str_replace('RM_', '', $externalID));
         }
 
-        return $gpuntisID;
+        $room = new stdClass;
+        if (empty($externalID)) {
+            $room->name      = $internalID;
+            $room->gpuntisID = $internalID;
+        } else {
+            $room->name      = $externalID;
+            $room->gpuntisID = $externalID;
+        }
+
+        // This must be called after the name property has been set
+        $room->id           = THM_OrganizerHelperRooms::getID($roomID, $room);
+        $room->localUntisID = $internalID;
+        $room->longname     = $displayName;
+
+        $descriptionID      = str_replace('DS_', '', trim((string)$roomNode->room_description[0]['id']));
+        $invalidDescription = (empty($descriptionID) or empty($scheduleModel->schedule->room_types->$descriptionID));
+        if ($invalidDescription) {
+            $scheduleModel->scheduleWarnings['ROOM-TYPE'] = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
+                1 : $scheduleModel->scheduleWarnings['ROOM-TYPE'] + 1;
+            $room->description = '';
+            $room->typeID      = null;
+        } else {
+            $room->description = $descriptionID;
+            $room->typeID      = $scheduleModel->schedule->room_types->{$descriptionID}->id;
+        }
+
+        $capacity       = trim((int)$roomNode->capacity);
+        $room->capacity = (empty($capacity)) ? '' : $capacity;
+
+        $scheduleModel->schedule->rooms->$roomID = $room;
     }
 }
