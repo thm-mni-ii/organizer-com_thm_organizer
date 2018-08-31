@@ -17,15 +17,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
 {
     /**
-     * Checks for user authorization to access the view
-     *
-     * @param int $subjectID the id of the subject for which authorization is to be checked
+     * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the view, otherwise false
      * @throws Exception
      */
-    protected function allowEdit($subjectID = null)
+    protected function allowEdit()
     {
+        $subjectID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
         return THM_OrganizerHelperSubjects::allowEdit($subjectID);
     }
 }

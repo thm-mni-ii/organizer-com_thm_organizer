@@ -39,14 +39,23 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function activate()
     {
-        $active        = $this->getScheduleRow();
-        $activeInvalid = (empty($active) or empty($active->id) or !empty($active->active));
+        $active = $this->getScheduleRow();
 
-        if ($activeInvalid) {
+        if (empty($active)) {
+            return true;
+        }
+
+        if (!THM_OrganizerHelperComponent::allowSchedulingAccess($active->id)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
+        if (!empty($active->active)) {
             return true;
         }
 
         $jsonModel = new THM_OrganizerModelJSONSchedule;
+
+        // No access checks for the reference schedule, because access rights are inherited through the department.
         $reference = $this->getScheduleRow($active->departmentID, $active->planningPeriodID);
 
         if (empty($reference) or empty($reference->id)) {
@@ -89,9 +98,19 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function delete()
     {
+        if (!THM_OrganizerHelperComponent::allowSchedulingAccess()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $this->_db->transactionStart();
         $scheduleIDs = JFactory::getApplication()->input->get('cid', [], 'array');
         foreach ($scheduleIDs as $scheduleID) {
+
+            if (!THM_OrganizerHelperComponent::allowSchedulingAccess($scheduleID)) {
+                $this->_db->transactionRollback();
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+
             try {
                 $success = $this->deleteSingle($scheduleID);
             } catch (Exception $exception) {
@@ -183,11 +202,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             return true;
         }
 
+        if (!THM_OrganizerHelperComponent::allowSchedulingAccess($reference->id)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $active = $this->getScheduleRow($reference->departmentID, $reference->planningPeriodID);
 
         if (empty($active)) {
             return true;
         }
+
+        // No access checks for the active schedule, they share the same department from which they inherit access.
 
         $jsonModel  = new THM_OrganizerModelJSONSchedule;
         $refSuccess = $jsonModel->setReference($reference, $active);
@@ -196,7 +221,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
     }
 
     /**
-     * Toggles the schedule's active status
+     * Toggles the schedule's active status. Access checks performed in called functions.
      *
      * @return boolean  true on success, otherwise false
      * @throws Exception
@@ -227,6 +252,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function upload()
     {
+        $form = JFactory::getApplication()->input->get('jform', [], 'array');
+        $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
+
+        if ($invalidForm) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+        }
+
+        if (!THM_OrganizerHelperComponent::allowSchedulingAccess(null, $form['departmentID'])) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $xmlModel = new THM_OrganizerModelXMLSchedule;
         $valid    = $xmlModel->validate();
 

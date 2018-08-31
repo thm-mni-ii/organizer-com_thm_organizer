@@ -16,21 +16,20 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
  */
 class THM_OrganizerModelPlan_Program_Edit extends THM_OrganizerModelEdit
 {
+    protected $deptResource = 'program';
+
     /**
-     * Checks access for edit views
-     *
-     * @param int $pProgramID the id of the resource to be edited (empty for new entries)
+     * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the edit view, otherwise false
      * @throws Exception
      */
-    public function allowEdit($pProgramID = null)
+    public function allowEdit()
     {
-        if (empty($pProgramID)) {
+        if (empty($this->item->id)) {
             return false;
         }
-        $pProgramIDs = [$pProgramID];
 
-        return THM_OrganizerHelperPlan_Programs::allowEdit($pProgramIDs);
+        return THM_OrganizerHelperPlan_Programs::allowEdit([$this->item->id]);
     }
 }

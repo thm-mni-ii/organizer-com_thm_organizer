@@ -24,8 +24,6 @@ class THM_OrganizerModelPlan_Pool_Merge extends THM_OrganizerModelForm
      */
     protected function allowEdit()
     {
-        $poolIDs = JFactory::getApplication()->input->get('cid', [], '[]');
-
-        return THM_OrganizerHelperPlan_Pools::allowEdit($poolIDs);
+        return THM_OrganizerHelperComponent::isAdmin();
     }
 }

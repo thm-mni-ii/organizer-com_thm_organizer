@@ -17,20 +17,18 @@ class THM_OrganizerHelperPlan_Pools
     /**
      * Checks whether the given plan pool is associated with an allowed department
      *
-     * @param array $ppIDs the id of the plan pool being checked
+     * @param array $ppIDs the ids of the plan pools being checked
      *
      * @return bool  true if the plan pool is associated with an allowed department, otherwise false
      * @throws Exception
      */
     public static function allowEdit($ppIDs)
     {
-        $user = JFactory::getUser();
-
-        if (empty($user->id)) {
+        if (empty(JFactory::getUser()->id)) {
             return false;
         }
 
-        if ($user->authorise('core.admin', "com_thm_organizer")) {
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             return true;
         }
 
@@ -39,7 +37,7 @@ class THM_OrganizerHelperPlan_Pools
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT id')
+        $query->select('DISTINCT dr.id')
             ->from('#__thm_organizer_department_resources as dr')
             ->innerJoin('#__thm_organizer_plan_pools as ppl on ppl.programID = dr.programID')
             ->where("ppl.id IN ( $ppIDs )")

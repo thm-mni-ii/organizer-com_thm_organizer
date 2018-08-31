@@ -22,6 +22,10 @@ class THM_OrganizerModelDegree extends JModelLegacy
      */
     public function save()
     {
+        if (!THM_OrganizerHelperComponent::isAdmin()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $data  = JFactory::getApplication()->input->get('jform', [], 'array');
         $table = JTable::getInstance('degrees', 'thm_organizerTable');
 
@@ -35,7 +39,9 @@ class THM_OrganizerModelDegree extends JModelLegacy
      */
     public function delete()
     {
-        require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+        if (!THM_OrganizerHelperComponent::isAdmin()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
 
         return THM_OrganizerHelperComponent::delete('degrees');
     }

@@ -24,22 +24,6 @@ abstract class THM_OrganizerModelList extends JModelList
 
     protected $defaultFilters = [];
 
-    public $actions = null;
-
-    /**
-     * Constructor. Uses parent constructor, then sets model actions.
-     *
-     * @param array $config Configuration  (default: array)
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-
-        require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
-
-        THM_OrganizerHelperComponent::addActions($this);
-    }
-
     /**
      * Method to get the data that should be injected in the form.
      *

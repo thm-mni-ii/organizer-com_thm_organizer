@@ -15,30 +15,53 @@ defined('_JEXEC') or die;
 abstract class THM_OrganizerModelMerge extends JModelLegacy
 {
     /**
-     * Performs an automated merge of field entries, in as far as this is possible according to plausibility constraints.
+     * @var array the preprocessed form data
+     */
+    protected $data = [];
+
+    /**
+     * @var the column name in the department resources table
+     */
+    protected $deptResource;
+
+    protected $fkColumn;
+
+    protected $tableName;
+
+    /**
+     * Provides resource specific user access checks
      *
-     * @param string $resource the resource type being merged
+     * @return boolean  true if the user may edit the given resource, otherwise false
+     */
+    protected function allowEdit()
+    {
+        return THM_OrganizerHelperComponent::isAdmin();
+    }
+
+    /**
+     * Performs an automated merge of field entries, if allowed by to plausibility constraints. No access checks here
+     * because this function is just a preprocessor for the function merge, which does have access checks.
      *
      * @return boolean  true on success, otherwise false
      * @throws Exception
      */
-    public function autoMerge($resource)
+    public function autoMerge()
     {
-        $entries = $this->getEntries("{$resource}s");
+        $entries = $this->getEntries();
 
         $keyProperties = ['gpuntisID'];
-        if ($resource == 'teacher') {
+        if ($this->fkColumn == 'teacherID') {
             $keyProperties[] = 'username';
         }
 
-        $data     = [];
-        $otherIDs = [];
+        $data             = [];
+        $data['otherIDs'] = [];
 
         foreach ($entries as $entry) {
             if (empty($data['id'])) {
                 $data['id'] = $entry['id'];
             } else {
-                $otherIDs[] = $entry['id'];
+                $data['otherIDs'][] = $entry['id'];
             }
 
             foreach ($entry as $property => $value) {
@@ -86,30 +109,35 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             }
         }
 
-        // The "otherIDs" are expected as a comma separated string.
-        $data['otherIDs'] = implode(",", $otherIDs);
+        $this->data = $data;
 
-        return $this->merge($resource, $data);
+        return $this->merge();
     }
 
     /**
      * Attempts to delete resource entries
      *
-     * @param string $resource the name of the resource type being deleted
-     *
      * @return boolean  true on success, otherwise false
      * @throws Exception
      */
-    public function delete($resource)
+    public function delete()
     {
-        $cids = JFactory::getApplication()->input->get('cid', [], 'array');
+        $this->preprocess();
 
-        // Should not occur
-        if (empty($cids)) {
+        if (!$this->allowEdit()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
+        $app = JFactory::getApplication();
+
+        if (!method_exists($this, 'updateSchedule')) {
+            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_NO_SCHEDULE_RESOURCE_DELETE'), 'warning');
+
             return false;
         }
 
-        $table = JTable::getInstance("{$resource}s", 'thm_organizerTable');
+        $cids  = $app->input->get('cid', [], 'array');
+        $table = $this->getTable();
 
         foreach ($cids as $resourceID) {
             try {
@@ -138,48 +166,6 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     }
 
     /**
-     * Method to get all gpuntis IDs for the resources to be merged
-     *
-     * @param string $resource the name of the resource
-     * @param array  $allDBIDs all of the resource db entry ids
-     *
-     * @return mixed  array on success, otherwise null
-     */
-    protected function getAllGPUntisIDs($resource, $allDBIDs)
-    {
-        $idString = "'" . implode("', '", $allDBIDs) . "'";
-        $query    = $this->_db->getQuery(true);
-        $query->select('gpuntisID')->from("#__thm_organizer_{$resource}")->where("id in ( $idString )");
-        $this->_db->setQuery($query);
-        try {
-            return $this->_db->loadColumn();
-        } catch (Exception $exc) {
-            return null;
-        }
-    }
-
-    /**
-     * Method to get all gpuntis IDs for the resources to be merged
-     *
-     * @param string $tableName the unique portion of the database table with the appropriate 'description' entries
-     * @param array  $dbID      the id of the resource entry
-     *
-     * @return mixed  array on success, otherwise null
-     */
-    protected function getDescriptionGPUntisID($tableName, $dbID)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select('gpuntisID')->from("#__thm_organizer_{$tableName}")->where("id = '$dbID'");
-        $this->_db->setQuery($query);
-
-        try {
-            return $this->_db->loadResult();
-        } catch (Exception $exc) {
-            return null;
-        }
-    }
-
-    /**
      * Retrieves resource entries from the database
      *
      * @param string $tableName    the unique portion of the resource table name
@@ -188,18 +174,16 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @return mixed  array on success, otherwise null
      * @throws Exception
      */
-    protected function getEntries($tableName, $onlySelected = true)
+    protected function getEntries()
     {
         $query = $this->_db->getQuery(true);
         $query->select('*');
-        $query->from("#__thm_organizer_$tableName");
+        $query->from("#__thm_organizer_{$this->tableName}");
 
-        if ($onlySelected) {
-            $requestIDs = JFactory::getApplication()->input->get('cid', [], 'array');
-            $normedIDs  = Joomla\Utilities\ArrayHelper::toInteger($requestIDs);
-            $selected   = "'" . implode("', '", $normedIDs) . "'";
-            $query->where("id IN ( $selected )");
-        }
+        $requestIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $normedIDs  = Joomla\Utilities\ArrayHelper::toInteger($requestIDs);
+        $selected   = "'" . implode("', '", $normedIDs) . "'";
+        $query->where("id IN ( $selected )");
 
         $query->order('id ASC');
 
@@ -220,7 +204,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @return mixed  array on success, otherwise null
      * @throws Exception
      */
-    protected function getAllSchedulesIDs()
+    protected function getSchedulesIDs()
     {
         $query = $this->_db->getQuery(true);
         $query->select('id');
@@ -266,52 +250,37 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     /**
      * Merges resource entries and cleans association tables.
      *
-     * @param string $resource the name of the resource type
-     * @param array  $data     the data when called from auto merge
-     *
      * @return boolean  true on success, otherwise false
      * @throws Exception
      */
-    public function merge($resource, $data = null)
+    public function merge()
     {
-        $data = empty($data) ? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
+        if (!$this->allowEdit()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
 
-        $invalidForm = (empty($data['id']) or empty($data['gpuntisID']));
-        if ($invalidForm) {
-            JFactory::getApplication()->enqueueMessage('invalid form');
-
+        $valid = $this->preprocess();
+        if (!$valid) {
             return false;
         }
 
-        $newDBID  = $data['id'];
-        $oldDBIDs = explode(',', $data['otherIDs']);
+        set_time_limit(0);
 
         $this->_db->transactionStart();
 
-        $associationsUpdated = $this->updateAssociations($newDBID, $oldDBIDs);
+        // Associations have to be updated before entity references are deleted by foreign keys
+        $associationsUpdated = $this->updateAssociations();
         if (!$associationsUpdated) {
             $this->_db->transactionRollback();
 
             return false;
         }
 
-        $allDBIDs      = array_merge([$newDBID], $oldDBIDs);
-        $newGPUntisID  = $data['gpuntisID'];
-        $tableName     = "{$resource}s";
-        $allGPUntisIDs = $this->getAllGPUntisIDs($tableName, $allDBIDs);
+        $table = $this->getTable();
 
-        $schedulesSuccess = $this->updateSchedules($newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs, $data);
-        if (!$schedulesSuccess) {
-            $this->_db->transactionRollback();
-
-            return false;
-        }
-
-        // Update entry with ID from form (lowest)
-        $resourceTable = JTable::getInstance($tableName, 'thm_organizerTable');
-
-        foreach ($oldDBIDs as $oldDBID) {
-            $deleted = $resourceTable->delete($oldDBID);
+        // Remove deprecated entries
+        foreach ($this->data['otherIDs'] as $oldID) {
+            $deleted = $table->delete($oldID);
             if (!$deleted) {
                 $this->_db->transactionRollback();
 
@@ -319,12 +288,22 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             }
         }
 
-        $success = $resourceTable->save($data);
+        // Save the merged values of the current entry
+        $success = $table->save($this->data);
         if (!$success) {
-
             $this->_db->transactionRollback();
 
             return false;
+        }
+
+
+        if (method_exists($this, 'updateSchedule')) {
+            $schedulesSuccess = $this->updateSchedules();
+            if (!$schedulesSuccess) {
+                $this->_db->transactionRollback();
+
+                return false;
+            }
         }
 
         $this->_db->transactionCommit();
@@ -333,87 +312,99 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     }
 
     /**
-     * Attempts to save a resource entry, updating schedule data as necessary.
+     * Ensures that the data property is set and that mandatory indexes id and gpuntis id are also set
      *
-     * @param string $resource the name of the resource type being merged
+     * @return bool true if the basic requirements are met, otherwise false
+     * @throws Exception
+     */
+    private function preprocess()
+    {
+        $input = JFactory::getApplication()->input;
+        $this->data = $input->get('jform', $this->data, 'array');
+
+        if (!empty($this->data)) {
+            $invalidID = (!empty($this->data['id']) and !is_numeric($this->data['id']));
+            if ($invalidID or empty($this->data['gpuntisID'])) {
+                throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            }
+
+            if (!empty($this->data['otherIDs']) and !is_array($this->data['otherIDs'])) {
+                $this->data['otherIDs'] = explode(',', $this->data['otherIDs']);
+            }
+
+            return true;
+        }
+
+        $selected = Joomla\Utilities\ArrayHelper::toInteger($input->get('cid', [], 'array'));
+        if (count($selected)) {
+            $this->data = ['otherIDs' => $selected];
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Attempts to save a resource entry, updating schedule data as necessary.
      *
      * @return mixed  integer on success, otherwise false
      * @throws Exception
      */
     public function save()
     {
-        $input = JFactory::getApplication()->input;
-        $data  = $input->get('jform', [], 'array');
-
-        if (empty($data['gpuntisID'])) {
+        $valid = $this->preprocess();
+        if (!$valid) {
             return false;
+        }
+
+        if (!$this->allowEdit()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $this->_db->transactionStart();
 
-        $task      = $input->get('task', '');
-        $taskParts = explode('.', $task);
-        $resource  = $taskParts[0];
+        // No need to update associations or schedules.
 
-        $table = JTable::getInstance("{$resource}s", 'thm_organizerTable');
-        if (!empty($data['id'])) {
-            $table->load($data['id']);
-
-            $gpuntisIDs                     = [];
-            $gpuntisIDs[$data['gpuntisID']] = $data['gpuntisID'];
-            $gpuntisIDs[$table->gpuntisID]  = $table->gpuntisID;
-
-            $schedulesUpdated = $this->updateSchedules($data['id'], $data['gpuntisID'], $gpuntisIDs, [$data['id']],
-                $data);
-            if (!$schedulesUpdated) {
+        if (!empty($this->deptResource)) {
+            $departmentsUpdated = $this->updateDepartments();
+            if (!$departmentsUpdated) {
                 $this->_db->transactionRollback();
 
                 return false;
             }
-
-            if (!empty($data['departments'])) {
-                $resourceName       = str_replace('plan_', '', $resource);
-                $departmentsUpdated = $this->updateDepartments($resourceName, $data);
-                if (!$departmentsUpdated) {
-                    $this->_db->transactionRollback();
-
-                    return false;
-                }
-            }
         }
 
-        // No need to update associations. New entries have no associations. Existing entries keep their ids.
 
-        $success = $table->save($data);
+        $table = $this->getTable();
+        $table->load($this->data['id']);
+        $success = $table->save($this->data);
 
         if ($success) {
             $this->_db->transactionCommit();
 
             return $table->id;
         }
+
         $this->_db->transactionRollback();
 
         return false;
     }
 
     /**
-     * Replaces old room associations
+     * Updates an association
      *
-     * @param string $resource  the name of the resource type being merged
-     * @param int    $newDBID   the id onto which the room entries merge
-     * @param array  $oldDBIDs  the ids to be replaced
      * @param string $tableName the unique part of the table name
      *
      * @return boolean  true on success, otherwise false
      */
-    protected function updateAssociation($resource, $newDBID, $oldDBIDs, $tableName)
+    protected function updateAssociation($tableName)
     {
-        $oldDBIDString = "'" . implode("', '", $oldDBIDs) . "'";
+        $oldIDString = "'" . implode("', '", $this->data['otherIDs']) . "'";
 
         $query = $this->_db->getQuery(true);
         $query->update("#__thm_organizer_{$tableName}");
-        $query->set("{$resource}ID = '$newDBID'");
-        $query->where("{$resource}ID IN ( $oldDBIDString )");
+        $query->set("{$this->fkColumn} = '{$this->data['id']}'");
+        $query->where("{$this->fkColumn} IN ( $oldIDString )");
         $this->_db->setQuery($query);
         try {
             $this->_db->execute();
@@ -427,30 +418,24 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     }
 
     /**
-     * Replaces old room associations
-     *
-     * @param int    $newDBID  the id onto which the room entries merge
-     * @param string $oldDBIDs a string containing the ids to be replaced
+     * Updates the resource dependent associations
      *
      * @return boolean  true on success, otherwise false
      */
-    protected abstract function updateAssociations($newDBID, $oldDBIDs);
+    protected abstract function updateAssociations();
 
     /**
      * Updates the associated departments for a resource
      *
-     * @param string $resourceName the resource name (without the 'plan_' prefix)
-     * @param array  $data         the data from the request
-     *
      * @return bool true on success, otherwise false
      * @throws Exception
      */
-    private function updateDepartments($resourceName, $data)
+    private function updateDepartments()
     {
         $existingQuery = $this->_db->getQuery(true);
         $existingQuery->select("DISTINCT departmentID");
         $existingQuery->from('#__thm_organizer_department_resources');
-        $existingQuery->where("{$resourceName}ID = '{$data['id']}'");
+        $existingQuery->where("{$this->deptResource} = '{$this->data['id']}'");
         $this->_db->setQuery($existingQuery);
 
         try {
@@ -461,12 +446,12 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             return false;
         }
 
-        $deprecated = array_diff($existing, $data['departments']);
+        $deprecated = array_diff($existing, $this->data['departmentID']);
 
         if (!empty($deprecated)) {
             $deletionQuery = $this->_db->getQuery(true);
             $deletionQuery->delete('#__thm_organizer_department_resources');
-            $deletionQuery->where("{$resourceName}ID = '{$data['id']}'");
+            $deletionQuery->where("{$this->deptResource} = '{$this->data['id']}'");
             $deletionQuery->where("departmentID IN ('" . implode("','", $deprecated) . "')");
             $this->_db->setQuery($deletionQuery);
 
@@ -483,15 +468,15 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             }
         }
 
-        $new = array_diff($data['departments'], $existing);
+        $new = array_diff($this->data['departmentID'], $existing);
 
         if (!empty($new)) {
             $insertQuery = $this->_db->getQuery(true);
             $insertQuery->insert("#__thm_organizer_department_resources");
-            $insertQuery->columns("departmentID, {$resourceName}ID");
+            $insertQuery->columns("departmentID, {$this->deptResource}");
 
             foreach ($new as $newID) {
-                $insertQuery->values("'$newID', '{$data['id']}'");
+                $insertQuery->values("'$newID', '{$this->data['id']}'");
                 $this->_db->setQuery($insertQuery);
 
                 try {
@@ -513,40 +498,34 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     /**
      * Updates department resource associations
      *
-     * @param string $resource the name of the resource type being merged
-     * @param int    $newDBID  the id onto which the room entries merge
-     * @param array  $oldDBIDs the ids to be replaced
-     *
      * @return boolean  true on success, otherwise false
      */
-    protected function updateDRAssociation($resource, $newDBID, $oldDBIDs)
+    protected function updateDRAssociation()
     {
-        $oldIDString = "'" . implode("', '", $oldDBIDs) . "'";
 
-        $allIDString     = "'$newDBID', $oldIDString";
+        $allIDString = "'" . implode("', '", array_merge([$this->data['id']], $this->data['otherIDs'])) . "'";
+
         $departmentQuery = $this->_db->getQuery(true);
         $departmentQuery->select("DISTINCT departmentID");
         $departmentQuery->from("#__thm_organizer_department_resources");
-        $departmentQuery->where("{$resource}ID IN ( $allIDString )");
+        $departmentQuery->where("{$this->deptResource} IN ( $allIDString )");
         $this->_db->setQuery($departmentQuery);
 
         try {
-            $allDeptAssociations = $this->_db->loadColumn();
+            $deptIDs = $this->_db->loadColumn();
         } catch (Exception $exception) {
             $this->_db->transactionRollback();
 
             return false;
         }
 
-        // This should not be able to occur
-        if (empty($allDeptAssociations)) {
+        if (empty($deptIDs)) {
             return true;
         }
 
-        // Remove entries that have been merged out
         $deleteQuery = $this->_db->getQuery(true);
-        $deleteQuery->delete("#__thm_organizer_department_resources");
-        $deleteQuery->where("{$resource}ID IN ( $oldIDString )");
+        $deleteQuery->delete("#__thm_organizer_department_resources")
+            ->where("{$this->fkColumn} IN ( $allIDString )");
         $this->_db->setQuery($deleteQuery);
 
         try {
@@ -557,94 +536,56 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             return false;
         }
 
-        // Rerun the dept query to find the departments that remain
-        $this->_db->setQuery($departmentQuery);
+        $insertQuery = $this->_db->getQuery(true);
+        $insertQuery->insert("#__thm_organizer_department_resources");
+        $insertQuery->columns("departmentID, {$this->fkColumn}");
+
+        foreach ($deptIDs as $deptID) {
+            $insertQuery->values("'$deptID', '{$this->data['id']}'");
+        }
+
+        $this->_db->setQuery($insertQuery);
 
         try {
-            $remainingDeptAssociations = $this->_db->loadColumn();
+            $this->_db->execute();
         } catch (Exception $exception) {
             $this->_db->transactionRollback();
 
             return false;
         }
 
-        // Should not occur
-        if (empty($remainingDeptAssociations)) {
-            $this->_db->transactionRollback();
-
-            return false;
-        }
-
-        // Find and readd any department associations that were lost
-        $missingDeptAssociations = array_diff($allDeptAssociations, $remainingDeptAssociations);
-
-        if (!empty($missingDeptAssociations)) {
-            foreach ($missingDeptAssociations as $departmentID) {
-                $insertQuery = $this->_db->getQuery(true);
-                $insertQuery->insert("#__thm_organizer_department_resources");
-                $insertQuery->columns("departmentID, {$resource}ID");
-                $insertQuery->values("'$departmentID', '$newDBID'");
-                $this->_db->setQuery($insertQuery);
-
-                try {
-                    $this->_db->execute();
-                } catch (Exception $exception) {
-                    $this->_db->transactionRollback();
-
-                    return false;
-                }
-            }
-        }
-
         return true;
     }
 
     /**
-     * Processes the data for an individual schedule
-     *
-     * @param object &$schedule     the schedule being processed
-     * @param array  &$data         the data for the schedule db entry
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
-     *
-     * @return void
-     */
-    protected abstract function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
-
-    /**
      * Updates room data and lesson associations in active schedules
      *
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
-     * @param array  $data          the data for the schedule db entry
+     * @param array $allIDs all db IDs for the resources to be merged
      *
      * @return bool  true on success, otherwise false
      * @throws Exception
      */
-    public function updateSchedules($newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs, $data = [])
+    public function updateSchedules()
     {
-        $scheduleIDs = $this->getAllSchedulesIDs();
+        $scheduleIDs = $this->getSchedulesIDs();
         if (empty($scheduleIDs)) {
             return true;
         }
 
         $scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
         foreach ($scheduleIDs as $scheduleID) {
+
             $scheduleObject = $this->getScheduleObject($scheduleID);
+
             if (empty($scheduleObject)) {
                 continue;
             }
 
             $scheduleObject->configurations = (array)$scheduleObject->configurations;
+            $tableData                      = [];
+            $tableData['id']                = $scheduleID;
 
-            $tableData       = [];
-            $tableData['id'] = $scheduleID;
-
-            $this->updateSchedule($scheduleObject, $data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs);
+            $this->updateSchedule($scheduleObject);
             $tableData['newSchedule'] = json_encode($scheduleObject);
 
             $success = $scheduleTable->save($tableData);

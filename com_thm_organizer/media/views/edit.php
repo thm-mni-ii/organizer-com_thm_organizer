@@ -26,13 +26,12 @@ abstract class THM_OrganizerViewEdit extends JViewLegacy
      */
     public function display($tpl = null)
     {
-        $this->modifyDocument();
-
-        $this->item = $this->get('Item');
         $this->form = $this->get('Form');
+        $this->item = $this->get('Item');
 
         // Allows for view specific toolbar handling
         $this->addToolBar();
+        $this->modifyDocument();
         parent::display($tpl);
     }
 

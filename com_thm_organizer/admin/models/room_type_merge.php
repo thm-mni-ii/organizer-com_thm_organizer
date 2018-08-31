@@ -23,7 +23,6 @@ class THM_OrganizerModelRoom_Type_Merge extends THM_OrganizerModelForm
      */
     protected function allowEdit()
     {
-        $user = JFactory::getUser();
-        return ($user->authorise('core.admin', 'com_thm_organizer') or $user->authorise('organizer.fm', 'com_thm_organizer'));
+        return THM_OrganizerHelperComponent::isAdmin();
     }
 }

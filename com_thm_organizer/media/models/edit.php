@@ -14,19 +14,19 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
 {
-    public $actions;
+    protected $deptResource;
+
+    public $item = null;
 
     /**
-     * Checks for user authorization to access the view
-     *
-     * @param int $itemID the id of the item being verified, superfluous where authorization is solely role-based.
+     * Provides a strict access check which can be overwritten by extending classes.
      *
      * @return bool  true if the user can access the view, otherwise false
      * @throws Exception
      */
-    protected function allowEdit($itemID = null)
+    protected function allowEdit()
     {
-        return JFactory::getUser()->authorise('core.admin', 'com_thm_organizer');
+        return THM_OrganizerHelperComponent::isAdmin();
     }
 
     /**
@@ -45,6 +45,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
         $form = $this->loadForm("com_thm_organizer.$name", $name, ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
+
             return false;
         }
 
@@ -61,16 +62,19 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      */
     public function getItem($pk = null)
     {
-        require_once JPATH_ROOT . "/media/com_thm_organizer/helpers/component.php";
-
-        THM_OrganizerHelperComponent::addActions($this);
-        $item      = parent::getItem($pk);
-        $allowEdit = $this->allowEdit($item->id);
-
-        if ($allowEdit) {
-            return $item;
+        // Prevents duplicate execution from getForm and getItem
+        if (isset($this->item->id) and ($this->item->id === $pk or $pk === null)) {
+            return $this->item;
         }
-        throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+
+        $this->item = parent::getItem($pk);
+        $allowEdit  = $this->allowEdit();
+
+        if (!$allowEdit) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
+        return $this->item;
     }
 
     /**
@@ -105,24 +109,10 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      */
     protected function loadFormData()
     {
-        $input      = JFactory::getApplication()->input;
-        $name       = $this->get('name');
-        $resource   = str_replace('_edit', '', $name);
-        $task       = $input->getCmd('task', "$resource.add");
-        $resourceID = $input->getInt('id', 0);
+        $input       = JFactory::getApplication()->input;
+        $resourceIDs = $input->get('cid', [], 'array');
+        $resourceID  = empty($resourceIDs) ? $input->getInt('id', 0) : $resourceIDs[0];
 
-        // Edit can only be explicitly called from the list view or implicitly with an id over a URL
-        $edit = (($task == "$resource.edit") or $resourceID > 0);
-        if ($edit) {
-            if (!empty($resourceID)) {
-                return $this->getItem($resourceID);
-            }
-
-            $resourceIDs = $input->get('cid', null, 'array');
-
-            return $this->getItem($resourceIDs[0]);
-        }
-
-        return $this->getItem(0);
+        return $this->getItem($resourceID);
     }
 }

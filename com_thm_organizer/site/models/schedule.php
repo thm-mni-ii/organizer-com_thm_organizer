@@ -99,7 +99,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         $this->params = [];
 
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments();
+        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 
         // Don't even set the variable if the action is implausible
         if (!empty($allowedIDs)) {

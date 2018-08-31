@@ -37,7 +37,7 @@ class THM_OrganizerHelperCourses
             return false;
         }
 
-        if ($user->authorise('core.admin', "com_thm_organizer")) {
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             return true;
         }
 

@@ -31,9 +31,7 @@ class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'}) {
+        if (!THM_OrganizerHelperComponent::isAdmin()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -51,8 +49,6 @@ class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
         JToolbarHelper::addNew('method.add');
         JToolbarHelper::editList('method.edit');
         JToolbarHelper::custom('method.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'method.delete');
-        JToolbarHelper::divider();
         JToolbarHelper::preferences('com_thm_organizer');
     }
 }

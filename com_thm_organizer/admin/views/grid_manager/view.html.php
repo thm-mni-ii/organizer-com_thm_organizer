@@ -25,9 +25,7 @@ class THM_OrganizerViewGrid_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'}) {
+        if (!THM_OrganizerHelperComponent::isAdmin()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 

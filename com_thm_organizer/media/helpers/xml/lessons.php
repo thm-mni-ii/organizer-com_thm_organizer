@@ -693,25 +693,13 @@ class THM_OrganizerHelperXMLLessons
     private function validateRooms($roomAttribute, $currentDT, $period)
     {
         $roomIDs      = new stdClass;
-        $roomUntisIDs = explode(' ', str_replace('RM_', '', $roomAttribute));
+        $roomUntisIDs = explode(' ', str_replace('RM_', '', strtoupper($roomAttribute)));
 
         foreach ($roomUntisIDs as $roomID) {
-            $roomFound = false;
-            foreach ($this->scheduleModel->newSchedule->rooms as $roomKey => $room) {
-                if ($room->localUntisID == $roomID) {
-                    // Existent but invalid
-                    if (empty($room->id)) {
-                        break;
-                    }
 
-                    $roomFound            = true;
-                    $roomID               = $roomKey;
-                    $roomIDs->{$room->id} = '';
-                    break;
-                }
-            }
+            if (!isset($this->scheduleModel->newSchedule->rooms->$roomID)
+                or empty($this->scheduleModel->newSchedule->rooms->$roomID->id)) {
 
-            if (!$roomFound) {
                 $pools        = implode(', ', $this->pools);
                 $dow          = strtoupper(date('l', $currentDT));
                 $localizedDoW = JText::_($dow);
@@ -725,7 +713,10 @@ class THM_OrganizerHelperXMLLessons
                 }
 
                 return false;
+
             }
+
+            $roomIDs->{$this->scheduleModel->newSchedule->rooms->$roomID->id} = '';
         }
 
         return $roomIDs;

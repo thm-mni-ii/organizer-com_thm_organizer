@@ -15,61 +15,6 @@
 class THM_OrganizerHelperComponent
 {
     /**
-     * Set variables for user actions.
-     *
-     * @param object &$object the object calling the function (manager model or edit view)
-     *
-     * @return void
-     * @throws Exception
-     */
-    public static function addActions(&$object)
-    {
-        $user   = JFactory::getUser();
-        $result = new JObject;
-
-        $path    = JPATH_ADMINISTRATOR . '/components/com_thm_organizer/access.xml';
-        $actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
-        foreach ($actions as $action) {
-            $result->set($action->name, $user->authorise($action->name, 'com_thm_organizer'));
-        }
-
-        $allowedDepartments = self::getAccessibleDepartments();
-
-        if (empty($allowedDepartments)) {
-            $result->set('organizer.menu.department', false);
-            $result->set('organizer.menu.manage', false);
-            $result->set('organizer.menu.schedule', false);
-        } else {
-            $department = false;
-            $manage     = false;
-            $schedules  = false;
-
-            if ($user->authorise('core.admin', 'com_thm_organizer')) {
-                $department = true;
-                $manage     = true;
-                $schedules  = true;
-            } else {
-                foreach ($allowedDepartments as $departmentID) {
-                    // The or allows for any odd cases of cross department responsibilities
-                    $department = ($department or $user->authorise('organizer.department',
-                            "com_thm_organizer.department.$departmentID"));
-                    $manage     = ($manage or $user->authorise('organizer.manage',
-                            "com_thm_organizer.department.$departmentID"));
-                    $schedules  = ($schedules or $user->authorise('organizer.schedule',
-                            "com_thm_organizer.department.$departmentID"));
-
-                }
-            }
-
-            $result->set('organizer.menu.department', $department);
-            $result->set('organizer.menu.manage', $manage);
-            $result->set('organizer.menu.schedule', $schedules);
-        }
-
-        $object->actions = $result;
-    }
-
-    /**
      * Adds menu parameters to the object (id and route)
      *
      * @param object $object the object to add the parameters to, typically a view
@@ -109,7 +54,6 @@ class THM_OrganizerHelperComponent
     public static function addSubmenu(&$view)
     {
         $viewName = $view->get('name');
-        $actions  = $view->getModel()->actions;
 
         // No submenu creation while editing a resource
         if (strpos($viewName, 'edit')) {
@@ -122,7 +66,7 @@ class THM_OrganizerHelperComponent
             $viewName == 'thm_organizer'
         );
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.menu.schedule'}) {
+        if (self::allowSchedulingAccess()) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_SCHEDULING') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
 
@@ -143,24 +87,26 @@ class THM_OrganizerHelperComponent
             ksort($scheduling);
 
             // Uploading a schedule should always be the first menu item and will never be the active submenu item.
-            $prepend = [JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD')  . ' <span class="icon-upload"></span>' => [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_edit',
-                'active' => false
-            ]];
+            $prepend    = [
+                JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>' => [
+                    'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_edit',
+                    'active' => false
+                ]
+            ];
             $scheduling = $prepend + $scheduling;
             foreach ($scheduling as $key => $value) {
                 JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
             }
         }
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.menu.manage'}) {
+        if (self::allowDocumentAccess()) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
 
             $documentation = [];
 
-            if ($actions->{'organizer.menu.department'}) {
-                $documentation[JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')]     = [
+            if (self::isAdmin()) {
+                $documentation[JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')] = [
                     'url'    => 'index.php?option=com_thm_organizer&amp;view=department_manager',
                     'active' => $viewName == 'department_manager'
                 ];
@@ -183,7 +129,7 @@ class THM_OrganizerHelperComponent
             }
         }
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.hr'}) {
+        if (self::allowHRAccess()) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
             JHtmlSidebar::addEntry(
@@ -193,7 +139,7 @@ class THM_OrganizerHelperComponent
             );
         }
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.fm'}) {
+        if (self::allowFMAccess()) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
 
@@ -225,7 +171,7 @@ class THM_OrganizerHelperComponent
             }
         }
 
-        if ($actions->{'core.admin'}) {
+        if (self::isAdmin()) {
             $spanText = '<span class="menu-spacer">' . JText::_('COM_THM_ORGANIZER_ADMINISTRATION') . '</span>';
             JHtmlSidebar::addEntry($spanText, '', false);
 
@@ -261,63 +207,82 @@ class THM_OrganizerHelperComponent
     }
 
     /**
-     * Checks whether the user has access to a department
+     * Checks whether the user has access to documenation resources and their respective views.
      *
-     * @param string $resource the resource type
+     * @param string $resource
+     * @param int    $resourceID
      *
-     * @return bool  true if the user has access to at least one department, otherwise false
+     * @return bool true if the user is authorized for facility management functions and views.
      * @throws Exception
      */
-    public static function allowDeptResourceCreate($resource)
+    public static function allowDocumentAccess($resource = '', $resourceID = 0)
     {
-        $area               = $resource == 'department' ? 'department' : $resource == 'schedule' ? 'schedule' : 'manage';
-        $allowedDepartments = self::getAccessibleDepartments($area);
-
-        return count($allowedDepartments) ? true : false;
-    }
-
-    /**
-     * Checks whether the user has access to a department
-     *
-     * @param string $resource   the name of the resource type
-     * @param int    $resourceID the id of the resource
-     * @param string $action     a specific action which must be performable on the resource
-     *
-     * @return bool  true if the user has access to at least one department, otherwise false
-     */
-    public static function allowResourceManage($resource, $resourceID, $action = '')
-    {
-        $user = JFactory::getUser();
-
-        // Core admin sets this implicitly
-        $isAdmin = $user->authorise('core.admin', "com_thm_organizer");
-
-        if ($isAdmin) {
+        if (self::isAdmin()) {
             return true;
         }
 
-        $canManageDepartment    = false;
-        $canManageDocumentation = false;
-        $canManageSchedules     = false;
-
-        if (!empty($action)) {
-            if ($action == 'department') {
-                $canManageDepartment = $user->authorise('organizer.department',
-                    "com_thm_organizer.$resource.$resourceID");
-            } elseif ($action == 'manage') {
-                $canManageDocumentation = $user->authorise('organizer.manage',
-                    "com_thm_organizer.$resource.$resourceID");
-            } elseif ($action == 'schedule') {
-                $canManageSchedules = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
+        $user = JFactory::getUser();
+        if (empty($resource) or empty($resourceID)) {
+            $allowedDepartments = self::getAccessibleDepartments('manage');
+            $canManage          = false;
+            foreach ($allowedDepartments as $departmentID) {
+                $canManage = ($canManage or $user->authorise('organizer.manage',
+                        "com_thm_organizer.department.$departmentID"));
             }
-        } else {
-            $canManageDepartment    = $user->authorise('organizer.department',
-                "com_thm_organizer.$resource.$resourceID");
-            $canManageDocumentation = $user->authorise('organizer.manage', "com_thm_organizer.$resource.$resourceID");
-            $canManageSchedules     = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
+
+            return $canManage;
         }
 
-        return ($canManageDepartment or $canManageDocumentation or $canManageSchedules);
+        return $user->authorise('organizer.manage', "com_thm_organizer.$resource.$resourceID");
+    }
+
+    /**
+     * Checks whether the user has access to facility management resources and their respective views.
+     *
+     * @return bool true if the user is authorized for facility management functions and views.
+     */
+    public static function allowFMAccess()
+    {
+        return (self::isAdmin() or JFactory::getUser()->authorise('organizer.fm', 'com_thm_organizer'));
+    }
+
+    /**
+     * Checks whether the user has access to human resources as such and their respective views.
+     *
+     * @return bool true if the user is authorized for facility management functions and views.
+     */
+    public static function allowHRAccess()
+    {
+        return (self::isAdmin() or JFactory::getUser()->authorise('organizer.hr', 'com_thm_organizer'));
+    }
+
+    /**
+     * Checks whether the user has access to scheduling resources and their respective views.
+     *
+     * @param int $scheduleID   the id of the schedule for whom access rights are being checked
+     * @param int $departmentID the id against which to perform access checks
+     *
+     * @return bool true if the user is authorized for facility management functions and views.
+     * @throws Exception
+     */
+    public static function allowSchedulingAccess($scheduleID = 0, $departmentID = 0)
+    {
+        if (self::isAdmin()) {
+            return true;
+        }
+
+        $user = JFactory::getUser();
+        if (empty($scheduleID)) {
+            if (empty($departmentID)) {
+                return count(self::getAccessibleDepartments('schedule')) > 0;
+            }
+
+            $assetIndex = "com_thm_organizer.department.$departmentID";
+
+            return $user->authorise('organizer.schedule', $assetIndex);
+        }
+
+        return $user->authorise('organizer.schedule', "com_thm_organizer.schedule.$scheduleID");
     }
 
     /**
@@ -464,12 +429,12 @@ class THM_OrganizerHelperComponent
     /**
      * Gets the ids of for which the user is authorized access
      *
-     * @param string $action the specific action for access checks
+     * @param string $action the action for authorization
      *
      * @return array  the department ids, empty if user has no access
      * @throws Exception
      */
-    public static function getAccessibleDepartments($action = '')
+    public static function getAccessibleDepartments($action = null)
     {
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -485,15 +450,19 @@ class THM_OrganizerHelperComponent
         }
 
         // Don't bother checking departments if the user is an administrator
-        $user = JFactory::getUser();
-        if ($user->authorise('core.admin')) {
+        if (self::isAdmin()) {
             return $departmentIDs;
+        }
+
+        if (!in_array($action, ['manage', 'schedule'])) {
+            return [];
         }
 
         $allowedDepartmentIDs = [];
 
         foreach ($departmentIDs as $departmentID) {
-            $allowed = self::allowResourceManage('department', $departmentID, $action);
+            $allowed = $action == 'manage' ?
+                self::allowDocumentAccess('department', $departmentID) : self::allowSchedulingAccess(null, $departmentID);
 
             if ($allowed) {
                 $allowedDepartmentIDs[] = $departmentID;
@@ -609,6 +578,18 @@ class THM_OrganizerHelperComponent
         }
 
         return $options;
+    }
+
+    /**
+     * Checks whether the user is an authorized administrator
+     *
+     * @return bool true if the user is an administrator, otherwise false
+     */
+    public static function isAdmin()
+    {
+        $user = JFactory::getUser();
+
+        return ($user->authorise('core.admin') or $user->authorise('core.admin', 'com_thm_organizer'));
     }
 
     /**

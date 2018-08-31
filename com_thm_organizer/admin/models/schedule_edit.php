@@ -16,21 +16,13 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 class THM_OrganizerModelSchedule_Edit extends THM_OrganizerModelEdit
 {
     /**
-     * Checks access for edit views
-     *
-     * @param int $scheduleID the id of the resource to be edited (empty for new entries)
+     * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the edit view, otherwise false
      * @throws Exception
      */
-    public function allowEdit($scheduleID = null)
+    public function allowEdit()
     {
-        if (empty($scheduleID) OR !THM_OrganizerHelperComponent::checkAssetInitialization('schedule', $scheduleID)) {
-            return THM_OrganizerHelperComponent::allowDeptResourceCreate('schedule');
-        }
-
-        return THM_OrganizerHelperComponent::allowResourceManage('schedule', $scheduleID, 'schedule');
-
-        return false;
+        return THM_OrganizerHelperComponent::allowSchedulingAccess();
     }
 }

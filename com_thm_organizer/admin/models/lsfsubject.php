@@ -227,6 +227,12 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $this->_db->transactionStart();
 
         foreach ($subjectIDs as $subjectID) {
+
+            if (!THM_OrganizerHelperComponent::allowDocumentAccess('subject', $subjectID)) {
+                $this->_db->transactionRollback();
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+
             $subjectImported = $this->importSingle($subjectID);
 
             if (!$subjectImported) {

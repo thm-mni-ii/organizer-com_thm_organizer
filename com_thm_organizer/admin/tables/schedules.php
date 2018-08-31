@@ -26,25 +26,6 @@ class THM_OrganizerTableSchedules extends JTable
     }
 
     /**
-     * Overridden bind function
-     *
-     * @param array $array  named array
-     * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
-     *
-     * @return mixed  Null if operation was satisfactory, otherwise returns an error string
-     */
-    public function bind($array, $ignore = '')
-    {
-        if (isset($array['rules']) && is_array($array['rules'])) {
-            THM_OrganizerHelperComponent::cleanRules($array['rules']);
-            $rules = new JAccessRules($array['rules']);
-            $this->setRules($rules);
-        }
-
-        return parent::bind($array, $ignore);
-    }
-
-    /**
      * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
      * that there is some context available in a unified access manager.
      *
@@ -52,7 +33,34 @@ class THM_OrganizerTableSchedules extends JTable
      */
     protected function _getAssetTitle()
     {
-        return "Organizer Schedule $this->departmentname - $this->semestername";
+        $default = "Organizer Schedule $this->departmentname - $this->semestername";
+
+        $dbo = JFactory::getDbo();
+        $deptQuery = $dbo->getQuery(true);
+        $deptQuery->select('short_name_en')
+            ->from('#__thm_organizer_departments')
+            ->where("id = '{$this->departmentID}'");
+
+        $dbo->setQuery($deptQuery);
+        try {
+            $deptName = $dbo->loadResult();
+        } catch (Exception $exception) {
+            return $default;
+        }
+
+        $planPeriodQuery = $dbo->getQuery(true);
+        $planPeriodQuery->select('name')
+            ->from('#__thm_organizer_planning_periods')
+            ->where("id = '{$this->planningPeriodID}'");
+
+        $dbo->setQuery($planPeriodQuery);
+        try {
+            $planPeriodName = $dbo->loadResult();
+        } catch (Exception $exception) {
+            return $default;
+        }
+
+        return "Organizer Schedule: $deptName - $planPeriodName";
     }
 
     /**
@@ -81,5 +89,24 @@ class THM_OrganizerTableSchedules extends JTable
         $asset->loadByName("com_thm_organizer.department.$this->departmentID");
 
         return $asset->id;
+    }
+
+    /**
+     * Overridden bind function
+     *
+     * @param array $array  named array
+     * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
+     *
+     * @return mixed  Null if operation was satisfactory, otherwise returns an error string
+     */
+    public function bind($array, $ignore = '')
+    {
+        if (isset($array['rules']) && is_array($array['rules'])) {
+            THM_OrganizerHelperComponent::cleanRules($array['rules']);
+            $rules = new JAccessRules($array['rules']);
+            $this->setRules($rules);
+        }
+
+        return parent::bind($array, $ignore);
     }
 }

@@ -111,7 +111,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      */
     private function setAdminFields()
     {
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments();
+        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 
         if (!empty($allowedIDs)) {
             $this->fields['adminFields']['showUnpublished'] = [

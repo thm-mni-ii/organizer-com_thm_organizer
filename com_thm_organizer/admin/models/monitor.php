@@ -24,6 +24,10 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      */
     public function save()
     {
+        if (!THM_OrganizerHelperComponent::allowFMAccess()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $data = JFactory::getApplication()->input->get('jform', [], 'array');
 
         if (empty($data['roomID'])) {
@@ -44,6 +48,10 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      */
     public function saveDefaultBehaviour()
     {
+        if (!THM_OrganizerHelperComponent::isAdmin()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $input       = JFactory::getApplication()->input;
         $monitorID   = $input->getInt('id', 0);
         $plausibleID = ($monitorID > 0);
@@ -69,6 +77,10 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      */
     public function delete()
     {
+        if (!THM_OrganizerHelperComponent::allowFMAccess()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $success    = true;
         $monitorIDs = JFactory::getApplication()->input->get('cid', [], 'array');
         $table      = JTable::getInstance('monitors', 'thm_organizerTable');
@@ -101,6 +113,10 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      */
     public function toggle()
     {
+        if (!THM_OrganizerHelperComponent::allowFMAccess()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $input     = JFactory::getApplication()->input;
         $monitorID = $input->getInt('id', 0);
         if (empty($monitorID)) {

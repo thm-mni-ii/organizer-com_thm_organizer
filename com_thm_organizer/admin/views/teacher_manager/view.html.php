@@ -31,9 +31,7 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'} and !$actions->{'organizer.hr'}) {
+        if (!THM_OrganizerHelperComponent::allowHRAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -50,10 +48,8 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_VIEW_TITLE'), 'organizer_teachers');
         JToolbarHelper::addNew('teacher.add');
         JToolbarHelper::editList('teacher.edit');
-        if ($this->getModel()->actions->{'core.admin'}) {
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-            JToolbarHelper::deleteList('', 'teacher.delete');
-            JToolbarHelper::divider();
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

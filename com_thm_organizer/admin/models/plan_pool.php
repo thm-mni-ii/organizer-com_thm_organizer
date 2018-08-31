@@ -35,7 +35,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
         }
 
         foreach ($pPoolIDs as $pPoolID) {
-            if (empty($this->savePublishing($pPoolID))){
+            if (empty($this->savePublishing($pPoolID))) {
                 return false;
             }
         }
@@ -51,26 +51,17 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      */
     public function save()
     {
-        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
-        if (empty($formData['id']) or !is_numeric($formData['id'])) {
-            return false;
-        }
-
-        $pPoolID  = $formData['id'];
-        $pPoolIDs = [$pPoolID];
-        if (!THM_OrganizerHelperPlan_Pools::allowEdit($pPoolIDs)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
-        }
-
         if (empty(parent::save())) {
             return false;
         }
+
+        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
 
         if (empty($this->$this->savePublishing($pPoolID))) {
             return false;
         }
 
-        return $pPoolID;
+        return $formData['id'];
     }
 
     /**

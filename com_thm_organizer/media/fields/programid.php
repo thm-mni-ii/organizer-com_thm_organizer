@@ -64,7 +64,7 @@ class JFormFieldProgramID extends JFormFieldList
 
             $text = "{$program['name']}, {$program['degree']} ({$program['version']})";
 
-            if (!$access or THM_OrganizerHelperComponent::allowResourceManage('program', $program['value'], 'manage')) {
+            if (!$access or THM_OrganizerHelperComponent::allowDocumentAccess('program', $program['value'])) {
                 $options[] = JHtml::_('select.option', $program['value'], $text);
             }
         }

@@ -15,6 +15,34 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
  */
 class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 {
+    protected $deptResource = 'teacherID';
+
+    protected $fkColumn = 'teacher';
+
+    /**
+     * Provides user access checks to teachers
+     *
+     * @return boolean  true if the user may edit the given resource, otherwise false
+     */
+    protected function allowEdit(){
+        return THM_OrganizerHelperComponent::allowHRAccess();
+    }
+
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
+     *
+     * @return  \JTable  A \JTable object
+     *
+     * @throws  \Exception
+     */
+    public function getTable($name = 'teachers', $prefix = 'thm_organizerTable', $options = []) {
+        return JTable::getInstance($name, $prefix);
+    }
+
     /**
      * Updates key references to the entry being merged.
      *

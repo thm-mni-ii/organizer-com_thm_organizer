@@ -128,7 +128,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $parameters['mySchedule'] = $input->getBool('mySchedule', false);
 
         // Server side check against url manipulation
-        $allowedIDs                    = THM_OrganizerHelperComponent::getAccessibleDepartments();
+        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+
         $parameters['showUnpublished'] = empty($allowedIDs) ?
             false : $input->getBool('showUnpublished', false);
 

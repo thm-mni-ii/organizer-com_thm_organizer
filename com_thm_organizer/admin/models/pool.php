@@ -22,10 +22,19 @@ class THM_OrganizerModelPool extends JModelLegacy
      */
     public function delete()
     {
+        if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $poolIDs = JFactory::getApplication()->input->get('cid', [], 'array');
         if (!empty($poolIDs)) {
             $this->_db->transactionStart();
             foreach ($poolIDs as $poolID) {
+                if (!THM_OrganizerHelperComponent::allowDocumentAccess('pool', $poolID)) {
+                    $this->_db->transactionRollback();
+                    throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                }
+
                 $deleted = $this->deleteEntry($poolID);
 
                 if (!$deleted) {
@@ -67,21 +76,26 @@ class THM_OrganizerModelPool extends JModelLegacy
     }
 
     /**
-     * Saves
-     *
-     * @param bool $new whether or not the pool is a new item
+     * Saves the pool
      *
      * @return mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
      * @throws Exception
      */
-    public function save($new = false)
+    public function save()
     {
         $data = JFactory::getApplication()->input->get('jform', [], 'array');
 
-        if ($new) {
-            unset($data['id']);
-            unset($data['asset_id']);
+        if (empty($data['id'])) {
+            if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+        } elseif (is_numeric($data['id'])) {
+            if (!THM_OrganizerHelperComponent::allowDocumentAccess('pool', $data['id'])) {
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+        } else {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (empty($data['fieldID'])) {

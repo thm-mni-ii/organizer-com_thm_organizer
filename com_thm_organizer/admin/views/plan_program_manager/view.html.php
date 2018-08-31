@@ -31,9 +31,7 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'} and !$actions->{'organizer.menu.schedule'}) {
+        if (!THM_OrganizerHelperComponent::allowSchedulingAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -49,7 +47,7 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_plan_programs');
         JToolbarHelper::editList('plan_program.edit');
-        if ($this->getModel()->actions->{'core.admin'}) {
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             JToolbarHelper::custom('plan_program.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }

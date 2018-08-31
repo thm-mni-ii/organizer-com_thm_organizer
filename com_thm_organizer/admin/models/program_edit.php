@@ -18,21 +18,18 @@ class THM_OrganizerModelProgram_Edit extends THM_OrganizerModelEdit
     public $children = null;
 
     /**
-     * Checks access for edit views
-     *
-     * @param int $programID the id of the resource to be edited (empty for new entries)
+     * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the edit view, otherwise false
      * @throws Exception
      */
-    public function allowEdit($programID = null)
+    public function allowEdit()
     {
+        $programID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
         if (empty($programID) OR !THM_OrganizerHelperComponent::checkAssetInitialization('program', $programID)) {
-            return THM_OrganizerHelperComponent::allowDeptResourceCreate('program');
+            return THM_OrganizerHelperComponent::allowDocumentAccess();
         }
 
-        return THM_OrganizerHelperComponent::allowResourceManage('program', $programID, 'manage');
-
-        return false;
+        return THM_OrganizerHelperComponent::allowDocumentAccess('program', $programID);
     }
 }

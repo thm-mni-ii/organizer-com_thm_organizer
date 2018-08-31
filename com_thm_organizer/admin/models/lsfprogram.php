@@ -81,10 +81,16 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      */
     public function importBatch()
     {
-        $this->_db->transactionStart();
         $programIDs = JFactory::getApplication()->input->get('cid', [], 'array');
 
+        $this->_db->transactionStart();
         foreach ($programIDs as $programID) {
+
+            if (!THM_OrganizerHelperComponent::allowDocumentAccess('program', $programID)) {
+                $this->_db->transactionRollback();
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+
             $programImported = $this->importSingle($programID);
             if (!$programImported) {
                 $this->_db->transactionRollback();
@@ -223,6 +229,12 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         $subjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
 
         foreach ($programIDs as $programID) {
+
+            if (!THM_OrganizerHelperComponent::allowDocumentAccess('program', $programID)) {
+                $this->_db->transactionRollback();
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+
             $subjectIDs = $this->getSubjectIDs($programID);
 
             if (empty($subjectIDs)) {

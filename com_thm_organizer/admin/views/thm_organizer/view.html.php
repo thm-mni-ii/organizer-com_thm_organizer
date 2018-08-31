@@ -39,8 +39,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
 
-        if ($this->getModel()->actions->{'core.admin'}) {
-            JToolbarHelper::divider();
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }
@@ -68,8 +67,6 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
      */
     private function setMenuItems()
     {
-        $actions = $this->getModel()->actions;
-
         $this->menuItems = [
             'administration'     => [],
             'documentation'      => [],
@@ -78,7 +75,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             'scheduling'         => []
         ];
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.menu.schedule'}) {
+        if (THM_OrganizerHelperComponent::allowSchedulingAccess()) {
             $scheduleItems = [];
 
             $scheduleItems[JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]
@@ -89,17 +86,21 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
                 = 'index.php?option=com_thm_organizer&amp;view=schedule_manager';
             ksort($scheduleItems);
 
-            // Uploading a schedule should always be the first menu item.
-            $prepend = [JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>'
-                        => 'index.php?option=com_thm_organizer&view=schedule_edit'];
-            $scheduleItems = $prepend + $scheduleItems;
+            $scheduleHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_SCHEDULING') . '</h3>';
+            $scheduleHeader     = [$scheduleHeaderText => ''];
+            $scheduleUploadText = JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>';
+            $scheduleUpload     = [$scheduleUploadText => 'index.php?option=com_thm_organizer&view=schedule_edit'];
+            $scheduleItems      = $scheduleHeader + $scheduleUpload + $scheduleItems;
+
             $this->menuItems['scheduling'] = $scheduleItems;
+        } else {
+            $this->menuItems['scheduling'] = [];
         }
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.menu.manage'}) {
+        if (THM_OrganizerHelperComponent::allowDocumentAccess()) {
             $docItems = [];
 
-            if ($actions->{'organizer.menu.department'}) {
+            if (THM_OrganizerHelperComponent::isAdmin()) {
                 $docItems[JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')]
                     = 'index.php?option=com_thm_organizer&amp;view=department_manager';
             }
@@ -110,18 +111,30 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $docItems[JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE')]
                 = 'index.php?option=com_thm_organizer&amp;view=subject_manager';
             ksort($docItems);
-            $this->menuItems['documentation'] = $docItems;
+
+            $docHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</h3>';
+            $docHeader     = [$docHeaderText => ''];
+
+            $this->menuItems['documentation'] = $docHeader + $docItems;
+        } else {
+            $this->menuItems['documentation'] = [];
         }
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.hr'}) {
+        if (THM_OrganizerHelperComponent::allowHRAccess()) {
             $hrItems = [];
             $hrItems[JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=teacher_manager';
             ksort($hrItems);
-            $this->menuItems['humanResources'] = $hrItems;
+
+            $hrHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_HUMAN_RESOURCES') . '</h3>';
+            $hrHeader     = [$hrHeaderText => ''];
+
+            $this->menuItems['humanResources'] = $hrHeader + $hrItems;
+        } else {
+            $this->menuItems['humanResources'] = [];
         }
 
-        if ($actions->{'core.admin'} or $actions->{'organizer.fm'}) {
+        if (THM_OrganizerHelperComponent::allowFMAccess()) {
             $fmItems = [];
             $fmItems[JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=building_manager';
@@ -134,10 +147,16 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $fmItems[JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=room_type_manager';
             ksort($fmItems);
-            $this->menuItems['facilityManagement'] = $fmItems;
+
+            $fmHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_FACILITY_MANAGEMENT') . '</h3>';
+            $fmHeader     = [$fmHeaderText => ''];
+
+            $this->menuItems['facilityManagement'] = $fmHeader + $fmItems;
+        } else {
+            $this->menuItems['facilityManagement'] = [];
         }
 
-        if ($actions->{'core.admin'}) {
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             $adminItems = [];
             $adminItems[JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=color_manager';
@@ -150,7 +169,13 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $adminItems[JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=method_manager';
             ksort($adminItems);
-            $this->menuItems['administration'] = $adminItems;
+
+            $adminHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_ADMINISTRATION') . '</h3>';
+            $adminHeader     = [$adminHeaderText => ''];
+
+            $this->menuItems['administration'] = $adminHeader + $adminItems;
+        } else {
+            $this->menuItems['administration'] = [];
         }
     }
 }

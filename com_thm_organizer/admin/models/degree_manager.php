@@ -31,7 +31,6 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
         }
 
         parent::__construct($config);
-        THM_OrganizerHelperComponent::addActions($this);
     }
 
     /**

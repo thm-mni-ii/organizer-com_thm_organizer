@@ -24,8 +24,6 @@ class THM_OrganizerModelPlan_Program_Merge extends THM_OrganizerModelForm
      */
     protected function allowEdit()
     {
-        $programIDs = JFactory::getApplication()->input->get('cid', [], '[]');
-
-        return THM_OrganizerHelperPlan_Programs::allowEdit($programIDs);
+        return THM_OrganizerHelperComponent::isAdmin();
     }
 }

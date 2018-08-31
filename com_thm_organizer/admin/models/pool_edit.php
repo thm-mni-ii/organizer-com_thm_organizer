@@ -16,21 +16,18 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 class THM_OrganizerModelPool_Edit extends THM_OrganizerModelEdit
 {
     /**
-     * Checks access for edit views
-     *
-     * @param int $poolID the id of the resource to be edited (empty for new entries)
+     * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the edit view, otherwise false
      * @throws Exception
      */
-    public function allowEdit($poolID = null)
+    public function allowEdit()
     {
+        $poolID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
         if (empty($poolID) OR !THM_OrganizerHelperComponent::checkAssetInitialization('pool', $poolID)) {
-            return THM_OrganizerHelperComponent::allowDeptResourceCreate('pool');
+            return THM_OrganizerHelperComponent::allowDocumentAccess();
         }
 
-        return THM_OrganizerHelperComponent::allowResourceManage('pool', $poolID, 'manage');
-
-        return false;
+        return THM_OrganizerHelperComponent::allowDocumentAccess('pool', $poolID);
     }
 }

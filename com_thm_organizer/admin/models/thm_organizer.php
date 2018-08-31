@@ -14,16 +14,5 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerModelTHM_Organizer extends JModelLegacy
 {
-    /**
-     * constructor
-     *
-     * @param array $config configurations parameter
-     *
-     * @throws Exception
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-        THM_OrganizerHelperComponent::addActions($this);
-    }
+    // Basic inheritance hierarchy handles everything
 }

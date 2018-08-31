@@ -31,9 +31,7 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'} and !$actions->{'organizer.fm'}) {
+        if (!THM_OrganizerHelperComponent::allowFMAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -50,13 +48,9 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_VIEW_TITLE'), 'organizer_rooms');
         JToolbarHelper::addNew('room.add');
         JToolbarHelper::editList('room.edit');
-        if ($this->getModel()->actions->{'core.admin'}) {
-            JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-        }
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room.delete');
 
-        if ($this->getModel()->actions->{'core.admin'}) {
-            JToolbarHelper::divider();
+        if (THM_OrganizerHelperComponent::isAdmin()) {
+            JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

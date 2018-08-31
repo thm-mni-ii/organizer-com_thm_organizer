@@ -24,10 +24,20 @@ class THM_OrganizerModelSubject extends JModelLegacy
      */
     public function delete()
     {
+        if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $subjectIDs = JFactory::getApplication()->input->get('cid', [], 'array');
         if (!empty($subjectIDs)) {
             $this->_db->transactionStart();
             foreach ($subjectIDs as $subjectID) {
+
+                if (!THM_OrganizerHelperComponent::allowDocumentAccess('subject', $subjectID)) {
+                    $this->_db->transactionRollback();
+                    throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                }
+
                 $deleted = $this->deleteEntry($subjectID);
                 if (!$deleted) {
                     $this->_db->transactionRollback();
@@ -42,7 +52,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
     }
 
     /**
-     * Deletes an individual subject entry in the mappings and subjects tables
+     * Deletes an individual subject entry in the mappings and subjects tables. No access checks => this is not directly
+     * accessible and requires differing checks according to its calling context.
      *
      * @param int $subjectID the id of the subject to be deleted
      *
@@ -75,6 +86,18 @@ class THM_OrganizerModelSubject extends JModelLegacy
     public function save()
     {
         $data = JFactory::getApplication()->input->get('jform', [], 'array');
+
+        if (empty($data['id'])) {
+            if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+        } elseif (is_numeric($data['id'])) {
+            if (!THM_OrganizerHelperComponent::allowDocumentAccess('subject', $data['id'])) {
+                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            }
+        } else {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+        }
 
         $this->_db->transactionStart();
 
@@ -184,7 +207,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
 
     /**
      * Removes teacher associations for the given subject and level of
-     * responsibility.
+     * responsibility. No access checks => this is not directly accessible and requires differing checks according to
+     * its calling context.
      *
      * @param int $subjectID      the subject id
      * @param int $responsibility the teacher responsibility level (1|2)
@@ -213,7 +237,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
     }
 
     /**
-     * Adds a teacher association
+     * Adds a teacher association. No access checks => this is not directly accessible and requires differing checks
+     * according to its calling context.
      *
      * @param int   $subjectID      the id of the subject
      * @param array $teacherID      the id of the teacher
@@ -266,7 +291,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
     }
 
     /**
-     * Removes planSubject associations for the given subject
+     * Removes planSubject associations for the given subject. No access checks => this is not directly accessible and
+     * requires differing checks according to its calling context.
      *
      * @param int $subjectID the subject id
      *
@@ -291,7 +317,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
     }
 
     /**
-     * Adds a Subject Plan_Subject association
+     * Adds a Subject Plan_Subject association. No access checks => this is not directly accessible and requires
+     * differing checks according to its calling context.
      *
      * @param int   $subjectID      the id of the subject
      * @param array $planSubjectIDs the id of the planSubject
@@ -357,7 +384,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
     }
 
     /**
-     * Removes pre- & postrequisite associations for the given subject
+     * Removes pre- & postrequisite associations for the given subject. No access checks => this is not directly
+     * accessible and requires differing checks according to its calling context.
      *
      * @param int $subjectID the subject id
      *
@@ -381,7 +409,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
     }
 
     /**
-     * Adds a prerequisite association
+     * Adds a prerequisite association. No access checks => this is not directly accessible and requires differing
+     * checks according to its calling context.
      *
      * @param int   $subjectID    the id of the subject
      * @param array $prerequisite the id of the prerequisite

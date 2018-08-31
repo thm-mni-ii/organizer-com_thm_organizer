@@ -33,9 +33,7 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'} and !$actions->{'organizer.menu.schedule'}) {
+        if (!THM_OrganizerHelperComponent::allowSchedulingAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -57,10 +55,6 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_VIEW_TITLE'), 'organizer_plan_pools');
         JToolbarHelper::editList('plan_pool.edit');
 
-        if ($this->getModel()->actions->{'core.admin'}) {
-            JToolbarHelper::custom('plan_pool.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-        }
-
         $if = "alert('" . JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
         $else = "jQuery('#modal-publishing').modal('show'); return true;";
         $script = 'if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}';
@@ -74,8 +68,8 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
         $bar = JToolBar::getInstance('toolbar');
         $bar->appendButton('Custom', $batchButton, 'batch');
 
-        if ($this->getModel()->actions->{'core.admin'}) {
-            JToolbarHelper::divider();
+        if (THM_OrganizerHelperComponent::isAdmin()) {
+            JToolbarHelper::custom('plan_pool.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

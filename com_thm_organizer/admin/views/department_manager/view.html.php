@@ -31,9 +31,7 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'} and !$actions->{'organizer.menu.department'}) {
+        if (!THM_OrganizerHelperComponent::isAdmin()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -52,8 +50,7 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
         JToolbarHelper::editList('department.edit');
         JToolbarHelper::deleteList('', 'department.delete');
 
-        if ($this->getModel()->actions->{'core.admin'}) {
-            JToolbarHelper::divider();
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

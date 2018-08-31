@@ -31,9 +31,7 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        $actions = $this->getModel()->actions;
-
-        if (!$actions->{'core.admin'} and !$actions->{'organizer.menu.manage'}) {
+        if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -66,8 +64,7 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
         );
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
 
-        if ($this->getModel()->actions->{'core.admin'}) {
-            JToolbarHelper::divider();
+        if (THM_OrganizerHelperComponent::isAdmin()) {
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }
