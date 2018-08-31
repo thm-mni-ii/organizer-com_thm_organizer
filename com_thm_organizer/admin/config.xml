@@ -12,8 +12,6 @@
                type="text" size="40" required="true" default="H:i"/>
         <field name="buildingRegex" type="text" label="COM_THM_ORGANIZER_BUILDING_REGEX"
                description="COM_THM_ORGANIZER_BUILDING_REGEX_DESC" class="inputbox color" size="40" required="false"/>
-        <field name="roomRegex" type="text" label="COM_THM_ORGANIZER_ROOM_REGEX"
-               description="COM_THM_ORGANIZER_ROOM_REGEX_DESC" class="inputbox color" size="40" required="false"/>
         <field name="emailFilter" type="text" label="COM_THM_ORGANIZER_EMAIL_FILTER"
                description="COM_THM_ORGANIZER_EMAIL_FILTER_DESC" class="inputbox color" size="40" required="false"/>
         <field name="backgroundColor" type="color" label="COM_THM_ORGANIZER_BACKGROUND_COLOR"

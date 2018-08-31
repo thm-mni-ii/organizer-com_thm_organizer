@@ -30,52 +30,41 @@ class THM_OrganizerHelperRooms
      */
     public static function getID($gpuntisID, $data)
     {
-        $buildingName = '';
-
-        $params        = JComponentHelper::getParams('com_thm_organizer');
-        $buildingREGEX = $params->get('buildingRegex');
-        $roomREGEX     = $params->get('roomRegex');
-
-        if (!empty($buildingREGEX) and !empty($roomREGEX) and !empty($data->name)) {
-            $rMatchFound = preg_match("/$roomREGEX/", $data->name, $rMatches);
-            if ($rMatchFound) {
-                $bMatchFound = preg_match("/$buildingREGEX/", $rMatches[0], $bMatches);
-                if ($bMatchFound) {
-                    $buildingName = $bMatches[0];
-                }
-            }
-        }
-
         $roomTable    = JTable::getInstance('rooms', 'thm_organizerTable');
         $loadCriteria = ['gpuntisID' => $gpuntisID];
 
         try {
-            $success = $roomTable->load($loadCriteria);
+            $roomTable->load($loadCriteria);
         } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
             return null;
         }
 
-        $data->buildingID = empty($buildingName) ? null : THM_OrganizerHelperBuildings::getID($buildingName);
+        $buildingREGEX = JComponentHelper::getParams('com_thm_organizer')->get('buildingRegex');
 
-        // Room entry already exists
-        if ($success) {
-
-            // Fill empty values, but do not overwrite existing
-            foreach ($data as $key => $value) {
-                if (property_exists($roomTable, $key) and empty($roomTable->$key) and !empty($value)) {
-                    $roomTable->set($key, $value);
-                }
+        if (!empty($buildingREGEX) and !empty($data->name)) {
+            $matchFound = preg_match("/$buildingREGEX/", $data->name, $matches);
+            if ($matchFound) {
+                $data->buildingID = THM_OrganizerHelperBuildings::getID($matches[1]);
             }
-            $roomTable->store();
-
-            return $roomTable->id;
         }
 
-        $success = $roomTable->save($data);
+        if (empty($roomTable->id)) {
+            $success = $roomTable->save($data);
 
-        return $success ? $roomTable->id : null;
+            return $success ? $roomTable->id : null;
+        }
+
+        // Fill empty values, but do not overwrite existing
+        foreach ($data as $key => $value) {
+            if (property_exists($roomTable, $key) and empty($roomTable->$key) and !empty($value)) {
+                $roomTable->set($key, $value);
+            }
+        }
+        $roomTable->store();
+
+        return $roomTable->id;
     }
 
     /**
@@ -120,8 +109,8 @@ class THM_OrganizerHelperRooms
         $dbo           = JFactory::getDbo();
         $relevantRooms = [];
 
-        $selectedPrograms    = $app->input->getString('programIDs');
-        $programIDs          = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
+        $selectedPrograms = $app->input->getString('programIDs');
+        $programIDs       = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
 
         foreach ($allRooms as $room) {
             $query = $dbo->getQuery(true);
@@ -177,12 +166,12 @@ class THM_OrganizerHelperRooms
             0 : $app->getMenu()->getActive()->params->get('campusID', 0);
         $defaultCampus = $input->getInt('campusID', $menuCampus);
 
-        $buildingID   = empty($formData['buildingID']) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID     = empty($formData['campusID']) ? $defaultCampus : (int)$formData['campusID'];
-        $inputTypes   = (array)$input->getInt('typeID', $input->getInt('typeIDs', $input->getInt('roomTypeIDs')));
-        $typeIDs      = empty($formData['types']) ? $inputTypes : $formData['types'];
-        $inputRooms   = (array)$input->getInt('roomID', $input->getInt('roomIDs'));
-        $roomIDs      = empty($formData['rooms']) ? $inputRooms : $formData['rooms'];
+        $buildingID = empty($formData['buildingID']) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
+        $campusID   = empty($formData['campusID']) ? $defaultCampus : (int)$formData['campusID'];
+        $inputTypes = (array)$input->getInt('typeID', $input->getInt('typeIDs', $input->getInt('roomTypeIDs')));
+        $typeIDs    = empty($formData['types']) ? $inputTypes : $formData['types'];
+        $inputRooms = (array)$input->getInt('roomID', $input->getInt('roomIDs'));
+        $roomIDs    = empty($formData['rooms']) ? $inputRooms : $formData['rooms'];
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
