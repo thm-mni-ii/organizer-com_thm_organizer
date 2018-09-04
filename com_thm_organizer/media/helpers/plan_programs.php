@@ -34,6 +34,10 @@ class THM_OrganizerHelperPlan_Programs
             return true;
         }
 
+        if (empty($ppIDs)) {
+            return false;
+        }
+
         $ppIDs = "'" . implode("', '", $ppIDs) . "'";
         $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 

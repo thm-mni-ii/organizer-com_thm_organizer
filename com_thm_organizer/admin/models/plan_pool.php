@@ -27,7 +27,10 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      */
     protected function allowEdit()
     {
-        $allIDs = [$this->data['id']];
+        $allIDs = [];
+        if (!empty($this->data['id'])) {
+            $allIDs = $allIDs + $this->data['id'];
+        }
         if (!empty($this->data['otherIDs'])) {
             $allIDs = $allIDs + $this->data['otherIDs'];
         }
