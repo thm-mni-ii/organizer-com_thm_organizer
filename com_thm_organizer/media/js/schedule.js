@@ -2123,8 +2123,10 @@ const ScheduleApp = function (variables) {
          */
         (function () {
             collectConfig();
-            loadSession();
-            handleFirstField();
+
+            if (!loadSession()) {
+                handleFirstField();
+            }
 
             jQuery('#category').chosen().change(function () {
                 sendFormRequest(getSelectedValues(this.id));
