@@ -8,10 +8,10 @@
     <author>Franciska Perisa</author>
     <authorEmail>franciska.perisa@mni.thm.de</authorEmail>
     <authorUrl>www.thm.de</authorUrl>
-    <creationDate>August 2018</creationDate>
+    <creationDate>September 2018</creationDate>
     <copyright>TH Mittelhessen 2018</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>3.14.0</version>
+    <version>3.14.1</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
