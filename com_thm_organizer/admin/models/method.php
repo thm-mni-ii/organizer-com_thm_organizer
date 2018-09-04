@@ -15,6 +15,25 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
  */
 class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
 {
+    protected $fkColumn = 'methodID';
+
+    protected $tableName = 'methods';
+
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
+     *
+     * @return  \JTable  A \JTable object
+     *
+     * @throws  \Exception
+     */
+    public function getTable($name = 'methods', $prefix = 'thm_organizerTable', $options = []) {
+        return JTable::getInstance($name, $prefix);
+    }
+
     /**
      * Updates key references to the entry being merged.
      *
@@ -23,31 +42,23 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
      *
      * @return boolean  true on success, otherwise false
      */
-    protected function updateAssociations($newDBID, $oldDBIDs)
+    protected function updateAssociations()
     {
-        return $this->updateAssociation('method', $newDBID, $oldDBIDs, 'lessons');
+        return $this->updateAssociation('lessons');
     }
 
     /**
      * Processes the data for an individual schedule
      *
      * @param object &$schedule     the schedule being processed
-     * @param array  &$data         the data for the schedule db entry
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+    protected function updateSchedule(&$schedule)
     {
         foreach ($schedule->lessons as $lessonIndex => $lesson) {
-            $update = (in_array($lesson->methodID, $allDBIDs));
-            if ($update) {
-                $schedule->lessons->$lessonIndex->methodID = $newDBID;
+            if (isset($lesson->methodID) and in_array($lesson->methodID, $this->data['otherIDs'])){
+                $schedule->lessons->$lessonIndex->methodID = $this->data['id'];
             }
         }
     }

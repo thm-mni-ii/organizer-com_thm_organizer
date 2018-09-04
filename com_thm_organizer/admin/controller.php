@@ -252,7 +252,7 @@ class THM_OrganizerController extends JControllerLegacy
         $model             = $this->getModel($this->resource);
         $functionAvailable = method_exists($model, 'autoMerge');
         if ($functionAvailable) {
-            $autoMerged = $model->autoMerge($this->resource);
+            $autoMerged = $model->autoMerge();
             if ($autoMerged) {
                 $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
                 $this->setRedirect(JRoute::_($url, false), $msg);

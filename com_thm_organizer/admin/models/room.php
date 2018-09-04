@@ -15,23 +15,51 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
  */
 class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 {
+    protected $fkColumn = 'roomID';
+
+    protected $tableName = 'rooms';
+
+    /**
+     * Provides user access checks to rooms
+     *
+     * @return boolean  true if the user may edit the given resource, otherwise false
+     */
+    protected function allowEdit()
+    {
+        return THM_OrganizerHelperComponent::allowFMAccess();
+    }
+
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string $name    The table name. Optional.
+     * @param   string $prefix  The class prefix. Optional.
+     * @param   array  $options Configuration array for model. Optional.
+     *
+     * @return  \JTable  A \JTable object
+     *
+     * @throws  \Exception
+     */
+    public function getTable($name = 'rooms', $prefix = 'thm_organizerTable', $options = [])
+    {
+        return JTable::getInstance($name, $prefix);
+    }
+
     /**
      * Updates key references to the entry being merged.
      *
-     * @param int   $newDBID  the id onto which the room entries merge
-     * @param array $oldDBIDs an array containing the ids to be replaced
-     *
      * @return boolean  true on success, otherwise false
+     * @throws Exception
      */
-    protected function updateAssociations($newDBID, $oldDBIDs)
+    protected function updateAssociations()
     {
-        $drUpdated = $this->updateDRAssociation('room', $newDBID, $oldDBIDs);
-        if (!$drUpdated) {
+        $monitorsUpdated = $this->updateAssociation('monitors');
+        if (!$monitorsUpdated) {
             return false;
         }
 
-        $monitorsUpdated = $this->updateAssociation('room', $newDBID, $oldDBIDs, 'monitors');
-        if (!$monitorsUpdated) {
+        $configsUpdated = $this->updateStoredConfigurations();
+        if (!$configsUpdated) {
             return false;
         }
 
@@ -41,29 +69,23 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
     /**
      * Processes the data for an individual schedule
      *
-     * @param object &$schedule     the schedule being processed
-     * @param array  &$data         the data for the schedule db entry
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
+     * @param object &$schedule the schedule being processed
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+    protected function updateSchedule(&$schedule)
     {
         foreach ($schedule->configurations as $index => $configuration) {
             $inConfig      = false;
             $configuration = json_decode($configuration);
 
             foreach ($configuration->rooms as $roomID => $delta) {
-                if (in_array($roomID, $allDBIDs)) {
+                if (in_array($roomID, $this->data['otherIDs'])) {
+                    $inConfig = true;
+
                     // Whether old or new high probability of having to overwrite an attribute this enables standard handling.
                     unset($configuration->rooms->$roomID);
-                    $inConfig                       = true;
-                    $configuration->rooms->$newDBID = $delta;
+                    $configuration->rooms->{$this->data['id']} = $delta;
                 }
             }
 
@@ -71,5 +93,67 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
                 $schedule->configurations[$index] = json_encode($configuration);
             }
         }
+    }
+
+    /**
+     * Updates the lesson configurations table with the room id changes.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    private function updateStoredConfigurations() {
+
+        $table = '#__thm_organizer_lesson_configurations';
+        $selectQuery = $this->_db->getQuery(true);
+        $selectQuery->select('id, configuration')
+            ->from($table);
+
+        $updateQuery = $this->_db->getQuery(true);
+        $updateQuery->update($table);
+
+        foreach ($this->data['otherIDs'] as $oldID) {
+            $selectQuery->clear('where');
+            $regexp    = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $oldID . '"';
+            $selectQuery->where("configuration REGEXP '$regexp'");
+            $this->_db->setQuery($selectQuery);
+
+            try {
+                $storedConfigurations = $this->_db->loadAssocList();
+            } catch (Exception $exception) {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+                return false;
+            }
+
+            foreach ($storedConfigurations as $storedConfiguration) {
+                $configuration = json_decode($storedConfiguration['configuration'], true);
+
+                $oldDelta         = $configuration['rooms'][$oldID];
+                unset($configuration['rooms'][$oldID]);
+
+                // The new id is not yet an index, or it is, but has no delta value and the old id did
+                if (!isset($configuration['rooms'][$this->data['id']])
+                    or (empty($configuration['rooms'][$this->data['id']]) and !empty($delta))) {
+                    $configuration['rooms'][$this->data['id']] = $oldDelta;
+                }
+
+                $configuration = json_encode($configuration);
+                $updateQuery->clear('set');
+                $updateQuery->set("configuration = '$configuration'");
+                $updateQuery->clear('where');
+                $updateQuery->where("id = '{$storedConfiguration['id']}'");
+                $this->_db->setQuery($updateQuery);
+
+                try {
+                    $this->_db->execute();
+                } catch (Exception $exception) {
+                    JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

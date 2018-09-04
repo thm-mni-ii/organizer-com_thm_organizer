@@ -17,30 +17,86 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 {
     protected $deptResource = 'teacherID';
 
-    protected $fkColumn = 'teacher';
+    protected $fkColumn = 'teacherID';
+
+    protected $tableName = 'teachers';
 
     /**
      * Provides user access checks to teachers
      *
      * @return boolean  true if the user may edit the given resource, otherwise false
      */
-    protected function allowEdit(){
+    protected function allowEdit()
+    {
         return THM_OrganizerHelperComponent::allowHRAccess();
     }
 
     /**
      * Method to get a table object, load it if necessary.
      *
-     * @param   string  $name     The table name. Optional.
-     * @param   string  $prefix   The class prefix. Optional.
-     * @param   array   $options  Configuration array for model. Optional.
+     * @param   string $name    The table name. Optional.
+     * @param   string $prefix  The class prefix. Optional.
+     * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
      *
      * @throws  \Exception
      */
-    public function getTable($name = 'teachers', $prefix = 'thm_organizerTable', $options = []) {
+    public function getTable($name = 'teachers', $prefix = 'thm_organizerTable', $options = [])
+    {
         return JTable::getInstance($name, $prefix);
+    }
+
+    /**
+     * Removes potential duplicates before the subject teacher associations are updated.
+     *
+     * @return bool true if no error occurred, otherwise false
+     * @throws Exception
+     */
+    private function removeDuplicateResponsibilities()
+    {
+        $table = '#__thm_organizer_subject_teachers';
+
+        $selectQuery = $this->_db->getQuery(true);
+        $selectQuery->select('DISTINCT subjectID, teacherResp')
+            ->from($table)
+            ->where("teacherID = '{$this->data['id']}'");
+        $this->_db->setQuery($selectQuery);
+
+        try {
+            $existingResponsibilities = $this->_db->loadAssocList();
+        } catch (Exception $exception) {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+            return false;
+        }
+
+        $oldIDString = "'" . implode("', '", $this->data['otherIDs']) . "'";
+
+        if (!empty($existingResponsibilities)) {
+            $potentialDuplicates = [];
+            foreach ($existingResponsibilities as $exResp) {
+                $potentialDuplicates[]
+                    = "(subjectID = '{$exResp['subjectID']}' AND teacherResp = '{$exResp['teacherResp']}')";
+            }
+            $potentialDuplicates = '(' . implode(' OR ', $potentialDuplicates) . ')';
+
+            $deleteQuery = $this->_db->getQuery(true);
+            $deleteQuery->delete($table)
+                ->where("teacherID IN ( $oldIDString )")
+                ->where($potentialDuplicates);
+            $this->_db->setQuery($deleteQuery);
+
+            try {
+                $this->_db->execute();
+            } catch (Exception $exception) {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -51,41 +107,56 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      *
      * @return boolean  true on success, otherwise false
      */
-    protected function updateAssociations($newDBID, $oldDBIDs)
+    protected function updateAssociations()
     {
-        $drUpdated = $this->updateDRAssociation('teacher', $newDBID, $oldDBIDs);
+        $drUpdated = $this->updateDRAssociation('teacher');
         if (!$drUpdated) {
+
             return false;
         }
 
-        $ltUpdated = $this->updateAssociation('teacher', $newDBID, $oldDBIDs, 'lesson_teachers');
+        $ltUpdated = $this->updateAssociation('lesson_teachers');
         if (!$ltUpdated) {
+
             return false;
         }
 
-        return $this->updateAssociation('teacher', $newDBID, $oldDBIDs, 'subject_teachers');
+        $duplicatesRemoved = $this->removeDuplicateResponsibilities();
+        if (!$duplicatesRemoved) {
+
+            return false;
+        }
+
+        $stUpdated = $this->updateAssociation('subject_teachers');
+        if (!$stUpdated) {
+
+            return false;
+        }
+
+        $configsUpdated = $this->updateStoredConfigurations();
+        if (!$configsUpdated) {
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Processes the data for an individual schedule
      *
-     * @param object &$schedule     the schedule being processed
-     * @param array  &$data         the data for the schedule db entry
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
+     * @param object &$schedule the schedule being processed
      *
      * @return void
      */
-    protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+    protected function updateSchedule(&$schedule)
     {
         foreach ($schedule->lessons as $lessonIndex => $lesson) {
             foreach ($lesson->subjects as $subjectID => $subjectConfig) {
                 foreach ($subjectConfig->teachers as $teacherID => $delta) {
-                    if (in_array($teacherID, $allDBIDs)) {
+                    if (in_array($teacherID, $this->data['otherIDs'])) {
                         unset($schedule->lessons->$lessonIndex->subjects->$subjectID->teachers->$teacherID);
-                        $schedule->lessons->$lessonIndex->subjects->$subjectID->teachers->$newDBID = $delta;
+                        $schedule->lessons->$lessonIndex->subjects->$subjectID->teachers->{$this->data['id']} = $delta;
                     }
                 }
             }
@@ -96,11 +167,11 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
             $configuration = json_decode($configuration);
 
             foreach ($configuration->teachers as $teacherID => $delta) {
-                if (in_array($teacherID, $allDBIDs)) {
+                if (in_array($teacherID, $this->data['otherIDs'])) {
                     // Whether old or new high probability of having to overwrite an attribute this enables standard handling.
                     unset($configuration->teachers->$teacherID);
-                    $inConfig                          = true;
-                    $configuration->teachers->$newDBID = $delta;
+                    $inConfig                                     = true;
+                    $configuration->teachers->{$this->data['id']} = $delta;
                 }
             }
 
@@ -108,5 +179,68 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
                 $schedule->configurations[$index] = json_encode($configuration);
             }
         }
+    }
+
+    /**
+     * Updates the lesson configurations table with the teacher id changes.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    private function updateStoredConfigurations()
+    {
+
+        $table       = '#__thm_organizer_lesson_configurations';
+        $selectQuery = $this->_db->getQuery(true);
+        $selectQuery->select('id, configuration')
+            ->from($table);
+
+        $updateQuery = $this->_db->getQuery(true);
+        $updateQuery->update($table);
+
+        foreach ($this->data['otherIDs'] as $oldID) {
+            $selectQuery->clear('where');
+            $regexp = '"teachers":\\{("[0-9]+":"[\w]*",)*"' . $oldID . '"';
+            $selectQuery->where("configuration REGEXP '$regexp'");
+            $this->_db->setQuery($selectQuery);
+
+            try {
+                $storedConfigurations = $this->_db->loadAssocList();
+            } catch (Exception $exception) {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+                return false;
+            }
+
+            foreach ($storedConfigurations as $storedConfiguration) {
+                $configuration = json_decode($storedConfiguration['configuration'], true);
+
+                $oldDelta = $configuration['teachers'][$oldID];
+                unset($configuration['teachers'][$oldID]);
+
+                // The new id is not yet an index, or it is, but has no delta value and the old id did
+                if (!isset($configuration['teachers'][$this->data['id']])
+                    or (empty($configuration['teachers'][$this->data['id']]) and !empty($delta))) {
+                    $configuration['teachers'][$this->data['id']] = $oldDelta;
+                }
+
+                $configuration = json_encode($configuration);
+                $updateQuery->clear('set');
+                $updateQuery->set("configuration = '$configuration'");
+                $updateQuery->clear('where');
+                $updateQuery->where("id = '{$storedConfiguration['id']}'");
+                $this->_db->setQuery($updateQuery);
+
+                try {
+                    $this->_db->execute();
+                } catch (Exception $exception) {
+                    JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

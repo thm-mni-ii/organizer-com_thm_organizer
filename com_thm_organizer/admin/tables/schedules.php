@@ -33,7 +33,7 @@ class THM_OrganizerTableSchedules extends JTable
      */
     protected function _getAssetTitle()
     {
-        $default = "Organizer Schedule $this->departmentname - $this->semestername";
+        $default = "Organizer Schedule";
 
         $dbo = JFactory::getDbo();
         $deptQuery = $dbo->getQuery(true);

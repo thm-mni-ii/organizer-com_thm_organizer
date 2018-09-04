@@ -15,59 +15,69 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
  */
 class THM_OrganizerModelField extends THM_OrganizerModelMerge
 {
+    protected $fkColumn = 'fieldID';
+
+    protected $tableName = 'fields';
+
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string $name    The table name. Optional.
+     * @param   string $prefix  The class prefix. Optional.
+     * @param   array  $options Configuration array for model. Optional.
+     *
+     * @return  \JTable  A \JTable object
+     *
+     * @throws  \Exception
+     */
+    public function getTable($name = 'fields', $prefix = 'thm_organizerTable', $options = [])
+    {
+        return JTable::getInstance($name, $prefix);
+    }
+
     /**
      * Updates key references to the entry being merged.
      *
-     * @param int   $newDBID  the id onto which the room entries merge
-     * @param array $oldDBIDs an array containing the ids to be replaced
-     *
      * @return boolean  true on success, otherwise false
      */
-    protected function updateAssociations($newDBID, $oldDBIDs)
+    protected function updateAssociations()
     {
-        $ppUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'plan_pools');
+        $ppUpdated = $this->updateAssociation('plan_pools');
         if (!$ppUpdated) {
             return false;
         }
 
-        $psUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'plan_subjects');
+        $psUpdated = $this->updateAssociation('plan_subjects');
         if (!$psUpdated) {
             return false;
         }
 
-        $poolsUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'pools');
+        $poolsUpdated = $this->updateAssociation('pools');
         if (!$poolsUpdated) {
             return false;
         }
 
-        $programsUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'programs');
+        $programsUpdated = $this->updateAssociation('programs');
         if (!$programsUpdated) {
             return false;
         }
 
-        $subjectsUpdated = $this->updateAssociation('field', $newDBID, $oldDBIDs, 'subjects');
+        $subjectsUpdated = $this->updateAssociation('subjects');
         if (!$subjectsUpdated) {
             return false;
         }
 
-        return $this->updateAssociation('field', $newDBID, $oldDBIDs, 'teachers');
+        return $this->updateAssociation('teachers');
     }
 
     /**
-     * The field associations are a part of the resource data in the new structure.
+     * Processes the data for an individual schedule
      *
-     * @param object &$schedule     the schedule being processed
-     * @param array  &$data         the data for the schedule db entry
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
+     * @param object &$schedule the schedule being processed
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+    protected function updateSchedule(&$schedule)
     {
         return;
     }

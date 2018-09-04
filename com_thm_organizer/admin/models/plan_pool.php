@@ -16,6 +16,42 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
  */
 class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 {
+    protected $fkColumn = 'poolID';
+
+    protected $tableName = 'plan_pools';
+
+    /**
+     * Provides resource specific user access checks
+     *
+     * @return boolean  true if the user may edit the given resource, otherwise false
+     */
+    protected function allowEdit()
+    {
+        $allIDs = [$this->data['id']];
+        if (!empty($this->data['otherIDs'])) {
+            $allIDs = $allIDs + $this->data['otherIDs'];
+        }
+
+        return THM_OrganizerHelperPlan_Pools::allowEdit($allIDs);
+    }
+
+
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string $name    The table name. Optional.
+     * @param   string $prefix  The class prefix. Optional.
+     * @param   array  $options Configuration array for model. Optional.
+     *
+     * @return  \JTable  A \JTable object
+     *
+     * @throws  \Exception
+     */
+    public function getTable($name = 'plan_pools', $prefix = 'thm_organizerTable', $options = [])
+    {
+        return JTable::getInstance($name, $prefix);
+    }
+
     /**
      * Performs batch processing of plan_pools, specifically their publication per period and their associated grids.
      *
@@ -43,6 +79,25 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
         return true;
     }
 
+
+    /**
+     * Merges plan pool entries and cleans association tables.
+     *
+     * @return boolean  true on success, otherwise false
+     * @throws Exception
+     */
+    public function merge()
+    {
+        $success = parent::merge();
+        if (!$success) {
+            return false;
+        }
+
+        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
+
+        return $this->savePublishing($formData['id']);
+    }
+
     /**
      * Attempts to save a resource entry, updating schedule data as necessary.
      *
@@ -57,7 +112,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 
         $formData = JFactory::getApplication()->input->get('jform', [], 'array');
 
-        if (empty($this->$this->savePublishing($pPoolID))) {
+        if (empty($this->savePublishing($formData['id']))) {
             return false;
         }
 
@@ -94,50 +149,31 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
     /**
      * Updates key references to the entry being merged.
      *
-     * @param int   $newDBID  the id onto which the room entries merge
-     * @param array $oldDBIDs an array containing the ids to be replaced
-     *
      * @return boolean  true on success, otherwise false
      */
-    protected function updateAssociations($newDBID, $oldDBIDs)
+    protected function updateAssociations()
     {
-        $drUpdated = $this->updateDRAssociation('pool', $newDBID, $oldDBIDs);
-
-        if (!$drUpdated) {
-            return false;
-        }
-
-        $lpUpdated = $this->updateAssociation('pool', $newDBID, $oldDBIDs, 'lesson_pools');
-
-        if (!$lpUpdated) {
-            return false;
-        }
-
-        return $this->updateAssociation('planPool', $newDBID, $oldDBIDs, 'plan_pool_publishing');
+        return $this->updateAssociation('lesson_pools');
     }
 
     /**
-     * Degree programs are not in the new
+     * Processes the data for an individual schedule
      *
-     * @param object &$schedule     the schedule being processed
-     * @param array  &$data         the data for the schedule db entry
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
+     * @param object &$schedule the schedule being processed
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+    protected function updateSchedule(&$schedule)
     {
-        foreach ($schedule->lessons as $lessonIndex => $lesson) {
-            foreach ($lesson->subjects as $subjectID => $subjectConfig) {
-                foreach ($subjectConfig->pools as $poolID => $delta) {
-                    if (in_array($poolID, $allDBIDs)) {
+        $lessons = (array)$schedule->lessons;
+        foreach ($lessons as $lessonIndex => $lesson) {
+            $subjects = (array)$lesson->subjects;
+            foreach ($subjects as $subjectID => $subjectConfig) {
+                $pools = (array)$subjectConfig->pools;
+                foreach ($pools as $poolID => $delta) {
+                    if (in_array($poolID, $this->data['otherIDs'])) {
                         unset($schedule->lessons->$lessonIndex->subjects->$subjectID->pools->$poolID);
-                        $schedule->lessons->$lessonIndex->subjects->$subjectID->pools->$newDBID = $delta;
+                        $schedule->lessons->$lessonIndex->subjects->$subjectID->pools->{$this->data['id']} = $delta;
                     }
                 }
             }

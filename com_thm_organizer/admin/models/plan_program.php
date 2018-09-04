@@ -15,39 +15,66 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
  */
 class THM_OrganizerModelPlan_Program extends THM_OrganizerModelMerge
 {
+    protected $deptResource = 'programID';
+
+    protected $fkColumn = 'programID';
+
+    protected $tableName = 'plan_programs';
+
+    /**
+     * Provides resource specific user access checks
+     *
+     * @return boolean  true if the user may edit the given resource, otherwise false
+     */
+    protected function allowEdit()
+    {
+        $allIDs = [$this->data['id']];
+        if (!empty($this->data['otherIDs'])) {
+            $allIDs = $allIDs + $this->data['otherIDs'];
+        }
+
+        return THM_OrganizerHelperPlan_Programs::allowEdit($allIDs);
+    }
+
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string $name    The table name. Optional.
+     * @param   string $prefix  The class prefix. Optional.
+     * @param   array  $options Configuration array for model. Optional.
+     *
+     * @return  \JTable  A \JTable object
+     *
+     * @throws  \Exception
+     */
+    public function getTable($name = 'plan_programs', $prefix = 'thm_organizerTable', $options = [])
+    {
+        return JTable::getInstance($name, $prefix);
+    }
+
     /**
      * Updates key references to the entry being merged.
      *
-     * @param int   $newDBID  the id onto which the room entries merge
-     * @param array $oldDBIDs an array containing the ids to be replaced
-     *
      * @return boolean  true on success, otherwise false
      */
-    protected function updateAssociations($newDBID, $oldDBIDs)
+    protected function updateAssociations()
     {
-        $drUpdated = $this->updateDRAssociation('program', $newDBID, $oldDBIDs);
+        $drUpdated = $this->updateDRAssociation('program');
         if (!$drUpdated) {
             return false;
         }
 
-        return $this->updateAssociation('program', $newDBID, $oldDBIDs, 'plan_pools');
+        return $this->updateAssociation('plan_pools');
     }
 
     /**
      * Processes the data for an individual schedule
      *
-     * @param object &$schedule     the schedule being processed
-     * @param array  &$data         the data for the schedule db entry
-     * @param int    $newDBID       the new id to use for the merged resource in the database (and schedules)
-     * @param string $newGPUntisID  the new gpuntis ID to use for the merged resource in the schedule
-     * @param array  $allGPUntisIDs all gpuntis IDs for the resources to be merged
-     * @param array  $allDBIDs      all db IDs for the resources to be merged
+     * @param object &$schedule the schedule being processed
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function updateSchedule(&$schedule, &$data, $newDBID, $newGPUntisID, $allGPUntisIDs, $allDBIDs)
+    protected function updateSchedule(&$schedule)
     {
         return;
     }
