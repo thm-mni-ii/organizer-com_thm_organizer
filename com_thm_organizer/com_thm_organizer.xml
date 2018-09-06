@@ -11,7 +11,7 @@
     <creationDate>September 2018</creationDate>
     <copyright>TH Mittelhessen 2018</copyright>
     <licence>GNU GPL v.2</licence>
-    <version>3.14.4</version>
+    <version>3.14.5</version>
     <scriptfile>script.php</scriptfile>
     <install>
         <sql>
