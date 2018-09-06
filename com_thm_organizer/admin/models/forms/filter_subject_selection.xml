@@ -24,7 +24,7 @@
             <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="limit" type="limitbox" class="input-mini" default="25" label="COM_CONTENT_LIST_LIMIT"
+        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
                onchange="this.form.submit();"/>
     </fields>
 </form>
