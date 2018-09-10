@@ -23,15 +23,19 @@ class THM_OrganizerHelperDepartments
      * @return array the department ids associated with the selected resources
      * @throws Exception
      */
-    public static function getDepartmentsByResource($resource, $resourceIDs)
+    public static function getDepartmentsByResource($resource, $resourceIDs = null)
     {
         $resourceIDs = "'" . implode("', '", $resourceIDs) . "'";
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT departmentID')
-            ->from('#__thm_organizer_department_resources')
-            ->where("{$resource}ID IN ($resourceIDs)");
+            ->from('#__thm_organizer_department_resources');
+        if ($resourceIDs) {
+            $query->where("{$resource}ID IN ($resourceIDs)");
+        } else {
+            $query->where("{$resource}ID IS NOT NULL");
+        }
         $dbo->setQuery($query);
 
         try {
@@ -92,7 +96,8 @@ class THM_OrganizerHelperDepartments
          * If associations already exist for the resource, further associations should be made explicitly using the
          * appropriate edit view.
          */
-        if ($deptResourceTable->load([$column => $resourceID])) {
+        $data = [$column => $resourceID];
+        if ($deptResourceTable->load($data)) {
             return;
         }
 
@@ -100,8 +105,7 @@ class THM_OrganizerHelperDepartments
         $data['departmentID'] = $formData['departmentID'];
 
         try {
-            $deptResourceTable->departmentID = (int) $formData['departmentID'];
-            $deptResourceTable->store();
+            $deptResourceTable->save($data);
         } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
         }

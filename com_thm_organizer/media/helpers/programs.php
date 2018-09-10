@@ -175,7 +175,7 @@ class THM_OrganizerHelperPrograms
         $programPieces   = explode('.', $gpuntisID);
         $plausibleNumber = count($programPieces) === 3;
         if ($plausibleNumber) {
-            $plausibleCode = ctype_upper($programPieces[0]) and preg_match('/^[A-Z]+$/', $programPieces[0]);
+            $plausibleCode = preg_match('/^[A-Z]+[0-9]*$/', $programPieces[0]);
             $plausibleVersion = ctype_digit($programPieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $programPieces[2]);
             $plausibleDegree = ctype_upper($programPieces[1]) and preg_match('/^[B|M]{1}[A-Z]{1,2}$/',
                 $programPieces[1]);

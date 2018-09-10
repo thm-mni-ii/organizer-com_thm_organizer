@@ -60,12 +60,14 @@ class THM_OrganizerModelProgram extends JModelLegacy
     /**
      * Method to save degree programs
      *
+     * @param array $data the data to be used to create the program when called from the program helper
+     *
      * @return Boolean
      * @throws Exception
      */
-    public function save()
+    public function save($data = [])
     {
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = empty($data)? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
 
         if (empty($data['id'])) {
             $genericDocumentationAccess = THM_OrganizerHelperComponent::allowDocumentAccess();

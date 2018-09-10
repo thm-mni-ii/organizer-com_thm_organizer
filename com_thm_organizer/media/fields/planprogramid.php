@@ -45,15 +45,18 @@ class JFormFieldPlanProgramID extends JFormFieldList
 
         // Ensures a boolean value and avoids double checking the variable because of false string positives.
         $accessRequired     = $this->getAttribute('access', 'false') == 'true';
-        $departmentRestrict = $this->getAttribute('departmentRestrict', 'false') == 'true';
+        $departmentRestrict = $this->getAttribute('departmentRestrict', 'false');
 
-        $allowedDepartments = $accessRequired ? THM_OrganizerHelperComponent::getAccessibleDepartments('schedule') : [];
+        if ($departmentRestrict !== 'false') {
+            $allowedDepartments = $accessRequired ?
+                THM_OrganizerHelperComponent::getAccessibleDepartments('schedule')
+                : THM_OrganizerHelperDepartmentsgetDepartmentsByResource('program');
 
-        if ($departmentRestrict) {
+            $defaultDept = $departmentRestrict === 'force' ? $allowedDepartments[0] : 0;
 
             // Direct input
             $input        = JFactory::getApplication()->input;
-            $departmentID = $input->getInt('departmentID', 0);
+            $departmentID = $input->getInt('departmentID', $defaultDept);
 
             // Possible frontend form (jform)
             $feFormData      = $input->get('jform', [], 'array');
