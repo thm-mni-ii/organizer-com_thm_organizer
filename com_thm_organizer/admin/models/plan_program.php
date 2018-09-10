@@ -8,6 +8,7 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_programs.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
 
 /**
@@ -30,7 +31,7 @@ class THM_OrganizerModelPlan_Program extends THM_OrganizerModelMerge
     {
         $allIDs = [];
         if (!empty($this->data['id'])) {
-            $allIDs = $allIDs + $this->data['id'];
+            $allIDs = $allIDs + [$this->data['id']];
         }
         if (!empty($this->data['otherIDs'])) {
             $allIDs = $allIDs + $this->data['otherIDs'];
