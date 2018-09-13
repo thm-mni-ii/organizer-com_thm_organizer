@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a form field for building selection.

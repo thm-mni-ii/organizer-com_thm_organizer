@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+
 /**
  * Class creates a form field for template selection.
  * @todo rename this and make it generally accessible should this usage occur again.
