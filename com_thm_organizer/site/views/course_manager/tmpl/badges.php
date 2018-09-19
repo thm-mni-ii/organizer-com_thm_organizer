@@ -122,10 +122,18 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
 
         $this->document->SETXY($center, $yOffset + 28);
         $headerLine = "{$this->course['name']} {$this->course['planningPeriodName']}";
-        $this->document->Cell(80, 5, $headerLine, 0, 0, 'C');
+        $headerLength = strlen($headerLine);
+        if ($headerLength > 35) {
+            $this->document->MultiCell(80, 5, $headerLine, 0, 'C', false, 2);
+            $titleOffset = 10;
+        } else {
+            $this->document->Cell(80, 5, $headerLine, 0, 0, 'C');
+            $titleOffset = 0;
+        }
+
 
         $this->document->SetFont('', '', 10);
-        $this->document->SETXY($center, $yOffset + 33);
+        $this->document->SETXY($center, $yOffset + $titleOffset + 33);
         $dateLine = $this->course['start'] . ' - ' . $this->course['end'];
 
         if (!empty($this->course['place'])) {
@@ -136,9 +144,10 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
             $this->document->Cell(80, 5, $dateLine, 0, 0, 'C');
         }
 
+        $halfTitleOffset = $titleOffset / 2;
         $this->document->Ln();
         $this->document->SetFont('', 'B', 20);
-        $this->document->SETXY($center, $yOffset + 45);
+        $this->document->SETXY($center, $yOffset + $halfTitleOffset + 45);
         $this->document->Cell(80, 5, $this->lang->_('COM_THM_ORGANIZER_BADGE'), 0, 0, 'C');
         $this->document->SETXY($center, $yOffset + 45);
 
@@ -219,8 +228,14 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $this->document->Cell(80, 5, $this->lang->_('COM_THM_ORGANIZER_RECEIPT'), 0, 0, 'C');
 
         $this->document->SetFont('', 'B', 10);
-        $this->document->SETXY($badgeCenter, $nameY);
-        $this->document->Cell(80, 5, $this->course['name'], 0, 0, 'C');
+        $titleLength = strlen($this->course['name']);
+        if ($titleLength > 35) {
+            $this->document->SETXY($badgeCenter, $nameY - 2);
+            $this->document->MultiCell(80, 5, $this->course['name'], 0, 'C', false, 2);
+        } else {
+            $this->document->SETXY($badgeCenter, $nameY);
+            $this->document->Cell(80, 5, $this->course['name'], 0, 0, 'C');
+        }
 
         $this->document->SetLineStyle($circle);
         $this->document->Circle($xOffset + 47, $circleY, 9);
