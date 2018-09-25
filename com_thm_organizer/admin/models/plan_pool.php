@@ -156,7 +156,63 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      */
     protected function updateAssociations()
     {
-        return $this->updateAssociation('lesson_pools');
+        $lpsUpdated = $this->updateAssociation('lesson_pools');
+        if (!$lpsUpdated) {
+            return false;
+        }
+
+        $query = $this->_db->getQuery(true);
+        $query->select('*')->from('#__thm_organizer_lesson_pools')->where("poolID = {$this->data['id']}");
+        $this->_db->setQuery($query);
+
+        try {
+            $assocs = $this->_db->loadAssocList();
+        } catch (Exception $exception) {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+            return false;
+        }
+
+        if (empty($assocs)) {
+            return true;
+        }
+
+        $uniqueLessonSubjects = [];
+        $duplicateIDs         = [];
+
+        foreach ($assocs as $assoc) {
+            if (!isset($uniqueLessonSubjects[$assoc['subjectID']])) {
+                $uniqueLessonSubjects[$assoc['subjectID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
+                continue;
+            } // Duplicate
+            else {
+                // An already iterated duplicate has the removed flag => replace and remove it
+                if ($uniqueLessonSubjects[$assoc['subjectID']]['delta'] == 'removed') {
+                    $duplicateIDs[]                            = $uniqueLessonSubjects[$assoc['subjectID']]['id'];
+                    $uniqueLessonSubjects[$assoc['subjectID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
+                } // The other duplicate is sufficient => remove this one
+                else {
+                    $duplicateIDs[] = $assoc['id'];
+                }
+            }
+        }
+
+        if (count($duplicateIDs)) {
+            $idsToDelete = "('" . implode("', '", $duplicateIDs) . "')";
+            $query       = $this->_db->getQuery(true);
+            $query->delete('#__thm_organizer_lesson_pools')->where("id IN $idsToDelete");
+            $this->_db->setQuery($query);
+
+            try {
+                $this->_db->execute();
+            } catch (Exception $exception) {
+                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
