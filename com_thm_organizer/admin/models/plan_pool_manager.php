@@ -38,12 +38,14 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
         $select    .= $query->concatenate($linkParts, "") . " AS link";
 
         $query->from('#__thm_organizer_plan_pools AS ppl');
-        $query->innerJoin("#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID");
+        $query->leftJoin("#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID");
 
         $departmentID = $this->state->get('list.departmentID');
 
         if ($departmentID and in_array($departmentID, $allowedDepartments)) {
             $query->where("dr.departmentID = '$departmentID'");
+        } elseif ($departmentID == '-1'){
+            $query->where("dr.departmentID IS NULL");
         } else {
             $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
         }
