@@ -361,23 +361,24 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
         $this->_db->transactionStart();
 
-        // No need to update associations or schedules.
-
-        if (!empty($this->deptResource)) {
-            $departmentsUpdated = $this->updateDepartments();
-            if (!$departmentsUpdated) {
-                $this->_db->transactionRollback();
-
-                return false;
-            }
-        }
-
-
         $table = $this->getTable();
         $table->load($this->data['id']);
         $success = $table->save($this->data);
 
         if ($success) {
+
+            // Set id for new rewrite for existing.
+            $this->data['id'] = $table->id;
+
+            if (!empty($this->deptResource)) {
+                $departmentsUpdated = $this->updateDepartments();
+                if (!$departmentsUpdated) {
+                    $this->_db->transactionRollback();
+
+                    return false;
+                }
+            }
+
             $this->_db->transactionCommit();
 
             return $table->id;
