@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
+require_once 'language.php';
 
 
 /**
@@ -116,6 +117,38 @@ class THM_OrganizerHelperTeachers
         }
 
         return $return;
+    }
+
+    /**
+     * Gets the departments with which the teacher is associated
+     *
+     * @param int $teacherID the teacher's id
+     *
+     * @return array the departments with which the teacher is associated id => name
+     */
+    public static function getDepartmentNames($teacherID)
+    {
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $default = [];
+
+        $dbo = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("d.short_name_$shortTag AS name")
+            ->from('#__thm_organizer_departments AS d')
+            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id')
+            ->where("teacherID = $teacherID");
+        $dbo->setQuery($query);
+
+        try {
+            $departments = $dbo->loadColumn();
+        } catch (Exception $exception) {
+            echo "<pre>" . print_r((string) $query, true) . "</pre>";
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+            return $default;
+        }
+
+        return empty($departments) ? $default : $departments;
     }
 
     /**

@@ -3,29 +3,24 @@
     <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
         <field name="search" type="text" label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
         <field name="checkbox" type="CheckAll"/>
-        <field name="surname" type="genericlist" valuecolumn="surname" textcolumn="surname"
+        <field name="forename" type="list"
                table="thm_organizer_teachers" label="COM_THM_ORGANIZER_SURNAME" onchange="this.form.submit();">
             <option value="">JALL</option>
+            <option value="-1">JNONE</option>
         </field>
-        <field name="forename" type="genericlist" valuecolumn="forename" textcolumn="forename"
-               table="thm_organizer_teachers" label="COM_THM_ORGANIZER_SURNAME" onchange="this.form.submit();">
-            <option value="">JALL</option>
-        </field>
-        <field name="username" type="genericlist" valuecolumn="username" textcolumn="username"
+        <field name="username" type="list"
                table="thm_organizer_teachers" label="COM_THM_ORGANIZER_USERNAME" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="t.gpuntisID" type="genericlist" valuecolumn="gpuntisID" textcolumn="gpuntisID"
+        <field name="t.gpuntisID" type="list"
                table="thm_organizer_teachers" label="COM_THM_ORGANIZER_USERNAME" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="field" type="localizedlist" valuecolumn="field" textcolumn="field"
-               table="thm_organizer_teachers AS t,thm_organizer_fields AS f ON t.fieldID = f.id"
-               label="COM_THM_ORGANIZER_USERNAME" onchange="this.form.submit();">
+        <field name="departmentID" type="departmentID" label="COM_THM_ORGANIZER_DEPARTMENT"
+               description="COM_THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
             <option value="">JALL</option>
-            <option value="-1">JNONE</option>
         </field>
     </fields>
     <fields name="list">

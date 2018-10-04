@@ -10,51 +10,37 @@
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class retrieves information for a filtered set of teachers.
  */
 class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
 {
-    protected $defaultOrdering = 't.surname';
+    protected $defaultOrdering = 't.surname, t.forename';
 
     protected $defaultDirection = 'asc';
-
-    /**
-     * Constructor to set the config array and call the parent constructor
-     *
-     * @param array $config Configuration  (default: array)
-     */
-    public function __construct($config = [])
-    {
-        if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = ['t.surname', 't.forename', 't.username', 't.untisID', 'f.field'];
-        }
-
-        parent::__construct($config);
-    }
 
     /**
      * Method to get all teachers from the database
      *
      * @return JDatabaseQuery
+     * @throws Exception
      */
     protected function getListQuery()
     {
-        // Create the query
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query    = $this->_db->getQuery(true);
-        $select   = "t.id, t.surname, t.forename, t.username, t.gpuntisID, f.field_$shortTag AS field, c.color, ";
+        $select   = "DISTINCT t.id, t.surname, t.forename, t.username, t.gpuntisID, d.id AS departmentID, ";
         $parts    = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", "t.id"];
         $select   .= $query->concatenate($parts, "") . " AS link ";
         $query->select($select);
-        $query->from('#__thm_organizer_teachers AS t');
-        $query->leftJoin('#__thm_organizer_fields AS f ON t.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+        $query->from('#__thm_organizer_teachers AS t')
+            ->leftJoin('#__thm_organizer_department_resources AS dr on dr.teacherID = t.id')
+            ->leftJoin('#__thm_organizer_departments AS d on d.id = dr.id');
 
-        $this->setSearchFilter($query, ['surname', 'forename', 'username', 't.gpuntisID', 'field_de', 'field_en']);
-        $this->setValueFilters($query, ['surname', 'forename', 'username', 't.gpuntisID']);
-        $this->setLocalizedFilters($query, ['field']);
+        $this->setSearchFilter($query, ['surname', 'forename', 'username', 't.gpuntisID']);
+        $this->setIDFilter($query, 'departmentID', ['filter.departmentID']);
+        $this->setValueFilters($query, ['forename', 'username', 't.gpuntisID']);
 
         $this->setOrdering($query);
 
@@ -89,11 +75,14 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
             $return[$index]['username']    = JHtml::_('link', $item->link, $itemUsername);
             $return[$index]['t.gpuntisID'] = JHtml::_('link', $item->link, $itemGPUntisID);
 
-            if (!empty($item->field)) {
-                $bgColor                 = empty($item->color) ? 'ffffff' : $item->color;
-                $return[$index]['field'] = THM_OrganizerHelperComponent::getColorField($item->field, $bgColor);
+            $departments = THM_OrganizerHelperTeachers::getDepartmentNames($item->id);
+
+            if (empty($departments)) {
+                $return[$index]['departmentID'] = JText::_('JNONE');
+            } elseif (count($departments) === 1) {
+                $return[$index]['departmentID'] = $departments[0];
             } else {
-                $return[$index]['field'] = '';
+                $return[$index]['departmentID'] = JText::_('COM_THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
             }
 
             $index++;
@@ -113,16 +102,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
         $direction              = $this->state->get('list.direction', $this->defaultDirection);
         $headers                = [];
         $headers['checkbox']    = '';
-        $headers['surname']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SURNAME', 't.surname', $direction,
-            $ordering);
-        $headers['forename']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FORENAME', 't.forename', $direction,
-            $ordering);
-        $headers['username']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_USERNAME', 't.username', $direction,
-            $ordering);
-        $headers['t.gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 't.gpuntisID', $direction,
-            $ordering);
-        $headers['field']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction,
-            $ordering);
+        $headers['surname']     = JText::_('COM_THM_ORGANIZER_SURNAME');
+        $headers['forename']    = JText::_('COM_THM_ORGANIZER_FORENAME');
+        $headers['username']    = JText::_('COM_THM_ORGANIZER_USERNAME');
+        $headers['t.gpuntisID'] = JText::_('COM_THM_ORGANIZER_GPUNTISID');
+        $headers['departmentID']  = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
 
         return $headers;
     }
