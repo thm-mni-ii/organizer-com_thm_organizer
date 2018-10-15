@@ -275,16 +275,7 @@ class THM_OrganizerHelperTeachers
 
         $teachers = [];
         foreach ($teacherIDs as $teacherID) {
-            $name            = THM_OrganizerHelperTeachers::getLNFName($teacherID, $short);
-            if (!isset($teachers[$name])) {
-                $teachers[$name] = $teacherID;
-            } else {
-                $existingID = $teachers[$name];
-                unset($teachers[$name]);
-                $teachers[THM_OrganizerHelperTeachers::getLNFName($existingID)] = $existingID;
-                $teachers[THM_OrganizerHelperTeachers::getLNFName($teacherID)] = $existingID;
-
-            }
+            $teachers[THM_OrganizerHelperTeachers::getLNFName($teacherID)] = $teacherID;
         }
 
         ksort($teachers);
