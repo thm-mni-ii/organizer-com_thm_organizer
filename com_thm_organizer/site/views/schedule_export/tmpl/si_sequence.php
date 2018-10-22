@@ -54,6 +54,10 @@ class THM_OrganizerTemplateExport_XLS
     {
         $row = 2;
         foreach ($this->lessons as $date => $timesIndexes) {
+            if ($date === 'pastDate' or $date === 'futureDate') {
+                continue;
+            }
+
             foreach ($timesIndexes as $times => $lessonInstances) {
                 foreach ($lessonInstances as $lessonInstance) {
                     $this->addEvent($row, $date, $lessonInstance);
@@ -188,7 +192,6 @@ class THM_OrganizerTemplateExport_XLS
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment;filename={$this->parameters['docTitle']}.xlsx");
         $objWriter->save('php://output');
-        exit();
     }
 
     /**

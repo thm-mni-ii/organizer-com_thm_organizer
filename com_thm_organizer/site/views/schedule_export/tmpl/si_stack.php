@@ -43,26 +43,30 @@ class THM_OrganizerTemplateExport_XLS
 
         $this->setColumnDisplay();
 
-        $today             = date('Y-m-d');
         $activeSheetNumber = 0;
-        $sheetNumber       = 0;
-        $startDate         = key($this->lessons);
 
-        while (isset($this->lessons[$startDate])) {
-            $breakDate = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+        if (!array_key_exists('pastDate', $this->lessons) and !array_key_exists('futureDate', $this->lessons)) {
 
-            $this->addSheet($sheetNumber, $startDate);
-            $this->addData($startDate, $breakDate);
+            $today             = date('Y-m-d');
+            $sheetNumber       = 0;
+            $startDate         = key($this->lessons);
 
-            // If the week being iterated is the actual week it should automatically be active on opening
-            $thisWeek = ($today >= $startDate and $today < $breakDate);
-            if ($thisWeek) {
-                $activeSheetNumber = $sheetNumber;
+            while (isset($this->lessons[$startDate])) {
+                $breakDate = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+
+                $this->addSheet($sheetNumber, $startDate);
+                $this->addData($startDate, $breakDate);
+
+                // If the week being iterated is the actual week it should automatically be active on opening
+                $thisWeek = ($today >= $startDate and $today < $breakDate);
+                if ($thisWeek) {
+                    $activeSheetNumber = $sheetNumber;
+                }
+
+                // Set variables for the next iteration
+                $startDate = $breakDate;
+                $sheetNumber++;
             }
-
-            // Set variables for the next iteration
-            $startDate = $breakDate;
-            $sheetNumber++;
         }
 
         // Reset the active sheet to the first item
