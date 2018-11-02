@@ -1159,19 +1159,21 @@ const ScheduleApp = function (variables) {
          */
         function addDataElements(resource, outerElement, data, delta, className)
         {
-            const showX = 'show' + resource.slice(0, 1).toUpperCase() + resource.slice(1) + 's';
-            let id;
+            const showX = 'show' + resource.slice(0, 1).toUpperCase() + resource.slice(1) + 's',
+                resourceNames = [], resourceSpans = {};
+            let id, resourceName;
 
             for (id in data)
             {
                 if (data.hasOwnProperty(id))
                 {
                     const span = document.createElement('span'),
-                        deltaClass = delta[id] || delta || '',
+                        deltaClass = delta[id] || '',
                         nameElement = variables[showX] ? document.createElement('a') : document.createElement('span');
 
                     span.className = (className ? className : resource) + ' ' + deltaClass;
-                    nameElement.innerHTML = data[id].gpuntisID ? data[id].gpuntisID : data[id];
+                    resourceName = data[id].gpuntisID ? data[id].gpuntisID : data[id];
+                    nameElement.innerHTML = resourceName;
 
                     if (variables[showX])
                     {
@@ -1180,8 +1182,15 @@ const ScheduleApp = function (variables) {
                     }
 
                     span.appendChild(nameElement);
-                    outerElement.appendChild(span);
+                    resourceNames.push(resourceName);
+                    resourceSpans[resourceName] = span;
                 }
+            }
+
+            resourceNames.sort();
+
+            for (id in resourceNames) {
+                outerElement.appendChild(resourceSpans[resourceNames[id]]);
             }
         }
 
