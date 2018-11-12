@@ -132,7 +132,7 @@ class THM_OrganizerHelperXMLTeachers
         $teacher->username = empty($userName) ? '' : $userName;
 
 
-        $teacher->id = THM_OrganizerHelperTeachers::getID($teacherID, $teacher);
+        $teacher->id = THM_OrganizerHelperTeachers::getIDFromScheduleData($teacherID, $teacher);
         THM_OrganizerHelperDepartments::setDepartmentResource($teacher->id, 'teacherID');
 
         $scheduleModel->schedule->teachers->$teacherID = $teacher;

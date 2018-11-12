@@ -55,11 +55,15 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves department options
      *
      * @return array an array of department options
+     * @throws Exception
      */
     public function getDepartmentOptions()
     {
         $departments = THM_OrganizerHelperDepartments::getPlanDepartments(false);
         $options     = [];
+        $option['value'] = '';
+        $option['text']  = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $options[]       = $option;
 
         foreach ($departments as $departmentID => $departmentName) {
             $option['value'] = $departmentID;
@@ -100,25 +104,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
             $option['value'] = $grid['id'];
             $option['text']  = $grid['name'];
-            $options[]       = $option;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Retrieves pool options
-     *
-     * @return array an array of pool options
-     */
-    public function getPoolOptions()
-    {
-        $pools   = THM_OrganizerHelperPools::getPlanPools(false);
-        $options = [];
-
-        foreach ($pools as $poolName => $poolID) {
-            $option['value'] = $poolID;
-            $option['text']  = $poolName;
             $options[]       = $option;
         }
 
@@ -226,27 +211,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
                 return;
             }
         }
-    }
-
-    /**
-     * Retrieves teacher options
-     *
-     * @return array an array of teacher options
-     */
-    public function getRoomOptions()
-    {
-        $rooms = THM_OrganizerHelperRooms::getPlanRooms();
-        asort($rooms);
-
-        $options = [];
-
-        foreach ($rooms as $roomName => $roomData) {
-            $option['value'] = $roomData['id'];
-            $option['text']  = $roomName;
-            $options[]       = $option;
-        }
-
-        return $options;
     }
 
     /**
@@ -366,6 +330,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves teacher options
      *
      * @return array an array of teacher options
+     * @throws Exception
      */
     public function getTeacherOptions()
     {

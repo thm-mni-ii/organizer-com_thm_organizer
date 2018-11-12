@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class loads the schedule export filter form into the display context.
@@ -130,28 +131,32 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     private function setFilterFields()
     {
         $this->fields['filterFields'] = [];
-        $attribs                      = ['multiple' => 'multiple'];
 
         // Departments
-        $deptAttribs                                  = $attribs;
-        $deptAttribs['onChange']                      = 'repopulatePrograms();repopulateResources();';
-        $deptAttribs['data-placeholder']              = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
-        $planDepartmentOptions                        = $this->model->getDepartmentOptions();
-        $departmentSelect                             = JHtml::_('select.genericlist', $planDepartmentOptions,
-            'departmentIDs[]', $deptAttribs, 'value', 'text');
-        $this->fields['filterFields']['departmetIDs'] = [
-            'label'       => JText::_('COM_THM_ORGANIZER_DEPARTMENTS'),
+        $deptAttribs                     = [];
+        $deptAttribs['onChange']         = 'repopulatePrograms();repopulateResources();';
+        $deptAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+
+        $planDepartmentOptions = $this->model->getDepartmentOptions();
+        $departmentSelect      = JHtml::_(
+            'select.genericlist', $planDepartmentOptions, 'departmentIDs', $deptAttribs, 'value', 'text'
+        );
+
+        $this->fields['filterFields']['departmentIDs'] = [
+            'label'       => JText::_('COM_THM_ORGANIZER_DEPARTMENT'),
             'description' => JText::_('COM_THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
             'input'       => $departmentSelect
         ];
 
         // Programs
-        $programAttribs                             = $attribs;
-        $programAttribs['onChange']                 = 'repopulateResources();';
-        $programAttribs['data-placeholder']         = JText::_('COM_THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
-        $planProgramOptions                         = $this->model->getProgramOptions();
-        $programSelect                              = JHtml::_('select.genericlist', $planProgramOptions,
-            'programIDs[]', $programAttribs, 'value', 'text');
+        $programAttribs = [
+            'multiple'         => 'multiple',
+            'onChange'         => 'repopulateResources();',
+            'data-placeholder' => JText::_('COM_THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER')
+        ];
+
+        $programSelect = JHtml::_('select.genericlist', [], 'programIDs[]', $programAttribs, 'value', 'text');
+
         $this->fields['filterFields']['programIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_PROGRAMS'),
             'description' => JText::_('COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
@@ -306,6 +311,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * Creates resource selection fields for the form
      *
      * @return void sets indexes in $this->fields['resouceSettings'] with html content
+     * @throws Exception
      */
     private function setResourceFields()
     {
@@ -323,10 +329,9 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         }
 
         // Pools
-        $poolAttribs                               = $attribs;
-        $poolAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
-        $planPoolOptions                           = $this->model->getPoolOptions();
-        $poolSelect                                = JHtml::_('select.genericlist', $planPoolOptions, 'poolIDs[]',
+        $poolAttribs                     = $attribs;
+        $poolAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
+        $poolSelect                                = JHtml::_('select.genericlist', [], 'poolIDs[]',
             $poolAttribs, 'value', 'text');
         $this->fields['resourceFields']['poolIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_POOLS'),
@@ -334,23 +339,28 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
             'input'       => $poolSelect
         ];
 
-        // Teachers
-        $teacherAttribs                               = $attribs;
-        $teacherAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
-        $planTeacherOptions                           = $this->model->getTeacherOptions();
-        $teacherSelect                                = JHtml::_('select.genericlist', $planTeacherOptions,
-            'teacherIDs[]', $teacherAttribs, 'value', 'text');
-        $this->fields['resourceFields']['teacherIDs'] = [
-            'label'       => JText::_('COM_THM_ORGANIZER_TEACHERS'),
-            'description' => JText::_('COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC'),
-            'input'       => $teacherSelect
-        ];
+        $departmentPlaner = THM_OrganizerHelperComponent::allowSchedulingAccess();
+        $isTeacher        = (bool)THM_OrganizerHelperTeachers::getIDFromUserData();
+
+        if ($departmentPlaner or $isTeacher) {
+            // Teachers
+            $teacherAttribs                               = $attribs;
+            $teacherAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
+            $planTeacherOptions                           = $this->model->getTeacherOptions();
+            $teacherSelect                                = JHtml::_('select.genericlist', $planTeacherOptions,
+                'teacherIDs[]', $teacherAttribs, 'value', 'text');
+            $this->fields['resourceFields']['teacherIDs'] = [
+                'label'       => JText::_('COM_THM_ORGANIZER_TEACHERS'),
+                'description' => JText::_('COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC'),
+                'input'       => $teacherSelect
+            ];
+
+        }
 
         // Rooms
-        $roomAttribs                               = $attribs;
-        $roomAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
-        $planRoomOptions                           = $this->model->getRoomOptions();
-        $roomSelect                                = JHtml::_('select.genericlist', $planRoomOptions, 'roomIDs[]',
+        $roomAttribs                     = $attribs;
+        $roomAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        $roomSelect                                = JHtml::_('select.genericlist', [], 'roomIDs[]',
             $roomAttribs, 'value', 'text');
         $this->fields['resourceFields']['roomIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_ROOMS'),

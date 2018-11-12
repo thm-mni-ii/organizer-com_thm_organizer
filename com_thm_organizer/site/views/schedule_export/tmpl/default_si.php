@@ -31,7 +31,6 @@ $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];
         <fieldset>
             <legend>
                 <?php echo $this->lang->_('COM_THM_ORGANIZER_FILTERS'); ?>
-                <span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_OPTIONAL'); ?></span>
             </legend>
             <?php
             foreach ($this->fields['filterFields'] as $filterID => $filter) {
@@ -53,7 +52,6 @@ $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];
         <fieldset>
             <legend>
                 <?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION'); ?>
-                <span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION_DESC'); ?></span>
             </legend>
             <?php
             foreach ($this->fields['resourceFields'] as $resourceID => $resource) {

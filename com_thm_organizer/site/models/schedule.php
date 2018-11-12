@@ -14,6 +14,7 @@ jimport('joomla.application.component.model');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class retrieves information for use in a schedule display form.
@@ -24,7 +25,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
     public $departments;
 
-    public $displayName = '';
+    public $displayName;
 
     public $params;
 
@@ -116,20 +117,27 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $defaultDepartment = (int)$params->get('departmentID', 0);
 
         // No explicit resource selection was made check if departments were requested
-        $this->params['departmentID']    = empty($requestedDepartmentID) ? $defaultDepartment : $requestedDepartmentID;
-        $this->params['showPrograms']    = $input->getInt('showPrograms', (int)$params->get('showPrograms', 1));
-        $this->params['showPools']       = $input->getInt('showPools', (int)$params->get('showPools', 1));
-        $this->params['showRooms']       = $input->getInt('showRooms', (int)$params->get('showRooms', 1));
-        $this->params['showRoomTypes']   = $input->getInt('showRoomTypes', (int)$params->get('showRoomTypes', 1));
-        $this->params['showSubjects']    = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
-        $this->params['showTeachers']    = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
+        $departmentID                  = empty($requestedDepartmentID) ? $defaultDepartment : $requestedDepartmentID;
+        $this->params['departmentID']  = $departmentID;
+        $this->params['showPrograms']  = $input->getInt('showPrograms', (int)$params->get('showPrograms', 1));
+        $this->params['showPools']     = $input->getInt('showPools', (int)$params->get('showPools', 1));
+        $this->params['showRooms']     = $input->getInt('showRooms', (int)$params->get('showRooms', 1));
+        $this->params['showRoomTypes'] = $input->getInt('showRoomTypes', (int)$params->get('showRoomTypes', 1));
+        $this->params['showSubjects']  = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
+
+        $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
+        $departmentPlaner = THM_OrganizerHelperComponent::allowSchedulingAccess(0, $departmentID);
+        $isTeacher        = (bool)THM_OrganizerHelperTeachers::getIDFromUserData();
+        $showTeachers     = (($departmentPlaner or $isTeacher) and $stMenuParam);
+
+        $this->params['showTeachers']    = $showTeachers;
         $this->params['deltaDays']       = $input->getInt('deltaDays', (int)$params->get('deltaDays', 5));
         $this->params['showDepartments'] = empty($this->params['departmentID']) ?
             $input->getInt('showDepartments', (int)$params->get('showDepartments', 1)) : 0;
 
         // Menu title requested
         if (!empty($params->get('show_page_heading'))) {
-            $this->displayName .= $params->get('page_title');
+            $this->displayName = $params->get('page_heading');
         }
 
         $setTitle = empty($this->displayName);
@@ -149,7 +157,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             if (count($this->params['poolIDs']) === 1 and $setTitle) {
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
-                $this->displayName           .= THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
+                $this->displayName           = THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 
@@ -170,7 +178,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             if (count($this->params['teacherIDs']) === 1 and $setTitle) {
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
-                $this->displayName           .= THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
+                $this->displayName           = THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 
@@ -190,8 +198,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             if (count($this->params['roomIDs']) === 1 and $setTitle) {
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
-                $this->displayName           .= JText::_('COM_THM_ORGANIZER_ROOM') . ' ';
-                $this->displayName           .= THM_OrganizerHelperRooms::getName($this->params['roomIDs'][0]);
+                $this->displayName           = THM_OrganizerHelperRooms::getName($this->params['roomIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 
@@ -211,8 +218,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             if (count($this->params['roomTypeIDs']) === 1 and $setTitle) {
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/room_types.php';
-                $this->displayName           .= JText::_('COM_THM_ORGANIZER_ROOM_TYPE') . ' ';
-                $this->displayName           .= THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
+                $this->displayName           = THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 
@@ -236,7 +242,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['subjectIDs'] = [$singleValue];
 
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-            $this->displayName           .= THM_OrganizerHelperSubjects::getName(
+            $this->displayName           = THM_OrganizerHelperSubjects::getName(
                 $this->params['subjectIDs'][0],
                 'plan'
             );
@@ -256,7 +262,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showTeachers']    = 0;
 
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-            $this->displayName           .= THM_OrganizerHelperCourses::getName($this->params['lessonIDs'][0]);
+            $this->displayName           = THM_OrganizerHelperCourses::getName($this->params['lessonIDs'][0]);
             $this->params['displayName'] = $this->displayName;
 
             return;
@@ -275,7 +281,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             if (count($this->params['programIDs']) === 1 and $setTitle) {
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
-                $this->displayName           .= THM_OrganizerHelperPrograms::getName(
+                $this->displayName           = THM_OrganizerHelperPrograms::getName(
                     $this->params['programIDs'][0],
                     'plan'
                 );
@@ -288,8 +294,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         // In the last instance the department name is used if nothing else was requested
         if ($setTitle) {
             require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
-            $this->displayName .= JText::_('COM_THM_ORGANIZER_DEPARTMENT') . ' ';
-            $this->displayName .= THM_OrganizerHelperDepartments::getName($this->params['departmentID']);
+            $this->displayName = THM_OrganizerHelperDepartments::getName($this->params['departmentID']);
         }
     }
 

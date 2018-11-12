@@ -54,10 +54,6 @@ div#main div#j-main-container fieldset {
     position: relative;
 }
 
-div#main div#j-main-container fieldset:first-of-type {
-    background-color: #f2f5f6;
-}
-
 div#main div#j-main-container fieldset legend {
     border: none;
     font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;

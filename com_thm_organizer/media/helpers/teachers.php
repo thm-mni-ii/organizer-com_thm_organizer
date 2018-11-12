@@ -120,18 +120,46 @@ class THM_OrganizerHelperTeachers
     }
 
     /**
+     * Gets the ids of departments with which the teacher is associated
+     *
+     * @param int $teacherID the teacher's id
+     *
+     * @return array the ids of departments with which the teacher is associated
+     * @throws Exception
+     */
+    public static function getDepartmentIDs($teacherID)
+    {
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("departmentID")
+            ->from('#__thm_organizer_department_resources')
+            ->where("teacherID = $teacherID");
+        $dbo->setQuery($query);
+
+        try {
+            $departmentIDs = $dbo->loadColumn();
+        } catch (Exception $exception) {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+            return [];
+        }
+
+        return empty($departmentIDs) ? [] : $departmentIDs;
+    }
+
+    /**
      * Gets the departments with which the teacher is associated
      *
      * @param int $teacherID the teacher's id
      *
      * @return array the departments with which the teacher is associated id => name
+     * @throws Exception
      */
     public static function getDepartmentNames($teacherID)
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $default = [];
 
-        $dbo = JFactory::getDbo();
+        $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("d.short_name_$shortTag AS name")
             ->from('#__thm_organizer_departments AS d')
@@ -142,13 +170,12 @@ class THM_OrganizerHelperTeachers
         try {
             $departments = $dbo->loadColumn();
         } catch (Exception $exception) {
-            echo "<pre>" . print_r((string) $query, true) . "</pre>";
             JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
-            return $default;
+            return [];
         }
 
-        return empty($departments) ? $default : $departments;
+        return empty($departments) ? [] : $departments;
     }
 
     /**
@@ -187,7 +214,7 @@ class THM_OrganizerHelperTeachers
      * @return int the id of the teacher on success, otherwise 0
      * @throws Exception
      */
-    public static function getID($gpuntisID, $data)
+    public static function getIDFromScheduleData($gpuntisID, $data)
     {
         $teacherTable   = JTable::getInstance('teachers', 'thm_organizerTable');
         $loadCriteria   = [];
@@ -222,48 +249,106 @@ class THM_OrganizerHelperTeachers
     }
 
     /**
+     * Checks whether the user is a registered teacher returning their internal teacher id if existent.
+     *
+     * @return int the teacher id if the user is a teacher, otherwise 0
+     * @throws Exception
+     */
+    public static function getIDFromUserData()
+    {
+        $user = JFactory::getUser();
+        if (empty($user->id)) {
+            return false;
+        }
+
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("id")
+            ->from('#__thm_organizer_teachers')
+            ->where("username = '{$user->username}'");
+        $dbo->setQuery($query);
+
+        try {
+            $teacherID = $dbo->loadResult();
+        } catch (Exception $exception) {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+
+            return false;
+        }
+
+        return empty($teacherID) ? 0 : $teacherID;
+    }
+
+    /**
      * Getter method for teachers in database. Only retrieving the IDs here allows for formatting the names according to
      * the needs of the calling views.
      *
-     * @param bool $short whether or not abbreviated names should be returned
+     * @return array  the scheduled teachers which the user has access to
      *
-     * @return string  all pools in JSON format
-     *
-     * @throws RuntimeException
      * @throws Exception
      */
-    public static function getPlanTeachers($short = true)
+    public static function getPlanTeachers()
     {
+        $user = JFactory::getUser();
+        if (empty($user->id)) {
+            return [];
+        }
+
+        $input         = JFactory::getApplication()->input;
+        $departmentIDs = explode(',', $input->getString('departmentIDs'));
+        $isTeacher     = (bool) self::getIDFromUserData();
+        if (empty($departmentIDs) AND !$isTeacher) {
+            return [];
+        }
+
+        $departmentIDs = Joomla\Utilities\ArrayHelper::toInteger($departmentIDs);
+
+        foreach ($departmentIDs as $key => $departmentID) {
+            $departmentAccess = THM_OrganizerHelperComponent::allowSchedulingAccess(0, $departmentID);
+            if (!$departmentAccess) {
+                unset($departmentIDs[$key]);
+            }
+        }
+
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("DISTINCT lt.teacherID");
-        $query->from('#__thm_organizer_lesson_teachers AS lt');
+        $query->select("DISTINCT lt.teacherID")
+            ->from('#__thm_organizer_lesson_teachers AS lt')
+            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID');
 
-        $input               = JFactory::getApplication()->input;
-        $selectedDepartments = $input->getString('departmentIDs');
-        $selectedPrograms    = $input->getString('programIDs');
+        $wherray = [];
+        if($isTeacher) {
+            $wherray[] = "t.username = '{$user->username}'";
+        }
 
-        if (!empty($selectedDepartments)) {
+        if (!empty($departmentIDs)) {
             $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = lt.teacherID');
-            $departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
-            $query->where("dr.departmentID IN ($departmentIDs)");
+
+            $where = "dr.departmentID IN (" . implode(",", $departmentIDs) . ")";
+
+            $selectedPrograms = $input->getString('programIDs');
+
+            if (!empty($selectedPrograms)) {
+                $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
+                $query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lt.subjectID = ls.id');
+                $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
+                $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id');
+
+                $where .= " AND ppo.programID in ($programIDs)";
+                $where = "($where)";
+            }
+
+            $wherray[] = $where;
         }
 
-        if (!empty($selectedPrograms)) {
-            $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-            $query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lt.subjectID = ls.id');
-            $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
-            $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id');
-            $query->where("ppo.programID in ($programIDs)");
-        }
-
+        $query->where(implode(' OR ', $wherray));
         $dbo->setQuery($query);
 
         $default = [];
         try {
             $teacherIDs = $dbo->loadColumn();
-        } catch (RuntimeException $exc) {
+        } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 
             return $default;

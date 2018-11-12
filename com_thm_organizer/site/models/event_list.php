@@ -430,10 +430,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         $startDate = (empty($startDate) or $startDate < $today) ? $today : $startDate;
         $endDate   = $this->params->get('endDate', '');
         if (empty($endDate)) {
-            $query = $this->_db->getQuery(true);
-            $query->select('MAX(schedule_date)')->from('#__thm_organizer_calendar')->where("delta != 'removed'");
-            $this->_db->setQuery($query);
-            $endDate = $this->_db->loadResult();
+            $endDate = date("Y-m-d", strtotime("+3 month", $date[0]));
         }
 
         $startDT = strtotime($startDate);

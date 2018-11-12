@@ -109,25 +109,35 @@ class THM_OrganizerHelperRooms
         $dbo           = JFactory::getDbo();
         $relevantRooms = [];
 
-        $selectedPrograms = $app->input->getString('programIDs');
-        $programIDs       = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
+        $selectedDepartment = $app->input->getInt('departmentIDs');
+        $selectedPrograms = explode(',', $app->input->getString('programIDs'));
+        $programIDs = $selectedPrograms[0] > 0 ?
+            implode(',', Joomla\Utilities\ArrayHelper::toInteger($selectedPrograms)) : [];
+
+        $query = $dbo->getQuery(true);
+        $query->select('COUNT(DISTINCT lc.id)')
+            ->from('#__thm_organizer_lesson_configurations AS lc')
+            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lc.lessonID = ls.id')
+            ->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id')
+            ->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id')
+            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppo.programID');
 
         foreach ($allRooms as $room) {
-            $query = $dbo->getQuery(true);
-            $query->select('COUNT(DISTINCT lc.id)');
-            $query->from('#__thm_organizer_lesson_configurations AS lc');
 
+            $query->clear('where');
             // Negative lookaheads are not possible in MySQL and POSIX (e.g. [[:colon:]]) is not in MariaDB
             // This regex is compatible with both
             $regex = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $room['id'] . '":("new"|"")';
             $query->where("lc.configuration REGEXP '$regex'");
 
-            if (!empty($selectedPrograms)) {
-                $query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lc.lessonID = ls.id');
-                $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
-                $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id');
-                $query->where("ppo.programID in ($programIDs)");
+            if (!empty($selectedDepartment)) {
+                $query->where("dr.departmentID = $selectedDepartment");
+
+                if (!empty($selectedPrograms)) {
+                    $query->where("ppo.programID in ($programIDs)");
+                }
             }
+
 
             $dbo->setQuery($query);
 

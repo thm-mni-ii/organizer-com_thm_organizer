@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $mobile      = $this->isMobile ? 'mobile' : '';
 $displayName = empty($this->model->displayName) ?
     'THM Organizer  - ' . JText::_('COM_THM_ORGANIZER_SCHEDULES')
-    : JText::_('COM_THM_ORGANIZER_SCHEDULE') . ' - ' . $this->model->displayName;
+    : $this->model->displayName;
 ?>
 
 <div class="organizer <?php echo $mobile; ?>">

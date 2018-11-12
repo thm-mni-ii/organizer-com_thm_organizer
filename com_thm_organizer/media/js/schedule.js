@@ -1169,13 +1169,14 @@ const ScheduleApp = function (variables) {
                 {
                     const span = document.createElement('span'),
                         deltaClass = delta[id] || '',
-                        nameElement = variables[showX] ? document.createElement('a') : document.createElement('span');
+                        linkElement = showX !== 'showTeachers' && variables[showX],
+                        nameElement = linkElement ? document.createElement('a') : document.createElement('span');
 
                     span.className = (className ? className : resource) + ' ' + deltaClass;
                     resourceName = data[id].gpuntisID ? data[id].gpuntisID : data[id];
                     nameElement.innerHTML = resourceName;
 
-                    if (variables[showX])
+                    if (linkElement)
                     {
                         // Outsourced to avoid closure in for-loop
                         addLessonEvent(nameElement, resource, id, data[id].fullName ? data[id].fullName : data[id]);

@@ -42,32 +42,9 @@ $user          = JFactory::getUser();
             </div>
             <div class="clear"></div>
         </div>
-        <fieldset id="resourceFields">
-            <legend>
-                <?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION'); ?>
-                <span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION_DESC'); ?></span>
-            </legend>
-            <?php
-            foreach ($this->fields['resourceFields'] as $resourceID => $resource) {
-                $hidden = in_array($resourceID, $initialHidden) ? 'style="display: none;"' : '';
-                echo '<div id="' . $resourceID . '-container" class="control-item" ' . $hidden . '>';
-                echo '<div class="control-label">';
-                echo '<label title="' . $resource['description'] . '" for="' . $resourceID . '">';
-                echo '<span class="label-text">' . $resource['label'] . '</span>' . $infoSpan;
-                echo '</label>';
-                echo '</div>';
-                echo '<div class="controls">';
-                echo $resource['input'];
-                echo '</div>';
-                echo '<div class="clear"></div>';
-                echo '</div>';
-            }
-            ?>
-        </fieldset>
         <fieldset id="filterFields">
             <legend>
                 <?php echo $this->lang->_('COM_THM_ORGANIZER_FILTERS'); ?>
-                <span class="disclaimer"><?php echo $this->lang->_('COM_THM_ORGANIZER_OPTIONAL'); ?></span>
             </legend>
             <?php
             foreach ($this->fields['filterFields'] as $filterID => $filter) {
@@ -80,6 +57,27 @@ $user          = JFactory::getUser();
                 echo '</div>';
                 echo '<div class="controls">';
                 echo $filter['input'];
+                echo '</div>';
+                echo '<div class="clear"></div>';
+                echo '</div>';
+            }
+            ?>
+        </fieldset>
+        <fieldset id="resourceFields">
+            <legend>
+                <?php echo $this->lang->_('COM_THM_ORGANIZER_SELECTION'); ?>
+            </legend>
+            <?php
+            foreach ($this->fields['resourceFields'] as $resourceID => $resource) {
+                $hidden = in_array($resourceID, $initialHidden) ? 'style="display: none;"' : '';
+                echo '<div id="' . $resourceID . '-container" class="control-item" ' . $hidden . '>';
+                echo '<div class="control-label">';
+                echo '<label title="' . $resource['description'] . '" for="' . $resourceID . '">';
+                echo '<span class="label-text">' . $resource['label'] . '</span>' . $infoSpan;
+                echo '</label>';
+                echo '</div>';
+                echo '<div class="controls">';
+                echo $resource['input'];
                 echo '</div>';
                 echo '<div class="clear"></div>';
                 echo '</div>';

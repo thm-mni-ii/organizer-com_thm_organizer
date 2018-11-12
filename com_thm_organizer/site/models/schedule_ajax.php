@@ -333,7 +333,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
                 break;
             case "teacher":
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
-                $title = JText::_('COM_THM_ORGANIZER_TEACHER') . ' ' . THM_OrganizerHelperTeachers::getDefaultName($value);
+                $title = THM_OrganizerHelperTeachers::getDefaultName($value);
                 break;
             default:
                 $title = '';

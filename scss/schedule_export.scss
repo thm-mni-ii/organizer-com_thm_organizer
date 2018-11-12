@@ -24,10 +24,6 @@ div#main div#j-main-container{
     background-color: $foreground-color;
     position: relative;
 
-    &:first-of-type {
-      background-color: $background-color;
-    }
-
     legend {
 
       border: none;

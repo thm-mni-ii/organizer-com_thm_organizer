@@ -9,13 +9,20 @@
  */
 defined('_JEXEC') or die();
 
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/subjects.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
  * Class searches THM Organizer resources for resources and views relevant to the given search query.
  */
 class THM_OrganizerModelSearch extends JModelLegacy
 {
+    private $schedDepts;
+
     private $lang;
 
     public $languageTag;
@@ -23,6 +30,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
     private $programResults;
 
     public $results;
+
+    private $teacherID;
 
     private $terms;
 
@@ -166,6 +175,9 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     public function getResults()
     {
+        $this->teacherID  = THM_OrganizerHelperTeachers::getIDFromUserData();
+        $this->schedDepts = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+
         /**
          * Exact     => exact match for the whole search independent of capitalization
          * Strong    => exact match on one of the search terms
@@ -286,8 +298,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function processDepartments($results)
     {
-        require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
-
         $departments = [];
 
         if (!empty($results)) {
@@ -318,8 +328,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      */
     private function processPools(&$pools, $results, $type)
     {
-        require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
-
         foreach ($results as $result) {
             if ($type == 'real') {
                 $index = "d{$result['id']}";
@@ -346,11 +354,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $ppResults the program planning results lesson results
      *
      * @return array $programs
+     * @throws Exception
      */
     private function processPrograms($pResults, $ppResults)
     {
-        require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
-
         $programs = [];
 
         if (!empty($pResults)) {
@@ -479,11 +486,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $psResults the subject lesson results
      *
      * @return array $subjects
+     * @throws Exception
      */
     private function processSubjects($sResults, $psResults)
     {
-        require_once JPATH_SITE . '/media/com_thm_organizer/helpers/subjects.php';
-
         $subjects = [];
 
         if (!empty($sResults)) {
@@ -555,17 +561,16 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $results the teacher results
      *
      * @return array $teachers
+     * @throws Exception
      */
     private function processTeachers($results)
     {
-        require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
-
         $teachers = [];
 
         if (!empty($results)) {
             foreach ($results as $teacher) {
-                $documented = THM_OrganizerHelperTeachers::teaches('subject', $teacher['id']);
-                $teaches    = THM_OrganizerHelperTeachers::teaches('lesson', $teacher['id']);
+                $documented   = THM_OrganizerHelperTeachers::teaches('subject', $teacher['id']);
+                $teaches      = THM_OrganizerHelperTeachers::teaches('lesson', $teacher['id']);
 
                 // Nothing to link
                 if (!$documented and !$teaches) {
@@ -583,7 +588,9 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $links['subject_list'] = "?option=com_thm_organizer&view=subject_list&teacherIDs={$teacher['id']}";
                 }
 
-                if ($teaches) {
+                $overlap = array_intersect($this->schedDepts, THM_OrganizerHelperTeachers::getDepartmentIDs($teacher['id']));
+                $isTeacher = $this->teacherID == $teacher['id'];
+                if ($teaches and (count($overlap) or $isTeacher)) {
                     $links['schedule'] = "?option=com_thm_organizer&view=schedule&teacherIDs={$teacher['id']}";
                 }
 
@@ -718,6 +725,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         foreach ($this->programResults as $strength => $programs) {
             $pools = [];
+
 
             foreach ($programs As $program) {
                 $ppQuery->clear('select');
