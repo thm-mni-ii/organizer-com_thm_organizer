@@ -24,22 +24,24 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
      *
      * @return boolean  true if the user may edit the given resource, otherwise false
      */
-    protected function allowEdit(){
+    protected function allowEdit()
+    {
         return THM_OrganizerHelperComponent::allowFMAccess();
     }
 
     /**
      * Method to get a table object, load it if necessary.
      *
-     * @param   string  $name     The table name. Optional.
-     * @param   string  $prefix   The class prefix. Optional.
-     * @param   array   $options  Configuration array for model. Optional.
+     * @param   string $name    The table name. Optional.
+     * @param   string $prefix  The class prefix. Optional.
+     * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
      *
      * @throws  \Exception
      */
-    public function getTable($name = 'room_types', $prefix = 'thm_organizerTable', $options = []) {
+    public function getTable($name = 'room_types', $prefix = 'thm_organizerTable', $options = [])
+    {
         return JTable::getInstance($name, $prefix);
     }
 

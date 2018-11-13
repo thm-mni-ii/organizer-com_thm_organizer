@@ -297,7 +297,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $this->_db->setQuery($query);
 
         try {
-            $rawGrid = $this->_db->loadResult();;
+            $rawGrid = $this->_db->loadResult();
         } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
 

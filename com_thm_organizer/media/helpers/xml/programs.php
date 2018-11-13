@@ -72,7 +72,7 @@ class THM_OrganizerHelperXMLPrograms
         $program            = new stdClass;
         $program->gpuntisID = $programID;
         $program->name      = $programName;
-        $program->id = THM_OrganizerHelperPrograms::getPlanResourceID($program);
+        $program->id        = THM_OrganizerHelperPrograms::getPlanResourceID($program);
         THM_OrganizerHelperDepartments::setDepartmentResource($program->id, 'programID');
 
         $scheduleModel->schedule->degrees->$programID = $program;

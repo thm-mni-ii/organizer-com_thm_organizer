@@ -296,7 +296,7 @@ class THM_OrganizerHelperTeachers
 
         $input         = JFactory::getApplication()->input;
         $departmentIDs = explode(',', $input->getString('departmentIDs'));
-        $isTeacher     = (bool) self::getIDFromUserData();
+        $isTeacher     = (bool)self::getIDFromUserData();
         if (empty($departmentIDs) AND !$isTeacher) {
             return [];
         }
@@ -318,7 +318,7 @@ class THM_OrganizerHelperTeachers
             ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID');
 
         $wherray = [];
-        if($isTeacher) {
+        if ($isTeacher) {
             $wherray[] = "t.username = '{$user->username}'";
         }
 

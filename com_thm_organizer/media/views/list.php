@@ -41,7 +41,7 @@ abstract class THM_OrganizerViewList extends JViewLegacy
         $this->pagination = $this->get('Pagination');
 
         // Don't know which of these filters does what if anything active had no effect on the active highlighting
-        $this->filterForm    = $this->get('FilterForm');
+        $this->filterForm = $this->get('FilterForm');
 
         // Items common across list views
         $this->headers      = $this->get('Headers');

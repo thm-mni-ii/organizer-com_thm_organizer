@@ -29,7 +29,7 @@ $user          = JFactory::getUser();
     <?php endif; ?>
 </script>
 <div id="j-main-container">
-    <form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank" >
+    <form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank">
         <div id="header-container" class="header-container">
             <div class="header-title">
                 <?php echo JText::_('COM_THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
@@ -85,24 +85,24 @@ $user          = JFactory::getUser();
             ?>
         </fieldset>
         <fieldset>
-        <legend><?php echo $this->lang->_('COM_THM_ORGANIZER_FORMAT_SETTINGS'); ?></legend>
-        <?php
-        foreach ($this->fields['formatSettings'] as $formatFieldID => $formatField) {
-            $hidden = in_array($formatFieldID, $initialHidden) ? 'style="display: none;"' : '';
-            echo '<div id="' . $formatFieldID . '-container" class="control-item" ' . $hidden . '>';
-            echo '<div class="control-label">';
-            echo '<label title="' . $formatField['description'] . '" for="' . $formatFieldID . '">';
-            echo '<span class="label-text">' . $formatField['label'] . '</span>' . $infoSpan;
-            echo '</label>';
-            echo '</div>';
-            echo '<div class="controls">';
-            echo $formatField['input'];
-            echo '</div>';
-            echo '<div class="clear"></div>';
-            echo '</div>';
-        }
-        ?>
-    </fieldset>
+            <legend><?php echo $this->lang->_('COM_THM_ORGANIZER_FORMAT_SETTINGS'); ?></legend>
+            <?php
+            foreach ($this->fields['formatSettings'] as $formatFieldID => $formatField) {
+                $hidden = in_array($formatFieldID, $initialHidden) ? 'style="display: none;"' : '';
+                echo '<div id="' . $formatFieldID . '-container" class="control-item" ' . $hidden . '>';
+                echo '<div class="control-label">';
+                echo '<label title="' . $formatField['description'] . '" for="' . $formatFieldID . '">';
+                echo '<span class="label-text">' . $formatField['label'] . '</span>' . $infoSpan;
+                echo '</label>';
+                echo '</div>';
+                echo '<div class="controls">';
+                echo $formatField['input'];
+                echo '</div>';
+                echo '<div class="clear"></div>';
+                echo '</div>';
+            }
+            ?>
+        </fieldset>
         <?php
         if (!empty($this->fields['adminFields'])) {
             ?>

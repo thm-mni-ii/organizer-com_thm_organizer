@@ -8,10 +8,10 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
-$colNo     = count($this->model->grid['periods']);
+$colNo      = count($this->model->grid['periods']);
 $labelIndex = 'label_' . THM_OrganizerHelperLanguage::getShortTag();
-$startDate = $this->model->startDate;
-$blocks    = $this->model->data[$startDate];
+$startDate  = $this->model->startDate;
+$blocks     = $this->model->data[$startDate];
 ?>
 <table>
     <thead>
@@ -19,8 +19,8 @@ $blocks    = $this->model->data[$startDate];
         <th class="room-column block-row"></th>
         <?php
         foreach ($this->model->grid['periods'] as $times) {
-            $startTime = THM_OrganizerHelperComponent::formatTime($times['startTime']);
-            $endTime   = THM_OrganizerHelperComponent::formatTime($times['endTime']);
+            $startTime  = THM_OrganizerHelperComponent::formatTime($times['startTime']);
+            $endTime    = THM_OrganizerHelperComponent::formatTime($times['endTime']);
             $columnText = empty($times[$labelIndex]) ? "$startTime - $endTime" : $times[$labelIndex];
             echo '<th class="block-column block-row columns-' . $colNo . '">' . $columnText . '</th>';
         }

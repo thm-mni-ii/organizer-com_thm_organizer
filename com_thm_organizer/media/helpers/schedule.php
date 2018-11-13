@@ -190,12 +190,13 @@ class THM_OrganizerHelperSchedule
      * @return void removes unauthorized entries from the array
      * @throws Exception
      */
-    private static function filterTeacherIDs(&$teacherIDs) {
+    private static function filterTeacherIDs(&$teacherIDs)
+    {
         if (THM_OrganizerHelperComponent::isAdmin()) {
             return;
         }
 
-        $userTeacherID = THM_OrganizerHelperTeachers::getIDFromUserData();
+        $userTeacherID     = THM_OrganizerHelperTeachers::getIDFromUserData();
         $accessibleDeptIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 
         foreach ($teacherIDs as $key => $teacherID) {
@@ -203,7 +204,7 @@ class THM_OrganizerHelperSchedule
                 continue;
             }
             $teacherDepartments = THM_OrganizerHelperTeachers::getDepartmentIDs($teacherID);
-            $overlap = array_intersect($accessibleDeptIDs, $teacherDepartments);
+            $overlap            = array_intersect($accessibleDeptIDs, $teacherDepartments);
 
             if (empty($overlap)) {
                 unset($teacherIDs[$key]);
@@ -221,10 +222,10 @@ class THM_OrganizerHelperSchedule
      */
     public static function getLessons($parameters)
     {
-        if (!empty($parameters['teacherIDs'])){
+        if (!empty($parameters['teacherIDs'])) {
             self::filterTeacherIDs($parameters['teacherIDs']);
 
-            if (empty($parameters['teacherIDs'])){
+            if (empty($parameters['teacherIDs'])) {
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         }

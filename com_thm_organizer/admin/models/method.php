@@ -22,15 +22,16 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
     /**
      * Method to get a table object, load it if necessary.
      *
-     * @param   string  $name     The table name. Optional.
-     * @param   string  $prefix   The class prefix. Optional.
-     * @param   array   $options  Configuration array for model. Optional.
+     * @param   string $name    The table name. Optional.
+     * @param   string $prefix  The class prefix. Optional.
+     * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
      *
      * @throws  \Exception
      */
-    public function getTable($name = 'methods', $prefix = 'thm_organizerTable', $options = []) {
+    public function getTable($name = 'methods', $prefix = 'thm_organizerTable', $options = [])
+    {
         return JTable::getInstance($name, $prefix);
     }
 
@@ -50,14 +51,14 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
     /**
      * Processes the data for an individual schedule
      *
-     * @param object &$schedule     the schedule being processed
+     * @param object &$schedule the schedule being processed
      *
      * @return void
      */
     protected function updateSchedule(&$schedule)
     {
         foreach ($schedule->lessons as $lessonIndex => $lesson) {
-            if (isset($lesson->methodID) and in_array($lesson->methodID, $this->data['otherIDs'])){
+            if (isset($lesson->methodID) and in_array($lesson->methodID, $this->data['otherIDs'])) {
                 $schedule->lessons->$lessonIndex->methodID = $this->data['id'];
             }
         }

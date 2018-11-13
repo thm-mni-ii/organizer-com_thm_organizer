@@ -66,11 +66,11 @@ class THM_OrganizerModelParticipant extends JModelLegacy
 
         function normalize(&$item)
         {
-            if (strpos($item, '-') !== false)
-            {
+            if (strpos($item, '-') !== false) {
                 $compoundParts = explode('-', $item);
                 array_walk($compoundParts, 'normalize');
                 $item = implode('-', $compoundParts);
+
                 return;
             }
             $item = ucfirst(strtolower($item));
@@ -83,7 +83,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
         array_walk($forenames, 'normalize');
         $forename = implode(' ', $forenames);
 
-        $surname = str_replace('-', ' ', $surname);
+        $surname  = str_replace('-', ' ', $surname);
         $surnames = explode(' ', $surname);
         $surnames = array_filter($surnames);
         array_walk($surnames, 'normalize');

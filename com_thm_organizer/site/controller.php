@@ -136,11 +136,11 @@ class THM_OrganizerController extends JControllerLegacy
             return;
         }
 
-        $type        = 'error';
-        $userState   = THM_OrganizerHelperCourses::getParticipantState();
+        $type      = 'error';
+        $userState = THM_OrganizerHelperCourses::getParticipantState();
 
         // 1 = Register | 2 = Deregister
-        $action = empty($userState) ? 1 : 2;
+        $action  = empty($userState) ? 1 : 2;
         $success = $participantModel->register($participant->id, $courseID, $action);
 
         if ($success) {
@@ -150,8 +150,8 @@ class THM_OrganizerController extends JControllerLegacy
                 $msg = $lang->_("COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS");
             } else {
                 $successMessage = $lang->_('COM_THM_ORGANIZER_REGISTRATION_SUCCESS');
-                $newUserState = THM_OrganizerHelperCourses::getParticipantState();
-                $status = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
+                $newUserState   = THM_OrganizerHelperCourses::getParticipantState();
+                $status         = $newUserState["status"] ? "COM_THM_ORGANIZER_COURSE_REGISTERED" : "COM_THM_ORGANIZER_WAIT_LIST";
                 $statusMessage  = $lang->_($status);
                 $msg            = sprintf($successMessage, $statusMessage);
             }

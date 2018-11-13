@@ -90,10 +90,11 @@ class JFormFieldColorID extends JFormField
         if (!count($options) or !$merge) {
             $selectNone = $hasSelected ? '' : 'selected="selected"';
             $none       = '<option ' . $selectNone . ' value="">' . JText::_('JNONE') . '</option>';
-            $options = array_merge([$none], $options);
+            $options    = array_merge([$none], $options);
         }
 
         $select = "<select id = 'jform_colorID' name='jform[colorID]'>OPTIONS</select>";
+
         return str_replace('OPTIONS', implode('', $options), $select);
     }
 }

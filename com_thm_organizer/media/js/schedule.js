@@ -664,7 +664,8 @@ const ScheduleApp = function (variables) {
             let endTime, period = 1, row, startTime;
 
             // No periods -> no times
-            if (!timeGrid.periods) {
+            if (!timeGrid.periods)
+            {
                 return;
             }
 
@@ -674,7 +675,8 @@ const ScheduleApp = function (variables) {
                     timeCell = rows[row].getElementsByTagName('td')[0];
 
                 // Indicate bigger breaks between blocks (more than 30 minutes)
-                if (gap >= 100) {
+                if (gap >= 100)
+                {
                     rows[row - 1].classList.add('long-break-after');
                 }
 
@@ -1190,7 +1192,8 @@ const ScheduleApp = function (variables) {
 
             resourceNames.sort();
 
-            for (id in resourceNames) {
+            for (id in resourceNames)
+            {
                 outerElement.appendChild(resourceSpans[resourceNames[id]]);
             }
         }
@@ -1274,7 +1277,7 @@ const ScheduleApp = function (variables) {
 
                 for (columnIndex = 0; columnIndex <= columnCount; ++columnIndex)
                 {
-                     row.insertCell(-1);
+                    row.insertCell(-1);
                 }
             }
 
@@ -1374,7 +1377,8 @@ const ScheduleApp = function (variables) {
             lessonData = lessons || lessonData;
             visibleDay = getDateFieldsDateObject().getDay();
 
-            if (useDefaultGrid) {
+            if (useDefaultGrid)
+            {
                 timeGrid = getDefaultGrid();
             }
 
@@ -1396,7 +1400,7 @@ const ScheduleApp = function (variables) {
         /**
          * Change grid to selected grid instead of the default one
          */
-        this.updateGrid = function() {
+        this.updateGrid = function () {
             useDefaultGrid = false;
             timeGrid = getSelectedTimeGrid();
             timeGridID = getSelectedValues('grid');
@@ -1821,15 +1825,15 @@ const ScheduleApp = function (variables) {
                     const field = fields[id];
 
                     if (fieldsToShow[id.toLowerCase()] && (
-                            // Show as param given field
-                            id === name ||
-                            // Show static fields like category
-                            field.dataset.input === 'static' ||
-                            // Show previous field
-                            field.dataset.next === name ||
-                            // Show static fields and their selection
-                            id === selectedValue
-                        )
+                        // Show as param given field
+                        id === name ||
+                        // Show static fields like category
+                        field.dataset.input === 'static' ||
+                        // Show previous field
+                        field.dataset.next === name ||
+                        // Show static fields and their selection
+                        id === selectedValue
+                    )
                     )
                     {
                         jQuery(wrappers[id]).show();
@@ -2134,7 +2138,8 @@ const ScheduleApp = function (variables) {
         (function () {
             collectConfig();
 
-            if (!loadSession()) {
+            if (!loadSession())
+            {
                 handleFirstField();
             }
 
@@ -2408,7 +2413,8 @@ const ScheduleApp = function (variables) {
                 jQuery('#' + scheduleID).addClass('shown');
 
                 // Set grid of schedule as selected in form field to make changing it easier (except default schedule)
-                if (schedule) {
+                if (schedule)
+                {
                     setGrid(scheduleObjects.getScheduleById(scheduleID).getTable().getGridID());
                 }
             }

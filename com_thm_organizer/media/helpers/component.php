@@ -462,7 +462,8 @@ class THM_OrganizerHelperComponent
 
         foreach ($departmentIDs as $departmentID) {
             $allowed = $action == 'manage' ?
-                self::allowDocumentAccess('department', $departmentID) : self::allowSchedulingAccess(null, $departmentID);
+                self::allowDocumentAccess('department', $departmentID) : self::allowSchedulingAccess(null,
+                    $departmentID);
 
             if ($allowed) {
                 $allowedDepartmentIDs[] = $departmentID;

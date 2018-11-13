@@ -44,7 +44,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 
         if ($departmentID and in_array($departmentID, $allowedDepartments)) {
             $query->where("dr.departmentID = '$departmentID'");
-        } elseif ($departmentID == '-1'){
+        } elseif ($departmentID == '-1') {
             $query->where("dr.departmentID IS NULL");
         } else {
             $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");

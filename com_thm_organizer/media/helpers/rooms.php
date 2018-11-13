@@ -110,8 +110,8 @@ class THM_OrganizerHelperRooms
         $relevantRooms = [];
 
         $selectedDepartment = $app->input->getInt('departmentIDs');
-        $selectedPrograms = explode(',', $app->input->getString('programIDs'));
-        $programIDs = $selectedPrograms[0] > 0 ?
+        $selectedPrograms   = explode(',', $app->input->getString('programIDs'));
+        $programIDs         = $selectedPrograms[0] > 0 ?
             implode(',', Joomla\Utilities\ArrayHelper::toInteger($selectedPrograms)) : [];
 
         $query = $dbo->getQuery(true);

@@ -24,9 +24,9 @@ class THM_OrganizerModelCourse extends JModelLegacy
      */
     public function changeParticipantState()
     {
-        $input          = JFactory::getApplication()->input;
-        $data           = $input->getArray();
-        $formData       = $data['jform'];
+        $input    = JFactory::getApplication()->input;
+        $data     = $input->getArray();
+        $formData = $data['jform'];
 
         if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);

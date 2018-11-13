@@ -66,6 +66,7 @@ class THM_OrganizerHelperRoomTypes
             $results = $dbo->loadAssocList('name', 'id');
         } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+
             return [];
         }
 

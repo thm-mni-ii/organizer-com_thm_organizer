@@ -569,8 +569,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         if (!empty($results)) {
             foreach ($results as $teacher) {
-                $documented   = THM_OrganizerHelperTeachers::teaches('subject', $teacher['id']);
-                $teaches      = THM_OrganizerHelperTeachers::teaches('lesson', $teacher['id']);
+                $documented = THM_OrganizerHelperTeachers::teaches('subject', $teacher['id']);
+                $teaches    = THM_OrganizerHelperTeachers::teaches('lesson', $teacher['id']);
 
                 // Nothing to link
                 if (!$documented and !$teaches) {
@@ -588,7 +588,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $links['subject_list'] = "?option=com_thm_organizer&view=subject_list&teacherIDs={$teacher['id']}";
                 }
 
-                $overlap = array_intersect($this->schedDepts, THM_OrganizerHelperTeachers::getDepartmentIDs($teacher['id']));
+                $overlap   = array_intersect($this->schedDepts,
+                    THM_OrganizerHelperTeachers::getDepartmentIDs($teacher['id']));
                 $isTeacher = $this->teacherID == $teacher['id'];
                 if ($teaches and (count($overlap) or $isTeacher)) {
                     $links['schedule'] = "?option=com_thm_organizer&view=schedule&teacherIDs={$teacher['id']}";

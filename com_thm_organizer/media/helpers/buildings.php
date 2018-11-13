@@ -25,8 +25,8 @@ class THM_OrganizerHelperBuildings
      */
     public static function getID($name)
     {
-        $table    = JTable::getInstance('buildings', 'thm_organizerTable');
-        $data = ['name' => $name];
+        $table = JTable::getInstance('buildings', 'thm_organizerTable');
+        $data  = ['name' => $name];
 
         try {
             $success = $table->load($data);

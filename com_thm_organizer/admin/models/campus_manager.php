@@ -129,7 +129,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
         $headers['name']     = JText::_('COM_THM_ORGANIZER_NAME');
         $headers['address']  = JText::_('COM_THM_ORGANIZER_ADDRESS');
         $headers['location'] = JText::_('COM_THM_ORGANIZER_LOCATION');
-        $headers['gridID'] = JText::_('COM_THM_ORGANIZER_GRID');
+        $headers['gridID']   = JText::_('COM_THM_ORGANIZER_GRID');
 
         return $headers;
     }

@@ -245,7 +245,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function upload()
     {
-        $form = JFactory::getApplication()->input->get('jform', [], 'array');
+        $form        = JFactory::getApplication()->input->get('jform', [], 'array');
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
 
         if ($invalidForm) {

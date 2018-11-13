@@ -89,7 +89,7 @@ class THM_OrganizerHelperXMLGrids
         }
 
         $scheduleModel->schedule->periods = new stdClass;
-        $grids                               = new stdClass;
+        $grids                            = new stdClass;
 
         foreach ($xmlObject->timeperiods->children() as $timePeriodNode) {
             self::validateIndividual($scheduleModel, $timePeriodNode, $grids);
@@ -116,7 +116,7 @@ class THM_OrganizerHelperXMLGrids
         $exportKey = trim((string)$timePeriodNode[0]['id']);
         $gridName  = (string)$timePeriodNode->timegrid;
         $day       = (int)$timePeriodNode->day;
-        $periodNo    = (int)$timePeriodNode->period;
+        $periodNo  = (int)$timePeriodNode->period;
         $startTime = trim((string)$timePeriodNode->starttime);
         $endTime   = trim((string)$timePeriodNode->endtime);
 

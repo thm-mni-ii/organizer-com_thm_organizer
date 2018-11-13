@@ -12,7 +12,7 @@
         </field>
         <field name="departmentID" type="departmentID" class="inputbox" multiple="multiple" required="true"
                label="COM_THM_ORGANIZER_DEPARTMENTS" description="COM_THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
-               resource="program" />
+               resource="program"/>
         <field name="id" type="mergeID" other="false"/>
         <field name="otherIDs" type="mergeID" other="true"/>
     </fieldset>

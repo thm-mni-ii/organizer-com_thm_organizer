@@ -28,8 +28,8 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
     protected function getListQuery()
     {
         $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $query    = $this->_db->getQuery(true);
+        $shortTag           = THM_OrganizerHelperLanguage::getShortTag();
+        $query              = $this->_db->getQuery(true);
 
         $select    = "DISTINCT ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
         $linkParts = ["'index.php?option=com_thm_organizer&view=plan_program_edit&id='", "ppr.id"];

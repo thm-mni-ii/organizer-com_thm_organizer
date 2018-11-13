@@ -67,7 +67,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      */
     public function save($data = [])
     {
-        $data = empty($data)? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
+        $data = empty($data) ? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
 
         if (empty($data['id'])) {
             $genericDocumentationAccess = THM_OrganizerHelperComponent::allowDocumentAccess();

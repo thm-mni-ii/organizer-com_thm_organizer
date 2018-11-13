@@ -169,13 +169,13 @@ class JFormFieldChildren extends JFormField
         $html .= '</tr></thead>';
         $html .= '<tbody>';
 
-        $addSpace      = JText::_('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
+        $addSpace = JText::_('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
         JText::script('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
-        $makeFirst     = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
+        $makeFirst = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
         JText::script('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
-        $makeLast      = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
+        $makeLast = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
         JText::script('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
-        $moveChildUp   = JText::_('JLIB_HTML_MOVE_UP');
+        $moveChildUp = JText::_('JLIB_HTML_MOVE_UP');
         JText::script('JLIB_HTML_MOVE_UP');
         $moveChildDown = JText::_('JLIB_HTML_MOVE_DOWN');
         JText::script('JLIB_HTML_MOVE_DOWN');

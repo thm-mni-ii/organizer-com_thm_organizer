@@ -13,6 +13,9 @@
  */
 abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 {
+    const FULL = 1;
+    const SHORT = 2;
+    const ABBR = 3;
     protected $document;
 
     protected $grid;
@@ -201,16 +204,18 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
     protected function getName($subject)
     {
         switch ($this->parameters['titles']) {
-            case 3:
+            case self::ABBR:
                 if (!empty($subject['abbr'])) {
                     return $subject['abbr'];
                 } elseif (!empty($subject['shortName'])) {
                     return $subject['shortName'];
                 }
-            case 2:
+                break;
+            case self::SHORT:
                 if (!empty($subject['shortName'])) {
                     return $subject['shortName'];
                 }
+                break;
         }
 
         return $subject['name'];

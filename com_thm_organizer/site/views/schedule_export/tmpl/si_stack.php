@@ -47,9 +47,9 @@ class THM_OrganizerTemplateExport_XLS
 
         if (!array_key_exists('pastDate', $this->lessons) and !array_key_exists('futureDate', $this->lessons)) {
 
-            $today             = date('Y-m-d');
-            $sheetNumber       = 0;
-            $startDate         = key($this->lessons);
+            $today       = date('Y-m-d');
+            $sheetNumber = 0;
+            $startDate   = key($this->lessons);
 
             while (isset($this->lessons[$startDate])) {
                 $breakDate = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));

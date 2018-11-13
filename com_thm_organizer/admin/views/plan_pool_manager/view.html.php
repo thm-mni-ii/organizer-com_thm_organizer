@@ -55,12 +55,12 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_VIEW_TITLE'), 'organizer_plan_pools');
         JToolbarHelper::editList('plan_pool.edit');
 
-        $if = "alert('" . JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
-        $else = "jQuery('#modal-publishing').modal('show'); return true;";
-        $script = 'if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}';
+        $if          = "alert('" . JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
+        $else        = "jQuery('#modal-publishing').modal('show'); return true;";
+        $script      = 'if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}';
         $batchButton = '<button id="pool-publishing" data-toggle="modal" class="btn btn-small" onclick="' . $script . '">';
 
-        $title = JText::_('COM_THM_ORGANIZER_BATCH');
+        $title       = JText::_('COM_THM_ORGANIZER_BATCH');
         $batchButton .= '<span class="icon-stack" title="' . $title . '"></span>' . " $title";
 
         $batchButton .= '</button>';

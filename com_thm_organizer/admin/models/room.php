@@ -101,9 +101,10 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
      * @return bool
      * @throws Exception
      */
-    private function updateStoredConfigurations() {
+    private function updateStoredConfigurations()
+    {
 
-        $table = '#__thm_organizer_lesson_configurations';
+        $table       = '#__thm_organizer_lesson_configurations';
         $selectQuery = $this->_db->getQuery(true);
         $selectQuery->select('id, configuration')
             ->from($table);
@@ -113,7 +114,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 
         foreach ($this->data['otherIDs'] as $oldID) {
             $selectQuery->clear('where');
-            $regexp    = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $oldID . '"';
+            $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $oldID . '"';
             $selectQuery->where("configuration REGEXP '$regexp'");
             $this->_db->setQuery($selectQuery);
 
@@ -128,7 +129,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
             foreach ($storedConfigurations as $storedConfiguration) {
                 $configuration = json_decode($storedConfiguration['configuration'], true);
 
-                $oldDelta         = $configuration['rooms'][$oldID];
+                $oldDelta = $configuration['rooms'][$oldID];
                 unset($configuration['rooms'][$oldID]);
 
                 // The new id is not yet an index, or it is, but has no delta value and the old id did

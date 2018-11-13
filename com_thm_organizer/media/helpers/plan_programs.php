@@ -38,7 +38,7 @@ class THM_OrganizerHelperPlan_Programs
             return false;
         }
 
-        $ppIDs = "'" . implode("', '", $ppIDs) . "'";
+        $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
         $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
 
         $dbo   = JFactory::getDbo();

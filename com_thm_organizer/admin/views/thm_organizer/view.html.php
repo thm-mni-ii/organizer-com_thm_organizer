@@ -141,7 +141,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $fmItems[JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=campus_manager';
             $fmItems[JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE')]
-                      = 'index.php?option=com_thm_organizer&amp;view=monitor_manager';
+                     = 'index.php?option=com_thm_organizer&amp;view=monitor_manager';
             $fmItems[JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=room_manager';
             $fmItems[JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')]

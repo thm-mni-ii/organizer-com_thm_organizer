@@ -49,12 +49,12 @@ class JFormFieldDepartmentID extends JFormFieldList
         // Get the field options.
         $options = (array)$this->getOptions();
 
-        $input = JFactory::getApplication()->input;
+        $input      = JFactory::getApplication()->input;
         $resourceID = $input->getInt('id');
         if (empty($resourceID)) {
             $selected = JFactory::getApplication()->input->get('cid', [], 'array');
         } else {
-            $selected =[$resourceID];
+            $selected = [$resourceID];
         }
 
         require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';

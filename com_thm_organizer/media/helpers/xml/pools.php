@@ -122,11 +122,11 @@ class THM_OrganizerHelperXMLPools
         $pool->longname     = $longName;
         $pool->name         = $poolID;
         $pool->restriction  = $restriction;
-        $pool->grid   = $grid;
-        $pool->gridID = THM_OrganizerHelperGrids::getID($grid);
+        $pool->grid         = $grid;
+        $pool->gridID       = THM_OrganizerHelperGrids::getID($grid);
 
         // This is dependent on degree, gridID, longname and restriction already being set => order important!
-        $pool->id     = THM_OrganizerHelperPools::getPlanResourceID($poolID, $pool);
+        $pool->id = THM_OrganizerHelperPools::getPlanResourceID($poolID, $pool);
 
         $scheduleModel->schedule->pools->$poolID = $pool;
     }

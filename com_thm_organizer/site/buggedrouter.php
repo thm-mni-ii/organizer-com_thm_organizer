@@ -199,13 +199,13 @@ function THM_organizerParseRoute($segments)
                 case 'alphabetical':
                     $vars['groupBy'] = '0';
                     break;
-                case 'bypool';
+                case 'bypool':
                     $vars['groupBy'] = '1';
                     break;
-                case 'byteacher';
+                case 'byteacher':
                     $vars['groupBy'] = '2';
                     break;
-                case 'byfield';
+                case 'byfield':
                     $vars['groupBy'] = '3';
                     break;
             }

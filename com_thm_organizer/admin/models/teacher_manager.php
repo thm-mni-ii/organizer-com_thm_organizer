@@ -29,10 +29,10 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $query    = $this->_db->getQuery(true);
-        $select   = "DISTINCT t.id, t.surname, t.forename, t.username, t.gpuntisID, d.id AS departmentID, ";
-        $parts    = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", "t.id"];
-        $select   .= $query->concatenate($parts, "") . " AS link ";
+        $query  = $this->_db->getQuery(true);
+        $select = "DISTINCT t.id, t.surname, t.forename, t.username, t.gpuntisID, d.id AS departmentID, ";
+        $parts  = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", "t.id"];
+        $select .= $query->concatenate($parts, "") . " AS link ";
         $query->select($select);
         $query->from('#__thm_organizer_teachers AS t')
             ->leftJoin('#__thm_organizer_department_resources AS dr on dr.teacherID = t.id')
@@ -98,15 +98,15 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering               = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction              = $this->state->get('list.direction', $this->defaultDirection);
-        $headers                = [];
-        $headers['checkbox']    = '';
-        $headers['surname']     = JText::_('COM_THM_ORGANIZER_SURNAME');
-        $headers['forename']    = JText::_('COM_THM_ORGANIZER_FORENAME');
-        $headers['username']    = JText::_('COM_THM_ORGANIZER_USERNAME');
-        $headers['t.gpuntisID'] = JText::_('COM_THM_ORGANIZER_GPUNTISID');
-        $headers['departmentID']  = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
+        $ordering                = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction               = $this->state->get('list.direction', $this->defaultDirection);
+        $headers                 = [];
+        $headers['checkbox']     = '';
+        $headers['surname']      = JText::_('COM_THM_ORGANIZER_SURNAME');
+        $headers['forename']     = JText::_('COM_THM_ORGANIZER_FORENAME');
+        $headers['username']     = JText::_('COM_THM_ORGANIZER_USERNAME');
+        $headers['t.gpuntisID']  = JText::_('COM_THM_ORGANIZER_GPUNTISID');
+        $headers['departmentID'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
 
         return $headers;
     }

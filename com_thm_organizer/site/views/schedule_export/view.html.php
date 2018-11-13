@@ -329,8 +329,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         }
 
         // Pools
-        $poolAttribs                     = $attribs;
-        $poolAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
+        $poolAttribs                               = $attribs;
+        $poolAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
         $poolSelect                                = JHtml::_('select.genericlist', [], 'poolIDs[]',
             $poolAttribs, 'value', 'text');
         $this->fields['resourceFields']['poolIDs'] = [
@@ -358,8 +358,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         }
 
         // Rooms
-        $roomAttribs                     = $attribs;
-        $roomAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        $roomAttribs                               = $attribs;
+        $roomAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
         $roomSelect                                = JHtml::_('select.genericlist', [], 'roomIDs[]',
             $roomAttribs, 'value', 'text');
         $this->fields['resourceFields']['roomIDs'] = [

@@ -59,8 +59,8 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      */
     public function getDepartmentOptions()
     {
-        $departments = THM_OrganizerHelperDepartments::getPlanDepartments(false);
-        $options     = [];
+        $departments     = THM_OrganizerHelperDepartments::getPlanDepartments(false);
+        $options         = [];
         $option['value'] = '';
         $option['text']  = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
         $options[]       = $option;

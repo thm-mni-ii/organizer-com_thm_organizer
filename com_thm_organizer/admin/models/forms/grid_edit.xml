@@ -9,8 +9,8 @@
         <field name="name_en" type="text" class="inputbox" size="60" label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC" required="true"/>
         <field name="grid" type="periods" formsource="grid_blocks" multiple="true" buttons="add,remove"
-               layout="joomla.form.field.subform.repeatable-table"
-               label="COM_THM_ORGANIZER_GRID" description="COM_THM_ORGANIZER_GRID_DESC"/>
+               layout="joomla.form.field.subform.repeatable-table" label="COM_THM_ORGANIZER_GRID"
+               description="COM_THM_ORGANIZER_GRID_DESC"/>
         <field name="startDay" type="list" class="inputbox" required="true" default="1"
                label="COM_THM_ORGANIZER_START_DAY" description="COM_THM_ORGANIZER_START_DAY_DESC">
             <option value='1'>MONDAY</option>
@@ -21,8 +21,8 @@
             <option value='6'>SATURDAY</option>
             <option value='0'>SUNDAY</option>
         </field>
-        <field name="endDay" type="list" class="inputbox" required="true" default="6"
-               label="COM_THM_ORGANIZER_END_DAY" description="COM_THM_ORGANIZER_END_DAY_DESC">
+        <field name="endDay" type="list" class="inputbox" required="true" default="6" label="COM_THM_ORGANIZER_END_DAY"
+               description="COM_THM_ORGANIZER_END_DAY_DESC">
             <option value='1'>MONDAY</option>
             <option value='2'>TUESDAY</option>
             <option value='3'>WEDNESDAY</option>
@@ -31,8 +31,8 @@
             <option value='6'>SATURDAY</option>
             <option value='0'>SUNDAY</option>
         </field>
-        <field name="defaultGrid" type="list" class="inputbox" default="1"
-               label="COM_THM_ORGANIZER_DEFAULT" description="COM_THM_ORGANIZER_GRID_DEFAULT_DESC">
+        <field name="defaultGrid" type="list" class="inputbox" default="1" label="COM_THM_ORGANIZER_DEFAULT"
+               description="COM_THM_ORGANIZER_GRID_DEFAULT_DESC">
             <option value='1'>JYES</option>
             <option value='0'>JNO</option>
         </field>

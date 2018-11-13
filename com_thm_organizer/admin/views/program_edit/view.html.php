@@ -38,7 +38,7 @@ class THM_OrganizerViewProgram_Edit extends THM_OrganizerViewEdit
 
             $toolbar = JToolbar::getInstance('toolbar');
 
-            $poolLink  = 'index.php?option=com_thm_organizer&view=pool_selection&tmpl=component';
+            $poolLink = 'index.php?option=com_thm_organizer&view=pool_selection&tmpl=component';
             $toolbar->appendButton('Popup', 'list', JText::_('COM_THM_ORGANIZER_ADD_POOL'), $poolLink);
         }
     }

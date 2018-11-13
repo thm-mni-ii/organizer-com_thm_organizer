@@ -25,6 +25,7 @@ class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
     protected function allowEdit()
     {
         $subjectID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
+
         return THM_OrganizerHelperSubjects::allowEdit($subjectID);
     }
 }

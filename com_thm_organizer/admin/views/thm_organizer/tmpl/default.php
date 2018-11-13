@@ -21,15 +21,15 @@ $logoURL = 'media/com_thm_organizer/images/thm_organizer.png';
         <?php if (!empty($this->menuItems['scheduling'])): ?>
             <div class="action-group">
                 <?php foreach ($this->menuItems['scheduling'] as $name => $url): ?>
-                <div class="action-item">
-                    <?php if (!empty($url)): ?>
-                    <a href="<?php echo $url; ?>">
-                        <?php echo $name; ?>
-                    </a>
-                    <?php else: ?>
-                    <?php echo $name; ?>
-                    <?php endif; ?>
-                </div>
+                    <div class="action-item">
+                        <?php if (!empty($url)): ?>
+                            <a href="<?php echo $url; ?>">
+                                <?php echo $name; ?>
+                            </a>
+                        <?php else: ?>
+                            <?php echo $name; ?>
+                        <?php endif; ?>
+                    </div>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>

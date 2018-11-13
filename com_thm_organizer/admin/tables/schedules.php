@@ -35,7 +35,7 @@ class THM_OrganizerTableSchedules extends JTable
     {
         $default = "Organizer Schedule";
 
-        $dbo = JFactory::getDbo();
+        $dbo       = JFactory::getDbo();
         $deptQuery = $dbo->getQuery(true);
         $deptQuery->select('short_name_en')
             ->from('#__thm_organizer_departments')

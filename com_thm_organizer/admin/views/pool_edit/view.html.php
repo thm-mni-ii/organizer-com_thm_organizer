@@ -36,13 +36,13 @@ class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
             JToolbarHelper::save2copy('pool.save2copy');
             JToolbarHelper::cancel('pool.cancel', 'JTOOLBAR_CLOSE');
 
-            $toolbar   = JToolbar::getInstance('toolbar');
-            $baseURL   = "index.php?option=com_thm_organizer&tmpl=component&type=pool&id={$this->item->id}&view=";
+            $toolbar = JToolbar::getInstance('toolbar');
+            $baseURL = "index.php?option=com_thm_organizer&tmpl=component&type=pool&id={$this->item->id}&view=";
 
-            $poolLink  = $baseURL . 'pool_selection';
+            $poolLink = $baseURL . 'pool_selection';
             $toolbar->appendButton('Popup', 'list', JText::_('COM_THM_ORGANIZER_ADD_POOL'), $poolLink);
 
-            $subjectLink  = $baseURL . 'subject_selection';
+            $subjectLink = $baseURL . 'subject_selection';
             $toolbar->appendButton('Popup', 'book', JText::_('COM_THM_ORGANIZER_ADD_SUBJECT'), $subjectLink);
         }
     }
