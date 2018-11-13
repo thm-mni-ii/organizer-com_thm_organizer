@@ -422,7 +422,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      *
      * @return boolean  true on success, otherwise false
      */
-    protected abstract function updateAssociations();
+    abstract protected function updateAssociations();
 
     /**
      * Updates the associated departments for a resource
@@ -564,7 +564,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      *
      * @return void
      */
-    protected abstract function updateSchedule(&$schedule);
+    abstract protected function updateSchedule(&$schedule);
 
     /**
      * Updates room data and lesson associations in active schedules

@@ -80,7 +80,7 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         $file        = $formFiles['file'];
         $xmlSchedule = simplexml_load_file($file['tmp_name']);
 
-        $this->schedule      = new stdClass;
+        $this->schedule         = new stdClass;
         $this->scheduleErrors   = [];
         $this->scheduleWarnings = [];
 
@@ -103,7 +103,8 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         $validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error',
             '/[\#\;]/');
 
-        $form                            = $input->get('jform', [], 'array');
+        $form = $input->get('jform', [], 'array');
+
         $this->schedule->departmentID = $form['departmentID'];
 
         // Planning period start & end dates

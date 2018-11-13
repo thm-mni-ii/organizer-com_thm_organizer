@@ -384,6 +384,7 @@ abstract class THM_OrganizerModelList extends JModelList
      * @param  array  $filterNames the filter names. names should be synonymous with db column names.
      *
      * @return void
+     * @throws Exception
      */
     protected function setLocalizedFilters(&$query, $filterNames)
     {
@@ -417,7 +418,7 @@ abstract class THM_OrganizerModelList extends JModelList
      *
      * @return array including headers
      */
-    public abstract function getHeaders();
+    abstract public function getHeaders();
 
 
 }

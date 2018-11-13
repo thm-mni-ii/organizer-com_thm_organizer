@@ -132,8 +132,8 @@ class THM_OrganizerHelperXMLLessons
         }
 
         $this->scheduleModel->schedule->configurations[] = $jsonConfig;
-        $configKeys                                         = array_keys($this->scheduleModel->schedule->configurations);
-        $configIndex                                        = end($configKeys);
+        $configKeys                                      = array_keys($this->scheduleModel->schedule->configurations);
+        $configIndex                                     = end($configKeys);
 
         $this->scheduleModel->schedule->calendar->$date->$times->{$this->lessonID}->configurations[] = $configIndex;
     }

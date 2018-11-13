@@ -97,7 +97,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      *
      * @return THM_Organizer_PDF_Schedule_Export
      */
-    protected abstract function getDocument();
+    abstract protected function getDocument();
 
     /**
      * Creates the text to be output for the lesson instance
@@ -229,7 +229,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      *
      * @return array
      */
-    protected abstract function getRowCells($columnHeaders, $rowHeader = null);
+    abstract protected function getRowCells($columnHeaders, $rowHeader = null);
 
     /**
      * Gets the row header information. startTime and endTime are used for later indexing purposes. Text is the text to
@@ -270,7 +270,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      *
      * @return void
      */
-    protected abstract function outputGrid(&$columnHeaders, $dimensions, $startDate, $breakDate);
+    abstract protected function outputGrid(&$columnHeaders, $dimensions, $startDate, $breakDate);
 
     /**
      * Outputs the column headers to the document
@@ -282,7 +282,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      *
      * @return void  outputs to the document
      */
-    protected abstract function outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid);
+    abstract protected function outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid);
 
     /**
      * Determines whether the given segment, typically a work week, should be output. IE are there lessons
@@ -361,7 +361,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      *
      * @return void
      */
-    protected abstract function outputTimeGrid(&$rowHeaders, &$columnHeaders, $dimensions, $startDate, $breakDate);
+    abstract protected function outputTimeGrid(&$rowHeaders, &$columnHeaders, $dimensions, $startDate, $breakDate);
 
     /**
      * Renders the document

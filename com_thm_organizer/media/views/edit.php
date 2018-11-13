@@ -40,7 +40,7 @@ abstract class THM_OrganizerViewEdit extends JViewLegacy
      *
      * @return void  adds toolbar items to the view
      */
-    protected abstract function addToolBar();
+    abstract protected function addToolBar();
 
     /**
      * Adds styles and scripts to the document

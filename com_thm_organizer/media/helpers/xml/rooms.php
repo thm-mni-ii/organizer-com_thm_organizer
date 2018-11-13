@@ -75,7 +75,7 @@ class THM_OrganizerHelperXMLRooms
         }
 
         $internalID = strtoupper(str_replace('RM_', '', $internalID));
-        $roomID = $internalID;
+        $roomID     = $internalID;
 
         $displayName = trim((string)$roomNode->longname);
         if (empty($displayName)) {
@@ -112,6 +112,7 @@ class THM_OrganizerHelperXMLRooms
         if ($invalidDescription) {
             $scheduleModel->scheduleWarnings['ROOM-TYPE'] = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
                 1 : $scheduleModel->scheduleWarnings['ROOM-TYPE'] + 1;
+
             $room->description = '';
             $room->typeID      = null;
         } else {
