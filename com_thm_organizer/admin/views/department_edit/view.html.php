@@ -23,17 +23,16 @@ class THM_OrganizerViewDepartment_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        $isNew = ($this->item->id == 0);
-        $title = $isNew ? JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_NEW_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_EDIT_VIEW_TITLE');
-        JToolbarHelper::title($title, 'organizer_departments');
         JToolbarHelper::apply('department.apply');
         JToolbarHelper::save('department.save');
         JToolbarHelper::save2new('department.save2new');
-        if (!$isNew) {
-            JToolbarHelper::save2copy('department.save2copy');
-            JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CLOSE');
-        } else {
+        if (empty($this->item->id)) {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_NEW_TITLE'), 'organizer_departments');
             JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            JToolbarHelper::save2copy('department.save2copy');
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_EDIT_TITLE'), 'organizer_departments');
+            JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

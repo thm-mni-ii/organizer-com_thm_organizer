@@ -22,9 +22,10 @@ class THM_OrganizerViewPlan_Pool_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_("COM_THM_ORGANIZER_PLAN_POOL_EDIT_EDIT_VIEW_TITLE"), 'organizer_plan_pools');
+        JToolbarHelper::title(JText::_("COM_THM_ORGANIZER_PLAN_POOL_EDIT_TITLE"), 'organizer_plan_pools');
         JToolbarHelper::save('plan_pool.save');
-        JToolbarHelper::cancel('plan_pool.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        $cancelText = empty($this->item->id) ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE';
+        JToolbarHelper::cancel('plan_pool.cancel', $cancelText);
     }
 
     /**

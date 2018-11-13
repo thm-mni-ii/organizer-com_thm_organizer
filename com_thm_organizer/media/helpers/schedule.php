@@ -474,19 +474,16 @@ class THM_OrganizerHelperSchedule
 
         switch ($type) {
             case 'day':
-
                 $dates = ['startDate' => $date, 'endDate' => $date];
                 break;
 
             case 'week':
-
                 $startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
                 $endDate   = date('Y-m-d', strtotime("$endDayName this week", strtotime($date)));
                 $dates     = ['startDate' => $startDate, 'endDate' => $endDate];
                 break;
 
             case 'month':
-
                 $monthStart = date('Y-m-d', strtotime('first day of this month', strtotime($date)));
                 $startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
                 $monthEnd   = date('Y-m-d', strtotime('last day of this month', strtotime($date)));
@@ -495,7 +492,6 @@ class THM_OrganizerHelperSchedule
                 break;
 
             case 'semester':
-
                 $dbo   = JFactory::getDbo();
                 $query = $dbo->getQuery(true);
                 $query->select('startDate, endDate')
@@ -515,7 +511,6 @@ class THM_OrganizerHelperSchedule
                 break;
 
             case 'ics':
-
                 // ICS calendars get the next 6 months of data
                 $startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
                 $previewEnd = date('Y-m-d', strtotime('+6 month', strtotime($date)));

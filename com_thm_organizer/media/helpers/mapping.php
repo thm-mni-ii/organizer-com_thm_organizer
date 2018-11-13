@@ -28,7 +28,7 @@ class THM_OrganizerHelperMapping
         $dbo      = JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'"];
-        $text     = $query->concatenate($parts, "") . " As text";
+        $text     = $query->concatenate($parts, "") . " AS text";
         $query->select("dp.id AS value, $text");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
@@ -336,7 +336,7 @@ class THM_OrganizerHelperMapping
         $dbo      = JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'"];
-        $text     = $query->concatenate($parts, "") . " As text";
+        $text     = $query->concatenate($parts, "") . " AS text";
         $query->select($text);
         $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
@@ -380,7 +380,7 @@ class THM_OrganizerHelperMapping
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", "d.abbreviation", "' '", "dp.version", "')'"];
-        $select   = "DISTINCT " . $query->concatenate($parts, "") . " As name, dp.id AS id";
+        $select   = "DISTINCT " . $query->concatenate($parts, "") . " AS name, dp.id AS id";
         $query->select($select);
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
@@ -494,7 +494,7 @@ class THM_OrganizerHelperMapping
 
         $shortTag  = THM_OrganizerHelperLanguage::getShortTag();
         $nameQuery = $dbo->getQuery(true);
-        $nameQuery->select("DISTINCT p.name_$shortTag As name");
+        $nameQuery->select("DISTINCT p.name_$shortTag AS name");
         $nameQuery->from('#__thm_organizer_pools AS p');
         $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
 

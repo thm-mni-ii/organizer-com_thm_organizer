@@ -664,7 +664,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
         switch ($category) {
             case 'Aufteilung des Arbeitsaufwands':
-
                 // There are int fields handled elsewhere for this hopefully.
                 if (empty($this->crp)) {
                     $this->setExpenditures($subject, $germanText);
@@ -672,77 +671,65 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 break;
 
             case 'Lehrformen':
-
                 $this->setAttribute($subject, "method_de", $germanText);
                 $this->setAttribute($subject, "method_en", $englishText);
                 break;
 
             case 'Voraussetzungen für die Vergabe von Creditpoints':
-
                 $this->setAttribute($subject, "proof_de", $germanText);
                 $this->setAttribute($subject, "proof_en", $englishText);
                 break;
 
             case 'Kurzbeschreibung':
-
                 $this->setAttribute($subject, "description_de", $germanText);
                 $this->setAttribute($subject, "description_en", $englishText);
                 break;
 
             case 'Literatur':
-
                 // This should never have been implemented with multiple languages
                 $litText = empty($germanText) ? $englishText : $germanText;
                 $this->setAttribute($subject, 'literature', $litText);
                 break;
 
             case 'Qualifikations und Lernziele':
-
                 $this->setAttribute($subject, "objective_de", $germanText);
                 $this->setAttribute($subject, "objective_en", $englishText);
                 break;
 
             case 'Inhalt':
-
                 $this->setAttribute($subject, "content_de", $germanText);
                 $this->setAttribute($subject, "content_en", $englishText);
                 break;
 
             case 'Voraussetzungen':
-
                 $this->setAttribute($subject, "prerequisites_de", $germanText);
                 $this->setAttribute($subject, "prerequisites_en", $englishText);
 
                 break;
 
             case 'Empfohlene Voraussetzungen':
-
                 $this->setAttribute($subject, "recommended_prerequisites_de", $germanText);
                 $this->setAttribute($subject, "recommended_prerequisites_en", $englishText);
 
                 break;
 
             case 'Verwendbarkeit des Moduls':
-
                 $this->setAttribute($subject, "used_for_de", $germanText);
                 $this->setAttribute($subject, "used_for_en", $englishText);
 
                 break;
 
             case 'Prüfungsvorleistungen':
-
                 $this->setAttribute($subject, "preliminary_work_de", $germanText);
                 $this->setAttribute($subject, "preliminary_work_en", $englishText);
                 break;
 
             case 'Studienhilfsmittel':
-
                 $this->setAttribute($subject, "aids_de", $germanText);
                 $this->setAttribute($subject, "aids_en", $englishText);
                 break;
 
             case 'Bewertung, Note':
-
                 $this->setAttribute($subject, "evaluation_de", $germanText);
                 $this->setAttribute($subject, "evaluation_en", $englishText);
                 break;

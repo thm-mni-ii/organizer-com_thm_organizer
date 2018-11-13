@@ -22,15 +22,13 @@ class THM_OrganizerViewDegree_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        if ($this->form->getValue('id') == 0) {
-            $title      = JText::_('COM_THM_ORGANIZER_DEGREE_EDIT_NEW_VIEW_TITLE');
-            $cancelText = JText::_('COM_THM_ORGANIZER_ACTION_CANCEL');
-        } else {
-            $title      = JText::_('COM_THM_ORGANIZER_DEGREE_EDIT_EDIT_VIEW_TITLE');
-            $cancelText = JText::_('COM_THM_ORGANIZER_CLOSE');
-        }
-        JToolbarHelper::title($title, 'organizer_degrees');
         JToolbarHelper::save('degree.save');
-        JToolbarHelper::cancel('degree.cancel', $cancelText);
+        if ($this->form->getValue('id') == 0) {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEGREE_EDIT_NEW_TITLE'), 'organizer_degrees');
+            JToolbarHelper::cancel('degree.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEGREE_EDIT_EDIT_TITLE'), 'organizer_degrees');
+            JToolbarHelper::cancel('degree.cancel', 'JTOOLBAR_CLOSE');
+        }
     }
 }

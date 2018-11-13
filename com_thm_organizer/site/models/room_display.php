@@ -181,7 +181,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * @return array an array of teachers in the form id => 'surname(s), forename(s)'
      */
     private function getEventTeachers(&$instanceTeachers)
-    {#
+    {
         $teachers = [];
 
         foreach ($instanceTeachers as $teacherID => $delta) {

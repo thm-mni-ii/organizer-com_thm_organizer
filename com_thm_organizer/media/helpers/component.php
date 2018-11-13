@@ -565,14 +565,14 @@ class THM_OrganizerHelperComponent
             $selected = (string)$option['selected'];
             $selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
-            $tmp = array(
+            $tmp = [
                 'value'    => $value,
                 'text'     => $lang->_($text),
                 'disable'  => $disabled,
                 'class'    => (string)$option['class'],
                 'selected' => ($checked || $selected),
                 'checked'  => ($checked || $selected),
-            );
+            ];
 
             $options[] = $tmp;
         }

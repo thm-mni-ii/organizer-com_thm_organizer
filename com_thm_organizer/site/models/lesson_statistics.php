@@ -29,7 +29,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
     public $total = [];
 
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         parent::__construct($config);
 

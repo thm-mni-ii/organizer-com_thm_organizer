@@ -22,21 +22,17 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        if (empty($this->item->id)) {
-            $titleText  = JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_NEW_VIEW_TITLE');
-            $applyText  = JText::_('COM_THM_ORGANIZER_CREATE');
-            $cancelText = JText::_('JTOOLBAR_CANCEL');
-        } else {
-            $titleText  = JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_EDIT_VIEW_TITLE');
-            $applyText  = JText::_('COM_THM_ORGANIZER_APPLY');
-            $cancelText = JText::_('JTOOLBAR_CLOSE');
-        }
-
-        JToolbarHelper::title($titleText, 'organizer_subjects');
-        JToolbarHelper::apply('subject.apply', $applyText);
         JToolbarHelper::save('subject.save');
         JToolbarHelper::save2new('subject.save2new');
-        JToolbarHelper::cancel('subject.cancel', $cancelText);
+        if (empty($this->item->id)) {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_NEW_TITLE'), 'organizer_subjects');
+            JToolbarHelper::apply('subject.apply', JText::_('COM_THM_ORGANIZER_CREATE'));
+            JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_EDIT_TITLE'), 'organizer_subjects');
+            JToolbarHelper::apply('subject.apply', JText::_('COM_THM_ORGANIZER_APPLY'));
+            JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CLOSE');
+        }
     }
 
     /**

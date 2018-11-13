@@ -33,7 +33,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $type       = $input->get("type", 0);
         $validTypes = [0, 1, 2];
 
-        if (empty($lessonID) OR !in_array($type, $validTypes)) {
+        if (empty($lessonID) or !in_array($type, $validTypes)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
         }
 

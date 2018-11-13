@@ -16,6 +16,10 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerHelperParticipants
 {
+    const WAIT_LIST = 0;
+    const REGISTERED = 1;
+    const REMOVED = 2;
+
     /**
      * Changes a participants state.
      *
@@ -31,12 +35,8 @@ class THM_OrganizerHelperParticipants
         $lang = THM_OrganizerHelperLanguage::getLanguage();
 
         switch ($state) {
-            // Pending / Wait List
-            case 0:
-
-                // Registered
-            case 1:
-
+            case self::WAIT_LIST:
+            case self::REGISTERED:
                 JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
                 $table = JTable::getInstance('user_lessons', 'THM_OrganizerTable');
 
@@ -57,9 +57,7 @@ class THM_OrganizerHelperParticipants
 
                 break;
 
-            // Removed
-            case 2:
-
+            case self::REMOVED:
                 $dbo   = JFactory::getDbo();
                 $query = $dbo->getQuery(true);
                 $query->delete("#__thm_organizer_user_lessons");

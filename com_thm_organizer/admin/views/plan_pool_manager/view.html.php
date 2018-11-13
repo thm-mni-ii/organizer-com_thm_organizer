@@ -38,9 +38,9 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
         }
 
         // Set batch template path
-        $this->batch = array(
+        $this->batch = [
             'publishing' => JPATH_COMPONENT_ADMINISTRATOR . '/views/plan_pool_manager/tmpl/default_publishing.php'
-        );
+        ];
 
         parent::display($tpl);
     }

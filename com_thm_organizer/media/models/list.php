@@ -31,7 +31,7 @@ abstract class THM_OrganizerModelList extends JModelList
      *
      * @throws Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($config);
 

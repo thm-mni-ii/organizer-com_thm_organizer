@@ -22,9 +22,9 @@ class THM_OrganizerViewPlan_Program_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_("COM_THM_ORGANIZER_PLAN_PROGRAM_EDIT_EDIT_VIEW_TITLE"),
-            'organizer_plan_programs');
+        JToolbarHelper::title(JText::_("COM_THM_ORGANIZER_PLAN_PROGRAM_EDIT_TITLE"), 'organizer_plan_programs');
         JToolbarHelper::save('plan_program.save');
-        JToolbarHelper::cancel('plan_program.cancel', $this->item->id == 0 ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        $cancelText = empty($this->item->id) ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE';
+        JToolbarHelper::cancel('plan_program.cancel', $cancelText);
     }
 }

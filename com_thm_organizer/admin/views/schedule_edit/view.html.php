@@ -23,8 +23,7 @@ class THM_OrganizerViewSchedule_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        $title = JText::_('COM_THM_ORGANIZER_SCHEDULE_EDIT_NEW_VIEW_TITLE');
-        JToolbarHelper::title($title, "organizer_schedules");
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_EDIT_TITLE'), "organizer_schedules");
         JToolbarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_ACTION_UPLOAD', false);
         JToolbarHelper::cancel('schedule.cancel');
     }

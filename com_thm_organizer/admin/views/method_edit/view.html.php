@@ -22,13 +22,14 @@ class THM_OrganizerViewMethod_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        $isNew = ($this->item->id == 0);
-        $title = $isNew ?
-            JText::_('COM_THM_ORGANIZER_METHOD_EDIT_NEW_VIEW_TITLE')
-            : JText::_('COM_THM_ORGANIZER_METHOD_EDIT_EDIT_VIEW_TITLE');
-        JToolbarHelper::title($title, 'organizer_methods');
         JToolbarHelper::apply('method.apply');
         JToolbarHelper::save('method.save');
-        JToolbarHelper::cancel('method.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        if (empty($this->item->id)) {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_METHOD_EDIT_NEW_TITLE'), 'organizer_methods');
+            JToolbarHelper::cancel('method.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_METHOD_EDIT_EDIT_TITLE'), 'organizer_methods');
+            JToolbarHelper::cancel('method.cancel', 'JTOOLBAR_CLOSE');
+        }
     }
 }

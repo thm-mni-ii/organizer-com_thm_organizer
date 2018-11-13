@@ -85,7 +85,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         foreach ($this->results as $strength => $sResults) {
             foreach ($sResults as $resource => $rResults) {
-                usort($this->results[$strength][$resource], array('THM_OrganizerModelSearch', 'sortItems'));
+                usort($this->results[$strength][$resource], ['THM_OrganizerModelSearch', 'sortItems']);
             }
         }
     }
@@ -727,7 +727,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $pools = [];
 
 
-            foreach ($programs As $program) {
+            foreach ($programs as $program) {
                 $ppQuery->clear('select');
                 $ppQuery->clear('where');
                 $pQuery->clear('select');

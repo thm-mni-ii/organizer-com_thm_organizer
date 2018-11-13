@@ -59,7 +59,6 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
         switch ($format) {
             case 'xls':
-
                 $this->setRoomTypes();
                 $this->setRooms();
                 $this->setGrid();

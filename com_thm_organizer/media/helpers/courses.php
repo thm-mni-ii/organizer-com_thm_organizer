@@ -189,7 +189,7 @@ class THM_OrganizerHelperCourses
 
         if (empty($course['abstractCampusID']) and empty($course['campusID'])) {
             $campus = ['id' => '', 'name' => THM_OrganizerHelperCampuses::getName()];
-        } elseif (empty($course['campusID']) OR $course['abstractCampusID'] == $course['campusID']) {
+        } elseif (empty($course['campusID']) or $course['abstractCampusID'] == $course['campusID']) {
             $campus         = ['id' => $course['abstractCampusID']];
             $campus['name'] = $redundant ? THM_OrganizerHelperCampuses::getName($course['abstractCampusID']) : null;
         } else {
@@ -393,7 +393,7 @@ class THM_OrganizerHelperCourses
             ->where("delta != 'removed'");
 
         // Restrictions
-        if ($mode == self::PERIOD_MODE OR $mode == self::INSTANCE_MODE) {
+        if ($mode == self::PERIOD_MODE or $mode == self::INSTANCE_MODE) {
             $query->where("cal.startTime = '$calReference->startTime'");
             $query->where("cal.endTime = '$calReference->endTime'");
 

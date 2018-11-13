@@ -146,7 +146,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             $mappingExists = $mappingsTable->load(['parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id]);
 
             if ($mappingExists) {
-                if ($blocked OR $invalidTitle) {
+                if ($blocked or $invalidTitle) {
                     return $this->deleteEntry($mappingsTable->id);
                 }
 
@@ -169,7 +169,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             return true;
         }
 
-        if ($blocked OR $invalidTitle) {
+        if ($blocked or $invalidTitle) {
             return true;
         }
 

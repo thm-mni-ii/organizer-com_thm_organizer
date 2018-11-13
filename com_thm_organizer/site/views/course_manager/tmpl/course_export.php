@@ -93,8 +93,8 @@ abstract class THM_OrganizerTemplateCourse_Export
         $subHeader        = "$location$dates\n$participants: $participantCount";
 
         $this->document->SetHeaderData('thm_logo.png', '50', $header, $subHeader);
-        $this->document->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $this->document->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        $this->document->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+        $this->document->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
         $this->document->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
         $this->document->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         $this->document->SetHeaderMargin(PDF_MARGIN_HEADER);

@@ -258,7 +258,6 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $dependencies = [];
         switch ($type) {
             case 'pre':
-
                 if (empty($this->item->preSubjects)) {
                     return '';
                 }
@@ -268,7 +267,6 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
                 break;
 
             case 'post':
-
                 if (empty($this->item->postSubjects)) {
                     return '';
                 }

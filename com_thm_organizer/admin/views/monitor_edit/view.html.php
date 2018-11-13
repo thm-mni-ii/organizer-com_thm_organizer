@@ -22,11 +22,14 @@ class THM_OrganizerViewMonitor_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        $title = ($this->form->getValue('id')) ?
-            JText::_('COM_THM_ORGANIZER_MONITOR_EDIT_EDIT_VIEW_TITLE') : JText::_('COM_THM_ORGANIZER_MONITOR_EDIT_NEW_VIEW_TITLE');
-        JToolbarHelper::title($title, 'organizer_monitors');
         JToolbarHelper::save('monitor.save');
         JToolbarHelper::save2new('monitor.save2new');
-        JToolbarHelper::cancel('monitor.cancel');
+        if ($this->form->getValue('id') == 0) {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MONITOR_EDIT_NEW_TITLE'), 'organizer_monitors');
+            JToolbarHelper::cancel('monitor.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MONITOR_EDIT_EDIT_TITLE'), 'organizer_monitors');
+            JToolbarHelper::cancel('monitor.cancel', 'JTOOLBAR_CLOSE');
+        }
     }
 }

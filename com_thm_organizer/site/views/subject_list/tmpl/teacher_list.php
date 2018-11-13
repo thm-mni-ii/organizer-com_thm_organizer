@@ -14,6 +14,9 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerTemplateTeacherList
 {
+    const RESPONSIBLE = 1;
+    const TEACHES = 2;
+
     /**
      * Renders subject information
      *
@@ -35,13 +38,11 @@ class THM_OrganizerTemplateTeacherList
                 $isTeacher     = (isset($subject->teachers[2]) and array_key_exists($teacherID, $subject->teachers[2]));
 
                 switch ($view->params->get('teacherResp', 0)) {
-                    case 1:
-
+                    case self::RESPONSIBLE:
                         $relevant = $isResponsible;
                         break;
 
-                    case 2:
-
+                    case self::TEACHES:
                         $relevant = $isTeacher;
                         break;
 

@@ -75,17 +75,14 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
 
             switch ($item->propertyType) {
                 case self::OWNED:
-
                     $propertyType = JText::_('COM_THM_ORGANIZER_OWNED');
                     break;
 
                 case self::RENTED:
-
                     $propertyType = JText::_('COM_THM_ORGANIZER_RENTED');
                     break;
 
                 case self::USED:
-
                     $propertyType = JText::_('COM_THM_ORGANIZER_USED');
                     break;
 
