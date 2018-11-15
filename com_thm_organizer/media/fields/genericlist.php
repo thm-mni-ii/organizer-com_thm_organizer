@@ -56,8 +56,16 @@ class JFormFieldGenericList extends JFormFieldList
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
-            $html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value,
-                $this->id);
+            $html[] = JHtml::_(
+                'select.genericlist',
+                $options,
+                '',
+                trim($attr),
+                'value',
+                'text',
+                $this->value,
+                $this->id
+            );
 
             // E.g. form field type tag sends $this->value as array
             if ($this->multiple && is_array($this->value)) {
@@ -66,17 +74,25 @@ class JFormFieldGenericList extends JFormFieldList
                 }
 
                 foreach ($this->value as $value) {
-                    $html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value,
-                            ENT_COMPAT, 'UTF-8') . '"/>';
+                    $value  = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
+                    $html[] = '<input type="hidden" name="' . $this->name . '" value="' . $value . '"/>';
                 }
             } else {
-                $html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value,
-                        ENT_COMPAT, 'UTF-8') . '"/>';
+                $value  = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
+                $html[] = '<input type="hidden" name="' . $this->name . '" value="' . $value . '"/>';
             }
         } else // Create a regular list.
         {
-            $html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value,
-                $this->id);
+            $html[] = JHtml::_(
+                'select.genericlist',
+                $options,
+                $this->name,
+                trim($attr),
+                'value',
+                'text',
+                $this->value,
+                $this->id
+            );
         }
 
         return implode($html);

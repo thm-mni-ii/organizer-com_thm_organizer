@@ -334,8 +334,13 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 
             if ($showSegment) {
                 $headerString = JText::_($timeConstant) . "$startDateText - $endDateText";
-                $this->document->SetHeaderData('thm.svg', 40, $this->parameters['pageTitle'], $headerString,
-                    [57, 74, 89]);
+                $this->document->SetHeaderData(
+                    'thm.svg',
+                    40,
+                    $this->parameters['pageTitle'],
+                    $headerString,
+                    [57, 74, 89]
+                );
 
                 $this->outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid);
 

@@ -79,7 +79,6 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 
             case 'html':
             default:
-
                 $this->setRooms();
                 $this->setRoomTypes();
 
@@ -104,8 +103,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
             $currentDate = $pp['startDate'] < $this->startDate ? $this->startDate : $pp['startDate'];
             $endDate     = $this->endDate < $pp['endDate'] ? $this->endDate : $pp['endDate'];
 
-            for ($currentDate; $currentDate <= $endDate; $currentDate = date('Y-m-d',
-                strtotime('+1 day', strtotime($currentDate)))) {
+            for ($currentDate; $currentDate <= $endDate;) {
                 if (empty($this->calendarData[$currentDate])) {
                     continue;
                 }
@@ -120,6 +118,8 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
                         $this->setUseData($ppName, $departmentName, $roomID, $minutes);
                     }
                 }
+
+                $currentDate = date('Y-m-d', strtotime('+1 day', strtotime($currentDate)));
             }
 
             ksort($this->useData['total']);

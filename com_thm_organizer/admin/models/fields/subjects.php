@@ -79,8 +79,15 @@ class JFormFieldSubjects extends JFormField
         $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
         $selectedSubjects = empty($selected) ? [] : $selected;
 
-        return JHtml::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text",
-            $selectedSubjects);
+        return JHtml::_(
+            "select.genericlist",
+            $subjects,
+            "jform[$fieldName][]",
+            $attributes,
+            "value",
+            "text",
+            $selectedSubjects
+        );
     }
 
     /**

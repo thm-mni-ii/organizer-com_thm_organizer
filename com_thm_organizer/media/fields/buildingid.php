@@ -85,15 +85,23 @@ class JFormFieldBuildingID extends JFormFieldList
 
             // The campus name of the building being iterated comes alphabetically before the campus name of the next building
             if ($thisBuilding['campusName'] < $nextBuilding['campusName']) {
-                $options[]             = JHtml::_('select.option', $thisBuilding['id'],
-                    "{$thisBuilding['name']} ({$thisBuilding['campusName']})");
+                $options[] = JHtml::_(
+                    'select.option',
+                    $thisBuilding['id'],
+                    "{$thisBuilding['name']} ({$thisBuilding['campusName']})"
+                );
+
                 $buildings[$index + 1] = $nextBuilding;
                 continue;
             }
 
             // Set the options with the information from the next building and move this one to the next index
-            $options[]             = JHtml::_('select.option', $nextBuilding['id'],
-                "{$nextBuilding['name']} ({$nextBuilding['campusName']})");
+            $options[] = JHtml::_(
+                'select.option',
+                $nextBuilding['id'],
+                "{$nextBuilding['name']} ({$nextBuilding['campusName']})"
+            );
+
             $buildings[$index + 1] = $thisBuilding;
 
         }

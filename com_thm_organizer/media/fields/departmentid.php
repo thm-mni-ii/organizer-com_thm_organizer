@@ -60,8 +60,16 @@ class JFormFieldDepartmentID extends JFormFieldList
         require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
         $departmentIDs = THM_OrganizerHelperDepartments::getDepartmentsByResource($resource, $selected);
 
-        return JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $departmentIDs,
-            $this->id);
+        return JHtml::_(
+            'select.genericlist',
+            $options,
+            $this->name,
+            trim($attr),
+            'value',
+            'text',
+            $departmentIDs,
+            $this->id
+        );
     }
 
     /**

@@ -164,5 +164,4 @@ class THM_OrganizerModelCourse extends JModelLegacy
 
         return true;
     }
-
 }

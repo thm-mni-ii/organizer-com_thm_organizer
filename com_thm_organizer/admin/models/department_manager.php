@@ -96,13 +96,20 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction             = $this->state->get('list.direction', $this->defaultDirection);
-        $headers               = [];
-        $headers['checkbox']   = '';
-        $headers['short_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'f.field', $direction,
-            $ordering);
-        $headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction           = $this->state->get('list.direction', $this->defaultDirection);
+        $headers             = [];
+        $headers['checkbox'] = '';
+
+        $headers['short_name'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_SHORT_NAME',
+            'f.field',
+            $direction,
+            $ordering
+        );
+
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 
         return $headers;
     }

@@ -588,8 +588,11 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $links['subject_list'] = "?option=com_thm_organizer&view=subject_list&teacherIDs={$teacher['id']}";
                 }
 
-                $overlap   = array_intersect($this->schedDepts,
-                    THM_OrganizerHelperTeachers::getDepartmentIDs($teacher['id']));
+                $overlap   = array_intersect(
+                    $this->schedDepts,
+                    THM_OrganizerHelperTeachers::getDepartmentIDs($teacher['id'])
+                );
+
                 $isTeacher = $this->teacherID == $teacher['id'];
                 if ($teaches and (count($overlap) or $isTeacher)) {
                     $links['schedule'] = "?option=com_thm_organizer&view=schedule&teacherIDs={$teacher['id']}";

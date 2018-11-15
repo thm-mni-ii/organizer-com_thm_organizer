@@ -118,8 +118,8 @@ class THM_OrganizerHelperLanguage
             if ($current != $tag) {
                 $params['languageTag'] = $tag;
 
-                $mechanism = $link ? 'href="index.php?' . JUri::buildQuery($params) . '"' : str_replace('XX', $tag,
-                    $js);
+                $mechanism = $link ?
+                    'href="index.php?' . JUri::buildQuery($params) . '"' : str_replace('XX', $tag, $js);
 
                 $switch = '<a ' . $mechanism . '">';
                 $switch .= '<span class="icon-world"></span> ' . self::getLanguage()->_($constant);

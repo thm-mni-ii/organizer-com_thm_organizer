@@ -124,8 +124,10 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
             $return[$index]['programID'] = $programName;
             if (!empty($item->field)) {
                 if (!empty($item->color)) {
-                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField($item->field,
-                        $item->color);
+                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField(
+                        $item->field,
+                        $item->color
+                    );
                 } else {
                     $return[$index]['fieldID'] = $item->field;
                 }
@@ -207,8 +209,13 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         $resourceID = empty($list['type']) ? $postID : $list['id'];
         $this->setState('list.id', $resourceID);
 
-        $filter = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [],
-            'array');
+        $filter = JFactory::getApplication()->getUserStateFromRequest(
+            $this->context . '.filter',
+            'filter',
+            [],
+            'array'
+        );
+
         if (!empty($filter['name'])) {
             $this->setState('filter.p.name', $filter['name']);
         } else {

@@ -104,9 +104,13 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
             $campusOptions[$this->state->get('campusID')] = THM_OrganizerHelperCampuses::getName($this->state->get('campusID'));
         }
 
-        $this->filters['campusID']
-            = THM_OrganizerHelperComponent::selectBox($campusOptions, 'campusID', $attribs,
-            $this->state->get('campusID'), $default);
+        $this->filters['campusID'] = THM_OrganizerHelperComponent::selectBox(
+            $campusOptions,
+            'campusID',
+            $attribs,
+            $this->state->get('campusID'),
+            $default
+        );
 
         if (THM_OrganizerHelperCourses::authorized()) {
             $activeOptions = [
@@ -116,16 +120,23 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
                 "expired" => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
             ];
 
-            $this->filters['status']
-                = THM_OrganizerHelperComponent::selectBox($activeOptions, 'status', $attribs,
-                $this->state->get('status'));
+            $this->filters['status'] = THM_OrganizerHelperComponent::selectBox(
+                $activeOptions,
+                'status',
+                $attribs,
+                $this->state->get('status')
+            );
 
             $subjectOptions = THM_OrganizerHelperCourses::prepCourseList();
             $default        = [0 => $lang->_("COM_THM_ORGANIZER_ALL_COURSES")];
 
-            $this->filters['subjectID']
-                = THM_OrganizerHelperComponent::selectBox($subjectOptions, 'subjectID', $attribs,
-                $this->state->get('subjectID'), $default);
+            $this->filters['subjectID'] = THM_OrganizerHelperComponent::selectBox(
+                $subjectOptions,
+                'subjectID',
+                $attribs,
+                $this->state->get('subjectID'),
+                $default
+            );
         }
 
     }

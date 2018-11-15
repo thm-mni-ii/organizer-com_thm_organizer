@@ -38,5 +38,4 @@ class THM_OrganizerTemplateEdit_Basic
         </form>
         <?php
     }
-
 }

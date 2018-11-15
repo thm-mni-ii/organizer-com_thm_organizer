@@ -169,7 +169,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
                 strtotime("+1 day", strtotime($currentDate)))) {
                 $dow        = date('w', strtotime($currentDate));
-                $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
+                $validIndex = (!empty($columnHeaders[$currentDate])
+                    and $dow >= (int)$this->parameters['startDay']
+                    and $dow <= (int)$this->parameters['endDay']);
                 if ($validIndex) {
                     // Small horizontal spacer
                     $this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
@@ -187,8 +189,18 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                         $this->parameters['dataWidth'],
                         $cellHeight,
                         $dataText,
-                        $border, 'C', 0, 0, '', '', true, 0, false, true,
-                        $cellHeight, 'M'
+                        $border,
+                        'C',
+                        0,
+                        0,
+                        '',
+                        '',
+                        true,
+                        0,
+                        false,
+                        true,
+                        $cellHeight,
+                        'M'
                     );
                 }
             }
@@ -217,17 +229,33 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         $this->document->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [0, 0, 0]]);
 
         if ($outputTimeGrid) {
-            $this->document->MultiCell($this->parameters['timeWidth'], 0, JText::_('COM_THM_ORGANIZER_TIME'), 'TB', 'C',
-                0, 0);
+            $this->document->MultiCell(
+                $this->parameters['timeWidth'],
+                0,
+                JText::_('COM_THM_ORGANIZER_TIME'),
+                'TB',
+                'C',
+                0,
+                0
+            );
         }
 
         for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
             strtotime("+1 day", strtotime($currentDate)))) {
             $dow        = date('w', strtotime($currentDate));
-            $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
+            $validIndex = (!empty($columnHeaders[$currentDate])
+                and $dow >= (int)$this->parameters['startDay']
+                and $dow <= (int)$this->parameters['endDay']);
             if ($validIndex) {
-                $this->document->MultiCell($this->parameters['dataWidth'] + 1, 0, $columnHeaders[$currentDate]['text'],
-                    'TB', 'C', 0, 0);
+                $this->document->MultiCell(
+                    $this->parameters['dataWidth'] + 1,
+                    0,
+                    $columnHeaders[$currentDate]['text'],
+                    'TB',
+                    'C',
+                    0,
+                    0
+                );
             }
         }
 
@@ -263,8 +291,18 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             $this->parameters['timeWidth'],
             $height,
             $text,
-            0, 'C', 0, 0, '', '', true, 0, false, true,
-            $height, 'M'
+            0,
+            'C',
+            0,
+            0,
+            '',
+            '',
+            true,
+            0,
+            false,
+            true,
+            $height,
+            'M'
         );
     }
 
@@ -346,8 +384,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                 $this->outputTimeCell($cellHeight, $timeText);
                 $outputTime = false;
 
-                for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
-                    strtotime("+1 day", strtotime($currentDate)))) {
+                for ($currentDate = $startDate; $currentDate != $breakDate;) {
                     $dow        = date('w', strtotime($currentDate));
                     $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
                     if ($validIndex) {
@@ -367,10 +404,22 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                             $this->parameters['dataWidth'],
                             $cellHeight,
                             $dataText,
-                            $border, 'C', 0, 0, '', '', true, 0, false, true,
-                            $cellHeight, 'M'
+                            $border,
+                            'C',
+                            0,
+                            0,
+                            '',
+                            '',
+                            true,
+                            0,
+                            false,
+                            true,
+                            $cellHeight,
+                            'M'
                         );
                     }
+
+                    $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
                 }
 
                 $this->document->Ln();
@@ -426,8 +475,24 @@ class THM_OrganizerTCPDFScheduleA4 extends TCPDF
             // Plan format and date
             $this->SetFont($headerFont[0], $headerFont[1], $headerFont[2]);
             $this->SetX($header_x);
-            $this->MultiCell($cw, $cell_height, $headerData['string'], 0, '', 0, 1, '', '', true, 0, false, true, 0,
-                'T', false);
+            $this->MultiCell(
+                $cw,
+                $cell_height,
+                $headerData['string'],
+                0,
+                '',
+                0,
+                1,
+                '',
+                '',
+                true,
+                0,
+                false,
+                true,
+                0,
+                'T',
+                false
+            );
 
             $this->endTemplate();
         }
@@ -449,7 +514,7 @@ class THM_OrganizerTCPDFScheduleA4 extends TCPDF
         // Set font
         $this->SetFont('helvetica', 'I', 7);
         // Page number
-        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0,
-            false, 'T', 'M');
+        $pagination = 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages();
+        $this->Cell(0, 10, $pagination, 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 }

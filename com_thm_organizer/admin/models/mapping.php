@@ -571,8 +571,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
             try {
                 $results = $dbo->loadAssocList();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return [];
             }
@@ -800,8 +802,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
             try {
                 $maxRgt = $dbo->loadResult();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return false;
             }

@@ -132,8 +132,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             try {
                 $success = $table->load($poolID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
 
                 return [];
             }
@@ -235,8 +237,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             try {
                 $success = $table->load($roomID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
 
                 return [];
             }
@@ -291,8 +295,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             try {
                 $subjectNames = $this->_db->loadAssoc();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
 
                 return $titles;
             }
@@ -369,8 +375,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             try {
                 $success = $table->load($teacherID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
 
                 return [];
             }

@@ -241,8 +241,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $this->document->Circle($xOffset + 47, $circleY, 9);
 
         $this->document->SetFont('', '', 6);
-        $this->document->Text($xOffset + 60, $representativeY,
-            $this->lang->_('COM_THM_ORGANIZER_REPRESENTATIVE'));
+        $this->document->Text($xOffset + 60, $representativeY, $this->lang->_('COM_THM_ORGANIZER_REPRESENTATIVE'));
 
         if (!empty($params->get('signatureFile'))) {
             $signaturePath = K_PATH_IMAGES . $params->get('signatureFile');

@@ -55,129 +55,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     }
 
     /**
-     * Sets object properties
-     *
-     * @return void
-     * @throws Exception
-     */
-    private function setObjectProperties()
-    {
-        $this->params = JFactory::getApplication()->getParams();
-        $departmentID = $this->params->get('departmentID', 0);
-        if (!empty($departmentID)) {
-            $this->setDepartmentName($departmentID);
-        }
-
-        $input                        = JFactory::getApplication()->input;
-        $this->reset                  = $input->getBool('reset', false);
-        $this->selected               = [];
-        $this->teachers               = [];
-        $this->irrelevant['methods']  = ['KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG'];
-        $this->irrelevant['teachers'] = ['NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW'];
-        $this->irrelevant['pools']    = ['TERMINE.'];
-        $this->irrelevant['subjects'] = ['NN.'];
-        $this->setSchedule();
-    }
-
-    /**
-     * Resolves the department id to its name
-     *
-     * @param int $departmentID the id of the department
-     *
-     * @return void  sets the object variable $departmentName on success
-     * @throws Exception
-     */
-    private function setDepartmentName($departmentID)
-    {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-
-        $dbo   = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
-        $dbo->setQuery($query);
-        try {
-            $departmentName       = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
-            $this->departmentName = $departmentName . ' ' . $dbo->loadResult();
-
-            return;
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return;
-        }
-    }
-
-    /**
-     * Gets all schedules in the database
-     *
-     * @return array An array with the schedules
-     * @throws Exception
-     */
-    public function getDepartmentSchedules()
-    {
-        $query   = $this->_db->getQuery(true);
-        $columns = ['departmentname', 'semestername'];
-        $name    = [$query->concatenate($columns, ' - '), ' SUBSTRING(endDate, 3, 2)'];
-        $select  = 'id, ' . $query->concatenate($name) . ' AS name';
-        $query->select($select);
-        $query->from("#__thm_organizer_schedules");
-        $query->where("active = '1'");
-
-        $departmentID = $this->params->get('departmentID', 0);
-        if (!empty($departmentID)) {
-            $query->where("departmentID = '$departmentID'");
-        }
-
-        $query->order('name');
-
-        $this->_db->setQuery($query);
-        try {
-            $results = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
-
-        if (empty($results)) {
-            return [];
-        }
-
-        foreach ($results as $key => $value) {
-            $canManage = THM_OrganizerHelperComponent::allowResourceManage('schedule', $value['id']);
-            if (!$canManage) {
-                unset($results[$key]);
-            }
-        }
-
-        return $results;
-    }
-
-    /**
-     * Method to set a schedule by its id from the database
-     *
-     * @return void sets the instance's schedule variable
-     * @throws Exception
-     */
-    public function setSchedule()
-    {
-        $this->scheduleID = JFactory::getApplication()->input->getInt('scheduleID', 0);
-        $query            = $this->_db->getQuery(true);
-        $query->select('schedule');
-        $query->from("#__thm_organizer_schedules");
-        $query->where("id = '$this->scheduleID'");
-        $this->_db->setQuery($query);
-
-        try {
-            $result         = $this->_db->loadResult();
-            $this->schedule = json_decode($result);
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-            $this->schedule = null;
-        }
-    }
-
-    /**
      * Calculates resource consumption from a schedule
      *
      * @return void sets the instance's lesson values variable
@@ -204,308 +81,34 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     }
 
     /**
-     * Sets consumption by instance (block + lesson)
+     * Checks for the cross department deputat of teachers belonging to the department
      *
-     * @param object &$schedule the schedule being processed
-     * @param string $day       the day being iterated
-     * @param object &$blocks   the blocks of the date being iterated
-     * @param array  &$teachers teachers to compare against if the schedule is not the original
+     * @param array  $teachers  the teachers listed in the original schedule
+     * @param string $startDate the start date of the original schedule
+     * @param string $endDate   the end date of the original schedule
      *
-     * @return void
+     * @return void  adds deputat to the lesson values array
+     * @throws Exception
      */
-    private function resolveTime(&$schedule, $day, &$blocks, &$teachers = null)
+    private function checkOtherSchedules($teachers, $startDate, $endDate)
     {
-        $seconds = 2700;
-        foreach ($blocks as $blockNumber => $blockLessons) {
-            foreach ($blockLessons as $lessonID => $lessonValues) {
-                // The lesson is no longer relevant
-                if (isset($lessonValues->delta) and $lessonValues->delta == 'removed') {
+        $schedulesIDs = $this->getPlausibleScheduleIDs($startDate, $endDate);
+        if (empty($schedulesIDs)) {
+            return;
+        }
+
+        foreach ($schedulesIDs as $scheduleID) {
+            $schedule = $this->getSchedule($scheduleID);
+            foreach ($schedule->calendar as $day => $blocks) {
+                if ($day < $startDate or $day > $endDate) {
                     continue;
                 }
 
-                // Calculate the scholastic hours (45 minutes)
-                $gridBlock = $schedule->periods->{$schedule->lessons->$lessonID->grid}->$blockNumber;
-                $startTime = $gridBlock->startTime;
-                $startDT   = strtotime(substr($startTime, 0, 2) . ':' . substr($startTime, 2, 2) . ':00');
-                $endTime   = $gridBlock->endTime;
-                $endDT     = strtotime(substr($endTime, 0, 2) . ':' . substr($endTime, 2, 2) . ':00');
-                $hours     = ($endDT - $startDT) / $seconds;
-
-                $this->setDeputatByInstance($schedule, $day, $blockNumber, $lessonID, $hours, $teachers);
-            }
-        }
-    }
-
-    /**
-     * Iterates the lesson associated pools for the purpose of teacher consumption
-     *
-     * @param object &$schedule   the schedule being processed
-     * @param string $day         the day being iterated
-     * @param int    $blockNumber the block number being iterated
-     * @param string $lessonID    the lesson ID
-     * @param int    $hours       the number of school hours for the lesson
-     * @param array  &$teachers   teachers to compare against if the schedule is not the original
-     *
-     * @return void
-     */
-    private function setDeputatByInstance(&$schedule, $day, $blockNumber, $lessonID, $hours, &$teachers = null)
-    {
-        $scheduleTeachers = $schedule->lessons->$lessonID->teachers;
-        foreach ($scheduleTeachers as $teacherID => $teacherDelta) {
-            if ($teacherDelta == 'removed') {
-                continue;
+                $this->resolveTime($schedule, $day, $blocks, $teachers);
             }
 
-            /**
-             * The function was called during the iteration of the schedule of another department. Only the teachers
-             * from the original are relevant.
-             */
-            if (!empty($teachers) and !in_array($teacherID, $teachers)) {
-                continue;
-            }
-
-            $irrelevant = false;
-            foreach ($this->irrelevant['teachers'] as $prefix) {
-                if (strpos($teacherID, $prefix) === 0) {
-                    $irrelevant = true;
-                    break;
-                }
-            }
-
-            if (!$irrelevant) {
-                $this->setDeputat($schedule, $day, $blockNumber, $lessonID, $teacherID, $hours);
-            }
+            unset($schedule);
         }
-    }
-
-    /**
-     * Sets the pertinent deputat information
-     *
-     * @param object &$schedule   the schedule being processed
-     * @param string $day         the day being iterated
-     * @param int    $blockNumber the block number being iterated
-     * @param string $lessonID    the lesson being iterated
-     * @param string $teacherID   the teacher being iterated
-     * @param int    $hours       the number of school hours for the lesson
-     *
-     * @return void  sets object values
-     */
-    private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $teacherID, $hours = 0)
-    {
-        $subjectIsRelevant = $this->isSubjectRelevant($schedule, $lessonID);
-        $lessonType        = $this->getType($schedule, $lessonID);
-
-        $invalidLesson = (!$subjectIsRelevant or $lessonType === false);
-        if ($invalidLesson) {
-            return;
-        }
-
-        if (empty($this->lessonValues[$lessonID])) {
-            $this->lessonValues[$lessonID] = [];
-        }
-
-        $this->setLessonTeacher($schedule, $lessonID, $teacherID);
-
-        // Tallied items have flat payment values and are correspondingly not tracked as accurately.
-        $isTallied = $this->isTallied($schedule, $lessonID);
-        if ($isTallied) {
-            $this->lessonValues[$lessonID][$teacherID]['type'] = 'tally';
-
-            return;
-        }
-
-        $pools = $this->getPools($schedule, $lessonID, $teacherID);
-        if (empty($pools)) {
-            unset($this->lessonValues[$lessonID]);
-
-            return;
-        }
-
-        $this->lessonValues[$lessonID][$teacherID]['type']       = 'summary';
-        $this->lessonValues[$lessonID][$teacherID]['lessonType'] = $lessonType;
-        $this->lessonValues[$lessonID][$teacherID]['pools']      = $pools;
-        if (!isset($this->lessonValues[$lessonID][$teacherID]['periods'])) {
-            $this->lessonValues[$lessonID][$teacherID]['periods'] = [];
-        }
-
-        if (!isset($this->lessonValues[$lessonID][$teacherID]['startDate'])) {
-            $this->lessonValues[$lessonID][$teacherID]['startDate'] = THM_OrganizerHelperComponent::formatDate($day);
-        }
-
-        $DOWConstant  = strtoupper(date('l', strtotime($day)));
-        $weekday      = JText::_($DOWConstant);
-        $plannedBlock = "$weekday-$blockNumber";
-        if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID][$teacherID]['periods'])) {
-            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = [];
-        }
-
-        if (!array_key_exists($day, $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock])) {
-            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock][$day] = $hours;
-        }
-
-        $this->lessonValues[$lessonID][$teacherID]['endDate'] = THM_OrganizerHelperComponent::formatDate($day);
-
-        return;
-    }
-
-    /**
-     * Checks whether the subject is relevant
-     *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     *
-     * @return bool  true if relevant, otherwise false
-     */
-    private function isSubjectRelevant(&$schedule, $lessonID)
-    {
-        $subjects = (array)$schedule->lessons->$lessonID->subjects;
-        foreach ($subjects as $subject => $delta) {
-            if ($delta == 'removed') {
-                continue;
-            }
-
-            foreach ($this->irrelevant['subjects'] as $prefix) {
-                if (strpos($subject, $prefix) !== false) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks whether the lesson type is relevant
-     *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     *
-     * @return mixed  string type if relevant, otherwise false
-     */
-    private function getType(&$schedule, $lessonID)
-    {
-        $lessonType = empty($schedule->lessons->$lessonID->description) ?
-            '' : $schedule->lessons->$lessonID->description;
-
-        if (empty($lessonType)) {
-            return '';
-        }
-
-        if (in_array($lessonType, $this->irrelevant['methods'])) {
-            return false;
-        }
-
-        return $lessonType;
-    }
-
-    /**
-     * Associates a teacher with a given lesson
-     *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     * @param string $teacherID the id of the teacher
-     *
-     * @return void  sets object variables
-     */
-    private function setLessonTeacher(&$schedule, $lessonID, $teacherID)
-    {
-        // Check for existing association
-        if (empty($this->lessonValues[$lessonID][$teacherID])) {
-            $this->lessonValues[$lessonID][$teacherID] = [];
-            $this->lessonValues[$lessonID][$teacherID]['teacherName']
-                                                       = THM_OrganizerHelperTeachers::getLNFName($schedule->teachers->$teacherID);
-
-            $this->lessonValues[$lessonID][$teacherID]['subjectName']
-                = $this->getSubjectName($schedule, $lessonID);
-        }
-    }
-
-    /**
-     * Creates a concatenated subject name from the relevant subject names for the lesson
-     *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     *
-     * @return string  the concatenated name of the subject(s)
-     */
-    private function getSubjectName(&$schedule, $lessonID)
-    {
-        $subjects = (array)$schedule->lessons->$lessonID->subjects;
-        foreach ($subjects as $subject => $delta) {
-            if ($delta == 'removed') {
-                unset($subjects[$subject]);
-                continue;
-            }
-
-            if (strpos($subject, 'KOL.B') !== false) {
-                return 'Betreuung von Bachelorarbeiten';
-            }
-
-            if (strpos($subject, 'KOL.D') !== false) {
-                return 'Betreuung von Diplomarbeiten';
-            }
-
-            if (strpos($subject, 'KOL.M') !== false) {
-                return 'Betreuung von Masterarbeiten';
-            }
-
-            $subjects[$subject] = $schedule->subjects->{$subject}->longname;
-        }
-
-        return implode('/', $subjects);
-    }
-
-    /**
-     * Retrieves the unique pool ids associated
-     *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     * @param string $teacherID the id of the teacher
-     *
-     * @return array the associated pool ids
-     */
-    private function getPools(&$schedule, $lessonID, $teacherID)
-    {
-        $previousPoolIDs = empty($this->lessonValues[$lessonID][$teacherID]['pools']) ?
-            [] : $this->lessonValues[$lessonID][$teacherID]['pools'];
-
-        $newPools = (array)$schedule->lessons->$lessonID->pools;
-        foreach ($newPools as $pool => $delta) {
-            if ($delta == 'removed') {
-                unset($newPools[$pool]);
-            }
-
-            foreach ($this->irrelevant['pools'] as $irrelevant) {
-                if (strpos($pool, $irrelevant) === 0) {
-                    unset($newPools[$pool]);
-                }
-            }
-        }
-
-        $newPoolIDs = array_keys($newPools);
-        asort($newPoolIDs);
-
-        return array_unique(array_merge($previousPoolIDs, $newPoolIDs));
-    }
-
-    /**
-     * Checks whether the lesson should be tallied instead of summarized. (Oral exams or colloquia)
-     *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     *
-     * @return bool  true if the lesson should be tallied instead of summarized, otherwise false
-     */
-    private function isTallied(&$schedule, $lessonID)
-    {
-        $subjects = $schedule->lessons->$lessonID->subjects;
-        foreach ($subjects as $subjectID => $delta) {
-            if ($delta != 'removed' and strpos($subjectID, 'KOL.') !== false) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -595,6 +198,432 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     }
 
     /**
+     * Gets all schedules in the database
+     *
+     * @return array An array with the schedules
+     * @throws Exception
+     */
+    public function getDepartmentSchedules()
+    {
+        return [];
+
+        /**
+         * TODO: get the departments for which the user has scheduling access, and their schedules.
+         * TODO: get the names from the schedules from the department resource name and the planning period name
+         * $canManageSchedules = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
+         */
+
+    }
+
+    /**
+     * Retrieves the unique pool ids associated
+     *
+     * @param object &$schedule the schedule being processed
+     * @param string $lessonID  the id of the lesson
+     * @param string $teacherID the id of the teacher
+     *
+     * @return array the associated pool ids
+     */
+    private function getPools(&$schedule, $lessonID, $teacherID)
+    {
+        $previousPoolIDs = empty($this->lessonValues[$lessonID][$teacherID]['pools']) ?
+            [] : $this->lessonValues[$lessonID][$teacherID]['pools'];
+
+        $newPools = (array)$schedule->lessons->$lessonID->pools;
+        foreach ($newPools as $pool => $delta) {
+            if ($delta == 'removed') {
+                unset($newPools[$pool]);
+            }
+
+            foreach ($this->irrelevant['pools'] as $irrelevant) {
+                if (strpos($pool, $irrelevant) === 0) {
+                    unset($newPools[$pool]);
+                }
+            }
+        }
+
+        $newPoolIDs = array_keys($newPools);
+        asort($newPoolIDs);
+
+        return array_unique(array_merge($previousPoolIDs, $newPoolIDs));
+    }
+
+    /**
+     * Gets the rate at which lessons are converted to scholastic weekly hours
+     *
+     * @param string $subjectName the 'subject' name
+     *
+     * @return float|int  the conversion rate
+     * @throws Exception
+     */
+    private function getRate($subjectName)
+    {
+        $params = JFactory::getApplication()->getParams();
+        if ($subjectName == 'Betreuung von Bachelorarbeiten') {
+            return floatval('0.' . $params->get('bachelor_value', 25));
+        }
+
+        if ($subjectName == 'Betreuung von Diplomarbeiten') {
+            return floatval('0.' . $params->get('master_value', 50));
+        }
+
+        if ($subjectName == 'Betreuung von Masterarbeiten') {
+            return floatval('0.' . $params->get('master_value', 50));
+        }
+
+        return 1;
+    }
+
+    /**
+     * Creates a concatenated subject name from the relevant subject names for the lesson
+     *
+     * @param object &$schedule the schedule being processed
+     * @param string $lessonID  the id of the lesson
+     *
+     * @return string  the concatenated name of the subject(s)
+     */
+    private function getSubjectName(&$schedule, $lessonID)
+    {
+        $subjects = (array)$schedule->lessons->$lessonID->subjects;
+        foreach ($subjects as $subject => $delta) {
+            if ($delta == 'removed') {
+                unset($subjects[$subject]);
+                continue;
+            }
+
+            if (strpos($subject, 'KOL.B') !== false) {
+                return 'Betreuung von Bachelorarbeiten';
+            }
+
+            if (strpos($subject, 'KOL.D') !== false) {
+                return 'Betreuung von Diplomarbeiten';
+            }
+
+            if (strpos($subject, 'KOL.M') !== false) {
+                return 'Betreuung von Masterarbeiten';
+            }
+
+            $subjects[$subject] = $schedule->subjects->{$subject}->longname;
+        }
+
+        return implode('/', $subjects);
+    }
+
+    /**
+     * Checks whether the lesson type is relevant
+     *
+     * @param object &$schedule the schedule being processed
+     * @param string $lessonID  the id of the lesson
+     *
+     * @return mixed  string type if relevant, otherwise false
+     */
+    private function getType(&$schedule, $lessonID)
+    {
+        $lessonType = empty($schedule->lessons->$lessonID->description) ?
+            '' : $schedule->lessons->$lessonID->description;
+
+        if (empty($lessonType)) {
+            return '';
+        }
+
+        if (in_array($lessonType, $this->irrelevant['methods'])) {
+            return false;
+        }
+
+        return $lessonType;
+    }
+
+    /**
+     * Checks whether the subject is relevant
+     *
+     * @param object &$schedule the schedule being processed
+     * @param string $lessonID  the id of the lesson
+     *
+     * @return bool  true if relevant, otherwise false
+     */
+    private function isSubjectRelevant(&$schedule, $lessonID)
+    {
+        $subjects = (array)$schedule->lessons->$lessonID->subjects;
+        foreach ($subjects as $subject => $delta) {
+            if ($delta == 'removed') {
+                continue;
+            }
+
+            foreach ($this->irrelevant['subjects'] as $prefix) {
+                if (strpos($subject, $prefix) !== false) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks whether the lesson should be tallied instead of summarized. (Oral exams or colloquia)
+     *
+     * @param object &$schedule the schedule being processed
+     * @param string $lessonID  the id of the lesson
+     *
+     * @return bool  true if the lesson should be tallied instead of summarized, otherwise false
+     */
+    private function isTallied(&$schedule, $lessonID)
+    {
+        $subjects = $schedule->lessons->$lessonID->subjects;
+        foreach ($subjects as $subjectID => $delta) {
+            if ($delta != 'removed' and strpos($subjectID, 'KOL.') !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Sets consumption by instance (block + lesson)
+     *
+     * @param object &$schedule the schedule being processed
+     * @param string $day       the day being iterated
+     * @param object &$blocks   the blocks of the date being iterated
+     * @param array  &$teachers teachers to compare against if the schedule is not the original
+     *
+     * @return void
+     */
+    private function resolveTime(&$schedule, $day, &$blocks, &$teachers = null)
+    {
+        $seconds = 2700;
+        foreach ($blocks as $blockNumber => $blockLessons) {
+            foreach ($blockLessons as $lessonID => $lessonValues) {
+                // The lesson is no longer relevant
+                if (isset($lessonValues->delta) and $lessonValues->delta == 'removed') {
+                    continue;
+                }
+
+                // Calculate the scholastic hours (45 minutes)
+                $gridBlock = $schedule->periods->{$schedule->lessons->$lessonID->grid}->$blockNumber;
+                $startTime = $gridBlock->startTime;
+                $startDT   = strtotime(substr($startTime, 0, 2) . ':' . substr($startTime, 2, 2) . ':00');
+                $endTime   = $gridBlock->endTime;
+                $endDT     = strtotime(substr($endTime, 0, 2) . ':' . substr($endTime, 2, 2) . ':00');
+                $hours     = ($endDT - $startDT) / $seconds;
+
+                $this->setDeputatByInstance($schedule, $day, $blockNumber, $lessonID, $hours, $teachers);
+            }
+        }
+    }
+
+    /**
+     * Sets object properties
+     *
+     * @return void
+     * @throws Exception
+     */
+    private function setObjectProperties()
+    {
+        $this->params = JFactory::getApplication()->getParams();
+        $departmentID = $this->params->get('departmentID', 0);
+        if (!empty($departmentID)) {
+            $this->setDepartmentName($departmentID);
+        }
+
+        $input                        = JFactory::getApplication()->input;
+        $this->reset                  = $input->getBool('reset', false);
+        $this->selected               = [];
+        $this->teachers               = [];
+        $this->irrelevant['methods']  = ['KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG'];
+        $this->irrelevant['teachers'] = ['NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW'];
+        $this->irrelevant['pools']    = ['TERMINE.'];
+        $this->irrelevant['subjects'] = ['NN.'];
+        $this->setSchedule();
+    }
+
+    /**
+     * Resolves the department id to its name
+     *
+     * @param int $departmentID the id of the department
+     *
+     * @return void  sets the object variable $departmentName on success
+     * @throws Exception
+     */
+    private function setDepartmentName($departmentID)
+    {
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
+        $dbo->setQuery($query);
+        try {
+            $departmentName       = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
+            $this->departmentName = $departmentName . ' ' . $dbo->loadResult();
+
+            return;
+        } catch (Exception $exc) {
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+
+            return;
+        }
+    }
+
+    /**
+     * Sets the pertinent deputat information
+     *
+     * @param object &$schedule   the schedule being processed
+     * @param string $day         the day being iterated
+     * @param int    $blockNumber the block number being iterated
+     * @param string $lessonID    the lesson being iterated
+     * @param string $teacherID   the teacher being iterated
+     * @param int    $hours       the number of school hours for the lesson
+     *
+     * @return void  sets object values
+     */
+    private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $teacherID, $hours = 0)
+    {
+        $subjectIsRelevant = $this->isSubjectRelevant($schedule, $lessonID);
+        $lessonType        = $this->getType($schedule, $lessonID);
+
+        $invalidLesson = (!$subjectIsRelevant or $lessonType === false);
+        if ($invalidLesson) {
+            return;
+        }
+
+        if (empty($this->lessonValues[$lessonID])) {
+            $this->lessonValues[$lessonID] = [];
+        }
+
+        $this->setLessonTeacher($schedule, $lessonID, $teacherID);
+
+        // Tallied items have flat payment values and are correspondingly not tracked as accurately.
+        $isTallied = $this->isTallied($schedule, $lessonID);
+        if ($isTallied) {
+            $this->lessonValues[$lessonID][$teacherID]['type'] = 'tally';
+
+            return;
+        }
+
+        $pools = $this->getPools($schedule, $lessonID, $teacherID);
+        if (empty($pools)) {
+            unset($this->lessonValues[$lessonID]);
+
+            return;
+        }
+
+        $this->lessonValues[$lessonID][$teacherID]['type']       = 'summary';
+        $this->lessonValues[$lessonID][$teacherID]['lessonType'] = $lessonType;
+        $this->lessonValues[$lessonID][$teacherID]['pools']      = $pools;
+        if (!isset($this->lessonValues[$lessonID][$teacherID]['periods'])) {
+            $this->lessonValues[$lessonID][$teacherID]['periods'] = [];
+        }
+
+        if (!isset($this->lessonValues[$lessonID][$teacherID]['startDate'])) {
+            $this->lessonValues[$lessonID][$teacherID]['startDate'] = THM_OrganizerHelperComponent::formatDate($day);
+        }
+
+        $DOWConstant  = strtoupper(date('l', strtotime($day)));
+        $weekday      = JText::_($DOWConstant);
+        $plannedBlock = "$weekday-$blockNumber";
+        if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID][$teacherID]['periods'])) {
+            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = [];
+        }
+
+        if (!array_key_exists($day, $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock])) {
+            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock][$day] = $hours;
+        }
+
+        $this->lessonValues[$lessonID][$teacherID]['endDate'] = THM_OrganizerHelperComponent::formatDate($day);
+
+        return;
+    }
+
+    /**
+     * Iterates the lesson associated pools for the purpose of teacher consumption
+     *
+     * @param object &$schedule   the schedule being processed
+     * @param string $day         the day being iterated
+     * @param int    $blockNumber the block number being iterated
+     * @param string $lessonID    the lesson ID
+     * @param int    $hours       the number of school hours for the lesson
+     * @param array  &$teachers   teachers to compare against if the schedule is not the original
+     *
+     * @return void
+     */
+    private function setDeputatByInstance(&$schedule, $day, $blockNumber, $lessonID, $hours, &$teachers = null)
+    {
+        $scheduleTeachers = $schedule->lessons->$lessonID->teachers;
+        foreach ($scheduleTeachers as $teacherID => $teacherDelta) {
+            if ($teacherDelta == 'removed') {
+                continue;
+            }
+
+            /**
+             * The function was called during the iteration of the schedule of another department. Only the teachers
+             * from the original are relevant.
+             */
+            if (!empty($teachers) and !in_array($teacherID, $teachers)) {
+                continue;
+            }
+
+            $irrelevant = false;
+            foreach ($this->irrelevant['teachers'] as $prefix) {
+                if (strpos($teacherID, $prefix) === 0) {
+                    $irrelevant = true;
+                    break;
+                }
+            }
+
+            if (!$irrelevant) {
+                $this->setDeputat($schedule, $day, $blockNumber, $lessonID, $teacherID, $hours);
+            }
+        }
+    }
+
+    /**
+     * Associates a teacher with a given lesson
+     *
+     * @param object &$schedule the schedule being processed
+     * @param string $lessonID  the id of the lesson
+     * @param string $teacherID the id of the teacher
+     *
+     * @return void  sets object variables
+     */
+    private function setLessonTeacher(&$schedule, $lessonID, $teacherID)
+    {
+        // Check for existing association
+        if (empty($this->lessonValues[$lessonID][$teacherID])) {
+            $this->lessonValues[$lessonID][$teacherID] = [];
+            $this->lessonValues[$lessonID][$teacherID]['teacherName']
+                                                       = THM_OrganizerHelperTeachers::getLNFName($schedule->teachers->$teacherID);
+
+            $this->lessonValues[$lessonID][$teacherID]['subjectName']
+                = $this->getSubjectName($schedule, $lessonID);
+        }
+    }
+
+    /**
+     * Method to set a schedule by its id from the database
+     *
+     * @return void sets the instance's schedule variable
+     * @throws Exception
+     */
+    public function setSchedule()
+    {
+        $this->scheduleID = JFactory::getApplication()->input->getInt('scheduleID', 0);
+        $query            = $this->_db->getQuery(true);
+        $query->select('schedule');
+        $query->from("#__thm_organizer_schedules");
+        $query->where("id = '$this->scheduleID'");
+        $this->_db->setQuery($query);
+
+        try {
+            $result         = $this->_db->loadResult();
+            $this->schedule = json_decode($result);
+        } catch (Exception $exception) {
+            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+            $this->schedule = null;
+        }
+    }
+
+    /**
      * Sets the values for tallied lessons
      *
      * @param string $teacherID     the teacher's id
@@ -624,32 +653,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $this->deputat[$teacherID]['tally'][$subjectName]['count']++;
 
         return;
-    }
-
-    /**
-     * Gets the rate at which lessons are converted to scholastic weekly hours
-     *
-     * @param string $subjectName the 'subject' name
-     *
-     * @return float|int  the conversion rate
-     * @throws Exception
-     */
-    private function getRate($subjectName)
-    {
-        $params = JFactory::getApplication()->getParams();
-        if ($subjectName == 'Betreuung von Bachelorarbeiten') {
-            return floatval('0.' . $params->get('bachelor_value', 25));
-        }
-
-        if ($subjectName == 'Betreuung von Diplomarbeiten') {
-            return floatval('0.' . $params->get('master_value', 50));
-        }
-
-        if ($subjectName == 'Betreuung von Masterarbeiten') {
-            return floatval('0.' . $params->get('master_value', 50));
-        }
-
-        return 1;
     }
 
     /**
@@ -803,11 +806,17 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      */
     private function aggregate($teacherID, $subjectIndex, $aggValues)
     {
-        $aggregatedPools                                              = array_unique(array_merge($this->deputat[$teacherID]['summary'][$subjectIndex]['pools'],
+        $aggregatedPools = array_unique(array_merge(
+            $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'],
             $aggValues['pools']));
+
         $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'] = $aggregatedPools;
-        $aggregatedPeriods                                            = array_merge_recursive($this->deputat[$teacherID]['summary'][$subjectIndex]['periods'],
-            $aggValues['periods']);
+
+        $aggregatedPeriods = array_merge_recursive(
+            $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'],
+            $aggValues['periods']
+        );
+
         uksort($aggregatedPeriods, 'self::periodSort');
         $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'] = $aggregatedPeriods;
         $this->deputat[$teacherID]['summary'][$subjectIndex]['hours']   = $this->getSummaryHours($aggregatedPeriods);
@@ -879,37 +888,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             if (!in_array($index, $this->selected)) {
                 unset($this->deputat[$index]);
             }
-        }
-    }
-
-    /**
-     * Checks for the cross department deputat of teachers belonging to the department
-     *
-     * @param array  $teachers  the teachers listed in the original schedule
-     * @param string $startDate the start date of the original schedule
-     * @param string $endDate   the end date of the original schedule
-     *
-     * @return void  adds deputat to the lesson values array
-     * @throws Exception
-     */
-    private function checkOtherSchedules($teachers, $startDate, $endDate)
-    {
-        $schedulesIDs = $this->getPlausibleScheduleIDs($startDate, $endDate);
-        if (empty($schedulesIDs)) {
-            return;
-        }
-
-        foreach ($schedulesIDs as $scheduleID) {
-            $schedule = $this->getSchedule($scheduleID);
-            foreach ($schedule->calendar as $day => $blocks) {
-                if ($day < $startDate or $day > $endDate) {
-                    continue;
-                }
-
-                $this->resolveTime($schedule, $day, $blocks, $teachers);
-            }
-
-            unset($schedule);
         }
     }
 

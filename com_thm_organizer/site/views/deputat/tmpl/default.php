@@ -13,6 +13,7 @@ $title       = $this->params->get('page_title', '');
 if (!empty($this->departmentName)) {
     $title .= " - $this->departmentName";
 }
+$weeks = $this->params->get('deputat_weeks', 13);
 ?>
 <div id="deputat" class="deputat">
     <?php
@@ -37,8 +38,7 @@ if (!empty($this->departmentName)) {
                             <?php echo JText::_('COM_THM_ORGANIZER_DEPUTAT_WEEKS'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $this->params->get('deputat_weeks',
-                                    13) . " " . JText::_('COM_THM_ORGANIZER_WEEKS'); ?>
+                            <?php echo $weeks . " " . JText::_('COM_THM_ORGANIZER_WEEKS'); ?>
                         </div>
                     </div>
                     <div class="control-group">
@@ -108,5 +108,6 @@ if (!empty($this->departmentName)) {
         }
         ?>
     </form>
+    <a href="https://www.thm.de/semesterplan-dev/service/werkzeug/deputat-fb-bau.html?format=xls">form</a>
     <a id="dLink" style="display:none;"></a>
 </div>

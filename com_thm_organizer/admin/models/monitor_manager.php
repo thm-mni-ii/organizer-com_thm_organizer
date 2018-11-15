@@ -176,18 +176,36 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering               = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction              = $this->state->get('list.direction', $this->defaultDirection);
-        $headers                = [];
-        $headers['checkbox']    = '';
-        $headers['longname']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM', 'r.longname', $direction,
-            $ordering);
-        $headers['ip']          = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
-        $headers['useDefaults'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEFAULT_SETTINGS', 'm.useDefault',
-            $direction, $ordering);
-        $headers['display']     = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
-        $headers['content']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_CONTENT', 'm.content',
-            $direction, $ordering);
+        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction           = $this->state->get('list.direction', $this->defaultDirection);
+        $headers             = [];
+        $headers['checkbox'] = '';
+        $headers['longname'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_ROOM',
+            'r.longname',
+            $direction,
+            $ordering
+        );
+
+        $headers['ip'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
+
+        $headers['useDefaults'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_DEFAULT_SETTINGS',
+            'm.useDefault',
+            $direction,
+            $ordering
+        );
+
+        $headers['display'] = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
+        $headers['content'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_DISPLAY_CONTENT',
+            'm.content',
+            $direction,
+            $ordering
+        );
 
         return $headers;
     }

@@ -60,12 +60,13 @@ abstract class THM_OrganizerModelList extends JModelList
         }
 
         // Joomla doesn't fill these correctly but requires some of them
-        $data->list['fullordering'] = $this->state->get('list.fullordering',
-            "$this->defaultOrdering $this->defaultDirection");
-        $data->list['ordering']     = $this->state->get('list.ordering', $this->defaultOrdering);
-        $data->list['direction']    = $this->state->get('list.direction', $this->defaultDirection);
-        $data->list['limit']        = $this->state->get('list.limit', $this->defaultLimit);
-        $data->list['start']        = $this->state->get('list.start', $this->defaultStart);
+        $data->list['fullordering']
+            = $this->state->get('list.fullordering', "$this->defaultOrdering $this->defaultDirection");
+
+        $data->list['ordering']  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $data->list['direction'] = $this->state->get('list.direction', $this->defaultDirection);
+        $data->list['limit']     = $this->state->get('list.limit', $this->defaultLimit);
+        $data->list['start']     = $this->state->get('list.start', $this->defaultStart);
 
         // Set default values for filters
         foreach ($this->defaultFilters as $name => $defaultValue) {
@@ -168,8 +169,8 @@ abstract class THM_OrganizerModelList extends JModelList
         $validReqOrdering = (!empty($list['ordering']) and strpos('null', $list['ordering']) !== null);
         $ordering         = $validReqOrdering ? $list['ordering'] : $this->defaultOrdering;
 
-        $validReqDirection = (!empty($list['direction']) and in_array(strtoupper($list['direction']),
-                ['ASC', 'DESC', '']));
+        $validReqDirection = (!empty($list['direction'])
+            and in_array(strtoupper($list['direction']), ['ASC', 'DESC', '']));
         $direction         = $validReqDirection ? $list['direction'] : $this->defaultDirection;
 
         $session = JFactory::getSession();
@@ -419,6 +420,4 @@ abstract class THM_OrganizerModelList extends JModelList
      * @return array including headers
      */
     abstract public function getHeaders();
-
-
 }

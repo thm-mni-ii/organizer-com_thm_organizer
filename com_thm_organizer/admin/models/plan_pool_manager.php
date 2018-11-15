@@ -103,16 +103,34 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction            = $this->state->get('list.direction', $this->defaultDirection);
-        $headers              = [];
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
         $headers['checkbox']  = '';
-        $headers['full_name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'ppl.full_name', $direction,
-            $ordering);
-        $headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_SHORT_NAME', 'ppl.name', $direction,
-            $ordering);
-        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppl.gpuntisID', $direction,
-            $ordering);
+        $headers['full_name'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_NAME',
+            'ppl.full_name',
+            $direction,
+            $ordering
+        );
+
+        $headers['name'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_SHORT_NAME',
+            'ppl.name',
+            $direction,
+            $ordering
+        );
+
+        $headers['gpuntisID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_GPUNTISID',
+            'ppl.gpuntisID',
+            $direction,
+            $ordering
+        );
 
         return $headers;
     }

@@ -91,8 +91,8 @@ class THM_OrganizerViewDeputat extends JViewLegacy
         $attribs             = [];
         $attribs['onChange'] = "jQuery('#reset').val('1');this.form.submit();";
 
-        $this->scheduleSelectBox = JHtml::_('select.genericlist', $options, 'scheduleID', $attribs, 'value', 'text',
-            $scheduleID);
+        $this->scheduleSelectBox
+            = JHtml::_('select.genericlist', $options, 'scheduleID', $attribs, 'value', 'text', $scheduleID);
     }
 
     /**
@@ -112,8 +112,9 @@ class THM_OrganizerViewDeputat extends JViewLegacy
 
         $attribs          = ['multiple' => 'multiple', 'size' => '10'];
         $selectedTeachers = $this->model->selected;
-        $this->teachers   = JHtml::_('select.genericlist', $options, 'teachers[]', $attribs, 'value', 'text',
-            $selectedTeachers);
+
+        $this->teachers
+            = JHtml::_('select.genericlist', $options, 'teachers[]', $attribs, 'value', 'text', $selectedTeachers);
     }
 
     /**

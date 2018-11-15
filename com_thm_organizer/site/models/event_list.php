@@ -486,8 +486,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             try {
                 $roomsTable->load($roomID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
                 unset($this->rooms[$roomID]);
             }
 

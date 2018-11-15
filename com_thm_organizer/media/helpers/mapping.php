@@ -237,8 +237,10 @@ class THM_OrganizerHelperMapping
             try {
                 $program = $dbo->loadAssoc();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return [];
             }
@@ -278,8 +280,10 @@ class THM_OrganizerHelperMapping
             try {
                 $results = $dbo->loadAssocList();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return [];
             }
@@ -516,14 +520,18 @@ class THM_OrganizerHelperMapping
                 try {
                     $pools[] = $dbo->loadResult();
                 } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error');
+                    JFactory::getApplication()->enqueueMessage(
+                        JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                        'error'
+                    );
 
                     return [];
                 }
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return [];
             }

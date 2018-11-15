@@ -98,20 +98,38 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering                = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction               = $this->state->get('list.direction', $this->defaultDirection);
-        $headers                 = [];
-        $headers['checkbox']     = '';
-        $headers['gpuntisID']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'name', $direction,
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
+        $headers['checkbox']  = '';
+        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'name', $direction,
             $ordering);
-        $headers['name']         = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction,
-            $ordering);
-        $headers['min_capacity'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_MIN_CAPACITY', 'min_capacity',
-            $direction, $ordering);
-        $headers['max_capacity'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_MAX_CAPACITY', 'max_capacity',
-            $direction, $ordering);
-        $headers['roomCount']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_ROOM_COUNT', 'roomCount', $direction,
-            $ordering);
+
+        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+
+        $headers['min_capacity'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_MIN_CAPACITY',
+            'min_capacity',
+            $direction,
+            $ordering
+        );
+        $headers['max_capacity'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_MAX_CAPACITY',
+            'max_capacity',
+            $direction,
+            $ordering
+        );
+
+        $headers['roomCount'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_ROOM_COUNT',
+            'roomCount',
+            $direction,
+            $ordering
+        );
 
         return $headers;
     }

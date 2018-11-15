@@ -86,8 +86,10 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             try {
                 return $this->_db->loadResult();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return null;
             }
@@ -145,8 +147,8 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         }
 
         if (!empty($subject->creditpoints)) {
-            $subject->expenditureOutput = sprintf($lang->_('COM_THM_ORGANIZER_EXPENDITURE_SHORT'),
-                $subject->creditpoints);
+            $subject->expenditureOutput
+                = sprintf($lang->_('COM_THM_ORGANIZER_EXPENDITURE_SHORT'), $subject->creditpoints);
         }
     }
 

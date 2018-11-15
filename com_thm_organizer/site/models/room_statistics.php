@@ -87,7 +87,6 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
             case 'html':
             default:
-
                 $this->setRooms();
                 $this->setRoomTypes();
 
@@ -586,8 +585,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $this->metaData['weeks'] = [];
         $weekNo                  = 1;
 
-        for ($weekStartDate = $this->startDate; $weekStartDate <= $this->endDate; $weekStartDate = date('Y-m-d',
-            strtotime("$weekStartDate + 7 days"))) {
+        for ($weekStartDate = $this->startDate; $weekStartDate <= $this->endDate;) {
             $week['startDate']     = $weekStartDate;
             $endDayName            = date('l', strtotime("Sunday + $this->endDoW days"));
             $weekEndDate           = date('Y-m-d', strtotime("$endDayName this week", strtotime($weekStartDate)));
@@ -597,8 +595,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
             $week['total']         = 0;
             $week['use']           = 0;
 
-            for ($currentDate = $weekStartDate; $currentDate <= $weekEndDate; $currentDate = date('Y-m-d',
-                strtotime("$currentDate + 1 days"))) {
+            for ($currentDate = $weekStartDate; $currentDate <= $weekEndDate;) {
                 $week['total'] += $this->metaData['days'][$currentDate]['total'];
                 $week['use']   += $this->metaData['days'][$currentDate]['use'];
                 $dailyAverage  = $this->metaData['days'][$currentDate]['use'] / $this->metaData['days'][$date]['total'];
@@ -632,10 +629,13 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
                                                                                             += $this->roomData[$roomData['id']]['days'][$currentDate];
                     }
                 }
+
+                $currentDate = date('Y-m-d', strtotime("$currentDate + 1 days"));
             }
 
             $this->metaData['weeks'][$weekNo] = $week;
             $weekNo++;
+            $weekStartDate = date('Y-m-d', strtotime("$weekStartDate + 7 days"));
         }
 
         $this->metaData['adjustedTotal'] = 0;

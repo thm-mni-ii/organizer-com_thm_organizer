@@ -140,15 +140,22 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction             = $this->state->get('list.direction', $this->defaultDirection);
-        $headers               = [];
-        $headers['checkbox']   = '';
-        $headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-        $headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction,
-            $ordering);
-        $headers['field']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction,
-            $ordering);
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
+        $headers['checkbox'] = '';
+        $headers['name']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+
+        $headers['externalID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_EXTERNAL_ID',
+            'externalID',
+            $direction,
+            $ordering
+        );
+
+        $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
 
         return $headers;
     }

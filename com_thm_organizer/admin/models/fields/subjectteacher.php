@@ -64,8 +64,15 @@ class JFormFieldSubjectTeacher extends JFormField
         $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
         $selectedTeachers = empty($selected) ? [] : $selected;
 
-        return JHtml::_("select.genericlist", $teachers, "jform[$fieldName][]", $attributes, "value", "text",
-            $selectedTeachers);
+        return JHtml::_(
+            "select.genericlist",
+            $teachers,
+            "jform[$fieldName][]",
+            $attributes,
+            "value",
+            "text",
+            $selectedTeachers
+        );
     }
 
     /**

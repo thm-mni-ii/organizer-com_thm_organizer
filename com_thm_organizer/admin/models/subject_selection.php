@@ -102,12 +102,17 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
     {
         $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
         $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
 
-        $headers               = [];
         $headers['checkbox']   = '';
         $headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-        $headers['externalID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_EXTERNAL_ID', 'externalID', $direction,
-            $ordering);
+        $headers['externalID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_EXTERNAL_ID',
+            'externalID',
+            $direction,
+            $ordering
+        );
 
         return $headers;
     }

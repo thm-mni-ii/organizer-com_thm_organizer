@@ -96,15 +96,21 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction            = $this->state->get('list.direction', $this->defaultDirection);
-        $headers              = [];
-        $headers['checkbox']  = '';
-        $headers['field']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'field', $direction, $ordering);
-        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'gpuntisID', $direction,
-            $ordering);
-        $headers['colorID']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction,
-            $ordering);
+        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction           = $this->state->get('list.direction', $this->defaultDirection);
+        $headers             = [];
+        $headers['checkbox'] = '';
+        $headers['field']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'field', $direction, $ordering);
+
+        $headers['gpuntisID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_GPUNTISID',
+            'gpuntisID',
+            $direction,
+            $ordering
+        );
+
+        $headers['colorID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
 
         return $headers;
     }

@@ -240,10 +240,10 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     {
         $dateFormat = JFactory::getApplication()->getParams()->get('dateFormat', 'Y-m-d');
         $endDT      = strtotime($this->endDate);
-        for ($currentDT = strtotime($this->startDate); $currentDT <= $endDT; $currentDT = strtotime('+1 day',
-            $currentDT)) {
+        for ($currentDT = strtotime($this->startDate); $currentDT <= $endDT;) {
             $currentDate = THM_OrganizerHelperComponent::standardizeDate(date($dateFormat, $currentDT));
             $this->getDay($currentDate);
+            $currentDT = strtotime('+1 day', $currentDT);
         }
     }
 

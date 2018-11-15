@@ -222,7 +222,6 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
                 break;
 
             default:
-
                 if ($isResponsible) {
                     $teacherResponsibility[1] = JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
                 }

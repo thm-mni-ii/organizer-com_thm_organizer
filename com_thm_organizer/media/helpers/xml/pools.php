@@ -66,42 +66,61 @@ class THM_OrganizerHelperXMLPools
         $longName   = trim((string)$poolNode->longname);
 
         if (empty($longName)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING'),
-                $internalID);
+            $scheduleModel->scheduleErrors[] = sprintf(
+                JText::_('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING'),
+                $internalID
+            );
 
             return;
         }
 
         $restriction = trim((string)$poolNode->classlevel);
         if (empty($restriction)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME'), $longName,
-                $internalID);
+            $scheduleModel->scheduleErrors[] = sprintf(
+                JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME'),
+                $longName,
+                $internalID
+            );
 
             return;
         }
 
         $degreeID = str_replace('DP_', '', trim((string)$poolNode->class_department[0]['id']));
         if (empty($degreeID)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING'),
-                $longName, $internalID);
+            $scheduleModel->scheduleErrors[] = sprintf(
+                JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING'),
+                $longName,
+                $internalID
+            );
 
             return;
         } elseif (empty($scheduleModel->schedule->degrees->$degreeID)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING'),
-                $longName, $internalID, $degreeID);
+            $scheduleModel->scheduleErrors[] = sprintf(
+                JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING'),
+                $longName,
+                $internalID,
+                $degreeID
+            );
 
             return;
         }
 
         $grid = (string)$poolNode->timegrid;
         if (empty($grid)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_MISSING'),
-                $longName, $internalID);
+            $scheduleModel->scheduleErrors[] = sprintf(
+                JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_MISSING'),
+                $longName,
+                $internalID
+            );
 
             return;
         } elseif (empty($scheduleModel->schedule->periods->$grid)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_LACKING'),
-                $longName, $internalID, $grid);
+            $scheduleModel->scheduleErrors[] = sprintf(
+                JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_LACKING'),
+                $longName,
+                $internalID,
+                $grid
+            );
 
             return;
         }

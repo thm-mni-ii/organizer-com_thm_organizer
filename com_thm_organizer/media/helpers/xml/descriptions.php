@@ -75,9 +75,9 @@ class THM_OrganizerHelperXMLDescriptions
             $gpuntisID = trim((string)$descriptionNode[0]['id']);
 
             if (empty($gpuntisID)) {
-                if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING"),
-                    $scheduleModel->scheduleErrors)) {
-                    $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
+                $missingText = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
+                if (!in_array($missingText, $scheduleModel->scheduleErrors)) {
+                    $scheduleModel->scheduleErrors[] = $missingText;
                 }
 
                 return;
@@ -87,8 +87,10 @@ class THM_OrganizerHelperXMLDescriptions
             $longName      = trim((string)$descriptionNode->longname);
 
             if (empty($longName)) {
-                $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'),
-                    $descriptionID);
+                $scheduleModel->scheduleErrors[] = sprintf(
+                    JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'),
+                    $descriptionID
+                );
 
                 return;
             }
@@ -96,8 +98,11 @@ class THM_OrganizerHelperXMLDescriptions
             $typeFlag = trim((string)$descriptionNode->flags);
 
             if (empty($typeFlag)) {
-                $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'),
-                    $longName, $descriptionID);
+                $scheduleModel->scheduleErrors[] = sprintf(
+                    JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'),
+                    $longName,
+                    $descriptionID
+                );
 
                 return;
             }

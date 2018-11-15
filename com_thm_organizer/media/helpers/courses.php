@@ -706,8 +706,10 @@ class THM_OrganizerHelperCourses
             try {
                 $nextParticipantID = $dbo->loadResult();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    $lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return;
             }

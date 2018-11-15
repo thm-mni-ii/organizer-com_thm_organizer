@@ -49,8 +49,15 @@ class JFormFieldPrograms extends JFormField
 
         $attributes = ['multiple' => 'multiple', 'size' => '10'];
 
-        return JHtml::_("select.genericlist", $programs, "jform[programID][]", $attributes, "value", "text",
-            $selectedPrograms);
+        return JHtml::_(
+            "select.genericlist",
+            $programs,
+            "jform[programID][]",
+            $attributes,
+            "value",
+            "text",
+            $selectedPrograms
+        );
     }
 
     /**

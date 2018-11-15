@@ -101,8 +101,10 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
             $return[$index]['programID'] = JHtml::_('link', $item->link, $programName);
             if (!empty($item->field)) {
                 if (!empty($item->color)) {
-                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField($item->field,
-                        $item->color);
+                    $return[$index]['fieldID'] = THM_OrganizerHelperComponent::getColorField(
+                        $item->field,
+                        $item->color
+                    );
                 } else {
                     $return[$index]['fieldID'] = $item->field;
                 }
@@ -123,9 +125,10 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction            = $this->state->get('list.direction', $this->defaultDirection);
-        $headers              = [];
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
         $headers['checkbox']  = '';
         $headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
         $headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
@@ -189,8 +192,13 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     {
         parent::populateState($ordering, $direction);
 
-        $filter = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [],
-            'array');
+        $filter = JFactory::getApplication()->getUserStateFromRequest(
+            $this->context . '.filter',
+            'filter',
+            [],
+            'array'
+        );
+
         if (!empty($filter['name'])) {
             $this->setState('filter.p.name', $filter['name']);
         } else {

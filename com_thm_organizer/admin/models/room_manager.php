@@ -96,16 +96,28 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction             = $this->state->get('list.direction', $this->defaultDirection);
-        $headers               = [];
-        $headers['checkbox']   = '';
-        $headers['longname']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'r.longname',
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
+        $headers['checkbox'] = '';
+        $headers['longname'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_DISPLAY_NAME',
+            'r.longname',
             $direction,
-            $ordering);
-        $headers['buildingID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_BUILDING', 'buildingName', $direction,
-            $ordering);
-        $headers['typeID']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);
+            $ordering
+        );
+
+        $headers['buildingID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_BUILDING',
+            'buildingName',
+            $direction,
+            $ordering
+        );
+
+        $headers['typeID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);
 
         return $headers;
     }

@@ -74,8 +74,10 @@ class THM_OrganizerHelperTeachers
             try {
                 $teacherList = $dbo->loadAssocList();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return [];
             }
@@ -231,8 +233,10 @@ class THM_OrganizerHelperTeachers
             try {
                 $success = $teacherTable->load($criteria);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 return 0;
             }

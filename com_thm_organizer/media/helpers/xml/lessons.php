@@ -187,8 +187,8 @@ class THM_OrganizerHelperXMLLessons
         if (!empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD'])) {
             $warningCount = $this->scheduleModel->scheduleWarnings['LESSON-METHOD'];
             unset($this->scheduleModel->scheduleWarnings['LESSON-METHOD']);
-            $this->scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_METHODID'),
-                $warningCount);
+            $this->scheduleModel->scheduleWarnings[]
+                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_METHODID'), $warningCount);
         }
     }
 
@@ -286,9 +286,9 @@ class THM_OrganizerHelperXMLLessons
         $untisID       = substr($withoutPrefix, 0, strlen($withoutPrefix) - 2);
 
         if (empty($untisID)) {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_LESSON_ID_MISSING"),
-                $this->scheduleModel->scheduleErrors)) {
-                $this->scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_LESSON_ID_MISSING");
+            $missingText = JText::_("COM_THM_ORGANIZER_ERROR_LESSON_ID_MISSING");
+            if (!in_array($missingText, $this->scheduleModel->scheduleErrors)) {
+                $this->scheduleModel->scheduleErrors[] = $missingText;
             }
 
             return false;
@@ -534,9 +534,11 @@ class THM_OrganizerHelperXMLLessons
         }
 
         if (empty($endDT)) {
-            $this->scheduleModel->scheduleErrors[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_MISSING'), $this->lessonName,
-                $this->lessonID);
+            $this->scheduleModel->scheduleErrors[] = sprintf(
+                JText::_('COM_THM_ORGANIZER_ERROR_LESSON_END_DATE_MISSING'),
+                $this->lessonName,
+                $this->lessonID
+            );
 
             return false;
         }

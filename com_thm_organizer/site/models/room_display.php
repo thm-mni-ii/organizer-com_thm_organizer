@@ -257,13 +257,14 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             $this->params['content_refresh']  = $monitorEntry->content_refresh;
             $this->params['content']          = $monitorEntry->content;
         } else {
-            $this->params['display']          = JComponentHelper::getParams('com_thm_organizer')->get('display',
-                SCHEDULE);
-            $this->params['schedule_refresh'] = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh',
-                60);
-            $this->params['content_refresh']  = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh',
-                60);
-            $this->params['content']          = JComponentHelper::getParams('com_thm_organizer')->get('content');
+            $this->params['display']
+                = JComponentHelper::getParams('com_thm_organizer')->get('display', SCHEDULE);
+            $this->params['schedule_refresh']
+                = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh', 60);
+            $this->params['content_refresh']
+                = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh', 60);
+
+            $this->params['content'] = JComponentHelper::getParams('com_thm_organizer')->get('content');
         }
 
         // No need for special handling if no content has been set
@@ -400,12 +401,14 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                         continue;
                     }
 
-                    $existingTeachers = $blocks[$blockNo]['lessons'][$lessonID]['teachers'];
+                    $existingTeachers                                 = $blocks[$blockNo]['lessons'][$lessonID]['teachers'];
                     $blocks[$blockNo]['lessons'][$lessonID]['teachers']
-                                      = array_unique(array_merge($instanceTeachers, $existingTeachers));
-                    $blocks[$blockNo]['lessons'][$lessonID]['titles']
-                                      = array_unique(array_merge($blocks[$blockNo]['lessons'][$lessonID]['titles'],
-                        $eventInstance['titles']));
+                                                                      = array_unique(array_merge($instanceTeachers,
+                        $existingTeachers));
+                    $blocks[$blockNo]['lessons'][$lessonID]['titles'] = array_unique(array_merge(
+                        $blocks[$blockNo]['lessons'][$lessonID]['titles'],
+                        $eventInstance['titles']
+                    ));
                 }
             }
         }

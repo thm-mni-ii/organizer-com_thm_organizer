@@ -139,7 +139,12 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
         $planDepartmentOptions = $this->model->getDepartmentOptions();
         $departmentSelect      = JHtml::_(
-            'select.genericlist', $planDepartmentOptions, 'departmentIDs', $deptAttribs, 'value', 'text'
+            'select.genericlist',
+            $planDepartmentOptions,
+            'departmentIDs',
+            $deptAttribs,
+            'value',
+            'text'
         );
 
         $this->fields['filterFields']['departmentIDs'] = [
@@ -202,8 +207,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $titlesOptions[] = ['text' => JText::_('COM_THM_ORGANIZER_FULL_TITLE'), 'value' => '1'];
         $titlesOptions[] = ['text' => JText::_('COM_THM_ORGANIZER_SHORT_TITLE'), 'value' => '2'];
         $titlesOptions[] = ['text' => JText::_('COM_THM_ORGANIZER_ABBREVIATION'), 'value' => '3'];
-        $titlesSelect    =
-            JHtml::_('select.genericlist', $titlesOptions, 'titles', $attribs, 'value', 'text', '1');
+        $titlesSelect    = JHtml::_('select.genericlist', $titlesOptions, 'titles', $attribs, 'value', 'text', '1');
 
         $this->fields['formatSettings']['titles'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_TITLES'),
@@ -237,8 +241,15 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         //$displayFormats[] = ['text' => JText::_('COM_THM_ORGANIZER_LIST'), 'value' => 'list'];
         $displayFormats[]     = ['text' => JText::_('COM_THM_ORGANIZER_SCHEDULE'), 'value' => 'schedule'];
         $defaultDisplayFormat = 'schedule';
-        $displayFormatSelect  = JHtml::_('select.genericlist', $displayFormats, 'displayFormat', $attribs, 'value',
-            'text', $defaultDisplayFormat);
+        $displayFormatSelect  = JHtml::_(
+            'select.genericlist',
+            $displayFormats,
+            'displayFormat',
+            $attribs,
+            'value',
+            'text',
+            $defaultDisplayFormat
+        );
 
         $this->fields['formatSettings']['displayFormat'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_DISPLAY_FORMAT'),
@@ -269,8 +280,15 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
         $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
         $defaultDateRestriction = 'week';
-        $dateRestrictionSelect  = JHtml::_('select.genericlist', $dateRestrictions, 'dateRestriction', $attribs,
-            'value', 'text', $defaultDateRestriction);
+        $dateRestrictionSelect  = JHtml::_(
+            'select.genericlist',
+            $dateRestrictions,
+            'dateRestriction',
+            $attribs,
+            'value',
+            'text',
+            $defaultDateRestriction
+        );
 
         $this->fields['formatSettings']['dateRestriction'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION'),
@@ -284,8 +302,15 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         //$pdfWeekFormats[] = ['text' => JText::_('COM_THM_ORGANIZER_STACKED_PLANS'), 'value' => 'stack'];
         $pdfWeekFormats[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEQUENCED_PLANS'), 'value' => 'sequence'];
         $defaultPDFWeekFormat = 'sequence';
-        $pdfWeekFormatSelect  = JHtml::_('select.genericlist', $pdfWeekFormats, 'pdfWeekFormat', $attribs, 'value',
-            'text', $defaultPDFWeekFormat);
+        $pdfWeekFormatSelect  = JHtml::_(
+            'select.genericlist',
+            $pdfWeekFormats,
+            'pdfWeekFormat',
+            $attribs,
+            'value',
+            'text',
+            $defaultPDFWeekFormat
+        );
 
         $this->fields['formatSettings']['pdfWeekFormat'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_WEEK_FORMAT'),
@@ -297,8 +322,15 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $xlsWeekFormats[]     = ['text' => JText::_('COM_THM_ORGANIZER_ONE_WORKSHEET'), 'value' => 'sequence'];
         $xlsWeekFormats[]     = ['text' => JText::_('COM_THM_ORGANIZER_MULTIPLE_WORKSHEETS'), 'value' => 'stack'];
         $defaultXLSWeekFormat = 'sequence';
-        $xlsWeekFormatSelect  = JHtml::_('select.genericlist', $xlsWeekFormats, 'xlsWeekFormat', $attribs, 'value',
-            'text', $defaultXLSWeekFormat);
+        $xlsWeekFormatSelect  = JHtml::_(
+            'select.genericlist',
+            $xlsWeekFormats,
+            'xlsWeekFormat',
+            $attribs,
+            'value',
+            'text',
+            $defaultXLSWeekFormat
+        );
 
         $this->fields['formatSettings']['xlsWeekFormat'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_WEEK_FORMAT'),
@@ -316,7 +348,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     private function setResourceFields()
     {
         $this->fields['resourceFields'] = [];
-        $attribs                        = ['multiple' => 'multiple'];
+
+        $attribs = ['multiple' => 'multiple'];
 
         $user = JFactory::getUser();
 
@@ -329,10 +362,12 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         }
 
         // Pools
-        $poolAttribs                               = $attribs;
-        $poolAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
-        $poolSelect                                = JHtml::_('select.genericlist', [], 'poolIDs[]',
-            $poolAttribs, 'value', 'text');
+        $poolAttribs = $attribs;
+
+        $poolAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
+
+        $poolSelect = JHtml::_('select.genericlist', [], 'poolIDs[]', $poolAttribs, 'value', 'text');
+
         $this->fields['resourceFields']['poolIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_POOLS'),
             'description' => JText::_('COM_THM_ORGANIZER_POOLS_EXPORT_DESC'),
@@ -344,11 +379,20 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
 
         if ($departmentPlaner or $isTeacher) {
             // Teachers
-            $teacherAttribs                               = $attribs;
-            $teacherAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
-            $planTeacherOptions                           = $this->model->getTeacherOptions();
-            $teacherSelect                                = JHtml::_('select.genericlist', $planTeacherOptions,
-                'teacherIDs[]', $teacherAttribs, 'value', 'text');
+            $teacherAttribs = $attribs;
+
+            $teacherAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
+
+            $planTeacherOptions = $this->model->getTeacherOptions();
+            $teacherSelect      = JHtml::_(
+                'select.genericlist',
+                $planTeacherOptions,
+                'teacherIDs[]',
+                $teacherAttribs,
+                'value',
+                'text'
+            );
+
             $this->fields['resourceFields']['teacherIDs'] = [
                 'label'       => JText::_('COM_THM_ORGANIZER_TEACHERS'),
                 'description' => JText::_('COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC'),
@@ -358,10 +402,12 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         }
 
         // Rooms
-        $roomAttribs                               = $attribs;
-        $roomAttribs['data-placeholder']           = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
-        $roomSelect                                = JHtml::_('select.genericlist', [], 'roomIDs[]',
-            $roomAttribs, 'value', 'text');
+        $roomAttribs = $attribs;
+
+        $roomAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+
+        $roomSelect = JHtml::_('select.genericlist', [], 'roomIDs[]', $roomAttribs, 'value', 'text');
+
         $this->fields['resourceFields']['roomIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_ROOMS'),
             'description' => JText::_('COM_THM_ORGANIZER_ROOMS_EXPORT_DESC'),

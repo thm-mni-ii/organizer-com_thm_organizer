@@ -90,15 +90,15 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
                     return false;
                 }
 
-                $leftInRight = (strpos($value,
-                        $data[$property]) !== false and strlen($value) > strlen($data[$property]));
+                $leftInRight = (strpos($value, $data[$property]) !== false
+                    and strlen($value) > strlen($data[$property]));
                 if ($leftInRight) {
                     $data[$property] = $value;
                     continue;
                 }
 
-                $rightInLeft = (strpos($data[$property],
-                        $value) !== false and strlen($data[$property]) > strlen($value));
+                $rightInLeft = (strpos($data[$property], $value) !== false
+                    and strlen($data[$property]) > strlen($value));
                 if ($rightInLeft) {
                     $data[$property] = $value;
                     continue;
@@ -458,8 +458,10 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             try {
                 $this->_db->execute();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
 
                 JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
                 $this->_db->transactionRollback();
@@ -482,8 +484,10 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
                 try {
                     $this->_db->execute();
                 } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error');
+                    JFactory::getApplication()->enqueueMessage(
+                        JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                        'error'
+                    );
                     JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
                     $this->_db->transactionRollback();
 

@@ -42,15 +42,15 @@ class THM_OrganizerHelperXMLTeachers
         if (!empty($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'])) {
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'];
             unset($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']);
-            $scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'),
-                $warningCount);
+            $scheduleModel->scheduleWarnings[]
+                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME'])) {
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-FORENAME'];
             unset($scheduleModel->scheduleWarnings['TEACHER-FORENAME']);
-            $scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING'),
-                $warningCount);
+            $scheduleModel->scheduleWarnings[]
+                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
         }
     }
 
@@ -62,6 +62,7 @@ class THM_OrganizerHelperXMLTeachers
      * @param object &$teacherNode   the teacher node to be validated
      *
      * @return void
+     * @throws Exception
      */
     private static function validateIndividual(&$scheduleModel, &$teacherNode)
     {
@@ -78,8 +79,8 @@ class THM_OrganizerHelperXMLTeachers
 
         $surname = trim((string)$teacherNode->surname);
         if (empty($surname)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'),
-                $internalID);
+            $scheduleModel->scheduleErrors[]
+                = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $internalID);
 
             return false;
         }

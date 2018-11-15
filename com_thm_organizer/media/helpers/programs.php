@@ -176,9 +176,9 @@ class THM_OrganizerHelperPrograms
         $plausibleNumber = count($programPieces) === 3;
         if ($plausibleNumber) {
             $plausibleCode = preg_match('/^[A-Z]+[0-9]*$/', $programPieces[0]);
-            $plausibleVersion = ctype_digit($programPieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $programPieces[2]);
-            $plausibleDegree = ctype_upper($programPieces[1]) and preg_match('/^[B|M]{1}[A-Z]{1,2}$/',
-                $programPieces[1]);
+            $plausibleVersion = (ctype_digit($programPieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $programPieces[2]));
+            $plausibleDegree = (ctype_upper($programPieces[1])
+                and preg_match('/^[B|M]{1}[A-Z]{1,2}$/', $programPieces[1]));
             if ($plausibleDegree) {
                 $degreeTable    = JTable::getInstance('degrees', 'thm_organizerTable');
                 $degreePullData = ['code' => $programPieces[1]];

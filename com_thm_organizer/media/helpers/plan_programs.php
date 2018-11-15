@@ -54,8 +54,10 @@ class THM_OrganizerHelperPlan_Programs
             // Only one positive per resource is necessary
             $programID = $dbo->loadResult();
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                'error');
+            JFactory::getApplication()->enqueueMessage(
+                JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                'error'
+            );
 
             return false;
         }

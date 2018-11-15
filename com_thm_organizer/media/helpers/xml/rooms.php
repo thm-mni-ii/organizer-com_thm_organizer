@@ -42,15 +42,15 @@ class THM_OrganizerHelperXMLRooms
         if (!empty($scheduleModel->scheduleWarnings['ROOM-EXTERNALID'])) {
             $warningCount = $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'];
             unset($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']);
-            $scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'),
-                $warningCount);
+            $scheduleModel->scheduleWarnings[]
+                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['ROOM-TYPE'])) {
             $warningCount = $scheduleModel->scheduleWarnings['ROOM-TYPE'];
             unset($scheduleModel->scheduleWarnings['ROOM-TYPE']);
-            $scheduleModel->scheduleWarnings[] = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TYPE_MISSING'),
-                $warningCount);
+            $scheduleModel->scheduleWarnings[]
+                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TYPE_MISSING'), $warningCount);
         }
     }
 
@@ -62,6 +62,7 @@ class THM_OrganizerHelperXMLRooms
      * @param object &$roomNode      the room node to be validated
      *
      * @return void
+     * @throws Exception
      */
     public static function validateIndividual(&$scheduleModel, &$roomNode)
     {
@@ -79,8 +80,8 @@ class THM_OrganizerHelperXMLRooms
 
         $displayName = trim((string)$roomNode->longname);
         if (empty($displayName)) {
-            $scheduleModel->scheduleErrors[] = JText::sprintf('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING',
-                $internalID);
+            $scheduleModel->scheduleErrors[]
+                = JText::sprintf('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING', $internalID);
 
             return;
         }

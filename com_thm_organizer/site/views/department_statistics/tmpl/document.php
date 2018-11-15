@@ -56,11 +56,12 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
 
         $this->spreadSheet = new PHPExcel();
 
-        $userName    = JFactory::getUser()->name;
-        $startDate   = THM_OrganizerHelperComponent::formatDate($this->startDate);
-        $endDate     = THM_OrganizerHelperComponent::formatDate($this->endDate);
-        $description = sprintf(JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate,
-            $endDate);
+        $userName  = JFactory::getUser()->name;
+        $startDate = THM_OrganizerHelperComponent::formatDate($this->startDate);
+        $endDate   = THM_OrganizerHelperComponent::formatDate($this->endDate);
+
+        $description
+            = sprintf(JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);
         $this->spreadSheet->getProperties()->setCreator("THM Organizer")
             ->setLastModifiedBy($userName)
             ->setTitle(JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE'))
@@ -169,8 +170,8 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
             $this->sHoursColumns[$column] = $column;
 
             ++$column;
-            $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$column}{$rowNo}",
-                "=IFERROR($hours/C$rowNo,0)");
+            $this->spreadSheet->getActiveSheet($sheetNumber)
+                ->setCellValue("{$column}{$rowNo}", "=IFERROR($hours/C$rowNo,0)");
             $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->getNumberFormat()
                 ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(['borders' => $this->rightBorder]);
@@ -214,44 +215,46 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
     {
         ++$startColumn;
         $currentColumn = $startColumn;
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}3",
-            JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}4",
-            "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}4",
+                "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}7",
-            JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}3",
-            JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}4",
-            "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}4",
+                "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}7",
-            JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}3",
-            JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}4",
-            "==IFERROR({$startColumn}4/C4,0)");
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}4", "==IFERROR({$startColumn}4/C4,0)");
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$currentColumn}7",
-            JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)
+            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
@@ -314,8 +317,13 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         }
 
         $this->addSummaryHeader($sheetNumber, 'C', JText::_('COM_THM_ORGANIZER_HOURS_ABBR'), $lastRow, 'lightBorder');
-        $this->addSummaryHeader($sheetNumber, 'D', JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'), $lastRow,
-            'rightBorder');
+        $this->addSummaryHeader(
+            $sheetNumber,
+            'D',
+            JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'),
+            $lastRow,
+            'rightBorder'
+        );
 
         $currentColumn = 'D';
 

@@ -91,14 +91,26 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction            = $this->state->get('list.direction', $this->defaultDirection);
-        $headers              = [];
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
         $headers['checkbox']  = '';
-        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'ppr.gpuntisID', $direction,
-            $ordering);
-        $headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DISPLAY_NAME', 'ppr.name', $direction,
-            $ordering);
+        $headers['gpuntisID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_GPUNTISID',
+            'ppr.gpuntisID',
+            $direction,
+            $ordering
+        );
+
+        $headers['name'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_DISPLAY_NAME',
+            'ppr.name',
+            $direction,
+            $ordering
+        );
 
         return $headers;
     }

@@ -107,8 +107,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             try {
                 $success = $this->deleteSingle($scheduleID);
             } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                    'error'
+                );
                 $this->_db->transactionRollback();
 
                 return false;

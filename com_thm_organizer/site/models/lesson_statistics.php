@@ -422,8 +422,10 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
                 // Eliminates inflated values for lessons associated with more than one column/row
                 $totalLessons                      = array_merge($this->total, $lessons);
                 $this->total                       = array_unique($totalLessons);
-                $this->columns[$columnID]['total'] = array_unique(array_merge($this->columns[$columnID]['total'],
-                    $lessons));
+                $this->columns[$columnID]['total'] = array_unique(array_merge(
+                    $this->columns[$columnID]['total'],
+                    $lessons
+                ));
                 $this->rows[$rowID]['total']       = array_unique(array_merge($this->rows[$rowID]['total'], $lessons));
             }
         }

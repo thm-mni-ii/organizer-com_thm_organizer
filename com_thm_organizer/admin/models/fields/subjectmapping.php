@@ -63,8 +63,15 @@ class JFormFieldSubjectMapping extends JFormField
         $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
         $selectedMappings = empty($selected) ? [] : $selected;
 
-        return JHtml::_("select.genericlist", $planSubjects, "jform[$fieldName][]", $attributes, "value", "text",
-            $selectedMappings);
+        return JHtml::_(
+            "select.genericlist",
+            $planSubjects,
+            "jform[$fieldName][]",
+            $attributes,
+            "value",
+            "text",
+            $selectedMappings
+        );
     }
 
     /**
@@ -81,5 +88,4 @@ class JFormFieldSubjectMapping extends JFormField
 
         return JHtml::_("select.genericlist", $planSubjects, "jform[$fieldName][]", $attributes, "value", "text");
     }
-
 }

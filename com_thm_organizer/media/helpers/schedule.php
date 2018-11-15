@@ -33,13 +33,14 @@ class THM_OrganizerHelperSchedule
     private static function aggregateInstances($lessons, $deltaDate)
     {
         $aggregatedLessons = [];
-        $delta             = empty($deltaDate) ? date('Y-m-d H:i:s', strtotime('now')) : date('Y-m-d H:i:s',
-            strtotime($deltaDate));
+        $delta             = empty($deltaDate) ?
+            date('Y-m-d H:i:s', strtotime('now')) : date('Y-m-d H:i:s', strtotime($deltaDate));
 
         foreach ($lessons as $lesson) {
             $date         = $lesson['date'];
             $lessonID     = $lesson['lessonID'];
-            $subjectDelta = (empty($lesson['subjectDelta']) or $lesson['subjectsModified'] < $delta) ? '' : $lesson['subjectDelta'];
+            $subjectDelta = (empty($lesson['subjectDelta']) or $lesson['subjectsModified'] < $delta) ?
+                '' : $lesson['subjectDelta'];
             $startTime    = substr(str_replace(':', '', $lesson['startTime']), 0, 4);
             $endTime      = substr(str_replace(':', '', $lesson['endTime']), 0, 4);
             $times        = "$startTime-$endTime";
@@ -503,8 +504,10 @@ class THM_OrganizerHelperSchedule
                 try {
                     $dates = $dbo->loadAssoc();
                 } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                        'error');
+                    JFactory::getApplication()->enqueueMessage(
+                        JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                        'error'
+                    );
 
                     return [];
                 }
@@ -646,8 +649,8 @@ class THM_OrganizerHelperSchedule
         foreach ($lessons as $date => $blockTimes) {
             foreach ($blockTimes as $times => $lessonSet) {
                 foreach ($lessonSet as $lessonID => $lessonData) {
-                    if (empty($configurations[$lessonID]) or !in_array($lessonData['ccmID'],
-                            $configurations[$lessonID])) {
+                    if (empty($configurations[$lessonID])
+                        or !in_array($lessonData['ccmID'], $configurations[$lessonID])) {
                         unset($lessons[$date][$times][$lessonID]);
                     }
                 }

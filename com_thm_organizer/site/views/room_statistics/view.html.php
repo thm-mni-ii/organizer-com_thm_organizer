@@ -84,9 +84,16 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
         $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
 
-        $dateRestrictionSelect                           =
-            JHtml::_('select.genericlist', $dateRestrictions, 'dateRestriction', $dateRestrictionAttribs, 'value',
-                'text', 'semester');
+        $dateRestrictionSelect = JHtml::_(
+            'select.genericlist',
+            $dateRestrictions,
+            'dateRestriction',
+            $dateRestrictionAttribs,
+            'value',
+            'text',
+            'semester'
+        );
+
         $this->fields['baseSettings']['dateRestriction'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION'),
             'description' => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION_DESC'),
@@ -97,8 +104,8 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         $rawDateFormat = JFactory::getApplication()->getParams()->get('dateFormat');
         $dateFormat    = preg_replace("/([a-zA-Z])/", "%$1", $rawDateFormat);
 
-        $dateSelect                           = JHtml::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat,
-            $attribs);
+        $dateSelect = JHtml::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
+
         $this->fields['baseSettings']['date'] = [
             'label'       => JText::_('JDATE'),
             'description' => JText::_('COM_THM_ORGANIZER_DATE_DESC'),
@@ -108,8 +115,16 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         $ppAttribs = $attribs;
         $ppOptions = $this->model->getPlanningPeriodOptions();
         $ppDefault = THM_OrganizerHelperPlanning_Periods::getCurrentID();
-        $ppSelect  = JHtml::_('select.genericlist', $ppOptions, 'planningPeriodIDs[]', $ppAttribs, 'value', 'text',
-            $ppDefault);
+
+        $ppSelect = JHtml::_(
+            'select.genericlist',
+            $ppOptions,
+            'planningPeriodIDs[]',
+            $ppAttribs,
+            'value',
+            'text',
+            $ppDefault
+        );
 
         $this->fields['baseSettings']['planningPeriodIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_PLANNING_PERIOD'),
@@ -128,23 +143,25 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         $this->fields['filterFields'] = [];
         $attribs                      = ['multiple' => 'multiple'];
 
-        $roomAttribs                             = $attribs;
-        $roomAttribs['data-placeholder']         = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
-        $planRoomOptions                         = $this->model->getRoomOptions();
-        $roomSelect                              = JHtml::_('select.genericlist', $planRoomOptions, 'roomIDs[]',
-            $roomAttribs, 'value', 'text');
+        $roomAttribs                     = $attribs;
+        $roomAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+
+        $planRoomOptions = $this->model->getRoomOptions();
+        $roomSelect      = JHtml::_('select.genericlist', $planRoomOptions, 'roomIDs[]', $roomAttribs, 'value', 'text');
+
         $this->fields['filterFields']['roomIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_ROOMS'),
             'description' => JText::_('COM_THM_ORGANIZER_ROOMS_EXPORT_DESC'),
             'input'       => $roomSelect
         ];
 
-        $roomTypeAttribs                         = $attribs;
-        $roomTypeAttribs['onChange']             = 'repopulateRooms();';
-        $roomTypeAttribs['data-placeholder']     = JText::_('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
-        $typeOptions                             = $this->model->getRoomTypeOptions();
-        $roomTypeSelect                          = JHtml::_('select.genericlist', $typeOptions, 'typeIDs[]',
-            $roomTypeAttribs, 'value', 'text');
+        $roomTypeAttribs                     = $attribs;
+        $roomTypeAttribs['onChange']         = 'repopulateRooms();';
+        $roomTypeAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
+
+        $typeOptions    = $this->model->getRoomTypeOptions();
+        $roomTypeSelect = JHtml::_('select.genericlist', $typeOptions, 'typeIDs[]', $roomTypeAttribs, 'value', 'text');
+
         $this->fields['filterFields']['typeIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_ROOM_TYPES'),
             'description' => JText::_('COM_THM_ORGANIZER_ROOM_TYPES_EXPORT_DESC'),
@@ -152,12 +169,15 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         ];
 
         // Departments
-        $deptAttribs                                  = $attribs;
-        $deptAttribs['onChange']                      = 'repopulatePlanningPeriods();repopulatePrograms();repopulateRooms();';
-        $deptAttribs['data-placeholder']              = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
-        $planDepartmentOptions                        = $this->model->getDepartmentOptions();
-        $departmentSelect                             = JHtml::_('select.genericlist', $planDepartmentOptions,
-            'departmentIDs[]', $deptAttribs, 'value', 'text');
+        $deptAttribs                     = $attribs;
+        $deptAttribs['onChange']         = 'repopulatePlanningPeriods();repopulatePrograms();repopulateRooms();';
+        $deptAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+
+        $planDepartmentOptions = $this->model->getDepartmentOptions();
+
+        $departmentSelect
+            = JHtml::_('select.genericlist', $planDepartmentOptions, 'departmentIDs[]', $deptAttribs, 'value', 'text');
+
         $this->fields['filterFields']['departmetIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_DEPARTMENTS'),
             'description' => JText::_('COM_THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
@@ -165,12 +185,16 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         ];
 
         // Programs
-        $programAttribs                             = $attribs;
-        $programAttribs['onChange']                 = 'repopulatePlanningPeriods();repopulateRooms();';
-        $programAttribs['data-placeholder']         = JText::_('COM_THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
-        $planProgramOptions                         = $this->model->getProgramOptions();
-        $programSelect                              = JHtml::_('select.genericlist', $planProgramOptions,
-            'programIDs[]', $programAttribs, 'value', 'text');
+        $programAttribs                     = $attribs;
+        $programAttribs['onChange']         = 'repopulatePlanningPeriods();repopulateRooms();';
+        $programAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
+
+        $planProgramOptions = $this->model->getProgramOptions();
+
+        $programSelect
+            = JHtml::_('select.genericlist', $planProgramOptions, 'programIDs[]', $programAttribs,
+            'value', 'text');
+
         $this->fields['filterFields']['programIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_PROGRAMS'),
             'description' => JText::_('COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),

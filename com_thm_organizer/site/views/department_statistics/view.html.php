@@ -85,11 +85,12 @@ class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
         $this->fields['filterFields'] = [];
         $attribs                      = ['multiple' => 'multiple'];
 
-        $roomAttribs                             = $attribs;
-        $roomAttribs['data-placeholder']         = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
-        $planRoomOptions                         = $this->model->getRoomOptions();
-        $roomSelect                              = JHtml::_('select.genericlist', $planRoomOptions, 'roomIDs[]',
-            $roomAttribs, 'value', 'text');
+        $roomAttribs                     = $attribs;
+        $roomAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+
+        $planRoomOptions = $this->model->getRoomOptions();
+        $roomSelect      = JHtml::_('select.genericlist', $planRoomOptions, 'roomIDs[]', $roomAttribs, 'value', 'text');
+
         $this->fields['filterFields']['roomIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_ROOMS'),
             'description' => JText::_('COM_THM_ORGANIZER_ROOMS_EXPORT_DESC'),

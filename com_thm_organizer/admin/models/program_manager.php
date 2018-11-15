@@ -105,17 +105,34 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
     {
         $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
         $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
 
-        $headers                 = [];
-        $headers['checkbox']     = '';
-        $headers['dp.name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction,
-            $ordering);
-        $headers['degreeID']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE', 'abbreviation', $direction,
-            $ordering);
-        $headers['version']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_VERSION', 'version', $direction,
-            $ordering);
-        $headers['departmentID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentID',
-            $direction, $ordering);
+        $headers['checkbox'] = '';
+        $headers['dp.name']  = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+
+        $headers['degreeID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_DEGREE',
+            'abbreviation',
+            $direction,
+            $ordering
+        );
+
+        $headers['version'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_VERSION',
+            'version',
+            $direction,
+            $ordering
+        );
+
+        $headers['departmentID'] = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_DEPARTMENT',
+            'departmentID',
+            $direction,
+            $ordering
+        );
 
         return $headers;
     }

@@ -53,8 +53,10 @@ class THM_OrganizerHelperPlan_Pools
             // Only one positive per resource is necessary
             $assocIDs = $dbo->loadColumn();
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                'error');
+            JFactory::getApplication()->enqueueMessage(
+                JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                'error'
+            );
 
             return false;
         }

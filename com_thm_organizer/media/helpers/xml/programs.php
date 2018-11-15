@@ -47,6 +47,7 @@ class THM_OrganizerHelperXMLPrograms
      * @param object &$programNode   the degree (program/department) node to be validated
      *
      * @return void
+     * @throws Exception
      */
     private static function validateIndividual(&$scheduleModel, &$programNode)
     {
@@ -63,8 +64,8 @@ class THM_OrganizerHelperXMLPrograms
 
         $programName = (string)$programNode->longname;
         if (!isset($programName)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'),
-                $programID);
+            $scheduleModel->scheduleErrors[]
+                = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $programID);
 
             return;
         }

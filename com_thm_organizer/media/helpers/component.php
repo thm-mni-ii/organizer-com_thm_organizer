@@ -226,8 +226,8 @@ class THM_OrganizerHelperComponent
             $allowedDepartments = self::getAccessibleDepartments('manage');
             $canManage          = false;
             foreach ($allowedDepartments as $departmentID) {
-                $canManage = ($canManage or $user->authorise('organizer.manage',
-                        "com_thm_organizer.department.$departmentID"));
+                $departmentManager = $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID");
+                $canManage = ($canManage or $departmentManager);
             }
 
             return $canManage;
@@ -462,8 +462,8 @@ class THM_OrganizerHelperComponent
 
         foreach ($departmentIDs as $departmentID) {
             $allowed = $action == 'manage' ?
-                self::allowDocumentAccess('department', $departmentID) : self::allowSchedulingAccess(null,
-                    $departmentID);
+                self::allowDocumentAccess('department', $departmentID) :
+                self::allowSchedulingAccess(null, $departmentID);
 
             if ($allowed) {
                 $allowedDepartmentIDs[] = $departmentID;

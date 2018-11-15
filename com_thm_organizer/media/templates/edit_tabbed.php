@@ -52,5 +52,4 @@ class THM_OrganizerTemplateEdit_Tabbed
         </form>
         <?php
     }
-
 }

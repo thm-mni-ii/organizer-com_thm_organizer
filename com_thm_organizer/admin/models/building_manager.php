@@ -106,12 +106,15 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering                = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction               = $this->state->get('list.direction', $this->defaultDirection);
         $headers                 = [];
         $headers['checkbox']     = '';
-        $headers['name']         = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction,
-            $ordering);
+        $headers['name']         = JHtml::_(
+            'searchtools.sort',
+            'COM_THM_ORGANIZER_NAME',
+            'name',
+            $this->state->get('list.direction', $this->defaultDirection),
+            $this->state->get('list.ordering', $this->defaultOrdering)
+        );
         $headers['campusID']     = JText::_('COM_THM_ORGANIZER_CAMPUS');
         $headers['propertyType'] = JText::_('COM_THM_ORGANIZER_PROPERTY_TYPE');
         $headers['address']      = JText::_('COM_THM_ORGANIZER_ADDRESS');

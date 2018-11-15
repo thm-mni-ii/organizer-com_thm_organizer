@@ -661,8 +661,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             try {
                 $this->_db->execute();
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
 
                 return false;
             }
@@ -801,8 +803,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $success = $table->save($data);
 
             if (!$success) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
                 continue;
             }
 
@@ -853,8 +857,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $success = $table->save($data);
 
             if (!$success) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
                 continue;
             }
 
@@ -914,8 +920,11 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $success = $table->save($data);
 
             if (!$success) {
-                JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error');
+                JFactory::getApplication()->enqueueMessage(
+                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
+                    'error'
+                );
+
                 continue;
             }
 
@@ -1044,8 +1053,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
         $dbSuccess = $this->save();
         if (!$dbSuccess) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL'),
-                'notice');
+            JFactory::getApplication()->enqueueMessage(
+                JText::_('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL'),
+                'notice'
+            );
 
             return false;
         }

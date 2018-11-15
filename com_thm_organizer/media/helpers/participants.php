@@ -68,8 +68,10 @@ class THM_OrganizerHelperParticipants
                 try {
                     $success = $dbo->execute();
                 } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage($lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error');
+                    JFactory::getApplication()->enqueueMessage(
+                        $lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
+                        'error'
+                    );
 
                     return false;
                 }
@@ -141,8 +143,10 @@ class THM_OrganizerHelperParticipants
         if (count($dates) == 1 or $dates[0] == $dates[1]) {
             $body .= sprintf($lang->_("COM_THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE") . ":\n\n", $courseName, $dates[0]);
         } else {
-            $body .= sprintf($lang->_("COM_THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES") . ":\n\n", $courseName, $dates[0],
-                $dates[1]);
+            $body .= sprintf(
+                $lang->_("COM_THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES") . ":\n\n", $courseName, $dates[0],
+                $dates[1]
+            );
         }
 
         $statusText = '';

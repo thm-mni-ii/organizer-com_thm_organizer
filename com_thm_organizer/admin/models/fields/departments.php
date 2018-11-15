@@ -61,8 +61,15 @@ class JFormFieldDepartments extends JFormField
         $attributes          = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '12'];
         $selectedDepartments = empty($selected) ? [] : $selected;
 
-        return JHtml::_("select.genericlist", $allDepartments, "jform[departments][]", $attributes, "value", "text",
-            $selectedDepartments);
+        return JHtml::_(
+            "select.genericlist",
+            $allDepartments,
+            "jform[departments][]",
+            $attributes,
+            "value",
+            "text",
+            $selectedDepartments
+        );
     }
 
     /**

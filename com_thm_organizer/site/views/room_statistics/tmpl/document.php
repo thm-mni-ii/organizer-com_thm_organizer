@@ -313,8 +313,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
     {
         $this->spreadSheet->getActiveSheet(1)->setCellValue("A{$rowNo}", $this->rooms[$roomID]);
         $this->spreadSheet->getActiveSheet()->getStyle("A{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("B{$rowNo}",
-            $this->roomTypes[$this->roomTypeMap[$roomID]]['name']);
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("B{$rowNo}", $this->roomTypes[$this->roomTypeMap[$roomID]]['name']);
         $this->spreadSheet->getActiveSheet()->getStyle("B{$rowNo}")->applyFromArray(['borders' => $this->rightBorder]);
 
         $total         = 0;
@@ -372,20 +372,22 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         ++$startColumn;
         $currentColumn = $startColumn;
         $totalColumn   = $currentColumn;
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3",
-            JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT')
+            );
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}4",
-            "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
+        $this->spreadSheet->getActiveSheet(1)->setCellValue(
+            "{$currentColumn}4", "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})"
+        );
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7",
-            JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_RAW_UTIL_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3",
-            JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue(
@@ -395,27 +397,27 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7",
-            JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_RAW_PERCENT_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
         $adjTotalColumn = $currentColumn;
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3",
-            JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}4",
-            "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}4", "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7",
-            JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}3",
-            JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray([
             'fill'    => $this->headerFill,
             'borders' => $this->rightBorder
@@ -428,8 +430,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}7",
-            JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
+        $this->spreadSheet->getActiveSheet(1)
+            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray([
             'fill'    => $this->headerFill,
             'borders' => $this->rightBorder
@@ -484,8 +486,14 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
             $groupTitle         = "$startDate - $endDate";
             $singleRoomTotal    = $weekData['total'] / count($this->roomData);
             $singleRoomAdjTotal = $weekData['adjustedTotal'] / count($this->roomData);
-            $currentColumn      = $this->addWeekHeaderGroup($currentColumn, $groupTitle, $firstRow, $lastRow,
-                $singleRoomTotal, $singleRoomAdjTotal);
+            $currentColumn      = $this->addWeekHeaderGroup(
+                $currentColumn,
+                $groupTitle,
+                $firstRow,
+                $lastRow,
+                $singleRoomTotal,
+                $singleRoomAdjTotal
+            );
         }
 
         $this->spreadSheet->getActiveSheet(1)->setCellValue('A7', JText::_('COM_THM_ORGANIZER_NAME'));

@@ -100,8 +100,8 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         $departmentName = trim((string)$xmlSchedule->general->header1);
         $this->validateTextAttribute('departmentname', $departmentName, 'ORGANIZATION', 'error', '/[\#\;]/');
         $semesterName      = trim((string)$xmlSchedule->general->footer);
-        $validSemesterName = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error',
-            '/[\#\;]/');
+        $validSemesterName
+            = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
         $form = $input->get('jform', [], 'array');
 
@@ -124,8 +124,8 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         if ($invalid) {
             $this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
         } elseif ($validSemesterName) {
-            $planningPeriodID = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp,
-                $endTimeStamp);
+            $planningPeriodID
+                = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
 
             $this->schedule->planningPeriodID = $planningPeriodID;
         }
