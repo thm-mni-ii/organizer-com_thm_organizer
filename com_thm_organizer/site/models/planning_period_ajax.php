@@ -12,9 +12,7 @@ jimport('joomla.application.component.model');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**
- * Class seems to provide planning period 'options' for a given date. Seems self-defeating.
- *
- * @todo what was i thinking?
+ * Class provides planning period options for a given department/program. Called from the room statistics view.
  */
 class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
 {
@@ -22,6 +20,7 @@ class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
      * Gets the pool options as a string
      *
      * @return string the concatenated plan pool options
+     * @throws Exception
      */
     public function getOptions()
     {

@@ -15,8 +15,6 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class retrieves information for a filtered set of subjects. Modal view.
- *
- * @todo does so much of this need to be explicitly implemented?
  */
 class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 {

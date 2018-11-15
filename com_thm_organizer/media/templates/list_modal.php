@@ -143,17 +143,20 @@ class THM_OrganizerTemplateList_Modal
         if ($dontDisplay) {
             return;
         }
+        $template = '<th><div class="js-stools-field-filter">XXXX</div></th>';
 
         $headerNames = array_keys($headers);
         echo '<tr>';
         foreach ($headerNames as $name) {
+            if ($name == 'checkbox') {
+                echo str_replace('XXXX', JHtml::_('grid.checkall'), $template);
+                continue;
+            }
             $found      = false;
             $searchName = "filter_$name";
             foreach ($filters as $fieldName => $field) {
                 if ($fieldName == $searchName) {
-                    echo '<th><div class="js-stools-field-filter">';
-                    echo $field->input;
-                    echo '</div></th>';
+                    echo str_replace('XXXX', $field->input, $template);
                     $found = true;
                     break;
                 }
