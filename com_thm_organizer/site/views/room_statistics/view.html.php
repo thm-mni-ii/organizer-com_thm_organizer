@@ -78,17 +78,17 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         $attribs                      = [];
         $this->fields['baseSettings'] = [];
 
-        $dateRestrictions       = [];
-        $dateRestrictionAttribs = ['onChange' => 'handleDateRestriction();'];
-        $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_WEEK'), 'value' => 'week'];
-        $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
-        $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
+        $intervals       = [];
+        $intervalAttribs = ['onChange' => 'handleDateRestriction();'];
+        $intervals[]     = ['text' => JText::_('COM_THM_ORGANIZER_WEEK'), 'value' => 'week'];
+        $intervals[]     = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
+        $intervals[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
 
-        $dateRestrictionSelect = JHtml::_(
+        $intervalSelect = JHtml::_(
             'select.genericlist',
-            $dateRestrictions,
+            $intervals,
             'dateRestriction',
-            $dateRestrictionAttribs,
+            $intervalAttribs,
             'value',
             'text',
             'semester'
@@ -97,7 +97,7 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         $this->fields['baseSettings']['dateRestriction'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION'),
             'description' => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION_DESC'),
-            'input'       => $dateRestrictionSelect
+            'input'       => $intervalSelect
         ];
 
         // The Joomla calendar form field demands the % character before the real date format instruction values.
@@ -173,10 +173,10 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         $deptAttribs['onChange']         = 'repopulatePlanningPeriods();repopulatePrograms();repopulateRooms();';
         $deptAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
-        $planDepartmentOptions = $this->model->getDepartmentOptions();
+        $departmentOptions = $this->model->getDepartmentOptions();
 
         $departmentSelect
-            = JHtml::_('select.genericlist', $planDepartmentOptions, 'departmentIDs[]', $deptAttribs, 'value', 'text');
+            = JHtml::_('select.genericlist', $departmentOptions, 'departmentIDs[]', $deptAttribs, 'value', 'text');
 
         $this->fields['filterFields']['departmetIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_DEPARTMENTS'),

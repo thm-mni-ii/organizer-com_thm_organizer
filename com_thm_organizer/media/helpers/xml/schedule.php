@@ -99,9 +99,9 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         // Organizational Data
         $departmentName = trim((string)$xmlSchedule->general->header1);
         $this->validateTextAttribute('departmentname', $departmentName, 'ORGANIZATION', 'error', '/[\#\;]/');
-        $semesterName      = trim((string)$xmlSchedule->general->footer);
+        $semesterName = trim((string)$xmlSchedule->general->footer);
         $validSemesterName
-            = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
+                      = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
         $form = $input->get('jform', [], 'array');
 
@@ -114,12 +114,12 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
         $this->validateDateAttribute('endDate', $endDate, 'TERM_END_DATE');
 
         // Checks if planning period and school year dates are consistent
-        $startTimeStamp        = strtotime($startDate);
-        $endTimeStamp          = strtotime($endDate);
-        $invalidStart          = $startTimeStamp < strtotime($syStartDate);
-        $invalidEnd            = $endTimeStamp > strtotime($syEndDate);
-        $invalidPlanningPeriod = $startTimeStamp >= $endTimeStamp;
-        $invalid               = ($invalidStart or $invalidEnd or $invalidPlanningPeriod);
+        $startTimeStamp = strtotime($startDate);
+        $endTimeStamp   = strtotime($endDate);
+        $invalidStart   = $startTimeStamp < strtotime($syStartDate);
+        $invalidEnd     = $endTimeStamp > strtotime($syEndDate);
+        $invalidPeriod  = $startTimeStamp >= $endTimeStamp;
+        $invalid        = ($invalidStart or $invalidEnd or $invalidPeriod);
 
         if ($invalid) {
             $this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');

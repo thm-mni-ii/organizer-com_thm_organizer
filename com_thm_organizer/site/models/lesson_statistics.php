@@ -143,6 +143,8 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * @param bool  $loadData Load data  (default: true)
      *
      * @return mixed  JForm object on success, False on error.
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = [], $loadData = true)
     {

@@ -50,16 +50,16 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
         $this->items = $this->get('Items');
 
         // alphabetically sort by course name and campus name
-        uasort($this->items, function ($a, $b) {
-            if ($a->name == $b->name) {
-                if ($a->campus['name'] == $b->campus['name']) {
-                    return $a->start < $b->start;
+        uasort($this->items, function ($courseOne, $courseTwo) {
+            if ($courseOne->name == $courseTwo->name) {
+                if ($courseOne->campus['name'] == $courseTwo->campus['name']) {
+                    return $courseOne->start < $courseTwo->start;
                 }
 
-                return $a->campus['name'] > $b->campus['name'];
+                return $courseOne->campus['name'] > $courseTwo->campus['name'];
             }
 
-            return $a->name > $b->name;
+            return $courseOne->name > $courseTwo->name;
         });
 
         $params                 = ['view' => 'course_list'];

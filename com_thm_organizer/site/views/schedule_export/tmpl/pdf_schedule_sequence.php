@@ -129,7 +129,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
         $method       = empty($instance['method']) ? '' : $instance['method'];
         $comment      = empty($instance['comment']) ? '' : $instance['comment'];
 
-        foreach ($instance['subjects'] as $index => $subject) {
+        foreach ($instance['subjects'] as $subject) {
             $name = $this->getName($subject);
 
             if (!in_array($name, $subjectNames)) {

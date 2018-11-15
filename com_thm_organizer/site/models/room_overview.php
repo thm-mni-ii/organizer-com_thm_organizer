@@ -40,11 +40,9 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Constructor
      *
-     * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
-     *
      * @throws Exception
      */
-    public function __construct($config = [])
+    public function __construct()
     {
         parent::__construct();
         $this->populateState();
@@ -60,6 +58,8 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * @param  boolean $loadData True if the form is to load its own data (default case), false if not.
      *
      * @return JForm|boolean  A JForm object on success, false on failure
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -75,13 +75,10 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Method to auto-populate the model state.
      *
-     * @param string $ordering  An optional ordering field.
-     * @param string $direction An optional direction (asc|desc).
-     *
      * @return void
      * @throws Exception
      */
-    protected function populateState($ordering = null, $direction = null)
+    protected function populateState()
     {
         $app           = JFactory::getApplication();
         $format        = $app->getParams()->get('dateFormat', 'd.m.Y');
@@ -427,7 +424,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
                     $instance['comment']    = $eventInstance['comment'];
                     $instance['divTime']    = $divTime;
 
-                    foreach ($eventInstance['rooms'] as $roomID => $roomName) {
+                    foreach (array_keys($eventInstance['rooms']) as $roomID) {
                         $blocks[$blockNo][$roomID][$eventID] = $instance;
                     }
                 }

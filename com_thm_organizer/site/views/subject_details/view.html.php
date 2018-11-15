@@ -65,7 +65,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
             $this->showRegistration = true;
             $isCoordinator          = THM_OrganizerHelperSubjects::allowEdit($this->subjectID);
 
-            foreach ($courses as $key => &$course) {
+            foreach ($courses as &$course) {
                 $courseID                     = $course['id'];
                 $course['dateText']           = THM_OrganizerHelperCourses::getDateDisplay($courseID);
                 $course['expired']            = !THM_OrganizerHelperCourses::isRegistrationOpen($courseID);
@@ -94,8 +94,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
 
         THM_OrganizerHelperComponent::addMenuParameters($this);
 
-        $this->disclaimer     = new JLayoutFile('disclaimer',
-            $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
+        $this->disclaimer     = new JLayoutFile('disclaimer', JPATH_ROOT . '/media/com_thm_organizer/layouts');
         $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);
@@ -283,9 +282,9 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
         $link          = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}&Itemid={$menuID}&id=";
 
         $html = '<ul>';
-        foreach ($dependencies as $programID => $programData) {
-            $html .= "<li>{$programData['name']}<ul>";
-            foreach ($programData['subjects'] as $subjectID => $subjectName) {
+        foreach ($dependencies as $program) {
+            $html .= "<li>{$program['name']}<ul>";
+            foreach ($program['subjects'] as $subjectID => $subjectName) {
                 $subjectLink = JHtml::_('link', $link . $subjectID, $subjectName);
                 $html        .= "<li>$subjectLink</li>";
             }

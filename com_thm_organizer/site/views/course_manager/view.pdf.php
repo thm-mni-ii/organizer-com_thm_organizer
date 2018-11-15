@@ -20,12 +20,10 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
     /**
      * Method to get display
      *
-     * @param Object $tpl template  (default: null)
-     *
      * @return void
      * @throws Exception
      */
-    public function display($tpl = null)
+    public function display()
     {
         $input = JFactory::getApplication()->input;
 

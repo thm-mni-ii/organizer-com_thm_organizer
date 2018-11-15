@@ -211,7 +211,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      */
     public function getResponsibleDisplay($subject, $teacherID)
     {
-        $teacherResponsibility = [];
+        $responsibilities = [];
 
         $isResponsible = (isset($subject->teachers[1]) and array_key_exists($teacherID, $subject->teachers[1]));
         $isTeacher     = (isset($subject->teachers[2]) and array_key_exists($teacherID, $subject->teachers[2]));
@@ -223,17 +223,17 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
             default:
                 if ($isResponsible) {
-                    $teacherResponsibility[1] = JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
+                    $responsibilities[1] = JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
                 }
 
                 if ($isTeacher) {
-                    $teacherResponsibility[2] = JText::_('COM_THM_ORGANIZER_TEACHER');
+                    $responsibilities[2] = JText::_('COM_THM_ORGANIZER_TEACHER');
                 }
 
                 break;
         }
 
-        return implode(' & ', $teacherResponsibility);
+        return implode(' & ', $responsibilities);
     }
 
     /**

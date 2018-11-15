@@ -34,12 +34,10 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
     /**
      * Method to get display
      *
-     * @param Object $tpl template  (default: null)
-     *
      * @return void
      * @throws Exception
      */
-    public function display($tpl = null)
+    public function display()
     {
         $this->lang = THM_OrganizerHelperLanguage::getLanguage();
         $lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
@@ -80,7 +78,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $this->modifyDocument();
         THM_OrganizerHelperComponent::addMenuParameters($this);
 
-        parent::display($tpl);
+        parent::display();
     }
 
     /**

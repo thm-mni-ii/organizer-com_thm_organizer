@@ -176,7 +176,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
         $options         = [];
 
-        foreach ($planningPeriods as $planningPeriodID => $planningPeriod) {
+        foreach ($planningPeriods as $planningPeriod) {
             $shortSD = THM_OrganizerHelperComponent::formatDate($planningPeriod['startDate']);
             $shortED = THM_OrganizerHelperComponent::formatDate($planningPeriod['endDate']);
 
@@ -670,24 +670,24 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $this->roomData = [];
 
         foreach ($this->calendarData as $date => $blocks) {
-            foreach ($blocks as $blockNo => $blockRoomData) {
+            foreach ($blocks as $blockRoomData) {
                 $roomIDs = array_keys($blockRoomData);
 
                 // This will ignore double bookings because the lessons themselves are not iterated
-                foreach ($this->rooms as $roomName => $roomData) {
-                    if (empty($this->roomData[$roomData['id']])) {
-                        $this->roomData[$roomData['id']]         = [];
-                        $this->roomData[$roomData['id']]['days'] = [];
+                foreach ($this->rooms as $room) {
+                    if (empty($this->roomData[$room['id']])) {
+                        $this->roomData[$room['id']]         = [];
+                        $this->roomData[$room['id']]['days'] = [];
                     }
 
-                    $newValue = empty($this->roomData[$roomData['id']]['days'][$date]) ?
-                        0 : $this->roomData[$roomData['id']]['days'][$date];
+                    $newValue = empty($this->roomData[$room['id']]['days'][$date]) ?
+                        0 : $this->roomData[$room['id']]['days'][$date];
 
-                    if (in_array($roomData['id'], $roomIDs)) {
+                    if (in_array($room['id'], $roomIDs)) {
                         $newValue++;
                     }
 
-                    $this->roomData[$roomData['id']]['days'][$date] = $newValue;
+                    $this->roomData[$room['id']]['days'][$date] = $newValue;
                 }
             }
         }

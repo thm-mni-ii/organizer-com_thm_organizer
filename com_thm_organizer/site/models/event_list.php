@@ -282,12 +282,12 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
             if (!empty($events)) {
                 foreach ($events as $index => $event) {
-                    $instanceConfiguration = json_decode($event['configuration'], true);
-                    $rooms                 = $this->getEventRooms($instanceConfiguration['rooms']);
+                    $configuration = json_decode($event['configuration'], true);
+                    $rooms         = $this->getEventRooms($configuration['rooms']);
 
                     if (count($rooms)) {
                         $events[$index]['rooms']    = $rooms;
-                        $events[$index]['teachers'] = $this->getEventTeachers($instanceConfiguration['teachers']);
+                        $events[$index]['teachers'] = $this->getEventTeachers($configuration['teachers']);
                         unset($events[$index]['configuration']);
                     } else {
                         unset($events[$index]);

@@ -86,7 +86,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      *
      * @return JTable  A JTable object
      */
-    public function getTable($name = '', $prefix = 'Table', $options = [])
+    public function getTable($name = '')
     {
         /**
          * Joomla makes the mistake of handling front end and backend differently for include paths. Here we add the
@@ -95,10 +95,10 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
         JTable::addIncludePath(JPATH_ROOT . "/media/com_thm_organizer/tables");
         JTable::addIncludePath(JPATH_ROOT . "/components/com_thm_organizer/tables");
 
-        $type = str_replace('_edit', '', $this->get('name'));
-        $type .= $type == 'campus' ? 'es' : 's';
+        $name = str_replace('_edit', '', $this->get('name'));
+        $name .= $name == 'campus' ? 'es' : 's';
 
-        return JTable::getInstance($type, 'THM_OrganizerTable', $options);
+        return JTable::getInstance($name, 'THM_OrganizerTable');
     }
 
     /**

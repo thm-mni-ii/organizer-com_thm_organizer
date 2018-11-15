@@ -27,7 +27,7 @@ class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
         $planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
         $options         = [];
 
-        foreach ($planningPeriods as $planningPeriodID => $planningPeriod) {
+        foreach ($planningPeriods as $planningPeriod) {
             $shortSD = THM_OrganizerHelperComponent::formatDate($planningPeriod['startDate']);
             $shortED = THM_OrganizerHelperComponent::formatDate($planningPeriod['endDate']);
 

@@ -601,9 +601,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                 continue;
             }
 
-            $lastResourceRowNumber = count($resourceRows);
-            $resourceRowNumber     = 1;
-            $outputResource        = true;
+            $maxResourceRows   = count($resourceRows);
+            $resourceRowNumber = 1;
+            $outputResource    = true;
 
             foreach ($resourceRows as $row) {
                 $lineCount  = max($minLineCount, $row['lineCount']);
@@ -618,7 +618,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                 }
 
                 $resourceText = $outputResource ? $resourceName : '';
-                if ($resourceRowNumber == $lastResourceRowNumber) {
+                if ($resourceRowNumber == $maxResourceRows) {
 
                     $resourceBorder = $this->getLastRowHeadCellBorder();
                     $dataBorder     = $this->getLastCellBorder();

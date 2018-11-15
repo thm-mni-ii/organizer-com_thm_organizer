@@ -137,12 +137,12 @@ class THM_OrganizerModelSubject_List extends JModelList
             }
         }
 
-        uasort($this->teachers, function ($a, $b) {
-            if ($a['surname'] == $b['surname']) {
-                return $a['forename'] > $b['forename'];
+        uasort($this->teachers, function ($teacherOne, $teacherTwo) {
+            if ($teacherOne['surname'] == $teacherTwo['surname']) {
+                return $teacherOne['forename'] > $teacherTwo['forename'];
             }
 
-            return $a['surname'] > $b['surname'];
+            return $teacherOne['surname'] > $teacherTwo['surname'];
         });
 
         uasort($this->pools, function ($a, $b) {
@@ -583,21 +583,18 @@ class THM_OrganizerModelSubject_List extends JModelList
             $this->fields[0]                 = $defaultField;
         }
 
-        uasort($this->fields, function ($a, $b) {
-            return $a['name'] > $b['name'];
+        uasort($this->fields, function ($fieldOne, $fieldTwo) {
+            return $fieldOne['name'] > $fieldTwo['name'];
         });
     }
 
     /**
      * Method to auto-populate the model state.
      *
-     * @param string $ordering  An optional ordering field.
-     * @param string $direction An optional direction (asc|desc).
-     *
      * @return void
      * @throws Exception
      */
-    protected function populateState($ordering = null, $direction = null)
+    protected function populateState()
     {
         $app = JFactory::getApplication();
 

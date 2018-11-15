@@ -63,7 +63,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $osResults = $this->results[$outerStrength];
 
             foreach ($osResults as $resource => $rResults) {
-                foreach ($rResults as $resultID => $result) {
+                foreach (array_keys($rResults) as $resultID) {
                     foreach ($strengths as $innerStrength) {
                         if ($outerStrength == $innerStrength) {
                             continue;
@@ -736,8 +736,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
                 $ppQuery->clear('where');
                 $pQuery->clear('select');
                 $pQuery->clear('where');
-                $poolID  = null;
-                $pPoolID = null;
 
                 if (!empty($program['pProgramID'])) {
                     $ppQuery->select("DISTINCT id, '{$program['name']}' AS program");
@@ -1204,7 +1202,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $wherray    = [];
             $innerTerms = $terms;
 
-            foreach ($terms as $oKey => $outerTerm) {
+            foreach ($terms as $outerTerm) {
                 foreach ($terms as $iKey => $innerTerm) {
                     if ($outerTerm == $innerTerm) {
                         unset($innerTerms[$iKey]);
@@ -1268,7 +1266,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $wherray    = [];
             $innerTerms = $terms;
 
-            foreach ($terms as $oKey => $outerTerm) {
+            foreach ($terms as $outerTerm) {
                 foreach ($innerTerms as $iKey => $innerTerm) {
                     if ($outerTerm == $innerTerm) {
                         unset($innerTerms[$iKey]);

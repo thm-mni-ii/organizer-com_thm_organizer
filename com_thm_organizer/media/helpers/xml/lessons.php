@@ -14,8 +14,6 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerHelperXMLLessons
 {
-    private $configurations = [];
-
     private $lessonID;
 
     private $lessonName;
@@ -386,6 +384,8 @@ class THM_OrganizerHelperXMLLessons
      * @param object &$lessonNode the lesson node
      *
      * @return boolean  true if valid, otherwise false
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function validateTeacher(&$lessonNode)
     {
@@ -399,7 +399,6 @@ class THM_OrganizerHelperXMLLessons
         }
 
         $teacherFound = false;
-        $teacherID    = null;
 
         foreach ($this->scheduleModel->schedule->teachers as $teacherKey => $teacher) {
             if ($teacher->localUntisID == $untisID) {
@@ -442,6 +441,8 @@ class THM_OrganizerHelperXMLLessons
      * @param object &$lessonNode the lesson node
      *
      * @return boolean  true if valid, otherwise false
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function validatePools(&$lessonNode)
     {

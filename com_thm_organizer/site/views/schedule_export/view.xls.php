@@ -16,18 +16,12 @@ jimport('phpexcel.library.PHPExcel');
  */
 class THM_OrganizerViewSchedule_Export extends JViewLegacy
 {
-    private $parameters;
-
-    private $lessons;
-
     /**
      * Sets context variables and renders the view.
      *
-     * @param string $tpl template
-     *
      * @return void
      */
-    public function display($tpl = null)
+    public function display()
     {
         $model      = $this->getModel();
         $parameters = $model->parameters;

@@ -30,7 +30,7 @@ class THM_OrganizerTemplateTeacherList
             return;
         }
 
-        foreach ($view->teachers as $teacherID => $teacher) {
+        foreach (array_keys($view->teachers) as $teacherID) {
             $rows = [];
 
             foreach ($view->items as $subjectKey => $subject) {

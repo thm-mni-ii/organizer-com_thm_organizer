@@ -25,11 +25,9 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     /**
      * Sets context variables and renders the view.
      *
-     * @param string $tpl template
-     *
      * @return void
      */
-    public function display($tpl = null)
+    public function display()
     {
         $model                      = $this->getModel();
         $this->parameters           = $model->parameters;
@@ -87,7 +85,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     private function addData()
     {
         foreach ($this->lessons as $date => $timesIndexes) {
-            foreach ($timesIndexes as $times => $lessonInstances) {
+            foreach ($timesIndexes as $lessonInstances) {
                 foreach ($lessonInstances as $lessonInstance) {
                     $this->setEvent($date, $lessonInstance);
                 }

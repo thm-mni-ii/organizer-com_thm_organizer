@@ -115,13 +115,10 @@ class THM_OrganizerModelCourse_List extends JModelList
     /**
      * Method to auto-populate the model state.
      *
-     * @param string $ordering  An optional ordering field.
-     * @param string $direction An optional direction (asc|desc).
-     *
      * @return void
      * @throws Exception
      */
-    protected function populateState($ordering = null, $direction = null)
+    protected function populateState()
     {
         $app      = JFactory::getApplication();
         $formData = $app->input->get('jform', [], 'array');

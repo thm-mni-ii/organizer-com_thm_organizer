@@ -137,10 +137,10 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $deptAttribs['onChange']         = 'repopulatePrograms();repopulateResources();';
         $deptAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
-        $planDepartmentOptions = $this->model->getDepartmentOptions();
+        $departmentOptions = $this->model->getDepartmentOptions();
         $departmentSelect      = JHtml::_(
             'select.genericlist',
-            $planDepartmentOptions,
+            $departmentOptions,
             'departmentIDs',
             $deptAttribs,
             'value',
@@ -281,26 +281,26 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
             'input'       => $dateSelect
         ];
 
-        $dateRestrictions       = [];
-        $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_DAY'), 'value' => 'day'];
-        $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_WEEK'), 'value' => 'week'];
-        $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
-        $dateRestrictions[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
-        $defaultDateRestriction = 'week';
-        $dateRestrictionSelect  = JHtml::_(
+        $intervals       = [];
+        $intervals[]     = ['text' => JText::_('COM_THM_ORGANIZER_DAY'), 'value' => 'day'];
+        $intervals[]     = ['text' => JText::_('COM_THM_ORGANIZER_WEEK'), 'value' => 'week'];
+        $intervals[]     = ['text' => JText::_('COM_THM_ORGANIZER_MONTH'), 'value' => 'month'];
+        $intervals[]     = ['text' => JText::_('COM_THM_ORGANIZER_SEMESTER'), 'value' => 'semester'];
+        $defaultInterval = 'week';
+        $intervalSelect  = JHtml::_(
             'select.genericlist',
-            $dateRestrictions,
+            $intervals,
             'dateRestriction',
             $attribs,
             'value',
             'text',
-            $defaultDateRestriction
+            $defaultInterval
         );
 
         $this->fields['formatSettings']['dateRestriction'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION'),
             'description' => JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION_DESC'),
-            'input'       => $dateRestrictionSelect
+            'input'       => $intervalSelect
         ];
 
         // TODO: Add grid selection here

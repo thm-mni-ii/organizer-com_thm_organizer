@@ -58,7 +58,7 @@ class THM_OrganizerTemplateExport_XLS
                 continue;
             }
 
-            foreach ($timesIndexes as $times => $lessonInstances) {
+            foreach ($timesIndexes as $lessonInstances) {
                 foreach ($lessonInstances as $lessonInstance) {
                     $this->addEvent($row, $date, $lessonInstance);
                     $row++;

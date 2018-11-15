@@ -37,6 +37,8 @@ class THM_OrganizerModelCourse_Manager extends JModelForm
      * @param  boolean $loadData True if the form is to load its own data (default case), false if not.
      *
      * @return JForm|boolean  A JForm object on success, false on failure
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = [], $loadData = true)
     {

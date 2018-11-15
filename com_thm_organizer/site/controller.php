@@ -164,7 +164,7 @@ class THM_OrganizerController extends JControllerLegacy
         if ($view == 'subject') {
             $subjectID = $input->getInt('id', 0);
             $url       .= "&view=subject_details&id=$subjectID";
-        } elseif (empty($menuID)) {
+        } else {
             $url .= '&view=course_list';
         }
 

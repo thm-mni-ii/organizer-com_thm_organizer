@@ -110,7 +110,7 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
     public function getEventTips($events)
     {
         $tips = [];
-        foreach ($events as $eventNo => $event) {
+        foreach ($events as $event) {
             $eventTip   = [];
             $eventTip[] = '<div>';
             $eventTip[] = $this->lang->_('COM_THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
@@ -174,7 +174,5 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
         }
 
         return htmlentities('<div>' . $typeText . $capacityText . '</div>');
-
-        return $roomTip;
     }
 }

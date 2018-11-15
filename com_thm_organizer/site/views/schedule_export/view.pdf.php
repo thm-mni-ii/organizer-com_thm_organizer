@@ -23,12 +23,10 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     /**
      * Sets context variables and renders the view.
      *
-     * @param string $tpl template
-     *
      * @return void
      * @throws Exception
      */
-    public function display($tpl = null)
+    public function display()
     {
         $libraryInstalled = $this->checkLibraries();
 

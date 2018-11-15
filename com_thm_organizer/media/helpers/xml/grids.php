@@ -143,7 +143,7 @@ class THM_OrganizerHelperXMLGrids
 
         $label = (string)$timePeriodNode->label;
         if (!empty($label)) {
-            $textual = preg_match("/[a-zA-ZäÄöÖüÜß]+/", $label, $output_array);
+            $textual = preg_match("/[a-zA-ZäÄöÖüÜß]+/", $label);
 
             if ($textual) {
                 $scheduleModel->schedule->periods->$gridName->$periodNo->label_de = $label;

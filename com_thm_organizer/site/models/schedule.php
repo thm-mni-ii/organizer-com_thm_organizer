@@ -107,17 +107,17 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             $this->params['showUnpublished'] = (int)$params->get('showUnpublished', 0);
         }
 
-        $requestedDepartmentID   = $input->get('departmentID');
-        $rawRequestedDepartments = $input->get('departmentIDs');
+        $reqDeptID     = $input->get('departmentID');
+        $rawReqDeptIDs = $input->get('departmentIDs');
 
-        if (empty($requestedDepartmentID) and !empty($rawRequestedDepartments)) {
-            $requestedDepartmentID = (int)explode(',', $rawRequestedDepartments)[0];
+        if (empty($reqDeptID) and !empty($rawReqDeptIDs)) {
+            $reqDeptID = (int)explode(',', $rawReqDeptIDs)[0];
         }
 
         $defaultDepartment = (int)$params->get('departmentID', 0);
 
         // No explicit resource selection was made check if departments were requested
-        $departmentID                  = empty($requestedDepartmentID) ? $defaultDepartment : $requestedDepartmentID;
+        $departmentID                  = empty($reqDeptID) ? $defaultDepartment : $reqDeptID;
         $this->params['departmentID']  = $departmentID;
         $this->params['showPrograms']  = $input->getInt('showPrograms', (int)$params->get('showPrograms', 1));
         $this->params['showPools']     = $input->getInt('showPools', (int)$params->get('showPools', 1));

@@ -72,7 +72,7 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
         $lsParams               = ['view' => 'curriculum', 'id' => $this->item->id];
         $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($lsParams);
 
-        $this->disclaimer = new JLayoutFile('disclaimer', $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
+        $this->disclaimer = new JLayoutFile('disclaimer', JPATH_ROOT . '/media/com_thm_organizer/layouts');
 
         $this->disclaimerData = ['language' => $this->lang];
 

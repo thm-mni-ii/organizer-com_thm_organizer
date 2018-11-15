@@ -29,8 +29,8 @@ class THM_OrganizerTemplateBasicList
             $displayItems = $view->items;
 
             if ($sort == 'number') {
-                usort($displayItems, function ($a, $b) {
-                    return $a->externalID > $b->externalID;
+                usort($displayItems, function ($subjectOne, $subjectTwo) {
+                    return $subjectOne->externalID > $subjectTwo->externalID;
                 });
             }
 

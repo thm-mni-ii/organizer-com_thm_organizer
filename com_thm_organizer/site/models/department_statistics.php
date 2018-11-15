@@ -314,18 +314,18 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
         $dbo->setQuery($ringQuery);
 
         try {
-            $roomInstanceConfigurations = $dbo->loadAssocList();
+            $roomConfigurations = $dbo->loadAssocList();
         } catch (Exception $exc) {
             JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
             return false;
         }
 
-        if (empty($roomInstanceConfigurations)) {
+        if (empty($roomConfigurations)) {
             return false;
         }
 
-        $this->aggregateInstances($roomInstanceConfigurations);
+        $this->aggregateInstances($roomConfigurations);
 
         return true;
     }
