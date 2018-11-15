@@ -55,8 +55,7 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
         $query->leftJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
-        $query->where("(dp.departmentID IN ('" . implode("', '",
-                $allowedDepartments) . "') OR dp.departmentID IS NULL)");
+        $query->where("(dp.departmentID IN (" . implode(", ", $allowedDepartments) . ") OR dp.departmentID IS NULL)");
 
         $searchColumns = ['dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en'];
         $this->setSearchFilter($query, $searchColumns);

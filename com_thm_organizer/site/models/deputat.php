@@ -808,7 +808,8 @@ class THM_OrganizerModelDeputat extends JModelLegacy
     {
         $aggregatedPools = array_unique(array_merge(
             $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'],
-            $aggValues['pools']));
+            $aggValues['pools']
+        ));
 
         $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'] = $aggregatedPools;
 

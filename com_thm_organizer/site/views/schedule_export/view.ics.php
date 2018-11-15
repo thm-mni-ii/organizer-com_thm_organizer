@@ -39,8 +39,8 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $this->createCalendar();
 
         $this->lessons = $model->lessons;
-        $noLessons     = (array_key_exists('pastDate', $this->lessons) or array_key_exists('futureDate',
-                $this->lessons));
+        $noLessons     = (array_key_exists('pastDate', $this->lessons)
+            or array_key_exists('futureDate', $this->lessons));
 
         if (!$noLessons) {
             $this->addData();

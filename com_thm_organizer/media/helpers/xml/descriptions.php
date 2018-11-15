@@ -41,8 +41,8 @@ class THM_OrganizerHelperXMLDescriptions
         }
 
         if (empty($resourceID)) {
-            $scheduleModel->scheduleErrors[] = sprintf(JText::_("COM_THM_ORGANIZER_ERROR_INVALID_$constant"),
-                $gpuntisID);
+            $scheduleModel->scheduleErrors[]
+                = sprintf(JText::_("COM_THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
 
             return false;
         }

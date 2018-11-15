@@ -214,57 +214,55 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
     private function addHeaderGroup($sheetNumber, $startColumn, $groupTitle, $firstRow, $lastRow)
     {
         ++$startColumn;
-        $currentColumn = $startColumn;
+        $column = $startColumn;
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
+            ->setCellValue("{$column}3", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}4",
-                "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
+            ->setCellValue("{$column}4", "=SUBTOTAL(109,{$column}{$firstRow}:{$column}{$lastRow})");
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->applyFromArray(['borders' => $this->lightBorder]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
+            ->setCellValue("{$column}7", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getColumnDimension($column)->setWidth(10);
 
-        ++$currentColumn;
+        ++$column;
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
+            ->setCellValue("{$column}3", JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}4",
-                "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
+            ->setCellValue("{$column}4", "=SUBTOTAL(109,{$column}{$firstRow}:{$column}{$lastRow})");
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->applyFromArray(['borders' => $this->lightBorder]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
+            ->setCellValue("{$column}7", JText::_('COM_THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getColumnDimension($column)->setWidth(10);
 
-        ++$currentColumn;
+        ++$column;
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}3", JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
+            ->setCellValue("{$column}3", JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}4", "==IFERROR({$startColumn}4/C4,0)");
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
+            ->setCellValue("{$column}4", "==IFERROR({$startColumn}4/C4,0)");
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->applyFromArray(['borders' => $this->rightBorder]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
         $this->spreadSheet->getActiveSheet($sheetNumber)
-            ->setCellValue("{$currentColumn}7", JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
+            ->setCellValue("{$column}7", JText::_('COM_THM_ORGANIZER_PERCENT_USAGE'));
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['borders' => $this->rightBorder]);
+        $this->spreadSheet->getActiveSheet()->getColumnDimension($column)->setWidth(10);
 
-        $this->spreadSheet->getActiveSheet($sheetNumber)->mergeCells("{$startColumn}6:{$currentColumn}6");
+        $this->spreadSheet->getActiveSheet($sheetNumber)->mergeCells("{$startColumn}6:{$column}6");
         $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$startColumn}6", $groupTitle);
         $this->spreadSheet->getActiveSheet()->getStyle("{$startColumn}6")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}6")->applyFromArray(['borders' => $this->rightBorder]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}6")->applyFromArray(['borders' => $this->rightBorder]);
 
-        return $currentColumn;
+        return $column;
     }
 
     /**

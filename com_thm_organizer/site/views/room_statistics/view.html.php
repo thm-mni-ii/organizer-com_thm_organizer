@@ -191,9 +191,14 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
 
         $planProgramOptions = $this->model->getProgramOptions();
 
-        $programSelect
-            = JHtml::_('select.genericlist', $planProgramOptions, 'programIDs[]', $programAttribs,
-            'value', 'text');
+        $programSelect = JHtml::_(
+            'select.genericlist',
+            $planProgramOptions,
+            'programIDs[]',
+            $programAttribs,
+            'value',
+            'text'
+        );
 
         $this->fields['filterFields']['programIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_PROGRAMS'),

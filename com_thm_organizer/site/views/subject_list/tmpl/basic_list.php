@@ -43,4 +43,3 @@ class THM_OrganizerTemplateBasicList
         echo '</div>';
     }
 }
- 

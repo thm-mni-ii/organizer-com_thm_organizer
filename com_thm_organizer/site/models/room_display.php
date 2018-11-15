@@ -401,10 +401,11 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                         continue;
                     }
 
-                    $existingTeachers                                 = $blocks[$blockNo]['lessons'][$lessonID]['teachers'];
+                    $existingTeachers = $blocks[$blockNo]['lessons'][$lessonID]['teachers'];
+
                     $blocks[$blockNo]['lessons'][$lessonID]['teachers']
-                                                                      = array_unique(array_merge($instanceTeachers,
-                        $existingTeachers));
+                        = array_unique(array_merge($instanceTeachers, $existingTeachers));
+
                     $blocks[$blockNo]['lessons'][$lessonID]['titles'] = array_unique(array_merge(
                         $blocks[$blockNo]['lessons'][$lessonID]['titles'],
                         $eventInstance['titles']

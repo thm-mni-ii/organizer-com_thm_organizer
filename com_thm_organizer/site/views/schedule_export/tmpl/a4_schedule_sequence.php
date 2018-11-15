@@ -240,12 +240,12 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             );
         }
 
-        for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
-            strtotime("+1 day", strtotime($currentDate)))) {
+        for ($currentDate = $startDate; $currentDate != $breakDate;) {
             $dow        = date('w', strtotime($currentDate));
             $validIndex = (!empty($columnHeaders[$currentDate])
                 and $dow >= (int)$this->parameters['startDay']
                 and $dow <= (int)$this->parameters['endDay']);
+
             if ($validIndex) {
                 $this->document->MultiCell(
                     $this->parameters['dataWidth'] + 1,
@@ -257,6 +257,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
                     0
                 );
             }
+
+            $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
         }
 
         $this->document->Ln();

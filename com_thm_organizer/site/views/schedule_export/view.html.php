@@ -194,8 +194,15 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         }
 
         $defaultFileFormat = $seeingImpaired ? 'xls.si' : 'pdf.a4';
-        $fileFormatSelect  = JHtml::_('select.genericlist', $fileFormats, 'format', $formatAttribs, 'value', 'text',
-            $defaultFileFormat);
+        $fileFormatSelect  = JHtml::_(
+            'select.genericlist',
+            $fileFormats,
+            'format',
+            $formatAttribs,
+            'value',
+            'text',
+            $defaultFileFormat
+        );
 
         $this->fields['formatSettings']['format'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_FILE_FORMAT'),

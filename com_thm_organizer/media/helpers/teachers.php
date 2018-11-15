@@ -301,7 +301,7 @@ class THM_OrganizerHelperTeachers
         $input         = JFactory::getApplication()->input;
         $departmentIDs = explode(',', $input->getString('departmentIDs'));
         $isTeacher     = (bool)self::getIDFromUserData();
-        if (empty($departmentIDs) AND !$isTeacher) {
+        if (empty($departmentIDs) and !$isTeacher) {
             return [];
         }
 

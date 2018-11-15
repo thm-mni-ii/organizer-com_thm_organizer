@@ -68,8 +68,7 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
         $this->pools       = $model->pools;
         $this->displayName = $model->displayName;
 
-        $this->disclaimer     = new JLayoutFile('disclaimer',
-            $basePath = JPATH_ROOT . '/media/com_thm_organizer/layouts');
+        $this->disclaimer     = new JLayoutFile('disclaimer', JPATH_ROOT . '/media/com_thm_organizer/layouts');
         $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);
@@ -180,14 +179,15 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
 
             $displayItem .= '</td>';
         } else {
+            $template = '<td class="subject-teacher">XXXX</td>';
             if ($type == 'teacher') {
-                $displayItem .= '<td class="subject-teacher">' . $this->getResponsibleDisplay($item,
-                        $resourceID) . '</td>';
+                $subjectTeacher = $this->getResponsibleDisplay($item, $resourceID);
             } elseif ($type != 'pool') {
-                $displayItem .= '<td class="subject-teacher">' . $this->getTeacherDisplay($item) . '</td>';
+                $subjectTeacher = $this->getTeacherDisplay($item);
             } else {
-                $displayItem .= '<td class="subject-teacher"></td>';
+                $subjectTeacher = '';
             }
+            $displayItem .= str_replace('XXXX', $subjectTeacher, $template);
         }
 
         if (empty($crp)) {

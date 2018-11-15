@@ -180,15 +180,12 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
             return;
         }
 
+        $imageFolder = '/media/com_thm_organizer/images/';
         $allowedValues = [
-            0 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/0stars.png',
-                'COM_THM_ORGANIZER_ZERO_STARS'),
-            1 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/1stars.png',
-                'COM_THM_ORGANIZER_ONE_STAR'),
-            2 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/2stars.png',
-                'COM_THM_ORGANIZER_TWO_STARS'),
-            3 => JHtml::image(JUri::root() . '/media/com_thm_organizer/images/3stars.png',
-                'COM_THM_ORGANIZER_THREE_STARS')
+            0 => JHtml::image(JUri::root() . $imageFolder . '0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS'),
+            1 => JHtml::image(JUri::root() . $imageFolder . '1stars.png', 'COM_THM_ORGANIZER_ONE_STAR'),
+            2 => JHtml::image(JUri::root() . $imageFolder . '2stars.png', 'COM_THM_ORGANIZER_TWO_STARS'),
+            3 => JHtml::image(JUri::root() . $imageFolder . '3stars.png', 'COM_THM_ORGANIZER_THREE_STARS')
         ];
         $value         = (int)$this->item->$index;
 

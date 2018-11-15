@@ -103,8 +103,8 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
         $headers   = [];
 
         $headers['checkbox']  = '';
-        $headers['gpuntisID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'name', $direction,
-            $ordering);
+        $headers['gpuntisID']
+            = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'name', $direction, $ordering);
 
         $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
 

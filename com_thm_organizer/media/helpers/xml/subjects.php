@@ -107,7 +107,7 @@ class THM_OrganizerHelperXMLSubjects
         $subject->subjectNo = $subjectNo;
 
         $fieldID      = str_replace('DS_', '', trim($subjectNode->subject_description[0]['id']));
-        $invalidField = (empty($fieldID) OR empty($scheduleModel->schedule->fields->$fieldID));
+        $invalidField = (empty($fieldID) or empty($scheduleModel->schedule->fields->$fieldID));
 
         if ($invalidField) {
             $subject->description = '';

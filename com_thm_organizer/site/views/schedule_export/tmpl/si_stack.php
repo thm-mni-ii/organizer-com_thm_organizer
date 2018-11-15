@@ -15,9 +15,11 @@ jimport('phpexcel.library.PHPExcel');
  */
 class THM_OrganizerTemplateExport_XLS
 {
-    private $spreadSheet;
-
     private $lessons;
+
+    private $parameters;
+
+    private $spreadSheet;
 
     /**
      * THM_OrganizerTemplateExport_XLS constructor.
