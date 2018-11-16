@@ -144,9 +144,9 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
                 return false;
             }
 
-            $subordinateSubjectIDs = $this->getSubjectIDs($programID);
+            $subjectIDs = $this->getSubjectIDs($programID);
 
-            foreach ($subordinateSubjectIDs as $subjectID) {
+            foreach ($subjectIDs as $subjectID) {
                 $subjectModel         = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
                 $dependenciesResolved = $subjectModel->resolveDependencies($subjectID);
                 if (!$dependenciesResolved) {

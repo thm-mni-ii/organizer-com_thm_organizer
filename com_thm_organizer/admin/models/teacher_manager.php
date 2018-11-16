@@ -98,8 +98,6 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering                = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction               = $this->state->get('list.direction', $this->defaultDirection);
         $headers                 = [];
         $headers['checkbox']     = '';
         $headers['surname']      = JText::_('COM_THM_ORGANIZER_SURNAME');

@@ -35,7 +35,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     private function checkContents($text, $checkedAttributes, $modules)
     {
         foreach ($checkedAttributes as $checkedAttribute) {
-            foreach ($modules as $moduleNr => $mappedSubjects) {
+            foreach ($modules as $mappedSubjects) {
                 foreach ($mappedSubjects as $mappedSubject) {
                     if ($checkedAttribute == 'externalID') {
                         $text = str_replace(strtolower($mappedSubject[$checkedAttribute]), '', $text);
@@ -56,13 +56,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     /**
      * Checks for subjects with the given possible module number mapped to the same programs
      *
-     * @param array $possibleModuleNumbers the possible module numbers used in the attribute text
-     * @param array $programs              the programs to which the subject is mapped [id, name, lft, rgt)
+     * @param array $possibleModNos the possible module numbers used in the attribute text
+     * @param array $programs       the programs to which the subject is mapped [id, name, lft, rgt)
      *
      * @return array the subject details for subjects with dependencies
      * @throws Exception
      */
-    private function checkForMappedSubjects($possibleModuleNumbers, $programs)
+    private function checkForMappedSubjects($possibleModNos, $programs)
     {
         $select = "s.id AS subjectID, externalID, ";
         $select .= "abbreviation_de, short_name_de, name_de, abbreviation_en, short_name_en, name_en, ";
@@ -72,7 +72,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $query->from('#__thm_organizer_subjects AS s')->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
 
         $subjects = [];
-        foreach ($possibleModuleNumbers as $possibleModuleNumber) {
+        foreach ($possibleModNos as $possibleModuleNumber) {
             $possibleModuleNumber = strtoupper($possibleModuleNumber);
             if (empty(preg_match('/[A-Z0-9]{3,10}/', $possibleModuleNumber))) {
                 continue;
@@ -509,15 +509,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         // Flag to be set should one of the attribute texts consist only of module information. => Text should be empty.
         $attributeChanged = false;
 
-        $prerequisiteAttributes = ['prerequisites_de', 'prerequisites_en'];
-        $prerequisites          = [];
+        $preReqAttribs = ['prerequisites_de', 'prerequisites_en'];
+        $prerequisites = [];
 
-        foreach ($prerequisiteAttributes as $attribute) {
-            $originalText          = $subjectTable->$attribute;
-            $sanitizedText         = $this->sanitizeText($originalText);
-            $possibleModuleNumbers = preg_split('[\ ]', $sanitizedText);
+        foreach ($preReqAttribs as $attribute) {
+            $originalText   = $subjectTable->$attribute;
+            $sanitizedText  = $this->sanitizeText($originalText);
+            $possibleModNos = preg_split('[\ ]', $sanitizedText);
 
-            $mappedDependencies = $this->checkForMappedSubjects($possibleModuleNumbers, $programs);
+            $mappedDependencies = $this->checkForMappedSubjects($possibleModNos, $programs);
 
             if (!empty($mappedDependencies)) {
                 $prerequisites  = $prerequisites + $mappedDependencies;
@@ -536,15 +536,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             return false;
         }
 
-        $postRequisiteAttributes = ['used_for_de', 'used_for_en'];
-        $postrequisites          = [];
+        $postReqAttribs = ['used_for_de', 'used_for_en'];
+        $postrequisites = [];
 
-        foreach ($postRequisiteAttributes as $attribute) {
-            $originalText          = $subjectTable->$attribute;
-            $sanitizedText         = $this->sanitizeText($originalText);
-            $possibleModuleNumbers = preg_split('[\ ]', $sanitizedText);
+        foreach ($postReqAttribs as $attribute) {
+            $originalText   = $subjectTable->$attribute;
+            $sanitizedText  = $this->sanitizeText($originalText);
+            $possibleModNos = preg_split('[\ ]', $sanitizedText);
 
-            $mappedDependencies = $this->checkForMappedSubjects($possibleModuleNumbers, $programs);
+            $mappedDependencies = $this->checkForMappedSubjects($possibleModNos, $programs);
 
             if (!empty($mappedDependencies)) {
                 $postrequisites = $postrequisites + $mappedDependencies;
@@ -590,7 +590,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             $subjectMappings = $this->getProgramMappings($program, $subjectID);
 
             $dependencyMappings = [];
-            foreach ($dependencies as $moduleNumber => $mappings) {
+            foreach ($dependencies as $mappings) {
                 foreach ($mappings as $mappingID => $subjectData) {
                     if ($subjectData['programID'] == $program['id']) {
                         $dependencyMappings[$mappingID] = $mappingID;

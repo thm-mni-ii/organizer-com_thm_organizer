@@ -588,7 +588,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $links['subject_list'] = "?option=com_thm_organizer&view=subject_list&teacherIDs={$teacher['id']}";
                 }
 
-                $overlap   = array_intersect(
+                $overlap = array_intersect(
                     $this->schedDepts,
                     THM_OrganizerHelperTeachers::getDepartmentIDs($teacher['id'])
                 );
@@ -1547,12 +1547,14 @@ class THM_OrganizerModelSearch extends JModelLegacy
     }
 
     /**
-     * Function used as a call back for sorting results by their names.
+     * Function used as a call back for sorting results by their names. (Callable)
      *
      * @param array $itemOne the first item
      * @param array $itemTwo the second item
      *
      * @return bool true if the text for the first item should come after the second item, otherwise false
+     *
+     * @SuppressWarnings(PMD.UnusedPrivateMethod)
      */
     private function sortItems($itemOne, $itemTwo)
     {

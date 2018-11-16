@@ -227,7 +227,7 @@ class THM_OrganizerHelperComponent
             $canManage          = false;
             foreach ($allowedDepartments as $departmentID) {
                 $departmentManager = $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID");
-                $canManage = ($canManage or $departmentManager);
+                $canManage         = ($canManage or $departmentManager);
             }
 
             return $canManage;
@@ -665,9 +665,20 @@ class THM_OrganizerHelperComponent
             if ($validString) {
                 $singleAttribs = explode(',', $attributes);
                 $attributes    = [];
-                array_walk($singleAttribs, 'walk', $attributes);
+                array_walk($singleAttribs, 'parseAttribute', $attributes);
 
-                function walk($attribute, $key, &$attributes)
+                /**
+                 * Parses the attribute array entries into text/value pairs for use as options
+                 *
+                 * @param string $attribute  the attribute being iterated
+                 * @param int    $key        the array key from the array being iterated (unused)
+                 * @param array  $attributes the array where parsed attributes are stored
+                 *
+                 * @return void modifies the $attributes array
+                 *
+                 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+                 */
+                function parseAttribute($attribute, $key, &$attributes)
                 {
                     list($property, $value) = explode(' => ', $attribute);
                     $attributes[$property] = $value;

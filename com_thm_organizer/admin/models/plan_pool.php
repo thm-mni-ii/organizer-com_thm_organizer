@@ -52,7 +52,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      */
     public function getTable($name = 'plan_pools', $prefix = 'thm_organizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix);
+        return JTable::getInstance($name, $prefix, $options);
     }
 
     /**

@@ -19,11 +19,9 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
     /**
      * Sets context variables and renders the view.
      *
-     * @param string $tpl template
-     *
      * @return void
      */
-    public function display($tpl = null)
+    public function display()
     {
         $model = $this->getModel();
 

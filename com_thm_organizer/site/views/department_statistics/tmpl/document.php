@@ -159,14 +159,16 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
             $this->spreadSheet->getActiveSheet($sheetNo)->setCellValue("{$column}{$rowNo}", $minutes / 60);
             $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->getNumberFormat()
                 ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-            $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
+            $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")
+                ->applyFromArray(['borders' => $this->lightBorder]);
             $this->hoursColumns[$column] = $column;
 
             ++$column;
             $this->spreadSheet->getActiveSheet($sheetNo)->setCellValue("{$column}{$rowNo}", $minutes / 45);
             $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->getNumberFormat()
                 ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-            $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
+            $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")
+                ->applyFromArray(['borders' => $this->lightBorder]);
             $this->sHoursColumns[$column] = $column;
 
             ++$column;
@@ -174,7 +176,8 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
                 ->setCellValue("{$column}{$rowNo}", "=IFERROR($hours/C$rowNo,0)");
             $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->getNumberFormat()
                 ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")->applyFromArray(['borders' => $this->rightBorder]);
+            $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")
+                ->applyFromArray(['borders' => $this->rightBorder]);
 
         }
 
@@ -217,7 +220,8 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-        $this->spreadSheet->getActiveSheet($sheetNo)->setCellValue("{$column}7", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
+        $this->spreadSheet->getActiveSheet($sheetNo)
+            ->setCellValue("{$column}7", JText::_('COM_THM_ORGANIZER_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($column)->setWidth(10);
 
@@ -251,7 +255,8 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
 
         $this->spreadSheet->getActiveSheet($sheetNo)->mergeCells("{$startColumn}6:{$column}6");
         $this->spreadSheet->getActiveSheet($sheetNo)->setCellValue("{$startColumn}6", $groupTitle);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$startColumn}6")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$startColumn}6")
+            ->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}6")->applyFromArray(['borders' => $this->rightBorder]);
 
         return $column;
@@ -290,15 +295,11 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->mergeCells("A1:H1");
         $this->spreadSheet->getActiveSheet()->setCellValue('A1', $title);
         $this->spreadSheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
-        $this->spreadSheet->getActiveSheet()->getStyle("B3")->applyFromArray([
-            'fill'    => $this->headerFill,
-            'borders' => $this->rightBorder
-        ]);
+        $this->spreadSheet->getActiveSheet()->getStyle("B3")
+            ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->setCellValue('B4', JText::_('COM_THM_ORGANIZER_SUMMARY'));
-        $this->spreadSheet->getActiveSheet()->getStyle("B4")->applyFromArray([
-            'fill'    => $this->headerFill,
-            'borders' => $this->rightBorder
-        ]);
+        $this->spreadSheet->getActiveSheet()->getStyle("B4")
+            ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
 
         $lastRow = $firstRow = 7;
         foreach (array_keys($this->rooms) as $roomID) {
@@ -326,10 +327,8 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle("B6")->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('B7', JText::_('COM_THM_ORGANIZER_ROOM_TYPE'));
         $this->spreadSheet->getActiveSheet()->getStyle("D6")->applyFromArray(['borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet()->getStyle("B7")->applyFromArray([
-            'fill'    => $this->headerFill,
-            'borders' => $this->rightBorder
-        ]);
+        $this->spreadSheet->getActiveSheet()->getStyle("B7")
+            ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet($sheetNumber)->setAutoFilter("A7:{$lastColumn}{$lastRow}");
 
         $this->spreadSheet->getActiveSheet()->getColumnDimension('A')->setWidth('11.5');
@@ -368,16 +367,20 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
     }
 
     /**
-     * Outputs the generated Excel file
+     * Outputs the generated Excel file. Execution is ended here to ensure that Joomla does not try to 'display' the
+     * output.
      *
      * @return void
+     *
+     * @SuppressWarnings(PMD.ExitExpression)
      */
     public function render()
     {
         $objWriter = PHPExcel_IOFactory::createWriter($this->spreadSheet, 'Excel2007');
         ob_end_clean();
         header('Content-type: application/vnd.ms-excel');
-        $docTitle = JApplicationHelper::stringURLSafe(JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE') . '_' . date('Ymd'));
+        $rawTitle = JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE') . '_' . date('Ymd');
+        $docTitle = JApplicationHelper::stringURLSafe($rawTitle);
         header("Content-Disposition: attachment;filename=$docTitle.xlsx");
         $objWriter->save('php://output');
         exit();

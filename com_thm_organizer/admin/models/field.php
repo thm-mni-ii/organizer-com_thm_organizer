@@ -32,7 +32,7 @@ class THM_OrganizerModelField extends THM_OrganizerModelMerge
      */
     public function getTable($name = 'fields', $prefix = 'thm_organizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix);
+        return JTable::getInstance($name, $prefix, $options);
     }
 
     /**

@@ -70,11 +70,11 @@ class THM_OrganizerModelProgram extends JModelLegacy
         $data = empty($data) ? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
 
         if (empty($data['id'])) {
-            $genericDocumentationAccess = THM_OrganizerHelperComponent::allowDocumentAccess();
+            $documentationAccess = THM_OrganizerHelperComponent::allowDocumentAccess();
 
             // New Programs often are introduced through schedules.
-            $genericSchedulingAccess = THM_OrganizerHelperComponent::allowSchedulingAccess();
-            if (!($genericDocumentationAccess or $genericSchedulingAccess)) {
+            $schedulingAccess = THM_OrganizerHelperComponent::allowSchedulingAccess();
+            if (!($documentationAccess or $schedulingAccess)) {
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {

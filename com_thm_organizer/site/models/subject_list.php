@@ -145,19 +145,19 @@ class THM_OrganizerModelSubject_List extends JModelList
             return $teacherOne['surname'] > $teacherTwo['surname'];
         });
 
-        uasort($this->pools, function ($a, $b) {
-            $isAChild = $this->isChildPool($a);
-            $isBChild = $this->isChildPool($b);
+        uasort($this->pools, function ($poolOne, $poolTwo) {
+            $poolOneIsChild = $this->isChildPool($poolOne);
+            $poolTwoIsChild = $this->isChildPool($poolTwo);
 
             // Child pools should come after normal pools
-            if ($isAChild and !$isBChild) {
+            if ($poolOneIsChild and !$poolTwoIsChild) {
                 return true;
             }
-            if ($isBChild and !$isAChild) {
+            if ($poolTwoIsChild and !$poolOneIsChild) {
                 return false;
             }
 
-            $moveBack = $a['lft'] > $b['lft'];
+            $moveBack = $poolOne['lft'] > $poolTwo['lft'];
 
             return $moveBack;
         });

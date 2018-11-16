@@ -142,6 +142,8 @@ class Com_THM_OrganizerInstallerScript
      * @param object $parent the "parent" running this script
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function preflight($type, $parent)
     {
@@ -220,7 +222,7 @@ class Com_THM_OrganizerInstallerScript
         $dirCreated = $this->createImageDirectory();
         if (!$dirCreated) {
             $failText = sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_IMAGE_FOLDER_FAIL'), $imagePath);
-            $dirSpan .= '<span style="color:red" >' . $failText . "</span>";
+            $dirSpan  .= '<span style="color:red" >' . $failText . "</span>";
         }
         $updateText = sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE'), $version, $licenseLink);
         ?>

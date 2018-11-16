@@ -42,7 +42,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
      */
     public function getTable($name = 'rooms', $prefix = 'thm_organizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix);
+        return JTable::getInstance($name, $prefix, $options);
     }
 
     /**
@@ -134,7 +134,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
 
                 // The new id is not yet an index, or it is, but has no delta value and the old id did
                 if (!isset($configuration['rooms'][$this->data['id']])
-                    or (empty($configuration['rooms'][$this->data['id']]) and !empty($delta))) {
+                    or (empty($configuration['rooms'][$this->data['id']]) and !empty($oldDelta))) {
                     $configuration['rooms'][$this->data['id']] = $oldDelta;
                 }
 

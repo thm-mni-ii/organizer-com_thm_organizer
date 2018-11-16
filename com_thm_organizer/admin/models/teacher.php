@@ -44,7 +44,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      */
     public function getTable($name = 'teachers', $prefix = 'thm_organizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix);
+        return JTable::getInstance($name, $prefix, $options);
     }
 
     /**
@@ -64,7 +64,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
         $this->_db->setQuery($selectQuery);
 
         try {
-            $existingResponsibilities = $this->_db->loadAssocList();
+            $existingResps = $this->_db->loadAssocList();
         } catch (Exception $exception) {
             JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
@@ -73,11 +73,11 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 
         $oldIDString = "'" . implode("', '", $this->data['otherIDs']) . "'";
 
-        if (!empty($existingResponsibilities)) {
+        if (!empty($existingResps)) {
             $potentialDuplicates = [];
-            foreach ($existingResponsibilities as $exResp) {
+            foreach ($existingResps as $resp) {
                 $potentialDuplicates[]
-                    = "(subjectID = '{$exResp['subjectID']}' AND teacherResp = '{$exResp['teacherResp']}')";
+                    = "(subjectID = '{$resp['subjectID']}' AND teacherResp = '{$resp['teacherResp']}')";
             }
             $potentialDuplicates = '(' . implode(' OR ', $potentialDuplicates) . ')';
 
@@ -220,7 +220,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
 
                 // The new id is not yet an index, or it is, but has no delta value and the old id did
                 if (!isset($configuration['teachers'][$this->data['id']])
-                    or (empty($configuration['teachers'][$this->data['id']]) and !empty($delta))) {
+                    or (empty($configuration['teachers'][$this->data['id']]) and !empty($oldDelta))) {
                     $configuration['teachers'][$this->data['id']] = $oldDelta;
                 }
 

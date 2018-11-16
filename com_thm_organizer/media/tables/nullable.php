@@ -18,10 +18,12 @@ abstract class THM_OrganizerTableNullable extends JTable
     /**
      * This functions overwrites JTables default of $updateNulls = false.
      *
+     * @param boolean $updateNulls True to update fields even if they are null.
+     *
      * @return boolean  True on success.
      */
-    public function store()
+    public function store($updateNulls = true)
     {
-        return parent::store(true);
+        return parent::store($updateNulls);
     }
 }

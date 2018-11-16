@@ -467,7 +467,7 @@ class THM_OrganizerHelperMapping
             return [];
         }
 
-        foreach ($programs as $programID => $program) {
+        foreach (array_keys($programs) as $programID) {
             $programBoundaries = self::getBoundaries('program', $programID);
 
             if (!empty($programBoundaries)) {

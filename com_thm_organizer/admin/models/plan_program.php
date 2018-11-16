@@ -53,7 +53,7 @@ class THM_OrganizerModelPlan_Program extends THM_OrganizerModelMerge
      */
     public function getTable($name = 'plan_programs', $prefix = 'thm_organizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix);
+        return JTable::getInstance($name, $prefix, $options);
     }
 
     /**

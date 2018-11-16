@@ -234,9 +234,12 @@ class THM_OrganizerTemplateExport_XLS
     }
 
     /**
-     * Outputs the generated Excel file
+     * Outputs the generated Excel file. Execution is ended here to ensure that Joomla does not try to 'display' the
+     * output.
      *
      * @return void
+     *
+     * @SuppressWarnings(PMD.ExitExpression)
      */
     public function render()
     {
