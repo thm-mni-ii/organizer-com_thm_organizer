@@ -38,7 +38,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             return true;
         }
 
-        if (!THM_OrganizerHelperComponent::allowSchedulingAccess($active->id)) {
+        if (!THM_OrganizerHelperAccess::allowSchedulingAccess($active->id)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -91,7 +91,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperComponent::allowSchedulingAccess()) {
+        if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -99,7 +99,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $scheduleIDs = JFactory::getApplication()->input->get('cid', [], 'array');
         foreach ($scheduleIDs as $scheduleID) {
 
-            if (!THM_OrganizerHelperComponent::allowSchedulingAccess($scheduleID)) {
+            if (!THM_OrganizerHelperAccess::allowSchedulingAccess($scheduleID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
@@ -197,7 +197,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             return true;
         }
 
-        if (!THM_OrganizerHelperComponent::allowSchedulingAccess($reference->id)) {
+        if (!THM_OrganizerHelperAccess::allowSchedulingAccess($reference->id)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -254,7 +254,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        if (!THM_OrganizerHelperComponent::allowSchedulingAccess(null, $form['departmentID'])) {
+        if (!THM_OrganizerHelperAccess::allowSchedulingAccess(null, $form['departmentID'])) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 

@@ -24,10 +24,10 @@ class THM_OrganizerModelPool_Edit extends THM_OrganizerModelEdit
     public function allowEdit()
     {
         $poolID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
-        if (empty($poolID) or !THM_OrganizerHelperComponent::checkAssetInitialization('pool', $poolID)) {
-            return THM_OrganizerHelperComponent::allowDocumentAccess();
+        if (empty($poolID) or !THM_OrganizerHelperAccess::checkAssetInitialization('pool', $poolID)) {
+            return THM_OrganizerHelperAccess::allowDocumentAccess();
         }
 
-        return THM_OrganizerHelperComponent::allowDocumentAccess('pool', $poolID);
+        return THM_OrganizerHelperAccess::allowDocumentAccess('pool', $poolID);
     }
 }

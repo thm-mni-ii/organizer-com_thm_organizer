@@ -46,7 +46,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('manage');
+        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('manage');
         $dbo                = JFactory::getDbo();
         $shortTag           = THM_OrganizerHelperLanguage::getShortTag();
 

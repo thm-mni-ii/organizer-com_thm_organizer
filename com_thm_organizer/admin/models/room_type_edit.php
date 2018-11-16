@@ -23,6 +23,6 @@ class THM_OrganizerModelRoom_Type_Edit extends THM_OrganizerModelEdit
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperComponent::allowFMAccess();
+        return THM_OrganizerHelperAccess::allowFMAccess();
     }
 }

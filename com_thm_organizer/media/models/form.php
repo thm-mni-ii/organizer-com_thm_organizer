@@ -24,7 +24,7 @@ class THM_OrganizerModelForm extends JModelForm
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperComponent::isAdmin();
+        return THM_OrganizerHelperAccess::isAdmin();
     }
 
     /**

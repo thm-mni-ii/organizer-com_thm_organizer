@@ -100,7 +100,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         $this->params = [];
 
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
         // Don't even set the variable if the action is implausible
         if (!empty($allowedIDs)) {
@@ -126,7 +126,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $this->params['showSubjects']  = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
 
         $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
-        $departmentPlaner = THM_OrganizerHelperComponent::allowSchedulingAccess(0, $departmentID);
+        $departmentPlaner = THM_OrganizerHelperAccess::allowSchedulingAccess(0, $departmentID);
         $isTeacher        = (bool)THM_OrganizerHelperTeachers::getIDFromUserData();
         $showTeachers     = (($departmentPlaner or $isTeacher) and $stMenuParam);
 

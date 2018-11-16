@@ -23,7 +23,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -33,7 +33,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
             $table = JTable::getInstance('programs', 'thm_organizerTable');
             $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
             foreach ($programIDs as $programID) {
-                if (!THM_OrganizerHelperComponent::allowDocumentAccess('program', $programID)) {
+                if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                     $this->_db->transactionRollback();
                     throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
                 }
@@ -70,15 +70,15 @@ class THM_OrganizerModelProgram extends JModelLegacy
         $data = empty($data) ? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
 
         if (empty($data['id'])) {
-            $documentationAccess = THM_OrganizerHelperComponent::allowDocumentAccess();
+            $documentationAccess = THM_OrganizerHelperAccess::allowDocumentAccess();
 
             // New Programs often are introduced through schedules.
-            $schedulingAccess = THM_OrganizerHelperComponent::allowSchedulingAccess();
+            $schedulingAccess = THM_OrganizerHelperAccess::allowSchedulingAccess();
             if (!($documentationAccess or $schedulingAccess)) {
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {
-            if (!THM_OrganizerHelperComponent::allowDocumentAccess('program', $data['id'])) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $data['id'])) {
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } else {
@@ -110,7 +110,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      */
     public function save2copy()
     {
-        if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 

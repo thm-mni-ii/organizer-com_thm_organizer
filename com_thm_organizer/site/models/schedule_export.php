@@ -454,7 +454,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
         $parameters['mySchedule'] = $input->getBool('myschedule', false);
 
         // Server side check against url manipulation
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
         $parameters['showUnpublished'] = empty($allowedIDs) ?
             false : $input->getBool('showUnpublished', false);

@@ -142,7 +142,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $parameters['mySchedule'] = $input->getBool('mySchedule', false);
 
         // Server side check against url manipulation
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
         $parameters['showUnpublished'] = empty($allowedIDs) ?
             false : $input->getBool('showUnpublished', false);
@@ -221,10 +221,22 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Getter method for subjects associated with a given pool
      *
      * @return void
+     * @throws Exception
+     */
+    public function getPoolLessons()
+    {
+        return json_encode(THM_OrganizerHelperPools::getPoolLessons());
+    }
+
+    /**
+     * Getter method for subjects associated with a given pool
+     *
+     * @return void
+     * @throws Exception
      */
     public function getPoolSubjects()
     {
-        return json_encode([]);
+        return json_encode(THM_OrganizerHelperPools::getPoolSubjects());
     }
 
     /**
@@ -257,6 +269,17 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $default = [JText::_('JALL') => '0'];
 
         return json_encode(array_merge($default, $types));
+    }
+
+    /**
+     * Getter method for subjects associated with a given pool
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function getSubjectLessons()
+    {
+        return json_encode(THM_OrganizerHelperSubjects::getSubjectLessons());
     }
 
     /**

@@ -193,12 +193,12 @@ class THM_OrganizerHelperSchedule
      */
     private static function filterTeacherIDs(&$teacherIDs)
     {
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             return;
         }
 
         $userTeacherID     = THM_OrganizerHelperTeachers::getIDFromUserData();
-        $accessibleDeptIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $accessibleDeptIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
         foreach ($teacherIDs as $key => $teacherID) {
             if (!empty($userTeacherID) and $userTeacherID == $teacherID) {

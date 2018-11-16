@@ -22,7 +22,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -30,7 +30,7 @@ class THM_OrganizerModelPool extends JModelLegacy
         if (!empty($poolIDs)) {
             $this->_db->transactionStart();
             foreach ($poolIDs as $poolID) {
-                if (!THM_OrganizerHelperComponent::allowDocumentAccess('pool', $poolID)) {
+                if (!THM_OrganizerHelperAccess::allowDocumentAccess('pool', $poolID)) {
                     $this->_db->transactionRollback();
                     throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
                 }
@@ -87,11 +87,11 @@ class THM_OrganizerModelPool extends JModelLegacy
         $data = JFactory::getApplication()->input->get('jform', [], 'array');
 
         if (empty($data['id'])) {
-            if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {
-            if (!THM_OrganizerHelperComponent::allowDocumentAccess('pool', $data['id'])) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess('pool', $data['id'])) {
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } else {

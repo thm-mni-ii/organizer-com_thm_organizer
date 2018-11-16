@@ -39,7 +39,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
 
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }
@@ -75,7 +75,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             'scheduling'         => []
         ];
 
-        if (THM_OrganizerHelperComponent::allowSchedulingAccess()) {
+        if (THM_OrganizerHelperAccess::allowSchedulingAccess()) {
             $scheduleItems = [];
 
             $scheduleItems[JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]
@@ -97,10 +97,10 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $this->menuItems['scheduling'] = [];
         }
 
-        if (THM_OrganizerHelperComponent::allowDocumentAccess()) {
+        if (THM_OrganizerHelperAccess::allowDocumentAccess()) {
             $docItems = [];
 
-            if (THM_OrganizerHelperComponent::isAdmin()) {
+            if (THM_OrganizerHelperAccess::isAdmin()) {
                 $docItems[JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')]
                     = 'index.php?option=com_thm_organizer&amp;view=department_manager';
             }
@@ -120,7 +120,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $this->menuItems['documentation'] = [];
         }
 
-        if (THM_OrganizerHelperComponent::allowHRAccess()) {
+        if (THM_OrganizerHelperAccess::allowHRAccess()) {
             $hrItems = [];
             $hrItems[JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=teacher_manager';
@@ -134,7 +134,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $this->menuItems['humanResources'] = [];
         }
 
-        if (THM_OrganizerHelperComponent::allowFMAccess()) {
+        if (THM_OrganizerHelperAccess::allowFMAccess()) {
             $fmItems = [];
             $fmItems[JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=building_manager';
@@ -156,7 +156,7 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
             $this->menuItems['facilityManagement'] = [];
         }
 
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             $adminItems = [];
             $adminItems[JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=color_manager';

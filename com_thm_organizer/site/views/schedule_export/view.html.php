@@ -112,7 +112,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      */
     private function setAdminFields()
     {
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
         if (!empty($allowedIDs)) {
             $this->fields['adminFields']['showUnpublished'] = [
@@ -381,7 +381,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
             'input'       => $poolSelect
         ];
 
-        $departmentPlaner = THM_OrganizerHelperComponent::allowSchedulingAccess();
+        $departmentPlaner = THM_OrganizerHelperAccess::allowSchedulingAccess();
         $isTeacher        = (bool)THM_OrganizerHelperTeachers::getIDFromUserData();
 
         if ($departmentPlaner or $isTeacher) {

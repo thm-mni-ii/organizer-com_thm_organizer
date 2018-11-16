@@ -41,7 +41,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments();
+        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments();
         $shortTag           = THM_OrganizerHelperLanguage::getShortTag();
 
         // Create the query

@@ -25,6 +25,6 @@ class THM_OrganizerModelTeacher_Edit extends THM_OrganizerModelEdit
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperComponent::allowHRAccess();
+        return THM_OrganizerHelperAccess::allowHRAccess();
     }
 }

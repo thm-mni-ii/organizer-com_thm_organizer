@@ -176,7 +176,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
     public function getResults()
     {
         $this->teacherID  = THM_OrganizerHelperTeachers::getIDFromUserData();
-        $this->schedDepts = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $this->schedDepts = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
         /**
          * Exact     => exact match for the whole search independent of capitalization

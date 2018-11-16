@@ -51,7 +51,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
 
         if ($departmentRestrict !== 'false') {
             $allowedDepartments = $accessRequired ?
-                THM_OrganizerHelperComponent::getAccessibleDepartments('schedule')
+                THM_OrganizerHelperAccess::getAccessibleDepartments('schedule')
                 : THM_OrganizerHelperDepartmentsgetDepartmentsByResource('program');
 
             $defaultDept = $departmentRestrict === 'force' ? $allowedDepartments[0] : 0;

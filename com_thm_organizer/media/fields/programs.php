@@ -39,7 +39,7 @@ class JFormFieldPrograms extends JFormField
         $allPrograms      = THM_OrganizerHelperMapping::getAllPrograms();
 
         foreach ($allPrograms as $key => $programData) {
-            if (!THM_OrganizerHelperComponent::allowDocumentAccess('program', $programData['value'])) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programData['value'])) {
                 unset($allPrograms[$key]);
             }
         }

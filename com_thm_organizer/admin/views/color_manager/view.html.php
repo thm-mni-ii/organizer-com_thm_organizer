@@ -31,7 +31,7 @@ class THM_OrganizerViewColor_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperComponent::isAdmin()) {
+        if (!THM_OrganizerHelperAccess::isAdmin()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 

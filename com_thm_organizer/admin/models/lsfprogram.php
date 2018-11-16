@@ -86,7 +86,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         $this->_db->transactionStart();
         foreach ($programIDs as $programID) {
 
-            if (!THM_OrganizerHelperComponent::allowDocumentAccess('program', $programID)) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }
@@ -230,7 +230,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
 
         foreach ($programIDs as $programID) {
 
-            if (!THM_OrganizerHelperComponent::allowDocumentAccess('program', $programID)) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }

@@ -22,7 +22,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      */
     public function save()
     {
-        if (!THM_OrganizerHelperComponent::isAdmin()) {
+        if (!THM_OrganizerHelperAccess::isAdmin()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -56,7 +56,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      */
     public function save2copy()
     {
-        if (!THM_OrganizerHelperComponent::isAdmin()) {
+        if (!THM_OrganizerHelperAccess::isAdmin()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -92,7 +92,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperComponent::isAdmin()) {
+        if (!THM_OrganizerHelperAccess::isAdmin()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 

@@ -33,7 +33,7 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperComponent::allowSchedulingAccess()) {
+        if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -68,7 +68,7 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
         $bar = JToolBar::getInstance('toolbar');
         $bar->appendButton('Custom', $batchButton, 'batch');
 
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             JToolbarHelper::custom('plan_pool.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }

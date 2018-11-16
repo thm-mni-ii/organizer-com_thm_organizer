@@ -83,10 +83,11 @@ class THM_OrganizerHelperPools
     /**
      * Retrieves the pool's full name if existent.
      *
-     * @param int   $poolID the table's pool id
-     * @param sting $type   the pool's type (real|plan)
+     * @param int    $poolID the table's pool id
+     * @param string $type   the pool's type (real|plan)
      *
      * @return string the full name, otherwise an empty string
+     * @throws Exception
      */
     public static function getName($poolID, $type = 'plan')
     {
@@ -173,6 +174,195 @@ class THM_OrganizerHelperPools
         ksort($pools);
 
         return $pools;
+    }
+
+    /**
+     * Retrieves a list of lessons associated with a pool
+     *
+     * @return array the lessons associated with the pool
+     * @throws Exception
+     */
+    public static function getPoolLessons()
+    {
+        $input = JFactory::getApplication()->input;
+
+        $poolIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
+        if (empty($poolIDs[0])) {
+            return [];
+        }
+        $poolIDs = implode(',', $poolIDs);
+
+        $date = $input->getString('date');
+        if (!THM_OrganizerHelperDate::isStandardized($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $interval = $input->getString('dateRestriction');
+        if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
+            $interval = 'semester';
+        }
+
+        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+
+        $dbo = JFactory::getDbo();
+
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT l.id, l.comment, ls.subjectID, m.abbreviation_$languageTag AS method")
+            ->from('#__thm_organizer_lessons AS l')
+            ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
+            ->innerJoin('#__thm_organizer_lesson_subjects AS ls on ls.lessonID = l.id')
+            ->innerJoin('#__thm_organizer_lesson_pools AS lp on lp.subjectID = ls.id')
+            ->where("lp.poolID IN ($poolIDs)")
+            ->where("l.delta != 'removed'")
+            ->where("lp.delta != 'removed'")
+            ->where("ls.delta != 'removed'");
+
+        $dateTime = strtotime($date);
+        switch ($interval) {
+            case 'semester':
+                $query->innerJoin('#__thm_organizer_planning_periods AS pp ON pp.id = l.planningPeriodID')
+                    ->where("'$date' BETWEEN pp.startDate AND pp.endDate");
+                break;
+            case 'month':
+                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
+                $startDate  = date('Y-m-d', strtotime("Monday this week", strtotime($monthStart)));
+                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
+                $endDate    = date('Y-m-d', strtotime("Sunday this week", strtotime($monthEnd)));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'week':
+                $startDate = date('Y-m-d', strtotime("Monday this week", $dateTime));
+                $endDate   = date('Y-m-d', strtotime("Sunday this week", $dateTime));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'day':
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date = '$date'");
+                break;
+        }
+
+        $dbo->setQuery($query);
+
+        $default = [];
+        try {
+            $results = $dbo->loadAssocList();
+        } catch (RuntimeException $exc) {
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+            return $default;
+        }
+
+        if (empty($results)) {
+            return [];
+        }
+
+        $lessons = [];
+        foreach ($results as $lesson) {
+            $index = '';
+            $lesson['subjectName'] = THM_OrganizerHelperSubjects::getName($lesson['subjectID'], 'plan', true);
+            $index .= $lesson['subjectName'];
+            if (!empty($lesson['method'])) {
+                $index .= " - {$lesson['method']}";
+            }
+            $index .= " - {$lesson['id']}";
+            $lessons[$index] = $lesson;
+        }
+
+        ksort($lessons);
+
+        return $lessons;
+    }
+
+    /**
+     * Retrieves a list of subjects associated with a pool
+     *
+     * @return array the subjects associated with the pool
+     * @throws Exception
+     */
+    public static function getPoolSubjects()
+    {
+        $input = JFactory::getApplication()->input;
+
+        $poolIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
+        if (empty($poolIDs[0])) {
+            return [];
+        }
+        $poolIDs = implode(',', $poolIDs);
+
+        $date = $input->getString('date');
+        if (!THM_OrganizerHelperDate::isStandardized($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $interval = $input->getString('dateRestriction');
+        if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
+            $interval = 'semester';
+        }
+
+        $dbo = JFactory::getDbo();
+
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT ls.subjectID')
+            ->from('#__thm_organizer_lesson_subjects AS ls')
+            ->innerJoin('#__thm_organizer_lessons AS l on l.id = ls.lessonID')
+            ->innerJoin('#__thm_organizer_lesson_pools AS lp on lp.subjectID = ls.id')
+            ->where("lp.poolID IN ($poolIDs)")
+            ->where("l.delta != 'removed'")
+            ->where("lp.delta != 'removed'")
+            ->where("ls.delta != 'removed'");
+
+        $dateTime = strtotime($date);
+        switch ($interval) {
+            case 'semester':
+                $query->innerJoin('#__thm_organizer_planning_periods AS pp ON pp.id = l.planningPeriodID')
+                    ->where("'$date' BETWEEN pp.startDate AND pp.endDate");
+                break;
+            case 'month':
+                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
+                $startDate  = date('Y-m-d', strtotime("Monday this week", strtotime($monthStart)));
+                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
+                $endDate    = date('Y-m-d', strtotime("Sunday this week", strtotime($monthEnd)));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'week':
+                $startDate = date('Y-m-d', strtotime("Monday this week", $dateTime));
+                $endDate   = date('Y-m-d', strtotime("Sunday this week", $dateTime));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'day':
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date = '$date'");
+                break;
+        }
+
+        $dbo->setQuery($query);
+
+        $default = [];
+        try {
+            $subjectIDs = $dbo->loadColumn();
+        } catch (RuntimeException $exc) {
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+            return $default;
+        }
+
+        if (empty($subjectIDs)) {
+            return [];
+        }
+
+        $subjects = [];
+        foreach ($subjectIDs as $subjectID) {
+            $name            = THM_OrganizerHelperSubjects::getName($subjectID, 'plan', true);
+            $subjects[$name] = $subjectID;
+        }
+
+        ksort($subjects);
+
+        return $subjects;
     }
 
     /**

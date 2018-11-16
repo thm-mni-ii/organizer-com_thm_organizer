@@ -41,7 +41,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('manage');
+        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('manage');
         $query              = $this->_db->getQuery(true);
 
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();

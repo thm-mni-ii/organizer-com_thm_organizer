@@ -35,7 +35,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperComponent::isAdmin();
+        return THM_OrganizerHelperAccess::isAdmin();
     }
 
     /**

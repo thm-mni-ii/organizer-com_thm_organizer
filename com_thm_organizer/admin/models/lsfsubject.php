@@ -230,7 +230,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
         foreach ($subjectIDs as $subjectID) {
 
-            if (!THM_OrganizerHelperComponent::allowDocumentAccess('subject', $subjectID)) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
             }

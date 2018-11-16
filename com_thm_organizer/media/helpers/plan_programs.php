@@ -30,7 +30,7 @@ class THM_OrganizerHelperPlan_Programs
             return false;
         }
 
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             return true;
         }
 
@@ -39,7 +39,7 @@ class THM_OrganizerHelperPlan_Programs
         }
 
         $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
-        $allowedDepartments = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);

@@ -37,7 +37,7 @@ class THM_OrganizerHelperCourses
             return false;
         }
 
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             return true;
         }
 

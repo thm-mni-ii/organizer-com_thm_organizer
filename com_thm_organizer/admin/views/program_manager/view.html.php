@@ -31,7 +31,7 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperComponent::allowDocumentAccess()) {
+        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -64,7 +64,7 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
         );
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
 
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

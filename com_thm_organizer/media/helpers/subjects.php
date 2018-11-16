@@ -33,15 +33,15 @@ class THM_OrganizerHelperSubjects
             return false;
         }
 
-        if (THM_OrganizerHelperComponent::isAdmin()) {
+        if (THM_OrganizerHelperAccess::isAdmin()) {
             return true;
         }
 
-        if (empty($subjectID) or !THM_OrganizerHelperComponent::checkAssetInitialization('subject', $subjectID)) {
-            return THM_OrganizerHelperComponent::allowDocumentAccess();
+        if (empty($subjectID) or !THM_OrganizerHelperAccess::checkAssetInitialization('subject', $subjectID)) {
+            return THM_OrganizerHelperAccess::allowDocumentAccess();
         }
 
-        if (THM_OrganizerHelperComponent::allowDocumentAccess('subject', $subjectID)) {
+        if (THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
             return true;
         }
 
@@ -243,5 +243,102 @@ class THM_OrganizerHelperSubjects
         }
 
         return $names;
+    }
+
+    /**
+     * Retrieves a list of lessons associated with a subject
+     *
+     * @return array the lessons associated with the subject
+     * @throws Exception
+     */
+    public static function getSubjectLessons()
+    {
+        $input = JFactory::getApplication()->input;
+
+        $subjectIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('subjectIDs', '')));
+        if (empty($subjectIDs[0])) {
+            return [];
+        }
+        $subjectIDs = implode(',', $subjectIDs);
+
+        $date = $input->getString('date');
+        if (!THM_OrganizerHelperDate::isStandardized($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $interval = $input->getString('dateRestriction');
+        if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
+            $interval = 'semester';
+        }
+
+        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+
+        $dbo = JFactory::getDbo();
+
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT l.id, l.comment, ls.subjectID, m.abbreviation_$languageTag AS method")
+            ->from('#__thm_organizer_lessons AS l')
+            ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
+            ->innerJoin('#__thm_organizer_lesson_subjects AS ls on ls.lessonID = l.id')
+            ->where("ls.subjectID IN ($subjectIDs)")
+            ->where("l.delta != 'removed'")
+            ->where("ls.delta != 'removed'");
+
+        $dateTime = strtotime($date);
+        switch ($interval) {
+            case 'semester':
+                $query->innerJoin('#__thm_organizer_planning_periods AS pp ON pp.id = l.planningPeriodID')
+                    ->where("'$date' BETWEEN pp.startDate AND pp.endDate");
+                break;
+            case 'month':
+                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
+                $startDate  = date('Y-m-d', strtotime("Monday this week", strtotime($monthStart)));
+                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
+                $endDate    = date('Y-m-d', strtotime("Sunday this week", strtotime($monthEnd)));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'week':
+                $startDate = date('Y-m-d', strtotime("Monday this week", $dateTime));
+                $endDate   = date('Y-m-d', strtotime("Sunday this week", $dateTime));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'day':
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date = '$date'");
+                break;
+        }
+
+        $dbo->setQuery($query);
+
+        $default = [];
+        try {
+            $results = $dbo->loadAssocList();
+        } catch (RuntimeException $exc) {
+            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+
+            return $default;
+        }
+
+        if (empty($results)) {
+            return [];
+        }
+
+        $lessons = [];
+        foreach ($results as $lesson) {
+            $index = '';
+            $lesson['subjectName'] = THM_OrganizerHelperSubjects::getName($lesson['subjectID'], 'plan', true);
+            $index .= $lesson['subjectName'];
+            if (!empty($lesson['method'])) {
+                $index .= " - {$lesson['method']}";
+            }
+            $index .= " - {$lesson['id']}";
+            $lessons[$index] = $lesson;
+        }
+
+        ksort($lessons);
+
+        return $lessons;
     }
 }

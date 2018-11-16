@@ -22,7 +22,7 @@ class THM_OrganizerModelBuilding extends JModelLegacy
      */
     public function save()
     {
-        if (!THM_OrganizerHelperComponent::allowFMAccess()) {
+        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -39,7 +39,7 @@ class THM_OrganizerModelBuilding extends JModelLegacy
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperComponent::allowFMAccess()) {
+        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
