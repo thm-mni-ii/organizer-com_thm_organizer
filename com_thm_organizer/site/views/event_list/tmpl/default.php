@@ -18,7 +18,7 @@ if (!empty($showHeading)) {
 }
 foreach ($this->model->events as $date => $times) {
     echo '<div class="event-date">';
-    echo '<div class="event-date-head">' . THM_OrganizerHelperComponent::formatDate($date) . '</div>';
+    echo '<div class="event-date-head">' . THM_OrganizerHelperDate::formatDate($date) . '</div>';
     echo '<table><thead><tr class="list-head">';
     echo '<th class="time-column">' . JText::_('COM_THM_ORGANIZER_TIMES') . '</th>';
     echo '<th class="name-column">' . JText::_('COM_THM_ORGANIZER_EVENT') . '</th>';
@@ -34,8 +34,8 @@ foreach ($this->model->events as $date => $times) {
             $rowNumber++;
             echo '<tr class="' . $rowClass . '">';
             echo '<td class="time-column">';
-            echo THM_OrganizerHelperComponent::formatTime($lesson['startTime']) . ' - ';
-            echo THM_OrganizerHelperComponent::formatTime($lesson['endTime']);
+            echo THM_OrganizerHelperDate::formatTime($lesson['startTime']) . ' - ';
+            echo THM_OrganizerHelperDate::formatTime($lesson['endTime']);
             echo '</td>';
             echo '<td class="name-column">';
             echo implode(' / ', $lesson['titles']);

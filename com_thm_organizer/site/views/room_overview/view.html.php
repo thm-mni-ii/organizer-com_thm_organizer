@@ -85,14 +85,14 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
     {
         $dayConstant   = strtoupper(date('l', strtotime($date)));
         $day           = $this->lang->_($dayConstant);
-        $formattedDate = THM_OrganizerHelperComponent::formatDate($date);
+        $formattedDate = THM_OrganizerHelperDate::formatDate($date);
         $dateText      = "$day $formattedDate<br />";
 
         $block     = $this->model->grid['periods'][$blockNo];
         $blockText = is_numeric($blockName) ? "$blockName. Block" : $blockName;
 
-        $startTime = THM_OrganizerHelperComponent::formatTime($block['startTime']);
-        $endTime   = THM_OrganizerHelperComponent::formatTime($block['endTime']);
+        $startTime = THM_OrganizerHelperDate::formatTime($block['startTime']);
+        $endTime   = THM_OrganizerHelperDate::formatTime($block['endTime']);
         $timeText  = " ($startTime - $endTime)<br />";
 
         $roomText = $this->lang->_('COM_THM_ORGANIZER_ROOM') . " $roomNo<br />";

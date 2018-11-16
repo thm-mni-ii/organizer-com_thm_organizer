@@ -91,8 +91,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
             $return[$index]['active']
                 = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
 
-            $created                   = THM_OrganizerHelperComponent::formatDate($item->creationDate);
-            $created                   .= ' / ' . THM_OrganizerHelperComponent::formatTime($item->creationTime);
+            $created                   = THM_OrganizerHelperDate::formatDate($item->creationDate);
+            $created                   .= ' / ' . THM_OrganizerHelperDate::formatTime($item->creationTime);
             $return[$index]['created'] = $created;
 
             $index++;

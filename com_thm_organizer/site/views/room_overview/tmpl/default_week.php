@@ -24,7 +24,7 @@ $dayCount    = count($dates);
             $dayConstant = strtoupper(date('l', strtotime($date)));
             $dayClass    = "day-row day-column columns-$dayCount-$blockCount";
             echo '<th class="' . $dayClass . '" colspan="' . $blockCount . '">';
-            echo $this->lang->_($dayConstant) . '<br />' . THM_OrganizerHelperComponent::formatDate($date);
+            echo $this->lang->_($dayConstant) . '<br />' . THM_OrganizerHelperDate::formatDate($date);
             echo '</th>';
         }
         ?>

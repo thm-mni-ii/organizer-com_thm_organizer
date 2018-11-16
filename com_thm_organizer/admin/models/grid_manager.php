@@ -71,8 +71,8 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
                 $return[$index]['endDay']   = JText::_($endDayConstant);
 
                 $periods                     = get_object_vars($grid->periods);
-                $return[$index]['startTime'] = THM_OrganizerHelperComponent::formatTime(reset($periods)->startTime);
-                $return[$index]['endTime']   = THM_OrganizerHelperComponent::formatTime(end($periods)->endTime);
+                $return[$index]['startTime'] = THM_OrganizerHelperDate::formatTime(reset($periods)->startTime);
+                $return[$index]['endTime']   = THM_OrganizerHelperDate::formatTime(end($periods)->endTime);
             } else {
                 $return[$index]['startDay']  = '';
                 $return[$index]['endDay']    = '';

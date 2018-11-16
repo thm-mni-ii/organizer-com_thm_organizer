@@ -80,13 +80,13 @@ class THM_OrganizerTemplateExport_XLS
     {
         $this->spreadSheet->setActiveSheetIndex(0);
 
-        $date = THM_OrganizerHelperComponent::formatDate($date);
+        $date = THM_OrganizerHelperDate::formatDate($date);
         $this->spreadSheet->getActiveSheet()->setCellValue("A$row", $date);
 
-        $startTime = THM_OrganizerHelperComponent::formatTime($lessonInstance['startTime']);
+        $startTime = THM_OrganizerHelperDate::formatTime($lessonInstance['startTime']);
         $this->spreadSheet->getActiveSheet()->setCellValue("B$row", $startTime);
 
-        $endTime = THM_OrganizerHelperComponent::formatTime($lessonInstance['endTime']);
+        $endTime = THM_OrganizerHelperDate::formatTime($lessonInstance['endTime']);
         $this->spreadSheet->getActiveSheet()->setCellValue("C$row", $endTime);
 
         $name = implode(' / ', array_keys($lessonInstance['subjects']));
@@ -174,8 +174,8 @@ class THM_OrganizerTemplateExport_XLS
     private function getDescription()
     {
         $lessonDates = array_keys($this->lessons);
-        $startDate   = THM_OrganizerHelperComponent::formatDate(reset($lessonDates));
-        $endDate     = THM_OrganizerHelperComponent::formatDate(end($lessonDates));
+        $startDate   = THM_OrganizerHelperDate::formatDate(reset($lessonDates));
+        $endDate     = THM_OrganizerHelperDate::formatDate(end($lessonDates));
 
         return JText::_('COM_THM_ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
     }

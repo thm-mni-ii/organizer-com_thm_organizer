@@ -361,16 +361,16 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $blocks = [];
         foreach ($this->grid['periods'] as $blockNo => $block) {
             $blocks[$blockNo]              = [];
-            $blockStartTime                = THM_OrganizerHelperComponent::formatTime($block['startTime']);
-            $blockEndTime                  = THM_OrganizerHelperComponent::formatTime($block['endTime']);
+            $blockStartTime                = THM_OrganizerHelperDate::formatTime($block['startTime']);
+            $blockEndTime                  = THM_OrganizerHelperDate::formatTime($block['endTime']);
             $blocks[$blockNo]['startTime'] = $blockStartTime;
             $blocks[$blockNo]['endTime']   = $blockEndTime;
             $blocks[$blockNo]['lessons']   = [];
 
             foreach ($events as $times => $eventInstances) {
                 list($eventStartTime, $eventEndTime) = explode('-', $times);
-                $eventStartTime = THM_OrganizerHelperComponent::formatTime($eventStartTime);
-                $eventEndTime   = THM_OrganizerHelperComponent::formatTime($eventEndTime);
+                $eventStartTime = THM_OrganizerHelperDate::formatTime($eventStartTime);
+                $eventEndTime   = THM_OrganizerHelperDate::formatTime($eventEndTime);
                 $before         = $eventEndTime < $blockStartTime;
                 $after          = $eventStartTime > $blockEndTime;
 
@@ -383,8 +383,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
                 $endSynch   = $blockEndTime == $eventEndTime;
 
                 if (!$startSynch or !$endSynch) {
-                    $startTime = THM_OrganizerHelperComponent::formatTime($eventStartTime);
-                    $endTime   = THM_OrganizerHelperComponent::formatTime($eventEndTime);
+                    $startTime = THM_OrganizerHelperDate::formatTime($eventStartTime);
+                    $endTime   = THM_OrganizerHelperDate::formatTime($eventEndTime);
                     $divTime   .= " ($startTime -  $endTime)";
                 }
 

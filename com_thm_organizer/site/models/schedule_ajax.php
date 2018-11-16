@@ -30,227 +30,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
     const INSTANCE_MODE = 3;
 
     /**
-     * Getter method for programs
-     *
-     * @return string  a json coded array of available program objects
-     */
-    public function getPrograms()
-    {
-        $programs = THM_OrganizerHelperPrograms::getPlanPrograms();
-
-        $results = [];
-        foreach ($programs as $program) {
-            $name           = empty($program['name']) ? $program['ppName'] : $program['name'];
-            $results[$name] = $program['id'];
-        }
-
-        return empty($results) ? '[]' : json_encode($results);
-    }
-
-    /**
-     * Getter method for pools
-     *
-     * @return string  all pools in JSON format
-     * @throws Exception
-     */
-    public function getPools()
-    {
-        $selectedPrograms = JFactory::getApplication()->input->getString('programIDs');
-        $programIDs       = explode(",", $selectedPrograms);
-        $result           = THM_OrganizerHelperPools::getPlanPools(count($programIDs) == 1);
-
-        return empty($result) ? '[]' : json_encode($result);
-    }
-
-    /**
-     * Getter method for room types
-     *
-     * @return string  all room types in JSON format
-     * @throws Exception
-     */
-    public function getRoomTypes()
-    {
-        $types   = THM_OrganizerHelperRoomTypes::getUsedRoomTypes();
-        $default = [JText::_('JALL') => '0'];
-
-        return json_encode(array_merge($default, $types));
-    }
-
-    /**
-     * Getter method for rooms in database
-     *
-     * @return string  all rooms in JSON format
-     * @throws Exception
-     */
-    public function getRooms()
-    {
-        $rooms = THM_OrganizerHelperRooms::getRooms();
-
-        $result = [];
-        foreach ($rooms as $room) {
-            $result[$room['name']] = $room['id'];
-        }
-
-        return empty($result) ? '[]' : json_encode($result);
-    }
-
-    /**
-     * Getter method for teachers in database
-     *
-     * @return string  all teachers in JSON format
-     */
-    public function getTeachers()
-    {
-        $result = THM_OrganizerHelperTeachers::getPlanTeachers();
-
-        return empty($result) ? '[]' : json_encode($result);
-    }
-
-    /**
-     * get lessons by chosen resource
-     *
-     * @return string JSON coded lessons
-     * @throws Exception
-     */
-    public function getLessons()
-    {
-        $input       = JFactory::getApplication()->input;
-        $inputParams = $input->getArray();
-        $inputKeys   = array_keys($inputParams);
-        $parameters  = [];
-        foreach ($inputKeys as $key) {
-            if (preg_match('/\w+IDs/', $key)) {
-                $parameters[$key] = explode(',', $inputParams[$key]);
-            }
-        }
-
-        $parameters['userID']     = JFactory::getUser()->id;
-        $parameters['mySchedule'] = $input->getBool('mySchedule', false);
-
-        // Server side check against url manipulation
-        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
-
-        $parameters['showUnpublished'] = empty($allowedIDs) ?
-            false : $input->getBool('showUnpublished', false);
-
-        $oneDay                        = $input->getBool('oneDay', false);
-        $parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
-        $parameters['date']            = $input->getString('date');
-        $parameters['format']          = '';
-        $deltaDays                     = $input->getString('deltaDays', '14');
-        $parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime("-" . $deltaDays . " days"));
-
-        $lessons = THM_OrganizerHelperSchedule::getLessons($parameters);
-
-        return empty($lessons) ? '[]' : json_encode($lessons);
-    }
-
-    /**
-     * saves lessons in the personal schedule of the logged in user
-     *
-     * @return string JSON coded and saved ccmIDs
-     * @throws Exception
-     */
-    public function saveLesson()
-    {
-        $input       = JFactory::getApplication()->input;
-        $mode        = $input->getInt('mode', self::PERIOD_MODE);
-        $ccmID       = $input->getString('ccmID');
-        $userID      = JFactory::getUser()->id;
-        $savedCcmIDs = [];
-
-        if (JFactory::getUser()->guest or empty($ccmID)) {
-            return '[]';
-        }
-
-        $mappings = $this->getMatchingLessons($mode, $ccmID);
-        foreach ($mappings as $lessonID => $ccmIDs) {
-            try {
-                $userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
-                $hasUserLesson   = $userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]);
-            } catch (Exception $e) {
-                return '[]';
-            }
-
-            $conditions = [
-                'userID'      => $userID,
-                'lessonID'    => $lessonID,
-                'user_date'   => date('Y-m-d H:i:s'),
-                'status'      => (int)THM_OrganizerHelperCourses::canAcceptParticipant($lessonID),
-                'status_date' => date('Y-m-d H:i:s'),
-            ];
-
-            if ($hasUserLesson) {
-                $conditions['id'] = $userLessonTable->id;
-                $oldCcmIds        = json_decode($userLessonTable->configuration);
-                $ccmIDs           = array_merge($ccmIDs, array_diff($oldCcmIds, $ccmIDs));
-            }
-
-            $conditions['configuration'] = $ccmIDs;
-
-            if ($userLessonTable->bind($conditions) and $userLessonTable->store()) {
-                $savedCcmIDs = array_merge($savedCcmIDs, $ccmIDs);
-            }
-        }
-
-        return json_encode($savedCcmIDs);
-    }
-
-    /**
-     * Get startTime, endTime, schedule_date, day of week and subjectID from calendar_configuration_map table
-     *
-     * @param int $ccmID primary key of ccm
-     *
-     * @return object|boolean
-     */
-    private function getCalendarData($ccmID)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select('cal.lessonID, startTime, endTime, schedule_date, DAYOFWEEK(schedule_date) AS weekday, subjectID')
-            ->from('#__thm_organizer_calendar_configuration_map AS map')
-            ->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
-            ->innerJoin('#__thm_organizer_lessons AS l ON l.id = cal.lessonID')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id')
-            ->where("map.id = '$ccmID'")
-            ->where("cal.delta != 'removed'");
-
-        $query->order('map.id');
-        $this->_db->setQuery($query);
-
-        try {
-            $calReference = $this->_db->loadObject();
-        } catch (RuntimeException $e) {
-            return false;
-        }
-
-        return empty($calReference) ? false : $calReference;
-    }
-
-    /**
-     * Get an array with matching ccmIDs, sorted by lessonIDs
-     *
-     * @param int $mode  global param like self::SEMESTER_MODE
-     * @param int $ccmID primary key of ccm
-     *
-     * @return array (lessonID => [ccmIDs])
-     */
-    private function getMatchingLessons($mode, $ccmID)
-    {
-        $calReference = $this->getCalendarData($ccmID);
-
-        if (!$calReference) {
-            return [];
-        } // Only the instance selected
-        elseif ($mode == self::INSTANCE_MODE) {
-            return [$calReference->lessonID => [$ccmID]];
-        }
-
-        $ccmIDs = THM_OrganizerHelperCourses::getInstances($calReference->lessonID, $mode, $calReference);
-
-        return empty($ccmIDs) ? [] : [$calReference->lessonID => $ccmIDs];
-    }
-
-    /**
      * deletes lessons in the personal schedule of a logged in user
      *
      * @return string JSON coded and deleted ccmIDs
@@ -312,6 +91,188 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
     }
 
     /**
+     * Get startTime, endTime, schedule_date, day of week and subjectID from calendar_configuration_map table
+     *
+     * @param int $ccmID primary key of ccm
+     *
+     * @return object|boolean
+     */
+    private function getCalendarData($ccmID)
+    {
+        $query = $this->_db->getQuery(true);
+        $query->select('cal.lessonID, startTime, endTime, schedule_date, DAYOFWEEK(schedule_date) AS weekday, subjectID')
+            ->from('#__thm_organizer_calendar_configuration_map AS map')
+            ->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
+            ->innerJoin('#__thm_organizer_lessons AS l ON l.id = cal.lessonID')
+            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id')
+            ->where("map.id = '$ccmID'")
+            ->where("cal.delta != 'removed'");
+
+        $query->order('map.id');
+        $this->_db->setQuery($query);
+
+        try {
+            $calReference = $this->_db->loadObject();
+        } catch (RuntimeException $e) {
+            return false;
+        }
+
+        return empty($calReference) ? false : $calReference;
+    }
+
+    /**
+     * get lessons by chosen resource
+     *
+     * @return string JSON coded lessons
+     * @throws Exception
+     */
+    public function getLessons()
+    {
+        $input       = JFactory::getApplication()->input;
+        $inputParams = $input->getArray();
+        $inputKeys   = array_keys($inputParams);
+        $parameters  = [];
+        foreach ($inputKeys as $key) {
+            if (preg_match('/\w+IDs/', $key)) {
+                $parameters[$key] = explode(',', $inputParams[$key]);
+            }
+        }
+
+        $parameters['userID']     = JFactory::getUser()->id;
+        $parameters['mySchedule'] = $input->getBool('mySchedule', false);
+
+        // Server side check against url manipulation
+        $allowedIDs = THM_OrganizerHelperComponent::getAccessibleDepartments('schedule');
+
+        $parameters['showUnpublished'] = empty($allowedIDs) ?
+            false : $input->getBool('showUnpublished', false);
+
+        $oneDay                        = $input->getBool('oneDay', false);
+        $parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
+        $parameters['date']            = $input->getString('date');
+        $parameters['format']          = '';
+        $deltaDays                     = $input->getString('deltaDays', '14');
+        $parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime("-" . $deltaDays . " days"));
+
+        $lessons = THM_OrganizerHelperSchedule::getLessons($parameters);
+
+        return empty($lessons) ? '[]' : json_encode($lessons);
+    }
+
+    /**
+     * Get an array with matching ccmIDs, sorted by lessonIDs
+     *
+     * @param int $mode  global param like self::SEMESTER_MODE
+     * @param int $ccmID primary key of ccm
+     *
+     * @return array (lessonID => [ccmIDs])
+     */
+    private function getMatchingLessons($mode, $ccmID)
+    {
+        $calReference = $this->getCalendarData($ccmID);
+
+        if (!$calReference) {
+            return [];
+        } // Only the instance selected
+        elseif ($mode == self::INSTANCE_MODE) {
+            return [$calReference->lessonID => [$ccmID]];
+        }
+
+        $ccmIDs = THM_OrganizerHelperCourses::getInstances($calReference->lessonID, $mode, $calReference);
+
+        return empty($ccmIDs) ? [] : [$calReference->lessonID => $ccmIDs];
+    }
+
+    /**
+     * Getter method for programs
+     *
+     * @return string  a json coded array of available program objects
+     * @throws Exception
+     */
+    public function getPrograms()
+    {
+        $programs = THM_OrganizerHelperPrograms::getPlanPrograms();
+
+        $results = [];
+        foreach ($programs as $program) {
+            $name           = empty($program['name']) ? $program['ppName'] : $program['name'];
+            $results[$name] = $program['id'];
+        }
+
+        return empty($results) ? '[]' : json_encode($results);
+    }
+
+    /**
+     * Getter method for pools
+     *
+     * @return string  all pools in JSON format
+     * @throws Exception
+     */
+    public function getPools()
+    {
+        $selectedPrograms = JFactory::getApplication()->input->getString('programIDs');
+        $programIDs       = explode(",", $selectedPrograms);
+        $result           = THM_OrganizerHelperPools::getPlanPools(count($programIDs) == 1);
+
+        return empty($result) ? '[]' : json_encode($result);
+    }
+
+    /**
+     * Getter method for subjects associated with a given pool
+     *
+     * @return void
+     */
+    public function getPoolSubjects()
+    {
+        return json_encode([]);
+    }
+
+    /**
+     * Getter method for rooms in database
+     *
+     * @return string  all rooms in JSON format
+     * @throws Exception
+     */
+    public function getRooms()
+    {
+        $rooms = THM_OrganizerHelperRooms::getRooms();
+
+        $result = [];
+        foreach ($rooms as $room) {
+            $result[$room['name']] = $room['id'];
+        }
+
+        return empty($result) ? '[]' : json_encode($result);
+    }
+
+    /**
+     * Getter method for room types
+     *
+     * @return string  all room types in JSON format
+     * @throws Exception
+     */
+    public function getRoomTypes()
+    {
+        $types   = THM_OrganizerHelperRoomTypes::getUsedRoomTypes();
+        $default = [JText::_('JALL') => '0'];
+
+        return json_encode(array_merge($default, $types));
+    }
+
+    /**
+     * Getter method for teachers in database
+     *
+     * @return string  all teachers in JSON format
+     * @throws Exception
+     */
+    public function getTeachers()
+    {
+        $result = THM_OrganizerHelperTeachers::getPlanTeachers();
+
+        return empty($result) ? '[]' : json_encode($result);
+    }
+
+    /**
      * Returns title of given resource
      *
      * @return string
@@ -340,5 +301,56 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         }
 
         return $title;
+    }
+
+    /**
+     * saves lessons in the personal schedule of the logged in user
+     *
+     * @return string JSON coded and saved ccmIDs
+     * @throws Exception
+     */
+    public function saveLesson()
+    {
+        $input       = JFactory::getApplication()->input;
+        $mode        = $input->getInt('mode', self::PERIOD_MODE);
+        $ccmID       = $input->getString('ccmID');
+        $userID      = JFactory::getUser()->id;
+        $savedCcmIDs = [];
+
+        if (JFactory::getUser()->guest or empty($ccmID)) {
+            return '[]';
+        }
+
+        $mappings = $this->getMatchingLessons($mode, $ccmID);
+        foreach ($mappings as $lessonID => $ccmIDs) {
+            try {
+                $userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
+                $hasUserLesson   = $userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]);
+            } catch (Exception $e) {
+                return '[]';
+            }
+
+            $conditions = [
+                'userID'      => $userID,
+                'lessonID'    => $lessonID,
+                'user_date'   => date('Y-m-d H:i:s'),
+                'status'      => (int)THM_OrganizerHelperCourses::canAcceptParticipant($lessonID),
+                'status_date' => date('Y-m-d H:i:s'),
+            ];
+
+            if ($hasUserLesson) {
+                $conditions['id'] = $userLessonTable->id;
+                $oldCcmIds        = json_decode($userLessonTable->configuration);
+                $ccmIDs           = array_merge($ccmIDs, array_diff($oldCcmIds, $ccmIDs));
+            }
+
+            $conditions['configuration'] = $ccmIDs;
+
+            if ($userLessonTable->bind($conditions) and $userLessonTable->store()) {
+                $savedCcmIDs = array_merge($savedCcmIDs, $ccmIDs);
+            }
+        }
+
+        return json_encode($savedCcmIDs);
     }
 }

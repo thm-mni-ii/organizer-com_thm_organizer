@@ -150,7 +150,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      */
     private function setData()
     {
-        $date = THM_OrganizerHelperComponent::standardizeDate($this->state->get('date'));
+        $date = THM_OrganizerHelperDate::standardizeDate($this->state->get('date'));
         switch ($this->state->get('template')) {
             case self::DAY:
                 $this->startDate = $this->endDate = $date;
@@ -235,10 +235,9 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      */
     private function getInterval()
     {
-        $dateFormat = JFactory::getApplication()->getParams()->get('dateFormat', 'Y-m-d');
-        $endDT      = strtotime($this->endDate);
+        $endDT = strtotime($this->endDate);
         for ($currentDT = strtotime($this->startDate); $currentDT <= $endDT;) {
-            $currentDate = THM_OrganizerHelperComponent::standardizeDate(date($dateFormat, $currentDT));
+            $currentDate = date('Y-m-d', $currentDT);
             $this->getDay($currentDate);
             $currentDT = strtotime('+1 day', $currentDT);
         }
@@ -410,9 +409,9 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
                 $endSynch   = $blockEndTime == $eventEndTime;
 
                 if (!$startSynch or !$endSynch) {
-                    $divTime .= THM_OrganizerHelperComponent::formatTime($eventStartTime);
+                    $divTime .= THM_OrganizerHelperDate::formatTime($eventStartTime);
                     $divTime .= ' - ';
-                    $divTime .= THM_OrganizerHelperComponent::formatTime($eventEndTime);
+                    $divTime .= THM_OrganizerHelperDate::formatTime($eventEndTime);
                 }
 
                 foreach ($eventInstances as $eventID => $eventInstance) {

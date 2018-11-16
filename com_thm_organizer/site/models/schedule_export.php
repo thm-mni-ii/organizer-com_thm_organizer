@@ -486,7 +486,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
         if (empty($rawDate)) {
             $parameters['date'] = date('Y-m-d');
         } else {
-            $parameters['date'] = THM_OrganizerHelperComponent::standardizeDate($rawDate);
+            $parameters['date'] = THM_OrganizerHelperDate::standardizeDate($rawDate);
         }
 
         switch ($parameters['format']) {

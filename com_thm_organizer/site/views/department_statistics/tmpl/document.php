@@ -57,8 +57,8 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet = new PHPExcel();
 
         $userName  = JFactory::getUser()->name;
-        $startDate = THM_OrganizerHelperComponent::formatDate($this->startDate);
-        $endDate   = THM_OrganizerHelperComponent::formatDate($this->endDate);
+        $startDate = THM_OrganizerHelperDate::formatDate($this->startDate);
+        $endDate   = THM_OrganizerHelperDate::formatDate($this->endDate);
 
         $description
             = sprintf(JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);

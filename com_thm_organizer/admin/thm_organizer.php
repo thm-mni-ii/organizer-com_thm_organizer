@@ -16,7 +16,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
 }
 
 try {
-    THM_OrganizerHelperComponent::callController(true);
+    THM_OrganizerHelperComponent::setUp(true);
 } catch (Exception $exc) {
     JLog::add($exc->__toString(), JLog::ERROR, 'com_thm_organizer');
     throw $exc;

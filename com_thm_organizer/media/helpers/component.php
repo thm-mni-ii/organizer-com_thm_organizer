@@ -50,6 +50,7 @@ class THM_OrganizerHelperComponent
      * @param object &$view the view context calling the function
      *
      * @return void
+     * @throws Exception
      */
     public static function addSubmenu(&$view)
     {
@@ -286,32 +287,6 @@ class THM_OrganizerHelperComponent
     }
 
     /**
-     * Calls the appropriate controller
-     *
-     * @param boolean $isAdmin whether the file is being called from the backend
-     *
-     * @return void
-     * @throws Exception
-     */
-    public static function callController($isAdmin = true)
-    {
-        $basePath = $isAdmin ? JPATH_COMPONENT_ADMINISTRATOR : JPATH_COMPONENT_SITE;
-
-        $handler = explode(".", JFactory::getApplication()->input->getCmd('task', ''));
-        if (count($handler) == 2) {
-            $task = $handler[1];
-        } else {
-            $task = $handler[0];
-        }
-
-        require_once $basePath . '/controller.php';
-
-        $controllerObj = new THM_OrganizerController;
-        $controllerObj->execute($task);
-        $controllerObj->redirect();
-    }
-
-    /**
      * Checks for resources which have not yet been saved as an asset allowing transitional edit access
      *
      * @param string $resourceName the name of the resource type
@@ -363,67 +338,6 @@ class THM_OrganizerHelperComponent
         }
 
         return true;
-    }
-
-    /**
-     * Formats the date stored in the database according to the format in the component parameters
-     *
-     * @param string $date     the date to be formatted
-     * @param bool   $withText if the day name should be part of the output
-     *
-     * @return string|bool  a formatted date string otherwise false
-     */
-    public static function formatDate($date, $withText = false)
-    {
-        $params        = JComponentHelper::getParams('com_thm_organizer');
-        $dateFormat    = $params->get('dateFormat', 'd.m.Y');
-        $formattedDate = date($dateFormat, strtotime($date));
-
-        if ($withText) {
-            $shortDOW      = date('l', strtotime($date));
-            $text          = JText::_(strtoupper($shortDOW));
-            $formattedDate = "$text $formattedDate";
-        }
-
-        return $formattedDate;
-    }
-
-    /**
-     * Formats the date stored in the database according to the format in the component parameters
-     *
-     * @param string $date     the date to be formatted
-     * @param bool   $withText if the day name should be part of the output
-     *
-     * @return string|bool  a formatted date string otherwise false
-     */
-    public static function formatDateShort($date, $withText = false)
-    {
-        $params        = JComponentHelper::getParams('com_thm_organizer');
-        $dateFormat    = $params->get('dateFormatShort', 'd.m');
-        $formattedDate = date($dateFormat, strtotime($date));
-
-        if ($withText) {
-            $shortDOW      = date('D', strtotime($date));
-            $text          = JText::_(strtoupper($shortDOW));
-            $formattedDate = "$text $formattedDate";
-        }
-
-        return $formattedDate;
-    }
-
-    /**
-     * Formats the date stored in the database according to the format in the component parameters
-     *
-     * @param string $time the date to be formatted
-     *
-     * @return string|bool  a formatted date string otherwise false
-     */
-    public static function formatTime($time)
-    {
-        $params     = JComponentHelper::getParams('com_thm_organizer');
-        $timeFormat = $params->get('timeFormat', 'H:i');
-
-        return date($timeFormat, strtotime($time));
     }
 
     /**
@@ -544,6 +458,7 @@ class THM_OrganizerHelperComponent
      * @param object $element the field's xml signature. passed separately to get around its protected status.
      *
      * @return array the default options.
+     * @throws Exception
      */
     public static function getTranslatedOptions($field, $element)
     {
@@ -703,28 +618,33 @@ class THM_OrganizerHelperComponent
     }
 
     /**
-     * Converts a date string from the format in the component settings into the format used by the database
+     * Loads required files, calls the appropriate controller.
      *
-     * @param string $date the date string
+     * @param boolean $isAdmin whether the file is being called from the backend
      *
-     * @return string  date sting in format Y-m-d
+     * @return void
+     * @throws Exception
      */
-    public static function standardizeDate($date)
+    public static function setUp($isAdmin = true)
     {
-        $default = date('Y-m-d');
-
-        if (empty($date)) {
-            return $default;
+        if ($isAdmin) {
+            $basePath = JPATH_COMPONENT_ADMINISTRATOR;
+        } else {
+            $basePath = JPATH_COMPONENT_SITE;
+            require_once 'date.php';
         }
 
-        // Already standardized
-        if (preg_match('/^\d{4}\-\d{2}\-\d{2}$/', $date) === 1) {
-            return $date;
+        $handler = explode(".", JFactory::getApplication()->input->getCmd('task', ''));
+        if (count($handler) == 2) {
+            $task = $handler[1];
+        } else {
+            $task = $handler[0];
         }
 
-        $dateFormat    = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-        $supportedDate = date_create_from_format($dateFormat, $date);
+        require_once $basePath . '/controller.php';
 
-        return empty($supportedDate) ? $default : date_format($supportedDate, 'Y-m-d');
+        $controllerObj = new THM_OrganizerController;
+        $controllerObj->execute($task);
+        $controllerObj->redirect();
     }
 }

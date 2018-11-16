@@ -516,7 +516,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         }
 
         if (!isset($this->lessonValues[$lessonID][$teacherID]['startDate'])) {
-            $this->lessonValues[$lessonID][$teacherID]['startDate'] = THM_OrganizerHelperComponent::formatDate($day);
+            $this->lessonValues[$lessonID][$teacherID]['startDate'] = THM_OrganizerHelperDate::formatDate($day);
         }
 
         $DOWConstant  = strtoupper(date('l', strtotime($day)));
@@ -530,7 +530,7 @@ class THM_OrganizerModelDeputat extends JModelLegacy
             $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock][$day] = $hours;
         }
 
-        $this->lessonValues[$lessonID][$teacherID]['endDate'] = THM_OrganizerHelperComponent::formatDate($day);
+        $this->lessonValues[$lessonID][$teacherID]['endDate'] = THM_OrganizerHelperDate::formatDate($day);
 
         return;
     }

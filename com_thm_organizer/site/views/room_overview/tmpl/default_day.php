@@ -19,8 +19,8 @@ $blocks     = $this->model->data[$startDate];
         <th class="room-column block-row"></th>
         <?php
         foreach ($this->model->grid['periods'] as $times) {
-            $startTime  = THM_OrganizerHelperComponent::formatTime($times['startTime']);
-            $endTime    = THM_OrganizerHelperComponent::formatTime($times['endTime']);
+            $startTime  = THM_OrganizerHelperDate::formatTime($times['startTime']);
+            $endTime    = THM_OrganizerHelperDate::formatTime($times['endTime']);
             $columnText = empty($times[$labelIndex]) ? "$startTime - $endTime" : $times[$labelIndex];
             echo '<th class="block-column block-row columns-' . $colNo . '">' . $columnText . '</th>';
         }
