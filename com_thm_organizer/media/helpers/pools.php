@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
+require_once 'date.php';
 require_once 'language.php';
 require_once 'programs.php';
 
@@ -87,7 +88,6 @@ class THM_OrganizerHelperPools
      * @param string $type   the pool's type (real|plan)
      *
      * @return string the full name, otherwise an empty string
-     * @throws Exception
      */
     public static function getName($poolID, $type = 'plan')
     {
@@ -122,10 +122,7 @@ class THM_OrganizerHelperPools
      *
      * @param bool $short whether or not abbreviated names should be returned
      *
-     * @return string  all pools in JSON format
-     *
-     * @throws RuntimeException
-     * @throws Exception
+     * @return array  the plan pools
      */
     public static function getPlanPools($short = true)
     {
@@ -135,7 +132,7 @@ class THM_OrganizerHelperPools
         $query->select('ppl.id, ppl.name, ppl.full_name');
         $query->from('#__thm_organizer_plan_pools AS ppl');
 
-        $input               = JFactory::getApplication()->input;
+        $input               = THM_OrganizerHelperComponent::getInput();
         $selectedDepartments = $input->getString('departmentIDs');
         $selectedPrograms    = $input->getString('programIDs');
 
@@ -152,17 +149,9 @@ class THM_OrganizerHelperPools
 
         $dbo->setQuery($query);
 
-        $default = [];
-        try {
-            $results = $dbo->loadAssocList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return $default;
-        }
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($results)) {
-            return $default;
+            return [];
         }
 
         $pools = [];
@@ -180,11 +169,10 @@ class THM_OrganizerHelperPools
      * Retrieves a list of lessons associated with a pool
      *
      * @return array the lessons associated with the pool
-     * @throws Exception
      */
     public static function getPoolLessons()
     {
-        $input = JFactory::getApplication()->input;
+        $input = THM_OrganizerHelperComponent::getInput();
 
         $poolIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
         if (empty($poolIDs[0])) {
@@ -225,15 +213,15 @@ class THM_OrganizerHelperPools
                 break;
             case 'month':
                 $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-                $startDate  = date('Y-m-d', strtotime("Monday this week", strtotime($monthStart)));
+                $startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
                 $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-                $endDate    = date('Y-m-d', strtotime("Sunday this week", strtotime($monthEnd)));
+                $endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
                 $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
                     ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
                 break;
             case 'week':
-                $startDate = date('Y-m-d', strtotime("Monday this week", $dateTime));
-                $endDate   = date('Y-m-d', strtotime("Sunday this week", $dateTime));
+                $startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
+                $endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
                 $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
                     ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
                 break;
@@ -245,15 +233,7 @@ class THM_OrganizerHelperPools
 
         $dbo->setQuery($query);
 
-        $default = [];
-        try {
-            $results = $dbo->loadAssocList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return $default;
-        }
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -261,12 +241,15 @@ class THM_OrganizerHelperPools
         $lessons = [];
         foreach ($results as $lesson) {
             $index = '';
+
             $lesson['subjectName'] = THM_OrganizerHelperSubjects::getName($lesson['subjectID'], 'plan', true);
+
             $index .= $lesson['subjectName'];
+
             if (!empty($lesson['method'])) {
                 $index .= " - {$lesson['method']}";
             }
-            $index .= " - {$lesson['id']}";
+            $index           .= " - {$lesson['id']}";
             $lessons[$index] = $lesson;
         }
 
@@ -279,11 +262,10 @@ class THM_OrganizerHelperPools
      * Retrieves a list of subjects associated with a pool
      *
      * @return array the subjects associated with the pool
-     * @throws Exception
      */
     public static function getPoolSubjects()
     {
-        $input = JFactory::getApplication()->input;
+        $input = THM_OrganizerHelperComponent::getInput();
 
         $poolIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
         if (empty($poolIDs[0])) {
@@ -321,15 +303,15 @@ class THM_OrganizerHelperPools
                 break;
             case 'month':
                 $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-                $startDate  = date('Y-m-d', strtotime("Monday this week", strtotime($monthStart)));
+                $startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
                 $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-                $endDate    = date('Y-m-d', strtotime("Sunday this week", strtotime($monthEnd)));
+                $endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
                 $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
                     ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
                 break;
             case 'week':
-                $startDate = date('Y-m-d', strtotime("Monday this week", $dateTime));
-                $endDate   = date('Y-m-d', strtotime("Sunday this week", $dateTime));
+                $startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
+                $endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
                 $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
                     ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
                 break;
@@ -340,15 +322,7 @@ class THM_OrganizerHelperPools
         }
 
         $dbo->setQuery($query);
-
-        $default = [];
-        try {
-            $subjectIDs = $dbo->loadColumn();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return $default;
-        }
+        $subjectIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         if (empty($subjectIDs)) {
             return [];
@@ -368,7 +342,8 @@ class THM_OrganizerHelperPools
     /**
      * Attempts to get the plan pool's id, creating it if non-existent.
      *
-     * @param object $pool the pool object
+     * @param string $gpuntisID the untis id for the given pool
+     * @param object $pool      the pool object
      *
      * @return mixed int on success, otherwise null
      */

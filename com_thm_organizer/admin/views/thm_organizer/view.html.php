@@ -57,8 +57,8 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
         JHtml::_('formbehavior.chosen', 'select');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/backend.css');
     }
 
     /**

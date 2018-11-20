@@ -51,13 +51,12 @@ class THM_OrganizerHelperTeachers
      * @param bool $unique         whether or not unique results are desired
      *
      * @return array  an array of teacher data
-     * @throws Exception
      */
     public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false, $unique = true)
     {
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, gpuntisID");
+        $query->select('t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, gpuntisID');
         $query->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
         $query->leftJoin('#__users AS u ON t.username = u.username');
@@ -71,14 +70,9 @@ class THM_OrganizerHelperTeachers
         $dbo->setQuery($query);
 
         if ($multiple) {
-            try {
-                $teacherList = $dbo->loadAssocList();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
 
+            $teacherList = THM_OrganizerHelperComponent::query('loadAssocList');
+            if (empty($teacherList)) {
                 return [];
             }
 
@@ -89,13 +83,7 @@ class THM_OrganizerHelperTeachers
             return $teacherList;
         }
 
-        try {
-            return $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
+        return THM_OrganizerHelperComponent::query('loadAssoc', []);
     }
 
     /**
@@ -127,24 +115,16 @@ class THM_OrganizerHelperTeachers
      * @param int $teacherID the teacher's id
      *
      * @return array the ids of departments with which the teacher is associated
-     * @throws Exception
      */
     public static function getDepartmentIDs($teacherID)
     {
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("departmentID")
+        $query->select('departmentID')
             ->from('#__thm_organizer_department_resources')
             ->where("teacherID = $teacherID");
         $dbo->setQuery($query);
-
-        try {
-            $departmentIDs = $dbo->loadColumn();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
+        $departmentIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         return empty($departmentIDs) ? [] : $departmentIDs;
     }
@@ -155,7 +135,6 @@ class THM_OrganizerHelperTeachers
      * @param int $teacherID the teacher's id
      *
      * @return array the departments with which the teacher is associated id => name
-     * @throws Exception
      */
     public static function getDepartmentNames($teacherID)
     {
@@ -168,14 +147,7 @@ class THM_OrganizerHelperTeachers
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id')
             ->where("teacherID = $teacherID");
         $dbo->setQuery($query);
-
-        try {
-            $departments = $dbo->loadColumn();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
+        $departments = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         return empty($departments) ? [] : $departments;
     }
@@ -210,11 +182,10 @@ class THM_OrganizerHelperTeachers
      * Checks for the teacher entry in the database, creating it as necessary. Adds the id to the teacher entry in the
      * schedule.
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string $gpuntisID      the teacher's gpuntis ID
+     * @param string $gpuntisID the teacher's gpuntis ID
+     * @param object $data      the teacher data
      *
      * @return int the id of the teacher on success, otherwise 0
-     * @throws Exception
      */
     public static function getIDFromScheduleData($gpuntisID, $data)
     {
@@ -233,10 +204,7 @@ class THM_OrganizerHelperTeachers
             try {
                 $success = $teacherTable->load($criteria);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
                 return 0;
             }
@@ -256,7 +224,6 @@ class THM_OrganizerHelperTeachers
      * Checks whether the user is a registered teacher returning their internal teacher id if existent.
      *
      * @return int the teacher id if the user is a teacher, otherwise 0
-     * @throws Exception
      */
     public static function getIDFromUserData()
     {
@@ -267,20 +234,12 @@ class THM_OrganizerHelperTeachers
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("id")
+        $query->select('id')
             ->from('#__thm_organizer_teachers')
             ->where("username = '{$user->username}'");
         $dbo->setQuery($query);
 
-        try {
-            $teacherID = $dbo->loadResult();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return false;
-        }
-
-        return empty($teacherID) ? 0 : $teacherID;
+        return (int)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -288,8 +247,6 @@ class THM_OrganizerHelperTeachers
      * the needs of the calling views.
      *
      * @return array  the scheduled teachers which the user has access to
-     *
-     * @throws Exception
      */
     public static function getPlanTeachers()
     {
@@ -298,10 +255,10 @@ class THM_OrganizerHelperTeachers
             return [];
         }
 
-        $input         = JFactory::getApplication()->input;
+        $input         = THM_OrganizerHelperComponent::getInput();
         $departmentIDs = explode(',', $input->getString('departmentIDs'));
-        $isTeacher     = (bool)self::getIDFromUserData();
-        if (empty($departmentIDs) and !$isTeacher) {
+        $isTeacher     = self::getIDFromUserData();
+        if (empty($departmentIDs) and empty($isTeacher)) {
             return [];
         }
 
@@ -317,7 +274,7 @@ class THM_OrganizerHelperTeachers
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("DISTINCT lt.teacherID")
+        $query->select('DISTINCT lt.teacherID')
             ->from('#__thm_organizer_lesson_teachers AS lt')
             ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID');
 
@@ -329,7 +286,7 @@ class THM_OrganizerHelperTeachers
         if (!empty($departmentIDs)) {
             $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = lt.teacherID');
 
-            $where = "dr.departmentID IN (" . implode(",", $departmentIDs) . ")";
+            $where = 'dr.departmentID IN (' . implode(',', $departmentIDs) . ')';
 
             $selectedPrograms = $input->getString('programIDs');
 
@@ -348,18 +305,10 @@ class THM_OrganizerHelperTeachers
 
         $query->where(implode(' OR ', $wherray));
         $dbo->setQuery($query);
-
-        $default = [];
-        try {
-            $teacherIDs = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return $default;
-        }
+        $teacherIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         if (empty($teacherIDs)) {
-            return $default;
+            return [];
         }
 
         $teachers = [];
@@ -379,7 +328,6 @@ class THM_OrganizerHelperTeachers
      * @param int    $teacherID the id of the teacher being checked
      *
      * @return bool true if the teacher is assigned to a lesson
-     * @throws Exception
      */
     public static function teaches($table, $teacherID)
     {
@@ -389,17 +337,9 @@ class THM_OrganizerHelperTeachers
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("COUNT(*)")->from("#__thm_organizer_{$table}_teachers")->where("teacherID = '$teacherID'");
+        $query->select('COUNT(*)')->from("#__thm_organizer_{$table}_teachers")->where("teacherID = '$teacherID'");
         $dbo->setQuery($query);
 
-        try {
-            $number = $dbo->loadResult();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return false;
-        }
-
-        return empty($number) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('loadResult');
     }
 }

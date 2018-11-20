@@ -50,16 +50,17 @@ class JFormFieldPoolID extends JFormFieldList
         $query->order('text ASC');
         $dbo->setQuery($query);
 
-        try {
-            $pools   = $dbo->loadAssocList();
-            $options = [];
-            foreach ($pools as $pool) {
-                $options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
-            }
-
-            return array_merge(parent::getOptions(), $options);
-        } catch (Exception $exc) {
-            return parent::getOptions();
+        $defaultOptions = parent::getOptions();
+        $pools          = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($pools)) {
+            return $defaultOptions;
         }
+
+        $options = [];
+        foreach ($pools as $pool) {
+            $options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
+        }
+
+        return array_merge(parent::getOptions(), $options);
     }
 }

@@ -116,7 +116,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $terms the search terms
      *
      * @return array an array of degreeIDs, grouped by strength
-     * @throws Exception
      */
     private function getDegrees($terms)
     {
@@ -126,13 +125,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             ->from('#__thm_organizer_degrees');
         $this->_db->setQuery($query);
 
-        try {
-            $degrees = $this->_db->loadAssocList('id');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
+        $degrees = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
 
         // Abbreviation or (title and type) matched
         $exactMatches = [];
@@ -171,7 +164,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Searches for Organizer resources and creates links to relevant views
      *
      * @return array the results grouped by match strength
-     * @throws Exception
      */
     public function getResults()
     {
@@ -189,7 +181,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->lang        = THM_OrganizerHelperLanguage::getLanguage();
         $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $input     = JFactory::getApplication()->input;
+        $input     = THM_OrganizerHelperComponent::getInput();
         $rawSearch = trim($input->getString('search', ''));
 
         // New call or a hard reset
@@ -222,7 +214,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param int   $capacity the requested capacity
      *
      * @return array the room type ids which matched the criteria
-     * @throws Exception
      */
     private function getRoomTypes(&$misc, $capacity = 0)
     {
@@ -249,14 +240,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                 $tempClause = str_replace('XXX', $term, $standardClause);
                 $query->where($tempClause);
                 $this->_db->setQuery($query);
-
-                try {
-                    $typeResults = $this->_db->loadColumn();
-                } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                    return;
-                }
+                $typeResults = THM_OrganizerHelperComponent::query('loadColumn', []);
 
                 if (!empty($typeResults)) {
                     unset($misc[$key]);
@@ -273,13 +257,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
             $this->_db->setQuery($query);
 
-            try {
-                $typeResults = $this->_db->loadColumn();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return;
-            }
+            $typeResults = THM_OrganizerHelperComponent::query('loadColumn', []);
 
             if (!empty($typeResults)) {
                 $typeIDs = array_merge($typeIDs, $typeResults);
@@ -354,7 +332,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $ppResults the program planning results lesson results
      *
      * @return array $programs
-     * @throws Exception
      */
     private function processPrograms($pResults, $ppResults)
     {
@@ -486,7 +463,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $psResults the subject lesson results
      *
      * @return array $subjects
-     * @throws Exception
      */
     private function processSubjects($sResults, $psResults)
     {
@@ -561,7 +537,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * @param array $results the teacher results
      *
      * @return array $teachers
-     * @throws Exception
      */
     private function processTeachers($results)
     {
@@ -609,7 +584,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized department search results
      *
      * @return void adds to the results property
-     * @throws Exception
      */
     private function searchDepartments()
     {
@@ -647,11 +621,8 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->addInclusiveConditions($query, $eWherray);
         $this->_db->setQuery($query);
 
-        try {
-            $associations = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
+        $associations = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($associations)) {
             return;
         }
 
@@ -673,12 +644,9 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $query->select('DISTINCT d.id');
         $this->addInclusiveConditions($query, $sWherray);
         $this->_db->setQuery($query);
+        $departmentIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
-        try {
-            $departmentIDs = $this->_db->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
+        if (empty($departmentIDs)) {
             return;
         }
 
@@ -689,7 +657,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized pool search results
      *
      * @return void adds to the results property
-     * @throws Exception
      */
     private function searchPools()
     {
@@ -745,13 +712,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $ppQuery->where("programID = '{$program['pProgramID']}'");
                     $this->_db->setQuery($ppQuery);
 
-                    try {
-                        $pPoolIDs = $this->_db->loadAssocList();
-                    } catch (Exception $exc) {
-                        JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                        return;
-                    }
+                    $pPoolIDs = THM_OrganizerHelperComponent::query('loadAssocList');
                 }
 
                 if (!empty($pPoolIDs)) {
@@ -766,13 +727,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
                     $pQuery->where("(m.lft > '{$program['lft']}' AND m.rgt < '{$program['rgt']}')");
                     $this->_db->setQuery($pQuery);
 
-                    try {
-                        $poolIDs = $this->_db->loadAssocList();
-                    } catch (Exception $exc) {
-                        JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                        return;
-                    }
+                    $poolIDs = THM_OrganizerHelperComponent::query('loadAssocList');
                 }
 
                 if (!empty($poolIDs)) {
@@ -804,11 +759,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized room search results
      *
      * @return void adds to the results property
-     * @throws Exception
      */
     private function searchRooms()
     {
-        $select = "r.id , r.longname as name, r.capacity, ";
+        $select = 'r.id , r.longname as name, r.capacity, ';
         $select .= "rt.name_{$this->languageTag} as type, rt.description_{$this->languageTag} as description";
         $query  = $this->_db->getQuery(true);
         $query->select($select)
@@ -827,13 +781,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        try {
-            $eRooms = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return;
-        }
+        $eRooms = THM_OrganizerHelperComponent::query('loadAssocList');
 
         $this->results['exact']['rooms'] = $this->processRooms($eRooms);
 
@@ -907,13 +855,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             }
             $this->_db->setQuery($query);
 
-            try {
-                $sRooms = $this->_db->loadAssocList();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return;
-            }
+            $sRooms = THM_OrganizerHelperComponent::query('loadAssocList');
 
             $this->results['strong']['rooms'] = $this->processRooms($sRooms);
         }
@@ -936,13 +878,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         if ($performRelatedQuery) {
             $this->_db->setQuery($query);
 
-            try {
-                $rRooms = $this->_db->loadAssocList();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return;
-            }
+            $rRooms = THM_OrganizerHelperComponent::query('loadAssocList');
 
             $this->results['related']['rooms'] = $this->processRooms($rRooms);
         }
@@ -953,7 +889,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized subject/lesson search results
      *
      * @return void adds to the results property
-     * @throws Exception
      */
     private function searchSubjects()
     {
@@ -986,7 +921,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
         // Subject documentation does not necessarily have planned lesson instances
         $sQuery = $this->_db->getQuery(true);
-        $sQuery->select("DISTINCT s.id AS sID, ps.id as psID")
+        $sQuery->select('DISTINCT s.id AS sID, ps.id as psID')
             ->from('#__thm_organizer_subjects AS s')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm on sm.subjectID = s.id')
             ->leftJoin('#__thm_organizer_plan_subjects AS ps on sm.plan_subjectID = ps.id')
@@ -1016,16 +951,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->filterLessons($sQuery);
         $sQuery->where($sClause);
 
-        try {
-            $this->_db->setQuery($psQuery);
-            $planSubjects = $this->_db->loadAssocList('psID');
-            $this->_db->setQuery($sQuery);
-            $subjects = $this->_db->loadAssocList('sID');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return;
-        }
+        $this->_db->setQuery($psQuery);
+        $planSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'psID');
+        $this->_db->setQuery($sQuery);
+        $subjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'sID');
 
         $this->results['exact']['subjects'] = $this->processSubjects($subjects, $planSubjects);
 
@@ -1068,16 +997,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $sQuery->where("($nameDEClause OR $nameENClause)");
         $this->filterLessons($sQuery);
 
-        try {
-            $this->_db->setQuery($psQuery);
-            $planSubjects = $this->_db->loadAssocList('psID');
-            $this->_db->setQuery($sQuery);
-            $subjects = $this->_db->loadAssocList('sID');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return;
-        }
+        $this->_db->setQuery($psQuery);
+        $planSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'psID');
+        $this->_db->setQuery($sQuery);
+        $subjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'sID');
 
         $this->results['strong']['subjects'] = $this->processSubjects($subjects, $planSubjects);
 
@@ -1125,24 +1048,18 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->filterLessons($sQuery);
         $this->addInclusiveConditions($sQuery, $sWherray);
 
-        try {
-            if (!empty($psWherray)) {
-                $this->_db->setQuery($psQuery);
-                $planSubjects = $this->_db->loadAssocList('psID');
-            } else {
-                $planSubjects = null;
-            }
+        if (!empty($psWherray)) {
+            $this->_db->setQuery($psQuery);
+            $planSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'psID');
+        } else {
+            $planSubjects = null;
+        }
 
-            if (!empty($sWherray)) {
-                $this->_db->setQuery($sQuery);
-                $subjects = $this->_db->loadAssocList('sID');
-            } else {
-                $subjects = null;
-            }
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return;
+        if (!empty($sWherray)) {
+            $this->_db->setQuery($sQuery);
+            $subjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'sID');
+        } else {
+            $subjects = null;
         }
 
         $this->results['good']['subjects'] = $this->processSubjects($subjects, $planSubjects);
@@ -1175,13 +1092,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->addInclusiveConditions($sQuery, $sWherray);
         $this->_db->setQuery($sQuery);
 
-        try {
-            $subjects = $this->_db->loadAssocList('sID');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return;
-        }
+        $subjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'sID');
 
         $this->results['mentioned']['subjects'] = $this->processSubjects($subjects, $planSubjects);
 
@@ -1219,16 +1130,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $this->addInclusiveConditions($sQuery, $wherray);
         }
 
-        try {
-            $this->_db->setQuery($psQuery);
-            $planSubjects = $this->_db->loadAssocList('psID');
-            $this->_db->setQuery($sQuery);
-            $subjects = $this->_db->loadAssocList('sID');
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return;
-        }
+        $this->_db->setQuery($psQuery);
+        $planSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'psID');
+        $this->_db->setQuery($sQuery);
+        $subjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'sID');
 
         $this->results['related']['subjects'] = $this->processSubjects($subjects, $planSubjects);
     }
@@ -1237,7 +1142,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Retrieves prioritized teacher search results
      *
      * @return void adds to the results property
-     * @throws Exception
      */
     private function searchTeachers()
     {
@@ -1282,13 +1186,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $this->addInclusiveConditions($query, $wherray);
             $this->_db->setQuery($query);
 
-            try {
-                $eTeachers = $this->_db->loadAssocList();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return;
-            }
+            $eTeachers = THM_OrganizerHelperComponent::query('loadAssocList');
 
             $this->results['exact']['teachers'] = $this->processTeachers($eTeachers);
         }
@@ -1306,13 +1204,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        try {
-            $sTeachers = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return;
-        }
+        $sTeachers = THM_OrganizerHelperComponent::query('loadAssocList');
 
         $this->results['strong']['teachers'] = $this->processTeachers($sTeachers);
 
@@ -1329,13 +1221,7 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        try {
-            $gTeachers = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return;
-        }
+        $gTeachers = THM_OrganizerHelperComponent::query('loadAssocList');
 
         $this->results['good']['teachers'] = $this->processTeachers($gTeachers);
     }
@@ -1344,7 +1230,6 @@ class THM_OrganizerModelSearch extends JModelLegacy
      * Finds programs which can be associated with the terms. Possible return strengths exact and strong.
      *
      * @return void set the program results property
-     * @throws Exception
      */
     private function setPrograms()
     {
@@ -1401,16 +1286,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
             $this->addInclusiveConditions($ppQuery, $degreeWherray);
 
-            try {
-                $this->_db->setQuery($ppQuery);
-                $planPrograms = $this->_db->loadAssocList();
-                $this->_db->setQuery($pQuery);
-                $programs = $this->_db->loadAssocList();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                return;
-            }
+            $this->_db->setQuery($ppQuery);
+            $planPrograms = THM_OrganizerHelperComponent::query('loadAssocList');
+            $this->_db->setQuery($pQuery);
+            $programs = THM_OrganizerHelperComponent::query('loadAssocList');
 
             $programResults['exact'] = $this->processPrograms($programs, $planPrograms);
         }
@@ -1424,15 +1303,9 @@ class THM_OrganizerModelSearch extends JModelLegacy
             $degreeIDs = array_keys($degrees['exact']);
             $pQuery->where("p.degreeID IN ('" . implode("','", $degreeIDs) . "')");
             $this->addInclusiveConditions($pQuery, $sPWherray);
+            $this->_db->setQuery($pQuery);
 
-            try {
-                $this->_db->setQuery($pQuery);
-                $programs = $this->_db->loadAssocList();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                return;
-            }
+            $programs = THM_OrganizerHelperComponent::query('loadAssocList');
 
             $programResults['strong'] = $this->processPrograms($programs, $planPrograms);
         }
@@ -1455,16 +1328,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
 
             $this->addInclusiveConditions($ppQuery, $degreeWherray);
 
-            try {
-                $this->_db->setQuery($pQuery);
-                $programs = $this->_db->loadAssocList();
-                $this->_db->setQuery($ppQuery);
-                $planPrograms = $this->_db->loadAssocList();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                return;
-            }
+            $this->_db->setQuery($pQuery);
+            $programs = THM_OrganizerHelperComponent::query('loadAssocList');
+            $this->_db->setQuery($ppQuery);
+            $planPrograms = THM_OrganizerHelperComponent::query('loadAssocList');
 
             $programResults['good'] = $this->processPrograms($programs, $planPrograms);
         }
@@ -1486,10 +1353,10 @@ class THM_OrganizerModelSearch extends JModelLegacy
         $standardSearch = strtolower($safeSearch);
 
         // Remove English and German ordinals
-        $standardSearch = preg_replace("/(.*[1-9])(?:\.|st|nd|rd|th)(.*)/", "$1$2", $standardSearch);
+        $standardSearch = preg_replace('/ (.*[1-9])(?:\.|st|nd|rd|th)(.*)/', "$1$2", $standardSearch);
 
         // Filter out semester terms so that both the number and the word semster are one term.
-        preg_match_all("/[1-9] (semester|sem)/", $standardSearch, $semesters);
+        preg_match_all('/[1-9] (semester|sem)/', $standardSearch, $semesters);
 
         $this->terms = [];
 

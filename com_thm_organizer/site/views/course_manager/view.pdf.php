@@ -20,19 +20,23 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
     /**
      * Method to get display
      *
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
      * @return void
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display()
+    public function display($tpl = null)
     {
-        $input = JFactory::getApplication()->input;
+        $input = THM_OrganizerHelperComponent::getInput();
 
-        $lessonID   = $input->get("lessonID", 0);
-        $type       = $input->get("type", 0);
+        $lessonID   = $input->get('lessonID', 0);
+        $type       = $input->get('type', 0);
         $validTypes = [0, 1, 2];
 
         if (empty($lessonID) or !in_array($type, $validTypes)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperCourses::authorized($lessonID)) {
@@ -41,15 +45,15 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
 
         switch ($type) {
             case 0:
-                require_once __DIR__ . "/tmpl/participants.php";
+                require_once __DIR__ . '/tmpl/participants.php';
                 new THM_OrganizerTemplateParticipants($lessonID);
                 break;
             case 1:
-                require_once __DIR__ . "/tmpl/department_participants.php";
+                require_once __DIR__ . '/tmpl/department_participants.php';
                 new THM_OrganizerTemplateDepartment_Participants($lessonID);
                 break;
             case 2:
-                require_once __DIR__ . "/tmpl/badges.php";
+                require_once __DIR__ . '/tmpl/badges.php';
                 new THM_OrganizerTemplateBadges($lessonID);
                 break;
             default:

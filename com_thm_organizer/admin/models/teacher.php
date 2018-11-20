@@ -39,8 +39,6 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
-     *
-     * @throws  \Exception
      */
     public function getTable($name = 'teachers', $prefix = 'thm_organizerTable', $options = [])
     {
@@ -51,7 +49,6 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      * Removes potential duplicates before the subject teacher associations are updated.
      *
      * @return bool true if no error occurred, otherwise false
-     * @throws Exception
      */
     private function removeDuplicateResponsibilities()
     {
@@ -63,15 +60,8 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
             ->where("teacherID = '{$this->data['id']}'");
         $this->_db->setQuery($selectQuery);
 
-        try {
-            $existingResps = $this->_db->loadAssocList();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return false;
-        }
-
-        $oldIDString = "'" . implode("', '", $this->data['otherIDs']) . "'";
+        $existingResps = THM_OrganizerHelperComponent::query('loadAssocList');
+        $oldIDString   = "'" . implode("', '", $this->data['otherIDs']) . "'";
 
         if (!empty($existingResps)) {
             $potentialDuplicates = [];
@@ -86,12 +76,8 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
                 ->where("teacherID IN ( $oldIDString )")
                 ->where($potentialDuplicates);
             $this->_db->setQuery($deleteQuery);
-
-            try {
-                $this->_db->execute();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
+            $success = (bool)THM_OrganizerHelperComponent::query('execute');
+            if (!$success) {
                 return false;
             }
         }
@@ -102,14 +88,11 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
     /**
      * Updates key references to the entry being merged.
      *
-     * @param int   $newDBID  the id onto which the room entries merge
-     * @param array $oldDBIDs an array containing the ids to be replaced
-     *
      * @return boolean  true on success, otherwise false
      */
     protected function updateAssociations()
     {
-        $drUpdated = $this->updateDRAssociation('teacher');
+        $drUpdated = $this->updateDRAssociation();
         if (!$drUpdated) {
 
             return false;
@@ -185,7 +168,6 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      * Updates the lesson configurations table with the teacher id changes.
      *
      * @return bool
-     * @throws Exception
      */
     private function updateStoredConfigurations()
     {
@@ -204,12 +186,9 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
             $selectQuery->where("configuration REGEXP '$regexp'");
             $this->_db->setQuery($selectQuery);
 
-            try {
-                $storedConfigurations = $this->_db->loadAssocList();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                return false;
+            $storedConfigurations = THM_OrganizerHelperComponent::query('loadAssocList');
+            if (empty($storedConfigurations)) {
+                continue;
             }
 
             foreach ($storedConfigurations as $storedConfiguration) {
@@ -230,12 +209,8 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
                 $updateQuery->clear('where');
                 $updateQuery->where("id = '{$storedConfiguration['id']}'");
                 $this->_db->setQuery($updateQuery);
-
-                try {
-                    $this->_db->execute();
-                } catch (Exception $exception) {
-                    JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
+                $success = (bool)THM_OrganizerHelperComponent::query('execute');
+                if (!$success) {
                     return false;
                 }
             }

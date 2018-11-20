@@ -21,14 +21,13 @@ class THM_OrganizerViewTeacher_Ajax extends JViewLegacy
      * @param string $tpl the name of the template to be used
      *
      * @return void
-     * @throws Exception
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function display($tpl = null)
     {
         $model = $this->getModel();
-        $task  = JFactory::getApplication()->input->getString('task');
+        $task  = THM_OrganizerHelperComponent::getInput()->getString('task');
         echo $model->$task();
     }
 }

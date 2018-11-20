@@ -38,6 +38,6 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
         JHtml::_('searchtools.form', '#adminForm', []);
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/child_selection.css");
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/child_selection.css');
     }
 }

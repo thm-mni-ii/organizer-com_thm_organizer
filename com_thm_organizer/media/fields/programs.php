@@ -50,12 +50,12 @@ class JFormFieldPrograms extends JFormField
         $attributes = ['multiple' => 'multiple', 'size' => '10'];
 
         return JHtml::_(
-            "select.genericlist",
+            'select.genericlist',
             $programs,
-            "jform[programID][]",
+            'jform[programID][]',
             $attributes,
-            "value",
-            "text",
+            'value',
+            'text',
             $selectedPrograms
         );
     }
@@ -86,17 +86,17 @@ class JFormFieldPrograms extends JFormField
                         selectedPrograms = selectedPrograms.join(',');
                     }
 
-                    if (jQuery.inArray('-1', selectedPrograms) != '-1')
+                    if (jQuery.inArray('-1', selectedPrograms) !== '-1')
                     {
-                        programInput.find('option').removeAttr("selected");
+                        programInput.find('option').removeAttr('selected');
                         return false;
                     }
 
-                    var poolUrl = "<?php echo JUri::root(); ?>index.php?option=com_thm_organizer";
-                    poolUrl += "&view=pool_ajax&format=raw&task=parentOptions";
+                    var poolUrl = '<?php echo JUri::root(); ?>index.php?option=com_thm_organizer';
+                    poolUrl += '&view=pool_ajax&format=raw&task=parentOptions';
                     poolUrl += "&id=<?php echo $resourceID; ?>";
                     poolUrl += "&type=<?php echo $resourceType; ?>";
-                    poolUrl += "&programIDs=" + selectedPrograms;
+                    poolUrl += '&programIDs=' + selectedPrograms;
                     jQuery.get(poolUrl, function (options) {
                         parentInput.html(options);
                         var newSelectedParents = parentInput.val();
@@ -126,17 +126,17 @@ class JFormFieldPrograms extends JFormField
 
                 function refreshChosen(id)
                 {
-                    var chosenElement = jQuery("#" + id);
-                    chosenElement.chosen("destroy");
+                    var chosenElement = jQuery('#' + id);
+                    chosenElement.chosen('destroy');
                     chosenElement.chosen();
                 }
 
                 function toggleElement(chosenElement, value)
                 {
-                    var parentInput = jQuery("#jformparentID");
-                    parentInput.chosen("destroy");
-                    jQuery("select#jformparentID option").each(function () {
-                        if (chosenElement == $(this).innerHTML)
+                    var parentInput = jQuery('#jformparentID');
+                    parentInput.chosen('destroy');
+                    jQuery('select#jformparentID option').each(function () {
+                        if (chosenElement === $(this).innerHTML)
                         {
                             jQuery(this).prop('selected', value);
                         }

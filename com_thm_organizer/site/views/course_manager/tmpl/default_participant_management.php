@@ -11,7 +11,7 @@
 $fieldset = $this->form->getFieldset('participant_management');
 
 $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-$baseURL  = "?option=com_thm_organizer&view=course_manager&format=pdf";
+$baseURL  = '?option=com_thm_organizer&view=course_manager&format=pdf';
 $baseURL  .= "&lessonID={$this->course['id']}&languageTag=$shortTag&type=";
 
 $participantListRoute = JRoute::_($baseURL . 0, false);
@@ -21,19 +21,19 @@ $badgesRoute          = JRoute::_($baseURL . 2, false);
 $registeredText = $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
 
-$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y') . " ";
+$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y') . ' ';
 $dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat', 'H.i');
 ?>
-<form action="index.php?task=course.changeParticipantState"
-      method="post" id="adminForm" name="adminForm" onsubmit="listItemChecked();">
+<form action="?" method="post" id="adminForm" name="adminForm" onsubmit="listItemChecked();">
     <input type="hidden" name="option" value="com_thm_organizer"/>
+    <input type="hidden" name="task" value="course.changeParticipantState"/>
     <?php echo $this->form->getField('id')->input; ?>
-    <input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
+    <input type="hidden" name="subjectID" value="<?php echo $this->course['subjectID']; ?>"/>
     <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
     <input type="hidden" name="participantState" id="participantState" value=""/>
     <div class="section">
         <div class="left form-header">
-            <h4><?php echo $this->lang->_("COM_THM_ORGANIZER_PARTICIPANT_MANAGEMENT"); ?></h4>
+            <h4><?php echo $this->lang->_('COM_THM_ORGANIZER_PARTICIPANT_MANAGEMENT'); ?></h4>
         </div>
         <div class="right">
             <?php echo $this->course['capacityText']; ?>
@@ -52,7 +52,7 @@ $dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat
         </div>
         <div class="right">
             <a href="#" class="btn btn-mini callback-modal" type="button" data-toggle="modal" data-target="#circular">
-                <span class="icon-mail"></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_CIRCULAR"); ?>
+                <span class="icon-mail"></span> <?php echo $this->lang->_('COM_THM_ORGANIZER_CIRCULAR'); ?>
             </a>
             <div class="print-container">
                 <a class="dropdown-toggle print btn" data-toggle="dropdown" href="#">

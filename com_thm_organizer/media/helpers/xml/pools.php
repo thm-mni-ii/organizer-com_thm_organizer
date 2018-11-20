@@ -31,7 +31,7 @@ class THM_OrganizerHelperXMLPools
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->classes)) {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_POOLS_MISSING");
+            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_POOLS_MISSING');
 
             return;
         }
@@ -55,8 +55,8 @@ class THM_OrganizerHelperXMLPools
     {
         $internalID = trim((string)$poolNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING"), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING");
+            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING');
             }
 
             return;

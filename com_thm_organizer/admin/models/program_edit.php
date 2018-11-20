@@ -21,7 +21,6 @@ class THM_OrganizerModelProgram_Edit extends THM_OrganizerModelEdit
      * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the edit view, otherwise false
-     * @throws Exception
      */
     public function allowEdit()
     {

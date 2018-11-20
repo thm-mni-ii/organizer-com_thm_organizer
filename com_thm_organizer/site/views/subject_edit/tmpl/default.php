@@ -26,8 +26,10 @@ $nameProperty = 'name_' . $this->languageTag;
     </div>
 </div>
 <div class="subject-edit-view">
-    <h1><?php echo $this->form->getValue($nameProperty) . ': ' . $this->lang->_("COM_THM_ORGANIZER_ACTION_EDIT"); ?></h1>
-    <form action="index.php?" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm"
+    <h1>
+        <?php echo $this->form->getValue($nameProperty) . ': ' . $this->lang->_('COM_THM_ORGANIZER_ACTION_EDIT'); ?>
+    </h1>
+    <form action="?" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm"
           class="form-horizontal">
 
         <button type="submit" class="validate btn btn-primary">
@@ -35,7 +37,7 @@ $nameProperty = 'name_' . $this->languageTag;
         </button>
 
         <a href="<?php echo JRoute::_($backURL, false); ?>"
-           class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
+           class="btn" type="button"><?php echo $this->lang->_('JCANCEL') ?></a>
         <hr>
         <div class="form-horizontal">
             <?php

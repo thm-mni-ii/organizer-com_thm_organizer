@@ -26,12 +26,11 @@ class JFormFieldRoomTypeID extends JFormFieldList
      * Returns a select box where stored degree programs can be chosen
      *
      * @return array  the available degree programs
-     * @throws Exception
      */
     protected function getOptions()
     {
         $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
-        $input          = JFactory::getApplication()->input;
+        $input          = THM_OrganizerHelperComponent::getInput();
         $formData       = $input->get('jform', [], 'array');
         $buildingID     = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
@@ -59,9 +58,8 @@ class JFormFieldRoomTypeID extends JFormFieldList
         $query->order('name');
         $dbo->setQuery($query);
 
-        try {
-            $types = $dbo->loadAssocList();
-        } catch (Exception $exc) {
+        $types = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($types)) {
             return $defaultOptions;
         }
 

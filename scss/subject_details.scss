@@ -65,7 +65,7 @@
     float: left;
     width: 79%;
 
-    [class^="icon-"], [class*=" icon-"] {
+    [class^='icon-'], [class*=' icon-'] {
       margin-right: .2rem;
     }
 
@@ -73,7 +73,7 @@
       margin-bottom: 0;
 
       li:before {
-        content: "-";
+        content: '-';
         display: block;
         float: left;
         margin-left: -.4rem;

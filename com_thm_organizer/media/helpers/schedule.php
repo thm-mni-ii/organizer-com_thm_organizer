@@ -28,7 +28,6 @@ class THM_OrganizerHelperSchedule
      * @param string $deltaDate representing date in which deltas gets accepted
      *
      * @return array
-     * @throws Exception
      */
     private static function aggregateInstances($lessons, $deltaDate)
     {
@@ -129,7 +128,6 @@ class THM_OrganizerHelperSchedule
      * @param object &$query     the query object
      *
      * @return void modifies the query object
-     * @throws Exception
      */
     private static function addDateClauses($parameters, &$query)
     {
@@ -180,7 +178,7 @@ class THM_OrganizerHelperSchedule
             $wherray[] = "l.id IN ('" . implode("', '", $parameters['lessonIDs']) . "')";
         }
 
-        $query->where("(" . implode(' OR ', $wherray) . ")");
+        $query->where('(' . implode(' OR ', $wherray) . ')');
     }
 
     /**
@@ -189,7 +187,6 @@ class THM_OrganizerHelperSchedule
      * @param array &$teacherIDs the teacher ids.
      *
      * @return void removes unauthorized entries from the array
-     * @throws Exception
      */
     private static function filterTeacherIDs(&$teacherIDs)
     {
@@ -218,8 +215,8 @@ class THM_OrganizerHelperSchedule
      *
      * @param array $parameters array of pool ids or a single pool id
      *
-     * @throws Exception
      * @return array
+     * @throws Exception => unauthorized access to teacher lessons
      */
     public static function getLessons($parameters)
     {
@@ -227,7 +224,7 @@ class THM_OrganizerHelperSchedule
             self::filterTeacherIDs($parameters['teacherIDs']);
 
             if (empty($parameters['teacherIDs'])) {
-                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
             }
         }
 
@@ -236,18 +233,18 @@ class THM_OrganizerHelperSchedule
         $query = $dbo->getQuery(true);
 
         $select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
-        $select .= "l.registration_type AS regType, l.max_participants AS maxParties, ";
-        $select .= "ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ";
-        $select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, pool.gridID, ";
-        $select .= "c.schedule_date AS date, c.startTime, c.endTime, ";
-        $select .= "lc.configuration, lc.modified AS configModified, pp.id AS planProgramID";
+        $select .= 'l.registration_type AS regType, l.max_participants AS maxParties, ';
+        $select .= 'ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ';
+        $select .= 'pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, pool.gridID, ';
+        $select .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
+        $select .= 'lc.configuration, lc.modified AS configModified, pp.id AS planProgramID';
 
         if (!empty($parameters['delta'])) {
-            $select .= ", lp.delta AS poolDelta, lp.modified AS poolModified";
-            $select .= ", ls.delta AS subjectsDelta, ls.modified AS subjectsModified";
-            $select .= ", l.delta AS lessonDelta, l.modified AS lessonModified";
-            $select .= ", c.delta AS calendarDelta, c.modified AS calendarModified";
-            $select .= ", lt.delta AS teacherDelta, lt.modified AS teacherModified";
+            $select .= ', lp.delta AS poolDelta, lp.modified AS poolModified';
+            $select .= ', ls.delta AS subjectsDelta, ls.modified AS subjectsModified';
+            $select .= ', l.delta AS lessonDelta, l.modified AS lessonModified';
+            $select .= ', c.delta AS calendarDelta, c.modified AS calendarModified';
+            $select .= ', lt.delta AS teacherDelta, lt.modified AS teacherModified';
         }
 
         $query->select($select);
@@ -269,12 +266,7 @@ class THM_OrganizerHelperSchedule
         $query->order('c.startTime');
         $dbo->setQuery($query);
 
-        try {
-            $rawLessons = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return [];
-        }
-
+        $rawLessons = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($rawLessons)) {
             return self::getNextAvailableDates($parameters);
         }
@@ -331,12 +323,7 @@ class THM_OrganizerHelperSchedule
             ->where("sm.plan_subjectID ='{$lesson['psID']}'");
         $dbo->setQuery($subjectsQuery);
 
-        try {
-            $mappedSubjects = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return $return;
-        }
-
+        $mappedSubjects = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($mappedSubjects)) {
             return $return;
         }
@@ -354,7 +341,7 @@ class THM_OrganizerHelperSchedule
 
         $programQuery = $dbo->getQuery(true);
 
-        $select = "rgt, lft";
+        $select = 'rgt, lft';
         $programQuery->select($select)
             ->from('#__thm_organizer_mappings AS m')
             ->innerJoin('#__thm_organizer_programs AS p ON p.id = m.programID')
@@ -362,12 +349,7 @@ class THM_OrganizerHelperSchedule
             ->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id')
             ->where("ppo.id ='{$lesson['poolID']}'");
         $dbo->setQuery($programQuery);
-
-        try {
-            $programMapping = $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            return $return;
-        }
+        $programMapping = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
         if (empty($programMapping)) {
             return $return;
@@ -461,7 +443,6 @@ class THM_OrganizerHelperSchedule
      * @param array $parameters the schedule configuration parameters
      *
      * @return array the corresponding start and end dates
-     * @throws Exception
      */
     public static function getDates($parameters)
     {
@@ -500,18 +481,7 @@ class THM_OrganizerHelperSchedule
                     ->from('#__thm_organizer_planning_periods')
                     ->where("'$date' BETWEEN startDate AND endDate");
                 $dbo->setQuery($query);
-
-                try {
-                    $dates = $dbo->loadAssoc();
-                } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(
-                        JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                        'error'
-                    );
-
-                    return [];
-                }
-
+                $dates = THM_OrganizerHelperComponent::query('loadAssoc', []);
                 break;
 
             case 'ics':
@@ -538,32 +508,24 @@ class THM_OrganizerHelperSchedule
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("MIN(c.schedule_date) AS minDate");
+        $query->select('MIN(c.schedule_date) AS minDate');
         // Do not show dates from removed lessons
         $parameters['delta'] = null;
         self::setLessonQuery($parameters, $query);
         $query->where("c.schedule_date > '" . $parameters['date'] . "'");
         $dbo->setQuery($query);
 
-        try {
-            $futureDate = $dbo->loadResult();
-        } catch (Exception $exc) {
-            return [];
-        }
+        $futureDate = THM_OrganizerHelperComponent::query('loadResult');
 
         $query = $dbo->getQuery(true);
-        $query->select("MAX(c.schedule_date) AS maxDate");
+        $query->select('MAX(c.schedule_date) AS maxDate');
         self::setLessonQuery($parameters, $query);
         $query->where("c.schedule_date < '" . $parameters['date'] . "'");
         $dbo->setQuery($query);
 
-        try {
-            $pastDate = $dbo->loadResult();
-        } catch (Exception $exc) {
-            return [];
-        }
+        $pastDate = THM_OrganizerHelperComponent::query('loadResult');
 
-        return ["pastDate" => $pastDate, "futureDate" => $futureDate];
+        return ['pastDate' => $pastDate, 'futureDate' => $futureDate];
     }
 
     /**
@@ -617,26 +579,18 @@ class THM_OrganizerHelperSchedule
      * @param int   $userID  the user id for personal lessons
      *
      * @return array lessonIDs as keys and ccmIDs as values
-     * @throws Exception
      */
     private static function getUserFilteredLessons($lessons, $userID)
     {
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("lessonID, configuration")
+        $query->select('lessonID, configuration')
             ->from('#__thm_organizer_user_lessons')
             ->where("userID = $userID");
         $dbo->setQuery($query);
 
-        try {
-            $results = $dbo->loadAssocList('lessonID');
-        } catch (Exception $e) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return [];
-        }
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList', [], 'lessonID');
         if (empty($results)) {
             return [];
         }

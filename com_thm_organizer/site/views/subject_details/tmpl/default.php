@@ -46,7 +46,7 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
                 });
             </script>
             <div class="tbox-yellow">
-                <p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
+                <p><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
                 <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
                 <div class="right">
                     <?php if (!empty($this->menu)): ?>

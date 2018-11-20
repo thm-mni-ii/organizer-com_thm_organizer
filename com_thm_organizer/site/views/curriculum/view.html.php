@@ -49,13 +49,12 @@ class THM_OrganizerViewCurriculum extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
      */
     public function display($tpl = null)
     {
         $this->modifyDocument();
 
-        $menu = JFactory::getApplication()->getMenu()->getActive();
+        $menu = THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive();
 
         if (!is_object($menu)) {
             $this->ecollabLink = '';

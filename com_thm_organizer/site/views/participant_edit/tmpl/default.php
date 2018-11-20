@@ -8,24 +8,24 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-$menuID = JFactory::getApplication()->input->getInt('Itemid');
+$menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
 $task   = 'participant.save';
 
 if (empty($this->course)) {
-    $headerText = $this->lang->_("COM_THM_ORGANIZER_USER_PROFILE");
+    $headerText = $this->lang->_('COM_THM_ORGANIZER_USER_PROFILE');
     $lessonID   = 0;
     $message    = '';
     $submitText = $this->lang->_('JSAVE');
 } else {
-    $headerText = '<div class="header-introtext">' . $this->lang->_("COM_THM_ORGANIZER_PARTICIPANT_EDIT_REGISTER_HEADER") . '</div>';
-    $headerText .= $this->course["name"];
+    $headerText = '<div class="header-introtext">' . $this->lang->_('COM_THM_ORGANIZER_PARTICIPANT_EDIT_REGISTER_HEADER') . '</div>';
+    $headerText .= $this->course['name'];
     $dateText   = "{$this->course['startDate']} - {$this->course['endDate']}";
     $headerText .= '<div class="header-subtext">' . $dateText . '</div>';
 
-    $lessonID = $this->course["id"];
+    $lessonID = $this->course['id'];
 
     $message    = '<div class="tbox-yellow">';
-    $message    .= $this->lang->_("COM_THM_ORGANIZER_REGISTRATION_REQUIRED");
+    $message    .= $this->lang->_('COM_THM_ORGANIZER_REGISTRATION_REQUIRED');
     $message    .= '</div>';
     $submitText = $this->lang->_('JLOGIN');
     $task       = 'participant.register';
@@ -43,7 +43,7 @@ if (empty($this->course)) {
 <div class="participant-edit">
     <h1><?php echo $headerText; ?></h1>
     <?php echo $message; ?>
-    <form action="index.php?option=com_thm_organizer" enctype="multipart/form-data" method="post"
+    <form action="?" enctype="multipart/form-data" method="post"
           id="form-participant_edit" class="form-horizontal">
         <input type="hidden" name="option" value="com_thm_organizer">
         <input type="hidden" name="task" value="<?php echo $task; ?>">
@@ -69,7 +69,7 @@ if (empty($this->course)) {
                     <?php echo $submitText; ?>
                 </button>
                 <a href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
-                   class="btn" type="button"><?php echo $this->lang->_("JCANCEL") ?></a>
+                   class="btn" type="button"><?php echo $this->lang->_('JCANCEL') ?></a>
             </div>
         </div>
     </form>

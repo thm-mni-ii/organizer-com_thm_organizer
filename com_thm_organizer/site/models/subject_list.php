@@ -65,10 +65,9 @@ class THM_OrganizerModelSubject_List extends JModelList
             $query->select('DISTINCT poolID, subjectID')->from('#__thm_organizer_mappings')->where("parentID = '{$pool['mapID']}'");
             $this->_db->setQuery($query);
 
-            try {
-                $children = $this->_db->loadAssocList();
-            } catch (Exception $exc) {
-                return;
+            $children = THM_OrganizerHelperComponent::query('loadAssocList');
+            if (empty($children)) {
+                continue;
             }
 
             $this->pools[$key]['pools']    = [];
@@ -97,8 +96,8 @@ class THM_OrganizerModelSubject_List extends JModelList
                 $bKey = $this->getPoolKey($b);
 
                 // Php sorts letters with umlauts to the end of the alphabet, this replaces them with their equivalent
-                $aName = iconv("utf-8", "ascii//TRANSLIT", $this->pools[$aKey]['name']);
-                $bName = iconv("utf-8", "ascii//TRANSLIT", $this->pools[$bKey]['name']);
+                $aName = iconv('utf-8', 'ascii//TRANSLIT', $this->pools[$aKey]['name']);
+                $bName = iconv('utf-8', 'ascii//TRANSLIT', $this->pools[$bKey]['name']);
 
                 return $aName > $bName;
             });
@@ -111,7 +110,6 @@ class THM_OrganizerModelSubject_List extends JModelList
      * Method to get an array of data items.
      *
      * @return mixed  An array of data items on success, false on failure.
-     * @throws Exception
      */
     public function getItems()
     {
@@ -174,7 +172,6 @@ class THM_OrganizerModelSubject_List extends JModelList
      * This method ensures that the query is constructed only once for a given state of the model.
      *
      * @return object  a JDatabaseQuery object
-     * @throws Exception
      */
     protected function getListQuery()
     {
@@ -201,8 +198,8 @@ class THM_OrganizerModelSubject_List extends JModelList
         $query = $this->_db->getQuery(true);
 
         $select = "DISTINCT s.id, s.name_$languageTag AS name, s.creditpoints, s.externalID, s.fieldID, m.lft, m.rgt, ";
-        $parts  = ["$subjectLink", "s.id"];
-        $select .= $query->concatenate($parts, "") . " AS subjectLink";
+        $parts  = [$subjectLink, 's.id'];
+        $select .= $query->concatenate($parts, '') . ' AS subjectLink';
         $query->select($select)
             ->from('#__thm_organizer_subjects AS s')
             ->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
@@ -227,7 +224,6 @@ class THM_OrganizerModelSubject_List extends JModelList
      * Retrieves pool information (name and nesting values)
      *
      * @return mixed  array on success, otherwise false
-     * @throws Exception
      */
     private function getPoolInformation()
     {
@@ -240,18 +236,14 @@ class THM_OrganizerModelSubject_List extends JModelList
             ->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id')
             ->where("p.id = '$poolID'");
         $this->_db->setQuery($query);
-
-        try {
-            $poolData = $this->_db->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
+        $poolData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        if (empty($poolData)) {
             return [];
         }
 
         $query = $this->_db->getQuery(true);
-        $parts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
-        $query->select($query->concatenate($parts, "") . " AS programName")
+        $parts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $query->select($query->concatenate($parts, '') . ' AS programName')
             ->from('#__thm_organizer_programs AS p')
             ->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
             ->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id')
@@ -259,15 +251,11 @@ class THM_OrganizerModelSubject_List extends JModelList
             ->where("m.rgt > '{$poolData['rgt']}'");
         $this->_db->setQuery($query);
 
-        try {
-            $programName = $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+        $programName = THM_OrganizerHelperComponent::query('loadResult');
 
-            return [];
+        if (!empty($programName)) {
+            $poolData['name'] = "$programName, {$poolData['name']}";
         }
-
-        $poolData['name'] = "$programName, {$poolData['name']}";
 
         $this->displayName = $poolData['name'];
 
@@ -278,7 +266,6 @@ class THM_OrganizerModelSubject_List extends JModelList
      * Retrieves program information (name and nesting values)
      *
      * @return mixed  array on success, otherwise false
-     * @throws Exception
      */
     private function getProgramInformation()
     {
@@ -286,21 +273,16 @@ class THM_OrganizerModelSubject_List extends JModelList
         $languageTag = $this->state->get('languageTag');
 
         $query = $this->_db->getQuery(true);
-        $parts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
-        $query->select($query->concatenate($parts, "") . " AS name, lft, rgt");
+        $parts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $query->select($query->concatenate($parts, '') . ' AS name, lft, rgt');
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$programID'");
         $this->_db->setQuery($query);
-
-        try {
-            $programData       = $this->_db->loadAssoc();
+        $programData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        if (!empty($programData)) {
             $this->displayName = $programData['name'];
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
         }
 
         return $programData;
@@ -361,10 +343,9 @@ class THM_OrganizerModelSubject_List extends JModelList
                 ->order('m.lft');
             $this->_db->setQuery($query);
 
-            try {
-                $poolEntries = $this->_db->loadAssocList();
-            } catch (Exception $exc) {
-                return;
+            $poolEntries = THM_OrganizerHelperComponent::query('loadAssocList');
+            if (empty($poolEntries)) {
+                continue;
             }
 
             $poolEntriesContainer = array_merge($poolEntriesContainer, $poolEntries);
@@ -407,7 +388,6 @@ class THM_OrganizerModelSubject_List extends JModelList
      * @param int $index the index of the subject (item) being currently indexed
      *
      * @return void
-     * @throws Exception
      */
     private function getPrograms($index)
     {
@@ -415,22 +395,15 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         foreach ($this->subjects[$index]->mappings as $mapping) {
             $query = $this->_db->getQuery(true);
-            $parts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
-            $query->select($query->concatenate($parts, "") . " AS name, p.id");
+            $parts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+            $query->select($query->concatenate($parts, '') . ' AS name, p.id');
             $query->from('#__thm_organizer_programs AS p');
             $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
             $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
             $query->where("m.lft < '{$mapping['left']}'");
             $query->where("m.rgt > '{$mapping['right']}'");
             $this->_db->setQuery($query);
-
-            try {
-                $programData = $this->_db->loadAssoc();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return;
-            }
+            $programData = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
             $this->subjects[$index]->programs[$programData['id']] = $programData['name'];
         }
@@ -467,18 +440,13 @@ class THM_OrganizerModelSubject_List extends JModelList
         $subjectID = $this->subjects[$index]->id;
 
         $query = $this->_db->getQuery(true);
-        $query->select("t.id, t.surname, t.forename, t.fieldID, t.title, st.teacherResp")
+        $query->select('t.id, t.surname, t.forename, t.fieldID, t.title, st.teacherResp')
             ->from('#__thm_organizer_teachers AS t')
             ->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id')
             ->where("st.subjectID = '$subjectID'");
         $this->_db->setQuery($query);
 
-        try {
-            $teachers = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            return;
-        }
-
+        $teachers = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($teachers)) {
             return;
         }
@@ -532,6 +500,8 @@ class THM_OrganizerModelSubject_List extends JModelList
     }
 
     /**
+     * Creates a sorted list of fields.
+     *
      * @return void
      */
     private function populateFields()
@@ -546,12 +516,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             ->where("f.id IN $fieldIDs");
         $this->_db->setQuery($query);
 
-        try {
-            $fields = $this->_db->loadAssocList('id');
-        } catch (Exception $exc) {
-            return;
-        }
-
+        $fields = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
         if (empty($fields)) {
             return;
         }
@@ -591,12 +556,15 @@ class THM_OrganizerModelSubject_List extends JModelList
     /**
      * Method to auto-populate the model state.
      *
+     * @param   string $ordering  An optional ordering field.
+     * @param   string $direction An optional direction (asc|desc).
+     *
      * @return void
-     * @throws Exception
      */
-    protected function populateState()
+    protected function populateState($ordering = null, $direction = null)
     {
-        $app = JFactory::getApplication();
+        parent::populateState($ordering, $direction);
+        $app = THM_OrganizerHelperComponent::getApplication();
 
         if (!empty($app->getMenu()->getActive()->id)) {
             $params = $app->getMenu()->getActive()->params;

@@ -25,14 +25,13 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
      * Method to get all teachers from the database
      *
      * @return JDatabaseQuery
-     * @throws Exception
      */
     protected function getListQuery()
     {
         $query  = $this->_db->getQuery(true);
-        $select = "DISTINCT t.id, t.surname, t.forename, t.username, t.gpuntisID, d.id AS departmentID, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", "t.id"];
-        $select .= $query->concatenate($parts, "") . " AS link ";
+        $select = 'DISTINCT t.id, t.surname, t.forename, t.username, t.gpuntisID, d.id AS departmentID, ';
+        $parts  = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", 't.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
         $query->from('#__thm_organizer_teachers AS t')
             ->leftJoin('#__thm_organizer_department_resources AS dr on dr.teacherID = t.id')

@@ -20,7 +20,6 @@ class THM_OrganizerHelperPlan_Programs
      * @param array $ppIDs the ids of the plan programs being checked
      *
      * @return bool  true if the plan program is associated with an allowed department, otherwise false
-     * @throws Exception
      */
     public static function allowEdit($ppIDs)
     {
@@ -50,18 +49,6 @@ class THM_OrganizerHelperPlan_Programs
 
         $dbo->setQuery($query);
 
-        try {
-            // Only one positive per resource is necessary
-            $programID = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(
-                JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                'error'
-            );
-
-            return false;
-        }
-
-        return empty($programID) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('loadResult');
     }
 }

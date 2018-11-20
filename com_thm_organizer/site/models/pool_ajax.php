@@ -20,11 +20,10 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * Retrieves pool options for a given curriculum element
      *
      * @return string
-     * @throws Exception
      */
     public function parentOptions()
     {
-        $input          = JFactory::getApplication()->input;
+        $input          = THM_OrganizerHelperComponent::getInput();
         $resourceID     = $input->getInt('id', 0);
         $resourceType   = $input->getString('type', '');
         $programIDs     = explode(',', $input->getString('programIDs', ''));
@@ -82,11 +81,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         $query->order('lft ASC');
         $this->_db->setQuery($query);
 
-        try {
-            return $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            return [];
-        }
+        return THM_OrganizerHelperComponent::query('loadAssocList');
     }
 
     /**
@@ -114,10 +109,8 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * Fills the options array with HTML pool options
      *
      * @param array   &$options             an array to store the options in
-     * @param array   &$programMappings     mappings belonging to one of the
-     *                                      requested programs
-     * @param array   &$unelectableMappings mappings which would lead to data
-     *                                      inconsistency
+     * @param array   &$programMappings     mappings belonging to one of the requested programs
+     * @param array   &$unelectableMappings mappings which would lead to data inconsistency
      * @param array   &$parentIDs           previously mapped parents
      * @param boolean $resourceType         the resource's type
      *
@@ -145,11 +138,10 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
      * teacher
      *
      * @return string  the subjects which fit the selected resource
-     * @throws Exception
      */
     public function poolsByProgramOrTeacher()
     {
-        $input           = JFactory::getApplication()->input;
+        $input           = THM_OrganizerHelperComponent::getInput();
         $selectedProgram = $input->getInt('programID', 0);
         if (empty($selectedProgram) or $selectedProgram == '-1') {
             return '[]';
@@ -162,7 +154,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
             return '[]';
         }
 
-        $lang  = JFactory::getApplication()->input->getString('languageTag', 'de');
+        $lang  = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');
         $query = $this->_db->getQuery(true);
         $query->select("p.id, p.name_{$lang} AS name, m.level");
         $query->from('#__thm_organizer_pools AS p');
@@ -173,19 +165,13 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         }
 
         if (!empty($teacherClauses)) {
-            $query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
+            $query->where('( ( ' . implode(') OR (', $teacherClauses) . ') )');
         }
 
         $query->order('lft');
         $this->_db->setQuery($query);
-        try {
-            $pools = $this->_db->loadObjectList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-            return '[]';
-        }
-
+        $pools = THM_OrganizerHelperComponent::query('loadObjectList');
         if (empty($pools)) {
             return '[]';
         }

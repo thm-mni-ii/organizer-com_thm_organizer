@@ -19,13 +19,17 @@ class THM_OrganizerViewDepartment_Statistics extends JViewLegacy
     /**
      * Sets context variables and renders the view.
      *
-     * @return void renders the department statistics worksheet
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display()
+    public function display($tpl = null)
     {
         $model = $this->getModel();
 
-        require_once __DIR__ . "/tmpl/document.php";
+        require_once __DIR__ . '/tmpl/document.php';
         $export = new THM_OrganizerTemplateDepartment_Statistics_XLS($model);
         $export->render();
         ob_flush();

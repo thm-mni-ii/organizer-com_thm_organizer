@@ -13,7 +13,7 @@ $(document).ready(function () {
  */
 function addRooms(rooms)
 {
-    "use strict";
+    'use strict';
 
     var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
 
@@ -21,10 +21,10 @@ function addRooms(rooms)
 
     $.each(rooms, function (name, id) {
         selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
-        roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+        roomSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
-    roomSelection.chosen("destroy");
+    roomSelection.chosen('destroy');
     roomSelection.chosen();
 }
 
@@ -33,7 +33,7 @@ function addRooms(rooms)
  */
 function repopulateRooms()
 {
-    "use strict";
+    'use strict';
 
     var selectedTypes = $('#typeIDs').val(), validTypes, componentParameters;
 

@@ -38,7 +38,6 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -89,14 +88,13 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
      * Sets various filter elements
      *
      * @return void  sets the filter object variables
-     * @throws Exception
      */
     private function setFilters()
     {
         $lang    = THM_OrganizerHelperLanguage::getLanguage();
         $attribs = ['onchange' => 'form.submit();'];
 
-        $default       = [0 => $lang->_("COM_THM_ORGANIZER_ALL_CAMPUSES")];
+        $default       = [0 => $lang->_('COM_THM_ORGANIZER_ALL_CAMPUSES')];
         $campusOptions = THM_OrganizerHelperCampuses::getOptions(true);
         unset($campusOptions[0]);
 
@@ -114,10 +112,10 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
 
         if (THM_OrganizerHelperCourses::authorized()) {
             $activeOptions = [
-                "pending" => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
-                "current" => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),
-                "all"     => $lang->_('COM_THM_ORGANIZER_ALL_COURSES'),
-                "expired" => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
+                'pending' => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
+                'current' => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),
+                'all'     => $lang->_('COM_THM_ORGANIZER_ALL_COURSES'),
+                'expired' => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
             ];
 
             $this->filters['status'] = THM_OrganizerHelperComponent::selectBox(
@@ -128,7 +126,7 @@ class THM_OrganizerViewCourse_List extends JViewLegacy
             );
 
             $subjectOptions = THM_OrganizerHelperCourses::prepCourseList();
-            $default        = [0 => $lang->_("COM_THM_ORGANIZER_ALL_COURSES")];
+            $default        = [0 => $lang->_('COM_THM_ORGANIZER_ALL_COURSES')];
 
             $this->filters['subjectID'] = THM_OrganizerHelperComponent::selectBox(
                 $subjectOptions,

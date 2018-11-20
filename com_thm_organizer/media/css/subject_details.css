@@ -79,7 +79,7 @@ a {
     cursor: pointer;
 }
 
-a [class^="icon-"], a [class*=" icon-"] {
+a [class^='icon-'], a [class*=' icon-'] {
     margin-right: .2rem;
 }
 
@@ -153,7 +153,7 @@ a [class^="icon-"], a [class*=" icon-"] {
     width: 79%;
 }
 
-.subject-list .subject-content [class^="icon-"], .subject-list .subject-content [class*=" icon-"] {
+.subject-list .subject-content [class^='icon-'], .subject-list .subject-content [class*=' icon-'] {
     margin-right: .2rem;
 }
 
@@ -162,7 +162,7 @@ a [class^="icon-"], a [class*=" icon-"] {
 }
 
 .subject-list .subject-content ul ul li:before {
-    content: "-";
+    content: '-';
     display: block;
     float: left;
     margin-left: -.4rem;

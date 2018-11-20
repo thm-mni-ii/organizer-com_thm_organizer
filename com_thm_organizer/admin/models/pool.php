@@ -18,7 +18,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      * Attempts to delete the selected subject pool entries and related mappings
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {
@@ -26,7 +26,7 @@ class THM_OrganizerModelPool extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $poolIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $poolIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         if (!empty($poolIDs)) {
             $this->_db->transactionStart();
             foreach ($poolIDs as $poolID) {
@@ -80,11 +80,11 @@ class THM_OrganizerModelPool extends JModelLegacy
      *
      * @return mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         if (empty($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
@@ -157,7 +157,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      *
      * @return mixed  integer on successful pool creation, otherwise boolean
      *                 true/false on success/failure
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save2copy()
     {

@@ -35,7 +35,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
     public function __construct(array $config)
     {
         parent::__construct($config);
-        $format        = JFactory::getApplication()->input->getString('format');
+        $format        = THM_OrganizerHelperComponent::getInput()->getString('format');
         $lessonFormats = ['pdf', 'ics', 'xls'];
 
         // Don't bother setting these variables for html and raw formats
@@ -55,7 +55,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves department options
      *
      * @return array an array of department options
-     * @throws Exception
      */
     public function getDepartmentOptions()
     {
@@ -78,7 +77,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves grid options
      *
      * @return array an array of grid options
-     * @throws Exception
      */
     public function getGridOptions()
     {
@@ -89,13 +87,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
         $options = [];
 
-        try {
-            $grids = $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return $options;
-        }
+        $grids = THM_OrganizerHelperComponent::query('loadAssocList', []);
 
         foreach ($grids as $grid) {
             if ($grid['defaultGrid']) {
@@ -114,7 +106,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
-     * @throws Exception
      */
     private function getPoolTitles()
     {
@@ -132,10 +123,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             try {
                 $success = $table->load($poolID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
                 return [];
             }
@@ -184,11 +172,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * @param array  &$parameters  the parameters array for the model
      *
      * @return void sets indexes in $parameters
-     * @throws Exception
      */
     private function setResourceArray($resourceName, &$parameters)
     {
-        $input          = JFactory::getApplication()->input;
+        $input          = THM_OrganizerHelperComponent::getInput();
         $rawResourceIDs = $input->get("{$resourceName}IDs", [], 'raw');
 
         if (!empty($rawResourceIDs)) {
@@ -219,7 +206,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
-     * @throws Exception
      */
     private function getRoomTitles()
     {
@@ -237,10 +223,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             try {
                 $success = $table->load($roomID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
                 return [];
             }
@@ -267,7 +250,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
-     * @throws Exception
      */
     private function getSubjectTitles()
     {
@@ -291,17 +273,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             $query->clear('where');
             $query->where("ps.id = '$subjectID'");
             $this->_db->setQuery($query);
-
-            try {
-                $subjectNames = $this->_db->loadAssoc();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
-
-                return $titles;
-            }
+            $subjectNames = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
             if (!empty($subjectNames)) {
                 $gpuntisID = JApplicationHelper::stringURLSafe($subjectNames['gpuntisID']);
@@ -336,11 +308,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves teacher options
      *
      * @return array an array of teacher options
-     * @throws Exception
      */
     public function getTeacherOptions()
     {
-        $teachers = THM_OrganizerHelperTeachers::getPlanTeachers(false);
+        $teachers = THM_OrganizerHelperTeachers::getPlanTeachers();
 
         $options = [];
 
@@ -357,7 +328,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names
-     * @throws Exception
      */
     private function getTeacherTitles()
     {
@@ -375,10 +345,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             try {
                 $success = $table->load($teacherID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
                 return [];
             }
@@ -406,7 +373,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Retrieves the selected grid from the database
      *
      * @return void sets object variables
-     * @throws Exception
      */
     private function setGrid()
     {
@@ -421,11 +387,8 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
 
         $this->_db->setQuery($query);
 
-        try {
-            $rawGrid = $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
+        $rawGrid = THM_OrganizerHelperComponent::query('loadResult');
+        if (empty($rawGrid)) {
             return;
         }
 
@@ -443,11 +406,10 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Sets the basic parameters from the request
      *
      * @return void sets object variables
-     * @throws Exception
      */
     private function setParameters()
     {
-        $input = JFactory::getApplication()->input;
+        $input = THM_OrganizerHelperComponent::getInput();
 
         $parameters               = [];
         $parameters['format']     = $input->getString('format', 'pdf');
@@ -512,7 +474,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
      * Sets the document and page titles
      *
      * @return void sets object variables
-     * @throws Exception
      */
     private function setTitles()
     {
@@ -558,7 +519,7 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
             $pageTitle = '';
         }
 
-        // Constructed docTitle always ends with a "_" character at this point.
+        // Constructed docTitle always ends with a '_' character at this point.
         $this->parameters['docTitle']  = $docTitle . date('Ymd');
         $this->parameters['pageTitle'] = $pageTitle;
     }

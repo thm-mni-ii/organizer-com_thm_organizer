@@ -54,9 +54,9 @@ li.active:not(.inactive) {
     position: relative;
   }
 
-  //change icon to "cancel", when tab is open
+  //change icon to 'cancel', when tab is open
   [class^="icon-"]::before {
-    content: "\e935";
+    content: '\e935';
     font-family: IcoMoon !important;
     font-size: 1.3rem;
   }

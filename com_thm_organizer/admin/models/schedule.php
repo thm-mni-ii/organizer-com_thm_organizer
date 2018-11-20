@@ -28,7 +28,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Activates the selected schedule
      *
      * @return true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function activate()
     {
@@ -66,11 +66,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Checks if the first selected schedule is active
      *
      * @return boolean true if the schedule is active otherwise false
-     * @throws Exception
      */
     public function checkIfActive()
     {
-        $scheduleIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $scheduleIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         if (!empty($scheduleIDs)) {
             $scheduleID = $scheduleIDs[0];
             $schedule   = JTable::getInstance('schedules', 'thm_organizerTable');
@@ -87,7 +86,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      *
      * @return boolean true on successful deletion of all selected schedules
      *                 otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {
@@ -96,7 +95,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         }
 
         $this->_db->transactionStart();
-        $scheduleIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $scheduleIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         foreach ($scheduleIDs as $scheduleID) {
 
             if (!THM_OrganizerHelperAccess::allowSchedulingAccess($scheduleID)) {
@@ -106,11 +105,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
             try {
                 $success = $this->deleteSingle($scheduleID);
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
+            } catch (Exception $exc) {
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
                 $this->_db->transactionRollback();
 
                 return false;
@@ -149,12 +145,11 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * @param int $planningPeriodID the planning period id of the reference row
      *
      * @return mixed  object if successful, otherwise null
-     * @throws Exception
      */
     private function getScheduleRow($departmentID = null, $planningPeriodID = null)
     {
         if (empty($departmentID) or empty($planningPeriodID)) {
-            $input = JFactory::getApplication()->input;
+            $input = THM_OrganizerHelperComponent::getInput();
 
             // called from activate or set reference => table id in request
             $listIDs = $input->get('cid', [], 'array');
@@ -187,7 +182,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Creates the delta to the chosen reference schedule
      *
      * @return boolean true on successful delta creation, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function setReference()
     {
@@ -219,11 +214,11 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Toggles the schedule's active status. Access checks performed in called functions.
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function toggle()
     {
-        $input      = JFactory::getApplication()->input;
+        $input      = THM_OrganizerHelperComponent::getInput();
         $scheduleID = $input->getInt('id', 0);
 
         if (empty($scheduleID)) {
@@ -243,11 +238,11 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Saves a schedule in the database for later use
      *
      * @return  boolean true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access
      */
     public function upload()
     {
-        $form        = JFactory::getApplication()->input->get('jform', [], 'array');
+        $form        = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
 
         if ($invalidForm) {

@@ -70,8 +70,8 @@ abstract class THM_OrganizerViewList extends JViewLegacy
     protected function modifyDocument()
     {
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/fonts/iconfont.css");
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/backend.css");
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/backend.css');
 
         JHtml::_('bootstrap.tooltip');
         JHtml::_('behavior.multiselect');

@@ -32,12 +32,12 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
         $query    = $this->_db->getQuery(true);
 
         $select = "c1.id, c1.name_$shortTag as name, c2.id as parentID, c2.name_$shortTag as parentName, ";
-        $select .= "c1.address, c1.city, c1.zipCode, c1.location, ";
-        $select .= "c2.address as parentAddress, c2.city as parentCity, c2.zipCode as parentZIPCode, ";
+        $select .= 'c1.address, c1.city, c1.zipCode, c1.location, ';
+        $select .= 'c2.address as parentAddress, c2.city as parentCity, c2.zipCode as parentZIPCode, ';
         $select .= "g1.id as gridID, g1.name_$shortTag as gridName, ";
         $select .= "g2.id as parentGridID, g2.name_$shortTag as parentGridName, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=campus_edit&id='", "c1.id"];
-        $select .= $query->concatenate($parts, "") . " AS link";
+        $parts  = ["'index.php?option=com_thm_organizer&view=campus_edit&id='", 'c1.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select);
         $query->from('#__thm_organizer_campuses as c1');
         $query->leftJoin('#__thm_organizer_grids as g1 on c1.gridID = g1.id');
@@ -143,7 +143,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
      */
     private function setCityFilter(&$query)
     {
-        $value = $this->state->get("list.city", '');
+        $value = $this->state->get('list.city', '');
 
         if ($value === '') {
             return;
@@ -172,7 +172,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
      */
     private function setGridFilter(&$query)
     {
-        $value = $this->state->get("filter.gridID", '');
+        $value = $this->state->get('filter.gridID', '');
 
         if ($value === '') {
             return;
@@ -184,7 +184,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
          * be extended we could maybe add a parameter for it later.
          */
         if ($value == '-1') {
-            $query->where("g1.id IS NULL and g2.id IS NULL");
+            $query->where('g1.id IS NULL and g2.id IS NULL');
 
             return;
         }

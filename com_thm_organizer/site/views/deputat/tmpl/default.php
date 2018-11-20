@@ -38,7 +38,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                             <?php echo JText::_('COM_THM_ORGANIZER_DEPUTAT_WEEKS'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $weeks . " " . JText::_('COM_THM_ORGANIZER_WEEKS'); ?>
+                            <?php echo $weeks . ' ' . JText::_('COM_THM_ORGANIZER_WEEKS'); ?>
                         </div>
                     </div>
                     <div class="control-group">
@@ -46,7 +46,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                             <?php echo JText::_('COM_THM_ORGANIZER_BACHELOR_VALUE'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $this->params->get('bachelor_value', 25) . "%"; ?>
+                            <?php echo $this->params->get('bachelor_value', 25) . '%'; ?>
                         </div>
                     </div>
                     <div class="control-group">
@@ -54,7 +54,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                             <?php echo JText::_('COM_THM_ORGANIZER_DIPLOMA_VALUE'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $this->params->get('diploma_value', 50) . "%"; ?>
+                            <?php echo $this->params->get('diploma_value', 50) . '%'; ?>
                         </div>
                     </div>
                     <div class="control-group">
@@ -62,7 +62,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                             <?php echo JText::_('COM_THM_ORGANIZER_MASTER_VALUE'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $this->params->get('master_value', 50) . "%"; ?>
+                            <?php echo $this->params->get('master_value', 50) . '%'; ?>
                         </div>
                     </div>
                 </div>

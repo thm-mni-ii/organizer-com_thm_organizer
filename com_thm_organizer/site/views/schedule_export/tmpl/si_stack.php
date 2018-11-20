@@ -36,7 +36,7 @@ class THM_OrganizerTemplateExport_XLS
 
         $userName    = JFactory::getUser()->name;
         $description = $this->getDescription();
-        $spreadSheet->getProperties()->setCreator("THM Organizer")
+        $spreadSheet->getProperties()->setCreator('THM Organizer')
             ->setLastModifiedBy($userName)
             ->setTitle($this->parameters['pageTitle'])
             ->setDescription($description);
@@ -54,7 +54,7 @@ class THM_OrganizerTemplateExport_XLS
             $startDate   = key($this->lessons);
 
             while (isset($this->lessons[$startDate])) {
-                $breakDate = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+                $breakDate = date('Y-m-d', strtotime('+7 day', strtotime($startDate)));
 
                 $this->addSheet($sheetNumber, $startDate);
                 $this->addData($startDate, $breakDate);
@@ -87,7 +87,7 @@ class THM_OrganizerTemplateExport_XLS
     {
         $row = 3;
         for ($currentDate = $startDate; $currentDate < $breakDate; $currentDate = date('Y-m-d',
-            strtotime("+1 day", strtotime($currentDate)))) {
+            strtotime('+1 day', strtotime($currentDate)))) {
             if (empty($this->lessons[$currentDate])) {
                 continue;
             }
@@ -179,7 +179,7 @@ class THM_OrganizerTemplateExport_XLS
 
         $this->spreadSheet->setActiveSheetIndex($sheetNumber);
 
-        $rawEndDate = date('Y-m-d', strtotime("+6 day", strtotime($rawStartDate)));
+        $rawEndDate = date('Y-m-d', strtotime('+6 day', strtotime($rawStartDate)));
         $startDate  = THM_OrganizerHelperDate::formatDate($rawStartDate);
         $endDate    = THM_OrganizerHelperDate::formatDate($rawEndDate);
         $dates      = "$startDate - $endDate";

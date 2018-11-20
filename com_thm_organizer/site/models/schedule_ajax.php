@@ -33,20 +33,25 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * deletes lessons in the personal schedule of a logged in user
      *
      * @return string JSON coded and deleted ccmIDs
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access
      */
     public function deleteLesson()
     {
-        $input  = JFactory::getApplication()->input;
-        $mode   = $input->getInt('mode', self::PERIOD_MODE);
-        $ccmID  = $input->getString('ccmID');
-        $userID = JFactory::getUser()->id;
+        $input = THM_OrganizerHelperComponent::getInput();
 
-        if (JFactory::getUser()->guest or empty($ccmID)) {
-            return '[]';
+        $ccmID = $input->getString('ccmID');
+        if (!empty($ccmID)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        $mappings      = $this->getMatchingLessons($mode, $ccmID);
+        $userID = JFactory::getUser()->id;
+        if (empty($userID)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
+        $mode     = $input->getInt('mode', self::PERIOD_MODE);
+        $mappings = $this->getMatchingLessons($mode, $ccmID);
+
         $deletedCcmIDs = [];
         foreach ($mappings as $lessonID => $ccmIDs) {
             try {
@@ -111,11 +116,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $query->order('map.id');
         $this->_db->setQuery($query);
 
-        try {
-            $calReference = $this->_db->loadObject();
-        } catch (RuntimeException $e) {
-            return false;
-        }
+        $calReference = THM_OrganizerHelperComponent::query('loadObject');
 
         return empty($calReference) ? false : $calReference;
     }
@@ -124,11 +125,10 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * get lessons by chosen resource
      *
      * @return string JSON coded lessons
-     * @throws Exception
      */
     public function getLessons()
     {
-        $input       = JFactory::getApplication()->input;
+        $input       = THM_OrganizerHelperComponent::getInput();
         $inputParams = $input->getArray();
         $inputKeys   = array_keys($inputParams);
         $parameters  = [];
@@ -152,7 +152,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $parameters['date']            = $input->getString('date');
         $parameters['format']          = '';
         $deltaDays                     = $input->getString('deltaDays', '14');
-        $parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime("-" . $deltaDays . " days"));
+        $parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
 
         $lessons = THM_OrganizerHelperSchedule::getLessons($parameters);
 
@@ -187,7 +187,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Getter method for programs
      *
      * @return string  a json coded array of available program objects
-     * @throws Exception
      */
     public function getPrograms()
     {
@@ -206,12 +205,11 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Getter method for pools
      *
      * @return string  all pools in JSON format
-     * @throws Exception
      */
     public function getPools()
     {
-        $selectedPrograms = JFactory::getApplication()->input->getString('programIDs');
-        $programIDs       = explode(",", $selectedPrograms);
+        $selectedPrograms = THM_OrganizerHelperComponent::getInput()->getString('programIDs');
+        $programIDs       = explode(',', $selectedPrograms);
         $result           = THM_OrganizerHelperPools::getPlanPools(count($programIDs) == 1);
 
         return empty($result) ? '[]' : json_encode($result);
@@ -220,8 +218,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
     /**
      * Getter method for subjects associated with a given pool
      *
-     * @return void
-     * @throws Exception
+     * @return string a json encoded collection of pool lessons
      */
     public function getPoolLessons()
     {
@@ -231,8 +228,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
     /**
      * Getter method for subjects associated with a given pool
      *
-     * @return void
-     * @throws Exception
+     * @return string a json encoded collection of pool subjects
      */
     public function getPoolSubjects()
     {
@@ -243,7 +239,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Getter method for rooms in database
      *
      * @return string  all rooms in JSON format
-     * @throws Exception
      */
     public function getRooms()
     {
@@ -261,7 +256,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Getter method for room types
      *
      * @return string  all room types in JSON format
-     * @throws Exception
      */
     public function getRoomTypes()
     {
@@ -274,8 +268,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
     /**
      * Getter method for subjects associated with a given pool
      *
-     * @return void
-     * @throws Exception
+     * @return string a json encoded collection of subject lessons
      */
     public function getSubjectLessons()
     {
@@ -286,7 +279,6 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Getter method for teachers in database
      *
      * @return string  all teachers in JSON format
-     * @throws Exception
      */
     public function getTeachers()
     {
@@ -299,23 +291,22 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * Returns title of given resource
      *
      * @return string
-     * @throws Exception
      */
     public function getTitle()
     {
-        $resource = JFactory::getApplication()->input->getString('resource');
-        $value    = JFactory::getApplication()->input->getInt('value');
+        $resource = THM_OrganizerHelperComponent::getInput()->getString('resource');
+        $value    = THM_OrganizerHelperComponent::getInput()->getInt('value');
 
         switch ($resource) {
-            case "room":
+            case 'room':
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
                 $title = JText::_('COM_THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
                 break;
-            case "pool":
+            case 'pool':
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
                 $title = THM_OrganizerHelperPools::getFullName($value);
                 break;
-            case "teacher":
+            case 'teacher':
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
                 $title = THM_OrganizerHelperTeachers::getDefaultName($value);
                 break;
@@ -330,21 +321,26 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
      * saves lessons in the personal schedule of the logged in user
      *
      * @return string JSON coded and saved ccmIDs
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access
      */
     public function saveLesson()
     {
-        $input       = JFactory::getApplication()->input;
-        $mode        = $input->getInt('mode', self::PERIOD_MODE);
-        $ccmID       = $input->getString('ccmID');
-        $userID      = JFactory::getUser()->id;
-        $savedCcmIDs = [];
+        $input = THM_OrganizerHelperComponent::getInput();
 
-        if (JFactory::getUser()->guest or empty($ccmID)) {
-            return '[]';
+        $ccmID = $input->getString('ccmID');
+        if (!empty($ccmID)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        $mappings = $this->getMatchingLessons($mode, $ccmID);
+        $userID = JFactory::getUser()->id;
+        if (empty($userID)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
+        $savedCcmIDs = [];
+        $mode        = $input->getInt('mode', self::PERIOD_MODE);
+        $mappings    = $this->getMatchingLessons($mode, $ccmID);
+
         foreach ($mappings as $lessonID => $ccmIDs) {
             try {
                 $userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');

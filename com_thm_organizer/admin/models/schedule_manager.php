@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/date.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -46,17 +47,17 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
         $dbo                = $this->getDbo();
         $query              = $dbo->getQuery(true);
 
-        $select       = "s.id, s.active, s.creationDate, s.creationTime, ";
+        $select       = 's.id, s.active, s.creationDate, s.creationTime, ';
         $select       .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
-        $select       .= "pp.id as planningPeriodID, pp.name AS planningPeriodName, ";
-        $createdParts = ["s.creationDate", "s.creationTime"];
-        $select       .= $query->concatenate($createdParts, " ") . " AS created ";
+        $select       .= 'pp.id as planningPeriodID, pp.name AS planningPeriodName, ';
+        $createdParts = ['s.creationDate', 's.creationTime'];
+        $select       .= $query->concatenate($createdParts, ' ') . ' AS created ';
 
         $query->select($select);
-        $query->from("#__thm_organizer_schedules AS s");
-        $query->innerJoin("#__thm_organizer_departments AS d ON s.departmentID = d.id");
-        $query->innerJoin("#__thm_organizer_planning_periods AS pp ON s.planningPeriodID = pp.id");
-        $query->where("d.id IN ('" . implode("', '", $allowedDepartments) . "')");
+        $query->from('#__thm_organizer_schedules AS s');
+        $query->innerJoin('#__thm_organizer_departments AS d ON s.departmentID = d.id');
+        $query->innerJoin('#__thm_organizer_planning_periods AS pp ON s.planningPeriodID = pp.id');
+        $query->where('d.id IN (' . implode(', ', $allowedDepartments) . ')');
 
         $this->setValueFilters($query, ['departmentID', 'planningPeriodID', 'active']);
 
@@ -114,13 +115,12 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
         $headers['checkbox'] = '';
 
         $headers['departmentID']
-            = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEPARTMENT', 'departmentname', $direction, $ordering);
+            = THM_OrganizerHelperComponent::sort('DEPARTMENT', 'departmentname', $direction, $ordering);
         $headers['planningPeriodID']
-            = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_PLANNING_PERIOD', 'semestername', $direction, $ordering);
-        $headers['active']
-            = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_STATE', 'active', $direction, $ordering);
-        $headers['created']
-            = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_CREATION_DATE', 'created', $direction, $ordering);
+            = THM_OrganizerHelperComponent::sort('PLANNING_PERIOD', 'semestername', $direction, $ordering);
+
+        $headers['active']  = THM_OrganizerHelperComponent::sort('STATE', 'active', $direction, $ordering);
+        $headers['created'] = THM_OrganizerHelperComponent::sort('CREATION_DATE', 'created', $direction, $ordering);
 
         return $headers;
     }

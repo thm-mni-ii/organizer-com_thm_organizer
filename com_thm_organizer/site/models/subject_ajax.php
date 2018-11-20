@@ -20,11 +20,10 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      * Retrieves subject entries from the database
      *
      * @return string  the subjects which fit the selected resource
-     * @throws Exception
      */
     public function getSubjects()
     {
-        $input     = JFactory::getApplication()->input;
+        $input     = THM_OrganizerHelperComponent::getInput();
         $programID = $input->getString('programID', '-1');
         $teacherID = $input->getString('teacherID', '-1');
         if ($programID == '-1' and $teacherID == '-1') {
@@ -34,9 +33,9 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $lang   = JFactory::getApplication()->input->getString('languageTag', 'de');
+        $lang   = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');
         $select = "DISTINCT s.id, s.name_{$lang} AS name, s.externalID, s.creditpoints, ";
-        $select .= "t.surname, t.forename, t.title, t.username ";
+        $select .= 't.surname, t.forename, t.title, t.username ';
         $query->select($select);
 
         $query->from('#__thm_organizer_subjects AS s');
@@ -68,15 +67,9 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
 
         $query->order('name');
         $query->group('s.id');
-
         $dbo->setQuery($query);
-        try {
-            $subjects = $dbo->loadObjectList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
 
-            return '[]';
-        }
+        $subjects = THM_OrganizerHelperComponent::query('loadObjectList');
 
         return empty($subjects) ? '[]' : json_encode($subjects);
     }
@@ -85,11 +78,10 @@ class THM_OrganizerModelSubject_Ajax extends JModelLegacy
      * Retrieves the left and right boundaries of the nested program or pool
      *
      * @return array
-     * @throws Exception
      */
     private function getBoundaries()
     {
-        $input             = JFactory::getApplication()->input;
+        $input             = THM_OrganizerHelperComponent::getInput();
         $programID         = $input->getString('programID');
         $programBoundaries = THM_OrganizerHelperMapping::getBoundaries('program', $programID);
 

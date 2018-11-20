@@ -20,7 +20,6 @@ class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
      * Gets the pool options as a string
      *
      * @return string the concatenated plan pool options
-     * @throws Exception
      */
     public function getOptions()
     {

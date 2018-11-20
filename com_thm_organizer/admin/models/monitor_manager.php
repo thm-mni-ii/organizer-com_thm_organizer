@@ -53,12 +53,12 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
     {
         $query = $this->_db->getQuery(true);
 
-        $select = "m.id, r.longname, m.ip, m.useDefaults, m.display, m.content, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=monitor_edit&id='", "m.id"];
-        $select .= $query->concatenate($parts, "") . " AS link ";
-        $query->select($this->state->get("list.select", $select));
-        $query->from("#__thm_organizer_monitors AS m");
-        $query->leftJoin("#__thm_organizer_rooms AS r ON r.id = m.roomID");
+        $select = 'm.id, r.longname, m.ip, m.useDefaults, m.display, m.content, ';
+        $parts  = ["'index.php?option=com_thm_organizer&view=monitor_edit&id='", 'm.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link ';
+        $query->select($this->state->get('list.select', $select));
+        $query->from('#__thm_organizer_monitors AS m');
+        $query->leftJoin('#__thm_organizer_rooms AS r ON r.id = m.roomID');
 
         $this->setSearchFilter($query, ['r.longname', 'm.ip']);
         $this->setValueFilters($query, ['longname', 'ip', 'useDefaults']);
@@ -180,32 +180,14 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
         $direction           = $this->state->get('list.direction', $this->defaultDirection);
         $headers             = [];
         $headers['checkbox'] = '';
-        $headers['longname'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_ROOM',
-            'r.longname',
-            $direction,
-            $ordering
-        );
+        $headers['longname'] = THM_OrganizerHelperComponent::sort('ROOM', 'r.longname', $direction, $ordering);
+        $headers['ip']       = THM_OrganizerHelperComponent::sort('IP', 'm.ip', $direction, $ordering);
 
-        $headers['ip'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_IP', 'm.ip', $direction, $ordering);
-
-        $headers['useDefaults'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_DEFAULT_SETTINGS',
-            'm.useDefault',
-            $direction,
-            $ordering
-        );
+        $headers['useDefaults']
+            = THM_OrganizerHelperComponent::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering);
 
         $headers['display'] = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
-        $headers['content'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_DISPLAY_CONTENT',
-            'm.content',
-            $direction,
-            $ordering
-        );
+        $headers['content'] = THM_OrganizerHelperComponent::sort('DISPLAY_CONTENT', 'm.content', $direction, $ordering);
 
         return $headers;
     }

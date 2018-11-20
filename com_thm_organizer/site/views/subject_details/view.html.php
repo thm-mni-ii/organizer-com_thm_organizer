@@ -45,7 +45,6 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -71,7 +70,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
                 $course['expired']            = !THM_OrganizerHelperCourses::isRegistrationOpen($courseID);
                 $course['registrationButton'] = THM_OrganizerHelperCourses::getActionButton('subject', $courseID);
                 $regState                     = THM_OrganizerHelperCourses::getParticipantState($courseID);
-                $course['status']             = empty($regState) ? null : (int)$regState["status"];
+                $course['status']             = empty($regState) ? null : (int)$regState['status'];
                 $course['statusDisplay']      = THM_OrganizerHelperCourses::getStatusDisplay($courseID);
 
                 // Course administrators are green
@@ -81,7 +80,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
                     continue;
                 }
 
-                // Make no change if the course has no status information or if the status color has already been set to green.
+                // No change if: course has no status information, the status color has already been set to green
                 if ($course['status'] === null or $this->color === 'green') {
                     continue;
                 }
@@ -179,7 +178,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
             return;
         }
 
-        $imageFolder = '/media/com_thm_organizer/images/';
+        $imageFolder   = '/media/com_thm_organizer/images/';
         $allowedValues = [
             0 => JHtml::image(JUri::root() . $imageFolder . '0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS'),
             1 => JHtml::image(JUri::root() . $imageFolder . '1stars.png', 'COM_THM_ORGANIZER_ONE_STAR'),
@@ -242,12 +241,11 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
     }
 
     /**
-     * Creates a list of depencencies dependent on the type (pre|post)
+     * Creates a list of dependencies dependent on the type (pre|post)
      *
      * @param string $type the type of dependency
      *
-     * @return string the HTML for the depencency output
-     * @throws Exception
+     * @return string the HTML for the dependency output
      */
     public function getDependencies($type)
     {
@@ -277,9 +275,10 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
             return '';
         }
 
-        $menuID        = JFactory::getApplication()->input->getInt('Itemid', 0);
+        $menuID        = THM_OrganizerHelperComponent::getInput()->getInt('Itemid', 0);
         $this->langTag = THM_OrganizerHelperLanguage::getShortTag();
-        $link          = "index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}&Itemid={$menuID}&id=";
+        $link          = 'index.php?option=com_thm_organizer&view=subject_details';
+        $link          .= "&languageTag={$this->langTag}&Itemid={$menuID}&id=";
 
         $html = '<ul>';
         foreach ($dependencies as $program) {
@@ -300,7 +299,7 @@ class THM_OrganizerViewSubject_Details extends JViewLegacy
      *
      * @param array $teacher the teacher item
      *
-     * @return void  creates HTML output
+     * @return string the HTML output for the teacher
      */
     public function getTeacherOutput($teacher)
     {

@@ -44,11 +44,11 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query    = $this->_db->getQuery(true);
 
-        $linkParts = ["'index.php?option=com_thm_organizer&view=room_edit&id='", "r.id"];
+        $linkParts = ["'index.php?option=com_thm_organizer&view=room_edit&id='", 'r.id'];
         $query->select('r.id, r.gpuntisID, r.longname')
             ->select("t.id AS typeID, t.name_$shortTag AS type")
-            ->select("b.id AS buildingID, b.name AS buildingName")
-            ->select($query->concatenate($linkParts, "") . " AS link")
+            ->select('b.id AS buildingID, b.name AS buildingName')
+            ->select($query->concatenate($linkParts, '') . ' AS link')
             ->from('#__thm_organizer_rooms AS r')
             ->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id')
             ->leftJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
@@ -96,28 +96,14 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $headers   = [];
-
+        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction           = $this->state->get('list.direction', $this->defaultDirection);
+        $headers             = [];
         $headers['checkbox'] = '';
-        $headers['longname'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_DISPLAY_NAME',
-            'r.longname',
-            $direction,
-            $ordering
-        );
-
-        $headers['buildingID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_BUILDING',
-            'buildingName',
-            $direction,
-            $ordering
-        );
-
-        $headers['typeID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_TYPE', 'type', $direction, $ordering);
+        $headers['longname'] = THM_OrganizerHelperComponent::sort('DISPLAY_NAME', 'r.longname', $direction, $ordering);
+        $headers['buildingID']
+                             = THM_OrganizerHelperComponent::sort('BUILDING', 'buildingName', $direction, $ordering);
+        $headers['typeID']   = THM_OrganizerHelperComponent::sort('TYPE', 'type', $direction, $ordering);
 
         return $headers;
     }

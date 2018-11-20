@@ -103,14 +103,8 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
         $headers   = [];
 
         $headers['checkbox']   = '';
-        $headers['name']       = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-        $headers['externalID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_EXTERNAL_ID',
-            'externalID',
-            $direction,
-            $ordering
-        );
+        $headers['name']       = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
+        $headers['externalID'] = THM_OrganizerHelperComponent::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
 
         return $headers;
     }
@@ -121,7 +115,6 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
      * @param string $idColumn not used
      *
      * @return integer  The total number of items available in the data set.
-     * @throws Exception
      */
     public function getTotal($idColumn = null)
     {
@@ -132,24 +125,16 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
         $dbo = JFactory::getDbo();
         $dbo->setQuery($query);
 
-        try {
-            $result = $dbo->loadResult();
-
-            return $result;
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage());
-
-            return null;
-        }
+        return (int)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
-     * Overwrites the JModelList populateState function
+     * Method to auto-populate the model state.
      *
-     * @param string $ordering  the column by which the table is should be ordered
-     * @param string $direction the direction in which this column should be ordered
+     * @param   string $ordering  An optional ordering field.
+     * @param   string $direction An optional direction (asc|desc).
      *
-     * @return void  sets object state variables
+     * @return void
      */
     protected function populateState($ordering = null, $direction = null)
     {

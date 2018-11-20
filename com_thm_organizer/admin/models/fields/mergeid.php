@@ -21,11 +21,10 @@ class JFormFieldMergeID extends JFormField
      * Returns a hidden in put field
      *
      * @return string
-     * @throws Exception
      */
     public function getInput()
     {
-        $selectedIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $selectedIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         asort($selectedIDs);
         $first  = array_shift($selectedIDs);
         $others = implode(',', $selectedIDs);

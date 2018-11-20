@@ -49,19 +49,17 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
      * Creates a status report based upon object error and warning messages
      *
      * @return void  outputs errors to the application
-     * @throws Exception
      */
     private function printStatusReport()
     {
-        $app = JFactory::getApplication();
         if (count($this->scheduleErrors)) {
             $errorMessage = JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br />';
             $errorMessage .= implode('<br />', $this->scheduleErrors);
-            $app->enqueueMessage($errorMessage, 'error');
+            THM_OrganizerHelperComponent::message($errorMessage, 'error');
         }
 
         if (count($this->scheduleWarnings)) {
-            $app->enqueueMessage(implode('<br />', $this->scheduleWarnings), 'warning');
+            THM_OrganizerHelperComponent::message(implode('<br />', $this->scheduleWarnings), 'warning');
         }
     }
 
@@ -69,13 +67,11 @@ class THM_OrganizerModelXMLSchedule extends JModelLegacy
      * Checks a given schedule in gp-untis xml format for data completeness and
      * consistency and gives it basic structure
      *
-     * @return array  array of strings listing inconsistencies empty if none
-     *                 were found
-     * @throws Exception
+     * @return bool true on successful validation w/o errors, false if the schedule was invalid or an error occurred
      */
     public function validate()
     {
-        $input       = JFactory::getApplication()->input;
+        $input       = THM_OrganizerHelperComponent::getInput();
         $formFiles   = $input->files->get('jform', [], 'array');
         $file        = $formFiles['file'];
         $xmlSchedule = simplexml_load_file($file['tmp_name']);

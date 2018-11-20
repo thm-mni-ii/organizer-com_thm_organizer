@@ -20,11 +20,11 @@ class THM_OrganizerModelCourse extends JModelLegacy
      * Saves data for participants when administrator changes state in manager
      *
      * @return bool true on success, false on error
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function changeParticipantState()
     {
-        $input    = JFactory::getApplication()->input;
+        $input    = THM_OrganizerHelperComponent::getInput();
         $data     = $input->getArray();
         $formData = $data['jform'];
 
@@ -32,8 +32,8 @@ class THM_OrganizerModelCourse extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $participantIDs = $data["checked"];
-        $state          = (int)$data["participantState"];
+        $participantIDs = $data['checked'];
+        $state          = (int)$data['participantState'];
         $invalidState   = ($state < 0 or $state > 2);
 
         if (empty($participantIDs) or empty($formData['id']) or $invalidState) {
@@ -42,7 +42,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
 
         $return = true;
 
-        foreach ($data["checked"] as $participantID) {
+        foreach ($data['checked'] as $participantID) {
             $success = THM_OrganizerHelperParticipants::changeState($participantID, $formData['id'], $state);
 
             if (empty($success)) {
@@ -63,13 +63,13 @@ class THM_OrganizerModelCourse extends JModelLegacy
      * Sends a circular mail to all course participants
      *
      * @return bool true on success, false on error
-     * @throws Exception
+     * @throws Exception => not found / unauthorized access
      */
     public function circular()
     {
-        $input = JFactory::getApplication()->input;
+        $input = THM_OrganizerHelperComponent::getInput();
 
-        $courseID = $input->get("lessonID", 0);
+        $courseID = $input->get('lessonID', 0);
 
         if (empty($courseID)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
@@ -81,7 +81,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
 
         $data = $input->get('jform', [], 'array');
 
-        if (empty($data["text"])) {
+        if (empty($data['text'])) {
             return false;
         }
 
@@ -91,7 +91,7 @@ class THM_OrganizerModelCourse extends JModelLegacy
             return false;
         }
 
-        $recipients = THM_OrganizerHelperCourses::getFullParticipantData($courseID, (bool)$data["includeWaitList"]);
+        $recipients = THM_OrganizerHelperCourses::getFullParticipantData($courseID, (bool)$data['includeWaitList']);
 
         if (empty($recipients)) {
             return false;
@@ -99,13 +99,13 @@ class THM_OrganizerModelCourse extends JModelLegacy
 
         $mailer = JFactory::getMailer();
         $mailer->setSender([$sender->email, $sender->name]);
-        $mailer->setSubject($data["subject"]);
+        $mailer->setSubject($data['subject']);
 
         foreach ($recipients as $recipient) {
-            $mailer->addRecipient($recipient["email"]);
+            $mailer->addRecipient($recipient['email']);
         }
 
-        $mailer->setBody($data["text"]);
+        $mailer->setBody($data['text']);
         $sent = $mailer->Send();
 
         if (!$sent) {
@@ -135,16 +135,20 @@ class THM_OrganizerModelCourse extends JModelLegacy
      * Saves changes to courses. Adjusting the course wait list as appropriate.
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
+     * @throws Exception invalid request / unauthorized access
      */
     public function save()
     {
-        $input    = JFactory::getApplication()->input;
+        $input    = THM_OrganizerHelperComponent::getInput();
         $formData = $input->get('jform', [], 'array');
         $courseID = $formData['id'];
 
         if (empty($formData) or empty($courseID)) {
-            return false;
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+        }
+
+        if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $table = $this->getTable();

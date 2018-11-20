@@ -18,7 +18,7 @@ class THM_OrganizerModelBuilding extends JModelLegacy
      * Saves building data from the request form to the database.
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
@@ -26,7 +26,7 @@ class THM_OrganizerModelBuilding extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data  = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         $table = JTable::getInstance('buildings', 'thm_organizerTable');
 
         return $table->save($data);
@@ -36,6 +36,7 @@ class THM_OrganizerModelBuilding extends JModelLegacy
      * Removes building entries from the database.
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {

@@ -47,12 +47,12 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
         // Create the query
         $query  = $this->_db->getQuery(true);
         $select = "d.id, d.short_name_$shortTag AS short_name, d.name_$shortTag AS name, a.rules, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=department_edit&id='", "d.id"];
-        $select .= $query->concatenate($parts, "") . "AS link ";
+        $parts  = ["'index.php?option=com_thm_organizer&view=department_edit&id='", 'd.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
         $query->from('#__thm_organizer_departments AS d');
         $query->innerJoin('#__assets AS a ON d.asset_id = a.id');
-        $query->where("d.id IN ('" . implode("', '", $allowedDepartments) . "')");
+        $query->where('d.id IN (' . implode(',', $allowedDepartments) . ')');
 
         $this->setSearchFilter($query, ['short_name_de', 'name_de', 'short_name_en', 'name_en']);
         $this->setLocalizedFilters($query, ['short_name', 'name']);
@@ -96,20 +96,12 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction           = $this->state->get('list.direction', $this->defaultDirection);
-        $headers             = [];
-        $headers['checkbox'] = '';
-
-        $headers['short_name'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_SHORT_NAME',
-            'f.field',
-            $direction,
-            $ordering
-        );
-
-        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction             = $this->state->get('list.direction', $this->defaultDirection);
+        $headers               = [];
+        $headers['checkbox']   = '';
+        $headers['short_name'] = THM_OrganizerHelperComponent::sort('SHORT_NAME', 'f.field', $direction, $ordering);
+        $headers['name']       = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
 
         return $headers;
     }

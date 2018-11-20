@@ -60,7 +60,7 @@ li.active:not(.inactive) .tabs-toggle {
 }
 
 li.active:not(.inactive) [class^="icon-"]::before {
-    content: "\e935";
+    content: '\e935';
     font-family: IcoMoon !important;
     font-size: 1.3rem;
 }
@@ -133,7 +133,7 @@ button:focus {
     outline: none;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'], [class*=' icon-'] {
     color: #394a59;
 }
 
@@ -265,7 +265,7 @@ input[type=radio] {
 }
 
 .selected-schedule.shown .show-schedule span::before {
-    content: "\3c";
+    content: '\3c';
 }
 
 .selected-schedule .title {
@@ -487,11 +487,11 @@ input[type=radio] {
 }
 
 .module:before {
-    content: " (";
+    content: ' (';
 }
 
 .module:after {
-    content: ") ";
+    content: ') ';
 }
 
 .comment-container {
@@ -510,12 +510,12 @@ input[type=radio] {
 }
 
 .pool:nth-of-type(n+2):before {
-    content: " , ";
+    content: ' , ';
 }
 
 .person:nth-of-type(n+2):before,
 .location:nth-of-type(n+2):before {
-    content: " / ";
+    content: ' / ';
 }
 
 .add-lesson, .delete-lesson {
@@ -673,7 +673,7 @@ input[type=radio] {
 
 .lesson-menu .rooms span::before,
 .lesson-menu .persons span:nth-of-type(n+2)::before {
-    content: " / ";
+    content: ' / ';
 }
 
 .lesson-menu .pools {
@@ -691,7 +691,7 @@ input[type=radio] {
 
 .delete button::before {
     font-family: IcoMoon;
-    content: "\e935";
+    content: '\e935';
     color: #b54e62;
     display: inline-block;
     margin-right: 0.2rem;
@@ -700,7 +700,7 @@ input[type=radio] {
 
 .save button::before {
     font-family: IcoMoon;
-    content: "\5d";
+    content: '\5d';
     color: #80ba24;
     display: inline-block;
     margin-right: 0.2rem;
@@ -808,7 +808,7 @@ input[type=radio] {
 }
 
 .organizer.mobile .pools + .persons .person:nth-of-type(1):before {
-    content: " / ";
+    content: ' / ';
 }
 
 .organizer.mobile .locations {
@@ -816,7 +816,7 @@ input[type=radio] {
 }
 
 .organizer.mobile .location:nth-of-type(1):before {
-    content: " / ";
+    content: ' / ';
 }
 
 .organizer.mobile .message.pop-up {

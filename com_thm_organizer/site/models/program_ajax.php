@@ -32,37 +32,30 @@ class THM_OrganizerModelProgram_Ajax extends JModelLegacy
      * Retrieves subject entries from the database
      *
      * @return string  the subjects which fit the selected resource
-     * @throws Exception
      */
     public function programsByTeacher()
     {
         $dbo          = JFactory::getDbo();
         $defaultArray = explode('-', JFactory::getLanguage()->getTag());
         $defaultTag   = $defaultArray[0];
-        $language     = JFactory::getApplication()->input->get('languageTag', $defaultTag);
+        $language     = THM_OrganizerHelperComponent::getInput()->get('languageTag', $defaultTag);
         $query        = $dbo->getQuery(true);
-        $concateQuery = ["dp.name_$language", "', ('", "d.abbreviation", "' '", " dp.version", "')'"];
-        $query->select("dp.id, " . $query->concatenate($concateQuery, "") . " AS name");
+        $concateQuery = ["dp.name_$language", "', ('", 'd.abbreviation', "' '", ' dp.version', "')'"];
+        $query->select('dp.id, ' . $query->concatenate($concateQuery, '') . ' AS name');
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
 
         $teacherClauses = THM_OrganizerHelperMapping::getTeacherMappingClauses();
         if (!empty($teacherClauses)) {
-            $query->where("( ( " . implode(') OR (', $teacherClauses) . ") )");
+            $query->where('( ( ' . implode(') OR (', $teacherClauses) . ') )');
         }
 
         $query->order('name');
         $dbo->setQuery($query);
 
-        try {
-            $programs = $dbo->loadObjectList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+        $programs = THM_OrganizerHelperComponent::query('loadObjectList');
 
-            return '[]';
-        }
-
-        return json_encode($programs);
+        return empty($programs) ? '[]' : json_encode($programs);
     }
 }

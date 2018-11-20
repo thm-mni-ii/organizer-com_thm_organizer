@@ -47,8 +47,6 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
-     *
-     * @throws  \Exception
      */
     public function getTable($name = 'plan_pools', $prefix = 'thm_organizerTable', $options = [])
     {
@@ -58,11 +56,12 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
     /**
      * Performs batch processing of plan_pools, specifically their publication per period and their associated grids.
      *
-     * @return void
+     * @return bool true on success, otherwise false
+     * @throws Exception => unauthorized access
      */
     public function batch()
     {
-        $input    = JFactory::getApplication()->input;
+        $input    = THM_OrganizerHelperComponent::getInput();
         $pPoolIDs = $input->get('cid', [], 'array');
         if (empty($pPoolIDs)) {
             return false;
@@ -87,7 +86,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      * Merges plan pool entries and cleans association tables.
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function merge()
     {
@@ -96,7 +95,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             return false;
         }
 
-        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
+        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         return $this->savePublishing($formData['id']);
     }
@@ -105,7 +104,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      * Attempts to save a resource entry, updating schedule data as necessary.
      *
      * @return mixed  integer on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
@@ -113,7 +112,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             return false;
         }
 
-        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
+        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         if (empty($this->savePublishing($formData['id']))) {
             return false;
@@ -128,14 +127,13 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      * @param int $pPoolID the id of the plan pool
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
      */
     private function savePublishing($pPoolID)
     {
-        $formData = JFactory::getApplication()->input->get('jform', [], 'array');
+        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         if (!empty($formData['publishing'])) {
             foreach ($formData['publishing'] as $periodID => $publish) {
-                $table = JTable::getInstance("plan_pool_publishing", 'thm_organizerTable');
+                $table = JTable::getInstance('plan_pool_publishing', 'thm_organizerTable');
                 $data  = ['planPoolID' => $pPoolID, 'planningPeriodID' => $periodID];
                 $table->load($data);
                 $data['published'] = $publish;
@@ -165,14 +163,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
         $query->select('*')->from('#__thm_organizer_lesson_pools')->where("poolID = {$this->data['id']}");
         $this->_db->setQuery($query);
 
-        try {
-            $assocs = $this->_db->loadAssocList();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return false;
-        }
-
+        $assocs = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($assocs)) {
             return true;
         }
@@ -202,12 +193,8 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             $query       = $this->_db->getQuery(true);
             $query->delete('#__thm_organizer_lesson_pools')->where("id IN $idsToDelete");
             $this->_db->setQuery($query);
-
-            try {
-                $this->_db->execute();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
+            $success = (bool)THM_OrganizerHelperComponent::query('execute');
+            if (!$success) {
                 return false;
             }
         }

@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
-    "use strict";
-    jQuery("#export").click(function (e) {
+    'use strict';
+    jQuery('#export').click(function (e) {
         downloadTable();
         //just in case, prevent default behaviour
         e.preventDefault();
@@ -15,7 +15,7 @@ jQuery(document).ready(function () {
             year = dt.getFullYear(),
             hour = dt.getHours(),
             mins = dt.getMinutes(),
-            created = day + "-" + month + "-" + year + "_" + hour + "-" + mins,
+            created = day + '-' + month + '-' + year + '_' + hour + '-' + mins,
             divID = 'thm_organizer-consumption-table',
             sheetName = 'deputat-' + created;
 
@@ -45,7 +45,7 @@ jQuery(document).ready(function () {
                     var blobObject = new Blob(fileData);
                     window.navigator.msSaveOrOpenBlob(blobObject, filename);
                 }
-                else if (navigator.userAgent.indexOf("Safari") >= 0 && navigator.userAgent.indexOf("OPR") === -1 && navigator.userAgent.indexOf("Chrome") === -1)
+                else if (navigator.userAgent.indexOf('Safari') >= 0 && navigator.userAgent.indexOf('OPR') === -1 && navigator.userAgent.indexOf('Chrome') === -1)
                 {
                     // Safari
                     // No possibility to define the file name :(

@@ -13,13 +13,12 @@ defined('_JEXEC') or die;
 /**
  * Provides general functions for language data retrieval and display.
  */
-class THM_OrganizerHelperLanguage
+class THM_OrganizerHelperLanguage extends JLanguage
 {
     /**
      * Sets the Joomla Language based on input from the language switch
      *
      * @return JLanguage
-     * @throws Exception
      */
     public static function getLanguage()
     {
@@ -49,7 +48,6 @@ class THM_OrganizerHelperLanguage
      * Retrieves the two letter language identifier
      *
      * @return string
-     * @throws Exception
      */
     public static function getLongTag()
     {
@@ -60,11 +58,10 @@ class THM_OrganizerHelperLanguage
      * Retrieves the two letter language identifier
      *
      * @return string
-     * @throws Exception
      */
     public static function getShortTag()
     {
-        $app          = JFactory::getApplication();
+        $app          = THM_OrganizerHelperComponent::getApplication();
         $requestedTag = $app->input->get('languageTag');
 
         if (!empty($requestedTag)) {
@@ -88,11 +85,10 @@ class THM_OrganizerHelperLanguage
      * @param array $params the configuration parameters
      *
      * @return array  html links for language redirection
-     * @throws Exception
      */
     public static function getLanguageSwitches($params = [])
     {
-        $input = JFactory::getApplication()->input;
+        $input = THM_OrganizerHelperComponent::getInput();
 
         $link = empty($params['view']) ? false : true;
 

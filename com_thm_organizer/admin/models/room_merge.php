@@ -19,7 +19,6 @@ class THM_OrganizerModelRoom_Merge extends THM_OrganizerModelForm
      * Checks for user authorization to access the view.
      *
      * @return bool  true if the user can access the view, otherwise false
-     * @throws Exception
      */
     protected function allowEdit()
     {

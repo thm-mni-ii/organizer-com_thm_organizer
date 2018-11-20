@@ -28,7 +28,7 @@ class THM_OrganizerHelperXMLPrograms
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->departments)) {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAMS_MISSING");
+            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
 
             return;
         }
@@ -47,14 +47,13 @@ class THM_OrganizerHelperXMLPrograms
      * @param object &$programNode   the degree (program/department) node to be validated
      *
      * @return void
-     * @throws Exception
      */
     private static function validateIndividual(&$scheduleModel, &$programNode)
     {
         $programID = trim((string)$programNode[0]['id']);
         if (empty($programID)) {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING"), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING");
+            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
             }
 
             return;

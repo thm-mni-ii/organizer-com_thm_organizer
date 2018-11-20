@@ -18,7 +18,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      * Attempts to save the form data
      *
      * @return mixed  int department id on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
@@ -26,14 +26,14 @@ class THM_OrganizerModelDepartment extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         $this->_db->transactionStart();
         $department = JTable::getInstance('departments', 'thm_organizerTable');
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -52,7 +52,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      * Attempts to save altered form data as a new entry
      *
      * @return mixed  int department id on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save2copy()
     {
@@ -60,7 +60,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         if (isset($data['id'])) {
             unset($data['id']);
         }
@@ -70,7 +70,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -89,6 +89,7 @@ class THM_OrganizerModelDepartment extends JModelLegacy
      * Removes departments entries from the database
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {

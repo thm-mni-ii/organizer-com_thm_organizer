@@ -24,37 +24,27 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
      * Returns a select box where resource attributes can be selected
      *
      * @return string  the HTML select box
-     * @throws Exception
      */
     protected function getInput()
     {
         $dbo         = JFactory::getDbo();
         $periodQuery = $dbo->getQuery(true);
-        $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order("startDate ASC");
+        $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order('startDate ASC');
         $dbo->setQuery($periodQuery);
 
-        try {
-            $periods = $dbo->loadAssocList('id');
-        } catch (Exception $exc) {
-            return '';
-        }
-
+        $periods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
         if (empty($periods)) {
             return '';
         }
 
-        $poolID    = JFactory::getApplication()->input->getInt('id');
+        $poolID    = THM_OrganizerHelperComponent::getInput()->getInt('id');
         $poolQuery = $dbo->getQuery(true);
         $poolQuery->select('planningPeriodID, published')
             ->from('#__thm_organizer_plan_pool_publishing')
             ->where("planPoolID = '$poolID'");
         $dbo->setQuery($poolQuery);
 
-        try {
-            $publishingEntries = $dbo->loadAssocList('planningPeriodID');
-        } catch (Exception $exc) {
-            return '';
-        }
+        $publishingEntries = THM_OrganizerHelperComponent::query('loadAssocList', [], 'planningPeriodID');
 
         $return = '<div class="publishing-container">';
         foreach ($periods as $period) {
@@ -62,7 +52,7 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
             $pName = $period['name'];
 
             $return .= '<div class="period-container">';
-            $return .= '<div class="period-label">' . $pName . "</div>";
+            $return .= '<div class="period-label">' . $pName . '</div>';
             $return .= '<div class="period-input">';
             $return .= '<select id="jform_publishing_' . $pID . '" name="jform[publishing][' . $pID . ']" class="chzn-color-state">';
 

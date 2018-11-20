@@ -29,7 +29,7 @@ class THM_OrganizerTemplateList
         $filters = $view->filterForm->getGroup('filter');
         ?>
         <div id="j-main-container" class="span10">
-            <form action="index.php?" id="adminForm" method="post" name="adminForm">
+            <form action="?" id="adminForm" method="post" name="adminForm">
                 <div class="searchArea">
                     <div class="js-stools clearfix">
                         <div class="clearfix">
@@ -136,7 +136,7 @@ class THM_OrganizerTemplateList
         $headerNames = array_keys($headers);
         echo '<tr>';
         foreach ($headerNames as $name) {
-            $name       = str_replace('.', '_', $name);
+            $name = str_replace('.', '_', $name);
             if ($name == 'checkbox') {
                 echo str_replace('XXXX', JHtml::_('grid.checkall'), $template);
                 continue;

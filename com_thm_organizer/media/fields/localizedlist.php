@@ -31,7 +31,6 @@ class JFormFieldLocalizedList extends JFormFieldList
      * Use the show_root attribute to specify whether to show the global category root in the list.
      *
      * @return array  The field option objects.
-     * @throws Exception
      */
     protected function getOptions()
     {
@@ -44,22 +43,21 @@ class JFormFieldLocalizedList extends JFormFieldList
 
         $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
         $this->setFrom($query);
-        $query->order("text ASC");
+        $query->order('text ASC');
         $dbo->setQuery($query);
 
-        try {
-            $resources = $dbo->loadAssocList();
-            $options   = [];
-            foreach ($resources as $resource) {
-                $options[] = JHtml::_('select.option', $resource['value'], $resource['text']);
-            }
-
-            return array_merge(parent::getOptions(), $options);
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return parent::getOptions();
+        $defaultOptions = parent::getOptions();
+        $resources      = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($resources)) {
+            return $defaultOptions;
         }
+
+        $options = [];
+        foreach ($resources as $resource) {
+            $options[] = JHtml::_('select.option', $resource['value'], $resource['text']);
+        }
+
+        return array_merge($defaultOptions, $options);
     }
 
     /**

@@ -53,13 +53,13 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
         // Create the sql query
         $query  = $dbo->getQuery(true);
         $select = "DISTINCT s.id, externalID, s.name_$shortTag AS name, field_$shortTag AS field, color, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=subject_edit&id='", "s.id"];
-        $select .= $query->concatenate($parts, "") . " AS link ";
+        $parts  = ["'index.php?option=com_thm_organizer&view=subject_edit&id='", 's.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
         $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->where("(s.departmentID IN ('" . implode("', '", $allowedDepartments) . "') OR s.departmentID IS NULL)");
+        $query->where('(s.departmentID IN (' . implode(',', $allowedDepartments) . ') OR s.departmentID IS NULL)');
 
         $searchFields = [
             's.name_de',
@@ -88,7 +88,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
         THM_OrganizerHelperMapping::setResourceIDFilter($query, $poolID, 'pool', 'subject');
         $isPrepCourse = $this->state->get('list.is_prep_course', '');
         if ($isPrepCourse !== "") {
-            $query->where("is_prep_course =" . $isPrepCourse);
+            $query->where("is_prep_course = $isPrepCourse");
         }
 
         $this->setOrdering($query);
@@ -140,22 +140,13 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $headers   = [];
-
-        $headers['checkbox'] = '';
-        $headers['name']     = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
-
-        $headers['externalID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_EXTERNAL_ID',
-            'externalID',
-            $direction,
-            $ordering
-        );
-
-        $headers['field'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
+        $ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction             = $this->state->get('list.direction', $this->defaultDirection);
+        $headers               = [];
+        $headers['checkbox']   = '';
+        $headers['name']       = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
+        $headers['externalID'] = THM_OrganizerHelperComponent::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
+        $headers['field']      = THM_OrganizerHelperComponent::sort('FIELD', 'field', $direction, $ordering);
 
         return $headers;
     }
@@ -166,7 +157,6 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
      * @param string $idColumn not used
      *
      * @return integer  The total number of items available in the data set.
-     * @throws Exception
      */
     public function getTotal($idColumn = null)
     {
@@ -177,22 +167,16 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
         $dbo = JFactory::getDbo();
         $dbo->setQuery($query);
 
-        try {
-            $result = $dbo->loadResult();
-
-            return $result;
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage());
-
-            return null;
-        }
+        return (int)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
-     * Overwrites the JModelList populateState function
+     * Method to auto-populate the model state.
      *
-     * @param string $ordering  the column by which the table is should be ordered
-     * @param string $direction the direction in which this column should be ordered
+     * @param   string $ordering  An optional ordering field.
+     * @param   string $direction An optional direction (asc|desc).
+     *
+     * @return void
      */
     protected function populateState($ordering = null, $direction = null)
     {

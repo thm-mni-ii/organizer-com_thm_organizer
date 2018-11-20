@@ -20,13 +20,11 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
     /**
      * Gets the pool options as a string
      *
-     * @param bool $short whether or not the options should use abbreviated names
-     *
      * @return string the concatenated plan pool options
      */
-    public function getPlanOptions($short = false)
+    public function getPlanOptions()
     {
-        $planOptions = THM_OrganizerHelperTeachers::getPlanTeachers($short);
+        $planOptions = THM_OrganizerHelperTeachers::getPlanTeachers();
 
         return json_encode($planOptions);
     }
@@ -35,11 +33,10 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
      * Retrieves teacher entries from the database
      *
      * @return string  the teachers who hold courses for the selected program and pool
-     * @throws Exception
      */
     public function teachersByProgramOrPool()
     {
-        $input     = JFactory::getApplication()->input;
+        $input     = THM_OrganizerHelperComponent::getInput();
         $programID = $input->getString('programID');
         $poolID    = $input->getString('poolID');
 
@@ -55,7 +52,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT t.id, t.forename, t.surname")->from('#__thm_organizer_teachers AS t');
+        $query->select('DISTINCT t.id, t.forename, t.surname')->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
         if (!empty($boundarySet)) {
@@ -74,14 +71,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
         $query->order('t.surname');
         $dbo->setQuery($query);
 
-        try {
-            $teachers = $dbo->loadObjectList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return '[]';
-        }
-
+        $teachers = THM_OrganizerHelperComponent::query('loadObjectList');
         if (empty($teachers)) {
             return '';
         }

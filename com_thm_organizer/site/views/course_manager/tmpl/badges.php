@@ -21,6 +21,8 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
      * THMOrganizerTemplatePC_Badges_Export constructor.
      *
      * @param int $lessonID the lessonID of the exported course
+     *
+     * @throws Exception => invalid request / unauthorized access / not found
      */
     public function __construct($lessonID)
     {
@@ -137,7 +139,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $dateLine = $this->course['start'] . ' - ' . $this->course['end'];
 
         if (!empty($this->course['place'])) {
-            $dateLine .= strlen($this->course['place']) > 10 ? "\n" : '';
+            $dateLine .= strlen($this->course['place']) > 10 ? '\n' : '';
             $dateLine .= ' in ' . $this->course['place'];
             $this->document->MultiCell(80, 5, $dateLine, 0, 'C', false, 2);
         } else {

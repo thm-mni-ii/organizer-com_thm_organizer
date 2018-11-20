@@ -24,10 +24,14 @@ class THM_OrganizerModelParticipant extends JModelLegacy
      * @param string $state         the state requested by the user
      *
      * @return boolean true on success, false on error
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function register($participantID, $courseID, $state)
     {
+        if (!JFactory::getUser()->id === $participantID) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        }
+
         $canAccept = (int)THM_OrganizerHelperCourses::canAcceptParticipant($courseID);
         $state     = $state == 1 ? $canAccept : 2;
 
@@ -38,17 +42,17 @@ class THM_OrganizerModelParticipant extends JModelLegacy
      * Saves user information to database
      *
      * @return boolean true on success, false on error
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access
      */
     public function save()
     {
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
-        if (empty($data)) {
-            return false;
+        if (empty($data) or empty($data['id'])) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        if (empty($data['id']) or $data['id'] !== JFactory::getUser()->id) {
+        if ($data['id'] !== JFactory::getUser()->id) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
@@ -104,7 +108,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
             return false;
         }
 
-        $table->load($data["id"]);
+        $table->load($data['id']);
 
         if (empty($table->id)) {
             $initial = true;
@@ -126,13 +130,7 @@ class THM_OrganizerModelParticipant extends JModelLegacy
                 ->values($values);
             $this->_db->setQuery($query);
 
-            try {
-                return (bool)$this->_db->execute();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                return false;
-            }
+            return (bool)THM_OrganizerHelperComponent::query('execute');
         } else {
             return (bool)$table->save($data);
         }

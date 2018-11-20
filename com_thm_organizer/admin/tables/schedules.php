@@ -33,8 +33,6 @@ class THM_OrganizerTableSchedules extends JTable
      */
     protected function _getAssetTitle()
     {
-        $default = "Organizer Schedule";
-
         $dbo       = JFactory::getDbo();
         $deptQuery = $dbo->getQuery(true);
         $deptQuery->select('short_name_en')
@@ -42,11 +40,7 @@ class THM_OrganizerTableSchedules extends JTable
             ->where("id = '{$this->departmentID}'");
 
         $dbo->setQuery($deptQuery);
-        try {
-            $deptName = $dbo->loadResult();
-        } catch (Exception $exception) {
-            return $default;
-        }
+        $deptName = (string)THM_OrganizerHelperComponent::query('loadResult');
 
         $planPeriodQuery = $dbo->getQuery(true);
         $planPeriodQuery->select('name')
@@ -54,11 +48,7 @@ class THM_OrganizerTableSchedules extends JTable
             ->where("id = '{$this->planningPeriodID}'");
 
         $dbo->setQuery($planPeriodQuery);
-        try {
-            $planPeriodName = $dbo->loadResult();
-        } catch (Exception $exception) {
-            return $default;
-        }
+        $planPeriodName = (string)THM_OrganizerHelperComponent::query('loadResult');
 
         return "Organizer Schedule: $deptName - $planPeriodName";
     }

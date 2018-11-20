@@ -9,7 +9,7 @@
 function closeIframeWindow(divID, type)
 {
     getCheckedItems(divID, type);
-    jQuery("button.close").trigger("click");
+    jQuery('button.close').trigger('click');
 }
 
 /**
@@ -17,7 +17,7 @@ function closeIframeWindow(divID, type)
  */
 window.onload = function () {
 
-    const forms = document.getElementsByTagName("form"),
+    const forms = document.getElementsByTagName('form'),
         childToolbar = jQuery('#children-toolbar'),
         poolButton = jQuery('#toolbar-popup-list').detach(),
         subjectButton = jQuery('#toolbar-popup-book').detach();

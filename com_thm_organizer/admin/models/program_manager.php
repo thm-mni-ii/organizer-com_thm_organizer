@@ -47,15 +47,15 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
         $query  = $this->_db->getQuery(true);
         $select = "dp.name_$shortTag AS name, version, ";
         $select .= "dp.id AS id, d.abbreviation AS abbreviation, dpt.short_name_$shortTag AS departmentname, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=program_edit&id='", "dp.id"];
-        $select .= $query->concatenate($parts, "") . "AS link ";
+        $parts  = ["'index.php?option=com_thm_organizer&view=program_edit&id='", 'dp.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
 
         $query->from('#__thm_organizer_programs AS dp');
         $query->leftJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
         $query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
-        $query->where("(dp.departmentID IN (" . implode(", ", $allowedDepartments) . ") OR dp.departmentID IS NULL)");
+        $query->where('(dp.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dp.departmentID IS NULL)');
 
         $searchColumns = ['dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en'];
         $this->setSearchFilter($query, $searchColumns);
@@ -102,36 +102,16 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $headers   = [];
-
+        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction           = $this->state->get('list.direction', $this->defaultDirection);
+        $headers             = [];
         $headers['checkbox'] = '';
-        $headers['dp.name']  = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['dp.name']  = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
+        $headers['degreeID'] = THM_OrganizerHelperComponent::sort('DEGREE', 'abbreviation', $direction, $ordering);
+        $headers['version']  = THM_OrganizerHelperComponent::sort('VERSION', 'version', $direction, $ordering);
 
-        $headers['degreeID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_DEGREE',
-            'abbreviation',
-            $direction,
-            $ordering
-        );
-
-        $headers['version'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_VERSION',
-            'version',
-            $direction,
-            $ordering
-        );
-
-        $headers['departmentID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_DEPARTMENT',
-            'departmentID',
-            $direction,
-            $ordering
-        );
+        $headers['departmentID']
+            = THM_OrganizerHelperComponent::sort('DEPARTMENT', 'departmentID', $direction, $ordering);
 
         return $headers;
     }

@@ -224,8 +224,10 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
     /**
      * Gets the text to be displayed in the row cells
      *
-     * @param array $columnHeaders the column header information: value => the date (Y-m-d), text => the text to display
-     * @param array $rowHeader     the row header information: start- and endTime used for indexing, text => the text to display
+     * @param array $columnHeaders the column header information:
+     *                             value => the date (Y-m-d), text => the text to display
+     * @param array $rowHeader     the row header information:
+     *                             start- and endTime used for indexing, text => the text to display
      *
      * @return array
      */
@@ -302,7 +304,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
                 return true;
             }
 
-            $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
+            $currentDate = date('Y-m-d', strtotime('+1 day', strtotime($currentDate)));
         }
 
         return false;
@@ -326,9 +328,9 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 
         while (!empty($columnHeaders[$startDate])) {
             $startDateText = THM_OrganizerHelperDate::formatDate($startDate);
-            $endDate       = date('Y-m-d', strtotime("+6 day", strtotime($startDate)));
+            $endDate       = date('Y-m-d', strtotime('+6 day', strtotime($startDate)));
             $endDateText   = THM_OrganizerHelperDate::formatDate($endDate);
-            $breakDate     = date('Y-m-d', strtotime("+7 day", strtotime($startDate)));
+            $breakDate     = date('Y-m-d', strtotime('+7 day', strtotime($startDate)));
 
             $showSegment = $this->outputSegment($startDate, $endDate);
 

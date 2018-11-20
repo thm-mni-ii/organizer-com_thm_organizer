@@ -28,12 +28,9 @@ class THM_OrganizerHelperParticipants
      * @param int $state         the requested state
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
      */
     public static function changeState($participantID, $courseID, $state)
     {
-        $lang = THM_OrganizerHelperLanguage::getLanguage();
-
         switch ($state) {
             case self::WAIT_LIST:
             case self::REGISTERED:
@@ -41,8 +38,8 @@ class THM_OrganizerHelperParticipants
                 $table = JTable::getInstance('user_lessons', 'THM_OrganizerTable');
 
                 $data = [
-                    "lessonID" => $courseID,
-                    "userID"   => $participantID
+                    'lessonID' => $courseID,
+                    'userID'   => $participantID
                 ];
 
                 $table->load($data);
@@ -60,25 +57,17 @@ class THM_OrganizerHelperParticipants
             case self::REMOVED:
                 $dbo   = JFactory::getDbo();
                 $query = $dbo->getQuery(true);
-                $query->delete("#__thm_organizer_user_lessons");
+                $query->delete('#__thm_organizer_user_lessons');
                 $query->where("userID = '$participantID'");
                 $query->where("lessonID = '$courseID'");
                 $dbo->setQuery($query);
-
-                try {
-                    $success = $dbo->execute();
-                } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(
-                        $lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error'
-                    );
-
+                $success = (bool)THM_OrganizerHelperComponent::query('execute');
+                if (!$success) {
                     return false;
                 }
 
                 break;
         }
-
 
         if (empty($success)) {
             return false;
@@ -97,21 +86,20 @@ class THM_OrganizerHelperParticipants
      * @param int $state         the requested state
      *
      * @return void
-     * @throws Exception
      */
     private static function notify($participantID, $courseID, $state)
     {
         $mailer = JFactory::getMailer();
-        $input  = JFactory::getApplication()->input;
+        $input  = THM_OrganizerHelperComponent::getInput();
 
         $user       = JFactory::getUser($participantID);
         $userParams = json_decode($user->params, true);
         $mailer->addRecipient($user->email);
 
-        if (!empty($userParams["language"])) {
-            $input->set('languageTag', explode("-", $userParams["language"])[0]);
+        if (!empty($userParams['language'])) {
+            $input->set('languageTag', explode('-', $userParams['language'])[0]);
         } else {
-            $officialAbbreviation = THM_OrganizerHelperCourses::getCourse($courseID)["instructionLanguage"];
+            $officialAbbreviation = THM_OrganizerHelperCourses::getCourse($courseID)['instructionLanguage'];
             $tag                  = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
             $input->set('languageTag', $tag);
         }
@@ -134,17 +122,17 @@ class THM_OrganizerHelperParticipants
 
         $lang       = THM_OrganizerHelperLanguage::getLanguage();
         $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
-        $courseName = (empty($campus) or empty($campus['name'])) ? $course["name"] : "{$course["name"]} ({$campus['name']})";
+        $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
         $mailer->setSubject($courseName);
-        $body = $lang->_("COM_THM_ORGANIZER_GREETING") . ",\n\n";
+        $body = $lang->_('COM_THM_ORGANIZER_GREETING') . ',\n\n';
 
         $dates = explode(' - ', $dateText);
 
         if (count($dates) == 1 or $dates[0] == $dates[1]) {
-            $body .= sprintf($lang->_("COM_THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE") . ":\n\n", $courseName, $dates[0]);
+            $body .= sprintf($lang->_('COM_THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
         } else {
             $body .= sprintf(
-                $lang->_("COM_THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES") . ":\n\n", $courseName, $dates[0],
+                $lang->_('COM_THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n', $courseName, $dates[0],
                 $dates[1]
             );
         }
@@ -153,34 +141,34 @@ class THM_OrganizerHelperParticipants
 
         switch ($state) {
             case 0:
-                $statusText .= $lang->_("COM_THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST");
+                $statusText .= $lang->_('COM_THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
                 break;
             case 1:
-                $statusText .= $lang->_("COM_THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED");
+                $statusText .= $lang->_('COM_THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
                 break;
             case 2:
-                $statusText .= $lang->_("COM_THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED");
+                $statusText .= $lang->_('COM_THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
                 break;
             default:
                 return;
         }
 
-        $body .= " => " . $statusText . "\n\n";
+        $body .= ' => ' . $statusText . '\n\n';
 
-        $body .= $lang->_("COM_THM_ORGANIZER_CLOSING") . ",\n";
-        $body .= $sender->name . "\n\n";
-        $body .= $sender->email . "\n";
+        $body .= $lang->_('COM_THM_ORGANIZER_CLOSING') . ',\n';
+        $body .= $sender->name . '\n\n';
+        $body .= $sender->email . '\n';
 
         $addressParts = explode(' – ', $params->get('address'));
 
         foreach ($addressParts as $aPart) {
-            $body .= $aPart . "\n";
+            $body .= $aPart . '\n';
         }
 
         $contactParts = explode(' – ', $params->get('contact'));
 
         foreach ($contactParts as $cPart) {
-            $body .= $cPart . "\n";
+            $body .= $cPart . '\n';
         }
 
         $mailer->setBody($body);

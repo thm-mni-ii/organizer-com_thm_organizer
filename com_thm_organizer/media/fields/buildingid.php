@@ -26,19 +26,18 @@ class JFormFieldBuildingID extends JFormFieldList
      * Returns a select box where stored buildings can be chosen
      *
      * @return array  the available buildings
-     * @throws Exception
      */
     protected function getOptions()
     {
         $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
-        $input          = JFactory::getApplication()->input;
+        $input          = THM_OrganizerHelperComponent::getInput();
         $formData       = $input->get('jform', [], 'array');
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("DISTINCT b.id, b.name, c.id AS campusID, c.parentID");
+        $query->select('DISTINCT b.id, b.name, c.id AS campusID, c.parentID');
         $query->from('#__thm_organizer_buildings AS b')
             ->leftJoin('#__thm_organizer_campuses AS c ON c.id = b.campusID');
 
@@ -49,19 +48,13 @@ class JFormFieldBuildingID extends JFormFieldList
         $query->order('name');
         $dbo->setQuery($query);
 
-        try {
-            $buildings = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return $defaultOptions;
-        }
-
+        $buildings = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($buildings)) {
             return $defaultOptions;
         }
 
-        $index   = 0;
         $options = [];
-        for ($index; $index < count($buildings); $index++) {
+        for ($index = 0; $index < count($buildings); $index++) {
             $thisBuilding = $buildings[$index];
 
             // Nothing to compare, or the comparison reveals non-identical names

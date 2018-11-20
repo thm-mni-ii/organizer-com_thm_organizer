@@ -27,7 +27,7 @@ class THM_OrganizerHelperDate
         $formattedDate = date(self::getFormat(), strtotime($date));
 
         if ($withText) {
-            $textFormat = $short ? 'D' : 'l';
+            $textFormat    = $short ? 'D' : 'l';
             $shortDOW      = date($textFormat, strtotime($date));
             $text          = JText::_(strtoupper($shortDOW));
             $formattedDate = "$text $formattedDate";
@@ -70,7 +70,7 @@ class THM_OrganizerHelperDate
      */
     public static function isStandardized($date)
     {
-        $dt = DateTime::createFromFormat("Y-m-d", $date);
+        $dt = DateTime::createFromFormat('Y-m-d', $date);
 
         return ($dt !== false and !array_sum($dt->getLastErrors()));
     }

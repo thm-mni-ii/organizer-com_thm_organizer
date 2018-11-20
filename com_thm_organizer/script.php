@@ -139,7 +139,7 @@ class Com_THM_OrganizerInstallerScript
      * Removes folder contents before update to ensure removal of deprecated files
      *
      * @param string $type   the type of action being performed with the component.
-     * @param object $parent the "parent" running this script
+     * @param object $parent the 'parent' running this script
      *
      * @return void
      *
@@ -200,7 +200,7 @@ class Com_THM_OrganizerInstallerScript
     {
         $dirDeleted = JFolder::delete(JPATH_SITE . '/images/thm_organizer');
         if (!$dirDeleted) {
-            echo JText::_('The directory located at "/images/thm_organizer" could not be removed.');
+            echo JText::_('The directory located at &quot;/images/thm_organizer&quot; could not be removed.');
         }
     }
 
@@ -222,7 +222,7 @@ class Com_THM_OrganizerInstallerScript
         $dirCreated = $this->createImageDirectory();
         if (!$dirCreated) {
             $failText = sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_IMAGE_FOLDER_FAIL'), $imagePath);
-            $dirSpan  .= '<span style="color:red" >' . $failText . "</span>";
+            $dirSpan  .= '<span style="color:red" >' . $failText . '</span>';
         }
         $updateText = sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE'), $version, $licenseLink);
         ?>

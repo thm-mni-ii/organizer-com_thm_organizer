@@ -4,7 +4,7 @@ jQuery(document).ready(function () {
         mappingsTab = jQuery("[href*='#mappings']").parent(),
 
         // <hr> Containers
-        hrs = jQuery(".field-spacer");
+        hrs = jQuery('.field-spacer');
 
     let advanced, relevant_fields, irrelevant_fields;
 
@@ -72,11 +72,11 @@ jQuery(document).ready(function () {
      */
     function prepareForm()
     {
-        if (isPrepCourse.val() == 1)
+        if (isPrepCourse.val() === 1)
         {
             relevant_fields.forEach(
                 function (elem) {
-                    elem.prop('hidden', false).trigger("liszt:updated");
+                    elem.prop('hidden', false).trigger('liszt:updated');
                 }
             );
             irrelevant_fields
@@ -85,7 +85,7 @@ jQuery(document).ready(function () {
                 .concat(hrs)
                 .forEach(
                     function (elem) {
-                        elem.prop('hidden', true).trigger("liszt:updated");
+                        elem.prop('hidden', true).trigger('liszt:updated');
                     }
                 );
         }
@@ -93,12 +93,12 @@ jQuery(document).ready(function () {
         {
             relevant_fields.forEach(
                 function (elem) {
-                    elem.prop('hidden', true).trigger("liszt:updated");
+                    elem.prop('hidden', true).trigger('liszt:updated');
                 }
             );
             irrelevant_fields.concat(advanced).concat(mappingsTab).forEach(
                 function (elem) {
-                    elem.prop('hidden', false).trigger("liszt:updated");
+                    elem.prop('hidden', false).trigger('liszt:updated');
                 }
             );
         }

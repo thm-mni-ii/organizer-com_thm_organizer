@@ -60,7 +60,7 @@
 }
 
 .panel-title {
-  font-family: "THM-Medium";
+  font-family: $font-family-header;
   font-size: 130%;
   cursor: pointer;
 
@@ -70,8 +70,7 @@
 }
 
 .main-panel-items {
-  margin: 2px 1px 3px 1px;
-  margin-left: 2px;
+  margin: 2px 1px 3px 2px;
 }
 
 .main-panel-items .item, .modal-panel-items .item {
@@ -141,7 +140,7 @@
   padding-top: 5px;
 
   &:before {
-    content: "\59";
+    content: '\59';
     margin-left: -1px;
     font-size: 17px;
   }
@@ -200,7 +199,6 @@
   margin: 3px;
 
   .item-name {
-    -ms-word-break: break-all;
     word-break: break-all;
   }
 }

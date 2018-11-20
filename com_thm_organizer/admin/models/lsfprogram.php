@@ -22,35 +22,25 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * @param int $programID the id of the degree program
      *
      * @return array  empty if the program could not be found
-     * @throws Exception
      */
     private function getSavedProgramData($programID)
     {
         $query = $this->_db->getQuery(true);
-        $query->select("p.code AS program, d.code AS degree, version, departmentID");
+        $query->select('p.code AS program, d.code AS degree, version, departmentID');
         $query->from('#__thm_organizer_programs AS p');
         $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->where("p.id = '$programID'");
         $this->_db->setQuery($query);
 
-        try {
-            $lsfData = $this->_db->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
-
-        return empty($lsfData) ? [] : $lsfData;
+        return THM_OrganizerHelperComponent::query('loadAssoc', []);
     }
 
     /**
-     * Retrieves the disctict subject ids associated with the program
+     * Retrieves the distinct subject ids associated with the program
      *
      * @param int $programID the program's id
      *
      * @return array|mixed the subject ids
-     * @throws Exception
      */
     private function getSubjectIDs($programID)
     {
@@ -59,29 +49,23 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         $query = $this->_db->getQuery(true);
         $query->select('DISTINCT subjectID')
             ->from('#__thm_organizer_mappings')
-            ->where("subjectID IS NOT NULL")
+            ->where('subjectID IS NOT NULL')
             ->where("lft > '{$borders[0]['lft']}'")
             ->where("rgt < '{$borders[0]['rgt']}'");
         $this->_db->setQuery($query);
 
-        try {
-            return $this->_db->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return [];
-        }
+        return THM_OrganizerHelperComponent::query('loadColumn', []);
     }
 
     /**
      * Method to import data associated with degree programs from LSF
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function importBatch()
     {
-        $programIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $programIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
 
         $this->_db->transactionStart();
         foreach ($programIDs as $programID) {
@@ -110,13 +94,12 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * @param int $programID the id of the program to be imported
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
      */
-    public function importSingle($programID)
+    private function importSingle($programID)
     {
         $programData = $this->getSavedProgramData($programID);
         if (empty($programData)) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
 
             return false;
         }
@@ -215,11 +198,11 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
      * Method to update subject data associated with degree programs from LSF
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function updateBatch()
     {
-        $programIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $programIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
 
         if (empty($programIDs)) {
             return false;

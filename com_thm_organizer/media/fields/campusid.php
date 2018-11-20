@@ -29,7 +29,6 @@ class JFormFieldCampusID extends JFormFieldList
      * Use the multiple attribute to enable multiselect.
      *
      * @return string  The field input markup.
-     * @throws Exception
      */
     protected function getInput()
     {
@@ -76,11 +75,11 @@ class JFormFieldCampusID extends JFormFieldList
                 }
 
                 foreach ($this->value as $value) {
-                    $value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+                    $value  = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
                     $html[] = '<input type="hidden" name="' . $this->name . '" value="' . $value . '"/>';
                 }
             } else {
-                $value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
+                $value  = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
                 $html[] = '<input type="hidden" name="' . $this->name . '" value="' . $value . '"/>';
             }
         } else // Create a regular list.
@@ -104,7 +103,6 @@ class JFormFieldCampusID extends JFormFieldList
      * Returns an array of pool options
      *
      * @return array  the pool options
-     * @throws Exception
      */
     protected function getOptions()
     {

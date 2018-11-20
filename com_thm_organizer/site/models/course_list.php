@@ -20,7 +20,6 @@ class THM_OrganizerModelCourse_List extends JModelList
      * Method to get an array of data items.
      *
      * @return mixed  An array of data items on success, false on failure.
-     * @throws Exception
      */
     public function getItems()
     {
@@ -73,20 +72,20 @@ class THM_OrganizerModelCourse_List extends JModelList
             ->group('lessonID');
 
         $courseQuery->select("s.id as subjectID, ls.lessonID, s.name_$tag as name, sq.start, sq.end, sq.expired");
-        $courseQuery->select("l.campusID AS campusID, s.campusID AS abstractCampusID");
+        $courseQuery->select('l.campusID AS campusID, s.campusID AS abstractCampusID');
         $courseQuery->from('#__thm_organizer_subjects as s');
         $courseQuery->innerJoin('#__thm_organizer_subject_mappings as sm on sm.subjectID = s.id');
         $courseQuery->innerJoin('#__thm_organizer_lesson_subjects as ls on ls.subjectID = sm.plan_subjectID');
         $courseQuery->innerJoin('#__thm_organizer_lessons as l on ls.lessonID = l.id');
         $courseQuery->innerJoin("($subQuery) as sq on sq.lessonID = ls.lessonID");
         $courseQuery->where("is_prep_course = '1' and ls.subjectID is not null and sq.start is not null");
-        $courseQuery->order("end DESC, name ASC");
+        $courseQuery->order('end DESC, name ASC');
 
         switch ($this->state->status) {
-            case "pending":
+            case 'pending':
                 $courseQuery->where("sq.expired = '0'");
                 break;
-            case "expired":
+            case 'expired':
                 $courseQuery->where("sq.expired = '1'");
                 break;
         }
@@ -115,12 +114,16 @@ class THM_OrganizerModelCourse_List extends JModelList
     /**
      * Method to auto-populate the model state.
      *
+     * @param   string $ordering  An optional ordering field.
+     * @param   string $direction An optional direction (asc|desc).
+     *
      * @return void
-     * @throws Exception
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function populateState()
+    protected function populateState($ordering = null, $direction = null)
     {
-        $app      = JFactory::getApplication();
+        $app      = THM_OrganizerHelperComponent::getApplication();
         $formData = $app->input->get('jform', [], 'array');
 
         if (empty($formData)) {

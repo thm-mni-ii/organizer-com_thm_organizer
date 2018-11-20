@@ -20,12 +20,11 @@ class JFormFieldSubjectMapping extends JFormField
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
      *
      * @return string  the HTML output
-     * @throws Exception
      */
     public function getInput()
     {
         $fieldName = $this->getAttribute('name');
-        $subjectID = JFactory::getApplication()->input->getInt('id', 0);
+        $subjectID = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
 
         $dbo           = JFactory::getDbo();
         $selectedQuery = $dbo->getQuery(true);
@@ -33,26 +32,16 @@ class JFormFieldSubjectMapping extends JFormField
         $selectedQuery->from('#__thm_organizer_subject_mappings');
         $selectedQuery->where("subjectID = '$subjectID'");
         $dbo->setQuery($selectedQuery);
-
-        try {
-            $selected = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return $this->getDefault();
-        }
+        $selected = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         $planSubjectQuery = $dbo->getQuery(true);
-        $planSubjectQuery->select("id AS value, name");
+        $planSubjectQuery->select('id AS value, name');
         $planSubjectQuery->from('#__thm_organizer_plan_subjects');
         $planSubjectQuery->order('name');
         $dbo->setQuery($planSubjectQuery);
 
-        try {
-            $planSubjects = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $planSubjects = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($planSubjects)) {
             return $this->getDefault();
         }
 
@@ -64,12 +53,12 @@ class JFormFieldSubjectMapping extends JFormField
         $selectedMappings = empty($selected) ? [] : $selected;
 
         return JHtml::_(
-            "select.genericlist",
+            'select.genericlist',
             $planSubjects,
             "jform[$fieldName][]",
             $attributes,
-            "value",
-            "text",
+            'value',
+            'text',
             $selectedMappings
         );
     }
@@ -86,6 +75,6 @@ class JFormFieldSubjectMapping extends JFormField
         $fieldName      = $this->getAttribute('name');
         $attributes     = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
-        return JHtml::_("select.genericlist", $planSubjects, "jform[$fieldName][]", $attributes, "value", "text");
+        return JHtml::_('select.genericlist', $planSubjects, "jform[$fieldName][]", $attributes, 'value', 'text');
     }
 }

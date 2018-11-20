@@ -48,8 +48,6 @@ class THM_OrganizerModelPlan_Program extends THM_OrganizerModelMerge
      * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
-     *
-     * @throws  \Exception
      */
     public function getTable($name = 'plan_programs', $prefix = 'thm_organizerTable', $options = [])
     {

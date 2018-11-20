@@ -2,7 +2,7 @@
  * Gets programs, rooms and teachers depending on selected department/program and inserts them into options
  */
 jQuery(document).ready(function () {
-    "use strict";
+    'use strict';
 
     var department = jQuery('#jform_params_departmentID'),
         program = jQuery('#jform_params_programIDs'),
@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
         teacher = jQuery('#jform_params_teacherIDs');
 
     // init loading
-    if (department.val() !== "0")
+    if (department.val() !== '0')
     {
         update();
     }

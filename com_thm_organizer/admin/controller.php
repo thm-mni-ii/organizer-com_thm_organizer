@@ -20,13 +20,11 @@ class THM_OrganizerController extends JControllerLegacy
      * Class constructor
      *
      * @param array $config An optional associative [] of configuration settings.
-     *
-     * @throws Exception
      */
     public function __construct($config = [])
     {
         parent::__construct($config);
-        $task           = JFactory::getApplication()->input->get('task', '');
+        $task           = $this->input->get('task', '');
         $taskParts      = explode('.', $task);
         $this->resource = $taskParts[0];
     }
@@ -37,7 +35,6 @@ class THM_OrganizerController extends JControllerLegacy
      * schedule model.
      *
      * @return void
-     * @throws Exception
      */
     public function activate()
     {
@@ -45,41 +42,35 @@ class THM_OrganizerController extends JControllerLegacy
 
         $functionsAvailable = (method_exists($model, 'activate') and method_exists($model, 'checkIfActive'));
         if ($functionsAvailable) {
-            $count = JFactory::getApplication()->input->getInt('boxchecked', 0);
+            $count = $this->input->getInt('boxchecked', 0);
             if ($count === 1) {
                 $active = $model->checkIfActive();
                 if ($active) {
-                    $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES');
-                    $type = 'warning';
+                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'warning');
                 } else {
                     $success = $model->activate();
                     if ($success) {
-                        $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
-                        $type = 'message';
+                        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
                     } else {
-                        $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL');
-                        $type = 'error';
+                        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
                     }
                 }
             } else {
-                $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED');
-                $type = 'error';
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
             }
         }
 
-        $url = "index.php?option=com_thm_organizer&view={$this->resource}_manager";
-        $this->setRedirect(JRoute::_($url, false), $msg, $type);
+        $this->setRedirect("index.php?option=com_thm_organizer&view={$this->resource}_manager");
     }
 
     /**
      * Redirects to the edit view without an item id. Access checks performed in the view.
      *
      * @return void
-     * @throws Exception
      */
     public function add()
     {
-        JFactory::getApplication()->input->set('view', "{$this->resource}_edit");
+        $this->input->set('view', "{$this->resource}_edit");
         parent::display();
     }
 
@@ -87,24 +78,19 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save function, and redirects to the same view.
      *
      * @return void
-     * @throws Exception
      */
     public function apply()
     {
         $resourceID = $this->getModel($this->resource)->save();
 
         if (!empty($resourceID)) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_edit");
-        $app->input->set('id', $resourceID);
+        $this->input->set('view', "{$this->resource}_edit");
+        $this->input->set('id', $resourceID);
         parent::display();
     }
 
@@ -112,23 +98,18 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's batch function, and redirects to the manager view.
      *
      * @return void
-     * @throws Exception
      */
     public function batch()
     {
         $success = $this->getModel($this->resource)->batch();
 
         if ($success) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -136,11 +117,10 @@ class THM_OrganizerController extends JControllerLegacy
      * Redirects to the manager from the form.
      *
      * @return void
-     * @throws Exception
      */
     public function cancel()
     {
-        JFactory::getApplication()->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -148,23 +128,18 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's delete function, and redirects to the manager view.
      *
      * @return void
-     * @throws Exception
      */
     public function delete()
     {
         $success = $this->getModel($this->resource)->delete($this->resource);
 
         if ($success) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -187,23 +162,18 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's importLSFData function, and redirects to the manager view.
      *
      * @return void
-     * @throws Exception
      */
     public function importLSFData()
     {
-        $modelName = "LSF" . ucfirst($this->resource);
+        $modelName = 'LSF' . ucfirst($this->resource);
         $success   = $this->getModel($modelName)->importBatch();
         if ($success) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_IMPORT_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -212,22 +182,17 @@ class THM_OrganizerController extends JControllerLegacy
      * redirects to the room manager view
      *
      * @return void
-     * @throws Exception
      */
     public function merge()
     {
         $success = $this->getModel($this->resource)->merge($this->resource);
         if ($success) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -236,14 +201,12 @@ class THM_OrganizerController extends JControllerLegacy
      * the merge view if the automatic merge was unavailable or implausible.
      *
      * @return void
-     * @throws Exception
      */
     public function mergeView()
     {
         $url = "index.php?option=com_thm_organizer&view={$this->resource}_manager";
 
-        $input    = JFactory::getApplication()->input;
-        $selected = $input->get('cid', [], '[]');
+        $selected = $this->input->get('cid', [], '[]');
         if (count($selected) == 1) {
             $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
@@ -260,7 +223,7 @@ class THM_OrganizerController extends JControllerLegacy
         }
 
         // Reliance on POST requires a different method of redirection
-        $input->set('view', "{$this->resource}_merge");
+        $this->input->set('view', "{$this->resource}_merge");
         parent::display();
     }
 
@@ -268,23 +231,18 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save function, and redirects to the manager view.
      *
      * @return void
-     * @throws Exception
      */
     public function save()
     {
         $success = $this->getModel($this->resource)->save();
 
         if (!empty($success)) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -292,22 +250,17 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save2copy function, and redirects to the manager view.
      *
      * @return void
-     * @throws Exception
      */
     public function save2copy()
     {
         $success = $this->getModel($this->resource)->save2copy();
         if ($success) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -315,23 +268,18 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's save2new function, and redirects to the edit view.
      *
      * @return void
-     * @throws Exception
      */
     public function save2new()
     {
         $success = $this->getModel($this->resource)->save();
         if ($success) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_edit");
-        $app->input->set('id', 0);
+        $this->input->set('view', "{$this->resource}_edit");
+        $this->input->set('id', 0);
         parent::display();
     }
 
@@ -340,7 +288,6 @@ class THM_OrganizerController extends JControllerLegacy
      * context of its planning period, and redirects to the schedule manager view
      *
      * @return void
-     * @throws Exception
      */
     public function setReference()
     {
@@ -348,29 +295,25 @@ class THM_OrganizerController extends JControllerLegacy
             return;
         }
 
-        $type  = 'error';
-        $count = JFactory::getApplication()->input->getInt('boxchecked', 0);
+        $count = $this->input->getInt('boxchecked', 0);
         if ($count === 1) {
             $model  = $this->getModel('schedule');
             $active = $model->checkIfActive();
             if ($active) {
-                $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES");
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'error');
             } else {
                 $success = $model->setReference();
                 if ($success) {
-                    $msg  = JText::_("COM_THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS");
-                    $type = 'message';
+                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
                 } else {
-                    $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_REFERENCE_FAIL");
+                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
                 }
             }
         } else {
-            $msg = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED");
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "schedule_manager");
+        $this->input->set('view', 'schedule_manager');
         parent::display();
     }
 
@@ -378,30 +321,25 @@ class THM_OrganizerController extends JControllerLegacy
      * Toggles category behaviour properties
      *
      * @return void
-     * @throws Exception
      */
     public function toggle()
     {
         $model = $this->getModel($this->resource);
 
-        $type              = 'error';
         $functionAvailable = method_exists($model, 'toggle');
 
         if ($functionAvailable) {
             $success = $model->toggle();
             if ($success) {
-                $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-                $type = 'message';
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'error');
             } else {
-                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL');
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
             }
         } else {
-            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -409,24 +347,19 @@ class THM_OrganizerController extends JControllerLegacy
      * Makes call to the models's updateLSFData function, and redirects to the manager view.
      *
      * @return void
-     * @throws Exception
      */
     public function updateLSFData()
     {
-        $modelName = "LSF" . ucfirst($this->resource);
+        $modelName = 'LSF' . ucfirst($this->resource);
         $success   = $this->getModel($modelName)->updateBatch();
 
         if ($success) {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
-            $type = 'message';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
         } else {
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE_FAIL');
-            $type = 'error';
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_FAIL', 'error');
         }
 
-        $app = JFactory::getApplication();
-        $app->enqueueMessage($msg, $type);
-        $app->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', "{$this->resource}_manager");
         parent::display();
     }
 
@@ -435,17 +368,14 @@ class THM_OrganizerController extends JControllerLegacy
      * and save the file to the database should validation be successful
      *
      * @return void
-     * @throws Exception
      */
     public function upload()
     {
-        $model = $this->getModel($this->resource);
-
-        $type              = 'error';
+        $model             = $this->getModel($this->resource);
         $functionAvailable = method_exists($model, 'upload');
 
         if ($functionAvailable) {
-            $form      = JFactory::getApplication()->input->files->get('jform', [], '[]');
+            $form      = $this->input->files->get('jform', [], '[]');
             $file      = $form['file'];
             $validType = (!empty($file['type']) and $file['type'] == 'text/xml');
 
@@ -455,25 +385,19 @@ class THM_OrganizerController extends JControllerLegacy
                     $view    = $success ? 'manager' : 'edit';
                 } else {
                     $view = 'edit';
-                    $msg  = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING");
+                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
                 }
 
             } else {
                 $view = 'edit';
-                $msg  = JText::_("COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE");
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');
             }
         } else {
             $view = 'manager';
-            $msg  = JText::_('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
 
-        $app = JFactory::getApplication();
-
-        if (!empty($msg)) {
-            $app->enqueueMessage($msg, $type);
-        }
-
-        $app->input->set('view', "{$this->resource}_{$view}");
+        $this->input->set('view', "{$this->resource}_{$view}");
         parent::display();
     }
 }

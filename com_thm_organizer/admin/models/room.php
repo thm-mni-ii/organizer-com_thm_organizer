@@ -37,8 +37,6 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
      * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
-     *
-     * @throws  \Exception
      */
     public function getTable($name = 'rooms', $prefix = 'thm_organizerTable', $options = [])
     {
@@ -49,7 +47,6 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
      * Updates key references to the entry being merged.
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
      */
     protected function updateAssociations()
     {
@@ -99,11 +96,9 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
      * Updates the lesson configurations table with the room id changes.
      *
      * @return bool
-     * @throws Exception
      */
     private function updateStoredConfigurations()
     {
-
         $table       = '#__thm_organizer_lesson_configurations';
         $selectQuery = $this->_db->getQuery(true);
         $selectQuery->select('id, configuration')
@@ -118,12 +113,9 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
             $selectQuery->where("configuration REGEXP '$regexp'");
             $this->_db->setQuery($selectQuery);
 
-            try {
-                $storedConfigurations = $this->_db->loadAssocList();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                return false;
+            $storedConfigurations = THM_OrganizerHelperComponent::query('loadAssocList');
+            if (empty($storedConfigurations)) {
+                continue;
             }
 
             foreach ($storedConfigurations as $storedConfiguration) {
@@ -144,12 +136,8 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
                 $updateQuery->clear('where');
                 $updateQuery->where("id = '{$storedConfiguration['id']}'");
                 $this->_db->setQuery($updateQuery);
-
-                try {
-                    $this->_db->execute();
-                } catch (Exception $exception) {
-                    JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
+                $success = (bool)THM_OrganizerHelperComponent::query('execute');
+                if (!$success) {
                     return false;
                 }
             }

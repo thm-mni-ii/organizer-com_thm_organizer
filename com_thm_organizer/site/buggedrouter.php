@@ -15,12 +15,11 @@ defined('_JEXEC') or die;
  * @param array &$query an array of URL arguments
  *
  * @return array  the URL arguments to use to assemble the subsequent URL.
- * @throws Exception
  */
 function THM_organizerBuildRoute(&$query)
 {
     $segments = [];
-    $menu     = JFactory::getApplication()->getMenu();
+    $menu     = THM_OrganizerHelperComponent::getApplication()->getMenu();
     $item     = empty($query['Itemid']) ?
         $menu->getActive() : $menu->getItem($query['Itemid']);
     $view     = empty($query['view']) ? $item->query['view'] : $query['view'];
@@ -52,7 +51,6 @@ function THM_organizerBuildRoute(&$query)
  * @param array &$segments the segments for the sef url
  *
  * @return void
- * @throws Exception
  */
 function setSubjectDetailsSegments(&$query, &$segments)
 {
@@ -71,11 +69,8 @@ function setSubjectDetailsSegments(&$query, &$segments)
     $nameQuery->select("name_$tag")->from('#__thm_organizer_subjects')->where("id = '{$query['id']}'");
     $dbo->setQuery($nameQuery);
 
-    try {
-        $name = $dbo->loadResult();
-    } catch (Exception $exc) {
-        JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+    $name = THM_OrganizerHelperComponent::query('loadResult');
+    if (empty($name)) {
         return;
     }
 
@@ -94,7 +89,6 @@ function setSubjectDetailsSegments(&$query, &$segments)
  * @param object &$item     the associated menu item (if applicable)
  *
  * @return void
- * @throws Exception
  */
 function setSubjectListSegments(&$query, &$segments, &$item)
 {
@@ -118,11 +112,8 @@ function setSubjectListSegments(&$query, &$segments, &$item)
     $programQuery->where("p.id = '$programID'");
     $dbo->setQuery($programQuery);
 
-    try {
-        $name = $dbo->loadResult();
-    } catch (Exception $exc) {
-        JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+    $name = THM_OrganizerHelperComponent::query('loadResult');
+    if (empty($name)) {
         return;
     }
 

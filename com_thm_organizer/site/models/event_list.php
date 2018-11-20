@@ -37,7 +37,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
     public function __construct()
     {
         parent::__construct();
-        $app          = JFactory::getApplication();
+        $app          = THM_OrganizerHelperComponent::getApplication();
         $this->params = $app->getParams();
 
         $registered             = $this->isRegistered();
@@ -208,7 +208,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
         $query->select('id')->from('#__thm_organizer_rooms');
         $dbo->setQuery($query);
 
-        return $dbo->loadColumn();
+        return THM_OrganizerHelperComponent::query('loadColumn', []);
     }
 
     /**
@@ -238,7 +238,6 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Gets the raw events from the database
      *
      * @return void sets the object variable events
-     * @throws Exception
      */
     private function getEvents()
     {
@@ -247,7 +246,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
 
             $query = $this->_db->getQuery(true);
 
-            $select = "DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ";
+            $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ';
             $select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
             $select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
             $select .= "ps.name AS psName, s.name_$shortTag AS sName";
@@ -272,13 +271,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
                 ->where("(ppp.published IS NULL OR ppp.published = '1')");
             $this->_db->setQuery($query);
 
-            try {
-                $events = $this->_db->loadAssocList();
-            } catch (Exception $exception) {
-                JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                return;
-            }
+            $events = THM_OrganizerHelperComponent::query('loadAssocList');
 
             if (!empty($events)) {
                 foreach ($events as $index => $event) {
@@ -327,11 +320,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Checks whether the accessing agent is a registered monitor
      *
      * @return mixed  int roomID on success, otherwise boolean false
-     * @throws Exception
      */
     private function isRegistered()
     {
-        $ipData       = ['ip' => JFactory::getApplication()->input->server->getString('REMOTE_ADDR', '')];
+        $ipData       = ['ip' => THM_OrganizerHelperComponent::getInput()->server->getString('REMOTE_ADDR', '')];
         $monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
         $registered   = $monitorEntry->load($ipData);
         if (!$registered) {
@@ -343,10 +335,10 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             return false;
         }
 
-        $app         = JFactory::getApplication();
+        $app         = THM_OrganizerHelperComponent::getApplication();
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
-            $app   = JFactory::getApplication();
+            $app   = THM_OrganizerHelperComponent::getApplication();
             $base  = JUri::root() . 'index.php?';
             $query = $app->input->server->get('QUERY_STRING', '', 'raw');
             $query .= (strpos($query, 'com_thm_organizer') !== false) ? '' : '&option=com_thm_organizer';
@@ -448,7 +440,6 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Sets the events for display
      *
      * @return void  sets object variables
-     * @throws Exception
      */
     private function setEvents()
     {
@@ -461,7 +452,6 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
      * Retrieves the name and id of the room
      *
      * @return void  sets object variables
-     * @throws Exception
      */
     private function setRooms()
     {
@@ -486,10 +476,7 @@ class THM_OrganizerModelEvent_List extends JModelLegacy
             try {
                 $roomsTable->load($roomID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
                 unset($this->rooms[$roomID]);
             }
 

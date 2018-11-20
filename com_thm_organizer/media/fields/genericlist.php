@@ -74,7 +74,7 @@ class JFormFieldGenericList extends JFormFieldList
                 }
 
                 foreach ($this->value as $value) {
-                    $value  = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
+                    $value  = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
                     $html[] = '<input type="hidden" name="' . $this->name . '" value="' . $value . '"/>';
                 }
             } else {
@@ -117,32 +117,33 @@ class JFormFieldGenericList extends JFormFieldList
         $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
         $this->setFrom($query);
         $this->setWhere($query);
-        $order = $this->getAttribute('order', "text ASC");
+        $order = $this->getAttribute('order', 'text ASC');
         $query->order($order);
         $dbo->setQuery($query);
 
-        try {
-            $resources = $dbo->loadAssocList();
-            $options   = [];
-            foreach ($resources as $resource) {
-                // Removes glue from the end of entries
-                $glue = $this->getAttribute('glue', '');
-                if (!empty($glue)) {
-                    $glueSize = strlen($glue);
-                    $textSize = strlen($resource['text']);
-                    if (strpos($resource['text'], $glue) == $textSize - $glueSize) {
-                        $resource['text'] = str_replace($glue, '', $resource['text']);
-                    }
-                }
-
-                $options[$resource['text']] = JHtml::_('select.option', $resource['value'], $resource['text']);
-            }
-            $this->setValueParameters($options);
-
-            return array_merge(parent::getOptions(), $options);
-        } catch (Exception $exc) {
-            return parent::getOptions();
+        $defaultOptions = parent::getOptions();
+        $resources      = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($resources)) {
+            return $defaultOptions;
         }
+
+        $options = [];
+        foreach ($resources as $resource) {
+            // Removes glue from the end of entries
+            $glue = $this->getAttribute('glue', '');
+            if (!empty($glue)) {
+                $glueSize = strlen($glue);
+                $textSize = strlen($resource['text']);
+                if (strpos($resource['text'], $glue) == $textSize - $glueSize) {
+                    $resource['text'] = str_replace($glue, '', $resource['text']);
+                }
+            }
+
+            $options[$resource['text']] = JHtml::_('select.option', $resource['value'], $resource['text']);
+        }
+        $this->setValueParameters($options);
+
+        return array_merge($defaultOptions, $options);
     }
 
     /**
@@ -203,7 +204,6 @@ class JFormFieldGenericList extends JFormFieldList
      * @param array &$options the input options
      *
      * @return void  sets option values
-     * @throws Exception
      */
     private function setValueParameters(&$options)
     {

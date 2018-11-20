@@ -227,7 +227,7 @@ const ScheduleApp = function (variables) {
         /**
          * Changes the current (date field) date and updates schedules
          * @param {boolean} increase - increase or decrease date
-         * @param {string} step - how big the change step is ("day"|"week"|"month")
+         * @param {string} step - how big the change step is ('day'|'week'|'month')
          */
         this.changeSelectedDate = function (increase, step) {
             changeDate(increase, step);
@@ -359,7 +359,7 @@ const ScheduleApp = function (variables) {
                     return Joomla.JText._('COM_THM_ORGANIZER_MY_SCHEDULE');
                 }
 
-                // Get pre-selected value like "Informatik Master"
+                // Get pre-selected value like 'Informatik Master'
                 if (resource === 'pool' && programField.selectedIndex !== -1)
                 {
                     (function () {
@@ -377,7 +377,7 @@ const ScheduleApp = function (variables) {
                     })();
                 }
 
-                // Get resource selection like "1. Semester" or "A20.1.1"
+                // Get resource selection like '1. Semester' or 'A20.1.1'
                 if (resourceField && resourceField.selectedIndex !== -1)
                 {
                     (function () {
@@ -486,7 +486,7 @@ const ScheduleApp = function (variables) {
                 floatDiv.addEventListener('dragstart', function (event) {
                     const data = {'id': event.target.id, 'x': event.pageX, 'y': event.pageY};
 
-                    // Only "text" for IE
+                    // Only 'text' for IE
                     event.dataTransfer.setData('text', JSON.stringify(data));
                     event.dropEffect = 'move';
                 });
@@ -1152,11 +1152,11 @@ const ScheduleApp = function (variables) {
 
         /**
          * Adds HTML elements containing the given data in relation to given resource.
-         * @param {string} resource - resource to add e.g. "room" or "pool"
+         * @param {string} resource - resource to add e.g. 'room' or 'pool'
          * @param {HTMLElement} outerElement - wrapper element
          * @param {Object.<number, string>} data - lesson data
          * @param {string} data[].gpuntisID - subject id in schedule planner program
-         * @param {Object.<number, string>} [delta] - optional, delta like "new" or "remove" assigned to (resource) id
+         * @param {Object.<number, string>} [delta] - optional, delta like 'new' or 'remove' assigned to (resource) id
          * @param {string} [className] - optional, class to style the elements
          */
         function addDataElements(resource, outerElement, data, delta, className)
@@ -1798,7 +1798,7 @@ const ScheduleApp = function (variables) {
 
                 if (field.dataset.next === 'lesson')
                 {
-                    // Select on click, even on already selected(!) options (unlike Chosens "change" event)
+                    // Select on click, even on already selected(!) options (unlike Chosens 'change' event)
                     wrappers[field.id].getElementsByClassName('chzn-results')[0].addEventListener('click',
                         function () {
                             handleField(field.id);

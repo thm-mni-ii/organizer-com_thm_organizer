@@ -13,7 +13,7 @@ $(document).ready(function () {
  */
 function addPrograms(programs)
 {
-    "use strict";
+    'use strict';
 
     var programSelection = $('#programIDs'), selectedPrograms = programSelection.val(), selected;
 
@@ -22,10 +22,10 @@ function addPrograms(programs)
     $.each(programs, function (key, value) {
         var name = value.name == null ? value.ppName : value.name;
         selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
-        programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
+        programSelection.append('<option value="' + value.id + '" ' + selected + '>' + name + '</option>');
     });
 
-    programSelection.chosen("destroy");
+    programSelection.chosen('destroy');
     programSelection.chosen();
 }
 
@@ -36,7 +36,7 @@ function addPrograms(programs)
  */
 function addPlanningPeriods(planningPeriods)
 {
-    "use strict";
+    'use strict';
 
     var ppSelection = $('#planningPeriodIDs'), selectedPP = ppSelection.val(), selected;
 
@@ -44,10 +44,10 @@ function addPlanningPeriods(planningPeriods)
 
     $.each(planningPeriods, function (index, data) {
         selected = $.inArray(data.value, selectedPP) > -1 ? 'selected' : '';
-        ppSelection.append("<option value=\"" + data.value + "\" " + selected + ">" + data.text + "</option>");
+        ppSelection.append('<option value="' + data.value + '" ' + selected + '>' + data.text + '</option>');
     });
 
-    ppSelection.chosen("destroy");
+    ppSelection.chosen('destroy');
     ppSelection.chosen();
 }
 
@@ -58,7 +58,7 @@ function addPlanningPeriods(planningPeriods)
  */
 function addRooms(rooms)
 {
-    "use strict";
+    'use strict';
 
     var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
 
@@ -66,10 +66,10 @@ function addRooms(rooms)
 
     $.each(rooms, function (name, id) {
         selected = $.inArray(id, selectedRooms) > -1 ? 'selected' : '';
-        roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+        roomSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
-    roomSelection.chosen("destroy");
+    roomSelection.chosen('destroy');
     roomSelection.chosen();
 }
 
@@ -78,8 +78,8 @@ function addRooms(rooms)
  */
 function handleDateRestriction()
 {
-    var drValue = $('#dateRestriction').find(":selected").val(), dateContainer = $("#date-container"),
-        periodsContainer = $("#planningPeriodIDs-container"), useInput = $("input[name=use]");
+    var drValue = $('#dateRestriction').find(':selected').val(), dateContainer = $('#date-container'),
+        periodsContainer = $('#planningPeriodIDs-container'), useInput = $('input[name=use]');
 
     switch (drValue)
     {
@@ -103,7 +103,7 @@ function handleDateRestriction()
  */
 function repopulatePlanningPeriods()
 {
-    "use strict";
+    'use strict';
 
     var selectedDepartments = $('#departmentIDs').val(),
         selectedPrograms = $('#programIDs').val(),
@@ -146,7 +146,7 @@ function repopulatePlanningPeriods()
  */
 function repopulateRooms()
 {
-    "use strict";
+    'use strict';
 
     var selectedDepartments = $('#departmentIDs').val(),
         selectedPrograms = $('#programIDs').val(),
@@ -196,7 +196,7 @@ function repopulateRooms()
  */
 function repopulatePrograms()
 {
-    "use strict";
+    'use strict';
 
     var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
     componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';

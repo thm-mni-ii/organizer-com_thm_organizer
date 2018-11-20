@@ -9,6 +9,7 @@
  */
 defined('_JEXEC') or die;
 
+require_once 'date.php';
 require_once 'departments.php';
 
 
@@ -23,7 +24,6 @@ class THM_OrganizerHelperSubjects
      * @param int $subjectID id of the course resource
      *
      * @return boolean true if the user is a registered teacher, otherwise false
-     * @throws Exception
      */
     public static function allowEdit($subjectID)
     {
@@ -49,7 +49,7 @@ class THM_OrganizerHelperSubjects
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("COUNT(*)")
+        $query->select('COUNT(*)')
             ->from('#__thm_organizer_subject_teachers AS st')
             ->innerJoin('#__thm_organizer_teachers AS t ON t.id = st.teacherID')
             ->where("t.username = '{$user->username}'")
@@ -58,15 +58,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        try {
-            $assocCount = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return false;
-        }
-
-        return !empty($assocCount);
+        return (bool)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -96,7 +88,6 @@ class THM_OrganizerHelperSubjects
      * @param boolean $withNumber
      *
      * @return string the (plan) subject name
-     * @throws Exception
      */
     public static function getName($subjectID, $type, $withNumber = false)
     {
@@ -106,7 +97,7 @@ class THM_OrganizerHelperSubjects
         $query = $dbo->getQuery(true);
         $query->select("ps.name as psName, s.name_$languageTag as name");
         $query->select("s.short_name_$languageTag as shortName, s.abbreviation_$languageTag as abbreviation");
-        $query->select("ps.subjectNo as psSubjectNo, s.externalID as subjectNo");
+        $query->select('ps.subjectNo as psSubjectNo, s.externalID as subjectNo');
 
         if ($type == 'real') {
             $query->from('#__thm_organizer_subjects AS s');
@@ -122,14 +113,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        try {
-            $names = $dbo->loadAssoc();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return '';
-        }
-
+        $names = THM_OrganizerHelperComponent::query('loadAssoc', []);
         if (empty($names)) {
             return '';
         }
@@ -196,7 +180,6 @@ class THM_OrganizerHelperSubjects
      * @param string $type      the type of the reference subject (plan|real)
      *
      * @return array the associated program names
-     * @throws Exception
      */
     public static function getPrograms($subjectID, $type)
     {
@@ -205,7 +188,7 @@ class THM_OrganizerHelperSubjects
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
+        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
 
         if ($type == 'real') {
@@ -229,14 +212,10 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        try {
-            $results = $dbo->loadAssocList();
-        } catch (RuntimeException $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return $names;
+        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($results)) {
+            return [];
         }
-
 
         foreach ($results as $result) {
             $names[$result['id']] = empty($result['name']) ? $result['ppName'] : $result['name'];
@@ -249,11 +228,10 @@ class THM_OrganizerHelperSubjects
      * Retrieves a list of lessons associated with a subject
      *
      * @return array the lessons associated with the subject
-     * @throws Exception
      */
     public static function getSubjectLessons()
     {
-        $input = JFactory::getApplication()->input;
+        $input = THM_OrganizerHelperComponent::getInput();
 
         $subjectIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('subjectIDs', '')));
         if (empty($subjectIDs[0])) {
@@ -292,15 +270,15 @@ class THM_OrganizerHelperSubjects
                 break;
             case 'month':
                 $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-                $startDate  = date('Y-m-d', strtotime("Monday this week", strtotime($monthStart)));
+                $startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
                 $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-                $endDate    = date('Y-m-d', strtotime("Sunday this week", strtotime($monthEnd)));
+                $endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
                 $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
                     ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
                 break;
             case 'week':
-                $startDate = date('Y-m-d', strtotime("Monday this week", $dateTime));
-                $endDate   = date('Y-m-d', strtotime("Sunday this week", $dateTime));
+                $startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
+                $endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
                 $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
                     ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
                 break;
@@ -312,15 +290,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        $default = [];
-        try {
-            $results = $dbo->loadAssocList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return $default;
-        }
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -328,12 +298,16 @@ class THM_OrganizerHelperSubjects
         $lessons = [];
         foreach ($results as $lesson) {
             $index = '';
+
             $lesson['subjectName'] = THM_OrganizerHelperSubjects::getName($lesson['subjectID'], 'plan', true);
+
             $index .= $lesson['subjectName'];
+
             if (!empty($lesson['method'])) {
                 $index .= " - {$lesson['method']}";
             }
-            $index .= " - {$lesson['id']}";
+
+            $index           .= " - {$lesson['id']}";
             $lessons[$index] = $lesson;
         }
 

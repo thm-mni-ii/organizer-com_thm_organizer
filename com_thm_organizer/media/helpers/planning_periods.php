@@ -21,7 +21,6 @@ class THM_OrganizerHelperPlanning_Periods
      * Gets the id of the planning period whose dates encompass the current date
      *
      * @return int the id of the planning period for the dates used on success, otherwise 0
-     * @throws Exception
      */
     public static function getCurrentID()
     {
@@ -33,15 +32,7 @@ class THM_OrganizerHelperPlanning_Periods
             ->where("'$date' BETWEEN startDate and endDate");
         $dbo->setQuery($query);
 
-        try {
-            $result = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return 0;
-        }
-
-        return empty($result) ? 0 : $result;
+        return (int)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -50,7 +41,6 @@ class THM_OrganizerHelperPlanning_Periods
      * @param string $ppID the planning period's id
      *
      * @return mixed  string the end date of the planning period could be resolved, otherwise null
-     * @throws Exception
      */
     public static function getEndDate($ppID)
     {
@@ -59,7 +49,7 @@ class THM_OrganizerHelperPlanning_Periods
         try {
             $success = $ppTable->load($ppID);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
             return null;
         }
@@ -73,7 +63,6 @@ class THM_OrganizerHelperPlanning_Periods
      * @param array $data the planning period's data
      *
      * @return mixed  int the id if the room could be resolved/added, otherwise null
-     * @throws Exception
      */
     public static function getID($data)
     {
@@ -83,7 +72,7 @@ class THM_OrganizerHelperPlanning_Periods
         try {
             $success = $ppTable->load($loadCriteria);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
             return null;
         }
@@ -106,7 +95,6 @@ class THM_OrganizerHelperPlanning_Periods
      * @param string $ppID the planning period's id
      *
      * @return mixed  string the name if the planning period could be resolved, otherwise null
-     * @throws Exception
      */
     public static function getName($ppID)
     {
@@ -115,7 +103,7 @@ class THM_OrganizerHelperPlanning_Periods
         try {
             $success = $ppTable->load($ppID);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
             return null;
         }
@@ -129,7 +117,6 @@ class THM_OrganizerHelperPlanning_Periods
      * @param int $currentID the id of the reference planning period
      *
      * @return int the id of the subsequent planning period if successful, otherwise 0
-     * @throws Exception
      */
     public static function getNextID($currentID = 0)
     {
@@ -147,15 +134,7 @@ class THM_OrganizerHelperPlanning_Periods
             ->order('startDate ASC');
         $dbo->setQuery($query);
 
-        try {
-            $result = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return 0;
-        }
-
-        return empty($result) ? 0 : $result;
+        return (int)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -163,15 +142,12 @@ class THM_OrganizerHelperPlanning_Periods
      * the needs of the calling views.
      *
      * @return string  all pools in JSON format
-     *
-     * @throws RuntimeException
-     * @throws Exception
      */
     public static function getPlanningPeriods()
     {
-        $dbo                 = JFactory::getDbo();
-        $default             = [];
-        $input               = JFactory::getApplication()->input;
+        $dbo   = JFactory::getDbo();
+        $input = THM_OrganizerHelperComponent::getInput();
+
         $selectedDepartments = $input->getString('departmentIDs');
         $selectedPrograms    = $input->getString('programIDs');
 
@@ -183,7 +159,7 @@ class THM_OrganizerHelperPlanning_Periods
             $query->innerJoin('#__thm_organizer_lessons AS l on l.planningPeriodID = pp.id');
 
             if (!empty($selectedDepartments)) {
-                $query->innerJoin("#__thm_organizer_departments AS dpt ON l.departmentID = dpt.id");
+                $query->innerJoin('#__thm_organizer_departments AS dpt ON l.departmentID = dpt.id');
                 $departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
                 $query->where("l.departmentID IN ($departmentIDs)");
             }
@@ -200,14 +176,6 @@ class THM_OrganizerHelperPlanning_Periods
         $query->order('startDate');
         $dbo->setQuery($query);
 
-        try {
-            $results = $dbo->loadAssocList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return $default;
-        }
-
-        return empty($results) ? $default : $results;
+        return THM_OrganizerHelperComponent::query('loadAssocList', []);
     }
 }

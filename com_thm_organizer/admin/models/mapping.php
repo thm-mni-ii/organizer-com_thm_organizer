@@ -23,7 +23,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param SimpleXMLObject &$lsfData  the data recieved from the LSF system
      *
      * @return boolean  true if the data was mapped, otherwise false
-     * @throws Exception
+     *
+     * @see THM_OrganizerModelLSFProgram
      */
     public function addLSFMappings($programID, &$lsfData)
     {
@@ -58,7 +59,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int    $parentMappingID the id of the program mapping
      *
      * @return boolean  true if the pool is mapped, otherwise false
-     * @throws Exception
      */
     private function addLSFPool(&$pool, $parentMappingID)
     {
@@ -87,7 +87,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 $poolMapping['ordering']  = $this->getOrdering($parentMappingID, $poolsTable->id);
                 $poolAdded                = $this->addPool($poolMapping);
                 if (!$poolAdded) {
-                    JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
+                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
 
                     return false;
                 }
@@ -117,7 +117,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             return true;
         }
 
-        JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_POOL_MAP_FAIL', 'error');
+        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_POOL_MAP_FAIL', 'error');
 
         return false;
     }
@@ -130,7 +130,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *                                mappings table
      *
      * @return boolean  true if the mapping exists, otherwise false
-     * @throws Exception
      */
     private function addLSFSubject(&$subject, $parentMappingID)
     {
@@ -161,7 +160,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             $subjectAdded                = $this->addSubject($subjectMapping);
 
             if (!$subjectAdded) {
-                JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
 
                 return false;
             }
@@ -173,8 +172,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             return true;
         }
 
-        // TODO: Language constant here!
-        JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_SUBJECT_MAP_FAIL', 'error');
+        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SUBJECT_MAP_FAIL', 'error');
 
         return false;
     }
@@ -186,7 +184,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *                     children
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
     private function addPool(&$pool)
     {
@@ -248,7 +245,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$subject an array containing data about a subject
      *
      * @return boolean
-     * @throws Exception
      */
     private function addSubject(&$subject)
     {
@@ -289,7 +285,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $resourceType the type of the resource
      *
      * @return bool true if the resource has an existing mapping, otherwise false
-     * @throws Exception
+     *
+     * @see THM_OrganizerModelLSFProgram
      */
     public function checkForMapping($resourceID, $resourceType)
     {
@@ -298,15 +295,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($query);
 
-        try {
-            $count = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
-
-        return empty($count) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -316,7 +305,10 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $type       the mapping's type
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception
+     *
+     * @see THM_OrganizerModelProgram
+     * @see THM_OrganizerModelPool
+     * @see THM_OrganizerModelSubject
      */
     public function deleteByResourceID($resourceID, $type)
     {
@@ -341,14 +333,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
 
         $dbo->setQuery($mappingIDsQuery);
-
-        try {
-            $mappingIDs = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
+        $mappingIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         if (!empty($mappingIDs)) {
             foreach ($mappingIDs as $mappingID) {
@@ -368,23 +353,15 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $mappingID the id of the mapping
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception
      */
-    public function deleteChildren($mappingID)
+    private function deleteChildren($mappingID)
     {
         $dbo = JFactory::getDbo();
 
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery($mappingIDsQuery);
-
-        try {
-            $mappingIDs = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
+        $mappingIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         if (!empty($mappingIDs)) {
             foreach ($mappingIDs as $mappingID) {
@@ -404,7 +381,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $entryID the id value of the entry to be deleted
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
     private function deleteEntry($entryID)
     {
@@ -414,12 +390,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $mappingQuery = $dbo->getQuery(true);
         $mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
         $dbo->setQuery($mappingQuery);
-
-        try {
-            $mapping = $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $mapping = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        if (empty($mapping)) {
             return false;
         }
 
@@ -427,11 +399,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $deleteQuery = $dbo->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_mappings')->where("id = '{$mapping['id']}'");
         $dbo->setQuery($deleteQuery);
-        try {
-            $dbo->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        if (!$success) {
             return false;
         }
 
@@ -442,11 +411,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $siblingsQuery->where("parentID = '{$mapping['parentID']}'");
         $siblingsQuery->where("ordering > '{$mapping['ordering']}'");
         $dbo->setQuery($siblingsQuery);
-        try {
-            $dbo->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        if (!$success) {
             return false;
         }
 
@@ -459,11 +425,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $updateLeftQuery->set("lft = lft - {$mapping['width']}");
         $updateLeftQuery->where("lft > '{$mapping['lft']}'");
         $dbo->setQuery($updateLeftQuery);
-        try {
-            $dbo->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        if (!$success) {
             return false;
         }
 
@@ -476,15 +439,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $updateRightQuery->set("rgt = rgt - {$mapping['width']}");
         $updateRightQuery->where("rgt > '{$mapping['lft']}'");
         $dbo->setQuery($updateRightQuery);
-        try {
-            $dbo->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            return false;
-        }
-
-        return true;
+        return THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -500,31 +456,24 @@ class THM_OrganizerModelMapping extends JModelLegacy
     {
         $dbo = JFactory::getDbo();
 
-        // Try to find the right value of the next lowest sibling
+        // Right value of the next lowest sibling
         $rgtQuery = $dbo->getQuery(true);
         $rgtQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
         $rgtQuery->where("parentID = '$parentID'")->where("ordering < '$ordering'");
         $dbo->setQuery($rgtQuery);
-        try {
-            $rgt = $dbo->loadResult();
-            if (!empty($rgt)) {
-                return $rgt + 1;
-            }
-        } catch (Exception $exc) {
-            return false;
+        $rgt = THM_OrganizerHelperComponent::query('loadResult');
+        if (!empty($rgt)) {
+            return $rgt + 1;
         }
 
+        // No siblings => use parent left for reference
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->select('lft')->from('#__thm_organizer_mappings');
         $lftQuery->where("id = '$parentID'");
         $dbo->setQuery($lftQuery);
-        try {
-            $lft = $dbo->loadResult();
+        $lft = THM_OrganizerHelperComponent::query('loadResult');
 
-            return $lft + 1;
-        } catch (Exception $exc) {
-            return false;
-        }
+        return empty($lft) ? false : $lft + 1;
     }
 
     /**
@@ -536,9 +485,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
      *                           children iteratively or not (default: false)
      *
      * @return array  empty if no child data exists
-     * @throws Exception
      */
-    public function getChildren($resourceID, $type = 'pool', $deep = true)
+    private function getChildren($resourceID, $type = 'pool', $deep = true)
     {
         $dbo      = JFactory::getDbo();
         $children = [];
@@ -551,14 +499,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $existingQuery->select('id')->from('#__thm_organizer_mappings');
         $existingQuery->where("{$type}ID = '$resourceID'");
         $dbo->setQuery($existingQuery, 0, 1);
-
-        try {
-            $firstID = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
+        $firstID = THM_OrganizerHelperComponent::query('loadResult');
 
         if (!empty($firstID)) {
             $childrenQuery = $dbo->getQuery(true);
@@ -568,16 +509,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
             $childrenQuery->order('lft ASC');
             $dbo->setQuery($childrenQuery);
 
-            try {
-                $results = $dbo->loadAssocList();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
-
-                return [];
-            }
+            $results = THM_OrganizerHelperComponent::query('loadAssocList');
 
             if (!empty($results)) {
                 $children = $results;
@@ -598,18 +530,15 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * Filters the resource's children out of the form's POST data
      *
      * @return array  an array containing the resource's children and ordering
-     * @throws Exception
-     *
-     * @SuppressWarnings(PHPMD.Superglobals)
      */
     private function getChildrenFromForm()
     {
-        $children = [];
-        JFactory::getApplication()->input->post;
-        $childKeys = preg_grep('/^child[0-9]+$/', array_keys($_POST));
+        $children  = [];
+        $post      = THM_OrganizerHelperComponent::getInput()->post;
+        $childKeys = preg_grep('/^child[0-9]+$/', array_keys($post));
         foreach ($childKeys as $childKey) {
             $ordering      = substr($childKey, 5);
-            $aggregateInfo = JFactory::getApplication()->input->getString($childKey, '');
+            $aggregateInfo = $post->getString($childKey, '');
             $resourceID    = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
             $resourceType  = strpos($aggregateInfo, 'p') ? 'pool' : 'subject';
 
@@ -639,7 +568,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $type       the type of resource being ordered
      *
      * @return int  the value of the highest existing ordering or 1 if none exist
-     * @throws Exception
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
@@ -656,12 +584,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         }
 
         $dbo->setQuery($existingOrderQuery);
-
-        try {
-            $existingOrder = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-        }
+        $existingOrder = THM_OrganizerHelperComponent::query('loadResult');
 
         if (!empty($existingOrder)) {
             return $existingOrder;
@@ -674,12 +597,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $maxOrderQuery = $dbo->getQuery(true);
         $maxOrderQuery->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$parentID'");
         $dbo->setQuery($maxOrderQuery);
-
-        try {
-            $maxOrder = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-        }
+        $maxOrder = THM_OrganizerHelperComponent::query('loadResult');
 
         return empty($maxOrder) ? 1 : $maxOrder + 1;
     }
@@ -690,7 +608,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param int $parentID the id of the parent item
      *
      * @return array  the parent mapping
-     * @throws Exception
      */
     private function getParent($parentID)
     {
@@ -699,19 +616,11 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
         $dbo->setQuery($parentQuery);
 
-        try {
-            $mappings = $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
-
-        return $mappings;
+        return THM_OrganizerHelperComponent::query('loadAssoc', []);
     }
 
     /**
-     * Creates and returns instance of JTable for the DB Table Mappings
+     * Creates and returns instance of JTable for the DB Table Mappings. Public for reasons of inheritance.
      *
      * @param string $name    The table name. Optional.
      * @param string $prefix  The class prefix. Optional.
@@ -730,7 +639,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$data the pool form data from the post request
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     *
+     * @see THM_OrganizerModelPool
      */
     public function savePool(&$data)
     {
@@ -757,7 +667,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
                 $poolData['ordering'] = $orderings[$parentID];
                 $poolAdded            = $this->addPool($poolData);
                 if (!$poolAdded) {
-                    JFactory::getApplication()->enqueueMessage('admin.models.mapping.php: addPool is false', 'error');
+                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
 
                     return false;
                 }
@@ -770,14 +680,16 @@ class THM_OrganizerModelMapping extends JModelLegacy
     }
 
     /**
-     * Checks whether the degree program root mapping has already been created.
-     * If it has not already been done the creation function is called.
+     * Checks whether the degree program root mapping has already been created. If it has not already been done the
+     * creation function is called.
      *
      * @param int $programID the id of the degree program
      *
      * @return boolean  true if the program root mapping exists/was created,
      *                   otherwise false
-     * @throws Exception
+     *
+     * @see THM_OrganizerModelProgram
+     * @see THM_OrganizerModelLSFProgram
      */
     public function saveProgram($programID)
     {
@@ -785,28 +697,15 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $findQuery = $dbo->getQuery(true);
         $findQuery->select('*')->from('#__thm_organizer_mappings')->where('parentID IS NULL')->where("programID = '$programID'");
         $dbo->setQuery($findQuery);
-
-        try {
-            $rootMapping = $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
+        $rootMapping = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
         if (empty($rootMapping)) {
             $leftQuery = $dbo->getQuery(true);
-            $leftQuery->select("MAX(rgt)")->from('#__thm_organizer_mappings');
+            $leftQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
             $dbo->setQuery($leftQuery);
 
-            try {
-                $maxRgt = $dbo->loadResult();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
-
+            $maxRgt = THM_OrganizerHelperComponent::query('loadResult');
+            if (empty($maxRgt)) {
                 return false;
             }
 
@@ -855,7 +754,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array &$data the subject form data from the post request
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     *
+     * @see THM_OrganizerModelSubject
      */
     public function saveSubject(&$data)
     {
@@ -892,22 +792,13 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param string $type       the type of resource entry being searched for
      *
      * @return mixed  array on success, otherwise false
-     * @throws Exception
      */
     private function getExistingMappings($resourceID, $type = 'subject')
     {
         $query = $this->_db->getQuery(true);
         $query->select('*')->from('#__thm_organizer_mappings')->where("{$type}ID = '$resourceID'");
 
-        try {
-            $mappings = $this->_db->setQuery($query)->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
-
-        return $mappings;
+        return THM_OrganizerHelperComponent::query('loadAssocList');
     }
 
     /**
@@ -919,7 +810,6 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * @param array $existingMappings the existing mappings for the subject
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
      */
     private function processExistingSubjects(&$selectedParents, $existingMappings)
     {
@@ -956,13 +846,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $query->update('#__thm_organizer_mappings')->set('ordering = ordering + 1');
         $query->where("ordering >= '$insertOrder'")->where("parentID = '$parentID'");
         $dbo->setQuery($query);
-        try {
-            $dbo->execute();
-        } catch (Exception $exc) {
-            return false;
-        }
 
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -979,21 +864,15 @@ class THM_OrganizerModelMapping extends JModelLegacy
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->update('#__thm_organizer_mappings')->set('lft = lft + 2')->where("lft >= '$value'");
         $dbo->setQuery($lftQuery);
-        try {
-            $dbo->execute();
-        } catch (Exception $exc) {
+        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        if (!$success) {
             return false;
         }
 
         $rgtQuery = $dbo->getQuery(true);
         $rgtQuery->update('#__thm_organizer_mappings')->set('rgt = rgt + 2')->where("rgt >= '$value'");
         $dbo->setQuery($rgtQuery);
-        try {
-            $dbo->execute();
-        } catch (Exception $exc) {
-            return false;
-        }
 
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 }

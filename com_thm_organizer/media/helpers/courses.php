@@ -27,7 +27,6 @@ class THM_OrganizerHelperCourses
      * @param int $courseID id of the course resource
      *
      * @return boolean if user is authorized
-     * @throws Exception
      */
     public static function authorized($courseID = 0)
     {
@@ -50,7 +49,7 @@ class THM_OrganizerHelperCourses
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("COUNT(*)")
+        $query->select('COUNT(*)')
             ->from('#__thm_organizer_lesson_subjects AS ls')
             ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id')
             ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
@@ -62,15 +61,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        try {
-            $assocCount = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return false;
-        }
-
-        return !empty($assocCount);
+        return (bool)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -79,7 +70,6 @@ class THM_OrganizerHelperCourses
      * @param int $courseID identifier of course
      *
      * @return bool true when course can accept more participants, false otherwise
-     * @throws Exception
      */
     public static function canAcceptParticipant($courseID)
     {
@@ -101,7 +91,7 @@ class THM_OrganizerHelperCourses
         }
 
         $acceptedParticipants = count(self::getParticipants($courseID, 1));
-        $maxParticipants      = empty($course["lessonP"]) ? $course["subjectP"] : $course["lessonP"];
+        $maxParticipants      = empty($course['lessonP']) ? $course['subjectP'] : $course['lessonP'];
 
         if (empty($maxParticipants)) {
             return true;
@@ -117,7 +107,6 @@ class THM_OrganizerHelperCourses
      * @param int    $courseID the id of the course
      *
      * @return string the HTML for the action button as appropriate for the user
-     * @throws Exception
      */
     public static function getActionButton($view, $courseID)
     {
@@ -126,11 +115,12 @@ class THM_OrganizerHelperCourses
 
         $lang            = THM_OrganizerHelperLanguage::getLanguage();
         $shortTag        = THM_OrganizerHelperLanguage::getShortTag();
-        $menuID          = JFactory::getApplication()->input->getInt('Itemid');
-        $pathPrefix      = "index.php?option=com_thm_organizer";
+        $menuID          = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
+        $pathPrefix      = 'index.php?option=com_thm_organizer';
         $managerURL      = "{$pathPrefix}&view=course_manager&languageTag=$shortTag";
         $registrationURL = "$pathPrefix&task=$view.register&languageTag=$shortTag";
-        $registrationURL .= $view == 'subject' ? '&id=' . JFactory::getApplication()->input->getInt('id', 0) : "";
+        $registrationURL .= $view == 'subject' ? '&id=' . THM_OrganizerHelperComponent::getInput()->getInt('id',
+                0) : '';
 
         if (!empty($menuID)) {
             $managerURL      .= "&Itemid=$menuID";
@@ -141,7 +131,7 @@ class THM_OrganizerHelperCourses
             $lessonURL = "&lessonID=$courseID";
 
             if ($authorized) {
-                $manage       = '<span class="icon-cogs"></span>' . $lang->_("COM_THM_ORGANIZER_MANAGE");
+                $manage       = '<span class="icon-cogs"></span>' . $lang->_('COM_THM_ORGANIZER_MANAGE');
                 $managerRoute = JRoute::_($managerURL . $lessonURL);
                 $register     = "<a class='btn' href='$managerRoute'>$manage</a>";
             } else {
@@ -175,7 +165,6 @@ class THM_OrganizerHelperCourses
      * @param bool  $redundant whether redundant names should be set
      *
      * @return array an array with the actionable campus id and name
-     * @throws Exception
      */
     public static function getCampus($course, $redundant = false)
     {
@@ -208,11 +197,10 @@ class THM_OrganizerHelperCourses
      * @param int $courseID int id of requested lesson
      *
      * @return array  with course data on success, otherwise empty
-     * @throws Exception
      */
     public static function getCourse($courseID = 0)
     {
-        $courseID = JFactory::getApplication()->input->getInt('lessonID', $courseID);
+        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return [];
@@ -237,13 +225,11 @@ class THM_OrganizerHelperCourses
         $query->where("l.id = '$courseID'");
 
         $dbo->setQuery($query);
+        $courseData = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
-        try {
-            $courseData = $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
+        // If empty it should stay empty
+        if (empty($courseData)) {
+            return $courseData;
         }
 
         if (empty($courseData['deadline'])) {
@@ -254,7 +240,7 @@ class THM_OrganizerHelperCourses
             $courseData['fee'] = JComponentHelper::getParams('com_thm_organizer')->get('fee', 50);
         }
 
-        return empty($courseData) ? [] : $courseData;
+        return $courseData;
     }
 
     /**
@@ -263,11 +249,10 @@ class THM_OrganizerHelperCourses
      * @param int $courseID the id of the course to be loaded
      *
      * @return string the dates to display
-     * @throws Exception
      */
     public static function getDateDisplay($courseID = 0)
     {
-        $courseID = JFactory::getApplication()->input->getInt('lessonID', $courseID);
+        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
 
         $dates = self::getDates($courseID);
 
@@ -288,11 +273,10 @@ class THM_OrganizerHelperCourses
      * @param int $courseID id of course to be loaded
      *
      * @return array  array with calendar registration data on success, otherwise empty
-     * @throws Exception
      */
     public static function getDates($courseID = 0)
     {
-        $courseID = JFactory::getApplication()->input->getInt('lessonID', $courseID);
+        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return [];
@@ -310,15 +294,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        try {
-            $dates = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
-        }
-
-        return empty($dates) ? [] : $dates;
+        return THM_OrganizerHelperComponent::query('loadColumn', []);
     }
 
     /**
@@ -328,7 +304,6 @@ class THM_OrganizerHelperCourses
      * @param boolean $includeWaitList
      *
      * @return array  with course registration data on success, otherwise empty
-     * @throws Exception
      */
     public static function getFullParticipantData($courseID = 0, $includeWaitList = false)
     {
@@ -361,15 +336,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        try {
-            $participantData = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
-        }
-
-        return empty($participantData) ? [] : $participantData;
+        return THM_OrganizerHelperComponent::query('loadAssocList', []);
     }
 
     /**
@@ -407,13 +374,7 @@ class THM_OrganizerHelperCourses
         $query->order('map.id');
         $dbo->setQuery($query);
 
-        try {
-            $ccmIDs = $dbo->loadColumn();
-        } catch (RuntimeException $e) {
-            return [];
-        }
-
-        return empty($ccmIDs) ? [] : $ccmIDs;
+        return THM_OrganizerHelperComponent::query('loadColumn', []);
     }
 
     /**
@@ -423,7 +384,6 @@ class THM_OrganizerHelperCourses
      * @param int $campusID  id of the course campus
      *
      * @return array  with course data on success, otherwise empty
-     * @throws Exception
      */
     public static function getLatestCourses($subjectID, $campusID = null)
     {
@@ -439,7 +399,7 @@ class THM_OrganizerHelperCourses
         $query->select('DISTINCT l.id, l.max_participants as lessonP')
             ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
             ->select('pp.name as planningPeriodName')
-            ->select("l.campusID AS campusID, s.campusID AS abstractCampusID");
+            ->select('l.campusID AS campusID, s.campusID AS abstractCampusID');
 
         $query->from('#__thm_organizer_lessons AS l')
             ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id')
@@ -461,14 +421,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        try {
-            $courses = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
-        }
-
+        $courses = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($courses)) {
             return [];
         }
@@ -498,7 +451,6 @@ class THM_OrganizerHelperCourses
      * @param int $status   status of participants (1 registered, 0 waiting)
      *
      * @return mixed list of students in course with $id, false on error
-     * @throws Exception
      */
     public static function getParticipants($courseID, $status = null)
     {
@@ -530,15 +482,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        try {
-            $participants = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
-        }
-
-        return empty($participants) ? [] : $participants;
+        return THM_OrganizerHelperComponent::query('loadAssocList', []);
     }
 
     /**
@@ -547,12 +491,11 @@ class THM_OrganizerHelperCourses
      * @param int $courseID of lesson
      *
      * @return array containing the user specific information or empty on error
-     * @throws Exception
      */
     public static function getParticipantState($courseID = 0)
     {
         $userID   = JFactory::getUser()->id;
-        $courseID = JFactory::getApplication()->input->getInt('lessonID', $courseID);
+        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID) || empty($userID)) {
             return [];
@@ -560,22 +503,12 @@ class THM_OrganizerHelperCourses
 
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-
-        $query->select("*");
-        $query->from("#__thm_organizer_user_lessons");
+        $query->select('*');
+        $query->from('#__thm_organizer_user_lessons');
         $query->where("userID = '$userID' AND lessonID = '$courseID'");
-
         $dbo->setQuery($query);
 
-        try {
-            $regState = $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
-        }
-
-        return empty($regState) ? [] : $regState;
+        return THM_OrganizerHelperComponent::query('loadAssoc', []);
     }
 
     /**
@@ -584,7 +517,6 @@ class THM_OrganizerHelperCourses
      * @param int $courseID the id of the course
      *
      * @return string the HTML for the status display
-     * @throws Exception
      */
     public static function getStatusDisplay($courseID)
     {
@@ -608,7 +540,7 @@ class THM_OrganizerHelperCourses
                 if (empty($regState)) {
                     $text = $none;
                 } else {
-                    $text = empty($regState["status"]) ? $waitList : $registered;
+                    $text = empty($regState['status']) ? $waitList : $registered;
                 }
 
                 $disabled   = '<span class="disabled">%s</span>';
@@ -627,7 +559,6 @@ class THM_OrganizerHelperCourses
      * @param int $courseID the id of the course
      *
      * @return int the id of the subject or 0 if the course could not be resolved to a subject
-     * @throws Exception
      */
     public static function getSubjectID($courseID)
     {
@@ -645,15 +576,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        try {
-            $subjectID = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return 0;
-        }
-
-        return empty($subjectID) ? 0 : $subjectID;
+        return (int)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -662,7 +585,6 @@ class THM_OrganizerHelperCourses
      * @param int $courseID id of lesson
      *
      * @return bool true if registration deadline not yet in the past, false otherwise
-     * @throws Exception
      */
     public static function isRegistrationOpen($courseID = 0)
     {
@@ -671,10 +593,20 @@ class THM_OrganizerHelperCourses
             return false;
         }
 
-        $startDate    = new DateTime($dates[0]);
-        $deadline     = self::getCourse($courseID)['deadline'];
+        $startDate = new DateTime($dates[0]);
+        $deadline  = self::getCourse($courseID)['deadline'];
+
+        try {
+            $interval = new DateInterval("P{$deadline}D");
+        } catch (Exception $exc) {
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+
+            return false;
+
+        }
+
         $adjustedDate = new DateTime;
-        $adjustedDate->add(new DateInterval("P{$deadline}D"));
+        $adjustedDate->add($interval);
 
         return $startDate > $adjustedDate;
     }
@@ -685,12 +617,11 @@ class THM_OrganizerHelperCourses
      * @param int $courseID lesson id of lesson where participants have to be moved up
      *
      * @return void
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public static function refreshWaitList($courseID)
     {
         $canAccept = self::canAcceptParticipant($courseID);
-        $lang      = THM_OrganizerHelperLanguage::getLanguage();
 
         if ($canAccept) {
             $dbo   = JFactory::getDbo();
@@ -703,16 +634,7 @@ class THM_OrganizerHelperCourses
 
             $dbo->setQuery($query);
 
-            try {
-                $nextParticipantID = $dbo->loadResult();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    $lang->_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
-
-                return;
-            }
+            $nextParticipantID = THM_OrganizerHelperComponent::query('loadResult');
 
             if (!empty($nextParticipantID)) {
                 THM_OrganizerHelperParticipants::changeState($nextParticipantID, $courseID, 1);
@@ -724,7 +646,6 @@ class THM_OrganizerHelperCourses
      * Get formatted array with all prep courses in format id => name
      *
      * @return array  assoc array with all prep courses with id => name
-     * @throws Exception
      */
     public static function prepCourseList()
     {
@@ -734,26 +655,19 @@ class THM_OrganizerHelperCourses
         $query = $dbo->getQuery(true);
 
         $query->select("id, name_$shortTag AS name");
-        $query->from("#__thm_organizer_subjects");
+        $query->from('#__thm_organizer_subjects');
         $query->where("is_prep_course = '1'");
 
         $dbo->setQuery($query);
 
-        try {
-            $courses = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return [];
-        }
-
+        $courses = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($courses)) {
             return [];
         }
 
         $return = [];
         foreach ($courses as $course) {
-            $return[$course["id"]] = $course["name"];
+            $return[$course['id']] = $course['name'];
         }
 
         return $return;
@@ -765,11 +679,10 @@ class THM_OrganizerHelperCourses
      * @param int $courseID
      *
      * @return string
-     * @throws Exception
      */
     public static function getName($courseID = 0)
     {
-        $courseID = JFactory::getApplication()->input->getInt('lessonID', $courseID);
+        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return '';
@@ -785,14 +698,6 @@ class THM_OrganizerHelperCourses
             ->where("ls.lessonID = '{$courseID}'");
         $dbo->setQuery($query);
 
-        try {
-            $name = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return '';
-        }
-
-        return $name;
+        return (string)THM_OrganizerHelperComponent::query('loadResult');
     }
 }

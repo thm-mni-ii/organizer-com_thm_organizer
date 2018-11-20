@@ -20,7 +20,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * Attempts to delete the selected subject entries and related mappings
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {
@@ -28,7 +28,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $subjectIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $subjectIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         if (!empty($subjectIDs)) {
             $this->_db->transactionStart();
             foreach ($subjectIDs as $subjectID) {
@@ -81,11 +81,11 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * necessary.
      *
      * @return true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         if (empty($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
@@ -174,7 +174,6 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array &$data the post data
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
     private function processFormTeachers(&$data)
     {
@@ -214,7 +213,6 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int $responsibility the teacher responsibility level (1|2)
      *
      * @return boolean
-     * @throws Exception
      */
     public function removeTeachers($subjectID, $responsibility = null)
     {
@@ -225,15 +223,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
 
         $this->_db->setQuery($query);
-        try {
-            $this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -246,7 +237,6 @@ class THM_OrganizerModelSubject extends JModelLegacy
      *                              subject
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
     public function addTeacher($subjectID, $teacherID, $responsibility)
     {
@@ -254,15 +244,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
         $query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
         $query->values("'$subjectID', '$teacherID', '$responsibility'");
         $this->_db->setQuery($query);
-        try {
-            $this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -271,7 +254,6 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array &$data the post data
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
     private function processFormSubjectMappings(&$data)
     {
@@ -297,23 +279,14 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int $subjectID the subject id
      *
      * @return boolean
-     * @throws Exception
      */
-    public function removeSubjectMappings($subjectID)
+    private function removeSubjectMappings($subjectID)
     {
         $query = $this->_db->getQuery(true);
         $query->delete('#__thm_organizer_subject_mappings')->where("subjectID = '$subjectID'");
         $this->_db->setQuery($query);
 
-        try {
-            $this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -324,9 +297,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array $planSubjectIDs the id of the planSubject
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
-    public function addSubjectMappings($subjectID, $planSubjectIDs)
+    private function addSubjectMappings($subjectID, $planSubjectIDs)
     {
         $query = $this->_db->getQuery(true);
         $query->insert('#__thm_organizer_subject_mappings')->columns('subjectID, plan_subjectID');
@@ -335,15 +307,8 @@ class THM_OrganizerModelSubject extends JModelLegacy
         }
 
         $this->_db->setQuery($query);
-        try {
-            $this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -352,7 +317,6 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array &$data the post data
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
     private function processFormPrerequisites(&$data)
     {
@@ -390,22 +354,14 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param int $subjectID the subject id
      *
      * @return boolean
-     * @throws Exception
      */
-    public function removePrerequisites($subjectID)
+    private function removePrerequisites($subjectID)
     {
         $query = $this->_db->getQuery(true);
         $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
         $this->_db->setQuery($query);
-        try {
-            $this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -416,23 +372,15 @@ class THM_OrganizerModelSubject extends JModelLegacy
      * @param array $prerequisite the id of the prerequisite
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
-    public function addPrerequisite($subjectID, $prerequisite)
+    private function addPrerequisite($subjectID, $prerequisite)
     {
         $query = $this->_db->getQuery(true);
         $query->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite');
         $query->values("'$subjectID', '$prerequisite'");
         $this->_db->setQuery($query);
-        try {
-            $this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**

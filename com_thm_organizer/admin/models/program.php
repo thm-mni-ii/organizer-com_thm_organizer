@@ -19,7 +19,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      * Attempts to delete the selected degree program entries and related mappings
      *
      * @return boolean  True if successful, false if an error occurs.
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {
@@ -27,7 +27,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $programIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $programIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         if (!empty($programIDs)) {
             $this->_db->transactionStart();
             $table = JTable::getInstance('programs', 'thm_organizerTable');
@@ -63,11 +63,11 @@ class THM_OrganizerModelProgram extends JModelLegacy
      * @param array $data the data to be used to create the program when called from the program helper
      *
      * @return Boolean
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access
      */
     public function save($data = [])
     {
-        $data = empty($data) ? JFactory::getApplication()->input->get('jform', [], 'array') : $data;
+        $data = empty($data) ? THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array') : $data;
 
         if (empty($data['id'])) {
             $documentationAccess = THM_OrganizerHelperAccess::allowDocumentAccess();
@@ -106,7 +106,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
      * Method to save existing degree programs as copies
      *
      * @return Boolean
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save2copy()
     {
@@ -114,7 +114,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         if (isset($data['id'])) {
             unset($data['id']);
         }

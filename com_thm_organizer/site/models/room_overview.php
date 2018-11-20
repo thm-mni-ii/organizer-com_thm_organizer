@@ -39,8 +39,6 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
 
     /**
      * Constructor
-     *
-     * @throws Exception
      */
     public function __construct()
     {
@@ -64,8 +62,8 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm(
-            "com_thm_organizer.room_overview",
-            "room_overview",
+            'com_thm_organizer.room_overview',
+            'room_overview',
             ['control' => 'jform', 'load_data' => true]
         );
 
@@ -76,11 +74,10 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * Method to auto-populate the model state.
      *
      * @return void
-     * @throws Exception
      */
     protected function populateState()
     {
-        $app           = JFactory::getApplication();
+        $app           = THM_OrganizerHelperComponent::getApplication();
         $format        = $app->getParams()->get('dateFormat', 'd.m.Y');
         $formData      = $app->input->get('jform', [], 'array');
         $defaultDate   = date($format);
@@ -146,7 +143,6 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * Sets the data object variable with corresponding room information
      *
      * @return void  modifies the object data variable
-     * @throws Exception
      */
     private function setData()
     {
@@ -169,7 +165,6 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * Gets the main grid from the first schedule
      *
      * @return void  sets the object grid variable
-     * @throws Exception
      */
     private function setGrid()
     {
@@ -177,14 +172,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
         $query->select('grid')->from('#__thm_organizer_grids as g')->where("defaultGrid = '1'");
         $this->_db->setQuery($query);
 
-        try {
-            $defaultGrid = $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return;
-        }
-
+        $defaultGrid = THM_OrganizerHelperComponent::query('loadResult');
         $defaultGrid = json_decode($defaultGrid, true);
 
         if (empty($this->defaultCampus)) {
@@ -197,20 +185,13 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
         $query = $this->_db->getQuery(true);
         $query->select('g1.grid as grid, g2.grid as parentGrid')
             ->from('#__thm_organizer_campuses as c1')
-            ->leftJoin("#__thm_organizer_grids as g1 on c1.gridID = g1.id")
+            ->leftJoin('#__thm_organizer_grids as g1 on c1.gridID = g1.id')
             ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID')
-            ->leftJoin("#__thm_organizer_grids as g2 on c2.gridID = g2.id")
+            ->leftJoin('#__thm_organizer_grids as g2 on c2.gridID = g2.id')
             ->where("c1.id = '$this->defaultCampus'")
-            ->where("(c1.gridID IS NOT NULL OR (c1.gridID IS NULL and c2.gridID IS NOT NULL))");
+            ->where('(c1.gridID IS NOT NULL OR (c1.gridID IS NULL and c2.gridID IS NOT NULL))');
         $this->_db->setQuery($query);
-
-        try {
-            $campusGrids = $this->_db->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return;
-        }
+        $campusGrids = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
         if (empty($campusGrids)) {
             $this->grid = $defaultGrid;
@@ -231,7 +212,6 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * Gets the room information for a week
      *
      * @return void sets the daily event information over the given interval
-     * @throws Exception
      */
     private function getInterval()
     {
@@ -249,7 +229,6 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * @param string $date the date string
      *
      * @return void  room information for the given day is added to the $blocks object variable
-     * @throws Exception
      */
     private function getDay($date)
     {
@@ -280,16 +259,14 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * @param string $date the date for which to retrieve events
      *
      * @return array the events for the given date
-     * @throws Exception
      */
     private function getEvents($date)
     {
-        $lang     = THM_OrganizerHelperLanguage::getLanguage();
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $query = $this->_db->getQuery(true);
 
-        $select = "DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ";
+        $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ';
         $select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
         $select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
         $select .= "ps.name AS psName, s.name_$shortTag AS sName";
@@ -314,11 +291,8 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
             ->where("(ppp.published IS NULL OR ppp.published = '1')");
         $this->_db->setQuery($query);
 
-        try {
-            $results = $this->_db->loadAssocList();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($lang->_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($results)) {
             return [];
         }
 
@@ -437,7 +411,6 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      * Gets the rooms and relevant room types
      *
      * @return void  sets the rooms and types object variables
-     * @throws Exception
      */
     private function setRooms()
     {

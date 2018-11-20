@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 $logoURL = 'media/com_thm_organizer/images/thm_organizer.png';
-$logo = JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);
+$logo    = JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);
 ?>
 <div id="j-main-container" class="span5">
     <div class="span10 form-vertical actions">

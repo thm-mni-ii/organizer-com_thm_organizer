@@ -20,7 +20,7 @@ class THM_OrganizerModelCampus extends JModelLegacy
      * attempts to save the monitor form data
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
@@ -28,7 +28,7 @@ class THM_OrganizerModelCampus extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data      = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data      = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         $dataTable = JTable::getInstance('campuses', 'thm_organizerTable');
 
         // Ensure maximal depth of two
@@ -47,6 +47,7 @@ class THM_OrganizerModelCampus extends JModelLegacy
      * Removes campus entries from the database
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {

@@ -42,9 +42,9 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
     {
         // Perform the database request
         $query  = $this->_db->getQuery(true);
-        $select = "id, name, abbreviation, code, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=degree_edit&id='", "id"];
-        $select .= $query->concatenate($parts) . " AS link";
+        $select = 'id, name, abbreviation, code, ';
+        $parts  = ["'index.php?option=com_thm_organizer&view=degree_edit&id='", 'id'];
+        $select .= $query->concatenate($parts) . ' AS link';
         $query->select($select);
         $query->from('#__thm_organizer_degrees');
         $columns = ['name', 'abbreviation', 'code'];
@@ -95,17 +95,12 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
         $headers             = [];
         $headers['checkbox'] = '';
 
-        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['name'] = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
 
-        $headers['abbreviation'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_ABBREVIATION',
-            'abbreviation',
-            $direction,
-            $ordering
-        );
+        $headers['abbreviation']
+            = THM_OrganizerHelperComponent::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
 
-        $headers['code'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_DEGREE_CODE', 'code', $direction, $ordering);
+        $headers['code'] = THM_OrganizerHelperComponent::sort('DEGREE_CODE', 'code', $direction, $ordering);
 
         return $headers;
     }

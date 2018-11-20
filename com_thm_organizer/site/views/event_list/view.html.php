@@ -40,6 +40,6 @@ class THM_OrganizerViewEvent_List extends JViewLegacy
     private function modifyDocument()
     {
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/event_list.css");
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/event_list.css');
     }
 }

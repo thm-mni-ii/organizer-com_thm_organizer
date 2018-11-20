@@ -34,9 +34,9 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
     {
         $query = $this->_db->getQuery(true);
 
-        $select = "b.id, b.name, propertyType, campusID, c1.parentID, b.address, c1.city, c2.city as parentCity, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=building_edit&id='", "b.id"];
-        $select .= $query->concatenate($parts, "") . " AS link";
+        $select = 'b.id, b.name, propertyType, campusID, c1.parentID, b.address, c1.city, c2.city as parentCity, ';
+        $parts  = ["'index.php?option=com_thm_organizer&view=building_edit&id='", 'b.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select);
         $query->from('#__thm_organizer_buildings as b');
         $query->innerJoin('#__thm_organizer_campuses as c1 on b.campusID = c1.id');
@@ -106,15 +106,10 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
+        $direction               = $this->state->get('list.direction', $this->defaultDirection);
         $headers                 = [];
         $headers['checkbox']     = '';
-        $headers['name']         = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_NAME',
-            'name',
-            $this->state->get('list.direction', $this->defaultDirection),
-            $this->state->get('list.ordering', $this->defaultOrdering)
-        );
+        $headers['name']         = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, 'name');
         $headers['campusID']     = JText::_('COM_THM_ORGANIZER_CAMPUS');
         $headers['propertyType'] = JText::_('COM_THM_ORGANIZER_PROPERTY_TYPE');
         $headers['address']      = JText::_('COM_THM_ORGANIZER_ADDRESS');
@@ -131,7 +126,7 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
      */
     private function setCampusFilter(&$query)
     {
-        $value = $this->state->get("filter.campusID", '');
+        $value = $this->state->get('filter.campusID', '');
 
         if ($value === '') {
             return;
@@ -143,7 +138,7 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
          * be extended we could maybe add a parameter for it later.
          */
         if ($value == '-1') {
-            $query->where("campusID IS NULL");
+            $query->where('campusID IS NULL');
 
             return;
         }

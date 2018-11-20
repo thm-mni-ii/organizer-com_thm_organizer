@@ -24,11 +24,10 @@ class JFormFieldModulesPosition extends JFormFieldList
      * Method to get the field options.
      *
      * @return array  The field option objects.
-     * @throws Exception
      */
     protected function getOptions()
     {
-        $clientId = JFactory::getApplication()->input->get('client_id', 0, 'int');
+        $clientId = THM_OrganizerHelperComponent::getInput()->get('client_id', 0, 'int');
         $options  = ModulesHelper::getPositions($clientId);
 
         return array_merge(parent::getOptions(), $options);

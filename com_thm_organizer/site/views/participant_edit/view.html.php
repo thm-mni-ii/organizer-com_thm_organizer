@@ -32,7 +32,7 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function display($tpl = null)
     {
@@ -54,7 +54,7 @@ class THM_OrganizerViewParticipant_Edit extends JViewLegacy
         $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
         $params                 = [
             'view'     => 'participant_edit',
-            'lessonID' => empty($this->course) ? 0 : $this->course["id"]
+            'lessonID' => empty($this->course) ? 0 : $this->course['id']
         ];
         $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
 

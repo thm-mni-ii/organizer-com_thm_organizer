@@ -21,30 +21,21 @@ class THM_OrganizerHelperDepartments
      * @param array  $resourceIDs the ids of the resources selected
      *
      * @return array the department ids associated with the selected resources
-     * @throws Exception
      */
     public static function getDepartmentsByResource($resource, $resourceIDs = null)
     {
-        $resourceIDs = "'" . implode("', '", $resourceIDs) . "'";
-
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT departmentID')
             ->from('#__thm_organizer_department_resources');
-        if ($resourceIDs) {
+        if (!empty($resourceIDs) and is_array($resourceIDs)) {
+            $resourceIDs = "'" . implode("', '", Joomla\Utilities\ArrayHelper::toInteger($resourceIDs)) . "'";
             $query->where("{$resource}ID IN ($resourceIDs)");
         } else {
             $query->where("{$resource}ID IS NOT NULL");
         }
         $dbo->setQuery($query);
-
-        try {
-            $departmentIDs = $dbo->loadColumn();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
+        $departmentIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         return empty($departmentIDs) ? [] : $departmentIDs;
     }
@@ -55,7 +46,6 @@ class THM_OrganizerHelperDepartments
      * @param int $departmentID the
      *
      * @return string  the name of the department in the active language
-     * @throws Exception
      */
     public static function getName($departmentID)
     {
@@ -69,15 +59,7 @@ class THM_OrganizerHelperDepartments
 
         $dbo->setQuery($query);
 
-        try {
-            $name = $dbo->loadResult();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return '';
-        }
-
-        return empty($name) ? '' : $name;
+        return (string)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -86,7 +68,7 @@ class THM_OrganizerHelperDepartments
      * @param int    $resourceID the db id for the plan resource
      * @param string $column     the column in which the resource information is stored
      *
-     * @throws Exception
+     * @return void
      */
     public static function setDepartmentResource($resourceID, $column)
     {
@@ -101,13 +83,13 @@ class THM_OrganizerHelperDepartments
             return;
         }
 
-        $formData             = JFactory::getApplication()->input->get('jform', [], 'array');
+        $formData             = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         $data['departmentID'] = $formData['departmentID'];
 
         try {
             $deptResourceTable->save($data);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
         }
 
         return;
@@ -120,9 +102,6 @@ class THM_OrganizerHelperDepartments
      * @param bool $short whether or not abbreviated names should be returned
      *
      * @return array
-     *
-     * @throws RuntimeException
-     * @throws Exception
      */
     public static function getPlanDepartments($short = true)
     {
@@ -137,17 +116,9 @@ class THM_OrganizerHelperDepartments
 
         $dbo->setQuery($query);
 
-        $default = [];
-        try {
-            $results = $dbo->loadAssocList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return $default;
-        }
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($results)) {
-            return $default;
+            return [];
         }
 
         $departments = [];

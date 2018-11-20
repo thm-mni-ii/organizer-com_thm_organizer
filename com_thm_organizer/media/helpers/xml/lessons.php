@@ -170,7 +170,7 @@ class THM_OrganizerHelperXMLLessons
     public function validate()
     {
         if (empty($this->xmlObject->lessons)) {
-            $this->scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_LESSONS_MISSING");
+            $this->scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_LESSONS_MISSING');
 
             return;
         }
@@ -284,7 +284,7 @@ class THM_OrganizerHelperXMLLessons
         $untisID       = substr($withoutPrefix, 0, strlen($withoutPrefix) - 2);
 
         if (empty($untisID)) {
-            $missingText = JText::_("COM_THM_ORGANIZER_ERROR_LESSON_ID_MISSING");
+            $missingText = JText::_('COM_THM_ORGANIZER_ERROR_LESSON_ID_MISSING');
             if (!in_array($missingText, $this->scheduleModel->scheduleErrors)) {
                 $this->scheduleModel->scheduleErrors[] = $missingText;
             }
@@ -356,7 +356,7 @@ class THM_OrganizerHelperXMLLessons
      *
      * @param object &$lessonNode the lesson node
      *
-     * @return boolean  true if valid, otherwise false
+     * @return void modifies object properties
      */
     private function validateMethod(&$lessonNode)
     {
@@ -691,7 +691,7 @@ class THM_OrganizerHelperXMLLessons
      * @param int    $currentDT     the timestamp of the date being iterated
      * @param string $period        the period attribute
      *
-     * @return array  the roomIDs on success, otherwise false
+     * @return mixed the roomIDs (array) on success, otherwise false
      */
     private function validateRooms($roomAttribute, $currentDT, $period)
     {

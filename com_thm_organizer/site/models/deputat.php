@@ -38,8 +38,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Sets construction model properties
      *
      * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
-     *
-     * @throws Exception
      */
     public function __construct($config = [])
     {
@@ -58,7 +56,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Calculates resource consumption from a schedule
      *
      * @return void sets the instance's lesson values variable
-     * @throws Exception
      */
     public function calculateDeputat()
     {
@@ -88,7 +85,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $endDate   the end date of the original schedule
      *
      * @return void  adds deputat to the lesson values array
-     * @throws Exception
      */
     private function checkOtherSchedules($teachers, $startDate, $endDate)
     {
@@ -115,7 +111,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Converts the individual lessons into the actual deputat
      *
      * @return void  sets the deputat object variable
-     * @throws Exception
      */
     private function convertLessonValues()
     {
@@ -191,17 +186,16 @@ class THM_OrganizerModelDeputat extends JModelLegacy
          */
         function cmp($one, $two)
         {
-            return strcmp($one["name"], $two["name"]);
+            return strcmp($one['name'], $two['name']);
         }
 
-        usort($this->deputat, "cmp");
+        usort($this->deputat, 'cmp');
     }
 
     /**
      * Gets all schedules in the database
      *
      * @return array An array with the schedules
-     * @throws Exception
      */
     public function getDepartmentSchedules()
     {
@@ -254,11 +248,10 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $subjectName the 'subject' name
      *
      * @return float|int  the conversion rate
-     * @throws Exception
      */
     private function getRate($subjectName)
     {
-        $params = JFactory::getApplication()->getParams();
+        $params = THM_OrganizerHelperComponent::getApplication()->getParams();
         if ($subjectName == 'Betreuung von Bachelorarbeiten') {
             return floatval('0.' . $params->get('bachelor_value', 25));
         }
@@ -416,17 +409,16 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Sets object properties
      *
      * @return void
-     * @throws Exception
      */
     private function setObjectProperties()
     {
-        $this->params = JFactory::getApplication()->getParams();
+        $this->params = THM_OrganizerHelperComponent::getApplication()->getParams();
         $departmentID = $this->params->get('departmentID', 0);
         if (!empty($departmentID)) {
             $this->setDepartmentName($departmentID);
         }
 
-        $input                        = JFactory::getApplication()->input;
+        $input                        = THM_OrganizerHelperComponent::getInput();
         $this->reset                  = $input->getBool('reset', false);
         $this->selected               = [];
         $this->teachers               = [];
@@ -443,7 +435,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param int $departmentID the id of the department
      *
      * @return void  sets the object variable $departmentName on success
-     * @throws Exception
      */
     private function setDepartmentName($departmentID)
     {
@@ -453,16 +444,14 @@ class THM_OrganizerModelDeputat extends JModelLegacy
         $query = $dbo->getQuery(true);
         $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery($query);
-        try {
-            $departmentName       = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
-            $this->departmentName = $departmentName . ' ' . $dbo->loadResult();
 
-            return;
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+        $departmentName = THM_OrganizerHelperComponent::query('loadResult');
 
+        if (empty($departmentName)) {
             return;
         }
+
+        $this->departmentName = JText::_('COM_THM_ORGANIZER_DEPARTMENT') . ' ' . $departmentName;
     }
 
     /**
@@ -603,23 +592,21 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Method to set a schedule by its id from the database
      *
      * @return void sets the instance's schedule variable
-     * @throws Exception
      */
     public function setSchedule()
     {
-        $this->scheduleID = JFactory::getApplication()->input->getInt('scheduleID', 0);
+        $this->scheduleID = THM_OrganizerHelperComponent::getInput()->getInt('scheduleID', 0);
         $query            = $this->_db->getQuery(true);
         $query->select('schedule');
-        $query->from("#__thm_organizer_schedules");
+        $query->from('#__thm_organizer_schedules');
         $query->where("id = '$this->scheduleID'");
         $this->_db->setQuery($query);
 
-        try {
-            $result         = $this->_db->loadResult();
-            $this->schedule = json_decode($result);
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+        $result = THM_OrganizerHelperComponent::query('loadResult');
+        if (empty($result)) {
             $this->schedule = null;
+        } else {
+            $this->schedule = json_decode($result);
         }
     }
 
@@ -630,7 +617,6 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param array  &$lessonValues the values for the lesson being iterated
      *
      * @return void  sets values in the object variable $deputat
-     * @throws Exception
      */
     private function setTallyDeputat($teacherID, &$lessonValues)
     {
@@ -852,12 +838,11 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * Gets the list of selected teachers
      *
      * @return void
-     * @throws Exception
      */
     private function setSelected()
     {
         $default  = ['*'];
-        $selected = JFactory::getApplication()->input->get('teachers', $default, 'array');
+        $selected = THM_OrganizerHelperComponent::getInput()->get('teachers', $default, 'array');
 
         // Returns a hard false if value is not in array
         $allSelected = array_search('*', $selected);
@@ -899,24 +884,18 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param string $endDate   the end date of the original schedule
      *
      * @return mixed  array on success, otherwise null
-     * @throws Exception
      */
     private function getPlausibleScheduleIDs($startDate, $endDate)
     {
         $query = $this->_db->getQuery(true);
         $query->select('id');
-        $query->from("#__thm_organizer_schedules");
+        $query->from('#__thm_organizer_schedules');
         $query->where("startDate = '$startDate'");
         $query->where("endDate = '$endDate'");
         $query->where("active = '1'");
         $this->_db->setQuery($query);
-        try {
-            return $this->_db->loadColumn();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
-            return null;
-        }
+        return THM_OrganizerHelperComponent::query('loadColumn', []);
     }
 
     /**
@@ -925,23 +904,17 @@ class THM_OrganizerModelDeputat extends JModelLegacy
      * @param int $scheduleID the id of the schedule to be iterated
      *
      * @return mixed  array on success, otherwise null
-     * @throws Exception
      */
     private function getSchedule($scheduleID)
     {
         $query = $this->_db->getQuery(true);
         $query->select('schedule');
-        $query->from("#__thm_organizer_schedules");
+        $query->from('#__thm_organizer_schedules');
         $query->where("id = '$scheduleID'");
         $this->_db->setQuery($query);
-        try {
-            $result = $this->_db->loadResult();
 
-            return json_decode($result);
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
+        $result = THM_OrganizerHelperComponent::query('loadResult');
 
-            return null;
-        }
+        return empty($result) ? null : json_decode($result);
     }
 }

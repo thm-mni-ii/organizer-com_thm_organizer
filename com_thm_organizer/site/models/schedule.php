@@ -34,7 +34,7 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      *
      * @param array $config options
      *
-     * @throws Exception
+     * @throws Exception => option could not be resolved from class name
      */
     public function __construct(array $config)
     {
@@ -48,7 +48,6 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Getter method for all grids in database
      *
      * @return array
-     * @throws Exception
      */
     public function getGrids()
     {
@@ -56,16 +55,10 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $query       = $this->_db->getQuery(true);
         $query->select("id, name_$languageTag AS name, grid, defaultGrid")
             ->from('#__thm_organizer_grids')
-            ->order("name");
+            ->order('name');
         $this->_db->setQuery($query);
 
-        try {
-            $grids = $this->_db->loadObjectList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return [];
-        }
+        $grids = THM_OrganizerHelperComponent::query('loadObjectList');
 
         return empty($grids) ? [] : $grids;
     }
@@ -91,12 +84,11 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * Sets the parameters used to configure the display
      *
      * @return void
-     * @throws Exception
      */
     private function setParams()
     {
-        $input  = JFactory::getApplication()->input;
-        $params = JFactory::getApplication()->getParams();
+        $input  = THM_OrganizerHelperComponent::getInput();
+        $params = THM_OrganizerHelperComponent::getApplication()->getParams();
 
         $this->params = [];
 
@@ -127,8 +119,8 @@ class THM_OrganizerModelSchedule extends JModelLegacy
 
         $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
         $departmentPlaner = THM_OrganizerHelperAccess::allowSchedulingAccess(0, $departmentID);
-        $isTeacher        = (bool)THM_OrganizerHelperTeachers::getIDFromUserData();
-        $showTeachers     = (($departmentPlaner or $isTeacher) and $stMenuParam);
+        $isTeacher        = THM_OrganizerHelperTeachers::getIDFromUserData();
+        $showTeachers     = (($departmentPlaner or !empty($isTeacher)) and $stMenuParam);
 
         $this->params['showTeachers']    = $showTeachers;
         $this->params['deltaDays']       = $input->getInt('deltaDays', (int)$params->get('deltaDays', 5));
@@ -304,14 +296,13 @@ class THM_OrganizerModelSchedule extends JModelLegacy
      * @param string $resourceName the name of the resource type
      *
      * @return void sets object variable indexes
-     * @throws Exception
      */
     private function setResourceArray($resourceName)
     {
-        $rawResourceIDs = JFactory::getApplication()->input->get("{$resourceName}IDs", [], 'raw');
+        $rawResourceIDs = THM_OrganizerHelperComponent::getInput()->get("{$resourceName}IDs", [], 'raw');
 
         if (empty($rawResourceIDs)) {
-            $rawResourceIDs = JFactory::getApplication()->getParams()->get("{$resourceName}IDs");
+            $rawResourceIDs = THM_OrganizerHelperComponent::getApplication()->getParams()->get("{$resourceName}IDs");
         }
 
         if (!empty($rawResourceIDs)) {

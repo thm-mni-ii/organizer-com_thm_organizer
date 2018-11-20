@@ -21,13 +21,16 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
  */
 class THM_OrganizerModelRoom_Display extends JModelLegacy
 {
-    public $params = [];
+    public $blocks = [];
+
+    private $grid;
 
     public $monitorID = null;
 
+    public $params = [];
+
     public $roomID = null;
 
-    public $blocks = [];
 
     /**
      * Constructor
@@ -48,11 +51,10 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Redirects to the component template if it has not already been done
      *
      * @return void redirects to component template
-     * @throws Exception
      */
     protected function ensureComponentTemplate()
     {
-        $app         = JFactory::getApplication();
+        $app         = THM_OrganizerHelperComponent::getApplication();
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
             $query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
@@ -64,7 +66,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Gets the room information for a day
      *
      * @return void  room information for the given day is added to the $blocks object variable
-     * @throws Exception
      */
     private function getDay()
     {
@@ -90,7 +91,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * @param string $date the date on which the events occur
      *
      * @return array the events for the given date
-     * @throws Exception
      */
     protected function getEvents($date)
     {
@@ -117,11 +117,8 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
             ->where("ls.delta != 'removed'");
         $this->_db->setQuery($query);
 
-        try {
-            $results = $this->_db->loadAssocList();
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage(JText::_(), 'error');
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($results)) {
             return [];
         }
 
@@ -287,7 +284,6 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
      * Gets the main grid from the first schedule
      *
      * @return void  sets the object grid variable
-     * @throws Exception
      */
     private function setGrid()
     {
@@ -295,26 +291,21 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         $query->select('grid')->from('#__thm_organizer_grids')->where("defaultGrid = '1'");
         $this->_db->setQuery($query);
 
-        try {
-            $rawGrid = $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
+        $rawGrid = THM_OrganizerHelperComponent::query('loadResult');
 
-            return;
+        if (!empty($rawGrid)) {
+            $this->grid = json_decode($rawGrid, true);
         }
-
-        $this->grid = json_decode($rawGrid, true);
     }
 
     /**
      * Checks whether the accessing agent is a registered monitor
      *
      * @return void sets instance variables
-     * @throws Exception
      */
     private function setRoomData()
     {
-        $input        = JFactory::getApplication()->input;
+        $input        = THM_OrganizerHelperComponent::getInput();
         $ipData       = ['ip' => $input->server->getString('REMOTE_ADDR', '')];
         $monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
         $roomEntry    = JTable::getInstance('rooms', 'thm_organizerTable');
@@ -346,7 +337,7 @@ class THM_OrganizerModelRoom_Display extends JModelLegacy
         }
 
         // Room could not be resolved => redirect to home
-        JFactory::getApplication()->redirect(JUri::root());
+        THM_OrganizerHelperComponent::getApplication()->redirect(JUri::root());
     }
 
     /**

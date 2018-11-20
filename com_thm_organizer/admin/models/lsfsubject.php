@@ -60,13 +60,12 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param array $programs       the programs to which the subject is mapped [id, name, lft, rgt)
      *
      * @return array the subject details for subjects with dependencies
-     * @throws Exception
      */
     private function checkForMappedSubjects($possibleModNos, $programs)
     {
-        $select = "s.id AS subjectID, externalID, ";
-        $select .= "abbreviation_de, short_name_de, name_de, abbreviation_en, short_name_en, name_en, ";
-        $select .= "m.id AS mappingID, m.lft, m.rgt, ";
+        $select = 's.id AS subjectID, externalID, ';
+        $select .= 'abbreviation_de, short_name_de, name_de, abbreviation_en, short_name_en, name_en, ';
+        $select .= 'm.id AS mappingID, m.lft, m.rgt, ';
 
         $query = $this->_db->getQuery(true);
         $query->from('#__thm_organizer_subjects AS s')->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
@@ -87,17 +86,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 $query->where("s.externalID = '$possibleModuleNumber'");
                 $this->_db->setQuery($query);
 
-                try {
-                    $mappedSubjects = $this->_db->loadAssocList('mappingID');
-                } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(
-                        JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error'
-                    );
-
-                    continue;
-                }
-
+                $mappedSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'mappingID');
                 if (empty($mappedSubjects)) {
                     continue;
                 }
@@ -146,44 +135,44 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     private function cleanText($text)
     {
         // Gets rid of bullshit encoding from copy and paste from word
-        $text = str_replace(chr(160), " ", $text);
-        $text = str_replace(chr(194) . chr(167), "&sect;", $text);
-        $text = str_replace(chr(194), " ", $text);
-        $text = str_replace(chr(195) . chr(159), "&szlig;", $text);
+        $text = str_replace(chr(160), ' ', $text);
+        $text = str_replace(chr(194) . chr(167), '&sect;', $text);
+        $text = str_replace(chr(194), ' ', $text);
+        $text = str_replace(chr(195) . chr(159), '&szlig;', $text);
 
         // Remove the formatted text tag
-        $text = preg_replace("/<[\/]?[f|F]ormatted[t|T]ext\>/", "", $text);
+        $text = preg_replace('/<[\/]?[f|F]ormatted[t|T]ext\>/', '', $text);
 
         // Remove non self closing tags with no content and unwanted self closing tags
-        $text = preg_replace("/<((?!br|col|link).)[a-z]*[\s]*\/>/", "", $text);
+        $text = preg_replace('/<((?!br|col|link).)[a-z]*[\s]*\/>/', '', $text);
 
         // Replace non-blank spaces
-        $text = preg_replace("/\&nbsp\;/", " ", $text);
+        $text = preg_replace('/&nbsp;/', ' ', $text);
 
         // Run iterative parsing for nested bullshit.
         do {
             $startText = $text;
 
             // Replace multiple whitespace characters with a single single space
-            $text = preg_replace("/\s+/", " ", $text);
+            $text = preg_replace('/\s+/', ' ', $text);
 
             // Replace non-blank spaces
-            $text = preg_replace("/^\s+/", "", $text);
+            $text = preg_replace('/^\s+/', '', $text);
 
             // Remove leading white space
-            $text = preg_replace("/^\s+/", "", $text);
+            $text = preg_replace('/^\s+/', '', $text);
 
             // Remove trailing white space
-            $text = preg_replace("/\s+$/", "", $text);
+            $text = preg_replace("/\s+$/", '', $text);
 
             // Replace remaining white space with an actual space to prevent errors from weird coding
-            $text = preg_replace("/\s$/", " ", $text);
+            $text = preg_replace("/\s$/", ' ', $text);
 
             // Remove white space between closing and opening tags
-            $text = preg_replace("/(<\/[^>]+>)\s*(<[^>]*>)/", "$1$2", $text);
+            $text = preg_replace('/(<\/[^>]+>)\s*(<[^>]*>)/', "$1$2", $text);
 
             // Remove non-self closing tags containing only white space
-            $text = preg_replace("/<[^\/>][^>]*>\s*<\/[^>]+>/", "", $text);
+            $text = preg_replace('/<[^\/>][^>]*>\s*<\/[^>]+>/', '', $text);
         } while ($text != $startText);
 
         return $text;
@@ -196,7 +185,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int   $subjectID the id of the subject being iterated
      *
      * @return array|mixed the mapping ids for the subject or null if the query failed
-     * @throws Exception
      */
     private function getProgramMappings($program, $subjectID)
     {
@@ -208,24 +196,18 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             ->where("rgt < '{$program['rgt']}'");
         $this->_db->setQuery($query);
 
-        try {
-            return $this->_db->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return [];
-        }
+        return THM_OrganizerHelperComponent::query('loadColumn', []);
     }
 
     /**
      * Method to import data associated with subjects from LSF
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function importBatch()
     {
-        $subjectIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $subjectIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         $this->_db->transactionStart();
 
         foreach ($subjectIDs as $subjectID) {
@@ -263,7 +245,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int $subjectID the id of the subject entry
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
      */
     public function importSingle($subjectID)
     {
@@ -271,7 +252,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
 
         $entryExists = $subject->load($subjectID);
         if (!$entryExists) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_BAD_ENTRY'), 'error');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_BAD_ENTRY', 'error');
 
             return false;
         }
@@ -306,14 +287,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      *                            LSF response
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
      */
     private function parseAttributes(&$subject, &$dataObject)
     {
         $teachersSet = $this->setTeachers($subject->id, $dataObject);
 
         if (!$teachersSet) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL'), 'error');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
             return false;
         }
@@ -427,7 +407,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int    $departmentID the id of the department to which this data belongs
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception
      */
     public function processStub(&$stub, $departmentID)
     {
@@ -476,7 +455,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param string $subjectID the id of the subject being processed
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
      */
     public function resolveDependencies($subjectID)
     {
@@ -578,7 +556,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param string $type         the type (direction) of dependency: pre|post
      *
      * @return bool
-     * @throws Exception
      */
     private function saveDependencies($programs, $subjectID, $dependencies, $type)
     {
@@ -673,18 +650,18 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 break;
 
             case 'Lehrformen':
-                $this->setAttribute($subject, "method_de", $germanText);
-                $this->setAttribute($subject, "method_en", $englishText);
+                $this->setAttribute($subject, 'method_de', $germanText);
+                $this->setAttribute($subject, 'method_en', $englishText);
                 break;
 
             case 'Voraussetzungen für die Vergabe von Creditpoints':
-                $this->setAttribute($subject, "proof_de", $germanText);
-                $this->setAttribute($subject, "proof_en", $englishText);
+                $this->setAttribute($subject, 'proof_de', $germanText);
+                $this->setAttribute($subject, 'proof_en', $englishText);
                 break;
 
             case 'Kurzbeschreibung':
-                $this->setAttribute($subject, "description_de", $germanText);
-                $this->setAttribute($subject, "description_en", $englishText);
+                $this->setAttribute($subject, 'description_de', $germanText);
+                $this->setAttribute($subject, 'description_en', $englishText);
                 break;
 
             case 'Literatur':
@@ -694,46 +671,46 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 break;
 
             case 'Qualifikations und Lernziele':
-                $this->setAttribute($subject, "objective_de", $germanText);
-                $this->setAttribute($subject, "objective_en", $englishText);
+                $this->setAttribute($subject, 'objective_de', $germanText);
+                $this->setAttribute($subject, 'objective_en', $englishText);
                 break;
 
             case 'Inhalt':
-                $this->setAttribute($subject, "content_de", $germanText);
-                $this->setAttribute($subject, "content_en", $englishText);
+                $this->setAttribute($subject, 'content_de', $germanText);
+                $this->setAttribute($subject, 'content_en', $englishText);
                 break;
 
             case 'Voraussetzungen':
-                $this->setAttribute($subject, "prerequisites_de", $germanText);
-                $this->setAttribute($subject, "prerequisites_en", $englishText);
+                $this->setAttribute($subject, 'prerequisites_de', $germanText);
+                $this->setAttribute($subject, 'prerequisites_en', $englishText);
 
                 break;
 
             case 'Empfohlene Voraussetzungen':
-                $this->setAttribute($subject, "recommended_prerequisites_de", $germanText);
-                $this->setAttribute($subject, "recommended_prerequisites_en", $englishText);
+                $this->setAttribute($subject, 'recommended_prerequisites_de', $germanText);
+                $this->setAttribute($subject, 'recommended_prerequisites_en', $englishText);
 
                 break;
 
             case 'Verwendbarkeit des Moduls':
-                $this->setAttribute($subject, "used_for_de", $germanText);
-                $this->setAttribute($subject, "used_for_en", $englishText);
+                $this->setAttribute($subject, 'used_for_de', $germanText);
+                $this->setAttribute($subject, 'used_for_en', $englishText);
 
                 break;
 
             case 'Prüfungsvorleistungen':
-                $this->setAttribute($subject, "preliminary_work_de", $germanText);
-                $this->setAttribute($subject, "preliminary_work_en", $englishText);
+                $this->setAttribute($subject, 'preliminary_work_de', $germanText);
+                $this->setAttribute($subject, 'preliminary_work_en', $englishText);
                 break;
 
             case 'Studienhilfsmittel':
-                $this->setAttribute($subject, "aids_de", $germanText);
-                $this->setAttribute($subject, "aids_en", $englishText);
+                $this->setAttribute($subject, 'aids_de', $germanText);
+                $this->setAttribute($subject, 'aids_en', $englishText);
                 break;
 
             case 'Bewertung, Note':
-                $this->setAttribute($subject, "evaluation_de", $germanText);
-                $this->setAttribute($subject, "evaluation_en", $englishText);
+                $this->setAttribute($subject, 'evaluation_de', $germanText);
+                $this->setAttribute($subject, 'evaluation_en', $englishText);
                 break;
 
             case 'Fachkompetenz':
@@ -782,7 +759,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param object &$dataObject an object containing the lsf response
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
     private function setTeachers($subjectID, &$dataObject)
     {
@@ -815,7 +791,6 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param int   $responsibility the teacher's responsibility level
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
      */
     private function setTeachersByResponsibility($subjectID, &$teachers, $responsibility)
     {
@@ -857,10 +832,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                 try {
                     $success = $teacherTable->load($criteria);
                 } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(
-                        JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error'
-                    );
+                    THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
                     return false;
                 }
@@ -894,29 +866,19 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      * @param array $subjectMappings      the mappings for the subject for the program
      *
      * @return bool true on success otherwise false
-     * @throws Exception
      */
     private function savePrerequisites($prerequisiteMappings, $subjectMappings)
     {
         foreach ($prerequisiteMappings as $prerequisiteID) {
             foreach ($subjectMappings as $subjectID) {
                 $checkQuery = $this->_db->getQuery(true);
-                $checkQuery->select("COUNT(*)");
+                $checkQuery->select('COUNT(*)');
                 $checkQuery->from('#__thm_organizer_prerequisites')
                     ->where("prerequisite = '$prerequisiteID'")
                     ->where("subjectID = '$subjectID'");
                 $this->_db->setQuery($checkQuery);
 
-                try {
-                    $entryExists = $this->_db->loadResult();
-                } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(
-                        JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error'
-                    );
-
-                    return false;
-                }
+                $entryExists = (bool)THM_OrganizerHelperComponent::query('loadResult');
 
                 if (!$entryExists) {
                     $insertQuery = $this->_db->getQuery(true);
@@ -924,16 +886,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
                     $insertQuery->columns('prerequisite, subjectID');
                     $insertQuery->values("'$prerequisiteID', '$subjectID'");
                     $this->_db->setQuery($insertQuery);
-                    try {
-                        $this->_db->execute();
-                    } catch (Exception $exc) {
-                        JFactory::getApplication()->enqueueMessage(
-                            JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                            'error'
-                        );
-
-                        return false;
-                    }
+                    THM_OrganizerHelperComponent::query('execute');
                 }
             }
         }
@@ -951,15 +904,15 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
     private function sanitizeText($text)
     {
         // Get rid of HTML
-        $text = preg_replace("/<.*?>/", " ", $text);
+        $text = preg_replace('/<.*?>/', ' ', $text);
 
         // Remove punctuation
-        $text = preg_replace("/[\!\"§\$\%\&\/\(\)\=\?\`\,]/", " ", $text);
-        $text = preg_replace("/[\{\}\[\]\\\´\+\*\~\#\'\<\>\|\;\.\:\-\_]/", " ", $text);
+        $text = preg_replace("/[\!\"§\$\%\&\/\(\)\=\?\`\,]/", ' ', $text);
+        $text = preg_replace("/[\{\}\[\]\\\´\+\*\~\#\'\<\>\|\;\.\:\-\_]/", ' ', $text);
 
         // Remove excess white space
         $text = trim($text);
-        $text = preg_replace("/\s+/", " ", $text);
+        $text = preg_replace('/\s+/', ' ', $text);
 
         return $text;
     }

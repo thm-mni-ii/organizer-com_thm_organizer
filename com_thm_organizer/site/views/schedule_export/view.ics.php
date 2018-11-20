@@ -25,9 +25,13 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     /**
      * Sets context variables and renders the view.
      *
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display()
+    public function display($tpl = null)
     {
         $model                      = $this->getModel();
         $this->parameters           = $model->parameters;
@@ -57,19 +61,19 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     {
         $vCalendar = new vcalendar;
         $vCalendar->setConfig('unique_id', $this->parameters['docTitle']);
-        $vCalendar->setConfig("lang", THM_OrganizerHelperLanguage::getShortTag());
-        $vCalendar->setProperty("x-wr-calname", $this->parameters['pageTitle']);
-        $vCalendar->setProperty("X-WR-TIMEZONE", "Europe/Berlin");
-        $vCalendar->setProperty("METHOD", "PUBLISH");
+        $vCalendar->setConfig('lang', THM_OrganizerHelperLanguage::getShortTag());
+        $vCalendar->setProperty('x-wr-calname', $this->parameters['pageTitle']);
+        $vCalendar->setProperty('X-WR-TIMEZONE', 'Europe/Berlin');
+        $vCalendar->setProperty('METHOD', 'PUBLISH');
 
         $vTimeZone1 = new vtimezone;
-        $vTimeZone1->setProperty("TZID", "Europe/Berlin");
+        $vTimeZone1->setProperty('TZID', 'Europe/Berlin');
 
         $vTimeZone2 = new vtimezone('standard');
-        $vTimeZone2->setProperty("DTSTART", 1601, 1, 1, 0, 0, 0);
-        $vTimeZone2->setProperty("TZNAME", "Standard Time");
-        $vTimeZone2->setProperty("TZOFFSETFROM", "+0100");
-        $vTimeZone2->setProperty("TZOFFSETTO", "+0200");
+        $vTimeZone2->setProperty('DTSTART', 1601, 1, 1, 0, 0, 0);
+        $vTimeZone2->setProperty('TZNAME', 'Standard Time');
+        $vTimeZone2->setProperty('TZOFFSETFROM', '+0100');
+        $vTimeZone2->setProperty('TZOFFSETTO', '+0200');
 
         $vTimeZone1->setComponent($vTimeZone2);
         $vCalendar->setComponent($vTimeZone1);
@@ -104,33 +108,33 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
     private function setEvent($date, $lessonInstance)
     {
         $vEvent = new vevent;
-        $vEvent->setProperty("TRANSP", "OPAQUE");
-        $vEvent->setProperty("SEQUENCE", "0");
-        $vEvent->setProperty("PRIORITY", "5");
+        $vEvent->setProperty('TRANSP', 'OPAQUE');
+        $vEvent->setProperty('SEQUENCE', '0');
+        $vEvent->setProperty('PRIORITY', '5');
 
-        $datePieces      = explode("-", $date);
-        $startTimePieces = explode(":", $lessonInstance['startTime']);
-        $endTimePieces   = explode(":", $lessonInstance['endTime']);
+        $datePieces      = explode('-', $date);
+        $startTimePieces = explode(':', $lessonInstance['startTime']);
+        $endTimePieces   = explode(':', $lessonInstance['endTime']);
 
         $dtStart = [
-            "year"  => $datePieces[0],
-            "month" => $datePieces[1],
-            "day"   => $datePieces[2],
-            "hour"  => $startTimePieces[0],
-            "min"   => $startTimePieces[1],
-            "sec"   => $startTimePieces[2]
+            'year'  => $datePieces[0],
+            'month' => $datePieces[1],
+            'day'   => $datePieces[2],
+            'hour'  => $startTimePieces[0],
+            'min'   => $startTimePieces[1],
+            'sec'   => $startTimePieces[2]
         ];
-        $vEvent->setProperty("DTSTART", $dtStart);
+        $vEvent->setProperty('DTSTART', $dtStart);
 
         $dtEnd = [
-            "year"  => $datePieces[0],
-            "month" => $datePieces[1],
-            "day"   => $datePieces[2],
-            "hour"  => $endTimePieces[0],
-            "min"   => $endTimePieces[1],
-            "sec"   => $endTimePieces[2]
+            'year'  => $datePieces[0],
+            'month' => $datePieces[1],
+            'day'   => $datePieces[2],
+            'hour'  => $endTimePieces[0],
+            'min'   => $endTimePieces[1],
+            'sec'   => $endTimePieces[2]
         ];
-        $vEvent->setProperty("DTEND", $dtEnd);
+        $vEvent->setProperty('DTEND', $dtEnd);
 
         $subjectNames = array_keys($lessonInstance['subjects']);
         $subjectNos   = [];
@@ -146,11 +150,11 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         }
 
         $comment = empty($lessonInstance['comment']) ? '' : $lessonInstance['comment'];
-        $vEvent->setProperty("DESCRIPTION", $comment);
+        $vEvent->setProperty('DESCRIPTION', $comment);
 
         $title = implode('/', $subjectNames);
         $title .= empty($lessonInstance['method']) ? '' : " - {$lessonInstance['method']}";
-        $title .= empty($subjectNos) ? '' : " (" . implode('/', $subjectNos) . ")";
+        $title .= empty($subjectNos) ? '' : ' (' . implode('/', $subjectNos) . ')';
 
         $teachersText = implode('/', $teachers);
         $roomsText    = implode('/', $rooms);
@@ -158,9 +162,9 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $summary = sprintf(JText::_('COM_THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
 
         $organizer = empty($this->parameters['mailto']) ? $teachersText : $this->parameters['mailto'];
-        $vEvent->setProperty("ORGANIZER", $organizer);
-        $vEvent->setProperty("LOCATION", $roomsText);
-        $vEvent->setProperty("SUMMARY", $summary);
+        $vEvent->setProperty('ORGANIZER', $organizer);
+        $vEvent->setProperty('LOCATION', $roomsText);
+        $vEvent->setProperty('SUMMARY', $summary);
         $this->calendar->setComponent($vEvent);
     }
 }

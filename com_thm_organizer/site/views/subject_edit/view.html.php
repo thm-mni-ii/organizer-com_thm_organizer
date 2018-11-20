@@ -37,20 +37,18 @@ class THM_OrganizerViewSubject_Edit extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access
      */
     public function display($tpl = null)
     {
-        $input           = JFactory::getApplication()->input;
+        $input           = THM_OrganizerHelperComponent::getInput();
         $this->subjectID = $input->getInt('id', 0);
 
         if (empty($this->subjectID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        $authorized = THM_OrganizerHelperSubjects::allowEdit($this->subjectID);
-
-        if (!$authorized) {
+        if (!THM_OrganizerHelperSubjects::allowEdit($this->subjectID)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 

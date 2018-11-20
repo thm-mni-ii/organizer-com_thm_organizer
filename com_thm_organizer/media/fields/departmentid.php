@@ -49,10 +49,10 @@ class JFormFieldDepartmentID extends JFormFieldList
         // Get the field options.
         $options = (array)$this->getOptions();
 
-        $input      = JFactory::getApplication()->input;
+        $input      = THM_OrganizerHelperComponent::getInput();
         $resourceID = $input->getInt('id');
         if (empty($resourceID)) {
-            $selected = JFactory::getApplication()->input->get('cid', [], 'array');
+            $selected = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         } else {
             $selected = [$resourceID];
         }
@@ -86,7 +86,7 @@ class JFormFieldDepartmentID extends JFormFieldList
         $query->from('#__thm_organizer_departments AS d');
 
         // For use in the merge view
-        $app               = JFactory::getApplication();
+        $app               = THM_OrganizerHelperComponent::getApplication();
         $isBackend         = $app->isClient('administrator');
         $selectedIDs       = $app->input->get('cid', [], 'array');
         $resource          = $this->getAttribute('resource', '');
@@ -100,7 +100,7 @@ class JFormFieldDepartmentID extends JFormFieldList
             $this->value = $selectedIDs;
 
             // Apply the filter
-            $query->innerJoin("#__thm_organizer_department_resources AS dpr ON dpr.departmentID = d.id");
+            $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = d.id');
             $query->where("dpr.{$resource}ID IN ( '" . implode("', '", $selectedIDs) . "' )");
         }
 
@@ -115,10 +115,10 @@ class JFormFieldDepartmentID extends JFormFieldList
         $query->order('text ASC');
         $dbo->setQuery($query);
 
-        try {
-            $departments = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return parent::getOptions();
+        $defaultOptions = parent::getOptions();
+        $departments    = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($departments)) {
+            return $defaultOptions;
         }
 
         $options = [];
@@ -126,6 +126,6 @@ class JFormFieldDepartmentID extends JFormFieldList
             $options[] = JHtml::_('select.option', $department['value'], $department['text']);
         }
 
-        return array_merge(parent::getOptions(), $options);
+        return array_merge($defaultOptions, $options);
     }
 }

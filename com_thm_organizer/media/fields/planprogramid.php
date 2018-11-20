@@ -26,22 +26,21 @@ class JFormFieldPlanProgramID extends JFormFieldList
      * Returns a select box where resource attributes can be selected
      *
      * @return array the options for the select box
-     * @throws Exception
      */
     protected function getOptions()
     {
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT ppr.id AS value, ppr.name AS text");
-        $query->from("#__thm_organizer_plan_programs AS ppr");
-        $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
+        $query->select('DISTINCT ppr.id AS value, ppr.name AS text');
+        $query->from('#__thm_organizer_plan_programs AS ppr');
+        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id');
         $query->order('text ASC');
 
         // For use in the merge view
-        $selectedIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $selectedIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         if (!empty($selectedIDs)) {
             $selectedIDs = Joomla\Utilities\ArrayHelper::toInteger($selectedIDs);
-            $query->innerJoin("#__thm_organizer_plan_pools AS ppl ON ppl.programID = ppr.id");
+            $query->innerJoin('#__thm_organizer_plan_pools AS ppl ON ppl.programID = ppr.id');
             $query->where("ppl.id IN ( '" . implode("', '", $selectedIDs) . "' )");
         }
 
@@ -52,12 +51,12 @@ class JFormFieldPlanProgramID extends JFormFieldList
         if ($departmentRestrict !== 'false') {
             $allowedDepartments = $accessRequired ?
                 THM_OrganizerHelperAccess::getAccessibleDepartments('schedule')
-                : THM_OrganizerHelperDepartmentsgetDepartmentsByResource('program');
+                : THM_OrganizerHelperDepartments::getDepartmentsByResource('program');
 
             $defaultDept = $departmentRestrict === 'force' ? $allowedDepartments[0] : 0;
 
             // Direct input
-            $input        = JFactory::getApplication()->input;
+            $input        = THM_OrganizerHelperComponent::getInput();
             $departmentID = $input->getInt('departmentID', $defaultDept);
 
             // Possible frontend form (jform)
@@ -81,11 +80,11 @@ class JFormFieldPlanProgramID extends JFormFieldList
         $dbo->setQuery($query);
         $defaultOptions = parent::getOptions();
 
-        try {
-            $values = $dbo->loadAssocList();
-        } catch (Exception $exc) {
+        $values = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($values)) {
             return $defaultOptions;
         }
+
         $options = [];
 
         foreach ($values as $value) {

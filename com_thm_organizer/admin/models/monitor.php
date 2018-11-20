@@ -20,7 +20,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      * attempts to save the monitor form data
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
@@ -28,7 +28,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         if (empty($data['roomID'])) {
             unset($data['roomID']);
@@ -44,7 +44,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      * Saves the default behaviour as chosen in the monitor manager
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function saveDefaultBehaviour()
     {
@@ -52,7 +52,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $input       = JFactory::getApplication()->input;
+        $input       = THM_OrganizerHelperComponent::getInput();
         $monitorID   = $input->getInt('id', 0);
         $plausibleID = ($monitorID > 0);
 
@@ -73,7 +73,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      * attempts to delete the selected monitor entries
      *
      * @return boolean true on success otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {
@@ -82,7 +82,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
         }
 
         $success    = true;
-        $monitorIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $monitorIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         $table      = JTable::getInstance('monitors', 'thm_organizerTable');
 
         if (isset($monitorIDs) and count($monitorIDs) > 0) {
@@ -109,7 +109,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
      * Toggles the monitor's use of default settings
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function toggle()
     {
@@ -117,7 +117,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $input     = JFactory::getApplication()->input;
+        $input     = THM_OrganizerHelperComponent::getInput();
         $monitorID = $input->getInt('id', 0);
         if (empty($monitorID)) {
             return false;
@@ -130,12 +130,7 @@ class THM_OrganizerModelMonitor extends JModelLegacy
         $query->set("useDefaults = '$value'");
         $query->where("id = '$monitorID'");
         $this->_db->setQuery($query);
-        try {
-            return (bool)$this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
-            return false;
-        }
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 }

@@ -31,8 +31,8 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
         $query    = $this->_db->getQuery(true);
 
         $select = "id, abbreviation_$shortTag AS abbreviation, name_$shortTag AS name, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=method_edit&id='", "id"];
-        $select .= $query->concatenate($parts, "") . " AS link";
+        $parts  = ["'index.php?option=com_thm_organizer&view=method_edit&id='", 'id'];
+        $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select);
         $query->from('#__thm_organizer_methods');
 
@@ -82,15 +82,10 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
         $headers             = [];
         $headers['checkbox'] = '';
 
-        $headers['abbreviation'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_ABBREVIATION',
-            'abbreviation',
-            $direction,
-            $ordering
-        );
+        $headers['abbreviation']
+            = THM_OrganizerHelperComponent::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
 
-        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['name'] = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
 
         return $headers;
     }

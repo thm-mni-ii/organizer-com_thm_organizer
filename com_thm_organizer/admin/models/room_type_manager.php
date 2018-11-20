@@ -46,8 +46,8 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
         $query = $this->_db->getQuery(true);
 
         $select    = "t.id, t.name_$shortTag AS name, min_capacity, max_capacity, t.gpuntisID, count(r.typeID) AS roomCount, ";
-        $linkParts = ["'index.php?option=com_thm_organizer&view=room_type_edit&id='", "t.id"];
-        $select    .= $query->concatenate($linkParts, "") . " AS link";
+        $linkParts = ["'index.php?option=com_thm_organizer&view=room_type_edit&id='", 't.id'];
+        $select    .= $query->concatenate($linkParts, '') . ' AS link';
         $query->select($select);
 
         $query->from('#__thm_organizer_room_types AS t');
@@ -98,38 +98,19 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $headers   = [];
-
+        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction            = $this->state->get('list.direction', $this->defaultDirection);
+        $headers              = [];
         $headers['checkbox']  = '';
-        $headers['gpuntisID']
-            = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_GPUNTISID', 'name', $direction, $ordering);
+        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'gpuntisID', $direction, $ordering);
+        $headers['name']      = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
 
-        $headers['name'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['min_capacity']
+            = THM_OrganizerHelperComponent::sort('MIN_CAPACITY', 'min_capacity', $direction, $ordering);
+        $headers['max_capacity']
+            = THM_OrganizerHelperComponent::sort('MAX_CAPACITY', 'max_capacity', $direction, $ordering);
 
-        $headers['min_capacity'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_MIN_CAPACITY',
-            'min_capacity',
-            $direction,
-            $ordering
-        );
-        $headers['max_capacity'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_MAX_CAPACITY',
-            'max_capacity',
-            $direction,
-            $ordering
-        );
-
-        $headers['roomCount'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_ROOM_COUNT',
-            'roomCount',
-            $direction,
-            $ordering
-        );
+        $headers['roomCount'] = THM_OrganizerHelperComponent::sort('ROOM_COUNT', 'roomCount', $direction, $ordering);
 
         return $headers;
     }

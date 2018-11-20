@@ -34,25 +34,27 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
     /**
      * Method to get display
      *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
      * @return void
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
-    public function display()
+    public function display($tpl = null)
     {
         $this->lang = THM_OrganizerHelperLanguage::getLanguage();
-        $lessonID   = JFactory::getApplication()->input->getInt("lessonID", 0);
+        $lessonID   = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
 
         if (empty($lessonID) or !THM_OrganizerHelperCourses::authorized($lessonID)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $this->course                 = THM_OrganizerHelperCourses::getCourse();
-        $courseID                     = empty($this->course) ? 0 : $this->course["id"];
+        $courseID                     = empty($this->course) ? 0 : $this->course['id'];
         $this->course['campus']       = THM_OrganizerHelperCourses::getCampus($this->course);
         $this->course['participants'] = THM_OrganizerHelperCourses::getParticipants($courseID);
         $this->course['dateText']     = THM_OrganizerHelperCourses::getDateDisplay();
 
-        $maxParticipants              = (!empty($this->course["lessonP"]) ? $this->course["lessonP"] : $this->course["subjectP"]);
+        $maxParticipants              = (!empty($this->course['lessonP']) ? $this->course['lessonP'] : $this->course['subjectP']);
         $accepted                     = count(THM_OrganizerHelperCourses::getParticipants($courseID, 1));
         $waiting                      = count(THM_OrganizerHelperCourses::getParticipants($courseID, 0));
         $capacityText                 = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
@@ -78,7 +80,7 @@ class THM_OrganizerViewCourse_Manager extends JViewLegacy
         $this->modifyDocument();
         THM_OrganizerHelperComponent::addMenuParameters($this);
 
-        parent::display();
+        parent::display($tpl);
     }
 
     /**

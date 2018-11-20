@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 $action = THM_OrganizerHelperComponent::getRedirectBase();
-$menuID = JFactory::getApplication()->input->getInt('Itemid');
+$menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
 
 $departmentID = $this->state->get('departmentID');
 $periodID     = $this->state->get('periodID');

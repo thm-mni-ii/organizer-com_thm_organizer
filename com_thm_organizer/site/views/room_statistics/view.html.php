@@ -101,8 +101,8 @@ class THM_OrganizerViewRoom_Statistics extends JViewLegacy
         ];
 
         // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = JFactory::getApplication()->getParams()->get('dateFormat');
-        $dateFormat    = preg_replace("/([a-zA-Z])/", "%$1", $rawDateFormat);
+        $rawDateFormat = THM_OrganizerHelperComponent::getApplication()->getParams()->get('dateFormat');
+        $dateFormat    = preg_replace('/([a-zA-Z])/', "%$1", $rawDateFormat);
 
         $dateSelect = JHtml::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
 

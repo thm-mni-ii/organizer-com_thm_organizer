@@ -55,7 +55,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         parent::__construct($config);
 
 
-        $format = JFactory::getApplication()->input->getString('format');
+        $format = THM_OrganizerHelperComponent::getInput()->getString('format');
 
         switch ($format) {
             case 'xls':
@@ -306,7 +306,6 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * @param int $roomID the id of the room being iterated
      *
      * @return bool true if room information was found, otherwise false
-     * @throws Exception
      */
     private function setData($roomID)
     {
@@ -314,10 +313,10 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $dbo       = JFactory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
-        $rqSelect = "DISTINCT ccm.id AS ccmID, ls.id as lsID, l.id AS lessonID, l.comment, ";
+        $rqSelect = 'DISTINCT ccm.id AS ccmID, ls.id as lsID, l.id AS lessonID, l.comment, ';
         $rqSelect .= "m.id AS methodID, m.abbreviation_$tag AS method, m.name_$tag as methodName, ";
-        $rqSelect .= "c.schedule_date AS date, c.startTime, c.endTime, ";
-        $rqSelect .= "lc.configuration ";
+        $rqSelect .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
+        $rqSelect .= 'lc.configuration ';
 
         $ringQuery->select($rqSelect);
         $ringQuery->from('#__thm_organizer_lessons AS l');
@@ -335,15 +334,8 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
-
-        try {
-            $ringData = $dbo->loadAssocList();
-            $lsIDs    = $dbo->loadColumn(1);
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return false;
-        }
+        $ringData = THM_OrganizerHelperComponent::query('loadAssocList');
+        $lsIDs    = THM_OrganizerHelperComponent::query('loadColumn', [], 1);
 
         if (empty($ringData) or empty($lsIDs)) {
             return false;
@@ -359,11 +351,10 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * Resolves form date information into where clauses for the query being built
      *
      * @return void the corresponding start and end dates
-     * @throws Exception
      */
     private function setDates()
     {
-        $input     = JFactory::getApplication()->input;
+        $input     = THM_OrganizerHelperComponent::getInput();
         $use       = $input->getString('use');
         $ppIDs     = $input->get('planningPeriodIDs', [], 'array');
         $validPPID = (!empty($ppIDs) and !empty($ppIDs[0])) ? true : false;
@@ -380,7 +371,7 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
             }
         }
 
-        $dateFormat      = JFactory::getApplication()->getParams()->get('dateFormat');
+        $dateFormat      = THM_OrganizerHelperComponent::getApplication()->getParams()->get('dateFormat');
         $date            = $input->getString('date', date($dateFormat));
         $startDoWNo      = empty($this->startDoW) ? 1 : $this->startDoW;
         $startDayName    = date('l', strtotime("Sunday + $startDoWNo days"));
@@ -408,7 +399,6 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * Retrieves the selected grid from the database
      *
      * @return void sets object variables
-     * @throws Exception
      */
     private function setGrid()
     {
@@ -423,11 +413,8 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
         $this->_db->setQuery($query);
 
-        try {
-            $rawGrid = $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
+        $rawGrid = THM_OrganizerHelperComponent::query('loadResult');
+        if (empty($rawGrid)) {
             return;
         }
 
@@ -452,7 +439,6 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * @param array $lsIDs the lesson subject database ids
      *
      * @return void sets object variable indexes
-     * @throws Exception
      */
     private function setLSData($lsIDs)
     {
@@ -460,18 +446,18 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = "DISTINCT ls.id AS lsID, ";
+        $select = 'DISTINCT ls.id AS lsID, ';
         $query->from('#__thm_organizer_lesson_subjects AS ls');
 
         // Subject Data
-        $select .= "ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ";
+        $select .= 'ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ';
         $select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, s.abbreviation_$tag AS subjectAbbr, ";
         $query->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id');
         $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
         $query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
 
         // Pool Data
-        $select .= "pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ";
+        $select .= 'pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ';
         $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
         $query->innerJoin('#__thm_organizer_plan_pools AS pool ON pool.id = lp.poolID');
 
@@ -491,19 +477,12 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
         $query->where("ls.id IN ('" . implode("', '", $lsIDs) . "')");
         $dbo->setQuery($query);
 
-        try {
-            $lsData = $dbo->loadAssocList('lsID');
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
+        $results = THM_OrganizerHelperComponent::query('loadAssocList', [], 'lsID');
+        if (empty($results)) {
             return;
         }
 
-        if (empty($lsData)) {
-            return;
-        }
-
-        foreach ($lsData as $lsID => $lsData) {
+        foreach ($results as $lsID => $lsData) {
             $this->lsData[$lsID] = $lsData;
         }
     }
@@ -530,7 +509,6 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
      * Sets the available room types based on the rooms
      *
      * @return void sets the room types object variable
-     * @throws Exception
      */
     private function setRoomTypes()
     {
@@ -540,23 +518,13 @@ class THM_OrganizerModelRoom_Statistics extends JModelLegacy
 
         $query->select("id, name_$tag AS name, description_$tag AS description");
         $query->from('#__thm_organizer_room_types');
-        $query->order("name");
+        $query->order('name');
 
         $dbo->setQuery($query);
 
-        $default = [];
+        $results = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
 
-        try {
-            $results = $dbo->loadAssocList('id');
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            $this->roomTypes = $default;
-
-            return;
-        }
-
-        $this->roomTypes = (empty($results)) ? $default : $results;
+        $this->roomTypes = empty($results) ? [] : $results;
     }
 
     /**

@@ -104,7 +104,6 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Gets an array of departments.
      *
      * @return array the departments.
-     * @throws Exception
      */
     private function getDepartments()
     {
@@ -117,14 +116,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        try {
-            $departments = $this->_db->loadAssocList('id');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
-
+        $departments = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
         if (empty($departments)) {
             return [];
         }
@@ -149,8 +141,8 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm(
-            "com_thm_organizer.lesson_statistics",
-            "lesson_statistics",
+            'com_thm_organizer.lesson_statistics',
+            'lesson_statistics',
             ['control' => 'jform', 'load_data' => $loadData]
         );
 
@@ -161,7 +153,6 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Gets an array of planning periods.
      *
      * @return array the planning periods
-     * @throws Exception
      */
     private function getMethods()
     {
@@ -176,14 +167,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        try {
-            $methods = $this->_db->loadAssocList('id');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
-
+        $methods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
         if (empty($methods)) {
             return [];
         }
@@ -202,12 +186,11 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Gets an array of planning periods.
      *
      * @return array the planning periods
-     * @throws Exception
      */
     private function getPlanningPeriods()
     {
         $this->resetAdaptiveClauses();
-        $this->query->select("DISTINCT pp.*")
+        $this->query->select('DISTINCT pp.*')
             ->where('pp.startDate <= CURDATE()')
             ->where("l.delta != 'removed'")
             ->order('pp.startDate DESC');
@@ -217,14 +200,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        try {
-            $planningPeriods = $this->_db->loadAssocList('id');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
-
+        $planningPeriods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
         if (empty($planningPeriods)) {
             return [];
         }
@@ -240,12 +216,11 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Gets an array of plan pools.
      *
      * @return array the planning periods
-     * @throws Exception
      */
     private function getPools()
     {
         $this->resetAdaptiveClauses();
-        $this->query->select("DISTINCT pPool.id, pPool.name")
+        $this->query->select('DISTINCT pPool.id, pPool.name')
             ->where("l.delta != 'removed'")
             ->order('pPool.name');
 
@@ -255,14 +230,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        try {
-            $pools = $this->_db->loadAssocList('id');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
-
+        $pools = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
         if (empty($pools)) {
             return [];
         }
@@ -278,12 +246,11 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Gets an array of degree programs.
      *
      * @return array the planning periods
-     * @throws Exception
      */
     private function getPrograms()
     {
         $this->resetAdaptiveClauses();
-        $this->query->select("DISTINCT pProg.id, pProg.name")
+        $this->query->select('DISTINCT pProg.id, pProg.name')
             ->where("l.delta != 'removed'")
             ->order('pProg.name');
 
@@ -292,14 +259,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        try {
-            $programs = $this->_db->loadAssocList('id');
-        } catch (Exception $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return [];
-        }
-
+        $programs = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
         if (empty($programs)) {
             return [];
         }
@@ -315,13 +275,12 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Method to auto-populate the model state.
      *
      * @return void
-     * @throws Exception
      */
     protected function populateState()
     {
         parent::populateState();
         $defaultPeriod = THM_OrganizerHelperPlanning_Periods::getCurrentID();
-        $formData      = JFactory::getApplication()->input->get('jform', [], 'array');
+        $formData      = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         // Not reached by form action
         if (empty($formData)) {
@@ -376,7 +335,6 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * Creates an array of arrays with total values. Array[$rowID][$columnID] = $total.
      *
      * @returns void sets the model property $lessons
-     * @throws Exception
      */
     private function setLessonCounts()
     {
@@ -388,7 +346,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
             $lessons[$rowID] = [];
             foreach (array_keys($this->columns) as $columnID) {
                 $this->resetAdaptiveClauses();
-                $this->query->select("DISTINCT l.id")
+                $this->query->select('DISTINCT l.id')
                     ->where("l.delta != 'removed'");
 
                 // Define column column
@@ -405,19 +363,12 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
                     $this->query->where("pp.id = '$rowID'");
                 } else {
                     $this->query->where("pp.id = '$periodID'");
-                    $clause = empty($rowID) ? "m.id IS NULL" : "m.id = '$rowID'";
+                    $clause = empty($rowID) ? 'm.id IS NULL' : "m.id = '$rowID'";
                     $this->query->where($clause);
                 }
 
                 $this->_db->setQuery($this->query);
-
-                try {
-                    $lessons = $this->_db->loadColumn();
-                } catch (Exception $exception) {
-                    JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-                    return;
-                }
+                $lessons = THM_OrganizerHelperComponent::query('loadColumn', []);
 
                 $lessonCounts[$rowID][$columnID] = count($lessons);
 

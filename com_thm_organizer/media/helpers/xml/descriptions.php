@@ -23,7 +23,6 @@ class THM_OrganizerHelperXMLDescriptions
      * @param string $constant       the text constant for message output
      *
      * @return bool  true if the entry already exists, otherwise false
-     * @throws Exception
      */
     private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
     {
@@ -32,13 +31,7 @@ class THM_OrganizerHelperXMLDescriptions
         $query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
         $dbo->setQuery($query);
 
-        try {
-            $resourceID = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
+        $resourceID = THM_OrganizerHelperComponent::query('loadResult');
 
         if (empty($resourceID)) {
             $scheduleModel->scheduleErrors[]
@@ -57,12 +50,11 @@ class THM_OrganizerHelperXMLDescriptions
      * @param object &$xmlObject     the xml object being validated
      *
      * @return void
-     * @throws Exception
      */
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->descriptions)) {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING");
+            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING');
 
             return;
         }
@@ -75,7 +67,7 @@ class THM_OrganizerHelperXMLDescriptions
             $gpuntisID = trim((string)$descriptionNode[0]['id']);
 
             if (empty($gpuntisID)) {
-                $missingText = JText::_("COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING");
+                $missingText = JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING');
                 if (!in_array($missingText, $scheduleModel->scheduleErrors)) {
                     $scheduleModel->scheduleErrors[] = $missingText;
                 }

@@ -22,7 +22,6 @@ class THM_OrganizerHelperRoomTypes
      * @param string $typeID the room type's id
      *
      * @return string the name if the room type could be resolved, otherwise empty
-     * @throws Exception
      */
     public static function getName($typeID)
     {
@@ -31,7 +30,7 @@ class THM_OrganizerHelperRoomTypes
         try {
             $success = $roomTypesTable->load($typeID);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
             return '';
         }
@@ -47,7 +46,6 @@ class THM_OrganizerHelperRoomTypes
      * Optionally filterable by DepartmentIDs.
      *
      * @return array
-     * @throws Exception
      */
     public static function getUsedRoomTypes()
     {
@@ -62,14 +60,6 @@ class THM_OrganizerHelperRoomTypes
         $query->order('name');
         $dbo->setQuery($query);
 
-        try {
-            $results = $dbo->loadAssocList('name', 'id');
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
-
-        return empty($results) ? [] : $results;
+        return THM_OrganizerHelperComponent::query('loadAssocList', [], ['name', 'id']);
     }
 }

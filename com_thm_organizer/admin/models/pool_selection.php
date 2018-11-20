@@ -33,8 +33,8 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
 
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $select   = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag as field, color, ";
-        $parts    = ["'index.php?option=com_thm_organizer&view=pool_selection&id='", "p.id"];
-        $select   .= $query->concatenate($parts, "") . " AS link ";
+        $parts    = ["'index.php?option=com_thm_organizer&view=pool_selection&id='", 'p.id'];
+        $select   .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
 
         $query->from('#__thm_organizer_pools AS p');
@@ -65,7 +65,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         if (!empty($programID)) {
             // Pools unassociated with programs => no mappings
             if ($programID == -1) {
-                $query->where("m.id IS NULL");
+                $query->where('m.id IS NULL');
             } else {
                 $this->setProgramFilter($query, $programID);
             }
@@ -93,9 +93,9 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
 
         $headers              = [];
         $headers['checkbox']  = '';
-        $headers['name']      = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'name', $direction, $ordering);
+        $headers['name']      = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
         $headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
-        $headers['fieldID']   = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_FIELD', 'field', $direction, $ordering);
+        $headers['fieldID']   = THM_OrganizerHelperComponent::sort('FIELD', 'field', $direction, $ordering);
 
         return $headers;
     }
@@ -145,7 +145,6 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
      * @param string $idColumn not used
      *
      * @return integer  The total number of items available in the data set.
-     * @throws Exception
      */
     public function getTotal($idColumn = null)
     {
@@ -156,15 +155,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         $dbo = JFactory::getDbo();
         $dbo->setQuery($query);
 
-        try {
-            $result = $dbo->loadResult();
-
-            return $result;
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage());
-
-            return null;
-        }
+        return (int)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -182,22 +173,19 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
     }
 
     /**
-     * Overwrites the JModelList populateState function
+     * Method to auto-populate the model state.
      *
-     * @param string $ordering  the column by which the table is should be ordered
-     * @param string $direction the direction in which this column should be ordered
+     * @param   string $ordering  An optional ordering field.
+     * @param   string $direction An optional direction (asc|desc).
      *
-     * @return void  sets object state variables
-     * @throws Exception
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return void
      */
     protected function populateState($ordering = null, $direction = null)
     {
         parent::populateState($ordering, $direction);
 
-        $input = JFactory::getApplication()->input;
-        $list  = JFactory::getApplication()->getUserStateFromRequest($this->context . '.list', 'list', [], 'array');
+        $input = THM_OrganizerHelperComponent::getInput();
+        $list  = THM_OrganizerHelperComponent::getApplication()->getUserStateFromRequest($this->context . '.list', 'list', [], 'array');
 
         $postType = $input->get('type', '');
         $type     = empty($list['type']) ? $postType : $list['type'];
@@ -207,7 +195,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         $resourceID = empty($list['type']) ? $postID : $list['id'];
         $this->setState('list.id', $resourceID);
 
-        $filter = JFactory::getApplication()->getUserStateFromRequest(
+        $filter = THM_OrganizerHelperComponent::getApplication()->getUserStateFromRequest(
             $this->context . '.filter',
             'filter',
             [],
@@ -250,7 +238,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
             $query->where("NOT (m.lft < '{$boundarySet['lft']}' AND m.rgt > '{$boundarySet['rgt']}')");
         }
 
-        $query->where("p.id NOT IN (" . (string)$newQuery . ")");
+        $query->where('p.id NOT IN (' . (string)$newQuery . ')');
     }
 
     /**

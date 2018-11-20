@@ -25,7 +25,6 @@ class JFormFieldChildren extends JFormField
      * Generates a text for the management of child elements
      *
      * @return string  the HTML for the input
-     * @throws Exception
      */
     public function getInput()
     {
@@ -33,7 +32,7 @@ class JFormFieldChildren extends JFormField
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . 'media/com_thm_organizer/css/children.css');
-        $document->addScript(JUri::root() . "media/com_thm_organizer/js/children.js");
+        $document->addScript(JUri::root() . 'media/com_thm_organizer/js/children.js');
 
         return $this->getHTML($children);
     }
@@ -42,7 +41,6 @@ class JFormFieldChildren extends JFormField
      * Retrieves child mappings for the resource being edited
      *
      * @return array  empty if no child data exists
-     * @throws Exception
      */
     private function getChildren()
     {
@@ -63,13 +61,7 @@ class JFormFieldChildren extends JFormField
          */
         $dbo->setQuery($idQuery, 0, 1);
 
-        try {
-            $parentID = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
+        $parentID = THM_OrganizerHelperComponent::query('loadResult');
 
         if (empty($parentID)) {
             return [];
@@ -82,14 +74,7 @@ class JFormFieldChildren extends JFormField
         $childMappingQuery->order('lft ASC');
         $dbo->setQuery($childMappingQuery);
 
-        try {
-            $children = $dbo->loadAssocList('ordering');
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
-
+        $children = THM_OrganizerHelperComponent::query('loadAssocList', [], 'ordering');
         if (empty($children)) {
             return [];
         }
@@ -105,7 +90,6 @@ class JFormFieldChildren extends JFormField
      * @param array &$children the subordinate resource data
      *
      * @return void  adds data to the &$children array
-     * @throws Exception
      */
     private function setTypeData(&$children)
     {
@@ -131,7 +115,6 @@ class JFormFieldChildren extends JFormField
      * @param string $resourceType the child element's type
      *
      * @return string  the name of the child element
-     * @throws Exception
      */
     private function getResourceName($resourceID, $resourceType)
     {
@@ -144,13 +127,7 @@ class JFormFieldChildren extends JFormField
         $query->where("id = '$resourceID'");
         $dbo->setQuery($query);
 
-        try {
-            return $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return '';
-        }
+        return (string)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**

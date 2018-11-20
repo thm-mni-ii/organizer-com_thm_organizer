@@ -33,7 +33,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      *
      * @param object &$schedule the schedule object for direct processing
      *
-     * @throws Exception
+     * @throws Exception => component name could not be resolved from class name
      */
     public function __construct(&$schedule = null)
     {
@@ -149,7 +149,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * Maps configurations to calendar entries
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
      */
     private function mapConfigurations()
     {
@@ -175,7 +174,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
                 ->from('#__thm_organizer_calendar')
                 ->where("lessonID = '$lessonID'");
             $this->_db->setQuery($calendarQuery);
-            $calendarEntries = $this->_db->loadAssocList('id');
+
+            $calendarEntries = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
 
             // Occurs when the planner left the room blank
             if (empty($calendarEntries)) {
@@ -183,9 +183,12 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             }
 
             $lessonSubjectsQuery = $this->_db->getQuery(true);
-            $lessonSubjectsQuery->select('id, subjectID')->from('#__thm_organizer_lesson_subjects')->where("lessonID = '$lessonID'");
+            $lessonSubjectsQuery->select('id, subjectID')
+                ->from('#__thm_organizer_lesson_subjects')
+                ->where("lessonID = '$lessonID'");
             $this->_db->setQuery($lessonSubjectsQuery);
-            $lessonSubjects = $this->_db->loadAssocList('subjectID');
+
+            $lessonSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'subjectID');
 
             // Should not occur
             if (empty($lessonSubjects)) {
@@ -214,17 +217,10 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
                     $deprecatedQuery = $this->_db->getQuery(true);
                     $deprecatedQuery->delete('#__thm_organizer_calendar_configuration_map')
                         ->where("calendarID = '$calendarID'")
-                        ->where("configurationID NOT IN ('" . implode("', '", $configIDs) . "')");
+                        ->where('configurationID NOT IN (' . implode(', ', $configIDs) . ')');
                     $this->_db->setQuery($deprecatedQuery);
 
-                    try {
-                        $success = $this->_db->execute();
-                    } catch (Exception $exc) {
-                        JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                        return false;
-                    }
-
+                    $success = (bool)THM_OrganizerHelperComponent::query('execute');
                     if (empty($success)) {
                         return false;
                     }
@@ -242,7 +238,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param int   $calendarID the valid calendar entry id
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
      */
     private function removeCalendarDuplicates($calData, $calendarID)
     {
@@ -256,15 +251,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
         $this->_db->setQuery($query);
 
-        try {
-            $this->_db->execute();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -421,7 +408,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object &$schedule the schedule being processed
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception
      */
     public function save(&$schedule = null)
     {
@@ -441,7 +427,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $calendarSaved        = $this->saveCalendar();
             $configurationsMapped = $this->mapConfigurations();
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -463,7 +449,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * Creates calendar entries in the database
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
      */
     private function saveCalendar()
     {
@@ -529,14 +514,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $deprecatedQuery->where("delta != 'removed'");
             $this->_db->setQuery($deprecatedQuery);
 
-            try {
-                $this->_db->execute();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
-
+            $success = (bool)THM_OrganizerHelperComponent::query('execute');
+            if (!$success) {
                 return false;
             }
         }
@@ -596,7 +575,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * Saves the lessons from the schedule object to the database and triggers functions for saving lesson associations.
      *
      * @return boolean true if the save process was successful, otherwise false
-     * @throws Exception
      */
     private function saveLessons()
     {
@@ -641,9 +619,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             ->where("gpuntisID NOT IN ('" . implode("', '", $lessonIDs) . "')")
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
-        $deprecatedSuccess = $this->_db->execute();
 
-        return empty($deprecatedSuccess) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -655,7 +632,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param string $subjectNo       the subject's id in documentation
      *
      * @return boolean true if the save process was successful, otherwise false
-     * @throws Exception
      */
     private function saveLessonPools($lessonSubjectID, $pools, $subjectID, $subjectNo)
     {
@@ -675,10 +651,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $success = $table->save($data);
 
             if (!$success) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 continue;
             }
 
@@ -696,9 +669,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             ->where("subjectID = '$lessonSubjectID'")
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
-        $deprecatedSuccess = $this->_db->execute();
 
-        return empty($deprecatedSuccess) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -709,7 +681,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object $subjects the subjects associated with the lesson
      *
      * @return boolean true if the save process was successful, otherwise false
-     * @throws Exception
      */
     private function saveLessonSubjects($lessonID, $subjects)
     {
@@ -729,10 +700,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $success = $table->save($data);
 
             if (!$success) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+
                 continue;
             }
 
@@ -759,9 +728,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             ->where("lessonID = '$lessonID'")
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
-        $deprecatedSuccess = $this->_db->execute();
 
-        return empty($deprecatedSuccess) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -771,7 +739,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object $teachers  the teachers associated with the subject
      *
      * @return boolean true if the save process was successful, otherwise false
-     * @throws Exception
      */
     private function saveLessonTeachers($subjectID, $teachers)
     {
@@ -792,11 +759,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             $success = $table->save($data);
 
             if (!$success) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'),
-                    'error'
-                );
-
+                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 continue;
             }
 
@@ -810,9 +773,8 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             ->where("subjectID = '$subjectID'")
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
-        $deprecatedSuccess = $this->_db->execute();
 
-        return empty($deprecatedSuccess) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('execute');
     }
 
     /**
@@ -823,7 +785,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param string $subjectNo     the subject id used in documentation
      *
      * @return void saves/updates a database entry
-     * @throws Exception
      */
     private function savePlanSubjectMapping($planSubjectID, $poolID, $subjectNo)
     {
@@ -836,14 +797,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             ->innerJoin('#__thm_organizer_plan_pools as p_pool on p_prg.id = p_pool.programID')
             ->where("p_pool.id = '$poolID'");
         $this->_db->setQuery($boundariesQuery);
-
-        try {
-            $boundaries = $this->_db->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return;
-        }
+        $boundaries = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
         if (empty($boundaries)) {
             return;
@@ -859,14 +813,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
             ->where("s.externalID = '$subjectNo'");
         $this->_db->setQuery($subjectQuery);
 
-        try {
-            $subjectID = $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-            return;
-        }
-
+        $subjectID = THM_OrganizerHelperComponent::query('loadResult');
         if (empty($subjectID)) {
             return;
         }
@@ -884,7 +831,6 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
      * @param object $active    the active schedule
      *
      * @return boolean true on successful delta creation, otherwise false
-     * @throws Exception
      */
     public function setReference($reference, $active)
     {
@@ -925,10 +871,7 @@ class THM_OrganizerModelJSONSchedule extends JModelLegacy
 
         $dbSuccess = $this->save();
         if (!$dbSuccess) {
-            JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL'),
-                'notice'
-            );
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL', 'notice');
 
             return false;
         }

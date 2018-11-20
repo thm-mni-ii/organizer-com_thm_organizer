@@ -258,8 +258,10 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
     /**
      * Gets the text to be displayed in the row cells
      *
-     * @param array $columnHeaders the column header information: value => the date (Y-m-d), text => the text to display
-     * @param array $rowHeader     the row header information: start- and endTime used for indexing, text => the text to display
+     * @param array $columnHeaders the column header information:
+     *                             value => the date (Y-m-d), text => the text to display
+     * @param array $rowHeader     the row header information:
+     *                             start- and endTime used for indexing, text => the text to display
      *
      * @return array
      */
@@ -549,7 +551,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
         for ($currentDate = $startDate; $currentDate != $breakDate;) {
             $dow        = date('w', strtotime($currentDate));
-            $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
+            $validIndex = (!empty($columnHeaders[$currentDate])
+                and $dow >= (int)$this->parameters['startDay']
+                and $dow <= (int)$this->parameters['endDay']);
 
             if ($validIndex) {
                 $this->document->MultiCell(
@@ -576,7 +580,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
      * Outputs the rows associated with a particular time index. (Not further compartmentalized according to resources.)
      *
      * @param array  $resourceCells the data for the rows associated with the time index
-     * @param int    $minLineCount  the minimum amount of lines a row may have => number used in time column of row header.
+     * @param int    $minLineCount  the minimum amount of lines a row may have
+     *                              => number used in time column of row header.
      * @param array  $columnHeaders the column headers / indexes
      * @param string $startDate     the first column date/index to use
      * @param string $breakDate     the last column date/index to iterate
@@ -611,7 +616,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
                 if (!empty($rowHeader)) {
                     $timeText   = $outputTime ? $rowHeader['text'] : '';
-                    $timeBorder = $rowNumber == $lastRowNumber ? $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
+                    $timeBorder = $rowNumber == $lastRowNumber ?
+                        $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
                     $this->outputTimeCell($cellHeight, $timeText, $timeBorder);
                     $outputTime = false;
                     $rowNumber++;
@@ -767,7 +773,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
      * Outputs the rows associated with a particular time index. (Not further compartmentalized according to resources.)
      *
      * @param array  $rowCells      the data for the rows associated with the time index
-     * @param int    $minLineCount  the minimum amount of lines a row may have => number used in time column of row header.
+     * @param int    $minLineCount  the minimum amount of lines a row may have
+     *                              => number used in time column of row header.
      * @param array  $columnHeaders the column headers / indexes
      * @param string $startDate     the first column date/index to use
      * @param string $breakDate     the last column date/index to iterate
@@ -797,7 +804,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
             if (!empty($rowHeader)) {
                 $timeText = $outputTime ? $rowHeader['text'] : '';
-                $border   = $rowNumber == $lastRowNumber ? $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
+                $border   = $rowNumber == $lastRowNumber ?
+                    $this->getLastRowHeadCellBorder() : $this->getRowHeadCellBorder();
                 $this->outputTimeCell($cellHeight, $timeText, $border);
                 $outputTime = false;
                 $rowNumber++;
@@ -805,10 +813,13 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
             for ($currentDate = $startDate; $currentDate != $breakDate;) {
                 $dow        = date('w', strtotime($currentDate));
-                $validIndex = (!empty($columnHeaders[$currentDate]) and $dow >= (int)$this->parameters['startDay'] and $dow <= (int)$this->parameters['endDay']);
+                $validIndex = (!empty($columnHeaders[$currentDate])
+                    and $dow >= (int)$this->parameters['startDay']
+                    and $dow <= (int)$this->parameters['endDay']);
 
                 if ($validIndex) {
-                    $dataText = empty($row[$columnHeaders[$currentDate]['value']]) ? '' : $row[$columnHeaders[$currentDate]['value']];
+                    $dataText = empty($row[$columnHeaders[$currentDate]['value']]) ?
+                        '' : $row[$columnHeaders[$currentDate]['value']];
                     // Lesson instance cell
                     $this->document->MultiCell(
                         $this->parameters['dataWidth'],

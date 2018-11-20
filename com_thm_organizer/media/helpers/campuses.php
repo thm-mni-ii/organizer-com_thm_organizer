@@ -46,7 +46,6 @@ class THM_OrganizerHelperCampuses
      * @param int $campusID the campus' id
      *
      * @return string the name if the campus could be resolved, otherwise empty
-     * @throws Exception
      */
     public static function getName($campusID = null)
     {
@@ -63,14 +62,7 @@ class THM_OrganizerHelperCampuses
             ->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id')
             ->where("c1.id = '$campusID'");
         $dbo->setQuery($query);
-
-        try {
-            $names = $dbo->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return '';
-        }
+        $names = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
         if (empty($names)) {
             return '';
@@ -85,7 +77,6 @@ class THM_OrganizerHelperCampuses
      * @param bool $used whether or not only campuses associated with subjects or lessons should be returned.
      *
      * @return array campuses in the form of id => name
-     * @throws Exception
      */
     public static function getOptions($used = false)
     {
@@ -94,18 +85,9 @@ class THM_OrganizerHelperCampuses
 
         if (!$used) {
             $query = $dbo->getQuery(true);
-            $query->select('id')
-                ->from('#__thm_organizer_campuses as c');
-
+            $query->select('id')->from('#__thm_organizer_campuses as c');
             $dbo->setQuery($query);
-
-            try {
-                $campusIDs = $dbo->loadColumn();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return $options;
-            }
+            $campusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
         } else {
             // Parent campuses should always be displayed.
             $query = $dbo->getQuery(true);
@@ -114,14 +96,7 @@ class THM_OrganizerHelperCampuses
                 ->where('parentID IS NOT NULL');
 
             $dbo->setQuery($query);
-
-            try {
-                $parentCampusIDs = $dbo->loadColumn();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return $options;
-            }
+            $parentCampusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
             $query = $dbo->getQuery(true);
             $query->select('c.id')
@@ -129,29 +104,14 @@ class THM_OrganizerHelperCampuses
                 ->innerJoin('#__thm_organizer_subjects as s on s.campusID = c.id');
 
             $dbo->setQuery($query);
-
-            try {
-                $subjectCampusIDs = $dbo->loadColumn();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return $options;
-            }
+            $subjectCampusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
             $query = $dbo->getQuery(true);
             $query->select('c.id')
                 ->from('#__thm_organizer_campuses as c')
                 ->innerJoin('#__thm_organizer_lessons as l on l.campusID = c.id');
-
             $dbo->setQuery($query);
-
-            try {
-                $courseCampusIDs = $dbo->loadColumn();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-                return $options;
-            }
+            $courseCampusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
             $campusIDs = array_unique(array_merge($parentCampusIDs, $subjectCampusIDs, $courseCampusIDs));
         }

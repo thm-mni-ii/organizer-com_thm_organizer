@@ -21,7 +21,6 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      * Loads subject information from the database
      *
      * @return object  filled with subject data on success, otherwise empty
-     * @throws Exception
      */
     public function getItem()
     {
@@ -30,7 +29,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             return new stdClass;
         }
 
-        $input   = JFactory::getApplication()->input;
+        $input   = THM_OrganizerHelperComponent::getInput();
         $langTag = $input->getString('languageTag', THM_OrganizerHelperLanguage::getShortTag());
         $query   = $this->_db->getQuery(true);
 
@@ -46,13 +45,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $query->where("s.id = '$subjectID'");
         $this->_db->setQuery($query);
 
-        try {
-            $subject = $this->_db->loadObject();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return new stdClass;
-        }
+        $subject = THM_OrganizerHelperComponent::query('loadObject');
 
         // This should not occur.
         if (empty($subject->id)) {
@@ -70,11 +63,10 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
      * Attempts to determine the desired subject id
      *
      * @return mixed  int on success, otherwise null
-     * @throws Exception
      */
     private function resolveID()
     {
-        $input     = JFactory::getApplication()->input;
+        $input     = THM_OrganizerHelperComponent::getInput();
         $requestID = $input->getInt('id', 0);
 
         if (!empty($requestID)) {
@@ -83,16 +75,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             $query->select('id')->from('#__thm_organizer_subjects')->where("id = '$requestID'");
             $this->_db->setQuery($query);
 
-            try {
-                return $this->_db->loadResult();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
-
-                return null;
-            }
+            return THM_OrganizerHelperComponent::query('loadResult');
         }
 
         $externalID = $input->getString('nrmni', '');
@@ -104,13 +87,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
         $this->_db->setQuery($query);
 
-        try {
-            return $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return null;
-        }
+        return THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -199,7 +176,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
         $programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
 
         $query  = $this->_db->getQuery(true);
-        $select = "DISTINCT pr.id AS id, ";
+        $select = 'DISTINCT pr.id AS id, ';
         $select .= "s1.id AS preID, s1.name_$langTag AS preName, s1.externalID AS preModuleNumber, ";
         $select .= "s2.id AS postID, s2.name_$langTag AS postName, s2.externalID AS postModuleNumber";
         $query->select($select);
@@ -216,12 +193,7 @@ class THM_OrganizerModelSubject_Details extends JModelLegacy
             $query->where("(s1.id = $subjectID OR s2.id = $subjectID)");
             $this->_db->setQuery($query);
 
-            try {
-                $dependencies = $this->_db->loadAssocList('id');
-            } catch (Exception $exc) {
-                continue;
-            }
-
+            $dependencies = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
             if (empty($dependencies)) {
                 continue;
             }

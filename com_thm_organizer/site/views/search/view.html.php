@@ -38,7 +38,6 @@ class THM_OrganizerViewSearch extends JViewLegacy
      * @param string $tpl the name of the template to be used
      *
      * @return void
-     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -46,7 +45,7 @@ class THM_OrganizerViewSearch extends JViewLegacy
         $this->languageTag      = THM_OrganizerHelperLanguage::getShortTag();
         $switchParams           = ['view' => 'search', 'form' => true];
         $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($switchParams);
-        $this->query            = JFactory::getApplication()->input->getString('search', '');
+        $this->query            = THM_OrganizerHelperComponent::getInput()->getString('search', '');
         $this->results          = $this->getModel()->getResults();
 
         $this->modifyDocument();

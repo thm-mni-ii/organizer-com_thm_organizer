@@ -27,8 +27,6 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
      * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
-     *
-     * @throws  \Exception
      */
     public function getTable($name = 'methods', $prefix = 'thm_organizerTable', $options = [])
     {
@@ -37,9 +35,6 @@ class THM_OrganizerModelMethod extends THM_OrganizerModelMerge
 
     /**
      * Updates key references to the entry being merged.
-     *
-     * @param int   $newDBID  the id onto which the room entries merge
-     * @param array $oldDBIDs the ids to be replaced
      *
      * @return boolean  true on success, otherwise false
      */

@@ -33,7 +33,7 @@ class THM_OrganizerHelperXMLSubjects
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->subjects)) {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_SUBJECTS_MISSING");
+            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_SUBJECTS_MISSING');
 
             return;
         }
@@ -72,8 +72,8 @@ class THM_OrganizerHelperXMLSubjects
     {
         $subjectID = trim((string)$subjectNode[0]['id']);
         if (empty($subjectID)) {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING"), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING");
+            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING');
             }
 
             return;
@@ -88,7 +88,7 @@ class THM_OrganizerHelperXMLSubjects
         }
 
         $subjectID    = str_replace('SU_', '', $subjectID);
-        $subjectIndex = $scheduleModel->schedule->departmentname . "_" . $subjectID;
+        $subjectIndex = $scheduleModel->schedule->departmentname . '_' . $subjectID;
 
         $subject            = new stdClass;
         $subject->gpuntisID = $subjectID;

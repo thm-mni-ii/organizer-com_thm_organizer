@@ -32,7 +32,7 @@ class JFormFieldPlanningPeriodID extends JFormFieldList
         $dbo         = JFactory::getDbo();
         $query       = $dbo->getQuery(true);
 
-        $query->select("DISTINCT pp.id, pp.name");
+        $query->select('DISTINCT pp.id, pp.name');
         $query->from('#__thm_organizer_planning_periods AS pp');
         $query->innerJoin('#__thm_organizer_schedules AS s ON s.planningPeriodID = pp.id');
 
@@ -45,12 +45,7 @@ class JFormFieldPlanningPeriodID extends JFormFieldList
         $query->order('pp.startDate DESC');
         $dbo->setQuery($query);
 
-        try {
-            $planningPeriods = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return $baseOptions;
-        }
-
+        $planningPeriods = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($planningPeriods)) {
             return $baseOptions;
         }

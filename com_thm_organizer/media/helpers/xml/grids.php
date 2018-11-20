@@ -83,7 +83,7 @@ class THM_OrganizerHelperXMLGrids
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->timeperiods)) {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_MISSING");
+            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_MISSING');
 
             return;
         }
@@ -125,8 +125,8 @@ class THM_OrganizerHelperXMLGrids
         $invalidPeriod = ($invalidKeys or $invalidTimes);
 
         if ($invalidPeriod) {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT"), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT");
+            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT');
             }
 
             return;

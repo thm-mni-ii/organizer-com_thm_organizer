@@ -43,7 +43,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * because this function is just a preprocessor for the function merge, which does have access checks.
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function autoMerge()
     {
@@ -120,7 +120,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * Attempts to delete resource entries
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => invalid request or unauthorized access
      */
     public function delete()
     {
@@ -140,7 +140,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             try {
                 $table->load($resourceID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
                 return false;
             }
@@ -150,7 +150,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             try {
                 $table->delete($resourceID);
             } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
+                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
                 $this->_db->transactionRollback();
 
                 return false;
@@ -165,11 +165,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
     /**
      * Retrieves resource entries from the database
      *
-     * @param string $tableName    the unique portion of the resource table name
-     * @param bool   $onlySelected whether or not to retrieve all entries
-     *
      * @return mixed  array on success, otherwise null
-     * @throws Exception
      */
     protected function getEntries()
     {
@@ -177,7 +173,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
         $query->select('*');
         $query->from("#__thm_organizer_{$this->tableName}");
 
-        $requestIDs = JFactory::getApplication()->input->get('cid', [], 'array');
+        $requestIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         $normedIDs  = Joomla\Utilities\ArrayHelper::toInteger($requestIDs);
         $selected   = "'" . implode("', '", $normedIDs) . "'";
         $query->where("id IN ( $selected )");
@@ -186,20 +182,13 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
         $this->_db->setQuery($query);
 
-        try {
-            return $this->_db->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return null;
-        }
+        return THM_OrganizerHelperComponent::query('loadAssocList');
     }
 
     /**
      * Retrieves the ids of all saved schedules
      *
      * @return mixed  array on success, otherwise null
-     * @throws Exception
      */
     protected function getSchedulesIDs()
     {
@@ -208,13 +197,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
         $query->from('#__thm_organizer_schedules');
         $this->_db->setQuery($query);
 
-        try {
-            return $this->_db->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return null;
-        }
+        return THM_OrganizerHelperComponent::query('loadColumn', []);
     }
 
     /**
@@ -223,7 +206,6 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * @param int $scheduleID the id of the schedule
      *
      * @return mixed  object on success, otherwise null
-     * @throws Exception
      */
     protected function getScheduleObject($scheduleID)
     {
@@ -233,13 +215,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
         $query->where("id = '$scheduleID'");
         $this->_db->setQuery($query);
 
-        try {
-            $schedule = $this->_db->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return null;
-        }
+        $schedule = THM_OrganizerHelperComponent::query('loadResult');
 
         return empty($schedule) ? null : json_decode($schedule);
     }
@@ -248,7 +224,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * Merges resource entries and cleans association tables.
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function merge()
     {
@@ -310,11 +286,11 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * Ensures that the data property is set and that mandatory indexes id and gpuntis id are also set
      *
      * @return bool true if the basic requirements are met, otherwise false
-     * @throws Exception
+     * @throws Exception => invalid request
      */
     private function preprocess()
     {
-        $input      = JFactory::getApplication()->input;
+        $input      = THM_OrganizerHelperComponent::getInput();
         $this->data = $input->get('jform', $this->data, 'array');
 
         // From the edit form
@@ -346,7 +322,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * Attempts to save a resource entry, updating schedule data as necessary.
      *
      * @return mixed  integer on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
@@ -406,15 +382,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
         $query->where("{$this->fkColumn} IN ( $oldIDString )");
         $this->_db->setQuery($query);
 
-        try {
-            $this->_db->execute();
-        } catch (Exception $exception) {
-            $this->_db->transactionRollback();
-
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
     }
 
     /**
@@ -428,24 +396,15 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * Updates the associated departments for a resource
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
      */
     private function updateDepartments()
     {
         $existingQuery = $this->_db->getQuery(true);
-        $existingQuery->select("DISTINCT departmentID");
+        $existingQuery->select('DISTINCT departmentID');
         $existingQuery->from('#__thm_organizer_department_resources');
         $existingQuery->where("{$this->deptResource} = '{$this->data['id']}'");
         $this->_db->setQuery($existingQuery);
-
-        try {
-            $existing = $this->_db->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
-
+        $existing   = THM_OrganizerHelperComponent::query('loadColumn', []);
         $deprecated = array_diff($existing, $this->data['departmentID']);
 
         if (!empty($deprecated)) {
@@ -455,17 +414,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
             $deletionQuery->where("departmentID IN ('" . implode("','", $deprecated) . "')");
             $this->_db->setQuery($deletionQuery);
 
-            try {
-                $this->_db->execute();
-            } catch (Exception $exc) {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                    'error'
-                );
-
-                JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-                $this->_db->transactionRollback();
-
+            $deleted = (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+            if (!$deleted) {
                 return false;
             }
         }
@@ -474,23 +424,15 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
         if (!empty($new)) {
             $insertQuery = $this->_db->getQuery(true);
-            $insertQuery->insert("#__thm_organizer_department_resources");
+            $insertQuery->insert('#__thm_organizer_department_resources');
             $insertQuery->columns("departmentID, {$this->deptResource}");
 
             foreach ($new as $newID) {
                 $insertQuery->values("'$newID', '{$this->data['id']}'");
                 $this->_db->setQuery($insertQuery);
 
-                try {
-                    $this->_db->execute();
-                } catch (Exception $exc) {
-                    JFactory::getApplication()->enqueueMessage(
-                        JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"),
-                        'error'
-                    );
-                    JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-                    $this->_db->transactionRollback();
-
+                $inserted = (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+                if (!$inserted) {
                     return false;
                 }
             }
@@ -510,38 +452,28 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
         $allIDString = "'" . implode("', '", array_merge([$this->data['id']], $this->data['otherIDs'])) . "'";
 
         $departmentQuery = $this->_db->getQuery(true);
-        $departmentQuery->select("DISTINCT departmentID");
-        $departmentQuery->from("#__thm_organizer_department_resources");
+        $departmentQuery->select('DISTINCT departmentID');
+        $departmentQuery->from('#__thm_organizer_department_resources');
         $departmentQuery->where("{$this->deptResource} IN ( $allIDString )");
         $this->_db->setQuery($departmentQuery);
-
-        try {
-            $deptIDs = $this->_db->loadColumn();
-        } catch (Exception $exception) {
-            $this->_db->transactionRollback();
-
-            return false;
-        }
+        $deptIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         if (empty($deptIDs)) {
             return true;
         }
 
         $deleteQuery = $this->_db->getQuery(true);
-        $deleteQuery->delete("#__thm_organizer_department_resources")
+        $deleteQuery->delete('#__thm_organizer_department_resources')
             ->where("{$this->fkColumn} IN ( $allIDString )");
         $this->_db->setQuery($deleteQuery);
 
-        try {
-            $this->_db->execute();
-        } catch (Exception $exception) {
-            $this->_db->transactionRollback();
-
+        $deleted = (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+        if (!$deleted) {
             return false;
         }
 
         $insertQuery = $this->_db->getQuery(true);
-        $insertQuery->insert("#__thm_organizer_department_resources");
+        $insertQuery->insert('#__thm_organizer_department_resources');
         $insertQuery->columns("departmentID, {$this->fkColumn}");
 
         foreach ($deptIDs as $deptID) {
@@ -550,15 +482,7 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
 
         $this->_db->setQuery($insertQuery);
 
-        try {
-            $this->_db->execute();
-        } catch (Exception $exception) {
-            $this->_db->transactionRollback();
-
-            return false;
-        }
-
-        return true;
+        return (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
     }
 
     /**
@@ -574,9 +498,8 @@ abstract class THM_OrganizerModelMerge extends JModelLegacy
      * Updates room data and lesson associations in active schedules
      *
      * @return bool  true on success, otherwise false
-     * @throws Exception
      */
-    public function updateSchedules()
+    private function updateSchedules()
     {
         $scheduleIDs = $this->getSchedulesIDs();
         if (empty($scheduleIDs)) {

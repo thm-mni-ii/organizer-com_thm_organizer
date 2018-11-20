@@ -33,19 +33,19 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
             return $query;
         }
 
-        $select    = "DISTINCT ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ";
-        $linkParts = ["'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", "ppl.id"];
-        $select    .= $query->concatenate($linkParts, "") . " AS link";
+        $select    = 'DISTINCT ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ';
+        $linkParts = ["'index.php?option=com_thm_organizer&view=plan_pool_edit&id='", 'ppl.id'];
+        $select    .= $query->concatenate($linkParts, '') . ' AS link';
 
         $query->from('#__thm_organizer_plan_pools AS ppl');
-        $query->leftJoin("#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID");
+        $query->leftJoin('#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID');
 
         $departmentID = $this->state->get('list.departmentID');
 
         if ($departmentID and in_array($departmentID, $allowedDepartments)) {
             $query->where("dr.departmentID = '$departmentID'");
         } elseif ($departmentID == '-1') {
-            $query->where("dr.departmentID IS NULL");
+            $query->where('dr.departmentID IS NULL');
         } else {
             $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
         }
@@ -53,8 +53,8 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
         $programID = $this->state->get('list.programID');
 
         if ($programID) {
-            $select .= ", ppr.id as programID, ppr.name as programName";
-            $query->innerJoin("#__thm_organizer_plan_programs AS ppr ON ppl.programID = ppr.id");
+            $select .= ', ppr.id as programID, ppr.name as programName';
+            $query->innerJoin('#__thm_organizer_plan_programs AS ppr ON ppl.programID = ppr.id');
             $query->where("ppl.programID = '$programID'");
         }
 
@@ -103,34 +103,13 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $headers   = [];
-
+        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction            = $this->state->get('list.direction', $this->defaultDirection);
+        $headers              = [];
         $headers['checkbox']  = '';
-        $headers['full_name'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_NAME',
-            'ppl.full_name',
-            $direction,
-            $ordering
-        );
-
-        $headers['name'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_SHORT_NAME',
-            'ppl.name',
-            $direction,
-            $ordering
-        );
-
-        $headers['gpuntisID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_GPUNTISID',
-            'ppl.gpuntisID',
-            $direction,
-            $ordering
-        );
+        $headers['full_name'] = THM_OrganizerHelperComponent::sort('NAME', 'ppl.full_name', $direction, $ordering);
+        $headers['name']      = THM_OrganizerHelperComponent::sort('SHORT_NAME', 'ppl.name', $direction, $ordering);
+        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
 
         return $headers;
     }

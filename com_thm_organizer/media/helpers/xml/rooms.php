@@ -28,7 +28,7 @@ class THM_OrganizerHelperXMLRooms
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->rooms)) {
-            $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOMS_MISSING");
+            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_ROOMS_MISSING');
 
             return;
         }
@@ -62,14 +62,13 @@ class THM_OrganizerHelperXMLRooms
      * @param object &$roomNode      the room node to be validated
      *
      * @return void
-     * @throws Exception
      */
     public static function validateIndividual(&$scheduleModel, &$roomNode)
     {
         $internalID = trim((string)$roomNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING"), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING");
+            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING');
             }
 
             return;
@@ -81,7 +80,7 @@ class THM_OrganizerHelperXMLRooms
         $displayName = trim((string)$roomNode->longname);
         if (empty($displayName)) {
             $scheduleModel->scheduleErrors[]
-                = JText::sprintf('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING', $internalID);
+                = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING'), $internalID);
 
             return;
         }

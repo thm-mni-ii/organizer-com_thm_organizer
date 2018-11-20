@@ -26,7 +26,6 @@ class JFormFieldRoomID extends JFormFieldList
      * Returns a select box where stored degree programs can be chosen
      *
      * @return array  the available degree programs
-     * @throws Exception
      */
     protected function getOptions()
     {

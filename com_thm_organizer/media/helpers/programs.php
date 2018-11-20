@@ -56,7 +56,6 @@ class THM_OrganizerHelperPrograms
      * @param string $type      the type of the id (real or plan)
      *
      * @return string the name of the (plan) program, otherwise empty
-     * @throws Exception
      */
     public static function getName($programID, $type)
     {
@@ -64,7 +63,7 @@ class THM_OrganizerHelperPrograms
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
+        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
 
         if ($type == 'real') {
@@ -80,14 +79,7 @@ class THM_OrganizerHelperPrograms
         }
 
         $dbo->setQuery($query);
-
-        try {
-            $names = $dbo->loadAssoc();
-        } catch (RuntimeException $exception) {
-            JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-
-            return '';
-        }
+        $names = THM_OrganizerHelperComponent::query('loadAssoc', []);
 
         return empty($names) ? '' : empty($names['name']) ? $names['ppName'] : $names['name'];
     }
@@ -96,18 +88,15 @@ class THM_OrganizerHelperPrograms
      * Getter method for schedule programs in database
      *
      * @return array an array of program information
-     *
-     * @throws RuntimeException
-     * @throws Exception
      */
     public static function getPlanPrograms()
     {
         $dbo           = JFactory::getDbo();
         $languageTag   = THM_OrganizerHelperLanguage::getShortTag();
-        $departmentIDs = JFactory::getApplication()->input->get('departmentIDs', [], 'raw');
+        $departmentIDs = THM_OrganizerHelperComponent::getInput()->get('departmentIDs', [], 'raw');
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", "d.abbreviation", "' '", "p.version", "')'"];
+        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('DISTINCT ppr.id, ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
         $query->from('#__thm_organizer_plan_programs AS ppr');
         $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id');
@@ -116,22 +105,13 @@ class THM_OrganizerHelperPrograms
 
         if (!empty($departmentIDs)) {
             $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id');
-            $query->where("dr.departmentID IN ('" . str_replace(",", "', '", $departmentIDs) . "')");
+            $query->where("dr.departmentID IN ($departmentIDs)");
         }
 
         $query->order('ppName');
         $dbo->setQuery($query);
 
-        $default = [];
-        try {
-            $results = $dbo->loadAssocList();
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return $default;
-        }
-
-        return empty($results) ? $default : $results;
+        return THM_OrganizerHelperComponent::query('loadAssocList', []);
     }
 
     /**
@@ -140,7 +120,6 @@ class THM_OrganizerHelperPrograms
      * @param object $program the program object
      *
      * @return mixed int on success, otherwise null
-     * @throws Exception
      */
     public static function getPlanResourceID($program)
     {
@@ -175,9 +154,10 @@ class THM_OrganizerHelperPrograms
         $programPieces   = explode('.', $gpuntisID);
         $plausibleNumber = count($programPieces) === 3;
         if ($plausibleNumber) {
-            $plausibleCode = preg_match('/^[A-Z]+[0-9]*$/', $programPieces[0]);
-            $plausibleVersion = (ctype_digit($programPieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $programPieces[2]));
-            $plausibleDegree = (ctype_upper($programPieces[1])
+            $plausibleCode    = preg_match('/^[A-Z]+[0-9]*$/', $programPieces[0]);
+            $plausibleVersion = (ctype_digit($programPieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/',
+                    $programPieces[2]));
+            $plausibleDegree  = (ctype_upper($programPieces[1])
                 and preg_match('/^[B|M]{1}[A-Z]{1,2}$/', $programPieces[1]));
             if ($plausibleDegree) {
                 $degreeTable    = JTable::getInstance('degrees', 'thm_organizerTable');
@@ -202,7 +182,6 @@ class THM_OrganizerHelperPrograms
      * @param string $tempName    the name to be used if no entry already exists
      *
      * @return mixed int on success, otherwise false
-     * @throws Exception
      */
     private static function getProgramID($programData, $tempName)
     {
@@ -212,7 +191,7 @@ class THM_OrganizerHelperPrograms
             return $programTable->id;
         }
 
-        $formData                    = JFactory::getApplication()->input->get('jform', [], 'array');
+        $formData                    = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         $programData['departmentID'] = $formData['departmentID'];
         $programData['name_de']      = $tempName;
         $programData['name_en']      = $tempName;

@@ -37,8 +37,6 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
      * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
-     *
-     * @throws  \Exception
      */
     public function getTable($name = 'room_types', $prefix = 'thm_organizerTable', $options = [])
     {

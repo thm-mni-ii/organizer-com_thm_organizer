@@ -27,7 +27,7 @@ $displayName = empty($this->model->displayName) ?
                    data-toggle="tab" data-id="schedule-form" role="tab" aria-controls="schedule-form"
                    aria-selected="true">
                     <span class="icon-schedules"></span>
-                    <span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SCHEDULES"); ?></span>
+                    <span class="tab-text"><?php echo JText::_('COM_THM_ORGANIZER_SCHEDULES'); ?></span>
                 </a>
             </li>
             <li class="tabs-tab" role="presentation">
@@ -35,7 +35,7 @@ $displayName = empty($this->model->displayName) ?
                    data-toggle="tab" data-id="selected-schedules" role="tab" aria-controls="selected-schedules"
                    aria-selected="true">
                     <span class="icon-checkbox-checked"></span>
-                    <span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_SELECTED"); ?></span>
+                    <span class="tab-text"><?php echo JText::_('COM_THM_ORGANIZER_SELECTED'); ?></span>
                 </a>
             </li>
             <li class="tabs-tab" role="presentation">
@@ -43,7 +43,7 @@ $displayName = empty($this->model->displayName) ?
                    data-toggle="tab" data-id="time-selection" role="tab" aria-controls="time-selection"
                    aria-selected="true">
                     <span class="icon-grid-2"></span>
-                    <span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_GRID_MANAGER_TITLE"); ?></span>
+                    <span class="tab-text"><?php echo JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE'); ?></span>
                 </a>
             </li>
             <li class="date-input-list-item">
@@ -84,13 +84,13 @@ $displayName = empty($this->model->displayName) ?
                             </thead>
                             <thead>
                             <tr>
-                                <td><?php echo JText::_("MON"); ?></td>
-                                <td><?php echo JText::_("TUE"); ?></td>
-                                <td><?php echo JText::_("WED"); ?></td>
-                                <td><?php echo JText::_("THU"); ?></td>
-                                <td><?php echo JText::_("FRI"); ?></td>
-                                <td><?php echo JText::_("SAT"); ?></td>
-                                <td><?php echo JText::_("SUN"); ?></td>
+                                <td><?php echo JText::_('MON'); ?></td>
+                                <td><?php echo JText::_('TUE'); ?></td>
+                                <td><?php echo JText::_('WED'); ?></td>
+                                <td><?php echo JText::_('THU'); ?></td>
+                                <td><?php echo JText::_('FRI'); ?></td>
+                                <td><?php echo JText::_('SAT'); ?></td>
+                                <td><?php echo JText::_('SUN'); ?></td>
                             </tr>
                             </thead>
                             <tbody>
@@ -101,7 +101,7 @@ $displayName = empty($this->model->displayName) ?
                                 <td colspan="7">
                                     <button id="today" type="button" class="today"
                                             onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
-                                        <?php echo JText::_("COM_THM_ORGANIZER_TODAY"); ?>
+                                        <?php echo JText::_('COM_THM_ORGANIZER_TODAY'); ?>
                                     </button>
                                 </td>
                             </tr>
@@ -122,7 +122,7 @@ $displayName = empty($this->model->displayName) ?
                 <a href="#exports" class="tabs-toggle" id="tab-exports" data-toggle="tab"
                    data-id="exports" role="tab" aria-controls="exports" aria-selected="true">
                     <span class="icon-download"></span>
-                    <span class="tab-text"><?php echo JText::_("COM_THM_ORGANIZER_FILE_FORMAT"); ?></span>
+                    <span class="tab-text"><?php echo JText::_('COM_THM_ORGANIZER_FILE_FORMAT'); ?></span>
                 </a>
             </li>
         </ul>
@@ -137,7 +137,7 @@ $displayName = empty($this->model->displayName) ?
                     ?>
                     <div id="department-input" class="input-wrapper">
                         <select id="department" multiple data-input="static"
-                                data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER"); ?>">
+                                data-placeholder="<?php echo JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER'); ?>">
                             <?php
                             foreach ($this->getModel()->departments as $id => $department) {
                                 echo "<option value='" . $id . "'>$department</option>";
@@ -150,49 +150,49 @@ $displayName = empty($this->model->displayName) ?
                 ?>
                 <div id="category-input" class="input-wrapper">
                     <select id="category" required data-input="static"
-                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_SELECT_CATEGORY"); ?>">
+                            data-placeholder="<?php echo JText::_('COM_THM_ORGANIZER_SELECT_CATEGORY'); ?>">
                         <?php
                         if (!empty($this->model->params['showPrograms'])) {
-                            echo '<option value="program" selected>' . JText::_("COM_THM_ORGANIZER_PROGRAMS") . '</option>';
+                            echo '<option value="program" selected>' . JText::_('COM_THM_ORGANIZER_PROGRAMS') . '</option>';
                         }
 
                         if (!empty($this->model->params['showRooms'])) {
-                            echo '<option value="roomType">' . JText::_("COM_THM_ORGANIZER_ROOM_PLANS") . '</option>';
+                            echo '<option value="roomType">' . JText::_('COM_THM_ORGANIZER_ROOM_PLANS') . '</option>';
                         }
 
                         if (!empty($this->model->params['showTeachers'])) {
-                            echo '<option value="teacher">' . JText::_("COM_THM_ORGANIZER_TEACHERPLAN") . '</option>';
+                            echo '<option value="teacher">' . JText::_('COM_THM_ORGANIZER_TEACHERPLAN') . '</option>';
                         }
                         ?>
                     </select>
                 </div>
                 <div id="program-input" class="input-wrapper">
                     <select id="program" data-next="pool"
-                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER"); ?>">
+                            data-placeholder="<?php echo JText::_('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="pool-input" class="input-wrapper">
                     <select id="pool" data-next="lesson"
-                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER"); ?>">
+                            data-placeholder="<?php echo JText::_('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="roomType-input" class="input-wrapper">
                     <select id="roomType" data-next="room"
-                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER"); ?>">
+                            data-placeholder="<?php echo JText::_('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="room-input" class="input-wrapper">
                     <select id="room" data-next="lesson"
-                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER"); ?>">
+                            data-placeholder="<?php echo JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="teacher-input" class="input-wrapper">
                     <select id="teacher" data-next="lesson"
-                            data-placeholder="<?php echo JText::_("COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER"); ?>">
+                            data-placeholder="<?php echo JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
@@ -233,7 +233,7 @@ $displayName = empty($this->model->displayName) ?
                     </a>
                 </div>
                 <div class="link-item">
-                    <a href="index.php?option=com_thm_organizer&view=schedule_export" target="_blank">
+                    <a href="?option=com_thm_organizer&view=schedule_export" target="_blank">
                         <span class="icon-plus"></span>
                         <?php echo JText::_('COM_THM_ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
                     </a>
@@ -263,7 +263,7 @@ $displayName = empty($this->model->displayName) ?
     ];
     $grid           = json_decode($this->defaultGrid->grid);
     $periods        = get_object_vars($grid->periods);
-    $activeDay      = date("w");
+    $activeDay      = date('w');
     ?>
 
     <div id="scheduleWrapper" class="scheduleWrapper">
@@ -290,19 +290,19 @@ $displayName = empty($this->model->displayName) ?
                     <tbody>
                     <?php
                     for ($period = 1; $period <= count($periods); ++$period) {
-                        echo "<tr>";
-                        echo "<td>";
+                        echo '<tr>';
+                        echo '<td>';
                         echo THM_OrganizerHelperDate::formatTime($periods[$period]->startTime);
-                        echo "<br> - <br>";
+                        echo '<br> - <br>';
                         echo THM_OrganizerHelperDate::formatTime($periods[$period]->endTime);
-                        echo "</td>";
+                        echo '</td>';
 
                         for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday) {
                             $class = ($activeDay == $weekday + 1) ? ' class="activeColumn"' : '';
                             echo '<td' . $class . '></td>';
                         }
 
-                        echo "</tr>";
+                        echo '</tr>';
                     } // Periods
                     ?>
                     </tbody>
@@ -350,7 +350,7 @@ $displayName = empty($this->model->displayName) ?
     </div>
 
     <div id="next-date-selection" class="message pop-up">
-        <p><?php echo JText::_("COM_THM_ORGANIZER_JUMP_DATE"); ?></p>
+        <p><?php echo JText::_('COM_THM_ORGANIZER_JUMP_DATE'); ?></p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
         <button id="past-date" onclick="scheduleApp.nextDateEventHandler(event);">
             <span class="icon-arrow-left-2"></span>
@@ -365,7 +365,7 @@ $displayName = empty($this->model->displayName) ?
     <div id="no-lessons" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo JText::_("COM_THM_ORGANIZER_NO_LESSONS"); ?></span>
+            <span><?php echo JText::_('COM_THM_ORGANIZER_NO_LESSONS'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>
@@ -373,7 +373,7 @@ $displayName = empty($this->model->displayName) ?
     <div id="reg-fifo" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo JText::_("COM_THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED"); ?></span>
+            <span><?php echo JText::_('COM_THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>
@@ -381,7 +381,7 @@ $displayName = empty($this->model->displayName) ?
     <div id="reg-manual" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo JText::_("COM_THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST"); ?></span>
+            <span><?php echo JText::_('COM_THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>

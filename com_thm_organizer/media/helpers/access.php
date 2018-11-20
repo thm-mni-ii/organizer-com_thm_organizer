@@ -15,13 +15,12 @@
 class THM_OrganizerHelperAccess
 {
     /**
-     * Checks whether the user has access to documenation resources and their respective views.
+     * Checks whether the user has access to documentation resources and their respective views.
      *
      * @param string $resource
      * @param int    $resourceID
      *
      * @return bool true if the user is authorized for facility management functions and views.
-     * @throws Exception
      */
     public static function allowDocumentAccess($resource = '', $resourceID = 0)
     {
@@ -71,7 +70,6 @@ class THM_OrganizerHelperAccess
      * @param int $departmentID the id against which to perform access checks
      *
      * @return bool true if the user is authorized for facility management functions and views.
-     * @throws Exception
      */
     public static function allowSchedulingAccess($scheduleID = 0, $departmentID = 0)
     {
@@ -100,7 +98,6 @@ class THM_OrganizerHelperAccess
      * @param int    $itemID       the id of the item being checked
      *
      * @return bool  true if the resource has an associated asset, otherwise false
-     * @throws Exception
      */
     public static function checkAssetInitialization($resourceName, $itemID)
     {
@@ -109,15 +106,7 @@ class THM_OrganizerHelperAccess
         $query->select('asset_id')->from("#__thm_organizer_{$resourceName}s")->where("id = '$itemID'");
         $dbo->setQuery($query);
 
-        try {
-            $assetID = $dbo->loadResult();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return false;
-        }
-
-        return empty($assetID) ? false : true;
+        return (bool)THM_OrganizerHelperComponent::query('loadResult');
     }
 
     /**
@@ -126,7 +115,6 @@ class THM_OrganizerHelperAccess
      * @param string $action the action for authorization
      *
      * @return array  the department ids, empty if user has no access
-     * @throws Exception
      */
     public static function getAccessibleDepartments($action = null)
     {
@@ -134,14 +122,7 @@ class THM_OrganizerHelperAccess
         $query = $dbo->getQuery(true);
         $query->select('id')->from('#__thm_organizer_departments');
         $dbo->setQuery($query);
-
-        try {
-            $departmentIDs = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return [];
-        }
+        $departmentIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         // Don't bother checking departments if the user is an administrator
         if (self::isAdmin()) {

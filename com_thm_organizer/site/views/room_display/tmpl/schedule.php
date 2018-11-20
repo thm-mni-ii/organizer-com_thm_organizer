@@ -21,7 +21,7 @@ $blockNo = 0;
     }
 
     window.onload = function () {
-        var scheduleBlockElement = document.getElementsByClassName("schedule-block"),
+        var scheduleBlockElement = document.getElementsByClassName('schedule-block'),
             activeExists = checkIfActiveExists(scheduleBlockElement);
 
         timer = setTimeout('auto_reload()', <?php echo $this->model->params['schedule_refresh']; ?>000);
@@ -30,11 +30,11 @@ $blockNo = 0;
          * Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
          * dazu wird ein neuer Klassennamen benötigt.
          */
-        if (activeExists == false)
+        if (activeExists === false)
         {
             for (var i = 0; i < scheduleBlockElement.length; i++)
             {
-                scheduleBlockElement[i].className += " nothingActive";
+                scheduleBlockElement[i].className += ' nothingActive';
             }
         }
     };
@@ -44,7 +44,7 @@ $blockNo = 0;
 
         for (var i = 0; i < scheduleBlockElement.length; i++)
         {
-            if (scheduleBlockElement[i].classList.contains("active"))
+            if (scheduleBlockElement[i].classList.contains('active'))
             {
                 active = true;
             }

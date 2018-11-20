@@ -20,7 +20,6 @@ class THM_OrganizerTemplateList_Modal
      * @param object &$view the view context calling the function
      *
      * @return void
-     * @throws Exception
      */
     public static function render(&$view)
     {
@@ -52,7 +51,7 @@ class THM_OrganizerTemplateList_Modal
                 <input type="hidden" name="task" value=""/>
                 <input type="hidden" name="boxchecked" value="0"/>
                 <input type="hidden" name="option"
-                       value="<?php echo JFactory::getApplication()->input->get('option'); ?>"/>
+                       value="<?php echo THM_OrganizerHelperComponent::getInput()->get('option'); ?>"/>
                 <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
                 <input type="hidden" name="tmpl" value="component"/>
                 <?php self::renderHiddenFields($view) ?>

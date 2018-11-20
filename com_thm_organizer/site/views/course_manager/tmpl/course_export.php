@@ -33,13 +33,24 @@ abstract class THM_OrganizerTemplateCourse_Export
      *
      * @param int $lessonID the lessonID of the exported course
      *
-     * @throws Exception
+     * @throws Exception => invalid request / unauthorized access / not found
      */
     public function __construct($lessonID)
     {
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
+        if (empty($lessonID)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+        }
+
+        if (!THM_OrganizerHelperCourses::authorized($lessonID)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+        }
 
         $course          = THM_OrganizerHelperCourses::getCourse($lessonID);
+        if (empty($course)) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
+        }
+
+        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
         $dates           = THM_OrganizerHelperCourses::getDates($lessonID);
         $maxParticipants = empty($course->lessonP) ? $course['subjectP'] : $course['lessonP'];
         $start           = explode('-', $dates[0]);
@@ -86,10 +97,10 @@ abstract class THM_OrganizerTemplateCourse_Export
     {
         $header   = $this->course['name'];
         $location = empty($this->course['place']) ? '' : "{$this->course['place']}, ";
-        $dates    = "{$this->course["start"]} - {$this->course["end"]}";
+        $dates    = "{$this->course['start']} - {$this->course['end']}";
 
-        $participants     = $this->lang->_("COM_THM_ORGANIZER_PARTICIPANTS");
-        $participantCount = count($this->course["participants"]);
+        $participants     = $this->lang->_('COM_THM_ORGANIZER_PARTICIPANTS');
+        $participantCount = count($this->course['participants']);
         $subHeader        = "$location$dates\n$participants: $participantCount";
 
         $this->document->SetHeaderData('thm_logo.png', '50', $header, $subHeader);
@@ -120,7 +131,7 @@ abstract class THM_OrganizerTemplateCourse_Export
             $courseData[] = $this->course['place'];
         }
 
-        $courseData[] = $this->course["start"];
+        $courseData[] = $this->course['start'];
 
         $this->document->SetTitle("$exportType - " . implode(' - ', $courseData));
         $this->filename = urldecode(implode('_', $courseData) . "_$exportType.pdf");

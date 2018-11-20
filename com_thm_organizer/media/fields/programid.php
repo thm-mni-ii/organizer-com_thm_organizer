@@ -40,10 +40,10 @@ class JFormFieldProgramID extends JFormFieldList
         $query->order('name ASC, degree ASC, version DESC');
         $dbo->setQuery($query);
 
-        try {
-            $programs = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return parent::getOptions();
+        $defaultOptions = parent::getOptions();
+        $programs       = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($programs)) {
+            return $defaultOptions;
         }
 
         // Whether or not the program display should be prefiltered according to user resource access
@@ -70,6 +70,6 @@ class JFormFieldProgramID extends JFormFieldList
             }
         }
 
-        return array_merge(parent::getOptions(), $options);
+        return array_merge($defaultOptions, $options);
     }
 }

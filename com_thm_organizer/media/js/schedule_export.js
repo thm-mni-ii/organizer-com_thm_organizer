@@ -13,7 +13,7 @@ jQuery(document).ready(function () {
  */
 function addPools(pools)
 {
-    "use strict";
+    'use strict';
 
     var poolSelection = jQuery('#poolIDs'), selectedPools = poolSelection.val(), selected;
 
@@ -21,12 +21,12 @@ function addPools(pools)
 
     jQuery.each(pools, function (name, id) {
         selected = jQuery.inArray(id, selectedPools) > -1 ? 'selected' : '';
-        poolSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+        poolSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
     if (si !== true)
     {
-        poolSelection.chosen("destroy");
+        poolSelection.chosen('destroy');
         poolSelection.chosen();
     }
 }
@@ -38,7 +38,7 @@ function addPools(pools)
  */
 function addPrograms(programs)
 {
-    "use strict";
+    'use strict';
 
     var programSelection = jQuery('#programIDs'), selectedPrograms = programSelection.val(), selected;
 
@@ -47,12 +47,12 @@ function addPrograms(programs)
     jQuery.each(programs, function (key, value) {
         var name = value.name == null ? value.ppName : value.name;
         selected = jQuery.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
-        programSelection.append("<option value=\"" + value.id + "\" " + selected + ">" + name + "</option>");
+        programSelection.append('<option value="' + value.id + '" ' + selected + '>' + name + '</option>');
     });
 
     if (si !== true)
     {
-        programSelection.chosen("destroy");
+        programSelection.chosen('destroy');
         programSelection.chosen();
     }
 }
@@ -64,7 +64,7 @@ function addPrograms(programs)
  */
 function addRooms(rooms)
 {
-    "use strict";
+    'use strict';
 
     var roomSelection = jQuery('#roomIDs'), selectedRooms = roomSelection.val(), selected;
 
@@ -72,12 +72,12 @@ function addRooms(rooms)
 
     jQuery.each(rooms, function (name, id) {
         selected = jQuery.inArray(id, selectedRooms) > -1 ? 'selected' : '';
-        roomSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+        roomSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
     if (si !== true)
     {
-        roomSelection.chosen("destroy");
+        roomSelection.chosen('destroy');
         roomSelection.chosen();
     }
 }
@@ -89,7 +89,7 @@ function addRooms(rooms)
  */
 function addTeachers(teachers)
 {
-    "use strict";
+    'use strict';
 
     var teacherSelection = jQuery('#teacherIDs'), selectedTeachers = teacherSelection.val(), selected;
 
@@ -97,12 +97,12 @@ function addTeachers(teachers)
 
     jQuery.each(teachers, function (name, id) {
         selected = jQuery.inArray(id, selectedTeachers) > -1 ? 'selected' : '';
-        teacherSelection.append("<option value=\"" + id + "\" " + selected + ">" + name + "</option>");
+        teacherSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
     if (si !== true)
     {
-        teacherSelection.chosen("destroy");
+        teacherSelection.chosen('destroy');
         teacherSelection.chosen();
     }
 }
@@ -116,7 +116,7 @@ function copyLink()
 {
     var format, url, myschedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
 
-    format = jQuery("input[name=format]").val();
+    format = jQuery('input[name=format]').val();
 
     if (format !== 'ics')
     {
@@ -134,7 +134,7 @@ function copyLink()
     else
     {
         selectedPools = jQuery('#poolIDs').val();
-        emptyPools = selectedPools == undefined || selectedPools == null || selectedPools.length === 0;
+        emptyPools = selectedPools === undefined || selectedPools == null || selectedPools.length === 0;
 
         if (!emptyPools)
         {
@@ -142,7 +142,7 @@ function copyLink()
         }
 
         selectedRooms = jQuery('#roomIDs').val();
-        emptyRooms = selectedRooms == undefined || selectedRooms == null || selectedRooms.length === 0;
+        emptyRooms = selectedRooms === undefined || selectedRooms == null || selectedRooms.length === 0;
 
         if (!emptyRooms)
         {
@@ -150,7 +150,7 @@ function copyLink()
         }
 
         selectedTeachers = jQuery('#teacherIDs').val();
-        emptyTeachers = selectedTeachers == undefined || selectedTeachers == null || selectedTeachers.length === 0;
+        emptyTeachers = selectedTeachers === undefined || selectedTeachers == null || selectedTeachers.length === 0;
 
         if (!emptyTeachers)
         {
@@ -165,20 +165,20 @@ function copyLink()
 
 function handleSubmit()
 {
-    var validSelection = validateSelection(), formatValue = jQuery("input[name=format]").val();
+    var validSelection = validateSelection(), formatValue = jQuery('input[name=format]').val();
 
     if (!validSelection)
     {
         return false;
     }
 
-    if (formatValue == 'ics')
+    if (formatValue === 'ics')
     {
         copyLink();
         return true;
     }
 
-    jQuery("#adminForm").submit();
+    jQuery('#adminForm').submit();
 
     return true;
 }
@@ -188,7 +188,7 @@ function handleSubmit()
  */
 function repopulateResources()
 {
-    "use strict";
+    'use strict';
 
     var selectedDepartments = jQuery('#departmentIDs').val(), selectedPrograms = jQuery('#programIDs').val(),
         invalidDepartments, invalidPrograms, allIndex, componentParameters, selectionParameters = '';
@@ -265,7 +265,7 @@ function repopulateResources()
  */
 function repopulatePrograms()
 {
-    "use strict";
+    'use strict';
 
     var componentParameters, selectedDepartments = jQuery('#departmentIDs').val(), allIndex, selectionParameters;
     componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
@@ -295,22 +295,22 @@ function repopulatePrograms()
 
 function setFormat()
 {
-    var actionButton = jQuery("#action-btn"),
-        dateContainer = jQuery("#date-container"),
-        formatValue = jQuery('#format').find(":selected").val(),
+    var actionButton = jQuery('#action-btn'),
+        dateContainer = jQuery('#date-container'),
+        formatValue = jQuery('#format').find(':selected').val(),
         formatArray = formatValue.split('.'),
         format = formatArray[0],
         documentFormat = formatArray[1],
-        dateRestrictionContainer = jQuery("#dateRestriction-container"),
-        displayFormatContainer = jQuery("#displayFormat-container"),
-        documentFormatContainer = jQuery("input[name=documentFormat]"),
-        formatInput = jQuery("input[name=format]"),
-        groupingContainer = jQuery("#grouping-container"),
+        dateRestrictionContainer = jQuery('#dateRestriction-container'),
+        displayFormatContainer = jQuery('#displayFormat-container'),
+        documentFormatContainer = jQuery('input[name=documentFormat]'),
+        formatInput = jQuery('input[name=format]'),
+        groupingContainer = jQuery('#grouping-container'),
         linkContainer = jQuery('#link-container'),
         linkTarget = jQuery('#link-target'),
-        titlesContainer = jQuery("#titles-container"),
-        pdfFormatContainer = jQuery("#pdfWeekFormat-container"),
-        xlsFormatContainer = jQuery("#xlsWeekFormat-container");
+        titlesContainer = jQuery('#titles-container'),
+        pdfFormatContainer = jQuery('#pdfWeekFormat-container'),
+        xlsFormatContainer = jQuery('#xlsWeekFormat-container');
 
     switch (format)
     {
@@ -375,19 +375,19 @@ function toggleMySchedule()
 
     if (myschedule === 'on')
     {
-        jQuery("#filterFields").hide();
-        jQuery("#poolIDs-container").hide();
-        jQuery("#roomIDs-container").hide();
-        jQuery("#teacherIDs-container").hide();
-        jQuery("input[name=myschedule]").val(1);
+        jQuery('#filterFields').hide();
+        jQuery('#poolIDs-container').hide();
+        jQuery('#roomIDs-container').hide();
+        jQuery('#teacherIDs-container').hide();
+        jQuery('input[name=myschedule]').val(1);
     }
     else
     {
-        jQuery("#filterFields").show();
-        jQuery("#poolIDs-container").show();
-        jQuery("#roomIDs-container").show();
-        jQuery("#teacherIDs-container").show();
-        jQuery("input[name=myschedule]").val(0);
+        jQuery('#filterFields').show();
+        jQuery('#poolIDs-container').show();
+        jQuery('#roomIDs-container').show();
+        jQuery('#teacherIDs-container').show();
+        jQuery('input[name=myschedule]').val(0);
     }
 
 }

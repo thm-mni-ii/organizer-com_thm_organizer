@@ -20,12 +20,11 @@ class JFormFieldSubjectTeacher extends JFormField
      * Returns a select box where stored teachers can be associated with a subject
      *
      * @return string  the HTML output
-     * @throws Exception
      */
     public function getInput()
     {
         $fieldName      = $this->getAttribute('name');
-        $subjectID      = JFactory::getApplication()->input->getInt('id', 0);
+        $subjectID      = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
         $responsibility = $this->getAttribute('responsibility');
 
         $dbo           = JFactory::getDbo();
@@ -34,26 +33,16 @@ class JFormFieldSubjectTeacher extends JFormField
         $selectedQuery->from('#__thm_organizer_subject_teachers');
         $selectedQuery->where("subjectID = '$subjectID' AND teacherResp = '$responsibility'");
         $dbo->setQuery($selectedQuery);
-
-        try {
-            $selected = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return $this->getDefault();
-        }
+        $selected = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         $teachersQuery = $dbo->getQuery(true);
-        $teachersQuery->select("id AS value, surname, forename");
+        $teachersQuery->select('id AS value, surname, forename');
         $teachersQuery->from('#__thm_organizer_teachers');
         $teachersQuery->order('surname, forename');
         $dbo->setQuery($teachersQuery);
 
-        try {
-            $teachers = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $teachers = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($teachers)) {
             return $this->getDefault();
         }
 
@@ -65,12 +54,12 @@ class JFormFieldSubjectTeacher extends JFormField
         $selectedTeachers = empty($selected) ? [] : $selected;
 
         return JHtml::_(
-            "select.genericlist",
+            'select.genericlist',
             $teachers,
             "jform[$fieldName][]",
             $attributes,
-            "value",
-            "text",
+            'value',
+            'text',
             $selectedTeachers
         );
     }
@@ -87,6 +76,6 @@ class JFormFieldSubjectTeacher extends JFormField
         $fieldName  = $this->getAttribute('name');
         $attributes = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
-        return JHtml::_("select.genericlist", $teachers, "jform[$fieldName][]", $attributes, "value", "text");
+        return JHtml::_('select.genericlist', $teachers, "jform[$fieldName][]", $attributes, 'value', 'text');
     }
 }

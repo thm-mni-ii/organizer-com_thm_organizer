@@ -20,7 +20,6 @@ class THM_OrganizerModelForm extends JModelForm
      * Checks for user authorization to access the view
      *
      * @return bool  true if the user can access the view, otherwise false
-     * @throws Exception
      */
     protected function allowEdit()
     {
@@ -34,7 +33,7 @@ class THM_OrganizerModelForm extends JModelForm
      * @param bool  $loadData Load data  (default: true)
      *
      * @return mixed  JForm object on success, False on error.
-     * @throws  Exception  if the user is not authorized to access the view
+     * @throws Exception => unauthorized access
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -42,7 +41,7 @@ class THM_OrganizerModelForm extends JModelForm
     {
         $allowEdit = $this->allowEdit();
         if (!$allowEdit) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $name = $this->get('name');

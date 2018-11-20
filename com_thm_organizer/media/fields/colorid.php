@@ -27,14 +27,13 @@ class JFormFieldColorID extends JFormField
      * Returns a select box which contains the colors
      *
      * @return string  the HTML for the color select box
-     * @throws Exception
      */
     public function getInput()
     {
-        $input   = JFactory::getApplication()->input;
+        $input   = THM_OrganizerHelperComponent::getInput();
         $fieldID = $input->getInt('id');
         if (empty($fieldID)) {
-            $selectedFields = JFactory::getApplication()->input->get('cid', [], 'array');
+            $selectedFields = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         } else {
             $selectedFields = [$fieldID];
         }
@@ -57,11 +56,8 @@ class JFormFieldColorID extends JFormField
 
         $dbo->setQuery($query);
 
-        try {
-            $colors = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $colors = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($colors)) {
             return '';
         }
 

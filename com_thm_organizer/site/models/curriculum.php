@@ -22,11 +22,10 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * Method to get an array of data items.
      *
      * @return mixed  An array of data items on success, false on failure.
-     * @throws Exception
      */
     public function getItem()
     {
-        $app     = JFactory::getApplication();
+        $app     = THM_OrganizerHelperComponent::getApplication();
         $params  = $app->getParams();
         $program = new stdClass;
 
@@ -66,7 +65,6 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param object &$program the object modeling the program data
      *
      * @return void  sets object attributes
-     * @throws Exception
      */
     private function setProgramInformation(&$program)
     {
@@ -77,11 +75,8 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$program->id'");
         $this->_db->setQuery($query);
-        try {
-            $programData = $this->_db->loadAssoc();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $programData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        if (empty($programData)) {
             return;
         }
 
@@ -96,7 +91,6 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param object &$element the object modeling the program data
      *
      * @return void  sets object attributes
-     * @throws Exception
      */
     private function setChildren(&$element)
     {
@@ -104,13 +98,11 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->select('*');
         $query->from('#__thm_organizer_mappings');
         $query->where("parentID = '$element->mapping'");
-        $query->order("ordering ASC");
+        $query->order('ordering ASC');
         $this->_db->setQuery($query);
-        try {
-            $children = $this->_db->loadObjectList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
 
+        $children = THM_OrganizerHelperComponent::query('loadObjectList');
+        if (empty($children)) {
             return;
         }
 
@@ -144,13 +136,12 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param int $mappingID the mapping id
      *
      * @return mixed  object on success, otherwise null
-     * @throws Exception
      */
     private function getPool($poolID, $mappingID)
     {
         $query  = $this->_db->getQuery(true);
         $select = "p.id, p.name_$this->langTag AS name, description_$this->langTag AS description, minCrP, maxCrP, ";
-        $select .= "enable_desc, color AS bgColor";
+        $select .= 'enable_desc, color AS bgColor';
         $query->select($select);
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID');
@@ -158,14 +149,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->where("p.id = '$poolID'");
         $this->_db->setQuery($query);
 
-        try {
-            $pool = $this->_db->loadObject();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return null;
-        }
-
+        $pool = THM_OrganizerHelperComponent::query('loadObject');
         if (empty($pool)) {
             return null;
         }
@@ -183,18 +167,17 @@ class THM_OrganizerModelCurriculum extends JModelItem
      * @param int $mappingID the mapping id
      *
      * @return mixed  object on success, otherwise null
-     * @throws Exception
      */
     private function getSubject($subjectID, $mappingID)
     {
         $query = $this->_db->getQuery(true);
 
         $select      = "s.id, externalID, s.name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
-        $menuID      = JFactory::getApplication()->input->getInt('Itemid', 0);
+        $menuID      = THM_OrganizerHelperComponent::getInput()->getInt('Itemid', 0);
         $menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";
-        $parts       = ["$subjectLink", "s.id"];
-        $select      .= $query->concatenate($parts, "") . " AS link";
+        $parts       = [$subjectLink, 's.id'];
+        $select      .= $query->concatenate($parts, '') . ' AS link';
 
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
@@ -203,14 +186,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->where("s.id = '$subjectID'");
         $this->_db->setQuery($query);
 
-        try {
-            $subject = $this->_db->loadObject();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return null;
-        }
-
+        $subject = THM_OrganizerHelperComponent::query('loadObject');
         if (empty($subject)) {
             return null;
         }

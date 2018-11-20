@@ -28,52 +28,47 @@ abstract class THM_OrganizerModelList extends JModelList
      * Constructor.
      *
      * @param   array $config An optional associative array of configuration settings.
-     *
-     * @throws Exception
      */
     public function __construct($config = [])
     {
         parent::__construct($config);
 
-        $this->defaultLimit = JFactory::getApplication()->get('list_limit', '20');
+        $this->defaultLimit = THM_OrganizerHelperComponent::getApplication()->get('list_limit', '20');
     }
 
     /**
-     * Method to get the data that should be injected in the form.
+     * Function to get table headers
      *
-     * @return mixed  The data for the form.
-     * @throws Exception
+     * @return array including headers
      */
-    protected function loadFormData()
+    abstract public function getHeaders();
+
+    /**
+     * Generates a toggle for the attribute in question
+     *
+     * @param  int    $id         the id of the database entry
+     * @param  bool   $value      the value currently set for the attribute (saves asking it later)
+     * @param  string $controller the name of the data management controller
+     * @param  string $tip        the tooltip
+     * @param  string $attribute  the resource attribute to be changed (useful if multiple entries can be toggled)
+     *
+     * @return string  a HTML string
+     */
+    protected function getToggle($id, $value, $controller, $tip, $attribute = null)
     {
-        // Check the session for previously entered form data.
-        $data = JFactory::getApplication()->getUserState($this->context, new stdClass);
+        $iconClass = empty($value) ? 'unpublish' : 'publish';
+        $icon      = '<i class="icon-' . $iconClass . '"></i>';
 
-        // Pre-create the list options
-        if (!property_exists($data, 'list')) {
-            $data->list = [];
+        $attributes          = [];
+        $attributes['title'] = $tip;
+        $attributes['class'] = 'btn btn-micro hasTooltip';
+        $attributes['class'] .= empty($value) ? ' inactive' : '';
 
-        }
+        $url  = 'index.php?option=com_thm_organizer&task=' . $controller . '.toggle&id=' . $id . '&value=' . $value;
+        $url  .= empty($attribute) ? '' : "&attribute=$attribute";
+        $link = JHtml::_('link', $url, $icon, $attributes);
 
-        if (!property_exists($data, 'filter')) {
-            $data->filter = [];
-        }
-
-        // Joomla doesn't fill these correctly but requires some of them
-        $data->list['fullordering']
-            = $this->state->get('list.fullordering', "$this->defaultOrdering $this->defaultDirection");
-
-        $data->list['ordering']  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $data->list['direction'] = $this->state->get('list.direction', $this->defaultDirection);
-        $data->list['limit']     = $this->state->get('list.limit', $this->defaultLimit);
-        $data->list['start']     = $this->state->get('list.start', $this->defaultStart);
-
-        // Set default values for filters
-        foreach ($this->defaultFilters as $name => $defaultValue) {
-            $data->filter[$name] = $this->state->get('filter.' . $name, $defaultValue);
-        }
-
-        return $data;
+        return '<div class="button-grp">' . $link . '</div>';
     }
 
     /**
@@ -104,13 +99,7 @@ abstract class THM_OrganizerModelList extends JModelList
         $query->select("COUNT(DISTINCT ($idColumn))");
         $this->_db->setQuery($query);
 
-        try {
-            $total = (int)$this->_db->loadResult();
-        } catch (RuntimeException $exc) {
-            $this->setError($exc->getMessage());
-
-            return false;
-        }
+        $total = (int)THM_OrganizerHelperComponent::query('loadResult');
 
         // Add the total to the internal cache.
         $this->cache[$store] = $total;
@@ -119,19 +108,55 @@ abstract class THM_OrganizerModelList extends JModelList
     }
 
     /**
-     * Overwrites the JModelList populateState function
+     * Method to get the data that should be injected in the form.
      *
-     * @param  string $ordering  An optional ordering field.
-     * @param  string $direction An optional direction (asc|desc).
+     * @return mixed  The data for the form.
+     */
+    protected function loadFormData()
+    {
+        // Check the session for previously entered form data.
+        $data = THM_OrganizerHelperComponent::getApplication()->getUserState($this->context, new stdClass);
+
+        // Pre-create the list options
+        if (!property_exists($data, 'list')) {
+            $data->list = [];
+
+        }
+
+        if (!property_exists($data, 'filter')) {
+            $data->filter = [];
+        }
+
+        // Joomla doesn't fill these correctly but requires some of them
+        $data->list['fullordering']
+            = $this->state->get('list.fullordering', "$this->defaultOrdering $this->defaultDirection");
+
+        $data->list['ordering']  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $data->list['direction'] = $this->state->get('list.direction', $this->defaultDirection);
+        $data->list['limit']     = $this->state->get('list.limit', $this->defaultLimit);
+        $data->list['start']     = $this->state->get('list.start', $this->defaultStart);
+
+        // Set default values for filters
+        foreach ($this->defaultFilters as $name => $defaultValue) {
+            $data->filter[$name] = $this->state->get('filter.' . $name, $defaultValue);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Method to auto-populate the model state.
      *
-     * @return void  sets object state variables
-     * @throws Exception
+     * @param   string $ordering  An optional ordering field.
+     * @param   string $direction An optional direction (asc|desc).
+     *
+     * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = JFactory::getApplication();
+        $app = THM_OrganizerHelperComponent::getApplication();
 
         // Receive & set filters
         $filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
@@ -155,6 +180,67 @@ abstract class THM_OrganizerModelList extends JModelList
         $value = $this->getUserStateFromRequest('limitstart', 'limitstart', 0);
         $start = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
         $this->setState('list.start', $start);
+    }
+
+    /**
+     * Handles the full ordering list input if existent
+     *
+     * @param  array  &$list     the list section of the form request
+     * @param  object &$session  the session object
+     * @param  string $ordering  the attribute upon which the ordering is determined
+     * @param  string $direction the direction of the sort
+     *
+     * @return void  alters the input parameters
+     */
+    protected function processFullOrdering(&$list, &$session, &$ordering, &$direction)
+    {
+        // Joomla lost the ordering part through pagination use
+        if (strpos($list['fullordering'], 'null') !== false) {
+            $list['fullordering'] = $session->get($this->context . '.ordering', "$ordering $direction");
+        }
+        $orderingParts = explode(' ', $list['fullordering']);
+        if (count($orderingParts) == 2) {
+            $plausibleOrdering = $orderingParts[0] != 'null';
+            $validDirection    = in_array(strtoupper($orderingParts[1]), ['ASC', 'DESC', '']);
+            if ($plausibleOrdering and $validDirection) {
+                $ordering  = $orderingParts[0];
+                $direction = $orderingParts[1];
+            }
+        }
+    }
+
+    /**
+     * Provides a default method for setting filters based on id/unique values
+     *
+     * @param  object &$query      the query object
+     * @param  string $idColumn    the id column in the table
+     * @param  array  $filterNames the filter names which filter against ids
+     *
+     * @return void
+     */
+    protected function setIDFilter(&$query, $idColumn, $filterNames)
+    {
+        foreach ($filterNames as $name) {
+            $value = $this->state->get($name, '');
+            if ($value === '') {
+                continue;
+            }
+
+            /**
+             * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
+             * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
+             * be extended we could maybe add a parameter for it later.
+             */
+            if ($value == '-1') {
+                $query->where("$idColumn = '' OR $idColumn IS NULL");
+            }
+
+            // IDs are unique and therefore mutually exclusive => one is enough!
+
+            $query->where("$idColumn = '$value'");
+
+            return;
+        }
     }
 
     /**
@@ -192,58 +278,38 @@ abstract class THM_OrganizerModelList extends JModelList
     }
 
     /**
-     * Handles the full ordering list input if existent
+     * Provides a default method for setting filters for non-unique values
      *
-     * @param  array  &$list     the list section of the form request
-     * @param  object &$session  the session object
-     * @param  string $ordering  the attribute upon which the ordering is determined
-     * @param  string $direction the direction of the sort
+     * @param  object &$query      the query object
+     * @param  array  $filterNames the filter names. names should be synonymous with db column names.
      *
-     * @return void  alters the input parameters
+     * @return void
      */
-    protected function processFullOrdering(&$list, &$session, &$ordering, &$direction)
+    protected function setLocalizedFilters(&$query, $filterNames)
     {
-        // Joomla lost the ordering part through pagination use
-        if (strpos($list['fullordering'], 'null') !== false) {
-            $list['fullordering'] = $session->get($this->context . '.ordering', "$ordering $direction");
-        }
-        $orderingParts = explode(' ', $list['fullordering']);
-        if (count($orderingParts) == 2) {
-            $plausibleOrdering = $orderingParts[0] != 'null';
-            $validDirection    = in_array(strtoupper($orderingParts[1]), ['ASC', 'DESC', '']);
-            if ($plausibleOrdering and $validDirection) {
-                $ordering  = $orderingParts[0];
-                $direction = $orderingParts[1];
+        require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+        $tag = THM_OrganizerHelperLanguage::getShortTag();
+        foreach ($filterNames as $name) {
+            $value = $this->state->get("filter.$name", '');
+            if ($value === '') {
+                continue;
             }
+
+            // The column is localized the filter is not
+            $name .= "_$tag";
+
+            /**
+             * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
+             * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
+             * be extended we could maybe add a parameter for it later.
+             */
+            if ($value == '-1') {
+                $query->where("( $name = '' OR $name IS NULL )");
+                continue;
+            }
+
+            $query->where("$name = '$value'");
         }
-    }
-
-    /**
-     * Generates a toggle for the attribute in question
-     *
-     * @param  int    $id         the id of the database entry
-     * @param  bool   $value      the value currently set for the attribute (saves asking it later)
-     * @param  string $controller the name of the data management controller
-     * @param  string $tip        the tooltip
-     * @param  string $attribute  the resource attribute to be changed (useful if multiple entries can be toggled)
-     *
-     * @return string  a HTML string
-     */
-    protected function getToggle($id, $value, $controller, $tip, $attribute = null)
-    {
-        $iconClass = empty($value) ? 'unpublish' : 'publish';
-        $icon      = '<i class="icon-' . $iconClass . '"></i>';
-
-        $attributes          = [];
-        $attributes['title'] = $tip;
-        $attributes['class'] = 'btn btn-micro hasTooltip';
-        $attributes['class'] .= empty($value) ? ' inactive' : '';
-
-        $url  = "index.php?option=com_thm_organizer&task=" . $controller . ".toggle&id=" . $id . "&value=" . $value;
-        $url  .= empty($attribute) ? '' : "&attribute=$attribute";
-        $link = JHtml::_('link', $url, $icon, $attributes);
-
-        return '<div class="button-grp">' . $link . '</div>';
     }
 
     /**
@@ -291,40 +357,6 @@ abstract class THM_OrganizerModelList extends JModelList
         }
         $where = implode(' OR ', $wherray);
         $query->where("( $where )");
-    }
-
-    /**
-     * Provides a default method for setting filters based on id/unique values
-     *
-     * @param  object &$query      the query object
-     * @param  string $idColumn    the id column in the table
-     * @param  array  $filterNames the filter names which filter against ids
-     *
-     * @return void
-     */
-    protected function setIDFilter(&$query, $idColumn, $filterNames)
-    {
-        foreach ($filterNames as $name) {
-            $value = $this->state->get($name, '');
-            if ($value === '') {
-                continue;
-            }
-
-            /**
-             * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
-             * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
-             * be extended we could maybe add a parameter for it later.
-             */
-            if ($value == '-1') {
-                $query->where("$idColumn = '' OR $idColumn IS NULL");
-            }
-
-            // IDs are unique and therefore mutually exclusive => one is enough!
-
-            $query->where("$idColumn = '$value'");
-
-            return;
-        }
     }
 
     /**
@@ -377,47 +409,4 @@ abstract class THM_OrganizerModelList extends JModelList
             $query->where("$name = '$value'");
         }
     }
-
-    /**
-     * Provides a default method for setting filters for non-unique values
-     *
-     * @param  object &$query      the query object
-     * @param  array  $filterNames the filter names. names should be synonymous with db column names.
-     *
-     * @return void
-     * @throws Exception
-     */
-    protected function setLocalizedFilters(&$query, $filterNames)
-    {
-        require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-        $tag = THM_OrganizerHelperLanguage::getShortTag();
-        foreach ($filterNames as $name) {
-            $value = $this->state->get("filter.$name", '');
-            if ($value === '') {
-                continue;
-            }
-
-            // The column is localized the filter is not
-            $name .= "_$tag";
-
-            /**
-             * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
-             * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
-             * be extended we could maybe add a parameter for it later.
-             */
-            if ($value == '-1') {
-                $query->where("( $name = '' OR $name IS NULL )");
-                continue;
-            }
-
-            $query->where("$name = '$value'");
-        }
-    }
-
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    abstract public function getHeaders();
 }

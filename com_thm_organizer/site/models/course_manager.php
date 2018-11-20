@@ -43,8 +43,8 @@ class THM_OrganizerModelCourse_Manager extends JModelForm
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm(
-            "com_thm_organizer.course_manager",
-            "course_manager",
+            'com_thm_organizer.course_manager',
+            'course_manager',
             ['control' => 'jform', 'load_data' => true]
         );
 

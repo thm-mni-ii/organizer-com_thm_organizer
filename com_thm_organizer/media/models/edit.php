@@ -22,7 +22,6 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      * Provides a strict access check which can be overwritten by extending classes.
      *
      * @return bool  true if the user can access the view, otherwise false
-     * @throws Exception
      */
     protected function allowEdit()
     {
@@ -58,7 +57,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      * @param integer $pk The id of the primary key.
      *
      * @return mixed    Object on success, false on failure.
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function getItem($pk = null)
     {
@@ -71,7 +70,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
         $allowEdit  = $this->allowEdit();
 
         if (!$allowEdit) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         return $this->item;
@@ -86,30 +85,30 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      *
      * @return JTable  A JTable object
      */
-    public function getTable($name = '')
+    public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = [])
     {
         /**
          * Joomla makes the mistake of handling front end and backend differently for include paths. Here we add the
          * possible frontend and media locations for logical consistency.
          */
-        JTable::addIncludePath(JPATH_ROOT . "/media/com_thm_organizer/tables");
-        JTable::addIncludePath(JPATH_ROOT . "/components/com_thm_organizer/tables");
+        JTable::addIncludePath(JPATH_ROOT . '/media/com_thm_organizer/tables');
+        JTable::addIncludePath(JPATH_ROOT . '/components/com_thm_organizer/tables');
 
         $name = str_replace('_edit', '', $this->get('name'));
         $name .= $name == 'campus' ? 'es' : 's';
 
-        return JTable::getInstance($name, 'THM_OrganizerTable');
+        return JTable::getInstance($name, $prefix, $options);
     }
 
     /**
      * Method to load the form data
      *
      * @return object
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     protected function loadFormData()
     {
-        $input       = JFactory::getApplication()->input;
+        $input       = THM_OrganizerHelperComponent::getInput();
         $resourceIDs = $input->get('cid', [], 'array');
         $resourceID  = empty($resourceIDs) ? $input->getInt('id', 0) : $resourceIDs[0];
 

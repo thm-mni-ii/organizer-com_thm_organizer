@@ -44,7 +44,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * @param string $tpl template
      *
      * @return void
-     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -67,11 +66,10 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * Checks whether the view has been set for seeing impaired users.
      *
      * @return bool true if the view has been configured for seeing impaired users, otherwise false
-     * @throws Exception
      */
     public function isSeeingImpaired()
     {
-        $app = JFactory::getApplication();
+        $app = THM_OrganizerHelperComponent::getApplication();
         if (empty($app->getMenu()) or empty($app->getMenu()->getActive())) {
             return false;
         }
@@ -83,7 +81,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * Modifies document variables and adds links to external files
      *
      * @return void
-     * @throws Exception
      */
     private function modifyDocument()
     {
@@ -138,7 +135,7 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $deptAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
         $departmentOptions = $this->model->getDepartmentOptions();
-        $departmentSelect      = JHtml::_(
+        $departmentSelect  = JHtml::_(
             'select.genericlist',
             $departmentOptions,
             'departmentIDs',
@@ -173,7 +170,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * Creates format settings fields for the form
      *
      * @return void sets indexes in $this->fields['formatSettings'] with html content
-     * @throws Exception
      */
     private function setFormatFields()
     {
@@ -265,13 +261,13 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         ];
 
         // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = JFactory::getApplication()->getParams()->get('dateFormat');
+        $rawDateFormat = THM_OrganizerHelperComponent::getApplication()->getParams()->get('dateFormat');
         $today         = date('Y-m-d');
 
         if ($seeingImpaired) {
             $dateSelect = '<input name="date" type="date" value="' . $today . '">';
         } else {
-            $dateFormat = preg_replace("/([a-zA-Z])/", "%$1", $rawDateFormat);
+            $dateFormat = preg_replace('/([a-zA-Z])/', "%$1", $rawDateFormat);
             $dateSelect = JHtml::_('calendar', $today, 'date', 'date', $dateFormat, $attribs);
         }
 
@@ -350,7 +346,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
      * Creates resource selection fields for the form
      *
      * @return void sets indexes in $this->fields['resouceSettings'] with html content
-     * @throws Exception
      */
     private function setResourceFields()
     {
@@ -382,9 +377,9 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         ];
 
         $departmentPlaner = THM_OrganizerHelperAccess::allowSchedulingAccess();
-        $isTeacher        = (bool)THM_OrganizerHelperTeachers::getIDFromUserData();
+        $isTeacher        = THM_OrganizerHelperTeachers::getIDFromUserData();
 
-        if ($departmentPlaner or $isTeacher) {
+        if ($departmentPlaner or !empty($isTeacher)) {
             // Teachers
             $teacherAttribs = $attribs;
 

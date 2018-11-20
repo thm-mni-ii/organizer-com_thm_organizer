@@ -32,8 +32,8 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
         $query              = $this->_db->getQuery(true);
 
         $select    = "DISTINCT ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
-        $linkParts = ["'index.php?option=com_thm_organizer&view=plan_program_edit&id='", "ppr.id"];
-        $select    .= $query->concatenate($linkParts, "") . " AS link";
+        $linkParts = ["'index.php?option=com_thm_organizer&view=plan_program_edit&id='", 'ppr.id'];
+        $select    .= $query->concatenate($linkParts, '') . ' AS link';
         $query->select($select);
 
         $query->from('#__thm_organizer_plan_programs AS ppr');
@@ -41,7 +41,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
         $query->leftJoin('#__thm_organizer_degrees AS d ON pr.degreeID = d.id');
 
         $departmentID = $this->state->get('list.departmentID');
-        $query->innerJoin("#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id");
+        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id');
 
         if ($departmentID and in_array($departmentID, $allowedDepartments)) {
             $query->where("dr.departmentID = '$departmentID'");
@@ -91,26 +91,12 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $headers   = [];
-
+        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction            = $this->state->get('list.direction', $this->defaultDirection);
+        $headers              = [];
         $headers['checkbox']  = '';
-        $headers['gpuntisID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_GPUNTISID',
-            'ppr.gpuntisID',
-            $direction,
-            $ordering
-        );
-
-        $headers['name'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_DISPLAY_NAME',
-            'ppr.name',
-            $direction,
-            $ordering
-        );
+        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
+        $headers['name']      = THM_OrganizerHelperComponent::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
 
         return $headers;
     }

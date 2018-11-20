@@ -20,7 +20,7 @@ class THM_OrganizerModelColor extends JModelLegacy
      * attempts to save the monitor form data
      *
      * @return bool true on success, otherwise false
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
@@ -28,7 +28,7 @@ class THM_OrganizerModelColor extends JModelLegacy
             throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data  = JFactory::getApplication()->input->get('jform', [], 'array');
+        $data  = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         $table = JTable::getInstance('colors', 'thm_organizerTable');
 
         return $table->save($data);
@@ -38,6 +38,7 @@ class THM_OrganizerModelColor extends JModelLegacy
      * Removes color entries from the database
      *
      * @return boolean true on success, otherwise false
+     * @throws Exception => unauthorized access
      */
     public function delete()
     {

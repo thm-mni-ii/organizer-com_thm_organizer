@@ -57,21 +57,19 @@ class THM_OrganizerHelperLSF
      * @param string $query Query structure
      *
      * @return mixed  SimpleXMLElement if the query was successful, otherwise false
-     * @throws Exception
      */
     private function getDataXML($query)
     {
-        $app    = JFactory::getApplication();
         $result = $this->client->__soapCall('getDataXML', ['xmlParams' => $query]);
 
         if (!$result) {
-            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_ERROR_SOAP_FAIL', 'error');
 
             return false;
         }
 
-        if ($result == "error in soap-request") {
-            $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_ERROR_INVALID_SOAP'), 'error');
+        if ($result == 'error in soap-request') {
+            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_ERROR_SOAP_INVALID', 'error');
 
             return false;
         }
@@ -87,7 +85,6 @@ class THM_OrganizerHelperLSF
      * @param int $moduleID The module mni number
      *
      * @return Mixed <void, string, unknown> Returns the xml strucutre of a given lsf module id
-     * @throws Exception
      */
     public function getModuleByModulid($moduleID)
     {
@@ -104,7 +101,6 @@ class THM_OrganizerHelperLSF
      * @param string $moduleID The module mni number
      *
      * @return Mixed <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
-     * @throws Exception
      */
     public function getModuleByNrMni($moduleID)
     {
@@ -124,7 +120,6 @@ class THM_OrganizerHelperLSF
      * @param string $year    year of accreditation
      *
      * @return SimpleXMLElement
-     * @throws Exception
      */
     public function getModules($program, $degree = null, $year = null)
     {
@@ -146,11 +141,11 @@ class THM_OrganizerHelperLSF
      */
     private function header($objectType)
     {
-        $header = "<?xml version='1.0' encoding='UTF-8'?><SOAPDataService>";
+        $header = '<?xml version="1.0" encoding="UTF-8"?><SOAPDataService>';
         $header .= "<general><object>$objectType</object></general><user-auth>";
         $header .= "<username>$this->username</username>";
         $header .= "<password>$this->password</password>";
-        $header .= "</user-auth><filter>";
+        $header .= '</user-auth><filter>';
 
         return $header;
     }

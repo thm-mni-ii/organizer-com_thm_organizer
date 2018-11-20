@@ -20,7 +20,6 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
      * Loads user registration information from the database
      *
      * @return object  filled with user registration data on success, otherwise empty
-     * @throws Exception
      */
     public function getItem()
     {
@@ -34,16 +33,9 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 
         $this->_db->setQuery($query);
 
-        try {
-            $item = $this->_db->loadObject();
+        $item = THM_OrganizerHelperComponent::query('loadObject');
 
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage($exc->getMessage(), 'error');
-
-            return new stdClass;
-        }
-
-        return $item;
+        return empty($item->id) ? new stdClass : $item;
     }
 
     /**
@@ -59,8 +51,8 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm(
-            "com_thm_organizer.participant_edit",
-            "participant_edit",
+            'com_thm_organizer.participant_edit',
+            'participant_edit',
             ['control' => 'jform', 'load_data' => $loadData]
         );
 

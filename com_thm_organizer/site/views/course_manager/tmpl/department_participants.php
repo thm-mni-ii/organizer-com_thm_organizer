@@ -19,6 +19,8 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
      * THM_OrganizerTemplatePrep_Course_Participant_List_Export_PDF constructor.
      *
      * @param int $lessonID the lessonID of the exported course
+     *
+     * @throws Exception => invalid request / unauthorized access / not found
      */
     public function __construct($lessonID)
     {

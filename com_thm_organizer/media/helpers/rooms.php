@@ -26,7 +26,6 @@ class THM_OrganizerHelperRooms
      * @param array  $data      the room data to be used for creating a new entry as necessary
      *
      * @return mixed  int the id if the room could be resolved/added, otherwise null
-     * @throws Exception
      */
     public static function getID($gpuntisID, $data)
     {
@@ -36,7 +35,7 @@ class THM_OrganizerHelperRooms
         try {
             $roomTable->load($loadCriteria);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
             return null;
         }
@@ -73,7 +72,6 @@ class THM_OrganizerHelperRooms
      * @param string $roomID the room's id
      *
      * @return string the name if the room could be resolved, otherwise empty
-     * @throws Exception
      */
     public static function getName($roomID)
     {
@@ -82,7 +80,7 @@ class THM_OrganizerHelperRooms
         try {
             $success = $roomTable->load($roomID);
         } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
+            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
             return '';
         }
@@ -94,7 +92,6 @@ class THM_OrganizerHelperRooms
      * Retrieves the ids for filtered rooms used in events.
      *
      * @return array the rooms used in actual events which meet the filter criteria
-     * @throws Exception
      */
     public static function getPlanRooms()
     {
@@ -105,7 +102,7 @@ class THM_OrganizerHelperRooms
             return $default;
         }
 
-        $app           = JFactory::getApplication();
+        $app           = THM_OrganizerHelperComponent::getApplication();
         $dbo           = JFactory::getDbo();
         $relevantRooms = [];
 
@@ -141,13 +138,7 @@ class THM_OrganizerHelperRooms
 
             $dbo->setQuery($query);
 
-            try {
-                $count = $dbo->loadResult();
-            } catch (Exception $exc) {
-                $app->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-
-                return $default;
-            }
+            $count = THM_OrganizerHelperComponent::query('loadResult');
 
             if (!empty($count)) {
                 $relevantRooms[$room['name']] = ['id' => $room['id'], 'typeID' => $room['typeID']];
@@ -163,12 +154,11 @@ class THM_OrganizerHelperRooms
      * Retrieves all room entries which match the given filter criteria. Ordered by their display names.
      *
      * @return array the rooms matching the filter criteria or empty if none were found
-     * @throws Exception
      */
     public static function getRooms()
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $app      = JFactory::getApplication();
+        $app      = THM_OrganizerHelperComponent::getApplication();
         $input    = $app->input;
         $formData = $input->get('jform', [], 'array');
 
@@ -233,12 +223,6 @@ class THM_OrganizerHelperRooms
         $query->order('longname');
         $dbo->setQuery($query);
 
-        try {
-            $rooms = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return [];
-        }
-
-        return empty($rooms) ? [] : $rooms;
+        return THM_OrganizerHelperComponent::query('loadAssocList', []);
     }
 }

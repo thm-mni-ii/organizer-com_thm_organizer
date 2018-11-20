@@ -46,8 +46,8 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
         // Create the query
         $query  = $this->_db->getQuery(true);
         $select = "f.id, gpuntisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=field_edit&id='", "f.id"];
-        $select .= $query->concatenate($parts, "") . "AS link ";
+        $parts  = ["'index.php?option=com_thm_organizer&view=field_edit&id='", 'f.id'];
+        $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
         $query->from('#__thm_organizer_fields AS f');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
@@ -96,21 +96,13 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction           = $this->state->get('list.direction', $this->defaultDirection);
-        $headers             = [];
-        $headers['checkbox'] = '';
-        $headers['field']    = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_NAME', 'field', $direction, $ordering);
-
-        $headers['gpuntisID'] = JHtml::_(
-            'searchtools.sort',
-            'COM_THM_ORGANIZER_GPUNTISID',
-            'gpuntisID',
-            $direction,
-            $ordering
-        );
-
-        $headers['colorID'] = JHtml::_('searchtools.sort', 'COM_THM_ORGANIZER_COLOR', 'c.name', $direction, $ordering);
+        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction            = $this->state->get('list.direction', $this->defaultDirection);
+        $headers              = [];
+        $headers['checkbox']  = '';
+        $headers['field']     = THM_OrganizerHelperComponent::sort('NAME', 'field', $direction, $ordering);
+        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'gpuntisID', $direction, $ordering);
+        $headers['colorID']   = THM_OrganizerHelperComponent::sort('COLOR', 'c.name', $direction, $ordering);
 
         return $headers;
     }

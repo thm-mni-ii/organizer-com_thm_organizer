@@ -39,7 +39,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
     {
         parent::__construct($config);
 
-        $input  = JFactory::getApplication()->input;
+        $input  = THM_OrganizerHelperComponent::getInput();
         $format = $input->getString('format');
 
         switch ($format) {
@@ -103,7 +103,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
             $currentDate = $pp['startDate'] < $this->startDate ? $this->startDate : $pp['startDate'];
             $endDate     = $this->endDate < $pp['endDate'] ? $this->endDate : $pp['endDate'];
 
-            for ($currentDate; $currentDate <= $endDate;) {
+            while ($currentDate <= $endDate) {
                 if (empty($this->calendarData[$currentDate])) {
                     continue;
                 }
@@ -248,7 +248,6 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * Creates year selection options
      *
      * @return array
-     * @throws Exception
      */
     public function getYearOptions()
     {
@@ -258,14 +257,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
         $query->select('DISTINCT YEAR(schedule_date) AS year')->from('#__thm_organizer_calendar')->order('year');
 
         $this->_db->setQuery($query);
-
-        try {
-            $years = $this->_db->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'));
-
-            return $options;
-        }
+        $years = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         if (!empty($years)) {
             foreach ($years as $year) {
@@ -285,7 +277,6 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * @param int $roomID the id of the room being iterated
      *
      * @return bool true if room information was found, otherwise false
-     * @throws Exception
      */
     private function setData($roomID)
     {
@@ -313,14 +304,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
 
-        try {
-            $roomConfigurations = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            return false;
-        }
-
+        $roomConfigurations = THM_OrganizerHelperComponent::query('loadAssocList');
         if (empty($roomConfigurations)) {
             return false;
         }
@@ -352,7 +336,6 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * Sets the available room types based on the rooms
      *
      * @return void sets the room types object variable
-     * @throws Exception
      */
     private function setRoomTypes()
     {
@@ -362,23 +345,10 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
 
         $query->select("id, name_$tag AS name, description_$tag AS description");
         $query->from('#__thm_organizer_room_types');
-        $query->order("name");
-
+        $query->order('name');
         $dbo->setQuery($query);
 
-        $default = [];
-
-        try {
-            $results = $dbo->loadAssocList('id');
-        } catch (RuntimeException $exc) {
-            JFactory::getApplication()->enqueueMessage('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
-
-            $this->roomTypes = $default;
-
-            return;
-        }
-
-        $this->roomTypes = (empty($results)) ? $default : $results;
+        $this->roomTypes = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
     }
 
     /**
@@ -387,7 +357,6 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
      * @param string $year the year used for the statistics generation
      *
      * @return bool true if the query was successfull, otherwise false
-     * @throws Exception
      */
     private function setPlanningPeriods($year)
     {
@@ -397,14 +366,7 @@ class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
             ->order('startDate');
         $this->_db->setQuery($query);
 
-        try {
-            $this->planningPeriods = $this->_db->loadAssocList('id');
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR'), 'error');
-            $this->planningPeriods = [];
-
-            return false;
-        }
+        $this->planningPeriods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
 
         return empty($this->planningPeriods) ? false : true;
     }

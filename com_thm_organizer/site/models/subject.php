@@ -33,22 +33,22 @@ class THM_OrganizerModelSubject extends JModelLegacy
     }
 
     /**
-     *    Saves course data to database
+     * Saves course data to database
      *
      * @return bool true on success, false on error
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function save()
     {
-        $data     = JFactory::getApplication()->input->get('jform', [], 'array');
-        $lessonID = JFactory::getApplication()->input->getInt('lessonID', 0);
+        $data     = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $lessonID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
 
-        if (THM_OrganizerHelperSubjects::allowEdit($data["id"])) {
-            $table   = $this->getTable();
-            $success = $table->save($data);
-        } else {
-            return false;
+        if (!THM_OrganizerHelperSubjects::allowEdit($data['id'])) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
         }
+
+        $table   = $this->getTable();
+        $success = $table->save($data);
 
         if (!empty($success) and !empty($lessonID)) {
             THM_OrganizerHelperCourses::refreshWaitList($lessonID);

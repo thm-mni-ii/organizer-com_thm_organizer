@@ -27,12 +27,12 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);

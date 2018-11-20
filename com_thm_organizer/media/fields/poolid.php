@@ -51,12 +51,11 @@ class JFormFieldPoolID extends JFormFieldList
         $query->order('text ASC');
         $dbo->setQuery($query);
 
-        try {
-            $pools = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            return parent::getOptions();
+        $defaultOptions = parent::getOptions();
+        $pools          = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($pools)) {
+            return $defaultOptions;
         }
-
 
         // Whether or not the program display should be prefiltered according to user resource access
         $access  = $this->getAttribute('access', false);
@@ -68,6 +67,6 @@ class JFormFieldPoolID extends JFormFieldList
             }
         }
 
-        return array_merge(parent::getOptions(), $options);
+        return array_merge($defaultOptions, $options);
     }
 }

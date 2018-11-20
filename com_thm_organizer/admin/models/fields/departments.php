@@ -21,7 +21,6 @@ class JFormFieldDepartments extends JFormField
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
      *
      * @return string the HTML which forms the select box
-     * @throws Exception
      */
     public function getInput()
     {
@@ -33,41 +32,31 @@ class JFormFieldDepartments extends JFormField
         $departmentsQuery->from('#__thm_organizer_departments');
         $dbo->setQuery($departmentsQuery);
 
-        try {
-            $allDepartments = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $allDepartments = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($allDepartments)) {
             return $this->getDefault();
         }
 
-        $resourceID   = JFactory::getApplication()->input->getInt('id', 0);
+        $resourceID   = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
         $resourceType = $this->getAttribute('resource');
 
         $selectedQuery = $dbo->getQuery(true);
-        $selectedQuery->select("DISTINCT departmentID");
+        $selectedQuery->select('DISTINCT departmentID');
         $selectedQuery->from('#__thm_organizer_department_resources');
         $selectedQuery->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($selectedQuery);
-
-        try {
-            $selected = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return $this->getDefault();
-        }
+        $selected = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         $attributes          = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '12'];
         $selectedDepartments = empty($selected) ? [] : $selected;
 
         return JHtml::_(
-            "select.genericlist",
+            'select.genericlist',
             $allDepartments,
-            "jform[departments][]",
+            'jform[departments][]',
             $attributes,
-            "value",
-            "text",
+            'value',
+            'text',
             $selectedDepartments
         );
     }
@@ -83,6 +72,6 @@ class JFormFieldDepartments extends JFormField
         $allDepartments[] = ['value' => '-1', 'name' => JText::_('JNONE')];
         $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
-        return JHtml::_("select.genericlist", $allDepartments, "jform[departments][]", $attributes, "value", "text");
+        return JHtml::_('select.genericlist', $allDepartments, 'jform[departments][]', $attributes, 'value', 'text');
     }
 }

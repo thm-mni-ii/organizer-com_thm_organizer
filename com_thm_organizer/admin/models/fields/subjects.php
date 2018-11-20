@@ -21,11 +21,10 @@ class JFormFieldSubjects extends JFormField
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
      *
      * @return string the HTML for the select box
-     * @throws Exception
      */
     public function getInput()
     {
-        $subjectID = JFactory::getApplication()->input->getInt('id', 0);
+        $subjectID = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
         $direction = $this->getAttribute('direction', 'pre');
 
         if ($direction == 'post') {
@@ -42,14 +41,7 @@ class JFormFieldSubjects extends JFormField
         $selectedQuery->from('#__thm_organizer_prerequisites');
         $selectedQuery->where("$column = '$subjectID'");
         $dbo->setQuery($selectedQuery);
-
-        try {
-            $selected = $dbo->loadColumn();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return $this->getDefault();
-        }
+        $selected = THM_OrganizerHelperComponent::query('loadColumn', []);
 
         $langTag       = THM_OrganizerHelperLanguage::getShortTag();
         $subjectsQuery = $dbo->getQuery(true);
@@ -58,11 +50,8 @@ class JFormFieldSubjects extends JFormField
         $subjectsQuery->order('name');
         $dbo->setQuery($subjectsQuery);
 
-        try {
-            $subjects = $dbo->loadAssocList();
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
+        $subjects = THM_OrganizerHelperComponent::query('loadAssocList');
+        if (empty($subjects)) {
             return $this->getDefault();
         }
 
@@ -80,12 +69,12 @@ class JFormFieldSubjects extends JFormField
         $selectedSubjects = empty($selected) ? [] : $selected;
 
         return JHtml::_(
-            "select.genericlist",
+            'select.genericlist',
             $subjects,
             "jform[$fieldName][]",
             $attributes,
-            "value",
-            "text",
+            'value',
+            'text',
             $selectedSubjects
         );
     }
@@ -102,6 +91,6 @@ class JFormFieldSubjects extends JFormField
         $fieldName  = $this->getAttribute('name');
         $attributes = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
 
-        return JHtml::_("select.genericlist", $subjects, "jform[$fieldName][]", $attributes, "value", "text");
+        return JHtml::_('select.genericlist', $subjects, "jform[$fieldName][]", $attributes, 'value', 'text');
     }
 }

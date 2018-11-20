@@ -12,12 +12,12 @@
 <form action="" method="post" id="adminForm" name="adminForm">
     <input type="hidden" name="option" value="com_thm_organizer"/>
     <?php echo $this->form->getField('id')->input; ?>
-    <input type="hidden" name="subjectID" value="<?php echo $this->course["subjectID"]; ?>"/>
+    <input type="hidden" name="subjectID" value="<?php echo $this->course['subjectID']; ?>"/>
     <input type="hidden" name="task" value="course.save"/>
     <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
     <div class="section">
         <div class="left form-header">
-            <h4><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_SETTINGS"); ?></h4>
+            <h4><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_SETTINGS'); ?></h4>
         </div>
         <div class="clear"></div>
         <?php foreach ($this->form->getFieldset('course_settings') as $field) : ?>

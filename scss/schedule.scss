@@ -39,7 +39,7 @@ button {
   }
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'], [class*=' icon-'] {
   color: $font-color;
 }
 
@@ -182,7 +182,7 @@ input[type=radio] {
 
     // change icon-eye-close to icon-eye-open
     .show-schedule span::before {
-      content: "\3c";
+      content: '\3c';
     }
   }
 
@@ -424,11 +424,11 @@ input[type=radio] {
 
 .module {
   &:before {
-    content: " (";
+    content: ' (';
   }
 
   &:after {
-    content: ") ";
+    content: ') ';
   }
 }
 
@@ -446,12 +446,12 @@ input[type=radio] {
 }
 
 .pool:nth-of-type(n+2):before {
-  content: " , ";
+  content: ' , ';
 }
 
 .person:nth-of-type(n+2):before,
 .location:nth-of-type(n+2):before {
-  content: " / ";
+  content: ' / ';
 }
 
 .add-lesson, .delete-lesson {
@@ -608,14 +608,14 @@ input[type=radio] {
 
   .rooms span::before,
   .persons span:nth-of-type(n+2)::before {
-    content: " / ";
+    content: ' / ';
   }
 
   .pools {
     padding: 0;
 
     span:nth-of-type(n+2)::before {
-      content: " , "
+      content: ' , '
     }
   }
 }
@@ -629,7 +629,7 @@ input[type=radio] {
 
   button::before {
     font-family: IcoMoon;
-    content: "\e935";
+    content: '\e935';
     color: #b54e62;
     display: inline-block;
     margin-right: 0.2rem;
@@ -640,7 +640,7 @@ input[type=radio] {
 .save {
   button::before {
     font-family: IcoMoon;
-    content: "\5d";
+    content: '\5d';
     color: #80ba24;
     display: inline-block;
     margin-right: 0.2rem;
@@ -771,7 +771,7 @@ input[type=radio] {
 
     + .persons {
       .person:nth-of-type(1):before {
-        content: " / ";
+        content: ' / ';
       }
     }
   }
@@ -781,7 +781,7 @@ input[type=radio] {
   }
 
   .location:nth-of-type(1):before {
-    content: " / ";
+    content: ' / ';
   }
 
   .message.pop-up {
@@ -796,7 +796,7 @@ input[type=radio] {
 
     .pools {
       span:first-child::before {
-        content: " / "
+        content: ' / '
       }
     }
   }

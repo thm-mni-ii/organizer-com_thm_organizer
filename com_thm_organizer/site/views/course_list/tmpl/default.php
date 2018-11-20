@@ -9,15 +9,15 @@
  * @link        www.thm.de
  */
 
-$header      = $this->lang->_("COM_THM_ORGANIZER_COURSE_OVERVIEW_HEADER");
+$header      = $this->lang->_('COM_THM_ORGANIZER_COURSE_OVERVIEW_HEADER');
 $campusName  = empty($this->state->filter_campus) ? '' : THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
 $coursesType = empty($this->state->filter_prep_courses) ?
-    $this->lang->_("COM_THM_ORGANIZER_COURSES") : $this->lang->_("COM_THM_ORGANIZER_PREP_COURSES");
+    $this->lang->_('COM_THM_ORGANIZER_COURSES') : $this->lang->_('COM_THM_ORGANIZER_PREP_COURSES');
 $specTitle   = "$coursesType $campusName";
 $header      = sprintf($header, $specTitle);
 
 $action = JUri::current();
-$action .= empty(JFactory::getApplication()->getMenu()->getActive()) ? '' : '?option=com_thm_organizer&view=course_list';
+$action .= empty(THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()) ? '' : '?option=com_thm_organizer&view=course_list';
 
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $loginRoute    = JRoute::_('index.php?option=com_users&view=login&tmpl=component', false, 1);
@@ -27,7 +27,7 @@ $profileRoute  = JRoute::_("index.php?option=com_thm_organizer&view=participant_
 $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition');
 
 // This variable is also used in the subordinate template
-$menuID = JFactory::getApplication()->input->getInt('Itemid', 0);
+$menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid', 0);
 if (!empty($menuID)):
     ?>
     <script type="text/javascript">
@@ -51,7 +51,7 @@ if (!empty($menuID)):
 
     <?php if (empty(JFactory::getUser()->id)): ?>
         <div class="tbox-yellow">
-            <p><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_LOGIN_WARNING"); ?></p>
+            <p><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
             <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
             <div class="right">
                 <a class="btn" onclick="<?php echo $casURL; ?>">
@@ -65,7 +65,7 @@ if (!empty($menuID)):
         <div class="toolbar">
             <div class="tool-wrapper">
                 <a class='btn btn-max' href='<?php echo $profileRoute; ?>'>
-                    <span class='icon-address'></span> <?php echo $this->lang->_("COM_THM_ORGANIZER_EDIT_USER_PROFILE"); ?>
+                    <span class='icon-address'></span> <?php echo $this->lang->_('COM_THM_ORGANIZER_EDIT_USER_PROFILE'); ?>
                 </a>
                 <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
             </div>
@@ -93,10 +93,10 @@ if (!empty($menuID)):
     <table class="table table-striped">
         <thead>
         <tr>
-            <th><?php echo $this->lang->_("COM_THM_ORGANIZER_NAME"); ?></th>
-            <th><?php echo $this->lang->_("COM_THM_ORGANIZER_DATES"); ?></th>
-            <th class='course-state'><?php echo $this->lang->_("COM_THM_ORGANIZER_COURSE_STATE"); ?></th>
-            <th class='user-state'><?php echo $this->lang->_("COM_THM_ORGANIZER_REGISTRATION_STATE"); ?></th>
+            <th><?php echo $this->lang->_('COM_THM_ORGANIZER_NAME'); ?></th>
+            <th><?php echo $this->lang->_('COM_THM_ORGANIZER_DATES'); ?></th>
+            <th class='course-state'><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_STATE'); ?></th>
+            <th class='user-state'><?php echo $this->lang->_('COM_THM_ORGANIZER_REGISTRATION_STATE'); ?></th>
             <th class='registration'></th>
         </tr>
         </thead>

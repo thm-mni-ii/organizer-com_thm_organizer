@@ -35,16 +35,15 @@ class THM_OrganizerViewSubject_List extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
      */
     public function display($tpl = null)
     {
         $this->modifyDocument();
 
-        if (empty(JFactory::getApplication()->getMenu()->getActive()->id)) {
+        if (empty(THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()->id)) {
             $this->params = new Joomla\Registry\Registry;
         } else {
-            $this->params = JFactory::getApplication()->getMenu()->getActive()->params;
+            $this->params = THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()->params;
         }
 
         $this->fixGroupBy();

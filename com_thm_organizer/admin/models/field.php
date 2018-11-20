@@ -27,8 +27,6 @@ class THM_OrganizerModelField extends THM_OrganizerModelMerge
      * @param   array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
-     *
-     * @throws  \Exception
      */
     public function getTable($name = 'fields', $prefix = 'thm_organizerTable', $options = [])
     {

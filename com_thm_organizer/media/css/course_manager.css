@@ -11,7 +11,7 @@ a {
     cursor: pointer;
 }
 
-a [class^="icon-"], a [class*=" icon-"] {
+a [class^='icon-'], a [class*=' icon-'] {
     margin-right: .2rem;
 }
 

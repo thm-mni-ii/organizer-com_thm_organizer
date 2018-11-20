@@ -10,6 +10,7 @@
  */
 defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/date.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -32,8 +33,8 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
         $query    = $this->getDbo()->getQuery(true);
 
         $select = "id, name_$shortTag AS name, grid, defaultGrid, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", "id"];
-        $select .= $query->concatenate($parts, "") . " AS link";
+        $parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", 'id'];
+        $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select);
         $query->from('#__thm_organizer_grids');
         $this->setOrdering($query);

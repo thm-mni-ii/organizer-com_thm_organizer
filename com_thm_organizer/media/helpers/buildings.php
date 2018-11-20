@@ -21,20 +21,12 @@ class THM_OrganizerHelperBuildings
      * @param string $name the building name
      *
      * @return mixed  int the id if the room could be resolved/added, otherwise null
-     * @throws Exception
      */
     public static function getID($name)
     {
         $table = JTable::getInstance('buildings', 'thm_organizerTable');
         $data  = ['name' => $name];
-
-        try {
-            $success = $table->load($data);
-        } catch (Exception $exc) {
-            JFactory::getApplication()->enqueueMessage(JText::_("COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR"), 'error');
-
-            return null;
-        }
+        $success = $table->load($data);
 
         if ($success) {
             return $table->id;

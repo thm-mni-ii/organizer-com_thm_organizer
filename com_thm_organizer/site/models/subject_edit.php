@@ -23,7 +23,6 @@ class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
      * @param int $subjectID the id of the subject for which authorization is to be checked
      *
      * @return bool  true if the user can access the view, otherwise false
-     * @throws Exception
      */
     protected function allowEdit($subjectID = null)
     {
@@ -43,6 +42,6 @@ class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
     {
         JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 
-        return JTable::getInstance("subjects", $prefix, $options);
+        return JTable::getInstance('subjects', $prefix, $options);
     }
 }

@@ -66,9 +66,9 @@ class THM_OrganizerViewRoom_Overview extends JViewLegacy
         JHtml::_('behavior.tooltip');
         JHtml::_('formbehavior.chosen', 'select');
         $document = JFactory::getDocument();
-        $document->setCharset("utf-8");
-        $document->addScript(JUri::root() . "media/com_thm_organizer/js/room_overview.js");
-        $document->addStyleSheet(JUri::root() . "media/com_thm_organizer/css/room_overview.css");
+        $document->setCharset('utf-8');
+        $document->addScript(JUri::root() . 'media/com_thm_organizer/js/room_overview.js');
+        $document->addStyleSheet(JUri::root() . 'media/com_thm_organizer/css/room_overview.css');
     }
 
     /**

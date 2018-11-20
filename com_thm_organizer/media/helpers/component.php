@@ -10,6 +10,7 @@
  */
 
 require_once 'access.php';
+require_once 'language.php';
 
 /**
  * Class provides generalized functions useful for several component files.
@@ -22,11 +23,10 @@ class THM_OrganizerHelperComponent
      * @param object $object the object to add the parameters to, typically a view
      *
      * @return void modifies $object
-     * @throws Exception
      */
     public static function addMenuParameters(&$object)
     {
-        $app    = JFactory::getApplication();
+        $app    = self::getApplication();
         $menuID = $app->input->getInt('Itemid');
 
         if (!empty($menuID)) {
@@ -52,7 +52,6 @@ class THM_OrganizerHelperComponent
      * @param object &$view the view context calling the function
      *
      * @return void
-     * @throws Exception
      */
     public static function addSubmenu(&$view)
     {
@@ -215,11 +214,10 @@ class THM_OrganizerHelperComponent
      * @param string $table the table name
      *
      * @return boolean  true on success, otherwise false
-     * @throws Exception
      */
     public static function delete($table)
     {
-        $cids         = JFactory::getApplication()->input->get('cid', [], '[]');
+        $cids         = self::getInput()->get('cid', [], '[]');
         $formattedIDs = "'" . implode("', '", $cids) . "'";
 
         $dbo   = JFactory::getDbo();
@@ -227,13 +225,23 @@ class THM_OrganizerHelperComponent
         $query->delete("#__thm_organizer_$table");
         $query->where("id IN ( $formattedIDs )");
         $dbo->setQuery($query);
-        try {
-            $dbo->execute();
-        } catch (Exception $exception) {
-            return false;
-        }
 
-        return true;
+        return (bool)self::query('execute');
+    }
+
+    /**
+     * Surrounds the call to the application with a try catch so that not every function needs to have a throws tag. If
+     * the application has an error it would have never made it to the component in the first place.
+     *
+     * @return \Joomla\CMS\Application\CMSApplication|null
+     */
+    public static function getApplication()
+    {
+        try {
+            return JFactory::getApplication();
+        } catch (Exception $exc) {
+            return null;
+        }
     }
 
     /**
@@ -253,14 +261,23 @@ class THM_OrganizerHelperComponent
     }
 
     /**
+     * Returns the application's input object.
+     *
+     * @return JInput
+     */
+    public static function getInput()
+    {
+        return self::getApplication()->input;
+    }
+
+    /**
      * Builds a the base url for redirection
      *
      * @return string the root url to redirect to
-     * @throws Exception
      */
     public static function getRedirectBase()
     {
-        $app    = JFactory::getApplication();
+        $app    = self::getApplication();
         $url    = JUri::base();
         $menuID = $app->input->getInt('Itemid');
 
@@ -307,7 +324,6 @@ class THM_OrganizerHelperComponent
      * @param object $element the field's xml signature. passed separately to get around its protected status.
      *
      * @return array the default options.
-     * @throws Exception
      */
     public static function getTranslatedOptions($field, $element)
     {
@@ -370,6 +386,20 @@ class THM_OrganizerHelperComponent
         }
 
         return false;
+    }
+
+    /**
+     * Masks the Joomla application enqueueMessage function
+     *
+     * @param string $message the message to enqueue
+     * @param string $type    how the message is to be presented
+     *
+     * @return void
+     */
+    public static function message($message, $type = 'message')
+    {
+        $message = THM_OrganizerHelperLanguage::getLanguage()->_($message);
+        self::getApplication()->enqueueMessage($message, $type);
     }
 
     /**
@@ -460,7 +490,7 @@ class THM_OrganizerHelperComponent
      * @param boolean $isAdmin whether the file is being called from the backend
      *
      * @return void
-     * @throws Exception
+     * @throws Exception => task not found
      */
     public static function setUp($isAdmin = true)
     {
@@ -471,7 +501,7 @@ class THM_OrganizerHelperComponent
             require_once 'date.php';
         }
 
-        $handler = explode(".", JFactory::getApplication()->input->getCmd('task', ''));
+        $handler = explode('.', self::getInput()->getCmd('task', ''));
         if (count($handler) == 2) {
             $task = $handler[1];
         } else {
@@ -483,5 +513,68 @@ class THM_OrganizerHelperComponent
         $controllerObj = new THM_OrganizerController;
         $controllerObj->execute($task);
         $controllerObj->redirect();
+    }
+
+    /**
+     * Provides a simplified interface for sortable headers
+     *
+     * @param string $constant  the unique portion of the text constant
+     * @param string $column    the column name when sorting by this column
+     * @param string $direction the direction in which to sort
+     * @param string $ordering  the column name of the column currently being used for sorting
+     *
+     * @return mixed
+     */
+    public static function sort($constant, $column, $direction, $ordering)
+    {
+        $constant = "COM_THM_ORGANIZER_$constant";
+
+        return JHtml::_('searchtools.sort', $constant, $column, $direction, $ordering);
+    }
+
+    /**
+     * Executes a database query
+     *
+     * @param string $function the name of the query function to execute
+     * @param mixed  $default  the value to return if an error occurred
+     * @param mixed  $args     the arguments to use in the called function
+     * @param bool   $rollback whether to initiate a transaction rollback on error
+     *
+     * @return mixed the various return values appropriate to the functions called.
+     */
+    public static function query($function, $default = null, $args = null, $rollback = false)
+    {
+        $dbo = JFactory::getDbo();
+        try {
+            if ($args) {
+                if (is_string($args)) {
+                    return $dbo->$function($args);
+                }
+                if (is_array($args)) {
+                    $reflectionMethod = new ReflectionMethod($dbo, $function);
+
+                    return $reflectionMethod->invokeArgs($dbo, $args);
+                }
+            }
+
+            return $dbo->$function();
+        } catch (RuntimeException $exc) {
+            self::message($exc->getMessage(), 'error');
+            if ($rollback) {
+                $dbo->transactionRollback();
+            }
+
+            return $default;
+        } catch (ReflectionException $exc) {
+            self::message($exc->getMessage(), 'error');
+            if ($rollback) {
+                $dbo->transactionRollback();
+            }
+        } catch (Exception $exc) {
+            self::message($exc->getMessage(), 'error');
+            if ($rollback) {
+                $dbo->transactionRollback();
+            }
+        }
     }
 }

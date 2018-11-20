@@ -15,6 +15,5 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 try {
     THM_OrganizerHelperComponent::setUp(false);
 } catch (Exception $exc) {
-    JLog::add($exc->__toString(), JLog::ERROR, "com_thm_organizer");
     throw $exc;
 }

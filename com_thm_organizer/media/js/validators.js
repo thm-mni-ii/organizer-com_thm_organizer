@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-    "use strict";
+    'use strict';
     document.formvalidator.setHandler('ip',
         function (value) {
             return (/^[0-2]*[0-9]*[0-9].[0-2]*[0-9]*[0-9].[0-2]*[0-9]*[0-9].[0-2]*[0-9]*[0-9]$/).test(value);
@@ -19,6 +19,6 @@ jQuery(document).ready(function () {
     );
 
     document.formvalidator.setHandler('select', function (value) {
-        return (value != 0);
+        return (value !== 0);
     });
 });

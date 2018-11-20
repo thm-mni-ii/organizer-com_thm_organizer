@@ -26,7 +26,6 @@ class JFormFieldParentPool extends JFormField
      * Returns a select box in which pools can be chosen as a parent node
      *
      * @return string  the HTML for the parent pool select box
-     * @throws Exception
      */
     public function getInput()
     {
@@ -41,12 +40,11 @@ class JFormFieldParentPool extends JFormField
      * Gets pool options for a select list. All parameters come from the
      *
      * @return array  the options
-     * @throws Exception
      */
     protected function getOptions()
     {
         // Get basic resource data
-        $resourceID   = JFactory::getApplication()->input->getInt('id', 0);
+        $resourceID   = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
         $contextParts = explode('.', $this->form->getName());
         $resourceType = str_replace('_edit', '', $contextParts[1]);
 

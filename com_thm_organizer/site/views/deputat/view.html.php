@@ -36,14 +36,18 @@ class THM_OrganizerViewDeputat extends JViewLegacy
      * @param Object $tpl template  (default: null)
      *
      * @return void
-     * @throws Exception
+     * @throws Exception => unauthorized access
      */
     public function display($tpl = null)
     {
+        if (!THM_OrganizerHelperAccess::isAdmin()) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+        }
+
         // Sets js and css
         $this->modifyDocument();
 
-        $this->params = JFactory::getApplication()->getParams();
+        $this->params = THM_OrganizerHelperComponent::getApplication()->getParams();
 
         $this->model          = $this->getModel();
         $this->departmentName = $this->model->departmentName;
@@ -67,8 +71,8 @@ class THM_OrganizerViewDeputat extends JViewLegacy
         JHtml::_('behavior.calendar');
         JHtml::_('formbehavior.chosen', 'select');
         $document = JFactory::getDocument();
-        $document->setCharset("utf-8");
-        $document->addStyleSheet(JUri::root() . "/media/com_thm_organizer/css/deputat.css");
+        $document->setCharset('utf-8');
+        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/deputat.css');
         $document->addScript(JUri::root() . '/media/com_thm_organizer/js/deputat.js');
     }
 
@@ -83,7 +87,7 @@ class THM_OrganizerViewDeputat extends JViewLegacy
         $schedules  = $this->model->getDepartmentSchedules();
 
         $options   = [];
-        $options[] = JHtml::_('select.option', 0, JText::_("COM_THM_ORGANIZER_FILTER_SCHEDULE"));
+        $options[] = JHtml::_('select.option', 0, JText::_('COM_THM_ORGANIZER_FILTER_SCHEDULE'));
         foreach ($schedules as $schedule) {
             $options[] = JHtml::_('select.option', $schedule['id'], $schedule['name']);
         }

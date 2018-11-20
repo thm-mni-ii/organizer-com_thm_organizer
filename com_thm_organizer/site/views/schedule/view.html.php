@@ -80,7 +80,6 @@ class THM_OrganizerViewSchedule extends JViewLegacy
      * @param null $tpl template
      *
      * @return void
-     * @throws Exception
      */
     public function display($tpl = null)
     {
@@ -99,7 +98,6 @@ class THM_OrganizerViewSchedule extends JViewLegacy
      * Adds resource files to the document
      *
      * @return void
-     * @throws Exception
      */
     private function modifyDocument()
     {
@@ -118,7 +116,6 @@ class THM_OrganizerViewSchedule extends JViewLegacy
      * Generates required params for Javascript and adds them to the document
      *
      * @return void
-     * @throws Exception
      */
     private function addScriptOptions()
     {
@@ -136,7 +133,7 @@ class THM_OrganizerViewSchedule extends JViewLegacy
             'defaultGrid'       => $this->defaultGrid->grid,
             'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
             'isMobile'          => $this->isMobile,
-            'menuID'            => JFactory::getApplication()->input->get('Itemid', 0),
+            'menuID'            => THM_OrganizerHelperComponent::getInput()->get('Itemid', 0),
             'registered'        => !empty($user->id),
             'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
             'username'          => !empty($user->id) ? $user->username : ''
