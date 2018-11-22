@@ -235,6 +235,11 @@ input[type=radio] {
     margin-right: 0.3rem;
 }
 
+#schedule-form .chzn-container-active.chzn-with-drop .chzn-single {
+    border: none;
+    background: none;
+}
+
 #schedule-form .chzn-container .chzn-search input {
     width: 100% !important;
 }
@@ -303,6 +308,21 @@ input[type=radio] {
     padding: 0.4rem;
     display: inline-block;
     width: 276px;
+}
+
+@media screen and (min-width: 678px) {
+    .tab-panel.active[aria-labelledby="tab-selected-schedules"], .tab-panel.active[aria-labelledby="tab-exports-menu"] {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .tab-panel.active[aria-labelledby="tab-selected-schedules"] .selected-schedule {
+        margin: 0 0.5rem 0.5rem 0;
+    }
+
+    .tab-panel.active[aria-labelledby="tab-exports-menu"] .link-item {
+        margin-right: 0.5rem;
+    }
 }
 
 .date-input-list-item {
