@@ -59,8 +59,7 @@
         <field name="content" id="content" type="filelist" label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
                description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC" directory="images/thm_organizer/" exclude=""/>
     </fieldset>
-    <fieldset name="prepCourse" label="COM_THM_ORGANIZER_PREP_COURSES"
-              description="COM_THM_ORGANIZER_PREP_COURSE_SETTINGS_DESC" addfieldpath="/media/com_thm_organizer/fields">
+    <fieldset name="prepCourse" label="COM_THM_ORGANIZER_PREP_COURSES">
         <field name="representativeName" type="text" label="COM_THM_ORGANIZER_REPRESENTATIVE"
                description="COM_THM_ORGANIZER_REPRESENTATIVE_DESC" size="60" default="Prof. Dr. Matthias Willems"/>
         <field name="signatureFile" type="imagelist" hide_none="true" directory="media/com_thm_organizer/images"
