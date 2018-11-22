@@ -302,6 +302,7 @@ class THM_OrganizerHelperSchedule
     private static function getSubjectData($lesson)
     {
         $return = [
+            'planSubjectID' => $lesson['psID'],
             'subjectID' => null,
             'subjectNo' => $lesson['subjectNo'],
             'name'      => $lesson['psName'],
