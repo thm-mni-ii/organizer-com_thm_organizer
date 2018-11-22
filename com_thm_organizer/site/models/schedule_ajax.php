@@ -147,9 +147,14 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $parameters['showUnpublished'] = empty($allowedIDs) ?
             false : $input->getBool('showUnpublished', false);
 
-        $oneDay                        = $input->getBool('oneDay', false);
-        $parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
-        $parameters['date']            = $input->getString('date');
+        $parameters['date']            = $input->getString('date', date('Y-m-d', time()));
+        $parameters['dateRestriction'] = $input->getString('dateRestriction');
+
+        if (empty($parameters['dateRestriction'])) {
+            $oneDay                        = $input->getBool('oneDay', false);
+            $parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
+        }
+
         $parameters['format']          = '';
         $deltaDays                     = $input->getString('deltaDays', '14');
         $parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
