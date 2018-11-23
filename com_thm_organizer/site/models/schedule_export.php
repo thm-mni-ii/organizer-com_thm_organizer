@@ -415,12 +415,6 @@ class THM_OrganizerModelSchedule_Export extends JModelLegacy
         $parameters['format']     = $input->getString('format', 'pdf');
         $parameters['mySchedule'] = $input->getBool('myschedule', false);
 
-        // Server side check against url manipulation
-        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
-
-        $parameters['showUnpublished'] = empty($allowedIDs) ?
-            false : $input->getBool('showUnpublished', false);
-
         if (empty($parameters['mySchedule'])) {
             $this->setResourceArray('pool', $parameters);
             $this->setResourceArray('teacher', $parameters);

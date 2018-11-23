@@ -228,6 +228,21 @@ class THM_OrganizerHelperSchedule
             }
         }
 
+        if (!isset($parameters['departmentIDs'])) {
+            $parameters['showUnpublished'] = THM_OrganizerHelperAccess::isAdmin();
+        } else {
+            $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+            $overlap    = array_intersect($parameters['departmentIDs'], $allowedIDs);
+
+            // If the user has planning access to all requested departments show unpublished automatically.
+            if (count($overlap) == count($parameters['departmentIDs'])) {
+                $parameters['departmentIDs']   = $overlap;
+                $parameters['showUnpublished'] = true;
+            } else {
+                $parameters['showUnpublished'] = false;
+            }
+        }
+
         $tag   = THM_OrganizerHelperLanguage::getShortTag();
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);

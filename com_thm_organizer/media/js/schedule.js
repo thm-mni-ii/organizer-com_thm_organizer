@@ -26,7 +26,6 @@ jQuery(document).ready(function () {
  * @param {boolean} variables.registered - indicates whether an user is logged in
  * @param {number} variables.SEMESTER_MODE - present selected mode of saving/deleting lessons
  * @param {number} variables.showPools - whether pools are allowed to show
- * @param {number} variables.showUnpublished - whether unpublished lessons should be displayed
  * @param {string} variables.subjectDetailBase - basic url for subject details
  * @param {string} variables.username - name of currently logged in user
  */
@@ -2165,7 +2164,6 @@ const ScheduleApp = function (variables) {
 
         url += variables.departmentID || getSelectedValues('department') || 0;
         url += '&task=' + (task ? task : 'getLessons');
-        url += typeof variables.showUnpublished === 'undefined' ? '' : '&showUnpublished=' + variables.showUnpublished;
 
         return variables.ajaxBase + url;
     }
@@ -2842,14 +2840,15 @@ const ScheduleApp = function (variables) {
             url += '&gridID=' + variables.grids[getSelectedValues('grid')].id;
         }
 
-        url += typeof variables.showUnpublished === 'undefined' ? '' : '&showUnpublished=' + variables.showUnpublished;
-
         if (formats[1] !== undefined)
         {
             url += '&documentFormat=' + formats[1];
         }
 
-        url += '&username=' + variables.username + '&auth=' + variables.auth;
+        if (typeof variables.username !== 'undefined' && typeof variables.auth !== 'undefined')
+        {
+            url += '&username=' + variables.username + '&auth=' + variables.auth;
+        }
 
         if (schedule === 'user')
         {
@@ -2884,7 +2883,6 @@ const ScheduleApp = function (variables) {
 
         if (formats[0] === 'ics')
         {
-            url += '&username=' + variables.username + '&auth=' + variables.auth;
             window.prompt(Joomla.JText._('COM_THM_ORGANIZER_ACTION_GENERATE_LINK'), url);
             exportSelection.val('placeholder');
             exportSelection.trigger('chosen:updated');

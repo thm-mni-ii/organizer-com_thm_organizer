@@ -54,7 +54,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $this->model    = $this->getModel();
         $this->compiler = jimport('tcpdf.tcpdf');
 
-        $this->setAdminFields();
         $this->setFilterFields();
         $this->setFormatFields();
         $this->setResourceFields();
@@ -100,24 +99,6 @@ class THM_OrganizerViewSchedule_Export extends JViewLegacy
         $document = JFactory::getDocument();
         $document->addScript(JUri::root() . '/media/com_thm_organizer/js/schedule_export.js');
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/schedule_export.css');
-    }
-
-    /**
-     * Creates format settings fields for the form
-     *
-     * @return void sets indexes in $this->fields['formatSettings'] with html content
-     */
-    private function setAdminFields()
-    {
-        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
-
-        if (!empty($allowedIDs)) {
-            $this->fields['adminFields']['showUnpublished'] = [
-                'label'       => JText::_('COM_THM_ORGANIZER_SHOW_UNPUBLISHED'),
-                'description' => JText::_('COM_THM_ORGANIZER_SHOW_UNPUBLISHED_DESC'),
-                'input'       => '<input type="checkbox" id="showUnpublished" name="showUnpublished">'
-            ];
-        }
     }
 
     /**

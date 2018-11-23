@@ -90,26 +90,14 @@ class THM_OrganizerModelSchedule extends JModelLegacy
         $input  = THM_OrganizerHelperComponent::getInput();
         $params = THM_OrganizerHelperComponent::getApplication()->getParams();
 
-        $this->params = [];
-
-        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
-
-        // Don't even set the variable if the action is implausible
-        if (!empty($allowedIDs)) {
-            $this->params['showUnpublished'] = (int)$params->get('showUnpublished', 0);
+        $reqDepartmentID = $input->getInt('departmentID', 0);
+        $rawDeptIDs   = $input->getString('departmentIDs');
+        if (empty($departmentID) and !empty($rawDeptIDs)) {
+            $reqDepartmentID = (int)\Joomla\Utilities\ArrayHelper::toInteger(explode(',', $rawDeptIDs))[0];
         }
+        $departmentID  = empty($reqDepartmentID)? (int)$params->get('departmentID', 0) : $reqDepartmentID;
 
-        $reqDeptID     = $input->get('departmentID');
-        $rawReqDeptIDs = $input->get('departmentIDs');
-
-        if (empty($reqDeptID) and !empty($rawReqDeptIDs)) {
-            $reqDeptID = (int)explode(',', $rawReqDeptIDs)[0];
-        }
-
-        $defaultDepartment = (int)$params->get('departmentID', 0);
-
-        // No explicit resource selection was made check if departments were requested
-        $departmentID                  = empty($reqDeptID) ? $defaultDepartment : $reqDeptID;
+        $this->params                  = [];
         $this->params['departmentID']  = $departmentID;
         $this->params['showPrograms']  = $input->getInt('showPrograms', (int)$params->get('showPrograms', 1));
         $this->params['showPools']     = $input->getInt('showPools', (int)$params->get('showPools', 1));

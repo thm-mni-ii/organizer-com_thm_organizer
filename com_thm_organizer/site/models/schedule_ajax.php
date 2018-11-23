@@ -138,15 +138,8 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
             }
         }
 
-        $parameters['userID']     = JFactory::getUser()->id;
-        $parameters['mySchedule'] = $input->getBool('mySchedule', false);
-
-        // Server side check against url manipulation
-        $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
-
-        $parameters['showUnpublished'] = empty($allowedIDs) ?
-            false : $input->getBool('showUnpublished', false);
-
+        $parameters['userID']          = JFactory::getUser()->id;
+        $parameters['mySchedule']      = $input->getBool('mySchedule', false);
         $parameters['date']            = $input->getString('date', date('Y-m-d', time()));
         $parameters['dateRestriction'] = $input->getString('dateRestriction');
 
@@ -155,9 +148,9 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
             $parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
         }
 
-        $parameters['format']          = '';
-        $deltaDays                     = $input->getString('deltaDays', '14');
-        $parameters['delta']           = empty($deltaDays) ? '' : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
+        $parameters['format'] = '';
+        $deltaDays            = $input->getString('deltaDays', '14');
+        $parameters['delta']  = empty($deltaDays) ? '' : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
 
         $lessons = THM_OrganizerHelperSchedule::getLessons($parameters);
 
