@@ -40,7 +40,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $input = THM_OrganizerHelperComponent::getInput();
 
         $ccmID = $input->getString('ccmID');
-        if (!empty($ccmID)) {
+        if (empty($ccmID)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
@@ -333,7 +333,7 @@ class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
         $input = THM_OrganizerHelperComponent::getInput();
 
         $ccmID = $input->getString('ccmID');
-        if (!empty($ccmID)) {
+        if (empty($ccmID)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
