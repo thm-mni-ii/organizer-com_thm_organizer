@@ -169,7 +169,7 @@ class THM_OrganizerModelPool_Ajax extends JModelLegacy
         }
 
         $query->order('lft');
-        $this->_db->setQuery($query);
+        $this->_db->setQuery($query);echo "<pre>" . print_r((string) $query, true) . "</pre>";
 
         $pools = THM_OrganizerHelperComponent::query('loadObjectList');
         if (empty($pools)) {

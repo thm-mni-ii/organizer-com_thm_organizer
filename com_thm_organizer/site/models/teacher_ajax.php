@@ -73,7 +73,7 @@ class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
 
         $teachers = THM_OrganizerHelperComponent::query('loadObjectList');
         if (empty($teachers)) {
-            return '';
+            return '[]';
         }
 
         foreach ($teachers as $key => $value) {
