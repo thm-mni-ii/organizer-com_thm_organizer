@@ -14,7 +14,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/icalcreator/iCalcreator.php'
 /**
  * Class creates a ICS file for the display of the filtered schedule information.
  */
-class THM_OrganizerViewSchedule_Export extends JViewLegacy
+class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 {
     private $parameters;
 

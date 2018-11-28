@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /**
  * Class loads persistent information about a course into the display context.
  */
-class THM_OrganizerViewCourse_Manager extends JViewLegacy
+class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * Method to get display

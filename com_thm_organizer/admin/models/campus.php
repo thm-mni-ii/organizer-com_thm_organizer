@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored campus data.
  */
-class THM_OrganizerModelCampus extends JModelLegacy
+class THM_OrganizerModelCampus extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * save

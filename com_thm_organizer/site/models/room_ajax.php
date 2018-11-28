@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
 /**
  * Class retrieves dynamic room options.
  */
-class THM_OrganizerModelRoom_Ajax extends JModelLegacy
+class THM_OrganizerModelRoom_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Gets the pool options as a string

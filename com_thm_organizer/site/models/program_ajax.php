@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
 /**
  * Class retrieves dynamic program options.
  */
-class THM_OrganizerModelProgram_Ajax extends JModelLegacy
+class THM_OrganizerModelProgram_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Gets the program options as a string

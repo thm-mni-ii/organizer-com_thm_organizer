@@ -16,7 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /**
  * Class receives user actions and performs access checks and redirection.
  */
-class THM_OrganizerController extends JControllerLegacy
+class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 {
     /**
      * Save user information from form and if course id defined sign in or out of course

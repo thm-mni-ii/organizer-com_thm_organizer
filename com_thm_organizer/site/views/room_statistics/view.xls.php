@@ -14,7 +14,7 @@ jimport('phpexcel.library.PHPExcel');
 /**
  * Class instantiates and renders an XLS File with the room statistics.
  */
-class THM_OrganizerViewRoom_Statistics extends JViewLegacy
+class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * Sets context variables and renders the view.

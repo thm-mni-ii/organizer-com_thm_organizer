@@ -17,7 +17,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 /**
  * Class which calculates department statistic data.
  */
-class THM_OrganizerModelDepartment_Statistics extends JModelLegacy
+class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     private $calendarData;
 

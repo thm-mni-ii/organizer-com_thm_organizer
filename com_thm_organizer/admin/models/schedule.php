@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json_schedule.php';
 /**
  * Class which manages stored schedule data.
  */
-class THM_OrganizerModelSchedule extends JModelLegacy
+class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * JSON Object modeling the schedule

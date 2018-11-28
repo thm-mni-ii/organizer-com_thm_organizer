@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 /**
  * Class used to import lsf program data.
  */
-class THM_OrganizerModelLSFProgram extends JModelLegacy
+class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Retrieves program information relevant for soap queries to the LSF system.
@@ -111,7 +111,8 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         }
 
         if (!empty($program->gruppe)) {
-            $mappingModel         = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+            $mappingModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
+
             $programMappingExists = $this->processProgramMapping($programID, $mappingModel);
             if (!$programMappingExists) {
                 return false;
@@ -130,7 +131,9 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
             $subjectIDs = $this->getSubjectIDs($programID);
 
             foreach ($subjectIDs as $subjectID) {
-                $subjectModel         = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+                $subjectModel =
+                    \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('LSFSubject', 'THM_OrganizerModel');
+
                 $dependenciesResolved = $subjectModel->resolveDependencies($subjectID);
                 if (!$dependenciesResolved) {
                     return false;
@@ -144,15 +147,15 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
     /**
      * Processes the child nodes of the program root node
      *
-     * @param object &$program     the simplexml object object containing program information
-     * @param int    $departmentID the id of the department to which this data belongs
+     * @param object &$program      the simplexml object object containing program information
+     * @param int     $departmentID the id of the department to which this data belongs
      *
      * @return boolean  true on success, otherwise false
      */
     private function processChildNodes(&$program, $departmentID)
     {
-        $lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
-        $lsfPoolModel    = JModelLegacy::getInstance('LSFPool', 'THM_OrganizerModel');
+        $lsfSubjectModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $lsfPoolModel    = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('LSFPool', 'THM_OrganizerModel');
 
         foreach ($program->gruppe as $resource) {
             $type    = THM_OrganizerHelperLSF::determineType($resource);
@@ -176,7 +179,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
     /**
      * Checks for a program mapping, creating one if non-existant
      *
-     * @param int    $programID     the id of the program
+     * @param int     $programID    the id of the program
      * @param object &$mappingModel the mapping model
      *
      * @return boolean  true on existant/created mapping, otherwise false
@@ -209,7 +212,7 @@ class THM_OrganizerModelLSFProgram extends JModelLegacy
         }
 
         $this->_db->transactionStart();
-        $subjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $subjectModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('LSFSubject', 'THM_OrganizerModel');
 
         foreach ($programIDs as $programID) {
 

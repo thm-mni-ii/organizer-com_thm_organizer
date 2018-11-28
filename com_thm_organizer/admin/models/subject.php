@@ -14,7 +14,7 @@ defined('TEACHER') or define('TEACHER', 2);
 /**
  * Class which manages stored subject data.
  */
-class THM_OrganizerModelSubject extends JModelLegacy
+class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Attempts to delete the selected subject entries and related mappings
@@ -62,7 +62,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
     public function deleteEntry($subjectID)
     {
         $table           = JTable::getInstance('subjects', 'thm_organizerTable');
-        $mappingModel    = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+        $mappingModel    = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
         $mappingsDeleted = $mappingModel->deleteByResourceID($subjectID, 'subject');
         if (!$mappingsDeleted) {
             return false;
@@ -393,7 +393,7 @@ class THM_OrganizerModelSubject extends JModelLegacy
      */
     private function processFormMappings($subjectID, &$data)
     {
-        $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+        $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
 
         // No mappings desired
         if (empty($data['parentID'])) {

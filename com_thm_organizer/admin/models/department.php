@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored department data.
  */
-class THM_OrganizerModelDepartment extends JModelLegacy
+class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Attempts to save the form data

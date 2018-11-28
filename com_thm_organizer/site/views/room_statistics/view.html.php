@@ -17,7 +17,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 /**
  * Class loads room statistic information into the display context.
  */
-class THM_OrganizerViewRoom_Statistics extends JViewLegacy
+class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $fields = [];
 

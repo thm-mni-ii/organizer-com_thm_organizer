@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 /**
  * Class which manages stored subject data.
  */
-class THM_OrganizerModelSubject extends JModelLegacy
+class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Method to get a table object, load it if necessary.

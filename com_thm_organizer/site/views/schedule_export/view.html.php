@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class loads the schedule export filter form into the display context.
  */
-class THM_OrganizerViewSchedule_Export extends JViewLegacy
+class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $compiler;
 

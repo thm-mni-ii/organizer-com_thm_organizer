@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class loads teacher workload statistics into the display context.
  */
-class THM_OrganizerViewDeputat extends JViewLegacy
+class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $params = null;
 

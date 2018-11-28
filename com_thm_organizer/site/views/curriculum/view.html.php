@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 /**
  * Class loads curriculum information into the display context.
  */
-class THM_OrganizerViewCurriculum extends JViewLegacy
+class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * The HTML Strings for language switch buttons

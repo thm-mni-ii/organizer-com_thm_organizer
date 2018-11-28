@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class which retrieves subject information for a detailed display of subject attributes.
  */
-class THM_OrganizerModelSubject_Details extends JModelLegacy
+class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Loads subject information from the database

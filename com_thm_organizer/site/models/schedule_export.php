@@ -18,7 +18,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class retrieves information for the creation of a schedule export form.
  */
-class THM_OrganizerModelSchedule_Export extends JModelLegacy
+class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     public $defaultGrid = 1;
 

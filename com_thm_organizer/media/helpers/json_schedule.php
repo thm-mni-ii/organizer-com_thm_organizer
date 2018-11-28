@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which models, validates and compares schedule data to and from json objects.
  */
-class THM_OrganizerModelJSONSchedule extends JModelLegacy
+class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Object containing information from the actual schedule

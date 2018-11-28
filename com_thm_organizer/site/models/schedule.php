@@ -19,7 +19,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class retrieves information for use in a schedule display form.
  */
-class THM_OrganizerModelSchedule extends JModelLegacy
+class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     public $grids;
 

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class provides methods for merging resources. Resource specific tasks are implemented in the extending classes.
  */
-abstract class THM_OrganizerModelMerge extends JModelLegacy
+abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * @var array the preprocessed form data

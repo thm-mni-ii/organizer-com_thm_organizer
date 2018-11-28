@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 /**
  * Class retrieves dynamic pool options.
  */
-class THM_OrganizerModelPool_Ajax extends JModelLegacy
+class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Retrieves pool options for a given curriculum element

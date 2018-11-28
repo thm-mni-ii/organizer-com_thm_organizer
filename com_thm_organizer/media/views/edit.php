@@ -11,7 +11,7 @@
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.
  */
-abstract class THM_OrganizerViewEdit extends JViewLegacy
+abstract class THM_OrganizerViewEdit extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $item = null;
 

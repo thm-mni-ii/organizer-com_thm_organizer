@@ -13,7 +13,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class loads a filtered set of subjects into the display context.
  */
-class THM_OrganizerViewSubject_List extends JViewLegacy
+class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $languageSwitches = [];
 

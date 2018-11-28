@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class loads the subject into the display context.
  */
-class THM_OrganizerViewSubject_Details extends JViewLegacy
+class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
 {
     const PENDING = 0;
     const REGISTERED = 1;

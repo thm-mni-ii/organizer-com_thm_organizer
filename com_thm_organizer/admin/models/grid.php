@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored grid data.
  */
-class THM_OrganizerModelGrid extends JModelLegacy
+class THM_OrganizerModelGrid extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Save the form data for a new grid

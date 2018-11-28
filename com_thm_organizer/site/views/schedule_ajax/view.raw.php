@@ -14,7 +14,7 @@ jimport('joomla.application.plugin.helper');
 /**
  * Class answers dynamic schedule related queries
  */
-class THM_OrganizerViewSchedule_Ajax extends JViewLegacy
+class THM_OrganizerViewSchedule_Ajax extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * loads model data into view context

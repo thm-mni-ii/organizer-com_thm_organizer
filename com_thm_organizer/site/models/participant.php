@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participants.php';
 /**
  * Class which manages stored participant data.
  */
-class THM_OrganizerModelParticipant extends JModelLegacy
+class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * (De-) Registers course participants

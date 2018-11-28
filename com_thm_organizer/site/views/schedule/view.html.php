@@ -16,7 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class loads the schedule form into the display context.
  */
-class THM_OrganizerViewSchedule extends JViewLegacy
+class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * format for displaying dates

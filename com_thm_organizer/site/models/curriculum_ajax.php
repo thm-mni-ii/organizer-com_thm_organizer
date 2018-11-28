@@ -13,7 +13,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class builds a model of a set of curriculum resources in JSON format.
  */
-class THM_OrganizerModelCurriculum_Ajax extends JModelLegacy
+class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     private $_scheduleID;
 

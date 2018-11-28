@@ -19,7 +19,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class searches THM Organizer resources for resources and views relevant to the given search query.
  */
-class THM_OrganizerModelSearch extends JModelLegacy
+class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     private $schedDepts;
 

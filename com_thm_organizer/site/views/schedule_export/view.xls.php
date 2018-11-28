@@ -14,7 +14,7 @@ jimport('phpexcel.library.PHPExcel');
 /**
  * Class creates a XLS file for the display of the filtered schedule information.
  */
-class THM_OrganizerViewSchedule_Export extends JViewLegacy
+class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * Sets context variables and renders the view.

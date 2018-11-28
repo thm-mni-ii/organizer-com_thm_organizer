@@ -16,7 +16,7 @@ define('WEEK', 2);
 /**
  * Loads lesson and event data for a filtered set of rooms into the view context.
  */
-class THM_OrganizerViewRoom_Overview extends JViewLegacy
+class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $form = null;
 

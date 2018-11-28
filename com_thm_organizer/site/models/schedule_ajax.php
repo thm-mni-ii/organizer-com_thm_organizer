@@ -23,7 +23,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class retrieves dynamic schedule information.
  */
-class THM_OrganizerModelSchedule_Ajax extends JModelLegacy
+class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     const SEMESTER_MODE = 1;
     const PERIOD_MODE = 2;

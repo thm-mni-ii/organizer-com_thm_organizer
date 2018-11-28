@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which sets permissions for the view.
  */
-class THM_OrganizerModelTHM_Organizer extends JModelLegacy
+class THM_OrganizerModelTHM_Organizer extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     // Basic inheritance hierarchy handles everything
 }

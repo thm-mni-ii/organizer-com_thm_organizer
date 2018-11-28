@@ -16,7 +16,7 @@ jimport('tcpdf.tcpdf');
 /**
  * Class creates a PDF file for the display of the filtered schedule information.
  */
-class THM_OrganizerViewSchedule_Export extends JViewLegacy
+class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $document;
 

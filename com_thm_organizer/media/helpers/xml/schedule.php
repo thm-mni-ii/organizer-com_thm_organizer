@@ -22,7 +22,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 /**
  * Class which models, validates and compares schedule data to and from Untis XML exports.
  */
-class THM_OrganizerModelXMLSchedule extends JModelLegacy
+class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * array to hold error strings relating to critical data inconsistencies

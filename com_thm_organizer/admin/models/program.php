@@ -13,7 +13,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
 /**
  * Class which manages stored (degree) program data.
  */
-class THM_OrganizerModelProgram extends JModelLegacy
+class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Attempts to delete the selected degree program entries and related mappings
@@ -31,7 +31,7 @@ class THM_OrganizerModelProgram extends JModelLegacy
         if (!empty($programIDs)) {
             $this->_db->transactionStart();
             $table = JTable::getInstance('programs', 'thm_organizerTable');
-            $model = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+            $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
             foreach ($programIDs as $programID) {
                 if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                     $this->_db->transactionRollback();
@@ -89,7 +89,8 @@ class THM_OrganizerModelProgram extends JModelLegacy
         $table     = JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);
         if ($dpSuccess) {
-            $model          = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+            $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
+
             $mappingSuccess = $model->saveProgram($table->id);
             if ($mappingSuccess) {
                 $this->_db->transactionCommit();
@@ -123,7 +124,8 @@ class THM_OrganizerModelProgram extends JModelLegacy
         $table     = JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);
         if ($dpSuccess) {
-            $model          = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+            $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
+
             $mappingSuccess = $model->saveProgram($table->id);
             if ($mappingSuccess) {
                 $this->_db->transactionCommit();

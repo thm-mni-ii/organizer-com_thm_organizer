@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored color data.
  */
-class THM_OrganizerModelColor extends JModelLegacy
+class THM_OrganizerModelColor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * save

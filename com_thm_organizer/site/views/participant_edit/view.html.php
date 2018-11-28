@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /**
  * Class loads participant information into the display context.
  */
-class THM_OrganizerViewParticipant_Edit extends JViewLegacy
+class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $lang;
 

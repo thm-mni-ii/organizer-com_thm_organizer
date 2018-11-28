@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class receives user actions and performs access checks and redirection.
  */
-class THM_OrganizerController extends JControllerLegacy
+class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 {
     private $resource = '';
 

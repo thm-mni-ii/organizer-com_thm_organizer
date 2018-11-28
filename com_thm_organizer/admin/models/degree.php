@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored degree data.
  */
-class THM_OrganizerModelDegree extends JModelLegacy
+class THM_OrganizerModelDegree extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Saves degree information to the database

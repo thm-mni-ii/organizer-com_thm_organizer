@@ -19,7 +19,7 @@ defined('TEACHER') or define('TEACHER', 2);
 /**
  * Class used to import lsf subject data.
  */
-class THM_OrganizerModelLSFSubject extends JModelLegacy
+class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     private $crp = 0;
 
@@ -270,7 +270,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
         $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($lsfData, true);
 
         if ($blocked or $invalidTitle) {
-            $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
+            $subjectModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('subject', 'THM_OrganizerModel');
 
             return $subjectModel->deleteEntry($subject->id);
         }
@@ -440,7 +440,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             }
         } // Already exists and should no longer be maintained.
         elseif ($blocked or $invalidTitle) {
-            $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
+            $subjectModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('subject', 'THM_OrganizerModel');
 
             return $subjectModel->deleteEntry($table->id);
         }
@@ -793,7 +793,7 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
      */
     private function setTeachersByResponsibility($subjectID, &$teachers, $responsibility)
     {
-        $subjectModel = JModelLegacy::getInstance('subject', 'THM_OrganizerModel');
+        $subjectModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('subject', 'THM_OrganizerModel');
         $removed      = $subjectModel->removeTeachers($subjectID, $responsibility);
 
         if (!$removed) {

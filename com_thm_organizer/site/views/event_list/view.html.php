@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 /**
  * Class loads filtered events into the display context.
  */
-class THM_OrganizerViewEvent_List extends JViewLegacy
+class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * Loads persistent data into the view context

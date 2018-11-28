@@ -13,7 +13,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
 /**
  * Class which manages stored (curriculum) mapping data.
  */
-class THM_OrganizerModelMapping extends JModelLegacy
+class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Adds mappings as they exist in LSF for an imported degree program
@@ -71,7 +71,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
 
         if ($poolExists) {
             if ($blocked or $invalidTitle or $noChildren) {
-                $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
+                $poolModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('pool', 'THM_OrganizerModel');
 
                 return $poolModel->deleteEntry($poolsTable->id);
             }

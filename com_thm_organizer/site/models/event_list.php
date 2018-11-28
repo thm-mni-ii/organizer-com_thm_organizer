@@ -19,7 +19,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class retrieves information about upcoming events for display on monitors.
  */
-class THM_OrganizerModelEvent_List extends JModelLegacy
+class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     public $params = [];
 

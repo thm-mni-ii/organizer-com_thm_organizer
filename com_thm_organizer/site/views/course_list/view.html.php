@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /**
  * Class which loads data into the view output context
  */
-class THM_OrganizerViewCourse_List extends JViewLegacy
+class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $filters = [];
 

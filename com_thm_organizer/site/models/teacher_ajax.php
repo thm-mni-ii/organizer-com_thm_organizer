@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class which retrieves dynamic teacher information.
  */
-class THM_OrganizerModelTeacher_Ajax extends JModelLegacy
+class THM_OrganizerModelTeacher_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Gets the pool options as a string

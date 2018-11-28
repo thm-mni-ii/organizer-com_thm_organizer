@@ -198,7 +198,7 @@ class THM_OrganizerHelperPrograms
 
         require_once JPATH_COMPONENT_ADMINISTRATOR . '/models/program.php';
 
-        $model     = JModelLegacy::getInstance('program', 'THM_OrganizerModel');
+        $model     = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('program', 'THM_OrganizerModel');
         $programID = $model->save($programData);
 
         return empty($programID) ? null : $programID;

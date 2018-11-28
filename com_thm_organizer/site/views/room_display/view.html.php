@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 /**
  * Class loads a room's daily schedule into the display context.
  */
-class THM_OrganizerViewRoom_Display extends JViewLegacy
+class THM_OrganizerViewRoom_Display extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * Loads persistent data into the view context

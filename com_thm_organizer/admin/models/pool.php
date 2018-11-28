@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored (subject) pool data.
  */
-class THM_OrganizerModelPool extends JModelLegacy
+class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Attempts to delete the selected subject pool entries and related mappings
@@ -58,7 +58,7 @@ class THM_OrganizerModelPool extends JModelLegacy
      */
     public function deleteEntry($poolID)
     {
-        $model           = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+        $model           = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
         $mappingsDeleted = $model->deleteByResourceID($poolID, 'pool');
 
         if (!$mappingsDeleted) {
@@ -122,7 +122,7 @@ class THM_OrganizerModelPool extends JModelLegacy
             return $table->id;
         } // Process mapping information
         else {
-            $model      = JModelLegacy::getInstance('mapping', 'THM_OrganizerModel');
+            $model      = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
             $data['id'] = $table->id;
 
             // No mappings desired

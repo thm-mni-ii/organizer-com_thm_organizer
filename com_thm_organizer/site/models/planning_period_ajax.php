@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php
 /**
  * Class provides planning period options for a given department/program. Called from the room statistics view.
  */
-class THM_OrganizerModelPlanning_Period_Ajax extends JModelLegacy
+class THM_OrganizerModelPlanning_Period_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Gets the pool options as a string

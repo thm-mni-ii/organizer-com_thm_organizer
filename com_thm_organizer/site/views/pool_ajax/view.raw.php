@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class answers dynamic (subject) pool related queries
  */
-class THM_OrganizerViewPool_Ajax extends JViewLegacy
+class THM_OrganizerViewPool_Ajax extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * loads model data into view context

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored monitor data.
  */
-class THM_OrganizerModelMonitor extends JModelLegacy
+class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * save

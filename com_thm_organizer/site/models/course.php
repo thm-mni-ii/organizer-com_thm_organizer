@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 /**
  * Class which manages stored course data.
  */
-class THM_OrganizerModelCourse extends JModelLegacy
+class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Saves data for participants when administrator changes state in manager

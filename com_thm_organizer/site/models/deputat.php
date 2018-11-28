@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class which calculates the number of hours teachers taught individual lessons.
  */
-class THM_OrganizerModelDeputat extends JModelLegacy
+class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     public $scheduleID = null;
 

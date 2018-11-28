@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 /**
  * Class which retrieves dynamic subject information.
  */
-class THM_OrganizerModelSubject_Ajax extends JModelLegacy
+class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Retrieves subject entries from the database

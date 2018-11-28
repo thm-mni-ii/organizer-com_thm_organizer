@@ -19,7 +19,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class retrieves information about daily events for display on monitors.
  */
-class THM_OrganizerModelRoom_Display extends JModelLegacy
+class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     public $blocks = [];
 

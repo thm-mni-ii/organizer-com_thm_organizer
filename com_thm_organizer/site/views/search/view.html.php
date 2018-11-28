@@ -22,7 +22,7 @@ define('TEACHERS', 6);
 /**
  * Class loads the query's results into the display context.
  */
-class THM_OrganizerViewSearch extends JViewLegacy
+class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $languageSwitches = [];
 

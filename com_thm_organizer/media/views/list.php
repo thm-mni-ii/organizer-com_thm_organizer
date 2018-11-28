@@ -11,7 +11,7 @@
 /**
  * Class loads a filtered set of resources into the display context. Specific resource determined by extending class.
  */
-abstract class THM_OrganizerViewList extends JViewLegacy
+abstract class THM_OrganizerViewList extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $state = null;
 

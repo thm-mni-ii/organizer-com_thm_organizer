@@ -12,7 +12,7 @@
  * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by
  * extending class.
  */
-abstract class THM_OrganizerViewForm extends JViewLegacy
+abstract class THM_OrganizerViewForm extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $params = null;
 

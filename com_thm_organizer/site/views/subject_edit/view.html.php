@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 /**
  * Class loads persistent information about a subject into the display context.
  */
-class THM_OrganizerViewSubject_Edit extends JViewLegacy
+class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $form;
 

@@ -13,7 +13,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
 /**
  * Class used to import lsf pool data.
  */
-class THM_OrganizerModelLSFPool extends JModelLegacy
+class THM_OrganizerModelLSFPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Creates a pool entry if none exists and calls
@@ -41,7 +41,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
         $pool->load(['lsfID' => $lsfID, 'hisID' => $hisID]);
 
         if (!empty($pool->id) and ($blocked or $invalidTitle)) {
-            $poolModel = JModelLegacy::getInstance('pool', 'THM_OrganizerModel');
+            $poolModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('pool', 'THM_OrganizerModel');
 
             return $poolModel->deleteEntry($pool->id);
         }
@@ -96,7 +96,7 @@ class THM_OrganizerModelLSFPool extends JModelLegacy
      */
     private function processChildren(&$stub, $departmentID)
     {
-        $lsfSubjectModel = JModelLegacy::getInstance('LSFSubject', 'THM_OrganizerModel');
+        $lsfSubjectModel = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('LSFSubject', 'THM_OrganizerModel');
 
         foreach ($stub->modulliste->modul as $subStub) {
             $type    = THM_OrganizerHelperLSF::determineType($subStub);

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class which manages stored building data.
  */
-class THM_OrganizerModelBuilding extends JModelLegacy
+class THM_OrganizerModelBuilding extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * Saves building data from the request form to the database.

@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 /**
  * Class answers dynamic planning period related queries
  */
-class THM_OrganizerViewPlanning_Period_Ajax extends JViewLegacy
+class THM_OrganizerViewPlanning_Period_Ajax extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * loads model data into view context

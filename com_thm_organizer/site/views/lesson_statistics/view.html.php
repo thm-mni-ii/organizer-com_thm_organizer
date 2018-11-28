@@ -13,7 +13,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class loads lesson statistic information into the display context.
  */
-class THM_OrganizerViewLesson_Statistics extends JViewLegacy
+class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $columns = [];
 

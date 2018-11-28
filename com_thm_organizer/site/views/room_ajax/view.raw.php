@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 /**
  * Class answers dynamic room related queries
  */
-class THM_OrganizerViewRoom_Ajax extends JViewLegacy
+class THM_OrganizerViewRoom_Ajax extends \Joomla\CMS\MVC\View\HtmlView
 {
     /**
      * loads model data into view context
