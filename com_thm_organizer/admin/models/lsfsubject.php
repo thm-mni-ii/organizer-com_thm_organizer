@@ -257,14 +257,13 @@ class THM_OrganizerModelLSFSubject extends JModelLegacy
             return false;
         }
 
-        $cantBeImported = (empty($subject->lsfID) and empty($subject->externalID));
+        $cantBeImported = (empty($subject->lsfID));
         if ($cantBeImported) {
             return true;
         }
 
         $client  = new THM_OrganizerHelperLSF;
-        $lsfData = !empty($subject->lsfID) ?
-            $client->getModuleByModulid($subject->lsfID) : $client->getModuleByNrMni($subject->externalID);
+        $lsfData = $client->getModuleByModulid($subject->lsfID);
 
         // The system administrator does not wish to display entries with this value
         $blocked      = strtolower((string)$lsfData->modul->sperrmh) == 'x';

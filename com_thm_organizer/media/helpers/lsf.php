@@ -89,30 +89,14 @@ class THM_OrganizerHelperLSF
     public function getModuleByModulid($moduleID)
     {
         $XML = $this->header('ModuleAll');
-        $XML .= "<pord.pordnr>$moduleID</pord.pordnr>";
-        $XML .= '</filter></SOAPDataService>';
+        $XML .= "<modulid>$moduleID</modulid>";
+        $XML .= '</condition></SOAPDataService>';
 
         return self::getDataXML($XML);
     }
 
     /**
-     * Method to get the module by mni number
-     *
-     * @param string $moduleID The module mni number
-     *
-     * @return Mixed <void, string, unknown> Returns the xml strucutre of a given lsf lsf course code (CS1001, ...)
-     */
-    public function getModuleByNrMni($moduleID)
-    {
-        $XML = $this->header('ModuleAll');
-        $XML .= "<pord.pfnrex>$moduleID</pord.pfnrex>";
-        $XML .= '</filter></SOAPDataService>';
-
-        return self::getDataXML($XML);
-    }
-
-    /**
-     * Performs a soap request, in order to get the xml strucutre of the given
+     * Performs a soap request, in order to get the xml structure of the given
      * configuration
      *
      * @param string $program degree program code
@@ -124,10 +108,10 @@ class THM_OrganizerHelperLSF
     public function getModules($program, $degree = null, $year = null)
     {
         $XML = $this->header('studiengang');
-        $XML .= "<pord.abschl>$degree</pord.abschl>";
-        $XML .= "<pord.pversion>$year</pord.pversion>";
-        $XML .= "<pord.stg>$program</pord.stg>";
-        $XML .= '</filter></SOAPDataService>';
+        $XML .= "<stg>$program</stg>";
+        $XML .= "<abschl>$degree</abschl>";
+        $XML .= "<pversion>$year</pversion>";
+        $XML .= '</condition></SOAPDataService>';
 
         return self::getDataXML($XML);
     }
@@ -145,7 +129,7 @@ class THM_OrganizerHelperLSF
         $header .= "<general><object>$objectType</object></general><user-auth>";
         $header .= "<username>$this->username</username>";
         $header .= "<password>$this->password</password>";
-        $header .= '</user-auth><filter>';
+        $header .= '</user-auth><condition>';
 
         return $header;
     }

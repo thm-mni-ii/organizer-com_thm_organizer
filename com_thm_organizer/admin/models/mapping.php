@@ -797,6 +797,7 @@ class THM_OrganizerModelMapping extends JModelLegacy
     {
         $query = $this->_db->getQuery(true);
         $query->select('*')->from('#__thm_organizer_mappings')->where("{$type}ID = '$resourceID'");
+        $this->_db->setQuery($query);
 
         return THM_OrganizerHelperComponent::query('loadAssocList');
     }
