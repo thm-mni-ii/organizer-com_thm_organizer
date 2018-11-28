@@ -74,33 +74,37 @@ class JFormFieldPrograms extends JFormField
         <script type="text/javascript" charset="utf-8">
             jQuery(document).ready(function () {
                 jQuery('#jformprogramID').change(function () {
-                    var programInput = jQuery('#jformprogramID'), selectedPrograms = programInput.val(),
-                        parentInput = jQuery('#jformparentID'), oldSelectedParents = parentInput.val();
+                    const programInput = jQuery('#jformprogramID'),
+                        parentInput = jQuery('#jformparentID'),
+                        oldSelectedParents = parentInput.val();
+                    let selectedPrograms = programInput.val(),
+                        poolUrl;
 
                     if (selectedPrograms === null)
                     {
                         selectedPrograms = '';
                     }
-                    else
+                    else if (Array.isArray(selectedPrograms))
                     {
                         selectedPrograms = selectedPrograms.join(',');
                     }
 
-                    if (jQuery.inArray('-1', selectedPrograms) !== '-1')
+                    if (selectedPrograms.includes('-1') !== false)
                     {
                         programInput.find('option').removeAttr('selected');
                         return false;
                     }
 
-                    var poolUrl = '<?php echo JUri::root(); ?>index.php?option=com_thm_organizer';
+                    poolUrl = '<?php echo JUri::root(); ?>index.php?option=com_thm_organizer';
                     poolUrl += '&view=pool_ajax&format=raw&task=parentOptions';
                     poolUrl += "&id=<?php echo $resourceID; ?>";
                     poolUrl += "&type=<?php echo $resourceType; ?>";
                     poolUrl += '&programIDs=' + selectedPrograms;
+
                     jQuery.get(poolUrl, function (options) {
                         parentInput.html(options);
-                        var newSelectedParents = parentInput.val();
-                        var selectedParents = [];
+                        const newSelectedParents = parentInput.val();
+                        let selectedParents = [];
                         if (newSelectedParents !== null && newSelectedParents.length)
                         {
                             if (oldSelectedParents !== null && oldSelectedParents.length)
@@ -126,14 +130,14 @@ class JFormFieldPrograms extends JFormField
 
                 function refreshChosen(id)
                 {
-                    var chosenElement = jQuery('#' + id);
+                    const chosenElement = jQuery('#' + id);
                     chosenElement.chosen('destroy');
                     chosenElement.chosen();
                 }
 
                 function toggleElement(chosenElement, value)
                 {
-                    var parentInput = jQuery('#jformparentID');
+                    const parentInput = jQuery('#jformparentID');
                     parentInput.chosen('destroy');
                     jQuery('select#jformparentID option').each(function () {
                         if (chosenElement === $(this).innerHTML)

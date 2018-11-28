@@ -18,9 +18,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
     /**
      * Adds mappings as they exist in LSF for an imported degree program
      *
-     * @param int             $programID the id of the program in the local
-     *                                   database
-     * @param SimpleXMLObject &$lsfData  the data recieved from the LSF system
+     * @param int              $programID the id of the program in the local
+     *                                    database
+     * @param SimpleXMLObject &$lsfData   the data recieved from the LSF system
      *
      * @return boolean  true if the data was mapped, otherwise false
      *
@@ -55,8 +55,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
     /**
      * Adds a pool from LSF to the mappings table
      *
-     * @param object &$pool           the object representing the LSF pool
-     * @param int    $parentMappingID the id of the program mapping
+     * @param object &$pool            the object representing the LSF pool
+     * @param int     $parentMappingID the id of the program mapping
      *
      * @return boolean  true if the pool is mapped, otherwise false
      */
@@ -125,9 +125,9 @@ class THM_OrganizerModelMapping extends JModelLegacy
     /**
      * Adds a subject from LSF to the mappings table
      *
-     * @param object &$subject        the subject object
-     * @param int    $parentMappingID the id of the parent element in the
-     *                                mappings table
+     * @param object &$subject         the subject object
+     * @param int     $parentMappingID the id of the parent element in the
+     *                                 mappings table
      *
      * @return boolean  true if the mapping exists, otherwise false
      */
@@ -533,12 +533,12 @@ class THM_OrganizerModelMapping extends JModelLegacy
      */
     private function getChildrenFromForm()
     {
-        $children  = [];
-        $post      = THM_OrganizerHelperComponent::getInput()->post;
-        $childKeys = preg_grep('/^child[0-9]+$/', array_keys($post));
+        $children = [];
+        $form     = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $childKeys = preg_grep('/^child[0-9]+$/', array_keys($form));
         foreach ($childKeys as $childKey) {
             $ordering      = substr($childKey, 5);
-            $aggregateInfo = $post->getString($childKey, '');
+            $aggregateInfo = $form[$childKey];
             $resourceID    = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
             $resourceType  = strpos($aggregateInfo, 'p') ? 'pool' : 'subject';
 
@@ -806,8 +806,8 @@ class THM_OrganizerModelMapping extends JModelLegacy
      * existing entries with parents no longer selected from the database, and
      * deleting selected parent entries which already exist from the selection.
      *
-     * @param array &$selectedParents the parent pools selected by the user
-     * @param array $existingMappings the existing mappings for the subject
+     * @param array &$selectedParents  the parent pools selected by the user
+     * @param array  $existingMappings the existing mappings for the subject
      *
      * @return boolean  true on success, otherwise false
      */

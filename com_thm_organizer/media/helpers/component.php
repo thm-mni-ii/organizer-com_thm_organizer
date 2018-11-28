@@ -547,7 +547,7 @@ class THM_OrganizerHelperComponent
         $dbo = JFactory::getDbo();
         try {
             if ($args) {
-                if (is_string($args)) {
+                if (is_string($args) or is_int($args)) {
                     return $dbo->$function($args);
                 }
                 if (is_array($args)) {

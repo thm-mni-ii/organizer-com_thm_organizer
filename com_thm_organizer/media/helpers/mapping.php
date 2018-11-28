@@ -282,7 +282,7 @@ class THM_OrganizerHelperMapping
      *
      * @param array  &$mapping         the program mapping entry
      * @param array  &$selectedParents the selected parents
-     * @param string $resourceType     the type of resource
+     * @param string  $resourceType    the type of resource
      *
      * @return string  HTML option
      */
@@ -574,11 +574,11 @@ class THM_OrganizerHelperMapping
     /**
      * Retrieves the parent ids of the resource in question. Used in parentpool field.
      *
-     * @param int    $resourceID   the resource id
-     * @param string $resourceType the type of resource
-     * @param array  &$mappings    an array to store the mappings in
-     * @param array  &$mappingIDs  an array to store the mapping ids in
-     * @param array  &$parentIDs   an array to store the parent ids in
+     * @param int     $resourceID   the resource id
+     * @param string  $resourceType the type of resource
+     * @param array  &$mappings     an array to store the mappings in
+     * @param array  &$mappingIDs   an array to store the mapping ids in
+     * @param array  &$parentIDs    an array to store the parent ids in
      *
      * @return void
      */
@@ -586,22 +586,22 @@ class THM_OrganizerHelperMapping
     {
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('parentID, id, lft, rgt');
+        $query->select('id, parentID, lft, rgt');
         $query->from('#__thm_organizer_mappings');
         $query->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($query);
         $mappings   = array_merge($mappings, THM_OrganizerHelperComponent::query('loadAssocList', []));
-        $parentIDs  = array_merge($parentIDs, THM_OrganizerHelperComponent::query('loadColumn', []));
-        $mappingIDs = array_merge($mappingIDs, THM_OrganizerHelperComponent::query('loadColumn', [], 1));
+        $mappingIDs = array_merge($mappingIDs, THM_OrganizerHelperComponent::query('loadColumn', []));
+        $parentIDs  = array_merge($parentIDs, THM_OrganizerHelperComponent::query('loadColumn', [], 1));
     }
 
     /**
      * Sets the program id filter for a query. Used in pool manager and subject manager.
      *
-     * @param object &$query           the query object
-     * @param int    $resourceID       the id of the resource from the filter
-     * @param string $resourceType     the type of the resource from the filter
-     * @param string $formResourceType the type of the resource from the form
+     * @param object &$query            the query object
+     * @param int     $resourceID       the id of the resource from the filter
+     * @param string  $resourceType     the type of the resource from the filter
+     * @param string  $formResourceType the type of the resource from the form
      *
      * @return void  sets query object variables
      */
