@@ -124,8 +124,8 @@ class THM_OrganizerHelperSchedule
     /**
      * Adds the date clauses to the query
      *
-     * @param array  $parameters the parameters configuring the export
-     * @param object &$query     the query object
+     * @param array   $parameters the parameters configuring the export
+     * @param object &$query      the query object
      *
      * @return void modifies the query object
      */
@@ -139,8 +139,8 @@ class THM_OrganizerHelperSchedule
     /**
      * Requested resources are not restrictive amongst themselves
      *
-     * @param array  $parameters the request parameters
-     * @param object &$query     the query object
+     * @param array   $parameters the request parameters
+     * @param object &$query      the query object
      *
      * @return void modifies the query object
      */
@@ -188,14 +188,20 @@ class THM_OrganizerHelperSchedule
      *
      * @return void removes unauthorized entries from the array
      */
-    private static function filterTeacherIDs(&$teacherIDs)
+    private static function filterTeacherIDs(&$teacherIDs, $userID)
     {
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (empty($userID)) {
+            $teacherIDs = [];
+
             return;
         }
 
-        $userTeacherID     = THM_OrganizerHelperTeachers::getIDFromUserData();
-        $accessibleDeptIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+        if (THM_OrganizerHelperAccess::isAdmin($userID) or THM_OrganizerHelperAccess::allowHRAccess()) {
+            return;
+        }
+
+        $userTeacherID   = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
+        $accessibleDeptIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule', $userID);
 
         foreach ($teacherIDs as $key => $teacherID) {
             if (!empty($userTeacherID) and $userTeacherID == $teacherID) {
@@ -221,7 +227,7 @@ class THM_OrganizerHelperSchedule
     public static function getLessons($parameters)
     {
         if (!empty($parameters['teacherIDs'])) {
-            self::filterTeacherIDs($parameters['teacherIDs']);
+            self::filterTeacherIDs($parameters['teacherIDs'], $parameters['userID']);
 
             if (empty($parameters['teacherIDs'])) {
                 throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
@@ -318,11 +324,11 @@ class THM_OrganizerHelperSchedule
     {
         $return = [
             'planSubjectID' => $lesson['psID'],
-            'subjectID' => null,
-            'subjectNo' => $lesson['subjectNo'],
-            'name'      => $lesson['psName'],
-            'shortName' => $lesson['psUntisID'],
-            'abbr'      => $lesson['psUntisID']
+            'subjectID'     => null,
+            'subjectNo'     => $lesson['subjectNo'],
+            'name'          => $lesson['psName'],
+            'shortName'     => $lesson['psUntisID'],
+            'abbr'          => $lesson['psUntisID']
         ];
 
         $tag           = THM_OrganizerHelperLanguage::getShortTag();
@@ -422,7 +428,7 @@ class THM_OrganizerHelperSchedule
      * Removes deprecated room and teacher indexes and resolves the remaining indexes to the names to be displayed
      *
      * @param mixed  &$configuration the lesson instance configuration
-     * @param string $delta          max date in which the delta gets accepted
+     * @param string  $delta         max date in which the delta gets accepted
      *
      * @return void
      */
@@ -547,8 +553,8 @@ class THM_OrganizerHelperSchedule
     /**
      * Modifies query to get lessons, constrained by parameters
      *
-     * @param array          $parameters the schedule configuration parameters
-     * @param JDatabaseQuery &$query     the query object
+     * @param array           $parameters the schedule configuration parameters
+     * @param JDatabaseQuery &$query      the query object
      *
      * @return void
      */

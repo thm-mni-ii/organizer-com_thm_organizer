@@ -223,9 +223,11 @@ class THM_OrganizerHelperTeachers
     /**
      * Checks whether the user is a registered teacher returning their internal teacher id if existent.
      *
+     * @param int $userID the user id if empty the current user is used
+     *
      * @return int the teacher id if the user is a teacher, otherwise 0
      */
-    public static function getIDFromUserData()
+    public static function getIDFromUserData($userID = null)
     {
         $user = JFactory::getUser();
         if (empty($user->id)) {
