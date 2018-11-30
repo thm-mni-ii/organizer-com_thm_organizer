@@ -7,11 +7,12 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/views/form.php';
+require_once JPATH_COMPONENT . '/views/form.php';
 
 /**
  * Class modifies the document for the output of a menu like list of resource management views.

@@ -11,9 +11,10 @@
 use \THM_OrganizerHelperHTML as HTML;
 
 /**
- * Class provides a standardized display of listed resources.
+ * Class provides a standardized display of listed resources in a modal context. Elements normally displayed by the
+ * framework such as buttons and filters are explicitly a part of the template.
  */
-class THM_OrganizerTemplateList
+class THM_OrganizerLayoutList_Modal
 {
     /**
      * Method to create a list output
@@ -24,23 +25,17 @@ class THM_OrganizerTemplateList
      */
     public static function render(&$view)
     {
-        if (!empty($view->sidebar)) {
-            echo '<div id="j-sidebar-container" class="span2">' . $view->sidebar . '</div>';
-        }
         $data    = ['view' => $view, 'options' => []];
         $filters = $view->filterForm->getGroup('filter');
         ?>
-        <div id="j-main-container" class="span10">
-            <form action="?" id="adminForm" method="post" name="adminForm">
-                <div class="searchArea">
-                    <div class="js-stools clearfix">
-                        <div class="clearfix">
-                            <div class="js-stools-container-bar">
-                                <?php self::renderSearch($filters); ?>
-                            </div>
-                            <div class="js-stools-container-list hidden-phone hidden-tablet">
-                                <?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
-                            </div>
+        <div id="j-main-container">
+            <form action="index.php?" id="adminForm" method="post" name="adminForm">
+                <div class="js-stools clearfix">
+                    <div class="clearfix">
+                        <div class="js-stools-container-bar">
+                            <?php self::renderSearch($filters); ?>
+                            <?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+                            <?php self::renderButtons(); ?>
                         </div>
                     </div>
                 </div>
@@ -53,13 +48,14 @@ class THM_OrganizerTemplateList
                     echo '</thead>';
                     self::renderBody($view->items);
                     self::renderFooter($view);
-                    self::renderBatch($view);
                     ?>
                 </table>
                 <input type="hidden" name="task" value=""/>
                 <input type="hidden" name="boxchecked" value="0"/>
-                <input type="hidden" name="option" value="com_thm_organizer"/>
+                <input type="hidden" name="option"
+                       value="<?php echo THM_OrganizerHelperComponent::getInput()->get('option'); ?>"/>
                 <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
+                <input type="hidden" name="tmpl" value="component"/>
                 <?php self::renderHiddenFields($view) ?>
                 <?php echo HTML::_('form.token'); ?>
             </form>
@@ -74,7 +70,7 @@ class THM_OrganizerTemplateList
      *
      * @return void
      */
-    protected static function renderSearch(&$filters)
+    private static function renderSearch(&$filters)
     {
         $showSearch = !empty($filters['filter_search']);
         if (!$showSearch) {
@@ -93,13 +89,28 @@ class THM_OrganizerTemplateList
         </div>
         <div class="btn-wrapper">
             <button type="button" class="btn hasTooltip js-stools-btn-clear"
-                    title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
-                    onclick="document.getElementById('filter_search').value='';">
-                <i class="icon-delete"></i>
+                    title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
+                <i class="icon-refresh"></i>
+                <?php echo JText::_('JSEARCH_RESET'); ?>
             </button>
         </div>
         <?php
     }
+
+    /**
+     * Renders any buttons appended by the view
+     *
+     * @return void
+     */
+    private static function renderButtons()
+    {
+        $toolbar = JToolbar::getInstance();
+        $buttons = $toolbar->getItems();
+        foreach ($buttons as $button) {
+            echo $toolbar->renderButton($button);
+        }
+    }
+
 
     /**
      * Renders the table head
@@ -108,7 +119,7 @@ class THM_OrganizerTemplateList
      *
      * @return void
      */
-    protected static function renderHeader(&$headers)
+    private static function renderHeader(&$headers)
     {
         echo '<tr>';
         foreach ($headers as $header) {
@@ -125,7 +136,7 @@ class THM_OrganizerTemplateList
      *
      * @return void
      */
-    protected static function renderHeaderFilters(&$headers, &$filters)
+    private static function renderHeaderFilters(&$headers, &$filters)
     {
         $noFilters   = count($filters) === 0;
         $onlySearch  = (count($filters) === 1 and !empty($filters['filter_search']));
@@ -138,12 +149,10 @@ class THM_OrganizerTemplateList
         $headerNames = array_keys($headers);
         echo '<tr>';
         foreach ($headerNames as $name) {
-            $name = str_replace('.', '_', $name);
             if ($name == 'checkbox') {
                 echo str_replace('XXXX', HTML::_('grid.checkall'), $template);
                 continue;
             }
-
             $found      = false;
             $searchName = "filter_$name";
             foreach ($filters as $fieldName => $field) {
@@ -168,75 +177,19 @@ class THM_OrganizerTemplateList
      *
      * @return void
      */
-    protected static function renderBody(&$items)
+    private static function renderBody(&$items)
     {
-        if (!empty($items['attributes']) and is_array($items['attributes'])) {
-            $bodyAttributes = '';
-            foreach ($items['attributes'] as $bodyAttribute => $bodyAttributeValue) {
-                $bodyAttributes .= $bodyAttribute . '="' . $bodyAttributeValue . '" ';
+        $rowClass = 'row0';
+        echo '<tbody>';
+        foreach ($items as $row) {
+            echo "<tr class='$rowClass'>";
+            foreach ($row as $column) {
+                echo "<td>$column</td>";
             }
-            echo "<tbody $bodyAttributes>";
-        } else {
-            echo '<tbody>';
-        }
-
-        $iteration = 0;
-        foreach ($items as $index => $row) {
-            if ($index === 'attributes') {
-                continue;
-            }
-            self::renderRow($row, $iteration);
+            echo '</tr>';
+            $rowClass = $rowClass == 'row0' ? 'row1' : 'row0';
         }
         echo '</thead>';
-    }
-
-    /**
-     * Renders a row
-     *
-     * @param array $row        the row to be displayed
-     * @param int   &$iteration the current iteration
-     *
-     * @return void  outputs HTML
-     */
-    protected static function renderRow($row, &$iteration)
-    {
-        // Custom attributes
-        if (!empty($row['attributes']) and is_array($row['attributes'])) {
-            $rowAttributes = '';
-            foreach ($row['attributes'] as $rowAttribute => $rowAttributeValue) {
-                $rowAttributes .= $rowAttribute . '="' . $rowAttributeValue . '" ';
-            }
-            echo "<tr $rowAttributes>";
-        } else {
-            // Joomla standard is row0 or row1 for even and odd rows
-            echo "<tr class='row" . $iteration % 2 . "'>";
-        }
-
-        foreach ($row as $index => $column) {
-            // Attributes should not be presented as table data
-            if ($index === 'attributes') {
-                continue;
-            }
-
-            // Custom attributes for table data
-            if (is_array($column)) {
-                if (!empty($column['attributes']) and is_array($column['attributes'])) {
-                    $colAttributes = '';
-                    foreach ($column['attributes'] as $colAttribute => $colAttributeValue) {
-                        $colAttributes .= $colAttribute . '="' . $colAttributeValue . '" ';
-                    }
-                    echo "<td $colAttributes>";
-                } else {
-                    echo "<td>";
-                }
-                echo $column['value'];
-            } else {
-                echo "<td>$column";
-            }
-            echo "</td>";
-        }
-        echo '</tr>';
-        $iteration++;
     }
 
     /**
@@ -246,31 +199,13 @@ class THM_OrganizerTemplateList
      *
      * @return void
      */
-    protected static function renderFooter(&$view)
+    private static function renderFooter(&$view)
     {
         $columnCount = count($view->headers);
         echo '<tfoot><tr>';
         echo "<td colspan='$columnCount'>";
         echo $view->pagination->getListFooter();
         echo '</td></tr></tfoot>';
-    }
-
-    /**
-     * Renders the batch window
-     *
-     * @param object &$view the view context calling the function
-     *
-     * @return void
-     */
-    protected static function renderBatch(&$view)
-    {
-        if (isset($view->batch) && !empty($view->batch)) {
-            foreach ($view->batch as $name => $path) {
-                if (file_exists($path)) {
-                    echo $view->loadTemplate($name);
-                }
-            }
-        }
     }
 
     /**

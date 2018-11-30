@@ -31,7 +31,6 @@
  * class for calendar component VALARM
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.5.1 - 2008-10-12
  */
 class valarm extends calendarComponent
 {
@@ -59,7 +58,6 @@ class valarm extends calendarComponent
      * constructor for calendar component VALARM object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.2 - 2011-05-01
      *
      * @param array $config
      *
@@ -109,7 +107,6 @@ class valarm extends calendarComponent
      * create formatted output for calendar component VALARM object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.5.1 - 2008-10-22
      *
      * @param array $xcaldecl
      *

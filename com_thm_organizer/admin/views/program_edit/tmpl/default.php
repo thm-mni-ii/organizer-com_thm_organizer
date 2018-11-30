@@ -7,6 +7,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/templates/edit_tabbed.php';
-THM_OrganizerTemplateEdit_Tabbed::render($this);
+
+THM_OrganizerLayoutEdit_Tabbed::render($this);

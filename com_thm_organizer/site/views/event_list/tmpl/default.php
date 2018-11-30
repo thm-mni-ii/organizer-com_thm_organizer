@@ -7,6 +7,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
 
 $showHeading = $this->model->params->get('show_page_heading', '');

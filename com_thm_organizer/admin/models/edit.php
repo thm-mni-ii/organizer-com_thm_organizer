@@ -7,6 +7,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
 
 /**
@@ -87,13 +88,6 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      */
     public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = [])
     {
-        /**
-         * Joomla makes the mistake of handling front end and backend differently for include paths. Here we add the
-         * possible frontend and media locations for logical consistency.
-         */
-        JTable::addIncludePath(JPATH_ROOT . '/media/com_thm_organizer/tables');
-        JTable::addIncludePath(JPATH_ROOT . '/components/com_thm_organizer/tables');
-
         $name = str_replace('_edit', '', $this->get('name'));
         $name .= $name == 'campus' ? 'es' : 's';
 

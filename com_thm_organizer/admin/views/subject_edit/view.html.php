@@ -7,8 +7,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/views/edit.php';
+
+require_once JPATH_COMPONENT . '/views/edit.php';
 
 /**
  * Class loads the subject form into display context.

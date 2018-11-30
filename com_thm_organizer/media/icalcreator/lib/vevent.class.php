@@ -31,7 +31,6 @@
  * class for calendar component VEVENT
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.5.1 - 2008-10-12
  */
 class vevent extends calendarComponent
 {
@@ -101,7 +100,6 @@ class vevent extends calendarComponent
      * constructor for calendar component VEVENT object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.2 - 2011-05-01
      *
      * @param array $config
      *
@@ -195,7 +193,6 @@ class vevent extends calendarComponent
      * create formatted output for calendar component VEVENT object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.10.16 - 2011-10-28
      *
      * @param array $xcaldecl
      *

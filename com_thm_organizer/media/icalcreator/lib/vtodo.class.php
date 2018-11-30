@@ -31,7 +31,6 @@
  * class for calendar component VTODO
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.5.1 - 2008-10-12
  */
 class vtodo extends calendarComponent
 {
@@ -103,7 +102,6 @@ class vtodo extends calendarComponent
      * constructor for calendar component VTODO object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.2 - 2011-05-01
      *
      * @param array $config
      *
@@ -199,7 +197,6 @@ class vtodo extends calendarComponent
      * create formatted output for calendar component VTODO object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.5.1 - 2008-11-07
      *
      * @param array $xcaldecl
      *

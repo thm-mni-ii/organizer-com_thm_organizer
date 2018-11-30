@@ -10,6 +10,9 @@
 
 use \THM_OrganizerHelperHTML as HTML;
 
+require_once JPATH_COMPONENT . '/layouts/list.php';
+require_once JPATH_COMPONENT . '/layouts/list_modal.php';
+
 /**
  * Class loads a filtered set of resources into the display context. Specific resource determined by extending class.
  */

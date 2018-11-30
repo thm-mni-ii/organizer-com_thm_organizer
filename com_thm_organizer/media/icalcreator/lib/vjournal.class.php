@@ -31,7 +31,6 @@
  * class for calendar component VJOURNAL
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.5.1 - 2008-10-12
  */
 class vjournal extends calendarComponent
 {
@@ -87,7 +86,6 @@ class vjournal extends calendarComponent
      * constructor for calendar component VJOURNAL object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.2 - 2011-05-01
      *
      * @param array $config
      *
@@ -165,7 +163,6 @@ class vjournal extends calendarComponent
      * create formatted output for calendar component VJOURNAL object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.5.1 - 2008-10-12
      *
      * @param array $xcaldecl
      *

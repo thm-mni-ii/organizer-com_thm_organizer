@@ -31,7 +31,6 @@
  *  abstract class for calendar components
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.2.11 - 2015-03-31
  */
 class calendarComponent extends iCalBase
 {
@@ -46,7 +45,6 @@ class calendarComponent extends iCalBase
      * constructor for calendar component object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.9.6 - 2011-05-17
      * @uses   calendarComponent::$objName
      * @uses   calendarComponent::$timezonetype
      * @uses   calendarComponent::$uid
@@ -87,7 +85,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property action
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-22
      * @uses   calendarComponent::$action
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -112,7 +109,6 @@ class calendarComponent extends iCalBase
      * set calendar component property action
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value "AUDIO" / "DISPLAY" / "EMAIL" / "PROCEDURE"
      * @param mixed  $params
@@ -144,7 +140,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property attach
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.11.16 - 2012-02-04
      * @uses   calendarComponent::$attach
      * @uses   calendarComponent::_createParams()
      * @uses   calendarComponent::$format
@@ -192,7 +187,6 @@ class calendarComponent extends iCalBase
      * set calendar component property attach
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string  $value
      * @param array   $params
@@ -224,7 +218,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property attendee
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.11.12 - 2012-01-31
      * @uses   calendarComponent::$attendee
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -347,7 +340,6 @@ class calendarComponent extends iCalBase
      * set calendar component property attach
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.18.13 - 2013-09-22
      *
      * @param string  $value
      * @param array   $params
@@ -453,7 +445,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property categories
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$categories
      * @uses   calendarComponent::_createElement()
      * @uses   calendarComponent::_createParams()
@@ -494,7 +485,6 @@ class calendarComponent extends iCalBase
      * set calendar component property categories
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed   $value
      * @param array   $params
@@ -526,7 +516,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property class
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  0.9.7 - 2006-11-20
      * @uses   calendarComponent::$class
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -550,7 +539,6 @@ class calendarComponent extends iCalBase
      * set calendar component property class
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value  "PUBLIC" / "PRIVATE" / "CONFIDENTIAL" / iana-token / x-name
      * @param array  $params optional
@@ -581,7 +569,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property comment
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$comment
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -616,7 +603,6 @@ class calendarComponent extends iCalBase
      * set calendar component property comment
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string  $value
      * @param array   $params
@@ -648,7 +634,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property completed
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-22
      * @return string
      * @uses   calendarComponent::$completed
      * @uses   calendarComponent::getConfig()
@@ -684,7 +669,6 @@ class calendarComponent extends iCalBase
      * set calendar component property completed
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed $year
      * @param mixed $month
@@ -730,7 +714,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property contact
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$contact
      * @uses   calendarComponent::_createParams()
      * @uses   iCalUtilityFunctions::_strrep()
@@ -761,7 +744,6 @@ class calendarComponent extends iCalBase
      * set calendar component property contact
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string  $value
      * @param array   $params
@@ -793,7 +775,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property created
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$created
      * @uses   iCalUtilityFunctions::_date2strdate()
      * @uses   calendarComponent::_createParams()
@@ -815,7 +796,6 @@ class calendarComponent extends iCalBase
      * set calendar component property created
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.19.5 - 2014-03-29
      *
      * @param mixed $year
      * @param mixed $month
@@ -853,7 +833,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property description
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$description
      * @uses   calendarComponent::_createParams()
      * @uses   iCalUtilityFunctions::_strrep()
@@ -884,7 +863,6 @@ class calendarComponent extends iCalBase
      * set calendar component property description
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string  $value
      * @param array   $params
@@ -920,7 +898,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property dtend
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.14.4 - 2012-09-26
      * @uses   calendarComponent::$dtend
      * @uses   calendarComponent::getConfig()
      * @uses   iCalUtilityFunctions::_date2strdate()
@@ -957,7 +934,6 @@ class calendarComponent extends iCalBase
      * set calendar component property dtend
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed  $year
      * @param mixed  $month
@@ -1006,7 +982,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property dtstamp
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.4 - 2008-03-07
      * @uses   calendarComponent::$dtstamp
      * @uses   calendarComponent::_makeDtstamp()
      * @uses   iCalUtilityFunctions::_date2strdate()
@@ -1035,7 +1010,6 @@ class calendarComponent extends iCalBase
      * computes datestamp for calendar component object instance dtstamp
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      * @uses   iCalUtilityFunctions::$fmt
      * @uses   calendarComponent::$dtstamp
      * @return void
@@ -1060,7 +1034,6 @@ class calendarComponent extends iCalBase
      * set calendar component property dtstamp
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-23
      *
      * @param mixed $year
      * @param mixed $month
@@ -1093,7 +1066,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property dtstart
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.14.4 - 2012-09-26
      * @uses   calendarComponent::$dtstart
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1133,7 +1105,6 @@ class calendarComponent extends iCalBase
      * set calendar component property dtstart
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed  $year
      * @param mixed  $month
@@ -1182,7 +1153,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property due
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.14.4 - 2012-09-26
      * @uses   calendarComponent::$due
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1219,7 +1189,6 @@ class calendarComponent extends iCalBase
      * set calendar component property due
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed  $year
      * @param mixed  $month
@@ -1268,7 +1237,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property duration
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-05-25
      * @uses   calendarComponent::$duration
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1303,7 +1271,6 @@ class calendarComponent extends iCalBase
      * set calendar component property duration
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-05-25
      *
      * @param mixed $week
      * @param mixed $day
@@ -1367,7 +1334,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property exdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.5 - 2012-12-28
      * @uses   calendarComponent::$exdate
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1435,7 +1401,6 @@ class calendarComponent extends iCalBase
      * set calendar component property exdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param array   $exdates
      * @param array   $params
@@ -1539,7 +1504,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property exrule
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-22
      * @uses   calendarComponent::$exrule
      * @uses   calendarComponent::_format_recur()
      * @return string
@@ -1557,7 +1521,6 @@ class calendarComponent extends iCalBase
      * set calendar component property exdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param array   $exruleset
      * @param array   $params
@@ -1591,7 +1554,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property freebusy
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.27 - 2013-07-05
      * @uses   calendarComponent::$freebusy
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1665,7 +1627,6 @@ class calendarComponent extends iCalBase
      * set calendar component property freebusy
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string  $fbType
      * @param array   $fbValues
@@ -1747,7 +1708,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property geo
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.18.10 - 2013-09-03
      * @uses   calendarComponent::$geo
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1775,7 +1735,6 @@ class calendarComponent extends iCalBase
      * set calendar component property geo
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.18.10 - 2013-09-03
      *
      * @param mixed $latitude
      * @param mixed $longitude
@@ -1811,7 +1770,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property last-modified
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$lastmodified
      * @uses   calendarComponent::_createParams()
      * @uses   iCalUtilityFunctions::_date2strdate()
@@ -1833,7 +1791,6 @@ class calendarComponent extends iCalBase
      * set calendar component property completed
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.19.5 - 2014-03-29
      *
      * @param mixed $year   optional
      * @param mixed $month  optional
@@ -1871,7 +1828,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property location
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$location
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1897,7 +1853,6 @@ class calendarComponent extends iCalBase
      * set calendar component property location
      * '
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -1928,7 +1883,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property organizer
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.6.33 - 2010-12-17
      * @uses   calendarComponent::$organizer
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -1953,7 +1907,6 @@ class calendarComponent extends iCalBase
      * set calendar component property organizer
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -1999,7 +1952,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property percent-complete
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.9.3 - 2011-05-14
      * @uses   calendarComponent::$percentcomplete
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2023,7 +1975,6 @@ class calendarComponent extends iCalBase
      * set calendar component property percent-complete
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param int   $value
      * @param array $params
@@ -2054,7 +2005,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property priority
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.9.3 - 2011-05-14
      * @uses   calendarComponent::$priority
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2078,7 +2028,6 @@ class calendarComponent extends iCalBase
      * set calendar component property priority
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param int   $value
      * @param array $params
@@ -2109,7 +2058,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property rdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.9 - 2013-01-09
      * @uses   calendarComponent::$rdate
      * @uses   calendarComponent::$objName
      * @uses   calendarComponent::getConfig()
@@ -2221,7 +2169,6 @@ class calendarComponent extends iCalBase
      * set calendar component property rdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param array   $rdates
      * @param array   $params
@@ -2413,7 +2360,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property recurrence-id
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.14.4 - 2012-09-26
      * @uses   calendarComponent::$recurrenceid
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2440,7 +2386,6 @@ class calendarComponent extends iCalBase
      * set calendar component property recurrence-id
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed  $year
      * @param mixed  $month
@@ -2488,7 +2433,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property related-to
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-05-25
      * @uses   calendarComponent::$relatedto
      * @uses   calendarComponent::_createElement()
      * @uses   calendarComponent::_createParams()
@@ -2518,7 +2462,6 @@ class calendarComponent extends iCalBase
      * set calendar component property related-to
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -2551,7 +2494,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property repeat
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.9.3 - 2011-05-14
      * @uses   calendarComponent::$repeat
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2575,7 +2517,6 @@ class calendarComponent extends iCalBase
      * set calendar component property repeat
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -2605,7 +2546,6 @@ class calendarComponent extends iCalBase
     /**
      * creates formatted output for calendar component property request-status
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$requeststatus
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2642,7 +2582,6 @@ class calendarComponent extends iCalBase
      * set calendar component property request-status
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param float   $statcode
      * @param string  $text
@@ -2680,7 +2619,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property resources
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$resources
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2720,7 +2658,6 @@ class calendarComponent extends iCalBase
      * set calendar component property recources
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed   $value
      * @param array   $params
@@ -2752,7 +2689,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property rrule
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$rrule
      * @uses   calendarComponent::_format_recur()
      * @return string
@@ -2770,7 +2706,6 @@ class calendarComponent extends iCalBase
      * set calendar component property rrule
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param array   $rruleset
      * @param array   $params
@@ -2802,7 +2737,6 @@ class calendarComponent extends iCalBase
     /**
      * creates formatted output for calendar component property sequence
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.9.3 - 2011-05-14
      * @uses   calendarComponent::$sequence
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2827,7 +2761,6 @@ class calendarComponent extends iCalBase
     /**
      * set calendar component property sequence
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.10.8 - 2011-09-19
      *
      * @param int   $value
      * @param array $params
@@ -2853,7 +2786,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property status
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$status
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2877,7 +2809,6 @@ class calendarComponent extends iCalBase
      * set calendar component property status
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -2908,7 +2839,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property summary
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$summary
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2934,7 +2864,6 @@ class calendarComponent extends iCalBase
      * set calendar component property summary
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param string $params
@@ -2964,7 +2893,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property transp
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$transp
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -2988,7 +2916,6 @@ class calendarComponent extends iCalBase
      * set calendar component property transp
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param string $params
@@ -3019,7 +2946,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property trigger
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.16 - 2008-10-21
      * @uses   calendarComponent::$trigger
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -3061,7 +2987,6 @@ class calendarComponent extends iCalBase
      * set calendar component property trigger
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param mixed $year
      * @param mixed $month
@@ -3230,7 +3155,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property tzid
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$tzid
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -3258,7 +3182,6 @@ class calendarComponent extends iCalBase
      * set calendar component property tzid
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -3290,7 +3213,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property tzname
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      * @uses   calendarComponent::$tzname
      * @uses   calendarComponent::_createParams()
      * @uses   calendarComponent::_createElement()
@@ -3323,7 +3245,6 @@ class calendarComponent extends iCalBase
      * set calendar component property tzname
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string  $value
      * @param array   $params
@@ -3355,7 +3276,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property tzoffsetfrom
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$tzoffsetfrom
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -3379,7 +3299,6 @@ class calendarComponent extends iCalBase
      * set calendar component property tzoffsetfrom
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -3410,7 +3329,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property tzoffsetto
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$tzoffsetto
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -3434,7 +3352,6 @@ class calendarComponent extends iCalBase
      * set calendar component property tzoffsetto
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -3465,7 +3382,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property tzurl
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$tzurl
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -3489,7 +3405,6 @@ class calendarComponent extends iCalBase
      * set calendar component property tzurl
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -3521,7 +3436,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property uid
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.19.1 - 2014-02-21
      * @uses   calendarComponent::$uid
      * @uses   calendarComponent::_makeuid();
      * @uses   calendarComponent::_createParams()
@@ -3542,7 +3456,6 @@ class calendarComponent extends iCalBase
      * create an unique id for this calendar component object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.2.7 - 2007-09-04
      * @uses   calendarComponent::$uid
      * @uses   calendarComponent::getConfig()
      * @return void
@@ -3567,7 +3480,6 @@ class calendarComponent extends iCalBase
      * set calendar component property uid
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.19.1 - 2014-02-21
      *
      * @param string $value
      * @param array  $params
@@ -3593,7 +3505,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property url
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      * @uses   calendarComponent::$url
      * @uses   calendarComponent::getConfig()
      * @uses   calendarComponent::_createElement()
@@ -3617,7 +3528,6 @@ class calendarComponent extends iCalBase
      * set calendar component property url
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.21 - 2013-06-23
      *
      * @param string $value
      * @param array  $params
@@ -3648,7 +3558,6 @@ class calendarComponent extends iCalBase
      * create element format parts
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.0.6 - 2006-06-20
      * @uses   iCalBase::_createFormat()
      * @uses   calendarComponent::$timezonetype
      * @return string
@@ -3671,7 +3580,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for calendar component property data value type recur
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.25 - 2013-06-30
      *
      * @param array $recurlabel
      * @param array $recurdata
@@ -3776,7 +3684,6 @@ class calendarComponent extends iCalBase
      * check if property not exists within component
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.5.1 - 2008-10-15
      *
      * @param string $propName
      *
@@ -3827,7 +3734,6 @@ class calendarComponent extends iCalBase
      * get general component config variables or info about subcomponents
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param mixed $config
      *
@@ -4104,7 +4010,6 @@ class calendarComponent extends iCalBase
      * general component config setting
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.10.18 - 2013-09-06
      *
      * @param mixed  $config
      * @param string $value
@@ -4208,7 +4113,6 @@ class calendarComponent extends iCalBase
      * delete component property value
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.8 - 2011-03-15
      *
      * @param mixed $propName bool FALSE => X-property
      * @param int   $propix   specific property in case of multiply occurences
@@ -4539,7 +4443,6 @@ class calendarComponent extends iCalBase
      * delete component property value, fixing components with multiple occurencies
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.8 - 2011-03-15
      *
      * @param array $multiprop component (multi-)property
      * @param int   $propix    removal counter
@@ -4567,7 +4470,6 @@ class calendarComponent extends iCalBase
      * if property has multiply values, consequtive function calls are needed
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.13 - 2015-03-29
      *
      * @param string $propName
      * @param int    $propix specific property in case of multiply occurences
@@ -5053,7 +4955,6 @@ class calendarComponent extends iCalBase
      * returns calendar property unique values for 'ATTENDEE', 'CATEGORIES', 'CONTACT', 'RELATED-TO' or 'RESOURCES' and for each, number of occurrence
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param string $propName
      * @param array  $output incremented result array
@@ -5129,7 +5030,6 @@ class calendarComponent extends iCalBase
      * general component property setting
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.5.1 - 2008-11-05
      *
      * @param mixed $args variable number of function arguments,
      *                    first argument is ALWAYS component name,
@@ -5310,7 +5210,6 @@ class calendarComponent extends iCalBase
      * parse component unparsed data into properties
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.20.3 - 2015-03-05
      *
      * @param mixed $unparsedtext strict rfc2445 formatted, single property string or array of strings
      *
@@ -5693,7 +5592,6 @@ class calendarComponent extends iCalBase
      * return a copy of this component
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.15.4 - 2012-10-18
      * @return object
      */
     function copy()
@@ -5706,7 +5604,6 @@ class calendarComponent extends iCalBase
      * delete calendar subcomponent from component container
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.8 - 2011-03-15
      *
      * @param mixed $arg1 ordno / component type / component uid
      * @param mixed $arg2 ordno if arg1 = component type
@@ -5759,7 +5656,6 @@ class calendarComponent extends iCalBase
      * get calendar component subcomponent from component container
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.8 - 2011-03-15
      *
      * @param mixed $arg1 ordno/component type/ component uid
      * @param mixed $arg2 ordno if arg1 = component type
@@ -5825,7 +5721,6 @@ class calendarComponent extends iCalBase
      * add calendar component as subcomponent to container for subcomponents
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  1.x.x - 2007-04-24
      *
      * @param object $component calendar component
      *
@@ -5841,7 +5736,6 @@ class calendarComponent extends iCalBase
      * create new calendar component subcomponent, already included within component
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.6.33 - 2011-01-03
      *
      * @param string $compType subcomponent type
      *
@@ -5878,7 +5772,6 @@ class calendarComponent extends iCalBase
      * add calendar component as subcomponent to container for subcomponents
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param object $component calendar component
      * @param mixed  $arg1      ordno/component type/ component uid
@@ -5956,7 +5849,6 @@ class calendarComponent extends iCalBase
      * creates formatted output for subcomponents
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param array $xcaldecl
      *

@@ -8,8 +8,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/tables/assets.php';
+
+require_once 'assets.php';
 
 /**
  * Class instantiates a JTable Object associated with the programs table.

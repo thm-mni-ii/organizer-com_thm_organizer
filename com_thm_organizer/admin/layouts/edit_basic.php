@@ -11,9 +11,9 @@
 use \THM_OrganizerHelperHTML as HTML;
 
 /**
- * Class provides a standardized display of non-standard edit forms (non-item based, merge).
+ * Class provides a standardized display of basic item edit forms.
  */
-class THM_OrganizerTemplateForm
+class THM_OrganizerLayoutEdit
 {
     /**
      * Method to create a list output
@@ -30,10 +30,11 @@ class THM_OrganizerTemplateForm
               method="post"
               name="adminForm"
               id="item-form"
-              class="form-horizontal">
-            <div class="form-horizontal">
+              class="form-horizontal form-validate">
+            <fieldset class="adminform">
                 <?php echo $view->form->renderFieldset('details'); ?>
-            </div>
+            </fieldset>
+            <?php echo $view->form->getInput('id'); ?>
             <?php echo HTML::_('form.token'); ?>
             <input type="hidden" name="task" value=""/>
         </form>

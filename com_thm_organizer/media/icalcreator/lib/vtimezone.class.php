@@ -31,7 +31,6 @@
  * class for calendar component VTIMEZONE
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.5.1 - 2008-10-12
  */
 class vtimezone extends calendarComponent
 {
@@ -65,7 +64,6 @@ class vtimezone extends calendarComponent
      * constructor for calendar component VTIMEZONE object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.2 - 2011-05-01
      *
      * @param mixed $timezonetype default FALSE ( STANDARD / DAYLIGHT )
      * @param array $config
@@ -132,7 +130,6 @@ class vtimezone extends calendarComponent
      * create formatted output for calendar component VTIMEZONE object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.5.1 - 2008-10-25
      *
      * @param array $xcaldecl
      *

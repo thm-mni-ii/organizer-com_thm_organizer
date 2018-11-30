@@ -8,15 +8,21 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
  * Class loads a form for editing data.
  */
-class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
+class THM_OrganizerModelSubject_Edit extends \Joomla\CMS\MVC\Model\AdminModel
 {
+    protected $deptResource;
+
+    public $item = null;
+
     /**
      * Checks for user authorization to access the view
      *
@@ -27,6 +33,54 @@ class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
     protected function allowEdit($subjectID = null)
     {
         return THM_OrganizerHelperSubjects::allowEdit($subjectID);
+    }
+
+    /**
+     * Method to get the form
+     *
+     * @param array $data     Data         (default: array)
+     * @param bool  $loadData Load data  (default: true)
+     *
+     * @return mixed  JForm object on success, False on error.
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        $name = $this->get('name');
+        $form = $this->loadForm("com_thm_organizer.$name", $name, ['control' => 'jform', 'load_data' => $loadData]);
+
+        if (empty($form)) {
+
+            return false;
+        }
+
+        return $form;
+    }
+
+    /**
+     * Method to get a single record.
+     *
+     * @param integer $pk The id of the primary key.
+     *
+     * @return mixed    Object on success, false on failure.
+     * @throws Exception => unauthorized access
+     */
+    public function getItem($pk = null)
+    {
+        // Prevents duplicate execution from getForm and getItem
+        if (isset($this->item->id) and ($this->item->id === $pk or $pk === null)) {
+            return $this->item;
+        }
+
+        $this->item = parent::getItem($pk);
+        $allowEdit  = $this->allowEdit();
+
+        if (!$allowEdit) {
+            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+        }
+
+        return $this->item;
     }
 
     /**
@@ -43,5 +97,20 @@ class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
         JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 
         return JTable::getInstance('subjects', $prefix, $options);
+    }
+
+    /**
+     * Method to load the form data
+     *
+     * @return object
+     * @throws Exception => unauthorized access
+     */
+    protected function loadFormData()
+    {
+        $input       = THM_OrganizerHelperComponent::getInput();
+        $resourceIDs = $input->get('cid', [], 'array');
+        $resourceID  = empty($resourceIDs) ? $input->getInt('id', 0) : $resourceIDs[0];
+
+        return $this->getItem($resourceID);
     }
 }

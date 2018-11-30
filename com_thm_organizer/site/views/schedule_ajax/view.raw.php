@@ -7,7 +7,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.view');
 jimport('joomla.application.plugin.helper');
 

@@ -31,7 +31,6 @@
  * class for calendar component VFREEBUSY
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.5.1 - 2008-10-12
  */
 class vfreebusy extends calendarComponent
 {
@@ -63,7 +62,6 @@ class vfreebusy extends calendarComponent
      * constructor for calendar component VFREEBUSY object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.2 - 2011-05-01
      *
      * @param array $config
      *
@@ -116,7 +114,6 @@ class vfreebusy extends calendarComponent
      * create formatted output for calendar component VFREEBUSY object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.3.1 - 2007-11-19
      *
      * @param array $xcaldecl
      *

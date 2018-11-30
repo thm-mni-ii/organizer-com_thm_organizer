@@ -7,8 +7,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/models/merge.php';
+
+require_once 'merge.php';
 
 /**
  * Class which manages stored field (of expertise) data.

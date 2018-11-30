@@ -7,6 +7,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
@@ -70,7 +71,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->pools       = $model->pools;
         $this->displayName = $model->displayName;
 
-        $this->disclaimer     = new JLayoutFile('disclaimer', JPATH_ROOT . '/media/com_thm_organizer/layouts');
+        $this->disclaimer = new JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
         $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);

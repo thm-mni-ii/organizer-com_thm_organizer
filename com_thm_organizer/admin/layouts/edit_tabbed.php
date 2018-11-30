@@ -13,7 +13,7 @@ use \THM_OrganizerHelperHTML as HTML;
 /**
  * Class provides a standardized display of tabbed item edit forms.
  */
-class THM_OrganizerTemplateEdit_Tabbed
+class THM_OrganizerLayoutEdit_Tabbed
 {
     /**
      * Method to create a list output

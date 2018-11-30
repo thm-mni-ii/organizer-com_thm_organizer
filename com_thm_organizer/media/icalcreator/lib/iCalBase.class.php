@@ -33,7 +33,6 @@
  * properties and functions shared by vcalendar and calendarComponents
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.21.11 - 2015-03-31
  */
 abstract class iCalBase
 {
@@ -98,7 +97,6 @@ abstract class iCalBase
      * creates formatted output for calendar/component property x-prop
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-31
      * @uses   iCalBase::$xprop
      * @uses   vcalendar::getConfig()
      * @uses   calendarComponent::getConfig()
@@ -141,7 +139,6 @@ abstract class iCalBase
      * set calendar property x-prop
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-31
      *
      * @param string $label
      * @param string $value
@@ -182,7 +179,6 @@ abstract class iCalBase
      * create element format parts
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-31
      * @uses   iCalBase::$format
      * @uses   iCalBase::$objName
      * @uses   iCalBase::$componentStart1
@@ -233,7 +229,6 @@ abstract class iCalBase
      * creates formatted output for calendar component property
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-31
      *
      * @param string $label      property name
      * @param string $attributes property attributes
@@ -381,7 +376,6 @@ abstract class iCalBase
      * creates formatted output for calendar component property parameters
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-31
      *
      * @param array $params  optional
      * @param array $ctrKeys optional

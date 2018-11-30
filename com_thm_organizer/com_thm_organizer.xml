@@ -37,20 +37,15 @@
         <folder>icalcreator</folder>
         <folder>images</folder>
         <folder>js</folder>
-        <folder>layouts</folder>
-        <folder>models</folder>
-        <folder>tables</folder>
-        <folder>templates</folder>
-        <folder>views</folder>
     </media>
     <files folder="site">
-        <filename>thm_organizer.php</filename>
+        <folder>layouts</folder>
+        <folder>models</folder>
+        <folder>views</folder>
+        <filename>buggedrouter.php</filename>
         <filename>controller.php</filename>
         <filename>LICENSE.txt</filename>
-        <filename>buggedrouter.php</filename>
-        <folder>models</folder>
-        <folder>tables</folder>
-        <folder>views</folder>
+        <filename>thm_organizer.php</filename>
     </files>
     <languages>
         <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>
@@ -59,15 +54,16 @@
     <administration>
         <menu>COM_THM_ORGANIZER</menu>
         <files folder="admin">
+            <folder>layouts</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
             <filename>access.xml</filename>
             <filename>config.xml</filename>
-            <filename>thm_organizer.php</filename>
             <filename>controller.php</filename>
             <filename>LICENSE.txt</filename>
-            <folder>views</folder>
-            <folder>models</folder>
-            <folder>tables</folder>
-            <folder>sql</folder>
+            <filename>thm_organizer.php</filename>
         </files>
         <languages>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>

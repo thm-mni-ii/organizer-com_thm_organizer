@@ -8,11 +8,12 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
+require_once JPATH_COMPONENT . '/views/list.php';
 
 /**
  * Class loads pool information into the display context.

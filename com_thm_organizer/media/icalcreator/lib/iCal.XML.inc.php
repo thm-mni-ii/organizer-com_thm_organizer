@@ -32,7 +32,6 @@
  * format iCal XML output, rfc6321, using PHP SimpleXMLElement
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.18.1 - 2013-08-18
  *
  * @param object $calendar iCalcreator vcalendar instance reference
  *
@@ -370,7 +369,6 @@ function iCal2XML($calendar)
  * Add children to a SimpleXMLelement
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.18.10 - 2013-09-04
  *
  * @param object $parent  reference to a SimpleXMLelement node
  * @param string $name    new element node name
@@ -625,7 +623,6 @@ function _addXMLchild(& $parent, $name, $type, $content, $params = [])
  * parse xml file into iCalcreator instance
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.16.22 - 2013-06-18
  *
  * @param string $xmlfile
  * @param array  $iCalcfg iCalcreator config array (opt)
@@ -645,7 +642,6 @@ function XMLfile2iCal($xmlfile, $iCalcfg = [])
  * parse xml string into iCalcreator instance, alias of XML2iCal
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.16.22 - 2013-06-18
  *
  * @param string $xmlstr
  * @param array  $iCalcfg iCalcreator config array (opt)
@@ -661,7 +657,6 @@ function XMLstr2iCal($xmlstr, $iCalcfg = [])
  * parse xml string into iCalcreator instance
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.16.22 - 2013-06-20
  *
  * @param string $xmlstr
  * @param array  $iCalcfg iCalcreator config array (opt)
@@ -685,7 +680,6 @@ function XML2iCal($xmlstr, $iCalcfg = [])
  * parse XML string into iCalcreator components
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.21.11 - 2015-03-21
  *
  * @param object $iCal iCalcreator vcalendar or component object instance
  * @param string $xml
@@ -735,7 +729,6 @@ function XMLgetComps($iCal, $xml)
  * parse XML into iCalcreator properties
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.21.11 - 2015-03-21
  *
  * @param array  $iCal iCalcreator calendar/component instance
  * @param string $xml
@@ -925,7 +918,6 @@ function XMLgetProps($iCal, $xml)
  * fetch a specific XML tag content
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.16.22 - 2013-06-20
  *
  * @param string $xml
  * @param string $tagName
@@ -978,7 +970,6 @@ function XMLgetTagContent1($xml, $tagName, & $endIx = 0)
  * fetch next (unknown) XML tagname and content
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.16.22 - 2013-06-20
  *
  * @param string $xml
  * @param string $tagName

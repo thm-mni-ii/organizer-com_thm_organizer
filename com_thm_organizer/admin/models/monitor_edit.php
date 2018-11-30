@@ -7,8 +7,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
-require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
+
+require_once 'edit.php';
 
 /**
  * Class loads a form for editing monitor data.

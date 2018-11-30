@@ -33,7 +33,6 @@
  * returns vCard/TRUE or if directory (if set) or file write is unvalid, FALSE
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.12.2 - 2012-07-11
  *
  * @param string $email
  * @param string $version   vCard version (default 2.1)
@@ -132,7 +131,6 @@ function iCal2vCard($email, $version = '2.1', $directory = false, $ext = 'vcf')
  * convert ATTENDEEs, CONTACTs and ORGANIZERs (in email format) to vCards
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.12.2 - 2012-05-07
  *
  * @param object $calendar  iCalcreator vcalendar instance reference
  * @param string $version   vCard version (default 2.1)

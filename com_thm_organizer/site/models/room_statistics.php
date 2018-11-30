@@ -9,6 +9,7 @@
  */
 
 defined('_JEXEC') or die;
+
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';

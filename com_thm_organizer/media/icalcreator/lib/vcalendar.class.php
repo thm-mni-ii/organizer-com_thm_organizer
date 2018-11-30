@@ -31,7 +31,6 @@
  * vcalendar class
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.21.11 - 2015-03-31
  */
 class vcalendar extends iCalBase
 {
@@ -77,7 +76,6 @@ class vcalendar extends iCalBase
      * constructor for calendar object
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.15 - 2015-04-04
      *
      * @param array $config
      *
@@ -136,7 +134,6 @@ class vcalendar extends iCalBase
      * return iCalcreator version number
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.18.5 - 2013-08-29
      * @uses   ICALCREATOR_VERSION
      * @return string
      */
@@ -152,7 +149,6 @@ class vcalendar extends iCalBase
      * creates formatted output for calendar property calscale
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.10.16 - 2011-10-28
      * @uses   vcalendar::$calscale
      * @uses   vcalendar::$format
      * @uses   vcalendar::$nl
@@ -177,7 +173,6 @@ class vcalendar extends iCalBase
      * set calendar property calscale
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-21
      *
      * @param string $value
      *
@@ -199,7 +194,6 @@ class vcalendar extends iCalBase
      * creates formatted output for calendar property method
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.10.16 - 2011-10-28
      * @uses   vcalendar::$method
      * @uses   vcalendar::$format
      * @uses   vcalendar::$nl
@@ -224,7 +218,6 @@ class vcalendar extends iCalBase
      * set calendar property method
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-20-23
      *
      * @param string $value
      *
@@ -251,7 +244,6 @@ class vcalendar extends iCalBase
      * @copyright copyright (c) 2007-2013 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
      * @license   http://kigkonsult.se/downloads/dl.php?f=LGPL
      * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since     2.21.11 - 2015-03-31
      * @uses      vcalendar::$prodid
      * @uses      vcalendar::_makeProdid()
      * @uses      vcalendar::$format
@@ -280,7 +272,6 @@ class vcalendar extends iCalBase
      * @copyright copyright (c) 2007-2013 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
      * @license   http://kigkonsult.se/downloads/dl.php?f=LGPL
      * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since     2.6.8 - 2009-12-30
      * @uses      vcalendar::$prodid
      * @uses      vcalendar::$unique_id
      * @uses      ICALCREATOR_VERSION
@@ -301,7 +292,6 @@ class vcalendar extends iCalBase
      * make default unique_id for calendar prodid
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  0.3.0 - 2006-08-10
      * @uses   vcalendar::$unique_id
      * @return void
      */
@@ -319,7 +309,6 @@ class vcalendar extends iCalBase
      * creates formatted output for calendar property version
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.10.16 - 2011-10-28
      * @uses   vcalendar::$version
      * @uses   vcalendar::$format
      * @uses   vcalendar::$nl
@@ -344,7 +333,6 @@ class vcalendar extends iCalBase
      * set default calendar version
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  0.3.0 - 2006-08-10
      * @uses   vcalendar::$version
      * @return void
      */
@@ -357,7 +345,6 @@ class vcalendar extends iCalBase
      * set calendar version
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.8 - 2008-10-23
      *
      * @param string $value
      *
@@ -379,7 +366,6 @@ class vcalendar extends iCalBase
      * delete calendar property value
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.8 - 2011-03-15
      *
      * @param mixed $propName bool FALSE => X-property
      * @param int   $propix   specific property in case of multiply occurences
@@ -453,7 +439,6 @@ class vcalendar extends iCalBase
      * get calendar property value/params
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.09 - 2015-03-29
      *
      * @param string $propName
      * @param int    $propix specific property in case of multiply occurences
@@ -610,7 +595,6 @@ class vcalendar extends iCalBase
      * general vcalendar property setting
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.2.13 - 2007-11-04
      *
      * @param mixed $args variable number of function arguments,
      *                    first argument is ALWAYS component name,
@@ -655,7 +639,6 @@ class vcalendar extends iCalBase
      * get vcalendar config values or * calendar components
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.11.7 - 2012-01-12
      *
      * @param mixed $config
      *
@@ -791,7 +774,6 @@ class vcalendar extends iCalBase
      * general vcalendar config setting
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.20.2 - 2014-05-09
      *
      * @param mixed  $config
      * @param string $value
@@ -976,7 +958,6 @@ class vcalendar extends iCalBase
      * alias to setComponent
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  1.x.x - 2007-04-24
      *
      * @param object $component calendar component
      *
@@ -992,7 +973,6 @@ class vcalendar extends iCalBase
      * delete calendar component from container
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.8 - 2011-03-15
      *
      * @param mixed $arg1 ordno / component type / component uid
      * @param mixed $arg2 optional, ordno if arg1 = component type
@@ -1042,7 +1022,6 @@ class vcalendar extends iCalBase
      * get calendar component from container
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param mixed $arg1 optional, ordno/component type/ component uid
      * @param mixed $arg2 optional, ordno if arg1 = component type
@@ -1182,7 +1161,6 @@ class vcalendar extends iCalBase
      * create new calendar component, already included within calendar
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.20.4 - 2014-08-24
      *
      * @param string $compType component type
      *
@@ -1230,7 +1208,6 @@ class vcalendar extends iCalBase
      * No date controls occurs.
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-31
      *
      * @param mixed $startY                            optional,      (int) start Year,  default current Year
      *                                                 ALT. (obj) start date (datetime)
@@ -1782,7 +1759,6 @@ class vcalendar extends iCalBase
      * select components from calendar on based on specific property value(-s)
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param array $selectOptions (string) key => (mixed) value, (key=propertyName)
      *
@@ -1867,7 +1843,6 @@ class vcalendar extends iCalBase
      * replace calendar component in vcalendar
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param object $component calendar component
      *
@@ -1904,7 +1879,6 @@ class vcalendar extends iCalBase
      * add calendar component to calendar
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param object $component calendar component
      * @param mixed  $arg1      optional, ordno/component type/ component uid
@@ -1983,7 +1957,6 @@ class vcalendar extends iCalBase
      * otherwise sorting on specific (argument) property values
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param string $sortArg
      *
@@ -2014,7 +1987,6 @@ class vcalendar extends iCalBase
      * parse iCal text/file into vcalendar, components, properties and parameters
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.12 - 2014-03-10
      *
      * @param mixed    $unparsedtext strict rfc2445 formatted, single property string or array of property strings
      * @param resource $context      PHP resource context
@@ -2228,7 +2200,6 @@ class vcalendar extends iCalBase
      * creates formatted output for calendar object instance
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.07 - 2015-03-31
      * @uses   vcalendar::$format
      * @uses   vcalendar::$nl
      * @uses   vcalendar::createVersion()
@@ -2338,7 +2309,6 @@ class vcalendar extends iCalBase
      * a HTTP redirect header is sent with created, updated and/or parsed calendar
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.5 - 2015-03-29
      *
      * @param bool $utf8Encode
      * @param bool $gzip
@@ -2391,7 +2361,6 @@ class vcalendar extends iCalBase
      * save content in a file
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.5 - 2015-03-29
      * @uses   vcalendar::createComponent()
      * @uses   vcalendar::getConfig()
      * @return bool TRUE on success, FALSE on error
@@ -2411,7 +2380,6 @@ class vcalendar extends iCalBase
      * else FALSE is returned
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.5 - 2015-03-29
      *
      * @param int  $timeout default 3600 sec
      * @param bool $cdType  TRUE : Content-Disposition: attachment... (default), FALSE : ...inline...

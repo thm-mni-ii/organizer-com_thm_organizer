@@ -32,7 +32,6 @@
  *
  * @package   icalcreator
  * @copyright Copyright (c) 2007-2015 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * @since     2.21.14 - 2015-04-02
  */
 /*********************************************************************************/
 /**

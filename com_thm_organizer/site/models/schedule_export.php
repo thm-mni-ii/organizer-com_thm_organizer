@@ -7,7 +7,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
+
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';

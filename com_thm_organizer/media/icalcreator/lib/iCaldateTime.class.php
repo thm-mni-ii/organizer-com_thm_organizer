@@ -31,7 +31,6 @@
  * selectComponent help class
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.21.7 - 2015-03-10
  */
 class iCaldateTime extends dateTime
 {
@@ -46,7 +45,6 @@ class iCaldateTime extends dateTime
      * return time (His) array
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.7 - 2015-03-07
      * @return array
      */
     public function getTime()
@@ -58,7 +56,6 @@ class iCaldateTime extends dateTime
      * return the timezone name
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.7 - 2015-03-07
      * @return string
      */
     public function getTimezoneName()
@@ -72,7 +69,6 @@ class iCaldateTime extends dateTime
      * return formatted date
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.7 - 2015-03-07
      *
      * @param string $format
      *
@@ -92,7 +88,6 @@ class iCaldateTime extends dateTime
      * return iCaldateTime object instance based on date array and timezone(s)
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-28
      *
      * @param array  $date
      * @param array  $params

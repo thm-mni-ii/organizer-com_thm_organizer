@@ -7,7 +7,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
+
 jimport('joomla.application.component.model');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
 

@@ -31,7 +31,6 @@
  * moving all utility (static) functions to a utility class
  *
  * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
- * @since  2.21.11 - 2015-04-03
  */
 class iCalUtilityFunctions
 {
@@ -154,7 +153,6 @@ class iCalUtilityFunctions
      * ensures internal date-time/date format (keyed array) for an input date-time/date array (keyed or unkeyed)
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.24 - 2013-06-26
      *
      * @param array $datetime
      * @param int   $parno optional, default FALSE
@@ -233,7 +231,6 @@ class iCalUtilityFunctions
      * check date(-time) and params arrays for an opt. timezone and if it is a DATE-TIME or DATE (updates $parno and params)
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.10.30 - 2012-01-16
      *
      * @param array $theDate date to check
      * @param int   $parno   no of date parts (i.e. year, month.. .)
@@ -302,7 +299,6 @@ class iCalUtilityFunctions
      * vcalendar sort callback function
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-17
      *
      * @param array $a
      * @param array $b
@@ -381,7 +377,6 @@ class iCalUtilityFunctions
      * takes care of '\r\n', '\r' and '\n' and mixed '\r\n'+'\r', '\r\n'+'\n'
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.18.16 - 2014-04-04
      *
      * @param string $text
      * @param string $nl
@@ -436,7 +431,6 @@ class iCalUtilityFunctions
      * END:VTIMEZONE
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-04-03
      * Generates components for all transitions in a date range, based on contribution by Yitzchok Lavi <icalcreator@onebigsystem.com>
      * Additional changes jpirkey
      *
@@ -613,7 +607,6 @@ class iCalUtilityFunctions
      * creates formatted output for calendar component property data value type date/date-time
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param array $datetime
      * @param int   $parno optional, default 6
@@ -687,7 +680,6 @@ class iCalUtilityFunctions
      * ensures internal duration format for input in array format
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.19.4 - 2014-03-14
      *
      * @param array $duration
      *
@@ -749,7 +741,6 @@ class iCalUtilityFunctions
      * convert startdate+duration to a array format datetime
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param array $startdate
      * @param array $duration
@@ -798,7 +789,6 @@ class iCalUtilityFunctions
      * ensures internal duration format for an input string (iCal) formatted duration
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.14.1 - 2012-09-25
      *
      * @param string $duration
      *
@@ -859,7 +849,6 @@ class iCalUtilityFunctions
      * creates formatted output for calendar component property data value type duration
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.15.8 - 2012-10-30
      *
      * @param array $duration , [week, day, hour, min, sec]
      *
@@ -904,7 +893,6 @@ class iCalUtilityFunctions
      * removes expkey+expvalue from array and returns hitval (if found) else returns elseval
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.16 - 2008-11-08
      *
      * @param array  $array   iCal property parameters
      * @param string $expkey  expected key
@@ -946,7 +934,6 @@ class iCalUtilityFunctions
      * check if dates are in scope
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.7 - 2015-03-25
      *
      * @param object $start      datetime
      * @param object $scopeStart datetime
@@ -966,7 +953,6 @@ class iCalUtilityFunctions
      * mgnt geo part output
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.8.10 - 2013-09-02
      *
      * @param float  $ll
      * @param string $format
@@ -988,7 +974,6 @@ class iCalUtilityFunctions
      * checks if input contains a (array formatted) date/time
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.24 - 2013-07-02
      *
      * @param array $input
      *
@@ -1032,7 +1017,6 @@ class iCalUtilityFunctions
      * checks if input array contains a timestamp date
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.4.16 - 2008-10-18
      *
      * @param array $input
      *
@@ -1047,7 +1031,6 @@ class iCalUtilityFunctions
      * controls if input string contains (trailing) UTC/iCal offset
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.14.1 - 2012-09-21
      *
      * @param string $input
      *
@@ -1078,7 +1061,6 @@ class iCalUtilityFunctions
      * matching (MS) UCT offset and time zone descriptors
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.14.1 - 2012-09-16
      *
      * @param string $timezone to convert
      *
@@ -1162,7 +1144,6 @@ class iCalUtilityFunctions
      * transforms offset in seconds to [-/+]hhmm[ss]
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2011-05-02
      *
      * @param string $seconds
      *
@@ -1208,7 +1189,6 @@ class iCalUtilityFunctions
      * if missing, UNTIL is set 1 year from startdate (emergency break)
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param array $result   array to update, [[Y-m-d] => bool]
      * @param array $recur    pattern for recurrency (only value part, params ignored)
@@ -1676,7 +1656,6 @@ class iCalUtilityFunctions
      * _recur2date help function, checking BYDAY (etc) hits
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.6.12 - 2011-01-03
      *
      * @param array $BYvalue
      * @param int   $upValue
@@ -1701,7 +1680,6 @@ class iCalUtilityFunctions
      * _recur2date help function, (re-)calculate internal index
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.6.12 - 2011-01-03
      *
      * @param string $freq
      * @param array  $date
@@ -1736,7 +1714,6 @@ class iCalUtilityFunctions
      * sort recur dates
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.6.12 - 2011-01-03
      *
      * @param array $bydaya
      * @param array $bydayb
@@ -1754,7 +1731,6 @@ class iCalUtilityFunctions
      * convert input format for exrule and rrule to internal format
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param array $rexrule
      *
@@ -1873,7 +1849,6 @@ class iCalUtilityFunctions
      * convert format for input date to internal date with parameters
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param mixed  $year
      * @param mixed  $month   optional
@@ -2117,7 +2092,6 @@ class iCalUtilityFunctions
      * convert format for input date (UTC) to internal date with parameters
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param mixed $year
      * @param mixed $month  optional
@@ -2246,7 +2220,6 @@ class iCalUtilityFunctions
      * check index and set (an indexed) content in multiple value array
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.6.12 - 2011-01-03
      *
      * @param array $valArr
      * @param mixed $value
@@ -2280,7 +2253,6 @@ class iCalUtilityFunctions
      * default parameters can be set, if missing
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.18.10 - 2013-09-04
      *
      * @param array $params
      * @param array $defaults
@@ -2326,7 +2298,6 @@ class iCalUtilityFunctions
      *
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-21
      *
      * @param object $c valendar component
      * @param string $sortArg
@@ -2425,7 +2396,6 @@ class iCalUtilityFunctions
      * folding of lines, causing ambiguity in the return string.
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      *
      * @param string $string
      * @param string $nl
@@ -2506,7 +2476,6 @@ class iCalUtilityFunctions
      * sort callback function for exdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-07
      *
      * @param array $a
      * @param array $b
@@ -2530,7 +2499,6 @@ class iCalUtilityFunctions
      * sort callback function for exdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-07
      *
      * @param array $a
      * @param array $b
@@ -2556,7 +2524,6 @@ class iCalUtilityFunctions
      * sort callback function for rdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-07
      *
      * @param array $a
      * @param array $b
@@ -2582,7 +2549,6 @@ class iCalUtilityFunctions
      * sort callback function for rdate
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-07
      *
      * @param array $a
      * @param array $b
@@ -2616,7 +2582,6 @@ class iCalUtilityFunctions
      * separate property attributes from property value
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.18.6 - 2013-08-29
      *
      * @param string $line     property content
      * @param array  $propAttr property parameters
@@ -2680,7 +2645,6 @@ class iCalUtilityFunctions
      * step date, return updated date, array and timpstamp
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-10
      *
      * @param array  $date    date to step
      * @param string $dateYMD date YMD
@@ -2732,7 +2696,6 @@ class iCalUtilityFunctions
      * convert a date from specific string to array format
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.11.8 - 2012-01-27
      *
      * @param mixed $input
      *
@@ -2813,7 +2776,6 @@ class iCalUtilityFunctions
      * ensures internal date-time/date format for input date-time/date in string fromat
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-15
      * Modified to also return original string value by Yitzchok Lavi <icalcreator@onebigsystem.com>
      *
      * @param array $datetime
@@ -2937,7 +2899,6 @@ class iCalUtilityFunctions
      * special characters management output
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      *
      * @param string $string
      * @param string $format
@@ -2997,7 +2958,6 @@ class iCalUtilityFunctions
      * special characters management input (from iCal file)
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.16.2 - 2012-12-18
      *
      * @param string $string
      *
@@ -3017,7 +2977,6 @@ class iCalUtilityFunctions
      * convert timestamp to date array, default UTC or adjusted for offset/timezone
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.21.11 - 2015-03-07
      *
      * @param mixed  $timestamp
      * @param int    $parno
@@ -3072,7 +3031,6 @@ class iCalUtilityFunctions
      * transforms a dateTime from a timezone to another using PHP DateTime and DateTimeZone class (PHP >= PHP 5.2.0)
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.15.1 - 2012-10-17
      *
      * @param mixed  $date   date to alter
      * @param string $tzFrom PHP valid 'from' timezone
@@ -3123,7 +3081,6 @@ class iCalUtilityFunctions
      * convert offset, [+/-]HHmm[ss], to seconds, used when correcting UTC to localtime or v.v.
      *
      * @author Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
-     * @since  2.11.4 - 2012-01-11
      *
      * @param string $tz
      *
