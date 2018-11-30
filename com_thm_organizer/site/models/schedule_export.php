@@ -411,9 +411,10 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         $input = THM_OrganizerHelperComponent::getInput();
 
-        $parameters               = [];
-        $parameters['format']     = $input->getString('format', 'pdf');
-        $parameters['mySchedule'] = $input->getBool('myschedule', false);
+        $parameters                  = [];
+        $parameters['departmentIDs'] = $input->get('departmentIDs', [], 'array');
+        $parameters['format']        = $input->getString('format', 'pdf');
+        $parameters['mySchedule']    = $input->getBool('myschedule', false);
 
         if (empty($parameters['mySchedule'])) {
             $this->setResourceArray('pool', $parameters);

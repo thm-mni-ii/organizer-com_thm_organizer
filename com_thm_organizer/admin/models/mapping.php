@@ -533,27 +533,32 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getChildrenFromForm()
     {
+        $index = 1;
         $children = [];
-        $form     = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
-        $childKeys = preg_grep('/^child[0-9]+$/', array_keys($form));
-        foreach ($childKeys as $childKey) {
-            $ordering      = substr($childKey, 5);
-            $aggregateInfo = $form[$childKey];
-            $resourceID    = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
-            $resourceType  = strpos($aggregateInfo, 'p') ? 'pool' : 'subject';
+        $input     = THM_OrganizerHelperComponent::getInput();
+        while (!empty($input->getInt("child{$index}order"))) {
+            $ordering      = $input->getInt("child{$index}order");
+            $aggregateInfo = $input->getString("child{$index}");
 
-            if ($resourceType == 'subject') {
-                $children[$ordering]['poolID']    = null;
-                $children[$ordering]['subjectID'] = $resourceID;
-                $children[$ordering]['ordering']  = $ordering;
+            if (!empty($aggregateInfo)) {
+                $resourceID    = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
+                $resourceType  = strpos($aggregateInfo, 'p') ? 'pool' : 'subject';
+
+                if ($resourceType == 'subject') {
+                    $children[$ordering]['poolID']    = null;
+                    $children[$ordering]['subjectID'] = $resourceID;
+                    $children[$ordering]['ordering']  = $ordering;
+                }
+
+                if ($resourceType == 'pool') {
+                    $children[$ordering]['poolID']    = $resourceID;
+                    $children[$ordering]['subjectID'] = null;
+                    $children[$ordering]['ordering']  = $ordering;
+                    $children[$ordering]['children']  = $this->getChildren($resourceID);
+                }
             }
 
-            if ($resourceType == 'pool') {
-                $children[$ordering]['poolID']    = $resourceID;
-                $children[$ordering]['subjectID'] = null;
-                $children[$ordering]['ordering']  = $ordering;
-                $children[$ordering]['children']  = $this->getChildren($resourceID);
-            }
+            $index++;
         }
 
         return $children;
