@@ -8,6 +8,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+use \THM_OrganizerHelperHTML as HTML;
+
 $menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
 $task   = 'participant.save';
 
@@ -62,7 +65,7 @@ if (empty($this->course)) {
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
-        <?php echo JHtml::_('form.token'); ?>
+        <?php echo HTML::_('form.token'); ?>
         <div class="control-group">
             <div class="controls">
                 <button type="submit" class="validate btn btn-primary">

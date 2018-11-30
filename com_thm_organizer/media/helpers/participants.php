@@ -61,7 +61,7 @@ class THM_OrganizerHelperParticipants
                 $query->where("userID = '$participantID'");
                 $query->where("lessonID = '$courseID'");
                 $dbo->setQuery($query);
-                $success = (bool)THM_OrganizerHelperComponent::query('execute');
+                $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
                 if (!$success) {
                     return false;
                 }

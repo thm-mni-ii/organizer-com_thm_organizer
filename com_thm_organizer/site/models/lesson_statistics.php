@@ -116,7 +116,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        $departments = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $departments = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
         if (empty($departments)) {
             return [];
         }
@@ -167,7 +167,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        $methods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $methods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
         if (empty($methods)) {
             return [];
         }
@@ -200,7 +200,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        $planningPeriods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $planningPeriods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
         if (empty($planningPeriods)) {
             return [];
         }
@@ -230,7 +230,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        $pools = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $pools = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
         if (empty($pools)) {
             return [];
         }
@@ -259,7 +259,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
 
         $this->_db->setQuery($this->query);
 
-        $programs = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $programs = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
         if (empty($programs)) {
             return [];
         }
@@ -368,7 +368,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
                 }
 
                 $this->_db->setQuery($this->query);
-                $lessons = THM_OrganizerHelperComponent::query('loadColumn', []);
+                $lessons = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
                 $lessonCounts[$rowID][$columnID] = count($lessons);
 

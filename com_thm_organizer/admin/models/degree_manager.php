@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 
 /**
@@ -73,10 +76,10 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]                 = [];
-            $return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name']         = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['abbreviation'] = JHtml::_('link', $item->link, $item->abbreviation);
-            $return[$index]['code']         = JHtml::_('link', $item->link, $item->code);
+            $return[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['name']         = HTML::_('link', $item->link, $item->name);
+            $return[$index]['abbreviation'] = HTML::_('link', $item->link, $item->abbreviation);
+            $return[$index]['code']         = HTML::_('link', $item->link, $item->code);
             $index++;
         }
 
@@ -95,12 +98,12 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
         $headers             = [];
         $headers['checkbox'] = '';
 
-        $headers['name'] = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
+        $headers['name'] = HTML::sort('NAME', 'name', $direction, $ordering);
 
         $headers['abbreviation']
-            = THM_OrganizerHelperComponent::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
+            = HTML::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
 
-        $headers['code'] = THM_OrganizerHelperComponent::sort('DEGREE_CODE', 'code', $direction, $ordering);
+        $headers['code'] = HTML::sort('DEGREE_CODE', 'code', $direction, $ordering);
 
         return $headers;
     }

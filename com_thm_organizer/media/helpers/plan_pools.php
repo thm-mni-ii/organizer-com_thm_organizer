@@ -48,6 +48,6 @@ class THM_OrganizerHelperPlan_Pools
 
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('loadColumn', []);
+        return (bool)THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 }

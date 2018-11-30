@@ -61,7 +61,7 @@ class JFormFieldChildren extends JFormField
          */
         $dbo->setQuery($idQuery, 0, 1);
 
-        $parentID = THM_OrganizerHelperComponent::query('loadResult');
+        $parentID = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         if (empty($parentID)) {
             return [];
@@ -74,7 +74,7 @@ class JFormFieldChildren extends JFormField
         $childMappingQuery->order('lft ASC');
         $dbo->setQuery($childMappingQuery);
 
-        $children = THM_OrganizerHelperComponent::query('loadAssocList', [], 'ordering');
+        $children = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'ordering');
         if (empty($children)) {
             return [];
         }
@@ -127,7 +127,7 @@ class JFormFieldChildren extends JFormField
         $query->where("id = '$resourceID'");
         $dbo->setQuery($query);
 
-        return (string)THM_OrganizerHelperComponent::query('loadResult');
+        return (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**

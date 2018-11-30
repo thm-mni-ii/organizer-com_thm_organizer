@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
@@ -34,30 +37,20 @@ class JFormFieldPrograms extends JFormField
         $this->addScript($resourceID, $resourceType);
 
         $ranges           = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
-        $selectedPrograms = !empty($ranges) ?
-            THM_OrganizerHelperMapping::getSelectedPrograms($ranges) : [];
-        $allPrograms      = THM_OrganizerHelperMapping::getAllPrograms();
+        $selectedPrograms = empty($ranges) ? [] : THM_OrganizerHelperMapping::getSelectedPrograms($ranges);
+        $options          = THM_OrganizerHelperMapping::getProgramOptions();
 
-        foreach ($allPrograms as $key => $programData) {
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programData['value'])) {
-                unset($allPrograms[$key]);
+        foreach ($options as $id => $name) {
+            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $id)) {
+                unset($options[$id]);
             }
         }
 
-        $defaultOptions = [['value' => '-1', 'text' => JText::_('JNONE')]];
-        $programs       = array_merge($defaultOptions, $allPrograms);
+        $defaultOptions = ['-1' => JText::_('JNONE')];
+        $programs       = $defaultOptions + $options;
+        $attributes     = ['multiple' => 'multiple', 'size' => '10'];
 
-        $attributes = ['multiple' => 'multiple', 'size' => '10'];
-
-        return JHtml::_(
-            'select.genericlist',
-            $programs,
-            'jform[programID][]',
-            $attributes,
-            'value',
-            'text',
-            $selectedPrograms
-        );
+        return HTML::selectBox($programs, 'programID', $attributes, $selectedPrograms, true);
     }
 
     /**

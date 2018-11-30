@@ -130,7 +130,7 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
                 ->values($values);
             $this->_db->setQuery($query);
 
-            return (bool)THM_OrganizerHelperComponent::query('execute');
+            return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
         } else {
             return (bool)$table->save($data);
         }

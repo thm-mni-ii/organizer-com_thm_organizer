@@ -32,7 +32,7 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
         $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order('startDate ASC');
         $dbo->setQuery($periodQuery);
 
-        $periods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $periods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
         if (empty($periods)) {
             return '';
         }
@@ -44,7 +44,7 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
             ->where("planPoolID = '$poolID'");
         $dbo->setQuery($poolQuery);
 
-        $publishingEntries = THM_OrganizerHelperComponent::query('loadAssocList', [], 'planningPeriodID');
+        $publishingEntries = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'planningPeriodID');
 
         $return = '<div class="publishing-container">';
         foreach ($periods as $period) {

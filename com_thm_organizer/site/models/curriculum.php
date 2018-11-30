@@ -75,7 +75,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$program->id'");
         $this->_db->setQuery($query);
-        $programData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $programData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
         if (empty($programData)) {
             return;
         }
@@ -101,7 +101,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->order('ordering ASC');
         $this->_db->setQuery($query);
 
-        $children = THM_OrganizerHelperComponent::query('loadObjectList');
+        $children = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
         if (empty($children)) {
             return;
         }
@@ -149,7 +149,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->where("p.id = '$poolID'");
         $this->_db->setQuery($query);
 
-        $pool = THM_OrganizerHelperComponent::query('loadObject');
+        $pool = THM_OrganizerHelperComponent::executeQuery('loadObject');
         if (empty($pool)) {
             return null;
         }
@@ -186,7 +186,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $query->where("s.id = '$subjectID'");
         $this->_db->setQuery($query);
 
-        $subject = THM_OrganizerHelperComponent::query('loadObject');
+        $subject = THM_OrganizerHelperComponent::executeQuery('loadObject');
         if (empty($subject)) {
             return null;
         }

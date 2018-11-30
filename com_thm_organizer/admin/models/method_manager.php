@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -61,9 +64,9 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]                 = [];
-            $return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['abbreviation'] = JHtml::_('link', $item->link, $item->abbreviation);
-            $return[$index]['name']         = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['abbreviation'] = HTML::_('link', $item->link, $item->abbreviation);
+            $return[$index]['name']         = HTML::_('link', $item->link, $item->name);
             $index++;
         }
 
@@ -77,15 +80,13 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction           = $this->state->get('list.direction', $this->defaultDirection);
-        $headers             = [];
-        $headers['checkbox'] = '';
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
 
-        $headers['abbreviation']
-            = THM_OrganizerHelperComponent::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
-
-        $headers['name'] = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
+        $headers['checkbox']     = '';
+        $headers['abbreviation'] = HTML::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
+        $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
 
         return $headers;
     }

@@ -33,7 +33,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 
         $this->_db->setQuery($query);
 
-        $item = THM_OrganizerHelperComponent::query('loadObject');
+        $item = THM_OrganizerHelperComponent::executeQuery('loadObject');
 
         return empty($item->id) ? new stdClass : $item;
     }

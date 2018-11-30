@@ -8,6 +8,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+use \THM_OrganizerHelperHTML as HTML;
+
 $fieldset = $this->form->getFieldset('participant_management');
 
 $shortTag = THM_OrganizerHelperLanguage::getShortTag();
@@ -103,7 +106,7 @@ $dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat
                 <td><?php echo $participant['program']; ?></td>
                 <td><?php echo $participant['email']; ?></td>
                 <td><?php echo $participant['status'] ? $registeredText : $waitListText; ?></td>
-                <td><?php echo JHtml::_('date', $participant['status_date'], $dateFormat); ?></td>
+                <td><?php echo HTML::_('date', $participant['status_date'], $dateFormat); ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

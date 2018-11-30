@@ -8,6 +8,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
@@ -77,8 +80,8 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
-        JHTML::_('behavior.modal');
+        HTML::_('bootstrap.tooltip');
+        HTML::_('behavior.modal');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_list.css');
@@ -94,21 +97,15 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
         $lang    = THM_OrganizerHelperLanguage::getLanguage();
         $attribs = ['onchange' => 'form.submit();'];
 
-        $default       = [0 => $lang->_('COM_THM_ORGANIZER_ALL_CAMPUSES')];
-        $campusOptions = THM_OrganizerHelperCampuses::getOptions(true);
-        unset($campusOptions[0]);
+        $defaultOptions = [0 => $lang->_('COM_THM_ORGANIZER_ALL_CAMPUSES')];
+        $campusOptions  = $defaultOptions + THM_OrganizerHelperCampuses::getOptions(true);
 
-        if (!empty($this->state->get('campusID')) and !isset($campusOptions[$this->state->get('campusID')])) {
-            $campusOptions[$this->state->get('campusID')] = THM_OrganizerHelperCampuses::getName($this->state->get('campusID'));
+        $selectCampus = $this->state->get('campusID');
+        if (!empty($selectCampus) and !isset($campusOptions[$selectCampus])) {
+            $campusOptions[$selectCampus] = THM_OrganizerHelperCampuses::getName($selectCampus);
         }
 
-        $this->filters['campusID'] = THM_OrganizerHelperComponent::selectBox(
-            $campusOptions,
-            'campusID',
-            $attribs,
-            $this->state->get('campusID'),
-            $default
-        );
+        $this->filters['campusID'] = HTML::selectBox($campusOptions, 'campusID', $attribs, $selectCampus, true);
 
         if (THM_OrganizerHelperCourses::authorized()) {
             $activeOptions = [
@@ -118,23 +115,14 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
                 'expired' => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
             ];
 
-            $this->filters['status'] = THM_OrganizerHelperComponent::selectBox(
-                $activeOptions,
-                'status',
-                $attribs,
-                $this->state->get('status')
-            );
+            $selectStatus = $this->state->get('status');
+            $this->filters['status'] = HTML::selectBox($activeOptions, 'status', $attribs, $selectStatus, true);
 
-            $subjectOptions = THM_OrganizerHelperCourses::prepCourseList();
-            $default        = [0 => $lang->_('COM_THM_ORGANIZER_ALL_COURSES')];
+            $defaultOptions = [0 => $lang->_('COM_THM_ORGANIZER_ALL_COURSES')];
+            $subjectOptions = $defaultOptions + THM_OrganizerHelperCourses::prepCourseList();
 
-            $this->filters['subjectID'] = THM_OrganizerHelperComponent::selectBox(
-                $subjectOptions,
-                'subjectID',
-                $attribs,
-                $this->state->get('subjectID'),
-                $default
-            );
+            $selectSubject = $this->state->get('subjectID');
+            $this->filters['subjectID'] = HTML::selectBox($subjectOptions, 'subjectID', $attribs, $selectSubject, true);
         }
 
     }

@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by
  * extending class.
@@ -45,10 +47,10 @@ abstract class THM_OrganizerViewForm extends \Joomla\CMS\MVC\View\HtmlView
      */
     protected function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.framework', true);
-        JHtml::_('behavior.formvalidation');
-        JHtml::_('formbehavior.chosen', 'select');
+        HTML::_('bootstrap.tooltip');
+        HTML::_('behavior.framework', true);
+        HTML::_('behavior.formvalidation');
+        HTML::_('formbehavior.chosen', 'select');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');

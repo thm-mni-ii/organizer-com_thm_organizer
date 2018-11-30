@@ -116,7 +116,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         $query->order('map.id');
         $this->_db->setQuery($query);
 
-        $calReference = THM_OrganizerHelperComponent::query('loadObject');
+        $calReference = THM_OrganizerHelperComponent::executeQuery('loadObject');
 
         return empty($calReference) ? false : $calReference;
     }

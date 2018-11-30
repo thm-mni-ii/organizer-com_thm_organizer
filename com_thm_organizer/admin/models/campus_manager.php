@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
@@ -85,8 +88,8 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
             }
 
             $return[$index]             = [];
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name']     = JHtml::_('link', $item->link, $name);
+            $return[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['name']     = HTML::_('link', $item->link, $name);
 
             $address    = '';
             $ownAddress = (!empty($item->address) or !empty($item->city) or !empty($item->zipCode));

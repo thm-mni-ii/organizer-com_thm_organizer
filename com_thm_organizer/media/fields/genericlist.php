@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -56,7 +59,7 @@ class JFormFieldGenericList extends JFormFieldList
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
-            $html[] = JHtml::_(
+            $html[] = HTML::_(
                 'select.genericlist',
                 $options,
                 '',
@@ -83,7 +86,7 @@ class JFormFieldGenericList extends JFormFieldList
             }
         } else // Create a regular list.
         {
-            $html[] = JHtml::_(
+            $html[] = HTML::_(
                 'select.genericlist',
                 $options,
                 $this->name,
@@ -122,7 +125,7 @@ class JFormFieldGenericList extends JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $resources      = THM_OrganizerHelperComponent::query('loadAssocList');
+        $resources      = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($resources)) {
             return $defaultOptions;
         }
@@ -139,7 +142,7 @@ class JFormFieldGenericList extends JFormFieldList
                 }
             }
 
-            $options[$resource['text']] = JHtml::_('select.option', $resource['value'], $resource['text']);
+            $options[$resource['text']] = HTML::_('select.option', $resource['value'], $resource['text']);
         }
         $this->setValueParameters($options);
 
@@ -218,7 +221,7 @@ class JFormFieldGenericList extends JFormFieldList
             if (empty($componentParameter)) {
                 continue;
             }
-            $options[$componentParameter] = JHtml::_('select.option', $componentParameter, $componentParameter);
+            $options[$componentParameter] = HTML::_('select.option', $componentParameter, $componentParameter);
         }
         ksort($options);
     }

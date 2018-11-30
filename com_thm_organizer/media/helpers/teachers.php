@@ -71,7 +71,7 @@ class THM_OrganizerHelperTeachers
 
         if ($multiple) {
 
-            $teacherList = THM_OrganizerHelperComponent::query('loadAssocList');
+            $teacherList = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
             if (empty($teacherList)) {
                 return [];
             }
@@ -83,7 +83,7 @@ class THM_OrganizerHelperTeachers
             return $teacherList;
         }
 
-        return THM_OrganizerHelperComponent::query('loadAssoc', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
     }
 
     /**
@@ -124,7 +124,7 @@ class THM_OrganizerHelperTeachers
             ->from('#__thm_organizer_department_resources')
             ->where("teacherID = $teacherID");
         $dbo->setQuery($query);
-        $departmentIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $departmentIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         return empty($departmentIDs) ? [] : $departmentIDs;
     }
@@ -147,7 +147,7 @@ class THM_OrganizerHelperTeachers
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id')
             ->where("teacherID = $teacherID");
         $dbo->setQuery($query);
-        $departments = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $departments = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         return empty($departments) ? [] : $departments;
     }
@@ -241,7 +241,7 @@ class THM_OrganizerHelperTeachers
             ->where("username = '{$user->username}'");
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::query('loadResult');
+        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -307,7 +307,7 @@ class THM_OrganizerHelperTeachers
 
         $query->where(implode(' OR ', $wherray));
         $dbo->setQuery($query);
-        $teacherIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $teacherIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         if (empty($teacherIDs)) {
             return [];
@@ -342,6 +342,6 @@ class THM_OrganizerHelperTeachers
         $query->select('COUNT(*)')->from("#__thm_organizer_{$table}_teachers")->where("teacherID = '$teacherID'");
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('loadResult');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 }

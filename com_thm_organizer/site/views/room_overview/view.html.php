@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 define('DAY', 1);
@@ -62,9 +65,9 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('jquery.ui');
-        JHtml::_('behavior.tooltip');
-        JHtml::_('formbehavior.chosen', 'select');
+        HTML::_('jquery.ui');
+        HTML::_('behavior.tooltip');
+        HTML::_('formbehavior.chosen', 'select');
         $document = JFactory::getDocument();
         $document->setCharset('utf-8');
         $document->addScript(JUri::root() . 'media/com_thm_organizer/js/room_overview.js');

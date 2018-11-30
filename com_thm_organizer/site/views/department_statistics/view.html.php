@@ -9,6 +9,8 @@
  */
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 
@@ -49,10 +51,10 @@ class THM_OrganizerViewDepartment_Statistics extends \Joomla\CMS\MVC\View\HtmlVi
      */
     private function modifyDocument()
     {
-        JHtml::_('bootstrap.framework');
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('jquery.ui');
-        JHtml::_('formbehavior.chosen', 'select');
+        HTML::_('bootstrap.framework');
+        HTML::_('bootstrap.tooltip');
+        HTML::_('jquery.ui');
+        HTML::_('formbehavior.chosen', 'select');
 
         $document = JFactory::getDocument();
         $document->addScript(JUri::root() . '/media/com_thm_organizer/js/department_statistics.js');
@@ -66,7 +68,7 @@ class THM_OrganizerViewDepartment_Statistics extends \Joomla\CMS\MVC\View\HtmlVi
 
         $options  = $this->model->getYearOptions();
         $default  = date('Y');
-        $ppSelect = JHtml::_('select.genericlist', $options, 'year', $attribs, 'value', 'text', $default);
+        $ppSelect = HTML::selectBox($options, 'year', $attribs, $default);
 
         $this->fields['baseSettings']['planningPeriodIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_YEAR'),
@@ -87,9 +89,8 @@ class THM_OrganizerViewDepartment_Statistics extends \Joomla\CMS\MVC\View\HtmlVi
 
         $roomAttribs                     = $attribs;
         $roomAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
-
-        $planRoomOptions = $this->model->getRoomOptions();
-        $roomSelect      = JHtml::_('select.genericlist', $planRoomOptions, 'roomIDs[]', $roomAttribs, 'value', 'text');
+        $roomOptions                     = $this->model->getRoomOptions();
+        $roomSelect                      = HTML::selectBox($roomOptions, 'roomIDs', $roomAttribs);
 
         $this->fields['filterFields']['roomIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_ROOMS'),
@@ -101,12 +102,11 @@ class THM_OrganizerViewDepartment_Statistics extends \Joomla\CMS\MVC\View\HtmlVi
         $roomTypeAttribs['onChange']         = 'repopulateRooms();';
         $roomTypeAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
         $typeOptions                         = $this->model->getRoomTypeOptions();
-
-        $roomTypeSelect = JHtml::_('select.genericlist', $typeOptions, 'typeIDs[]', $roomTypeAttribs, 'value', 'text');
+        $roomTypeSelect                      = HTML::selectBox($typeOptions, 'typeIDs', $roomTypeAttribs);
 
         $this->fields['filterFields']['typeIDs'] = [
             'label'       => JText::_('COM_THM_ORGANIZER_ROOM_TYPES'),
-            'description' => JText::_('COM_THM_ORGANIZER_ROOMS_EXPORT_DESC'),
+            'description' => JText::_('COM_THM_ORGANIZER_ROOMS_TYPES_EXPORT_DESC'),
             'input'       => $roomTypeSelect
         ];
     }

@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class provides a standardized display of tabbed item edit forms.
  */
@@ -32,22 +34,22 @@ class THM_OrganizerTemplateEdit_Tabbed
               class="form-horizontal form-validate">
             <div class="form-horizontal">
                 <?php
-                echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
+                echo HTML::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
                 $sets = $view->form->getFieldSets();
                 foreach ($sets as $set) {
                     $isInitialized  = (bool)$view->form->getValue('id');
                     $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
                     if ($displayInitial or $isInitialized) {
-                        echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
+                        echo HTML::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
                         echo $view->form->renderFieldset($set->name);
-                        echo JHtml::_('bootstrap.endTab');
+                        echo HTML::_('bootstrap.endTab');
                     }
                 }
-                echo JHtml::_('bootstrap.endTabSet');
+                echo HTML::_('bootstrap.endTabSet');
                 ?>
             </div>
             <?php echo $view->form->getInput('id'); ?>
-            <?php echo JHtml::_('form.token'); ?>
+            <?php echo HTML::_('form.token'); ?>
             <input type="hidden" name="task" value=""/>
         </form>
         <?php

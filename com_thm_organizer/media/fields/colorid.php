@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -56,7 +59,7 @@ class JFormFieldColorID extends JFormField
 
         $dbo->setQuery($query);
 
-        $colors = THM_OrganizerHelperComponent::query('loadAssocList');
+        $colors = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($colors)) {
             return '';
         }
@@ -76,7 +79,7 @@ class JFormFieldColorID extends JFormField
                 }
             }
             $backgroundColor = $color['color'];
-            $textColor       = THM_OrganizerHelperComponent::getTextColor($backgroundColor);
+            $textColor       = HTML::textColor($backgroundColor);
             $style           = 'style="background-color: ' . $backgroundColor . '; color:' . $textColor . ';"';
             $value           = 'value="' . $color['id'] . '"';
 

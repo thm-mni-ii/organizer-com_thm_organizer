@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 
 /**
@@ -65,7 +68,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             $query->select('DISTINCT poolID, subjectID')->from('#__thm_organizer_mappings')->where("parentID = '{$pool['mapID']}'");
             $this->_db->setQuery($query);
 
-            $children = THM_OrganizerHelperComponent::query('loadAssocList');
+            $children = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
             if (empty($children)) {
                 continue;
             }
@@ -118,7 +121,7 @@ class THM_OrganizerModelSubject_List extends JModelList
 
         foreach ($this->subjects as $index => $subject) {
             if (!empty($subject->subjectColor)) {
-                $this->subjects[$index]->textColor = THM_OrganizerHelperComponent::getTextColor($subject->subjectColor);
+                $this->subjects[$index]->textColor = HTML::textColor($subject->subjectColor);
             }
 
             if (empty($subject->fieldID)) {
@@ -236,7 +239,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             ->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id')
             ->where("p.id = '$poolID'");
         $this->_db->setQuery($query);
-        $poolData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $poolData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
         if (empty($poolData)) {
             return [];
         }
@@ -251,7 +254,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             ->where("m.rgt > '{$poolData['rgt']}'");
         $this->_db->setQuery($query);
 
-        $programName = THM_OrganizerHelperComponent::query('loadResult');
+        $programName = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         if (!empty($programName)) {
             $poolData['name'] = "$programName, {$poolData['name']}";
@@ -280,7 +283,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$programID'");
         $this->_db->setQuery($query);
-        $programData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $programData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
         if (!empty($programData)) {
             $this->displayName = $programData['name'];
         }
@@ -343,7 +346,7 @@ class THM_OrganizerModelSubject_List extends JModelList
                 ->order('m.lft');
             $this->_db->setQuery($query);
 
-            $poolEntries = THM_OrganizerHelperComponent::query('loadAssocList');
+            $poolEntries = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
             if (empty($poolEntries)) {
                 continue;
             }
@@ -403,7 +406,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             $query->where("m.lft < '{$mapping['left']}'");
             $query->where("m.rgt > '{$mapping['right']}'");
             $this->_db->setQuery($query);
-            $programData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+            $programData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
             $this->subjects[$index]->programs[$programData['id']] = $programData['name'];
         }
@@ -446,7 +449,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             ->where("st.subjectID = '$subjectID'");
         $this->_db->setQuery($query);
 
-        $teachers = THM_OrganizerHelperComponent::query('loadAssocList');
+        $teachers = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($teachers)) {
             return;
         }
@@ -516,7 +519,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             ->where("f.id IN $fieldIDs");
         $this->_db->setQuery($query);
 
-        $fields = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $fields = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
         if (empty($fields)) {
             return;
         }
@@ -533,7 +536,7 @@ class THM_OrganizerModelSubject_List extends JModelList
                     $field['textColor']       = $params['darkTextColor'];
                 } else {
                     $field['backgroundColor'] = $fieldEntry['backgroundColor'];
-                    $field['textColor']       = THM_OrganizerHelperComponent::getTextColor($field['backgroundColor']);
+                    $field['textColor']       = HTML::textColor($field['backgroundColor']);
                 }
                 $this->fields[$fieldEntry['id']] = $field;
             }

@@ -224,7 +224,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -245,7 +245,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->values("'$subjectID', '$teacherID', '$responsibility'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -286,7 +286,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->delete('#__thm_organizer_subject_mappings')->where("subjectID = '$subjectID'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -308,7 +308,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -361,7 +361,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -380,7 +380,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->values("'$subjectID', '$prerequisite'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**

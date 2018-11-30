@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \HTML as HTML;
+
 JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
@@ -29,7 +32,7 @@ class JFormFieldRoomTypeID extends JFormFieldList
      */
     protected function getOptions()
     {
-        $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
+        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
         $input          = THM_OrganizerHelperComponent::getInput();
         $formData       = $input->get('jform', [], 'array');
         $buildingID     = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
@@ -58,7 +61,7 @@ class JFormFieldRoomTypeID extends JFormFieldList
         $query->order('name');
         $dbo->setQuery($query);
 
-        $types = THM_OrganizerHelperComponent::query('loadAssocList');
+        $types = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($types)) {
             return $defaultOptions;
         }
@@ -66,12 +69,12 @@ class JFormFieldRoomTypeID extends JFormFieldList
         $options = [];
         if (empty($types)) {
             $lang      = THM_OrganizerHelperLanguage::getLanguage();
-            $options[] = JHtml::_('select.option', '', $lang->_('JNONE'));
+            $options[] = HTML::_('select.option', '', $lang->_('JNONE'));
 
             return $options;
         } else {
             foreach ($types as $type) {
-                $options[] = JHtml::_('select.option', $type['id'], $type['name']);
+                $options[] = HTML::_('select.option', $type['id'], $type['name']);
             }
         }
 

@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -84,11 +87,11 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
         $index = 0;
 
         foreach ($items as $item) {
-            $return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['dp.name']      = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['degreeID']     = JHtml::_('link', $item->link, $item->abbreviation);
-            $return[$index]['version']      = JHtml::_('link', $item->link, $item->version);
-            $return[$index]['departmentID'] = JHtml::_('link', $item->link, $item->departmentname);
+            $return[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['dp.name']      = HTML::_('link', $item->link, $item->name);
+            $return[$index]['degreeID']     = HTML::_('link', $item->link, $item->abbreviation);
+            $return[$index]['version']      = HTML::_('link', $item->link, $item->version);
+            $return[$index]['departmentID'] = HTML::_('link', $item->link, $item->departmentname);
             $index++;
         }
 
@@ -102,16 +105,15 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction           = $this->state->get('list.direction', $this->defaultDirection);
-        $headers             = [];
-        $headers['checkbox'] = '';
-        $headers['dp.name']  = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
-        $headers['degreeID'] = THM_OrganizerHelperComponent::sort('DEGREE', 'abbreviation', $direction, $ordering);
-        $headers['version']  = THM_OrganizerHelperComponent::sort('VERSION', 'version', $direction, $ordering);
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
 
-        $headers['departmentID']
-            = THM_OrganizerHelperComponent::sort('DEPARTMENT', 'departmentID', $direction, $ordering);
+        $headers['checkbox']     = '';
+        $headers['dp.name']      = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['degreeID']     = HTML::sort('DEGREE', 'abbreviation', $direction, $ordering);
+        $headers['version']      = HTML::sort('VERSION', 'version', $direction, $ordering);
+        $headers['departmentID'] = HTML::sort('DEPARTMENT', 'departmentID', $direction, $ordering);
 
         return $headers;
     }

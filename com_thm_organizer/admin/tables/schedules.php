@@ -40,7 +40,7 @@ class THM_OrganizerTableSchedules extends JTable
             ->where("id = '{$this->departmentID}'");
 
         $dbo->setQuery($deptQuery);
-        $deptName = (string)THM_OrganizerHelperComponent::query('loadResult');
+        $deptName = (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         $planPeriodQuery = $dbo->getQuery(true);
         $planPeriodQuery->select('name')
@@ -48,7 +48,7 @@ class THM_OrganizerTableSchedules extends JTable
             ->where("id = '{$this->planningPeriodID}'");
 
         $dbo->setQuery($planPeriodQuery);
-        $planPeriodName = (string)THM_OrganizerHelperComponent::query('loadResult');
+        $planPeriodName = (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         return "Organizer Schedule: $deptName - $planPeriodName";
     }

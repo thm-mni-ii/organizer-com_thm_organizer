@@ -8,23 +8,26 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 $lang = $displayData['language'];
 
-$lsfLink   = JHtml::link(
+$lsfLink   = HTML::link(
     'https://studien-sb-service.th-mittelhessen.de/docu/online.html',
     $lang->_('COM_THM_ORGANIZER_DISCLAIMER_LSF_TITLE')
 );
 $lsfText   = $lang->_('COM_THM_ORGANIZER_DISCLAIMER_LSF_TEXT');
 $lsfOutput = sprintf($lsfText, $lsfLink);
 
-$ambLink   = JHtml::link(
+$ambLink   = HTML::link(
     'http://www.thm.de/amb/pruefungsordnungen',
     $lang->_('COM_THM_ORGANIZER_DISCLAIMER_AMB_TITLE')
 );
 $ambText   = $lang->_('COM_THM_ORGANIZER_DISCLAIMER_AMB_TEXT');
 $ambOutput = sprintf($ambText, $ambLink);
 
-$poLink   = JHtml::link(
+$poLink   = HTML::link(
     'http://www.thm.de/site/studium/sie-studieren/pruefungsordnung.html',
     $lang->_('COM_THM_ORGANIZER_DISCLAIMER_PO_TITLE')
 );

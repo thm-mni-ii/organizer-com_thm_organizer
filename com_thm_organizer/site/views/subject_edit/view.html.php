@@ -9,6 +9,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
 
@@ -79,8 +82,8 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
      */
     protected function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.framework', true);
+        HTML::_('bootstrap.tooltip');
+        HTML::_('behavior.framework', true);
 
         JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_edit.css');
     }

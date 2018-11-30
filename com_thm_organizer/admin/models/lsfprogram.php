@@ -32,7 +32,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         $query->where("p.id = '$programID'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssoc', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
     }
 
     /**
@@ -54,7 +54,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             ->where("rgt < '{$borders[0]['rgt']}'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadColumn', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 
     /**

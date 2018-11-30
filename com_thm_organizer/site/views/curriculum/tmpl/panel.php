@@ -9,6 +9,8 @@
  */
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class renders a single curriculum panel.
  */
@@ -49,7 +51,7 @@ class THM_OrganizerTemplateCurriculumPanel
         $crpText   = THM_OrganizerHelperPools::getCrPText($pool);
         $headStyle = '';
         if (!empty($pool->bgColor)) {
-            $textColor = THM_OrganizerHelperComponent::getTextColor($pool->bgColor);
+            $textColor = HTML::textColor($pool->bgColor);
             $headStyle .= ' style="background-color: ' . $pool->bgColor . '; color: ' . $textColor . '"';
         }
         $script    = ($type == 'main') ?

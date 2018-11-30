@@ -9,6 +9,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 JFormHelper::loadFieldClass('list');
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
@@ -52,7 +55,7 @@ class JFormFieldDepartmentList extends JFormFieldList
         $departments = THM_OrganizerHelperDepartments::getPlanDepartments();
 
         foreach ($departments as $key => $department) {
-            $options[] = JHtml::_('select.option', $key, $department);
+            $options[] = HTML::_('select.option', $key, $department);
         }
 
         return array_merge(parent::getOptions(), $options);

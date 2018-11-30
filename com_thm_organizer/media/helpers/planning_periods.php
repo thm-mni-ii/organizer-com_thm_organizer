@@ -32,7 +32,7 @@ class THM_OrganizerHelperPlanning_Periods
             ->where("'$date' BETWEEN startDate and endDate");
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::query('loadResult');
+        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -134,7 +134,7 @@ class THM_OrganizerHelperPlanning_Periods
             ->order('startDate ASC');
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::query('loadResult');
+        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -176,6 +176,6 @@ class THM_OrganizerHelperPlanning_Periods
         $query->order('startDate');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
     }
 }

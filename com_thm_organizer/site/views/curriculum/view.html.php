@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
 
@@ -85,8 +87,8 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('bootstrap.framework');
+        HTML::_('bootstrap.tooltip');
+        HTML::_('bootstrap.framework');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/curriculum.css');

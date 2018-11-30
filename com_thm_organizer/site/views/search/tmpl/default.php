@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 $attribs = ['target' => '_blank'];
 ?>
 <div id="j-main-container" class="organizer-search-container">
@@ -26,11 +29,11 @@ $attribs = ['target' => '_blank'];
                        value="<?php echo addslashes($this->query); ?>"
                        size="25"/>
                 <button type="submit" class="btn-search hasTooltip"
-                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+                        title="<?php echo HTML::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
                     <i class="icon-search"></i>
                 </button>
                 <button type="reset" class="btn-reset hasTooltip"
-                        title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
+                        title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
                         onclick="document.getElementById('search-input').value='';form.submit();">
                     <i class="icon-delete"></i>
                 </button>
@@ -70,22 +73,22 @@ $attribs = ['target' => '_blank'];
 
                             if ($type == 'curriculum') {
                                 $icon = '<span class="icon-grid-2"></span>';
-                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
                             }
 
                             if ($type == 'schedule') {
                                 $icon = '<span class="icon-calendar"></span>';
-                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
                             }
 
                             if ($type == 'subject_list') {
                                 $icon = '<span class="icon-list"></span>';
-                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
                             }
 
                             if ($type == 'subject_details') {
                                 $icon = '<span class="icon-book"></span>';
-                                echo JHtml::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
                             }
                         }
 

@@ -10,6 +10,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 jimport('joomla.application.component.view');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -103,7 +106,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
     {
         $doc = JFactory::getDocument();
 
-        JHtml::_('formbehavior.chosen', 'select');
+        HTML::_('formbehavior.chosen', 'select');
         $this->addScriptOptions();
         $doc->addScript(JUri::root() . 'media/com_thm_organizer/js/schedule.js');
 

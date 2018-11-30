@@ -163,7 +163,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
         $query->select('*')->from('#__thm_organizer_lesson_pools')->where("poolID = {$this->data['id']}");
         $this->_db->setQuery($query);
 
-        $assocs = THM_OrganizerHelperComponent::query('loadAssocList');
+        $assocs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($assocs)) {
             return true;
         }
@@ -193,7 +193,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             $query       = $this->_db->getQuery(true);
             $query->delete('#__thm_organizer_lesson_pools')->where("id IN $idsToDelete");
             $this->_db->setQuery($query);
-            $success = (bool)THM_OrganizerHelperComponent::query('execute');
+            $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
             if (!$success) {
                 return false;
             }

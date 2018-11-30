@@ -58,7 +58,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             ->order('name');
         $this->_db->setQuery($query);
 
-        $grids = THM_OrganizerHelperComponent::query('loadObjectList');
+        $grids = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
 
         return empty($grids) ? [] : $grids;
     }

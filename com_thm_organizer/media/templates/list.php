@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class provides a standardized display of listed resources.
  */
@@ -59,7 +61,7 @@ class THM_OrganizerTemplateList
                 <input type="hidden" name="option" value="com_thm_organizer"/>
                 <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
                 <?php self::renderHiddenFields($view) ?>
-                <?php echo JHtml::_('form.token'); ?>
+                <?php echo HTML::_('form.token'); ?>
             </form>
         </div>
         <?php
@@ -85,13 +87,13 @@ class THM_OrganizerTemplateList
         <div class="btn-wrapper input-append">
             <?php echo $filters['filter_search']->input; ?>
             <button type="submit" class="btn hasTooltip"
-                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+                    title="<?php echo HTML::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
                 <i class="icon-search"></i>
             </button>
         </div>
         <div class="btn-wrapper">
             <button type="button" class="btn hasTooltip js-stools-btn-clear"
-                    title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
+                    title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
                     onclick="document.getElementById('filter_search').value='';">
                 <i class="icon-delete"></i>
             </button>
@@ -138,7 +140,7 @@ class THM_OrganizerTemplateList
         foreach ($headerNames as $name) {
             $name = str_replace('.', '_', $name);
             if ($name == 'checkbox') {
-                echo str_replace('XXXX', JHtml::_('grid.checkall'), $template);
+                echo str_replace('XXXX', HTML::_('grid.checkall'), $template);
                 continue;
             }
 

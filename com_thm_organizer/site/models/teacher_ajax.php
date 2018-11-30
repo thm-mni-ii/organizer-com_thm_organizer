@@ -71,7 +71,7 @@ class THM_OrganizerModelTeacher_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->order('t.surname');
         $dbo->setQuery($query);
 
-        $teachers = THM_OrganizerHelperComponent::query('loadObjectList');
+        $teachers = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
         if (empty($teachers)) {
             return '[]';
         }

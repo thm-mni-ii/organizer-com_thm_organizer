@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
@@ -114,12 +117,12 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]               = [];
-            $return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name']       = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['externalID'] = JHtml::_('link', $item->link, $item->externalID);
+            $return[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['name']       = HTML::_('link', $item->link, $item->name);
+            $return[$index]['externalID'] = HTML::_('link', $item->link, $item->externalID);
             if (!empty($item->field)) {
                 if (!empty($item->color)) {
-                    $return[$index]['field'] = THM_OrganizerHelperComponent::getColorField($item->field, $item->color);
+                    $return[$index]['field'] = HTML::colorField($item->field, $item->color);
                 } else {
                     $return[$index]['field'] = $item->field;
                 }
@@ -140,13 +143,14 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering              = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction             = $this->state->get('list.direction', $this->defaultDirection);
-        $headers               = [];
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
         $headers['checkbox']   = '';
-        $headers['name']       = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
-        $headers['externalID'] = THM_OrganizerHelperComponent::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
-        $headers['field']      = THM_OrganizerHelperComponent::sort('FIELD', 'field', $direction, $ordering);
+        $headers['name']       = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['externalID'] = HTML::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
+        $headers['field']      = HTML::sort('FIELD', 'field', $direction, $ordering);
 
         return $headers;
     }
@@ -167,7 +171,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
         $dbo = JFactory::getDbo();
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::query('loadResult');
+        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**

@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 JFormHelper::loadFieldClass('list');
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
 
@@ -45,7 +48,7 @@ class JFormFieldPlanningPeriodID extends JFormFieldList
         $query->order('pp.startDate DESC');
         $dbo->setQuery($query);
 
-        $planningPeriods = THM_OrganizerHelperComponent::query('loadAssocList');
+        $planningPeriods = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($planningPeriods)) {
             return $baseOptions;
         }
@@ -53,7 +56,7 @@ class JFormFieldPlanningPeriodID extends JFormFieldList
         $options = [];
         foreach ($planningPeriods as $planningPeriod) {
 
-            $options[] = JHtml::_('select.option', $planningPeriod['id'], $planningPeriod['name']);
+            $options[] = HTML::_('select.option', $planningPeriod['id'], $planningPeriod['name']);
 
         }
 

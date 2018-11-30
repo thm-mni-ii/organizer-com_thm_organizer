@@ -131,6 +131,6 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("id = '$monitorID'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 }

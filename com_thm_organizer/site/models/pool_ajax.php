@@ -81,7 +81,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
         $query->order('lft ASC');
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList');
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList');
     }
 
     /**
@@ -171,7 +171,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
         $query->order('lft');
         $this->_db->setQuery($query);
 
-        $pools = THM_OrganizerHelperComponent::query('loadObjectList');
+        $pools = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
         if (empty($pools)) {
             return '[]';
         }

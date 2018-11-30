@@ -154,13 +154,9 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getDepartmentOptions()
     {
-        $departments = THM_OrganizerHelperDepartments::getPlanDepartments(false);
         $options     = [];
-
-        foreach ($departments as $departmentID => $departmentName) {
-            $option['value'] = $departmentID;
-            $option['text']  = $departmentName;
-            $options[]       = $option;
+        foreach (THM_OrganizerHelperDepartments::getPlanDepartments(false) as $departmentID => $departmentName) {
+            $options[$departmentID] = $departmentName;
         }
 
         return $options;
@@ -173,16 +169,12 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getPlanningPeriodOptions()
     {
-        $planningPeriods = THM_OrganizerHelperPlanning_Periods::getPlanningPeriods();
-        $options         = [];
-
-        foreach ($planningPeriods as $planningPeriod) {
+        $options = [];
+        foreach (THM_OrganizerHelperPlanning_Periods::getPlanningPeriods() as $planningPeriod) {
             $shortSD = THM_OrganizerHelperDate::formatDate($planningPeriod['startDate']);
             $shortED = THM_OrganizerHelperDate::formatDate($planningPeriod['endDate']);
 
-            $option['value'] = $planningPeriod['id'];
-            $option['text']  = "{$planningPeriod['name']} ($shortSD - $shortED)";
-            $options[]       = $option;
+            $options[$planningPeriod['id']] = "{$planningPeriod['name']} ($shortSD - $shortED)";
         }
 
         return $options;
@@ -195,13 +187,9 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getProgramOptions()
     {
-        $programs = THM_OrganizerHelperPrograms::getPlanPrograms();
-        $options  = [];
-
-        foreach ($programs as $program) {
-            $option['value'] = $program['id'];
-            $option['text']  = empty($program['name']) ? $program['ppName'] : $program['name'];
-            $options[]       = $option;
+        $options = [];
+        foreach (THM_OrganizerHelperPrograms::getPlanPrograms() as $program) {
+            $options[$program['id']] = empty($program['name']) ? $program['ppName'] : $program['name'];
         }
 
         return $options;
@@ -240,14 +228,9 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getRoomOptions()
     {
-        $rooms = $this->rooms;
-
         $options = [];
-
-        foreach ($rooms as $roomName => $roomData) {
-            $option['value'] = $roomData['id'];
-            $option['text']  = $roomName;
-            $options[]       = $option;
+        foreach ($this->rooms as $roomName => $roomData) {
+            $options[$roomData['id']] = $roomName;
         }
 
         return $options;
@@ -260,13 +243,9 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getRoomTypeOptions()
     {
-
         $options = [];
-
         foreach ($this->roomTypes as $typeID => $typeData) {
-            $option['value'] = $typeID;
-            $option['text']  = $typeData['name'];
-            $options[]       = $option;
+            $options[$typeID] = $typeData['name'];
         }
 
         return $options;
@@ -334,8 +313,8 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
         $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
-        $ringData = THM_OrganizerHelperComponent::query('loadAssocList');
-        $lsIDs    = THM_OrganizerHelperComponent::query('loadColumn', [], 1);
+        $ringData = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $lsIDs    = THM_OrganizerHelperComponent::executeQuery('loadColumn', [], 1);
 
         if (empty($ringData) or empty($lsIDs)) {
             return false;
@@ -413,7 +392,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $this->_db->setQuery($query);
 
-        $rawGrid = THM_OrganizerHelperComponent::query('loadResult');
+        $rawGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
         if (empty($rawGrid)) {
             return;
         }
@@ -477,7 +456,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("ls.id IN ('" . implode("', '", $lsIDs) . "')");
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList', [], 'lsID');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'lsID');
         if (empty($results)) {
             return;
         }
@@ -522,7 +501,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
 
         $this->roomTypes = empty($results) ? [] : $results;
     }

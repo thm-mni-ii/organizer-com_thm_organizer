@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class provides a standardized display of non-standard edit forms (non-item based, merge).
  */
@@ -32,7 +34,7 @@ class THM_OrganizerTemplateForm
             <div class="form-horizontal">
                 <?php echo $view->form->renderFieldset('details'); ?>
             </div>
-            <?php echo JHtml::_('form.token'); ?>
+            <?php echo HTML::_('form.token'); ?>
             <input type="hidden" name="task" value=""/>
         </form>
         <?php

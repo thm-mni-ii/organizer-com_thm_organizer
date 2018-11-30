@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 
 /**
@@ -86,10 +89,10 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]              = [];
-            $return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['full_name'] = JHtml::_('link', $item->link, $item->full_name);
-            $return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
+            $return[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['full_name'] = HTML::_('link', $item->link, $item->full_name);
+            $return[$index]['name']      = HTML::_('link', $item->link, $item->name);
+            $return[$index]['gpuntisID'] = HTML::_('link', $item->link, $item->gpuntisID);
             $index++;
         }
 
@@ -107,9 +110,9 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
         $direction            = $this->state->get('list.direction', $this->defaultDirection);
         $headers              = [];
         $headers['checkbox']  = '';
-        $headers['full_name'] = THM_OrganizerHelperComponent::sort('NAME', 'ppl.full_name', $direction, $ordering);
-        $headers['name']      = THM_OrganizerHelperComponent::sort('SHORT_NAME', 'ppl.name', $direction, $ordering);
-        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
+        $headers['full_name'] = HTML::sort('NAME', 'ppl.full_name', $direction, $ordering);
+        $headers['name']      = HTML::sort('SHORT_NAME', 'ppl.name', $direction, $ordering);
+        $headers['gpuntisID'] = HTML::sort('GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
 
         return $headers;
     }

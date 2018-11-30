@@ -58,7 +58,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('loadResult');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -113,7 +113,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        $names = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $names = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
         if (empty($names)) {
             return '';
         }
@@ -212,7 +212,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -290,7 +290,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }

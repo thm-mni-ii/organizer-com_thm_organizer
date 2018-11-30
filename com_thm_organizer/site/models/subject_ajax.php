@@ -69,7 +69,7 @@ class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->group('s.id');
         $dbo->setQuery($query);
 
-        $subjects = THM_OrganizerHelperComponent::query('loadObjectList');
+        $subjects = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
 
         return empty($subjects) ? '[]' : json_encode($subjects);
     }

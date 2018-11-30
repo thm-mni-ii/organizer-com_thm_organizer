@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 JFormHelper::loadFieldClass('list');
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
@@ -30,6 +33,6 @@ class JFormFieldTemplateID extends JFormFieldList
      */
     protected function getOptions()
     {
-        return THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
+        return HTML::getTranslatedOptions($this, $this->element);
     }
 }

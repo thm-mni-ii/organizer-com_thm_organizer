@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -79,10 +82,10 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]               = [];
-            $return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['longname']   = JHtml::_('link', $item->link, $item->longname);
-            $return[$index]['buildingID'] = JHtml::_('link', $item->link, $item->buildingName);
-            $return[$index]['typeID']     = JHtml::_('link', $item->link, $item->type);
+            $return[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['longname']   = HTML::_('link', $item->link, $item->longname);
+            $return[$index]['buildingID'] = HTML::_('link', $item->link, $item->buildingName);
+            $return[$index]['typeID']     = HTML::_('link', $item->link, $item->type);
             $index++;
         }
 
@@ -96,14 +99,14 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction           = $this->state->get('list.direction', $this->defaultDirection);
-        $headers             = [];
-        $headers['checkbox'] = '';
-        $headers['longname'] = THM_OrganizerHelperComponent::sort('DISPLAY_NAME', 'r.longname', $direction, $ordering);
-        $headers['buildingID']
-                             = THM_OrganizerHelperComponent::sort('BUILDING', 'buildingName', $direction, $ordering);
-        $headers['typeID']   = THM_OrganizerHelperComponent::sort('TYPE', 'type', $direction, $ordering);
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
+        $headers['checkbox']   = '';
+        $headers['longname']   = HTML::sort('DISPLAY_NAME', 'r.longname', $direction, $ordering);
+        $headers['buildingID'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
+        $headers['typeID']     = HTML::sort('TYPE', 'type', $direction, $ordering);
 
         return $headers;
     }

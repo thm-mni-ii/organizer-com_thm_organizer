@@ -9,6 +9,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
@@ -82,7 +85,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
         $index = 0;
         foreach ($items as $item) {
             $return[$index]               = [];
-            $return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
             $return[$index]['name']       = $item->name;
             $return[$index]['externalID'] = $item->externalID;
             $index++;
@@ -103,8 +106,8 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
         $headers   = [];
 
         $headers['checkbox']   = '';
-        $headers['name']       = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
-        $headers['externalID'] = THM_OrganizerHelperComponent::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
+        $headers['name']       = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['externalID'] = HTML::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
 
         return $headers;
     }
@@ -125,7 +128,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
         $dbo = JFactory::getDbo();
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::query('loadResult');
+        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**

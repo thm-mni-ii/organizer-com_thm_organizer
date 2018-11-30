@@ -175,7 +175,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
                 ->where("lessonID = '$lessonID'");
             $this->_db->setQuery($calendarQuery);
 
-            $calendarEntries = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+            $calendarEntries = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
 
             // Occurs when the planner left the room blank
             if (empty($calendarEntries)) {
@@ -188,7 +188,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
                 ->where("lessonID = '$lessonID'");
             $this->_db->setQuery($lessonSubjectsQuery);
 
-            $lessonSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'subjectID');
+            $lessonSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'subjectID');
 
             // Should not occur
             if (empty($lessonSubjects)) {
@@ -220,7 +220,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
                         ->where('configurationID NOT IN (' . implode(', ', $configIDs) . ')');
                     $this->_db->setQuery($deprecatedQuery);
 
-                    $success = (bool)THM_OrganizerHelperComponent::query('execute');
+                    $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
                     if (empty($success)) {
                         return false;
                     }
@@ -251,7 +251,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
 
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -514,7 +514,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             $deprecatedQuery->where("delta != 'removed'");
             $this->_db->setQuery($deprecatedQuery);
 
-            $success = (bool)THM_OrganizerHelperComponent::query('execute');
+            $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
             if (!$success) {
                 return false;
             }
@@ -620,7 +620,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -670,7 +670,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -729,7 +729,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -774,7 +774,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -797,7 +797,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->innerJoin('#__thm_organizer_plan_pools as p_pool on p_prg.id = p_pool.programID')
             ->where("p_pool.id = '$poolID'");
         $this->_db->setQuery($boundariesQuery);
-        $boundaries = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $boundaries = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
         if (empty($boundaries)) {
             return;
@@ -813,7 +813,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->where("s.externalID = '$subjectNo'");
         $this->_db->setQuery($subjectQuery);
 
-        $subjectID = THM_OrganizerHelperComponent::query('loadResult');
+        $subjectID = THM_OrganizerHelperComponent::executeQuery('loadResult');
         if (empty($subjectID)) {
             return;
         }

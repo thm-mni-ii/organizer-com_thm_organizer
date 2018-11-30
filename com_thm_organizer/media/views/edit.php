@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.
  */
@@ -49,10 +51,10 @@ abstract class THM_OrganizerViewEdit extends \Joomla\CMS\MVC\View\HtmlView
      */
     protected function modifyDocument()
     {
-        JHtml::_('bootstrap.framework');
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.formvalidator');
-        JHtml::_('formbehavior.chosen', 'select');
+        HTML::_('bootstrap.framework');
+        HTML::_('bootstrap.tooltip');
+        HTML::_('behavior.formvalidator');
+        HTML::_('formbehavior.chosen', 'select');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');

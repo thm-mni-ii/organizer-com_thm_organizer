@@ -113,7 +113,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
             $selectQuery->where("configuration REGEXP '$regexp'");
             $this->_db->setQuery($selectQuery);
 
-            $storedConfigurations = THM_OrganizerHelperComponent::query('loadAssocList');
+            $storedConfigurations = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
             if (empty($storedConfigurations)) {
                 continue;
             }
@@ -136,7 +136,7 @@ class THM_OrganizerModelRoom extends THM_OrganizerModelMerge
                 $updateQuery->clear('where');
                 $updateQuery->where("id = '{$storedConfiguration['id']}'");
                 $this->_db->setQuery($updateQuery);
-                $success = (bool)THM_OrganizerHelperComponent::query('execute');
+                $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
                 if (!$success) {
                     return false;
                 }

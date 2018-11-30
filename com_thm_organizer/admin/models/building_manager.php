@@ -7,7 +7,11 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
@@ -68,10 +72,10 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]             = [];
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['name']     = HTML::_('link', $item->link, $item->name);
             $campusName                 = THM_OrganizerHelperCampuses::getName($item->campusID);
-            $return[$index]['campusID'] = JHtml::_('link', $item->link, $campusName);
+            $return[$index]['campusID'] = HTML::_('link', $item->link, $campusName);
 
             switch ($item->propertyType) {
                 case self::OWNED:
@@ -91,8 +95,8 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
                     break;
             }
 
-            $return[$index]['propertyType'] = JHtml::_('link', $item->link, $propertyType);
-            $return[$index]['address']      = JHtml::_('link', $item->link, $item->address);
+            $return[$index]['propertyType'] = HTML::_('link', $item->link, $propertyType);
+            $return[$index]['address']      = HTML::_('link', $item->link, $item->address);
             $index++;
         }
 
@@ -109,7 +113,7 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
         $direction               = $this->state->get('list.direction', $this->defaultDirection);
         $headers                 = [];
         $headers['checkbox']     = '';
-        $headers['name']         = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, 'name');
+        $headers['name']         = HTML::sort('NAME', 'name', $direction, 'name');
         $headers['campusID']     = JText::_('COM_THM_ORGANIZER_CAMPUS');
         $headers['propertyType'] = JText::_('COM_THM_ORGANIZER_PROPERTY_TYPE');
         $headers['address']      = JText::_('COM_THM_ORGANIZER_ADDRESS');

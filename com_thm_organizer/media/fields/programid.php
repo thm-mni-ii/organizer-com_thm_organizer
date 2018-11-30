@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 JFormHelper::loadFieldClass('list');
@@ -41,7 +44,7 @@ class JFormFieldProgramID extends JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $programs       = THM_OrganizerHelperComponent::query('loadAssocList');
+        $programs       = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($programs)) {
             return $defaultOptions;
         }
@@ -66,7 +69,7 @@ class JFormFieldProgramID extends JFormFieldList
             $text = "{$program['name']}, {$program['degree']} ({$program['version']})";
 
             if (!$access or THM_OrganizerHelperAccess::allowDocumentAccess('program', $program['value'])) {
-                $options[] = JHtml::_('select.option', $program['value'], $text);
+                $options[] = HTML::_('select.option', $program['value'], $text);
             }
         }
 

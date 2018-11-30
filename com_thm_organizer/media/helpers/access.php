@@ -108,7 +108,7 @@ class THM_OrganizerHelperAccess
         $query->select('asset_id')->from("#__thm_organizer_{$resourceName}s")->where("id = '$itemID'");
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('loadResult');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -125,7 +125,7 @@ class THM_OrganizerHelperAccess
         $query = $dbo->getQuery(true);
         $query->select('id')->from('#__thm_organizer_departments');
         $dbo->setQuery($query);
-        $departmentIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $departmentIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         // Don't bother checking departments if the user is an administrator
         if (self::isAdmin($userID)) {

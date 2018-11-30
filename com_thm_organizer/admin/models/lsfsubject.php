@@ -86,7 +86,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                 $query->where("s.externalID = '$possibleModuleNumber'");
                 $this->_db->setQuery($query);
 
-                $mappedSubjects = THM_OrganizerHelperComponent::query('loadAssocList', [], 'mappingID');
+                $mappedSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'mappingID');
                 if (empty($mappedSubjects)) {
                     continue;
                 }
@@ -196,7 +196,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             ->where("rgt < '{$program['rgt']}'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadColumn', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 
     /**
@@ -877,7 +877,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                     ->where("subjectID = '$subjectID'");
                 $this->_db->setQuery($checkQuery);
 
-                $entryExists = (bool)THM_OrganizerHelperComponent::query('loadResult');
+                $entryExists = (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
 
                 if (!$entryExists) {
                     $insertQuery = $this->_db->getQuery(true);
@@ -885,7 +885,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                     $insertQuery->columns('prerequisite, subjectID');
                     $insertQuery->values("'$prerequisiteID', '$subjectID'");
                     $this->_db->setQuery($insertQuery);
-                    THM_OrganizerHelperComponent::query('execute');
+                    THM_OrganizerHelperComponent::executeQuery('execute');
                 }
             }
         }

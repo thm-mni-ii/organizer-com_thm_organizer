@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
@@ -57,7 +60,7 @@ class JFormFieldCampusID extends JFormFieldList
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
-            $html[] = JHtml::_(
+            $html[] = HTML::_(
                 'select.genericlist',
                 $options,
                 '',
@@ -84,7 +87,7 @@ class JFormFieldCampusID extends JFormFieldList
             }
         } else // Create a regular list.
         {
-            $html[] = JHtml::_(
+            $html[] = HTML::_(
                 'select.genericlist',
                 $options,
                 $this->name,
@@ -106,7 +109,7 @@ class JFormFieldCampusID extends JFormFieldList
      */
     protected function getOptions()
     {
-        $defaultOptions = THM_OrganizerHelperComponent::getTranslatedOptions($this, $this->element);
+        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
         $campuses       = THM_OrganizerHelperCampuses::getOptions();
 
         if (empty($campuses)) {
@@ -116,7 +119,7 @@ class JFormFieldCampusID extends JFormFieldList
         $options = [];
 
         foreach ($campuses as $campusID => $name) {
-            $options[$campusID] = JHtml::_('select.option', $campusID, $name);
+            $options[$campusID] = HTML::_('select.option', $campusID, $name);
         }
 
         return array_merge($defaultOptions, $options);

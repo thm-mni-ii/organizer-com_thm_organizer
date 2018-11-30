@@ -31,7 +31,7 @@ class THM_OrganizerHelperXMLDescriptions
         $query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
         $dbo->setQuery($query);
 
-        $resourceID = THM_OrganizerHelperComponent::query('loadResult');
+        $resourceID = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         if (empty($resourceID)) {
             $scheduleModel->scheduleErrors[]

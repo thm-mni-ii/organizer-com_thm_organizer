@@ -149,7 +149,7 @@ class THM_OrganizerHelperPools
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -233,7 +233,7 @@ class THM_OrganizerHelperPools
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -322,7 +322,7 @@ class THM_OrganizerHelperPools
         }
 
         $dbo->setQuery($query);
-        $subjectIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $subjectIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         if (empty($subjectIDs)) {
             return [];

@@ -9,6 +9,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
 
 /**
@@ -34,8 +37,9 @@ class THM_OrganizerViewSubject_Selection extends THM_OrganizerViewList
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        JHtml::_('jquery.framework');
-        JHtml::_('searchtools.form', '#adminForm', []);
+
+        HTML::_('jquery.framework');
+        HTML::_('searchtools.form', '#adminForm', []);
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/child_selection.css');

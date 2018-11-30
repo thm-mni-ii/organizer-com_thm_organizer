@@ -9,8 +9,10 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/list.php';
-JHtml::_('jquery.framework');
 
 /**
  * Class loads pool information into the display context.
@@ -35,7 +37,8 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        JHtml::_('searchtools.form', '#adminForm', []);
+        HTML::_('jquery.framework');
+        HTML::_('searchtools.form', '#adminForm', []);
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/child_selection.css');

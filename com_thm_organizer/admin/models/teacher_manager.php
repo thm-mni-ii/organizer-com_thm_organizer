@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
@@ -68,11 +71,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
             $itemGPUntisID = empty($item->gpuntisID) ? '' : $item->gpuntisID;
 
             $return[$index]                = [];
-            $return[$index]['checkbox']    = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['surname']     = JHtml::_('link', $item->link, $item->surname);
-            $return[$index]['forename']    = JHtml::_('link', $item->link, $itemForename);
-            $return[$index]['username']    = JHtml::_('link', $item->link, $itemUsername);
-            $return[$index]['t.gpuntisID'] = JHtml::_('link', $item->link, $itemGPUntisID);
+            $return[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['surname']     = HTML::_('link', $item->link, $item->surname);
+            $return[$index]['forename']    = HTML::_('link', $item->link, $itemForename);
+            $return[$index]['username']    = HTML::_('link', $item->link, $itemUsername);
+            $return[$index]['t.gpuntisID'] = HTML::_('link', $item->link, $itemGPUntisID);
 
             $departments = THM_OrganizerHelperTeachers::getDepartmentNames($item->id);
 

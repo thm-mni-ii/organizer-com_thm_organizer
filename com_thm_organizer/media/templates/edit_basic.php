@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class provides a standardized display of basic item edit forms.
  */
@@ -33,7 +35,7 @@ class THM_OrganizerTemplateEdit_Basic
                 <?php echo $view->form->renderFieldset('details'); ?>
             </fieldset>
             <?php echo $view->form->getInput('id'); ?>
-            <?php echo JHtml::_('form.token'); ?>
+            <?php echo HTML::_('form.token'); ?>
             <input type="hidden" name="task" value=""/>
         </form>
         <?php

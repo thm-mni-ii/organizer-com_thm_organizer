@@ -15,7 +15,9 @@ function addPools(pools)
 {
     'use strict';
 
-    var poolSelection = jQuery('#poolIDs'), selectedPools = poolSelection.val(), selected;
+    const poolSelection = jQuery('#poolIDs'),
+        selectedPools = poolSelection.val();
+    let selected;
 
     poolSelection.children().remove();
 
@@ -40,7 +42,9 @@ function addPrograms(programs)
 {
     'use strict';
 
-    var programSelection = jQuery('#programIDs'), selectedPrograms = programSelection.val(), selected;
+    const programSelection = jQuery('#programIDs'),
+        selectedPrograms = programSelection.val();
+    let selected;
 
     programSelection.children().remove();
 
@@ -66,7 +70,9 @@ function addRooms(rooms)
 {
     'use strict';
 
-    var roomSelection = jQuery('#roomIDs'), selectedRooms = roomSelection.val(), selected;
+    const roomSelection = jQuery('#roomIDs'),
+        selectedRooms = roomSelection.val();
+    let selected;
 
     roomSelection.children().remove();
 
@@ -91,7 +97,9 @@ function addTeachers(teachers)
 {
     'use strict';
 
-    var teacherSelection = jQuery('#teacherIDs'), selectedTeachers = teacherSelection.val(), selected;
+    const teacherSelection = jQuery('#teacherIDs'),
+        selectedTeachers = teacherSelection.val();
+    let selected;
 
     teacherSelection.children().remove();
 
@@ -114,9 +122,8 @@ function addTeachers(teachers)
  */
 function copyLink()
 {
-    var format, url, myschedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
-
-    format = jQuery('input[name=format]').val();
+    const format = jQuery('input[name=format]').val();
+    let url, mySchedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
 
     if (format !== 'ics')
     {
@@ -125,9 +132,9 @@ function copyLink()
 
     url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
 
-    myschedule = jQuery('#myschedule:checked').val();
+    mySchedule = jQuery('#myschedule:checked').val();
 
-    if (myschedule === 'on' && username !== undefined && auth !== undefined)
+    if (mySchedule === 'on' && username !== undefined && auth !== undefined)
     {
         url += '&myschedule=1&username=' + username + '&auth=' + auth;
     }
@@ -165,7 +172,8 @@ function copyLink()
 
 function handleSubmit()
 {
-    var validSelection = validateSelection(), formatValue = jQuery('input[name=format]').val();
+    const validSelection = validateSelection(),
+        formatValue = jQuery('input[name=format]').val();
 
     if (!validSelection)
     {
@@ -190,8 +198,9 @@ function repopulateResources()
 {
     'use strict';
 
-    var selectedDepartments = jQuery('#departmentIDs').val(), selectedPrograms = jQuery('#programIDs').val(),
-        invalidDepartments, invalidPrograms, allIndex, componentParameters, selectionParameters = '';
+    const selectedDepartments = jQuery('#departmentIDs').val(),
+        selectedPrograms = jQuery('#programIDs').val();
+    let invalidDepartments, invalidPrograms, componentParameters, selectionParameters = '';
 
     invalidDepartments = selectedDepartments == null || selectedDepartments.length === 0;
     invalidPrograms = selectedPrograms == null || selectedPrograms.length === 0;
@@ -267,8 +276,9 @@ function repopulatePrograms()
 {
     'use strict';
 
-    var componentParameters, selectedDepartments = jQuery('#departmentIDs').val(), allIndex, selectionParameters;
-    componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
+    const componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions',
+        selectedDepartments = jQuery('#departmentIDs').val();
+    let selectionParameters;
 
     if (selectedDepartments == null)
     {
@@ -295,33 +305,34 @@ function repopulatePrograms()
 
 function setFormat()
 {
-    var actionButton = jQuery('#action-btn'),
+    const actionButton = jQuery('#action-btn'),
         dateContainer = jQuery('#date-container'),
         formatValue = jQuery('#format').find(':selected').val(),
         formatArray = formatValue.split('.'),
         format = formatArray[0],
-        documentFormat = formatArray[1],
         dateRestrictionContainer = jQuery('#dateRestriction-container'),
-        displayFormatContainer = jQuery('#displayFormat-container'),
+        /*displayFormatContainer = jQuery('#displayFormat-container'),*/
         documentFormatContainer = jQuery('input[name=documentFormat]'),
         formatInput = jQuery('input[name=format]'),
         groupingContainer = jQuery('#grouping-container'),
         linkContainer = jQuery('#link-container'),
         linkTarget = jQuery('#link-target'),
         titlesContainer = jQuery('#titles-container'),
-        pdfFormatContainer = jQuery('#pdfWeekFormat-container'),
+        /*pdfFormatContainer = jQuery('#pdfWeekFormat-container'),*/
         xlsFormatContainer = jQuery('#xlsWeekFormat-container');
+
+    let documentFormat = formatArray[1];
 
     switch (format)
     {
         case 'ics':
             formatInput.val(format);
             actionButton.text(generateText + ' ').append('<span class="icon-feed"></span>');
-            displayFormatContainer.hide();
+            //displayFormatContainer.hide();
             dateContainer.hide();
             dateRestrictionContainer.hide();
             groupingContainer.hide();
-            pdfFormatContainer.hide();
+            //pdfFormatContainer.hide();
             titlesContainer.hide();
             xlsFormatContainer.hide();
             break;
@@ -332,11 +343,11 @@ function setFormat()
             actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
             dateContainer.show();
             dateRestrictionContainer.show();
-            displayFormatContainer.hide();
+            //displayFormatContainer.hide();
             groupingContainer.hide();
             linkContainer.hide();
             linkTarget.text('');
-            pdfFormatContainer.hide();
+            //pdfFormatContainer.hide();
             titlesContainer.hide();
             xlsFormatContainer.show();
             break;
@@ -356,10 +367,10 @@ function setFormat()
             {
                 groupingContainer.show();
             }
-            displayFormatContainer.show();
+            //displayFormatContainer.hide();
             dateContainer.show();
             dateRestrictionContainer.show();
-            pdfFormatContainer.show();
+            //pdfFormatContainer.hide();
             titlesContainer.show();
             xlsFormatContainer.hide();
             break;
@@ -371,9 +382,9 @@ function setFormat()
  */
 function toggleMySchedule()
 {
-    var myschedule = jQuery('#myschedule:checked').val();
+    const mySchedule = jQuery('#myschedule:checked').val();
 
-    if (myschedule === 'on')
+    if (mySchedule === 'on')
     {
         jQuery('#filterFields').hide();
         jQuery('#poolIDs-container').hide();
@@ -394,12 +405,13 @@ function toggleMySchedule()
 
 function validateSelection()
 {
-    var myschedule = jQuery('#myschedule:checked').val(),
-        selectedPools = jQuery('#poolIDs').val(), emptyPools,
-        selectedRooms = jQuery('#roomIDs').val(), emptyRooms,
-        selectedTeachers = jQuery('#teacherIDs').val(), emptyTeachers;
+    const mySchedule = jQuery('#myschedule:checked').val(),
+        selectedPools = jQuery('#poolIDs').val(),
+        selectedRooms = jQuery('#roomIDs').val(),
+        selectedTeachers = jQuery('#teacherIDs').val();
+    let emptyPools, emptyRooms, emptyTeachers;
 
-    if (myschedule === 'on')
+    if (mySchedule === 'on')
     {
         return true;
     }

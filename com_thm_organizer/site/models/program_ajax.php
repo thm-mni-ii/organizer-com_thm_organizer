@@ -54,7 +54,7 @@ class THM_OrganizerModelProgram_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->order('name');
         $dbo->setQuery($query);
 
-        $programs = THM_OrganizerHelperComponent::query('loadObjectList');
+        $programs = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
 
         return empty($programs) ? '[]' : json_encode($programs);
     }

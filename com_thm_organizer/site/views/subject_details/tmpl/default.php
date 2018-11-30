@@ -7,6 +7,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+use \THM_OrganizerHelperHTML as HTML;
+
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $containerClass = $this->showRegistration ? ' uses-login' : '';
 
@@ -47,7 +50,7 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
             </script>
             <div class="tbox-yellow">
                 <p><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
-                <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
+                <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>
                 <div class="right">
                     <?php if (!empty($this->menu)): ?>
                         <a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini"
@@ -92,7 +95,7 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
                             <?php echo $menuText ?>
                         </a>
                     <?php endif; ?>
-                    <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
+                    <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>
                 </div>
                 <div class="clear"></div>
             </div>

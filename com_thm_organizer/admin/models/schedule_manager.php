@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/date.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
@@ -85,7 +88,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
         foreach ($items as $item) {
             $return[$index] = [];
 
-            $return[$index]['checkbox']         = JHtml::_('grid.id', $index, $item->id);
+            $return[$index]['checkbox']         = HTML::_('grid.id', $index, $item->id);
             $return[$index]['departmentID']     = $item->departmentName;
             $return[$index]['planningPeriodID'] = $item->planningPeriodName;
 
@@ -109,18 +112,15 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction           = $this->state->get('list.direction', $this->defaultDirection);
-        $headers             = [];
-        $headers['checkbox'] = '';
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
 
-        $headers['departmentID']
-            = THM_OrganizerHelperComponent::sort('DEPARTMENT', 'departmentname', $direction, $ordering);
-        $headers['planningPeriodID']
-            = THM_OrganizerHelperComponent::sort('PLANNING_PERIOD', 'semestername', $direction, $ordering);
-
-        $headers['active']  = THM_OrganizerHelperComponent::sort('STATE', 'active', $direction, $ordering);
-        $headers['created'] = THM_OrganizerHelperComponent::sort('CREATION_DATE', 'created', $direction, $ordering);
+        $headers['checkbox']         = '';
+        $headers['departmentID']     = HTML::sort('DEPARTMENT', 'departmentname', $direction, $ordering);
+        $headers['planningPeriodID'] = HTML::sort('PLANNING_PERIOD', 'semestername', $direction, $ordering);
+        $headers['active']           = HTML::sort('STATE', 'active', $direction, $ordering);
+        $headers['created']          = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
 
         return $headers;
     }

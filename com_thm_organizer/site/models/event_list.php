@@ -208,7 +208,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         $query->select('id')->from('#__thm_organizer_rooms');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadColumn', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 
     /**
@@ -271,7 +271,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                 ->where("(ppp.published IS NULL OR ppp.published = '1')");
             $this->_db->setQuery($query);
 
-            $events = THM_OrganizerHelperComponent::query('loadAssocList');
+            $events = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
             if (!empty($events)) {
                 foreach ($events as $index => $event) {

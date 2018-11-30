@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
@@ -52,7 +55,7 @@ class JFormFieldPoolID extends JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $pools          = THM_OrganizerHelperComponent::query('loadAssocList');
+        $pools          = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($pools)) {
             return $defaultOptions;
         }
@@ -63,7 +66,7 @@ class JFormFieldPoolID extends JFormFieldList
 
         foreach ($pools as $pool) {
             if (!$access or THM_OrganizerHelperAccess::allowDocumentAccess('pool', $pool['value'])) {
-                $options[] = JHtml::_('select.option', $pool['value'], $pool['text']);
+                $options[] = HTML::_('select.option', $pool['value'], $pool['text']);
             }
         }
 

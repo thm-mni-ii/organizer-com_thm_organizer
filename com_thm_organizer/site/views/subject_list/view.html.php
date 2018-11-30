@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -162,7 +165,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
             $text = "$subjectNo - $name";
         }
 
-        $displayItem .= '<td class="subject-name">' . JHtml::link($href, $text, $attribs) . '</td>';
+        $displayItem .= '<td class="subject-name">' . HTML::link($href, $text, $attribs) . '</td>';
 
         if (empty($this->state->get('programID'))) {
             $initial     = true;
@@ -173,7 +176,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
                     $displayItem .= '<br>';
                 }
                 $href        = "?option=com_thm_organizer&view=subject_list&programIDs=$programID";
-                $displayItem .= JHtml::link($href, $programName, $attribs);
+                $displayItem .= HTML::link($href, $programName, $attribs);
             }
 
             $displayItem .= '</td>';
@@ -331,9 +334,9 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('bootstrap.framework');
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('jquery.ui');
+        HTML::_('bootstrap.framework');
+        HTML::_('bootstrap.tooltip');
+        HTML::_('jquery.ui');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_list.css');

@@ -9,6 +9,8 @@
  * @link        www.thm.de
  */
 
+use \THM_OrganizerHelperHTML as HTML;
+
 $header      = $this->lang->_('COM_THM_ORGANIZER_COURSE_OVERVIEW_HEADER');
 $campusName  = empty($this->state->filter_campus) ? '' : THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
 $coursesType = empty($this->state->filter_prep_courses) ?
@@ -52,7 +54,7 @@ if (!empty($menuID)):
     <?php if (empty(JFactory::getUser()->id)): ?>
         <div class="tbox-yellow">
             <p><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
-            <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
+            <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>
             <div class="right">
                 <a class="btn" onclick="<?php echo $casURL; ?>">
                     <span class="icon-apply"></span>
@@ -67,7 +69,7 @@ if (!empty($menuID)):
                 <a class='btn btn-max' href='<?php echo $profileRoute; ?>'>
                     <span class='icon-address'></span> <?php echo $this->lang->_('COM_THM_ORGANIZER_EDIT_USER_PROFILE'); ?>
                 </a>
-                <?php echo JHtml::_('content.prepare', '{loadposition ' . $position . '}'); ?>
+                <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>
             </div>
         </div>
     <?php endif; ?>

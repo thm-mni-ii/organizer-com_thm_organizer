@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 
 define('DAILY', 1);
@@ -156,13 +159,13 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
             }
 
             $return[$index]                = [];
-            $return[$index]['checkbox']    = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['longname']    = JHtml::_('link', $item->link, $item->longname);
-            $return[$index]['ip']          = JHtml::_('link', $item->link, $item->ip);
+            $return[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['longname']    = HTML::_('link', $item->link, $item->longname);
+            $return[$index]['ip']          = HTML::_('link', $item->link, $item->ip);
             $tip                           = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
             $return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
-            $return[$index]['display']     = JHtml::_('link', $item->link, $this->displayBehaviour[$item->display]);
-            $return[$index]['content']     = JHtml::_('link', $item->link, $item->content);
+            $return[$index]['display']     = HTML::_('link', $item->link, $this->displayBehaviour[$item->display]);
+            $return[$index]['content']     = HTML::_('link', $item->link, $item->content);
             $index++;
         }
 
@@ -176,18 +179,16 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering            = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction           = $this->state->get('list.direction', $this->defaultDirection);
-        $headers             = [];
-        $headers['checkbox'] = '';
-        $headers['longname'] = THM_OrganizerHelperComponent::sort('ROOM', 'r.longname', $direction, $ordering);
-        $headers['ip']       = THM_OrganizerHelperComponent::sort('IP', 'm.ip', $direction, $ordering);
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
 
-        $headers['useDefaults']
-            = THM_OrganizerHelperComponent::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering);
-
-        $headers['display'] = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
-        $headers['content'] = THM_OrganizerHelperComponent::sort('DISPLAY_CONTENT', 'm.content', $direction, $ordering);
+        $headers['checkbox']    = '';
+        $headers['longname']    = HTML::sort('ROOM', 'r.longname', $direction, $ordering);
+        $headers['ip']          = HTML::sort('IP', 'm.ip', $direction, $ordering);
+        $headers['useDefaults'] = HTML::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering);
+        $headers['display']     = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
+        $headers['content']     = HTML::sort('DISPLAY_CONTENT', 'm.content', $direction, $ordering);
 
         return $headers;
     }

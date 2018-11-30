@@ -182,7 +182,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
 
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList');
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList');
     }
 
     /**
@@ -197,7 +197,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         $query->from('#__thm_organizer_schedules');
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadColumn', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 
     /**
@@ -215,7 +215,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         $query->where("id = '$scheduleID'");
         $this->_db->setQuery($query);
 
-        $schedule = THM_OrganizerHelperComponent::query('loadResult');
+        $schedule = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         return empty($schedule) ? null : json_decode($schedule);
     }
@@ -382,7 +382,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         $query->where("{$this->fkColumn} IN ( $oldIDString )");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute', false, null, true);
     }
 
     /**
@@ -404,7 +404,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         $existingQuery->from('#__thm_organizer_department_resources');
         $existingQuery->where("{$this->deptResource} = '{$this->data['id']}'");
         $this->_db->setQuery($existingQuery);
-        $existing   = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $existing   = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
         $deprecated = array_diff($existing, $this->data['departmentID']);
 
         if (!empty($deprecated)) {
@@ -414,7 +414,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
             $deletionQuery->where("departmentID IN ('" . implode("','", $deprecated) . "')");
             $this->_db->setQuery($deletionQuery);
 
-            $deleted = (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+            $deleted = (bool)THM_OrganizerHelperComponent::executeQuery('execute', false, null, true);
             if (!$deleted) {
                 return false;
             }
@@ -431,7 +431,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
                 $insertQuery->values("'$newID', '{$this->data['id']}'");
                 $this->_db->setQuery($insertQuery);
 
-                $inserted = (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+                $inserted = (bool)THM_OrganizerHelperComponent::executeQuery('execute', false, null, true);
                 if (!$inserted) {
                     return false;
                 }
@@ -456,7 +456,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         $departmentQuery->from('#__thm_organizer_department_resources');
         $departmentQuery->where("{$this->deptResource} IN ( $allIDString )");
         $this->_db->setQuery($departmentQuery);
-        $deptIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $deptIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         if (empty($deptIDs)) {
             return true;
@@ -467,7 +467,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
             ->where("{$this->fkColumn} IN ( $allIDString )");
         $this->_db->setQuery($deleteQuery);
 
-        $deleted = (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+        $deleted = (bool)THM_OrganizerHelperComponent::executeQuery('execute', false, null, true);
         if (!$deleted) {
             return false;
         }
@@ -482,7 +482,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
 
         $this->_db->setQuery($insertQuery);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute', false, null, true);
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute', false, null, true);
     }
 
     /**

@@ -70,7 +70,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("m.rgt <= '$right'");
         $query->order('field');
 
-        return THM_OrganizerHelperComponent::query('loadAssocList');
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList');
     }
 
     /**
@@ -94,7 +94,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("p.id = '$poolID'");
         $dbo->setQuery($query);
 
-        $poolData = THM_OrganizerHelperComponent::query('loadObject');
+        $poolData = THM_OrganizerHelperComponent::executeQuery('loadObject');
         if (empty($poolData)) {
             $poolData = new stdClass;
         }
@@ -132,7 +132,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("p.id = '$programID'");
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadObject');
+        return THM_OrganizerHelperComponent::executeQuery('loadObject');
     }
 
     /**
@@ -168,7 +168,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("s.id = '$subjectID'");
         $dbo->setQuery($query);
 
-        $subjectData = THM_OrganizerHelperComponent::query('loadObject');
+        $subjectData = THM_OrganizerHelperComponent::executeQuery('loadObject');
         if (empty($subjectData)) {
             return null;
         }
@@ -215,7 +215,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $mappingsQuery->order('lft');
         $dbo->setQuery($mappingsQuery);
 
-        $mappings = THM_OrganizerHelperComponent::query('loadAssocList');
+        $mappings = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($mappings)) {
             return $children;
         }
@@ -261,7 +261,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::query('loadResult');
+        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -282,7 +282,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("startDate <= '$date'")->where("endDate >= '$date'")->where("active = '1'");
         $dbo->setQuery($query);
 
-        $currentSchedules = THM_OrganizerHelperComponent::query('loadAssocList');
+        $currentSchedules = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($currentSchedules)) {
             return;
         }

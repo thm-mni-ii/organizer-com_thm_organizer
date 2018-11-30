@@ -49,6 +49,6 @@ class THM_OrganizerHelperPlan_Programs
 
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('loadResult');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 }

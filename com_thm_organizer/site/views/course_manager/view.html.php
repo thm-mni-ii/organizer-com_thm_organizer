@@ -10,6 +10,8 @@
  */
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
@@ -90,10 +92,12 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
+        HTML::_('bootstrap.tooltip');
 
         $document = JFactory::getDocument();
-        $document->addScriptDeclaration("var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'");
+        $document->addScriptDeclaration(
+            "var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
+        );
         $document->addScript(JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
     }

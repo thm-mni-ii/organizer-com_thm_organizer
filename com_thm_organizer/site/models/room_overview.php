@@ -172,7 +172,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
         $query->select('grid')->from('#__thm_organizer_grids as g')->where("defaultGrid = '1'");
         $this->_db->setQuery($query);
 
-        $defaultGrid = THM_OrganizerHelperComponent::query('loadResult');
+        $defaultGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
         $defaultGrid = json_decode($defaultGrid, true);
 
         if (empty($this->defaultCampus)) {
@@ -191,7 +191,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
             ->where("c1.id = '$this->defaultCampus'")
             ->where('(c1.gridID IS NOT NULL OR (c1.gridID IS NULL and c2.gridID IS NOT NULL))');
         $this->_db->setQuery($query);
-        $campusGrids = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $campusGrids = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
         if (empty($campusGrids)) {
             $this->grid = $defaultGrid;
@@ -291,7 +291,7 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
             ->where("(ppp.published IS NULL OR ppp.published = '1')");
         $this->_db->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }

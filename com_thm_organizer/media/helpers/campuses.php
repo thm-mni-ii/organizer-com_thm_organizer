@@ -62,7 +62,7 @@ class THM_OrganizerHelperCampuses
             ->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id')
             ->where("c1.id = '$campusID'");
         $dbo->setQuery($query);
-        $names = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $names = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
         if (empty($names)) {
             return '';
@@ -87,7 +87,7 @@ class THM_OrganizerHelperCampuses
             $query = $dbo->getQuery(true);
             $query->select('id')->from('#__thm_organizer_campuses as c');
             $dbo->setQuery($query);
-            $campusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+            $campusIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
         } else {
             // Parent campuses should always be displayed.
             $query = $dbo->getQuery(true);
@@ -96,7 +96,7 @@ class THM_OrganizerHelperCampuses
                 ->where('parentID IS NOT NULL');
 
             $dbo->setQuery($query);
-            $parentCampusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+            $parentCampusIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
             $query = $dbo->getQuery(true);
             $query->select('c.id')
@@ -104,14 +104,14 @@ class THM_OrganizerHelperCampuses
                 ->innerJoin('#__thm_organizer_subjects as s on s.campusID = c.id');
 
             $dbo->setQuery($query);
-            $subjectCampusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+            $subjectCampusIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
             $query = $dbo->getQuery(true);
             $query->select('c.id')
                 ->from('#__thm_organizer_campuses as c')
                 ->innerJoin('#__thm_organizer_lessons as l on l.campusID = c.id');
             $dbo->setQuery($query);
-            $courseCampusIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+            $courseCampusIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
             $campusIDs = array_unique(array_merge($parentCampusIDs, $subjectCampusIDs, $courseCampusIDs));
         }

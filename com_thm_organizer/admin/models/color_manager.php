@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -63,9 +66,9 @@ class THM_OrganizerModelColor_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]             = [];
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
-            $return[$index]['color']    = THM_OrganizerHelperComponent::getColorField($item->color, $item->color);
+            $return[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['name']     = HTML::_('link', $item->link, $item->name);
+            $return[$index]['color']    = HTML::colorField($item->color, $item->color);
             $index++;
         }
 
@@ -82,7 +85,7 @@ class THM_OrganizerModelColor_Manager extends THM_OrganizerModelList
         $direction           = $this->state->get('list.direction', $this->defaultDirection);
         $headers             = [];
         $headers['checkbox'] = '';
-        $headers['name']     = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, 'name');
+        $headers['name']     = HTML::sort('NAME', 'name', $direction, 'name');
         $headers['color']    = JText::_('COM_THM_ORGANIZER_COLOR');
 
         return $headers;

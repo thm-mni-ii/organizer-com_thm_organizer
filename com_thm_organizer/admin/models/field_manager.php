@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -79,10 +82,10 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]              = [];
-            $return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['field']     = JHtml::_('link', $item->link, $item->field);
-            $return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
-            $return[$index]['colorID']   = THM_OrganizerHelperComponent::getColorField($item->name, $item->color);
+            $return[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['field']     = HTML::_('link', $item->link, $item->field);
+            $return[$index]['gpuntisID'] = HTML::_('link', $item->link, $item->gpuntisID);
+            $return[$index]['colorID']   = HTML::colorField($item->name, $item->color);
             $index++;
         }
 
@@ -100,9 +103,9 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
         $direction            = $this->state->get('list.direction', $this->defaultDirection);
         $headers              = [];
         $headers['checkbox']  = '';
-        $headers['field']     = THM_OrganizerHelperComponent::sort('NAME', 'field', $direction, $ordering);
-        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'gpuntisID', $direction, $ordering);
-        $headers['colorID']   = THM_OrganizerHelperComponent::sort('COLOR', 'c.name', $direction, $ordering);
+        $headers['field']     = HTML::sort('NAME', 'field', $direction, $ordering);
+        $headers['gpuntisID'] = HTML::sort('GPUNTISID', 'gpuntisID', $direction, $ordering);
+        $headers['colorID']   = HTML::sort('COLOR', 'c.name', $direction, $ordering);
 
         return $headers;
     }

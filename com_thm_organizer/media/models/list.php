@@ -9,6 +9,8 @@
  */
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class provides a standardized framework for the display of listed resources.
  */
@@ -66,7 +68,7 @@ abstract class THM_OrganizerModelList extends JModelList
 
         $url  = 'index.php?option=com_thm_organizer&task=' . $controller . '.toggle&id=' . $id . '&value=' . $value;
         $url  .= empty($attribute) ? '' : "&attribute=$attribute";
-        $link = JHtml::_('link', $url, $icon, $attributes);
+        $link = HTML::_('link', $url, $icon, $attributes);
 
         return '<div class="button-grp">' . $link . '</div>';
     }
@@ -99,7 +101,7 @@ abstract class THM_OrganizerModelList extends JModelList
         $query->select("COUNT(DISTINCT ($idColumn))");
         $this->_db->setQuery($query);
 
-        $total = (int)THM_OrganizerHelperComponent::query('loadResult');
+        $total = (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         // Add the total to the internal cache.
         $this->cache[$store] = $total;

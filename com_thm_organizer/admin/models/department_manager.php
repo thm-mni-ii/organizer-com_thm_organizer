@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -80,9 +83,9 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]               = [];
-            $return[$index]['checkbox']   = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['short_name'] = JHtml::_('link', $item->link, $item->short_name);
-            $return[$index]['name']       = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['short_name'] = HTML::_('link', $item->link, $item->short_name);
+            $return[$index]['name']       = HTML::_('link', $item->link, $item->name);
             $index++;
         }
 
@@ -100,8 +103,8 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
         $direction             = $this->state->get('list.direction', $this->defaultDirection);
         $headers               = [];
         $headers['checkbox']   = '';
-        $headers['short_name'] = THM_OrganizerHelperComponent::sort('SHORT_NAME', 'f.field', $direction, $ordering);
-        $headers['name']       = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
+        $headers['short_name'] = HTML::sort('SHORT_NAME', 'f.field', $direction, $ordering);
+        $headers['name']       = HTML::sort('NAME', 'name', $direction, $ordering);
 
         return $headers;
     }

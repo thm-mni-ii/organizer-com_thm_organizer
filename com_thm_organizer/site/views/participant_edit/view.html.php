@@ -8,6 +8,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 
@@ -70,7 +73,7 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
+        HTML::_('bootstrap.tooltip');
 
         JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/participant_edit.css');
     }

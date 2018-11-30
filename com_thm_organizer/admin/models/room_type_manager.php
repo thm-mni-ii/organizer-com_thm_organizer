@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -79,9 +82,9 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]                 = [];
-            $return[$index]['checkbox']     = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['gpuntisID']    = JHtml::_('link', $item->link, $item->gpuntisID);
-            $return[$index]['name']         = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['gpuntisID']    = HTML::_('link', $item->link, $item->gpuntisID);
+            $return[$index]['name']         = HTML::_('link', $item->link, $item->name);
             $return[$index]['min_capacity'] = $item->min_capacity;
             $return[$index]['max_capacity'] = $item->max_capacity;
             $return[$index]['roomCount']    = $item->roomCount;
@@ -98,19 +101,16 @@ class THM_OrganizerModelRoom_Type_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction            = $this->state->get('list.direction', $this->defaultDirection);
-        $headers              = [];
-        $headers['checkbox']  = '';
-        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'gpuntisID', $direction, $ordering);
-        $headers['name']      = THM_OrganizerHelperComponent::sort('NAME', 'name', $direction, $ordering);
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
 
-        $headers['min_capacity']
-            = THM_OrganizerHelperComponent::sort('MIN_CAPACITY', 'min_capacity', $direction, $ordering);
-        $headers['max_capacity']
-            = THM_OrganizerHelperComponent::sort('MAX_CAPACITY', 'max_capacity', $direction, $ordering);
-
-        $headers['roomCount'] = THM_OrganizerHelperComponent::sort('ROOM_COUNT', 'roomCount', $direction, $ordering);
+        $headers['checkbox']     = '';
+        $headers['gpuntisID']    = HTML::sort('GPUNTISID', 'gpuntisID', $direction, $ordering);
+        $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['min_capacity'] = HTML::sort('MIN_CAPACITY', 'min_capacity', $direction, $ordering);
+        $headers['max_capacity'] = HTML::sort('MAX_CAPACITY', 'max_capacity', $direction, $ordering);
+        $headers['roomCount']    = HTML::sort('ROOM_COUNT', 'roomCount', $direction, $ordering);
 
         return $headers;
     }

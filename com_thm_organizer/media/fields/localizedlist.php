@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -47,14 +50,14 @@ class JFormFieldLocalizedList extends JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $resources      = THM_OrganizerHelperComponent::query('loadAssocList');
+        $resources      = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($resources)) {
             return $defaultOptions;
         }
 
         $options = [];
         foreach ($resources as $resource) {
-            $options[] = JHtml::_('select.option', $resource['value'], $resource['text']);
+            $options[] = HTML::_('select.option', $resource['value'], $resource['text']);
         }
 
         return array_merge($defaultOptions, $options);

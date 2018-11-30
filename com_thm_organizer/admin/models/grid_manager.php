@@ -9,6 +9,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/date.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
@@ -59,8 +62,8 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
         $index = 0;
         foreach ($items as $item) {
             $return[$index]             = [];
-            $return[$index]['checkbox'] = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['name']     = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['name']     = HTML::_('link', $item->link, $item->name);
             $grid                       = json_decode($item->grid);
 
             if (isset($grid) and isset($grid->periods)) {

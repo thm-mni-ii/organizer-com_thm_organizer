@@ -9,26 +9,30 @@
  */
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class loads teacher workload statistics into the display context.
  */
 class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
 {
-    public $params = null;
-
-    public $model = null;
-
-    public $scheduleSelectBox = '';
-
-    public $typeSelectBox = '';
-
-    public $startCalendar = '';
-
     public $endCalendar = '';
 
     public $hoursSelectBox = '';
 
+    public $model = null;
+
+    public $params = null;
+
+    public $scheduleSelectBox = '';
+
+    public $startCalendar = '';
+
     public $table = '';
+
+    public $teachers;
+
+    public $typeSelectBox = '';
 
     /**
      * Method to get display
@@ -67,9 +71,9 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('jquery.ui');
-        JHtml::_('behavior.calendar');
-        JHtml::_('formbehavior.chosen', 'select');
+        HTML::_('jquery.ui');
+        HTML::_('behavior.calendar');
+        HTML::_('formbehavior.chosen', 'select');
         $document = JFactory::getDocument();
         $document->setCharset('utf-8');
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/deputat.css');
@@ -87,16 +91,15 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         $schedules  = $this->model->getDepartmentSchedules();
 
         $options   = [];
-        $options[] = JHtml::_('select.option', 0, JText::_('COM_THM_ORGANIZER_FILTER_SCHEDULE'));
+        $options[0] = JText::_('COM_THM_ORGANIZER_FILTER_SCHEDULE');
         foreach ($schedules as $schedule) {
-            $options[] = JHtml::_('select.option', $schedule['id'], $schedule['name']);
+            $options[$schedule['id']] = $schedule['name'];
         }
 
         $attribs             = [];
         $attribs['onChange'] = "jQuery('#reset').val('1');this.form.submit();";
 
-        $this->scheduleSelectBox
-            = JHtml::_('select.genericlist', $options, 'scheduleID', $attribs, 'value', 'text', $scheduleID);
+        $this->scheduleSelectBox   = HTML::selectBox($options, 'scheduleID', $attribs, $scheduleID);
     }
 
     /**
@@ -108,17 +111,15 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
     {
         $teachers = $this->model->teachers;
 
-        $options   = [];
-        $options[] = JHtml::_('select.option', '*', JText::_('JALL'));
+        $options      = [];
+        $options['*'] = JText::_('JALL');
         foreach ($teachers as $teacherID => $teacherName) {
-            $options[] = JHtml::_('select.option', $teacherID, $teacherName);
+            $options[$teacherID] = $teacherName;
         }
 
         $attribs          = ['multiple' => 'multiple', 'size' => '10'];
         $selectedTeachers = $this->model->selected;
-
-        $this->teachers
-            = JHtml::_('select.genericlist', $options, 'teachers[]', $attribs, 'value', 'text', $selectedTeachers);
+        $this->teachers   = HTML::selectBox($options, 'teachers', $attribs, $selectedTeachers);
     }
 
     /**
@@ -171,8 +172,8 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Retrieves a rows containing information about
      *
-     * @param int   $teacherID the teacherID
-     * @param array &$deputat  the table columns
+     * @param int    $teacherID the teacherID
+     * @param array &$deputat   the table columns
      *
      * @return string  HTML string for the summary row
      */
@@ -224,8 +225,8 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
      * Retrieves a row containing a summary of the column values in all the other rows. In the process it removes
      * columns without values.
      *
-     * @param int   $teacherID the teacherID
-     * @param array &$deputat  the table columns
+     * @param int    $teacherID the teacherID
+     * @param array &$deputat   the table columns
      *
      * @return string  HTML string for the summary row
      */

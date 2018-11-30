@@ -9,6 +9,8 @@
  */
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 // Sets page configuration and component option
 $backURL = empty($this->menu) ? JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'];
 
@@ -41,22 +43,22 @@ $nameProperty = 'name_' . $this->languageTag;
         <hr>
         <div class="form-horizontal">
             <?php
-            echo JHtml::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
+            echo HTML::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
 
             foreach ($this->form->getFieldSets() as $set) {
                 $isInitialized  = (bool)$this->form->getValue('id');
                 $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
 
                 if ($displayInitial or $isInitialized) {
-                    echo JHtml::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
+                    echo HTML::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
                     echo $this->form->renderFieldset($set->name);
-                    echo JHtml::_('bootstrap.endTab');
+                    echo HTML::_('bootstrap.endTab');
                 }
             }
-            echo JHtml::_('bootstrap.endTabSet');
+            echo HTML::_('bootstrap.endTabSet');
             ?>
         </div>
-        <?php echo JHtml::_('form.token'); ?>
+        <?php echo HTML::_('form.token'); ?>
         <input type="hidden" name="option" value="com_thm_organizer"/>
         <input type="hidden" name="task" value="subject.save"/>
         <?php echo $this->form->getInput('id'); ?>

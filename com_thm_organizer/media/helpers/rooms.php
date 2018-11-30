@@ -109,7 +109,7 @@ class THM_OrganizerHelperRooms
         $selectedDepartment = $app->input->getInt('departmentIDs');
         $selectedPrograms   = explode(',', $app->input->getString('programIDs'));
         $programIDs         = $selectedPrograms[0] > 0 ?
-            implode(',', Joomla\Utilities\ArrayHelper::toInteger($selectedPrograms)) : [];
+            implode(',', Joomla\Utilities\ArrayHelper::toInteger($selectedPrograms)) : '';
 
         $query = $dbo->getQuery(true);
         $query->select('COUNT(DISTINCT lc.id)')
@@ -130,15 +130,14 @@ class THM_OrganizerHelperRooms
             if (!empty($selectedDepartment)) {
                 $query->where("dr.departmentID = $selectedDepartment");
 
-                if (!empty($selectedPrograms)) {
+                if (!empty($programIDs)) {
                     $query->where("ppo.programID in ($programIDs)");
                 }
             }
 
-
             $dbo->setQuery($query);
 
-            $count = THM_OrganizerHelperComponent::query('loadResult');
+            $count = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
             if (!empty($count)) {
                 $relevantRooms[$room['name']] = ['id' => $room['id'], 'typeID' => $room['typeID']];
@@ -223,6 +222,6 @@ class THM_OrganizerHelperRooms
         $query->order('longname');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
     }
 }

@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/views/form.php';
 
 /**
@@ -51,10 +54,10 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
      */
     protected function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.framework', true);
-        JHtml::_('behavior.formvalidation');
-        JHtml::_('formbehavior.chosen', 'select');
+        HTML::_('bootstrap.tooltip');
+        HTML::_('behavior.framework', true);
+        HTML::_('behavior.formvalidation');
+        HTML::_('formbehavior.chosen', 'select');
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');

@@ -79,7 +79,7 @@ class THM_OrganizerHelperPrograms
         }
 
         $dbo->setQuery($query);
-        $names = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $names = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
         return empty($names) ? '' : empty($names['name']) ? $names['ppName'] : $names['name'];
     }
@@ -111,7 +111,7 @@ class THM_OrganizerHelperPrograms
         $query->order('ppName');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
     }
 
     /**

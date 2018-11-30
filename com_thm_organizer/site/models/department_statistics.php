@@ -113,7 +113,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
                     $minutes = round((strtotime($endTime) - strtotime($startTime)) / 60);
 
                     foreach ($roomDepts as $roomID => $departments) {
-                        $departmentName = $this->getDeparmentName($departments);
+                        $departmentName = $this->getDepartmentName($departments);
                         $this->setUseData('total', $departmentName, $roomID, $minutes);
                         $this->setUseData($ppName, $departmentName, $roomID, $minutes);
                     }
@@ -177,7 +177,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
      *
      * @return string the department name
      */
-    private function getDeparmentName($departments)
+    private function getDepartmentName($departments)
     {
         $deptCount = count($departments);
 
@@ -212,14 +212,9 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
      */
     public function getRoomOptions()
     {
-        $rooms = $this->rooms;
-
         $options = [];
-
-        foreach ($rooms as $roomName => $roomData) {
-            $option['value'] = $roomData['id'];
-            $option['text']  = $roomName;
-            $options[]       = $option;
+        foreach ($this->rooms as $roomName => $roomData) {
+            $options[$roomData['id']] = $roomName;
         }
 
         return $options;
@@ -232,13 +227,9 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
      */
     public function getRoomTypeOptions()
     {
-
         $options = [];
-
         foreach ($this->roomTypes as $typeID => $typeData) {
-            $option['value'] = $typeID;
-            $option['text']  = $typeData['name'];
-            $options[]       = $option;
+            $options[$typeID] = $typeData['name'];
         }
 
         return $options;
@@ -257,14 +248,11 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
         $query->select('DISTINCT YEAR(schedule_date) AS year')->from('#__thm_organizer_calendar')->order('year');
 
         $this->_db->setQuery($query);
-        $years = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $years = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         if (!empty($years)) {
             foreach ($years as $year) {
-
-                $option['value'] = $year;
-                $option['text']  = $year;
-                $options[]       = $option;
+                $options[$year] = $year;
             }
         }
 
@@ -304,7 +292,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
 
-        $roomConfigurations = THM_OrganizerHelperComponent::query('loadAssocList');
+        $roomConfigurations = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($roomConfigurations)) {
             return false;
         }
@@ -348,7 +336,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
         $query->order('name');
         $dbo->setQuery($query);
 
-        $this->roomTypes = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $this->roomTypes = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
     }
 
     /**
@@ -366,7 +354,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
             ->order('startDate');
         $this->_db->setQuery($query);
 
-        $this->planningPeriods = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+        $this->planningPeriods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
 
         return empty($this->planningPeriods) ? false : true;
     }

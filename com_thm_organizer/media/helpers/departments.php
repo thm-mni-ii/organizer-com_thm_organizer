@@ -35,7 +35,7 @@ class THM_OrganizerHelperDepartments
             $query->where("{$resource}ID IS NOT NULL");
         }
         $dbo->setQuery($query);
-        $departmentIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $departmentIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         return empty($departmentIDs) ? [] : $departmentIDs;
     }
@@ -59,7 +59,7 @@ class THM_OrganizerHelperDepartments
 
         $dbo->setQuery($query);
 
-        return (string)THM_OrganizerHelperComponent::query('loadResult');
+        return (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -116,7 +116,7 @@ class THM_OrganizerHelperDepartments
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }

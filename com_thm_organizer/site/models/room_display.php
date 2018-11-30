@@ -117,7 +117,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->where("ls.delta != 'removed'");
         $this->_db->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -291,7 +291,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->select('grid')->from('#__thm_organizer_grids')->where("defaultGrid = '1'");
         $this->_db->setQuery($query);
 
-        $rawGrid = THM_OrganizerHelperComponent::query('loadResult');
+        $rawGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         if (!empty($rawGrid)) {
             $this->grid = json_decode($rawGrid, true);

@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 JFormHelper::loadFieldClass('list');
@@ -60,7 +63,7 @@ class JFormFieldDepartmentID extends JFormFieldList
         require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
         $departmentIDs = THM_OrganizerHelperDepartments::getDepartmentsByResource($resource, $selected);
 
-        return JHtml::_(
+        return HTML::_(
             'select.genericlist',
             $options,
             $this->name,
@@ -116,14 +119,14 @@ class JFormFieldDepartmentID extends JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $departments    = THM_OrganizerHelperComponent::query('loadAssocList');
+        $departments    = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($departments)) {
             return $defaultOptions;
         }
 
         $options = [];
         foreach ($departments as $department) {
-            $options[] = JHtml::_('select.option', $department['value'], $department['text']);
+            $options[] = HTML::_('select.option', $department['value'], $department['text']);
         }
 
         return array_merge($defaultOptions, $options);

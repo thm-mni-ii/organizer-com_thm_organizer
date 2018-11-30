@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -40,7 +43,7 @@ class JFormFieldMergeByValue extends JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $values         = THM_OrganizerHelperComponent::query('loadAssocList');
+        $values         = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($values)) {
             return $defaultOptions;
         }
@@ -48,7 +51,7 @@ class JFormFieldMergeByValue extends JFormFieldList
         $options = [];
         foreach ($values as $value) {
             if (!empty($value['value'])) {
-                $options[] = JHtml::_('select.option', $value['value'], $value['text']);
+                $options[] = HTML::_('select.option', $value['value'], $value['text']);
             }
         }
 

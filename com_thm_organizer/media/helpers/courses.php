@@ -8,6 +8,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participants.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
@@ -61,7 +64,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('loadResult');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -225,7 +228,7 @@ class THM_OrganizerHelperCourses
         $query->where("l.id = '$courseID'");
 
         $dbo->setQuery($query);
-        $courseData = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $courseData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
         // If empty it should stay empty
         if (empty($courseData)) {
@@ -258,8 +261,8 @@ class THM_OrganizerHelperCourses
 
         if (!empty($dates)) {
             $dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
-            $start      = JHtml::_('date', $dates[0], $dateFormat);
-            $end        = JHtml::_('date', end($dates), $dateFormat);
+            $start      = HTML::_('date', $dates[0], $dateFormat);
+            $end        = HTML::_('date', end($dates), $dateFormat);
 
             return "$start - $end";
         }
@@ -294,7 +297,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadColumn', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 
     /**
@@ -336,7 +339,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -374,7 +377,7 @@ class THM_OrganizerHelperCourses
         $query->order('map.id');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadColumn', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 
     /**
@@ -421,7 +424,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        $courses = THM_OrganizerHelperComponent::query('loadAssocList');
+        $courses = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($courses)) {
             return [];
         }
@@ -482,7 +485,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -508,7 +511,7 @@ class THM_OrganizerHelperCourses
         $query->where("userID = '$userID' AND lessonID = '$courseID'");
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssoc', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
     }
 
     /**
@@ -576,7 +579,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::query('loadResult');
+        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -634,7 +637,7 @@ class THM_OrganizerHelperCourses
 
             $dbo->setQuery($query);
 
-            $nextParticipantID = THM_OrganizerHelperComponent::query('loadResult');
+            $nextParticipantID = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
             if (!empty($nextParticipantID)) {
                 THM_OrganizerHelperParticipants::changeState($nextParticipantID, $courseID, 1);
@@ -654,13 +657,14 @@ class THM_OrganizerHelperCourses
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select("id, name_$shortTag AS name");
-        $query->from('#__thm_organizer_subjects');
-        $query->where("is_prep_course = '1'");
+        $query->select("id, name_$shortTag AS name")
+            ->from('#__thm_organizer_subjects')
+            ->where("is_prep_course = '1'")
+            ->order('name ASC');
 
         $dbo->setQuery($query);
 
-        $courses = THM_OrganizerHelperComponent::query('loadAssocList');
+        $courses = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($courses)) {
             return [];
         }
@@ -698,6 +702,6 @@ class THM_OrganizerHelperCourses
             ->where("ls.lessonID = '{$courseID}'");
         $dbo->setQuery($query);
 
-        return (string)THM_OrganizerHelperComponent::query('loadResult');
+        return (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 }

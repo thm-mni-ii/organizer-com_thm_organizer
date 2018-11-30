@@ -69,7 +69,7 @@ function setSubjectDetailsSegments(&$query, &$segments)
     $nameQuery->select("name_$tag")->from('#__thm_organizer_subjects')->where("id = '{$query['id']}'");
     $dbo->setQuery($nameQuery);
 
-    $name = THM_OrganizerHelperComponent::query('loadResult');
+    $name = THM_OrganizerHelperComponent::executeQuery('loadResult');
     if (empty($name)) {
         return;
     }
@@ -112,7 +112,7 @@ function setSubjectListSegments(&$query, &$segments, &$item)
     $programQuery->where("p.id = '$programID'");
     $dbo->setQuery($programQuery);
 
-    $name = THM_OrganizerHelperComponent::query('loadResult');
+    $name = THM_OrganizerHelperComponent::executeQuery('loadResult');
     if (empty($name)) {
         return;
     }

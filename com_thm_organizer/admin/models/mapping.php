@@ -295,7 +295,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('loadResult');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -333,7 +333,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $dbo->setQuery($mappingIDsQuery);
-        $mappingIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $mappingIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         if (!empty($mappingIDs)) {
             foreach ($mappingIDs as $mappingID) {
@@ -361,7 +361,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery($mappingIDsQuery);
-        $mappingIDs = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $mappingIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         if (!empty($mappingIDs)) {
             foreach ($mappingIDs as $mappingID) {
@@ -390,7 +390,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $mappingQuery = $dbo->getQuery(true);
         $mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
         $dbo->setQuery($mappingQuery);
-        $mapping = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $mapping = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
         if (empty($mapping)) {
             return false;
         }
@@ -399,7 +399,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $deleteQuery = $dbo->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_mappings')->where("id = '{$mapping['id']}'");
         $dbo->setQuery($deleteQuery);
-        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
         if (!$success) {
             return false;
         }
@@ -411,7 +411,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $siblingsQuery->where("parentID = '{$mapping['parentID']}'");
         $siblingsQuery->where("ordering > '{$mapping['ordering']}'");
         $dbo->setQuery($siblingsQuery);
-        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
         if (!$success) {
             return false;
         }
@@ -425,7 +425,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $updateLeftQuery->set("lft = lft - {$mapping['width']}");
         $updateLeftQuery->where("lft > '{$mapping['lft']}'");
         $dbo->setQuery($updateLeftQuery);
-        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
         if (!$success) {
             return false;
         }
@@ -440,7 +440,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $updateRightQuery->where("rgt > '{$mapping['lft']}'");
         $dbo->setQuery($updateRightQuery);
 
-        return THM_OrganizerHelperComponent::query('execute');
+        return THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -461,7 +461,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $rgtQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
         $rgtQuery->where("parentID = '$parentID'")->where("ordering < '$ordering'");
         $dbo->setQuery($rgtQuery);
-        $rgt = THM_OrganizerHelperComponent::query('loadResult');
+        $rgt = THM_OrganizerHelperComponent::executeQuery('loadResult');
         if (!empty($rgt)) {
             return $rgt + 1;
         }
@@ -471,7 +471,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $lftQuery->select('lft')->from('#__thm_organizer_mappings');
         $lftQuery->where("id = '$parentID'");
         $dbo->setQuery($lftQuery);
-        $lft = THM_OrganizerHelperComponent::query('loadResult');
+        $lft = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         return empty($lft) ? false : $lft + 1;
     }
@@ -499,7 +499,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $existingQuery->select('id')->from('#__thm_organizer_mappings');
         $existingQuery->where("{$type}ID = '$resourceID'");
         $dbo->setQuery($existingQuery, 0, 1);
-        $firstID = THM_OrganizerHelperComponent::query('loadResult');
+        $firstID = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         if (!empty($firstID)) {
             $childrenQuery = $dbo->getQuery(true);
@@ -509,7 +509,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $childrenQuery->order('lft ASC');
             $dbo->setQuery($childrenQuery);
 
-            $results = THM_OrganizerHelperComponent::query('loadAssocList');
+            $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
             if (!empty($results)) {
                 $children = $results;
@@ -589,7 +589,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $dbo->setQuery($existingOrderQuery);
-        $existingOrder = THM_OrganizerHelperComponent::query('loadResult');
+        $existingOrder = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         if (!empty($existingOrder)) {
             return $existingOrder;
@@ -602,7 +602,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $maxOrderQuery = $dbo->getQuery(true);
         $maxOrderQuery->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$parentID'");
         $dbo->setQuery($maxOrderQuery);
-        $maxOrder = THM_OrganizerHelperComponent::query('loadResult');
+        $maxOrder = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         return empty($maxOrder) ? 1 : $maxOrder + 1;
     }
@@ -621,7 +621,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
         $dbo->setQuery($parentQuery);
 
-        return THM_OrganizerHelperComponent::query('loadAssoc', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
     }
 
     /**
@@ -702,14 +702,14 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $findQuery = $dbo->getQuery(true);
         $findQuery->select('*')->from('#__thm_organizer_mappings')->where('parentID IS NULL')->where("programID = '$programID'");
         $dbo->setQuery($findQuery);
-        $rootMapping = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $rootMapping = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
         if (empty($rootMapping)) {
             $leftQuery = $dbo->getQuery(true);
             $leftQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
             $dbo->setQuery($leftQuery);
 
-            $maxRgt = THM_OrganizerHelperComponent::query('loadResult');
+            $maxRgt = THM_OrganizerHelperComponent::executeQuery('loadResult');
             if (empty($maxRgt)) {
                 return false;
             }
@@ -804,7 +804,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->select('*')->from('#__thm_organizer_mappings')->where("{$type}ID = '$resourceID'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList');
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList');
     }
 
     /**
@@ -853,7 +853,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("ordering >= '$insertOrder'")->where("parentID = '$parentID'");
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 
     /**
@@ -870,7 +870,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->update('#__thm_organizer_mappings')->set('lft = lft + 2')->where("lft >= '$value'");
         $dbo->setQuery($lftQuery);
-        $success = (bool)THM_OrganizerHelperComponent::query('execute');
+        $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
         if (!$success) {
             return false;
         }
@@ -879,6 +879,6 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $rgtQuery->update('#__thm_organizer_mappings')->set('rgt = rgt + 2')->where("rgt >= '$value'");
         $dbo->setQuery($rgtQuery);
 
-        return (bool)THM_OrganizerHelperComponent::query('execute');
+        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
     }
 }

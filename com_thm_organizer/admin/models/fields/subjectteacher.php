@@ -9,6 +9,8 @@
  */
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 /**
  * Class creates a select box for the association of teachers with subject documentation.
  */
@@ -33,7 +35,7 @@ class JFormFieldSubjectTeacher extends JFormField
         $selectedQuery->from('#__thm_organizer_subject_teachers');
         $selectedQuery->where("subjectID = '$subjectID' AND teacherResp = '$responsibility'");
         $dbo->setQuery($selectedQuery);
-        $selected = THM_OrganizerHelperComponent::query('loadColumn', []);
+        $selected = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
 
         $teachersQuery = $dbo->getQuery(true);
         $teachersQuery->select('id AS value, surname, forename');
@@ -41,41 +43,20 @@ class JFormFieldSubjectTeacher extends JFormField
         $teachersQuery->order('surname, forename');
         $dbo->setQuery($teachersQuery);
 
-        $teachers = THM_OrganizerHelperComponent::query('loadAssocList');
+        $teachers = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($teachers)) {
-            return $this->getDefault();
+            $teachers = [];
         }
 
+        $options = [];
         foreach ($teachers as $key => $teacher) {
-            $teachers[$key]['text'] = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
+            $name = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
+            $options[$teacher['value']] = $name;
         }
 
         $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
         $selectedTeachers = empty($selected) ? [] : $selected;
 
-        return JHtml::_(
-            'select.genericlist',
-            $teachers,
-            "jform[$fieldName][]",
-            $attributes,
-            'value',
-            'text',
-            $selectedTeachers
-        );
-    }
-
-    /**
-     * Creates a default input in the event of an exception
-     *
-     * @return string  a default teacher selection field without any teachers
-     */
-    private function getDefault()
-    {
-        $teachers   = [];
-        $teachers[] = ['value' => '-1', 'name' => JText::_('JNONE')];
-        $fieldName  = $this->getAttribute('name');
-        $attributes = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '1'];
-
-        return JHtml::_('select.genericlist', $teachers, "jform[$fieldName][]", $attributes, 'value', 'text');
+        return HTML::selectBox($options, $fieldName, $attributes, $selectedTeachers, true);
     }
 }

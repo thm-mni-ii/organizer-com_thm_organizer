@@ -445,7 +445,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery($query);
 
-        $departmentName = THM_OrganizerHelperComponent::query('loadResult');
+        $departmentName = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         if (empty($departmentName)) {
             return;
@@ -602,7 +602,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("id = '$this->scheduleID'");
         $this->_db->setQuery($query);
 
-        $result = THM_OrganizerHelperComponent::query('loadResult');
+        $result = THM_OrganizerHelperComponent::executeQuery('loadResult');
         if (empty($result)) {
             $this->schedule = null;
         } else {
@@ -895,7 +895,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("active = '1'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadColumn', []);
+        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
     }
 
     /**
@@ -913,7 +913,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("id = '$scheduleID'");
         $this->_db->setQuery($query);
 
-        $result = THM_OrganizerHelperComponent::query('loadResult');
+        $result = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         return empty($result) ? null : json_decode($result);
     }

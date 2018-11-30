@@ -58,16 +58,12 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getDepartmentOptions()
     {
-        $departments     = THM_OrganizerHelperDepartments::getPlanDepartments(false);
-        $options         = [];
-        $option['value'] = '';
-        $option['text']  = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
-        $options[]       = $option;
+        $departments = THM_OrganizerHelperDepartments::getPlanDepartments(false);
+        $options     = [];
+        $options[''] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
         foreach ($departments as $departmentID => $departmentName) {
-            $option['value'] = $departmentID;
-            $option['text']  = $departmentName;
-            $options[]       = $option;
+            $options[$departmentID] = $departmentName;
         }
 
         return $options;
@@ -87,16 +83,14 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $options = [];
 
-        $grids = THM_OrganizerHelperComponent::query('loadAssocList', []);
+        $grids = THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
 
         foreach ($grids as $grid) {
             if ($grid['defaultGrid']) {
                 $this->defaultGrid = $grid['id'];
             }
 
-            $option['value'] = $grid['id'];
-            $option['text']  = $grid['name'];
-            $options[]       = $option;
+            $options[$grid['id']] = $grid['name'];
         }
 
         return $options;
@@ -147,29 +141,10 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
     }
 
     /**
-     * Retrieves program options
-     *
-     * @return array an array of program options
-     */
-    public function getProgramOptions()
-    {
-        $programs = THM_OrganizerHelperPrograms::getPlanPrograms();
-        $options  = [];
-
-        foreach ($programs as $program) {
-            $option['value'] = $program['id'];
-            $option['text']  = empty($program['name']) ? $program['ppName'] : $program['name'];
-            $options[]       = $option;
-        }
-
-        return $options;
-    }
-
-    /**
      * Checks for ids for a given resource type and sets them in the parameters
      *
-     * @param string $resourceName the name of the resource type
-     * @param array  &$parameters  the parameters array for the model
+     * @param string  $resourceName the name of the resource type
+     * @param array  &$parameters   the parameters array for the model
      *
      * @return void sets indexes in $parameters
      */
@@ -273,7 +248,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             $query->clear('where');
             $query->where("ps.id = '$subjectID'");
             $this->_db->setQuery($query);
-            $subjectNames = THM_OrganizerHelperComponent::query('loadAssoc', []);
+            $subjectNames = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
             if (!empty($subjectNames)) {
                 $gpuntisID = JApplicationHelper::stringURLSafe($subjectNames['gpuntisID']);
@@ -316,9 +291,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
         $options = [];
 
         foreach ($teachers as $teacherName => $teacherID) {
-            $option['value'] = $teacherID;
-            $option['text']  = $teacherName;
-            $options[]       = $option;
+            $options[$teacherID] = $teacherName;
         }
 
         return $options;
@@ -387,7 +360,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $this->_db->setQuery($query);
 
-        $rawGrid = THM_OrganizerHelperComponent::query('loadResult');
+        $rawGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
         if (empty($rawGrid)) {
             return;
         }

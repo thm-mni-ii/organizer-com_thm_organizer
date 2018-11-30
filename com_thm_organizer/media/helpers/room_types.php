@@ -60,6 +60,6 @@ class THM_OrganizerHelperRoomTypes
         $query->order('name');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadAssocList', [], ['name', 'id']);
+        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], ['name', 'id']);
     }
 }

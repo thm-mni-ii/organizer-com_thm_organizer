@@ -7,7 +7,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class renders curriculum item panel information.
@@ -28,16 +31,16 @@ class THM_OrganizerTemplateCurriculumItemPanel
         $moduleNumber = empty($element->externalID) ? '' : $element->externalID;
         if ($element->type == 'subject') {
             $linkAttribs      = ['target' => '_blank'];
-            $moduleNumberHTML = JHtml::link($element->link, $moduleNumber, $linkAttribs);
-            $crpHTML          = JHtml::link($element->link, $element->CrP, $linkAttribs);
-            $nameHTML         = JHtml::link($element->link, $element->name, $linkAttribs);
+            $moduleNumberHTML = HTML::link($element->link, $moduleNumber, $linkAttribs);
+            $crpHTML          = HTML::link($element->link, $element->CrP, $linkAttribs);
+            $nameHTML         = HTML::link($element->link, $element->name, $linkAttribs);
         } else {
             $moduleNumberHTML = $moduleNumber;
             $crpHTML          = THM_OrganizerHelperPools::getCrPText($element);
             $nameHTML         = $element->name;
         }
         if (!empty($element->bgColor)) {
-            $textColor = THM_OrganizerHelperComponent::getTextColor($element->bgColor);
+            $textColor = HTML::textColor($element->bgColor);
             $headStyle .= ' style="background-color: ' . $element->bgColor . '; color: ' . $textColor . ';"';
         }
         ?>

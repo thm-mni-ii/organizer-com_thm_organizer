@@ -8,6 +8,9 @@
  * @link        www.thm.de
  */
 defined('_JEXEC') or die;
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/models/list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -75,9 +78,9 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
 
         foreach ($items as $item) {
             $return[$index]              = [];
-            $return[$index]['checkbox']  = JHtml::_('grid.id', $index, $item->id);
-            $return[$index]['gpuntisID'] = JHtml::_('link', $item->link, $item->gpuntisID);
-            $return[$index]['name']      = JHtml::_('link', $item->link, $item->name);
+            $return[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
+            $return[$index]['gpuntisID'] = HTML::_('link', $item->link, $item->gpuntisID);
+            $return[$index]['name']      = HTML::_('link', $item->link, $item->name);
             $index++;
         }
 
@@ -91,12 +94,13 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
      */
     public function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction            = $this->state->get('list.direction', $this->defaultDirection);
-        $headers              = [];
+        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
+        $direction = $this->state->get('list.direction', $this->defaultDirection);
+        $headers   = [];
+
         $headers['checkbox']  = '';
-        $headers['gpuntisID'] = THM_OrganizerHelperComponent::sort('GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
-        $headers['name']      = THM_OrganizerHelperComponent::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
+        $headers['gpuntisID'] = HTML::sort('GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
+        $headers['name']      = HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
 
         return $headers;
     }

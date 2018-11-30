@@ -287,7 +287,7 @@ class THM_OrganizerHelperSchedule
         $query->order('c.startTime');
         $dbo->setQuery($query);
 
-        $rawLessons = THM_OrganizerHelperComponent::query('loadAssocList');
+        $rawLessons = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($rawLessons)) {
             return self::getNextAvailableDates($parameters);
         }
@@ -345,7 +345,7 @@ class THM_OrganizerHelperSchedule
             ->where("sm.plan_subjectID ='{$lesson['psID']}'");
         $dbo->setQuery($subjectsQuery);
 
-        $mappedSubjects = THM_OrganizerHelperComponent::query('loadAssocList');
+        $mappedSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
         if (empty($mappedSubjects)) {
             return $return;
         }
@@ -371,7 +371,7 @@ class THM_OrganizerHelperSchedule
             ->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id')
             ->where("ppo.id ='{$lesson['poolID']}'");
         $dbo->setQuery($programQuery);
-        $programMapping = THM_OrganizerHelperComponent::query('loadAssoc', []);
+        $programMapping = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
         if (empty($programMapping)) {
             return $return;
@@ -503,7 +503,7 @@ class THM_OrganizerHelperSchedule
                     ->from('#__thm_organizer_planning_periods')
                     ->where("'$date' BETWEEN startDate AND endDate");
                 $dbo->setQuery($query);
-                $dates = THM_OrganizerHelperComponent::query('loadAssoc', []);
+                $dates = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
                 break;
 
             case 'ics':
@@ -537,7 +537,7 @@ class THM_OrganizerHelperSchedule
         $query->where("c.schedule_date > '" . $parameters['date'] . "'");
         $dbo->setQuery($query);
 
-        $futureDate = THM_OrganizerHelperComponent::query('loadResult');
+        $futureDate = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         $query = $dbo->getQuery(true);
         $query->select('MAX(c.schedule_date) AS maxDate');
@@ -545,7 +545,7 @@ class THM_OrganizerHelperSchedule
         $query->where("c.schedule_date < '" . $parameters['date'] . "'");
         $dbo->setQuery($query);
 
-        $pastDate = THM_OrganizerHelperComponent::query('loadResult');
+        $pastDate = THM_OrganizerHelperComponent::executeQuery('loadResult');
 
         return ['pastDate' => $pastDate, 'futureDate' => $futureDate];
     }
@@ -612,7 +612,7 @@ class THM_OrganizerHelperSchedule
             ->where("userID = $userID");
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::query('loadAssocList', [], 'lessonID');
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'lessonID');
         if (empty($results)) {
             return [];
         }
