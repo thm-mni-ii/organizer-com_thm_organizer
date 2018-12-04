@@ -60,7 +60,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getDepartmentOptions()
     {
-        $departments = THM_OrganizerHelperDepartments::getPlanDepartments(false);
+        $departments = THM_OrganizerHelperDepartments::getOptions(false);
         $options     = [];
         $options[''] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 

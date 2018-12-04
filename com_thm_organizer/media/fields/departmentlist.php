@@ -52,10 +52,8 @@ class JFormFieldDepartmentList extends JFormFieldList
      */
     protected function getOptions()
     {
-        $options     = [];
-        $departments = THM_OrganizerHelperDepartments::getPlanDepartments();
-
-        foreach ($departments as $key => $department) {
+        $options = [];
+        foreach (THM_OrganizerHelperDepartments::getOptions() as $key => $department) {
             $options[] = HTML::_('select.option', $key, $department);
         }
 

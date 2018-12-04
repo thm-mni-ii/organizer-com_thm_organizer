@@ -64,6 +64,42 @@ class THM_OrganizerHelperDepartments
     }
 
     /**
+     * Getter method for departments in database. Only retrieving the IDs here allows for formatting the names according to
+     * the needs of the calling views.
+     *
+     * @param bool $short whether or not abbreviated names should be returned
+     *
+     * @return array
+     */
+    public static function getOptions($short = true)
+    {
+        require_once 'language.php';
+        $dbo   = JFactory::getDbo();
+        $query = $dbo->getQuery(true);
+        $tag   = THM_OrganizerHelperLanguage::getShortTag();
+
+        $query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
+        $query->from('#__thm_organizer_departments AS d');
+        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id');
+
+        $dbo->setQuery($query);
+
+        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        if (empty($results)) {
+            return [];
+        }
+
+        $options = [];
+        foreach ($results as $department) {
+            $options[$department['id']] = $short ? $department['shortName'] : $department['name'];
+        }
+
+        asort($options);
+
+        return $options;
+    }
+
+    /**
      * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
      *
      * @param int    $resourceID the db id for the plan resource
@@ -94,41 +130,5 @@ class THM_OrganizerHelperDepartments
         }
 
         return;
-    }
-
-    /**
-     * Getter method for teachers in database. Only retrieving the IDs here allows for formatting the names according to
-     * the needs of the calling views.
-     *
-     * @param bool $short whether or not abbreviated names should be returned
-     *
-     * @return array
-     */
-    public static function getPlanDepartments($short = true)
-    {
-        require_once 'language.php';
-        $dbo   = JFactory::getDbo();
-        $query = $dbo->getQuery(true);
-        $tag   = THM_OrganizerHelperLanguage::getShortTag();
-
-        $query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
-        $query->from('#__thm_organizer_departments AS d');
-        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id');
-
-        $dbo->setQuery($query);
-
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
-        if (empty($results)) {
-            return [];
-        }
-
-        $departments = [];
-        foreach ($results as $department) {
-            $departments[$department['id']] = $short ? $department['shortName'] : $department['name'];
-        }
-
-        asort($departments);
-
-        return $departments;
     }
 }

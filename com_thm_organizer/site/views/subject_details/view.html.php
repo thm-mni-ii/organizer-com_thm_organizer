@@ -9,6 +9,9 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
+use \THM_OrganizerHelperHTML as HTML;
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -164,7 +167,6 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
         <?php
     }
 
-
     /**
      * Determines whether or not the attribute should be displayed based on its value and outputs that value
      *
@@ -180,10 +182,10 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
 
         $imageFolder   = '/media/com_thm_organizer/images/';
         $allowedValues = [
-            0 => JHtml::image(JUri::root() . $imageFolder . '0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS'),
-            1 => JHtml::image(JUri::root() . $imageFolder . '1stars.png', 'COM_THM_ORGANIZER_ONE_STAR'),
-            2 => JHtml::image(JUri::root() . $imageFolder . '2stars.png', 'COM_THM_ORGANIZER_TWO_STARS'),
-            3 => JHtml::image(JUri::root() . $imageFolder . '3stars.png', 'COM_THM_ORGANIZER_THREE_STARS')
+            0 => HTML::image(JUri::root() . $imageFolder . '0stars.png', 'COM_THM_ORGANIZER_ZERO_STARS'),
+            1 => HTML::image(JUri::root() . $imageFolder . '1stars.png', 'COM_THM_ORGANIZER_ONE_STAR'),
+            2 => HTML::image(JUri::root() . $imageFolder . '2stars.png', 'COM_THM_ORGANIZER_TWO_STARS'),
+            3 => HTML::image(JUri::root() . $imageFolder . '3stars.png', 'COM_THM_ORGANIZER_THREE_STARS')
         ];
         $value         = (int)$this->item->$index;
 
@@ -233,8 +235,8 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        JHtml::_('bootstrap.tooltip');
-        JHtml::_('behavior.framework', true);
+        HTML::_('bootstrap.tooltip');
+        HTML::_('behavior.framework', true);
 
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
@@ -284,7 +286,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
         foreach ($dependencies as $program) {
             $html .= "<li>{$program['name']}<ul>";
             foreach ($program['subjects'] as $subjectID => $subjectName) {
-                $subjectLink = JHtml::_('link', $link . $subjectID, $subjectName);
+                $subjectLink = HTML::_('link', $link . $subjectID, $subjectName);
                 $html        .= "<li>$subjectLink</li>";
             }
             $html .= "</ul></li>";

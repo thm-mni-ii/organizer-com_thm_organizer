@@ -167,26 +167,7 @@ $position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition
         $this->displayAttribute('prerequisiteOf', 'PREREQUISITE_FOR');
         $postrequisites = $this->getDependencies('post');
         $this->displayValue('POSTREQUISITE_MODULES', $postrequisites);
-
-        $displayeCollab = JComponentHelper::getParams('com_thm_organizer')->get('displayeCollabLink');
-
-        if (!empty($this->item->externalID) and !empty($displayeCollab)) {
-            $ecollabLink = JComponentHelper::getParams('com_thm_organizer')->get('eCollabLink');
-            $ecollabIcon = JUri::root() . 'media/com_thm_organizer/images/icon-32-moodle.png';
-            echo '
-	<div class="subject-item">';
-            echo '
-		<div class="subject-label">eCollaboration Link</div>
-		';
-            echo '
-		<div class="subject-content">';
-            echo '<a href="' . $ecollabLink . $this->item->externalID . '" target="_blank">';
-            echo "<img class='eCollabImage' src='$ecollabIcon' title='eCollabLink'></a>";
-            echo '
-		</div>
-	</div>
-	';
-        }
+        $this->displayCollab();
 
         ?>
         <?php echo $this->disclaimer->render($this->disclaimerData); ?>

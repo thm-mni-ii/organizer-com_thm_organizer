@@ -156,7 +156,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     public function getDepartmentOptions()
     {
         $options     = [];
-        foreach (THM_OrganizerHelperDepartments::getPlanDepartments(false) as $departmentID => $departmentName) {
+        foreach (THM_OrganizerHelperDepartments::getOptions(false) as $departmentID => $departmentName) {
             $options[$departmentID] = $departmentName;
         }
 

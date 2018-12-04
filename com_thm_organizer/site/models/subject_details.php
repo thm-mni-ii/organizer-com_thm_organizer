@@ -77,7 +77,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
             $query->select('id')->from('#__thm_organizer_subjects')->where("id = '$requestID'");
             $this->_db->setQuery($query);
 
-            return THM_OrganizerHelperComponent::query('loadResult');
+            return THM_OrganizerHelperComponent::executeQuery('loadResult');
         }
 
         $externalID = $input->getString('nrmni', '');
@@ -89,7 +89,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::query('loadResult');
+        return THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
@@ -195,7 +195,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
             $query->where("(s1.id = $subjectID OR s2.id = $subjectID)");
             $this->_db->setQuery($query);
 
-            $dependencies = THM_OrganizerHelperComponent::query('loadAssocList', [], 'id');
+            $dependencies = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
             if (empty($dependencies)) {
                 continue;
             }

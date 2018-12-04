@@ -42,7 +42,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         parent::__construct($config);
         $this->setParams();
         $this->grids       = $this->getGrids();
-        $this->departments = THM_OrganizerHelperDepartments::getPlanDepartments();
+        $this->departments = THM_OrganizerHelperDepartments::getOptions();
     }
 
     /**
