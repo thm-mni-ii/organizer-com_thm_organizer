@@ -18,32 +18,19 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
  */
 class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
 {
-    /**
-     * The HTML Strings for language switch buttons
-     *
-     * @var string
-     */
-    public $languageSwitches;
-
-    /**
-     * The data to be displayed
-     *
-     * @var object
-     */
-    public $item;
-
-    /**
-     * The link to the ecollaboration platform
-     *
-     * @var string
-     */
-    public $ecollabLink;
-
-    public $lang;
-
     public $disclaimer;
 
     public $disclaimerData;
+
+    public $ecollabLink;
+
+    public $item;
+
+    public $lang;
+
+    public $languageLinks;
+
+    public $languageParams;
 
     /**
      * Method to get display
@@ -70,8 +57,9 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
 
 
         $this->item             = $this->get('Item');
-        $lsParams               = ['view' => 'curriculum', 'id' => $this->item->id];
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($lsParams);
+
+        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams   = ['id' => $this->item->id, 'view' => 'curriculum'];
 
         $this->disclaimer = new JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
 

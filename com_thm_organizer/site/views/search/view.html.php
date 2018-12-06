@@ -28,7 +28,7 @@ define('TEACHERS', 6);
  */
 class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
 {
-    public $languageSwitches = [];
+    public $languageLinks;
 
     public $languageTag;
 
@@ -47,8 +47,7 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
         $this->languageTag      = THM_OrganizerHelperLanguage::getShortTag();
-        $switchParams           = ['view' => 'search', 'form' => true];
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($switchParams);
+        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
         $this->query            = THM_OrganizerHelperComponent::getInput()->getString('search', '');
         $this->results          = $this->getModel()->getResults();
 

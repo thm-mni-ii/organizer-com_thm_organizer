@@ -10,16 +10,11 @@
 
 defined('_JEXEC') or die;
 
-if (!empty($this->languageSwitches)): ?>
-    <div class="toolbar">
-        <div class="tool-wrapper language-switches">
-            <?php foreach ($this->languageSwitches as $switch) {
-                echo $switch;
-            } ?>
-        </div>
-    </div>
-    <div class="clear"></div>
-<?php endif; ?>
+?>
+<div class="toolbar">
+    <?php echo $this->languageLinks->render(); ?>
+</div>
+<div class="clear"></div>
 <div class="room-overview-view">
     <form action="" method="post" name="adminForm" id="adminForm">
         <input type="hidden" name="languageTag" id="languageTag" value=""/>
@@ -27,7 +22,7 @@ if (!empty($this->languageSwitches)): ?>
             <h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_ROOM_OVERVIEW_TITLE'); ?></h1>
             <div class="right">
                 <button class="btn submit-button" onclick="showPostLoader();form.submit();">
-                    <?php echo JText::_('COM_THM_ORGANIZER_ACTION_REFRESH'); ?>
+                    <?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_REFRESH'); ?>
                     <span class="icon-loop"></span>
                 </button>
             </div>

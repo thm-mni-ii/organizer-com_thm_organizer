@@ -34,13 +34,7 @@ $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 
                     <i class="icon-delete"></i>
                 </button>
             </div>
-            <div class="tool-wrapper language-switches">
-                <?php
-                foreach ($this->languageSwitches as $switch) {
-                    echo $switch;
-                }
-                ?>
-            </div>
+            <?php echo $this->languageLinks->render(); ?>
         </div>
         <div class="clearfix"></div>
         <input type="hidden" id="programID" name="programID" value="<?php echo $this->state->get('programID'); ?>"/>

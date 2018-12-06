@@ -30,7 +30,9 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
 
     public $lang;
 
-    public $languageSwitches;
+    public $languageLinks;
+
+    public $languageParams;
 
     public $menu;
 
@@ -78,8 +80,8 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $this->prepareLabel('subject');
         $this->prepareLabel('text');
 
-        $params                 = ['view' => 'course_manager', 'lessonID' => $courseID];
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams   = ['lessonID' => $courseID, 'view' => 'course_manager'];
         $this->modifyDocument();
         THM_OrganizerHelperComponent::addMenuParameters($this);
 

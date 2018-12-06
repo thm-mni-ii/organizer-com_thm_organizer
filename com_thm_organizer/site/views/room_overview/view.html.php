@@ -26,7 +26,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
 
     public $lang = null;
 
-    public $languageSwitches = [];
+    public $languageLinks;
 
     public $model = null;
 
@@ -53,7 +53,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         $this->form->setValue('types', null, $this->state->get('types'));
         $this->form->setValue('rooms', null, $this->state->get('rooms'));
 
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches();
+        $this->languageLinks = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
 
         $this->modifyDocument();
         parent::display($tpl);

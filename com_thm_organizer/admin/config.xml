@@ -26,8 +26,8 @@
     </fieldset>
     <fieldset name="eCollab" label="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
               description="COM_THM_ORGANIZER_ECOLLAB_SETTINGS_DESCRIPTION">
-        <field name="eCollabLink" type="text" size="60" default="http://moodle.thm.de/course/view.php?idnumber="
-               label="COM_THM_ORGANIZER_URL" description="COM_THM_ORGANIZER_ECOLLAB_DESC"/>
+        <field name="eCollabLink" type="text" size="60" label="COM_THM_ORGANIZER_URL"
+               description="COM_THM_ORGANIZER_ECOLLAB_DESC"/>
         <field name="displayeCollabLink" type="list" default="0" label="COM_THM_ORGANIZER_ECOLLAB_DISPLAY"
                description="COM_THM_ORGANIZER_ECOLLAB_DISPLAY_DESC">
             <option value='1'>JYES</option>

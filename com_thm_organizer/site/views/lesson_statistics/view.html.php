@@ -21,7 +21,9 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
 
     public $lang = null;
 
-    public $languageSwitches = [];
+    public $languageLinks;
+
+    public $languageParams;
 
     public $lessons = [];
 
@@ -39,8 +41,8 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
-        $params                 = ['view' => 'lesson_statistics'];
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams   = ['view' => 'lesson_statistics'];
         $this->state            = $this->get('State');
         $this->form             = $this->get('Form');
         $this->form->setValue('planningPeriodID', null, $this->state->get('planningPeriodID'));

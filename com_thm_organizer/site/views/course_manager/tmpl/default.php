@@ -19,12 +19,7 @@ if (!empty($this->menu)) {
 
 ?>
 <div class="toolbar">
-    <div class="tool-wrapper language-switches">
-        <?php foreach ($this->languageSwitches as $switch) {
-            echo $switch;
-        }
-        ?>
-    </div>
+    <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="course-manager-view">
     <h1><?php echo "{$this->lang->_('COM_THM_ORGANIZER_COURSE_MANAGEMENT')}: {$this->course['name']}"; ?></h1>

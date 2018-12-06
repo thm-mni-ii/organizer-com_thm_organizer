@@ -16,13 +16,7 @@ $attribs = ['target' => '_blank'];
 ?>
 <div id="j-main-container" class="organizer-search-container">
     <form action="<?php JUri::current(); ?>" id="adminForm" method="get" name="adminForm">
-        <div class="language-switches">
-            <?php
-            foreach ($this->languageSwitches as $switch) {
-                echo $switch;
-            }
-            ?>
-        </div>
+        <?php echo $this->languageLinks->render(); ?>
         <h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
         <div class="toolbar">
             <div class="tool-wrapper search">

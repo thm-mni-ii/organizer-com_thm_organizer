@@ -19,17 +19,17 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  */
 class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 {
-    public $languageSwitches = [];
-
-    public $lang;
-
-    public $groupBy = 'list';
-
     public $disclaimer;
 
     public $disclaimerData;
 
     public $displayName;
+
+    public $groupBy = 'list';
+
+    public $lang;
+
+    public $languageLinks;
 
     public $params;
 
@@ -60,10 +60,8 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
             $this->params->set('showByTeacher', false);
         }
 
-        $this->items = $this->get('items');
-
-        $switchParams           = ['view' => 'subject_list', 'form' => true];
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($switchParams);
+        $this->items         = $this->get('items');
+        $this->languageLinks = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
 
         $model             = $this->getModel();
         $this->fields      = $model->fields;
@@ -71,7 +69,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->pools       = $model->pools;
         $this->displayName = $model->displayName;
 
-        $this->disclaimer = new JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
+        $this->disclaimer     = new JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
         $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);
@@ -134,9 +132,9 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Renders subject information
      *
-     * @param mixed  &$item      object if the the item to be displayed is a subject otherwise array
-     * @param string $type       the type of group/sort
-     * @param string $resourceID the id of the resource in the item row
+     * @param mixed  &$item       object if the the item to be displayed is a subject otherwise array
+     * @param string  $type       the type of group/sort
+     * @param string  $resourceID the id of the resource in the item row
      *
      * @return string  the HTML for the item to be displayed
      */

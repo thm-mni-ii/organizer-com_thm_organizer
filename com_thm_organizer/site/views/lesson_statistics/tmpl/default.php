@@ -17,13 +17,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
 
 ?>
 <div class="toolbar">
-    <div class="tool-wrapper language-switches">
-        <?php
-        foreach ($this->languageSwitches as $switch) {
-            echo $switch;
-        }
-        ?>
-    </div>
+    <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="lesson-statistics-view">
     <h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_LESSON_STATISTICS'); ?></h1>

@@ -18,13 +18,7 @@ require_once 'item.php';
         <?php echo $this->item->name; ?>
     </h1>
 
-    <div class="language-switches">
-        <?php
-        foreach ($this->languageSwitches as $switch) {
-            echo $switch;
-        }
-        ?>
-    </div>
+    <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="curriculum">
     <?php

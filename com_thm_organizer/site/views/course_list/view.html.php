@@ -25,7 +25,9 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
 
     public $lang;
 
-    public $languageSwitches;
+    public $languageLinks;
+
+    public $languageParams;
 
     public $model = null;
 
@@ -64,9 +66,9 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
             return $courseOne->name > $courseTwo->name;
         });
 
-        $params                 = ['view' => 'course_list'];
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
-        $this->shortTag         = THM_OrganizerHelperLanguage::getShortTag();
+        $this->languageLinks  = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams = ['view' => 'course_list'];
+        $this->shortTag       = THM_OrganizerHelperLanguage::getShortTag();
 
         $this->setFilters();
 
@@ -115,13 +117,13 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
                 'expired' => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
             ];
 
-            $selectStatus = $this->state->get('status');
+            $selectStatus            = $this->state->get('status');
             $this->filters['status'] = HTML::selectBox($activeOptions, 'status', $attribs, $selectStatus, true);
 
             $defaultOptions = [0 => $lang->_('COM_THM_ORGANIZER_ALL_COURSES')];
             $subjectOptions = $defaultOptions + THM_OrganizerHelperCourses::prepCourseList();
 
-            $selectSubject = $this->state->get('subjectID');
+            $selectSubject              = $this->state->get('subjectID');
             $this->filters['subjectID'] = HTML::selectBox($subjectOptions, 'subjectID', $attribs, $selectSubject, true);
         }
 

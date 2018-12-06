@@ -42,11 +42,7 @@ if (!empty($menuID)):
     </script>
 <?php endif; ?>
 <div class="toolbar">
-    <div class="tool-wrapper language-switches">
-        <?php foreach ($this->languageSwitches as $switch) {
-            echo $switch;
-        } ?>
-    </div>
+    <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="course-list-view uses-login">
     <h1><?php echo $header; ?></h1>

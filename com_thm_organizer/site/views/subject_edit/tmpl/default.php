@@ -22,11 +22,7 @@ $backURL .= empty($this->lessonID) ?
 $nameProperty = 'name_' . $this->languageTag;
 ?>
 <div class="toolbar">
-    <div class="tool-wrapper language-switches">
-        <?php foreach ($this->languageSwitches as $switch) {
-            echo $switch;
-        } ?>
-    </div>
+    <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="subject-edit-view">
     <h1>

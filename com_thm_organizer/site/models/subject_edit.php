@@ -12,7 +12,6 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/models/edit.php';
 
 /**
  * Class loads a form for editing data.

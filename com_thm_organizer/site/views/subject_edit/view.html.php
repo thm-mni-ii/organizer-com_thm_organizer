@@ -27,7 +27,9 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
 
     public $lang;
 
-    public $languageSwitches;
+    public $languageLinks;
+
+    public $languageParams;
 
     public $lessonID;
 
@@ -67,9 +69,8 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
 
         THM_OrganizerHelperComponent::addMenuParameters($this);
 
-        $params = ['view' => 'subject_edit', 'id' => $this->subjectID, 'lessonID' => $this->lessonID];
-
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams   = ['id' => $this->subjectID, 'lessonID' => $this->lessonID, 'view' => 'subject_edit'];
 
         $this->modifyDocument();
 

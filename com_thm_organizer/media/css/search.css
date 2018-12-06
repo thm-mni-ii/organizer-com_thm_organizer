@@ -1,8 +1,8 @@
-div.language-switches a {
+div.language-links a {
     color: #394a59;
 }
 
-div.language-switches a:hover {
+div.language-links a:hover {
     color: #394a59;
     cursor: pointer;
 }
@@ -20,7 +20,7 @@ div.language-switches a:hover {
     padding: .1rem 0;
 }
 
-.organizer-search-container .language-switches {
+.organizer-search-container .language-links {
     float: right;
 }
 

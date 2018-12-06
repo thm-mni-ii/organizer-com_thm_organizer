@@ -36,12 +36,7 @@ if (empty($this->course)) {
 
 ?>
 <div class="toolbar">
-    <div class="tool-wrapper language-switches">
-        <?php
-        foreach ($this->languageSwitches as $switch) {
-            echo $switch;
-        } ?>
-    </div>
+    <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="participant-edit">
     <h1><?php echo $headerText; ?></h1>

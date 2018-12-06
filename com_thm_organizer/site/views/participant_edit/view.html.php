@@ -21,7 +21,9 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $lang;
 
-    public $languageSwitches;
+    public $languageLinks;
+
+    public $languageParams;
 
     public $item;
 
@@ -55,11 +57,9 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
-        $params                 = [
-            'view'     => 'participant_edit',
-            'lessonID' => empty($this->course) ? 0 : $this->course['id']
-        ];
-        $this->languageSwitches = THM_OrganizerHelperLanguage::getLanguageSwitches($params);
+        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $courseID = empty($this->course) ? 0 : $this->course['id'];
+        $this->languageParams   = ['lessonID' => $courseID, 'view' => 'participant_edit'];
 
         $this->modifyDocument();
 

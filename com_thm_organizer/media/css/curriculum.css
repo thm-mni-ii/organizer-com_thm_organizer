@@ -1,8 +1,8 @@
-div.language-switches a {
+div.language-links a {
     color: #394a59;
 }
 
-div.language-switches a:hover {
+div.language-links a:hover {
     color: #394a59;
     cursor: pointer;
 }
@@ -29,7 +29,7 @@ div.legal-disclaimer li {
     width: 89%;
 }
 
-.language-switches {
+.language-links {
     float: right;
 }
 
