@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 
 JFormHelper::loadFieldClass('list');
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a select box for module positions.
