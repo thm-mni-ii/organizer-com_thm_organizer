@@ -104,7 +104,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
             }
 
             $return[$index]['address']  = $address;
-            $return[$index]['location'] = THM_OrganizerHelperCampuses::getLocation($item->id);
+            $return[$index]['location'] = THM_OrganizerHelperCampuses::getPin($item->id);
 
             if (!empty($item->gridName)) {
                 $gridName = $item->gridName;

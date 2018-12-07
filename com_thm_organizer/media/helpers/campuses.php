@@ -29,16 +29,7 @@ class THM_OrganizerHelperCampuses
         $table = JTable::getInstance('campuses', 'thm_organizerTable');
         $table->load($campusID);
 
-        if (!empty($table->location)) {
-            $coordinates = str_replace(' ', '', $table->location);
-            $location    = '<a target="_blank" href="https://www.google.de/maps/place/' . $coordinates . '">';
-            $location    .= '<span class="icon-location"></span>';
-            $location    .= '</a>';
-
-            return $location;
-        }
-
-        return '';
+        return empty($table->location) ? '' : str_replace(' ', '', $table->location);
     }
 
     /**
@@ -130,5 +121,26 @@ class THM_OrganizerHelperCampuses
 
         // Normalize: id => name
         return array_flip($options);
+    }
+
+    /**
+     * Returns a pin icon with a link for the location
+     *
+     * @param mixed $input int the id of the campus, string the location coordinates
+     *
+     * @return string the html output of the pin
+     */
+    public static function getPin($input) {
+        $isID = is_int($input);
+        $location = $isID ? self::getLocation($input) : $input;
+
+        if (!preg_match('/\d{1,2}\.\d{6},[ ]*\d{1,2}\.\d{6}/', $location)) {
+            return '';
+        }
+
+        $pin    = '<a target="_blank" href="https://www.google.de/maps/place/' . $location . '">';
+        $pin    .= '<span class="icon-location"></span></a>';
+
+        return $pin;
     }
 }

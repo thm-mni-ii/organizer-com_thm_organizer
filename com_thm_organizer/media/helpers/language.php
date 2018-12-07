@@ -81,55 +81,6 @@ class THM_OrganizerHelperLanguage extends JLanguage
     }
 
     /**
-     * Sets the language to the one requested. This can only be called after getLanguage().
-     *
-     * @param array $params the configuration parameters
-     *
-     * @return array  html links for language redirection
-     */
-    public static function getLanguageSwitches($params = [])
-    {
-        $input = THM_OrganizerHelperComponent::getInput();
-
-        $link = empty($params['view']) ? false : true;
-
-        if ($link) {
-            $params['option'] = 'com_thm_organizer';
-
-            $menuID = $input->getInt('Itemid');
-            if (!empty($menuID)) {
-                $params['Itemid'] = $menuID;
-            }
-
-            $js = '';
-        } else {
-            $js = 'onclick="document.getElementById(\'languageTag\').value=\'XX\';';
-            $js .= 'document.getElementById(\'adminForm\').submit();';
-        }
-
-        $current            = self::getShortTag();
-        $supportedLanguages = ['en' => 'COM_THM_ORGANIZER_ENGLISH', 'de' => 'COM_THM_ORGANIZER_GERMAN'];
-        $languageSwitches   = [];
-
-        foreach ($supportedLanguages as $tag => $constant) {
-            if ($current != $tag) {
-                $params['languageTag'] = $tag;
-
-                $mechanism = $link ?
-                    'href="index.php?' . JUri::buildQuery($params) . '"' : str_replace('XX', $tag, $js);
-
-                $switch = '<a ' . $mechanism . '">';
-                $switch .= '<span class="icon-world"></span> ' . self::getLanguage()->_($constant);
-                $switch .= '</a>';
-
-                $languageSwitches[] = $switch;
-            }
-        }
-
-        return $languageSwitches;
-    }
-
-    /**
      * Extends the tag to the regular language constant.
      *
      * @param string $shortTag the short tag for the language
