@@ -77,12 +77,8 @@ a[href$="option=com_thm_organizer"]::before {
     content: '\e604';
 }
 
-.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
+.icon-import, .icon-import-all {
     font-weight: bold;
-}
-
-.icon-add-Space {
-    font-size: 14px;
 }
 
 a[href*="option=com_thm_organizer&view="]::before {

@@ -51,7 +51,7 @@ class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_VIEW_TITLE'), 'organizer_schedules');
         JToolbarHelper::addNew('schedule.add');
         JToolbarHelper::makeDefault('schedule.activate', 'COM_THM_ORGANIZER_ACTION_ACTIVATE');
-        JToolbarHelper::custom('schedule.setReference', 'diff', 'diff', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);
+        JToolbarHelper::custom('schedule.setReference', 'tree', 'tree', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);
         JToolbarHelper::deleteList(JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {

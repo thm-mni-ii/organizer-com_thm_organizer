@@ -25,7 +25,7 @@ class THM_OrganizerViewRoom_Merge extends THM_OrganizerViewForm
     protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_MERGE_VIEW_TITLE'));
-        JToolbarHelper::custom('room.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', false);
+        JToolbarHelper::custom('room.merge', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', false);
         JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CANCEL');
     }
 }

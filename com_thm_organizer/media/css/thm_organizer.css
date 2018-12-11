@@ -77,12 +77,8 @@ a[href$="option=com_thm_organizer"]::before {
     content: '\e604';
 }
 
-.icon-diff, .icon-import, .icon-import-all, .icon-merge-all {
+.icon-import, .icon-import-all {
     font-weight: bold;
-}
-
-.icon-add-Space {
-    font-size: 14px;
 }
 
 a[href*="option=com_thm_organizer&view="]::before {
@@ -144,10 +140,6 @@ a[href*="option=com_thm_organizer&view="]::before {
     transition-duration: 0.8s;
     transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
     width: 108px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
     border-radius: 5px;
 }
 

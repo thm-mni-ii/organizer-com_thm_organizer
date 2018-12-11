@@ -71,7 +71,7 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
         $bar->appendButton('Custom', $batchButton, 'batch');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::custom('plan_pool.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+            JToolbarHelper::custom('plan_pool.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

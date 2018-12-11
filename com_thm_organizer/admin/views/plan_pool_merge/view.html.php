@@ -25,7 +25,7 @@ class THM_OrganizerViewPlan_Pool_Merge extends THM_OrganizerViewForm
     protected function addToolBar()
     {
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MERGE_VIEW_TITLE'));
-        JToolbarHelper::custom('plan_pool.merge', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', false);
+        JToolbarHelper::custom('plan_pool.merge', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', false);
         JToolbarHelper::cancel('plan_pool.cancel', 'JTOOLBAR_CANCEL');
     }
 }

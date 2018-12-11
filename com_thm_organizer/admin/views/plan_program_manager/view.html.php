@@ -50,7 +50,7 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_plan_programs');
         JToolbarHelper::editList('plan_program.edit');
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::custom('plan_program.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+            JToolbarHelper::custom('plan_program.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

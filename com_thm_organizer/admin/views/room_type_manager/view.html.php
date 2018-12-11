@@ -53,7 +53,7 @@ class THM_OrganizerViewRoom_Type_Manager extends THM_OrganizerViewList
         JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room_type.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::custom('room_type.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+            JToolbarHelper::custom('room_type.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

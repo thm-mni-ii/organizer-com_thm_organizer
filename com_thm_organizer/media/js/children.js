@@ -150,7 +150,7 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
 
     orderingHTML += '<button class="btn btn-small" onclick="addBlankChild(' + nextRowNumber + ');" title="';
     orderingHTML += Joomla.JText._('COM_THM_ORGANIZER_ACTION_ADD_SPACE') + '">';
-    orderingHTML += '<span class="icon-add-Space"></span>';
+    orderingHTML += '<span class="icon-download"></span>';
     orderingHTML += '</button>';
 
     orderingHTML += '<button class="btn btn-small" onclick="trash(' + nextRowNumber + ');" title="';

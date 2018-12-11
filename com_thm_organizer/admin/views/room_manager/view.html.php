@@ -52,7 +52,7 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
         JToolbarHelper::editList('room.edit');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::custom('room.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+            JToolbarHelper::custom('room.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

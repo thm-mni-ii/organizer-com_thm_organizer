@@ -200,7 +200,7 @@ class JFormFieldChildren extends JFormField
                 $order .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="moveChildToIndex(' . $ordering . ');"/>';
 
                 $blank = '<button class="btn btn-small" onclick="addBlankChild(\'' . $ordering . '\');" title="' . $addSpace . '">';
-                $blank .= '<span class="icon-add-Space"></span>';
+                $blank .= '<span class="icon-download"></span>';
                 $blank .= '</button>';
 
                 $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . JText::_('JTOOLBAR_DELETE') . '" >';

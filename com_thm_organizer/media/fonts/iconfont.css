@@ -22,20 +22,8 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-add-Space:before {
-    content: "\e605";
-}
-
 .icon-import-all:before {
     content: "\e60c";
-}
-
-.icon-merge-all:before {
-    content: "\e602";
-}
-
-.icon-merge:before {
-    content: "\e609";
 }
 
 .icon-schedules:before {

@@ -51,7 +51,7 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
         JToolbarHelper::addNew('teacher.add');
         JToolbarHelper::editList('teacher.edit');
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::custom('teacher.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+            JToolbarHelper::custom('teacher.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
             JToolbarHelper::preferences('com_thm_organizer');
         }
     }

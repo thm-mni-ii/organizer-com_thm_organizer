@@ -50,7 +50,7 @@ class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
         JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_VIEW_TITLE'), 'organizer_methods');
         JToolbarHelper::addNew('method.add');
         JToolbarHelper::editList('method.edit');
-        JToolbarHelper::custom('method.mergeView', 'merge', 'merge', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        JToolbarHelper::custom('method.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
         JToolbarHelper::preferences('com_thm_organizer');
     }
 }
