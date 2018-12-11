@@ -179,7 +179,7 @@ class JFormFieldChildren extends JFormField
                 $html .= '<tr id="childRow' . $ordering . '" class="' . $rowClass . '">';
 
                 $visualDetails = '<td class="child-name">';
-                $visualDetails .= '<a id="child' . $ordering . 'link" href="' . $link . '">';
+                $visualDetails .= '<a id="child' . $ordering . 'link" href="' . $link . '" target="_blank">';
                 $visualDetails .= '<span id="child' . $ordering . 'icon" class="' . $icon . '"></span>';
                 $visualDetails .= '<span id="child' . $ordering . 'name">' . $name . '</span>';
                 $visualDetails .= '</a>';
