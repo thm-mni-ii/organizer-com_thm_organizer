@@ -53,14 +53,6 @@ $weeks = $this->params->get('deputat_weeks', 13);
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            <?php echo JText::_('COM_THM_ORGANIZER_DIPLOMA_VALUE'); ?>
-                        </div>
-                        <div class="controls">
-                            <?php echo $this->params->get('diploma_value', 50) . '%'; ?>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
                             <?php echo JText::_('COM_THM_ORGANIZER_MASTER_VALUE'); ?>
                         </div>
                         <div class="controls">
