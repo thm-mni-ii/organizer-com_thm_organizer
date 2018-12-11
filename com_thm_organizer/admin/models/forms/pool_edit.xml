@@ -44,7 +44,7 @@
         <field name="description_en" type="textarea" class="inputbox" cols="30" row="3"
                label="COM_THM_ORGANIZER_DESC_EN" description="COM_THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
-    <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS" displayinitial="0">
+    <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_STRUCTURE" displayinitial="0">
         <field name="programID" type="programs" access="true" class="inputbox" label="COM_THM_ORGANIZER_PROGRAMS"
                description="COM_THM_ORGANIZER_PROGRAMS_DESC" required="false"/>
         <field name="parentID" type="parentpool" class="inputbox" label="COM_THM_ORGANIZER_PARENT_POOLS"

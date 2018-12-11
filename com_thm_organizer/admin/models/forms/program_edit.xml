@@ -41,7 +41,7 @@
         <field name="description_en" type="textarea" class="inputbox" label="COM_THM_ORGANIZER_DESC"
                description="COM_THM_ORGANIZER_DESC_DESC_EN"/>
     </fieldset>
-    <fieldset name="mapping" label="COM_THM_ORGANIZER_ATTRIBUTES_MAPPINGS" displayinitial="0">
+    <fieldset name="mapping" label="COM_THM_ORGANIZER_POOLS" displayinitial="0">
         <field name="children" type="children" label="COM_THM_ORGANIZER_CHILDREN"
                description="COM_THM_ORGANIZER_CHILDREN_DESC"/>
     </fieldset>

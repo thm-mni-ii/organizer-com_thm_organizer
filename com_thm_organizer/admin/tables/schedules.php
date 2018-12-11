@@ -52,7 +52,7 @@ class THM_OrganizerTableSchedules extends JTable
         $dbo->setQuery($planPeriodQuery);
         $planPeriodName = (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
 
-        return "Organizer Schedule: $deptName - $planPeriodName";
+        return "Schedule: $deptName - $planPeriodName";
     }
 
     /**
