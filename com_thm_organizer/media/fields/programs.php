@@ -134,7 +134,7 @@ class JFormFieldPrograms extends JFormField
                     const parentInput = jQuery('#jformparentID');
                     parentInput.chosen('destroy');
                     jQuery('select#jformparentID option').each(function () {
-                        if (chosenElement === $(this).innerHTML)
+                        if (chosenElement === jQuery(this).innerHTML)
                         {
                             jQuery(this).prop('selected', value);
                         }
