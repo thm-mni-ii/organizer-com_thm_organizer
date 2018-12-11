@@ -25,13 +25,13 @@ class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
     protected function addToolBar()
     {
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_POOL_EDIT_NEW_TITLE'), 'organizer_subject_pools');
+            $title = JText::_('COM_THM_ORGANIZER_POOL_EDIT_NEW_TITLE');
             JToolbarHelper::apply('pool.apply', 'COM_THM_ORGANIZER_CREATE');
             JToolbarHelper::save('pool.save');
             JToolbarHelper::save2new('pool.save2new');
             JToolbarHelper::cancel('pool.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_POOL_EDIT_EDIT_TITLE'), 'organizer_subject_pools');
+            $title = JText::_('COM_THM_ORGANIZER_POOL_EDIT_EDIT_TITLE');
             JToolbarHelper::apply('pool.apply', 'COM_THM_ORGANIZER_APPLY');
             JToolbarHelper::save('pool.save');
             JToolbarHelper::save2new('pool.save2new');
@@ -47,5 +47,6 @@ class THM_OrganizerViewPool_Edit extends THM_OrganizerViewEdit
             $subjectLink = $baseURL . 'subject_selection';
             $toolbar->appendButton('Popup', 'book', JText::_('COM_THM_ORGANIZER_ADD_SUBJECT'), $subjectLink);
         }
+        JToolbarHelper::title($title, 'organizer_pools');
     }
 }

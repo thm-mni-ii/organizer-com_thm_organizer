@@ -1,7 +1,6 @@
-[class^='icon-'], [class*=' icon-'] {
-    font-family: icomoon;
-}
-
+/**********************************************************************************************************************/
+/* icons **************************************************************************************************************/
+/**********************************************************************************************************************/
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before {
     font-family: icomoon;
@@ -9,17 +8,16 @@ a[href$="view=thm_organizer"]::before {
     color: #80ba24;
 }
 
+.icon-organizer_buildings::before {
+    content: '\e250';
+}
+
 .icon-organizer_colors::before {
     content: '\e014';
 }
 
 .icon-organizer_degrees::before {
-    content: '\e606';
-}
-
-.icon-organizer_degree_programs::before,
-.icon-organizer_plan_programs::before {
-    content: '\31';
+    content: '\e938';
 }
 
 .icon-organizer_departments::before {
@@ -32,32 +30,30 @@ a[href$="view=thm_organizer"]::before {
 
 .icon-organizer_grids::before {
     content: '\59';
-    font-size: 1.1rem;
 }
 
 .icon-organizer_methods::before {
-    content: '\e271';
-}
-
-.icon-mni::before {
-    content: '\e600';
+    content: '\38';
 }
 
 .icon-organizer_monitors::before {
     content: '\e01c';
 }
 
-.icon-organizer_plan_pools::before,
-.icon-organizer_subject_pools::before {
-    content: '\44';
+.icon-organizer_pools::before {
+    content: '\e231';
 }
 
-.icon-organizer_rooms::before {
-    content: '\e250';
+.icon-organizer_programs::before {
+    content: '\31';
 }
 
 .icon-organizer_room_types::before {
-    content: '\e250';
+    content: '\38';
+}
+
+.icon-organizer_rooms::before {
+    content: '\e257';
 }
 
 .icon-organizer_schedules::before {
@@ -65,23 +61,11 @@ a[href$="view=thm_organizer"]::before {
 }
 
 .icon-organizer_subjects::before {
-    content: '\e603';
-}
-
-.icon-organizer_subject_pools::before {
-    content: '\44';
+    content: '\e271';
 }
 
 .icon-organizer_teachers::before {
-    content: '\e604';
-}
-
-.icon-import, .icon-import-all {
-    font-weight: bold;
-}
-
-a[href*="option=com_thm_organizer&view="]::before {
-    padding-right: 8px;
+    content: '\e01f';
 }
 
 .sidebar-nav {

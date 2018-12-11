@@ -1,7 +1,77 @@
 //Here divided main sections: navigation, content, toolbar -> new/edit
 @import 'variables';
 @import 'mixins';
-@import 'icons';
+
+/**********************************************************************************************************************/
+/* icons **************************************************************************************************************/
+/**********************************************************************************************************************/
+
+.icon-organizer::before,
+a[href$="view=thm_organizer"]::before {
+  font-family: icomoon;
+  content: '\e60b';
+  color: $thm;
+}
+
+.icon-organizer_buildings::before {
+  content: '\e250';
+}
+
+.icon-organizer_colors::before {
+  content: '\e014';
+}
+
+.icon-organizer_degrees::before {
+  content: '\e938';
+}
+
+.icon-organizer_departments::before {
+  content: '\e244';
+}
+
+.icon-organizer_fields::before {
+  content: '\74';
+}
+
+.icon-organizer_grids::before {
+  content: '\59';
+}
+
+.icon-organizer_methods::before {
+  content: '\38';
+}
+
+.icon-organizer_monitors::before {
+  content: '\e01c';
+}
+
+.icon-organizer_pools::before {
+  content: '\e231';
+}
+
+.icon-organizer_programs::before {
+  content: '\31';
+}
+
+.icon-organizer_room_types::before {
+  content: '\38';
+}
+
+.icon-organizer_rooms::before {
+  content: '\e257';
+}
+
+.icon-organizer_schedules::before{
+  content: '\e931';
+}
+
+.icon-organizer_subjects::before {
+  content: '\e271';
+}
+
+.icon-organizer_teachers::before {
+  content: '\e01f';
+}
 
 //********************************************************************************************************************//
 // adjusting navigation

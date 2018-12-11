@@ -54,7 +54,7 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_VIEW_TITLE'), 'organizer_plan_pools');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_VIEW_TITLE'), 'organizer_pools');
         JToolbarHelper::editList('plan_pool.edit');
 
         $if          = "alert('" . JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";

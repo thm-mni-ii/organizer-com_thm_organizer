@@ -47,20 +47,20 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_degree_programs');
+        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_programs');
         JToolbarHelper::addNew('program.add');
         JToolbarHelper::editList('program.edit');
         JToolbarHelper::custom(
             'program.importLSFData',
-            'import',
-            '',
+            'upload',
+            'upload',
             'COM_THM_ORGANIZER_ACTION_IMPORT',
             true
         );
         JToolbarHelper::custom(
             'program.updateLSFData',
             'loop',
-            '',
+            'loop',
             'COM_THM_ORGANIZER_ACTION_UPDATE_SUBJECTS',
             true
         );

@@ -52,8 +52,8 @@ class THM_OrganizerViewSubject_Manager extends THM_OrganizerViewList
         JToolbarHelper::editList('subject.edit');
         JToolbarHelper::custom(
             'subject.importLSFData',
-            'import',
-            '',
+            'upload',
+            'upload',
             'COM_THM_ORGANIZER_ACTION_IMPORT',
             true
         );
