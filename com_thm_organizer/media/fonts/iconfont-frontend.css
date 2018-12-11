@@ -25,14 +25,6 @@
     content: "\e962";
 }
 
-.icon-file-pdf:before {
-    content: "\eada";
-}
-
-.icon-file-excel:before {
-    content: "\eadd";
-}
-
 .icon-schedules:before {
     content: "\e600";
     font-family: 'icomoon-special' !important;

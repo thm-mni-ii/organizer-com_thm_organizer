@@ -224,7 +224,7 @@ $displayName = empty($this->model->displayName) ?
                 </div>
                 <div class="link-item">
                     <a onclick="scheduleApp.handleExport('xls.si');">
-                        <span class="icon-file-xls"></span>
+                        <span class="icon-file-excel"></span>
                         <?php echo JText::_('COM_THM_ORGANIZER_XLS_SPREADSHEET'); ?>
                     </a>
                 </div>

@@ -30,7 +30,7 @@ $initialHidden = ['date'];
             <div class="toolbar">
                 <button id="action-btn" class="btn" type="submit">
                     <?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD') ?>
-                    <span class="icon-file-xls"></span>
+                    <span class="icon-file-excel"></span>
                 </button>
             </div>
             <div class="clear"></div>

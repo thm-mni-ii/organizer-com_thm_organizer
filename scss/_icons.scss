@@ -10,8 +10,7 @@
 }
 
 .icon-organizer::before,
-a[href$="view=thm_organizer"]::before,
-a[href$="option=com_thm_organizer"]::before {
+a[href$="view=thm_organizer"]::before {
   font-family: icomoon;
   content: '\e60b';
   color: $thm;

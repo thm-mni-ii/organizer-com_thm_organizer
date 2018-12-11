@@ -340,7 +340,7 @@ function setFormat()
             formatInput.val(format);
             documentFormat = documentFormat === undefined ? 'si' : documentFormat;
             documentFormatContainer.val(documentFormat);
-            actionButton.text(downloadText + ' ').append('<span class="icon-file-xls"></span>');
+            actionButton.text(downloadText + ' ').append('<span class="icon-file-excel"></span>');
             dateContainer.show();
             dateRestrictionContainer.show();
             //displayFormatContainer.hide();
