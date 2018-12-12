@@ -15,6 +15,10 @@ require_once 'course_export.php';
  */
 class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Export
 {
+    private $columnHeaders;
+
+    private $widths;
+
     /**
      * THM_OrganizerTemplatePrep_Course_Participant_List_Export_PDF constructor.
      *
@@ -31,7 +35,30 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
 
         $this->setHeader();
 
-        $this->document->AddPage();
+        $feeApplies = !empty($this->course['fee']);
+
+        $this->columnHeaders = [
+            'index'      => '#',
+            'name'       => 'Name',
+            'department' => $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT'),
+            'program'    => $this->lang->_('COM_THM_ORGANIZER_PROGRAM'),
+            'room'       => $this->lang->_('COM_THM_ORGANIZER_ROOM')
+        ];
+
+        $this->widths     = [
+            'index'      => 8,
+            'name'       => 79,
+            'department' => 28,
+            'program'    => 40,
+            'room'       => 25
+        ];
+
+
+        if ($feeApplies) {
+            $this->columnHeaders['paid'] = $this->lang->_('COM_THM_ORGANIZER_PAID');
+            $this->widths['name'] = 59;
+            $this->widths['paid'] = 20;
+        }
 
         $this->createParticipantTable();
 
@@ -47,102 +74,100 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
      */
     private function createParticipantTable()
     {
-        $header = [
-            '#',
-            'Name',
-            $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT'),
-            $this->lang->_('COM_THM_ORGANIZER_PROGRAM'),
-            $this->lang->_('COM_THM_ORGANIZER_ROOM')
-        ];
+        $this->addPage();
 
-        $feeApplies = !empty($this->course['fee']);
+        $itemNo = 1;
+        $participants = $this->course['participants'];
 
-        if ($feeApplies) {
-            $header[] = $this->lang->_('COM_THM_ORGANIZER_PAID');
-            $widths   = [10, 60, 30, 35, 25, 20];
-        } else {
-            $widths = [10, 80, 30, 35, 25];
-        }
+        foreach ($participants as $participant) {
 
-        $participantData = $this->course['participants'];
-
-        $this->document->SetFillColor(210);
-        $this->document->SetFont('', 'B');
-        for ($i = 0; $i < count($header); ++$i) {
-            $this->document->Cell($widths[$i], 7, $header[$i], 1, 0, 'L', 1);
-        }
-
-        $this->document->Ln();
-
-        $this->document->SetFillColor(235, 252, 238);
-        $this->document->SetFont('');
-        foreach ($participantData as $id => $participant) {
-            $cells = [
-                $id + 1,
-                $participant['name'],
-                $participant['departmentName'],
-                $participant['programName'],
-                ''
-            ];
-
-            if ($feeApplies) {
-                $cells[] = '';
-            }
-
+            // Get the starting coordinates for later use with borders
             $startX = $this->document->GetX();
             $startY = $this->document->GetY();
 
-            $maxNoCells   = 0;
-            $maxCellCount = 0;
-            $maxArray     = [];
+            $maxLength = 0;
 
-            for ($i = 0; $i < count($cells); ++$i) {
-                $cellCount = $this->document->MultiCell($widths[$i], 5, $cells[$i], 'T', 'L', 0, 0);
-                if ($cellCount > $maxNoCells) {
-                    $maxNoCells = $cellCount;
+            foreach (array_keys($this->columnHeaders) as $columnName) {
+                switch ($columnName) {
+                    case 'index':
+                        $value = $itemNo;
+                        break;
+                    case 'name':
+                        $value = $participant['userName'];
+                        break;
+                    case 'department':
+                        $value = $participant['departmentName'];
+                        break;
+                    case 'program':
+                        $value = $participant['programName'];
+                        break;
+                    default:
+                        $value = '';
+                        break;
+                }
+
+                $length = $this->document->MultiCell($this->widths[$columnName], 5, $value, '', 'L', 0, 0);
+                if ($length > $maxLength) {
+                    $maxLength = $length;
                 }
             }
 
-            array_push($maxArray, $maxCellCount);
+            // Reset for borders
             $this->document->SetXY($startX, $startY);
 
-            foreach ($widths as $w) {
-                $this->document->MultiCell($w, $maxNoCells * 5, '', 'LR', 'L', 0, 0);
+            foreach ($this->widths as $index => $width) {
+                if ($index == 'index') {
+                    $this->document->MultiCell($width, $maxLength * 5, '', 'LRB', 'L', 0, 0);
+                } else {
+                    $this->document->MultiCell($width, $maxLength * 5, '', 'RB', 'L', 0, 0);
+                }
             }
 
-            $this->document->Ln();
-
-            if ($this->document->getY() + $maxCellCount > 260) {
-                $this->document->addPage();
-                $this->document->setY(34);
-            }
-        }
-
-        // Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
-        $emptyCells = (intval((sizeof($participantData) * 1.25) / 6) + 1) * 6;
-        for ($id = sizeof($participantData); $id < $emptyCells; ++$id) {
-            $cells = [$id + 1, '', '', '', ''];
-
-            if ($feeApplies) {
-                $cells[] = '';
-            }
-
-            $startX = $this->document->GetX();
-            $startY = $this->document->GetY();
-
-            for ($i = 0; $i < count($cells); ++$i) {
-                $this->document->MultiCell($widths[$i], 5, $cells[$i], 'LRTB', 'L', 0, 0);
-            }
-
-            $this->document->SetXY($startX, $startY);
             $this->document->Ln();
 
             if ($this->document->getY() > 260) {
-                $this->document->addPage();
-                $this->document->setY(34);
+                $this->addPage();
             }
+
+            $itemNo++;
         }
 
-        $this->document->Cell(array_sum($widths), 0, '', 'T');
+        // Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
+        $bufferSize = ceil(count($participants) * 1.25) + 1;
+        for ($itemNo; $itemNo < $bufferSize; $itemNo++) {
+
+            foreach (array_keys($this->columnHeaders) as $columnName) {
+                $value = $columnName == 'index' ? $itemNo : '';
+                $this->document->MultiCell($this->widths[$columnName], 5, $value, 'LRB', 'L', 0, 0);
+            }
+
+            $this->document->Ln();
+
+            if ($this->document->getY() > 260) {
+                $this->document->Cell(array_sum($this->widths), 0, '', 'T');
+                $this->addPage();
+            }
+        }
+    }
+
+    /**
+     * Adds a new page to the document and creates the column headers for the table
+     *
+     * @return void
+     */
+    private function addPage() {
+        $this->document->AddPage();
+
+        // create the column headers for the page
+        $this->document->SetFillColor(210);
+        $this->document->SetFont('', 'B');
+        foreach (array_keys($this->columnHeaders) as $columnName) {
+            $this->document->Cell($this->widths[$columnName], 7, $this->columnHeaders[$columnName], 1, 0, 'L', 1);
+        }
+        $this->document->Ln();
+
+        // reset styles
+        $this->document->SetFillColor(235, 252, 238);
+        $this->document->SetFont('');
     }
 }

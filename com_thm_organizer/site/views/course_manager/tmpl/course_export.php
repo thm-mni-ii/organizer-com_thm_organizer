@@ -106,7 +106,7 @@ abstract class THM_OrganizerTemplateCourse_Export
         $this->document->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         $this->document->SetHeaderMargin(PDF_MARGIN_HEADER);
         $this->document->SetFooterMargin(PDF_MARGIN_FOOTER);
-        $this->document->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+        $this->document->SetAutoPageBreak(true, 0);
         $this->document->setImageScale(PDF_IMAGE_SCALE_RATIO);
         $this->document->SetFont('', '', 10);
     }

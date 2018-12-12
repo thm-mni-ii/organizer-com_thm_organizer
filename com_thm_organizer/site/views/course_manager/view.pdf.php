@@ -21,6 +21,10 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php
  */
 class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
 {
+    const BADGES = 2;
+    const DEPARTMENT_PARTICIPANTS = 1;
+    const PARTICIPANTS = 0;
+
     /**
      * Method to get display
      *
@@ -37,7 +41,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
 
         $lessonID   = $input->get('lessonID', 0);
         $type       = $input->get('type', 0);
-        $validTypes = [0, 1, 2];
+        $validTypes = [self::BADGES, self::DEPARTMENT_PARTICIPANTS, self::PARTICIPANTS];
 
         if (empty($lessonID) or !in_array($type, $validTypes)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
@@ -48,17 +52,17 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         switch ($type) {
-            case 0:
-                require_once __DIR__ . '/tmpl/participants.php';
-                new THM_OrganizerTemplateParticipants($lessonID);
+            case self::BADGES:
+                require_once __DIR__ . '/tmpl/badges.php';
+                new THM_OrganizerTemplateBadges($lessonID);
                 break;
-            case 1:
+            case self::DEPARTMENT_PARTICIPANTS:
                 require_once __DIR__ . '/tmpl/department_participants.php';
                 new THM_OrganizerTemplateDepartment_Participants($lessonID);
                 break;
-            case 2:
-                require_once __DIR__ . '/tmpl/badges.php';
-                new THM_OrganizerTemplateBadges($lessonID);
+            case self::PARTICIPANTS:
+                require_once __DIR__ . '/tmpl/participants.php';
+                new THM_OrganizerTemplateParticipants($lessonID);
                 break;
             default:
                 throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);

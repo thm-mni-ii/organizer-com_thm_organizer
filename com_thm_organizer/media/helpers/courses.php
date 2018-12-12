@@ -319,23 +319,27 @@ class THM_OrganizerHelperCourses
         $dbo   = JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = 'CONCAT(pt.surname, ", ", pt.forename) AS name , pt.address, pt.zip_code, pt.city';
-        $select .= ",pr.name_$shortTag as programName, d.short_name_$shortTag as departmentName";
-        $select .= ',u.id, u.email';
+        $nameParts = ['pt.surname', "', '", 'pt.forename'];
+        $programParts = ["pr.name_$shortTag", "' ('", 'dg.abbreviation', "' '", 'pr.version', "')'"];
 
-        $query->select($select);
+        $query->select($query->concatenate($nameParts, '') . ' AS userName, pt.address, pt.zip_code, pt.city')
+            ->select('u.id, u.email')
+            ->select($query->concatenate($programParts, '') . ' AS programName, pr.id AS programID')
+            ->select("dp.short_name_$shortTag AS departmentName, dp.id AS departmentID");
+
         $query->from('#__thm_organizer_user_lessons AS ul');
-        $query->leftJoin('#__users AS u ON u.id = ul.userID');
-        $query->leftJoin('#__thm_organizer_participants AS pt ON u.id = pt.id');
-        $query->leftJoin('#__thm_organizer_programs AS pr ON pr.id = pt.programID');
-        $query->leftJoin('#__thm_organizer_departments AS d ON pr.departmentID = d.id');
+        $query->innerJoin('#__users AS u ON u.id = ul.userID');
+        $query->innerJoin('#__thm_organizer_participants AS pt ON pt.id = ul.userID');
+        $query->innerJoin('#__thm_organizer_programs AS pr ON pr.id = pt.programID');
+        $query->innerJoin('#__thm_organizer_degrees AS dg ON dg.id = pr.degreeID');
+        $query->innerJoin('#__thm_organizer_departments AS dp ON dp.id = pr.departmentID');
         $query->where("ul.lessonID = '$courseID'");
 
         if (!$includeWaitList) {
             $query->where("ul.status = '1'");
         }
 
-        $query->order('name');
+        $query->order('userName');
 
         $dbo->setQuery($query);
 

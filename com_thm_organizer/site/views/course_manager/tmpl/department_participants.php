@@ -47,15 +47,15 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
     {
         $departments = [];
 
-        foreach ($this->course['participants'] as $data) {
-            if ($data['departmentName'] === null) {
-                $data['departmentName'] = $this->lang->_('JNONE');
+        foreach ($this->course['participants'] as $participant) {
+            if (empty($participant['departmentID']) or empty($participant['departmentName'])) {
+                $departments[0] = $this->lang->_('JNONE');
+            } else {
+                $departments[$participant['departmentID']] = $participant['departmentName'];
             }
-
-            array_push($departments, $data['departmentName']);
         }
 
-        $departments = array_unique($departments);
+        asort($departments);
 
         return $departments;
     }

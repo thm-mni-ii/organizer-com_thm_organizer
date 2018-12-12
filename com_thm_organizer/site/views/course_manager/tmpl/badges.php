@@ -117,7 +117,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $this->document->Cell(10, 5, $participantIndex + 1, 1, 0, 'C');
 
         if ($participantIndex >= count($this->course['participants'])) {
-            $participant = ['name' => '', 'zip_code' => '', 'city' => '', 'address' => ''];
+            $participant = ['userName' => '', 'zip_code' => '', 'city' => '', 'address' => ''];
         } else {
             $participant = $this->course['participants'][$participantIndex];
         }
@@ -158,7 +158,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $this->document->SETXY($center, $yOffset + 63);
         $this->document->Cell(20, 5, 'Name: ', 0, 0, 'L');
         $this->document->SetFont('', 'B', 10);
-        $this->document->Cell(65, 5, $participant['name'], 0, 0, 'L');
+        $this->document->Cell(65, 5, $participant['userName'], 0, 0, 'L');
 
         $this->document->Ln();
         $this->document->SetFont('', '', 10);
