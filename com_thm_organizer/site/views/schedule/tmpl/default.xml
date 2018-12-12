@@ -16,7 +16,7 @@
                    description="COM_THM_ORGANIZER_DEPARTMENT_DESC">
                 <option value="0">JALL</option>
             </field>
-            <field name="programIDs" type="genericlist" valuecolumn="id" textcolumn="name"
+            <field name="programIDs" type="genericlist" valuecolumn="id" textcolumn="name" multiple="true"
                    table="thm_organizer_plan_programs" label="COM_THM_ORGANIZER_PROGRAMS"
                    description="COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC">
                 <option value="">JALL</option>
