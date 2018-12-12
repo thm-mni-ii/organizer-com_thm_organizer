@@ -8,12 +8,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
-jimport('tcpdf.tcpdf');
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
+define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
+
+jimport('tcpdf.tcpdf');
 
 /**
  * Base PDF export class used for the generation of various course exports.
@@ -31,31 +29,31 @@ abstract class THM_OrganizerTemplateCourse_Export
     /**
      * THM_OrganizerTemplateCourse_List_PDF constructor.
      *
-     * @param int $lessonID the lessonID of the exported course
+     * @param int $courseID the lessonID of the exported course
      *
      * @throws Exception => invalid request / unauthorized access / not found
      */
-    public function __construct($lessonID)
+    public function __construct($courseID)
     {
-        if (empty($lessonID)) {
+        if (empty($courseID)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        if (!THM_OrganizerHelperCourses::authorized($lessonID)) {
+        if (!THM_OrganizerHelperCourses::authorized($courseID)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
-        $course          = THM_OrganizerHelperCourses::getCourse($lessonID);
+        $course = THM_OrganizerHelperCourses::getCourse($courseID);
         if (empty($course)) {
             throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
         }
 
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
-        $dates           = THM_OrganizerHelperCourses::getDates($lessonID);
+        $this->lang      = THM_OrganizerHelperLanguage::getLanguage();
+        $dates           = THM_OrganizerHelperCourses::getDates($courseID);
         $maxParticipants = empty($course->lessonP) ? $course['subjectP'] : $course['lessonP'];
         $start           = explode('-', $dates[0]);
         $end             = explode('-', end($dates));
-        $participants    = THM_OrganizerHelperCourses::getFullParticipantData($lessonID);
+        $participants    = THM_OrganizerHelperCourses::getFullParticipantData($courseID);
 
         $this->course = [
             'capacity'     => $maxParticipants,
@@ -71,7 +69,6 @@ abstract class THM_OrganizerTemplateCourse_Export
         } elseif (!empty($course['abstractCampusID'])) {
             $this->course['place'] = THM_OrganizerHelperCampuses::getName($course['abstractCampusID']);
         }
-        // Before a placeholder is output, the third option is ignored.
 
         // Preparatory course 'semesters' are the semesters they are preparing for, not the actual semesters
         if (!empty($course['is_prep_course']) and !empty($course['planningPeriodID'])) {
@@ -89,16 +86,15 @@ abstract class THM_OrganizerTemplateCourse_Export
     }
 
     /**
-     * Create a new TCPDF and format the header with necessary information about course
+     * Create a new TCPDF document and format the header with course information
      *
      * @return void
      */
     protected function setHeader()
     {
-        $header   = $this->course['name'];
-        $location = empty($this->course['place']) ? '' : "{$this->course['place']}, ";
-        $dates    = "{$this->course['start']} - {$this->course['end']}";
-
+        $header           = $this->course['name'];
+        $location         = empty($this->course['place']) ? '' : "{$this->course['place']}, ";
+        $dates            = "{$this->course['start']} - {$this->course['end']}";
         $participants     = $this->lang->_('COM_THM_ORGANIZER_PARTICIPANTS');
         $participantCount = count($this->course['participants']);
         $subHeader        = "$location$dates\n$participants: $participantCount";
