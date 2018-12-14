@@ -118,8 +118,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
         $headers   = [];
 
         $headers['checkbox']         = '';
-        $headers['departmentID']     = HTML::sort('DEPARTMENT', 'departmentname', $direction, $ordering);
-        $headers['planningPeriodID'] = HTML::sort('PLANNING_PERIOD', 'semestername', $direction, $ordering);
+        $headers['departmentID']     = HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering);
+        $headers['planningPeriodID'] = HTML::sort('PLANNING_PERIOD', 'planningPeriodName', $direction, $ordering);
         $headers['active']           = HTML::sort('STATE', 'active', $direction, $ordering);
         $headers['created']          = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
 

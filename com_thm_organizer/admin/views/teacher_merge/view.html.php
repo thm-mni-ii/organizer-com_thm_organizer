@@ -10,12 +10,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/views/form.php';
+require_once JPATH_COMPONENT . '/views/merge.php';
 
 /**
  * Class loads the teacher merge form into display context.
  */
-class THM_OrganizerViewTeacher_Merge extends THM_OrganizerViewForm
+class THM_OrganizerViewTeacher_Merge extends THM_OrganizerViewMerge
 {
     public $form = null;
 

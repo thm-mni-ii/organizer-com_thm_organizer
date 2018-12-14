@@ -10,4 +10,4 @@
 
 defined('_JEXEC') or die;
 
-THM_OrganizerLayoutForm::render($this);
+THM_OrganizerLayoutMerge::render($this);

@@ -10,12 +10,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/views/form.php';
+require_once JPATH_COMPONENT . '/views/merge.php';
 
 /**
  * Class loads the field merge form into display context.
  */
-class THM_OrganizerViewField_Merge extends THM_OrganizerViewForm
+class THM_OrganizerViewField_Merge extends THM_OrganizerViewMerge
 {
     /**
      * Method to generate buttons for user interaction

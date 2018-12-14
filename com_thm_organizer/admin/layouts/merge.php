@@ -13,7 +13,7 @@ use \THM_OrganizerHelperHTML as HTML;
 /**
  * Class provides a standardized display of non-standard edit forms (non-item based, merge).
  */
-class THM_OrganizerLayoutForm
+class THM_OrganizerLayoutMerge
 {
     /**
      * Method to create a list output

@@ -10,13 +10,13 @@
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_COMPONENT . '/layouts/form.php';
+require_once JPATH_COMPONENT . '/layouts/merge.php';
 
 /**
  * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by
  * extending class.
  */
-abstract class THM_OrganizerViewForm extends \Joomla\CMS\MVC\View\HtmlView
+abstract class THM_OrganizerViewMerge extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $params = null;
 

@@ -12,12 +12,10 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_COMPONENT . '/views/form.php';
-
 /**
  * Class modifies the document for the output of a menu like list of resource management views.
  */
-class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
+class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $menuItems;
 
@@ -31,11 +29,14 @@ class THM_OrganizerViewTHM_Organizer extends THM_OrganizerViewForm
     public function display($tpl = null)
     {
         $this->setMenuItems();
+        $this->modifyDocument();
+        $this->addToolBar();
+
         parent::display($tpl);
     }
 
     /**
-     * creates a joomla administratoristrative tool bar
+     * Creates a toolbar
      *
      * @return void
      */

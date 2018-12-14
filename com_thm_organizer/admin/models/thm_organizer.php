@@ -15,5 +15,5 @@ defined('_JEXEC') or die;
  */
 class THM_OrganizerModelTHM_Organizer extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
-    // Basic inheritance hierarchy handles everything
+    // This class only exists to be conform with the standard structure. The view does not access the database.
 }
