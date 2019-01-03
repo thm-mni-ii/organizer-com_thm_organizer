@@ -28,8 +28,6 @@ abstract class THM_OrganizerViewList extends \Joomla\CMS\MVC\View\HtmlView
 
     public $headers = null;
 
-    public $hiddenFields = null;
-
     /**
      * Method to create a list output
      *
@@ -50,7 +48,6 @@ abstract class THM_OrganizerViewList extends \Joomla\CMS\MVC\View\HtmlView
 
         // Items common across list views
         $this->headers      = $this->get('Headers');
-        $this->hiddenFields = $this->get('HiddenFields');
         $this->items        = $this->get('Items');
 
         $this->addSubmenu();
@@ -65,14 +62,9 @@ abstract class THM_OrganizerViewList extends \Joomla\CMS\MVC\View\HtmlView
      *
      * @return void
      */
-    public function addSubmenu()
+    private function addSubmenu()
     {
         $viewName = $this->get('name');
-
-        // No submenu creation while editing a resource
-        if (strpos($viewName, 'edit')) {
-            return;
-        }
 
         JHtmlSidebar::addEntry(
             JText::_('COM_THM_ORGANIZER'),

@@ -56,7 +56,6 @@ class THM_OrganizerLayoutList_Modal
                        value="<?php echo THM_OrganizerHelperComponent::getInput()->get('option'); ?>"/>
                 <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
                 <input type="hidden" name="tmpl" value="component"/>
-                <?php self::renderHiddenFields($view) ?>
                 <?php echo HTML::_('form.token'); ?>
             </form>
         </div>
@@ -206,21 +205,5 @@ class THM_OrganizerLayoutList_Modal
         echo "<td colspan='$columnCount'>";
         echo $view->pagination->getListFooter();
         echo '</td></tr></tfoot>';
-    }
-
-    /**
-     * Renders hidden fields
-     *
-     * @param object &$view the view object
-     *
-     * @return void  outputs hidden fields html
-     */
-    protected static function renderHiddenFields(&$view)
-    {
-        if (isset($view->hiddenFields) && !empty($view->hiddenFields)) {
-            foreach ($view->hiddenFields as $field) {
-                echo $field;
-            }
-        }
     }
 }

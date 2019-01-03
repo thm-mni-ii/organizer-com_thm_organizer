@@ -60,7 +60,6 @@ class THM_OrganizerLayoutList
                 <input type="hidden" name="boxchecked" value="0"/>
                 <input type="hidden" name="option" value="com_thm_organizer"/>
                 <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
-                <?php self::renderHiddenFields($view) ?>
                 <?php echo HTML::_('form.token'); ?>
             </form>
         </div>
@@ -269,22 +268,6 @@ class THM_OrganizerLayoutList
                 if (file_exists($path)) {
                     echo $view->loadTemplate($name);
                 }
-            }
-        }
-    }
-
-    /**
-     * Renders hidden fields
-     *
-     * @param object &$view the view object
-     *
-     * @return void  outputs hidden fields html
-     */
-    protected static function renderHiddenFields(&$view)
-    {
-        if (isset($view->hiddenFields) && !empty($view->hiddenFields)) {
-            foreach ($view->hiddenFields as $field) {
-                echo $field;
             }
         }
     }
