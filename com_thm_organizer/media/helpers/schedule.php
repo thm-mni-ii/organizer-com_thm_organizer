@@ -155,7 +155,7 @@ class THM_OrganizerHelperSchedule
 
         if (!empty($parameters['teacherIDs'])) {
             foreach ($parameters['teacherIDs'] as $teacherID) {
-                $regexp = '"teachers":\\{("[0-9]+":"[\w]*",)*"' . $teacherID . '"';
+                $regexp = '"teachers":\\{[^\}]*"' . $teacherID . '"';
                 $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
 
                 $wherray[] = "lc.configuration REGEXP '$regexp'";
@@ -164,7 +164,7 @@ class THM_OrganizerHelperSchedule
 
         if (!empty($parameters['roomIDs'])) {
             foreach ($parameters['roomIDs'] as $roomID) {
-                $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '"';
+                $regexp = '"rooms":\\{[^\}]*"' . $roomID . '"';
                 $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
 
                 $wherray[] = "lc.configuration REGEXP '$regexp'";
