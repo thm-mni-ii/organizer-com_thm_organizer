@@ -145,28 +145,41 @@
   }
 
   .overview-container {
-
     width: 100%;
 
-    table, thead, tr {
-      display: block;
-      width: 100%;
-    }
-
     table {
-
       border-bottom: $border-light;
       margin-bottom: 0;
+      width: auto;
 
-      thead tr {
-          position: sticky;
+      thead {
+
+        tr:after {
+          content: '';
+          overflow-y: scroll;
+          visibility: hidden;
+        }
+
+        th {
+          flex: 1 auto;
+          display: block;
+        }
       }
 
       tbody {
-        display: inline-block;
+        display: block;
+        height: auto;
         max-height: 600px;
-        overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
+        width: 100%;
+
+        tr td {
+          flex: 1 auto;
+        }
+      }
+
+      tr {
+        display: flex;
       }
 
       th, td {
@@ -195,18 +208,12 @@
 
         &.block-column, &.day-column {
           border-right: $border-white;
-          &:last-child {
-            border-right: none;
-          }
         }
       }
 
       td {
         border-right: $border-light;
         border-bottom: $border-light;
-        &:last-child {
-          border-right: none;
-        }
       }
 
       th.block-column, th.day-column, td.block-column {
