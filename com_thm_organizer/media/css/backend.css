@@ -140,6 +140,14 @@ a[href$="view=thm_organizer"]::before {
     max-width: inherit;
 }
 
+.contentpane .js-stools-container-bar .chzn-container {
+    width: auto !important;
+}
+
+.contentpane .js-stools-container-bar .chzn-container .chzn-single span {
+    padding: 0 10px 0 0;
+}
+
 .table-striped {
     margin-top: 7px;
     border-collapse: separate;

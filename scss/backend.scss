@@ -157,6 +157,15 @@ a[href$="view=thm_organizer"]::before {
 
 .chzn-container {
   max-width: inherit;
+
+  .contentpane .js-stools-container-bar & {
+    // !important needed for overwriting inline-style, sometimes too small
+    width: auto !important;
+
+    .chzn-single span {
+      padding: 0 10px 0 0;
+    }
+  }
 }
 
 // adjusting tables
