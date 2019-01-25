@@ -30,7 +30,7 @@ class JFormFieldLocalizedList extends JFormFieldList
     public $type = 'localizedlist';
 
     /**
-     * Method to get the field options for category
+     * Method to get the field options for category.
      * Use the extension attribute in a form to specify the.specific extension for
      * which categories should be displayed.
      * Use the show_root attribute to specify whether to show the global category root in the list.
