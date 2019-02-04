@@ -469,11 +469,26 @@ class THM_OrganizerHelperSchedule
      */
     public static function getDates($parameters)
     {
-        $date = $parameters['date'];
-        $type = $parameters['format'] == 'ics' ? 'ics' : $parameters['dateRestriction'];
-
         $startDayNo = empty($parameters['startDay']) ? 1 : $parameters['startDay'];
         $endDayNo   = empty($parameters['endDay']) ? 6 : $parameters['endDay'];
+        $type = $parameters['format'] == 'ics' ? 'ics' : $parameters['dateRestriction'];
+
+        $date = $parameters['date'];
+        $dateTime = strtotime($date);
+
+        $reqDoW = date('w', $dateTime);
+
+        // Single day is not requested, or the day does not fall within the configured range
+        $notInRange = ($type !== 'day' and !($reqDoW >= $startDayNo and $reqDoW <= $endDayNo));
+        if ($notInRange) {
+            if ($reqDoW === 6) {
+                $dateTime = strtotime('-1 day', $dateTime);
+            } else {
+                $dateTime = strtotime('+1 day', $dateTime);
+            }
+            $date = date('Y-m-d', strtotime($dateTime));
+        }
+
 
         $startDayName = date('l', strtotime("Sunday + $startDayNo days"));
         $endDayName   = date('l', strtotime("Sunday + $endDayNo days"));
@@ -484,15 +499,15 @@ class THM_OrganizerHelperSchedule
                 break;
 
             case 'week':
-                $startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
-                $endDate   = date('Y-m-d', strtotime("$endDayName this week", strtotime($date)));
+                $startDate = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
+                $endDate   = date('Y-m-d', strtotime("$endDayName this week", $dateTime));
                 $dates     = ['startDate' => $startDate, 'endDate' => $endDate];
                 break;
 
             case 'month':
-                $monthStart = date('Y-m-d', strtotime('first day of this month', strtotime($date)));
+                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
                 $startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
-                $monthEnd   = date('Y-m-d', strtotime('last day of this month', strtotime($date)));
+                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
                 $endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($monthEnd)));
                 $dates      = ['startDate' => $startDate, 'endDate' => $endDate];
                 break;
@@ -509,7 +524,7 @@ class THM_OrganizerHelperSchedule
 
             case 'ics':
                 // ICS calendars get the next 6 months of data
-                $startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
+                $startDate  = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
                 $previewEnd = date('Y-m-d', strtotime('+6 month', strtotime($date)));
                 $endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($previewEnd)));
                 $dates      = ['startDate' => $startDate, 'endDate' => $endDate];
