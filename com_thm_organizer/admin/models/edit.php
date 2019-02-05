@@ -95,7 +95,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
     }
 
     /**
-     * Method to load the form data
+     * Method to load the form data.
      *
      * @return object
      * @throws Exception => unauthorized access
