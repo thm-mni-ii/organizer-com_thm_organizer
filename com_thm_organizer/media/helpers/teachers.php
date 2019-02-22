@@ -190,9 +190,9 @@ class THM_OrganizerHelperTeachers
      */
     public static function getIDFromScheduleData($gpuntisID, $data)
     {
+        $extPattern = "/^[v]?[A-ZÀ-ÖØ-Þ][a-zß-ÿ]+([A-ZÀ-ÖØ-Þ][A-ZÀ-ÖØ-Þa-zß-ÿ]*)?$/";
         $teacherTable   = JTable::getInstance('teachers', 'thm_organizerTable');
         $loadCriteria   = [];
-        $loadCriteria[] = ['gpuntisID' => $gpuntisID];
 
         if (!empty($data->username)) {
             $loadCriteria[] = ['username' => $data->username];
@@ -200,6 +200,7 @@ class THM_OrganizerHelperTeachers
         if (!empty($data->forename)) {
             $loadCriteria[] = ['surname' => $data->surname, 'forename' => $data->forename];
         }
+        $loadCriteria[] = ['gpuntisID' => $gpuntisID];
 
         foreach ($loadCriteria as $criteria) {
             try {
@@ -220,6 +221,11 @@ class THM_OrganizerHelperTeachers
                 if (empty($teacherTable->forename) and !empty($data->forename))
                 {
                     $teacherTable->forename = $data->forename;
+                    $altered = true;
+                }
+                $overwriteUntis = ($teacherTable->gpuntisID != $gpuntisID and preg_match($extPattern, $gpuntisID));
+                if ($overwriteUntis) {
+                    $teacherTable->gpuntisID = $gpuntisID;
                     $altered = true;
                 }
                 if ($altered) {
