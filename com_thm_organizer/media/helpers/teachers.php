@@ -211,6 +211,20 @@ class THM_OrganizerHelperTeachers
             }
 
             if ($success) {
+                $altered = false;
+                if (empty($teacherTable->username) and !empty($data->username))
+                {
+                    $teacherTable->username = $data->username;
+                    $altered = true;
+                }
+                if (empty($teacherTable->forename) and !empty($data->forename))
+                {
+                    $teacherTable->forename = $data->forename;
+                    $altered = true;
+                }
+                if ($altered) {
+                    $teacherTable->store();
+                }
                 return $teacherTable->id;
             }
         }

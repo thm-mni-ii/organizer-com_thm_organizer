@@ -25,7 +25,6 @@ class THM_OrganizerLayoutEdit_Tabbed
     public static function render(&$view)
     {
         ?>
-
         <form action="index.php?option=com_thm_organizer"
               enctype="multipart/form-data"
               method="post"
