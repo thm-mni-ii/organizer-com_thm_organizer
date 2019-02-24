@@ -242,52 +242,58 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     private function getEvents()
     {
-        foreach ($this->dates as $date) {
-            $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-            $query = $this->_db->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
-            $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ';
-            $select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
-            $select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
-            $select .= "ps.name AS psName, s.name_$shortTag AS sName";
-            $query->select($select)
-                ->from('#__thm_organizer_calendar AS cal')
-                ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')
-                ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
-                ->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
-                ->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
-                ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id AND conf.lessonID = ls.id')
-                ->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
-                ->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id')
-                ->innerJoin('#__thm_organizer_plan_pools AS pp ON lp.poolID = pp.id')
-                ->leftJoin('#__thm_organizer_plan_pool_publishing AS ppp ON ppp.planPoolID = pp.id AND ppp.planningPeriodID = l.planningPeriodID')
-                ->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
-                ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
-                ->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
-                ->where("cal.schedule_date = '$date'")
-                ->where("cal.delta != 'removed'")
-                ->where("l.delta != 'removed'")
-                ->where("ls.delta != 'removed'")
-                ->where("(ppp.published IS NULL OR ppp.published = '1')");
-            $this->_db->setQuery($query);
+        $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, cal.schedule_date, ';
+        $select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
+        $select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
+        $select .= "ps.name AS psName, s.name_$shortTag AS sName";
+        $query->select($select)
+            ->from('#__thm_organizer_calendar AS cal')
+            ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')
+            ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
+            ->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
+            ->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
+            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id AND conf.lessonID = ls.id')
+            ->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
+            ->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id')
+            ->innerJoin('#__thm_organizer_plan_pools AS pp ON lp.poolID = pp.id')
+            ->leftJoin('#__thm_organizer_plan_pool_publishing AS ppp ON ppp.planPoolID = pp.id AND ppp.planningPeriodID = l.planningPeriodID')
+            ->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
+            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
+            ->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
+            ->where("cal.schedule_date IN ($this->dates)")
+            ->where("cal.delta != 'removed'")
+            ->where("l.delta != 'removed'")
+            ->where("ls.delta != 'removed'")
+            ->where("(ppp.published IS NULL OR ppp.published = '1')");
+        $this->_db->setQuery($query);
 
-            $events = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $events = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
-            if (!empty($events)) {
-                foreach ($events as $index => $event) {
-                    $configuration = json_decode($event['configuration'], true);
-                    $rooms         = $this->getEventRooms($configuration['rooms']);
+        if (!empty($events)) {
+            foreach ($events as $index => $event) {
+                $configuration = json_decode($event['configuration'], true);
+                $rooms         = $this->getEventRooms($configuration['rooms']);
 
-                    if (count($rooms)) {
-                        $events[$index]['rooms']    = $rooms;
-                        $events[$index]['teachers'] = $this->getEventTeachers($configuration['teachers']);
-                        unset($events[$index]['configuration']);
-                    } else {
-                        unset($events[$index]);
-                    }
+                if (count($rooms)) {
+                    $events[$index]['rooms']    = $rooms;
+                    $events[$index]['teachers'] = $this->getEventTeachers($configuration['teachers']);
+                    unset($events[$index]['configuration']);
+                } else {
+                    unset($events[$index]);
                 }
-                $this->events[$date] = $events;
+            }
+
+            foreach ($events as $event){
+                $date = $event['schedule_date'];
+                if (!array_key_exists($date, $this->events)) {
+                    $this->events[$date] = array();
+                }
+
+                $this->events[$date][] = $event;
             }
         }
     }
@@ -432,9 +438,12 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         for ($currentDT = $startDT; $currentDT <= $endDT; $currentDT = strtotime('+1 day', $currentDT)) {
             $currentDOW = date('w', $currentDT);
             if (in_array($currentDOW, $days)) {
-                $this->dates[] = date('Y-m-d', $currentDT);
+
+                $this->dates[] = "'".date('Y-m-d', $currentDT)."'";
             }
         }
+
+        $this->dates = implode(',', $this->dates);
     }
 
     /**
