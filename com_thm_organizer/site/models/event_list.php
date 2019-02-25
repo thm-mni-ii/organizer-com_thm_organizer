@@ -295,6 +295,8 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
                 $this->events[$date][] = $event;
             }
+
+            ksort($this->events);
         }
     }
 
