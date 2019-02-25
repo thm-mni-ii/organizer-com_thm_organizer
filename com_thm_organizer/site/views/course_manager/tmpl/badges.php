@@ -185,35 +185,25 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $params = JComponentHelper::getParams('com_thm_organizer');
 
         $badgeCenter = $xOffset + 5;
-        $circle      = [
-            'width' => 0.1,
-            'cap'   => 'butt',
-            'join'  => 'miter',
-            'dash'  => '5,2.5',
-            'phase' => 10,
-            'color' => [0, 0, 0]
-        ];
 
         $this->document->SetLineStyle($this->rectangleStyle);
         $this->document->Rect($xOffset, 10 + $yOffset, 90, 80);
 
         if (empty($this->course['fee'])) {
             $addressY        = 78 + $yOffset;
-            $circleY         = 55 + $yOffset;
             $contactY        = 74 + $yOffset;
             $nameY           = 32 + $yOffset;
             $receiptY        = 20 + $yOffset;
             $repNameY        = 63 + $yOffset;
-            $representativeY = 45 + $yOffset;
+            $representativeY = 43 + $yOffset;
             $signatureY      = 48 + $yOffset;
         } else {
             $addressY        = 83 + $yOffset;
-            $circleY         = 70 + $yOffset;
             $contactY        = 86 + $yOffset;
             $nameY           = 27 + $yOffset;
             $receiptY        = 15 + $yOffset;
             $repNameY        = 79 + $yOffset;
-            $representativeY = 61 + $yOffset;
+            $representativeY = 58 + $yOffset;
             $signatureY      = 64 + $yOffset;
 
             $this->document->SetFont('', 'B', 11);
@@ -239,18 +229,18 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
             $this->document->Cell(80, 5, $this->course['name'], 0, 0, 'C');
         }
 
-        $this->document->SetLineStyle($circle);
-        $this->document->Circle($xOffset + 47, $circleY, 9);
-
         $this->document->SetFont('', '', 6);
-        $this->document->Text($xOffset + 60, $representativeY, $this->lang->_('COM_THM_ORGANIZER_REPRESENTATIVE'));
+        $this->document->SETXY($badgeCenter, $representativeY);
+        $this->document->Cell(80, 5, $this->lang->_('COM_THM_ORGANIZER_REPRESENTATIVE'), 0, 0, 'C');
 
         if (!empty($params->get('signatureFile'))) {
             $signaturePath = K_PATH_IMAGES . $params->get('signatureFile');
-            $this->document->Image($signaturePath, $xOffset + 58, $signatureY, 20, 0);
+            $this->document->Image($signaturePath, $xOffset + 35, $signatureY, 20, 0);
         }
 
-        $this->document->Text($xOffset + 55, $repNameY, $params->get('representativeName', ''));
+        $this->document->SetFont('', '', 7);
+        $this->document->SETXY($badgeCenter, $repNameY);
+        $this->document->Cell(80, 5, $params->get('representativeName', ''), 0, 0, 'C');
 
         $this->document->SetFont('', '', 6);
         $this->document->SETXY($badgeCenter, $addressY);
