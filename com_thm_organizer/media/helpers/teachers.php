@@ -190,9 +190,9 @@ class THM_OrganizerHelperTeachers
      */
     public static function getIDFromScheduleData($gpuntisID, $data)
     {
-        $extPattern = "/^[v]?[A-ZÀ-ÖØ-Þ][a-zß-ÿ]+([A-ZÀ-ÖØ-Þ][A-ZÀ-ÖØ-Þa-zß-ÿ]*)?$/";
-        $teacherTable   = JTable::getInstance('teachers', 'thm_organizerTable');
-        $loadCriteria   = [];
+        $extPattern   = "/^[v]?[A-ZÀ-ÖØ-Þ][a-zß-ÿ]{1,3}([A-ZÀ-ÖØ-Þ][A-ZÀ-ÖØ-Þa-zß-ÿ]*)$/";
+        $teacherTable = JTable::getInstance('teachers', 'thm_organizerTable');
+        $loadCriteria = [];
 
         if (!empty($data->username)) {
             $loadCriteria[] = ['username' => $data->username];
@@ -213,24 +213,26 @@ class THM_OrganizerHelperTeachers
 
             if ($success) {
                 $altered = false;
-                if (empty($teacherTable->username) and !empty($data->username))
-                {
+                if (empty($teacherTable->username) and !empty($data->username)) {
                     $teacherTable->username = $data->username;
-                    $altered = true;
+                    $altered                = true;
                 }
-                if (empty($teacherTable->forename) and !empty($data->forename))
-                {
+                if (empty($teacherTable->forename) and !empty($data->forename)) {
                     $teacherTable->forename = $data->forename;
-                    $altered = true;
+                    $altered                = true;
                 }
-                $overwriteUntis = ($teacherTable->gpuntisID != $gpuntisID and preg_match($extPattern, $gpuntisID));
+
+                $existingInvalid = empty(preg_match($extPattern, $teacherTable->gpuntisID));
+                $newValid = preg_match($extPattern, $gpuntisID);
+                $overwriteUntis = ($teacherTable->gpuntisID != $gpuntisID and $existingInvalid and $newValid);
                 if ($overwriteUntis) {
                     $teacherTable->gpuntisID = $gpuntisID;
-                    $altered = true;
+                    $altered                 = true;
                 }
                 if ($altered) {
                     $teacherTable->store();
                 }
+
                 return $teacherTable->id;
             }
         }
