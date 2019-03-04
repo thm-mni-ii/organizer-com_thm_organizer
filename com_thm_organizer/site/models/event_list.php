@@ -268,7 +268,8 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             ->where("cal.delta != 'removed'")
             ->where("l.delta != 'removed'")
             ->where("ls.delta != 'removed'")
-            ->where("(ppp.published IS NULL OR ppp.published = '1')");
+            ->where("(ppp.published IS NULL OR ppp.published = '1')")
+            ->order('cal.schedule_date');
         $this->_db->setQuery($query);
 
         $events = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
@@ -295,8 +296,6 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
                 $this->events[$date][] = $event;
             }
-
-            ksort($this->events);
         }
     }
 
