@@ -186,10 +186,6 @@ a [class^='icon-'], a [class*=' icon-'] {
     width: 100%;
 }
 
-.room-overview-view .overview-container table tbody tr td {
-    flex: 1 auto;
-}
-
 .room-overview-view .overview-container table tr {
     display: flex;
 }
@@ -257,12 +253,12 @@ a [class^='icon-'], a [class*=' icon-'] {
 }
 
 .room-overview-view .overview-container table th.columns-6-8 {
-    width: 151px;
+    width: calc(8.8rem + 7px);
 }
 
 .room-overview-view .overview-container table th.columns-48, .room-overview-view .overview-container table td.columns-48 {
     font-size: .5rem;
-    width: 18px;
+    width: 1.1rem;
 }
 
 div.no-results {

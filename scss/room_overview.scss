@@ -172,10 +172,6 @@
         max-height: 600px;
         overflow-y: auto;
         width: 100%;
-
-        tr td {
-          flex: 1 auto;
-        }
       }
 
       tr {
@@ -245,12 +241,12 @@
       }
 
       th.columns-6-8 {
-        width: 151px;
+        width: calc(8.8rem + 7px);
       }
 
       th.columns-48, td.columns-48 {
         font-size: .5rem;
-        width: 18px;
+        width: 1.1rem;
       }
     }
   }
