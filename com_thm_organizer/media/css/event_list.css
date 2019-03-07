@@ -37,6 +37,11 @@
     margin-bottom: 10px;
 }
 
+.component-container .no-entries-found {
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+    font-size: 130%;
+}
+
 .component-container table thead {
     background-color: #dfe5e6;
     font-family: "THM-Medium", Arial, Helvetica, sans-serif;

@@ -85,6 +85,11 @@ $attribs = ['target' => '_blank'];
                                 $icon = '<span class="icon-book"></span>';
                                 echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
                             }
+
+                            if ($type == 'event_list') {
+                                $icon = '<span class="icon-list"></span>';
+                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
+                            }
                         }
 
                         echo '</div>';

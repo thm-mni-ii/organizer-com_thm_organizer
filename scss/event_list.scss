@@ -41,6 +41,11 @@
     margin-bottom: 10px;
   }
 
+  .no-entries-found{
+    font-family: $font-family-header;
+    font-size: 130%;
+  }
+
   table thead {
     background-color: $background-navigation-color;
     font-family: $font-family-header;

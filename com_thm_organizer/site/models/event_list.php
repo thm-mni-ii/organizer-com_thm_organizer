@@ -32,21 +32,56 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
     private $dates = [];
 
+    private $columnMap = ['subject' => 'ps.id',
+                          'department' => 'd.id',
+                          'planProgram' => 'ppr.id',
+                          'planPool' => 'pp.id'];
+
     /**
      * Constructor
      */
     public function __construct()
     {
         parent::__construct();
-        $app          = THM_OrganizerHelperComponent::getApplication();
-        $this->params = $app->getParams();
 
-        $registered             = $this->isRegistered();
-        $this->params['layout'] = empty($registered) ? 'default' : 'registered';
-
+        $this->setParams();
         $this->setRooms();
         $this->setDates();
         $this->setEvents();
+    }
+
+    /**
+     * Sets the parameters used to configure the display
+     *
+     * @return void
+     */
+    private function setParams()
+    {
+        $app = THM_OrganizerHelperComponent::getApplication();
+        $this->params = $app->getParams();
+        $input = THM_OrganizerHelperComponent::getInput();
+
+        $this->params['layout'] = empty($this->isRegistered()) ? 'default' : 'registered';
+
+        if (empty($app->getMenu()) or empty($app->getMenu()->getActive())){
+            $this->params['show_page_heading'] = true;
+        }
+
+        $resources = array();
+        foreach (array_keys($this->columnMap) as $resource) {
+            $rawIDs = $input->getString("{$resource}IDs");
+            if (!empty($rawIDs)) {
+                $ids = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $rawIDs));
+                // Parse could have failed, or the entries might not have been able to be int cast.
+                if (!empty($ids) and !empty($ids[0])) {
+                    foreach ($ids as $id) {
+                        $resources[$resource] = $id;
+                    }
+                }
+            }
+        }
+
+        $this->params['resources'] = $resources;
     }
 
     /**
@@ -236,6 +271,24 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     }
 
     /**
+     * Filters the database query depending on $this->params['resources'] and the user input
+     *
+     * @param $query JDatabaseQuery the database query
+     */
+    private function filterEvents(&$query)
+    {
+        foreach ($this->params['resources'] as $resource => $value) {
+            $query->where("{$this->columnMap[$resource]} = {$value}");
+        }
+
+        if(!empty($this->params['mySchedule']) && (boolean) $this->params['mySchedule']) {
+            $userID = JFactory::getUser()->id;
+            $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
+            $query->where("ul.userID = {$userID}");
+        }
+    }
+
+    /**
      * Gets the raw events from the database
      *
      * @return void sets the object variable events
@@ -260,6 +313,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             ->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
             ->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id')
             ->innerJoin('#__thm_organizer_plan_pools AS pp ON lp.poolID = pp.id')
+            ->innerJoin('#__thm_organizer_plan_programs AS ppr ON pp.programID = ppr.id')
             ->leftJoin('#__thm_organizer_plan_pool_publishing AS ppp ON ppp.planPoolID = pp.id AND ppp.planningPeriodID = l.planningPeriodID')
             ->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
@@ -270,6 +324,8 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             ->where("ls.delta != 'removed'")
             ->where("(ppp.published IS NULL OR ppp.published = '1')")
             ->order('cal.schedule_date');
+
+        $this->filterEvents($query);
         $this->_db->setQuery($query);
 
         $events = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
@@ -416,9 +472,8 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     private function setDates()
     {
         $isRegistered       = ($this->params['layout'] == 'registered');
-        $nothingSelected    = empty($this->params['days']);
-        $everythingSelected = (count($this->params['days']) === 1 and empty($this->params['days'][0]));
-        if ($isRegistered or $nothingSelected or $everythingSelected) {
+        $invalidSelection   = (empty($this->params['days']) or (count($this->params['days']) === 1 and empty($this->params['days'][0])));
+        if ($isRegistered or $invalidSelection) {
             $days = [1, 2, 3, 4, 5, 6];
         } else {
             $days = $this->params['days'];
@@ -468,11 +523,10 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     {
         // Registered room(s) would have already been set
         if (empty($this->rooms)) {
-            $nothingSelected    = empty($this->params['rooms']);
-            $everythingSelected = (count($this->params['rooms']) === 1 and empty($this->params['rooms'][0]));
+            $invalidSelection   = (empty($this->params['rooms']) or (count($this->params['rooms']) === 1 and empty($this->params['rooms'][0])));
 
             // All rooms
-            if ($nothingSelected or $everythingSelected) {
+            if ($invalidSelection) {
                 $this->rooms = $this->getAllRoomIDs();
             } else {
                 $this->rooms = $this->params['rooms'];

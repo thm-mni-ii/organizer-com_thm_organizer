@@ -17,6 +17,11 @@ echo '<div id="event-list" class="component-container">';
 if (!empty($showHeading)) {
     echo '<h2 class="componentheading">' . $title . '</h2>';
 }
+
+if (empty($this->model->events)){
+    echo '<h3 class="no-entries-found"> ' . JText::_('COM_THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
+}
+
 foreach ($this->model->events as $date => $times) {
     echo '<div class="event-date">';
     echo '<div class="event-date-head">' . THM_OrganizerHelperDate::formatDate($date) . '</div>';

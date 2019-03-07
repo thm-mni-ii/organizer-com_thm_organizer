@@ -287,7 +287,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $departments[$departmentID]['text']
                                             = $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
 
-                $links = ['schedule' => "?option=com_thm_organizer&view=schedule&departmentIDs=$departmentID"];
+                $links['schedule'] = "?option=com_thm_organizer&view=schedule&departmentIDs=$departmentID";
+                $links['event_list'] = "?option=com_thm_organizer&view=event_list&departmentIDs=$departmentID";
 
                 $departments[$departmentID]['links'] = $links;
             }
@@ -315,7 +316,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             } else {
                 $index = "p{$result['id']}";
                 $text  = THM_OrganizerHelperPools::getName($result['id'], 'plan');
-                $links = ['schedule' => "?option=com_thm_organizer&view=schedule&poolIDs={$result['id']}"];
+                $links['schedule'] = "?option=com_thm_organizer&view=schedule&poolIDs={$result['id']}";
+                $links['event_list'] = "?option=com_thm_organizer&view=event_list&planPoolIDs={$result['id']}";
             }
 
             $pools[$index]          = [];
@@ -373,6 +375,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
                 if (!$noPlan) {
                     $links['schedule'] = "?option=com_thm_organizer&view=schedule&programIDs={$program['ppID']}";
+                    $links['event_list'] = "?option=com_thm_organizer&view=event_list&planProgramIDs={$program['ppID']}";
                 }
 
                 $programs[$programID]['links'] = $links;
@@ -381,8 +384,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         if (!empty($ppResults)) {
             foreach ($ppResults as $program) {
-                $planID       = "p{$program['ppID']}";
-                $scheduleLink = "?option=com_thm_organizer&view=schedule&programIDs={$program['ppID']}";
+                $planID        = "p{$program['ppID']}";
+                $scheduleLink  = "?option=com_thm_organizer&view=schedule&programIDs={$program['ppID']}";
+                $eventlistLink =  "?option=com_thm_organizer&view=event_list&planProgramIDs={$program['ppID']}";
 
                 // Subject was found
                 if (!empty($program['id'])) {
@@ -415,6 +419,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 }
 
                 $links['schedule']          = $scheduleLink;
+                $links['event_list']        = $eventlistLink;
                 $programs[$planID]['links'] = $links;
             }
         }
@@ -496,6 +501,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             foreach ($psResults as $pID => $plan) {
                 $planID       = "p$pID";
                 $scheduleLink = "?option=com_thm_organizer&view=schedule&subjectIDs=$pID";
+                $scheduleListLink = "?option=com_thm_organizer&view=event_list&subjectIDs=$pID";
 
                 // Subject was found
                 if (!empty($plan['sID'])) {
@@ -504,7 +510,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                     // No redundant subject entries
                     if (!empty($subjects[$subjectID])) {
                         if (empty($subjects[$subjectID]['links']['schedule'])) {
-                            $subjects[$subjectID]['links']['schedule'] = $scheduleLink;
+                            $subjects[$subjectID]['links']['schedule']   = $scheduleLink;
+                            $subjects[$subjectID]['links']['event_list'] = $scheduleListLink;
                         }
 
                         continue;
@@ -524,6 +531,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 }
 
                 $links['schedule']                = $scheduleLink;
+                $links['event_list']              = $scheduleListLink;
                 $subjects[$planID]['links']       = $links;
                 $subjects[$planID]['description'] = THM_OrganizerHelperSubjects::getPrograms($pID, 'plan');
             }
@@ -676,8 +684,6 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $eClause    .= "OR REPLACE(LCASE(pl.abbreviation_en), '.', '') LIKE '$term'";
             $eWherray[] = $eClause;*/
 
-            $pWherray[] = "REPLACE(LCASE(name), '.', '') LIKE '%$term%'";
-
             $clause    = "REPLACE(LCASE(pl.name_de), '.', '') LIKE '%$term%' ";
             $clause    .= "OR REPLACE(LCASE(pl.name_en), '.', '') LIKE '%$term%' ";
             $clause    .= "OR REPLACE(LCASE(pl.short_name_de), '.', '') LIKE '%$term%' ";
@@ -707,9 +713,6 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
                 if (!empty($program['pProgramID'])) {
                     $ppQuery->select("DISTINCT id, '{$program['name']}' AS program");
-
-                    $this->addInclusiveConditions($ppQuery, $pWherray);
-
                     $ppQuery->where("programID = '{$program['pProgramID']}'");
                     $this->_db->setQuery($ppQuery);
 
@@ -723,7 +726,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 if (!empty($program['lft']) and !empty($program['rgt'])) {
                     $pQuery->select("DISTINCT pl.id, '{$program['name']}' AS program");
 
-                    $this->addInclusiveConditions($pQuery, $wherray);
+                    if (!empty($wherray)) {
+                        $this->addInclusiveConditions($pQuery, $wherray);
+                    }
 
                     $pQuery->where("(m.lft > '{$program['lft']}' AND m.rgt < '{$program['rgt']}')");
                     $this->_db->setQuery($pQuery);
@@ -1228,14 +1233,15 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     }
 
     /**
-     * Finds programs which can be associated with the terms. Possible return strengths exact and strong.
+     * Finds programs which can be associated with the terms. Possible return strengths exact, strong and good.
      *
      * @return void set the program results property
      */
     private function setPrograms()
     {
-        // Clone for editing. First 'term' (full search) irrelevant here.
+        // Clone for editing.
         $terms = $this->terms;
+        $firstTerm = $terms[0];
         unset($terms[0]);
 
         foreach ($terms as $index => $term) {
@@ -1295,48 +1301,35 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $programResults['exact'] = $this->processPrograms($programs, $planPrograms);
         }
 
-        // Strong => Degree exact and program similar.
-        if (!empty($degrees['exact'])) {
-            // No plan program checks here.
-            $planPrograms = null;
+        // Strong => full program name
+        $wherray    = [];
+        $wherray[] = "(name LIKE '%$firstTerm%')";
 
-            $pQuery->clear('where');
-            $degreeIDs = array_keys($degrees['exact']);
-            $pQuery->where("p.degreeID IN ('" . implode("','", $degreeIDs) . "')");
-            $this->addInclusiveConditions($pQuery, $sPWherray);
-            $this->_db->setQuery($pQuery);
+        $this->addInclusiveConditions($ppQuery, $wherray);
+        $this->_db->setQuery($ppQuery);
+        $sPlanPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
-            $programs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $this->addInclusiveConditions($pQuery, $wherray);
+        $this->_db->setQuery($pQuery);
+        $sPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
-            $programResults['strong'] = $this->processPrograms($programs, $planPrograms);
+        $programResults['strong'] = $this->processPrograms($sPrograms, $sPlanPrograms);
+
+        // Good => parts of the program name
+        $wherray    = [];
+        foreach ($this->terms as $term){
+            $wherray[] = "(name LIKE '%$term%')";
         }
 
-        // Good => Degree strong and program similar
+        $this->addInclusiveConditions($ppQuery, $wherray);
+        $this->_db->setQuery($ppQuery);
+        $gPlanPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
-        if (!empty($degrees['strong'])) {
-            $pQuery->clear('where');
-            $degreeIDs = array_keys($degrees['strong']);
-            $pQuery->where("p.degreeID IN ('" . implode("','", $degreeIDs) . "')");
-            $this->addInclusiveConditions($pQuery, $ePWherray);
+        $this->addInclusiveConditions($pQuery, $wherray);
+        $this->_db->setQuery($pQuery);
+        $gPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
-            $ppQuery->clear('where');
-            $degreeWherray = [];
-            $this->addInclusiveConditions($ppQuery, $ePPWherray);
-
-            foreach ($degrees['strong'] as $degree) {
-                $degreeWherray[] = "REPLACE(LCASE(pp.name), '.', '') LIKE '%{$degree['stdAbbr']}%'";
-            }
-
-            $this->addInclusiveConditions($ppQuery, $degreeWherray);
-
-            $this->_db->setQuery($pQuery);
-            $programs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
-            $this->_db->setQuery($ppQuery);
-            $planPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
-
-            $programResults['good'] = $this->processPrograms($programs, $planPrograms);
-        }
-
+        $programResults['good'] = $this->processPrograms($gPrograms, $gPlanPrograms);
         $this->programResults = $programResults;
     }
 
