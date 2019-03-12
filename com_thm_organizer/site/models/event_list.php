@@ -286,6 +286,13 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
             $query->where("ul.userID = {$userID}");
         }
+
+        if(!empty($this->params['myFinals']) && (boolean) $this->params['myFinals']) {
+            $userID = JFactory::getUser()->id;
+            $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
+            $query->where("ul.userID = {$userID}");
+            $query->where("m.id = 5");
+        }
     }
 
     /**

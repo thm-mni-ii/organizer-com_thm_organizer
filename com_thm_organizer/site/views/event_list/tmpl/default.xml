@@ -32,6 +32,11 @@
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>
+            <field name="myFinals" type="radio" class="inputbox" label="COM_THM_ORGANIZER_MY_FINALS"
+                   description="COM_THM_ORGANIZER_MY_FINALS_FILTER_DESC" default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
             <field name="startDate" type="calendar" label="COM_THM_ORGANIZER_START_DATE"
                    description="COM_THM_ORGANIZER_START_DATE_DESC" format="%Y-%m-%d"/>
             <field name="endDate" type="calendar" label="COM_THM_ORGANIZER_END_DATE"
