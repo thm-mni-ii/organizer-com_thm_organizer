@@ -310,10 +310,10 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
             'input'       => $poolSelect
         ];
 
-        $departmentPlaner = THM_OrganizerHelperAccess::allowSchedulingAccess();
+        $privilegedAccess = THM_OrganizerHelperAccess::allowViewAccess();
         $isTeacher        = THM_OrganizerHelperTeachers::getIDFromUserData();
 
-        if ($departmentPlaner or !empty($isTeacher)) {
+        if ($privilegedAccess or !empty($isTeacher)) {
             $teacherAttribs                     = $attribs;
             $teacherAttribs['data-placeholder'] = JText::_('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
             $planTeacherOptions                 = $this->model->getTeacherOptions();

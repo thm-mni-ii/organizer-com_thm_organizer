@@ -29,19 +29,20 @@ class THM_OrganizerHelperAccess
             return true;
         }
 
-        $user = JFactory::getUser();
+        $user = JFactory::getUser($userID);
         if (empty($resource) or empty($resourceID)) {
-            $allowedDepartments = self::getAccessibleDepartments('manage', $userID);
+            $allowedDepartments = self::getAccessibleDepartments('document', $userID);
             $canManage          = false;
             foreach ($allowedDepartments as $departmentID) {
-                $departmentManager = $user->authorise('organizer.manage', "com_thm_organizer.department.$departmentID");
+                $departmentManager = $user->authorise('organizer.document',
+                    "com_thm_organizer.department.$departmentID");
                 $canManage         = ($canManage or $departmentManager);
             }
 
             return $canManage;
         }
 
-        return $user->authorise('organizer.manage', "com_thm_organizer.$resource.$resourceID");
+        return $user->authorise('organizer.document', "com_thm_organizer.$resource.$resourceID");
     }
 
     /**
@@ -65,13 +66,40 @@ class THM_OrganizerHelperAccess
     }
 
     /**
+     * Checks whether the user has access to advanced front end management views
+     *
+     * @param int $departmentID the id against which to perform access checks
+     * @param int $userID       the user id
+     *
+     * @return bool true if the user is authorized for advanced front end management views.
+     */
+    public static function allowManagementAccess($departmentID = 0, $userID = null)
+    {
+        if (self::isAdmin($userID)) {
+            return true;
+        }
+
+        if (empty($departmentID)) {
+            return false;
+        }
+
+        if (empty($departmentID)) {
+            return count(self::getAccessibleDepartments('manage', $userID)) > 0;
+        }
+
+        $assetIndex = "com_thm_organizer.department.$departmentID";
+
+        return JFactory::getUser($userID)->authorise('organizer.manage', $assetIndex);
+    }
+
+    /**
      * Checks whether the user has access to scheduling resources and their respective views.
      *
      * @param int $scheduleID   the id of the schedule for whom access rights are being checked
      * @param int $departmentID the id against which to perform access checks
      * @param int $userID       the user id
      *
-     * @return bool true if the user is authorized for facility management functions and views.
+     * @return bool true if the user is authorized for scheduling functions and views.
      */
     public static function allowSchedulingAccess($scheduleID = 0, $departmentID = 0, $userID = null)
     {
@@ -91,6 +119,37 @@ class THM_OrganizerHelperAccess
         }
 
         return $user->authorise('organizer.schedule', "com_thm_organizer.schedule.$scheduleID");
+    }
+
+    /**
+     * Checks whether the user has privileged access to front end views
+     *
+     * @param int $departmentID the id against which to perform access checks
+     * @param int $userID       the user id
+     *
+     * @return bool true if the user is authorized for advanced front end management views.
+     */
+    public static function allowViewAccess($departmentID = 0, $userID = null)
+    {
+        if (self::isAdmin($userID)) {
+            return true;
+        }
+
+        if (empty($departmentID)) {
+            return false;
+        }
+
+        if (self::allowManagementAccess($departmentID, $userID)) {
+            return true;
+        }
+
+        if (empty($departmentID)) {
+            return count(self::getAccessibleDepartments('view', $userID)) > 0;
+        }
+
+        $assetIndex = "com_thm_organizer.department.$departmentID";
+
+        return JFactory::getUser()->authorise('organizer.manage', $assetIndex);
     }
 
     /**
@@ -132,20 +191,33 @@ class THM_OrganizerHelperAccess
             return $departmentIDs;
         }
 
-        if (!in_array($action, ['manage', 'schedule'])) {
+        if (!in_array($action, ['document', 'manage', 'schedule', 'view'])) {
             return [];
         }
 
+        $allowed = false;
         $allowedDepartmentIDs = [];
 
         foreach ($departmentIDs as $departmentID) {
-            $allowed = $action == 'manage' ?
-                self::allowDocumentAccess('department', $departmentID, $userID) :
-                self::allowSchedulingAccess(null, $departmentID, $userID);
+            switch ($action) {
+                case 'document':
+                    $allowed = self::allowDocumentAccess('department', $departmentID, $userID);
+                    break;
+                case 'manage':
+                    $allowed = self::allowManagementAccess($departmentID, $userID);
+                    break;
+                case 'schedule':
+                    $allowed = self::allowSchedulingAccess(null, $departmentID, $userID);
+                    break;
+                case 'view':
+                    $allowed = self::allowViewAccess($departmentID, $userID);
+                    break;
+            }
 
             if ($allowed) {
                 $allowedDepartmentIDs[] = $departmentID;
             }
+            $allowed = false;
         }
 
         return $allowedDepartmentIDs;

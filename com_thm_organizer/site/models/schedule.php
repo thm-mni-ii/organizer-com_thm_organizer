@@ -92,11 +92,11 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $params = THM_OrganizerHelperComponent::getApplication()->getParams();
 
         $reqDepartmentID = $input->getInt('departmentID', 0);
-        $rawDeptIDs   = $input->getString('departmentIDs');
+        $rawDeptIDs      = $input->getString('departmentIDs');
         if (empty($departmentID) and !empty($rawDeptIDs)) {
             $reqDepartmentID = (int)\Joomla\Utilities\ArrayHelper::toInteger(explode(',', $rawDeptIDs))[0];
         }
-        $departmentID  = empty($reqDepartmentID)? (int)$params->get('departmentID', 0) : $reqDepartmentID;
+        $departmentID = empty($reqDepartmentID) ? (int)$params->get('departmentID', 0) : $reqDepartmentID;
 
         $this->params                  = [];
         $this->params['departmentID']  = $departmentID;
@@ -107,9 +107,9 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->params['showSubjects']  = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
 
         $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
-        $departmentPlaner = THM_OrganizerHelperAccess::allowSchedulingAccess(0, $departmentID);
+        $privilegedAccess = THM_OrganizerHelperAccess::allowViewAccess($departmentID);
         $isTeacher        = THM_OrganizerHelperTeachers::getIDFromUserData();
-        $showTeachers     = (($departmentPlaner or !empty($isTeacher)) and $stMenuParam);
+        $showTeachers     = (($privilegedAccess or !empty($isTeacher)) and $stMenuParam);
 
         $this->params['showTeachers']    = $showTeachers;
         $this->params['deltaDays']       = $input->getInt('deltaDays', (int)$params->get('deltaDays', 5));

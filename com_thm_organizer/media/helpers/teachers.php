@@ -290,7 +290,7 @@ class THM_OrganizerHelperTeachers
         $departmentIDs = Joomla\Utilities\ArrayHelper::toInteger($departmentIDs);
 
         foreach ($departmentIDs as $key => $departmentID) {
-            $departmentAccess = THM_OrganizerHelperAccess::allowSchedulingAccess(0, $departmentID);
+            $departmentAccess = THM_OrganizerHelperAccess::allowViewAccess($departmentID);
             if (!$departmentAccess) {
                 unset($departmentIDs[$key]);
             }

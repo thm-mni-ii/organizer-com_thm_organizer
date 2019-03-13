@@ -1,0 +1,1579 @@
+<?xml version="1.0" encoding="utf-8"?>
+<studiengang>
+    <statistics>
+        <rows>1</rows>
+        <countDS>1</countDS>
+    </statistics>
+    <gruppe>
+        <pordid>26510</pordid>
+        <nrhis>10</nrhis>
+        <alphaid />
+        <kuerzel>Gesamtkont</kuerzel>
+        <kurzname>Gesamtkonto</kurzname>
+        <titelde>Gesamtkonto</titelde>
+        <pordtyp>K</pordtyp>
+        <studiengang>A</studiengang>
+        <abschluss>ME</abschluss>
+        <pversion>2018</pversion>
+        <versemester>20181</versemester>
+        <verstandbearb>400</verstandbearb>
+        <sprache />
+        <sperrmh />
+        <ktxtppflicht>PF</ktxtppflicht>
+        <pfsem>0</pfsem>
+        <titelen>Overall Account</titelen>
+        <kurznameen>Overall Account</kurznameen>
+        <kuerzelen>Overall</kuerzelen>
+        <modulliste>
+            <modul>
+                <modulid>27441</modulid>
+                <modulnrhis>100</modulnrhis>
+                <modulalphaid />
+                <stgktxt>A</stgktxt>
+                <abschl>ME</abschl>
+                <pversion>2018</pversion>
+                <titelde>Pflichtmodule</titelde>
+                <pordtyp>K</pordtyp>
+                <ppflichtzuord />
+                <versemester>20181</versemester>
+                <sprache />
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste>
+                    <modul>
+                        <modulid>26531</modulid>
+                        <modulnrhis>4010</modulnrhis>
+                        <modulalphaid>MAKO</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Masterthesis mit Kolloquium</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>4</pfsem>
+                        <titelen>Master thesis with colloquium</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26716</modulid>
+                        <modulnrhis>1000</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Projekt 1: Städtebau und Hochbau</titelde>
+                        <pordtyp>K</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26717</modulid>
+                        <modulnrhis>2000</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Projekt 2: Bauen im Bestand und Baukonstruktion</titelde>
+                        <pordtyp>K</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>2</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26718</modulid>
+                        <modulnrhis>3000</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Projekt 3: Integrale Planung</titelde>
+                        <pordtyp>K</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>PF</ktxtppflicht>
+                        <pfsem>0</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                </modulliste>
+            </modul>
+            <modul>
+                <modulid>26512</modulid>
+                <modulnrhis>200</modulnrhis>
+                <modulalphaid />
+                <stgktxt>A</stgktxt>
+                <abschl>ME</abschl>
+                <pversion>2018</pversion>
+                <titelde>Wahlpflichtmodule</titelde>
+                <pordtyp>K</pordtyp>
+                <ppflichtzuord />
+                <versemester>20181</versemester>
+                <sprache />
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste>
+                    <modul>
+                        <modulid>26558</modulid>
+                        <modulnrhis>5190</modulnrhis>
+                        <modulalphaid>3DOM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>BIM 3D - Objektorientierte Modellierung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>BIM 3D &amp;#8211; Object-Oriented Modeling</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26556</modulid>
+                        <modulnrhis>5170</modulnrhis>
+                        <modulalphaid>5LAB</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>5D Lab - Integration, Koordination und Optimierung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>5D Lab- Integration, Coordination and Optimization</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26559</modulid>
+                        <modulnrhis>5200</modulnrhis>
+                        <modulalphaid>5TMG</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>BIM 5D Modellierung - Technische und Management Grundlagen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>BIM 5D Modeling: Technology and Management Basics</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26551</modulid>
+                        <modulnrhis>5130</modulnrhis>
+                        <modulalphaid>AABS</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Abwehrender und anlagentechnischer Brandschutz</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Preventive and Technological Fire Protection</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26542</modulid>
+                        <modulnrhis>5080</modulnrhis>
+                        <modulalphaid>AVAM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>AVA Master</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Tendering, Awarding of Contracts and Accounting (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27584</modulid>
+                        <modulnrhis>8520</modulnrhis>
+                        <modulalphaid>BAPK</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Berufs- und arbeitspädagogische Kenntnisse gemäß Ausbilderverordnung (AEVO)</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <titelen>Trainer Aptitude (professional and pedagogical skills, according to AEVO)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26548</modulid>
+                        <modulnrhis>5100</modulnrhis>
+                        <modulalphaid>BAPR</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Baupraxis, BE, AV, TP (Master)</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Visit of Construction Sites (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26560</modulid>
+                        <modulnrhis>5210</modulnrhis>
+                        <modulalphaid>BINM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Bauinformatik M</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Building Informatics M</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26545</modulid>
+                        <modulnrhis>5090</modulnrhis>
+                        <modulalphaid>BKCO</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Baukosten-Controlling</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Construction Costs - Controlling</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26561</modulid>
+                        <modulnrhis>5220</modulnrhis>
+                        <modulalphaid>BPHK</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Bauphysikalische Konzepte</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Building Physics Concepts</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26535</modulid>
+                        <modulnrhis>5010</modulnrhis>
+                        <modulalphaid>BPMO</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Betriebspraktisches Modul</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Practice Internship Module</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26552</modulid>
+                        <modulnrhis>5140</modulnrhis>
+                        <modulalphaid>BSIB</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Brandschutz im Bestand</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Fire Safety in Building Remediation</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26549</modulid>
+                        <modulnrhis>5110</modulnrhis>
+                        <modulalphaid>BVF2</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Bauverfahren 2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Building Processes</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26536</modulid>
+                        <modulnrhis>5020</modulnrhis>
+                        <modulalphaid>EBEN</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Erneuerbare Energien</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Renewable Energy</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26562</modulid>
+                        <modulnrhis>5230</modulnrhis>
+                        <modulalphaid>INCO</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>International Consulting</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>International Consulting</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26557</modulid>
+                        <modulnrhis>5180</modulnrhis>
+                        <modulalphaid>KPTA</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>BIM 4D/5D - Kostenplanung, Terminplanung, Ausschreibung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>BIM 4D/5D- Cost Management, Scheduling and Tendering</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26554</modulid>
+                        <modulnrhis>5150</modulnrhis>
+                        <modulalphaid>PLBS</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Planerischer Brandschutz</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Fire Protection Planning</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26537</modulid>
+                        <modulnrhis>5030</modulnrhis>
+                        <modulalphaid>SGAM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Sondergebiete der Architektur M</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Special Ares in Architecture</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26541</modulid>
+                        <modulnrhis>5070</modulnrhis>
+                        <modulalphaid>SQPM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Stadt- und Quartiersplanung für Architekten (Master)</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>City and Neighborhood Planning for Architects (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26540</modulid>
+                        <modulnrhis>5060</modulnrhis>
+                        <modulalphaid>STAM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Stadtarchitektur Master</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Urban Architecture (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26538</modulid>
+                        <modulnrhis>5040</modulnrhis>
+                        <modulalphaid>STGA</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Sondergebiete der TGA</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Special Areas of TGA</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26539</modulid>
+                        <modulnrhis>5050</modulnrhis>
+                        <modulalphaid>SVIM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Sondergebiete der Visualisierung Master</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Special Topics in Visualization (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26555</modulid>
+                        <modulnrhis>5160</modulnrhis>
+                        <modulalphaid>VBBS</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Vorbeugender baulicher Brandschutz</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Preventive Construction Fire Protection</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26550</modulid>
+                        <modulnrhis>5120</modulnrhis>
+                        <modulalphaid>VBVR</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Vergabe- und Bauvertragsrecht</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Allocation and Construction Contract Law</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27579</modulid>
+                        <modulnrhis>8519</modulnrhis>
+                        <modulalphaid>WPPF</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Personalführung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <titelen>Business Management and Leadership</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27518</modulid>
+                        <modulnrhis>8501</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 1</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27519</modulid>
+                        <modulnrhis>8502</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27520</modulid>
+                        <modulnrhis>8503</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 3</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27521</modulid>
+                        <modulnrhis>8504</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 4</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27522</modulid>
+                        <modulnrhis>8505</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 5</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27523</modulid>
+                        <modulnrhis>8506</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 6</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27524</modulid>
+                        <modulnrhis>8507</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 7</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                </modulliste>
+            </modul>
+            <modul>
+                <modulid>26513</modulid>
+                <modulnrhis>300</modulnrhis>
+                <modulalphaid />
+                <stgktxt>A</stgktxt>
+                <abschl>ME</abschl>
+                <pversion>2018</pversion>
+                <titelde>Zusatzmodule</titelde>
+                <pordtyp>K</pordtyp>
+                <ppflichtzuord />
+                <versemester>20181</versemester>
+                <sprache />
+                <sperrmh />
+                <lpzuord />
+                <stgsem />
+                <ktxtppflicht>PF</ktxtppflicht>
+                <pfsem>0</pfsem>
+                <fachgruppe>
+                    <fachgruppe />
+                </fachgruppe>
+                <modulliste>
+                    <modul>
+                        <modulid>26558</modulid>
+                        <modulnrhis>5190</modulnrhis>
+                        <modulalphaid>3DOM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>BIM 3D - Objektorientierte Modellierung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>BIM 3D &amp;#8211; Object-Oriented Modeling</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26556</modulid>
+                        <modulnrhis>5170</modulnrhis>
+                        <modulalphaid>5LAB</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>5D Lab - Integration, Koordination und Optimierung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>5D Lab- Integration, Coordination and Optimization</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26559</modulid>
+                        <modulnrhis>5200</modulnrhis>
+                        <modulalphaid>5TMG</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>BIM 5D Modellierung - Technische und Management Grundlagen</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>BIM 5D Modeling: Technology and Management Basics</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26551</modulid>
+                        <modulnrhis>5130</modulnrhis>
+                        <modulalphaid>AABS</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Abwehrender und anlagentechnischer Brandschutz</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Preventive and Technological Fire Protection</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26542</modulid>
+                        <modulnrhis>5080</modulnrhis>
+                        <modulalphaid>AVAM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>AVA Master</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Tendering, Awarding of Contracts and Accounting (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27584</modulid>
+                        <modulnrhis>8520</modulnrhis>
+                        <modulalphaid>BAPK</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Berufs- und arbeitspädagogische Kenntnisse gemäß Ausbilderverordnung (AEVO)</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <titelen>Trainer Aptitude (professional and pedagogical skills, according to AEVO)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26548</modulid>
+                        <modulnrhis>5100</modulnrhis>
+                        <modulalphaid>BAPR</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Baupraxis, BE, AV, TP (Master)</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Visit of Construction Sites (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26560</modulid>
+                        <modulnrhis>5210</modulnrhis>
+                        <modulalphaid>BINM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Bauinformatik M</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Building Informatics M</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26545</modulid>
+                        <modulnrhis>5090</modulnrhis>
+                        <modulalphaid>BKCO</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Baukosten-Controlling</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Construction Costs - Controlling</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26561</modulid>
+                        <modulnrhis>5220</modulnrhis>
+                        <modulalphaid>BPHK</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Bauphysikalische Konzepte</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Building Physics Concepts</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26535</modulid>
+                        <modulnrhis>5010</modulnrhis>
+                        <modulalphaid>BPMO</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Betriebspraktisches Modul</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Practice Internship Module</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26552</modulid>
+                        <modulnrhis>5140</modulnrhis>
+                        <modulalphaid>BSIB</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Brandschutz im Bestand</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Fire Safety in Building Remediation</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26549</modulid>
+                        <modulnrhis>5110</modulnrhis>
+                        <modulalphaid>BVF2</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Bauverfahren 2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Building Processes</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26536</modulid>
+                        <modulnrhis>5020</modulnrhis>
+                        <modulalphaid>EBEN</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Erneuerbare Energien</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Renewable Energy</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26562</modulid>
+                        <modulnrhis>5230</modulnrhis>
+                        <modulalphaid>INCO</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>International Consulting</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>International Consulting</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26557</modulid>
+                        <modulnrhis>5180</modulnrhis>
+                        <modulalphaid>KPTA</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>BIM 4D/5D - Kostenplanung, Terminplanung, Ausschreibung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>BIM 4D/5D- Cost Management, Scheduling and Tendering</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26554</modulid>
+                        <modulnrhis>5150</modulnrhis>
+                        <modulalphaid>PLBS</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Planerischer Brandschutz</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Fire Protection Planning</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26537</modulid>
+                        <modulnrhis>5030</modulnrhis>
+                        <modulalphaid>SGAM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Sondergebiete der Architektur M</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Special Ares in Architecture</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26541</modulid>
+                        <modulnrhis>5070</modulnrhis>
+                        <modulalphaid>SQPM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Stadt- und Quartiersplanung für Architekten (Master)</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>City and Neighborhood Planning for Architects (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26540</modulid>
+                        <modulnrhis>5060</modulnrhis>
+                        <modulalphaid>STAM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Stadtarchitektur Master</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Urban Architecture (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26538</modulid>
+                        <modulnrhis>5040</modulnrhis>
+                        <modulalphaid>STGA</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Sondergebiete der TGA</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Special Areas of TGA</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26539</modulid>
+                        <modulnrhis>5050</modulnrhis>
+                        <modulalphaid>SVIM</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Sondergebiete der Visualisierung Master</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Special Topics in Visualization (Master&amp;#8217;s)</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26555</modulid>
+                        <modulnrhis>5160</modulnrhis>
+                        <modulalphaid>VBBS</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Vorbeugender baulicher Brandschutz</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Preventive Construction Fire Protection</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>26550</modulid>
+                        <modulnrhis>5120</modulnrhis>
+                        <modulalphaid>VBVR</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Vergabe- und Bauvertragsrecht</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20181</versemester>
+                        <sprache>D</sprache>
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>1</pfsem>
+                        <titelen>Allocation and Construction Contract Law</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27579</modulid>
+                        <modulnrhis>8519</modulnrhis>
+                        <modulalphaid>WPPF</modulalphaid>
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Personalführung</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <titelen>Business Management and Leadership</titelen>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27518</modulid>
+                        <modulnrhis>8501</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 1</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27519</modulid>
+                        <modulnrhis>8502</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 2</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27520</modulid>
+                        <modulnrhis>8503</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 3</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27521</modulid>
+                        <modulnrhis>8504</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 4</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27522</modulid>
+                        <modulnrhis>8505</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 5</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27523</modulid>
+                        <modulnrhis>8506</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 6</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                    <modul>
+                        <modulid>27524</modulid>
+                        <modulnrhis>8507</modulnrhis>
+                        <modulalphaid />
+                        <stgktxt>A</stgktxt>
+                        <abschl>ME</abschl>
+                        <pversion>2018</pversion>
+                        <titelde>Dummy 7</titelde>
+                        <pordtyp>M</pordtyp>
+                        <ppflichtzuord />
+                        <versemester>20182</versemester>
+                        <sprache />
+                        <sperrmh />
+                        <lpzuord />
+                        <stgsem />
+                        <ktxtppflicht>WP</ktxtppflicht>
+                        <pfsem>6</pfsem>
+                        <fachgruppe>
+                            <fachgruppe />
+                        </fachgruppe>
+                    </modul>
+                </modulliste>
+            </modul>
+        </modulliste>
+    </gruppe>
+</studiengang>
+

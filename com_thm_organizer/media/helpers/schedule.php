@@ -186,6 +186,7 @@ class THM_OrganizerHelperSchedule
      * Filters the teacher ids to view access
      *
      * @param array &$teacherIDs the teacher ids.
+     * @param int    $userID     the id of the user whose authorizations will be checked
      *
      * @return void removes unauthorized entries from the array
      */
@@ -201,8 +202,8 @@ class THM_OrganizerHelperSchedule
             return;
         }
 
-        $userTeacherID   = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
-        $accessibleDeptIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule', $userID);
+        $userTeacherID     = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
+        $accessibleDeptIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('view', $userID);
 
         foreach ($teacherIDs as $key => $teacherID) {
             if (!empty($userTeacherID) and $userTeacherID == $teacherID) {
@@ -471,9 +472,9 @@ class THM_OrganizerHelperSchedule
     {
         $startDayNo = empty($parameters['startDay']) ? 1 : $parameters['startDay'];
         $endDayNo   = empty($parameters['endDay']) ? 6 : $parameters['endDay'];
-        $type = $parameters['format'] == 'ics' ? 'ics' : $parameters['dateRestriction'];
+        $type       = $parameters['format'] == 'ics' ? 'ics' : $parameters['dateRestriction'];
 
-        $date = $parameters['date'];
+        $date     = $parameters['date'];
         $dateTime = strtotime($date);
 
         $reqDoW = date('w', $dateTime);

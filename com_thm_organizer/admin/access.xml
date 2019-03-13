@@ -9,9 +9,13 @@
                 description="COM_THM_ORGANIZER_HUMAN_RESOURCES_DESC"/>
     </section>
     <section name="department">
-        <action name="organizer.manage" title="COM_THM_ORGANIZER_ACTION_DOCUMENTATION_MANAGE"
+        <action name="organizer.document" title="COM_THM_ORGANIZER_ACTION_DOCUMENTATION_MANAGE"
                 description="COM_THM_ORGANIZER_ACTION_DOCUMENTATION_MANAGE_DESC"/>
+        <action name="organizer.manage" title="COM_THM_ORGANIZER_ACTION_MANAGE"
+                description="COM_THM_ORGANIZER_ACTION_MANAGE_DESC"/>
         <action name="organizer.schedule" title="COM_THM_ORGANIZER_ACTION_SCHEDULE_MANAGE"
                 description="COM_THM_ORGANIZER_ACTION_SCHEDULE_MANAGE_DESC"/>
+        <action name="organizer.view" title="COM_THM_ORGANIZER_ACTION_VIEW"
+                description="COM_THM_ORGANIZER_ACTION_VIEW_DESC"/>
     </section>
 </access>
