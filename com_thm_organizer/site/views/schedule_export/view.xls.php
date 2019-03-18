@@ -20,9 +20,11 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Sets context variables and renders the view.
      *
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
      * @return void
      */
-    public function display()
+    public function display($tpl = NULL)
     {
         $model      = $this->getModel();
         $parameters = $model->parameters;
