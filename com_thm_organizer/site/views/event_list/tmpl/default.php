@@ -9,6 +9,7 @@
  */
 
 defined('_JEXEC') or die;
+use \THM_OrganizerHelperHTML as HTML;
 
 $showHeading = $this->model->params->get('show_page_heading', '');
 $title       = $this->model->params->get('page_title', '');
@@ -17,6 +18,38 @@ echo '<div id="event-list" class="component-container">';
 if (!empty($showHeading)) {
     echo '<h2 class="componentheading">' . $title . '</h2>';
 }
+
+?>
+    <form action="" method="post" name="adminForm" id="adminForm">
+        <input type="hidden" name="languageTag" id="languageTag" value=""/>
+        <div id="form-container" class="form-container">
+            <div class="clear"></div>
+            <div class='control-group'>
+                <div class='control-label'>
+                    <?php echo HTML::getLabel($this, 'startDate'); ?>
+                </div>
+                <div class='controls'>
+                    <?php echo $this->form->getField('startDate')->input; ?>
+                </div>
+            </div>
+            <div class='control-group'>
+                <div class='control-label'>
+                    <?php echo HTML::getLabel($this, 'dateRestriction'); ?>
+                </div>
+                <div class='controls'>
+                    <?php echo $this->form->getField('dateRestriction')->input; ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <button class="btn submit-button" onclick="showPostLoader();form.submit();">
+                    <?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_REFRESH'); ?>
+                    <span class="icon-loop"></span>
+                </button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+<?php
 
 if (empty($this->model->events)){
     echo '<h3 class="no-entries-found"> ' . JText::_('COM_THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';

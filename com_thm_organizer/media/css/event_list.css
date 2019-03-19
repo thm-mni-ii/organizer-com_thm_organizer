@@ -37,6 +37,24 @@
     margin-bottom: 10px;
 }
 
+.component-container form .control-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: bottom;
+}
+
+.component-container form .control-group .date-restriction-list {
+    margin-bottom: 5px;
+    height: 31px;
+}
+
+.component-container form .control-group .submit-button {
+    margin-bottom: 5px;
+    border: 1px solid #4a5d66;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
 .component-container .no-entries-found {
     font-family: "THM-Medium", Arial, Helvetica, sans-serif;
     font-size: 130%;

@@ -41,7 +41,27 @@
     margin-bottom: 10px;
   }
 
-  .no-entries-found{
+  form {
+    .control-group {
+      display: inline-block;
+      margin-bottom: 0;
+      vertical-align: bottom;
+
+      .date-restriction-list {
+        margin-bottom: 5px;
+        height: 31px;
+      }
+
+      .submit-button{
+        margin-bottom: 5px;
+        border: 1px solid #4a5d66;
+        padding-bottom: 4px;
+        padding-top: 4px;
+      }
+    }
+  }
+
+  .no-entries-found {
     font-family: $font-family-header;
     font-size: 130%;
   }

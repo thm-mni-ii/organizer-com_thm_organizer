@@ -190,4 +190,22 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
             return $params->get('lightTextColor', '#ffffff');
         }
     }
+
+    /**
+     * Creates a dynamically translated label.
+     *
+     * @param mixed $view the view this method is applied to
+     * @param string $inputName the name of the form field whose label should be generated
+     *
+     * @return string the HMTL for the field label
+     */
+    public static function getLabel($view, $inputName)
+    {
+        $title  = $view->lang->_($view->form->getField($inputName)->title);
+        $tip    = $view->lang->_($view->form->getField($inputName)->description);
+        $return = '<label id="jform_' . $inputName . '-lbl" for="jform_' . $inputName . '" class="hasPopover"';
+        $return .= 'data-content="' . $tip . '" data-original-title="' . $title . '">' . $title . '</label>';
+
+        return $return;
+    }
 }

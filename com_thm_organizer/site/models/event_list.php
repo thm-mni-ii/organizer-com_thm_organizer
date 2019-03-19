@@ -16,26 +16,27 @@ define('CONTENT', 3);
 
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/date.php';
 
 /**
  * Class retrieves information about upcoming events for display on monitors.
  */
-class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
+class THM_OrganizerModelEvent_List extends JModelForm
 {
-    public $params = [];
-
     public $events = [];
 
+    public $params = [];
+
     public $rooms = [];
-
-    private $days = [];
-
-    private $dates = [];
 
     private $columnMap = ['subject' => 'ps.id',
                           'department' => 'd.id',
                           'planProgram' => 'ppr.id',
                           'planPool' => 'pp.id'];
+
+    private $dates = [];
+
+    private $days = [];
 
     /**
      * Constructor
@@ -45,6 +46,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         parent::__construct();
 
         $this->setParams();
+        $this->populateState();
         $this->setRooms();
         $this->setDates();
         $this->setEvents();
@@ -82,6 +84,45 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         }
 
         $this->params['resources'] = $resources;
+    }
+
+    /**
+     * Gets the given values from the form input
+     *
+     * @return void
+     */
+    protected function populateState()
+    {
+        $app           = THM_OrganizerHelperComponent::getApplication();
+        $formData      = $app->input->get('jform', [], 'array');
+
+        $menuStartDate      = $this->params->get('startDate');
+        $menuEndDate        = $this->params->get('endDate');
+        $defaultdate        = empty($menuStartDate) ? date('Y-m-d', getdate(time())[0]) : $menuStartDate;
+        $defaultRestriction = empty($menuEndDate) ? 'month' : '';
+
+        if (empty($formData)) {
+            $this->state->set('startDate', $defaultdate);
+            $this->state->set('dateRestriction', $defaultRestriction);
+        } else {
+
+            if (empty($formData['startDate']) or strtotime($formData['startDate']) === false) {
+                $this->state->set('startDate', $defaultdate);
+            } else {
+                $this->state->set('startDate', $formData['startDate']);
+            }
+
+            $allowedLengths        = ['day', 'week', 'month', 'semester', 'custom'];
+            if ((!empty($formData['dateRestriction']) and in_array($formData['dateRestriction'], $allowedLengths))) {
+                $this->state->set('dateRestriction', $formData['dateRestriction']);
+            } else {
+                $this->state->set('dateRestriction', $defaultRestriction);
+            }
+        }
+
+        if (empty($this->state->get('dateRestriction'))){
+            $this->state->set('endDate', $menuEndDate);
+        }
     }
 
     /**
@@ -273,7 +314,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     /**
      * Filters the database query depending on $this->params['resources'] and the user input
      *
-     * @param $query JDatabaseQuery the database query
+     * @param JDatabaseQuery $query the database query
      */
     private function filterEvents(&$query)
     {
@@ -409,7 +450,6 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         $app         = THM_OrganizerHelperComponent::getApplication();
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
-            $app   = THM_OrganizerHelperComponent::getApplication();
             $base  = JUri::root() . 'index.php?';
             $query = $app->input->server->get('QUERY_STRING', '', 'raw');
             $query .= (strpos($query, 'com_thm_organizer') !== false) ? '' : '&option=com_thm_organizer';
@@ -486,28 +526,45 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             $days = $this->params['days'];
         }
 
-        $date      = getdate(time());
-        $today     = date('Y-m-d', $date[0]);
-        $startDate = $this->params->get('startDate', '');
-        $startDate = (empty($startDate) or $startDate < $today) ? $today : $startDate;
-        $endDate   = $this->params->get('endDate', '');
-        if (empty($endDate)) {
-            $endDate = date("Y-m-d", strtotime("+3 month", $date[0]));
+        $startDT = strtotime($this->state->get('startDate'));
+        $date  = date('Y-m-d', $startDT);
+        $endDT = $startDT;
+        switch ($this->state->get('dateRestriction')) {
+            case 'day':
+                $endDT = $startDT;
+                break;
+            case 'week':
+                $dates = THM_OrganizerHelperDate::getWeek($date);
+                break;
+            case 'month':
+                $dates = THM_OrganizerHelperDate::getMonth($date);
+                break;
+            case 'semester':
+                $dates = THM_OrganizerHelperDate::getSemester($date);
+                break;
+            case '':
+                $endDT = strtotime($this->state->get('endDate'));
+                break;
         }
 
-        $startDT = strtotime($startDate);
-        $endDT   = strtotime($endDate);
+        if (!empty($dates)){
+            $startDT = strtotime($dates['startDate']);
+            $endDT   = strtotime($dates['endDate']);
+        }
 
         for ($currentDT = $startDT; $currentDT <= $endDT; $currentDT = strtotime('+1 day', $currentDT)) {
             $currentDOW = date('w', $currentDT);
             if (in_array($currentDOW, $days)) {
-
                 $this->dates[] = "'".date('Y-m-d', $currentDT)."'";
             }
         }
 
         $this->dates = implode(',', $this->dates);
+        if (strlen($this->dates) === 0){
+            $this->dates = "NULL";
+        }
     }
+
 
     /**
      * Sets the events for display
@@ -563,5 +620,26 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
         asort($rooms);
         $this->rooms = $rooms;
+    }
+
+    /**
+     * Abstract method for getting the form from the model.
+     *
+     * @param   array $data Data for the form.
+     * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
+     *
+     * @return  \JForm|boolean  A \JForm object on success, false on failure
+     *
+     * @since   1.6
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $form = $this->loadForm(
+            'com_thm_organizer.event_list',
+            'event_list',
+            ['control' => 'jform', 'load_data' => true]
+        );
+
+        return !empty($form) ? $form : false;
     }
 }

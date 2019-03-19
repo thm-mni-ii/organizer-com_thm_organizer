@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use \THM_OrganizerHelperHTML as HTML;
+
 jimport('joomla.application.component.view');
 
 /**
@@ -17,6 +19,14 @@ jimport('joomla.application.component.view');
  */
 class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
 {
+    public $form = null;
+
+    public $lang = null;
+
+    public $model;
+
+    public $state;
+
     /**
      * Loads persistent data into the view context
      *
@@ -26,10 +36,16 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
+        $this->model = $this->getModel();
+        $layout      = $this->model->params['layout'];
+        $this->lang  = THM_OrganizerHelperLanguage::getLanguage();
+        $this->state = $this->get('State');
+        $this->form  = $this->get('Form');
+        $this->form->setValue('startDate', null, $this->state->get('startDate'));
+
+        $this->form->setValue('dateRestriction', null, $this->state->get('dateRestriction'));
+
         $this->modifyDocument();
-        $model       = $this->getModel();
-        $this->model = $model;
-        $layout      = $model->params['layout'];
         $this->setLayout($layout);
         parent::display($tpl);
     }
@@ -41,6 +57,8 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
+        HTML::_('jquery.ui');
+        HTML::_('behavior.tooltip');
         $document = JFactory::getDocument();
         $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/event_list.css');
     }

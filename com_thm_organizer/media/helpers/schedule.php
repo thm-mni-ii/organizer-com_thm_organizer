@@ -15,6 +15,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/mapping.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/courses.php';
+require_once JPATH_SITE . '/media/com_thm_organizer/helpers/date.php';
 
 
 /**
@@ -490,45 +491,26 @@ class THM_OrganizerHelperSchedule
             $date = date('Y-m-d', strtotime($dateTime));
         }
 
-
-        $startDayName = date('l', strtotime("Sunday + $startDayNo days"));
-        $endDayName   = date('l', strtotime("Sunday + $endDayNo days"));
-
         switch ($type) {
             case 'day':
                 $dates = ['startDate' => $date, 'endDate' => $date];
                 break;
 
             case 'week':
-                $startDate = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
-                $endDate   = date('Y-m-d', strtotime("$endDayName this week", $dateTime));
-                $dates     = ['startDate' => $startDate, 'endDate' => $endDate];
+                $dates = THM_OrganizerHelperDate::getWeek($date, $startDayNo, $endDayNo);
                 break;
 
             case 'month':
-                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-                $startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
-                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-                $endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($monthEnd)));
-                $dates      = ['startDate' => $startDate, 'endDate' => $endDate];
+                $dates = THM_OrganizerHelperDate::getMonth($date, $startDayNo, $endDayNo);
                 break;
 
             case 'semester':
-                $dbo   = JFactory::getDbo();
-                $query = $dbo->getQuery(true);
-                $query->select('startDate, endDate')
-                    ->from('#__thm_organizer_planning_periods')
-                    ->where("'$date' BETWEEN startDate AND endDate");
-                $dbo->setQuery($query);
-                $dates = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+                $dates = THM_OrganizerHelperDate::getSemester($date);
                 break;
 
             case 'ics':
                 // ICS calendars get the next 6 months of data
-                $startDate  = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
-                $previewEnd = date('Y-m-d', strtotime('+6 month', strtotime($date)));
-                $endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($previewEnd)));
-                $dates      = ['startDate' => $startDate, 'endDate' => $endDate];
+                $dates = THM_OrganizerHelperDate::getICSDates($date, $startDayNo, $endDayNo);
                 break;
         }
 
