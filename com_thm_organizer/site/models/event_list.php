@@ -322,17 +322,25 @@ class THM_OrganizerModelEvent_List extends JModelForm
             $query->where("{$this->columnMap[$resource]} = {$value}");
         }
 
-        if(!empty($this->params['mySchedule']) && (boolean) $this->params['mySchedule']) {
-            $userID = JFactory::getUser()->id;
-            $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
-            $query->where("ul.userID = {$userID}");
+        if(!empty($this->params['myFinals']) && (boolean) $this->params['myFinals']) {
+            $this->params['mySchedule'] = 1;
+            $query->where("m.id = 5");
         }
 
-        if(!empty($this->params['myFinals']) && (boolean) $this->params['myFinals']) {
+        if(!empty($this->params['mySchedule']) && (boolean) $this->params['mySchedule']) {
             $userID = JFactory::getUser()->id;
-            $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
-            $query->where("ul.userID = {$userID}");
-            $query->where("m.id = 5");
+            $teacherQuery = "";
+            $teacherID = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
+
+            if ($teacherID !== 0) {
+                $query->leftJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
+                $regexp = '"teachers":\\{[^\}]*"' . $teacherID . '"';
+                $teacherQuery = " OR conf.configuration REGEXP '$regexp'";
+            } else {
+                $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
+            }
+
+            $query->where("(ul.userID = {$userID}" . $teacherQuery . ')');
         }
     }
 
