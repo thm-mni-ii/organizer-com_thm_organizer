@@ -135,10 +135,6 @@ class THM_OrganizerHelperAccess
             return true;
         }
 
-        if (empty($departmentID)) {
-            return false;
-        }
-
         if (self::allowManagementAccess($departmentID, $userID)) {
             return true;
         }
@@ -149,7 +145,7 @@ class THM_OrganizerHelperAccess
 
         $assetIndex = "com_thm_organizer.department.$departmentID";
 
-        return JFactory::getUser()->authorise('organizer.manage', $assetIndex);
+        return JFactory::getUser()->authorise('organizer.view', $assetIndex);
     }
 
     /**
