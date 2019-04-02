@@ -42,7 +42,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
             ->leftJoin('#__thm_organizer_departments AS d on d.id = dr.id');
 
         $this->setSearchFilter($query, ['surname', 'forename', 'username', 't.gpuntisID']);
-        $this->setIDFilter($query, 'departmentID', ['filter.departmentID']);
+        $this->setIDFilter($query, 'departmentID', ['list.departmentID']);
         $this->setValueFilters($query, ['forename', 'username', 't.gpuntisID']);
 
         $this->setOrdering($query);
