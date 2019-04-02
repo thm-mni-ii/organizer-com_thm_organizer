@@ -73,7 +73,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
     {
         $app = THM_OrganizerHelperComponent::getApplication();
         if (empty($app->getMenu()) or empty($app->getMenu()->getActive())) {
-            return false;
+            return 0;
         }
 
         return (int)$app->getMenu()->getActive()->params->get('si', false);
