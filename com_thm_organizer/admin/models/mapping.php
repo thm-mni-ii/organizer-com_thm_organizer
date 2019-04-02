@@ -30,7 +30,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function addLSFMappings($programID, &$lsfData)
     {
-        $mappingsTable        = JTable::getInstance('mappings', 'THM_OrganizerTable');
+        $mappingsTable        = \JTable::getInstance('mappings', 'THM_OrganizerTable');
         $programMappingLoaded = $mappingsTable->load(['programID' => $programID]);
         if (!$programMappingLoaded) {
             return false;
@@ -68,7 +68,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $blocked = !empty($pool->sperrmh) and strtolower((string)$pool->sperrmh) == 'x';
         $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($pool);
         $noChildren   = !isset($pool->modulliste->modul);
-        $poolsTable   = JTable::getInstance('pools', 'THM_OrganizerTable');
+        $poolsTable   = \JTable::getInstance('pools', 'THM_OrganizerTable');
         $poolExists   = $poolsTable->load(['lsfID' => $lsfID]);
 
         if ($poolExists) {
@@ -78,7 +78,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 return $poolModel->deleteEntry($poolsTable->id);
             }
 
-            $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
+            $mappingsTable = \JTable::getInstance('mappings', 'THM_OrganizerTable');
             $mappingExists = $mappingsTable->load(['parentID' => $parentMappingID, 'poolID' => $poolsTable->id]);
 
             if (!$mappingExists) {
@@ -139,11 +139,11 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $blocked = !empty($subject->sperrmh) and strtolower((string)$subject->sperrmh) == 'x';
         $invalidTitle = THM_OrganizerHelperLSF::invalidTitle($subject);
 
-        $subjectsTable = JTable::getInstance('subjects', 'THM_OrganizerTable');
+        $subjectsTable = \JTable::getInstance('subjects', 'THM_OrganizerTable');
         $subjectExists = $subjectsTable->load(['lsfID' => $lsfID]);
 
         if ($subjectExists) {
-            $mappingsTable = JTable::getInstance('mappings', 'THM_OrganizerTable');
+            $mappingsTable = \JTable::getInstance('mappings', 'THM_OrganizerTable');
             $mappingExists = $mappingsTable->load(['parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id]);
 
             if ($mappingExists) {
@@ -210,7 +210,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $mapping      = JTable::getInstance('mappings', 'THM_OrganizerTable');
+        $mapping      = \JTable::getInstance('mappings', 'THM_OrganizerTable');
         $mappingAdded = $mapping->save($pool);
         if ($mappingAdded) {
             if (!empty($pool['children'])) {
@@ -271,7 +271,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $mapping      = JTable::getInstance('mappings', 'THM_OrganizerTable');
+        $mapping      = \JTable::getInstance('mappings', 'THM_OrganizerTable');
         $mappingAdded = $mapping->save($subject);
         if ($mappingAdded) {
             return true;
@@ -292,7 +292,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function checkForMapping($resourceID, $resourceType)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($query);
@@ -318,7 +318,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings');
@@ -358,7 +358,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function deleteChildren($mappingID)
     {
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
@@ -386,7 +386,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function deleteEntry($entryID)
     {
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         // Retrieves information about the current mapping including its total width
         $mappingQuery = $dbo->getQuery(true);
@@ -456,7 +456,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function determineLft($parentID, $ordering)
     {
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         // Right value of the next lowest sibling
         $rgtQuery = $dbo->getQuery(true);
@@ -490,7 +490,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getChildren($resourceID, $type = 'pool', $deep = true)
     {
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $children = [];
 
         /**
@@ -535,16 +535,16 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getChildrenFromForm()
     {
-        $index = 1;
+        $index    = 1;
         $children = [];
-        $input     = THM_OrganizerHelperComponent::getInput();
+        $input    = THM_OrganizerHelperComponent::getInput();
         while (!empty($input->getInt("child{$index}order"))) {
             $ordering      = $input->getInt("child{$index}order");
             $aggregateInfo = $input->getString("child{$index}");
 
             if (!empty($aggregateInfo)) {
-                $resourceID    = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
-                $resourceType  = strpos($aggregateInfo, 'p') ? 'pool' : 'subject';
+                $resourceID   = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);
+                $resourceType = strpos($aggregateInfo, 'p') ? 'pool' : 'subject';
 
                 if ($resourceType == 'subject') {
                     $children[$ordering]['poolID']    = null;
@@ -578,7 +578,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         // Check for an existing ordering as child of the parent element
         $existingOrderQuery = $dbo->getQuery(true);
@@ -618,7 +618,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getParent($parentID)
     {
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
         $parentQuery = $dbo->getQuery(true);
         $parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
         $dbo->setQuery($parentQuery);
@@ -627,17 +627,17 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     }
 
     /**
-     * Creates and returns instance of JTable for the DB Table Mappings. Public for reasons of inheritance.
+     * Creates and returns instance of \JTable for the DB Table Mappings. Public for reasons of inheritance.
      *
      * @param string $name    The table name. Optional.
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return JTable
+     * @return \JTable
      */
     public function getTable($name = 'mappings', $prefix = 'THM_OrganizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix, $options);
+        return \JTable::getInstance($name, $prefix, $options);
     }
 
     /**
@@ -700,7 +700,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function saveProgram($programID)
     {
-        $dbo       = JFactory::getDbo();
+        $dbo       = \JFactory::getDbo();
         $findQuery = $dbo->getQuery(true);
         $findQuery->select('*')->from('#__thm_organizer_mappings')->where('parentID IS NULL')->where("programID = '$programID'");
         $dbo->setQuery($findQuery);
@@ -849,7 +849,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function shiftOrder($parentID, $insertOrder)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->update('#__thm_organizer_mappings')->set('ordering = ordering + 1');
         $query->where("ordering >= '$insertOrder'")->where("parentID = '$parentID'");
@@ -868,7 +868,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function shiftRight($value)
     {
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->update('#__thm_organizer_mappings')->set('lft = lft + 2')->where("lft >= '$value'");
         $dbo->setQuery($lftQuery);

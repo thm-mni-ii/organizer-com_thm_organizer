@@ -40,19 +40,18 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
         return THM_OrganizerHelperPlan_Pools::allowEdit($allIDs);
     }
 
-
     /**
      * Method to get a table object, load it if necessary.
      *
-     * @param   string $name    The table name. Optional.
-     * @param   string $prefix  The class prefix. Optional.
-     * @param   array  $options Configuration array for model. Optional.
+     * @param string $name    The table name. Optional.
+     * @param string $prefix  The class prefix. Optional.
+     * @param array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
      */
     public function getTable($name = 'plan_pools', $prefix = 'thm_organizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix, $options);
+        return \JTable::getInstance($name, $prefix, $options);
     }
 
     /**
@@ -71,7 +70,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 
         $pPoolIDs = Joomla\Utilities\ArrayHelper::toInteger($pPoolIDs);
         if (!THM_OrganizerHelperPlan_Pools::allowEdit($pPoolIDs)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         foreach ($pPoolIDs as $pPoolID) {
@@ -82,7 +81,6 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 
         return true;
     }
-
 
     /**
      * Merges plan pool entries and cleans association tables.
@@ -135,7 +133,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
         $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         if (!empty($formData['publishing'])) {
             foreach ($formData['publishing'] as $periodID => $publish) {
-                $table = JTable::getInstance('plan_pool_publishing', 'thm_organizerTable');
+                $table = \JTable::getInstance('plan_pool_publishing', 'thm_organizerTable');
                 $data  = ['planPoolID' => $pPoolID, 'planningPeriodID' => $periodID];
                 $table->load($data);
                 $data['published'] = $publish;

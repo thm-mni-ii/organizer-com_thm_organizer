@@ -27,7 +27,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $subjectIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
@@ -37,7 +37,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
                 if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
                     $this->_db->transactionRollback();
-                    throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                    throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
                 }
 
                 $deleted = $this->deleteEntry($subjectID);
@@ -63,7 +63,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function deleteEntry($subjectID)
     {
-        $table           = JTable::getInstance('subjects', 'thm_organizerTable');
+        $table           = \JTable::getInstance('subjects', 'thm_organizerTable');
         $mappingModel    = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
         $mappingsDeleted = $mappingModel->deleteByResourceID($subjectID, 'subject');
         if (!$mappingsDeleted) {
@@ -91,19 +91,19 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         if (empty($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $data['id'])) {
-                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } else {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         $this->_db->transactionStart();
 
-        $table = JTable::getInstance('subjects', 'thm_organizerTable');
+        $table = \JTable::getInstance('subjects', 'thm_organizerTable');
         if (empty($data['fieldID'])) {
             $data['fieldID'] = null;
         }
@@ -158,8 +158,8 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Checks if the property should be displayed. Setting it to NULL if not.
      *
-     * @param array  &$data    the form data
-     * @param string $property the property name
+     * @param array  &$data     the form data
+     * @param string  $property the property name
      *
      * @return void  can change the &$data value at the property name index
      */
@@ -388,8 +388,8 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Processes the mappings of the subject selected
      *
-     * @param int   $subjectID the id of the subject
-     * @param array &$data     the post data
+     * @param int    $subjectID the id of the subject
+     * @param array &$data      the post data
      *
      * @return boolean  true on success, otherwise false
      */

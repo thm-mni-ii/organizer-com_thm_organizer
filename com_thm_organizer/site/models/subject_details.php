@@ -27,7 +27,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
     /**
      * Constructor
      *
-     * @param   array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
      *
      * @throws  \Exception
      */
@@ -97,7 +97,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
     /**
      * Returns the language.
      *
-     * @return JLanguage|null
+     * @return \JLanguage|null
      */
     public function getLanguage()
     {
@@ -182,10 +182,11 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         return THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
-    private function setCampus(&$subject) {
+    private function setCampus(&$subject)
+    {
         if (!empty($subject['campus']['value'])) {
-            $campusID = $subject['campus']['value'];
-            $subject['campus']['value']     = THM_OrganizerHelperCampuses::getName($campusID);
+            $campusID                      = $subject['campus']['value'];
+            $subject['campus']['value']    = THM_OrganizerHelperCampuses::getName($campusID);
             $subject['campus']['location'] = THM_OrganizerHelperCampuses::getLocation($campusID);
         } else {
             unset($subject['campus']);

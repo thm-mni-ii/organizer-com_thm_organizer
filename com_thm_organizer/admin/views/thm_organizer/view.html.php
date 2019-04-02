@@ -42,10 +42,10 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::preferences('com_thm_organizer');
+            \JToolbarHelper::preferences('com_thm_organizer');
         }
     }
 
@@ -61,9 +61,9 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.formvalidation');
         HTML::_('formbehavior.chosen', 'select');
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/backend.css');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/backend.css');
     }
 
     /**
@@ -83,17 +83,17 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
         if (THM_OrganizerHelperAccess::allowSchedulingAccess()) {
             $scheduleItems = [];
 
-            $scheduleItems[JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]
+            $scheduleItems[\JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]
                 = 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager';
-            $scheduleItems[JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE')]
+            $scheduleItems[\JText::_('COM_THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE')]
                 = 'index.php?option=com_thm_organizer&amp;view=plan_program_manager';
-            $scheduleItems[JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE')]
+            $scheduleItems[\JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_TITLE')]
                 = 'index.php?option=com_thm_organizer&amp;view=schedule_manager';
             ksort($scheduleItems);
 
-            $scheduleHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_SCHEDULING') . '</h3>';
+            $scheduleHeaderText = '<h3>' . \JText::_('COM_THM_ORGANIZER_SCHEDULING') . '</h3>';
             $scheduleHeader     = [$scheduleHeaderText => ''];
-            $scheduleUploadText = JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>';
+            $scheduleUploadText = \JText::_('COM_THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>';
             $scheduleUpload     = [$scheduleUploadText => 'index.php?option=com_thm_organizer&view=schedule_edit'];
             $scheduleItems      = $scheduleHeader + $scheduleUpload + $scheduleItems;
 
@@ -106,18 +106,18 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
             $docItems = [];
 
             if (THM_OrganizerHelperAccess::isAdmin()) {
-                $docItems[JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')]
+                $docItems[\JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')]
                     = 'index.php?option=com_thm_organizer&amp;view=department_manager';
             }
-            $docItems[JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE')]
+            $docItems[\JText::_('COM_THM_ORGANIZER_POOL_MANAGER_TITLE')]
                 = 'index.php?option=com_thm_organizer&amp;view=pool_manager';
-            $docItems[JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE')]
+            $docItems[\JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_TITLE')]
                 = 'index.php?option=com_thm_organizer&amp;view=program_manager';
-            $docItems[JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE')]
+            $docItems[\JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_TITLE')]
                 = 'index.php?option=com_thm_organizer&amp;view=subject_manager';
             ksort($docItems);
 
-            $docHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</h3>';
+            $docHeaderText = '<h3>' . \JText::_('COM_THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</h3>';
             $docHeader     = [$docHeaderText => ''];
 
             $this->menuItems['documentation'] = $docHeader + $docItems;
@@ -127,11 +127,11 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
 
         if (THM_OrganizerHelperAccess::allowHRAccess()) {
             $hrItems = [];
-            $hrItems[JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE')]
+            $hrItems[\JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=teacher_manager';
             ksort($hrItems);
 
-            $hrHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_HUMAN_RESOURCES') . '</h3>';
+            $hrHeaderText = '<h3>' . \JText::_('COM_THM_ORGANIZER_HUMAN_RESOURCES') . '</h3>';
             $hrHeader     = [$hrHeaderText => ''];
 
             $this->menuItems['humanResources'] = $hrHeader + $hrItems;
@@ -141,19 +141,19 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
 
         if (THM_OrganizerHelperAccess::allowFMAccess()) {
             $fmItems = [];
-            $fmItems[JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]
+            $fmItems[\JText::_('COM_THM_ORGANIZER_BUILDING_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=building_manager';
-            $fmItems[JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]
+            $fmItems[\JText::_('COM_THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=campus_manager';
-            $fmItems[JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE')]
+            $fmItems[\JText::_('COM_THM_ORGANIZER_MONITOR_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=monitor_manager';
-            $fmItems[JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE')]
+            $fmItems[\JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=room_manager';
-            $fmItems[JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')]
+            $fmItems[\JText::_('COM_THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=room_type_manager';
             ksort($fmItems);
 
-            $fmHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_FACILITY_MANAGEMENT') . '</h3>';
+            $fmHeaderText = '<h3>' . \JText::_('COM_THM_ORGANIZER_FACILITY_MANAGEMENT') . '</h3>';
             $fmHeader     = [$fmHeaderText => ''];
 
             $this->menuItems['facilityManagement'] = $fmHeader + $fmItems;
@@ -163,19 +163,19 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
             $adminItems = [];
-            $adminItems[JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]
+            $adminItems[\JText::_('COM_THM_ORGANIZER_COLOR_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=color_manager';
-            $adminItems[JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE')]
+            $adminItems[\JText::_('COM_THM_ORGANIZER_DEGREE_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=degree_manager';
-            $adminItems[JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE')]
+            $adminItems[\JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=field_manager';
-            $adminItems[JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE')]
+            $adminItems[\JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=grid_manager';
-            $adminItems[JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE')]
+            $adminItems[\JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=method_manager';
             ksort($adminItems);
 
-            $adminHeaderText = '<h3>' . JText::_('COM_THM_ORGANIZER_ADMINISTRATION') . '</h3>';
+            $adminHeaderText = '<h3>' . \JText::_('COM_THM_ORGANIZER_ADMINISTRATION') . '</h3>';
             $adminHeader     = [$adminHeaderText => ''];
 
             $this->menuItems['administration'] = $adminHeader + $adminItems;

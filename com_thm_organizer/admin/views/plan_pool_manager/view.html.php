@@ -36,7 +36,7 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         // Set batch template path
@@ -54,25 +54,26 @@ class THM_OrganizerViewPlan_Pool_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_VIEW_TITLE'), 'organizer_pools');
-        JToolbarHelper::editList('plan_pool.edit');
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_PLAN_POOL_MANAGER_VIEW_TITLE'), 'organizer_pools');
+        \JToolbarHelper::editList('plan_pool.edit');
 
-        $if          = "alert('" . JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
+        $if          = "alert('" . \JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
         $else        = "jQuery('#modal-publishing').modal('show'); return true;";
         $script      = 'if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}';
         $batchButton = '<button id="pool-publishing" data-toggle="modal" class="btn btn-small" onclick="' . $script . '">';
 
-        $title       = JText::_('COM_THM_ORGANIZER_BATCH');
+        $title       = \JText::_('COM_THM_ORGANIZER_BATCH');
         $batchButton .= '<span class="icon-stack" title="' . $title . '"></span>' . " $title";
 
         $batchButton .= '</button>';
 
-        $bar = JToolBar::getInstance('toolbar');
+        $bar = \JToolBar::getInstance('toolbar');
         $bar->appendButton('Custom', $batchButton, 'batch');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::custom('plan_pool.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-            JToolbarHelper::preferences('com_thm_organizer');
+            \JToolbarHelper::custom('plan_pool.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE',
+                true);
+            \JToolbarHelper::preferences('com_thm_organizer');
         }
     }
 }

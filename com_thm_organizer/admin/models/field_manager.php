@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once'list.php';
+require_once 'list.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -41,7 +41,7 @@ class THM_OrganizerModelField_Manager extends THM_OrganizerModelList
     /**
      * Method to get all colors from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {

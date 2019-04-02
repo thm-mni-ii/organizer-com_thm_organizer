@@ -32,12 +32,12 @@ class THM_OrganizerHelperXMLPools
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->classes)) {
-            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_POOLS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_POOLS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->pools = new stdClass;
+        $scheduleModel->schedule->pools = new \stdClass;
 
         foreach ($xmlObject->classes->children() as $poolNode) {
             self::validateIndividual($scheduleModel, $poolNode);
@@ -56,8 +56,8 @@ class THM_OrganizerHelperXMLPools
     {
         $internalID = trim((string)$poolNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING');
+            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_POOL_ID_MISSING');
             }
 
             return;
@@ -68,7 +68,7 @@ class THM_OrganizerHelperXMLPools
 
         if (empty($longName)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                JText::_('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING'),
+                \JText::_('COM_THM_ORGANIZER_ERROR_POOL_LONGNAME_MISSING'),
                 $internalID
             );
 
@@ -78,7 +78,7 @@ class THM_OrganizerHelperXMLPools
         $restriction = trim((string)$poolNode->classlevel);
         if (empty($restriction)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME'),
+                \JText::_('COM_THM_ORGANIZER_ERROR_NODE_NAME'),
                 $longName,
                 $internalID
             );
@@ -89,7 +89,7 @@ class THM_OrganizerHelperXMLPools
         $degreeID = str_replace('DP_', '', trim((string)$poolNode->class_department[0]['id']));
         if (empty($degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING'),
+                \JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_MISSING'),
                 $longName,
                 $internalID
             );
@@ -97,7 +97,7 @@ class THM_OrganizerHelperXMLPools
             return;
         } elseif (empty($scheduleModel->schedule->degrees->$degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING'),
+                \JText::_('COM_THM_ORGANIZER_ERROR_POOL_DEGREE_LACKING'),
                 $longName,
                 $internalID,
                 $degreeID
@@ -109,7 +109,7 @@ class THM_OrganizerHelperXMLPools
         $grid = (string)$poolNode->timegrid;
         if (empty($grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_MISSING'),
+                \JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_MISSING'),
                 $longName,
                 $internalID
             );
@@ -117,7 +117,7 @@ class THM_OrganizerHelperXMLPools
             return;
         } elseif (empty($scheduleModel->schedule->periods->$grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_LACKING'),
+                \JText::_('COM_THM_ORGANIZER_ERROR_POOL_GRID_LACKING'),
                 $longName,
                 $internalID,
                 $grid
@@ -133,7 +133,7 @@ class THM_OrganizerHelperXMLPools
             $poolID = $internalID;
         }
 
-        $pool     = new stdClass;
+        $pool     = new \stdClass;
         $longName = trim((string)$poolNode->longname);
 
         $pool->degree       = $degreeID;

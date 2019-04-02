@@ -27,7 +27,7 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
     /**
      * Method to get all methodss from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {

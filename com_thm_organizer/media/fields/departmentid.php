@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class creates a select box for departments.
  */
-class JFormFieldDepartmentID extends JFormFieldList
+class JFormFieldDepartmentID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -84,7 +85,7 @@ class JFormFieldDepartmentID extends JFormFieldList
     protected function getOptions()
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $query->select("DISTINCT d.id AS value, d.short_name_$shortTag AS text");
         $query->from('#__thm_organizer_departments AS d');

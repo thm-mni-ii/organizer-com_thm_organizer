@@ -25,16 +25,16 @@ class THM_OrganizerViewDepartment_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::apply('department.apply');
-        JToolbarHelper::save('department.save');
-        JToolbarHelper::save2new('department.save2new');
+        \JToolbarHelper::apply('department.apply');
+        \JToolbarHelper::save('department.save');
+        \JToolbarHelper::save2new('department.save2new');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_NEW_TITLE'), 'organizer_departments');
-            JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_NEW_TITLE'), 'organizer_departments');
+            \JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::save2copy('department.save2copy');
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_EDIT_TITLE'), 'organizer_departments');
-            JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::save2copy('department.save2copy');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_DEPARTMENT_EDIT_EDIT_TITLE'), 'organizer_departments');
+            \JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

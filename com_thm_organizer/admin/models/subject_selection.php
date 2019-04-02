@@ -32,7 +32,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 
     protected function getListQuery()
     {
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
         // Create the sql query
@@ -126,7 +126,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
         $query->clear('select');
         $query->clear('order');
         $query->select('COUNT(DISTINCT s.id)');
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
         $dbo->setQuery($query);
 
         return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
@@ -135,8 +135,8 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
     /**
      * Method to auto-populate the model state.
      *
-     * @param   string $ordering  An optional ordering field.
-     * @param   string $direction An optional direction (asc|desc).
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
      *
      * @return void
      */
@@ -144,7 +144,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
     {
         parent::populateState($ordering, $direction);
 
-        $session = JFactory::getSession();
+        $session = \JFactory::getSession();
         $session->clear('programID');
         $formProgramID = $this->state->get('list.programID', '');
         if (!empty($formProgramID)) {

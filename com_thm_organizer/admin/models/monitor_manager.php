@@ -41,10 +41,10 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
             $config['filter_fields'] = ['r.longname', 'm.ip', 'm.useDefaults', 'm.display', 'm.content'];
         }
 
-        $this->displayBehaviour[DAILY]       = JText::_('COM_THM_ORGANIZER_DAILY_PLAN');
-        $this->displayBehaviour[MIXED]       = JText::_('COM_THM_ORGANIZER_MIXED_PLAN');
-        $this->displayBehaviour[CONTENT]     = JText::_('COM_THM_ORGANIZER_CONTENT_DISPLAY');
-        $this->displayBehaviour[LESSON_LIST] = JText::_('COM_THM_ORGANIZER_LESSON_LIST');
+        $this->displayBehaviour[DAILY]       = \JText::_('COM_THM_ORGANIZER_DAILY_PLAN');
+        $this->displayBehaviour[MIXED]       = \JText::_('COM_THM_ORGANIZER_MIXED_PLAN');
+        $this->displayBehaviour[CONTENT]     = \JText::_('COM_THM_ORGANIZER_CONTENT_DISPLAY');
+        $this->displayBehaviour[LESSON_LIST] = \JText::_('COM_THM_ORGANIZER_LESSON_LIST');
         parent::__construct($config);
     }
 
@@ -91,7 +91,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 
         $where = "m.display ='$requestDisplay'";
 
-        $params              = JComponentHelper::getParams('com_thm_organizer');
+        $params              = THM_OrganizerHelperComponent::getParams();
         $defaultDisplay      = $params->get('display', '');
         $useComponentDisplay = (!empty($defaultDisplay) and $requestDisplay == $defaultDisplay);
         if ($useComponentDisplay) {
@@ -112,7 +112,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
      */
     private function addContentFilter(&$query)
     {
-        $params         = JComponentHelper::getParams('com_thm_organizer');
+        $params         = THM_OrganizerHelperComponent::getParams();
         $requestContent = $this->state->get('filter.content', '');
 
         if ($requestContent === '') {
@@ -147,7 +147,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
             return $return;
         }
 
-        $params       = JComponentHelper::getParams('com_thm_organizer');
+        $params       = THM_OrganizerHelperComponent::getParams();
         $displayParam = $params->get('display');
         $contentParam = $params->get('content');
         $index        = 0;
@@ -163,7 +163,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
             $return[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
             $return[$index]['longname']    = HTML::_('link', $item->link, $item->longname);
             $return[$index]['ip']          = HTML::_('link', $item->link, $item->ip);
-            $tip                           = JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
+            $tip                           = \JText::_('COM_THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
             $return[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
             $return[$index]['display']     = HTML::_('link', $item->link, $this->displayBehaviour[$item->display]);
             $return[$index]['content']     = HTML::_('link', $item->link, $item->content);
@@ -188,7 +188,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
         $headers['longname']    = HTML::sort('ROOM', 'r.longname', $direction, $ordering);
         $headers['ip']          = HTML::sort('IP', 'm.ip', $direction, $ordering);
         $headers['useDefaults'] = HTML::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering);
-        $headers['display']     = JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
+        $headers['display']     = \JText::_('COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR');
         $headers['content']     = HTML::sort('DISPLAY_CONTENT', 'm.content', $direction, $ordering);
 
         return $headers;

@@ -26,18 +26,18 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $programIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         if (!empty($programIDs)) {
             $this->_db->transactionStart();
-            $table = JTable::getInstance('programs', 'thm_organizerTable');
+            $table = \JTable::getInstance('programs', 'thm_organizerTable');
             $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
             foreach ($programIDs as $programID) {
                 if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                     $this->_db->transactionRollback();
-                    throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                    throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
                 }
                 $mappingDeleted = $model->deleteByResourceID($programID, 'program');
                 if (!$mappingDeleted) {
@@ -77,18 +77,18 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             // New Programs often are introduced through schedules.
             $schedulingAccess = THM_OrganizerHelperAccess::allowSchedulingAccess();
             if (!($documentationAccess or $schedulingAccess)) {
-                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $data['id'])) {
-                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
             }
         } else {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         $this->_db->transactionStart();
-        $table     = JTable::getInstance('programs', 'thm_organizerTable');
+        $table     = \JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);
         if ($dpSuccess) {
             $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
@@ -114,7 +114,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function save2copy()
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
@@ -123,7 +123,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $this->_db->transactionStart();
-        $table     = JTable::getInstance('programs', 'thm_organizerTable');
+        $table     = \JTable::getInstance('programs', 'thm_organizerTable');
         $dpSuccess = $table->save($data);
         if ($dpSuccess) {
             $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');

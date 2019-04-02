@@ -26,11 +26,12 @@ class THM_OrganizerHelperLSF
      */
     public function __construct()
     {
-        $this->username = JComponentHelper::getParams('com_thm_organizer')->get('wsUsername');
-        $this->password = JComponentHelper::getParams('com_thm_organizer')->get('wsPassword');
-        $uri            = JComponentHelper::getParams('com_thm_organizer')->get('wsURI');
+        $params         = THM_OrganizerHelperComponent::getParams();
+        $this->username = $params->get('wsUsername');
+        $this->password = $params->get('wsPassword');
+        $uri            = $params->get('wsURI');
         $options        = ['uri' => $uri, 'location' => $uri];
-        $this->client   = new SoapClient(null, $options);
+        $this->client   = new \SoapClient(null, $options);
     }
 
     /**
@@ -137,8 +138,8 @@ class THM_OrganizerHelperLSF
     /**
      * Ensures that the title(s) are set and do not contain 'dummy'. This function favors the German title.
      *
-     * @param object &$resource the resource being checked
-     * @param bool   $isSubject whether or not the formatting is that of the program or subject soap response
+     * @param object &$resource  the resource being checked
+     * @param bool    $isSubject whether or not the formatting is that of the program or subject soap response
      *
      * @return bool true if one of the titles has the possibility of being valid, otherwise false
      */

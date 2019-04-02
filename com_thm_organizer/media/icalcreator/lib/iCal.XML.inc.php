@@ -51,7 +51,7 @@ function iCal2XML($calendar)
     $xmlstr    .= '<!-- created ' . gmdate('Ymd\THis\Z');
     $xmlstr    .= ' using kigkonsult.se ' . ICALCREATOR_VERSION . ' iCal2XMl (rfc6321) -->';
     $xmlstr    .= '</icalendar>';
-    $xml       = new SimpleXMLElement($xmlstr);
+    $xml       = new \SimpleXMLElement($xmlstr);
     $vcalendar = $xml->addChild('vcalendar');
     /** fix calendar properties */
     $properties = $vcalendar->addChild('properties');
@@ -669,7 +669,7 @@ function XML2iCal($xmlstr, $iCalcfg = [])
 {
     $xmlstr = str_replace(array("\r\n", "\n\r", "\n", "\r"), '', $xmlstr);
     $xml    = XMLgetTagContent1($xmlstr, 'vcalendar', $endIx);
-    $iCal   = new vcalendar($iCalcfg);
+    $iCal   = new \vcalendar($iCalcfg);
     XMLgetComps($iCal, $xmlstr);
     unset($xmlstr);
 

@@ -214,9 +214,9 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Retrieves the unique pool ids associated
      *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     * @param string $teacherID the id of the teacher
+     * @param object &$schedule  the schedule being processed
+     * @param string  $lessonID  the id of the lesson
+     * @param string  $teacherID the id of the teacher
      *
      * @return array the associated pool ids
      */
@@ -253,7 +253,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getRate($subjectName)
     {
-        $params = THM_OrganizerHelperComponent::getApplication()->getParams();
+        $params = THM_OrganizerHelperComponent::getParams();
         if ($subjectName == 'Betreuung von Bachelorarbeiten') {
             return floatval('0.' . $params->get('bachelor_value', 25));
         }
@@ -273,7 +273,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Creates a concatenated subject name from the relevant subject names for the lesson
      *
      * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
+     * @param string  $lessonID the id of the lesson
      *
      * @return string  the concatenated name of the subject(s)
      */
@@ -308,7 +308,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Checks whether the lesson type is relevant
      *
      * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
+     * @param string  $lessonID the id of the lesson
      *
      * @return mixed  string type if relevant, otherwise false
      */
@@ -332,7 +332,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Checks whether the subject is relevant
      *
      * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
+     * @param string  $lessonID the id of the lesson
      *
      * @return bool  true if relevant, otherwise false
      */
@@ -358,7 +358,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Checks whether the lesson should be tallied instead of summarized. (Oral exams or colloquia)
      *
      * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
+     * @param string  $lessonID the id of the lesson
      *
      * @return bool  true if the lesson should be tallied instead of summarized, otherwise false
      */
@@ -378,7 +378,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Sets consumption by instance (block + lesson)
      *
      * @param object &$schedule the schedule being processed
-     * @param string $day       the day being iterated
+     * @param string  $day      the day being iterated
      * @param object &$blocks   the blocks of the date being iterated
      * @param array  &$teachers teachers to compare against if the schedule is not the original
      *
@@ -414,7 +414,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function setObjectProperties()
     {
-        $this->params = THM_OrganizerHelperComponent::getApplication()->getParams();
+        $this->params = THM_OrganizerHelperComponent::getParams();;
         $departmentID = $this->params->get('departmentID', 0);
         if (!empty($departmentID)) {
             $this->setDepartmentName($departmentID);
@@ -442,7 +442,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery($query);
@@ -453,18 +453,18 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return;
         }
 
-        $this->departmentName = JText::_('COM_THM_ORGANIZER_DEPARTMENT') . ' ' . $departmentName;
+        $this->departmentName = \JText::_('COM_THM_ORGANIZER_DEPARTMENT') . ' ' . $departmentName;
     }
 
     /**
      * Sets the pertinent deputat information
      *
-     * @param object &$schedule   the schedule being processed
-     * @param string $day         the day being iterated
-     * @param int    $blockNumber the block number being iterated
-     * @param string $lessonID    the lesson being iterated
-     * @param string $teacherID   the teacher being iterated
-     * @param int    $hours       the number of school hours for the lesson
+     * @param object &$schedule    the schedule being processed
+     * @param string  $day         the day being iterated
+     * @param int     $blockNumber the block number being iterated
+     * @param string  $lessonID    the lesson being iterated
+     * @param string  $teacherID   the teacher being iterated
+     * @param int     $hours       the number of school hours for the lesson
      *
      * @return void  sets object values
      */
@@ -511,7 +511,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $DOWConstant  = strtoupper(date('l', strtotime($day)));
-        $weekday      = JText::_($DOWConstant);
+        $weekday      = \JText::_($DOWConstant);
         $plannedBlock = "$weekday-$blockNumber";
         if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID][$teacherID]['periods'])) {
             $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = [];
@@ -529,12 +529,12 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Iterates the lesson associated pools for the purpose of teacher consumption
      *
-     * @param object &$schedule   the schedule being processed
-     * @param string $day         the day being iterated
-     * @param int    $blockNumber the block number being iterated
-     * @param string $lessonID    the lesson ID
-     * @param int    $hours       the number of school hours for the lesson
-     * @param array  &$teachers   teachers to compare against if the schedule is not the original
+     * @param object &$schedule    the schedule being processed
+     * @param string  $day         the day being iterated
+     * @param int     $blockNumber the block number being iterated
+     * @param string  $lessonID    the lesson ID
+     * @param int     $hours       the number of school hours for the lesson
+     * @param array  &$teachers    teachers to compare against if the schedule is not the original
      *
      * @return void
      */
@@ -571,9 +571,9 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Associates a teacher with a given lesson
      *
-     * @param object &$schedule the schedule being processed
-     * @param string $lessonID  the id of the lesson
-     * @param string $teacherID the id of the teacher
+     * @param object &$schedule  the schedule being processed
+     * @param string  $lessonID  the id of the lesson
+     * @param string  $teacherID the id of the teacher
      *
      * @return void  sets object variables
      */
@@ -615,7 +615,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Sets the values for tallied lessons
      *
-     * @param string $teacherID     the teacher's id
+     * @param string  $teacherID    the teacher's id
      * @param array  &$lessonValues the values for the lesson being iterated
      *
      * @return void  sets values in the object variable $deputat
@@ -646,9 +646,9 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Sets the values for summarized lessons
      *
-     * @param string $teacherID     the teacher's id
+     * @param string  $teacherID    the teacher's id
      * @param array  &$lessonValues the values for the lesson being iterated
-     * @param string $index         the index to be used for the lesson
+     * @param string  $index        the index to be used for the lesson
      *
      * @return void  sets values in the object variable $deputat
      */

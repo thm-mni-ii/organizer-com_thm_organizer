@@ -128,11 +128,11 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         $valid = $this->preprocess();
 
         if (!$valid) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (!$this->allowEdit()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $table = $this->getTable();
@@ -230,7 +230,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
     public function merge()
     {
         if (!$this->allowEdit()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $valid = $this->preprocess();
@@ -270,7 +270,6 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
             return false;
         }
 
-
         $schedulesSuccess = $this->updateSchedules();
         if (!$schedulesSuccess) {
             $this->_db->transactionRollback();
@@ -298,7 +297,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         if (!empty($this->data)) {
             $invalidID = (!empty($this->data['id']) and !is_numeric($this->data['id']));
             if ($invalidID or empty($this->data['gpuntisID'])) {
-                throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
             }
 
             if (!empty($this->data['otherIDs']) and !is_array($this->data['otherIDs'])) {
@@ -333,7 +332,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         }
 
         if (!$this->allowEdit()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $this->_db->transactionStart();
@@ -518,7 +517,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
             $scheduleObject->configurations = (array)$scheduleObject->configurations;
             $this->updateSchedule($scheduleObject);
 
-            $scheduleTable = JTable::getInstance('schedules', 'thm_organizerTable');
+            $scheduleTable = \JTable::getInstance('schedules', 'thm_organizerTable');
             $scheduleTable->load($scheduleID);
             $scheduleTable->schedule = json_encode($scheduleObject);
             $success                 = $scheduleTable->store();

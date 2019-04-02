@@ -24,14 +24,14 @@ class THM_OrganizerViewRoom_Type_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::apply('room_type.apply');
-        JToolbarHelper::save('room_type.save');
+        \JToolbarHelper::apply('room_type.apply');
+        \JToolbarHelper::save('room_type.save');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_TYPE_EDIT_NEW_TITLE'), 'organizer_room_types');
-            JToolbarHelper::cancel('room_type.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_ROOM_TYPE_EDIT_NEW_TITLE'), 'organizer_room_types');
+            \JToolbarHelper::cancel('room_type.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_TYPE_EDIT_EDIT_TITLE'), 'organizer_room_types');
-            JToolbarHelper::cancel('room_type.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_ROOM_TYPE_EDIT_EDIT_TITLE'), 'organizer_room_types');
+            \JToolbarHelper::cancel('room_type.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

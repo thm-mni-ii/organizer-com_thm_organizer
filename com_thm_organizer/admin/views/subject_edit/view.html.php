@@ -24,16 +24,16 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::save('subject.save');
-        JToolbarHelper::save2new('subject.save2new');
+        \JToolbarHelper::save('subject.save');
+        \JToolbarHelper::save2new('subject.save2new');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_NEW_TITLE'), 'organizer_subjects');
-            JToolbarHelper::apply('subject.apply', JText::_('COM_THM_ORGANIZER_CREATE'));
-            JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_NEW_TITLE'), 'organizer_subjects');
+            \JToolbarHelper::apply('subject.apply', \JText::_('COM_THM_ORGANIZER_CREATE'));
+            \JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_EDIT_TITLE'), 'organizer_subjects');
-            JToolbarHelper::apply('subject.apply', JText::_('COM_THM_ORGANIZER_APPLY'));
-            JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_SUBJECT_EDIT_EDIT_TITLE'), 'organizer_subjects');
+            \JToolbarHelper::apply('subject.apply', \JText::_('COM_THM_ORGANIZER_APPLY'));
+            \JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 
@@ -45,6 +45,6 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        JFactory::getDocument()->addScript(JUri::root() . '/media/com_thm_organizer/js/subject_prep_course.js');
+        \JFactory::getDocument()->addScript(\JUri::root() . '/media/com_thm_organizer/js/subject_prep_course.js');
     }
 }

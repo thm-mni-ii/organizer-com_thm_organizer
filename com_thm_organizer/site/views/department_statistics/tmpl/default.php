@@ -14,22 +14,22 @@ $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['date'];
 ?>
 <script type="text/javascript">
-    var rootURI = '<?php echo JUri::root(); ?>', allText = '<?php echo JText::_('JALL');?>',
-        selectionWarning = '<?php echo JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
-        downloadText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
-        generateText = '<?php echo JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
-        copyText = '<?php echo JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
+    var rootURI = '<?php echo \JUri::root(); ?>', allText = '<?php echo \JText::_('JALL');?>',
+        selectionWarning = '<?php echo \JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
+        downloadText = '<?php echo \JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
+        generateText = '<?php echo \JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
+        copyText = '<?php echo \JText::_('COM_THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
 </script>
 <div id="j-main-container">
     <form action="index.php?option=com_thm_organizer&view=department_statistics&format=xls"
           method="post" name="adminForm" id="adminForm" target="_blank">
         <div id="header-container" class="header-container">
             <div class="header-title">
-                <?php echo JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_TITLE'); ?>
+                <?php echo \JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS_TITLE'); ?>
             </div>
             <div class="toolbar">
                 <button id="action-btn" class="btn" type="submit">
-                    <?php echo JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD') ?>
+                    <?php echo \JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD') ?>
                     <span class="icon-file-excel"></span>
                 </button>
             </div>

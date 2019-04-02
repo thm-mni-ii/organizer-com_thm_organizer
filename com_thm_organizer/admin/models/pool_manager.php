@@ -41,7 +41,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     /**
      * Method to select the tree of a given major
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -135,7 +135,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 
         $headers['checkbox']  = '';
         $headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
+        $headers['programID'] = \JText::_('COM_THM_ORGANIZER_PROGRAM');
         $headers['fieldID']   = HTML::sort('FIELD', 'field', $direction, $ordering);
 
         return $headers;
@@ -154,20 +154,20 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
         $query->clear('select');
         $query->clear('order');
         $query->select('COUNT(DISTINCT p.id)');
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
         $dbo->setQuery($query);
 
         return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
     }
 
     /**
-     * Overrides the LoadFormData function of JModelList in order to add multiple field paths
+     * Overrides the LoadFormData function of \JModelList in order to add multiple field paths
      *
      * @return mixed  The data for the form.
      */
     public function loadFormData()
     {
-        JForm::addFieldPath(JPATH_ROOT . '/media/com_thm_organizer/fields');
+        \JForm::addFieldPath(JPATH_ROOT . '/media/com_thm_organizer/fields');
 
         return parent::loadFormData();
     }
@@ -175,8 +175,8 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     /**
      * Method to auto-populate the model state.
      *
-     * @param   string $ordering  An optional ordering field.
-     * @param   string $direction An optional direction (asc|desc).
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
      *
      * @return void
      */

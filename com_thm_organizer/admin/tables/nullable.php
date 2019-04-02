@@ -10,15 +10,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Abstract class for use by resources with nullable values.
  */
-abstract class THM_OrganizerTableNullable extends JTable
+abstract class THM_OrganizerTableNullable extends \Joomla\CMS\Table\Table
 {
     /**
-     * This functions overwrites JTables default of $updateNulls = false.
+     * This functions overwrites \JTables default of $updateNulls = false.
      *
      * @param boolean $updateNulls True to update fields even if they are null.
      *

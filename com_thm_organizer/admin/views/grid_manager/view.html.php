@@ -28,7 +28,7 @@ class THM_OrganizerViewGrid_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -41,10 +41,10 @@ class THM_OrganizerViewGrid_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_GRID_MANAGER_VIEW_TITLE'), 'organizer_grids');
-        JToolbarHelper::addNew('grid.add');
-        JToolbarHelper::editList('grid.edit');
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'grid.delete');
-        JToolbarHelper::preferences('com_thm_organizer');
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_GRID_MANAGER_VIEW_TITLE'), 'organizer_grids');
+        \JToolbarHelper::addNew('grid.add');
+        \JToolbarHelper::editList('grid.edit');
+        \JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'grid.delete');
+        \JToolbarHelper::preferences('com_thm_organizer');
     }
 }

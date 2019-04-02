@@ -15,7 +15,7 @@ use \THM_OrganizerHelperHTML as HTML;
 $attribs = ['target' => '_blank'];
 ?>
 <div id="j-main-container" class="organizer-search-container">
-    <form action="<?php JUri::current(); ?>" id="adminForm" method="get" name="adminForm">
+    <form action="<?php \JUri::current(); ?>" id="adminForm" method="get" name="adminForm">
         <?php echo $this->languageLinks->render(); ?>
         <h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
         <div class="toolbar">

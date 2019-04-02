@@ -42,12 +42,12 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        $userID = JFactory::getUser()->id;
+        $userID = \JFactory::getUser()->id;
         if (empty($userID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $mode     = $input->getInt('mode', self::PERIOD_MODE);
@@ -56,7 +56,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         $deletedCcmIDs = [];
         foreach ($mappings as $lessonID => $ccmIDs) {
             try {
-                $userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
+                $userLessonTable = \JTable::getInstance('user_lessons', 'thm_organizerTable');
                 if (!$userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID])) {
                     continue;
                 }
@@ -139,7 +139,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
             }
         }
 
-        $parameters['userID']          = JFactory::getUser()->id;
+        $parameters['userID']          = \JFactory::getUser()->id;
         $parameters['mySchedule']      = $input->getBool('mySchedule', false);
         $parameters['date']            = $input->getString('date', date('Y-m-d', time()));
         $parameters['dateRestriction'] = $input->getString('dateRestriction');
@@ -259,7 +259,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
     public function getRoomTypes()
     {
         $types   = THM_OrganizerHelperRoomTypes::getUsedRoomTypes();
-        $default = [JText::_('JALL') => '0'];
+        $default = [\JText::_('JALL') => '0'];
 
         return json_encode(array_merge($default, $types));
     }
@@ -299,7 +299,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         switch ($resource) {
             case 'room':
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
-                $title = JText::_('COM_THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
+                $title = \JText::_('COM_THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
                 break;
             case 'pool':
                 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
@@ -328,12 +328,12 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        $userID = JFactory::getUser()->id;
+        $userID = \JFactory::getUser()->id;
         if (empty($userID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $savedCcmIDs = [];
@@ -342,7 +342,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         foreach ($mappings as $lessonID => $ccmIDs) {
             try {
-                $userLessonTable = JTable::getInstance('user_lessons', 'thm_organizerTable');
+                $userLessonTable = \JTable::getInstance('user_lessons', 'thm_organizerTable');
                 $hasUserLesson   = $userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]);
             } catch (Exception $e) {
                 return '[]';

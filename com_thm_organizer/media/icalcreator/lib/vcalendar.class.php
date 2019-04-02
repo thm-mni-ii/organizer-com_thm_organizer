@@ -1175,23 +1175,23 @@ class vcalendar extends iCalBase
         switch (strtoupper($compType)) {
             case 'EVENT':
             case 'VEVENT':
-                $this->components[$ix] = new vevent($config);
+                $this->components[$ix] = new \vevent($config);
                 break;
             case 'TODO':
             case 'VTODO':
-                $this->components[$ix] = new vtodo($config);
+                $this->components[$ix] = new \vtodo($config);
                 break;
             case 'JOURNAL':
             case 'VJOURNAL':
-                $this->components[$ix] = new vjournal($config);
+                $this->components[$ix] = new \vjournal($config);
                 break;
             case 'FREEBUSY':
             case 'VFREEBUSY':
-                $this->components[$ix] = new vfreebusy($config);
+                $this->components[$ix] = new \vfreebusy($config);
                 break;
             case 'TIMEZONE':
             case 'VTIMEZONE':
-                array_unshift($this->components, new vtimezone($config));
+                array_unshift($this->components, new \vtimezone($config));
                 $ix = 0;
                 break;
             default:
@@ -1325,7 +1325,7 @@ class vcalendar extends iCalBase
         $this->sort('UID');
         $compUIDcmp  = null;
         $exdatelist  = $recurridList = [];
-        $intervalP1D = new DateInterval('P1D');
+        $intervalP1D = new \DateInterval('P1D');
         foreach ($this->components as $cix => $component) {
             if (empty($component)) {
                 continue;
@@ -1582,7 +1582,7 @@ class vcalendar extends iCalBase
                                     $theRdate[1], $dtstartTz));
                             } else                                         // period duration
                             {
-                                $recurlist[$rdate->key] = new DateInterval(iCalUtilityFunctions::_duration2str($theRdate[1]));
+                                $recurlist[$rdate->key] = new \DateInterval(iCalUtilityFunctions::_duration2str($theRdate[1]));
                             }
                         } // end if( 'PERIOD' == $rdateFmt )
                         elseif ('DATE' == $rdateFmt) { // single recurrence, date
@@ -2095,19 +2095,19 @@ class vcalendar extends iCalBase
                 continue;
             }
             if ('BEGIN:VEVENT' == strtoupper(substr($line, 0, 12))) {
-                $comp = new vevent($config);
+                $comp = new \vevent($config);
                 $compsync++;
             } elseif ('BEGIN:VFREEBUSY' == strtoupper(substr($line, 0, 15))) {
-                $comp = new vfreebusy($config);
+                $comp = new \vfreebusy($config);
                 $compsync++;
             } elseif ('BEGIN:VJOURNAL' == strtoupper(substr($line, 0, 14))) {
-                $comp = new vjournal($config);
+                $comp = new \vjournal($config);
                 $compsync++;
             } elseif ('BEGIN:VTODO' == strtoupper(substr($line, 0, 11))) {
-                $comp = new vtodo($config);
+                $comp = new \vtodo($config);
                 $compsync++;
             } elseif ('BEGIN:VTIMEZONE' == strtoupper(substr($line, 0, 15))) {
-                $comp = new vtimezone($config);
+                $comp = new \vtimezone($config);
                 $compsync++;
             } else { /* update component with unparsed data */
                 $comp->unparsed[] = $line;

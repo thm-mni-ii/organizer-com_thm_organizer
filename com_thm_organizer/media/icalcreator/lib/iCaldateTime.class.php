@@ -116,10 +116,10 @@ class iCaldateTime extends dateTime
                     (int)$date['sec']);
         }
         try {
-            $timezone = new DateTimeZone($tz);
-            $d        = new iCaldateTime($strdate, $timezone);
+            $timezone = new \DateTimeZone($tz);
+            $d        = new \iCaldateTime($strdate, $timezone);
         } catch (Exception $e) {
-            $d = new iCaldateTime($strdate);
+            $d = new \iCaldateTime($strdate);
         }
         if (!empty($dtstartTz)) {
             if ('Z' == $dtstartTz) {
@@ -127,7 +127,7 @@ class iCaldateTime extends dateTime
             }
             if ($dtstartTz != $d->getTimezoneName()) { // set the same timezone as dtstart
                 try {
-                    $timezone = new DateTimeZone($dtstartTz);
+                    $timezone = new \DateTimeZone($dtstartTz);
                     $d->setTimezone($timezone);
                 } catch (Exception $e) {
                 }

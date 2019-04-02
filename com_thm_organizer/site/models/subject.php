@@ -25,13 +25,13 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return JTable  A JTable object
+     * @return \JTable  A \JTable object
      */
     public function getTable($name = 'subjects', $prefix = 'THM_OrganizerTable', $options = [])
     {
-        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
+        \JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 
-        return JTable::getInstance($name, $prefix, $options);
+        return \JTable::getInstance($name, $prefix, $options);
     }
 
     /**
@@ -46,7 +46,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $lessonID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
 
         if (!THM_OrganizerHelperSubjects::allowEdit($data['id'])) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $table   = $this->getTable();

@@ -31,21 +31,21 @@ abstract class THM_OrganizerTemplateCourse_Export
      *
      * @param int $courseID the lessonID of the exported course
      *
-     * @throws Exception => invalid request / unauthorized access / not found
+     * @throws \Exception => invalid request / unauthorized access / not found
      */
     public function __construct($courseID)
     {
         if (empty($courseID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperCourses::authorized($courseID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $course = THM_OrganizerHelperCourses::getCourse($courseID);
         if (empty($course)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_404'), 404);
         }
 
         $this->lang      = THM_OrganizerHelperLanguage::getLanguage();
@@ -80,8 +80,8 @@ abstract class THM_OrganizerTemplateCourse_Export
             $this->course['planningPeriodName'] = $course['planningPeriodName'];
         }
 
-        $this->document = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $this->document->SetAuthor(JFactory::getUser()->name);
+        $this->document = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $this->document->SetAuthor(\JFactory::getUser()->name);
         $this->document->SetCreator(PDF_CREATOR);
     }
 

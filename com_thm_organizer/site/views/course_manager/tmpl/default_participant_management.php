@@ -17,15 +17,16 @@ $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 $baseURL  = '?option=com_thm_organizer&view=course_manager&format=pdf';
 $baseURL  .= "&lessonID={$this->course['id']}&languageTag=$shortTag&type=";
 
-$participantListRoute = JRoute::_($baseURL . 0, false);
-$departmentListRoute  = JRoute::_($baseURL . 1, false);
-$badgesRoute          = JRoute::_($baseURL . 2, false);
+$participantListRoute = \JRoute::_($baseURL . 0, false);
+$departmentListRoute  = \JRoute::_($baseURL . 1, false);
+$badgesRoute          = \JRoute::_($baseURL . 2, false);
 
 $registeredText = $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
 
-$dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y') . ' ';
-$dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat', 'H.i');
+$params     = THM_OrganizerHelperComponent::getParams();
+$dateFormat = $params->get('dateFormat', 'd.m.Y') . ' ';
+$dateFormat .= $params->get('timeFormat', 'H.i');
 ?>
 <form action="?" method="post" id="adminForm" name="adminForm" onsubmit="listItemChecked();">
     <input type="hidden" name="option" value="com_thm_organizer"/>
@@ -66,17 +67,17 @@ $dateFormat .= JComponentHelper::getParams('com_thm_organizer')->get('timeFormat
                 <ul id="print" class="dropdown-menu">
                     <li>
                         <a href="<?php echo $participantListRoute; ?>" target="_blank">
-                            <span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_PARTICIPANTS'); ?>
+                            <span class="icon-file-pdf"></span><?php echo \JText::_('COM_THM_ORGANIZER_PARTICIPANTS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $departmentListRoute; ?>" target="_blank">
-                            <span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
+                            <span class="icon-file-pdf"></span><?php echo \JText::_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $badgesRoute; ?>" target="_blank">
-                            <span class="icon-file-pdf"></span><?php echo JText::_('COM_THM_ORGANIZER_BADGE_SHEETS'); ?>
+                            <span class="icon-file-pdf"></span><?php echo \JText::_('COM_THM_ORGANIZER_BADGE_SHEETS'); ?>
                         </a>
                     </li>
                 </ul>

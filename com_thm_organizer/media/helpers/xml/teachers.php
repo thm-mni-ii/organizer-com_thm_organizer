@@ -29,12 +29,12 @@ class THM_OrganizerHelperXMLTeachers
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->teachers)) {
-            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TEACHERS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_TEACHERS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->teachers = new stdClass;
+        $scheduleModel->schedule->teachers = new \stdClass;
 
         foreach ($xmlObject->teachers->children() as $teacherNode) {
             self::validateIndividual($scheduleModel, $teacherNode);
@@ -44,14 +44,14 @@ class THM_OrganizerHelperXMLTeachers
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'];
             unset($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
+                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME'])) {
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-FORENAME'];
             unset($scheduleModel->scheduleWarnings['TEACHER-FORENAME']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
+                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
         }
     }
 
@@ -68,8 +68,8 @@ class THM_OrganizerHelperXMLTeachers
     {
         $internalID = trim((string)$teacherNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING');
+            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING');
             }
 
             return;
@@ -80,7 +80,7 @@ class THM_OrganizerHelperXMLTeachers
         $surname = trim((string)$teacherNode->surname);
         if (empty($surname)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $internalID);
+                = sprintf(\JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $internalID);
 
             return;
         }
@@ -95,7 +95,7 @@ class THM_OrganizerHelperXMLTeachers
             $externalID = str_replace('TR_', '', $externalID);
         }
 
-        $teacher = new stdClass;
+        $teacher = new \stdClass;
         if (empty($externalID)) {
             $teacherID          = $internalID;
             $teacher->gpuntisID = $internalID;
@@ -131,7 +131,6 @@ class THM_OrganizerHelperXMLTeachers
 
         $userName          = trim((string)$teacherNode->payrollnumber);
         $teacher->username = empty($userName) ? '' : $userName;
-
 
         $teacher->id = THM_OrganizerHelperTeachers::getIDFromScheduleData($teacherID, $teacher);
         THM_OrganizerHelperDepartments::setDepartmentResource($teacher->id, 'teacherID');

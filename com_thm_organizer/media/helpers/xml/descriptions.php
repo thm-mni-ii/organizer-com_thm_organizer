@@ -19,15 +19,15 @@ class THM_OrganizerHelperXMLDescriptions
      * Checks whether the resource already exists in the database
      *
      * @param object &$scheduleModel the validating schedule model
-     * @param string $tableName      the name of the table to check
-     * @param string $gpuntisID      the gpuntis description id
-     * @param string $constant       the text constant for message output
+     * @param string  $tableName     the name of the table to check
+     * @param string  $gpuntisID     the gpuntis description id
+     * @param string  $constant      the text constant for message output
      *
      * @return bool  true if the entry already exists, otherwise false
      */
     private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
         $dbo->setQuery($query);
@@ -36,7 +36,7 @@ class THM_OrganizerHelperXMLDescriptions
 
         if (empty($resourceID)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(JText::_("COM_THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
+                = sprintf(\JText::_("COM_THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
 
             return false;
         }
@@ -55,20 +55,20 @@ class THM_OrganizerHelperXMLDescriptions
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->descriptions)) {
-            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->fields     = new stdClass;
-        $scheduleModel->schedule->methods    = new stdClass;
-        $scheduleModel->schedule->room_types = new stdClass;
+        $scheduleModel->schedule->fields     = new \stdClass;
+        $scheduleModel->schedule->methods    = new \stdClass;
+        $scheduleModel->schedule->room_types = new \stdClass;
 
         foreach ($xmlObject->descriptions->children() as $descriptionNode) {
             $gpuntisID = trim((string)$descriptionNode[0]['id']);
 
             if (empty($gpuntisID)) {
-                $missingText = JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING');
+                $missingText = \JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING');
                 if (!in_array($missingText, $scheduleModel->scheduleErrors)) {
                     $scheduleModel->scheduleErrors[] = $missingText;
                 }
@@ -81,7 +81,7 @@ class THM_OrganizerHelperXMLDescriptions
 
             if (empty($longName)) {
                 $scheduleModel->scheduleErrors[] = sprintf(
-                    JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'),
+                    \JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'),
                     $descriptionID
                 );
 
@@ -92,7 +92,7 @@ class THM_OrganizerHelperXMLDescriptions
 
             if (empty($typeFlag)) {
                 $scheduleModel->scheduleErrors[] = sprintf(
-                    JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'),
+                    \JText::_('COM_THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'),
                     $longName,
                     $descriptionID
                 );
@@ -121,7 +121,7 @@ class THM_OrganizerHelperXMLDescriptions
 
             $validType = (!empty($type) and !empty($typeID));
             if ($validType) {
-                $scheduleModel->schedule->$type->$descriptionID            = new stdClass;
+                $scheduleModel->schedule->$type->$descriptionID            = new \stdClass;
                 $scheduleModel->schedule->$type->$descriptionID->gpuntisID = $gpuntisID;
                 $scheduleModel->schedule->$type->$descriptionID->name      = $longName;
                 $scheduleModel->schedule->$type->$descriptionID->id        = $typeID;

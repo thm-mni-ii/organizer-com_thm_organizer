@@ -10,17 +10,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Class instantiates a JTable Object associated with the plan_pool_publishing table.
+ * Class instantiates a \JTable Object associated with the plan_pool_publishing table.
  */
-class THM_OrganizerTablePlan_Pool_Publishing extends JTable
+class THM_OrganizerTablePlan_Pool_Publishing extends \Joomla\CMS\Table\Table
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

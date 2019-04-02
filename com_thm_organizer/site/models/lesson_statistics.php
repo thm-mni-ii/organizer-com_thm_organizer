@@ -13,7 +13,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php
 /**
  * Class calculates lesson statistics and loads them into the view context.
  */
-class THM_OrganizerModelLesson_Statistics extends JModelForm
+class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormModel
 {
     public $columns = [];
 
@@ -134,7 +134,7 @@ class THM_OrganizerModelLesson_Statistics extends JModelForm
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return mixed  JForm object on success, False on error.
+     * @return mixed  \JForm object on success, False on error.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

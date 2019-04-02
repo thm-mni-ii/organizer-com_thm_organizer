@@ -55,7 +55,6 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         parent::__construct($config);
 
-
         $format = THM_OrganizerHelperComponent::getInput()->getString('format');
 
         switch ($format) {
@@ -155,7 +154,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getDepartmentOptions()
     {
-        $options     = [];
+        $options = [];
         foreach (THM_OrganizerHelperDepartments::getOptions(false) as $departmentID => $departmentName) {
             $options[$departmentID] = $departmentName;
         }
@@ -290,7 +289,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     private function setData($roomID)
     {
         $tag       = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo       = JFactory::getDbo();
+        $dbo       = \JFactory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
         $rqSelect = 'DISTINCT ccm.id AS ccmID, ls.id as lsID, l.id AS lessonID, l.comment, ';
@@ -340,7 +339,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
         $validPPID = (!empty($ppIDs) and !empty($ppIDs[0])) ? true : false;
 
         if ($use == 'planningPeriodIDs' and $validPPID) {
-            $ppTable = JTable::getInstance('planning_periods', 'thm_organizerTable');
+            $ppTable = \JTable::getInstance('planning_periods', 'thm_organizerTable');
             $success = $ppTable->load($ppIDs[0]);
 
             if ($success) {
@@ -351,7 +350,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
             }
         }
 
-        $dateFormat      = THM_OrganizerHelperComponent::getApplication()->getParams()->get('dateFormat');
+        $dateFormat      = THM_OrganizerHelperComponent::getParams()->get('dateFormat');
         $date            = $input->getString('date', date($dateFormat));
         $startDoWNo      = empty($this->startDoW) ? 1 : $this->startDoW;
         $startDayName    = date('l', strtotime("Sunday + $startDoWNo days"));
@@ -423,7 +422,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     private function setLSData($lsIDs)
     {
         $tag   = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $select = 'DISTINCT ls.id AS lsID, ';
@@ -492,7 +491,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setRoomTypes()
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = THM_OrganizerHelperLanguage::getShortTag();
 
@@ -552,7 +551,6 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
                     $week['adjustedTotal'] += $this->metaData['days'][$currentDate]['total'];
                     $week['adjustedUse']   += $this->metaData['days'][$currentDate]['use'];
                 }
-
 
                 foreach ($this->rooms as $roomName => $roomData) {
                     if (empty($this->roomData[$roomData['id']]['weeks'])) {

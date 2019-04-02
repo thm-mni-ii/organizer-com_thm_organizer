@@ -10,9 +10,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-jimport('joomla.application.plugin.helper');
-
 /**
  * Class answers dynamic schedule related queries
  */

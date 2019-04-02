@@ -66,7 +66,7 @@ if (empty($this->course)) {
                 <button type="submit" class="validate btn btn-primary">
                     <?php echo $submitText; ?>
                 </button>
-                <a href="<?php echo JRoute::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
+                <a href="<?php echo \JRoute::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
                    class="btn" type="button"><?php echo $this->lang->_('JCANCEL') ?></a>
             </div>
         </div>

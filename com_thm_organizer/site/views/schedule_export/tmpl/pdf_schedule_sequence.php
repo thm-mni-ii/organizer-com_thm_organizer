@@ -27,9 +27,9 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
     /**
      * THM_OrganizerTemplateSchedule_Export_PDF_A4 constructor.
      *
-     * @param array $parameters the parameters for document
-     * @param array &$lessons   the lessons to be displayed
-     * @param array $grid       the lesson grid for use in display
+     * @param array  $parameters the parameters for document
+     * @param array &$lessons    the lessons to be displayed
+     * @param array  $grid       the lesson grid for use in display
      */
     public function __construct($parameters, &$lessons, $grid = null)
     {
@@ -267,8 +267,8 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      *
      * @param array  &$columnHeaders the dates
      * @param array  &$dimensions    the dimensions of the cells
-     * @param string $startDate      the date to start from
-     * @param string $breakDate      the date to stop iteration
+     * @param string  $startDate     the date to start from
+     * @param string  $breakDate     the date to stop iteration
      *
      * @return void
      */
@@ -321,7 +321,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
         $columnHeaders = $this->getColumnHeaders();
         $dimensions    = $this->document->getPageDimensions();
         $timeConstant  = $this->parameters['dateRestriction'] == 'day' ?
-            '' : JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
+            '' : \JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
 
         $outputTimeGrid = !empty($rowHeaders);
         $startDate      = key($columnHeaders);
@@ -335,7 +335,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $showSegment = $this->outputSegment($startDate, $endDate);
 
             if ($showSegment) {
-                $headerString = JText::_($timeConstant) . "$startDateText - $endDateText";
+                $headerString = \JText::_($timeConstant) . "$startDateText - $endDateText";
                 $this->document->SetHeaderData(
                     'thm.svg',
                     40,
@@ -363,8 +363,8 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
      * @param array  &$rowHeaders    the row grid times
      * @param array  &$columnHeaders the dates
      * @param array  &$dimensions    the dimensions of the cells
-     * @param string $startDate      the date to start from
-     * @param string $breakDate      the date to stop iteration
+     * @param string  $startDate     the date to start from
+     * @param string  $breakDate     the date to stop iteration
      *
      * @return void
      */
@@ -381,7 +381,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $this->outputTable();
         } else {
             $this->document->AddPage();
-            $this->document->cell('', '', JText::_('COM_THM_ORGANIZER_NO_LESSONS'));
+            $this->document->cell('', '', \JText::_('COM_THM_ORGANIZER_NO_LESSONS'));
         }
         $this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
         ob_flush();

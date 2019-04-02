@@ -215,7 +215,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
                 $this->_db->transactionRollback();
-                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
             }
 
             $subjectImported = $this->importSingle($subjectID);
@@ -249,7 +249,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function importSingle($subjectID)
     {
-        $subject = JTable::getInstance('subjects', 'thm_organizerTable');
+        $subject = \JTable::getInstance('subjects', 'thm_organizerTable');
 
         $entryExists = $subject->load($subjectID);
         if (!$entryExists) {
@@ -263,7 +263,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             return true;
         }
 
-        $client  = new THM_OrganizerHelperLSF;
+        $client  = new \THM_OrganizerHelperLSF;
         $lsfData = $client->getModuleByModulid($subject->lsfID);
 
         // The system administrator does not wish to display entries with this value
@@ -403,8 +403,8 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     /**
      * Creates a subject entry if none exists and imports data to fill it
      *
-     * @param object &$stub        a simplexml object containing rudimentary subject data
-     * @param int    $departmentID the id of the department to which this data belongs
+     * @param object &$stub         a simplexml object containing rudimentary subject data
+     * @param int     $departmentID the id of the department to which this data belongs
      *
      * @return boolean true on success, otherwise false
      */
@@ -415,7 +415,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             return false;
         }
 
-        $table = JTable::getInstance('subjects', 'thm_organizerTable');
+        $table = \JTable::getInstance('subjects', 'thm_organizerTable');
 
         // Attempt to load using the departmentID
         $data = ['lsfID' => $lsfID, 'departmentID' => $departmentID];
@@ -458,7 +458,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function resolveDependencies($subjectID)
     {
-        $subjectTable = JTable::getInstance('subjects', 'thm_organizerTable');
+        $subjectTable = \JTable::getInstance('subjects', 'thm_organizerTable');
         $exists       = $subjectTable->load($subjectID);
 
         // Entry doesn't exist. Should not occur.
@@ -597,9 +597,9 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      * Sets the value of a generic attribute if available
      *
      * @param object &$subject the array where subject data is being stored
-     * @param string $key      the key where the value should be put
-     * @param string $value    the value string
-     * @param string $default  the default value
+     * @param string  $key     the key where the value should be put
+     * @param string  $value   the value string
+     * @param string  $default the default value
      *
      * @return void
      */
@@ -726,7 +726,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      * Sets attributes dealing with required student expenditure
      *
      * @param object &$subject the subject data
-     * @param string $text     the expenditure text
+     * @param string  $text    the expenditure text
      *
      * @return void
      */
@@ -755,7 +755,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     /**
      * Sets the responsible teachers in the association table
      *
-     * @param int    $subjectID   the id of the subject
+     * @param int     $subjectID  the id of the subject
      * @param object &$dataObject an object containing the lsf response
      *
      * @return bool  true on success, otherwise false
@@ -785,10 +785,10 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     /**
      * Sets subject teachers by their responsibility to the subject
      *
-     * @param int   $subjectID      the subject's id
-     * @param array &$teachers      an array containing information about the
-     *                              subject's teachers
-     * @param int   $responsibility the teacher's responsibility level
+     * @param int    $subjectID      the subject's id
+     * @param array &$teachers       an array containing information about the
+     *                               subject's teachers
+     * @param int    $responsibility the teacher's responsibility level
      *
      * @return boolean  true on success, otherwise false
      */
@@ -825,7 +825,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                 $loadCriteria[] = ['surname' => $teacherData['surname'], 'forename' => $teacherData['forename']];
             }
 
-            $teacherTable = JTable::getInstance('teachers', 'thm_organizerTable');
+            $teacherTable = \JTable::getInstance('teachers', 'thm_organizerTable');
             $loaded       = false;
 
             foreach ($loadCriteria as $criteria) {
@@ -920,9 +920,9 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     /**
      * Sets business administration department start attributes
      *
-     * @param object &$subject  the subject object
-     * @param string $attribute the attribute's name in the xml response
-     * @param string $value     the value set in lsf
+     * @param object &$subject   the subject object
+     * @param string  $attribute the attribute's name in the xml response
+     * @param string  $value     the value set in lsf
      *
      * @return void
      */

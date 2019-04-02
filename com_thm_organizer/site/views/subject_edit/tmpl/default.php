@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use \THM_OrganizerHelperHTML as HTML;
 
 // Sets page configuration and component option
-$backURL = empty($this->menu) ? JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'];
+$backURL = empty($this->menu) ? \JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'];
 
 // Accessed from subject_details
 $backURL .= empty($this->lessonID) ?
@@ -35,7 +35,7 @@ $nameProperty = 'name_' . $this->languageTag;
             <?php echo $this->lang->_('JSAVE'); ?>
         </button>
 
-        <a href="<?php echo JRoute::_($backURL, false); ?>"
+        <a href="<?php echo \JRoute::_($backURL, false); ?>"
            class="btn" type="button"><?php echo $this->lang->_('JCANCEL') ?></a>
         <hr>
         <div class="form-horizontal">
@@ -47,7 +47,7 @@ $nameProperty = 'name_' . $this->languageTag;
                 $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
 
                 if ($displayInitial or $isInitialized) {
-                    echo HTML::_('bootstrap.addTab', 'myTab', $set->name, JText::_($set->label, true));
+                    echo HTML::_('bootstrap.addTab', 'myTab', $set->name, \JText::_($set->label, true));
                     echo $this->form->renderFieldset($set->name);
                     echo HTML::_('bootstrap.endTab');
                 }

@@ -270,7 +270,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
     private function setData($roomID)
     {
         $tag       = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo       = JFactory::getDbo();
+        $dbo       = \JFactory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
         $rqSelect = "DISTINCT ccm.id AS ccmID, d.id AS departmentID, d.short_name_$tag AS department, lc.configuration, ";
@@ -328,7 +328,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
      */
     private function setRoomTypes()
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = THM_OrganizerHelperLanguage::getShortTag();
 

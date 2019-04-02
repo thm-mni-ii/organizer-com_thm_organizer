@@ -10,7 +10,6 @@
  */
 
 defined('_JEXEC') or die();
-jimport('joomla.application.component.model');
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
@@ -89,7 +88,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     private function setParams()
     {
         $input  = THM_OrganizerHelperComponent::getInput();
-        $params = THM_OrganizerHelperComponent::getApplication()->getParams();
+        $params = THM_OrganizerHelperComponent::getParams();
 
         $reqDepartmentID = $input->getInt('departmentID', 0);
         $rawDeptIDs      = $input->getString('departmentIDs');
@@ -291,7 +290,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $rawResourceIDs = THM_OrganizerHelperComponent::getInput()->get("{$resourceName}IDs", [], 'raw');
 
         if (empty($rawResourceIDs)) {
-            $rawResourceIDs = THM_OrganizerHelperComponent::getApplication()->getParams()->get("{$resourceName}IDs");
+            $rawResourceIDs = THM_OrganizerHelperComponent::getParams()->get("{$resourceName}IDs");
         }
 
         if (!empty($rawResourceIDs)) {

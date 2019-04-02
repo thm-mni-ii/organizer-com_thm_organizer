@@ -12,12 +12,12 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
 
 /**
  * Class creates a generalized select box for selection of a single id column value among those already selected.
  */
-class JFormFieldMergeByID extends JFormFieldList
+class JFormFieldMergeByID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -37,7 +37,7 @@ class JFormFieldMergeByID extends JFormFieldList
         $tables      = explode(',', $this->getAttribute('tables'));
         $tableAlias  = '';
 
-        $dbo        = JFactory::getDbo();
+        $dbo        = \JFactory::getDbo();
         $query      = $dbo->getQuery(true);
         $textColumn = $this->resolveText($query);
         $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");

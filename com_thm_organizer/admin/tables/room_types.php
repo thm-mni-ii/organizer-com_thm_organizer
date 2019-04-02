@@ -10,17 +10,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Class instantiates a JTable Object associated with the room_types table.
+ * Class instantiates a \JTable Object associated with the room_types table.
  */
-class THM_OrganizerTableRoom_Types extends JTable
+class THM_OrganizerTableRoom_Types extends \Joomla\CMS\Table\Table
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

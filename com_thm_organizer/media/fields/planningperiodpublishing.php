@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
  * planning periods.
  */
-class JFormFieldPlanningPeriodPublishing extends JFormField
+class JFormFieldPlanningPeriodPublishing extends \Joomla\CMS\Form\FormField
 {
     /**
      * @var  string
@@ -28,7 +28,7 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
      */
     protected function getInput()
     {
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
         $periodQuery = $dbo->getQuery(true);
         $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order('startDate ASC');
         $dbo->setQuery($periodQuery);
@@ -59,11 +59,11 @@ class JFormFieldPlanningPeriodPublishing extends JFormField
 
             // Implicitly (new) and explicitly published entries
             if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {
-                $return .= '<option value="1" selected="selected">' . JText::_('JYES') . '</option>';
-                $return .= '<option value="0">' . JText::_('JNO') . '</option>';
+                $return .= '<option value="1" selected="selected">' . \JText::_('JYES') . '</option>';
+                $return .= '<option value="0">' . \JText::_('JNO') . '</option>';
             } else {
-                $return .= '<option value="1">' . JText::_('JYES') . '</option>';
-                $return .= '<option value="0" selected="selected">' . JText::_('JNO') . '</option>';
+                $return .= '<option value="1">' . \JText::_('JYES') . '</option>';
+                $return .= '<option value="0" selected="selected">' . \JText::_('JNO') . '</option>';
             }
 
             $return .= '</select>';

@@ -22,7 +22,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
      *
      * @param int $lessonID the lessonID of the exported course
      *
-     * @throws Exception => invalid request / unauthorized access / not found
+     * @throws \Exception => invalid request / unauthorized access / not found
      */
     public function __construct($lessonID)
     {
@@ -133,7 +133,6 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
             $titleOffset = 0;
         }
 
-
         $this->document->SetFont('', '', 10);
         $this->document->SETXY($center, $yOffset + $titleOffset + 33);
         $dateLine = $this->course['start'] . ' - ' . $this->course['end'];
@@ -182,7 +181,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
      */
     private function addBadgeBack($xOffset, $yOffset)
     {
-        $params = JComponentHelper::getParams('com_thm_organizer');
+        $params = THM_OrganizerHelperComponent::getParams();
 
         $badgeCenter = $xOffset + 5;
 

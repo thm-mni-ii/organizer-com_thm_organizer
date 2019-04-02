@@ -35,7 +35,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return mixed  JForm object on success, False on error.
+     * @return mixed  \JForm object on success, False on error.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -71,7 +71,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
         $allowEdit  = $this->allowEdit();
 
         if (!$allowEdit) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         return $this->item;
@@ -84,14 +84,14 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return JTable  A JTable object
+     * @return \JTable  A \JTable object
      */
     public function getTable($name = '', $prefix = 'THM_OrganizerTable', $options = [])
     {
         $name = str_replace('_edit', '', $this->get('name'));
         $name .= $name == 'campus' ? 'es' : 's';
 
-        return JTable::getInstance($name, $prefix, $options);
+        return \JTable::getInstance($name, $prefix, $options);
     }
 
     /**

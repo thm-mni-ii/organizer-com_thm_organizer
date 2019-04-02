@@ -18,7 +18,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 /**
  * Class creates a select box for (degree) program mappings.
  */
-class JFormFieldPrograms extends JFormField
+class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
 {
     /**
      * @var  string
@@ -47,7 +47,7 @@ class JFormFieldPrograms extends JFormField
             }
         }
 
-        $defaultOptions = ['-1' => JText::_('JNONE')];
+        $defaultOptions = ['-1' => \JText::_('JNONE')];
         $programs       = $defaultOptions + $options;
         $attributes     = ['multiple' => 'multiple', 'size' => '10'];
 
@@ -89,7 +89,7 @@ class JFormFieldPrograms extends JFormField
                         return false;
                     }
 
-                    poolUrl = '<?php echo JUri::root(); ?>index.php?option=com_thm_organizer';
+                    poolUrl = '<?php echo \JUri::root(); ?>index.php?option=com_thm_organizer';
                     poolUrl += '&view=pool_ajax&format=raw&task=parentOptions';
                     poolUrl += "&id=<?php echo $resourceID; ?>";
                     poolUrl += "&type=<?php echo $resourceType; ?>";

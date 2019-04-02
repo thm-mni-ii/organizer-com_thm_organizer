@@ -18,7 +18,7 @@ if (!empty($this->menu)) {
     $menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
 }
 
-$position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition');
+$position = THM_OrganizerHelperComponent::getParams()->get('loginPosition');
 echo '<div class="toolbar">';
 echo $this->languageLinks->render($this->languageParams);
 echo '</div>';
@@ -29,7 +29,7 @@ if (!empty($this->item['name']['value'])) {
 }
 
 if ($this->showRegistration) {
-    if (empty(JFactory::getUser()->id)) {
+    if (empty(\JFactory::getUser()->id)) {
         ?>
         <script type="text/javascript">
             jQuery(document).ready(function () {
@@ -50,7 +50,7 @@ if ($this->showRegistration) {
         echo HTML::_('content.prepare', '{loadposition ' . $position . '}');
         echo '<div class="right">';
         if (!empty($this->menu)) {
-            echo '<a href="' . JRoute::_($this->menu['route'], false) . '" class="btn btn-mini" type="button">';
+            echo '<a href="' . \JRoute::_($this->menu['route'], false) . '" class="btn btn-mini" type="button">';
             echo '<span class="icon-list"></span>' . $menuText . '</a>';
         }
         echo '<a class="btn" onclick="' . $casURL . '">';
@@ -80,7 +80,7 @@ if ($this->showRegistration) {
         echo '</div>';
         echo '<div class="right">';
         if (!empty($this->menu)) {
-            echo '<a href="' . JRoute::_($this->menu['route'], false) . '" class="btn btn-mini" type="button">';
+            echo '<a href="' . \JRoute::_($this->menu['route'], false) . '" class="btn btn-mini" type="button">';
             echo '<span class="icon-list"></span>' . $menuText . '</a>';
         }
         echo HTML::_('content.prepare', '{loadposition ' . $position . '}');

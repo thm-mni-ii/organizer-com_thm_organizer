@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a select box for plan programs.
  */
-class JFormFieldPlanProgramID extends JFormFieldList
+class JFormFieldPlanProgramID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -32,7 +33,7 @@ class JFormFieldPlanProgramID extends JFormFieldList
      */
     protected function getOptions()
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT ppr.id AS value, ppr.name AS text');
         $query->from('#__thm_organizer_plan_programs AS ppr');

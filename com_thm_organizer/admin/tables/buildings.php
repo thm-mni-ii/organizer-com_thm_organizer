@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 require_once 'nullable.php';
 
 /**
- * Class instantiates a JTable Object associated with the buildings table.
+ * Class instantiates a \JTable Object associated with the buildings table.
  */
 class THM_OrganizerTableBuildings extends THM_OrganizerTableNullable
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

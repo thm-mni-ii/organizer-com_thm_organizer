@@ -26,7 +26,7 @@ class THM_OrganizerHelperCampuses
      */
     public static function getLocation($campusID)
     {
-        $table = JTable::getInstance('campuses', 'thm_organizerTable');
+        $table = \JTable::getInstance('campuses', 'thm_organizerTable');
         $table->load($campusID);
 
         return empty($table->location) ? '' : str_replace(' ', '', $table->location);
@@ -47,7 +47,7 @@ class THM_OrganizerHelperCampuses
             return THM_OrganizerHelperLanguage::getLanguage()->_('COM_THM_ORGANIZER_CAMPUS_UNKNOWN');
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("c1.name_$languageTag as name, c2.name_$languageTag as parentName")
             ->from('#__thm_organizer_campuses as c1')
@@ -73,7 +73,7 @@ class THM_OrganizerHelperCampuses
     public static function getOptions($used = false)
     {
         $options = [];
-        $dbo     = JFactory::getDbo();
+        $dbo     = \JFactory::getDbo();
 
         if (!$used) {
             $query = $dbo->getQuery(true);
@@ -130,16 +130,17 @@ class THM_OrganizerHelperCampuses
      *
      * @return string the html output of the pin
      */
-    public static function getPin($input) {
-        $isID = is_int($input);
+    public static function getPin($input)
+    {
+        $isID     = is_int($input);
         $location = $isID ? self::getLocation($input) : $input;
 
         if (!preg_match('/\d{1,2}\.\d{6},[ ]*\d{1,2}\.\d{6}/', $location)) {
             return '';
         }
 
-        $pin    = '<a target="_blank" href="https://www.google.de/maps/place/' . $location . '">';
-        $pin    .= '<span class="icon-location"></span></a>';
+        $pin = '<a target="_blank" href="https://www.google.de/maps/place/' . $location . '">';
+        $pin .= '<span class="icon-location"></span></a>';
 
         return $pin;
     }

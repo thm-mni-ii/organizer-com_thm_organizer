@@ -41,8 +41,8 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        if (empty(JFactory::getUser()->id)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+        if (empty(\JFactory::getUser()->id)) {
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $this->item   = $this->get('Item');
@@ -56,10 +56,10 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
             $this->course['open']      = THM_OrganizerHelperCourses::isRegistrationOpen();
         }
 
-        $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
-        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
-        $courseID = empty($this->course) ? 0 : $this->course['id'];
-        $this->languageParams   = ['lessonID' => $courseID, 'view' => 'participant_edit'];
+        $this->lang           = THM_OrganizerHelperLanguage::getLanguage();
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $courseID             = empty($this->course) ? 0 : $this->course['id'];
+        $this->languageParams = ['lessonID' => $courseID, 'view' => 'participant_edit'];
 
         $this->modifyDocument();
 
@@ -75,6 +75,6 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
     {
         HTML::_('bootstrap.tooltip');
 
-        JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/participant_edit.css');
+        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/participant_edit.css');
     }
 }

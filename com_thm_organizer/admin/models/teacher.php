@@ -36,15 +36,15 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
     /**
      * Method to get a table object, load it if necessary.
      *
-     * @param   string $name    The table name. Optional.
-     * @param   string $prefix  The class prefix. Optional.
-     * @param   array  $options Configuration array for model. Optional.
+     * @param string $name    The table name. Optional.
+     * @param string $prefix  The class prefix. Optional.
+     * @param array  $options Configuration array for model. Optional.
      *
      * @return  \JTable  A \JTable object
      */
     public function getTable($name = 'teachers', $prefix = 'thm_organizerTable', $options = [])
     {
-        return JTable::getInstance($name, $prefix, $options);
+        return \JTable::getInstance($name, $prefix, $options);
     }
 
     /**

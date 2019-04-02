@@ -18,7 +18,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class creates a select box for predefined colors.
  */
-class JFormFieldColorID extends JFormField
+class JFormFieldColorID extends \Joomla\CMS\Form\FormField
 {
     /**
      * Type
@@ -42,7 +42,7 @@ class JFormFieldColorID extends JFormField
             $selectedFields = [$fieldID];
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT c.id, c.name_de, c.name_en, c.color, f.id AS fieldID");
         $query->from(' #__thm_organizer_colors as c');
@@ -89,7 +89,7 @@ class JFormFieldColorID extends JFormField
 
         if (!count($options) or !$merge) {
             $selectNone = $hasSelected ? '' : 'selected="selected"';
-            $none       = '<option ' . $selectNone . ' value="">' . JText::_('JNONE') . '</option>';
+            $none       = '<option ' . $selectNone . ' value="">' . \JText::_('JNONE') . '</option>';
             $options    = array_merge([$none], $options);
         }
 

@@ -34,7 +34,7 @@ class THM_OrganizerViewPool_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,15 +47,15 @@ class THM_OrganizerViewPool_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        $baseTitle = JText::_('COM_THM_ORGANIZER_POOL_MANAGER_VIEW_TITLE');
+        $baseTitle = \JText::_('COM_THM_ORGANIZER_POOL_MANAGER_VIEW_TITLE');
         $title     = empty($this->programName) ? $baseTitle : $baseTitle . ' - ' . $this->programName;
-        JToolbarHelper::title($title, 'organizer_pools');
-        JToolbarHelper::addNew('pool.add');
-        JToolbarHelper::editList('pool.edit');
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'pool.delete');
+        \JToolbarHelper::title($title, 'organizer_pools');
+        \JToolbarHelper::addNew('pool.add');
+        \JToolbarHelper::editList('pool.edit');
+        \JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'pool.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::preferences('com_thm_organizer');
+            \JToolbarHelper::preferences('com_thm_organizer');
         }
     }
 }

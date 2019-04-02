@@ -41,7 +41,7 @@ class THM_OrganizerModelRoom_Manager extends THM_OrganizerModelList
     /**
      * Method to get all rooms from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {

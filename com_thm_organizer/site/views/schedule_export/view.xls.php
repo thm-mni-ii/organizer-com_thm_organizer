@@ -31,7 +31,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 
         $fileName = $parameters['documentFormat'] . '_' . $parameters['xlsWeekFormat'];
         require_once __DIR__ . "/tmpl/$fileName.php";
-        $export = new THM_OrganizerTemplateExport_XLS($parameters, $model->lessons);
+        $export = new \THM_OrganizerTemplateExport_XLS($parameters, $model->lessons);
         $export->render();
         ob_flush();
     }

@@ -34,7 +34,7 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,13 +47,13 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_VIEW_TITLE'), 'organizer_departments');
-        JToolbarHelper::addNew('department.add');
-        JToolbarHelper::editList('department.edit');
-        JToolbarHelper::deleteList('', 'department.delete');
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_DEPARTMENT_MANAGER_VIEW_TITLE'), 'organizer_departments');
+        \JToolbarHelper::addNew('department.add');
+        \JToolbarHelper::editList('department.edit');
+        \JToolbarHelper::deleteList('', 'department.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::preferences('com_thm_organizer');
+            \JToolbarHelper::preferences('com_thm_organizer');
         }
     }
 }

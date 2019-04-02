@@ -17,7 +17,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Retrieves lesson and event data for a filtered set of rooms.
  */
-class THM_OrganizerModelRoom_Overview extends JModelForm
+class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
 {
     const DAY = 1;
     const WEEK = 2;
@@ -53,10 +53,10 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
     /**
      * Method to get the form
      *
-     * @param  array   $data     Data for the form.
-     * @param  boolean $loadData True if the form is to load its own data (default case), false if not.
+     * @param array   $data     Data for the form.
+     * @param boolean $loadData True if the form is to load its own data (default case), false if not.
      *
-     * @return JForm|boolean  A JForm object on success, false on failure
+     * @return \JForm|boolean  A \JForm object on success, false on failure
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -78,15 +78,12 @@ class THM_OrganizerModelRoom_Overview extends JModelForm
      */
     protected function populateState()
     {
-        $app           = THM_OrganizerHelperComponent::getApplication();
-        $format        = $app->getParams()->get('dateFormat', 'd.m.Y');
-        $formData      = $app->input->get('jform', [], 'array');
+        $input         = THM_OrganizerHelperComponent::getInput();
+        $params        = THM_OrganizerHelperComponent::getParams();
+        $format        = $params->get('dateFormat', 'd.m.Y');
+        $formData      = $input->get('jform', [], 'array');
         $defaultDate   = date($format);
-        $defaultCampus = 0;
-
-        if (!empty($app->getMenu()) and !empty($app->getMenu()->getActive())) {
-            $defaultCampus = $app->getMenu()->getActive()->params->get('campusID', 0);
-        }
+        $defaultCampus = $params->get('campusID', 0);
 
         if (empty($formData)) {
             $formData['template']   = self::DAY;

@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 /**
  * Class loads a form for editing participant data.
  */
-class THM_OrganizerModelParticipant_Edit extends JModelForm
+class THM_OrganizerModelParticipant_Edit extends \Joomla\CMS\MVC\Model\FormModel
 {
     /**
      * Loads user registration information from the database
@@ -24,7 +24,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
     public function getItem()
     {
         $query  = $this->_db->getQuery(true);
-        $userID = JFactory::getUser()->id;
+        $userID = \JFactory::getUser()->id;
 
         $query->select('u.id, p.address, p.zip_code, p.city, p.programID, p.forename, p.surname');
         $query->from('#__users AS u');
@@ -35,7 +35,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
 
         $item = THM_OrganizerHelperComponent::executeQuery('loadObject');
 
-        return empty($item->id) ? new stdClass : $item;
+        return empty($item->id) ? new \stdClass : $item;
     }
 
     /**
@@ -44,7 +44,7 @@ class THM_OrganizerModelParticipant_Edit extends JModelForm
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return mixed  JForm object on success, False on error.
+     * @return mixed  \JForm object on success, False on error.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

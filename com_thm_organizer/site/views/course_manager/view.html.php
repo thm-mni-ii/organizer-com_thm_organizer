@@ -39,7 +39,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Method to get display
      *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
      * @throws Exception => unauthorized access
@@ -50,7 +50,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $lessonID   = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
 
         if (empty($lessonID) or !THM_OrganizerHelperCourses::authorized($lessonID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $this->course                 = THM_OrganizerHelperCourses::getCourse();
@@ -80,8 +80,8 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $this->prepareLabel('subject');
         $this->prepareLabel('text');
 
-        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
-        $this->languageParams   = ['lessonID' => $courseID, 'view' => 'course_manager'];
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams = ['lessonID' => $courseID, 'view' => 'course_manager'];
         $this->modifyDocument();
         THM_OrganizerHelperComponent::addMenuParameters($this);
 
@@ -97,12 +97,12 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
     {
         HTML::_('bootstrap.tooltip');
 
-        $document = JFactory::getDocument();
+        $document = \JFactory::getDocument();
         $document->addScriptDeclaration(
             "var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
         );
-        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
+        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
     }
 
     /**

@@ -41,7 +41,7 @@ class THM_OrganizerModelProgram_Manager extends THM_OrganizerModelList
     /**
      * Method to determine all majors
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {

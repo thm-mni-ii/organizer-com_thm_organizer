@@ -45,11 +45,11 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
-        $this->languageTag      = THM_OrganizerHelperLanguage::getShortTag();
-        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
-        $this->query            = THM_OrganizerHelperComponent::getInput()->getString('search', '');
-        $this->results          = $this->getModel()->getResults();
+        $this->lang          = THM_OrganizerHelperLanguage::getLanguage();
+        $this->languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+        $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->query         = THM_OrganizerHelperComponent::getInput()->getString('search', '');
+        $this->results       = $this->getModel()->getResults();
 
         $this->modifyDocument();
         parent::display($tpl);
@@ -66,8 +66,8 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('jquery.ui');
 
-        $document = JFactory::getDocument();
+        $document = \JFactory::getDocument();
         $document->setTitle($this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'));
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/search.css');
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/search.css');
     }
 }

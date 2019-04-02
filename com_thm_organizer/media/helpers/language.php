@@ -10,16 +10,15 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Provides general functions for language data retrieval and display.
  */
-class THM_OrganizerHelperLanguage extends JLanguage
+class THM_OrganizerHelperLanguage extends \Joomla\CMS\Language\Language
 {
     /**
      * Sets the Joomla Language based on input from the language switch
      *
-     * @return JLanguage
+     * @return \JLanguage
      */
     public static function getLanguage()
     {
@@ -29,15 +28,15 @@ class THM_OrganizerHelperLanguage extends JLanguage
         if (in_array($requested, $supportedLanguages)) {
             switch ($requested) {
                 case 'de':
-                    $lang = new JLanguage('de-DE');
+                    $lang = new \JLanguage('de-DE');
                     break;
                 case 'en':
                 default:
-                    $lang = new JLanguage('en-GB');
+                    $lang = new \JLanguage('en-GB');
                     break;
             }
         } else {
-            $lang = new JLanguage('en-GB');
+            $lang = new \JLanguage('en-GB');
         }
 
         $lang->load('com_thm_organizer');
@@ -69,7 +68,7 @@ class THM_OrganizerHelperLanguage extends JLanguage
             return $requestedTag;
         }
 
-        $fullTag    = JFactory::getLanguage()->getTag();
+        $fullTag    = \JFactory::getLanguage()->getTag();
         $defaultTag = explode('-', $fullTag)[0];
         $menu       = $app->getMenu();
 

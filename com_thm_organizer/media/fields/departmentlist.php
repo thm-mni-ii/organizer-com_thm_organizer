@@ -13,7 +13,8 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 
@@ -23,7 +24,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
  * @todo Does this need its own field? Can the js not just be included with the schedule? Is the normal js field not
  *       adequate for the selection itself?
  */
-class JFormFieldDepartmentList extends JFormFieldList
+class JFormFieldDepartmentList extends \JFormFieldList
 {
     /**
      * Type
@@ -40,7 +41,7 @@ class JFormFieldDepartmentList extends JFormFieldList
      */
     protected function getInput()
     {
-        JFactory::getDocument()->addScript(JUri::root() . '/media/com_thm_organizer/js/departmentlist.js');
+        \JFactory::getDocument()->addScript(\JUri::root() . '/media/com_thm_organizer/js/departmentlist.js');
 
         return parent::getInput();
     }

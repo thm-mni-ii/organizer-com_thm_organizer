@@ -40,7 +40,7 @@ class THM_OrganizerModelDegree_Manager extends THM_OrganizerModelList
     /**
      * Method to select all degree rows from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {

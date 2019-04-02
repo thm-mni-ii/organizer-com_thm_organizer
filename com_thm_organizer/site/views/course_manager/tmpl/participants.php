@@ -45,7 +45,7 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
             'room'       => $this->lang->_('COM_THM_ORGANIZER_ROOM')
         ];
 
-        $this->widths     = [
+        $this->widths = [
             'index'      => 8,
             'name'       => 79,
             'department' => 28,
@@ -53,11 +53,10 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
             'room'       => 25
         ];
 
-
         if ($feeApplies) {
             $this->columnHeaders['paid'] = $this->lang->_('COM_THM_ORGANIZER_PAID');
-            $this->widths['name'] = 59;
-            $this->widths['paid'] = 20;
+            $this->widths['name']        = 59;
+            $this->widths['paid']        = 20;
         }
 
         $this->createParticipantTable();
@@ -76,7 +75,7 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
     {
         $this->addPage();
 
-        $itemNo = 1;
+        $itemNo       = 1;
         $participants = $this->course['participants'];
 
         foreach ($participants as $participant) {
@@ -155,7 +154,8 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
      *
      * @return void
      */
-    private function addPage() {
+    private function addPage()
+    {
         $this->document->AddPage();
 
         // create the column headers for the page

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use \THM_OrganizerHelperHTML as HTML;
 
 $logoURL = 'media/com_thm_organizer/images/thm_organizer.png';
-$logo    = HTML::_('image', $logoURL, JText::_('COM_THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);
+$logo    = HTML::_('image', $logoURL, \JText::_('COM_THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);
 ?>
 <div id="j-main-container" class="span5">
     <div class="span10 form-vertical actions">

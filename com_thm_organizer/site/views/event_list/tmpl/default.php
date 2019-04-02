@@ -9,6 +9,7 @@
  */
 
 defined('_JEXEC') or die;
+
 use \THM_OrganizerHelperHTML as HTML;
 
 $showHeading = $this->model->params->get('show_page_heading', '');
@@ -51,19 +52,19 @@ if (!empty($showHeading)) {
     </form>
 <?php
 
-if (empty($this->model->events)){
-    echo '<h3 class="no-entries-found"> ' . JText::_('COM_THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
+if (empty($this->model->events)) {
+    echo '<h3 class="no-entries-found"> ' . \JText::_('COM_THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
 }
 
 foreach ($this->model->events as $date => $times) {
     echo '<div class="event-date">';
     echo '<div class="event-date-head">' . THM_OrganizerHelperDate::formatDate($date) . '</div>';
     echo '<table><thead><tr class="list-head">';
-    echo '<th class="time-column">' . JText::_('COM_THM_ORGANIZER_TIMES') . '</th>';
-    echo '<th class="name-column">' . JText::_('COM_THM_ORGANIZER_EVENT') . '</th>';
-    echo '<th class="teachers-column">' . JText::_('COM_THM_ORGANIZER_TEACHERS') . '</th>';
-    echo '<th class="rooms-column">' . JText::_('COM_THM_ORGANIZER_ROOMS') . '</th>';
-    echo '<th class="org-column">' . JText::_('COM_THM_ORGANIZER_ORGANIZATION') . '</th>';
+    echo '<th class="time-column">' . \JText::_('COM_THM_ORGANIZER_TIMES') . '</th>';
+    echo '<th class="name-column">' . \JText::_('COM_THM_ORGANIZER_EVENT') . '</th>';
+    echo '<th class="teachers-column">' . \JText::_('COM_THM_ORGANIZER_TEACHERS') . '</th>';
+    echo '<th class="rooms-column">' . \JText::_('COM_THM_ORGANIZER_ROOMS') . '</th>';
+    echo '<th class="org-column">' . \JText::_('COM_THM_ORGANIZER_ORGANIZATION') . '</th>';
     echo '</tr></thead>';
 
     $rowNumber = 0;

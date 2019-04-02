@@ -24,13 +24,13 @@ class THM_OrganizerViewCampus_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::save('campus.save');
+        \JToolbarHelper::save('campus.save');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_NEW_TITLE'), 'organizer_campuses');
-            JToolbarHelper::cancel('campus.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_NEW_TITLE'), 'organizer_campuses');
+            \JToolbarHelper::cancel('campus.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_EDIT_TITLE'), 'organizer_campuses');
-            JToolbarHelper::cancel('campus.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_CAMPUS_EDIT_EDIT_TITLE'), 'organizer_campuses');
+            \JToolbarHelper::cancel('campus.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

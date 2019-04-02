@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 
@@ -52,7 +51,7 @@ class THM_OrganizerModelTeacher_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
 
         $boundarySet = THM_OrganizerHelperMapping::getBoundaries($resourceType, $resourceID);
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT t.id, t.forename, t.surname')->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id');

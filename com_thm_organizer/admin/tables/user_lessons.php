@@ -11,12 +11,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Class instantiates a JTable Object associated with the user_lessons table.
+ * Class instantiates a \JTable Object associated with the user_lessons table.
  */
-class THM_OrganizerTableUser_Lessons extends JTable
+class THM_OrganizerTableUser_Lessons extends \Joomla\CMS\Table\Table
 {
     /**
      * fields get encoded by binding, when values are arrays
@@ -28,7 +26,7 @@ class THM_OrganizerTableUser_Lessons extends JTable
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

@@ -34,7 +34,7 @@ class THM_OrganizerViewField_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,11 +47,11 @@ class THM_OrganizerViewField_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_VIEW_TITLE'), 'organizer_fields');
-        JToolbarHelper::addNew('field.add');
-        JToolbarHelper::editList('field.edit');
-        JToolbarHelper::custom('field.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'field.delete');
-        JToolbarHelper::preferences('com_thm_organizer');
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_FIELD_MANAGER_VIEW_TITLE'), 'organizer_fields');
+        \JToolbarHelper::addNew('field.add');
+        \JToolbarHelper::editList('field.edit');
+        \JToolbarHelper::custom('field.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        \JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'field.delete');
+        \JToolbarHelper::preferences('com_thm_organizer');
     }
 }

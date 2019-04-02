@@ -30,7 +30,7 @@ class THM_OrganizerHelperRooms
      */
     public static function getID($gpuntisID, $data)
     {
-        $roomTable    = JTable::getInstance('rooms', 'thm_organizerTable');
+        $roomTable    = \JTable::getInstance('rooms', 'thm_organizerTable');
         $loadCriteria = ['gpuntisID' => $gpuntisID];
 
         try {
@@ -41,7 +41,7 @@ class THM_OrganizerHelperRooms
             return null;
         }
 
-        $buildingREGEX = JComponentHelper::getParams('com_thm_organizer')->get('buildingRegex');
+        $buildingREGEX = THM_OrganizerHelperComponent::getParams()->get('buildingRegex');
 
         if (!empty($buildingREGEX) and !empty($data->name)) {
             $matchFound = preg_match("/$buildingREGEX/", $data->name, $matches);
@@ -76,7 +76,7 @@ class THM_OrganizerHelperRooms
      */
     public static function getName($roomID)
     {
-        $roomTable = JTable::getInstance('rooms', 'thm_organizerTable');
+        $roomTable = \JTable::getInstance('rooms', 'thm_organizerTable');
 
         try {
             $success = $roomTable->load($roomID);
@@ -104,7 +104,7 @@ class THM_OrganizerHelperRooms
         }
 
         $app           = THM_OrganizerHelperComponent::getApplication();
-        $dbo           = JFactory::getDbo();
+        $dbo           = \JFactory::getDbo();
         $relevantRooms = [];
 
         $selectedDepartment = $app->input->getInt('departmentIDs');
@@ -173,7 +173,7 @@ class THM_OrganizerHelperRooms
         $inputRooms = (array)$input->getInt('roomID', $input->getInt('roomIDs'));
         $roomIDs    = empty($formData['rooms']) ? $inputRooms : $formData['rooms'];
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT r.id, r.*, rt.name_$shortTag AS typeName, rt.description_$shortTag AS typeDesc")
             ->from('#__thm_organizer_rooms AS r')

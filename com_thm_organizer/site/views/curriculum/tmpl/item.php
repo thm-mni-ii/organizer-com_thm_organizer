@@ -21,7 +21,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
      * Generates the HTML output for a main panel element
      *
      * @param object  &$element the element to be rendered
-     * @param integer $width    the width of the element to be displayed
+     * @param integer  $width   the width of the element to be displayed
      *
      * @return void  generates HTML output
      */
@@ -61,7 +61,7 @@ class THM_OrganizerTemplateCurriculumItemPanel
                 }
                 if (!empty($element->children)) {
                     $script = 'onclick="toggleGroupDisplay(\'#panel-' . $element->mapping . '\')"';
-                    echo '<a class="btn hasTooltip" ' . $script . ' title="' . JText::_('COM_THM_ORGANIZER_ACTION_OPEN_POOL') . '">';
+                    echo '<a class="btn hasTooltip" ' . $script . ' title="' . \JText::_('COM_THM_ORGANIZER_ACTION_OPEN_POOL') . '">';
                     echo '<icon class="icon-grid-view-2"></icon></a>';
                     THM_OrganizerTemplateCurriculumPanel::render($element);
                 }

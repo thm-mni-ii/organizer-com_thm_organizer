@@ -31,7 +31,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
         $programIDs     = explode(',', $input->getString('programIDs', ''));
         $programEntries = $this->getProgramEntries($programIDs);
         $options        = [];
-        $options[]      = '<option value="-1">' . JText::_('JNONE') . '</option>';
+        $options[]      = '<option value="-1">' . \JText::_('JNONE') . '</option>';
 
         $invalidRequest = (empty($resourceID) or empty($resourceType));
         $none           = ($invalidRequest or empty($programEntries));
@@ -90,9 +90,9 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
      * Retrieves an array of mappings which should not be available for selection
      * as the parent of the resource
      *
-     * @param array  &$mappings    the existing mappings of the resource
-     * @param array  &$mappingIDs  the mapping ids for the resource
-     * @param string $resourceType the resource's type
+     * @param array  &$mappings     the existing mappings of the resource
+     * @param array  &$mappingIDs   the mapping ids for the resource
+     * @param string  $resourceType the resource's type
      *
      * @return array  the ids which should be unselectable
      */
@@ -114,7 +114,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
      * @param array   &$programMappings     mappings belonging to one of the requested programs
      * @param array   &$unelectableMappings mappings which would lead to data inconsistency
      * @param array   &$parentIDs           previously mapped parents
-     * @param boolean $resourceType         the resource's type
+     * @param boolean  $resourceType        the resource's type
      *
      * @return void
      */

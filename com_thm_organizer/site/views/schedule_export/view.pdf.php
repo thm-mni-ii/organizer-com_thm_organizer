@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 
-
 /**
  * Class creates a PDF file for the display of the filtered schedule information.
  */
@@ -24,7 +23,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Sets context variables and renders the view.
      *
-     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
      * @throws Exception => library missing
@@ -46,7 +45,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 
         $fileName = "{$parameters['documentFormat']}_{$parameters['displayFormat']}_{$parameters['pdfWeekFormat']}";
         require_once __DIR__ . "/tmpl/$fileName.php";
-        new THM_OrganizerTemplateSchedule_Export_PDF($parameters, $lessons, $grid);
+        new \THM_OrganizerTemplateSchedule_Export_PDF($parameters, $lessons, $grid);
     }
 
     /**
@@ -60,7 +59,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $this->compiler = jimport('tcpdf.tcpdf');
 
         if (!$this->compiler) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_501'), 501);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_501'), 501);
         }
 
         return true;

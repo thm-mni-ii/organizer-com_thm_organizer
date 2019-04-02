@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
  */
-class JFormFieldChildren extends JFormField
+class JFormFieldChildren extends \Joomla\CMS\Form\FormField
 {
     /**
      * Type
@@ -31,9 +31,9 @@ class JFormFieldChildren extends JFormField
     {
         $children = $this->getChildren();
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . 'media/com_thm_organizer/css/children.css');
-        $document->addScript(JUri::root() . 'media/com_thm_organizer/js/children.js');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . 'media/com_thm_organizer/css/children.css');
+        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/children.js');
 
         return $this->getHTML($children);
     }
@@ -51,7 +51,7 @@ class JFormFieldChildren extends JFormField
         // Option.View
         $resourceType = str_replace('_edit', '', $contextParts[1]);
 
-        $dbo     = JFactory::getDbo();
+        $dbo     = \JFactory::getDbo();
         $idQuery = $dbo->getQuery(true);
         $idQuery->select('id')->from('#__thm_organizer_mappings');
         $idQuery->where("{$resourceType}ID = '$resourceID'");
@@ -119,9 +119,9 @@ class JFormFieldChildren extends JFormField
      */
     private function getResourceName($resourceID, $resourceType)
     {
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
-        $language = explode('-', JFactory::getLanguage()->getTag());
+        $language = explode('-', \JFactory::getLanguage()->getTag());
 
         $query->select("name_{$language[0]}");
         $query->from("#__thm_organizer_{$resourceType}s");
@@ -142,22 +142,22 @@ class JFormFieldChildren extends JFormField
     {
         $html = '<table id="childList" class="table table-striped">';
         $html .= '<thead><tr>';
-        $html .= '<th>' . JText::_('COM_THM_ORGANIZER_NAME') . '</th>';
-        $html .= '<th class="thm_organizer_pools_ordering">' . JText::_('COM_THM_ORGANIZER_ORDER') . '</th>';
+        $html .= '<th>' . \JText::_('COM_THM_ORGANIZER_NAME') . '</th>';
+        $html .= '<th class="thm_organizer_pools_ordering">' . \JText::_('COM_THM_ORGANIZER_ORDER') . '</th>';
         $html .= '</tr></thead>';
         $html .= '<tbody>';
 
-        $addSpace = JText::_('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
-        JText::script('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
-        $makeFirst = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
-        JText::script('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
-        $makeLast = JText::_('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
-        JText::script('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
-        $moveChildUp = JText::_('JLIB_HTML_MOVE_UP');
-        JText::script('JLIB_HTML_MOVE_UP');
-        $moveChildDown = JText::_('JLIB_HTML_MOVE_DOWN');
-        JText::script('JLIB_HTML_MOVE_DOWN');
-        JText::script('JTOOLBAR_DELETE');
+        $addSpace = \JText::_('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
+        \JText::script('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
+        $makeFirst = \JText::_('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
+        \JText::script('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
+        $makeLast = \JText::_('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
+        \JText::script('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
+        $moveChildUp = \JText::_('JLIB_HTML_MOVE_UP');
+        \JText::script('JLIB_HTML_MOVE_UP');
+        $moveChildDown = \JText::_('JLIB_HTML_MOVE_DOWN');
+        \JText::script('JLIB_HTML_MOVE_DOWN');
+        \JText::script('JTOOLBAR_DELETE');
 
         $rowClass = 'row0';
         if (!empty($children)) {
@@ -166,7 +166,7 @@ class JFormFieldChildren extends JFormField
                 if (isset($children[$ordering])) {
                     $childID = $children[$ordering]['id'];
                     $name    = $children[$ordering]['name'];
-                    $link    = JRoute::_($children[$ordering]['link'], false);
+                    $link    = \JRoute::_($children[$ordering]['link'], false);
                 } else {
                     $link = $name = $childID = '';
                 }
@@ -203,7 +203,7 @@ class JFormFieldChildren extends JFormField
                 $blank .= '<span class="icon-download"></span>';
                 $blank .= '</button>';
 
-                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . JText::_('JTOOLBAR_DELETE') . '" >';
+                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . \JText::_('JTOOLBAR_DELETE') . '" >';
                 $trash .= '<span class="icon-trash"></span>';
                 $trash .= '</button>';
 

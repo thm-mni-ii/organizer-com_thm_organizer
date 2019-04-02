@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a form field for building selection.
  */
-class JFormFieldBuildingID extends JFormFieldList
+class JFormFieldBuildingID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -38,7 +39,7 @@ class JFormFieldBuildingID extends JFormFieldList
         $formData       = $input->get('jform', [], 'array');
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT b.id, b.name, c.id AS campusID, c.parentID');

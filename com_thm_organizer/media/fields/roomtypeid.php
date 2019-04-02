@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class creates a form field for room type selection
  */
-class JFormFieldRoomTypeID extends JFormFieldList
+class JFormFieldRoomTypeID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -39,7 +40,7 @@ class JFormFieldRoomTypeID extends JFormFieldList
         $buildingID     = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query->select("DISTINCT rt.id, rt.name_$shortTag AS name")
@@ -78,7 +79,6 @@ class JFormFieldRoomTypeID extends JFormFieldList
                 $options[] = HTML::_('select.option', $type['id'], $type['name']);
             }
         }
-
 
         return array_merge($defaultOptions, $options);
     }

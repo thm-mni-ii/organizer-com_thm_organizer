@@ -15,7 +15,6 @@ require_once 'date.php';
 require_once 'language.php';
 require_once 'programs.php';
 
-
 /**
  * Provides general functions for (subject) pool access checks, data retrieval and display.
  */
@@ -60,7 +59,7 @@ class THM_OrganizerHelperPools
      */
     public static function getID($gpuntisID)
     {
-        $table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+        $table  = \JTable::getInstance('plan_pools', 'thm_organizerTable');
         $data   = ['gpuntisID' => $gpuntisID];
         $exists = $table->load($data);
 
@@ -76,7 +75,7 @@ class THM_OrganizerHelperPools
      */
     public static function getFullName($poolID)
     {
-        $table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+        $table  = \JTable::getInstance('plan_pools', 'thm_organizerTable');
         $exists = $table->load($poolID);
 
         return $exists ? $table->full_name : '';
@@ -93,13 +92,13 @@ class THM_OrganizerHelperPools
     public static function getName($poolID, $type = 'plan')
     {
         if ($type == 'plan') {
-            $table  = JTable::getInstance('plan_pools', 'thm_organizerTable');
+            $table  = \JTable::getInstance('plan_pools', 'thm_organizerTable');
             $exists = $table->load($poolID);
 
             return $exists ? $table->name : '';
         }
 
-        $table  = JTable::getInstance('pools', 'thm_organizerTable');
+        $table  = \JTable::getInstance('pools', 'thm_organizerTable');
         $exists = $table->load($poolID);
 
         if (!$exists) {
@@ -127,7 +126,7 @@ class THM_OrganizerHelperPools
      */
     public static function getPlanPools($short = true)
     {
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select('ppl.id, ppl.name, ppl.full_name');
@@ -193,7 +192,7 @@ class THM_OrganizerHelperPools
 
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT l.id, l.comment, ls.subjectID, m.abbreviation_$languageTag AS method")
@@ -284,7 +283,7 @@ class THM_OrganizerHelperPools
             $interval = 'semester';
         }
 
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT ls.subjectID')
@@ -367,7 +366,7 @@ class THM_OrganizerHelperPools
         $data['full_name'] = $pool->longname;
         $data['gridID']    = $pool->gridID;
 
-        $table   = JTable::getInstance('plan_pools', 'thm_organizerTable');
+        $table   = \JTable::getInstance('plan_pools', 'thm_organizerTable');
         $success = $table->save($data);
 
         return $success ? $table->id : null;

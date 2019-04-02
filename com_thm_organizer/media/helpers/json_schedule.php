@@ -50,7 +50,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      * Adds a configuration to the configurations array, and adds it's index from that array to the array of
      * configurations for the active instance.
      *
-     * @param string $configuration   the configuration object as a string
+     * @param string  $configuration  the configuration object as a string
      * @param array  &$configurations the array holding configurations
      * @param object &$activeInstance the instance object currently being processed
      *
@@ -135,7 +135,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             unset($pullConfig->lessonID, $pullConfig->subjectID);
             $pullConfig   = json_encode($pullConfig);
             $configData   = ['lessonID' => $lessonSubjectID, 'configuration' => $pullConfig];
-            $configsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
+            $configsTable = \JTable::getInstance('lesson_configurations', 'thm_organizerTable');
             $exists       = $configsTable->load($configData);
 
             if ($exists) {
@@ -159,7 +159,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             $lessonsData['departmentID']     = $this->schedule->departmentID;
             $lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
 
-            $lessonsTable = JTable::getInstance('lessons', 'thm_organizerTable');
+            $lessonsTable = \JTable::getInstance('lessons', 'thm_organizerTable');
             $lessonExists = $lessonsTable->load($lessonsData);
 
             // Should not occur
@@ -203,7 +203,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
 
                 foreach ($instanceConfigs as $configID) {
                     $mapData  = ['calendarID' => $calendarID, 'configurationID' => $configID];
-                    $mapTable = JTable::getInstance('calendar_configuration_map', 'thm_organizerTable');
+                    $mapTable = \JTable::getInstance('calendar_configuration_map', 'thm_organizerTable');
                     $mapTable->load($mapData);
                     $success = $mapTable->save($mapData);
 
@@ -469,7 +469,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
                     $lessonsData['departmentID']     = $this->schedule->departmentID;
                     $lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
 
-                    $lessonsTable = JTable::getInstance('lessons', 'thm_organizerTable');
+                    $lessonsTable = \JTable::getInstance('lessons', 'thm_organizerTable');
                     $lessonsTable->load($lessonsData);
 
                     if (empty($lessonsTable->id)) {
@@ -477,7 +477,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
                     }
 
                     $calData['lessonID'] = $lessonsTable->id;
-                    $calendarTable       = JTable::getInstance('calendar', 'thm_organizerTable');
+                    $calendarTable       = \JTable::getInstance('calendar', 'thm_organizerTable');
 
                     $calendarTable->load($calData);
                     $calData['delta'] = $instanceData->delta;
@@ -539,7 +539,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             $lessonsData['departmentID']     = $this->schedule->departmentID;
             $lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
 
-            $lessonsTable = JTable::getInstance('lessons', 'thm_organizerTable');
+            $lessonsTable = \JTable::getInstance('lessons', 'thm_organizerTable');
             $lessonsTable->load($lessonsData);
 
             if (empty($lessonsTable->id)) {
@@ -550,7 +550,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             $lSubjectsData['lessonID']  = $lessonsTable->id;
             $lSubjectsData['subjectID'] = $config->subjectID;
 
-            $lSubjectsTable = JTable::getInstance('lesson_subjects', 'thm_organizerTable');
+            $lSubjectsTable = \JTable::getInstance('lesson_subjects', 'thm_organizerTable');
             $lSubjectsTable->load($lSubjectsData);
 
             if (empty($lSubjectsTable->id)) {
@@ -561,7 +561,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             unset($config->lessonID, $config->subjectID);
 
             $configData    = ['lessonID' => $lSubjectsTable->id, 'configuration' => json_encode($config)];
-            $lConfigsTable = JTable::getInstance('lesson_configurations', 'thm_organizerTable');
+            $lConfigsTable = \JTable::getInstance('lesson_configurations', 'thm_organizerTable');
             $lConfigsTable->load($configData);
             $success = $lConfigsTable->save($configData);
             if (!$success) {
@@ -583,7 +583,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $planningPeriodID = $this->schedule->planningPeriodID;
         foreach ($this->schedule->lessons as $gpuntisID => $lesson) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = JTable::getInstance('lessons', 'thm_organizerTable');
+            $table = \JTable::getInstance('lessons', 'thm_organizerTable');
 
             $data                     = [];
             $data['gpuntisID']        = $gpuntisID;
@@ -640,7 +640,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
 
         foreach ($pools as $poolID => $delta) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = JTable::getInstance('lesson_pools', 'thm_organizerTable');
+            $table = \JTable::getInstance('lesson_pools', 'thm_organizerTable');
 
             $data              = [];
             $data['subjectID'] = $lessonSubjectID;
@@ -689,7 +689,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
 
         foreach ($subjects as $subjectID => $subjectData) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = JTable::getInstance('lesson_subjects', 'thm_organizerTable');
+            $table = \JTable::getInstance('lesson_subjects', 'thm_organizerTable');
 
             $data              = [];
             $data['lessonID']  = $lessonID;
@@ -747,7 +747,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
 
         foreach (array_keys((array)$teachers) as $teacherID) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = JTable::getInstance('lesson_teachers', 'thm_organizerTable');
+            $table = \JTable::getInstance('lesson_teachers', 'thm_organizerTable');
 
             $data              = [];
             $data['subjectID'] = $subjectID;
@@ -820,7 +820,7 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         }
 
         $data  = ['subjectID' => $subjectID, 'plan_subjectID' => $planSubjectID];
-        $table = JTable::getInstance('subject_mappings', 'thm_organizerTable');
+        $table = \JTable::getInstance('subject_mappings', 'thm_organizerTable');
         $table->load($data);
         $table->save($data);
     }
@@ -948,9 +948,9 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     /**
      * Sets the configurations for the instance being iterated
      *
-     * @param object &$instance      the instance being iterated
-     * @param array  $configurations the array holding the configurations
-     * @param string $source         [schedule|refSchedule]
+     * @param object &$instance       the instance being iterated
+     * @param array   $configurations the array holding the configurations
+     * @param string  $source         [schedule|refSchedule]
      */
     private function setConfigurations(&$instance, &$configurations, $source)
     {
@@ -968,9 +968,9 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     /**
      * Sets the configuration references for the instance being iterated
      *
-     * @param object $referenceInstance the old instance data
-     * @param object &$activeInstance   the active instance data
-     * @param array  $configurations    the array holding the configurations
+     * @param object  $referenceInstance the old instance data
+     * @param object &$activeInstance    the active instance data
+     * @param array   $configurations    the array holding the configurations
      *
      * @return void modifies $activeInstance and $configurations
      */
@@ -1182,12 +1182,12 @@ class THM_OrganizerModelJSONSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $source = $status == 'new' ? 'schedule' : 'refSchedule';
 
         if (empty($this->schedule->calendar->$date)) {
-            $this->schedule->calendar->$date = new stdClass;
+            $this->schedule->calendar->$date = new \stdClass;
         }
 
         foreach ($times as $time) {
             if (empty($this->schedule->calendar->$date->$time)) {
-                $this->schedule->calendar->$date->$time = new stdClass;
+                $this->schedule->calendar->$date->$time = new \stdClass;
             }
             $lessonIDs = array_keys((array)$this->$source->calendar->$date->$time);
             $this->transferInstances($lessonIDs, $status, $date, $time, $configurations);

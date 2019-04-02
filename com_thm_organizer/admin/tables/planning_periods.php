@@ -10,17 +10,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Class instantiates a JTable Object associated with the planning_periods table.
+ * Class instantiates a \JTable Object associated with the planning_periods table.
  */
-class THM_OrganizerTablePlanning_Periods extends JTable
+class THM_OrganizerTablePlanning_Periods extends \Joomla\CMS\Table\Table
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

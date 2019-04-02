@@ -17,12 +17,12 @@ $resetVisibility .= ';"';
 $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 => 'field'];
 ?>
 <div id="j-main-container" class="span10">
-    <form action="<?php JUri::current(); ?>" id="adminForm" method="post" name="adminForm">
+    <form action="<?php \JUri::current(); ?>" id="adminForm" method="post" name="adminForm">
         <div class="toolbar">
             <div class="tool-wrapper search">
                 <input type="text" name="search" id="filter_search"
                        value="<?php echo $query; ?>"
-                       title="<?php echo JText::_('COM_THM_ORGANIZER_SEARCH_SUBJECTS'); ?>"
+                       title="<?php echo \JText::_('COM_THM_ORGANIZER_SEARCH_SUBJECTS'); ?>"
                        size="25"/>
                 <button type="submit" class="btn-search hasTooltip"
                         title="<?php echo HTML::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">

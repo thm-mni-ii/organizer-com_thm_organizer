@@ -21,20 +21,20 @@ class THM_OrganizerModelCampus extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * attempts to save the monitor form data
      *
      * @return bool true on success, otherwise false
-     * @throws Exception => unauthorized access
+     * @throws \Exception => unauthorized access
      */
     public function save()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data      = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
-        $dataTable = JTable::getInstance('campuses', 'thm_organizerTable');
+        $dataTable = \JTable::getInstance('campuses', 'thm_organizerTable');
 
         // Ensure maximal depth of two
         if (!empty($data['parentID'])) {
-            $parentTable = JTable::getInstance('campuses', 'thm_organizerTable');
+            $parentTable = \JTable::getInstance('campuses', 'thm_organizerTable');
             $parentTable->load($data['parentID']);
             if (!empty($parentTable->parentID)) {
                 return false;
@@ -48,12 +48,12 @@ class THM_OrganizerModelCampus extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Removes campus entries from the database
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception => unauthorized access
+     * @throws \Exception => unauthorized access
      */
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         return THM_OrganizerHelperComponent::delete('campuses');

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-jimport('joomla.application.component.view');
-
 /**
  * Class loads filtered events into the display context.
  */
@@ -59,7 +57,7 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
     {
         HTML::_('jquery.ui');
         HTML::_('behavior.tooltip');
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/event_list.css');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/event_list.css');
     }
 }

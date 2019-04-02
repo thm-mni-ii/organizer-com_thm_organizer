@@ -34,7 +34,7 @@ class THM_OrganizerViewSubject_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,20 +47,20 @@ class THM_OrganizerViewSubject_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_VIEW_TITLE'), 'organizer_subjects');
-        JToolbarHelper::addNew('subject.add');
-        JToolbarHelper::editList('subject.edit');
-        JToolbarHelper::custom(
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_SUBJECT_MANAGER_VIEW_TITLE'), 'organizer_subjects');
+        \JToolbarHelper::addNew('subject.add');
+        \JToolbarHelper::editList('subject.edit');
+        \JToolbarHelper::custom(
             'subject.importLSFData',
             'upload',
             'upload',
             'COM_THM_ORGANIZER_ACTION_IMPORT',
             true
         );
-        JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'subject.delete');
+        \JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'subject.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::preferences('com_thm_organizer');
+            \JToolbarHelper::preferences('com_thm_organizer');
         }
     }
 }

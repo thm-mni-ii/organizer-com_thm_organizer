@@ -28,13 +28,13 @@ if (!empty($this->menu)) {
     </div>
     <div class="right">
         <?php if (THM_OrganizerHelperSubjects::allowEdit($this->course['subjectID'])): ?>
-            <a href="<?php echo JRoute::_($editURL, false); ?>" class="btn btn-mini" type="button">
+            <a href="<?php echo \JRoute::_($editURL, false); ?>" class="btn btn-mini" type="button">
                 <span class="icon-edit"></span>
                 <?php echo $this->lang->_('COM_THM_ORGANIZER_EDIT_COURSE_DESCRIPTION') ?>
             </a>
         <?php endif; ?>
         <?php if (!empty($this->menu)): ?>
-            <a href="<?php echo JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini" type="button">
+            <a href="<?php echo \JRoute::_($this->menu['route'], false); ?>" class="btn btn-mini" type="button">
                 <span class="icon-list"></span>
                 <?php echo $menuText ?>
             </a>

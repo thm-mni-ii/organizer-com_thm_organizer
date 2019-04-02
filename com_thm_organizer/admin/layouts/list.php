@@ -39,7 +39,7 @@ class THM_OrganizerLayoutList
                                 <?php self::renderSearch($filters); ?>
                             </div>
                             <div class="js-stools-container-list hidden-phone hidden-tablet">
-                                <?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+                                <?php echo \JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@ class THM_OrganizerLayoutList
         }
         ?>
         <label for="filter_search" class="element-invisible">
-            <?php echo JText::_('JSEARCH_FILTER'); ?>
+            <?php echo \JText::_('JSEARCH_FILTER'); ?>
         </label>
         <div class="btn-wrapper input-append">
             <?php echo $filters['filter_search']->input; ?>
@@ -192,7 +192,7 @@ class THM_OrganizerLayoutList
     /**
      * Renders a row
      *
-     * @param array $row        the row to be displayed
+     * @param array  $row       the row to be displayed
      * @param int   &$iteration the current iteration
      *
      * @return void  outputs HTML

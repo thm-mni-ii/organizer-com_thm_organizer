@@ -26,7 +26,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
     /**
      * Method to get all plan_pools from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {

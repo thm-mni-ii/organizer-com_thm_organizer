@@ -29,12 +29,12 @@ class THM_OrganizerHelperXMLRooms
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->rooms)) {
-            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_ROOMS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_ROOMS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->rooms = new stdClass;
+        $scheduleModel->schedule->rooms = new \stdClass;
 
         foreach ($xmlObject->rooms->children() as $resourceNode) {
             self::validateIndividual($scheduleModel, $resourceNode);
@@ -44,14 +44,14 @@ class THM_OrganizerHelperXMLRooms
             $warningCount = $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'];
             unset($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'), $warningCount);
+                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['ROOM-TYPE'])) {
             $warningCount = $scheduleModel->scheduleWarnings['ROOM-TYPE'];
             unset($scheduleModel->scheduleWarnings['ROOM-TYPE']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_WARNING_TYPE_MISSING'), $warningCount);
+                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_TYPE_MISSING'), $warningCount);
         }
     }
 
@@ -68,8 +68,8 @@ class THM_OrganizerHelperXMLRooms
     {
         $internalID = trim((string)$roomNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING');
+            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_ROOM_ID_MISSING');
             }
 
             return;
@@ -81,7 +81,7 @@ class THM_OrganizerHelperXMLRooms
         $displayName = trim((string)$roomNode->longname);
         if (empty($displayName)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING'), $internalID);
+                = sprintf(\JText::_('COM_THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING'), $internalID);
 
             return;
         }
@@ -94,7 +94,7 @@ class THM_OrganizerHelperXMLRooms
             $externalID = strtoupper(str_replace('RM_', '', $externalID));
         }
 
-        $room = new stdClass;
+        $room = new \stdClass;
         if (empty($externalID)) {
             $room->name      = $internalID;
             $room->gpuntisID = $internalID;

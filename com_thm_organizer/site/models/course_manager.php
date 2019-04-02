@@ -9,10 +9,12 @@
  * @link        www.thm.de
  */
 
+defined('_JEXEC') or die;
+
 /**
  * Class loads forms for managing basic course attributes and participants participants, and sending circulars.
  */
-class THM_OrganizerModelCourse_Manager extends JModelForm
+class THM_OrganizerModelCourse_Manager extends \Joomla\CMS\MVC\Model\FormModel
 {
     /**
      * Constructor to set up the config array and call the parent constructor
@@ -33,10 +35,10 @@ class THM_OrganizerModelCourse_Manager extends JModelForm
     /**
      * Method to get the form
      *
-     * @param  array   $data     Data for the form.
-     * @param  boolean $loadData True if the form is to load its own data (default case), false if not.
+     * @param array   $data     Data for the form.
+     * @param boolean $loadData True if the form is to load its own data (default case), false if not.
      *
-     * @return JForm|boolean  A JForm object on success, false on failure
+     * @return \JForm|boolean  A \JForm object on success, false on failure
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

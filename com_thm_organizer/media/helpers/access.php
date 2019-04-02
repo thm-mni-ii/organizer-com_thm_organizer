@@ -29,7 +29,7 @@ class THM_OrganizerHelperAccess
             return true;
         }
 
-        $user = JFactory::getUser($userID);
+        $user = \JFactory::getUser($userID);
         if (empty($resource) or empty($resourceID)) {
             $allowedDepartments = self::getAccessibleDepartments('document', $userID);
             $canManage          = false;
@@ -52,7 +52,7 @@ class THM_OrganizerHelperAccess
      */
     public static function allowFMAccess()
     {
-        return (self::isAdmin() or JFactory::getUser()->authorise('organizer.fm', 'com_thm_organizer'));
+        return (self::isAdmin() or \JFactory::getUser()->authorise('organizer.fm', 'com_thm_organizer'));
     }
 
     /**
@@ -62,7 +62,7 @@ class THM_OrganizerHelperAccess
      */
     public static function allowHRAccess()
     {
-        return (self::isAdmin() or JFactory::getUser()->authorise('organizer.hr', 'com_thm_organizer'));
+        return (self::isAdmin() or \JFactory::getUser()->authorise('organizer.hr', 'com_thm_organizer'));
     }
 
     /**
@@ -89,7 +89,7 @@ class THM_OrganizerHelperAccess
 
         $assetIndex = "com_thm_organizer.department.$departmentID";
 
-        return JFactory::getUser($userID)->authorise('organizer.manage', $assetIndex);
+        return \JFactory::getUser($userID)->authorise('organizer.manage', $assetIndex);
     }
 
     /**
@@ -107,7 +107,7 @@ class THM_OrganizerHelperAccess
             return true;
         }
 
-        $user = JFactory::getUser();
+        $user = \JFactory::getUser();
         if (empty($scheduleID)) {
             if (empty($departmentID)) {
                 return count(self::getAccessibleDepartments('schedule', $userID)) > 0;
@@ -145,7 +145,7 @@ class THM_OrganizerHelperAccess
 
         $assetIndex = "com_thm_organizer.department.$departmentID";
 
-        return JFactory::getUser()->authorise('organizer.view', $assetIndex);
+        return \JFactory::getUser()->authorise('organizer.view', $assetIndex);
     }
 
     /**
@@ -158,7 +158,7 @@ class THM_OrganizerHelperAccess
      */
     public static function checkAssetInitialization($resourceName, $itemID)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('asset_id')->from("#__thm_organizer_{$resourceName}s")->where("id = '$itemID'");
         $dbo->setQuery($query);
@@ -176,7 +176,7 @@ class THM_OrganizerHelperAccess
      */
     public static function getAccessibleDepartments($action = null, $userID = null)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')->from('#__thm_organizer_departments');
         $dbo->setQuery($query);
@@ -191,7 +191,7 @@ class THM_OrganizerHelperAccess
             return [];
         }
 
-        $allowed = false;
+        $allowed              = false;
         $allowedDepartmentIDs = [];
 
         foreach ($departmentIDs as $departmentID) {
@@ -228,7 +228,7 @@ class THM_OrganizerHelperAccess
      */
     public static function isAdmin($userID = null)
     {
-        $user = JFactory::getUser($userID);
+        $user = \JFactory::getUser($userID);
 
         return ($user->authorise('core.admin') or $user->authorise('core.admin', 'com_thm_organizer'));
     }

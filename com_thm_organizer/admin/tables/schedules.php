@@ -10,17 +10,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Class instantiates a JTable Object associated with the schedules table.
+ * Class instantiates a \JTable Object associated with the schedules table.
  */
-class THM_OrganizerTableSchedules extends JTable
+class THM_OrganizerTableSchedules extends \Joomla\CMS\Table\Table
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {
@@ -35,7 +33,7 @@ class THM_OrganizerTableSchedules extends JTable
      */
     protected function _getAssetTitle()
     {
-        $dbo       = JFactory::getDbo();
+        $dbo       = \JFactory::getDbo();
         $deptQuery = $dbo->getQuery(true);
         $deptQuery->select('short_name_en')
             ->from('#__thm_organizer_departments')
@@ -68,16 +66,16 @@ class THM_OrganizerTableSchedules extends JTable
     /**
      * Sets the parent as the component root.
      *
-     * @param  JTable  $table A JTable object for the asset parent.
-     * @param  integer $id    Id to look up
+     * @param \JTable $table A \JTable object for the asset parent.
+     * @param integer $id    Id to look up
      *
      * @return int  the asset id of the component root
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _getAssetParentId(JTable $table = null, $id = null)
+    protected function _getAssetParentId(\JTable $table = null, $id = null)
     {
-        $asset = JTable::getInstance('Asset');
+        $asset = \JTable::getInstance('Asset');
         $asset->loadByName("com_thm_organizer.department.$this->departmentID");
 
         return $asset->id;
@@ -95,7 +93,7 @@ class THM_OrganizerTableSchedules extends JTable
     {
         if (isset($array['rules']) && is_array($array['rules'])) {
             THM_OrganizerHelperComponent::cleanRules($array['rules']);
-            $rules = new JAccessRules($array['rules']);
+            $rules = new \JAccessRules($array['rules']);
             $this->setRules($rules);
         }
 

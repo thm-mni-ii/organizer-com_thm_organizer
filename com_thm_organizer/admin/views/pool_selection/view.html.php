@@ -27,7 +27,7 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
+        \JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
     }
 
     /**
@@ -41,7 +41,7 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
         HTML::_('jquery.framework');
         HTML::_('searchtools.form', '#adminForm', []);
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/child_selection.css');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/child_selection.css');
     }
 }

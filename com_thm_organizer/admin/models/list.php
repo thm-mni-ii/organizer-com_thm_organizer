@@ -15,7 +15,7 @@ use \THM_OrganizerHelperHTML as HTML;
 /**
  * Class provides a standardized framework for the display of listed resources.
  */
-abstract class THM_OrganizerModelList extends JModelList
+abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
 {
     protected $defaultOrdering = '';
 
@@ -30,7 +30,7 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Constructor.
      *
-     * @param   array $config An optional associative array of configuration settings.
+     * @param array $config An optional associative array of configuration settings.
      */
     public function __construct($config = [])
     {
@@ -49,11 +49,11 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Generates a toggle for the attribute in question
      *
-     * @param  int    $id         the id of the database entry
-     * @param  bool   $value      the value currently set for the attribute (saves asking it later)
-     * @param  string $controller the name of the data management controller
-     * @param  string $tip        the tooltip
-     * @param  string $attribute  the resource attribute to be changed (useful if multiple entries can be toggled)
+     * @param int    $id         the id of the database entry
+     * @param bool   $value      the value currently set for the attribute (saves asking it later)
+     * @param string $controller the name of the data management controller
+     * @param string $tip        the tooltip
+     * @param string $attribute  the resource attribute to be changed (useful if multiple entries can be toggled)
      *
      * @return string  a HTML string
      */
@@ -78,7 +78,7 @@ abstract class THM_OrganizerModelList extends JModelList
      * Method to get the total number of items for the data set. Joomla erases critical fields for complex data sets.
      * This method fixes the erroneous output of undesired duplicate entries.
      *
-     * @param  string $idColumn the main id column of the list query
+     * @param string $idColumn the main id column of the list query
      *
      * @return integer  The total number of items available in the data set.
      */
@@ -118,7 +118,7 @@ abstract class THM_OrganizerModelList extends JModelList
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = THM_OrganizerHelperComponent::getApplication()->getUserState($this->context, new stdClass);
+        $data = THM_OrganizerHelperComponent::getApplication()->getUserState($this->context, new \stdClass);
 
         // Pre-create the list options
         if (!property_exists($data, 'list')) {
@@ -150,8 +150,8 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Method to auto-populate the model state.
      *
-     * @param   string $ordering  An optional ordering field.
-     * @param   string $direction An optional direction (asc|desc).
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
      *
      * @return void
      *
@@ -188,10 +188,10 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Handles the full ordering list input if existent
      *
-     * @param  array  &$list     the list section of the form request
-     * @param  object &$session  the session object
-     * @param  string $ordering  the attribute upon which the ordering is determined
-     * @param  string $direction the direction of the sort
+     * @param array  &$list      the list section of the form request
+     * @param object &$session   the session object
+     * @param string  $ordering  the attribute upon which the ordering is determined
+     * @param string  $direction the direction of the sort
      *
      * @return void  alters the input parameters
      */
@@ -215,9 +215,9 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Provides a default method for setting filters based on id/unique values
      *
-     * @param  object &$query      the query object
-     * @param  string $idColumn    the id column in the table
-     * @param  array  $filterNames the filter names which filter against ids
+     * @param object &$query       the query object
+     * @param string  $idColumn    the id column in the table
+     * @param array   $filterNames the filter names which filter against ids
      *
      * @return void
      */
@@ -262,7 +262,7 @@ abstract class THM_OrganizerModelList extends JModelList
             and in_array(strtoupper($list['direction']), ['ASC', 'DESC', '']));
         $direction         = $validReqDirection ? $list['direction'] : $this->defaultDirection;
 
-        $session = JFactory::getSession();
+        $session = \JFactory::getSession();
         if (!empty($list['fullordering'])) {
             $this->processFullOrdering($list, $session, $ordering, $direction);
         }
@@ -283,8 +283,8 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Provides a default method for setting filters for non-unique values
      *
-     * @param  object &$query      the query object
-     * @param  array  $filterNames the filter names. names should be synonymous with db column names.
+     * @param object &$query       the query object
+     * @param array   $filterNames the filter names. names should be synonymous with db column names.
      *
      * @return void
      */
@@ -318,14 +318,14 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Provides a default method for setting the list ordering
      *
-     * @param  object &$query the query object
+     * @param object &$query the query object
      *
      * @return void
      */
     protected function setOrdering(&$query)
     {
         $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $session         = JFactory::getSession();
+        $session         = \JFactory::getSession();
         $listOrdering    = $this->state->get('list.fullordering', $defaultOrdering);
         if (strpos($listOrdering, 'null') !== false) {
             $sessionOrdering = $session->get('ordering', '');
@@ -342,8 +342,8 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Sets the search filter for the query
      *
-     * @param  object &$query      the query to modify
-     * @param  array  $columnNames the column names to use in the search
+     * @param object &$query       the query to modify
+     * @param array   $columnNames the column names to use in the search
      *
      * @return void
      */
@@ -365,8 +365,8 @@ abstract class THM_OrganizerModelList extends JModelList
     /**
      * Provides a default method for setting filters for non-unique values
      *
-     * @param  object &$query      the query object
-     * @param  array  $filterNames the filter names. names should be synonymous with db column names.
+     * @param object &$query       the query object
+     * @param array   $filterNames the filter names. names should be synonymous with db column names.
      *
      * @return void
      */

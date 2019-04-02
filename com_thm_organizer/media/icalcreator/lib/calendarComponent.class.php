@@ -5281,13 +5281,13 @@ class calendarComponent extends iCalBase
                 $compsync--;
                 break;                       /* skip trailing empty lines */
             } elseif ('BEGIN:VALARM' == strtoupper(substr($line, 0, 12))) {
-                $comp = new valarm($config);
+                $comp = new \valarm($config);
                 $subsync++;
             } elseif ('BEGIN:STANDARD' == strtoupper(substr($line, 0, 14))) {
-                $comp = new vtimezone('standard', $config);
+                $comp = new \vtimezone('standard', $config);
                 $subsync++;
             } elseif ('BEGIN:DAYLIGHT' == strtoupper(substr($line, 0, 14))) {
-                $comp = new vtimezone('daylight', $config);
+                $comp = new \vtimezone('daylight', $config);
                 $subsync++;
             } elseif ('BEGIN:' == strtoupper(substr($line, 0, 6)))  // begin:<component>
             {
@@ -5752,14 +5752,14 @@ class calendarComponent extends iCalBase
         switch (strtoupper($compType)) {
             case 'ALARM':
             case 'VALARM':
-                $this->components[$ix] = new valarm($config);
+                $this->components[$ix] = new \valarm($config);
                 break;
             case 'STANDARD':
-                array_unshift($this->components, new vtimezone('STANDARD', $config));
+                array_unshift($this->components, new \vtimezone('STANDARD', $config));
                 $ix = 0;
                 break;
             case 'DAYLIGHT':
-                $this->components[$ix] = new vtimezone('DAYLIGHT', $config);
+                $this->components[$ix] = new \vtimezone('DAYLIGHT', $config);
                 break;
             default:
                 return false;

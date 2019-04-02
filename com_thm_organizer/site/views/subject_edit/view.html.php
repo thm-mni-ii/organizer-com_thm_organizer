@@ -51,11 +51,11 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         $this->subjectID = $input->getInt('id', 0);
 
         if (empty($this->subjectID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperSubjects::allowEdit($this->subjectID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $this->item = $this->get('Item');
@@ -64,13 +64,12 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         $this->lessonID    = $input->getInt('lessonID', 0);
         $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
-
         $this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
         THM_OrganizerHelperComponent::addMenuParameters($this);
 
-        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
-        $this->languageParams   = ['id' => $this->subjectID, 'lessonID' => $this->lessonID, 'view' => 'subject_edit'];
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams = ['id' => $this->subjectID, 'lessonID' => $this->lessonID, 'view' => 'subject_edit'];
 
         $this->modifyDocument();
 
@@ -87,6 +86,6 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
 
-        JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_edit.css');
+        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/subject_edit.css');
     }
 }

@@ -53,7 +53,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         $this->form->setValue('types', null, $this->state->get('types'));
         $this->form->setValue('rooms', null, $this->state->get('rooms'));
 
-        $this->languageLinks = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
 
         $this->modifyDocument();
         parent::display($tpl);
@@ -69,10 +69,10 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
         HTML::_('behavior.tooltip');
         HTML::_('formbehavior.chosen', 'select');
-        $document = JFactory::getDocument();
+        $document = \JFactory::getDocument();
         $document->setCharset('utf-8');
-        $document->addScript(JUri::root() . 'media/com_thm_organizer/js/room_overview.js');
-        $document->addStyleSheet(JUri::root() . 'media/com_thm_organizer/css/room_overview.css');
+        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/room_overview.js');
+        $document->addStyleSheet(\JUri::root() . 'media/com_thm_organizer/css/room_overview.css');
     }
 
     /**

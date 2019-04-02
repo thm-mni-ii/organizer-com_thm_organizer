@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 require_once 'assets.php';
 
 /**
- * Class instantiates a JTable Object associated with the subjects table.
+ * Class instantiates a \JTable Object associated with the subjects table.
  */
 class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {
@@ -69,16 +69,16 @@ class THM_OrganizerTableSubjects extends THM_OrganizerTableAssets
     /**
      * Sets the parent as the component root
      *
-     * @param JTable  $table A JTable object for the asset parent.
+     * @param \JTable $table A \JTable object for the asset parent.
      * @param integer $id    Id to look up
      *
      * @return int  the asset id of the component root
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _getAssetParentId(JTable $table = null, $id = null)
+    protected function _getAssetParentId(\JTable $table = null, $id = null)
     {
-        $asset = JTable::getInstance('Asset');
+        $asset = \JTable::getInstance('Asset');
         $name  = empty($this->departmentID) ? 'com_thm_organizer' : "com_thm_organizer.department.$this->departmentID";
         $asset->loadByName($name);
 

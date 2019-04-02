@@ -62,7 +62,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         $departments = THM_OrganizerHelperDepartments::getOptions(false);
         $options     = [];
-        $options[''] = JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $options[''] = \JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
         foreach ($departments as $departmentID => $departmentName) {
             $options[$departmentID] = $departmentName;
@@ -112,7 +112,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             return $titles;
         }
 
-        $table       = JTable::getInstance('plan_pools', 'thm_organizerTable');
+        $table       = \JTable::getInstance('plan_pools', 'thm_organizerTable');
         $oneResource = count($poolIDs) === 1;
 
         foreach ($poolIDs as $poolID) {
@@ -125,7 +125,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             }
 
             if ($success) {
-                $gpuntisID = JApplicationHelper::stringURLSafe($table->gpuntisID);
+                $gpuntisID = \JApplicationHelper::stringURLSafe($table->gpuntisID);
 
                 if ($oneResource) {
                     $titles['docTitle']  = $gpuntisID . '_';
@@ -193,7 +193,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             return $titles;
         }
 
-        $table       = JTable::getInstance('rooms', 'thm_organizerTable');
+        $table       = \JTable::getInstance('rooms', 'thm_organizerTable');
         $oneResource = count($roomIDs) === 1;
 
         foreach ($roomIDs as $roomID) {
@@ -206,7 +206,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             }
 
             if ($success) {
-                $gpuntisID = JApplicationHelper::stringURLSafe($table->gpuntisID);
+                $gpuntisID = \JApplicationHelper::stringURLSafe($table->gpuntisID);
 
                 if ($oneResource) {
                     $titles['docTitle']  = $gpuntisID . '_';
@@ -253,7 +253,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             $subjectNames = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
 
             if (!empty($subjectNames)) {
-                $gpuntisID = JApplicationHelper::stringURLSafe($subjectNames['gpuntisID']);
+                $gpuntisID = \JApplicationHelper::stringURLSafe($subjectNames['gpuntisID']);
 
                 if (empty($subjectNames['name'])) {
                     if (empty($subjectNames['shortName'])) {
@@ -313,7 +313,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             return $titles;
         }
 
-        $table       = JTable::getInstance('teachers', 'thm_organizerTable');
+        $table       = \JTable::getInstance('teachers', 'thm_organizerTable');
         $oneResource = count($teacherIDs) === 1;
 
         foreach ($teacherIDs as $teacherID) {
@@ -328,14 +328,14 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             if ($success) {
                 if ($oneResource) {
                     $displayName         = THM_OrganizerHelperTeachers::getDefaultName($teacherID);
-                    $titles['docTitle']  = JApplicationHelper::stringURLSafe($displayName) . '_';
+                    $titles['docTitle']  = \JApplicationHelper::stringURLSafe($displayName) . '_';
                     $titles['pageTitle'] = $displayName;
 
                     return $titles;
                 }
 
                 $displayName         = THM_OrganizerHelperTeachers::getLNFName($teacherID, true);
-                $gpuntisID           = JApplicationHelper::stringURLSafe($table->gpuntisID);
+                $gpuntisID           = \JApplicationHelper::stringURLSafe($table->gpuntisID);
                 $titles['docTitle']  .= $gpuntisID . '_';
                 $titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
             }
@@ -401,13 +401,13 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
         $authentication = urldecode($input->getString('auth', ''));
 
         if (!empty($userName) and !empty($authentication)) {
-            $user          = JFactory::getUser($userName);
+            $user          = \JFactory::getUser($userName);
             $authenticates = password_verify($user->email . $user->registerDate, $authentication);
             if ($authenticates) {
-                $parameters['userID'] = $authenticates? $user->id : JFactory::getUser()->id;
+                $parameters['userID'] = $authenticates ? $user->id : \JFactory::getUser()->id;
             }
-        } elseif (JFactory::getUser()->id != 0) {
-            $parameters['userID'] = JFactory::getUser()->id;
+        } elseif (\JFactory::getUser()->id != 0) {
+            $parameters['userID'] = \JFactory::getUser()->id;
         }
 
         $allowedLengths                = ['day', 'week', 'month', 'semester', 'custom'];
@@ -447,7 +447,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setTitles()
     {
-        $docTitle      = JText::_('COM_THM_ORGANIZER_SCHEDULE') . '_';
+        $docTitle      = \JText::_('COM_THM_ORGANIZER_SCHEDULE') . '_';
         $pageTitle     = '';
         $useMySchedule = !empty($this->parameters['mySchedule']);
         $useLessons    = !empty($this->parameters['lessonIDs']);
@@ -459,7 +459,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
 
         if ($useMySchedule) {
             $docTitle  = 'mySchedule_';
-            $pageTitle = JText::_('COM_THM_ORGANIZER_MY_SCHEDULE');
+            $pageTitle = \JText::_('COM_THM_ORGANIZER_MY_SCHEDULE');
         } elseif ((!$useLessons and !$useInstances) and ($usePools xor $useTeachers xor $useRooms xor $useSubjects)) {
             if ($usePools) {
                 $titles    = $this->getPoolTitles();

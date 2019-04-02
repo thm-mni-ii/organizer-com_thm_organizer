@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * Class creates a two hidden fields for merging. One has the lowest selected id as its value, the other has all
  * other selected ids (comma separated) as its value.
  */
-class JFormFieldMergeID extends JFormField
+class JFormFieldMergeID extends \Joomla\CMS\Form\FormField
 {
     protected $type = 'mergeID';
 

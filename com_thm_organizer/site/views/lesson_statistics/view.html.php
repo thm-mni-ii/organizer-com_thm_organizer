@@ -34,17 +34,17 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Execute and display a template script.
      *
-     * @param  string $tpl The name of the template file to parse; automatically searches through the template paths.
+     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void sets context variables and uses the parent's display method
      */
     public function display($tpl = null)
     {
-        $this->lang             = THM_OrganizerHelperLanguage::getLanguage();
-        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
-        $this->languageParams   = ['view' => 'lesson_statistics'];
-        $this->state            = $this->get('State');
-        $this->form             = $this->get('Form');
+        $this->lang           = THM_OrganizerHelperLanguage::getLanguage();
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams = ['view' => 'lesson_statistics'];
+        $this->state          = $this->get('State');
+        $this->form           = $this->get('Form');
         $this->form->setValue('planningPeriodID', null, $this->state->get('planningPeriodID'));
         $this->form->setValue('departmentID', null, $this->state->get('departmentID'));
         $this->form->setValue('programID', null, $this->state->get('programID'));
@@ -55,7 +55,7 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $this->lessons = $model->lessons;
         $this->total   = $model->total;
 
-        JFactory::getDocument()->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/lesson_statistics.css');
+        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/lesson_statistics.css');
 
         parent::display($tpl);
     }

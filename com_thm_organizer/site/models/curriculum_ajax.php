@@ -86,7 +86,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function getPoolData($poolID, $langTag)
     {
-        $dbo    = JFactory::getDbo();
+        $dbo    = \JFactory::getDbo();
         $query  = $dbo->getQuery(true);
         $select = "p.id, lsfID, hisID, externalID, name_$langTag AS name, minCrP, maxCrP, color";
         $query->select($select);
@@ -98,11 +98,11 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $poolData = THM_OrganizerHelperComponent::executeQuery('loadObject');
         if (empty($poolData)) {
-            $poolData = new stdClass;
+            $poolData = new \stdClass;
         }
 
         if (empty($poolData->color)) {
-            $poolData->color = JComponentHelper::getParams('com_thm_organizer')->get('backgroundColor', '#ffffff');
+            $poolData->color = THM_OrganizerHelperComponent::getParams()->get('backgroundColor', '#ffffff');
         }
 
         $poolData->children = [];
@@ -122,7 +122,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
     private function getProgramData($programID)
     {
         $languageTag = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
         $query       = $dbo->getQuery(true);
         $parts       = ["p.name_{$languageTag}", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $select      = $query->concatenate($parts, '') . ' AS name, ';
@@ -150,7 +150,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
     private function getSubjectData($subjectID, $langTag)
     {
         $itemID        = THM_OrganizerHelperComponent::getInput()->get('Itemid');
-        $dbo           = JFactory::getDbo();
+        $dbo           = \JFactory::getDbo();
         $query         = $dbo->getQuery(true);
         $select        = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
         $concateSelect = [
@@ -176,10 +176,10 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         }
 
         if (empty($subjectData->color)) {
-            $subjectData->color = JComponentHelper::getParams('com_thm_organizer')->get('backgroundColor', '#ffffff');
+            $subjectData->color = THM_OrganizerHelperComponent::getParams()->get('backgroundColor', '#ffffff');
         }
 
-        $subjectData->link = JRoute::_($subjectData->link);
+        $subjectData->link = \JRoute::_($subjectData->link);
         if (!empty($subjectData->externalID) and !empty($this->_schedule)) {
             foreach ($this->_schedule->subjects as $subjectID => $subject) {
                 if ($subject->subjectNo == $subjectData->externalID) {
@@ -207,7 +207,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getChildren($lft, $rgt, $langTag = 'de')
     {
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $children = [];
 
         $mappingsQuery = $dbo->getQuery(true);
@@ -258,7 +258,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function lastChildOrder($mappingID)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery($query);
@@ -278,7 +278,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
     private function setScheduleData($programName)
     {
         $date  = date('Y-m-d');
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id, schedule')->from('#__thm_organizer_schedules');
         $query->where("startDate <= '$date'")->where("endDate >= '$date'")->where("active = '1'");

@@ -55,13 +55,12 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
             $this->lang = THM_OrganizerHelperLanguage::getLanguage($menu->params->get('initialLanguage', ''));
         }
 
+        $this->item = $this->get('Item');
 
-        $this->item             = $this->get('Item');
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageParams = ['id' => $this->item->id, 'view' => 'curriculum'];
 
-        $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
-        $this->languageParams   = ['id' => $this->item->id, 'view' => 'curriculum'];
-
-        $this->disclaimer = new JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
+        $this->disclaimer = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
 
         $this->disclaimerData = ['language' => $this->lang];
 
@@ -78,9 +77,9 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('bootstrap.framework');
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/curriculum.css');
-        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/curriculum.js');
-        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/container.js');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/curriculum.css');
+        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/curriculum.js');
+        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/container.js');
     }
 }

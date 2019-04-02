@@ -24,13 +24,13 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     public function save()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         $this->_db->transactionStart();
-        $department = JTable::getInstance('departments', 'thm_organizerTable');
+        $department = \JTable::getInstance('departments', 'thm_organizerTable');
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
@@ -58,7 +58,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     public function save2copy()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
@@ -67,7 +67,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         }
 
         $this->_db->transactionStart();
-        $department = JTable::getInstance('departments', 'thm_organizerTable');
+        $department = \JTable::getInstance('departments', 'thm_organizerTable');
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
@@ -95,7 +95,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         return THM_OrganizerHelperComponent::delete('departments');

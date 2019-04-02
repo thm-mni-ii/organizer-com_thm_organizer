@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**
  * Class creates a select box for planning periods.
  */
-class JFormFieldPlanningPeriodID extends JFormFieldList
+class JFormFieldPlanningPeriodID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -34,7 +35,7 @@ class JFormFieldPlanningPeriodID extends JFormFieldList
     protected function getOptions()
     {
         $baseOptions = parent::getOptions();
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
         $query       = $dbo->getQuery(true);
 
         $query->select('DISTINCT pp.id, pp.name');

@@ -24,13 +24,13 @@ class THM_OrganizerViewField_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::save('field.save');
+        \JToolbarHelper::save('field.save');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FIELD_EDIT_NEW_TITLE'), 'organizer_fields');
-            JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_FIELD_EDIT_NEW_TITLE'), 'organizer_fields');
+            \JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_FIELD_EDIT_EDIT_TITLE'), 'organizer_fields');
-            JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_FIELD_EDIT_EDIT_TITLE'), 'organizer_fields');
+            \JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

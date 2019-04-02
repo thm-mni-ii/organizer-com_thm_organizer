@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -20,7 +21,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. Both the
  * value and the text are localized.
  */
-class JFormFieldLocalizedList extends JFormFieldList
+class JFormFieldLocalizedList extends \JFormFieldList
 {
     /**
      * Type
@@ -39,7 +40,7 @@ class JFormFieldLocalizedList extends JFormFieldList
      */
     protected function getOptions()
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $tag         = THM_OrganizerHelperLanguage::getShortTag();

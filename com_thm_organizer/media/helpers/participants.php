@@ -10,7 +10,6 @@
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
-
 /**
  * Provides general functions for participant access checks, data retrieval and display.
  */
@@ -34,8 +33,8 @@ class THM_OrganizerHelperParticipants
         switch ($state) {
             case self::WAIT_LIST:
             case self::REGISTERED:
-                JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
-                $table = JTable::getInstance('user_lessons', 'THM_OrganizerTable');
+                \JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
+                $table = \JTable::getInstance('user_lessons', 'THM_OrganizerTable');
 
                 $data = [
                     'lessonID' => $courseID,
@@ -55,7 +54,7 @@ class THM_OrganizerHelperParticipants
                 break;
 
             case self::REMOVED:
-                $dbo   = JFactory::getDbo();
+                $dbo   = \JFactory::getDbo();
                 $query = $dbo->getQuery(true);
                 $query->delete('#__thm_organizer_user_lessons');
                 $query->where("userID = '$participantID'");
@@ -89,10 +88,10 @@ class THM_OrganizerHelperParticipants
      */
     private static function notify($participantID, $courseID, $state)
     {
-        $mailer = JFactory::getMailer();
+        $mailer = \JFactory::getMailer();
         $input  = THM_OrganizerHelperComponent::getInput();
 
-        $user       = JFactory::getUser($participantID);
+        $user       = \JFactory::getUser($participantID);
         $userParams = json_decode($user->params, true);
         $mailer->addRecipient($user->email);
 
@@ -104,8 +103,8 @@ class THM_OrganizerHelperParticipants
             $input->set('languageTag', $tag);
         }
 
-        $params = JComponentHelper::getParams('com_thm_organizer');
-        $sender = JFactory::getUser($params->get('mailSender'));
+        $params = THM_OrganizerHelperComponent::getParams();
+        $sender = \JFactory::getUser($params->get('mailSender'));
 
         if (empty($sender->id)) {
             return;

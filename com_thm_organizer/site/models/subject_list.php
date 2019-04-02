@@ -17,7 +17,7 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class retrieves the data regarding a filtered set of subjects.
  */
-class THM_OrganizerModelSubject_List extends JModelList
+class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
 {
     public $displayName;
 
@@ -175,7 +175,7 @@ class THM_OrganizerModelSubject_List extends JModelList
      *
      * This method ensures that the query is constructed only once for a given state of the model.
      *
-     * @return object  a JDatabaseQuery object
+     * @return object  a \JDatabaseQuery object
      */
     protected function getListQuery()
     {
@@ -525,7 +525,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             return;
         }
 
-        $params = JComponentHelper::getParams('com_thm_organizer');
+        $params = THM_OrganizerHelperComponent::getParams();
 
         foreach ($fields as $fieldEntry) {
             if (empty($this->fields[$fieldEntry['id']])) {
@@ -546,7 +546,7 @@ class THM_OrganizerModelSubject_List extends JModelList
         // One or more items is not associated with a field
         if (isset($this->fields[0])) {
             $defaultField                    = [];
-            $defaultField['name']            = JText::_('COM_THM_ORGANIZER_UNASSOCIATED');
+            $defaultField['name']            = \JText::_('COM_THM_ORGANIZER_UNASSOCIATED');
             $defaultField['backgroundColor'] = $params['backgroundColor'];
             $defaultField['textColor']       = $params['darkTextColor'];
             $this->fields[0]                 = $defaultField;
@@ -560,8 +560,8 @@ class THM_OrganizerModelSubject_List extends JModelList
     /**
      * Method to auto-populate the model state.
      *
-     * @param   string $ordering  An optional ordering field.
-     * @param   string $direction An optional direction (asc|desc).
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
      *
      * @return void
      */
@@ -579,7 +579,7 @@ class THM_OrganizerModelSubject_List extends JModelList
             $menuID = $app->getUserStateFromRequest($this->context . '.menuID', 'Itemid');
             $this->state->set('menuID', $menuID);
         } else {
-            $params = new Joomla\Registry\Registry;
+            $params = new \Joomla\Registry\Registry;
 
             $requestProgramIDs = $app->input->getString('programIDs');
             $requestPoolIDs    = $app->input->getString('poolIDs');

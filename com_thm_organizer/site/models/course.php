@@ -22,7 +22,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Saves data for participants when administrator changes state in manager
      *
      * @return bool true on success, false on error
-     * @throws Exception => unauthorized access
+     * @throws \Exception => unauthorized access
      */
     public function changeParticipantState()
     {
@@ -31,7 +31,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $formData = $data['jform'];
 
         if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $participantIDs = $data['checked'];
@@ -65,7 +65,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Sends a circular mail to all course participants
      *
      * @return bool true on success, false on error
-     * @throws Exception => not found / unauthorized access
+     * @throws \Exception => not found / unauthorized access
      */
     public function circular()
     {
@@ -74,11 +74,11 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $courseID = $input->get('lessonID', 0);
 
         if (empty($courseID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_404'), 404);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_404'), 404);
         }
 
         if (empty(THM_OrganizerHelperCourses::authorized($courseID))) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data = $input->get('jform', [], 'array');
@@ -87,7 +87,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $sender = JFactory::getUser(JComponentHelper::getParams('com_thm_organizer')->get('mailSender'));
+        $sender = \JFactory::getUser(THM_OrganizerHelperComponent::getParams()->get('mailSender'));
 
         if (empty($sender->id)) {
             return false;
@@ -99,7 +99,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $mailer = JFactory::getMailer();
+        $mailer = \JFactory::getMailer();
         $mailer->setSender([$sender->email, $sender->name]);
         $mailer->setSubject($data['subject']);
 
@@ -124,20 +124,20 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @param string $prefix  The class prefix. Optional.
      * @param array  $options Configuration array for model. Optional.
      *
-     * @return JTable  A JTable object
+     * @return \JTable  A \JTable object
      */
     public function getTable($name = 'lessons', $prefix = 'THM_OrganizerTable', $options = [])
     {
-        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
+        \JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
 
-        return JTable::getInstance($name, $prefix, $options);
+        return \JTable::getInstance($name, $prefix, $options);
     }
 
     /**
      * Saves changes to courses. Adjusting the course wait list as appropriate.
      *
      * @return bool true on success, otherwise false
-     * @throws Exception invalid request / unauthorized access
+     * @throws \Exception invalid request / unauthorized access
      */
     public function save()
     {
@@ -146,11 +146,11 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $courseID = $formData['id'];
 
         if (empty($formData) or empty($courseID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $table = $this->getTable();

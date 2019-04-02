@@ -89,7 +89,7 @@ class THM_OrganizerTemplateCurriculumPanel
             if ($childIndex === 1) {
                 echo '<div class="panel-row">';
             }
-            $itemPanel = new THM_OrganizerTemplateCurriculumItemPanel;
+            $itemPanel = new \THM_OrganizerTemplateCurriculumItemPanel;
             $itemPanel->render($element);
             $isRowEnd = $childIndex === 5;
             $endRow   = ($isRowEnd or $childNumber === $childCount);

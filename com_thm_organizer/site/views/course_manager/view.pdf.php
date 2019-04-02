@@ -28,7 +28,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Method to get display
      *
-     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
      * @throws Exception => invalid request / unauthorized access
@@ -44,28 +44,28 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $validTypes = [self::BADGES, self::DEPARTMENT_PARTICIPANTS, self::PARTICIPANTS];
 
         if (empty($lessonID) or !in_array($type, $validTypes)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperCourses::authorized($lessonID)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         switch ($type) {
             case self::BADGES:
                 require_once __DIR__ . '/tmpl/badges.php';
-                new THM_OrganizerTemplateBadges($lessonID);
+                new \THM_OrganizerTemplateBadges($lessonID);
                 break;
             case self::DEPARTMENT_PARTICIPANTS:
                 require_once __DIR__ . '/tmpl/department_participants.php';
-                new THM_OrganizerTemplateDepartment_Participants($lessonID);
+                new \THM_OrganizerTemplateDepartment_Participants($lessonID);
                 break;
             case self::PARTICIPANTS:
                 require_once __DIR__ . '/tmpl/participants.php';
-                new THM_OrganizerTemplateParticipants($lessonID);
+                new \THM_OrganizerTemplateParticipants($lessonID);
                 break;
             default:
-                throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
     }
 }

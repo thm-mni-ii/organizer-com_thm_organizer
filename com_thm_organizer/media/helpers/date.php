@@ -29,7 +29,7 @@ class THM_OrganizerHelperDate
         if ($withText) {
             $textFormat    = $short ? 'D' : 'l';
             $shortDOW      = date($textFormat, strtotime($date));
-            $text          = JText::_(strtoupper($shortDOW));
+            $text          = \JText::_(strtoupper($shortDOW));
             $formattedDate = "$text $formattedDate";
         }
 
@@ -45,8 +45,7 @@ class THM_OrganizerHelperDate
      */
     public static function formatTime($time)
     {
-        $params     = JComponentHelper::getParams('com_thm_organizer');
-        $timeFormat = $params->get('timeFormat', 'H:i');
+        $timeFormat = THM_OrganizerHelperComponent::getParams()->get('timeFormat', 'H:i');
 
         return date($timeFormat, strtotime($time));
     }
@@ -58,45 +57,49 @@ class THM_OrganizerHelperDate
      */
     public static function getFormat()
     {
-        return JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
+        return THM_OrganizerHelperComponent::getParams()->get('dateFormat', 'd.m.Y');
     }
 
     /**
      * Returns the end date and start date of the ICS for the given date
      *
-     * @param string $date the date
-     * @param int $startDay 0-6 number of the starting day of the week
-     * @param int $endDay 0-6 number of the ending day of the week
+     * @param string $date     the date
+     * @param int    $startDay 0-6 number of the starting day of the week
+     * @param int    $endDay   0-6 number of the ending day of the week
+     *
      * @return array containing startDate and endDate
      */
     public static function getICSDates($date, $startDay = 1, $endDay = 6)
     {
-        $dateTime = strtotime($date);
+        $dateTime     = strtotime($date);
         $startDayName = date('l', strtotime("Sunday + $startDay days"));
         $endDayName   = date('l', strtotime("Sunday + $endDay days"));
-        $startDate  = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
-        $previewEnd = date('Y-m-d', strtotime('+6 month', strtotime($date)));
-        $endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($previewEnd)));
+        $startDate    = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
+        $previewEnd   = date('Y-m-d', strtotime('+6 month', strtotime($date)));
+        $endDate      = date('Y-m-d', strtotime("$endDayName this week", strtotime($previewEnd)));
+
         return ['startDate' => $startDate, 'endDate' => $endDate];
     }
 
     /**
      * Returns the end date and start date of the month for the given date
      *
-     * @param string $date the date
-     * @param int $startDay 0-6 number of the starting day of the week
-     * @param int $endDay 0-6 number of the ending day of the week
+     * @param string $date     the date
+     * @param int    $startDay 0-6 number of the starting day of the week
+     * @param int    $endDay   0-6 number of the ending day of the week
+     *
      * @return array containing startDate and endDate
      */
     public static function getMonth($date, $startDay = 1, $endDay = 6)
     {
-        $dateTime = strtotime($date);
+        $dateTime     = strtotime($date);
         $startDayName = date('l', strtotime("Sunday + $startDay days"));
         $endDayName   = date('l', strtotime("Sunday + $endDay days"));
-        $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-        $startDate  = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
-        $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-        $endDate    = date('Y-m-d', strtotime("$endDayName this week", strtotime($monthEnd)));
+        $monthStart   = date('Y-m-d', strtotime('first day of this month', $dateTime));
+        $startDate    = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
+        $monthEnd     = date('Y-m-d', strtotime('last day of this month', $dateTime));
+        $endDate      = date('Y-m-d', strtotime("$endDayName this week", strtotime($monthEnd)));
+
         return ['startDate' => $startDate, 'endDate' => $endDate];
     }
 
@@ -104,34 +107,38 @@ class THM_OrganizerHelperDate
      * Returns the end date and start date of the semester for the given date
      *
      * @param string $date the date in format Y-m-d
+     *
      * @return array containing startDate and endDate
      */
     public static function getSemester($date)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('startDate, endDate')
             ->from('#__thm_organizer_planning_periods')
             ->where("'$date' BETWEEN startDate AND endDate");
         $dbo->setQuery($query);
+
         return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
     }
 
     /**
      * Returns the end date and start date of the week for the given date
      *
-     * @param string $date the date
-     * @param int $startDay 0-6 number of the starting day of the week
-     * @param int $endDay 0-6 number of the ending day of the week
+     * @param string $date     the date
+     * @param int    $startDay 0-6 number of the starting day of the week
+     * @param int    $endDay   0-6 number of the ending day of the week
+     *
      * @return array containing startDate and endDate
      */
     public static function getWeek($date, $startDay = 1, $endDay = 6)
     {
-        $dateTime = strtotime($date);
+        $dateTime     = strtotime($date);
         $startDayName = date('l', strtotime("Sunday + $startDay days"));
         $endDayName   = date('l', strtotime("Sunday + $endDay days"));
-        $startDate = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
-        $endDate   = date('Y-m-d', strtotime("$endDayName this week", $dateTime));
+        $startDate    = date('Y-m-d', strtotime("$startDayName this week", $dateTime));
+        $endDate      = date('Y-m-d', strtotime("$endDayName this week", $dateTime));
+
         return ['startDate' => $startDate, 'endDate' => $endDate];
     }
 

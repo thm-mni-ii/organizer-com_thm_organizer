@@ -32,7 +32,6 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
 
     public $roomID = null;
 
-
     /**
      * Constructor
      *
@@ -59,7 +58,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
             $query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
-            $app->redirect(JUri::root() . 'index.php?' . $query);
+            $app->redirect(\JUri::root() . 'index.php?' . $query);
         }
     }
 
@@ -221,7 +220,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     private function setAlternatingLayout()
     {
-        $session   = JFactory::getSession();
+        $session   = \JFactory::getSession();
         $displayed = $session->get('displayed', 'schedule');
 
         if ($displayed == 'schedule') {
@@ -243,7 +242,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     private function setDisplayParams()
     {
         if (!empty($this->monitorID)) {
-            $monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
+            $monitorEntry = \JTable::getInstance('monitors', 'thm_organizerTable');
             $monitorEntry->load($this->monitorID);
         }
 
@@ -253,14 +252,12 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             $this->params['content_refresh']  = $monitorEntry->content_refresh;
             $this->params['content']          = $monitorEntry->content;
         } else {
-            $this->params['display']
-                = JComponentHelper::getParams('com_thm_organizer')->get('display', SCHEDULE);
-            $this->params['schedule_refresh']
-                = JComponentHelper::getParams('com_thm_organizer')->get('schedule_refresh', 60);
-            $this->params['content_refresh']
-                = JComponentHelper::getParams('com_thm_organizer')->get('content_refresh', 60);
+            $params                           = THM_OrganizerHelperComponent::getParams();
+            $this->params['display']          = $params->get('display', SCHEDULE);
+            $this->params['schedule_refresh'] = $params->get('schedule_refresh', 60);
+            $this->params['content_refresh']  = $params->get('content_refresh', 60);
 
-            $this->params['content'] = JComponentHelper::getParams('com_thm_organizer')->get('content');
+            $this->params['content'] = THM_OrganizerHelperComponent::getParams()->get('content');
         }
 
         // No need for special handling if no content has been set
@@ -308,8 +305,8 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     {
         $input        = THM_OrganizerHelperComponent::getInput();
         $ipData       = ['ip' => $input->server->getString('REMOTE_ADDR', '')];
-        $monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
-        $roomEntry    = JTable::getInstance('rooms', 'thm_organizerTable');
+        $monitorEntry = \JTable::getInstance('monitors', 'thm_organizerTable');
+        $roomEntry    = \JTable::getInstance('rooms', 'thm_organizerTable');
         $registered   = $monitorEntry->load($ipData);
 
         if ($registered and !empty($monitorEntry->roomID)) {
@@ -338,7 +335,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         }
 
         // Room could not be resolved => redirect to home
-        THM_OrganizerHelperComponent::getApplication()->redirect(JUri::root());
+        THM_OrganizerHelperComponent::getApplication()->redirect(\JUri::root());
     }
 
     /**

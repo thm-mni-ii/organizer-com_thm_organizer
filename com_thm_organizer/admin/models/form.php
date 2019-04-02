@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Class loads non-item-specific form data.
  */
-class THM_OrganizerModelForm extends JModelForm
+class THM_OrganizerModelForm extends \Joomla\CMS\MVC\Model\FormModel
 {
     protected $deptResource;
 
@@ -33,7 +33,7 @@ class THM_OrganizerModelForm extends JModelForm
      * @param array $data     Data         (default: array)
      * @param bool  $loadData Load data  (default: true)
      *
-     * @return mixed  JForm object on success, False on error.
+     * @return mixed  \JForm object on success, False on error.
      * @throws Exception => unauthorized access
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -42,7 +42,7 @@ class THM_OrganizerModelForm extends JModelForm
     {
         $allowEdit = $this->allowEdit();
         if (!$allowEdit) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         $name = $this->get('name');

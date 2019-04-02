@@ -15,7 +15,7 @@ use \THM_OrganizerHelperHTML as HTML;
 /**
  * Class creates a select box for the association of teachers with subject documentation.
  */
-class JFormFieldSubjectTeacher extends JFormField
+class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
 {
     protected $type = 'subjectTeacher';
 
@@ -30,7 +30,7 @@ class JFormFieldSubjectTeacher extends JFormField
         $subjectID      = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
         $responsibility = $this->getAttribute('responsibility');
 
-        $dbo           = JFactory::getDbo();
+        $dbo           = \JFactory::getDbo();
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('teacherID');
         $selectedQuery->from('#__thm_organizer_subject_teachers');
@@ -51,7 +51,7 @@ class JFormFieldSubjectTeacher extends JFormField
 
         $options = [];
         foreach ($teachers as $key => $teacher) {
-            $name = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
+            $name                       = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
             $options[$teacher['value']] = $name;
         }
 

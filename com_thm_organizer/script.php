@@ -25,13 +25,13 @@ class Com_THM_OrganizerInstallerScript
      */
     private function createImageDirectory()
     {
-        $exists = JFolder::exists(JPATH_SITE . '/images/thm_organizer');
+        $exists = \JFolder::exists(JPATH_SITE . '/images/thm_organizer');
 
         if ($exists) {
             return true;
         }
 
-        return JFolder::create(JPATH_SITE . '/images/thm_organizer');
+        return \JFolder::create(JPATH_SITE . '/images/thm_organizer');
     }
 
     /**
@@ -41,7 +41,7 @@ class Com_THM_OrganizerInstallerScript
      * It also seems that under 3.x this function is ignored if the method is upgrade even if no prior installation
      * existed.
      *
-     * @param  \stdClass $parent - Parent object calling this method.
+     * @param \stdClass $parent - Parent object calling this method.
      *
      * @return void
      *
@@ -151,40 +151,40 @@ class Com_THM_OrganizerInstallerScript
     {
         // Remove all old files to ensure no access to deprecated code. Current files will later be installed to these folders.
         if ($type == 'update') {
-            $adminFiles = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
+            $adminFiles = \JFolder::files(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
 
             foreach ($adminFiles as $adminFile) {
-                JFile::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFile);
+                \JFile::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFile);
             }
 
-            $adminFolders = JFolder::folders(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
+            $adminFolders = \JFolder::folders(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
 
             foreach ($adminFolders as $adminFolder) {
-                JFolder::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFolder);
+                \JFolder::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFolder);
             }
 
-            $siteFiles = JFolder::files(JPATH_SITE . '/components/com_thm_organizer');
+            $siteFiles = \JFolder::files(JPATH_SITE . '/components/com_thm_organizer');
 
             foreach ($siteFiles as $siteFile) {
-                JFile::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFile);
+                \JFile::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFile);
             }
 
-            $siteFolders = JFolder::folders(JPATH_SITE . '/components/com_thm_organizer');
+            $siteFolders = \JFolder::folders(JPATH_SITE . '/components/com_thm_organizer');
 
             foreach ($siteFolders as $siteFolder) {
-                JFolder::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFolder);
+                \JFolder::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFolder);
             }
 
-            $mediaFiles = JFolder::files(JPATH_SITE . '/media/com_thm_organizer');
+            $mediaFiles = \JFolder::files(JPATH_SITE . '/media/com_thm_organizer');
 
             foreach ($mediaFiles as $mediaFile) {
-                JFile::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
+                \JFile::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
             }
 
-            $mediaFolders = JFolder::folders(JPATH_SITE . '/media/com_thm_organizer');
+            $mediaFolders = \JFolder::folders(JPATH_SITE . '/media/com_thm_organizer');
 
             foreach ($mediaFolders as $mediaFolder) {
-                JFolder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
+                \JFolder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
             }
         }
     }
@@ -200,16 +200,16 @@ class Com_THM_OrganizerInstallerScript
      */
     public function uninstall($parent)
     {
-        $dirDeleted = JFolder::delete(JPATH_SITE . '/images/thm_organizer');
+        $dirDeleted = \JFolder::delete(JPATH_SITE . '/images/thm_organizer');
         if (!$dirDeleted) {
-            echo JText::_('The directory located at &quot;/images/thm_organizer&quot; could not be removed.');
+            echo \JText::_('The directory located at &quot;/images/thm_organizer&quot; could not be removed.');
         }
     }
 
     /**
      * Provides an output once Joomla! has finished the update process.
      *
-     * @param Object $parent JInstallerComponent
+     * @param Object $parent \JInstallerComponent
      *
      * @return void
      */
@@ -223,13 +223,13 @@ class Com_THM_OrganizerInstallerScript
         $imagePath  = '/images/thm_organizer';
         $dirCreated = $this->createImageDirectory();
         if (!$dirCreated) {
-            $failText = sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_IMAGE_FOLDER_FAIL'), $imagePath);
+            $failText = sprintf(\JText::_('COM_THM_ORGANIZER_MESSAGE_IMAGE_FOLDER_FAIL'), $imagePath);
             $dirSpan  .= '<span style="color:red" >' . $failText . '</span>';
         }
-        $updateText = sprintf(JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE'), $version, $licenseLink);
+        $updateText = sprintf(\JText::_('COM_THM_ORGANIZER_MESSAGE_UPDATE'), $version, $licenseLink);
         ?>
         <div class="span5 form-vertical">
-            <?php echo JHtml::_('image', $logoURL, JText::_('COM_THM_ORGANIZER')); ?>
+            <?php echo \JHtml::_('image', $logoURL, \JText::_('COM_THM_ORGANIZER')); ?>
             <br/>
             <p><?php echo $updateText . ' ' . $dirSpan; ?></p>
             <br/>

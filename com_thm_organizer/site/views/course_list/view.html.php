@@ -66,7 +66,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
             return $courseOne->name > $courseTwo->name;
         });
 
-        $this->languageLinks  = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
         $this->languageParams = ['view' => 'course_list'];
         $this->shortTag       = THM_OrganizerHelperLanguage::getShortTag();
 
@@ -85,8 +85,8 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.modal');
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/course_list.css');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/course_list.css');
     }
 
     /**

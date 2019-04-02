@@ -26,7 +26,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
     /**
      * Sets context variables and renders the view.
      *
-     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
      *
@@ -37,7 +37,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $model                      = $this->getModel();
         $this->parameters           = $model->parameters;
         $this->parameters['mailto'] = empty($this->parameters['userID']) ?
-            '' : JFactory::getUser($this->parameters['userID'])->email;
+            '' : \JFactory::getUser($this->parameters['userID'])->email;
 
         $this->createCalendar();
 
@@ -60,17 +60,17 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function createCalendar()
     {
-        $vCalendar = new vcalendar;
+        $vCalendar = new \vcalendar;
         $vCalendar->setConfig('unique_id', $this->parameters['docTitle']);
         $vCalendar->setConfig('lang', THM_OrganizerHelperLanguage::getShortTag());
         $vCalendar->setProperty('x-wr-calname', $this->parameters['pageTitle']);
         $vCalendar->setProperty('X-WR-TIMEZONE', 'Europe/Berlin');
         $vCalendar->setProperty('METHOD', 'PUBLISH');
 
-        $vTimeZone1 = new vtimezone;
+        $vTimeZone1 = new \vtimezone;
         $vTimeZone1->setProperty('TZID', 'Europe/Berlin');
 
-        $vTimeZone2 = new vtimezone('standard');
+        $vTimeZone2 = new \vtimezone('standard');
         $vTimeZone2->setProperty('DTSTART', 1601, 1, 1, 0, 0, 0);
         $vTimeZone2->setProperty('TZNAME', 'Standard Time');
         $vTimeZone2->setProperty('TZOFFSETFROM', '+0100');
@@ -108,7 +108,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function setEvent($date, $lessonInstance)
     {
-        $vEvent = new vevent;
+        $vEvent = new \vevent;
         $vEvent->setProperty('TRANSP', 'OPAQUE');
         $vEvent->setProperty('SEQUENCE', '0');
         $vEvent->setProperty('PRIORITY', '5');
@@ -160,7 +160,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $teachersText = implode('/', $teachers);
         $roomsText    = implode('/', $rooms);
 
-        $summary = sprintf(JText::_('COM_THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
+        $summary = sprintf(\JText::_('COM_THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
 
         $organizer = empty($this->parameters['mailto']) ? $teachersText : $this->parameters['mailto'];
         $vEvent->setProperty('ORGANIZER', $organizer);

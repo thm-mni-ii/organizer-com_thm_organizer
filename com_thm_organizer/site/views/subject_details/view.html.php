@@ -92,9 +92,9 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
 
             THM_OrganizerHelperComponent::addMenuParameters($this);
 
-            $this->languageLinks    = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+            $this->languageLinks    = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
             $this->languageParams   = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
-            $this->disclaimer       = new JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
+            $this->disclaimer       = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
             $this->disclaimerParams = ['language' => $this->lang];
         }
 
@@ -111,8 +111,8 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
     }
 
     /**
@@ -161,7 +161,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
             return;
         }
 
-        $params         = JComponentHelper::getParams('com_thm_organizer');
+        $params         = THM_OrganizerHelperComponent::getParams();
         $displayeCollab = $params->get('displayeCollabLink', false);
         $ecollabLink    = $params->get('eCollabLink', '');
 
@@ -199,7 +199,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
                 $this->renderListValue($attribute, $data);
             } else {
                 if ($attribute == 'preRequisiteModules' or $attribute == 'postRequisiteModules') {
-                    echo HTML::link(JRoute::_($subjectHref . $id), $data, $linkAttribs);
+                    echo HTML::link(\JRoute::_($subjectHref . $id), $data, $linkAttribs);
                 } else {
                     echo $data;
                 }
@@ -252,6 +252,6 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
                 break;
         }
 
-        echo '<span aria-label="' . $aria .'">' . $stars . '</span>';
+        echo '<span aria-label="' . $aria . '">' . $stars . '</span>';
     }
 }

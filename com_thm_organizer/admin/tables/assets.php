@@ -10,18 +10,16 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Abstract class for use by resource tables whose access rules are to be stored in the Joomla assets table.
  */
-abstract class THM_OrganizerTableAssets extends JTable
+abstract class THM_OrganizerTableAssets extends \Joomla\CMS\Table\Table
 {
     public $asset_id;
 
     /**
-     * Method to store a row in the database from the JTable instance properties. Completely overwrites the method in
-     * JTable because they use the subclass specific update nulls setting for assets which is just stupid.
+     * Method to store a row in the database from the \JTable instance properties. Completely overwrites the method in
+     * \JTable because they use the subclass specific update nulls setting for assets which is just stupid.
      *
      * @param boolean $updateNulls True to update fields even if they are null.
      *
@@ -31,7 +29,7 @@ abstract class THM_OrganizerTableAssets extends JTable
     {
         $keys = $this->_tbl_keys;
 
-        // Implement JObservableInterface: Pre-processing by observers
+        // Implement \JObservableInterface: Pre-processing by observers
         $this->_observers->update('onBeforeStore', [$updateNulls, $keys]);
 
         $currentAssetId = 0;
@@ -65,7 +63,7 @@ abstract class THM_OrganizerTableAssets extends JTable
             $name     = $this->_getAssetName();
             $title    = $this->_getAssetTitle();
 
-            $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+            $asset = self::getInstance('Asset', '\JTable', ['dbo' => $this->getDbo()]);
             $asset->loadByName($name);
 
             // Re-inject the asset id.
@@ -89,7 +87,7 @@ abstract class THM_OrganizerTableAssets extends JTable
                 $asset->name      = $name;
                 $asset->title     = $title;
 
-                if ($this->_rules instanceof JAccessRules) {
+                if ($this->_rules instanceof \JAccessRules) {
                     $asset->rules = (string)$this->_rules;
                 }
 
@@ -113,7 +111,7 @@ abstract class THM_OrganizerTableAssets extends JTable
             }
         }
 
-        // Implement JObservableInterface: Post-processing by observers
+        // Implement \JObservableInterface: Post-processing by observers
         $this->_observers->update('onAfterStore', [&$result]);
 
         return $result;
@@ -131,7 +129,7 @@ abstract class THM_OrganizerTableAssets extends JTable
     {
         if (isset($array['rules']) && is_array($array['rules'])) {
             self::cleanRules($array['rules']);
-            $rules = new JAccessRules($array['rules']);
+            $rules = new \JAccessRules($array['rules']);
             $this->setRules($rules);
         }
 

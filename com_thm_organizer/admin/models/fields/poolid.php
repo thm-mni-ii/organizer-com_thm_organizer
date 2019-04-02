@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
-JFormHelper::loadFieldClass('list');
 
 /**
  * Class creates a select box for pools.
  */
-class JFormFieldPoolID extends JFormFieldList
+class JFormFieldPoolID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -33,7 +34,7 @@ class JFormFieldPoolID extends JFormFieldList
      */
     protected function getOptions()
     {
-        $programID = JFactory::getSession()->get('programID');
+        $programID = \JFactory::getSession()->get('programID');
         if (empty($programID)) {
             return parent::getOptions();
         }
@@ -44,7 +45,7 @@ class JFormFieldPoolID extends JFormFieldList
         }
 
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $query->select("p.id AS value, p.name_$shortTag AS text");
         $query->from('#__thm_organizer_pools AS p');

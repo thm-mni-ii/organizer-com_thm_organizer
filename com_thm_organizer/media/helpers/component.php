@@ -59,7 +59,7 @@ class THM_OrganizerHelperComponent
         $cids         = self::getInput()->get('cid', [], '[]');
         $formattedIDs = "'" . implode("', '", $cids) . "'";
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->delete("#__thm_organizer_$table");
         $query->where("id IN ( $formattedIDs )");
@@ -77,7 +77,7 @@ class THM_OrganizerHelperComponent
     public static function getApplication()
     {
         try {
-            return JFactory::getApplication();
+            return \JFactory::getApplication();
         } catch (Exception $exc) {
             return null;
         }
@@ -86,11 +86,33 @@ class THM_OrganizerHelperComponent
     /**
      * Returns the application's input object.
      *
-     * @return JInput
+     * @return \JInput
      */
     public static function getInput()
     {
         return self::getApplication()->input;
+    }
+
+    /**
+     * Consolidates the application, component and menu parameters to a single registry with one call.
+     *
+     * @return \Joomla\Registry\Registry
+     */
+    public static function getParams()
+    {
+        $params = \JComponentHelper::getParams('com_thm_organizer');
+
+        $app = self::getApplication();
+
+        if (method_exists($app, 'getParams')) {
+            $params->merge($app->getParams());
+
+            if (!empty($app->getMenu()) and !empty($app->getMenu()->getActive())) {
+                $params->merge($app->getMenu()->getActive()->getParams());
+            }
+        }
+
+        return $params;
     }
 
     /**
@@ -101,7 +123,7 @@ class THM_OrganizerHelperComponent
     public static function getRedirectBase()
     {
         $app    = self::getApplication();
-        $url    = JUri::base();
+        $url    = \JUri::base();
         $menuID = $app->input->getInt('Itemid');
 
         if (!empty($menuID)) {
@@ -133,7 +155,7 @@ class THM_OrganizerHelperComponent
                 require_once $mobileCheckPath;
             }
 
-            $checker = new Wf_Mobile_Detect;
+            $checker = new \Wf_Mobile_Detect;
             $isPhone = ($checker->isMobile() and !$checker->isTablet());
 
             if ($isPhone) {
@@ -164,7 +186,7 @@ class THM_OrganizerHelperComponent
      * @param boolean $isAdmin whether the file is being called from the backend
      *
      * @return void
-     * @throws Exception => task not found
+     * @throws \Exception => task not found
      */
     public static function setUp($isAdmin = true)
     {
@@ -184,7 +206,7 @@ class THM_OrganizerHelperComponent
 
         require_once $basePath . '/controller.php';
 
-        $controllerObj = new THM_OrganizerController;
+        $controllerObj = new \THM_OrganizerController;
         $controllerObj->execute($task);
         $controllerObj->redirect();
     }
@@ -201,14 +223,14 @@ class THM_OrganizerHelperComponent
      */
     public static function executeQuery($function, $default = null, $args = null, $rollback = false)
     {
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
         try {
             if ($args !== null) {
                 if (is_string($args) or is_int($args)) {
                     return $dbo->$function($args);
                 }
                 if (is_array($args)) {
-                    $reflectionMethod = new ReflectionMethod($dbo, $function);
+                    $reflectionMethod = new \ReflectionMethod($dbo, $function);
 
                     return $reflectionMethod->invokeArgs($dbo, $args);
                 }

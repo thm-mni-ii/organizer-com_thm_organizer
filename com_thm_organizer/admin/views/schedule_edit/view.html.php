@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/views/edit.php';
 
-
 /**
  * Class loads the schedule upload form into display context.
  */
@@ -25,8 +24,8 @@ class THM_OrganizerViewSchedule_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_SCHEDULE_EDIT_TITLE'), 'organizer_schedules');
-        JToolbarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_ACTION_UPLOAD', false);
-        JToolbarHelper::cancel('schedule.cancel');
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_SCHEDULE_EDIT_TITLE'), 'organizer_schedules');
+        \JToolbarHelper::custom('schedule.upload', 'upload', 'upload', 'COM_THM_ORGANIZER_ACTION_UPLOAD', false);
+        \JToolbarHelper::cancel('schedule.cancel');
     }
 }

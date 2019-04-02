@@ -24,7 +24,7 @@ class THM_OrganizerHelperPlan_Pools
      */
     public static function allowEdit($ppIDs)
     {
-        if (empty(JFactory::getUser()->id)) {
+        if (empty(\JFactory::getUser()->id)) {
             return false;
         }
 
@@ -39,7 +39,7 @@ class THM_OrganizerHelperPlan_Pools
         $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
         $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT dr.id')
             ->from('#__thm_organizer_department_resources as dr')

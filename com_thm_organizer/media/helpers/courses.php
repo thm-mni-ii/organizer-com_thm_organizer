@@ -33,7 +33,7 @@ class THM_OrganizerHelperCourses
      */
     public static function authorized($courseID = 0)
     {
-        $user = JFactory::getUser();
+        $user = \JFactory::getUser();
 
         if (empty($user->id)) {
             return false;
@@ -49,7 +49,7 @@ class THM_OrganizerHelperCourses
             return true;
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('COUNT(*)')
@@ -130,12 +130,12 @@ class THM_OrganizerHelperCourses
             $registrationURL .= "&Itemid=$menuID";
         }
 
-        if (!empty(JFactory::getUser()->id)) {
+        if (!empty(\JFactory::getUser()->id)) {
             $lessonURL = "&lessonID=$courseID";
 
             if ($authorized) {
                 $manage       = '<span class="icon-cogs"></span>' . $lang->_('COM_THM_ORGANIZER_MANAGE');
-                $managerRoute = JRoute::_($managerURL . $lessonURL);
+                $managerRoute = \JRoute::_($managerURL . $lessonURL);
                 $register     = "<a class='btn' href='$managerRoute'>$manage</a>";
             } else {
                 $regState = self::getParticipantState($courseID);
@@ -143,7 +143,7 @@ class THM_OrganizerHelperCourses
                 if ($expired) {
                     $register = '';
                 } else {
-                    $registerRoute = JRoute::_($registrationURL . $lessonURL);
+                    $registerRoute = \JRoute::_($registrationURL . $lessonURL);
 
                     if (!empty($regState)) {
                         $registerText = '<span class="icon-out-2"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_DEREGISTER');
@@ -211,7 +211,7 @@ class THM_OrganizerHelperCourses
 
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('pp.name as planningPeriodName, pp.id as planningPeriodID')
@@ -235,12 +235,13 @@ class THM_OrganizerHelperCourses
             return $courseData;
         }
 
+        $params = THM_OrganizerHelperComponent::getParams();
         if (empty($courseData['deadline'])) {
-            $courseData['deadline'] = JComponentHelper::getParams('com_thm_organizer')->get('deadline', 5);
+            $courseData['deadline'] = $params->get('deadline', 5);
         }
 
         if ($courseData['fee'] === null) {
-            $courseData['fee'] = JComponentHelper::getParams('com_thm_organizer')->get('fee', 50);
+            $courseData['fee'] = $params->get('fee', 50);
         }
 
         return $courseData;
@@ -260,7 +261,7 @@ class THM_OrganizerHelperCourses
         $dates = self::getDates($courseID);
 
         if (!empty($dates)) {
-            $dateFormat = JComponentHelper::getParams('com_thm_organizer')->get('dateFormat', 'd.m.Y');
+            $dateFormat = THM_OrganizerHelperComponent::getParams()->get('dateFormat', 'd.m.Y');
             $start      = HTML::_('date', $dates[0], $dateFormat);
             $end        = HTML::_('date', end($dates), $dateFormat);
 
@@ -285,7 +286,7 @@ class THM_OrganizerHelperCourses
             return [];
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT schedule_date');
@@ -316,10 +317,10 @@ class THM_OrganizerHelperCourses
 
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $nameParts = ['pt.surname', "', '", 'pt.forename'];
+        $nameParts    = ['pt.surname', "', '", 'pt.forename'];
         $programParts = ["pr.name_$shortTag", "' ('", 'dg.abbreviation', "' '", 'pr.version', "')'"];
 
         $query->select($query->concatenate($nameParts, '') . ' AS userName, pt.address, pt.zip_code, pt.city')
@@ -357,7 +358,7 @@ class THM_OrganizerHelperCourses
      */
     public static function getInstances($courseID, $mode = null, $calReference = null)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('map.id')
@@ -400,7 +401,7 @@ class THM_OrganizerHelperCourses
 
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT l.id, l.max_participants as lessonP')
@@ -465,7 +466,7 @@ class THM_OrganizerHelperCourses
             return [];
         }
 
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
@@ -501,14 +502,14 @@ class THM_OrganizerHelperCourses
      */
     public static function getParticipantState($courseID = 0)
     {
-        $userID   = JFactory::getUser()->id;
+        $userID   = \JFactory::getUser()->id;
         $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID) || empty($userID)) {
             return [];
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_user_lessons');
@@ -538,7 +539,7 @@ class THM_OrganizerHelperCourses
         $waitList    = '<span class="icon-checkbox-partial"></span>' . $lang->_('COM_THM_ORGANIZER_WAIT_LIST');
         $registered  = '<span class="icon-checkbox-checked"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 
-        if (!empty(JFactory::getUser()->id)) {
+        if (!empty(\JFactory::getUser()->id)) {
             if ($authorized) {
                 $userStatus = $lang->_('COM_THM_ORGANIZER_COURSE_ADMINISTRATOR');
             } else {
@@ -573,7 +574,7 @@ class THM_OrganizerHelperCourses
             return 0;
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('sm.subjectID AS id')
@@ -600,11 +601,11 @@ class THM_OrganizerHelperCourses
             return false;
         }
 
-        $startDate = new DateTime($dates[0]);
+        $startDate = new \DateTime($dates[0]);
         $deadline  = self::getCourse($courseID)['deadline'];
 
         try {
-            $interval = new DateInterval("P{$deadline}D");
+            $interval = new \DateInterval("P{$deadline}D");
         } catch (Exception $exc) {
             THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
 
@@ -612,7 +613,7 @@ class THM_OrganizerHelperCourses
 
         }
 
-        $adjustedDate = new DateTime;
+        $adjustedDate = new \DateTime;
         $adjustedDate->add($interval);
 
         return $startDate > $adjustedDate;
@@ -624,14 +625,14 @@ class THM_OrganizerHelperCourses
      * @param int $courseID lesson id of lesson where participants have to be moved up
      *
      * @return void
-     * @throws Exception => unauthorized access
+     * @throws \Exception => unauthorized access
      */
     public static function refreshWaitList($courseID)
     {
         $canAccept = self::canAcceptParticipant($courseID);
 
         if ($canAccept) {
-            $dbo   = JFactory::getDbo();
+            $dbo   = \JFactory::getDbo();
             $query = $dbo->getQuery(true);
 
             $query->select('userID');
@@ -658,7 +659,7 @@ class THM_OrganizerHelperCourses
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select("id, name_$shortTag AS name")
@@ -697,7 +698,7 @@ class THM_OrganizerHelperCourses
         }
 
         $lang  = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("name_$lang")
             ->from('#__thm_organizer_lesson_subjects AS ls')

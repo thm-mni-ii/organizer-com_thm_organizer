@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class creates a select box for (degree) programs.
  */
-class JFormFieldProgramID extends JFormFieldList
+class JFormFieldProgramID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -34,7 +35,7 @@ class JFormFieldProgramID extends JFormFieldList
     protected function getOptions()
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
 
         $query->select("dp.id AS value, dp.name_$shortTag AS name, d.abbreviation AS degree, dp.version");

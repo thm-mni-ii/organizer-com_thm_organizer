@@ -16,7 +16,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
 /**
  * Class loads curriculum information into the view context.
  */
-class THM_OrganizerModelCurriculum extends JModelItem
+class THM_OrganizerModelCurriculum extends \Joomla\CMS\MVC\Model\ItemModel
 {
     private $langTag;
 
@@ -27,12 +27,12 @@ class THM_OrganizerModelCurriculum extends JModelItem
      */
     public function getItem()
     {
-        $app     = THM_OrganizerHelperComponent::getApplication();
-        $params  = $app->getParams();
-        $program = new stdClass;
+        $input   = THM_OrganizerHelperComponent::getInput();
+        $params  = THM_OrganizerHelperComponent::getParams();
+        $program = new \stdClass;
 
-        $programIDs = $app->input->get('programIDs');
-        $poolIDs    = $app->input->get('poolIDs');
+        $programIDs = $input->get('programIDs');
+        $poolIDs    = $input->get('poolIDs');
 
         if (!empty($programIDs)) {
             $programID = explode(',', $programIDs)[0];
@@ -49,7 +49,7 @@ class THM_OrganizerModelCurriculum extends JModelItem
         $program->id = $programID;
 
         $defaultLang   = THM_OrganizerHelperLanguage::getShortTag();
-        $this->langTag = $app->input->get('languageTag', $defaultLang);
+        $this->langTag = $input->get('languageTag', $defaultLang);
 
         $this->setProgramInformation($program);
         if (empty($program->name)) {

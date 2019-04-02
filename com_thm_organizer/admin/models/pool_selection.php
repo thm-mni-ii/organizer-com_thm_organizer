@@ -27,9 +27,9 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
     protected $defaultDirection = 'asc';
 
     /**
-     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+     * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
      *
-     * @return JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+     * @return \JDatabaseQuery   A \JDatabaseQuery object to retrieve the data set.
      */
     protected function getListQuery()
     {
@@ -98,7 +98,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         $headers              = [];
         $headers['checkbox']  = '';
         $headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['programID'] = JText::_('COM_THM_ORGANIZER_PROGRAM');
+        $headers['programID'] = \JText::_('COM_THM_ORGANIZER_PROGRAM');
         $headers['fieldID']   = HTML::sort('FIELD', 'field', $direction, $ordering);
 
         return $headers;
@@ -156,7 +156,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         $query->clear('select');
         $query->clear('order');
         $query->select('COUNT(DISTINCT p.id)');
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
         $dbo->setQuery($query);
 
         return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
@@ -179,8 +179,8 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
     /**
      * Method to auto-populate the model state.
      *
-     * @param   string $ordering  An optional ordering field.
-     * @param   string $direction An optional direction (asc|desc).
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
      *
      * @return void
      */
@@ -189,7 +189,8 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         parent::populateState($ordering, $direction);
 
         $input = THM_OrganizerHelperComponent::getInput();
-        $list  = THM_OrganizerHelperComponent::getApplication()->getUserStateFromRequest($this->context . '.list', 'list', [], 'array');
+        $list  = THM_OrganizerHelperComponent::getApplication()->getUserStateFromRequest($this->context . '.list',
+            'list', [], 'array');
 
         $postType = $input->get('type', '');
         $type     = empty($list['type']) ? $postType : $list['type'];
@@ -248,8 +249,8 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
     /**
      * Sets the program id filter for a query. Used in pool manager and subject manager.
      *
-     * @param object &$query    the query object
-     * @param int    $programID the id of the resource from the filter
+     * @param object &$query     the query object
+     * @param int     $programID the id of the resource from the filter
      *
      * @return void  sets query object variables
      */

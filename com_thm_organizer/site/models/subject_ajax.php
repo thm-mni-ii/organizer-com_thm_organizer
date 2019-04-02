@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
@@ -32,7 +31,7 @@ class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             return '[]';
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $lang   = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');

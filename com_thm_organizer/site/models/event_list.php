@@ -21,7 +21,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/date.php';
 /**
  * Class retrieves information about upcoming events for display on monitors.
  */
-class THM_OrganizerModelEvent_List extends JModelForm
+class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
 {
     public $events = [];
 
@@ -29,10 +29,12 @@ class THM_OrganizerModelEvent_List extends JModelForm
 
     public $rooms = [];
 
-    private $columnMap = ['subject' => 'ps.id',
-                          'department' => 'd.id',
-                          'planProgram' => 'ppr.id',
-                          'planPool' => 'pp.id'];
+    private $columnMap = [
+        'subject'     => 'ps.id',
+        'department'  => 'd.id',
+        'planProgram' => 'ppr.id',
+        'planPool'    => 'pp.id'
+    ];
 
     private $dates = [];
 
@@ -59,13 +61,12 @@ class THM_OrganizerModelEvent_List extends JModelForm
      */
     private function setParams()
     {
-        $app = THM_OrganizerHelperComponent::getApplication();
-        $this->params = $app->getParams();
-        $input = THM_OrganizerHelperComponent::getInput();
+        $this->params = THM_OrganizerHelperComponent::getParams();
+        $input        = THM_OrganizerHelperComponent::getInput();
 
         $this->params['layout'] = empty($this->isRegistered()) ? 'default' : 'registered';
 
-        if (empty($app->getMenu()) or empty($app->getMenu()->getActive())){
+        if (!isset($this->params['show_page_heading'])) {
             $this->params['show_page_heading'] = true;
         }
 
@@ -93,8 +94,8 @@ class THM_OrganizerModelEvent_List extends JModelForm
      */
     protected function populateState()
     {
-        $app           = THM_OrganizerHelperComponent::getApplication();
-        $formData      = $app->input->get('jform', [], 'array');
+        $app      = THM_OrganizerHelperComponent::getApplication();
+        $formData = $app->input->get('jform', [], 'array');
 
         $menuStartDate      = $this->params->get('startDate');
         $menuEndDate        = $this->params->get('endDate');
@@ -112,7 +113,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
                 $this->state->set('startDate', $formData['startDate']);
             }
 
-            $allowedLengths        = ['day', 'week', 'month', 'semester', 'custom'];
+            $allowedLengths = ['day', 'week', 'month', 'semester', 'custom'];
             if ((!empty($formData['dateRestriction']) and in_array($formData['dateRestriction'], $allowedLengths))) {
                 $this->state->set('dateRestriction', $formData['dateRestriction']);
             } else {
@@ -120,7 +121,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
             }
         }
 
-        if (empty($this->state->get('dateRestriction'))){
+        if (empty($this->state->get('dateRestriction'))) {
             $this->state->set('endDate', $menuEndDate);
         }
     }
@@ -280,7 +281,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
      */
     private function getAllRoomIDs()
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')->from('#__thm_organizer_rooms');
         $dbo->setQuery($query);
@@ -314,7 +315,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
     /**
      * Filters the database query depending on $this->params['resources'] and the user input
      *
-     * @param JDatabaseQuery $query the database query
+     * @param \JDatabaseQuery $query the database query
      */
     private function filterEvents(&$query)
     {
@@ -322,19 +323,19 @@ class THM_OrganizerModelEvent_List extends JModelForm
             $query->where("{$this->columnMap[$resource]} = {$value}");
         }
 
-        if(!empty($this->params['myFinals']) && (boolean) $this->params['myFinals']) {
+        if (!empty($this->params['myFinals']) && (boolean)$this->params['myFinals']) {
             $this->params['mySchedule'] = 1;
             $query->where("m.id = 5");
         }
 
-        if(!empty($this->params['mySchedule']) && (boolean) $this->params['mySchedule']) {
-            $userID = JFactory::getUser()->id;
+        if (!empty($this->params['mySchedule']) && (boolean)$this->params['mySchedule']) {
+            $userID       = \JFactory::getUser()->id;
             $teacherQuery = "";
-            $teacherID = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
+            $teacherID    = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
 
             if ($teacherID !== 0) {
                 $query->leftJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
-                $regexp = '"teachers":\\{[^\}]*"' . $teacherID . '"';
+                $regexp       = '"teachers":\\{[^\}]*"' . $teacherID . '"';
                 $teacherQuery = " OR conf.configuration REGEXP '$regexp'";
             } else {
                 $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
@@ -400,7 +401,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
                 }
             }
 
-            foreach ($events as $event){
+            foreach ($events as $event) {
                 $date = $event['schedule_date'];
                 if (!array_key_exists($date, $this->events)) {
                     $this->events[$date] = array();
@@ -444,7 +445,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
     private function isRegistered()
     {
         $ipData       = ['ip' => THM_OrganizerHelperComponent::getInput()->server->getString('REMOTE_ADDR', '')];
-        $monitorEntry = JTable::getInstance('monitors', 'thm_organizerTable');
+        $monitorEntry = \JTable::getInstance('monitors', 'thm_organizerTable');
         $registered   = $monitorEntry->load($ipData);
         if (!$registered) {
             return false;
@@ -458,7 +459,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         $app         = THM_OrganizerHelperComponent::getApplication();
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
-            $base  = JUri::root() . 'index.php?';
+            $base  = \JUri::root() . 'index.php?';
             $query = $app->input->server->get('QUERY_STRING', '', 'raw');
             $query .= (strpos($query, 'com_thm_organizer') !== false) ? '' : '&option=com_thm_organizer';
             $query .= (strpos($query, 'event_list') !== false) ? '' : '&view=event_list';
@@ -526,8 +527,8 @@ class THM_OrganizerModelEvent_List extends JModelForm
      */
     private function setDates()
     {
-        $isRegistered       = ($this->params['layout'] == 'registered');
-        $invalidSelection   = (empty($this->params['days']) or (count($this->params['days']) === 1 and empty($this->params['days'][0])));
+        $isRegistered     = ($this->params['layout'] == 'registered');
+        $invalidSelection = (empty($this->params['days']) or (count($this->params['days']) === 1 and empty($this->params['days'][0])));
         if ($isRegistered or $invalidSelection) {
             $days = [1, 2, 3, 4, 5, 6];
         } else {
@@ -535,8 +536,8 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
 
         $startDT = strtotime($this->state->get('startDate'));
-        $date  = date('Y-m-d', $startDT);
-        $endDT = $startDT;
+        $date    = date('Y-m-d', $startDT);
+        $endDT   = $startDT;
         switch ($this->state->get('dateRestriction')) {
             case 'day':
                 $endDT = $startDT;
@@ -555,7 +556,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
                 break;
         }
 
-        if (!empty($dates)){
+        if (!empty($dates)) {
             $startDT = strtotime($dates['startDate']);
             $endDT   = strtotime($dates['endDate']);
         }
@@ -563,16 +564,15 @@ class THM_OrganizerModelEvent_List extends JModelForm
         for ($currentDT = $startDT; $currentDT <= $endDT; $currentDT = strtotime('+1 day', $currentDT)) {
             $currentDOW = date('w', $currentDT);
             if (in_array($currentDOW, $days)) {
-                $this->dates[] = "'".date('Y-m-d', $currentDT)."'";
+                $this->dates[] = "'" . date('Y-m-d', $currentDT) . "'";
             }
         }
 
         $this->dates = implode(',', $this->dates);
-        if (strlen($this->dates) === 0){
+        if (strlen($this->dates) === 0) {
             $this->dates = "NULL";
         }
     }
-
 
     /**
      * Sets the events for display
@@ -595,7 +595,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
     {
         // Registered room(s) would have already been set
         if (empty($this->rooms)) {
-            $invalidSelection   = (empty($this->params['rooms']) or (count($this->params['rooms']) === 1 and empty($this->params['rooms'][0])));
+            $invalidSelection = (empty($this->params['rooms']) or (count($this->params['rooms']) === 1 and empty($this->params['rooms'][0])));
 
             // All rooms
             if ($invalidSelection) {
@@ -606,7 +606,7 @@ class THM_OrganizerModelEvent_List extends JModelForm
         }
 
         $rooms      = [];
-        $roomsTable = JTable::getInstance('rooms', 'thm_organizerTable');
+        $roomsTable = \JTable::getInstance('rooms', 'thm_organizerTable');
 
         // The current values are meaningless and will be overwritten here
         foreach ($this->rooms as $roomID) {
@@ -633,8 +633,8 @@ class THM_OrganizerModelEvent_List extends JModelForm
     /**
      * Abstract method for getting the form from the model.
      *
-     * @param   array $data Data for the form.
-     * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
+     * @param array   $data     Data for the form.
+     * @param boolean $loadData True if the form is to load its own data (default case), false if not.
      *
      * @return  \JForm|boolean  A \JForm object on success, false on failure
      *

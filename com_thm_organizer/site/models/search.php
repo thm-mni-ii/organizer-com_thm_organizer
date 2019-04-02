@@ -39,8 +39,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Aggregates inclusive conditions into one 'where' clause
      *
-     * @param object &$query     the query object
-     * @param array  $conditions the conditions to be added to the query
+     * @param object &$query      the query object
+     * @param array   $conditions the conditions to be added to the query
      *
      * @return void modifies the query
      */
@@ -94,8 +94,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Filters lessons according to status and planning period
      *
-     * @param object &$query       the query object to filter
-     * @param int    $planPeriodID the id of the planning period for lesson results
+     * @param object &$query        the query object to filter
+     * @param int     $planPeriodID the id of the planning period for lesson results
      *
      * @return void modifies the query
      */
@@ -287,7 +287,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $departments[$departmentID]['text']
                                             = $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
 
-                $links['schedule'] = "?option=com_thm_organizer&view=schedule&departmentIDs=$departmentID";
+                $links['schedule']   = "?option=com_thm_organizer&view=schedule&departmentIDs=$departmentID";
                 $links['event_list'] = "?option=com_thm_organizer&view=event_list&departmentIDs=$departmentID";
 
                 $departments[$departmentID]['links'] = $links;
@@ -300,9 +300,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Processes pool results into a standardized array for output
      *
-     * @param array  &$pools  the array that the pools are to be stored in
-     * @param array  $results the pool id results
-     * @param string $type    the type of pool ids being processed
+     * @param array  &$pools   the array that the pools are to be stored in
+     * @param array   $results the pool id results
+     * @param string  $type    the type of pool ids being processed
      *
      * @return mixed
      */
@@ -314,9 +314,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $text  = THM_OrganizerHelperPools::getName($result['id'], 'real');
                 $links = ['subject_list' => "?option=com_thm_organizer&view=subject_list&poolIDs={$result['id']}"];
             } else {
-                $index = "p{$result['id']}";
-                $text  = THM_OrganizerHelperPools::getName($result['id'], 'plan');
-                $links['schedule'] = "?option=com_thm_organizer&view=schedule&poolIDs={$result['id']}";
+                $index               = "p{$result['id']}";
+                $text                = THM_OrganizerHelperPools::getName($result['id'], 'plan');
+                $links['schedule']   = "?option=com_thm_organizer&view=schedule&poolIDs={$result['id']}";
                 $links['event_list'] = "?option=com_thm_organizer&view=event_list&planPoolIDs={$result['id']}";
             }
 
@@ -374,7 +374,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 }
 
                 if (!$noPlan) {
-                    $links['schedule'] = "?option=com_thm_organizer&view=schedule&programIDs={$program['ppID']}";
+                    $links['schedule']   = "?option=com_thm_organizer&view=schedule&programIDs={$program['ppID']}";
                     $links['event_list'] = "?option=com_thm_organizer&view=event_list&planProgramIDs={$program['ppID']}";
                 }
 
@@ -386,7 +386,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             foreach ($ppResults as $program) {
                 $planID        = "p{$program['ppID']}";
                 $scheduleLink  = "?option=com_thm_organizer&view=schedule&programIDs={$program['ppID']}";
-                $eventlistLink =  "?option=com_thm_organizer&view=event_list&planProgramIDs={$program['ppID']}";
+                $eventlistLink = "?option=com_thm_organizer&view=event_list&planProgramIDs={$program['ppID']}";
 
                 // Subject was found
                 if (!empty($program['id'])) {
@@ -499,8 +499,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         if (!empty($psResults)) {
             foreach ($psResults as $pID => $plan) {
-                $planID       = "p$pID";
-                $scheduleLink = "?option=com_thm_organizer&view=schedule&subjectIDs=$pID";
+                $planID           = "p$pID";
+                $scheduleLink     = "?option=com_thm_organizer&view=schedule&subjectIDs=$pID";
                 $scheduleListLink = "?option=com_thm_organizer&view=event_list&subjectIDs=$pID";
 
                 // Subject was found
@@ -703,7 +703,6 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         foreach ($this->programResults as $strength => $programs) {
             $pools = [];
-
 
             foreach ($programs as $program) {
                 $ppQuery->clear('select');
@@ -1240,7 +1239,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     private function setPrograms()
     {
         // Clone for editing.
-        $terms = $this->terms;
+        $terms     = $this->terms;
         $firstTerm = $terms[0];
         unset($terms[0]);
 
@@ -1302,7 +1301,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         // Strong => full program name
-        $wherray    = [];
+        $wherray   = [];
         $wherray[] = "(name LIKE '%$firstTerm%')";
 
         $this->addInclusiveConditions($ppQuery, $wherray);
@@ -1316,8 +1315,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $programResults['strong'] = $this->processPrograms($sPrograms, $sPlanPrograms);
 
         // Good => parts of the program name
-        $wherray    = [];
-        foreach ($this->terms as $term){
+        $wherray = [];
+        foreach ($this->terms as $term) {
             $wherray[] = "(name LIKE '%$term%')";
         }
 
@@ -1330,7 +1329,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $gPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
 
         $programResults['good'] = $this->processPrograms($gPrograms, $gPlanPrograms);
-        $this->programResults = $programResults;
+        $this->programResults   = $programResults;
     }
 
     /**

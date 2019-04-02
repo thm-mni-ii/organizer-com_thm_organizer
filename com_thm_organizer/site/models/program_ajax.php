@@ -37,8 +37,8 @@ class THM_OrganizerModelProgram_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     public function programsByTeacher()
     {
-        $dbo          = JFactory::getDbo();
-        $defaultArray = explode('-', JFactory::getLanguage()->getTag());
+        $dbo          = \JFactory::getDbo();
+        $defaultArray = explode('-', \JFactory::getLanguage()->getTag());
         $defaultTag   = $defaultArray[0];
         $language     = THM_OrganizerHelperComponent::getInput()->get('languageTag', $defaultTag);
         $query        = $dbo->getQuery(true);

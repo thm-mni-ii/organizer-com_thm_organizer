@@ -25,13 +25,13 @@ class THM_OrganizerViewRoom_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::save('room.save');
+        \JToolbarHelper::save('room.save');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_EDIT_NEW_TITLE'), 'organizer_rooms');
-            JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_ROOM_EDIT_NEW_TITLE'), 'organizer_rooms');
+            \JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_ROOM_EDIT_EDIT_TITLE'), 'organizer_rooms');
-            JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_ROOM_EDIT_EDIT_TITLE'), 'organizer_rooms');
+            \JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

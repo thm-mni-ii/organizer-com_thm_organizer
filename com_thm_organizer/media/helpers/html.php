@@ -178,7 +178,7 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
     public static function textColor($bgColor)
     {
         $color              = substr($bgColor, 1);
-        $params             = JComponentHelper::getParams('com_thm_organizer');
+        $params             = THM_OrganizerHelperComponent::getParams();
         $red                = hexdec(substr($color, 0, 2));
         $green              = hexdec(substr($color, 2, 2));
         $blue               = hexdec(substr($color, 4, 2));
@@ -194,7 +194,7 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
     /**
      * Creates a dynamically translated label.
      *
-     * @param mixed $view the view this method is applied to
+     * @param mixed  $view      the view this method is applied to
      * @param string $inputName the name of the form field whose label should be generated
      *
      * @return string the HMTL for the field label

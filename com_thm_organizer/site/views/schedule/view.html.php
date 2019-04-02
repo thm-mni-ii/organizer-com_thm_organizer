@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-jimport('joomla.application.component.view');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
@@ -90,7 +89,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
         $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
         $this->model       = $this->getModel();
         $this->defaultGrid = $this->model->getDefaultGrid();
-        $compParams        = JComponentHelper::getParams('com_thm_organizer');
+        $compParams        = THM_OrganizerHelperComponent::getParams();
         $this->dateFormat  = $compParams->get('dateFormat', 'd.m.Y');
         $this->emailFilter = $compParams->get('emailFilter', '');
         $this->modifyDocument();
@@ -104,15 +103,15 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        $doc = JFactory::getDocument();
+        $doc = \JFactory::getDocument();
 
         HTML::_('formbehavior.chosen', 'select');
         $this->addScriptOptions();
-        $doc->addScript(JUri::root() . 'media/com_thm_organizer/js/schedule.js');
+        $doc->addScript(\JUri::root() . 'media/com_thm_organizer/js/schedule.js');
 
-        $doc->addStyleSheet(JUri::root() . 'media/com_thm_organizer/fonts/iconfont-frontend.css');
-        $doc->addStyleSheet(JUri::root() . 'media/com_thm_organizer/css/schedule.css');
-        $doc->addStyleSheet(JUri::root() . 'media/jui/css/icomoon.css');
+        $doc->addStyleSheet(\JUri::root() . 'media/com_thm_organizer/fonts/iconfont-frontend.css');
+        $doc->addStyleSheet(\JUri::root() . 'media/com_thm_organizer/css/schedule.css');
+        $doc->addStyleSheet(\JUri::root() . 'media/jui/css/icomoon.css');
     }
 
     /**
@@ -122,8 +121,8 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function addScriptOptions()
     {
-        $user = JFactory::getUser();
-        $root = JUri::root();
+        $user = \JFactory::getUser();
+        $root = \JUri::root();
 
         $variables = [
             'SEMESTER_MODE'     => 1,
@@ -162,36 +161,36 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
             }
         }
 
-        $doc = JFactory::getDocument();
+        $doc = \JFactory::getDocument();
         $doc->addScriptOptions('variables', array_merge($variables, $this->model->params));
 
-        JText::script('APRIL');
-        JText::script('AUGUST');
-        JText::script('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');
-        JText::script('DECEMBER');
-        JText::script('FEBRUARY');
-        JText::script('FRI');
-        JText::script('JANUARY');
-        JText::script('JULY');
-        JText::script('JUNE');
-        JText::script('COM_THM_ORGANIZER_LUNCHTIME');
-        JText::script('MARCH');
-        JText::script('MAY');
-        JText::script('MON');
-        JText::script('COM_THM_ORGANIZER_MY_SCHEDULE');
-        JText::script('NOVEMBER');
-        JText::script('OCTOBER');
-        JText::script('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
-        JText::script('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER');
-        JText::script('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
-        JText::script('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
-        JText::script('SAT');
-        JText::script('SEPTEMBER');
-        JText::script('SUN');
-        JText::script('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
-        JText::script('THU');
-        JText::script('COM_THM_ORGANIZER_TIME');
-        JText::script('TUE');
-        JText::script('WED');
+        \JText::script('APRIL');
+        \JText::script('AUGUST');
+        \JText::script('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');
+        \JText::script('DECEMBER');
+        \JText::script('FEBRUARY');
+        \JText::script('FRI');
+        \JText::script('JANUARY');
+        \JText::script('JULY');
+        \JText::script('JUNE');
+        \JText::script('COM_THM_ORGANIZER_LUNCHTIME');
+        \JText::script('MARCH');
+        \JText::script('MAY');
+        \JText::script('MON');
+        \JText::script('COM_THM_ORGANIZER_MY_SCHEDULE');
+        \JText::script('NOVEMBER');
+        \JText::script('OCTOBER');
+        \JText::script('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
+        \JText::script('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER');
+        \JText::script('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        \JText::script('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
+        \JText::script('SAT');
+        \JText::script('SEPTEMBER');
+        \JText::script('SUN');
+        \JText::script('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
+        \JText::script('THU');
+        \JText::script('COM_THM_ORGANIZER_TIME');
+        \JText::script('TUE');
+        \JText::script('WED');
     }
 }

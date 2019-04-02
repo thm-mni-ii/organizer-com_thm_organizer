@@ -18,7 +18,7 @@ $subjectURL = "{$pathPrefix}&view=subject_details&languageTag={$this->shortTag}"
 $subjectURL .= empty($menuID) ? '' : "&Itemid=$menuID";
 
 foreach ($this->items as $item) {
-    $subjectRoute = JRoute::_($subjectURL . "&id={$item->subjectID}");
+    $subjectRoute = \JRoute::_($subjectURL . "&id={$item->subjectID}");
 
     $startDate   = THM_OrganizerHelperDate::formatDate($item->start);
     $endDate     = THM_OrganizerHelperDate::formatDate($item->end);

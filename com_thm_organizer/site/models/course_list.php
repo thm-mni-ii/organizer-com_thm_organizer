@@ -14,7 +14,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 /**
  * Class retrieves the data regarding a filtered set of courses.
  */
-class THM_OrganizerModelCourse_List extends JModelList
+class THM_OrganizerModelCourse_List extends \Joomla\CMS\MVC\Model\ListModel
 {
     /**
      * Method to get an array of data items.
@@ -53,9 +53,9 @@ class THM_OrganizerModelCourse_List extends JModelList
     }
 
     /**
-     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+     * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
      *
-     * @return JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+     * @return \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
      */
     protected function getListQuery()
     {
@@ -114,8 +114,8 @@ class THM_OrganizerModelCourse_List extends JModelList
     /**
      * Method to auto-populate the model state.
      *
-     * @param   string $ordering  An optional ordering field.
-     * @param   string $direction An optional direction (asc|desc).
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
      *
      * @return void
      *
@@ -123,18 +123,11 @@ class THM_OrganizerModelCourse_List extends JModelList
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app      = THM_OrganizerHelperComponent::getApplication();
-        $formData = $app->input->get('jform', [], 'array');
+        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         if (empty($formData)) {
-            $menuDefaults = (!empty($app->getMenu()) and !empty($app->getMenu()->getActive()));
-
-            if ($menuDefaults) {
-                $params   = $app->getMenu()->getActive()->getParams();
-                $campusID = $params->get('campusID', 0);
-            } else {
-                $campusID = 0;
-            }
+            $params    = THM_OrganizerHelperComponent::getParams();
+            $campusID  = $params->get('campusID', 0);
             $status    = 'current';
             $subjectID = 0;
         } else {

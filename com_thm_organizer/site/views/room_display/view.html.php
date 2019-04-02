@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * Class loads a room's daily schedule into the display context.
  */
@@ -41,7 +39,7 @@ class THM_OrganizerViewRoom_Display extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/room_display.css');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/room_display.css');
     }
 }

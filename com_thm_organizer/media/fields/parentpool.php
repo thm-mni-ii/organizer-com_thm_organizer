@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
  */
-class JFormFieldParentPool extends JFormField
+class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
 {
     /**
      * Type
@@ -56,7 +56,7 @@ class JFormFieldParentPool extends JFormField
         THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 
         $options   = [];
-        $options[] = '<option value="-1">' . JText::_('JNONE') . '</option>';
+        $options[] = '<option value="-1">' . \JText::_('JNONE') . '</option>';
 
         if (!empty($mappings)) {
             $unwantedMappings = [];

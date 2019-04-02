@@ -24,7 +24,7 @@ class THM_OrganizerHelperPlan_Programs
      */
     public static function allowEdit($ppIDs)
     {
-        $user = JFactory::getUser();
+        $user = \JFactory::getUser();
 
         if (empty($user->id)) {
             return false;
@@ -41,7 +41,7 @@ class THM_OrganizerHelperPlan_Programs
         $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
         $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT id')
             ->from('#__thm_organizer_department_resources')

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
-    throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+if (!\JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
+    throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
 }
 
 try {

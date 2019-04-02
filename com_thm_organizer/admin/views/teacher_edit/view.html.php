@@ -24,13 +24,13 @@ class THM_OrganizerViewTeacher_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::save('teacher.save');
+        \JToolbarHelper::save('teacher.save');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_TEACHER_EDIT_NEW_TITLE'), 'organizer_teachers');
-            JToolbarHelper::cancel('teacher.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_TEACHER_EDIT_NEW_TITLE'), 'organizer_teachers');
+            \JToolbarHelper::cancel('teacher.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_TEACHER_EDIT_EDIT_TITLE'), 'organizer_teachers');
-            JToolbarHelper::cancel('teacher.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_TEACHER_EDIT_EDIT_TITLE'), 'organizer_teachers');
+            \JToolbarHelper::cancel('teacher.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

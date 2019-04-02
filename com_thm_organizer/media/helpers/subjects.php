@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 require_once 'date.php';
 require_once 'departments.php';
 
-
 /**
  * Provides general functions for subject access checks, data retrieval and display.
  */
@@ -28,7 +27,7 @@ class THM_OrganizerHelperSubjects
      */
     public static function allowEdit($subjectID)
     {
-        $user = JFactory::getUser();
+        $user = \JFactory::getUser();
 
         if (empty($user->id)) {
             return false;
@@ -47,7 +46,7 @@ class THM_OrganizerHelperSubjects
         }
 
         // Teacher coordinator responsibility association from the documentation system
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('COUNT(*)')
@@ -71,7 +70,7 @@ class THM_OrganizerHelperSubjects
      */
     public static function getID($subjectIndex)
     {
-        $table  = JTable::getInstance('plan_subjects', 'thm_organizerTable');
+        $table  = \JTable::getInstance('plan_subjects', 'thm_organizerTable');
         $data   = ['subjectIndex' => $subjectIndex];
         $exists = $table->load($data);
         if ($exists) {
@@ -92,7 +91,7 @@ class THM_OrganizerHelperSubjects
      */
     public static function getName($subjectID, $type, $withNumber = false)
     {
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $query = $dbo->getQuery(true);
@@ -152,7 +151,7 @@ class THM_OrganizerHelperSubjects
     {
         $subjectID = self::getID($subjectIndex);
 
-        $table = JTable::getInstance('plan_subjects', 'thm_organizerTable');
+        $table = \JTable::getInstance('plan_subjects', 'thm_organizerTable');
 
         if (!empty($subjectID)) {
             $table->load($subjectID);
@@ -185,7 +184,7 @@ class THM_OrganizerHelperSubjects
     public static function getPrograms($subjectID, $type)
     {
         $names       = [];
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $query     = $dbo->getQuery(true);
@@ -252,7 +251,7 @@ class THM_OrganizerHelperSubjects
 
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
-        $dbo = JFactory::getDbo();
+        $dbo = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT l.id, l.comment, ls.subjectID, m.abbreviation_$languageTag AS method")

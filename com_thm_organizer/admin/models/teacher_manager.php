@@ -28,7 +28,7 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
     /**
      * Method to get all teachers from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -81,11 +81,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
             $departments = THM_OrganizerHelperTeachers::getDepartmentNames($item->id);
 
             if (empty($departments)) {
-                $return[$index]['departmentID'] = JText::_('JNONE');
+                $return[$index]['departmentID'] = \JText::_('JNONE');
             } elseif (count($departments) === 1) {
                 $return[$index]['departmentID'] = $departments[0];
             } else {
-                $return[$index]['departmentID'] = JText::_('COM_THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
+                $return[$index]['departmentID'] = \JText::_('COM_THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
             }
 
             $index++;
@@ -103,11 +103,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
     {
         $headers                 = [];
         $headers['checkbox']     = '';
-        $headers['surname']      = JText::_('COM_THM_ORGANIZER_SURNAME');
-        $headers['forename']     = JText::_('COM_THM_ORGANIZER_FORENAME');
-        $headers['username']     = JText::_('COM_THM_ORGANIZER_USERNAME');
-        $headers['t.gpuntisID']  = JText::_('COM_THM_ORGANIZER_GPUNTISID');
-        $headers['departmentID'] = JText::_('COM_THM_ORGANIZER_DEPARTMENT');
+        $headers['surname']      = \JText::_('COM_THM_ORGANIZER_SURNAME');
+        $headers['forename']     = \JText::_('COM_THM_ORGANIZER_FORENAME');
+        $headers['username']     = \JText::_('COM_THM_ORGANIZER_USERNAME');
+        $headers['t.gpuntisID']  = \JText::_('COM_THM_ORGANIZER_GPUNTISID');
+        $headers['departmentID'] = \JText::_('COM_THM_ORGANIZER_DEPARTMENT');
 
         return $headers;
     }

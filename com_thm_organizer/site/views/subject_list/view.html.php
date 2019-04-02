@@ -44,11 +44,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->modifyDocument();
 
-        if (empty(THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()->id)) {
-            $this->params = new Joomla\Registry\Registry;
-        } else {
-            $this->params = THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()->params;
-        }
+        $this->params = THM_OrganizerHelperComponent::getParams();
 
         $this->fixGroupBy();
         $this->lang = THM_OrganizerHelperLanguage::getLanguage($this->params->get('initialLanguage', 'de'));
@@ -61,7 +57,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         $this->items         = $this->get('items');
-        $this->languageLinks = new JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
 
         $model             = $this->getModel();
         $this->fields      = $model->fields;
@@ -69,7 +65,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->pools       = $model->pools;
         $this->displayName = $model->displayName;
 
-        $this->disclaimer     = new JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
+        $this->disclaimer     = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
         $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);
@@ -121,11 +117,11 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         if (empty($pool['minCrP']) and empty($pool['maxCrP'])) {
             return '';
         } elseif (empty($pool['minCrP'])) {
-            return sprintf(JText::_('COM_THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
+            return sprintf(\JText::_('COM_THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
         } elseif (empty($pool['maxCrP']) or $pool['minCrP'] == $pool['maxCrP']) {
             return "{$pool['minCrP']} CrP";
         } else {
-            return sprintf(JText::_('COM_THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
+            return sprintf(\JText::_('COM_THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
         }
     }
 
@@ -224,11 +220,11 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 
             default:
                 if ($isResponsible) {
-                    $responsibilities[1] = JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
+                    $responsibilities[1] = \JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
                 }
 
                 if ($isTeacher) {
-                    $responsibilities[2] = JText::_('COM_THM_ORGANIZER_TEACHER');
+                    $responsibilities[2] = \JText::_('COM_THM_ORGANIZER_TEACHER');
                 }
 
                 break;
@@ -257,7 +253,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
                 $displayTeachers[$name]['resp'] = '';
 
                 if ($responsibility == 0) {
-                    $displayTeachers[$name]['resp'] = JText::_('COM_THM_ORGANIZER_RESPONSIBLE_ABBR');
+                    $displayTeachers[$name]['resp'] = \JText::_('COM_THM_ORGANIZER_RESPONSIBLE_ABBR');
                 }
             }
         }
@@ -274,7 +270,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 
                 if ($responsibility == 0) {
                     $displayTeachers[$name]['resp'] .= empty($displayTeachers[$name]['resp']) ?
-                        JText::_('COM_THM_ORGANIZER_TEACHER_ABBR') : ', ' . JText::_('COM_THM_ORGANIZER_TEACHER_ABBR');
+                        \JText::_('COM_THM_ORGANIZER_TEACHER_ABBR') : ', ' . \JText::_('COM_THM_ORGANIZER_TEACHER_ABBR');
                 }
             }
         }
@@ -337,7 +333,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('jquery.ui');
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/subject_list.css');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/subject_list.css');
     }
 }

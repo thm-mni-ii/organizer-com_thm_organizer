@@ -34,7 +34,7 @@ class THM_OrganizerLayoutList_Modal
                     <div class="clearfix">
                         <div class="js-stools-container-bar">
                             <?php self::renderSearch($filters); ?>
-                            <?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+                            <?php echo \JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
                             <?php self::renderButtons(); ?>
                         </div>
                     </div>
@@ -77,7 +77,7 @@ class THM_OrganizerLayoutList_Modal
         }
         ?>
         <label for="filter_search" class="element-invisible">
-            <?php echo JText::_('JSEARCH_FILTER'); ?>
+            <?php echo \JText::_('JSEARCH_FILTER'); ?>
         </label>
         <div class="btn-wrapper input-append">
             <?php echo $filters['filter_search']->input; ?>
@@ -90,7 +90,7 @@ class THM_OrganizerLayoutList_Modal
             <button type="button" class="btn hasTooltip js-stools-btn-clear"
                     title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
                 <i class="icon-refresh"></i>
-                <?php echo JText::_('JSEARCH_RESET'); ?>
+                <?php echo \JText::_('JSEARCH_RESET'); ?>
             </button>
         </div>
         <?php
@@ -103,13 +103,12 @@ class THM_OrganizerLayoutList_Modal
      */
     private static function renderButtons()
     {
-        $toolbar = JToolbar::getInstance();
+        $toolbar = \JToolbar::getInstance();
         $buttons = $toolbar->getItems();
         foreach ($buttons as $button) {
             echo $toolbar->renderButton($button);
         }
     }
-
 
     /**
      * Renders the table head

@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
 
 /**
  * Class creates a form field for room selection.
  */
-class JFormFieldRoomID extends JFormFieldList
+class JFormFieldRoomID extends \JFormFieldList
 {
     /**
      * @var  string

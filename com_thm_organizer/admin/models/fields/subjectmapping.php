@@ -14,7 +14,7 @@ use \THM_OrganizerHelperHTML as HTML;
  * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done implicitly
  * during the schedule import process according to degree programs and the subject's module number.
  */
-class JFormFieldSubjectMapping extends JFormField
+class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
 {
     protected $type = 'subjectMapping';
 
@@ -28,7 +28,7 @@ class JFormFieldSubjectMapping extends JFormField
         $fieldName = $this->getAttribute('name');
         $subjectID = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
 
-        $dbo           = JFactory::getDbo();
+        $dbo           = \JFactory::getDbo();
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('plan_subjectID');
         $selectedQuery->from('#__thm_organizer_subject_mappings');

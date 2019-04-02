@@ -42,7 +42,6 @@
         <folder>layouts</folder>
         <folder>models</folder>
         <folder>views</folder>
-        <filename>buggedrouter.php</filename>
         <filename>controller.php</filename>
         <filename>LICENSE.txt</filename>
         <filename>thm_organizer.php</filename>

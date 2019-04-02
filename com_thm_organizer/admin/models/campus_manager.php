@@ -28,7 +28,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
     /**
      * Method to get all campuses from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -111,7 +111,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
             } elseif (!empty($item->parentGridName)) {
                 $gridName = $item->parentGridName;
             } else {
-                $gridName = JText::_('JNONE');
+                $gridName = \JText::_('JNONE');
             }
             $return[$index]['gridID'] = $gridName;
         }
@@ -130,10 +130,10 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
     {
         $headers             = [];
         $headers['checkbox'] = '';
-        $headers['name']     = JText::_('COM_THM_ORGANIZER_NAME');
-        $headers['address']  = JText::_('COM_THM_ORGANIZER_ADDRESS');
-        $headers['location'] = JText::_('COM_THM_ORGANIZER_LOCATION');
-        $headers['gridID']   = JText::_('COM_THM_ORGANIZER_GRID');
+        $headers['name']     = \JText::_('COM_THM_ORGANIZER_NAME');
+        $headers['address']  = \JText::_('COM_THM_ORGANIZER_ADDRESS');
+        $headers['location'] = \JText::_('COM_THM_ORGANIZER_LOCATION');
+        $headers['gridID']   = \JText::_('COM_THM_ORGANIZER_GRID');
 
         return $headers;
     }

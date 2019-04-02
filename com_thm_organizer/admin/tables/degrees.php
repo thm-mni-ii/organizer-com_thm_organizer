@@ -11,17 +11,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Class instantiates a JTable Object associated with the degrees table.
+ * Class instantiates a \JTable Object associated with the degrees table.
  */
-class THM_OrganizerTableDegrees extends JTable
+class THM_OrganizerTableDegrees extends \Joomla\CMS\Table\Table
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

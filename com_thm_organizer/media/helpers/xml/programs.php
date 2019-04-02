@@ -29,12 +29,12 @@ class THM_OrganizerHelperXMLPrograms
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->departments)) {
-            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->degrees = new stdClass;
+        $scheduleModel->schedule->degrees = new \stdClass;
 
         foreach ($xmlObject->departments->children() as $degreeNode) {
             self::validateIndividual($scheduleModel, $degreeNode);
@@ -53,8 +53,8 @@ class THM_OrganizerHelperXMLPrograms
     {
         $programID = trim((string)$programNode[0]['id']);
         if (empty($programID)) {
-            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
+            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
             }
 
             return;
@@ -65,12 +65,12 @@ class THM_OrganizerHelperXMLPrograms
         $programName = (string)$programNode->longname;
         if (!isset($programName)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $programID);
+                = sprintf(\JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $programID);
 
             return;
         }
 
-        $program            = new stdClass;
+        $program            = new \stdClass;
         $program->gpuntisID = $programID;
         $program->name      = $programName;
         $program->id        = THM_OrganizerHelperPrograms::getPlanResourceID($program);

@@ -27,7 +27,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
     /**
      * Method to get all plan_programs from the database
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {

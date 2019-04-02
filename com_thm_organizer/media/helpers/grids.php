@@ -24,7 +24,7 @@ class THM_OrganizerHelperGrids
      */
     public static function getID($untisID)
     {
-        $table  = JTable::getInstance('grids', 'thm_organizerTable');
+        $table  = \JTable::getInstance('grids', 'thm_organizerTable');
         $data   = ['gpuntisID' => $untisID];
         $exists = $table->load($data);
 

@@ -34,7 +34,7 @@ if (empty($displayData['view'])) {
 
     foreach ($supportedLanguages as $languageTag => $text) {
         $params['languageTag'] = $languageTag;
-        $href                  = JUri::buildQuery($params);
+        $href                  = \JUri::buildQuery($params);
         echo '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
     }
 

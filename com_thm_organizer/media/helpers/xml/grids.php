@@ -34,7 +34,7 @@ class THM_OrganizerHelperXMLGrids
 
         $grid->grid = json_encode($grid->grid);
 
-        $gridTable = JTable::getInstance('grids', 'thm_organizerTable');
+        $gridTable = \JTable::getInstance('grids', 'thm_organizerTable');
         $gridTable->save($grid);
     }
 
@@ -53,12 +53,12 @@ class THM_OrganizerHelperXMLGrids
     {
         // Builds the object for the DB
         if (!isset($grids->$gridName)) {
-            $grids->$gridName                = new stdClass;
+            $grids->$gridName                = new \stdClass;
             $grids->$gridName->gpuntisID     = $gridName;
             $grids->$gridName->name_de       = $gridName;
             $grids->$gridName->name_en       = $gridName;
-            $grids->$gridName->grid          = new stdClass;
-            $grids->$gridName->grid->periods = new stdClass;
+            $grids->$gridName->grid          = new \stdClass;
+            $grids->$gridName->grid->periods = new \stdClass;
         }
 
         $setStartDay = (empty($grids->$gridName->grid->startDay) or $grids->$gridName->grid->startDay > $day);
@@ -85,13 +85,13 @@ class THM_OrganizerHelperXMLGrids
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->timeperiods)) {
-            $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->periods = new stdClass;
-        $grids                            = new stdClass;
+        $scheduleModel->schedule->periods = new \stdClass;
+        $grids                            = new \stdClass;
 
         foreach ($xmlObject->timeperiods->children() as $timePeriodNode) {
             self::validateIndividual($scheduleModel, $timePeriodNode, $grids);
@@ -127,8 +127,8 @@ class THM_OrganizerHelperXMLGrids
         $invalidPeriod = ($invalidKeys or $invalidTimes);
 
         if ($invalidPeriod) {
-            if (!in_array(JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT');
+            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT');
             }
 
             return;
@@ -136,10 +136,10 @@ class THM_OrganizerHelperXMLGrids
 
         // Set the grid if not already existent
         if (empty($scheduleModel->schedule->periods->$gridName)) {
-            $scheduleModel->schedule->periods->$gridName = new stdClass;
+            $scheduleModel->schedule->periods->$gridName = new \stdClass;
         }
 
-        $scheduleModel->schedule->periods->$gridName->$periodNo            = new stdClass;
+        $scheduleModel->schedule->periods->$gridName->$periodNo            = new \stdClass;
         $scheduleModel->schedule->periods->$gridName->$periodNo->startTime = $startTime;
         $scheduleModel->schedule->periods->$gridName->$periodNo->endTime   = $endTime;
 

@@ -18,15 +18,15 @@ $coursesType = empty($this->state->filter_prep_courses) ?
 $specTitle   = "$coursesType $campusName";
 $header      = sprintf($header, $specTitle);
 
-$action = JUri::current();
+$action = \JUri::current();
 $action .= empty(THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()) ? '' : '?option=com_thm_organizer&view=course_list';
 
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
-$loginRoute    = JRoute::_('index.php?option=com_users&view=login&tmpl=component', false, 1);
-$registerRoute = JRoute::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
-$profileRoute  = JRoute::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->shortTag}");
+$loginRoute    = \JRoute::_('index.php?option=com_users&view=login&tmpl=component', false, 1);
+$registerRoute = \JRoute::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
+$profileRoute  = \JRoute::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->shortTag}");
 
-$position = JComponentHelper::getParams('com_thm_organizer')->get('loginPosition');
+$position = THM_OrganizerHelperComponent::getParams()->get('loginPosition');
 
 // This variable is also used in the subordinate template
 $menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid', 0);
@@ -47,7 +47,7 @@ if (!empty($menuID)):
 <div class="course-list-view uses-login">
     <h1><?php echo $header; ?></h1>
 
-    <?php if (empty(JFactory::getUser()->id)): ?>
+    <?php if (empty(\JFactory::getUser()->id)): ?>
         <div class="tbox-yellow">
             <p><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
             <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>

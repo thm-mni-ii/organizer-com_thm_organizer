@@ -42,7 +42,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
     /**
      * generates the query to be used to fill the output list
      *
-     * @return JDatabaseQuery
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -94,7 +94,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
             $return[$index]['planningPeriodID'] = $item->planningPeriodName;
 
             $return[$index]['active']
-                = $this->getToggle($item->id, $item->active, 'schedule', JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
+                = $this->getToggle($item->id, $item->active, 'schedule', \JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
 
             $created                   = THM_OrganizerHelperDate::formatDate($item->creationDate);
             $created                   .= ' / ' . THM_OrganizerHelperDate::formatTime($item->creationTime);

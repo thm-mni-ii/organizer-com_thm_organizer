@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+\JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/xml/schedule.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/json_schedule.php';
 
@@ -41,14 +41,14 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess($active->id)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         if (!empty($active->active)) {
             return true;
         }
 
-        $jsonModel = new THM_OrganizerModelJSONSchedule;
+        $jsonModel = new \THM_OrganizerModelJSONSchedule;
 
         // No access checks for the reference schedule, because access rights are inherited through the department.
         $reference = $this->getScheduleRow($active->departmentID, $active->planningPeriodID);
@@ -74,7 +74,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $scheduleIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
         if (!empty($scheduleIDs)) {
             $scheduleID = $scheduleIDs[0];
-            $schedule   = JTable::getInstance('schedules', 'thm_organizerTable');
+            $schedule   = \JTable::getInstance('schedules', 'thm_organizerTable');
             $schedule->load($scheduleID);
 
             return $schedule->active;
@@ -93,7 +93,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $this->_db->transactionStart();
@@ -102,7 +102,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
             if (!THM_OrganizerHelperAccess::allowSchedulingAccess($scheduleID)) {
                 $this->_db->transactionRollback();
-                throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
             }
 
             try {
@@ -134,7 +134,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function deleteSingle($scheduleID)
     {
-        $schedule = JTable::getInstance('schedules', 'thm_organizerTable');
+        $schedule = \JTable::getInstance('schedules', 'thm_organizerTable');
         $schedule->load($scheduleID);
 
         return $schedule->delete();
@@ -174,7 +174,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             ];
         }
 
-        $scheduleRow = JTable::getInstance('schedules', 'thm_organizerTable');
+        $scheduleRow = \JTable::getInstance('schedules', 'thm_organizerTable');
         $scheduleRow->load($pullData);
 
         return !empty($scheduleRow->id) ? $scheduleRow : null;
@@ -195,7 +195,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess($reference->id)) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $active = $this->getScheduleRow($reference->departmentID, $reference->planningPeriodID);
@@ -206,7 +206,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         // No access checks for the active schedule, they share the same department from which they inherit access.
 
-        $jsonModel  = new THM_OrganizerModelJSONSchedule;
+        $jsonModel  = new \THM_OrganizerModelJSONSchedule;
         $refSuccess = $jsonModel->setReference($reference, $active);
 
         return $refSuccess;
@@ -248,14 +248,14 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
 
         if ($invalidForm) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess(null, $form['departmentID'])) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $xmlModel = new THM_OrganizerModelXMLSchedule;
+        $xmlModel = new \THM_OrganizerModelXMLSchedule;
         $valid    = $xmlModel->validate();
 
         if (!$valid) {
@@ -264,7 +264,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         $this->schedule = $xmlModel->schedule;
 
-        $new = JTable::getInstance('schedules', 'thm_organizerTable');
+        $new = \JTable::getInstance('schedules', 'thm_organizerTable');
         $new->set('departmentID', $this->schedule->departmentID);
         $new->set('planningPeriodID', $this->schedule->planningPeriodID);
         $new->set('creationDate', $this->schedule->creationDate);
@@ -272,7 +272,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $new->set('schedule', json_encode($this->schedule));
 
         $reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
-        $jsonModel = new THM_OrganizerModelJSONSchedule;
+        $jsonModel = new \THM_OrganizerModelJSONSchedule;
 
         if (empty($reference) or empty($reference->id)) {
             $new->set('active', 1);

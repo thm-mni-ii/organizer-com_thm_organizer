@@ -10,17 +10,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Class instantiates a JTable Object associated with the department_resources table.
+ * Class instantiates a \JTable Object associated with the department_resources table.
  */
-class THM_OrganizerTableDepartment_Resources extends JTable
+class THM_OrganizerTableDepartment_Resources extends \Joomla\CMS\Table\Table
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {

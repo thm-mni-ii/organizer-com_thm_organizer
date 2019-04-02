@@ -25,7 +25,7 @@ class THM_OrganizerHelperDepartments
      */
     public static function getDepartmentsByResource($resource, $resourceIDs = null)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT departmentID')
             ->from('#__thm_organizer_department_resources');
@@ -52,7 +52,7 @@ class THM_OrganizerHelperDepartments
     {
         require_once 'language.php';
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select("name_$languageTag as name")->from('#__thm_organizer_departments')
@@ -74,7 +74,7 @@ class THM_OrganizerHelperDepartments
     public static function getOptions($short = true)
     {
         require_once 'language.php';
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = THM_OrganizerHelperLanguage::getShortTag();
 
@@ -109,7 +109,7 @@ class THM_OrganizerHelperDepartments
      */
     public static function setDepartmentResource($resourceID, $column)
     {
-        $deptResourceTable = JTable::getInstance('department_resources', 'thm_organizerTable');
+        $deptResourceTable = \JTable::getInstance('department_resources', 'thm_organizerTable');
 
         /**
          * If associations already exist for the resource, further associations should be made explicitly using the

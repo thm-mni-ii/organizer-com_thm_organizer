@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While the
  * display text can be localized, the value cannot be.
  */
-class JFormFieldGenericList extends JFormFieldList
+class JFormFieldGenericList extends \JFormFieldList
 {
     /**
      * Type
@@ -46,7 +47,7 @@ class JFormFieldGenericList extends JFormFieldList
         $attr        .= $this->required ? ' required aria-required="true"' : '';
         $attr        .= $this->autofocus ? ' autofocus' : '';
         $placeHolder = $this->getAttribute('placeholder', '');
-        $attr        .= empty($placeHolder) ? '' : ' placeholder="' . JText::_($placeHolder) . '"';
+        $attr        .= empty($placeHolder) ? '' : ' placeholder="' . \JText::_($placeHolder) . '"';
 
         // To avoid user's confusion, readonly="true" should imply disabled="true".
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true' || (string)$this->disabled == '1' || (string)$this->disabled == 'true') {
@@ -113,7 +114,7 @@ class JFormFieldGenericList extends JFormFieldList
      */
     protected function getOptions()
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $valueColumn = $this->getAttribute('valuecolumn');
@@ -217,7 +218,7 @@ class JFormFieldGenericList extends JFormFieldList
             return;
         }
         $valueParameters     = explode(',', $valueParameter);
-        $componentParameters = JComponentHelper::getParams('com_thm_organizer');
+        $componentParameters = THM_OrganizerHelperComponent::getParams();
         foreach ($valueParameters as $parameter) {
             $componentParameter = $componentParameters->get($parameter);
             if (empty($componentParameter)) {

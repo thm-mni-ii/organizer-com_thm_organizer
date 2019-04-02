@@ -17,7 +17,6 @@ require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/courses.php';
 require_once JPATH_SITE . '/media/com_thm_organizer/helpers/date.php';
 
-
 /**
  * Provides general functions for schedule access checks, data retrieval and display.
  */
@@ -233,7 +232,7 @@ class THM_OrganizerHelperSchedule
             self::filterTeacherIDs($parameters['teacherIDs'], $parameters['userID']);
 
             if (empty($parameters['teacherIDs'])) {
-                throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+                throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
             }
         }
 
@@ -253,7 +252,7 @@ class THM_OrganizerHelperSchedule
         }
 
         $tag   = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
@@ -335,7 +334,7 @@ class THM_OrganizerHelperSchedule
         ];
 
         $tag           = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo           = JFactory::getDbo();
+        $dbo           = \JFactory::getDbo();
         $subjectsQuery = $dbo->getQuery(true);
 
         $select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, ";
@@ -414,7 +413,7 @@ class THM_OrganizerHelperSchedule
         $data['startDate'] = date('Y-m-d', $startDate);
         $data['endDate']   = date('Y-m-d', $endDate);
 
-        $table  = JTable::getInstance('planning_periods', 'thm_organizerTable');
+        $table  = \JTable::getInstance('planning_periods', 'thm_organizerTable');
         $exists = $table->load($data);
         if ($exists) {
             return $table->id;
@@ -526,7 +525,7 @@ class THM_OrganizerHelperSchedule
      */
     public static function getNextAvailableDates($parameters)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('MIN(c.schedule_date) AS minDate');
@@ -552,8 +551,8 @@ class THM_OrganizerHelperSchedule
     /**
      * Modifies query to get lessons, constrained by parameters
      *
-     * @param array           $parameters the schedule configuration parameters
-     * @param JDatabaseQuery &$query      the query object
+     * @param array            $parameters the schedule configuration parameters
+     * @param \JDatabaseQuery &$query      the query object
      *
      * @return void
      */
@@ -603,7 +602,7 @@ class THM_OrganizerHelperSchedule
      */
     private static function getUserFilteredLessons($lessons, $userID)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('lessonID, configuration')

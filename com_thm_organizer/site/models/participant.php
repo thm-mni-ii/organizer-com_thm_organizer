@@ -28,8 +28,8 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
      */
     public function register($participantID, $courseID, $state)
     {
-        if (!JFactory::getUser()->id === $participantID) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        if (!\JFactory::getUser()->id === $participantID) {
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $canAccept = (int)THM_OrganizerHelperCourses::canAcceptParticipant($courseID);
@@ -49,11 +49,11 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         if (empty($data) or empty($data['id'])) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
         }
 
-        if ($data['id'] !== JFactory::getUser()->id) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+        if ($data['id'] !== \JFactory::getUser()->id) {
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $address   = trim($data['address']);
@@ -100,9 +100,8 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
         $data['surname']   = $surname;
         $data['zip_code']  = $zipCode;
 
-
-        JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
-        $table = JTable::getInstance('participants', 'THM_OrganizerTable');
+        \JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/tables');
+        $table = \JTable::getInstance('participants', 'THM_OrganizerTable');
 
         if (empty($table)) {
             return false;

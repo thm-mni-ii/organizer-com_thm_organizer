@@ -31,7 +31,7 @@ class THM_OrganizerViewDepartment_Statistics extends \Joomla\CMS\MVC\View\HtmlVi
         $model = $this->getModel();
 
         require_once __DIR__ . '/tmpl/document.php';
-        $export = new THM_OrganizerTemplateDepartment_Statistics_XLS($model);
+        $export = new \THM_OrganizerTemplateDepartment_Statistics_XLS($model);
         $export->render();
         ob_flush();
     }

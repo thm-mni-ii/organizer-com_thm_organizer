@@ -19,16 +19,16 @@ class THM_OrganizerModelBuilding extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Saves building data from the request form to the database.
      *
      * @return bool true on success, otherwise false
-     * @throws Exception => unauthorized access
+     * @throws \Exception => unauthorized access
      */
     public function save()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data  = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
-        $table = JTable::getInstance('buildings', 'thm_organizerTable');
+        $table = \JTable::getInstance('buildings', 'thm_organizerTable');
 
         return $table->save($data);
     }
@@ -37,12 +37,12 @@ class THM_OrganizerModelBuilding extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * Removes building entries from the database.
      *
      * @return boolean true on success, otherwise false
-     * @throws Exception => unauthorized access
+     * @throws \Exception => unauthorized access
      */
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         return THM_OrganizerHelperComponent::delete('buildings');

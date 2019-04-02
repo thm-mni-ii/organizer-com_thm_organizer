@@ -209,8 +209,8 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
         $selected = $this->input->get('cid', [], '[]');
         if (count($selected) == 1) {
-            $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
-            $this->setRedirect(JRoute::_($url, false), $msg, 'warning');
+            $msg = \JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
+            $this->setRedirect(\JRoute::_($url, false), $msg, 'warning');
         }
 
         $model             = $this->getModel($this->resource);
@@ -218,8 +218,8 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         if ($functionAvailable) {
             $autoMerged = $model->autoMerge();
             if ($autoMerged) {
-                $msg = JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
-                $this->setRedirect(JRoute::_($url, false), $msg);
+                $msg = \JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
+                $this->setRedirect(\JRoute::_($url, false), $msg);
             }
         }
 

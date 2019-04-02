@@ -33,7 +33,7 @@ class THM_OrganizerHelperMapping
             return false;
         }
 
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("{$resourceType}ID, lft, rgt")->from('#__thm_organizer_mappings');
         $query->where("{$resourceType}ID = '$resourceID'");
@@ -64,7 +64,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getChildren(&$mappings)
     {
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $children = [];
 
         // The children should be the same regardless of which mapping is used, so we just take the last one
@@ -121,18 +121,18 @@ class THM_OrganizerHelperMapping
     {
         $resourceRanges = self::getResourceRanges('subject', $resourceID);
         if (empty($resourceRanges)) {
-            return JText::_('JNONE');
+            return \JText::_('JNONE');
         }
 
         $pools = self::getSubjectPools($resourceRanges);
         if (empty($pools)) {
-            return JText::_('JNONE');
+            return \JText::_('JNONE');
         }
 
         if (count($pools) === 1) {
             return $pools[0];
         } else {
-            return JText::_('COM_THM_ORGANIZER_MULTIPLE_POOLS');
+            return \JText::_('COM_THM_ORGANIZER_MULTIPLE_POOLS');
         }
     }
 
@@ -147,7 +147,7 @@ class THM_OrganizerHelperMapping
     public static function getPoolOption(&$mapping, &$selectedParents)
     {
         $shortTag   = THM_OrganizerHelperLanguage::getShortTag();
-        $poolsTable = JTable::getInstance('pools', 'THM_OrganizerTable');
+        $poolsTable = \JTable::getInstance('pools', 'THM_OrganizerTable');
 
         try {
             $poolsTable->load($mapping['poolID']);
@@ -174,7 +174,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramEntries(&$mappings)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id, programID, lft, rgt');
         $query->from('#__thm_organizer_mappings');
@@ -205,7 +205,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramMappings(&$programEntries)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_mappings');
@@ -242,18 +242,18 @@ class THM_OrganizerHelperMapping
     {
         $resourceRanges = self::getResourceRanges($resourceType, $resourceID);
         if (empty($resourceRanges)) {
-            return JText::_('JNONE');
+            return \JText::_('JNONE');
         }
 
         $programs = self::getResourcePrograms($resourceRanges);
         if (empty($programs)) {
-            return JText::_('JNONE');
+            return \JText::_('JNONE');
         }
 
         if (count($programs) === 1) {
             return $programs[0];
         } else {
-            return JText::_('COM_THM_ORGANIZER_MULTIPLE_PROGRAMS');
+            return \JText::_('COM_THM_ORGANIZER_MULTIPLE_PROGRAMS');
         }
     }
 
@@ -269,7 +269,7 @@ class THM_OrganizerHelperMapping
     public static function getProgramOption(&$mapping, &$selectedParents, $resourceType)
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
         $text     = $query->concatenate($parts, '') . ' AS text';
@@ -304,7 +304,7 @@ class THM_OrganizerHelperMapping
     public static function getProgramOptions()
     {
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
         $text     = $query->concatenate($parts, '') . ' AS name';
@@ -343,7 +343,7 @@ class THM_OrganizerHelperMapping
             $rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
         }
 
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $shortTag = THM_OrganizerHelperLanguage::getShortTag();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
@@ -374,7 +374,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getResourceRanges($resourceType, $resourceID)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
 
@@ -436,7 +436,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getSubjectPools($ranges)
     {
-        $dbo      = JFactory::getDbo();
+        $dbo      = \JFactory::getDbo();
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->select('lft');
         $lftQuery->from('#__thm_organizer_pools AS p');
@@ -482,7 +482,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getSelectedPrograms($ranges)
     {
-        $dbo             = JFactory::getDbo();
+        $dbo             = \JFactory::getDbo();
         $rangeConditions = [];
         foreach ($ranges as $range) {
             $rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
@@ -514,7 +514,7 @@ class THM_OrganizerHelperMapping
             return null;
         }
 
-        $dbo                  = JFactory::getDbo();
+        $dbo                  = \JFactory::getDbo();
         $query                = $dbo->getQuery(true);
         $concateMappingClause = ["'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt'];
         $mappingClause        = $query->concatenate($concateMappingClause);
@@ -536,7 +536,7 @@ class THM_OrganizerHelperMapping
      */
     public static function removeExclusions($boundaries)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('lft, rgt')->from('#__thm_organizer_mappings');
         $query->where('poolID IS NOT NULL');
@@ -596,7 +596,7 @@ class THM_OrganizerHelperMapping
      */
     public static function setMappingData($resourceID, $resourceType, &$mappings, &$mappingIDs, &$parentIDs)
     {
-        $dbo   = JFactory::getDbo();
+        $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id, parentID, lft, rgt');
         $query->from('#__thm_organizer_mappings');

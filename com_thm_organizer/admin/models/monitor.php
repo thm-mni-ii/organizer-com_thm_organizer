@@ -26,7 +26,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function save()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
@@ -36,7 +36,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $data['content'] = $data['content'] == '-1' ? '' : $data['content'];
-        $table           = JTable::getInstance('monitors', 'thm_organizerTable');
+        $table           = \JTable::getInstance('monitors', 'thm_organizerTable');
 
         return $table->save($data);
     }
@@ -50,7 +50,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function saveDefaultBehaviour()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $input       = THM_OrganizerHelperComponent::getInput();
@@ -58,7 +58,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $plausibleID = ($monitorID > 0);
 
         if ($plausibleID) {
-            $table = JTable::getInstance('monitors', 'thm_organizerTable');
+            $table = \JTable::getInstance('monitors', 'thm_organizerTable');
             $table->load($monitorID);
             $table->set('useDefaults', $input->getInt('useDefaults', 0));
 
@@ -79,15 +79,15 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $success    = true;
         $monitorIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
-        $table      = JTable::getInstance('monitors', 'thm_organizerTable');
+        $table      = \JTable::getInstance('monitors', 'thm_organizerTable');
 
         if (isset($monitorIDs) and count($monitorIDs) > 0) {
-            $dbo = JFactory::getDbo();
+            $dbo = \JFactory::getDbo();
             $dbo->transactionStart();
 
             foreach ($monitorIDs as $monitorID) {
@@ -115,7 +115,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function toggle()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $input     = THM_OrganizerHelperComponent::getInput();

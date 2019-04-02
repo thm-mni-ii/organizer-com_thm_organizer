@@ -32,7 +32,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
         if (empty($formData) or empty($formData['id'])) {
             THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
-            $this->setRedirect(JRoute::_($url, false));
+            $this->setRedirect(\JRoute::_($url, false));
         }
 
         $success = $this->getModel('course')->changeParticipantState();
@@ -44,7 +44,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         }
 
         $url .= "&view=course_manager&lessonID={$formData['id']}";
-        $this->setRedirect(JRoute::_($url, false));
+        $this->setRedirect(\JRoute::_($url, false));
     }
 
     /**
@@ -62,7 +62,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
         $lessonID = $this->input->get('lessonID');
         $redirect = THM_OrganizerHelperComponent::getRedirectBase() . "view=course_manager&lessonID=$lessonID";
-        $this->setRedirect(JRoute::_($redirect, false));
+        $this->setRedirect(\JRoute::_($redirect, false));
     }
 
     /**
@@ -78,7 +78,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
         // No chosen lesson => should not occur
         if (empty($courseID) or !THM_OrganizerHelperCourses::isRegistrationOpen()) {
-            $this->setRedirect(JRoute::_($url, false));
+            $this->setRedirect(\JRoute::_($url, false));
         }
 
         $formData           = $this->input->get('jform', [], 'array');
@@ -91,7 +91,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
             if (empty($participantSaved)) {
                 THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
-                $this->setRedirect(JRoute::_($participantEditURL, false));
+                $this->setRedirect(\JRoute::_($participantEditURL, false));
 
                 return;
             }
@@ -111,7 +111,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
         // Participant entry is incomplete
         if ($invalidParticipant) {
-            $this->setRedirect(JRoute::_($participantEditURL, false));
+            $this->setRedirect(\JRoute::_($participantEditURL, false));
 
             return;
         }
@@ -127,8 +127,8 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             if (!empty($userState)) {
                 THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS');
             } else {
-                $newState   = THM_OrganizerHelperCourses::getParticipantState();
-                $msg = $newState['status'] ?
+                $newState = THM_OrganizerHelperCourses::getParticipantState();
+                $msg      = $newState['status'] ?
                     'COM_THM_ORGANIZER_REGISTRATION_SUCCESS_REGISTERED' : 'COM_THM_ORGANIZER_REGISTRATION_SUCCESS_WAIT';
                 THM_OrganizerHelperComponent::message($msg);
             }
@@ -145,7 +145,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             $url .= '&view=course_list';
         }
 
-        $this->setRedirect(JRoute::_($url, false));
+        $this->setRedirect(\JRoute::_($url, false));
     }
 
     /**
@@ -163,7 +163,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         // Request manipulation
         if (empty($model) or empty($formData) or empty($formData['id'])) {
             THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
-            $this->setRedirect(JRoute::_(JUri::base(), false));
+            $this->setRedirect(\JRoute::_(\JUri::base(), false));
         }
 
         $authorized = false;
@@ -174,12 +174,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         } elseif ($modelName == 'course') {
             $authorized = THM_OrganizerHelperCourses::authorized($formData['id']);
         } elseif ($modelName == 'participant') {
-            $authorized = JFactory::getUser()->id == $formData['id'];
+            $authorized = \JFactory::getUser()->id == $formData['id'];
         }
 
         if (empty($authorized)) {
             THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION', 'error');
-            $this->setRedirect(JRoute::_(JUri::base(), false));
+            $this->setRedirect(\JRoute::_(\JUri::base(), false));
         }
 
         $success = $model->save();
@@ -210,6 +210,6 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             $url      .= "&lessonID=$lessonID";
         }
 
-        $this->setRedirect(JRoute::_($url, false));
+        $this->setRedirect(\JRoute::_($url, false));
     }
 }

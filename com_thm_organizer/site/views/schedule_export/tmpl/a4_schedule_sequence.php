@@ -18,9 +18,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
     /**
      * THM_OrganizerTemplateSchedule_Export_PDF_A4 constructor.
      *
-     * @param array $parameters the parameters for document
-     * @param array &$lessons   the lessons to be displayed
-     * @param array $grid       the lesson grid for use in display
+     * @param array  $parameters the parameters for document
+     * @param array &$lessons    the lessons to be displayed
+     * @param array  $grid       the lesson grid for use in display
      */
     public function __construct($parameters, &$lessons, $grid = null)
     {
@@ -48,9 +48,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
     protected function getDocument()
     {
         $orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
-        $document    = new THM_OrganizerTCPDFScheduleA4($orientation);
+        $document    = new \THM_OrganizerTCPDFScheduleA4($orientation);
         $document->SetCreator('THM Organizer');
-        $document->SetAuthor(JFactory::getUser()->name);
+        $document->SetAuthor(\JFactory::getUser()->name);
         $document->SetTitle($this->parameters['pageTitle']);
         $document->SetMargins(5, 25, 5);
         $document->SetAutoPageBreak(true, 5);
@@ -127,9 +127,9 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
      * Outputs the lessons organized according to a grid structure with times
      *
      * @param array  &$columnHeaders the object with the column headers
-     * @param array  $dimensions     the dimensions
-     * @param string $startDate      the start date for the interval
-     * @param string $breakDate      the end date for the interval
+     * @param array   $dimensions    the dimensions
+     * @param string  $startDate     the start date for the interval
+     * @param string  $breakDate     the end date for the interval
      *
      * @return void
      */
@@ -152,7 +152,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         }
 
         $this->document->SetFont('helvetica', '', 8, '', 'default', true);
-
 
         $rowHeight = 0;
         foreach ($rowCells as $rowName => $row) {
@@ -234,7 +233,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             $this->document->MultiCell(
                 $this->parameters['timeWidth'],
                 0,
-                JText::_('COM_THM_ORGANIZER_TIME'),
+                \JText::_('COM_THM_ORGANIZER_TIME'),
                 'TB',
                 'C',
                 0,
@@ -316,8 +315,8 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
      * @param array  &$rowHeaders    the row grid times
      * @param array  &$columnHeaders the dates
      * @param array  &$dimensions    the dimensions of the cells
-     * @param string $startDate      the date to start from
-     * @param string $breakDate      the date to stop iteration
+     * @param string  $startDate     the date to start from
+     * @param string  $breakDate     the date to stop iteration
      *
      * @return void
      */

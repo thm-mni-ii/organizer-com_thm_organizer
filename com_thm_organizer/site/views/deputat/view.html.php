@@ -46,13 +46,13 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         // Sets js and css
         $this->modifyDocument();
 
-        $this->params = THM_OrganizerHelperComponent::getApplication()->getParams();
+        $this->params = THM_OrganizerHelperComponent::getParams();
 
         $this->model          = $this->getModel();
         $this->departmentName = $this->model->departmentName;
@@ -75,10 +75,10 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
         HTML::_('behavior.calendar');
         HTML::_('formbehavior.chosen', 'select');
-        $document = JFactory::getDocument();
+        $document = \JFactory::getDocument();
         $document->setCharset('utf-8');
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/deputat.css');
-        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/deputat.js');
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/deputat.css');
+        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/deputat.js');
     }
 
     /**
@@ -91,8 +91,8 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         $scheduleID = $this->model->scheduleID;
         $schedules  = $this->model->getDepartmentSchedules();
 
-        $options   = [];
-        $options[0] = JText::_('COM_THM_ORGANIZER_FILTER_SCHEDULE');
+        $options    = [];
+        $options[0] = \JText::_('COM_THM_ORGANIZER_FILTER_SCHEDULE');
         foreach ($schedules as $schedule) {
             $options[$schedule['id']] = $schedule['name'];
         }
@@ -100,7 +100,7 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         $attribs             = [];
         $attribs['onChange'] = "jQuery('#reset').val('1');this.form.submit();";
 
-        $this->scheduleSelectBox   = HTML::selectBox($options, 'scheduleID', $attribs, $scheduleID);
+        $this->scheduleSelectBox = HTML::selectBox($options, 'scheduleID', $attribs, $scheduleID);
     }
 
     /**
@@ -113,7 +113,7 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         $teachers = $this->model->teachers;
 
         $options      = [];
-        $options['*'] = JText::_('JALL');
+        $options['*'] = \JText::_('JALL');
         foreach ($teachers as $teacherID => $teacherName) {
             $options[$teacherID] = $teacherName;
         }

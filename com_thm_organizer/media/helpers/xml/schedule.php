@@ -54,7 +54,7 @@ class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
     private function printStatusReport()
     {
         if (count($this->scheduleErrors)) {
-            $errorMessage = JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br />';
+            $errorMessage = \JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br />';
             $errorMessage .= implode('<br />', $this->scheduleErrors);
             THM_OrganizerHelperComponent::message($errorMessage, 'error');
         }
@@ -77,7 +77,7 @@ class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
         $file        = $formFiles['file'];
         $xmlSchedule = simplexml_load_file($file['tmp_name']);
 
-        $this->schedule         = new stdClass;
+        $this->schedule         = new \stdClass;
         $this->scheduleErrors   = [];
         $this->scheduleWarnings = [];
 
@@ -119,7 +119,7 @@ class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
         $invalid        = ($invalidStart or $invalidEnd or $invalidPeriod);
 
         if ($invalid) {
-            $this->scheduleErrors[] = JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
+            $this->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
         } elseif ($validSemesterName) {
             $planningPeriodID
                 = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
@@ -135,9 +135,9 @@ class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
         THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
         THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
 
-        $this->schedule->calendar = new stdClass;
+        $this->schedule->calendar = new \stdClass;
 
-        $lessonsHelper = new THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
+        $lessonsHelper = new \THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
         $lessonsHelper->validate();
         $this->printStatusReport();
 
@@ -185,13 +185,13 @@ class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
     {
         if (empty($value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleErrors[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
                 return;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleWarnings[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
             }
         }
 
@@ -215,25 +215,25 @@ class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
     {
         if (empty($value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleErrors[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
                 return false;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleWarnings[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
             }
         }
 
         if (!empty($regex) and preg_match($regex, $value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+                $this->scheduleErrors[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
 
                 return false;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+                $this->scheduleWarnings[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
             }
         }
 

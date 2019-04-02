@@ -14,14 +14,14 @@ require_once 'assets.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
- * Class instantiates a JTable Object associated with the departments table.
+ * Class instantiates a \JTable Object associated with the departments table.
  */
 class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
 {
     /**
      * Declares the associated table
      *
-     * @param JDatabaseDriver &$dbo A database connector object
+     * @param \JDatabaseDriver &$dbo A database connector object
      */
     public function __construct(&$dbo)
     {
@@ -56,16 +56,16 @@ class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
     /**
      * Sets the parent as the component root
      *
-     * @param JTable $table the JTable object
-     * @param int    $id    the resource id
+     * @param \JTable $table the \JTable object
+     * @param int     $id    the resource id
      *
      * @return int  the asset id of the component root
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _getAssetParentId(JTable $table = null, $id = null)
+    protected function _getAssetParentId(\JTable $table = null, $id = null)
     {
-        $asset = JTable::getInstance('Asset');
+        $asset = \JTable::getInstance('Asset');
         $asset->loadByName('com_thm_organizer');
 
         return $asset->id;

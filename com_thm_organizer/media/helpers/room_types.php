@@ -26,7 +26,7 @@ class THM_OrganizerHelperRoomTypes
      */
     public static function getName($typeID)
     {
-        $roomTypesTable = JTable::getInstance('room_types', 'thm_organizerTable');
+        $roomTypesTable = \JTable::getInstance('room_types', 'thm_organizerTable');
 
         try {
             $success = $roomTypesTable->load($typeID);
@@ -51,7 +51,7 @@ class THM_OrganizerHelperRoomTypes
     public static function getUsedRoomTypes()
     {
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT t.id, t.name_' . $languageTag . ' AS name')

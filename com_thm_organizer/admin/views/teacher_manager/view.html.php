@@ -34,7 +34,7 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowHRAccess()) {
-            throw new Exception(JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,12 +47,13 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_VIEW_TITLE'), 'organizer_teachers');
-        JToolbarHelper::addNew('teacher.add');
-        JToolbarHelper::editList('teacher.edit');
+        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_TEACHER_MANAGER_VIEW_TITLE'), 'organizer_teachers');
+        \JToolbarHelper::addNew('teacher.add');
+        \JToolbarHelper::editList('teacher.edit');
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            JToolbarHelper::custom('teacher.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
-            JToolbarHelper::preferences('com_thm_organizer');
+            \JToolbarHelper::custom('teacher.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE',
+                true);
+            \JToolbarHelper::preferences('com_thm_organizer');
         }
     }
 }

@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
+\JFormHelper::loadFieldClass('list');
+
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Class creates a form field for campus selection.
  */
-class JFormFieldCampusID extends JFormFieldList
+class JFormFieldCampusID extends \JFormFieldList
 {
     /**
      * @var  string
@@ -46,7 +46,7 @@ class JFormFieldCampusID extends JFormFieldList
         $attr        .= $this->required ? ' required aria-required="true"' : '';
         $attr        .= $this->autofocus ? ' autofocus' : '';
         $placeHolder = $this->getAttribute('placeholder', '');
-        $attr        .= empty($placeHolder) ? '' : ' data-placeholder="' . JText::_($placeHolder) . '"';
+        $attr        .= empty($placeHolder) ? '' : ' data-placeholder="' . \JText::_($placeHolder) . '"';
 
         // To avoid user's confusion, readonly="true" should imply disabled="true".
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true' || (string)$this->disabled == '1' || (string)$this->disabled == 'true') {

@@ -24,13 +24,13 @@ class THM_OrganizerViewColor_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        JToolbarHelper::save('color.save');
+        \JToolbarHelper::save('color.save');
         if (empty($this->item->id)) {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_COLOR_EDIT_NEW_TITLE'), 'organizer_colors');
-            JToolbarHelper::cancel('color.cancel', 'JTOOLBAR_CANCEL');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_COLOR_EDIT_NEW_TITLE'), 'organizer_colors');
+            \JToolbarHelper::cancel('color.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            JToolbarHelper::title(JText::_('COM_THM_ORGANIZER_COLOR_EDIT_EDIT_TITLE'), 'organizer_colors');
-            JToolbarHelper::cancel('color.cancel', 'JTOOLBAR_CLOSE');
+            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_COLOR_EDIT_EDIT_TITLE'), 'organizer_colors');
+            \JToolbarHelper::cancel('color.cancel', 'JTOOLBAR_CLOSE');
         }
     }
 }

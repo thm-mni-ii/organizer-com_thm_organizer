@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'language.php';
 
-
 /**
  * Provides general functions for program access checks, data retrieval and display.
  */
@@ -28,7 +27,7 @@ class THM_OrganizerHelperPrograms
      */
     public static function getID($program)
     {
-        $table = JTable::getInstance('plan_programs', 'thm_organizerTable');
+        $table = \JTable::getInstance('plan_programs', 'thm_organizerTable');
 
         $gpuntisID = is_string($program) ? $program : $program->gpuntisID;
         $pullData  = ['gpuntisID' => $gpuntisID];
@@ -60,7 +59,7 @@ class THM_OrganizerHelperPrograms
      */
     public static function getName($programID, $type)
     {
-        $dbo         = JFactory::getDbo();
+        $dbo         = \JFactory::getDbo();
         $languageTag = THM_OrganizerHelperLanguage::getShortTag();
 
         $query     = $dbo->getQuery(true);
@@ -92,7 +91,7 @@ class THM_OrganizerHelperPrograms
      */
     public static function getPlanPrograms()
     {
-        $dbo           = JFactory::getDbo();
+        $dbo           = \JFactory::getDbo();
         $languageTag   = THM_OrganizerHelperLanguage::getShortTag();
         $departmentIDs = THM_OrganizerHelperComponent::getInput()->get('departmentIDs', [], 'raw');
 
@@ -136,7 +135,7 @@ class THM_OrganizerHelperPrograms
         $tempArray         = explode('(', $program->name);
         $tempName          = trim($tempArray[0]);
         $data['programID'] = $plausibleData ? self::getProgramID($plausibleData, $tempName) : null;
-        $planResourceTable = JTable::getInstance('plan_programs', 'thm_organizerTable');
+        $planResourceTable = \JTable::getInstance('plan_programs', 'thm_organizerTable');
         $success           = $planResourceTable->save($data);
 
         return $success ? $planResourceTable->id : null;
@@ -161,7 +160,7 @@ class THM_OrganizerHelperPrograms
             $plausibleDegree  = (ctype_upper($programPieces[1])
                 and preg_match('/^[B|M]{1}[A-Z]{1,2}$/', $programPieces[1]));
             if ($plausibleDegree) {
-                $degreeTable    = JTable::getInstance('degrees', 'thm_organizerTable');
+                $degreeTable    = \JTable::getInstance('degrees', 'thm_organizerTable');
                 $degreePullData = ['code' => $programPieces[1]];
                 $exists         = $degreeTable->load($degreePullData);
                 $degreeID       = $exists ? $degreeTable->id : null;
@@ -186,7 +185,7 @@ class THM_OrganizerHelperPrograms
      */
     private static function getProgramID($programData, $tempName)
     {
-        $programTable = JTable::getInstance('programs', 'thm_organizerTable');
+        $programTable = \JTable::getInstance('programs', 'thm_organizerTable');
         $exists       = $programTable->load($programData);
         if ($exists) {
             return $programTable->id;

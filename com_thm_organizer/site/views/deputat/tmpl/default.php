@@ -28,24 +28,24 @@ $weeks = $this->params->get('deputat_weeks', 13);
     }
     ?>
     <form id='deputat-form' name='deputat-form' enctype='multipart/form-data' method='post'
-          action='<?php echo JUri::current(); ?>'>
+          action='<?php echo \JUri::current(); ?>'>
         <div class="filter-bar">
             <div class="filter-header">
                 <div class="deputat-settings">
                     <div class="deputat-settings-description">
-                        <?php echo JText::_('COM_THM_ORGANIZER_DEPUTAT_CALCULATION_SETTINGS'); ?>
+                        <?php echo \JText::_('COM_THM_ORGANIZER_DEPUTAT_CALCULATION_SETTINGS'); ?>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            <?php echo JText::_('COM_THM_ORGANIZER_DEPUTAT_WEEKS'); ?>
+                            <?php echo \JText::_('COM_THM_ORGANIZER_DEPUTAT_WEEKS'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $weeks . ' ' . JText::_('COM_THM_ORGANIZER_WEEKS'); ?>
+                            <?php echo $weeks . ' ' . \JText::_('COM_THM_ORGANIZER_WEEKS'); ?>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            <?php echo JText::_('COM_THM_ORGANIZER_BACHELOR_VALUE'); ?>
+                            <?php echo \JText::_('COM_THM_ORGANIZER_BACHELOR_VALUE'); ?>
                         </div>
                         <div class="controls">
                             <?php echo $this->params->get('bachelor_value', 25) . '%'; ?>
@@ -53,7 +53,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            <?php echo JText::_('COM_THM_ORGANIZER_MASTER_VALUE'); ?>
+                            <?php echo \JText::_('COM_THM_ORGANIZER_MASTER_VALUE'); ?>
                         </div>
                         <div class="controls">
                             <?php echo $this->params->get('master_value', 50) . '%'; ?>
@@ -64,7 +64,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                     <div class="control-group">
                         <div class="control-label">
                             <label for="schedules">
-                                <?php echo JText::_('COM_THM_ORGANIZER_DATA_SOURCE') ?>
+                                <?php echo \JText::_('COM_THM_ORGANIZER_DATA_SOURCE') ?>
                             </label>
                         </div>
                         <div class="controls">
@@ -77,7 +77,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                         <div class="control-group">
                             <div class="control-label">
                                 <label for="teachers">
-                                    <?php echo JText::_('COM_THM_ORGANIZER_TEACHERS') ?>
+                                    <?php echo \JText::_('COM_THM_ORGANIZER_TEACHERS') ?>
                                 </label>
                             </div>
                             <div class="controls">
@@ -86,7 +86,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                         </div>
                         <div class="button-group">
                             <button type="submit">
-                                <?php echo JText::_('COM_THM_ORGANIZER_ACTION_SHOW') ?>
+                                <?php echo \JText::_('COM_THM_ORGANIZER_ACTION_SHOW') ?>
                                 <span class="icon-play"></span>
                             </button>
                         </div>

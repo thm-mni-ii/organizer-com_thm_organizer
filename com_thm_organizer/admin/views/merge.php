@@ -54,10 +54,10 @@ abstract class THM_OrganizerViewMerge extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.formvalidation');
         HTML::_('formbehavior.chosen', 'select');
 
-        $document = JFactory::getDocument();
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
-        $document->addStyleSheet(JUri::root() . '/media/com_thm_organizer/css/backend.css');
-        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/validators.js');
-        $document->addScript(JUri::root() . '/media/com_thm_organizer/js/submitButton.js');
+        $document = \JFactory::getDocument();
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
+        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/backend.css');
+        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/validators.js');
+        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/submitButton.js');
     }
 }
