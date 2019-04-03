@@ -37,6 +37,26 @@
     margin-bottom: 10px;
 }
 
+.component-container form .controls .input-append {
+    font-size: 1.3rem;
+    margin-bottom: 0;
+}
+
+.component-container form .controls .input-append > button.btn {
+    height: 1rem;
+    margin-left: -2.25rem;
+    margin-top: .2rem;
+    overflow: visible;
+}
+
+.component-container form .controls .input-append > button.btn:hover {
+    color: #394a59;
+}
+
+.component-container form .controls .input-append > button.btn:focus, .component-container form .controls .input-append > button.btn:active {
+    outline: none;
+}
+
 .component-container form .control-group {
     display: inline-block;
     margin-bottom: 0;
@@ -44,13 +64,13 @@
 }
 
 .component-container form .control-group .date-restriction-list {
-    margin-bottom: 5px;
     height: 31px;
+    margin-bottom: 0;
 }
 
 .component-container form .control-group .submit-button {
-    margin-bottom: 5px;
     border: 1px solid #4a5d66;
+    margin-left: .4rem;
     padding-bottom: 4px;
     padding-top: 4px;
 }

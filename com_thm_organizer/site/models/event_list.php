@@ -94,21 +94,20 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
      */
     protected function populateState()
     {
-        $app      = THM_OrganizerHelperComponent::getApplication();
-        $formData = $app->input->get('jform', [], 'array');
+        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
         $menuStartDate      = $this->params->get('startDate');
         $menuEndDate        = $this->params->get('endDate');
-        $defaultdate        = empty($menuStartDate) ? date('Y-m-d', getdate(time())[0]) : $menuStartDate;
+        $defaultDate        = empty($menuStartDate) ? date('Y-m-d', getdate(time())[0]) : $menuStartDate;
         $defaultRestriction = empty($menuEndDate) ? 'month' : '';
 
         if (empty($formData)) {
-            $this->state->set('startDate', $defaultdate);
+            $this->state->set('startDate', $defaultDate);
             $this->state->set('dateRestriction', $defaultRestriction);
         } else {
 
             if (empty($formData['startDate']) or strtotime($formData['startDate']) === false) {
-                $this->state->set('startDate', $defaultdate);
+                $this->state->set('startDate', $defaultDate);
             } else {
                 $this->state->set('startDate', $formData['startDate']);
             }

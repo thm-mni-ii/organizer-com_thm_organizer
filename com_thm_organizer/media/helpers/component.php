@@ -69,6 +69,18 @@ class THM_OrganizerHelperComponent
     }
 
     /**
+     * Determines whether the view was called from a dynamic context
+     *
+     * @return bool true if the view was called dynamically, otherwise false
+     */
+    public static function dynamic()
+    {
+        $app = self::getApplication();
+
+        return (empty($app->getMenu()) or empty($app->getMenu()->getActive())) ? true : false;
+    }
+
+    /**
      * Surrounds the call to the application with a try catch so that not every function needs to have a throws tag. If
      * the application has an error it would have never made it to the component in the first place.
      *

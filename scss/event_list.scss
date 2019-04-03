@@ -4,23 +4,28 @@
 
   .component-container {
     width: 100%;
+
     table {
 
     }
+
     tbody, thead {
       th, td {
         font-size: .9rem;
         padding: 2px;
       }
+
       th.teachers-column, td.teachers-column,
       th.name-column, td.name-column {
         display: none;
       }
+
       th.time-column, td.time-column,
       th.org-column, td.org-column {
         vertical-align: middle;
         width: 50px;
       }
+
       th.rooms-column, td.rooms-column {
         text-align: center;
         width: 100px;
@@ -42,19 +47,43 @@
   }
 
   form {
+    .controls .input-append {
+
+      font-size: 1.3rem;
+      margin-bottom: 0;
+
+      & > button.btn {
+
+        height: 1rem;
+        margin-left: -2.25rem;
+        margin-top: .2rem;
+
+        // Fix for MS Edge where half of the button is cut off.
+        overflow: visible;
+
+        &:hover {
+          color: $font-color;
+        }
+
+        &:focus, &:active {
+          outline: none;
+        }
+      }
+    }
+
     .control-group {
       display: inline-block;
       margin-bottom: 0;
       vertical-align: bottom;
 
       .date-restriction-list {
-        margin-bottom: 5px;
         height: 31px;
+        margin-bottom: 0;
       }
 
-      .submit-button{
-        margin-bottom: 5px;
+      .submit-button {
         border: 1px solid #4a5d66;
+        margin-left: .4rem;
         padding-bottom: 4px;
         padding-top: 4px;
       }
