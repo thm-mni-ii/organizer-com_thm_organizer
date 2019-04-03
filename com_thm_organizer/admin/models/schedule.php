@@ -265,11 +265,12 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->schedule = $xmlModel->schedule;
 
         $new = \JTable::getInstance('schedules', 'thm_organizerTable');
-        $new->set('departmentID', $this->schedule->departmentID);
-        $new->set('planningPeriodID', $this->schedule->planningPeriodID);
         $new->set('creationDate', $this->schedule->creationDate);
         $new->set('creationTime', $this->schedule->creationTime);
+        $new->set('departmentID', $this->schedule->departmentID);
+        $new->set('planningPeriodID', $this->schedule->planningPeriodID);
         $new->set('schedule', json_encode($this->schedule));
+        $new->set('userID', \JFactory::getUser()->id);
 
         $reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
         $jsonModel = new \THM_OrganizerModelJSONSchedule;

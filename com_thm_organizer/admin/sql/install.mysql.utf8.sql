@@ -3,888 +3,893 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_buildings` (
-  `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `campusID`     INT(11) UNSIGNED          DEFAULT NULL,
-  `name`         VARCHAR(60)      NOT NULL,
-  `location`     VARCHAR(20)      NOT NULL,
-  `address`      VARCHAR(255)     NOT NULL,
-  `propertyType` INT(1) UNSIGNED  NOT NULL DEFAULT '0'
-  COMMENT '0 - new/unknown | 1 - owned | 2 - rented/leased',
-  PRIMARY KEY (`id`),
-  KEY `campusID` (`campusID`),
-  UNIQUE KEY `prefix` (`campusID`, `name`)
+    `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `campusID`     INT(11) UNSIGNED          DEFAULT NULL,
+    `name`         VARCHAR(60)      NOT NULL,
+    `location`     VARCHAR(20)      NOT NULL,
+    `address`      VARCHAR(255)     NOT NULL,
+    `propertyType` INT(1) UNSIGNED  NOT NULL DEFAULT '0'
+        COMMENT '0 - new/unknown | 1 - owned | 2 - rented/leased',
+    PRIMARY KEY (`id`),
+    KEY `campusID` (`campusID`),
+    UNIQUE KEY `prefix` (`campusID`, `name`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar` (
-  `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `schedule_date` DATE                      DEFAULT NULL,
-  `startTime`     TIME                      DEFAULT NULL,
-  `endTime`       TIME                      DEFAULT NULL,
-  `lessonID`      INT(11) UNSIGNED NOT NULL,
-  `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
-  `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-  ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `lessonID` (`lessonID`)
+    `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `schedule_date` DATE                      DEFAULT NULL,
+    `startTime`     TIME                      DEFAULT NULL,
+    `endTime`       TIME                      DEFAULT NULL,
+    `lessonID`      INT(11) UNSIGNED NOT NULL,
+    `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
+    `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `lessonID` (`lessonID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_calendar_configuration_map` (
-  `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `calendarID`      INT(11) UNSIGNED NOT NULL,
-  `configurationID` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `entry` (`calendarID`, `configurationID`)
+    `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `calendarID`      INT(11) UNSIGNED NOT NULL,
+    `configurationID` INT(11) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `entry` (`calendarID`, `configurationID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_campuses` (
-  `id`       INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parentID` INT(11) UNSIGNED          DEFAULT NULL,
-  `name_de`  VARCHAR(60)      NOT NULL,
-  `name_en`  VARCHAR(60)      NOT NULL,
-  `isCity`   TINYINT(1)       NOT NULL DEFAULT '0',
-  `location` VARCHAR(20)      NOT NULL,
-  `address`  VARCHAR(255)     NOT NULL,
-  `city`     VARCHAR(60)      NOT NULL,
-  `zipCode`  VARCHAR(60)      NOT NULL,
-  `gridID`   INT(11) UNSIGNED          DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `parentID` (`parentID`),
-  UNIQUE KEY `germanName` (`parentID`, `name_de`),
-  UNIQUE KEY `englishName` (`parentID`, `name_en`)
+    `id`       INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `parentID` INT(11) UNSIGNED          DEFAULT NULL,
+    `name_de`  VARCHAR(60)      NOT NULL,
+    `name_en`  VARCHAR(60)      NOT NULL,
+    `isCity`   TINYINT(1)       NOT NULL DEFAULT '0',
+    `location` VARCHAR(20)      NOT NULL,
+    `address`  VARCHAR(255)     NOT NULL,
+    `city`     VARCHAR(60)      NOT NULL,
+    `zipCode`  VARCHAR(60)      NOT NULL,
+    `gridID`   INT(11) UNSIGNED          DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `parentID` (`parentID`),
+    UNIQUE KEY `germanName` (`parentID`, `name_de`),
+    UNIQUE KEY `englishName` (`parentID`, `name_en`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
-  `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name_de` VARCHAR(60)      NOT NULL,
-  `color`   VARCHAR(7)       NOT NULL,
-  `name_en` VARCHAR(60)      NOT NULL,
-  PRIMARY KEY (`id`)
+    `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name_de` VARCHAR(60)      NOT NULL,
+    `color`   VARCHAR(7)       NOT NULL,
+    `name_en` VARCHAR(60)      NOT NULL,
+    PRIMARY KEY (`id`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_degrees` (
-  `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name`         VARCHAR(255)     NOT NULL,
-  `abbreviation` VARCHAR(45)      NOT NULL DEFAULT '',
-  `code`         VARCHAR(10)               DEFAULT '',
-  PRIMARY KEY (`id`)
+    `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name`         VARCHAR(255)     NOT NULL,
+    `abbreviation` VARCHAR(45)      NOT NULL DEFAULT '',
+    `code`         VARCHAR(10)               DEFAULT '',
+    PRIMARY KEY (`id`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
-  `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `asset_id`      INT(11)          NOT NULL,
-  `short_name_de` VARCHAR(50)      NOT NULL,
-  `name_de`       VARCHAR(150)     NOT NULL,
-  `short_name_en` VARCHAR(50)      NOT NULL,
-  `name_en`       VARCHAR(150)     NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `short_name` (`short_name_de`),
-  UNIQUE KEY `name` (`name_de`),
-  UNIQUE KEY `short_name_en` (`short_name_en`),
-  UNIQUE KEY `name_en` (`name_en`)
+    `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `asset_id`      INT(11)          NOT NULL,
+    `short_name_de` VARCHAR(50)      NOT NULL,
+    `name_de`       VARCHAR(150)     NOT NULL,
+    `short_name_en` VARCHAR(50)      NOT NULL,
+    `name_en`       VARCHAR(150)     NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `short_name` (`short_name_de`),
+    UNIQUE KEY `name` (`name_de`),
+    UNIQUE KEY `short_name_en` (`short_name_en`),
+    UNIQUE KEY `name_en` (`name_en`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
-  `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `departmentID` INT(11) UNSIGNED NOT NULL,
-  `programID`    INT(11) UNSIGNED          DEFAULT NULL,
-  `teacherID`    INT(11) UNSIGNED          DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `departmentID` (`departmentID`),
-  KEY `programID` (`programID`),
-  KEY `teacherID` (`teacherID`)
+    `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `departmentID` INT(11) UNSIGNED NOT NULL,
+    `programID`    INT(11) UNSIGNED DEFAULT NULL,
+    `teacherID`    INT(11) UNSIGNED DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `departmentID` (`departmentID`),
+    KEY `programID` (`programID`),
+    KEY `teacherID` (`teacherID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR(60)
-              CHARACTER SET utf8
-              COLLATE utf8_bin          DEFAULT NULL,
-  `field_de`  VARCHAR(60)      NOT NULL DEFAULT '',
-  `colorID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `field_en`  VARCHAR(100)     NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`),
-  KEY `colorID` (`colorID`)
+    `id`                                              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID`                                       VARCHAR(60)
+                                                          CHARACTER SET utf8
+                                                              COLLATE utf8_bin  DEFAULT NULL,
+    `field_de`                                        VARCHAR(60)      NOT NULL DEFAULT '',
+    `colorID`                                         INT(11) UNSIGNED          DEFAULT NULL,
+    `field_en`                                        VARCHAR(100)     NOT NULL DEFAULT '',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `gpuntisID` (`gpuntisID`),
+    KEY `colorID` (`colorID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
-  `id`           INT(1) UNSIGNED NOT NULL,
-  `frequency_de` VARCHAR(45)     NOT NULL,
-  `frequency_en` VARCHAR(45)     NOT NULL,
-  PRIMARY KEY (`id`)
+    `id`           INT(1) UNSIGNED NOT NULL,
+    `frequency_de` VARCHAR(45)     NOT NULL,
+    `frequency_en` VARCHAR(45)     NOT NULL,
+    PRIMARY KEY (`id`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_grids` (
-  `id`          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name_de`     VARCHAR(255)              DEFAULT NULL,
-  `name_en`     VARCHAR(255)              DEFAULT NULL,
-  `grid`        TEXT             NOT NULL
-  COMMENT 'A grid object modeled by a JSON string, containing the respective start and end times of the grid blocks.',
-  `defaultGrid` INT(1)           NOT NULL DEFAULT '0'
-  COMMENT 'True if the grid is displayed by default.',
-  `gpuntisID`   VARCHAR(60)      NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`)
+    `id`          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name_de`     VARCHAR(255)              DEFAULT NULL,
+    `name_en`     VARCHAR(255)              DEFAULT NULL,
+    `grid`        TEXT             NOT NULL
+        COMMENT 'A grid object modeled by a JSON string, containing the respective start and end times of the grid blocks.',
+    `defaultGrid` INT(1)           NOT NULL DEFAULT '0'
+        COMMENT 'True if the grid is displayed by default.',
+    `gpuntisID`   VARCHAR(60)      NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `gpuntisID` (`gpuntisID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lessons` (
-  `id`                INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID`         INT(11) UNSIGNED NOT NULL,
-  `methodID`          INT(3) UNSIGNED           DEFAULT NULL
-  COMMENT 'The method of instruction for this lesson unit.',
-  `delta`             VARCHAR(10)      NOT NULL DEFAULT ''
-  COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `registration_type` INT(1) UNSIGNED           DEFAULT NULL
-  COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
-  `max_participants`  INT(4) UNSIGNED           DEFAULT NULL
-  COMMENT 'The maximum number of participants. NULL is without limit.',
-  `comment`           VARCHAR(200)              DEFAULT NULL,
-  `departmentID`      INT(11) UNSIGNED          DEFAULT NULL,
-  `planningPeriodID`  INT(11) UNSIGNED          DEFAULT NULL,
-  `campusID`          INT(11) UNSIGNED          DEFAULT NULL,
-  `modified`          TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-  ON UPDATE CURRENT_TIMESTAMP,
-  `deadline`          INT(2) UNSIGNED           DEFAULT NULL
-  COMMENT 'The deadline in days for registration before the course starts.',
-  `fee`               INT(3) UNSIGNED           DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),
-  KEY `methodID` (`methodID`),
-  KEY `lessons_departmentid_fk` (`departmentID`),
-  KEY `lessons_planningperiodid_fk` (`planningPeriodID`)
+    `id`                INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID`         INT(11) UNSIGNED NOT NULL,
+    `methodID`          INT(3) UNSIGNED           DEFAULT NULL
+        COMMENT 'The method of instruction for this lesson unit.',
+    `delta`             VARCHAR(10)      NOT NULL DEFAULT ''
+        COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
+    `registration_type` INT(1) UNSIGNED           DEFAULT NULL
+        COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
+    `max_participants`  INT(4) UNSIGNED           DEFAULT NULL
+        COMMENT 'The maximum number of participants. NULL is without limit.',
+    `comment`           VARCHAR(200)              DEFAULT NULL,
+    `departmentID`      INT(11) UNSIGNED          DEFAULT NULL,
+    `planningPeriodID`  INT(11) UNSIGNED          DEFAULT NULL,
+    `campusID`          INT(11) UNSIGNED          DEFAULT NULL,
+    `modified`          TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    `deadline`          INT(2) UNSIGNED           DEFAULT NULL
+        COMMENT 'The deadline in days for registration before the course starts.',
+    `fee`               INT(3) UNSIGNED           DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `planID` (`gpuntisID`, `departmentID`, `planningPeriodID`),
+    KEY `methodID` (`methodID`),
+    KEY `lessons_departmentid_fk` (`departmentID`),
+    KEY `lessons_planningperiodid_fk` (`planningPeriodID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_configurations` (
-  `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `lessonID`      INT(11) UNSIGNED NOT NULL,
-  `configuration` TEXT             NOT NULL
-  COMMENT 'A configuration of teachers and rooms for a lesson, inclusive of their delta status.',
-  `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-  ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `lessonID` (`lessonID`)
+    `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `lessonID`      INT(11) UNSIGNED NOT NULL,
+    `configuration` TEXT             NOT NULL
+        COMMENT 'A configuration of teachers and rooms for a lesson, inclusive of their delta status.',
+    `modified`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `lessonID` (`lessonID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_pools` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `subjectID` INT(11) UNSIGNED NOT NULL,
-  `poolID`    INT(11) UNSIGNED NOT NULL,
-  `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
-  COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-  ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `subjectID` (`subjectID`),
-  KEY `poolID` (`poolID`)
+    `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `subjectID` INT(11) UNSIGNED NOT NULL,
+    `poolID`    INT(11) UNSIGNED NOT NULL,
+    `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
+        COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
+    `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `subjectID` (`subjectID`),
+    KEY `poolID` (`poolID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_subjects` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `lessonID`  INT(11) UNSIGNED NOT NULL,
-  `subjectID` INT(11) UNSIGNED NOT NULL,
-  `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
-  COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-  ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `lessonID` (`lessonID`),
-  KEY `subjectID` (`subjectID`)
+    `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `lessonID`  INT(11) UNSIGNED NOT NULL,
+    `subjectID` INT(11) UNSIGNED NOT NULL,
+    `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
+        COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
+    `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `lessonID` (`lessonID`),
+    KEY `subjectID` (`subjectID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_lesson_teachers` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `subjectID` INT(11) UNSIGNED NOT NULL,
-  `teacherID` INT(11) UNSIGNED NOT NULL,
-  `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
-  COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-  `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-  ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `subjectID` (`subjectID`),
-  KEY `teacherID` (`teacherID`)
+    `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `subjectID` INT(11) UNSIGNED NOT NULL,
+    `teacherID` INT(11) UNSIGNED NOT NULL,
+    `delta`     VARCHAR(10)      NOT NULL DEFAULT ''
+        COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
+    `modified`  TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `subjectID` (`subjectID`),
+    KEY `teacherID` (`teacherID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `programID` INT(11) UNSIGNED          DEFAULT NULL,
-  `parentID`  INT(11) UNSIGNED          DEFAULT NULL,
-  `poolID`    INT(11) UNSIGNED          DEFAULT NULL,
-  `subjectID` INT(11) UNSIGNED          DEFAULT NULL,
-  `lft`       INT(11) UNSIGNED          DEFAULT NULL,
-  `rgt`       INT(11) UNSIGNED          DEFAULT NULL,
-  `level`     INT(11) UNSIGNED          DEFAULT NULL,
-  `ordering`  INT(11) UNSIGNED          DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `parentID` (`parentID`),
-  KEY `programID` (`programID`),
-  KEY `poolID` (`poolID`),
-  KEY `subjectID` (`subjectID`)
+    `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `programID` INT(11) UNSIGNED DEFAULT NULL,
+    `parentID`  INT(11) UNSIGNED DEFAULT NULL,
+    `poolID`    INT(11) UNSIGNED DEFAULT NULL,
+    `subjectID` INT(11) UNSIGNED DEFAULT NULL,
+    `lft`       INT(11) UNSIGNED DEFAULT NULL,
+    `rgt`       INT(11) UNSIGNED DEFAULT NULL,
+    `level`     INT(11) UNSIGNED DEFAULT NULL,
+    `ordering`  INT(11) UNSIGNED DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `parentID` (`parentID`),
+    KEY `programID` (`programID`),
+    KEY `poolID` (`poolID`),
+    KEY `subjectID` (`subjectID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_methods` (
-  `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID`       VARCHAR(60)
-                    CHARACTER SET utf8
-                    COLLATE utf8_bin          DEFAULT NULL,
-  `abbreviation_de` VARCHAR(45)               DEFAULT '',
-  `abbreviation_en` VARCHAR(45)               DEFAULT '',
-  `name_de`         VARCHAR(255)              DEFAULT NULL,
-  `name_en`         VARCHAR(255)              DEFAULT NULL,
-  PRIMARY KEY (`id`)
+    `id`                                                     INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID`                                              VARCHAR(60)
+                                                                 CHARACTER SET utf8
+                                                                     COLLATE utf8_bin DEFAULT NULL,
+    `abbreviation_de`                                        VARCHAR(45)              DEFAULT '',
+    `abbreviation_en`                                        VARCHAR(45)              DEFAULT '',
+    `name_de`                                                VARCHAR(255)             DEFAULT NULL,
+    `name_en`                                                VARCHAR(255)             DEFAULT NULL,
+    PRIMARY KEY (`id`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
-  `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `roomID`           INT(11) UNSIGNED          DEFAULT NULL,
-  `ip`               VARCHAR(15)      NOT NULL,
-  `useDefaults`      TINYINT(1)       NOT NULL DEFAULT '0',
-  `display`          INT(1) UNSIGNED  NOT NULL DEFAULT '1'
-  COMMENT 'the display behaviour of the monitor',
-  `schedule_refresh` INT(3) UNSIGNED  NOT NULL DEFAULT '60'
-  COMMENT 'the amount of seconds before the schedule refreshes',
-  `content_refresh`  INT(3) UNSIGNED  NOT NULL DEFAULT '60'
-  COMMENT 'the amount of time in seconds before the content refreshes',
-  `interval`         INT(1) UNSIGNED  NOT NULL DEFAULT '1'
-  COMMENT 'the time interval in minutes between context switches',
-  `content`          VARCHAR(256)              DEFAULT ''
-  COMMENT 'the filename of the resource to the optional resource to be displayed',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ip` (`ip`),
-  KEY `roomID` (`roomID`)
+    `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `roomID`           INT(11) UNSIGNED          DEFAULT NULL,
+    `ip`               VARCHAR(15)      NOT NULL,
+    `useDefaults`      TINYINT(1)       NOT NULL DEFAULT '0',
+    `display`          INT(1) UNSIGNED  NOT NULL DEFAULT '1'
+        COMMENT 'the display behaviour of the monitor',
+    `schedule_refresh` INT(3) UNSIGNED  NOT NULL DEFAULT '60'
+        COMMENT 'the amount of seconds before the schedule refreshes',
+    `content_refresh`  INT(3) UNSIGNED  NOT NULL DEFAULT '60'
+        COMMENT 'the amount of time in seconds before the content refreshes',
+    `interval`         INT(1) UNSIGNED  NOT NULL DEFAULT '1'
+        COMMENT 'the time interval in minutes between context switches',
+    `content`          VARCHAR(256)              DEFAULT ''
+        COMMENT 'the filename of the resource to the optional resource to be displayed',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `ip` (`ip`),
+    KEY `roomID` (`roomID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_participants` (
-  `id`        INT(11)          NOT NULL,
-  `forename`  VARCHAR(255)     NOT NULL DEFAULT '',
-  `surname`   VARCHAR(255)     NOT NULL DEFAULT '',
-  `city`      VARCHAR(60)      NOT NULL DEFAULT '',
-  `address`   VARCHAR(60)      NOT NULL DEFAULT '',
-  `zip_code`  INT(11)          NOT NULL DEFAULT 0,
-  `programID` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`)
+    `id`        INT(11)          NOT NULL,
+    `forename`  VARCHAR(255)     NOT NULL DEFAULT '',
+    `surname`   VARCHAR(255)     NOT NULL DEFAULT '',
+    `city`      VARCHAR(60)      NOT NULL DEFAULT '',
+    `address`   VARCHAR(60)      NOT NULL DEFAULT '',
+    `zip_code`  INT(11)          NOT NULL DEFAULT 0,
+    `programID` INT(11) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_planning_periods` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name`      VARCHAR(10)      NOT NULL,
-  `startDate` DATE                      DEFAULT NULL,
-  `endDate`   DATE                      DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `pp_long` (`name`, `startDate`, `endDate`)
+    `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name`      VARCHAR(10)      NOT NULL,
+    `startDate` DATE DEFAULT NULL,
+    `endDate`   DATE DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `pp_long` (`name`, `startDate`, `endDate`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_pool_publishing` (
-  `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `planPoolID`       INT(11) UNSIGNED NOT NULL,
-  `planningPeriodID` INT(11) UNSIGNED NOT NULL,
-  `published`        TINYINT(1)       NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `entry` (`planPoolID`, `planningPeriodID`)
+    `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `planPoolID`       INT(11) UNSIGNED NOT NULL,
+    `planningPeriodID` INT(11) UNSIGNED NOT NULL,
+    `published`        TINYINT(1)       NOT NULL DEFAULT '1',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `entry` (`planPoolID`, `planningPeriodID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_pools` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR(60)
-              CHARACTER SET utf8
-              COLLATE utf8_bin NOT NULL,
-  `poolID`    INT(11) UNSIGNED          DEFAULT NULL,
-  `programID` INT(11) UNSIGNED          DEFAULT NULL,
-  `fieldID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `gridID`    INT(11) UNSIGNED          DEFAULT 1,
-  `name`      VARCHAR(100)     NOT NULL,
-  `full_name` VARCHAR(100)     NOT NULL
-  COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`),
-  UNIQUE KEY `dbID` (`gpuntisID`, `programID`),
-  KEY `poolID` (`poolID`),
-  KEY `programID` (`programID`),
-  KEY `fieldID` (`fieldID`)
+    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID` VARCHAR(60)
+             CHARACTER SET utf8
+                 COLLATE utf8_bin NOT NULL,
+    `poolID` INT(11) UNSIGNED    DEFAULT NULL,
+    `programID` INT(11) UNSIGNED DEFAULT NULL,
+    `fieldID` INT(11) UNSIGNED   DEFAULT NULL,
+    `gridID` INT(11) UNSIGNED    DEFAULT 1,
+    `name` VARCHAR(100) NOT NULL,
+    `full_name` VARCHAR(100) NOT NULL
+        COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `gpuntisID` (`gpuntisID`),
+    UNIQUE KEY `dbID` (`gpuntisID`, `programID`),
+    KEY `poolID` (`poolID`),
+    KEY `programID` (`programID`),
+    KEY `fieldID` (`fieldID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_programs` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR(60)
-              CHARACTER SET utf8
-              COLLATE utf8_bin NOT NULL,
-  `programID` INT(11) UNSIGNED          DEFAULT NULL,
-  `name`      VARCHAR(100)     NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`),
-  KEY `plan_programs_programid_fk` (`programID`)
+    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID` VARCHAR(60)
+             CHARACTER SET utf8
+                 COLLATE utf8_bin NOT NULL,
+    `programID` INT(11) UNSIGNED DEFAULT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `gpuntisID` (`gpuntisID`),
+    KEY `plan_programs_programid_fk` (`programID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_plan_subjects` (
-  `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID`    VARCHAR(60)
-                 CHARACTER SET utf8
+    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID` VARCHAR(60)
+             CHARACTER SET utf8
                  COLLATE utf8_bin NOT NULL,
-  `fieldID`      INT(11) UNSIGNED          DEFAULT NULL,
-  `subjectNo`    VARCHAR(45)      NOT NULL DEFAULT '',
-  `name`         VARCHAR(100)     NOT NULL,
-  `subjectIndex` VARCHAR(70)      NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `subjectIndex` (`subjectIndex`),
-  KEY `plan_subjects_fieldid_fk` (`fieldID`),
-  KEY `gpuntisID` (`gpuntisID`)
+    `fieldID` INT(11) UNSIGNED       DEFAULT NULL,
+    `subjectNo` VARCHAR(45) NOT NULL DEFAULT '',
+    `name` VARCHAR(100) NOT NULL,
+    `subjectIndex` VARCHAR(70) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `subjectIndex` (`subjectIndex`),
+    KEY `plan_subjects_fieldid_fk` (`fieldID`),
+    KEY `gpuntisID` (`gpuntisID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
-  `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `asset_id`        INT(11)          NOT NULL DEFAULT '0',
-  `departmentID`    INT(11) UNSIGNED          DEFAULT NULL,
-  `lsfID`           INT(11) UNSIGNED          DEFAULT NULL,
-  `hisID`           INT(11) UNSIGNED          DEFAULT NULL,
-  `externalID`      VARCHAR(45)               DEFAULT '',
-  `description_de`  TEXT,
-  `description_en`  TEXT,
-  `abbreviation_de` VARCHAR(45)               DEFAULT '',
-  `abbreviation_en` VARCHAR(45)               DEFAULT '',
-  `short_name_de`   VARCHAR(45)               DEFAULT '',
-  `short_name_en`   VARCHAR(45)               DEFAULT '',
-  `name_de`         VARCHAR(255)              DEFAULT NULL,
-  `name_en`         VARCHAR(255)              DEFAULT NULL,
-  `minCrP`          INT(3) UNSIGNED           DEFAULT '0',
-  `maxCrP`          INT(3) UNSIGNED           DEFAULT '0',
-  `fieldID`         INT(11) UNSIGNED          DEFAULT NULL,
-  `distance`        INT(2) UNSIGNED           DEFAULT '10',
-  `display_type`    TINYINT(1)                DEFAULT '1',
-  `enable_desc`     TINYINT(1)                DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `lsfID` (`lsfID`),
-  KEY `externalID` (`externalID`),
-  KEY `fieldID` (`fieldID`),
-  KEY `pools_departmentid_fk` (`departmentID`)
+    `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `asset_id`        INT(11)          NOT NULL DEFAULT '0',
+    `departmentID`    INT(11) UNSIGNED          DEFAULT NULL,
+    `lsfID`           INT(11) UNSIGNED          DEFAULT NULL,
+    `hisID`           INT(11) UNSIGNED          DEFAULT NULL,
+    `externalID`      VARCHAR(45)               DEFAULT '',
+    `description_de`  TEXT,
+    `description_en`  TEXT,
+    `abbreviation_de` VARCHAR(45)               DEFAULT '',
+    `abbreviation_en` VARCHAR(45)               DEFAULT '',
+    `short_name_de`   VARCHAR(45)               DEFAULT '',
+    `short_name_en`   VARCHAR(45)               DEFAULT '',
+    `name_de`         VARCHAR(255)              DEFAULT NULL,
+    `name_en`         VARCHAR(255)              DEFAULT NULL,
+    `minCrP`          INT(3) UNSIGNED           DEFAULT '0',
+    `maxCrP`          INT(3) UNSIGNED           DEFAULT '0',
+    `fieldID`         INT(11) UNSIGNED          DEFAULT NULL,
+    `distance`        INT(2) UNSIGNED           DEFAULT '10',
+    `display_type`    TINYINT(1)                DEFAULT '1',
+    `enable_desc`     TINYINT(1)                DEFAULT '1',
+    PRIMARY KEY (`id`),
+    KEY `lsfID` (`lsfID`),
+    KEY `externalID` (`externalID`),
+    KEY `fieldID` (`fieldID`),
+    KEY `pools_departmentid_fk` (`departmentID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
-  `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `subjectID`    INT(11) UNSIGNED NOT NULL,
-  `prerequisite` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `entry` (`subjectID`, `prerequisite`),
-  KEY `prerequisites_prerequisites_fk` (`prerequisite`)
+    `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `subjectID`    INT(11) UNSIGNED NOT NULL,
+    `prerequisite` INT(11) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `entry` (`subjectID`, `prerequisite`),
+    KEY `prerequisites_prerequisites_fk` (`prerequisite`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
-  `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `asset_id`       INT(11)          NOT NULL DEFAULT '0',
-  `departmentID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `name_de`        VARCHAR(60)      NOT NULL,
-  `name_en`        VARCHAR(60)      NOT NULL,
-  `version`        YEAR(4)                   DEFAULT NULL,
-  `code`           VARCHAR(20)               DEFAULT '',
-  `degreeID`       INT(11) UNSIGNED          DEFAULT NULL,
-  `fieldID`        INT(11) UNSIGNED          DEFAULT NULL,
-  `description_de` TEXT,
-  `description_en` TEXT,
-  `frequencyID`    INT(1) UNSIGNED           DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `lsfData` (`version`, `code`, `degreeID`),
-  KEY `degreeID` (`degreeID`),
-  KEY `fieldID` (`fieldID`),
-  KEY `programs_departmentid_fk` (`departmentID`),
-  KEY `programs_frequencyid_fk` (`frequencyID`)
+    `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `asset_id`       INT(11)          NOT NULL DEFAULT '0',
+    `departmentID`   INT(11) UNSIGNED          DEFAULT NULL,
+    `name_de`        VARCHAR(60)      NOT NULL,
+    `name_en`        VARCHAR(60)      NOT NULL,
+    `version`        YEAR(4)                   DEFAULT NULL,
+    `code`           VARCHAR(20)               DEFAULT '',
+    `degreeID`       INT(11) UNSIGNED          DEFAULT NULL,
+    `fieldID`        INT(11) UNSIGNED          DEFAULT NULL,
+    `description_de` TEXT,
+    `description_en` TEXT,
+    `frequencyID`    INT(1) UNSIGNED           DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `lsfData` (`version`, `code`, `degreeID`),
+    KEY `degreeID` (`degreeID`),
+    KEY `fieldID` (`fieldID`),
+    KEY `programs_departmentid_fk` (`departmentID`),
+    KEY `programs_frequencyid_fk` (`frequencyID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
-  `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID`      VARCHAR(60)
-                   CHARACTER SET utf8
-                   COLLATE utf8_bin          DEFAULT NULL,
-  `name_de`        VARCHAR(50)      NOT NULL,
-  `name_en`        VARCHAR(50)      NOT NULL,
-  `description_de` TEXT             NOT NULL,
-  `description_en` TEXT             NOT NULL,
-  `min_capacity`   INT(4) UNSIGNED           DEFAULT NULL,
-  `max_capacity`   INT(4) UNSIGNED           DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`)
+    `id`                                             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID`                                      VARCHAR(60)
+                                                         CHARACTER SET utf8
+                                                             COLLATE utf8_bin DEFAULT NULL,
+    `name_de`                                        VARCHAR(50)      NOT NULL,
+    `name_en`                                        VARCHAR(50)      NOT NULL,
+    `description_de`                                 TEXT             NOT NULL,
+    `description_en`                                 TEXT             NOT NULL,
+    `min_capacity`                                   INT(4) UNSIGNED          DEFAULT NULL,
+    `max_capacity`                                   INT(4) UNSIGNED          DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `gpuntisID` (`gpuntisID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
-  `id`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `buildingID` INT(11) UNSIGNED          DEFAULT NULL,
-  `gpuntisID`  VARCHAR(60)
-               CHARACTER SET utf8
-               COLLATE utf8_bin          DEFAULT NULL,
-  `name`       VARCHAR(10)      NOT NULL,
-  `longname`   VARCHAR(50)      NOT NULL DEFAULT '',
-  `typeID`     INT(11) UNSIGNED          DEFAULT NULL,
-  `capacity`   INT(4) UNSIGNED           DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`),
-  KEY `typeID` (`typeID`)
+    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `buildingID` INT(11) UNSIGNED   DEFAULT NULL,
+    `gpuntisID` VARCHAR(60)
+             CHARACTER SET utf8
+                 COLLATE utf8_bin   DEFAULT NULL,
+    `name` VARCHAR(10) NOT NULL,
+    `longname` VARCHAR(50) NOT NULL DEFAULT '',
+    `typeID` INT(11) UNSIGNED       DEFAULT NULL,
+    `capacity` INT(4) UNSIGNED      DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `gpuntisID` (`gpuntisID`),
+    KEY `typeID` (`typeID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
-  `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `asset_id`         INT(11)          NOT NULL DEFAULT '0',
-  `departmentID`     INT(11) UNSIGNED          DEFAULT NULL,
-  `creationDate`     DATE                      DEFAULT NULL,
-  `creationTime`     TIME                      DEFAULT NULL,
-  `schedule`         MEDIUMTEXT       NOT NULL,
-  `active`           TINYINT(1)       NOT NULL DEFAULT '0',
-  `planningPeriodID` INT(11) UNSIGNED          DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `schedules_departmentid_fk` (`departmentID`),
-  KEY `schedules_planningperiodid_fk` (`planningPeriodID`)
+    `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `asset_id`         INT(11)          NOT NULL DEFAULT '0',
+    `departmentID`     INT(11) UNSIGNED          DEFAULT NULL,
+    `userID`           INT(11)                   DEFAULT NULL,
+    `creationDate`     DATE                      DEFAULT NULL,
+    `creationTime`     TIME                      DEFAULT NULL,
+    `schedule`         MEDIUMTEXT       NOT NULL,
+    `active`           TINYINT(1)       NOT NULL DEFAULT '0',
+    `planningPeriodID` INT(11) UNSIGNED          DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `schedules_departmentid_fk` (`departmentID`),
+    KEY `schedules_planningperiodid_fk` (`planningPeriodID`),
+    KEY `userID` (`userID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
-  `id`                           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `asset_id`                     INT(11)          NOT NULL DEFAULT '0',
-  `departmentID`                 INT(11) UNSIGNED          DEFAULT NULL,
-  `lsfID`                        INT(11) UNSIGNED          DEFAULT NULL,
-  `hisID`                        INT(11) UNSIGNED          DEFAULT NULL,
-  `externalID`                   VARCHAR(45)      NOT NULL DEFAULT '',
-  `abbreviation_de`              VARCHAR(45)      NOT NULL DEFAULT '',
-  `abbreviation_en`              VARCHAR(45)      NOT NULL DEFAULT '',
-  `short_name_de`                VARCHAR(45)      NOT NULL DEFAULT '',
-  `short_name_en`                VARCHAR(45)      NOT NULL DEFAULT '',
-  `name_de`                      VARCHAR(255)     NOT NULL,
-  `name_en`                      VARCHAR(255)     NOT NULL,
-  `description_de`               TEXT             NOT NULL DEFAULT '',
-  `description_en`               TEXT             NOT NULL DEFAULT '',
-  `objective_de`                 TEXT             NOT NULL DEFAULT '',
-  `objective_en`                 TEXT             NOT NULL DEFAULT '',
-  `content_de`                   TEXT             NOT NULL DEFAULT '',
-  `content_en`                   TEXT             NOT NULL DEFAULT '',
-  `prerequisites_de`             TEXT             NOT NULL DEFAULT '',
-  `prerequisites_en`             TEXT             NOT NULL DEFAULT '',
-  `preliminary_work_de`          TEXT             NOT NULL DEFAULT '',
-  `preliminary_work_en`          TEXT             NOT NULL DEFAULT '',
-  `instructionLanguage`          VARCHAR(2)       NOT NULL DEFAULT 'D',
-  `literature`                   TEXT             NOT NULL DEFAULT '',
-  `creditpoints`                 INT(4) UNSIGNED  NOT NULL DEFAULT '0',
-  `expenditure`                  INT(4) UNSIGNED  NOT NULL DEFAULT '0',
-  `present`                      INT(4) UNSIGNED  NOT NULL DEFAULT '0',
-  `independent`                  INT(4) UNSIGNED  NOT NULL DEFAULT '0',
-  `proof_de`                     TEXT             NOT NULL DEFAULT '',
-  `proof_en`                     TEXT             NOT NULL DEFAULT '',
-  `frequencyID`                  INT(1) UNSIGNED           DEFAULT NULL,
-  `method_de`                    TEXT             NOT NULL DEFAULT '',
-  `method_en`                    TEXT             NOT NULL DEFAULT '',
-  `fieldID`                      INT(11) UNSIGNED          DEFAULT NULL,
-  `sws`                          INT(2) UNSIGNED  NOT NULL DEFAULT '0',
-  `aids_de`                      TEXT             NOT NULL DEFAULT '',
-  `aids_en`                      TEXT             NOT NULL DEFAULT '',
-  `evaluation_de`                TEXT             NOT NULL DEFAULT '',
-  `evaluation_en`                TEXT             NOT NULL DEFAULT '',
-  `expertise`                    INT(1) UNSIGNED           DEFAULT NULL,
-  `self_competence`              INT(1) UNSIGNED           DEFAULT NULL,
-  `method_competence`            INT(1) UNSIGNED           DEFAULT NULL,
-  `social_competence`            INT(1) UNSIGNED           DEFAULT NULL,
-  `recommended_prerequisites_de` TEXT             NOT NULL DEFAULT '',
-  `recommended_prerequisites_en` TEXT             NOT NULL DEFAULT '',
-  `used_for_de`                  TEXT             NOT NULL DEFAULT '',
-  `used_for_en`                  TEXT             NOT NULL DEFAULT '',
-  `duration`                     INT(2) UNSIGNED           DEFAULT 1,
-  `is_prep_course`               INT(1) UNSIGNED  NOT NULL DEFAULT 1,
-  `max_participants`             INT(4) UNSIGNED           DEFAULT NULL,
-  `registration_type`            INT(1) UNSIGNED           DEFAULT NULL
-  COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
-  PRIMARY KEY (`id`),
-  KEY `frequencyID` (`frequencyID`),
-  KEY `fieldID` (`fieldID`),
-  KEY `subjects_departmentid_fk` (`departmentID`)
+    `id`                           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `asset_id`                     INT(11)          NOT NULL DEFAULT '0',
+    `departmentID`                 INT(11) UNSIGNED          DEFAULT NULL,
+    `lsfID`                        INT(11) UNSIGNED          DEFAULT NULL,
+    `hisID`                        INT(11) UNSIGNED          DEFAULT NULL,
+    `externalID`                   VARCHAR(45)      NOT NULL DEFAULT '',
+    `abbreviation_de`              VARCHAR(45)      NOT NULL DEFAULT '',
+    `abbreviation_en`              VARCHAR(45)      NOT NULL DEFAULT '',
+    `short_name_de`                VARCHAR(45)      NOT NULL DEFAULT '',
+    `short_name_en`                VARCHAR(45)      NOT NULL DEFAULT '',
+    `name_de`                      VARCHAR(255)     NOT NULL,
+    `name_en`                      VARCHAR(255)     NOT NULL,
+    `description_de`               TEXT             NOT NULL DEFAULT '',
+    `description_en`               TEXT             NOT NULL DEFAULT '',
+    `objective_de`                 TEXT             NOT NULL DEFAULT '',
+    `objective_en`                 TEXT             NOT NULL DEFAULT '',
+    `content_de`                   TEXT             NOT NULL DEFAULT '',
+    `content_en`                   TEXT             NOT NULL DEFAULT '',
+    `prerequisites_de`             TEXT             NOT NULL DEFAULT '',
+    `prerequisites_en`             TEXT             NOT NULL DEFAULT '',
+    `preliminary_work_de`          TEXT             NOT NULL DEFAULT '',
+    `preliminary_work_en`          TEXT             NOT NULL DEFAULT '',
+    `instructionLanguage`          VARCHAR(2)       NOT NULL DEFAULT 'D',
+    `literature`                   TEXT             NOT NULL DEFAULT '',
+    `creditpoints`                 INT(4) UNSIGNED  NOT NULL DEFAULT '0',
+    `expenditure`                  INT(4) UNSIGNED  NOT NULL DEFAULT '0',
+    `present`                      INT(4) UNSIGNED  NOT NULL DEFAULT '0',
+    `independent`                  INT(4) UNSIGNED  NOT NULL DEFAULT '0',
+    `proof_de`                     TEXT             NOT NULL DEFAULT '',
+    `proof_en`                     TEXT             NOT NULL DEFAULT '',
+    `frequencyID`                  INT(1) UNSIGNED           DEFAULT NULL,
+    `method_de`                    TEXT             NOT NULL DEFAULT '',
+    `method_en`                    TEXT             NOT NULL DEFAULT '',
+    `fieldID`                      INT(11) UNSIGNED          DEFAULT NULL,
+    `sws`                          INT(2) UNSIGNED  NOT NULL DEFAULT '0',
+    `aids_de`                      TEXT             NOT NULL DEFAULT '',
+    `aids_en`                      TEXT             NOT NULL DEFAULT '',
+    `evaluation_de`                TEXT             NOT NULL DEFAULT '',
+    `evaluation_en`                TEXT             NOT NULL DEFAULT '',
+    `expertise`                    INT(1) UNSIGNED           DEFAULT NULL,
+    `self_competence`              INT(1) UNSIGNED           DEFAULT NULL,
+    `method_competence`            INT(1) UNSIGNED           DEFAULT NULL,
+    `social_competence`            INT(1) UNSIGNED           DEFAULT NULL,
+    `recommended_prerequisites_de` TEXT             NOT NULL DEFAULT '',
+    `recommended_prerequisites_en` TEXT             NOT NULL DEFAULT '',
+    `used_for_de`                  TEXT             NOT NULL DEFAULT '',
+    `used_for_en`                  TEXT             NOT NULL DEFAULT '',
+    `duration`                     INT(2) UNSIGNED           DEFAULT 1,
+    `is_prep_course`               INT(1) UNSIGNED  NOT NULL DEFAULT 1,
+    `max_participants`             INT(4) UNSIGNED           DEFAULT NULL,
+    `registration_type`            INT(1) UNSIGNED           DEFAULT NULL
+        COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
+    PRIMARY KEY (`id`),
+    KEY `frequencyID` (`frequencyID`),
+    KEY `fieldID` (`fieldID`),
+    KEY `subjects_departmentid_fk` (`departmentID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_mappings` (
-  `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `subjectID`      INT(11) UNSIGNED NOT NULL,
-  `plan_subjectID` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `entry` (`subjectID`, `plan_subjectID`),
-  KEY `subject_mappings_plan_subjectID_fk` (`plan_subjectID`)
+    `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `subjectID`      INT(11) UNSIGNED NOT NULL,
+    `plan_subjectID` INT(11) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `entry` (`subjectID`, `plan_subjectID`),
+    KEY `subject_mappings_plan_subjectID_fk` (`plan_subjectID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_teachers` (
-  `id`          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `subjectID`   INT(11) UNSIGNED NOT NULL,
-  `teacherID`   INT(11) UNSIGNED NOT NULL,
-  `teacherResp` INT(11) UNSIGNED NOT NULL DEFAULT '1',
-  PRIMARY KEY (`subjectID`, `teacherID`, `teacherResp`),
-  UNIQUE KEY `id` (`id`),
-  KEY `subjectID` (`subjectID`),
-  KEY `teacherID` (`teacherID`)
+    `id`          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `subjectID`   INT(11) UNSIGNED NOT NULL,
+    `teacherID`   INT(11) UNSIGNED NOT NULL,
+    `teacherResp` INT(11) UNSIGNED NOT NULL DEFAULT '1',
+    PRIMARY KEY (`subjectID`, `teacherID`, `teacherResp`),
+    UNIQUE KEY `id` (`id`),
+    KEY `subjectID` (`subjectID`),
+    KEY `teacherID` (`teacherID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_teachers` (
-  `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `gpuntisID` VARCHAR(60)
-              CHARACTER SET utf8
-              COLLATE utf8_bin          DEFAULT NULL,
-  `surname`   VARCHAR(255)     NOT NULL,
-  `forename`  VARCHAR(255)     NOT NULL DEFAULT '',
-  `username`  VARCHAR(150)              DEFAULT NULL,
-  `fieldID`   INT(11) UNSIGNED          DEFAULT NULL,
-  `title`     VARCHAR(45)      NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `gpuntisID` (`gpuntisID`),
-  KEY `username` (`username`),
-  KEY `fieldID` (`fieldID`)
+    `id`                                             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `gpuntisID`                                      VARCHAR(60)
+                                                         CHARACTER SET utf8
+                                                             COLLATE utf8_bin  DEFAULT NULL,
+    `surname`                                        VARCHAR(255)     NOT NULL,
+    `forename`                                       VARCHAR(255)     NOT NULL DEFAULT '',
+    `username`                                       VARCHAR(150)              DEFAULT NULL,
+    `fieldID`                                        INT(11) UNSIGNED          DEFAULT NULL,
+    `title`                                          VARCHAR(45)      NOT NULL DEFAULT '',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `gpuntisID` (`gpuntisID`),
+    KEY `username` (`username`),
+    KEY `fieldID` (`fieldID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_user_lessons` (
-  `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `lessonID`      INT(11) UNSIGNED NOT NULL,
-  `userID`        INT(11)          NOT NULL,
-  `status`        INT(1) UNSIGNED           DEFAULT '0'
-  COMMENT 'The user''s registration status. Possible values: 0 - pending, 1 - registered',
-  `user_date`     DATETIME                  DEFAULT NULL
-  COMMENT 'The last date of user action.',
-  `status_date`   DATETIME                  DEFAULT NULL
-  COMMENT 'The last date of status action.',
-  `configuration` TEXT             NOT NULL
-  COMMENT 'A configuration of the lessons visited should the added lessons be a subset of those offered.',
-  `campusID`      INT(11) UNSIGNED          DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lessonID` (`lessonID`),
-  KEY `userID` (`userID`)
+    `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `lessonID`      INT(11) UNSIGNED NOT NULL,
+    `userID`        INT(11)          NOT NULL,
+    `status`        INT(1) UNSIGNED  DEFAULT '0'
+        COMMENT 'The user''s registration status. Possible values: 0 - pending, 1 - registered',
+    `user_date`     DATETIME         DEFAULT NULL
+        COMMENT 'The last date of user action.',
+    `status_date`   DATETIME         DEFAULT NULL
+        COMMENT 'The last date of status action.',
+    `configuration` TEXT             NOT NULL
+        COMMENT 'A configuration of the lessons visited should the added lessons be a subset of those offered.',
+    `campusID`      INT(11) UNSIGNED DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `lessonID` (`lessonID`),
+    KEY `userID` (`userID`)
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
 
 ALTER TABLE `#__thm_organizer_buildings`
-  ADD CONSTRAINT `building_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `building_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_calendar`
-  ADD CONSTRAINT `calendar_lessonid_fk` FOREIGN KEY (`lessonID`)
-REFERENCES `#__thm_organizer_lessons` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `calendar_lessonid_fk` FOREIGN KEY (`lessonID`)
+        REFERENCES `#__thm_organizer_lessons` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_calendar_configuration_map`
-  ADD CONSTRAINT `calendar_configuration_map_calendarID_fk` FOREIGN KEY (`calendarID`)
-REFERENCES `#__thm_organizer_calendar` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `calendar_configuration_map_configurationID_fk` FOREIGN KEY (`configurationID`)
-REFERENCES `#__thm_organizer_lesson_configurations` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `calendar_configuration_map_calendarID_fk` FOREIGN KEY (`calendarID`)
+        REFERENCES `#__thm_organizer_calendar` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `calendar_configuration_map_configurationID_fk` FOREIGN KEY (`configurationID`)
+        REFERENCES `#__thm_organizer_lesson_configurations` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_campuses`
-  ADD CONSTRAINT `campus_parentID_fk` FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_campuses` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `campus_gridID_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `campus_parentID_fk` FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_campuses` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `campus_gridID_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_department_resources`
-  ADD CONSTRAINT `department_resources_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `department_resources_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_plan_programs` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `department_resources_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `department_resources_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `department_resources_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_plan_programs` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `department_resources_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_fields`
-  ADD CONSTRAINT `fields_colorid_fk` FOREIGN KEY (`colorID`) REFERENCES `#__thm_organizer_colors` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `fields_colorid_fk` FOREIGN KEY (`colorID`) REFERENCES `#__thm_organizer_colors` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_lessons`
-  ADD CONSTRAINT `lessons_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `lessons_planningperiodid_fk` FOREIGN KEY (`planningPeriodID`) REFERENCES `#__thm_organizer_planning_periods` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `lessons_methodid_fk` FOREIGN KEY (`methodID`) REFERENCES `#__thm_organizer_methods` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `lessons_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `lessons_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `lessons_planningperiodid_fk` FOREIGN KEY (`planningPeriodID`) REFERENCES `#__thm_organizer_planning_periods` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `lessons_methodid_fk` FOREIGN KEY (`methodID`) REFERENCES `#__thm_organizer_methods` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `lessons_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_lesson_configurations`
-  ADD CONSTRAINT `lesson_configurations_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `lesson_configurations_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_lesson_pools`
-  ADD CONSTRAINT `lesson_pools_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_plan_pools` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `lesson_pools_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `lesson_pools_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_plan_pools` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `lesson_pools_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_lesson_subjects`
-  ADD CONSTRAINT `lesson_subjects_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `lesson_subjects_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_plan_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `lesson_subjects_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `lesson_subjects_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_plan_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_lesson_teachers`
-  ADD CONSTRAINT `lesson_teachers_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `lesson_teachers_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `lesson_teachers_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_lesson_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `lesson_teachers_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_mappings`
-  ADD CONSTRAINT `mappings_parentid_fk` FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_mappings` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `mappings_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `mappings_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `mappings_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `mappings_parentid_fk` FOREIGN KEY (`parentID`) REFERENCES `#__thm_organizer_mappings` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `mappings_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `mappings_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `mappings_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_monitors`
-  ADD CONSTRAINT `monitors_roomid_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `monitors_roomid_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_participants`
-  ADD CONSTRAINT `participants_userid_fk` FOREIGN KEY (`id`) REFERENCES `#__users` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `participants_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `participants_userid_fk` FOREIGN KEY (`id`) REFERENCES `#__users` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `participants_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_plan_pool_publishing`
-  ADD CONSTRAINT `plan_pool_publishing_planpoolid_fk` FOREIGN KEY (`planPoolID`) REFERENCES `#__thm_organizer_plan_pools` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `plan_pool_publishing_planningperiodid_fk` FOREIGN KEY (`planningPeriodID`)
-REFERENCES `#__thm_organizer_planning_periods` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `plan_pool_publishing_planpoolid_fk` FOREIGN KEY (`planPoolID`) REFERENCES `#__thm_organizer_plan_pools` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `plan_pool_publishing_planningperiodid_fk` FOREIGN KEY (`planningPeriodID`)
+        REFERENCES `#__thm_organizer_planning_periods` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_plan_pools`
-  ADD CONSTRAINT `plan_pools_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `plan_pools_gridid_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `plan_pools_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `plan_pools_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_plan_programs` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `plan_pools_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `plan_pools_gridid_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `plan_pools_poolid_fk` FOREIGN KEY (`poolID`) REFERENCES `#__thm_organizer_pools` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `plan_pools_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_plan_programs` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_plan_programs`
-  ADD CONSTRAINT `plan_programs_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `plan_programs_programid_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_plan_subjects`
-  ADD CONSTRAINT `plan_subjects_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `plan_subjects_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_pools`
-  ADD CONSTRAINT `pools_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `pools_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `pools_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `pools_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_prerequisites`
-  ADD CONSTRAINT `prerequisites_prerequisites_fk` FOREIGN KEY (`prerequisite`) REFERENCES `#__thm_organizer_mappings` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `prerequisites_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_mappings` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `prerequisites_prerequisites_fk` FOREIGN KEY (`prerequisite`) REFERENCES `#__thm_organizer_mappings` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `prerequisites_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_mappings` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_programs`
-  ADD CONSTRAINT `programs_degreeid_fk` FOREIGN KEY (`degreeID`) REFERENCES `#__thm_organizer_degrees` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `programs_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `programs_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `programs_frequencyid_fk` FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `programs_degreeid_fk` FOREIGN KEY (`degreeID`) REFERENCES `#__thm_organizer_degrees` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `programs_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `programs_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `programs_frequencyid_fk` FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_rooms`
-  ADD CONSTRAINT `room_buildingID_fk` FOREIGN KEY (`buildingID`) REFERENCES `#__thm_organizer_buildings` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `rooms_typeid_fk` FOREIGN KEY (`typeID`) REFERENCES `#__thm_organizer_room_types` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `room_buildingID_fk` FOREIGN KEY (`buildingID`) REFERENCES `#__thm_organizer_buildings` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `rooms_typeid_fk` FOREIGN KEY (`typeID`) REFERENCES `#__thm_organizer_room_types` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_schedules`
-  ADD CONSTRAINT `schedules_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `schedules_planningperiodid_fk` FOREIGN KEY (`planningPeriodID`) REFERENCES `#__thm_organizer_planning_periods` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `schedules_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `schedules_planningperiodid_fk` FOREIGN KEY (`planningPeriodID`) REFERENCES `#__thm_organizer_planning_periods` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `schedules_userid_fk` FOREIGN KEY (`userID`) REFERENCES `#__users` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_subjects`
-  ADD CONSTRAINT `subjects_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `subjects_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `subjects_frequencyid_fk` FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `subjects_departmentid_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `subjects_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `subjects_frequencyid_fk` FOREIGN KEY (`frequencyID`) REFERENCES `#__thm_organizer_frequencies` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_subject_mappings`
-  ADD CONSTRAINT `subject_mappings_subjectID_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `subject_mappings_plan_subjectID_fk` FOREIGN KEY (`plan_subjectID`) REFERENCES `#__thm_organizer_plan_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `subject_mappings_subjectID_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `subject_mappings_plan_subjectID_fk` FOREIGN KEY (`plan_subjectID`) REFERENCES `#__thm_organizer_plan_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_subject_teachers`
-  ADD CONSTRAINT `subject_teachers_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `subject_teachers_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `subject_teachers_subjectid_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `subject_teachers_teacherid_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_teachers`
-  ADD CONSTRAINT `teachers_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `teachers_fieldid_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_user_lessons`
-  ADD CONSTRAINT `user_lessons_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_lessons_userid_fk` FOREIGN KEY (`userID`) REFERENCES `#__users` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+    ADD CONSTRAINT `user_lessons_lessonid_fk` FOREIGN KEY (`lessonID`) REFERENCES `#__thm_organizer_lessons` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `user_lessons_userid_fk` FOREIGN KEY (`userID`) REFERENCES `#__users` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
 INSERT INTO `#__thm_organizer_colors` (`name_de`, `color`, `name_en`)
 VALUES ('THM Hintergrundgruen', '#cce3a7', 'THM Hintergrundgruen'),
