@@ -2666,7 +2666,7 @@ const ScheduleApp = function (variables) {
             }
             else
             {
-                jQuery('.date-input').appendTo('.date-input-list-item');
+                jQuery('.date-input').insertAfter(jQuery('.tabs-tab').eq(-2));
             }
         });
     }

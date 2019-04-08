@@ -48,77 +48,75 @@ $displayName = empty($this->model->displayName) ?
                     <span class="tab-text"><?php echo \JText::_('COM_THM_ORGANIZER_GRID_MANAGER_TITLE'); ?></span>
                 </a>
             </li>
-            <li class="date-input-list-item">
-                <div class="date-input">
-                    <button id="previous-month" class="controls" type="button"
-                            onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'month');">
-                        <span class="icon-arrow-left-22"></span>
-                    </button>
-                    <button id="previous-week" class="controls" type="button"
-                            onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
-                        <span class="icon-arrow-left"></span>
-                    </button>
-                    <input id="date" type="text" required onchange="scheduleApp.updateSchedule('date');"/>
-                    <button id="calendar-icon" type="button" class="controls"
-                            onclick="scheduleApp.getCalendar().showCalendar();">
-                        <span class="icon-calendar"></span>
-                    </button>
-                    <div id="calendar">
-                        <table id="calendar-table">
-                            <thead>
-                            <tr>
-                                <td colspan="1">
-                                    <button id="calendar-previous-month" type="button"
-                                            onclick="scheduleApp.getCalendar().changeCalendarMonth(false);">
-                                        <span class="icon-arrow-left"></span>
-                                    </button>
-                                </td>
-                                <td colspan="5">
-                                    <span id="display-month"></span> <span id="display-year"></span>
-                                </td>
-                                <td colspan="1">
-                                    <button id="calendar-next-month" type="button"
-                                            onclick="scheduleApp.getCalendar().changeCalendarMonth(true);">
-                                        <span class="icon-arrow-right"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                            </thead>
-                            <thead>
-                            <tr>
-                                <td><?php echo \JText::_('MON'); ?></td>
-                                <td><?php echo \JText::_('TUE'); ?></td>
-                                <td><?php echo \JText::_('WED'); ?></td>
-                                <td><?php echo \JText::_('THU'); ?></td>
-                                <td><?php echo \JText::_('FRI'); ?></td>
-                                <td><?php echo \JText::_('SAT'); ?></td>
-                                <td><?php echo \JText::_('SUN'); ?></td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- generated code with JavaScript -->
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colspan="7">
-                                    <button id="today" type="button" class="today"
-                                            onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
-                                        <?php echo \JText::_('COM_THM_ORGANIZER_TODAY'); ?>
-                                    </button>
-                                </td>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <button id="next-week" class="controls" type="button"
-                            onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
-                        <span class="icon-arrow-right"></span>
-                    </button>
-                    <button id="next-month" class="controls" type="button"
-                            onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'month');">
-                        <span class="icon-arrow-right-22"></span>
-                    </button>
+            <li class="date-input">
+                <button id="previous-month" class="controls" type="button"
+                        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'month');">
+                    <span class="icon-arrow-left-22"></span>
+                </button>
+                <button id="previous-week" class="controls" type="button"
+                        onclick="scheduleApp.getCalendar().changeSelectedDate(false, 'week');">
+                    <span class="icon-arrow-left"></span>
+                </button>
+                <input id="date" type="text" required onchange="scheduleApp.updateSchedule('date');"/>
+                <button id="calendar-icon" type="button" class="controls"
+                        onclick="scheduleApp.getCalendar().showCalendar();">
+                    <span class="icon-calendar"></span>
+                </button>
+                <div id="calendar">
+                    <table id="calendar-table">
+                        <thead>
+                        <tr>
+                            <td colspan="1">
+                                <button id="calendar-previous-month" type="button"
+                                        onclick="scheduleApp.getCalendar().changeCalendarMonth(false);">
+                                    <span class="icon-arrow-left"></span>
+                                </button>
+                            </td>
+                            <td colspan="5">
+                                <span id="display-month"></span> <span id="display-year"></span>
+                            </td>
+                            <td colspan="1">
+                                <button id="calendar-next-month" type="button"
+                                        onclick="scheduleApp.getCalendar().changeCalendarMonth(true);">
+                                    <span class="icon-arrow-right"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </thead>
+                        <thead>
+                        <tr>
+                            <td><?php echo \JText::_('MON'); ?></td>
+                            <td><?php echo \JText::_('TUE'); ?></td>
+                            <td><?php echo \JText::_('WED'); ?></td>
+                            <td><?php echo \JText::_('THU'); ?></td>
+                            <td><?php echo \JText::_('FRI'); ?></td>
+                            <td><?php echo \JText::_('SAT'); ?></td>
+                            <td><?php echo \JText::_('SUN'); ?></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- generated code with JavaScript -->
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <button id="today" type="button" class="today"
+                                        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
+                                    <?php echo \JText::_('COM_THM_ORGANIZER_TODAY'); ?>
+                                </button>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
                 </div>
+                <button id="next-week" class="controls" type="button"
+                        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
+                    <span class="icon-arrow-right"></span>
+                </button>
+                <button id="next-month" class="controls" type="button"
+                        onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'month');">
+                    <span class="icon-arrow-right-22"></span>
+                </button>
             </li>
             <li class="tabs-tab" role="presentation">
                 <a href="#exports" class="tabs-toggle" id="tab-exports" data-toggle="tab"

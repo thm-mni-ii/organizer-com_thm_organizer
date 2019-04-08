@@ -257,14 +257,10 @@ input[type=radio] {
 }
 
 // Date-Input ********************************************************************************************************//
-.date-input-list-item {
-  display: inline;
-  margin-left: 0;
-  vertical-align: super;
-}
-
 .date-input {
   display: inline-block;
+  margin-left: 0;
+  vertical-align: super;
 
   .controls,
   .calender-icon {
