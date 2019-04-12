@@ -2905,6 +2905,18 @@ const ScheduleApp = function (variables) {
     };
 
     /**
+     * Called when notification checkbox is clicked
+     */
+    this.toggleCheckbox = function () {
+        const notifyChecked = document.getElementById('check-notify-box').checked;
+        jQuery.ajax({
+            type: 'GET',
+            url: getAjaxUrl('setNotify'),
+            data: { isChecked: notifyChecked }
+        });
+    };
+
+    /**
      * Get date string in the components specified format.
      * @see http://stackoverflow.com/a/3067896/6355472
      * @param {boolean} [shortYear=false]

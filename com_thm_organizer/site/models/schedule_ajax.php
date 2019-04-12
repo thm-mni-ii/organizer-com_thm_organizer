@@ -371,4 +371,48 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         return json_encode($savedCcmIDs);
     }
+    /**
+     * sets notification value in user_profile table depending on user selection
+     *
+     */
+    public function setNotify()
+    {
+        $isChecked = THM_OrganizerHelperComponent::getInput()->get('isChecked') == 'false' ? 0 : 1;
+        $userID = \JFactory::getUser()->id;
+        if ($userID == 0) {
+            return;
+        }
+        $table = '#__user_profiles';
+        $profile_key = 'organizer_notify';
+        $query = $this->_db->getQuery(true);
+
+        $query->select('COUNT(*)')
+            ->from($table)
+            ->where("profile_key = '$profile_key'")
+            ->where("user_id = $userID");
+        $this->_db->setQuery($query);
+        $result = THM_OrganizerHelperComponent::executeQuery('loadResult');
+
+        if ($result == 0) {
+            $query = $this->_db->getQuery(true);
+            $columns = array('user_id', 'profile_key', 'profile_value', 'ordering');
+            $values = array($userID, $this->_db->quote($profile_key), $this->_db->quote($isChecked), 0);
+
+            $query
+                ->insert($table)
+                ->columns($columns)
+                ->values(implode(',', $values));
+        } else {
+            $query = $this->_db->getQuery(true);
+            $query
+                ->update($table)
+                ->set("profile_value =  '$isChecked'")
+                ->where("user_id = '$userID'")
+                ->where("profile_key = 'organizer_notify'");
+        }
+        $this->_db->setQuery($query);
+        THM_OrganizerHelperComponent::executeQuery('execute');
+    }
+
+
 }

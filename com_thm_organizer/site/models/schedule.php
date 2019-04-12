@@ -312,4 +312,31 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->params['resourcesRequested'] = $resourceName;
         }
     }
+
+    /**
+     * sets notification value in user_profile table depending on user selection
+     * @return string value of previous selection
+     */
+    public function setCheckboxChecked(){
+        $userID = \JFactory::getUser()->id;
+        if ($userID == 0) {
+            return '';
+        }
+
+        $table = '#__user_profiles';
+        $profile_key = 'organizer_notify';
+        $query = $this->_db->getQuery(true);
+
+        $query->select('profile_value')
+            ->from($table)
+            ->where("profile_key = '$profile_key'")
+            ->where("user_id = $userID");
+        $this->_db->setQuery($query);
+
+        if (THM_OrganizerHelperComponent::executeQuery('loadResult') == 1) {
+            return 'checked';
+        } else {
+            return '';
+        }
+    }
 }
