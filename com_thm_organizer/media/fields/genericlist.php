@@ -101,6 +101,12 @@ class JFormFieldGenericList extends \JFormFieldList
             );
         }
 
+        // Add custom js script to change options of other fields like programs
+        $class = $this->getAttribute('class');
+        if (!empty($class) && $class === 'departmentlist') {
+            JFactory::getDocument()->addScript(JUri::root() . 'media/com_thm_organizer/js/departmentlist.js');
+        }
+
         return implode($html);
     }
 
