@@ -8,24 +8,23 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use Organizer\Helpers\Campuses as Campuses;
 
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a form field for building selection.
  */
-class JFormFieldBuildingID extends \JFormFieldList
+class BuildingsField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'buildingID';
+    protected $type = 'Buildings';
 
     /**
      * Returns a select box where stored buildings can be chosen
@@ -34,12 +33,12 @@ class JFormFieldBuildingID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $input          = THM_OrganizerHelperComponent::getInput();
+        $defaultOptions = \HTML::getTranslatedOptions($this, $this->element);
+        $input          = \OrganizerHelper::getInput();
         $formData       = $input->get('jform', [], 'array');
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = \Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT b.id, b.name, c.id AS campusID, c.parentID');
@@ -53,7 +52,7 @@ class JFormFieldBuildingID extends \JFormFieldList
         $query->order('name');
         $dbo->setQuery($query);
 
-        $buildings = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $buildings = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($buildings)) {
             return $defaultOptions;
         }
@@ -68,22 +67,22 @@ class JFormFieldBuildingID extends \JFormFieldList
                 // Integrate the campus name as appropriate
                 $buildingName = empty($thisBuilding['campusName']) ?
                     $thisBuilding['name'] : "{$thisBuilding['name']} ({$thisBuilding['campusName']})";
-                $options[]    = HTML::_('select.option', $thisBuilding['id'], $buildingName);
+                $options[]    = \HTML::_('select.option', $thisBuilding['id'], $buildingName);
                 continue;
             }
 
             if (empty($thisBuilding['campusName'])) {
                 $thisCampusID               = empty($thisBuilding['parentID']) ? $thisBuilding['campusID'] : $thisBuilding['parentID'];
-                $thisBuilding['campusName'] = THM_OrganizerHelperCampuses::getName($thisCampusID);
+                $thisBuilding['campusName'] = Campuses::getName($thisCampusID);
             }
 
             $nextBuilding               = $buildings[$index + 1];
             $nextCampusID               = empty($nextBuilding['parentID']) ? $nextBuilding['campusID'] : $nextBuilding['parentID'];
-            $nextBuilding['campusName'] = THM_OrganizerHelperCampuses::getName($nextCampusID);
+            $nextBuilding['campusName'] = Campuses::getName($nextCampusID);
 
             // The campus name of the building being iterated comes alphabetically before the campus name of the next building
             if ($thisBuilding['campusName'] < $nextBuilding['campusName']) {
-                $options[] = HTML::_(
+                $options[] = \HTML::_(
                     'select.option',
                     $thisBuilding['id'],
                     "{$thisBuilding['name']} ({$thisBuilding['campusName']})"
@@ -94,7 +93,7 @@ class JFormFieldBuildingID extends \JFormFieldList
             }
 
             // Set the options with the information from the next building and move this one to the next index
-            $options[] = HTML::_(
+            $options[] = \HTML::_(
                 'select.option',
                 $nextBuilding['id'],
                 "{$nextBuilding['name']} ({$nextBuilding['campusName']})"

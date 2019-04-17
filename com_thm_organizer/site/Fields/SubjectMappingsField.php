@@ -8,18 +8,16 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
 /**
  * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done implicitly
  * during the schedule import process according to degree programs and the subject's module number.
  */
-class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
+class SubjectMappingsField extends \Joomla\CMS\Form\FormField
 {
-    protected $type = 'subjectMapping';
+    protected $type = 'SubjectMappings';
 
     /**
-     * Returns a selectionbox where stored coursepool can be chosen as a parent node
+     * Returns a select box where stored course pool can be chosen as a parent node
      *
      * @return string  the HTML output
      */
@@ -55,6 +53,6 @@ class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
         $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
         $selectedMappings = empty($selected) ? [] : $selected;
 
-        return HTML::selectBox($options, $fieldName, $attributes, $selectedMappings, true);
+        return \HTML::selectBox($options, $fieldName, $attributes, $selectedMappings, true);
     }
 }

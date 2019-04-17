@@ -8,21 +8,21 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Fields;
 
-use \THM_OrganizerHelperHTML as HTML;
+defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
 
 /**
  * Class creates a generalized select box for selection of a single id column value among those already selected.
  */
-class JFormFieldMergeByID extends \JFormFieldList
+class MergeByIDField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'mergeByID';
+    protected $type = 'MergeByID';
 
     /**
      * Returns a select box where resource attributes can be selected
@@ -31,13 +31,13 @@ class JFormFieldMergeByID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = \OrganizerHelper::getInput();
         $selectedIDs = $input->get('cid', [], 'array');
         $valueColumn = $this->getAttribute('name');
         $tables      = explode(',', $this->getAttribute('tables'));
         $tableAlias  = '';
 
-        $dbo        = \JFactory::getDbo();
+        $dbo        = \Factory::getDbo();
         $query      = $dbo->getQuery(true);
         $textColumn = $this->resolveText($query);
         $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
@@ -57,7 +57,7 @@ class JFormFieldMergeByID extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $values         = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $values         = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($values)) {
             return $defaultOptions;
         }
@@ -65,7 +65,7 @@ class JFormFieldMergeByID extends \JFormFieldList
         $options = [];
         foreach ($values as $value) {
             if (!empty($value['value'])) {
-                $options[] = HTML::_('select.option', $value['value'], $value['text']);
+                $options[] = \HTML::_('select.option', $value['value'], $value['text']);
             }
         }
 
@@ -86,8 +86,7 @@ class JFormFieldMergeByID extends \JFormFieldList
         $localized   = $this->getAttribute('localized', false);
 
         if ($localized) {
-            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-            $tag = THM_OrganizerHelperLanguage::getShortTag();
+            $tag = \Languages::getShortTag();
             foreach ($textColumns as $key => $value) {
                 $textColumns[$key] = $value . '_' . $tag;
             }

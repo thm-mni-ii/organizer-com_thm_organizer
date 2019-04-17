@@ -12,7 +12,7 @@
     </layout>
     <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic" label="COM_THM_ORGANIZER_EVENT_LIST_SETTINGS">
-            <field name="rooms" type="genericlist" valuecolumn="id" textcolumn="longname" table="thm_organizer_rooms"
+            <field name="rooms" type="GenericList" valuecolumn="id" textcolumn="longname" table="thm_organizer_rooms"
                    label="COM_THM_ORGANIZER_ROOMS" description="COM_THM_ORGANIZER_REL_ROOMS_DESC" multiple="true">
                 <option value="">COM_THM_ORGANIZER_FILTER_ALL_ROOMS</option>
             </field>

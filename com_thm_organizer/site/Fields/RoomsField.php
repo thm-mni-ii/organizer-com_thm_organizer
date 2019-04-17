@@ -8,24 +8,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
 
 /**
  * Class creates a form field for room selection.
  */
-class JFormFieldRoomID extends \JFormFieldList
+class RoomsField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'roomID';
+    protected $type = 'Rooms';
 
     /**
      * Returns a select box where stored degree programs can be chosen
@@ -34,18 +31,18 @@ class JFormFieldRoomID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $rooms          = THM_OrganizerHelperRooms::getRooms();
+        $defaultOptions = \HTML::getTranslatedOptions($this, $this->element);
+        $rooms          = \Organizer\Helpers\Rooms::getRooms();
 
         $options = [];
         if (empty($rooms)) {
-            $lang      = THM_OrganizerHelperLanguage::getLanguage();
-            $options[] = HTML::_('select.option', '', $lang->_('JNONE'));
+            $lang      = \Languages::getLanguage();
+            $options[] = \HTML::_('select.option', '', $lang->_('JNONE'));
 
             return $options;
         } else {
             foreach ($rooms as $room) {
-                $options[] = HTML::_('select.option', $room['id'], $room['longname']);
+                $options[] = \HTML::_('select.option', $room['id'], $room['longname']);
             }
         }
 

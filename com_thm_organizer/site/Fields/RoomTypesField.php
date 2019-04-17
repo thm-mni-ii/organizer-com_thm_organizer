@@ -8,24 +8,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class creates a form field for room type selection
  */
-class JFormFieldRoomTypeID extends \JFormFieldList
+class RoomTypesField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'roomTypeID';
+    protected $type = 'RoomTypes';
 
     /**
      * Returns a select box where stored degree programs can be chosen
@@ -34,15 +31,15 @@ class JFormFieldRoomTypeID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $input          = THM_OrganizerHelperComponent::getInput();
+        $defaultOptions = \HTML::getTranslatedOptions($this, $this->element);
+        $input          = \OrganizerHelper::getInput();
         $formData       = $input->get('jform', [], 'array');
         $buildingID     = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
-        $dbo      = \JFactory::getDbo();
+        $dbo      = \Factory::getDbo();
         $query    = $dbo->getQuery(true);
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = \Languages::getShortTag();
         $query->select("DISTINCT rt.id, rt.name_$shortTag AS name")
             ->from('#__thm_organizer_room_types AS rt')
             ->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = rt.id');
@@ -63,20 +60,20 @@ class JFormFieldRoomTypeID extends \JFormFieldList
         $query->order('name');
         $dbo->setQuery($query);
 
-        $types = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $types = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($types)) {
             return $defaultOptions;
         }
 
         $options = [];
         if (empty($types)) {
-            $lang      = THM_OrganizerHelperLanguage::getLanguage();
-            $options[] = HTML::_('select.option', '', $lang->_('JNONE'));
+            $lang      = \Languages::getLanguage();
+            $options[] = \HTML::_('select.option', '', $lang->_('JNONE'));
 
             return $options;
         } else {
             foreach ($types as $type) {
-                $options[] = HTML::_('select.option', $type['id'], $type['name']);
+                $options[] = \HTML::_('select.option', $type['id'], $type['name']);
             }
         }
 

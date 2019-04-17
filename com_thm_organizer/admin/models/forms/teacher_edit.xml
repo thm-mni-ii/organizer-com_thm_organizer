@@ -12,13 +12,13 @@
                description="COM_THM_ORGANIZER_TITLE_DESC"/>
         <field name="username" type="text" class="inputbox" label="COM_THM_ORGANIZER_USERNAME"
                description="COM_THM_ORGANIZER_USERNAME_DESC"/>
-        <field name="fieldID" type="genericlist" valuecolumn="id" textcolumn="field" localized="true"
+        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields" class="inputbox" label="COM_THM_ORGANIZER_FIELD"
                description="COM_THM_ORGANIZER_FIELD_DESC">
             <option value="">COM_THM_ORGANIZER_FILTER_FIELD</option>
             <option value="">JNONE</option>
         </field>
-        <field name="departmentID" type="departmentID" class="inputbox" multiple="multiple" required="true"
+        <field name="departmentID" type="Departments" class="inputbox" multiple="multiple" required="true"
                label="COM_THM_ORGANIZER_DEPARTMENTS" description="COM_THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
                resource="teacher"/>
     </fieldset>

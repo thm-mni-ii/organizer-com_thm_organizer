@@ -29,12 +29,10 @@
             <schemapath type="mysqli">sql/updates/mysql</schemapath>
         </schemas>
     </update>
-    <media destination="com_thm_organizer" folder="media">
-        <folder>fields</folder>
-    </media>
     <files folder="site">
         <folder>Controllers</folder>
         <folder>css</folder>
+        <folder>Fields</folder>
         <folder>Helpers</folder>
         <folder>icalcreator</folder>
         <folder>images</folder>

@@ -8,24 +8,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class creates a select box for (degree) programs.
  */
-class JFormFieldProgramID extends \JFormFieldList
+class ProgramsField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'programID';
+    protected $type = 'Programs';
 
     /**
      * Returns a select box where stored degree programs can be chosen
@@ -34,19 +31,22 @@ class JFormFieldProgramID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $shortTag = \Languages::getShortTag();
+        $dbo      = \Factory::getDbo();
         $query    = $dbo->getQuery(true);
 
         $query->select("dp.id AS value, dp.name_$shortTag AS name, d.abbreviation AS degree, dp.version");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
+
+        self::setDepartmentFilter($query);
+
         $query->order('name ASC, degree ASC, version DESC');
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $programs       = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $programs       = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($programs)) {
             return $defaultOptions;
         }
@@ -70,11 +70,38 @@ class JFormFieldProgramID extends \JFormFieldList
 
             $text = "{$program['name']}, {$program['degree']} ({$program['version']})";
 
-            if (!$access or THM_OrganizerHelperAccess::allowDocumentAccess('program', $program['value'])) {
-                $options[] = HTML::_('select.option', $program['value'], $text);
+            if (!$access or \Access::allowDocumentAccess('program', $program['value'])) {
+                $options[] = \HTML::_('select.option', $program['value'], $text);
             }
         }
 
         return array_merge($defaultOptions, $options);
+    }
+
+    /**
+     * Filters the programs by the selected department
+     *
+     * @param \JDatabaseQuery $query the query to be modified
+     *
+     * @return void
+     */
+    private static function setDepartmentFilter(&$query)
+    {
+        $input        = \OrganizerHelper::getInput();
+        $filter       = $input->get('filter', [], 'array');
+        if (empty($filter['departmentID'])) {
+            $list = $input->get('list', [], 'array');
+            if (empty($list['departmentID'])) {
+                return;
+            } else {
+                $departmentID = $list['departmentID'];
+            }
+
+        } else {
+            $departmentID = $filter['departmentID'];
+        }
+
+        $departmentID = (int)$departmentID;
+        $query->where("dp.departmentID = $departmentID");
     }
 }

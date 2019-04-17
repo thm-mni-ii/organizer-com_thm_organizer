@@ -8,24 +8,29 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use Access;
+use Factory;
+use HTML;
+use Joomla\Utilities\ArrayHelper;
+use Languages;
+use Organizer\Helpers\Departments;
+use OrganizerHelper;
 
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class creates a select box for departments.
  */
-class JFormFieldDepartmentID extends \JFormFieldList
+class DepartmentsField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'departmentID';
+    protected $type = 'Departments';
 
     /**
      * Method to get the field input markup for department selection.
@@ -54,16 +59,15 @@ class JFormFieldDepartmentID extends \JFormFieldList
         // Get the field options.
         $options = (array)$this->getOptions();
 
-        $input      = THM_OrganizerHelperComponent::getInput();
+        $input      = OrganizerHelper::getInput();
         $resourceID = $input->getInt('id');
         if (empty($resourceID)) {
-            $selected = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+            $selected = OrganizerHelper::getInput()->get('cid', [], 'array');
         } else {
             $selected = [$resourceID];
         }
 
-        require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
-        $departmentIDs = THM_OrganizerHelperDepartments::getDepartmentsByResource($resource, $selected);
+        $departmentIDs = Departments::getDepartmentsByResource($resource, $selected);
 
         return HTML::_(
             'select.genericlist',
@@ -84,14 +88,14 @@ class JFormFieldDepartmentID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $shortTag = Languages::getShortTag();
+        $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
         $query->select("DISTINCT d.id AS value, d.short_name_$shortTag AS text");
         $query->from('#__thm_organizer_departments AS d');
 
         // For use in the merge view
-        $app               = THM_OrganizerHelperComponent::getApplication();
+        $app               = OrganizerHelper::getApplication();
         $isBackend         = $app->isClient('administrator');
         $selectedIDs       = $app->input->get('cid', [], 'array');
         $resource          = $this->getAttribute('resource', '');
@@ -99,7 +103,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
         $isValidResource   = in_array($resource, $validResources);
         $filterForSelected = ($isBackend and !empty($selectedIDs) and $isValidResource);
         if ($filterForSelected) {
-            $selectedIDs = Joomla\Utilities\ArrayHelper::toInteger($selectedIDs);
+            $selectedIDs = ArrayHelper::toInteger($selectedIDs);
 
             // Set the selected items
             $this->value = $selectedIDs;
@@ -113,7 +117,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
         $action = $this->getAttribute('action', '');
 
         if (!empty($action)) {
-            $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments($action);
+            $allowedIDs = Access::getAccessibleDepartments($action);
             $query->where("d.id IN ( '" . implode("', '", $allowedIDs) . "' )");
         }
 
@@ -121,7 +125,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $departments    = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $departments    = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($departments)) {
             return $defaultOptions;
         }

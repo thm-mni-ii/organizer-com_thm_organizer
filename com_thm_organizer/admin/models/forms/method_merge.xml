@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
-        <field name="gpuntisID" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
+        <field name="gpuntisID" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
         <field type="spacer" name="spacer1" label="COM_THM_ORGANIZER_ENGLISH_PROPERTIES"/>
-        <field name="abbreviation_en" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_ABBREVIATION_EN"
+        <field name="abbreviation_en" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_ABBREVIATION_EN"
                description="COM_THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
-        <field name="name_en" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_EN"
+        <field name="name_en" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"/>
         <field type="spacer" name="spacer2" label="COM_THM_ORGANIZER_GERMAN_PROPERTIES"/>
-        <field name="abbreviation_de" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_ABBREVIATION_DE"
+        <field name="abbreviation_de" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_ABBREVIATION_DE"
                description="COM_THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
-        <field name="name_de" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_DE"
+        <field name="name_de" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"/>
         <field name="id" type="mergeID" other="false"/>
         <field name="otherIDs" type="mergeID" other="true"/>

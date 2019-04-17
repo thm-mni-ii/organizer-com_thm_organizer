@@ -8,24 +8,22 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a form field for template selection.
  * @todo rename this and make it generally accessible should this usage occur again.
  */
-class JFormFieldTemplateID extends \JFormFieldList
+class TemplatesField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'templateID';
+    protected $type = 'Templates';
 
     /**
      * Returns a select box where stored degree programs can be chosen
@@ -34,6 +32,6 @@ class JFormFieldTemplateID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        return HTML::getTranslatedOptions($this, $this->element);
+        return \HTML::getTranslatedOptions($this, $this->element);
     }
 }

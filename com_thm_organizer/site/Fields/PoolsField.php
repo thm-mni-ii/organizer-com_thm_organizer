@@ -8,25 +8,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class creates a select box for (subject) pools.
  */
-class JFormFieldPoolID extends \JFormFieldList
+class PoolsField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'poolID';
+    protected $type = 'Pools';
 
     /**
      * Returns an array of pool options
@@ -35,18 +31,18 @@ class JFormFieldPoolID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $programID = \JFactory::getSession()->get('programID');
+        $programID = \Factory::getSession()->get('programID');
         if (empty($programID)) {
             return parent::getOptions();
         }
 
-        $programRanges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
+        $programRanges = \Organizer\Helpers\Mappings::getResourceRanges('program', $programID);
         if (empty($programRanges) or count($programRanges) > 1) {
             return parent::getOptions();
         }
 
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $shortTag = \Languages::getShortTag();
+        $dbo      = \Factory::getDbo();
         $query    = $dbo->getQuery(true);
         $query->select("DISTINCT p.id AS value, p.name_$shortTag AS text");
         $query->from('#__thm_organizer_pools AS p');
@@ -57,7 +53,7 @@ class JFormFieldPoolID extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $pools          = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $pools          = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($pools)) {
             return $defaultOptions;
         }
@@ -67,8 +63,8 @@ class JFormFieldPoolID extends \JFormFieldList
         $options = [];
 
         foreach ($pools as $pool) {
-            if (!$access or THM_OrganizerHelperAccess::allowDocumentAccess('pool', $pool['value'])) {
-                $options[] = HTML::_('select.option', $pool['value'], $pool['text']);
+            if (!$access or \Access::allowDocumentAccess('pool', $pool['value'])) {
+                $options[] = \HTML::_('select.option', $pool['value'], $pool['text']);
             }
         }
 

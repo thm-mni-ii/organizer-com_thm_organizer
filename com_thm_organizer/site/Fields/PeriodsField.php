@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * Class loads multiple/repeatable grid blocks from database and make it possible to advance them.
  * This needs an own form field to load the values, maybe because the periods are saved as json string.
  */
-class JFormFieldPeriods extends \JFormFieldSubform
+class PeriodsField extends \JFormFieldSubform
 {
     /**
      * Type

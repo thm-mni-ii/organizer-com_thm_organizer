@@ -6,7 +6,7 @@
                label="COM_THM_ORGANIZER_NAME_DE" description="COM_THM_ORGANIZER_NAME_DE_DESC" required="true"/>
         <field name="name_en" type="text" class="inputbox required validate-alpha" size="60" maxlength="60"
                label="COM_THM_ORGANIZER_NAME_EN" description="COM_THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="parentID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
+        <field name="parentID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
                conditions="parentID IS NULL" table="thm_organizer_campuses" label="COM_THM_ORGANIZER_PARENT_CAMPUS"
                description="COM_THM_ORGANIZER_PARENT_CAMPUS_DESC">
             <option value="">JNONE</option>
@@ -24,7 +24,7 @@
                label="COM_THM_ORGANIZER_CITY" description="COM_THM_ORGANIZER_CITY_DESC"/>
         <field name="zipCode" type="text" class="inputbox validate-alphanumeric" size="60" maxlength="60"
                label="COM_THM_ORGANIZER_ZIP_CODE" description="COM_THM_ORGANIZER_ZIP_CODE_DESC"/>
-        <field name="gridID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
+        <field name="gridID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
                table="thm_organizer_grids" label="COM_THM_ORGANIZER_GRID"
                description="COM_THM_ORGANIZER_GRID_EXPORT_DESC">
             <option value="">JNONE</option>

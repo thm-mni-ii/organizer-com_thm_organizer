@@ -2,12 +2,12 @@
 <form>
     <fields name="filter" addfieldpath="/media/com_thm_organizer/fields">
         <field name="search" type="text" label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="programID" type="programID" access="false" label="COM_THM_ORGANIZER_PROGRAM"
+        <field name="programID" type="Programs" access="false" label="COM_THM_ORGANIZER_PROGRAM"
                onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="fieldID" type="genericlist" valuecolumn="f.id" textcolumn="f.field" localized="true"
+        <field name="fieldID" type="GenericList" valuecolumn="f.id" textcolumn="f.field" localized="true"
                table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id"
                label="COM_THM_ORGANIZER_FIELD" onchange="this.form.submit();">
             <option value="">JALL</option>

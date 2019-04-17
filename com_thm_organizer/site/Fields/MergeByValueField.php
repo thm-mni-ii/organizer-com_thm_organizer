@@ -8,21 +8,21 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Fields;
 
-use \THM_OrganizerHelperHTML as HTML;
+defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
 
 /**
  * Class creates a generalized select box for selection of a single column value among those already selected.
  */
-class JFormFieldMergeByValue extends \JFormFieldList
+class MergeByValueField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'mergeByValue';
+    protected $type = 'MergeByValue';
 
     /**
      * Returns a select box where resource attributes can be selected
@@ -31,12 +31,12 @@ class JFormFieldMergeByValue extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = \OrganizerHelper::getInput();
         $selectedIDs = $input->get('cid', [], 'array');
         $column      = $this->getAttribute('name');
-        $resource    = str_replace('_merge', '', $input->get('view')) . 's';
+        $resource    = str_replace('_merge', '', $input->get('view'));
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = \Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT $column AS value, $column AS text")->from("#__thm_organizer_$resource");
         $query->where("id IN ( '" . implode("', '", $selectedIDs) . "' )");
@@ -44,7 +44,7 @@ class JFormFieldMergeByValue extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $values         = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $values         = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($values)) {
             return $defaultOptions;
         }
@@ -52,7 +52,7 @@ class JFormFieldMergeByValue extends \JFormFieldList
         $options = [];
         foreach ($values as $value) {
             if (!empty($value['value'])) {
-                $options[] = HTML::_('select.option', $value['value'], $value['text']);
+                $options[] = \HTML::_('select.option', $value['value'], $value['text']);
             }
         }
 

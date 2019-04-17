@@ -8,20 +8,19 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class creates a select box for module positions.
  */
-class JFormFieldModulesPosition extends \JFormFieldList
+class ModulePositionsField extends \JFormFieldList
 {
-    protected $type = 'ModulesPosition';
+    protected $type = 'ModulePositions';
 
     /**
      * Method to get the field options.
@@ -30,7 +29,7 @@ class JFormFieldModulesPosition extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $clientId = THM_OrganizerHelperComponent::getInput()->get('client_id', 0, 'int');
+        $clientId = \OrganizerHelper::getInput()->get('client_id', 0, 'int');
         $options  = ModulesHelper::getPositions($clientId);
 
         return array_merge(parent::getOptions(), $options);

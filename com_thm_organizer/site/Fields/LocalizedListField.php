@@ -8,20 +8,17 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. Both the
  * value and the text are localized.
  */
-class JFormFieldLocalizedList extends \JFormFieldList
+class LocalizedListField extends \JFormFieldList
 {
     /**
      * Type
@@ -40,10 +37,10 @@ class JFormFieldLocalizedList extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = \Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $tag         = THM_OrganizerHelperLanguage::getShortTag();
+        $tag         = \Languages::getShortTag();
         $valueColumn = $this->getAttribute('valuecolumn') . "_$tag";
         $textColumn  = $this->getAttribute('textcolumn') . "_$tag";
 
@@ -53,14 +50,14 @@ class JFormFieldLocalizedList extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $resources      = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $resources      = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($resources)) {
             return $defaultOptions;
         }
 
         $options = [];
         foreach ($resources as $resource) {
-            $options[] = HTML::_('select.option', $resource['value'], $resource['text']);
+            $options[] = \HTML::_('select.option', $resource['value'], $resource['text']);
         }
 
         return array_merge($defaultOptions, $options);

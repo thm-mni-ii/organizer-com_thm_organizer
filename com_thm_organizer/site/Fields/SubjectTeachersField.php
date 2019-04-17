@@ -15,7 +15,7 @@ use \THM_OrganizerHelperHTML as HTML;
 /**
  * Class creates a select box for the association of teachers with subject documentation.
  */
-class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
+class SubjectTeachersField extends \Joomla\CMS\Form\FormField
 {
     protected $type = 'subjectTeacher';
 

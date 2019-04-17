@@ -8,25 +8,23 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
+use Organizer\Helpers\Campuses;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
 /**
  * Class creates a form field for campus selection.
  */
-class JFormFieldCampusID extends \JFormFieldList
+class CampusesField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'campusID';
+    protected $type = 'Campuses';
 
     /**
      * Method to get the field input markup for a generic list.
@@ -61,7 +59,7 @@ class JFormFieldCampusID extends \JFormFieldList
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
-            $html[] = HTML::_(
+            $html[] = \HTML::_(
                 'select.genericlist',
                 $options,
                 '',
@@ -88,7 +86,7 @@ class JFormFieldCampusID extends \JFormFieldList
             }
         } else // Create a regular list.
         {
-            $html[] = HTML::_(
+            $html[] = \HTML::_(
                 'select.genericlist',
                 $options,
                 $this->name,
@@ -110,8 +108,8 @@ class JFormFieldCampusID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $campuses       = THM_OrganizerHelperCampuses::getOptions();
+        $defaultOptions = \HTML::getTranslatedOptions($this, $this->element);
+        $campuses       = Campuses::getOptions();
 
         if (empty($campuses)) {
             return $defaultOptions;
@@ -120,7 +118,7 @@ class JFormFieldCampusID extends \JFormFieldList
         $options = [];
 
         foreach ($campuses as $campusID => $name) {
-            $options[$campusID] = HTML::_('select.option', $campusID, $name);
+            $options[$campusID] = \HTML::_('select.option', $campusID, $name);
         }
 
         return array_merge($defaultOptions, $options);

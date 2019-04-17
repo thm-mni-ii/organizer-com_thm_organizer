@@ -8,24 +8,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
 
 /**
  * Class creates a select box for planning periods.
  */
-class JFormFieldPlanningPeriodID extends \JFormFieldList
+class PlanningPeriodsField extends \JFormFieldList
 {
     /**
      * @var  string
      */
-    protected $type = 'planningPeriodID';
+    protected $type = 'PlanningPeriods';
 
     /**
      * Returns a select box where stored degree programs can be chosen
@@ -35,7 +32,7 @@ class JFormFieldPlanningPeriodID extends \JFormFieldList
     protected function getOptions()
     {
         $baseOptions = parent::getOptions();
-        $dbo         = \JFactory::getDbo();
+        $dbo         = \Factory::getDbo();
         $query       = $dbo->getQuery(true);
 
         $query->select('DISTINCT pp.id, pp.name');
@@ -51,7 +48,7 @@ class JFormFieldPlanningPeriodID extends \JFormFieldList
         $query->order('pp.startDate DESC');
         $dbo->setQuery($query);
 
-        $planningPeriods = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $planningPeriods = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($planningPeriods)) {
             return $baseOptions;
         }
@@ -59,7 +56,7 @@ class JFormFieldPlanningPeriodID extends \JFormFieldList
         $options = [];
         foreach ($planningPeriods as $planningPeriod) {
 
-            $options[] = HTML::_('select.option', $planningPeriod['id'], $planningPeriod['name']);
+            $options[] = \HTML::_('select.option', $planningPeriod['id'], $planningPeriod['name']);
 
         }
 

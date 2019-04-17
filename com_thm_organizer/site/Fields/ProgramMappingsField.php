@@ -8,22 +8,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
+use Organizer\Helpers\Mappings as Mappings;
+
 defined('_JEXEC') or die;
-
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
 
 /**
  * Class creates a select box for (degree) program mappings.
  */
-class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
+class ProgramMappingsField extends \Joomla\CMS\Form\FormField
 {
     /**
      * @var  string
      */
-    protected $type = 'programs';
+    protected $type = 'ProgramMappings';
 
     /**
      * Returns a select box where stored degree program can be chosen
@@ -37,12 +36,12 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
         $resourceType = str_replace('_edit', '', $contextParts[1]);
         $this->addScript($resourceID, $resourceType);
 
-        $ranges           = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
-        $selectedPrograms = empty($ranges) ? [] : THM_OrganizerHelperMapping::getSelectedPrograms($ranges);
-        $options          = THM_OrganizerHelperMapping::getProgramOptions();
+        $ranges           = Mappings::getResourceRanges($resourceType, $resourceID);
+        $selectedPrograms = empty($ranges) ? [] : Mappings::getSelectedPrograms($ranges);
+        $options          = Mappings::getProgramOptions();
 
         foreach ($options as $id => $name) {
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $id)) {
+            if (!\Access::allowDocumentAccess('program', $id)) {
                 unset($options[$id]);
             }
         }
@@ -51,7 +50,7 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
         $programs       = $defaultOptions + $options;
         $attributes     = ['multiple' => 'multiple', 'size' => '10'];
 
-        return HTML::selectBox($programs, 'programID', $attributes, $selectedPrograms, true);
+        return \HTML::selectBox($programs, 'programID', $attributes, $selectedPrograms, true);
     }
 
     /**
@@ -90,35 +89,47 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
                     }
 
                     poolUrl = '<?php echo \JUri::root(); ?>index.php?option=com_thm_organizer';
-                    poolUrl += '&view=pool_ajax&format=raw&task=parentOptions';
+                    poolUrl += '&view=pool&format=json&task=parentOptions';
                     poolUrl += "&id=<?php echo $resourceID; ?>";
                     poolUrl += "&type=<?php echo $resourceType; ?>";
                     poolUrl += '&programIDs=' + selectedPrograms;
 
-                    jQuery.get(poolUrl, function (options) {
-                        parentInput.html(options);
-                        const newSelectedParents = parentInput.val();
-                        let selectedParents = [];
-                        if (newSelectedParents !== null && newSelectedParents.length)
-                        {
-                            if (oldSelectedParents !== null && oldSelectedParents.length)
+                    jQuery.ajax({
+                        type: 'GET',
+                        url: poolUrl,
+                        dataType: 'json',
+                        success: function (data) {
+                            parentInput.html(data);
+                            const newSelectedParents = parentInput.val();
+                            let selectedParents = [];
+                            if (newSelectedParents !== null && newSelectedParents.length)
                             {
-                                selectedParents = jQuery.merge(newSelectedParents, oldSelectedParents);
+                                if (oldSelectedParents !== null && oldSelectedParents.length)
+                                {
+                                    selectedParents = jQuery.merge(newSelectedParents, oldSelectedParents);
+                                }
+                                else
+                                {
+                                    selectedParents = newSelectedParents;
+                                }
                             }
-                            else
+                            else if (oldSelectedParents !== null && oldSelectedParents.length)
                             {
-                                selectedParents = newSelectedParents;
+                                selectedParents = oldSelectedParents;
+                            }
+
+                            parentInput.val(selectedParents);
+
+                            refreshChosen('jformparentID');
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            if (xhr.status === 404 || xhr.status === 500)
+                            {
+                                jQuery.ajax(repopulatePrograms());
                             }
                         }
-                        else if (oldSelectedParents !== null && oldSelectedParents.length)
-                        {
-                            selectedParents = oldSelectedParents;
-                        }
-
-                        parentInput.val(selectedParents);
-
-                        refreshChosen('jformparentID');
                     });
+
                     refreshChosen('jformparentID');
                 });
 

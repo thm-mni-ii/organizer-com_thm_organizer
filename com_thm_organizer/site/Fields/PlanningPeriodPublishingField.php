@@ -8,18 +8,20 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
 /**
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
  * planning periods.
  */
-class JFormFieldPlanningPeriodPublishing extends \Joomla\CMS\Form\FormField
+class PlanningPeriodPublishingField extends \Joomla\CMS\Form\FormField
 {
     /**
      * @var  string
      */
-    protected $type = 'planningPeriodPublishing';
+    protected $type = 'PlanningPeriodPublishing';
 
     /**
      * Returns a select box where resource attributes can be selected
@@ -28,24 +30,27 @@ class JFormFieldPlanningPeriodPublishing extends \Joomla\CMS\Form\FormField
      */
     protected function getInput()
     {
-        $dbo         = \JFactory::getDbo();
+        $today = date('Y-m-d');
+        $dbo         = \Factory::getDbo();
         $periodQuery = $dbo->getQuery(true);
-        $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order('startDate ASC');
+        $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')
+            ->where("enddate >= '$today'")
+            ->order('startDate ASC');
         $dbo->setQuery($periodQuery);
 
-        $periods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $periods = \OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($periods)) {
             return '';
         }
 
-        $poolID    = THM_OrganizerHelperComponent::getInput()->getInt('id');
+        $poolID    = \OrganizerHelper::getInput()->getInt('id');
         $poolQuery = $dbo->getQuery(true);
         $poolQuery->select('planningPeriodID, published')
             ->from('#__thm_organizer_plan_pool_publishing')
             ->where("planPoolID = '$poolID'");
         $dbo->setQuery($poolQuery);
 
-        $publishingEntries = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'planningPeriodID');
+        $publishingEntries = \OrganizerHelper::executeQuery('loadAssocList', [], 'planningPeriodID');
 
         $return = '<div class="publishing-container">';
         foreach ($periods as $period) {
@@ -55,7 +60,7 @@ class JFormFieldPlanningPeriodPublishing extends \Joomla\CMS\Form\FormField
             $return .= '<div class="period-container">';
             $return .= '<div class="period-label">' . $pName . '</div>';
             $return .= '<div class="period-input">';
-            $return .= '<select id="jform_publishing_' . $pID . '" name="jform[publishing][' . $pID . ']" class="chzn-color-state">';
+            $return .= '<select id="jform_publishing_' . $pID . '" name="jform[publishing][' . $pID . ']">';
 
             // Implicitly (new) and explicitly published entries
             if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {

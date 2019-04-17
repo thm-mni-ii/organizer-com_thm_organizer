@@ -8,11 +8,11 @@
                description="COM_THM_ORGANIZER_SHORT_NAME_DESC" required="true"/>
         <field name="gpuntisID" type="text" class="inputbox" size="40" label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC" readonly="true"/>
-        <field name="programID" type="genericlist" valuecolumn="id" textcolumn="name"
+        <field name="programID" type="GenericList" valuecolumn="id" textcolumn="name"
                table="thm_organizer_plan_programs" label="COM_THM_ORGANIZER_PROGRAM" required="true"/>
-        <field name="publishing" type="planningPeriodPublishing" label="COM_THM_ORGANIZER_PUBLISHING"
+        <field name="publishing" type="PlanningPeriodPublishing" label="COM_THM_ORGANIZER_PUBLISHING"
                description="COM_THM_ORGANIZER_PERIOD_PUBLISHING_DESC" required="true"/>
-        <field name="gridID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
+        <field name="gridID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
                table="thm_organizer_grids" label="COM_THM_ORGANIZER_GRID"
                description="COM_THM_ORGANIZER_GRID_EXPORT_DESC" required="true"/>
     </fieldset>

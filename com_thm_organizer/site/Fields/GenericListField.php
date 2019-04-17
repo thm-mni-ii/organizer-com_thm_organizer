@@ -8,26 +8,24 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While the
  * display text can be localized, the value cannot be.
  */
-class JFormFieldGenericList extends \JFormFieldList
+class GenericListField extends \JFormFieldList
 {
     /**
      * Type
      *
      * @var    String
      */
-    public $type = 'genericlist';
+    public $type = 'GenericList';
 
     /**
      * Method to get the field input markup for a generic list.
@@ -62,7 +60,7 @@ class JFormFieldGenericList extends \JFormFieldList
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
-            $html[] = HTML::_(
+            $html[] = \HTML::_(
                 'select.genericlist',
                 $options,
                 '',
@@ -89,7 +87,7 @@ class JFormFieldGenericList extends \JFormFieldList
             }
         } else // Create a regular list.
         {
-            $html[] = HTML::_(
+            $html[] = \HTML::_(
                 'select.genericlist',
                 $options,
                 $this->name,
@@ -114,7 +112,7 @@ class JFormFieldGenericList extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = \Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $valueColumn = $this->getAttribute('valuecolumn');
@@ -123,12 +121,13 @@ class JFormFieldGenericList extends \JFormFieldList
         $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");
         $this->setFrom($query);
         $this->setWhere($query);
+        $query->where("($valueColumn != '' AND $valueColumn IS NOT NULL)");
         $order = $this->getAttribute('order', 'text ASC');
         $query->order($order);
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $resources      = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $resources      = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($resources)) {
             return $defaultOptions;
         }
@@ -145,7 +144,7 @@ class JFormFieldGenericList extends \JFormFieldList
                 }
             }
 
-            $options[$resource['text']] = HTML::_('select.option', $resource['value'], $resource['text']);
+            $options[$resource['text']] = \HTML::_('select.option', $resource['value'], $resource['text']);
         }
         $this->setValueParameters($options);
 
@@ -166,8 +165,7 @@ class JFormFieldGenericList extends \JFormFieldList
 
         $localized = $this->getAttribute('localized', false);
         if ($localized) {
-            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-            $tag = THM_OrganizerHelperLanguage::getShortTag();
+            $tag = \Languages::getShortTag();
             foreach ($textColumns as $key => $value) {
                 $textColumns[$key] = $value . '_' . $tag;
             }
@@ -218,13 +216,13 @@ class JFormFieldGenericList extends \JFormFieldList
             return;
         }
         $valueParameters     = explode(',', $valueParameter);
-        $componentParameters = THM_OrganizerHelperComponent::getParams();
+        $componentParameters = \OrganizerHelper::getParams();
         foreach ($valueParameters as $parameter) {
             $componentParameter = $componentParameters->get($parameter);
             if (empty($componentParameter)) {
                 continue;
             }
-            $options[$componentParameter] = HTML::_('select.option', $componentParameter, $componentParameter);
+            $options[$componentParameter] = \HTML::_('select.option', $componentParameter, $componentParameter);
         }
         ksort($options);
     }

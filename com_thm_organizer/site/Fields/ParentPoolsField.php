@@ -8,21 +8,23 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+use Organizer\Helpers\Mappings as Mappings;
 
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
  */
-class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
+class ParentPoolsField extends \Joomla\CMS\Form\FormField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'parentpool';
+    protected $type = 'ParentPool';
 
     /**
      * Returns a select box in which pools can be chosen as a parent node
@@ -46,26 +48,26 @@ class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
     protected function getOptions()
     {
         // Get basic resource data
-        $resourceID   = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
+        $resourceID   = \OrganizerHelper::getInput()->getInt('id', 0);
         $contextParts = explode('.', $this->form->getName());
         $resourceType = str_replace('_edit', '', $contextParts[1]);
 
         $mappings   = [];
         $mappingIDs = [];
         $parentIDs  = [];
-        THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
+        Mappings::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 
         $options   = [];
         $options[] = '<option value="-1">' . \JText::_('JNONE') . '</option>';
 
         if (!empty($mappings)) {
             $unwantedMappings = [];
-            $programEntries   = THM_OrganizerHelperMapping::getProgramEntries($mappings);
-            $programMappings  = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
+            $programEntries   = Mappings::getProgramEntries($mappings);
+            $programMappings  = Mappings::getProgramMappings($programEntries);
 
             // Pools should not be allowed to be placed anywhere where recursion could occur
             if ($resourceType == 'pool') {
-                $children         = THM_OrganizerHelperMapping::getChildren($mappings);
+                $children         = Mappings::getChildren($mappings);
                 $unwantedMappings = array_merge($unwantedMappings, $mappingIDs, $children);
             }
 
@@ -76,9 +78,9 @@ class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
                 }
 
                 if (!empty($mapping['poolID'])) {
-                    $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $parentIDs);
+                    $options[] = Mappings::getPoolOption($mapping, $parentIDs);
                 } else {
-                    $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $parentIDs, $resourceType);
+                    $options[] = Mappings::getProgramOption($mapping, $parentIDs, $resourceType);
                 }
             }
         }

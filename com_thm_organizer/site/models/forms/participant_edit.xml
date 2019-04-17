@@ -9,7 +9,7 @@
            description="COM_THM_ORGANIZER_ZIP_CODE_DESC"/>
     <field name="city" type="text" id="city" required="true" label="COM_THM_ORGANIZER_RESIDENCE"
            description="COM_THM_ORGANIZER_RESIDENCE_DESC"/>
-    <field name="programID" type="programID" plan="true" unique="true" access="false" class="inputbox"
+    <field name="programID" type="Programs" plan="true" unique="true" access="false" class="inputbox"
            label="COM_THM_ORGANIZER_PROGRAMs" description="COM_THM_ORGANIZER_PROGRAM_DESC" required="true">
         <option value="">-</option>
     </field>

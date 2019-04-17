@@ -8,19 +8,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
  */
-class JFormFieldChildren extends \Joomla\CMS\Form\FormField
+class ChildrenField extends \Joomla\CMS\Form\FormField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'children';
+    protected $type = 'Children';
 
     /**
      * Generates a text for the management of child elements
@@ -31,7 +33,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
     {
         $children = $this->getChildren();
 
-        $document = \JFactory::getDocument();
+        $document = \Factory::getDocument();
         $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/children.css');
         $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/children.js');
 
@@ -51,7 +53,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
         // Option.View
         $resourceType = str_replace('_edit', '', $contextParts[1]);
 
-        $dbo     = \JFactory::getDbo();
+        $dbo     = \Factory::getDbo();
         $idQuery = $dbo->getQuery(true);
         $idQuery->select('id')->from('#__thm_organizer_mappings');
         $idQuery->where("{$resourceType}ID = '$resourceID'");
@@ -62,7 +64,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
          */
         $dbo->setQuery($idQuery, 0, 1);
 
-        $parentID = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $parentID = \OrganizerHelper::executeQuery('loadResult');
 
         if (empty($parentID)) {
             return [];
@@ -75,7 +77,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
         $childMappingQuery->order('lft ASC');
         $dbo->setQuery($childMappingQuery);
 
-        $children = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'ordering');
+        $children = \OrganizerHelper::executeQuery('loadAssocList', [], 'ordering');
         if (empty($children)) {
             return [];
         }
@@ -119,16 +121,16 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
      */
     private function getResourceName($resourceID, $resourceType)
     {
-        $dbo      = \JFactory::getDbo();
+        $dbo      = \Factory::getDbo();
         $query    = $dbo->getQuery(true);
-        $language = explode('-', \JFactory::getLanguage()->getTag());
+        $language = explode('-', \Factory::getLanguage()->getTag());
 
         $query->select("name_{$language[0]}");
         $query->from("#__thm_organizer_{$resourceType}s");
         $query->where("id = '$resourceID'");
         $dbo->setQuery($query);
 
-        return (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (string)\OrganizerHelper::executeQuery('loadResult');
     }
 
     /**

@@ -9,14 +9,11 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
 
 /**
  * Class loads a list of department entries for selection and implements javascript for updating other fields in form
@@ -24,14 +21,14 @@ require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
  * @todo Does this need its own field? Can the js not just be included with the schedule? Is the normal js field not
  *       adequate for the selection itself?
  */
-class JFormFieldDepartmentList extends \JFormFieldList
+class DepartmentListField extends \JFormFieldList
 {
     /**
      * Type
      *
      * @var    String
      */
-    public $type = 'departmentlist';
+    public $type = 'DepartmentList';
 
     /**
      * Method to get the field input markup for a generic list of schedule values e.g. departments.
@@ -41,7 +38,7 @@ class JFormFieldDepartmentList extends \JFormFieldList
      */
     protected function getInput()
     {
-        \JFactory::getDocument()->addScript(\JUri::root() . '/components/com_thm_organizer/js/departmentlist.js');
+        \Factory::getDocument()->addScript(\JUri::root() . 'components/com_thm_organizer/js/departmentlist.js');
 
         return parent::getInput();
     }
@@ -54,8 +51,8 @@ class JFormFieldDepartmentList extends \JFormFieldList
     protected function getOptions()
     {
         $options = [];
-        foreach (THM_OrganizerHelperDepartments::getOptions() as $key => $department) {
-            $options[] = HTML::_('select.option', $key, $department);
+        foreach (\Organizer\Helpers\Departments::getOptions() as $key => $department) {
+            $options[] = \HTML::_('select.option', $key, $department);
         }
 
         return array_merge(parent::getOptions(), $options);

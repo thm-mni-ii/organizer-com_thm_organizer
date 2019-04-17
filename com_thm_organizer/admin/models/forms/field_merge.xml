@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
-        <field name="field_de" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_DE"
+        <field name="field_de" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="field_en" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_EN"
+        <field name="field_en" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME_EN"
                description="COM_THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="gpuntisID" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
+        <field name="gpuntisID" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
-        <field name="colorID" type="colorID" class="inputbox color" size="10" label="COM_THM_ORGANIZER_COLOR"
+        <field name="colorID" type="Colors" class="inputbox color" size="10" label="COM_THM_ORGANIZER_COLOR"
                description="COM_THM_ORGANIZER_COLOR_DESC"/>
         <field name="id" type="mergeID" other="false"/>
         <field name="otherIDs" type="mergeID" other="true"/>

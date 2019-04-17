@@ -12,24 +12,24 @@
     </layout>
     <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic">
-            <field name="departmentID" type="departmentlist" label="COM_THM_ORGANIZER_DEPARTMENT"
+            <field name="departmentID" type="DepartmentList" label="COM_THM_ORGANIZER_DEPARTMENT"
                    description="COM_THM_ORGANIZER_DEPARTMENT_DESC">
                 <option value="0">JALL</option>
             </field>
-            <field name="programIDs" type="genericlist" valuecolumn="id" textcolumn="name" multiple="true"
+            <field name="programIDs" type="GenericList" valuecolumn="id" textcolumn="name" multiple="true"
                    table="thm_organizer_plan_programs" label="COM_THM_ORGANIZER_PROGRAMS"
                    description="COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC">
                 <option value="">JALL</option>
             </field>
-            <field name="poolIDs" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_plan_pools"
+            <field name="poolIDs" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_plan_pools"
                    label="COM_THM_ORGANIZER_POOLS" description="COM_THM_ORGANIZER_POOLS_EXPORT_DESC" multiple="true">
                 <option value="">JALL</option>
             </field>
-            <field name="roomIDs" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
+            <field name="roomIDs" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
                    label="COM_THM_ORGANIZER_ROOMS" description="COM_THM_ORGANIZER_ROOMS_DESC" multiple="true">
                 <option value="">JALL</option>
             </field>
-            <field name="teacherIDs" type="genericlist" valuecolumn="id" textcolumn="surname"
+            <field name="teacherIDs" type="GenericList" valuecolumn="id" textcolumn="surname"
                    table="thm_organizer_teachers" label="COM_THM_ORGANIZER_TEACHER"
                    description="COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC" multiple="true">
                 <option value="">JALL</option>

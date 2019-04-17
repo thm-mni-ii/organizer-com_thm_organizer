@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
-        <field name="gpuntisID" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
+        <field name="gpuntisID" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
                description="COM_THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
-        <field name="name" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME"
+        <field name="name" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME"
                description="COM_THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="longname" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_DISPLAY_NAME"
+        <field name="longname" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_DISPLAY_NAME"
                description="COM_THM_ORGANIZER_DISPLAY_NAME_DESC" required="true"/>
-        <field name="buildingID" type="mergeByID" textcolumn="b.name"
+        <field name="buildingID" type="MergeByID" textcolumn="b.name"
                tables="thm_organizer_rooms AS r,thm_organizer_buildings AS b ON b.id = r.buildingID" class="inputbox"
                label="COM_THM_ORGANIZER_BUILDING">
             <option value="">JNONE</option>
         </field>
-        <field name="typeID" type="mergeByID" textcolumn="name" localized="true"
+        <field name="typeID" type="MergeByID" textcolumn="name" localized="true"
                tables="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON t.id = r.typeID" class="inputbox"
                label="COM_THM_ORGANIZER_TYPE" description="COM_THM_ORGANIZER_TYPE_DESC">
             <option value="">JNONE</option>
         </field>
-        <field name="capacity" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_CAPACITY"
+        <field name="capacity" type="MergeByValue" class="inputbox" label="COM_THM_ORGANIZER_CAPACITY"
                description="COM_THM_ORGANIZER_CAPACITY_DESC"/>
         <field name="id" type="mergeID" other="false"/>
         <field name="otherIDs" type="mergeID" other="true"/>

@@ -4,12 +4,12 @@
         <field name="search" type="text" label="COM_THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
     </fields>
     <fields name="list">
-        <field name="programID" type="programID" access="false" label="COM_THM_ORGANIZER_PROGRAM"
+        <field name="programID" type="Programs" access="false" label="COM_THM_ORGANIZER_PROGRAM"
                onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_PROGRAM</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="poolID" type="poolID" access="true" label="COM_THM_ORGANIZER_POOL" onchange="this.form.submit();">
+        <field name="poolID" type="Pools" access="true" label="COM_THM_ORGANIZER_POOL" onchange="this.form.submit();">
             <option value="">COM_THM_ORGANIZER_FILTER_POOL</option>
             <option value="-1">JNONE</option>
         </field>
