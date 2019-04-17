@@ -106,7 +106,7 @@ class THM_OrganizerModelSubject_Edit extends \Joomla\CMS\MVC\Model\AdminModel
      */
     protected function loadFormData()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = \OrganizerHelper::getInput();
         $resourceIDs = $input->get('cid', [], 'array');
         $resourceID  = empty($resourceIDs) ? $input->getInt('id', 0) : $resourceIDs[0];
 

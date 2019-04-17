@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 // Sets page configuration and component option
 $backURL = empty($this->menu) ? \JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'];

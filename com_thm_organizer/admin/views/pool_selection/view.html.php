@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_COMPONENT . '/views/list.php';
 

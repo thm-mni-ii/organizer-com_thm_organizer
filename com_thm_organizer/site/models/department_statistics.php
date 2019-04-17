@@ -40,7 +40,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
     {
         parent::__construct($config);
 
-        $input  = THM_OrganizerHelperComponent::getInput();
+        $input  = \OrganizerHelper::getInput();
         $format = $input->getString('format');
 
         switch ($format) {
@@ -249,7 +249,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
         $query->select('DISTINCT YEAR(schedule_date) AS year')->from('#__thm_organizer_calendar')->order('year');
 
         $this->_db->setQuery($query);
-        $years = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $years = \OrganizerHelper::executeQuery('loadColumn', []);
 
         if (!empty($years)) {
             foreach ($years as $year) {
@@ -269,7 +269,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
      */
     private function setData($roomID)
     {
-        $tag       = THM_OrganizerHelperLanguage::getShortTag();
+        $tag       = \Languages::getShortTag();
         $dbo       = \JFactory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
@@ -293,7 +293,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
 
-        $roomConfigurations = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $roomConfigurations = \OrganizerHelper::executeQuery('loadAssocList');
         if (empty($roomConfigurations)) {
             return false;
         }
@@ -330,14 +330,14 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
     {
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $tag   = THM_OrganizerHelperLanguage::getShortTag();
+        $tag   = \Languages::getShortTag();
 
         $query->select("id, name_$tag AS name, description_$tag AS description");
         $query->from('#__thm_organizer_room_types');
         $query->order('name');
         $dbo->setQuery($query);
 
-        $this->roomTypes = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $this->roomTypes = \OrganizerHelper::executeQuery('loadAssocList', [], 'id');
     }
 
     /**
@@ -355,7 +355,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
             ->order('startDate');
         $this->_db->setQuery($query);
 
-        $this->planningPeriods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $this->planningPeriods = \OrganizerHelper::executeQuery('loadAssocList', [], 'id');
 
         return empty($this->planningPeriods) ? false : true;
     }

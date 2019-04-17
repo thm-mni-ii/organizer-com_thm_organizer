@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
@@ -47,7 +47,7 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $input           = THM_OrganizerHelperComponent::getInput();
+        $input           = \OrganizerHelper::getInput();
         $this->subjectID = $input->getInt('id', 0);
 
         if (empty($this->subjectID)) {
@@ -66,7 +66,7 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
 
         $this->lang = THM_OrganizerHelperLanguage::getLanguage();
 
-        THM_OrganizerHelperComponent::addMenuParameters($this);
+        \OrganizerHelper::addMenuParameters($this);
 
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
         $this->languageParams = ['id' => $this->subjectID, 'lessonID' => $this->lessonID, 'view' => 'subject_edit'];

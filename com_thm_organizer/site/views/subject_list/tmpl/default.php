@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 $query           = $this->escape($this->state->get('search'));
 $resetVisibility = ' style="display: ';

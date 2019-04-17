@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 $showHeading = $this->model->params->get('show_page_heading', '');
 $title       = $this->model->params->get('page_title', '');

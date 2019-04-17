@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
@@ -43,7 +43,7 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->modifyDocument();
 
-        $menu = THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive();
+        $menu = \OrganizerHelper::getApplication()->getMenu()->getActive();
 
         if (!is_object($menu)) {
             $this->ecollabLink = '';

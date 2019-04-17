@@ -26,7 +26,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function changeParticipantState()
     {
-        $input    = THM_OrganizerHelperComponent::getInput();
+        $input    = \OrganizerHelper::getInput();
         $data     = $input->getArray();
         $formData = $data['jform'];
 
@@ -69,7 +69,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function circular()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = \OrganizerHelper::getInput();
 
         $courseID = $input->get('lessonID', 0);
 
@@ -87,7 +87,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $sender = \JFactory::getUser(THM_OrganizerHelperComponent::getParams()->get('mailSender'));
+        $sender = \JFactory::getUser(\OrganizerHelper::getParams()->get('mailSender'));
 
         if (empty($sender->id)) {
             return false;
@@ -141,7 +141,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        $input    = THM_OrganizerHelperComponent::getInput();
+        $input    = \OrganizerHelper::getInput();
         $formData = $input->get('jform', [], 'array');
         $courseID = $formData['id'];
 

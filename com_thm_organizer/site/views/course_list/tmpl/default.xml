@@ -12,7 +12,7 @@
     </layout>
     <fields name="params" addfieldpath="/media/com_thm_organizer/fields">
         <fieldset name="basic" label="COM_THM_ORGANIZER_SETTINGS">
-            <field name="campusID" type="campusID" label="COM_THM_ORGANIZER_CAMPUS">
+            <field name="campusID" type="Campuses" label="COM_THM_ORGANIZER_CAMPUS">
                 <option value="">JNONE</option>
             </field>
             <field name="show_prep_courses" type="radio" class="inputbox chzn-color-state"

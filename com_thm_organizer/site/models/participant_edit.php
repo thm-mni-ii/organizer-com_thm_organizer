@@ -33,7 +33,7 @@ class THM_OrganizerModelParticipant_Edit extends \Joomla\CMS\MVC\Model\FormModel
 
         $this->_db->setQuery($query);
 
-        $item = THM_OrganizerHelperComponent::executeQuery('loadObject');
+        $item = \OrganizerHelper::executeQuery('loadObject');
 
         return empty($item->id) ? new \stdClass : $item;
     }

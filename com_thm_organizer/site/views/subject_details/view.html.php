@@ -10,7 +10,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -90,7 +90,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
                 $this->courses = $courses;
             }
 
-            THM_OrganizerHelperComponent::addMenuParameters($this);
+            \OrganizerHelper::addMenuParameters($this);
 
             $this->languageLinks    = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
             $this->languageParams   = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
@@ -161,7 +161,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
             return;
         }
 
-        $params         = THM_OrganizerHelperComponent::getParams();
+        $params         = \OrganizerHelper::getParams();
         $displayeCollab = $params->get('displayeCollabLink', false);
         $ecollabLink    = $params->get('eCollabLink', '');
 

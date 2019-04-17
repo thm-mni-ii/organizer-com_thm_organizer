@@ -28,19 +28,19 @@ class Controller extends Controllers\Controller
     public function changeParticipantState()
     {
         $formData = $this->input->get('jform', [], 'array');
-        $url      = THM_OrganizerHelperComponent::getRedirectBase();
+        $url      = \OrganizerHelper::getRedirectBase();
 
         if (empty($formData) or empty($formData['id'])) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
             $this->setRedirect(\JRoute::_($url, false));
         }
 
         $success = $this->getModel('course')->changeParticipantState();
 
         if (empty($success)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         }
 
         $url .= "&view=course_manager&lessonID={$formData['id']}";
@@ -55,13 +55,13 @@ class Controller extends Controllers\Controller
     public function circular()
     {
         if (empty($this->getModel('course')->circular())) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL', 'error');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS', 'error');
         }
 
         $lessonID = $this->input->get('lessonID');
-        $redirect = THM_OrganizerHelperComponent::getRedirectBase() . "view=course_manager&lessonID=$lessonID";
+        $redirect = \OrganizerHelper::getRedirectBase() . "view=course_manager&lessonID=$lessonID";
         $this->setRedirect(\JRoute::_($redirect, false));
     }
 
@@ -74,7 +74,7 @@ class Controller extends Controllers\Controller
     public function register()
     {
         $courseID = $this->input->getInt('lessonID');
-        $url      = THM_OrganizerHelperComponent::getRedirectBase();
+        $url      = \OrganizerHelper::getRedirectBase();
 
         // No chosen lesson => should not occur
         if (empty($courseID) or !THM_OrganizerHelperCourses::isRegistrationOpen()) {
@@ -90,7 +90,7 @@ class Controller extends Controllers\Controller
             $participantSaved = $participantModel->save();
 
             if (empty($participantSaved)) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 $this->setRedirect(\JRoute::_($participantEditURL, false));
 
                 return;
@@ -125,15 +125,15 @@ class Controller extends Controllers\Controller
         if ($success) {
 
             if (!empty($userState)) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS');
+                \OrganizerHelper::message('COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS');
             } else {
                 $newState = THM_OrganizerHelperCourses::getParticipantState();
                 $msg      = $newState['status'] ?
                     'COM_THM_ORGANIZER_REGISTRATION_SUCCESS_REGISTERED' : 'COM_THM_ORGANIZER_REGISTRATION_SUCCESS_WAIT';
-                THM_OrganizerHelperComponent::message($msg);
+                \OrganizerHelper::message($msg);
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_STATUS_FAILURE', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_STATUS_FAILURE', 'error');
         }
 
         $view = explode('.', $this->input->get('task', ''))[0];
@@ -162,12 +162,12 @@ class Controller extends Controllers\Controller
 
         // Request manipulation
         if (empty($model) or empty($formData) or empty($formData['id'])) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
             $this->setRedirect(\JRoute::_(\JUri::base(), false));
         }
 
         $authorized = false;
-        $url        = THM_OrganizerHelperComponent::getRedirectBase();
+        $url        = \OrganizerHelper::getRedirectBase();
 
         if ($modelName == 'subject') {
             $authorized = THM_OrganizerHelperSubjects::allowEdit($formData['id']);
@@ -178,14 +178,14 @@ class Controller extends Controllers\Controller
         }
 
         if (empty($authorized)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_NO_ACCESS_ACTION', 'error');
             $this->setRedirect(\JRoute::_(\JUri::base(), false));
         }
 
         $success = $model->save();
 
         if (empty($success)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
             if ($modelName == 'subject') {
                 $url .= "&view=subject_edit&id={$formData['id']}";
@@ -196,7 +196,7 @@ class Controller extends Controllers\Controller
                 $url .= '&view=participant_edit';
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
 
             if ($modelName == 'course') {
                 $url .= '&view=course_manager';

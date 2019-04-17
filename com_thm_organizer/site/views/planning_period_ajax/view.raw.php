@@ -27,7 +27,7 @@ class THM_OrganizerViewPlanning_Period_Ajax extends \Joomla\CMS\MVC\View\HtmlVie
     public function display($tpl = null)
     {
         $model = $this->getModel();
-        $task  = THM_OrganizerHelperComponent::getInput()->getString('task');
+        $task  = \OrganizerHelper::getInput()->getString('task');
         echo $model->$task();
     }
 }

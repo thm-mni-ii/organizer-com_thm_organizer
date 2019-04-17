@@ -49,7 +49,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
             return [];
         }
 
-        $input   = THM_OrganizerHelperComponent::getInput();
+        $input   = \OrganizerHelper::getInput();
         $langTag = $input->getString('languageTag', THM_OrganizerHelperLanguage::getShortTag());
 
         $query = $this->_db->getQuery(true);
@@ -69,7 +69,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("s.id = '$this->subjectID'");
         $this->_db->setQuery($query);
 
-        $result = THM_OrganizerHelperComponent::executeQuery('loadAssoc');
+        $result = \OrganizerHelper::executeQuery('loadAssoc');
 
         // This should not occur.
         if (empty($result['name'])) {
@@ -158,7 +158,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function resolveID()
     {
-        $input     = THM_OrganizerHelperComponent::getInput();
+        $input     = \OrganizerHelper::getInput();
         $requestID = $input->getInt('id', 0);
 
         if (!empty($requestID)) {
@@ -167,7 +167,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
             $query->select('id')->from('#__thm_organizer_subjects')->where("id = '$requestID'");
             $this->_db->setQuery($query);
 
-            return THM_OrganizerHelperComponent::executeQuery('loadResult');
+            return \OrganizerHelper::executeQuery('loadResult');
         }
 
         $externalID = $input->getString('nrmni', '');
@@ -179,7 +179,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return \OrganizerHelper::executeQuery('loadResult');
     }
 
     private function setCampus(&$subject)
@@ -225,7 +225,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
             $query->where("(s1.id = $subjectID OR s2.id = $subjectID)");
             $this->_db->setQuery($query);
 
-            $dependencies = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+            $dependencies = \OrganizerHelper::executeQuery('loadAssocList', [], 'id');
             if (empty($dependencies)) {
                 continue;
             }

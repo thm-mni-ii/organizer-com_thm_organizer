@@ -253,7 +253,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getRate($subjectName)
     {
-        $params = THM_OrganizerHelperComponent::getParams();
+        $params = \OrganizerHelper::getParams();
         if ($subjectName == 'Betreuung von Bachelorarbeiten') {
             return floatval('0.' . $params->get('bachelor_value', 25));
         }
@@ -414,13 +414,13 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function setObjectProperties()
     {
-        $this->params = THM_OrganizerHelperComponent::getParams();;
+        $this->params = \OrganizerHelper::getParams();;
         $departmentID = $this->params->get('departmentID', 0);
         if (!empty($departmentID)) {
             $this->setDepartmentName($departmentID);
         }
 
-        $input                        = THM_OrganizerHelperComponent::getInput();
+        $input                        = \OrganizerHelper::getInput();
         $this->reset                  = $input->getBool('reset', false);
         $this->selected               = [];
         $this->teachers               = [];
@@ -440,14 +440,14 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function setDepartmentName($departmentID)
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = \Languages::getShortTag();
 
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery($query);
 
-        $departmentName = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $departmentName = \OrganizerHelper::executeQuery('loadResult');
 
         if (empty($departmentName)) {
             return;
@@ -597,14 +597,14 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function setSchedule()
     {
-        $this->scheduleID = THM_OrganizerHelperComponent::getInput()->getInt('scheduleID', 0);
+        $this->scheduleID = \OrganizerHelper::getInput()->getInt('scheduleID', 0);
         $query            = $this->_db->getQuery(true);
         $query->select('schedule');
         $query->from('#__thm_organizer_schedules');
         $query->where("id = '$this->scheduleID'");
         $this->_db->setQuery($query);
 
-        $result = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $result = \OrganizerHelper::executeQuery('loadResult');
         if (empty($result)) {
             $this->schedule = null;
         } else {
@@ -844,7 +844,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     private function setSelected()
     {
         $default  = ['*'];
-        $selected = THM_OrganizerHelperComponent::getInput()->get('teachers', $default, 'array');
+        $selected = \OrganizerHelper::getInput()->get('teachers', $default, 'array');
 
         // Returns a hard false if value is not in array
         $allSelected = array_search('*', $selected);
@@ -897,7 +897,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("active = '1'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return \OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -915,7 +915,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("id = '$scheduleID'");
         $this->_db->setQuery($query);
 
-        $result = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $result = \OrganizerHelper::executeQuery('loadResult');
 
         return empty($result) ? null : json_decode($result);
     }

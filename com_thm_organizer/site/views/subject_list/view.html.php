@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -44,7 +44,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->modifyDocument();
 
-        $this->params = THM_OrganizerHelperComponent::getParams();
+        $this->params = \OrganizerHelper::getParams();
 
         $this->fixGroupBy();
         $this->lang = THM_OrganizerHelperLanguage::getLanguage($this->params->get('initialLanguage', 'de'));

@@ -37,7 +37,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = \OrganizerHelper::getInput();
 
         $lessonID   = $input->get('lessonID', 0);
         $type       = $input->get('type', 0);

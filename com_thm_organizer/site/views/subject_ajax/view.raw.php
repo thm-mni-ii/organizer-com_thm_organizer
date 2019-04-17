@@ -27,7 +27,7 @@ class THM_OrganizerViewSubject_Ajax extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         $model    = $this->getModel();
-        $function = THM_OrganizerHelperComponent::getInput()->getString('task');
+        $function = \OrganizerHelper::getInput()->getString('task');
         echo $model->$function();
     }
 }

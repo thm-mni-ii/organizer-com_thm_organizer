@@ -53,7 +53,7 @@ class THM_OrganizerLayoutList_Modal
                 <input type="hidden" name="task" value=""/>
                 <input type="hidden" name="boxchecked" value="0"/>
                 <input type="hidden" name="option"
-                       value="<?php echo THM_OrganizerHelperComponent::getInput()->get('option'); ?>"/>
+                       value="<?php echo \OrganizerHelper::getInput()->get('option'); ?>"/>
                 <input type="hidden" name="view" value="<?php echo $view->get('name'); ?>"/>
                 <input type="hidden" name="tmpl" value="component"/>
                 <?php echo HTML::_('form.token'); ?>

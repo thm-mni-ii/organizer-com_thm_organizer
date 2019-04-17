@@ -25,7 +25,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
      */
     public function parentOptions()
     {
-        $input          = THM_OrganizerHelperComponent::getInput();
+        $input          = \OrganizerHelper::getInput();
         $resourceID     = $input->getInt('id', 0);
         $resourceType   = $input->getString('type', '');
         $programIDs     = explode(',', $input->getString('programIDs', ''));
@@ -83,7 +83,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
         $query->order('lft ASC');
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        return \OrganizerHelper::executeQuery('loadAssocList');
     }
 
     /**
@@ -143,7 +143,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
      */
     public function poolsByProgramOrTeacher()
     {
-        $input           = THM_OrganizerHelperComponent::getInput();
+        $input           = \OrganizerHelper::getInput();
         $selectedProgram = $input->getInt('programID', 0);
         if (empty($selectedProgram) or $selectedProgram == '-1') {
             return '[]';
@@ -156,7 +156,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
             return '[]';
         }
 
-        $lang  = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');
+        $lang  = \OrganizerHelper::getInput()->getString('languageTag', 'de');
         $query = $this->_db->getQuery(true);
         $query->select("p.id, p.name_{$lang} AS name, m.level");
         $query->from('#__thm_organizer_pools AS p');
@@ -173,7 +173,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
         $query->order('lft');
         $this->_db->setQuery($query);
 
-        $pools = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
+        $pools = \OrganizerHelper::executeQuery('loadObjectList');
         if (empty($pools)) {
             return '[]';
         }

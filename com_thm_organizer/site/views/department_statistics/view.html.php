@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');

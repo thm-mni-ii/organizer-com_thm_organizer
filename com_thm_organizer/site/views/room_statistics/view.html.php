@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
@@ -94,7 +94,7 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         ];
 
         // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = THM_OrganizerHelperComponent::getParams()->get('dateFormat');
+        $rawDateFormat = \OrganizerHelper::getParams()->get('dateFormat');
         $dateFormat    = preg_replace('/([a-zA-Z])/', "%$1", $rawDateFormat);
         $dateSelect    = HTML::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
 

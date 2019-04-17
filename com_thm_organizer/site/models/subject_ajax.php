@@ -24,7 +24,7 @@ class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     public function getSubjects()
     {
-        $input     = THM_OrganizerHelperComponent::getInput();
+        $input     = \OrganizerHelper::getInput();
         $programID = $input->getString('programID', '-1');
         $teacherID = $input->getString('teacherID', '-1');
         if ($programID == '-1' and $teacherID == '-1') {
@@ -34,7 +34,7 @@ class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $lang   = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');
+        $lang   = \OrganizerHelper::getInput()->getString('languageTag', 'de');
         $select = "DISTINCT s.id, s.name_{$lang} AS name, s.externalID, s.creditpoints, ";
         $select .= 't.surname, t.forename, t.title, t.username ';
         $query->select($select);
@@ -70,7 +70,7 @@ class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->group('s.id');
         $dbo->setQuery($query);
 
-        $subjects = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
+        $subjects = \OrganizerHelper::executeQuery('loadObjectList');
 
         return empty($subjects) ? '[]' : json_encode($subjects);
     }
@@ -82,7 +82,7 @@ class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     private function getBoundaries()
     {
-        $input             = THM_OrganizerHelperComponent::getInput();
+        $input             = \OrganizerHelper::getInput();
         $programID         = $input->getString('programID');
         $programBoundaries = THM_OrganizerHelperMapping::getBoundaries('program', $programID);
 

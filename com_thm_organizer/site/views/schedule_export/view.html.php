@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
@@ -70,7 +70,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function isSeeingImpaired()
     {
-        $app = THM_OrganizerHelperComponent::getApplication();
+        $app = \OrganizerHelper::getApplication();
         if (empty($app->getMenu()) or empty($app->getMenu()->getActive())) {
             return 0;
         }
@@ -220,7 +220,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 //        ];
 
         // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = THM_OrganizerHelperComponent::getParams()->get('dateFormat');
+        $rawDateFormat = \OrganizerHelper::getParams()->get('dateFormat');
         $today         = date('Y-m-d');
 
         if ($seeingImpaired) {

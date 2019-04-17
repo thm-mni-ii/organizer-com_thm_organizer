@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
@@ -48,7 +48,7 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
         $this->lang          = THM_OrganizerHelperLanguage::getLanguage();
         $this->languageTag   = THM_OrganizerHelperLanguage::getShortTag();
         $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
-        $this->query         = THM_OrganizerHelperComponent::getInput()->getString('search', '');
+        $this->query         = \OrganizerHelper::getInput()->getString('search', '');
         $this->results       = $this->getModel()->getResults();
 
         $this->modifyDocument();

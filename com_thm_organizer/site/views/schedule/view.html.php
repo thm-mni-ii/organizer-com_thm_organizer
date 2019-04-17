@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
 
@@ -85,11 +85,11 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $this->isMobile    = THM_OrganizerHelperComponent::isSmartphone();
+        $this->isMobile    = \OrganizerHelper::isSmartphone();
         $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
         $this->model       = $this->getModel();
         $this->defaultGrid = $this->model->getDefaultGrid();
-        $compParams        = THM_OrganizerHelperComponent::getParams();
+        $compParams        = \OrganizerHelper::getParams();
         $this->dateFormat  = $compParams->get('dateFormat', 'd.m.Y');
         $this->emailFilter = $compParams->get('emailFilter', '');
         $this->modifyDocument();
@@ -134,7 +134,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
             'defaultGrid'       => $this->defaultGrid->grid,
             'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
             'isMobile'          => $this->isMobile,
-            'menuID'            => THM_OrganizerHelperComponent::getInput()->get('Itemid', 0),
+            'menuID'            => \OrganizerHelper::getInput()->get('Itemid', 0),
             'registered'        => !empty($user->id),
             'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
             'username'          => !empty($user->id) ? $user->username : ''

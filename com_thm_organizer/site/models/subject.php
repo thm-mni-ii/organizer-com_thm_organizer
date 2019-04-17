@@ -42,8 +42,8 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        $data     = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
-        $lessonID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
+        $data     = \OrganizerHelper::getInput()->get('jform', [], 'array');
+        $lessonID = \OrganizerHelper::getInput()->getInt('lessonID', 0);
 
         if (!THM_OrganizerHelperSubjects::allowEdit($data['id'])) {
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);

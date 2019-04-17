@@ -55,7 +55,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         parent::__construct($config);
 
-        $format = THM_OrganizerHelperComponent::getInput()->getString('format');
+        $format = \OrganizerHelper::getInput()->getString('format');
 
         switch ($format) {
             case 'xls':
@@ -288,7 +288,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setData($roomID)
     {
-        $tag       = THM_OrganizerHelperLanguage::getShortTag();
+        $tag       = \Languages::getShortTag();
         $dbo       = \JFactory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
@@ -313,8 +313,8 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
         $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
         $ringQuery->where("lc.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
-        $ringData = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
-        $lsIDs    = THM_OrganizerHelperComponent::executeQuery('loadColumn', [], 1);
+        $ringData = \OrganizerHelper::executeQuery('loadAssocList');
+        $lsIDs    = \OrganizerHelper::executeQuery('loadColumn', [], 1);
 
         if (empty($ringData) or empty($lsIDs)) {
             return false;
@@ -333,7 +333,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setDates()
     {
-        $input     = THM_OrganizerHelperComponent::getInput();
+        $input     = \OrganizerHelper::getInput();
         $use       = $input->getString('use');
         $ppIDs     = $input->get('planningPeriodIDs', [], 'array');
         $validPPID = (!empty($ppIDs) and !empty($ppIDs[0])) ? true : false;
@@ -350,7 +350,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
             }
         }
 
-        $dateFormat      = THM_OrganizerHelperComponent::getParams()->get('dateFormat');
+        $dateFormat      = \OrganizerHelper::getParams()->get('dateFormat');
         $date            = $input->getString('date', date($dateFormat));
         $startDoWNo      = empty($this->startDoW) ? 1 : $this->startDoW;
         $startDayName    = date('l', strtotime("Sunday + $startDoWNo days"));
@@ -392,7 +392,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $this->_db->setQuery($query);
 
-        $rawGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $rawGrid = \OrganizerHelper::executeQuery('loadResult');
         if (empty($rawGrid)) {
             return;
         }
@@ -456,7 +456,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("ls.id IN ('" . implode("', '", $lsIDs) . "')");
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'lsID');
+        $results = \OrganizerHelper::executeQuery('loadAssocList', [], 'lsID');
         if (empty($results)) {
             return;
         }
@@ -501,7 +501,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $results = \OrganizerHelper::executeQuery('loadAssocList', [], 'id');
 
         $this->roomTypes = empty($results) ? [] : $results;
     }

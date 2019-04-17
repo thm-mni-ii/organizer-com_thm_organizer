@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_COMPONENT . '/layouts/list.php';
 require_once JPATH_COMPONENT . '/layouts/list_modal.php';

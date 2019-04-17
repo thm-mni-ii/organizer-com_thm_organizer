@@ -46,7 +46,7 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
      */
     public function save()
     {
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = \OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (empty($data) or empty($data['id'])) {
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
@@ -129,7 +129,7 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
                 ->values($values);
             $this->_db->setQuery($query);
 
-            return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+            return (bool)\OrganizerHelper::executeQuery('execute');
         } else {
             return (bool)$table->save($data);
         }

@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 require_once JPATH_COMPONENT . '/layouts/edit_basic.php';
 require_once JPATH_COMPONENT . '/layouts/edit_tabbed.php';

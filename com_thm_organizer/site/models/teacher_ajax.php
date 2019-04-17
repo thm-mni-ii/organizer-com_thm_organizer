@@ -37,7 +37,7 @@ class THM_OrganizerModelTeacher_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     public function teachersByProgramOrPool()
     {
-        $input     = THM_OrganizerHelperComponent::getInput();
+        $input     = \OrganizerHelper::getInput();
         $programID = $input->getString('programID');
         $poolID    = $input->getString('poolID');
 
@@ -72,7 +72,7 @@ class THM_OrganizerModelTeacher_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->order('t.surname');
         $dbo->setQuery($query);
 
-        $teachers = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
+        $teachers = \OrganizerHelper::executeQuery('loadObjectList');
         if (empty($teachers)) {
             return '[]';
         }

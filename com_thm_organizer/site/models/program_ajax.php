@@ -40,7 +40,7 @@ class THM_OrganizerModelProgram_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $dbo          = \JFactory::getDbo();
         $defaultArray = explode('-', \JFactory::getLanguage()->getTag());
         $defaultTag   = $defaultArray[0];
-        $language     = THM_OrganizerHelperComponent::getInput()->get('languageTag', $defaultTag);
+        $language     = \OrganizerHelper::getInput()->get('languageTag', $defaultTag);
         $query        = $dbo->getQuery(true);
         $concateQuery = ["dp.name_$language", "', ('", 'd.abbreviation', "' '", ' dp.version', "')'"];
         $query->select('dp.id, ' . $query->concatenate($concateQuery, '') . ' AS name');
@@ -56,7 +56,7 @@ class THM_OrganizerModelProgram_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->order('name');
         $dbo->setQuery($query);
 
-        $programs = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
+        $programs = \OrganizerHelper::executeQuery('loadObjectList');
 
         return empty($programs) ? '[]' : json_encode($programs);
     }

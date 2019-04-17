@@ -59,7 +59,7 @@ class THM_OrganizerModelCourse_List extends \Joomla\CMS\MVC\Model\ListModel
      */
     protected function getListQuery()
     {
-        $tag = THM_OrganizerHelperLanguage::getShortTag();
+        $tag = \Languages::getShortTag();
 
         $courseQuery = $this->_db->getQuery(true);
 
@@ -123,10 +123,10 @@ class THM_OrganizerModelCourse_List extends \Joomla\CMS\MVC\Model\ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData = \OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (empty($formData)) {
-            $params    = THM_OrganizerHelperComponent::getParams();
+            $params    = \OrganizerHelper::getParams();
             $campusID  = $params->get('campusID', 0);
             $status    = 'current';
             $subjectID = 0;

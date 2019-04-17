@@ -181,7 +181,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
      */
     private function addBadgeBack($xOffset, $yOffset)
     {
-        $params = THM_OrganizerHelperComponent::getParams();
+        $params = \OrganizerHelper::getParams();
 
         $badgeCenter = $xOffset + 5;
 

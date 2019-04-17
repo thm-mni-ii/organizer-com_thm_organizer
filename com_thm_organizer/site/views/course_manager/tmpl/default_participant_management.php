@@ -9,7 +9,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 $fieldset = $this->form->getFieldset('participant_management');
 
@@ -24,7 +24,7 @@ $badgesRoute          = \JRoute::_($baseURL . 2, false);
 $registeredText = $this->lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('COM_THM_ORGANIZER_WAIT_LIST');
 
-$params     = THM_OrganizerHelperComponent::getParams();
+$params     = \OrganizerHelper::getParams();
 $dateFormat = $params->get('dateFormat', 'd.m.Y') . ' ';
 $dateFormat .= $params->get('timeFormat', 'H.i');
 ?>

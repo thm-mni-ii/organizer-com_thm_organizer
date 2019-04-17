@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-$current            = \THM_OrganizerHelperLanguage::getShortTag();
-$lang               = \THM_OrganizerHelperLanguage::getLanguage();
+$current            = \Languages::getShortTag();
+$lang               = \Languages::getLanguage();
 $supportedLanguages = ['en' => $lang->_('COM_THM_ORGANIZER_ENGLISH'), 'de' => $lang->_('COM_THM_ORGANIZER_GERMAN')];
 unset($supportedLanguages[$current]);
 
@@ -27,7 +27,7 @@ if (empty($displayData['view'])) {
     $params           = $displayData;
     $params['option'] = 'com_thm_organizer';
     $params           = array_merge($displayData, $params);
-    $menuID           = \THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
+    $menuID           = \OrganizerHelper::getInput()->getInt('Itemid');
     if (!empty($menuID)) {
         $params['Itemid'] = $menuID;
     }

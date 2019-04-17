@@ -9,7 +9,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use HTML;
 
 $header      = $this->lang->_('COM_THM_ORGANIZER_COURSE_OVERVIEW_HEADER');
 $campusName  = empty($this->state->filter_campus) ? '' : THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
@@ -19,17 +19,17 @@ $specTitle   = "$coursesType $campusName";
 $header      = sprintf($header, $specTitle);
 
 $action = \JUri::current();
-$action .= empty(THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()) ? '' : '?option=com_thm_organizer&view=course_list';
+$action .= empty(\OrganizerHelper::getApplication()->getMenu()->getActive()) ? '' : '?option=com_thm_organizer&view=course_list';
 
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $loginRoute    = \JRoute::_('index.php?option=com_users&view=login&tmpl=component', false, 1);
 $registerRoute = \JRoute::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
 $profileRoute  = \JRoute::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->shortTag}");
 
-$position = THM_OrganizerHelperComponent::getParams()->get('loginPosition');
+$position = \OrganizerHelper::getParams()->get('loginPosition');
 
 // This variable is also used in the subordinate template
-$menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid', 0);
+$menuID = \OrganizerHelper::getInput()->getInt('Itemid', 0);
 if (!empty($menuID)):
     ?>
     <script type="text/javascript">

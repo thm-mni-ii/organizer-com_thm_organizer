@@ -31,11 +31,11 @@
     </update>
     <media destination="com_thm_organizer" folder="media">
         <folder>fields</folder>
-        <folder>helpers</folder>
     </media>
     <files folder="site">
         <folder>Controllers</folder>
         <folder>css</folder>
+        <folder>Helpers</folder>
         <folder>icalcreator</folder>
         <folder>images</folder>
         <folder>js</folder>
