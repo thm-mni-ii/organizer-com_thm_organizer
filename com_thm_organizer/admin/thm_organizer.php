@@ -8,16 +8,20 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Admin;
+
+use Exception;
+
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
 
-if (!\JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
-    throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+if (!\Factory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
+    throw new Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
 }
 
 try {
-    THM_OrganizerHelperComponent::setUp(true);
+    \OrganizerHelper::setUp(true);
 } catch (Exception $exc) {
     throw $exc;
 }

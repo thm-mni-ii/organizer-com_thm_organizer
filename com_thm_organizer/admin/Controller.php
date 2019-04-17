@@ -8,12 +8,14 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Admin;
+
 defined('_JEXEC') or die;
 
 /**
  * Class receives user actions and performs access checks and redirection.
  */
-class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
+class Controller extends \Organizer\Controllers\Controller
 {
     private $resource = '';
 
@@ -47,21 +49,21 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             if ($count === 1) {
                 $active = $model->checkIfActive();
                 if ($active) {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'warning');
+                    \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'warning');
                 } else {
                     $success = $model->activate();
                     if ($success) {
-                        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
+                        \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
                     } else {
-                        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
+                        \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
                     }
                 }
             } else {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
+                \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
             }
         }
 
-        $this->setRedirect("index.php?option=com_thm_organizer&view={$this->resource}_manager");
+        $this->setRedirect("index.php?option=com_thm_organizer&view={$this->resource}s");
     }
 
     /**
@@ -71,7 +73,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
      */
     public function add()
     {
-        $this->input->set('view', "{$this->resource}_edit");
+        $this->setViewName('edit');
         parent::display();
     }
 
@@ -85,12 +87,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $resourceID = $this->getModel($this->resource)->save();
 
         if (!empty($resourceID)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_edit");
+        $this->setViewName('edit');
         $this->input->set('id', $resourceID);
         parent::display();
     }
@@ -105,12 +107,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $success = $this->getModel($this->resource)->batch();
 
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -121,7 +123,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
      */
     public function cancel()
     {
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -135,12 +137,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $success = $this->getModel($this->resource)->delete($this->resource);
 
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -154,7 +156,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $cid        = $this->input->get('cid', [], '[]');
         $resourceID = count($cid) > 0 ? $cid[0] : 0;
 
-        $this->input->set('view', "{$this->resource}_edit");
+        $this->setViewName('edit');
         $this->input->set('id', $resourceID);
         parent::display();
     }
@@ -166,15 +168,15 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
      */
     public function importLSFData()
     {
-        $modelName = 'LSF' . ucfirst($this->resource);
+        $modelName = ucfirst($this->resource) . '_LSF';
         $success   = $this->getModel($modelName)->importBatch();
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -188,12 +190,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
     {
         $success = $this->getModel($this->resource)->merge($this->resource);
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -205,7 +207,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
      */
     public function mergeView()
     {
-        $url = "index.php?option=com_thm_organizer&view={$this->resource}_manager";
+        $url = "index.php?option=com_thm_organizer&view={$this->resource}s";
 
         $selected = $this->input->get('cid', [], '[]');
         if (count($selected) == 1) {
@@ -224,7 +226,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         }
 
         // Reliance on POST requires a different method of redirection
-        $this->input->set('view', "{$this->resource}_merge");
+        $this->setViewName('merge');
         parent::display();
     }
 
@@ -238,12 +240,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $success = $this->getModel($this->resource)->save();
 
         if (!empty($success)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -256,12 +258,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
     {
         $success = $this->getModel($this->resource)->save2copy();
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->input->setViewName();
         parent::display();
     }
 
@@ -274,14 +276,37 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
     {
         $success = $this->getModel($this->resource)->save();
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_edit");
+        $this->input->setViewName('edit');
         $this->input->set('id', 0);
         parent::display();
+    }
+
+    /**
+     * Sets the view name for list views.
+     *
+     * @return void
+     */
+    private function setViewName($type = 'list')
+    {
+        $irregularPlurals = ['campus'];
+        $pluralName       = in_array($this->resource,
+            $irregularPlurals) ? $this->resource . 'es' : $this->resource . 's';
+        switch ($type) {
+            case 'edit':
+                $this->input->set('view', "{$this->resource}_edit");
+                break;
+            case 'list':
+                $this->input->set('view', $pluralName);
+                break;
+            case 'merge':
+                $this->input->set('view', "{$pluralName}_merge");
+                break;
+        }
     }
 
     /**
@@ -301,20 +326,20 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             $model  = $this->getModel('schedule');
             $active = $model->checkIfActive();
             if ($active) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'error');
+                \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'error');
             } else {
                 $success = $model->setReference();
                 if ($success) {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
+                    \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
                 } else {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
+                    \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
                 }
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
         }
 
-        $this->input->set('view', 'schedule_manager');
+        $this->setViewName();
         parent::display();
     }
 
@@ -332,15 +357,15 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         if ($functionAvailable) {
             $success = $model->toggle();
             if ($success) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'error');
+                \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
             } else {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -351,16 +376,16 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
      */
     public function updateLSFData()
     {
-        $modelName = 'LSF' . ucfirst($this->resource);
+        $modelName = ucfirst($this->resource) . '_LSF';
         $success   = $this->getModel($modelName)->updateBatch();
 
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_FAIL', 'error');
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_FAIL', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->setViewName();
         parent::display();
     }
 
@@ -382,23 +407,25 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
             if ($validType) {
                 if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8') {
-                    $success = $model->upload();
-                    $view    = $success ? 'manager' : 'edit';
+                    if ($model->upload()) {
+                        $this->setViewName();
+                    } else {
+                        $this->setViewName('edit');
+                    }
                 } else {
-                    $view = 'edit';
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
+                    $this->setViewName('edit');
+                    \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
                 }
 
             } else {
-                $view = 'edit';
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');
+                $this->setViewName('edit');
+                \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');
             }
         } else {
-            $view = 'manager';
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
+            $this->setViewName();
+            \OrganizerHelper::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
 
-        $this->input->set('view', "{$this->resource}_{$view}");
         parent::display();
     }
 }

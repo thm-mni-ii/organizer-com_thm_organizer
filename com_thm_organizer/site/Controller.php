@@ -10,14 +10,14 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
+defined('_JEXEC') or die;
 
 /**
  * Class receives user actions and performs access checks and redirection.
  */
-class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
+class Controller extends Controllers\Controller
 {
     /**
      * Save user information from form and if course id defined sign in or out of course

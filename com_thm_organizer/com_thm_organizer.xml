@@ -39,6 +39,7 @@
         <folder>js</folder>
     </media>
     <files folder="site">
+        <folder>Controllers</folder>
         <folder>layouts</folder>
         <folder>models</folder>
         <folder>views</folder>
