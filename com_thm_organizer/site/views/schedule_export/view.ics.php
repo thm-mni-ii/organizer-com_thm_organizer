@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/media/com_thm_organizer/icalcreator/iCalcreator.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/icalcreator/iCalcreator.php';
 
 /**
  * Class creates a ICS file for the display of the filtered schedule information.

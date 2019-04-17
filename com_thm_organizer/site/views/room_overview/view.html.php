@@ -71,8 +71,8 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
         $document = \JFactory::getDocument();
         $document->setCharset('utf-8');
-        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/room_overview.js');
-        $document->addStyleSheet(\JUri::root() . 'media/com_thm_organizer/css/room_overview.css');
+        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/room_overview.js');
+        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/room_overview.css');
     }
 
     /**

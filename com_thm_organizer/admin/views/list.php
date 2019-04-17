@@ -227,8 +227,7 @@ abstract class THM_OrganizerViewList extends \Joomla\CMS\MVC\View\HtmlView
     protected function modifyDocument()
     {
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/backend.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/backend.css');
 
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.multiselect');

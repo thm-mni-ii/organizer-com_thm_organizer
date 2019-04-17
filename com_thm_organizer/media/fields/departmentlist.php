@@ -41,7 +41,7 @@ class JFormFieldDepartmentList extends \JFormFieldList
      */
     protected function getInput()
     {
-        \JFactory::getDocument()->addScript(\JUri::root() . '/media/com_thm_organizer/js/departmentlist.js');
+        \JFactory::getDocument()->addScript(\JUri::root() . '/components/com_thm_organizer/js/departmentlist.js');
 
         return parent::getInput();
     }

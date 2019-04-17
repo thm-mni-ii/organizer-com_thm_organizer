@@ -68,6 +68,6 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
 
         $document = \JFactory::getDocument();
         $document->setTitle($this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'));
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/search.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/search.css');
     }
 }

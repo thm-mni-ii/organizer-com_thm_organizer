@@ -28,7 +28,7 @@ $metric = 0;
 <div class='display-events'>
     <div class='head'>
         <div class='banner'>
-            <div class='thm-logo'><img src="media/com_thm_organizer/images/thm_logo.png" alt="THM-Logo"/></div>
+            <div class='thm-logo'><img src="components/com_thm_organizer/images/thm_logo.png" alt="THM-Logo"/></div>
             <div class="room-name"><?php echo $params['roomName']; ?></div>
         </div>
         <div class='date-info'>

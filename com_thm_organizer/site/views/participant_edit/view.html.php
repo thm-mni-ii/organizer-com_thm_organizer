@@ -75,6 +75,6 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
     {
         HTML::_('bootstrap.tooltip');
 
-        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/participant_edit.css');
+        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/participant_edit.css');
     }
 }

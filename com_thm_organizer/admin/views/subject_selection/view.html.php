@@ -43,6 +43,6 @@ class THM_OrganizerViewSubject_Selection extends THM_OrganizerViewList
         HTML::_('searchtools.form', '#adminForm', []);
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/child_selection.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/child_selection.css');
     }
 }

@@ -40,6 +40,6 @@ class THM_OrganizerViewPlan_Pool_Edit extends THM_OrganizerViewEdit
         parent::modifyDocument();
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/plan_pool_edit.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/plan_pool_edit.css');
     }
 }

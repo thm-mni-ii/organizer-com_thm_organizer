@@ -9,7 +9,7 @@
  * @link        www.thm.de
  */
 
-define('K_PATH_IMAGES', JPATH_ROOT . '/media/com_thm_organizer/images/');
+define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 jimport('tcpdf.tcpdf');
 

@@ -55,7 +55,7 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $this->lessons = $model->lessons;
         $this->total   = $model->total;
 
-        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/lesson_statistics.css');
+        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/lesson_statistics.css');
 
         parent::display($tpl);
     }

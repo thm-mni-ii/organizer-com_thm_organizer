@@ -62,8 +62,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/fonts/iconfont.css');
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/backend.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/backend.css');
     }
 
     /**

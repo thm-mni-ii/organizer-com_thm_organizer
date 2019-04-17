@@ -86,7 +86,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.modal');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/course_list.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/course_list.css');
     }
 
     /**

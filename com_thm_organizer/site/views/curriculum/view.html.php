@@ -78,8 +78,8 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.framework');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/curriculum.css');
-        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/curriculum.js');
-        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/container.js');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/curriculum.css');
+        $document->addScript(\JUri::root() . '/components/com_thm_organizer/js/curriculum.js');
+        $document->addScript(\JUri::root() . '/components/com_thm_organizer/js/container.js');
     }
 }

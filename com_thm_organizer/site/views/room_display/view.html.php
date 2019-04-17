@@ -40,6 +40,6 @@ class THM_OrganizerViewRoom_Display extends \Joomla\CMS\MVC\View\HtmlView
     private function modifyDocument()
     {
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/room_display.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/room_display.css');
     }
 }

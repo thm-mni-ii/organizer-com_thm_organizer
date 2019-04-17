@@ -112,7 +112,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.framework', true);
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/subject_details.css');
+        $document->addStyleSheet(\JUri::root() . '/components/com_thm_organizer/css/subject_details.css');
     }
 
     /**
