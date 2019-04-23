@@ -9,8 +9,11 @@
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before {
   font-family: icomoon;
-  content: '\e60b';
-  color: $thm;
+  content: '\e931';
+}
+
+a[href$="view=thm_organizer"]::before {
+  margin-right: .2rem;
 }
 
 .icon-organizer_buildings::before {

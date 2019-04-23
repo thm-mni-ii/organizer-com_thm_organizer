@@ -251,7 +251,7 @@ class THM_OrganizerHelperTeachers
      */
     public static function getIDFromUserData($userID = null)
     {
-        $user = \JFactory::getUser();
+        $user = \JFactory::getUser($userID);
         if (empty($user->id)) {
             return false;
         }

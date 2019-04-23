@@ -109,8 +109,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
         $this->addScriptOptions();
         $doc->addScript(\JUri::root() . 'media/com_thm_organizer/js/schedule.js');
 
-        $doc->addStyleSheet(\JUri::root() . 'media/com_thm_organizer/fonts/iconfont-frontend.css');
-        $doc->addStyleSheet(\JUri::root() . 'media/com_thm_organizer/css/schedule.css');
+        $doc->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/schedule.css');
         $doc->addStyleSheet(\JUri::root() . 'media/jui/css/icomoon.css');
     }
 

@@ -58,6 +58,6 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
         HTML::_('behavior.tooltip');
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/event_list.css');
+        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/event_list.css');
     }
 }

@@ -123,20 +123,21 @@ function addTeachers(teachers)
 function copyLink()
 {
     const format = jQuery('input[name=format]').val();
-    let url, mySchedule, selectedPools, emptyPools, selectedRooms, emptyRooms, selectedTeachers, emptyTeachers;
+    let addAuth = false, authDefined = false, emptyPools, emptyRooms, emptyTeachers,
+        mySchedule, selectedPools, selectedRooms, selectedTeachers, url;
 
     if (format !== 'ics')
     {
         return true;
     }
 
+    authDefined = username !== undefined && auth !== undefined;
     url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
-
     mySchedule = jQuery('#myschedule:checked').val();
 
-    if (mySchedule === 'on' && username !== undefined && auth !== undefined)
+    if (mySchedule === 'on' && authDefined)
     {
-        url += '&myschedule=1&username=' + username + '&auth=' + auth;
+        addAuth = true;
     }
     else
     {
@@ -159,10 +160,16 @@ function copyLink()
         selectedTeachers = jQuery('#teacherIDs').val();
         emptyTeachers = selectedTeachers === undefined || selectedTeachers == null || selectedTeachers.length === 0;
 
-        if (!emptyTeachers)
+        if (!emptyTeachers && authDefined)
         {
+            addAuth = true;
             url += '&teacherIDs=' + selectedTeachers;
         }
+    }
+
+    if (addAuth)
+    {
+        url += '&myschedule=1&username=' + username + '&auth=' + auth;
     }
 
     window.prompt(copyText, url);

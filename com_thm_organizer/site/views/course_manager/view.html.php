@@ -101,8 +101,8 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $document->addScriptDeclaration(
             "var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
         );
-        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/course_manager.js');
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/course_manager.css');
+        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/course_manager.js');
+        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/course_manager.css');
     }
 
     /**

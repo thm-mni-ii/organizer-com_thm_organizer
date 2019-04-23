@@ -86,6 +86,6 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
 
-        \JFactory::getDocument()->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/subject_edit.css');
+        \JFactory::getDocument()->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/subject_edit.css');
     }
 }

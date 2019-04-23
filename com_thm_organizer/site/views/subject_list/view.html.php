@@ -334,6 +334,6 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/subject_list.css');
+        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/subject_list.css');
     }
 }

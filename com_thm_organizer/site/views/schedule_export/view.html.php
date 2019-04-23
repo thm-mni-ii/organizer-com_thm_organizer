@@ -99,8 +99,8 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         $document = \JFactory::getDocument();
-        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/schedule_export.js');
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/schedule_export.css');
+        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/schedule_export.js');
+        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/schedule_export.css');
     }
 
     /**

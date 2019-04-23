@@ -58,8 +58,8 @@ class THM_OrganizerViewDepartment_Statistics extends \Joomla\CMS\MVC\View\HtmlVi
         HTML::_('formbehavior.chosen', 'select');
 
         $document = \JFactory::getDocument();
-        $document->addScript(\JUri::root() . '/media/com_thm_organizer/js/department_statistics.js');
-        $document->addStyleSheet(\JUri::root() . '/media/com_thm_organizer/css/department_statistics.css');
+        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/department_statistics.js');
+        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/department_statistics.css');
     }
 
     private function setBaseFields()
