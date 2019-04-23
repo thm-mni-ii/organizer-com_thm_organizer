@@ -57,10 +57,10 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
 
         $this->item = $this->get('Item');
 
-        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/Layouts');
         $this->languageParams = ['id' => $this->item->id, 'view' => 'curriculum'];
 
-        $this->disclaimer = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
+        $this->disclaimer = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/Layouts');
 
         $this->disclaimerData = ['language' => $this->lang];
 

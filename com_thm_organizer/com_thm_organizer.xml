@@ -39,7 +39,7 @@
         <folder>js</folder>
     </media>
     <files folder="site">
-        <folder>layouts</folder>
+        <folder>Layouts</folder>
         <folder>models</folder>
         <folder>views</folder>
         <filename>controller.php</filename>
@@ -53,7 +53,7 @@
     <administration>
         <menu>COM_THM_ORGANIZER</menu>
         <files folder="admin">
-            <folder>layouts</folder>
+            <folder>Layouts</folder>
             <folder>models</folder>
             <folder>sql</folder>
             <folder>tables</folder>

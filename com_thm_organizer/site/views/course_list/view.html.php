@@ -66,7 +66,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
             return $courseOne->name > $courseTwo->name;
         });
 
-        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/Layouts');
         $this->languageParams = ['view' => 'course_list'];
         $this->shortTag       = THM_OrganizerHelperLanguage::getShortTag();
 

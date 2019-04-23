@@ -53,7 +53,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         $this->form->setValue('types', null, $this->state->get('types'));
         $this->form->setValue('rooms', null, $this->state->get('rooms'));
 
-        $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+        $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/Layouts');
 
         $this->modifyDocument();
         parent::display($tpl);

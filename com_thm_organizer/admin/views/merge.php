@@ -10,7 +10,7 @@
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_COMPONENT . '/layouts/merge.php';
+require_once JPATH_COMPONENT . '/Layouts/merge.php';
 
 /**
  * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by

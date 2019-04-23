@@ -10,8 +10,8 @@
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_COMPONENT . '/layouts/edit_basic.php';
-require_once JPATH_COMPONENT . '/layouts/edit_tabbed.php';
+require_once JPATH_COMPONENT . '/Layouts/edit_basic.php';
+require_once JPATH_COMPONENT . '/Layouts/edit_tabbed.php';
 
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.

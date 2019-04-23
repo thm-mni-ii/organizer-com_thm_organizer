@@ -92,9 +92,9 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
 
             THM_OrganizerHelperComponent::addMenuParameters($this);
 
-            $this->languageLinks    = new \JLayoutFile('language_links', JPATH_COMPONENT . '/layouts');
+            $this->languageLinks    = new \JLayoutFile('language_links', JPATH_COMPONENT . '/Layouts');
             $this->languageParams   = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
-            $this->disclaimer       = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/layouts');
+            $this->disclaimer       = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/Layouts');
             $this->disclaimerParams = ['language' => $this->lang];
         }
 
