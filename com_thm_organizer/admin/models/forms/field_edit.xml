@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-    <fieldset name="details" addfieldpath="/media/com_thm_organizer/fields">
+<form addfieldpath="/components/com_thm_organizer/Fields">
+    <fieldset>
         <field name="id" type="hidden"/>
         <field type="text" name="field_de" label="COM_THM_ORGANIZER_NAME_DE"
                description="COM_THM_ORGANIZER_NAME_DE_DESC" class="inputbox" size="60" maxlength="60" required="true"/>

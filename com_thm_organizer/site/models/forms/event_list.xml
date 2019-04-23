@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/media/com_thm_organizer/fields">
+<form addfieldpath="/components/com_thm_organizer/Fields">
     <fieldset name="fields">
         <field name="startDate" type="calendar" default="NOW" label="COM_THM_ORGANIZER_DATE" format="%d.%m.%Y"
                class="input-small" todaybutton="true" minyear="-3" maxyear="1" translateLabel="false"/>

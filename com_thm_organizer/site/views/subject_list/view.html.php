@@ -57,7 +57,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         $this->items         = $this->get('items');
-        $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/Layouts');
+        $this->languageLinks = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
 
         $model             = $this->getModel();
         $this->fields      = $model->fields;
@@ -65,7 +65,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->pools       = $model->pools;
         $this->displayName = $model->displayName;
 
-        $this->disclaimer     = new \JLayoutFile('disclaimer', JPATH_COMPONENT . '/Layouts');
+        $this->disclaimer     = new \JLayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);

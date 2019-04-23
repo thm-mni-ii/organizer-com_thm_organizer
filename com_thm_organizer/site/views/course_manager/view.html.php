@@ -80,7 +80,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $this->prepareLabel('subject');
         $this->prepareLabel('text');
 
-        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_COMPONENT . '/Layouts');
+        $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->languageParams = ['lessonID' => $courseID, 'view' => 'course_manager'];
         $this->modifyDocument();
         THM_OrganizerHelperComponent::addMenuParameters($this);

@@ -47,7 +47,7 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->lang          = THM_OrganizerHelperLanguage::getLanguage();
         $this->languageTag   = THM_OrganizerHelperLanguage::getShortTag();
-        $this->languageLinks = new \JLayoutFile('language_links', JPATH_COMPONENT . '/Layouts');
+        $this->languageLinks = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->query         = THM_OrganizerHelperComponent::getInput()->getString('search', '');
         $this->results       = $this->getModel()->getResults();
 
