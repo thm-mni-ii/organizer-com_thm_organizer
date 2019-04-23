@@ -12,8 +12,7 @@
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic">
-            <field name="departmentID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
-                   table="thm_organizer_departments" label="COM_THM_ORGANIZER_DEPARTMENT"
+            <field name="departmentID" type="departmentID" label="COM_THM_ORGANIZER_DEPARTMENT"
                    description="COM_THM_ORGANIZER_DEPARTMENT_DESC" class="departmentlist">
                 <option value="0">JALL</option>
             </field>
@@ -28,11 +27,6 @@
             </field>
             <field name="roomIDs" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
                    label="COM_THM_ORGANIZER_ROOMS" description="COM_THM_ORGANIZER_ROOMS_DESC" multiple="true">
-                <option value="">JALL</option>
-            </field>
-            <field name="teacherIDs" type="genericlist" valuecolumn="id" textcolumn="surname"
-                   table="thm_organizer_teachers" label="COM_THM_ORGANIZER_TEACHER"
-                   description="COM_THM_ORGANIZER_TEACHERS_EXPORT_DESC" multiple="true">
                 <option value="">JALL</option>
             </field>
             <field name="deltaDays" type="integer" class="inputbox" label="COM_THM_ORGANIZER_DELTA_DISPLAY_TITLE"

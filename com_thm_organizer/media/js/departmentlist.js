@@ -1,5 +1,5 @@
 /**
- * Gets programs, rooms and teachers depending on selected department/program and inserts them into options
+ * Gets programs, pools and rooms depending on selected department (or program) and inserts them as the only options
  */
 jQuery(document).ready(function () {
     'use strict';
@@ -7,8 +7,7 @@ jQuery(document).ready(function () {
     var department = jQuery('#jform_params_departmentID'),
         program = jQuery('#jform_params_programIDs'),
         pool = jQuery('#jform_params_poolIDs'),
-        room = jQuery('#jform_params_roomIDs'),
-        teacher = jQuery('#jform_params_teacherIDs');
+        room = jQuery('#jform_params_roomIDs');
 
     // init loading
     if (department.val() !== '0')
@@ -47,11 +46,6 @@ jQuery(document).ready(function () {
         jQuery.ajax(ajaxBaseUrl + '&task=getRooms&roomtypeIDs=-1' + ajaxParams)
             .done(function (request) {
                 insertOptions(room, request, keepValue);
-            });
-        // Update teachers
-        jQuery.ajax(ajaxBaseUrl + '&task=getTeachers' + ajaxParams)
-            .done(function (request) {
-                insertOptions(teacher, request, keepValue);
             });
     }
 

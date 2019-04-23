@@ -35,6 +35,11 @@ class JFormFieldDepartmentID extends \JFormFieldList
      */
     protected function getInput()
     {
+        // Add custom js script to update other fields like programs
+        if (!empty($this->class) && $this->class === 'departmentlist') {
+            JFactory::getDocument()->addScript(JUri::root() . 'media/com_thm_organizer/js/departmentlist.js');
+        }
+
         $resource = $this->getAttribute('resource');
         if (empty($resource) or !in_array($resource, ['program', 'teacher'])) {
             return parent::getInput();
