@@ -17,7 +17,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/room_types.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/schedule.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
@@ -152,7 +152,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         $deltaDays            = $input->getString('deltaDays', '14');
         $parameters['delta']  = empty($deltaDays) ? '' : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
 
-        $lessons = THM_OrganizerHelperSchedule::getLessons($parameters);
+        $lessons = THM_OrganizerHelperSchedules::getLessons($parameters);
 
         return empty($lessons) ? '[]' : json_encode($lessons);
     }

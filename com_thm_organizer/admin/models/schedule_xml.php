@@ -10,20 +10,30 @@
 
 defined('_JEXEC') or die;
 
-require_once 'descriptions.php';
-require_once 'grids.php';
-require_once 'lessons.php';
-require_once 'pools.php';
-require_once 'programs.php';
-require_once 'rooms.php';
-require_once 'subjects.php';
-require_once 'teachers.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/descriptions.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/grids.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lessons.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/programs.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/rooms.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperDescriptions as Descriptions;
+use THM_OrganizerHelperGrids as Grids;
+use THM_OrganizerHelperLessons as Lessons;
+use THM_OrganizerHelperPools as Pools;
+use THM_OrganizerHelperPrograms as Programs;
+use THM_OrganizerHelperRooms as Rooms;
+use THM_OrganizerHelperSchedules as Schedules;
+use THM_OrganizerHelperSubjects as Subjects;
+use THM_OrganizerHelperTeachers as Teachers;
 
 /**
  * Class which models, validates and compares schedule data to and from Untis XML exports.
  */
-class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
+class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     /**
      * array to hold error strings relating to critical data inconsistencies
@@ -121,23 +131,22 @@ class THM_OrganizerModelXMLSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
         if ($invalid) {
             $this->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
         } elseif ($validSemesterName) {
-            $planningPeriodID
-                = THM_OrganizerHelperSchedule::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
+            $planningPeriodID = Schedules::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
 
             $this->schedule->planningPeriodID = $planningPeriodID;
         }
 
-        THM_OrganizerHelperXMLGrids::validate($this, $xmlSchedule);
-        THM_OrganizerHelperXMLDescriptions::validate($this, $xmlSchedule);
-        THM_OrganizerHelperXMLPrograms::validate($this, $xmlSchedule);
-        THM_OrganizerHelperXMLPools::validate($this, $xmlSchedule);
-        THM_OrganizerHelperXMLRooms::validate($this, $xmlSchedule);
-        THM_OrganizerHelperXMLSubjects::validate($this, $xmlSchedule);
-        THM_OrganizerHelperXMLTeachers::validate($this, $xmlSchedule);
+        Grids::validate($this, $xmlSchedule);
+        Descriptions::validate($this, $xmlSchedule);
+        Programs::validate($this, $xmlSchedule);
+        Pools::validate($this, $xmlSchedule);
+        Rooms::validate($this, $xmlSchedule);
+        Subjects::validate($this, $xmlSchedule);
+        Teachers::validate($this, $xmlSchedule);
 
         $this->schedule->calendar = new \stdClass;
 
-        $lessonsHelper = new \THM_OrganizerHelperXMLLessons($this, $xmlSchedule);
+        $lessonsHelper = new Lessons($this, $xmlSchedule);
         $lessonsHelper->validate();
         $this->printStatusReport();
 

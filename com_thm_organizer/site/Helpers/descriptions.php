@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Provides functions for XML description validation and modeling.
  */
-class THM_OrganizerHelperXMLDescriptions
+class THM_OrganizerHelperDescriptions
 {
     /**
      * Checks whether the resource already exists in the database

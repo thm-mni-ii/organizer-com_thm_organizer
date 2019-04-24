@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Provides functions for XML lesson validation and modeling.
  */
-class THM_OrganizerHelperXMLLessons
+class THM_OrganizerHelperLessons
 {
     private $lessonID;
 

@@ -22,7 +22,7 @@ use THM_OrganizerHelperLanguages as Languages;
 /**
  * Provides general functions for schedule access checks, data retrieval and display.
  */
-class THM_OrganizerHelperSchedule
+class THM_OrganizerHelperSchedules
 {
     /**
      * Aggregates the distinct lesson configurations to distinct instances

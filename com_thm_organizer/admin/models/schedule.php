@@ -11,8 +11,11 @@
 defined('_JEXEC') or die;
 
 \JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/xml/schedule.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/json_schedule.php';
+require_once 'schedule_json.php';
+require_once 'schedule_xml.php';
+
+use THM_OrganizerModelSchedule_JSON as Schedule_JSON;
+use THM_OrganizerModelSchedule_XML as Schedule_XML;
 
 /**
  * Class which manages stored schedule data.
@@ -48,7 +51,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return true;
         }
 
-        $jsonModel = new \THM_OrganizerModelJSONSchedule;
+        $jsonModel = new Schedule_JSON;
 
         // No access checks for the reference schedule, because access rights are inherited through the department.
         $reference = $this->getScheduleRow($active->departmentID, $active->planningPeriodID);
@@ -206,7 +209,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         // No access checks for the active schedule, they share the same department from which they inherit access.
 
-        $jsonModel  = new \THM_OrganizerModelJSONSchedule;
+        $jsonModel  = new Schedule_JSON;
         $refSuccess = $jsonModel->setReference($reference, $active);
 
         return $refSuccess;
@@ -255,7 +258,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $xmlModel = new \THM_OrganizerModelXMLSchedule;
+        $xmlModel = new Schedule_XML;
         $valid    = $xmlModel->validate();
 
         if (!$valid) {
@@ -273,7 +276,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $new->set('userID', \JFactory::getUser()->id);
 
         $reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
-        $jsonModel = new \THM_OrganizerModelJSONSchedule;
+        $jsonModel = new Schedule_JSON;
 
         if (empty($reference) or empty($reference->id)) {
             $new->set('active', 1);
