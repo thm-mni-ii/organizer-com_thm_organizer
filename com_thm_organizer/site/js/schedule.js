@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 
 /**
  * Object that builds schedule tables, an interactive calendar and a form which defines loaded schedules
- * @param {mixed|Object} variables - contains website configurations
+ * @param {Object} variables - contains website configurations
  * @param {string} variables.ajaxBase - basic url for ajax requests
  * @param {string} variables.auth - token to authenticate user
  * @param {string} variables.dateFormat - configured format of date for this website (e.g. d.m.Y)
@@ -1793,17 +1793,12 @@ const ScheduleApp = function (variables) {
             }
             else
             {
-                jQuery(field).chosen().change(handleField);
-
-                if (field.dataset.next === 'lesson')
-                {
-                    // Select on click, even on already selected(!) options (unlike Chosens 'change' event)
-                    wrappers[field.id].getElementsByClassName('chzn-results')[0].addEventListener('click',
-                        function () {
-                            handleField(field.id);
-                        }
-                    );
-                }
+                // Chosen.js events fires multiple times, so we use native EventListener
+                wrappers[field.id].querySelector('.chzn-results').addEventListener('click',
+                    function () {
+                        handleField(field.id);
+                    }
+                );
             }
         }
 
@@ -2959,7 +2954,7 @@ const ScheduleApp = function (variables) {
     if (!Array.prototype.includes)
     {
         /**
-         * @param {mixed} element
+         * @param {*} element
          * @returns {boolean}
          */
         Array.prototype.includes = function (element) {
