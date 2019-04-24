@@ -57,7 +57,7 @@ $blockNo = 0;
 <div class='display-schedule'>
     <div class='head'>
         <div class='banner'>
-            <div class='thm-logo'><img src="media/com_thm_organizer/images/thm.svg" alt="THM-Logo"/></div>
+            <div class='thm-logo'><img src="components/com_thm_organizer/images/thm.svg" alt="THM-Logo"/></div>
             <div class="room-name"><?php echo $this->model->roomName; ?></div>
         </div>
         <div class='date-info'>

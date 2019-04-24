@@ -33,7 +33,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
 
         $document = \JFactory::getDocument();
         $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/children.css');
-        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/children.js');
+        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/children.js');
 
         return $this->getHTML($children);
     }

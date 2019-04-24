@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
 /**
  * Class which manages stored course data.
@@ -141,24 +141,20 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        $input    = THM_OrganizerHelperComponent::getInput();
-        $formData = $input->get('jform', [], 'array');
-        $courseID = $formData['id'];
+        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
-        if (empty($formData) or empty($courseID)) {
+        if (!isset($data['id'])) {
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
-        }
-
-        if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
+        } elseif (!THM_OrganizerHelperCourses::authorized($data['id'])) {
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 
         $table = $this->getTable();
-        $table->load($courseID);
-        $table->campusID         = $formData['campusID'];
-        $table->max_participants = $formData['max_participants'];
-        $table->deadline         = $formData['deadline'];
-        $table->fee              = $formData['fee'];
+        $table->load($data['id']);
+        $table->campusID         = $data['campusID'];
+        $table->max_participants = $data['max_participants'];
+        $table->deadline         = $data['deadline'];
+        $table->fee              = $data['fee'];
 
         $success = $table->store();
 
@@ -166,7 +162,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        THM_OrganizerHelperCourses::refreshWaitList($courseID);
+        THM_OrganizerHelperCourses::refreshWaitList($data['id']);
 
         return true;
     }

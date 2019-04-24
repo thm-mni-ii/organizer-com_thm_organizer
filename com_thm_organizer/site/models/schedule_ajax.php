@@ -11,15 +11,15 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/room_types.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/schedule.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/room_types.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/schedule.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
  * Class retrieves dynamic schedule information.
@@ -298,15 +298,15 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         switch ($resource) {
             case 'room':
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/rooms.php';
                 $title = \JText::_('COM_THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
                 break;
             case 'pool':
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
                 $title = THM_OrganizerHelperPools::getFullName($value);
                 break;
             case 'teacher':
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
                 $title = THM_OrganizerHelperTeachers::getDefaultName($value);
                 break;
             default:

@@ -78,7 +78,7 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         $document = \JFactory::getDocument();
         $document->setCharset('utf-8');
         $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/deputat.css');
-        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/deputat.js');
+        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/deputat.js');
     }
 
     /**

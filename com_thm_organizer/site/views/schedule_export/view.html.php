@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
  * Class loads the schedule export filter form into the display context.
@@ -99,7 +99,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         $document = \JFactory::getDocument();
-        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/schedule_export.js');
+        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/schedule_export.js');
         $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/schedule_export.css');
     }
 

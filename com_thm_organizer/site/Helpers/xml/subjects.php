@@ -11,8 +11,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/departments.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
 /**
  * Provides validation methods for xml subject objects

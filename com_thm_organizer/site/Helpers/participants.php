@@ -7,8 +7,8 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 
 /**
  * Provides general functions for participant access checks, data retrieval and display.

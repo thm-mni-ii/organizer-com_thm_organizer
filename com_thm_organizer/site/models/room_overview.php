@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/rooms.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
  * Retrieves lesson and event data for a filtered set of rooms.

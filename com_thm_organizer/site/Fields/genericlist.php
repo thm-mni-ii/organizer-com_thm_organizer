@@ -14,7 +14,7 @@ use \THM_OrganizerHelperHTML as HTML;
 
 \JFormHelper::loadFieldClass('list');
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While the
@@ -166,7 +166,7 @@ class JFormFieldGenericList extends \JFormFieldList
 
         $localized = $this->getAttribute('localized', false);
         if ($localized) {
-            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+            require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
             $tag = THM_OrganizerHelperLanguage::getShortTag();
             foreach ($textColumns as $key => $value) {
                 $textColumns[$key] = $value . '_' . $tag;

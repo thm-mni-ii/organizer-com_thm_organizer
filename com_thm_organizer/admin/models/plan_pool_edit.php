@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once 'edit.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_pools.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/plan_pools.php';
 
 /**
  * Class loads a form for editing plan (subject) pool data.

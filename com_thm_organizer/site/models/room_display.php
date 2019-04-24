@@ -14,8 +14,8 @@ define('SCHEDULE', 1);
 define('ALTERNATING', 2);
 define('CONTENT', 3);
 
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
  * Class retrieves information about daily events for display on monitors.

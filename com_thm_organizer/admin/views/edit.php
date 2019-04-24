@@ -61,7 +61,7 @@ abstract class THM_OrganizerViewEdit extends \Joomla\CMS\MVC\View\HtmlView
 
         $document = \JFactory::getDocument();
         $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/backend.css');
-        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/validators.js');
-        $document->addScript(\JUri::root() . 'media/com_thm_organizer/js/submitButton.js');
+        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/validators.js');
+        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/submitButton.js');
     }
 }

@@ -11,10 +11,10 @@
 
 defined('_JEXEC') or die();
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/departments.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
  * Class retrieves information for use in a schedule display form.
@@ -136,7 +136,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['poolIDs']) === 1 and $setTitle) {
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/pools.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
                 $this->displayName           = THM_OrganizerHelperPools::getFullName($this->params['poolIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
@@ -157,7 +157,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['teacherIDs']) === 1 and $setTitle) {
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/teachers.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
                 $this->displayName           = THM_OrganizerHelperTeachers::getDefaultName($this->params['teacherIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
@@ -177,7 +177,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['roomIDs']) === 1 and $setTitle) {
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/rooms.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/rooms.php';
                 $this->displayName           = THM_OrganizerHelperRooms::getName($this->params['roomIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
@@ -197,7 +197,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['roomTypeIDs']) === 1 and $setTitle) {
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/room_types.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/room_types.php';
                 $this->displayName           = THM_OrganizerHelperRoomTypes::getName($this->params['roomTypeIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
@@ -221,7 +221,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $singleValue                = array_shift($this->params['subjectIDs']);
             $this->params['subjectIDs'] = [$singleValue];
 
-            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
+            require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
             $this->displayName           = THM_OrganizerHelperSubjects::getName(
                 $this->params['subjectIDs'][0],
                 'plan'
@@ -241,7 +241,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
 
-            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
+            require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
             $this->displayName           = THM_OrganizerHelperCourses::getName($this->params['lessonIDs'][0]);
             $this->params['displayName'] = $this->displayName;
 
@@ -260,7 +260,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->params['showTeachers']    = 0;
 
             if (count($this->params['programIDs']) === 1 and $setTitle) {
-                require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
+                require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/programs.php';
                 $this->displayName           = THM_OrganizerHelperPrograms::getName(
                     $this->params['programIDs'][0],
                     'plan'
@@ -273,7 +273,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         // In the last instance the department name is used if nothing else was requested
         if ($setTitle) {
-            require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
+            require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/departments.php';
             $this->displayName = THM_OrganizerHelperDepartments::getName($this->params['departmentID']);
         }
     }

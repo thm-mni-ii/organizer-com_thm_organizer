@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use \THM_OrganizerHelperHTML as HTML;
 
 require_once 'list.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 
 /**
  * Class retrieves information for a filtered set of fields (of expertise).

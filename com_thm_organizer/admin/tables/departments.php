@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once 'assets.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 
 /**
  * Class instantiates a \JTable Object associated with the departments table.

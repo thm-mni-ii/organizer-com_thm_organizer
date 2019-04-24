@@ -11,10 +11,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
 /**
  * Class loads persistent information about a course into the display context.

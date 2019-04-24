@@ -29,15 +29,13 @@
             <schemapath type="mysqli">sql/updates/mysql</schemapath>
         </schemas>
     </update>
-    <media destination="com_thm_organizer" folder="media">
-        <folder>helpers</folder>
-        <folder>images</folder>
-        <folder>js</folder>
-    </media>
     <files folder="site">
         <folder>css</folder>
         <folder>Fields</folder>
+        <folder>Helpers</folder>
         <folder>icalcreator</folder>
+        <folder>images</folder>
+        <folder>js</folder>
         <folder>Layouts</folder>
         <folder>models</folder>
         <folder>views</folder>
@@ -58,7 +56,6 @@
             <folder>views</folder>
             <filename>access.xml</filename>
             <filename>config.xml</filename>
-            <filename>controller.php</filename>
             <filename>LICENSE.txt</filename>
             <filename>thm_organizer.php</filename>
         </files>

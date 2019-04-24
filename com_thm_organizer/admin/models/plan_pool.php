@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once 'merge.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_pools.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/plan_pools.php';
 
 /**
  * Class which manages stored plan (subject) pool data.

@@ -7,8 +7,8 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/planning_periods.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
 /**
  * Class calculates lesson statistics and loads them into the view context.

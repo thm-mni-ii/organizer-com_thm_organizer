@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/departments.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/programs.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/departments.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/programs.php';
 
 /**
  * Provides functions for XML (degree) program / organizational grouping validation and modeling.

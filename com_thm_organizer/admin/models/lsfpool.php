@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 
 /**
  * Class used to import lsf pool data.

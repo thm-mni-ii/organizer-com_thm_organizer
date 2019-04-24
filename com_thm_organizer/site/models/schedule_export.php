@@ -10,12 +10,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/departments.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
  * Class retrieves information for the creation of a schedule export form.

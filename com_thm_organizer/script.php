@@ -86,7 +86,7 @@ class Com_THM_OrganizerInstallerScript
         </script>
         <fieldset id="com_thm_organizer_fieldset" style="border-radius:10px;">
             <legend>
-                <img style="float:none;" src="../media/com_thm_organizer/images/thm_organizer.png"
+                <img style="float:none;" src="../components/com_thm_organizer/images/thm_organizer.png"
                      alt="THM Organizer Logo"/>
             </legend>
             <div style="padding-left:17px;">
@@ -176,15 +176,17 @@ class Com_THM_OrganizerInstallerScript
             }
 
             $mediaFiles = \JFolder::files(JPATH_SITE . '/media/com_thm_organizer');
-
-            foreach ($mediaFiles as $mediaFile) {
-                \JFile::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
+            if (!empty($mediaFiles)) {
+                foreach ($mediaFiles as $mediaFile) {
+                    \JFile::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
+                }
             }
 
             $mediaFolders = \JFolder::folders(JPATH_SITE . '/media/com_thm_organizer');
-
-            foreach ($mediaFolders as $mediaFolder) {
-                \JFolder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
+            if (!empty($mediaFolders)) {
+                foreach ($mediaFolders as $mediaFolder) {
+                    \JFolder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
+                }
             }
         }
     }
@@ -215,7 +217,7 @@ class Com_THM_OrganizerInstallerScript
      */
     public function update($parent)
     {
-        $logoURL     = 'media/com_thm_organizer/images/thm_organizer.png';
+        $logoURL     = 'components/com_thm_organizer/images/thm_organizer.png';
         $licenseLink = '<a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>';
         $version     = (string)$parent->get('manifest')->version;
 

@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/plan_programs.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/plan_programs.php';
 require_once 'edit.php';
 
 /**

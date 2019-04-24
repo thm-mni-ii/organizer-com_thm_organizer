@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
 
 /**
  * Class loads lesson statistic information into the display context.

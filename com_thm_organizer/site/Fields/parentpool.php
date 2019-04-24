@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
 /**
  * Class creates a select box for superordinate (subject) pool mappings.

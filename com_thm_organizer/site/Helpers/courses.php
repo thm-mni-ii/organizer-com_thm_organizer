@@ -11,9 +11,9 @@
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participants.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/subjects.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/participants.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
@@ -171,7 +171,7 @@ class THM_OrganizerHelperCourses
      */
     public static function getCampus($course, $redundant = false)
     {
-        require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
+        require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 
         if (is_object($course)) {
             $course = (array)$course;

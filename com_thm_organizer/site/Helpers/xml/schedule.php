@@ -18,7 +18,7 @@ require_once 'programs.php';
 require_once 'rooms.php';
 require_once 'subjects.php';
 require_once 'teachers.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/schedule.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
 
 /**
  * Class which models, validates and compares schedule data to and from Untis XML exports.

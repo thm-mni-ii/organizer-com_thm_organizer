@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/planning_periods.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
 /**
  * Class provides planning period options for a given department/program. Called from the room statistics view.

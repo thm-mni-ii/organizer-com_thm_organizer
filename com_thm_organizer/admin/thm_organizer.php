@@ -10,14 +10,14 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
 
 if (!\JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
     throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
 }
 
 try {
-    THM_OrganizerHelperComponent::setUp(true);
+    THM_OrganizerHelperComponent::setUp();
 } catch (Exception $exc) {
     throw $exc;
 }

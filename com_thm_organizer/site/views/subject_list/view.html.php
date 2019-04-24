@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 
 /**
  * Class loads a filtered set of subjects into the display context.

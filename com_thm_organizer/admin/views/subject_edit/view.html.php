@@ -45,6 +45,6 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        \JFactory::getDocument()->addScript(\JUri::root() . 'media/com_thm_organizer/js/subject_prep_course.js');
+        \JFactory::getDocument()->addScript(\JUri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');
     }
 }

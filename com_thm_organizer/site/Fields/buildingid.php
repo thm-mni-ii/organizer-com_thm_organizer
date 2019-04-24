@@ -14,8 +14,8 @@ use \THM_OrganizerHelperHTML as HTML;
 
 \JFormHelper::loadFieldClass('list');
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
 
 /**
  * Class creates a form field for building selection.

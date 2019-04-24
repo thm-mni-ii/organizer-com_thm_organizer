@@ -9,7 +9,7 @@
  * @link        www.thm.de
  */
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/campuses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 
 /**
  * Class retrieves the data regarding a filtered set of courses.

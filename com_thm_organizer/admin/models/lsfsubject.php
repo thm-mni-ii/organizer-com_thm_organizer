@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/lsf.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
 defined('RESPONSIBLE') or define('RESPONSIBLE', 1);
 defined('TEACHER') or define('TEACHER', 2);

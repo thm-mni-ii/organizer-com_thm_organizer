@@ -11,8 +11,8 @@
 
 use \THM_OrganizerHelperHTML as HTML;
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
 /**
  * Class loads participant information into the display context.

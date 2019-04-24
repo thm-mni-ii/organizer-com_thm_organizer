@@ -8,8 +8,8 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/courses.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/participants.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/participants.php';
 
 /**
  * Class which manages stored participant data.
@@ -48,11 +48,9 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
     {
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
 
-        if (empty($data) or empty($data['id'])) {
+        if (!isset($data['id'])) {
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
-        }
-
-        if ($data['id'] !== \JFactory::getUser()->id) {
+        } elseif ($data['id'] !== \JFactory::getUser()->id) {
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
         }
 

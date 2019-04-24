@@ -14,9 +14,9 @@ use \THM_OrganizerHelperHTML as HTML;
 
 \JFormHelper::loadFieldClass('list');
 
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/component.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_ROOT . '/media/com_thm_organizer/helpers/mapping.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
 /**
  * Class creates a select box for (subject) pools.

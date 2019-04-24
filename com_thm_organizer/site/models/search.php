@@ -10,12 +10,12 @@
 
 defined('_JEXEC') or die();
 
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/departments.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/language.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/pools.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/programs.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/subjects.php';
-require_once JPATH_SITE . '/media/com_thm_organizer/helpers/teachers.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/departments.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/subjects.php';
+require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
 /**
  * Class searches THM Organizer resources for resources and views relevant to the given search query.
