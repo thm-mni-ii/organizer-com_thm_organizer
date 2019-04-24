@@ -30,6 +30,13 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
     private $refSchedule = null;
 
     /**
+     * Boolean which represents if the users should be notified
+     *
+     * @var boolean
+     */
+    private $shouldNotify = false;
+
+    /**
      * THM_OrganizerModelJSONSchedule constructor.
      *
      * @param object &$schedule the schedule object for direct processing
@@ -828,13 +835,15 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
     /**
      * Creates the delta to the chosen reference schedule
      *
-     * @param object $reference the reference schedule
-     * @param object $active    the active schedule
+     * @param object  $reference    the reference schedule
+     * @param object  $active       the active schedule
+     * @param boolean $shouldNotify true if users should be notified
      *
      * @return boolean true on successful delta creation, otherwise false
      */
-    public function setReference($reference, $active)
+    public function setReference($reference, $active, $shouldNotify = false)
     {
+        $this->shouldNotify = $shouldNotify;
         $this->refSchedule = json_decode($reference->schedule);
         $this->schedule    = json_decode($active->schedule);
 
@@ -1164,6 +1173,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
 
             $this->setConfigurations($instance, $configurations, $source);
             $this->schedule->calendar->$date->$time->$lessonID = $instance;
+            $this->notify($status, $date, $time, $lessonID);
         }
     }
 
@@ -1191,6 +1201,23 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             }
             $lessonIDs = array_keys((array)$this->$source->calendar->$date->$time);
             $this->transferInstances($lessonIDs, $status, $date, $time, $configurations);
+        }
+    }
+
+    /**
+     * Notifies all users which are subscribed to the changed lessons about the change via mail
+     *
+     * @param string $status        the batch instance status [new|removed]
+     * @param string $date          the date when the times occure
+     * @param array  $time          the time interval of the new/removed lesson
+     * @param array  $lessonID      the lesson which has changed
+     *
+     * @return void modifies the schedule date object
+     */
+    private function notify($status, $date, $time, $lessonID)
+    {
+        if($this->shouldNotify) {
+           //Do Notify
         }
     }
 }

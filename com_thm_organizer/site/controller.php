@@ -548,9 +548,11 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
      * Performs access checks and uses the model's upload function to validate
      * and save the file to the database should validation be successful
      *
+     * @param boolean $shouldNotify true if Upload and Notify button is pressed
+     *
      * @return void
      */
-    public function upload()
+    public function upload($shouldNotify = false)
     {
         $model             = $this->getModel($this->resource);
         $functionAvailable = method_exists($model, 'upload');
@@ -562,7 +564,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
             if ($validType) {
                 if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8') {
-                    $success = $model->upload();
+                    $success = $model->upload($shouldNotify);
                     $view    = $success ? 'manager' : 'edit';
                 } else {
                     $view = 'edit';
@@ -581,5 +583,15 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $url = THM_OrganizerHelperComponent::getRedirectBase();
         $url .= "&view={$this->resource}_{$view}";
         $this->setRedirect($url);
+    }
+
+    /**
+     * Calls the upload function and notifies all subscribed users
+     *
+     * @return void
+     */
+    public function uploadAndNotify()
+    {
+        $this->upload(true);
     }
 }

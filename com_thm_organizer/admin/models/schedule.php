@@ -242,10 +242,12 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     /**
      * Saves a schedule in the database for later use
      *
+     * @param boolean $shouldNotify if the user should get notified
+     *
      * @return  boolean true on success, otherwise false
      * @throws Exception => invalid request / unauthorized access
      */
-    public function upload()
+    public function upload($shouldNotify)
     {
         $form        = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
@@ -285,6 +287,6 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return $jsonModel->save($this->schedule);
         }
 
-        return $jsonModel->setReference($reference, $new);
+        return $jsonModel->setReference($reference, $new, $shouldNotify);
     }
 }
