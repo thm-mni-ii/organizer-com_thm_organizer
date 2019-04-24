@@ -9,13 +9,11 @@
  */
 
 defined('_JEXEC') or die;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
-
 defined('RESPONSIBLE') or define('RESPONSIBLE', 1);
 defined('TEACHER') or define('TEACHER', 2);
+
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
 /**
  * Class used to import lsf subject data.

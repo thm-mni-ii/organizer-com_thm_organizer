@@ -11,11 +11,12 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/departments.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for the creation of a schedule export form.
@@ -78,7 +79,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getGridOptions()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $query    = $this->_db->getQuery(true);
         $query->select("id, name_$shortTag AS name, defaultGrid")->from('#__thm_organizer_grids');
         $this->_db->setQuery($query);
@@ -238,7 +239,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
         }
 
         $oneResource = count($subjectIDs) === 1;
-        $tag         = THM_OrganizerHelperLanguage::getShortTag();
+        $tag         = Languages::getShortTag();
 
         $query = $this->_db->getQuery(true);
         $query->select("ps.name AS psName, ps.gpuntisID AS gpuntisID, s.short_name_$tag AS shortName, s.name_$tag AS name");

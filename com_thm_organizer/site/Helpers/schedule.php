@@ -10,12 +10,14 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/mapping.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/courses.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/date.php';
+require_once 'languages.php';
+require_once 'mapping.php';
+require_once 'rooms.php';
+require_once 'teachers.php';
+require_once 'courses.php';
+require_once 'date.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for schedule access checks, data retrieval and display.
@@ -251,7 +253,7 @@ class THM_OrganizerHelperSchedule
             }
         }
 
-        $tag   = THM_OrganizerHelperLanguage::getShortTag();
+        $tag   = Languages::getShortTag();
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
@@ -333,7 +335,7 @@ class THM_OrganizerHelperSchedule
             'abbr'          => $lesson['psUntisID']
         ];
 
-        $tag           = THM_OrganizerHelperLanguage::getShortTag();
+        $tag           = Languages::getShortTag();
         $dbo           = \JFactory::getDbo();
         $subjectsQuery = $dbo->getQuery(true);
 

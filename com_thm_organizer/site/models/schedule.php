@@ -13,8 +13,9 @@ defined('_JEXEC') or die();
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/departments.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for use in a schedule display form.
@@ -51,7 +52,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function getGrids()
     {
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
         $query       = $this->_db->getQuery(true);
         $query->select("id, name_$languageTag AS name, grid, defaultGrid")
             ->from('#__thm_organizer_grids')

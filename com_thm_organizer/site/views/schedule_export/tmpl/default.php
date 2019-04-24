@@ -10,12 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['xlsWeekFormat', 'grouping'];
 $user          = \JFactory::getUser();
 ?>
 <script type="text/javascript">
-    var rootURI = '<?php echo \JUri::root(); ?>',
+    var rootURI = '<?php echo Uri::root(); ?>',
         allText = '<?php echo \JText::_('JALL');?>',
         selectionWarning = '<?php echo \JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
         downloadText = '<?php echo \JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',

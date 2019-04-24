@@ -9,7 +9,8 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 $header      = $this->lang->_('COM_THM_ORGANIZER_COURSE_OVERVIEW_HEADER');
 $campusName  = empty($this->state->filter_campus) ? '' : THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
@@ -18,7 +19,7 @@ $coursesType = empty($this->state->filter_prep_courses) ?
 $specTitle   = "$coursesType $campusName";
 $header      = sprintf($header, $specTitle);
 
-$action = \JUri::current();
+$action = Uri::current();
 $action .= empty(THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive()) ? '' : '?option=com_thm_organizer&view=course_list';
 
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";

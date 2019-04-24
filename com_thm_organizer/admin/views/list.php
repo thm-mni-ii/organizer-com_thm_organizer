@@ -8,10 +8,11 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/list_modal.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads a filtered set of resources into the display context. Specific resource determined by extending class.
@@ -72,7 +73,7 @@ abstract class THM_OrganizerViewList extends \Joomla\CMS\MVC\View\HtmlView
     protected function modifyDocument()
     {
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/backend.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
 
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.multiselect');

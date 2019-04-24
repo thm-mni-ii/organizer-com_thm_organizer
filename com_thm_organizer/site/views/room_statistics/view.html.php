@@ -9,13 +9,14 @@
  */
 
 defined('_JEXEC') or die;
-
-use \THM_OrganizerHelperHTML as HTML;
-
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
-jimport('tcpdf.tcpdf');
 
+jimport('tcpdf.tcpdf');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads room statistic information into the display context.
@@ -47,7 +48,7 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->modifyDocument();
 
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang = Languages::getLanguage();
 
         $this->model = $this->getModel();
 
@@ -71,8 +72,8 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
 
         $document = \JFactory::getDocument();
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/room_statistics.js');
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/room_statistics.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/room_statistics.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_statistics.css');
     }
 
     private function setBaseFields()

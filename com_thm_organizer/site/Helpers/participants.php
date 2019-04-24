@@ -7,8 +7,11 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+require_once 'courses.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for participant access checks, data retrieval and display.
@@ -119,7 +122,7 @@ class THM_OrganizerHelperParticipants
             return;
         }
 
-        $lang       = THM_OrganizerHelperLanguage::getLanguage();
+        $lang       = Languages::getLanguage();
         $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
         $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
         $mailer->setSubject($courseName);

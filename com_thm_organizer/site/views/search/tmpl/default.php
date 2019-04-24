@@ -10,12 +10,13 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 $attribs = ['target' => '_blank'];
 ?>
 <div id="j-main-container" class="organizer-search-container">
-    <form action="<?php \JUri::current(); ?>" id="adminForm" method="get" name="adminForm">
+    <form action="<?php Uri::current(); ?>" id="adminForm" method="get" name="adminForm">
         <?php echo $this->languageLinks->render(); ?>
         <h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
         <div class="toolbar">

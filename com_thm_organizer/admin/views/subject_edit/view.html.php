@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/views/edit.php';
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Class loads the subject form into display context.
  */
@@ -45,6 +47,6 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        \JFactory::getDocument()->addScript(\JUri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');
+        \JFactory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');
     }
 }

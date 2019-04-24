@@ -9,11 +9,13 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+require_once 'campuses.php';
+require_once 'languages.php';
+require_once 'participants.php';
+require_once 'subjects.php';
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/participants.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
@@ -116,8 +118,8 @@ class THM_OrganizerHelperCourses
         $expired    = !self::isRegistrationOpen($courseID);
         $authorized = self::authorized($courseID);
 
-        $lang            = THM_OrganizerHelperLanguage::getLanguage();
-        $shortTag        = THM_OrganizerHelperLanguage::getShortTag();
+        $lang            = Languages::getLanguage();
+        $shortTag        = Languages::getShortTag();
         $menuID          = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
         $pathPrefix      = 'index.php?option=com_thm_organizer';
         $managerURL      = "{$pathPrefix}&view=course_manager&languageTag=$shortTag";
@@ -171,8 +173,6 @@ class THM_OrganizerHelperCourses
      */
     public static function getCampus($course, $redundant = false)
     {
-        require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
-
         if (is_object($course)) {
             $course = (array)$course;
         } elseif (is_int($course)) {
@@ -209,7 +209,7 @@ class THM_OrganizerHelperCourses
             return [];
         }
 
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -315,7 +315,7 @@ class THM_OrganizerHelperCourses
             return [];
         }
 
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -399,7 +399,7 @@ class THM_OrganizerHelperCourses
             return [];
         }
 
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -468,7 +468,7 @@ class THM_OrganizerHelperCourses
 
         $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $select = 'CONCAT(pt.surname, ", ", pt.forename) as name, ul.*, pt.*';
         $select .= ',u.email, u.username, u.id as cid';
@@ -528,7 +528,7 @@ class THM_OrganizerHelperCourses
      */
     public static function getStatusDisplay($courseID)
     {
-        $lang       = THM_OrganizerHelperLanguage::getLanguage();
+        $lang       = Languages::getLanguage();
         $expired    = !self::isRegistrationOpen($courseID);
         $authorized = self::authorized($courseID);
 
@@ -657,7 +657,7 @@ class THM_OrganizerHelperCourses
      */
     public static function prepCourseList()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
@@ -697,7 +697,7 @@ class THM_OrganizerHelperCourses
             return '';
         }
 
-        $lang  = THM_OrganizerHelperLanguage::getShortTag();
+        $lang  = Languages::getShortTag();
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("name_$lang")

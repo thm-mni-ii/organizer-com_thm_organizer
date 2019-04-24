@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of (lesson) methods.
@@ -31,7 +31,7 @@ class THM_OrganizerModelMethod_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $query    = $this->_db->getQuery(true);
 
         $select = "id, abbreviation_$shortTag AS abbreviation, name_$shortTag AS name, ";

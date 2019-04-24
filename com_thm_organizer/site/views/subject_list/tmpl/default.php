@@ -8,7 +8,8 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 $query           = $this->escape($this->state->get('search'));
 $resetVisibility = ' style="display: ';
@@ -17,7 +18,7 @@ $resetVisibility .= ';"';
 $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 => 'field'];
 ?>
 <div id="j-main-container" class="span10">
-    <form action="<?php \JUri::current(); ?>" id="adminForm" method="post" name="adminForm">
+    <form action="<?php Uri::current(); ?>" id="adminForm" method="post" name="adminForm">
         <div class="toolbar">
             <div class="tool-wrapper search">
                 <input type="text" name="search" id="filter_search"

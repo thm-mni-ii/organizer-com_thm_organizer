@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/views/edit.php';
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Class loads the plan (subject) pool form into display context.
  */
@@ -40,6 +42,6 @@ class THM_OrganizerViewPlan_Pool_Edit extends THM_OrganizerViewEdit
         parent::modifyDocument();
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/plan_pool_edit.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/plan_pool_edit.css');
     }
 }

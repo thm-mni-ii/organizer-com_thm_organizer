@@ -9,11 +9,12 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 $fieldset = $this->form->getFieldset('participant_management');
 
-$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+$shortTag = Languages::getShortTag();
 $baseURL  = '?option=com_thm_organizer&view=course_manager&format=pdf';
 $baseURL  .= "&lessonID={$this->course['id']}&languageTag=$shortTag&type=";
 

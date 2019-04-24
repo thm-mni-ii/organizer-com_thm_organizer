@@ -9,7 +9,9 @@
  * @link        www.thm.de
  */
 
-$shortTag = THM_OrganizerHelperLanguage::getShortTag();
+use THM_OrganizerHelperLanguages as Languages;
+
+$shortTag = Languages::getShortTag();
 $editURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
 $editURL  .= "&view=subject_edit&id={$this->course['subjectID']}";
 

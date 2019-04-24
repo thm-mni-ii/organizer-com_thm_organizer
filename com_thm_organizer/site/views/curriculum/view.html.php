@@ -8,10 +8,11 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads curriculum information into the display context.
@@ -48,11 +49,11 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
         if (!is_object($menu)) {
             $this->ecollabLink = '';
 
-            $this->lang = THM_OrganizerHelperLanguage::getLanguage();
+            $this->lang = Languages::getLanguage();
         } else {
             $this->ecollabLink = $menu->params->get('eCollabLink', '');
 
-            $this->lang = THM_OrganizerHelperLanguage::getLanguage($menu->params->get('initialLanguage', ''));
+            $this->lang = Languages::getLanguage($menu->params->get('initialLanguage', ''));
         }
 
         $this->item = $this->get('Item');
@@ -78,8 +79,8 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.framework');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/curriculum.css');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/curriculum.js');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/container.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/curriculum.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/curriculum.js');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/container.js');
     }
 }

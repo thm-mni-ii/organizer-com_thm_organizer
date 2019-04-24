@@ -8,10 +8,6 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-
 /**
  * Class loads the subject into the display context.
  */

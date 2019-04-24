@@ -11,7 +11,8 @@
 defined('_JEXEC') or die;
 
 require_once 'assets.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class instantiates a \JTable Object associated with the departments table.
@@ -36,7 +37,7 @@ class THM_OrganizerTableDepartments extends THM_OrganizerTableAssets
      */
     protected function _getAssetTitle()
     {
-        $shortNameColumn = 'short_name_' . THM_OrganizerHelperLanguage::getShortTag();
+        $shortNameColumn = 'short_name_' . Languages::getShortTag();
 
         return $this->$shortNameColumn;
     }

@@ -11,6 +11,9 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for room type access checks, data retrieval and display.
@@ -36,7 +39,7 @@ class THM_OrganizerHelperRoomTypes
             return '';
         }
 
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
         $attribute   = "name_$languageTag";
 
         return $success ? $roomTypesTable->$attribute : '';
@@ -50,7 +53,7 @@ class THM_OrganizerHelperRoomTypes
      */
     public static function getUsedRoomTypes()
     {
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
         $dbo         = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);

@@ -10,7 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads filtered events into the display context.
@@ -36,7 +38,7 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->model = $this->getModel();
         $layout      = $this->model->params['layout'];
-        $this->lang  = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang  = Languages::getLanguage();
         $this->state = $this->get('State');
         $this->form  = $this->get('Form');
         $this->form->setValue('startDate', null, $this->state->get('startDate'));
@@ -58,6 +60,6 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
         HTML::_('behavior.tooltip');
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/event_list.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/event_list.css');
     }
 }

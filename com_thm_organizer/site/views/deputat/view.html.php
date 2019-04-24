@@ -10,7 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads teacher workload statistics into the display context.
@@ -77,8 +78,8 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
         $document = \JFactory::getDocument();
         $document->setCharset('utf-8');
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/deputat.css');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/deputat.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/deputat.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/deputat.js');
     }
 
     /**

@@ -10,11 +10,13 @@
 
 defined('_JEXEC') or die;
 
+use THM_OrganizerHelperLanguages as Languages;
+
 $dates       = $this->model->data;
 $dayCount    = count($dates);
 $blockCount  = count($this->model->grid['periods']);
 $totalBlocks = $dayCount * $blockCount;
-$labelIndex  = 'label_' . THM_OrganizerHelperLanguage::getShortTag();
+$labelIndex  = 'label_' . Languages::getShortTag();
 $dayCount    = count($dates);
 ?>
 <table>

@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
+
+use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class retrieves information for a filtered set of plan (subject) pools.

@@ -11,9 +11,9 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads the schedule form into the display context.
@@ -86,7 +86,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         $this->isMobile    = THM_OrganizerHelperComponent::isSmartphone();
-        $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $this->languageTag = Languages::getShortTag();
         $this->model       = $this->getModel();
         $this->defaultGrid = $this->model->getDefaultGrid();
         $compParams        = THM_OrganizerHelperComponent::getParams();
@@ -107,10 +107,9 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
 
         HTML::_('formbehavior.chosen', 'select');
         $this->addScriptOptions();
-        $doc->addScript(\JUri::root() . 'components/com_thm_organizer/js/schedule.js');
-
-        $doc->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/schedule.css');
-        $doc->addStyleSheet(\JUri::root() . 'media/jui/css/icomoon.css');
+        $doc->addScript(Uri::root() . 'components/com_thm_organizer/js/schedule.js');
+        $doc->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/schedule.css');
+        $doc->addStyleSheet(Uri::root() . 'media/jui/css/icomoon.css');
     }
 
     /**
@@ -121,7 +120,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
     private function addScriptOptions()
     {
         $user = \JFactory::getUser();
-        $root = \JUri::root();
+        $root = Uri::root();
 
         $variables = [
             'SEMESTER_MODE'     => 1,

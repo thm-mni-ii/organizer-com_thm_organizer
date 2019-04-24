@@ -8,7 +8,9 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
+
+use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done implicitly

@@ -10,13 +10,12 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class creates a select box for (subject) pools.
@@ -45,7 +44,7 @@ class JFormFieldPoolID extends \JFormFieldList
             return parent::getOptions();
         }
 
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $query->select("DISTINCT p.id AS value, p.name_$shortTag AS text");

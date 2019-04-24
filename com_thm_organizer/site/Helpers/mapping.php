@@ -10,7 +10,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for mapping data retrieval.
@@ -146,7 +148,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getPoolOption(&$mapping, &$selectedParents)
     {
-        $shortTag   = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag   = Languages::getShortTag();
         $poolsTable = \JTable::getInstance('pools', 'THM_OrganizerTable');
 
         try {
@@ -268,7 +270,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramOption(&$mapping, &$selectedParents, $resourceType)
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
@@ -303,7 +305,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramOptions()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
@@ -344,7 +346,7 @@ class THM_OrganizerHelperMapping
         }
 
         $dbo      = \JFactory::getDbo();
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
         $select   = 'DISTINCT ' . $query->concatenate($parts, '') . ' AS name, dp.id AS id';
@@ -443,7 +445,7 @@ class THM_OrganizerHelperMapping
         $lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
         $lftQuery->order('lft DESC');
 
-        $shortTag  = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag  = Languages::getShortTag();
         $nameQuery = $dbo->getQuery(true);
         $nameQuery->select("DISTINCT p.name_$shortTag AS name");
         $nameQuery->from('#__thm_organizer_pools AS p');

@@ -10,8 +10,11 @@
 
 defined('_JEXEC') or die;
 
-$current            = \THM_OrganizerHelperLanguage::getShortTag();
-$lang               = \THM_OrganizerHelperLanguage::getLanguage();
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
+
+$current            = Languages::getShortTag();
+$lang               = Languages::getLanguage();
 $supportedLanguages = ['en' => $lang->_('COM_THM_ORGANIZER_ENGLISH'), 'de' => $lang->_('COM_THM_ORGANIZER_GERMAN')];
 unset($supportedLanguages[$current]);
 
@@ -34,7 +37,7 @@ if (empty($displayData['view'])) {
 
     foreach ($supportedLanguages as $languageTag => $text) {
         $params['languageTag'] = $languageTag;
-        $href                  = \JUri::buildQuery($params);
+        $href                  = Uri::buildQuery($params);
         echo '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
     }
 

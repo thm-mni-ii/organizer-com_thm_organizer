@@ -11,7 +11,9 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
-require_once 'language.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for program access checks, data retrieval and display.
@@ -60,7 +62,7 @@ class THM_OrganizerHelperPrograms
     public static function getName($programID, $type)
     {
         $dbo         = \JFactory::getDbo();
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
 
         $query     = $dbo->getQuery(true);
         $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
@@ -92,7 +94,7 @@ class THM_OrganizerHelperPrograms
     public static function getPlanPrograms()
     {
         $dbo           = \JFactory::getDbo();
-        $languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag   = Languages::getShortTag();
         $departmentIDs = THM_OrganizerHelperComponent::getInput()->get('departmentIDs', [], 'raw');
 
         $query     = $dbo->getQuery(true);

@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Retrieves lesson and event data for a filtered set of rooms.
@@ -260,7 +261,7 @@ class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
      */
     private function getEvents($date)
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $query = $this->_db->getQuery(true);
 

@@ -11,9 +11,7 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/Helpers/modules.php');
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
 
 /**

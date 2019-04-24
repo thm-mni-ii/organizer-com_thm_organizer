@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of campuses.
@@ -32,7 +32,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $query    = $this->_db->getQuery(true);
 
         $select = "c1.id, c1.name_$shortTag as name, c2.id as parentID, c2.name_$shortTag as parentName, ";

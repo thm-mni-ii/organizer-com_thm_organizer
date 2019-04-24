@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 require_once 'date.php';
 require_once 'departments.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for subject access checks, data retrieval and display.
@@ -92,7 +95,7 @@ class THM_OrganizerHelperSubjects
     public static function getName($subjectID, $type, $withNumber = false)
     {
         $dbo         = \JFactory::getDbo();
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
 
         $query = $dbo->getQuery(true);
         $query->select("ps.name as psName, s.name_$languageTag as name");
@@ -185,7 +188,7 @@ class THM_OrganizerHelperSubjects
     {
         $names       = [];
         $dbo         = \JFactory::getDbo();
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
 
         $query     = $dbo->getQuery(true);
         $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
@@ -249,7 +252,7 @@ class THM_OrganizerHelperSubjects
             $interval = 'semester';
         }
 
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
 
         $dbo = \JFactory::getDbo();
 

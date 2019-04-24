@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class which calculates the number of hours teachers taught individual lessons.
@@ -440,7 +441,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function setDepartmentName($departmentID)
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);

@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 
 require_once 'buildings.php';
 require_once 'departments.php';
-require_once 'language.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class provides general functions for retrieving room data.
@@ -157,7 +159,7 @@ class THM_OrganizerHelperRooms
      */
     public static function getRooms()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $app      = THM_OrganizerHelperComponent::getApplication();
         $input    = $app->input;
         $formData = $input->get('jform', [], 'array');

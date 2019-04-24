@@ -15,6 +15,8 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
 
+use THM_OrganizerHelperLanguages as Languages;
+
 /**
  * Class calculates room usage statistics.
  */
@@ -288,7 +290,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setData($roomID)
     {
-        $tag       = THM_OrganizerHelperLanguage::getShortTag();
+        $tag       = Languages::getShortTag();
         $dbo       = \JFactory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
@@ -421,7 +423,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setLSData($lsIDs)
     {
-        $tag   = THM_OrganizerHelperLanguage::getShortTag();
+        $tag   = Languages::getShortTag();
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
 
@@ -493,7 +495,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $tag   = THM_OrganizerHelperLanguage::getShortTag();
+        $tag   = Languages::getShortTag();
 
         $query->select("id, name_$tag AS name, description_$tag AS description");
         $query->from('#__thm_organizer_room_types');

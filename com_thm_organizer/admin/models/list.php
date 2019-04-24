@@ -10,7 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class provides a standardized framework for the display of listed resources.
@@ -290,8 +291,7 @@ abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
      */
     protected function setLocalizedFilters(&$query, $filterNames)
     {
-        require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-        $tag = THM_OrganizerHelperLanguage::getShortTag();
+        $tag = Languages::getShortTag();
         foreach ($filterNames as $name) {
             $value = $this->state->get("filter.$name", '');
             if ($value === '') {

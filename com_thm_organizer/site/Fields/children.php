@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
  */
@@ -32,8 +34,8 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
         $children = $this->getChildren();
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/children.css');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/children.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/children.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/children.js');
 
         return $this->getHTML($children);
     }

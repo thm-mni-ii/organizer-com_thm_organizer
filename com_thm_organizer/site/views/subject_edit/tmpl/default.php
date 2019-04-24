@@ -10,10 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 // Sets page configuration and component option
-$backURL = empty($this->menu) ? \JUri::base() . '?option=com_thm_organizer&' : $this->menu['route'];
+$backURL = empty($this->menu) ? Uri::base() . '?option=com_thm_organizer&' : $this->menu['route'];
 
 // Accessed from subject_details
 $backURL .= empty($this->lessonID) ?

@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of departments.
@@ -46,7 +46,7 @@ class THM_OrganizerModelDepartment_Manager extends THM_OrganizerModelList
     protected function getListQuery()
     {
         $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments();
-        $shortTag           = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag           = Languages::getShortTag();
 
         // Create the query
         $query  = $this->_db->getQuery(true);

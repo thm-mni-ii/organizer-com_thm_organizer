@@ -9,12 +9,6 @@
  */
 
 defined('_JEXEC') or die;
-
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
-
 define('ALL', 0);
 define('DEPARTMENTS', 1);
 define('POOLS', 2);
@@ -22,6 +16,12 @@ define('PROGRAMS', 3);
 define('ROOMS', 4);
 define('SUBJECTS', 5);
 define('TEACHERS', 6);
+
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads the query's results into the display context.
@@ -45,8 +45,8 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $this->lang          = THM_OrganizerHelperLanguage::getLanguage();
-        $this->languageTag   = THM_OrganizerHelperLanguage::getShortTag();
+        $this->lang          = Languages::getLanguage();
+        $this->languageTag   = Languages::getShortTag();
         $this->languageLinks = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->query         = THM_OrganizerHelperComponent::getInput()->getString('search', '');
         $this->results       = $this->getModel()->getResults();
@@ -68,6 +68,6 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
 
         $document = \JFactory::getDocument();
         $document->setTitle($this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'));
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/search.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/search.css');
     }
 }

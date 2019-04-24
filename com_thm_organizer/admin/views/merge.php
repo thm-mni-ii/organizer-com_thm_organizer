@@ -8,9 +8,10 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/merge.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by
@@ -55,8 +56,8 @@ abstract class THM_OrganizerViewMerge extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/backend.css');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/validators.js');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/submitButton.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/submitButton.js');
     }
 }

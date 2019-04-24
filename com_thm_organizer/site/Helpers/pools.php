@@ -12,8 +12,10 @@ defined('_JEXEC') or die;
 
 require_once 'departments.php';
 require_once 'date.php';
-require_once 'language.php';
+require_once 'languages.php';
 require_once 'programs.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for (subject) pool access checks, data retrieval and display.
@@ -105,7 +107,7 @@ class THM_OrganizerHelperPools
             return '';
         }
 
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
 
         if (!empty($table->{'name_' . $languageTag})) {
             return $table->{'name_' . $languageTag};
@@ -190,7 +192,7 @@ class THM_OrganizerHelperPools
             $interval = 'semester';
         }
 
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
 
         $dbo = \JFactory::getDbo();
 

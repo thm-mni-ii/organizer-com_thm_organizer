@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads a filtered set of subjects into the display context.
@@ -47,7 +47,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->params = THM_OrganizerHelperComponent::getParams();
 
         $this->fixGroupBy();
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage($this->params->get('initialLanguage', 'de'));
+        $this->lang = Languages::getLanguage($this->params->get('initialLanguage', 'de'));
 
         $this->state = $this->get('State');
 
@@ -334,6 +334,6 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/subject_list.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_list.css');
     }
 }

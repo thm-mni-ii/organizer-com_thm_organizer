@@ -12,7 +12,10 @@
 require_once 'access.php';
 require_once 'date.php';
 require_once 'html.php';
-require_once 'language.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class provides generalized functions useful for several component files.
@@ -290,7 +293,7 @@ class THM_OrganizerHelperComponent
      */
     public static function getRedirectBase()
     {
-        $url    = \JUri::base();
+        $url    = Uri::base();
         $input  = self::getInput();
         $menuID = $input->getInt('Itemid');
 
@@ -301,7 +304,7 @@ class THM_OrganizerHelperComponent
         }
 
         if (!empty($input->getString('languageTag'))) {
-            $url .= '&languageTag=' . THM_OrganizerHelperLanguage::getShortTag();
+            $url .= '&languageTag=' . Languages::getShortTag();
         }
 
         return $url;
@@ -344,7 +347,7 @@ class THM_OrganizerHelperComponent
      */
     public static function message($message, $type = 'message')
     {
-        $message = THM_OrganizerHelperLanguage::getLanguage()->_($message);
+        $message = Languages::getLanguage()->_($message);
         self::getApplication()->enqueueMessage($message, $type);
     }
 

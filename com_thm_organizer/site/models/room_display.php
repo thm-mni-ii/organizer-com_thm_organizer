@@ -9,13 +9,14 @@
  */
 
 defined('_JEXEC') or die;
-
 define('SCHEDULE', 1);
 define('ALTERNATING', 2);
 define('CONTENT', 3);
 
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class retrieves information about daily events for display on monitors.
@@ -58,7 +59,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
             $query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
-            $app->redirect(\JUri::root() . 'index.php?' . $query);
+            $app->redirect(Uri::root() . 'index.php?' . $query);
         }
     }
 
@@ -94,7 +95,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     protected function getEvents($date)
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $query = $this->_db->getQuery(true);
 
@@ -335,7 +336,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         }
 
         // Room could not be resolved => redirect to home
-        THM_OrganizerHelperComponent::getApplication()->redirect(\JUri::root());
+        THM_OrganizerHelperComponent::getApplication()->redirect(Uri::root());
     }
 
     /**

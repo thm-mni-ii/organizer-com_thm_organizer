@@ -11,10 +11,11 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads persistent information about a subject into the display context.
@@ -62,9 +63,9 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         $this->form = $this->get('Form');
 
         $this->lessonID    = $input->getInt('lessonID', 0);
-        $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $this->languageTag = Languages::getShortTag();
 
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang = Languages::getLanguage();
 
         THM_OrganizerHelperComponent::addMenuParameters($this);
 
@@ -86,6 +87,6 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
 
-        \JFactory::getDocument()->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/subject_edit.css');
+        \JFactory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_edit.css');
     }
 }

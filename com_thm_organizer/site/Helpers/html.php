@@ -10,7 +10,9 @@
  */
 
 require_once 'access.php';
-require_once 'language.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class provides generalized functions useful for several component files.
@@ -43,7 +45,7 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
      */
     public static function getTranslatedOptions($field, $element)
     {
-        $lang    = THM_OrganizerHelperLanguage::getLanguage();
+        $lang    = Languages::getLanguage();
         $options = [];
 
         foreach ($element->xpath('option') as $option) {

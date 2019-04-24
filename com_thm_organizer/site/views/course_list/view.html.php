@@ -9,10 +9,11 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class which loads data into the view output context
@@ -50,7 +51,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->model = $this->getModel();
         $this->state = $this->model->getState();
 
-        $this->lang  = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang  = Languages::getLanguage();
         $this->items = $this->get('Items');
 
         // alphabetically sort by course name and campus name
@@ -68,7 +69,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
 
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->languageParams = ['view' => 'course_list'];
-        $this->shortTag       = THM_OrganizerHelperLanguage::getShortTag();
+        $this->shortTag       = Languages::getShortTag();
 
         $this->setFilters();
 
@@ -86,7 +87,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.modal');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/course_list.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/course_list.css');
     }
 
     /**
@@ -96,7 +97,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function setFilters()
     {
-        $lang    = THM_OrganizerHelperLanguage::getLanguage();
+        $lang    = Languages::getLanguage();
         $attribs = ['onchange' => 'form.submit();'];
 
         $defaultOptions = [0 => $lang->_('COM_THM_ORGANIZER_ALL_CAMPUSES')];

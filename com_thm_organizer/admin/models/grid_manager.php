@@ -11,11 +11,11 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/date.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of (schedule) grids.
@@ -33,7 +33,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $query    = $this->getDbo()->getQuery(true);
 
         $select = "id, name_$shortTag AS name, grid, defaultGrid, ";

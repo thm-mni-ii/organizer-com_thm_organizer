@@ -7,8 +7,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
+
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class calculates lesson statistics and loads them into the view context.
@@ -33,8 +35,8 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
     {
         parent::__construct($config);
 
-        $this->lang    = THM_OrganizerHelperLanguage::getLanguage();
-        $this->langTag = THM_OrganizerHelperLanguage::getShortTag();
+        $this->lang    = Languages::getLanguage();
+        $this->langTag = Languages::getShortTag();
 
         $this->populateState();
         $departmentID = $this->state->get('departmentID');

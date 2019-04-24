@@ -10,6 +10,10 @@
 
 defined('_JEXEC') or die;
 
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
+
 /**
  * Provides general functions for department access checks, data retrieval and display.
  */
@@ -50,8 +54,7 @@ class THM_OrganizerHelperDepartments
      */
     public static function getName($departmentID)
     {
-        require_once 'language.php';
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
         $dbo         = \JFactory::getDbo();
 
         $query = $dbo->getQuery(true);
@@ -73,10 +76,9 @@ class THM_OrganizerHelperDepartments
      */
     public static function getOptions($short = true)
     {
-        require_once 'language.php';
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);
-        $tag   = THM_OrganizerHelperLanguage::getShortTag();
+        $tag   = Languages::getShortTag();
 
         $query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
         $query->from('#__thm_organizer_departments AS d');

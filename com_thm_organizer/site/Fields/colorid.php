@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class creates a select box for predefined colors.
@@ -65,7 +65,7 @@ class JFormFieldColorID extends \Joomla\CMS\Form\FormField
             return '';
         }
 
-        $shortTag    = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag    = Languages::getShortTag();
         $property    = "name_$shortTag";
         $hasSelected = false;
         $options     = [];

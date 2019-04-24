@@ -11,7 +11,9 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
-require_once 'language.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
@@ -138,7 +140,7 @@ class THM_OrganizerHelperTeachers
      */
     public static function getDepartmentNames($teacherID)
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $dbo   = \JFactory::getDbo();
         $query = $dbo->getQuery(true);

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 $showHeading = $this->params->get('show_page_heading', '');
 $title       = $this->params->get('page_title', '');
 if (!empty($this->departmentName)) {
@@ -28,7 +30,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
     }
     ?>
     <form id='deputat-form' name='deputat-form' enctype='multipart/form-data' method='post'
-          action='<?php echo \JUri::current(); ?>'>
+          action='<?php echo Uri::current(); ?>'>
         <div class="filter-bar">
             <div class="filter-header">
                 <div class="deputat-settings">

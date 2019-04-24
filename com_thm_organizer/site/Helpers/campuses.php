@@ -10,7 +10,9 @@
 
 defined('_JEXEC') or die;
 
-require_once 'language.php';
+require_once 'languages.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for campus access checks, data retrieval and display.
@@ -41,10 +43,10 @@ class THM_OrganizerHelperCampuses
      */
     public static function getName($campusID = null)
     {
-        $languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $languageTag = Languages::getShortTag();
 
         if (empty($campusID)) {
-            return THM_OrganizerHelperLanguage::getLanguage()->_('COM_THM_ORGANIZER_CAMPUS_UNKNOWN');
+            return Languages::getLanguage()->_('COM_THM_ORGANIZER_CAMPUS_UNKNOWN');
         }
 
         $dbo   = \JFactory::getDbo();

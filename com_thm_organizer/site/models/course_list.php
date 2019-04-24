@@ -11,6 +11,8 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 
+use THM_OrganizerHelperLanguages as Languages;
+
 /**
  * Class retrieves the data regarding a filtered set of courses.
  */
@@ -59,7 +61,7 @@ class THM_OrganizerModelCourse_List extends \Joomla\CMS\MVC\Model\ListModel
      */
     protected function getListQuery()
     {
-        $tag = THM_OrganizerHelperLanguage::getShortTag();
+        $tag = Languages::getShortTag();
 
         $courseQuery = $this->_db->getQuery(true);
 

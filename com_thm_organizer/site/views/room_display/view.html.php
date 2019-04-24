@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Class loads a room's daily schedule into the display context.
  */
@@ -40,6 +42,6 @@ class THM_OrganizerViewRoom_Display extends \Joomla\CMS\MVC\View\HtmlView
     private function modifyDocument()
     {
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/room_display.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_display.css');
     }
 }

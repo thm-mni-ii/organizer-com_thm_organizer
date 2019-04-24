@@ -13,6 +13,8 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 jimport('tcpdf.tcpdf');
 
+use THM_OrganizerHelperLanguages as Languages;
+
 /**
  * Base PDF export class used for the generation of various course exports.
  */
@@ -48,7 +50,7 @@ abstract class THM_OrganizerTemplateCourse_Export
             throw new \Exception(\JText::_('COM_THM_ORGANIZER_404'), 404);
         }
 
-        $this->lang      = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang      = Languages::getLanguage();
         $dates           = THM_OrganizerHelperCourses::getDates($courseID);
         $maxParticipants = empty($course->lessonP) ? $course['subjectP'] : $course['lessonP'];
         $start           = explode('-', $dates[0]);

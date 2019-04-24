@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of subjects.
@@ -52,7 +52,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
     {
         $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('document');
         $dbo                = \JFactory::getDbo();
-        $shortTag           = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag           = Languages::getShortTag();
 
         // Create the sql query
         $query  = $dbo->getQuery(true);

@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves the data regarding a filtered set of subjects.
@@ -633,7 +634,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
         $app->set('list_limit', '0');
         $this->state->set('list.limit', 0);
 
-        $menuLanguage = $params->get('initialLanguage', THM_OrganizerHelperLanguage::getShortTag());
+        $menuLanguage = $params->get('initialLanguage', Languages::getShortTag());
         $languageTag  = $app->getUserStateFromRequest($this->context . '.languageTag', 'languageTag', $menuLanguage);
         $this->state->set('languageTag', $languageTag);
 

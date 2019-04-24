@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Provides general functions for language data retrieval and display.
  */
-class THM_OrganizerHelperLanguage extends \Joomla\CMS\Language\Language
+class THM_OrganizerHelperLanguages extends \Joomla\CMS\Language\Language
 {
     /**
      * Sets the Joomla Language based on input from the language switch

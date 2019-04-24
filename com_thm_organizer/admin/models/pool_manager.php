@@ -10,10 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of (subject) pools.
@@ -48,7 +49,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
         $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('document');
         $query              = $this->_db->getQuery(true);
 
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $select   = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag AS field, color, ";
         $parts    = ["'index.php?option=com_thm_organizer&view=pool_edit&id='", 'p.id'];
         $select   .= $query->concatenate($parts, '') . 'AS link ';

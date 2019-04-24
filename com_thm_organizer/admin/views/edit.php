@@ -8,10 +8,11 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/edit_basic.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/edit_tabbed.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.
@@ -60,8 +61,8 @@ abstract class THM_OrganizerViewEdit extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/backend.css');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/validators.js');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/submitButton.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/submitButton.js');
     }
 }

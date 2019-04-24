@@ -9,13 +9,12 @@
  */
 
 defined('_JEXEC') or die;
-
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-
 define('DAY', 1);
 define('WEEK', 2);
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Loads lesson and event data for a filtered set of rooms into the view context.
@@ -44,7 +43,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         $this->model = $this->getModel();
         $this->state = $this->get('State');
         $this->form  = $this->get('Form');
-        $this->lang  = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang  = Languages::getLanguage();
 
         $this->form->setValue('template', null, $this->state->get('template'));
         $this->form->setValue('date', null, $this->state->get('date'));
@@ -71,8 +70,8 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
         $document = \JFactory::getDocument();
         $document->setCharset('utf-8');
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/room_overview.js');
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/room_overview.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/room_overview.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_overview.css');
     }
 
     /**

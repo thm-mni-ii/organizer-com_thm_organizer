@@ -10,10 +10,12 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads the schedule export filter form into the display context.
@@ -51,7 +53,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->modifyDocument();
 
-        $this->lang = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang = Languages::getLanguage();
 
         $this->model    = $this->getModel();
         $this->compiler = jimport('tcpdf.tcpdf');
@@ -99,8 +101,8 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         $document = \JFactory::getDocument();
-        $document->addScript(\JUri::root() . 'components/com_thm_organizer/js/schedule_export.js');
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/schedule_export.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/schedule_export.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/schedule_export.css');
     }
 
     /**

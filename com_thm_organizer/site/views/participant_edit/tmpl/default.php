@@ -9,7 +9,7 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
 
 $menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
 $task   = 'participant.save';

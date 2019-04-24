@@ -10,7 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class modifies the document for the output of a menu like list of resource management views.
@@ -62,7 +63,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('formbehavior.chosen', 'select');
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/backend.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
     }
 
     /**

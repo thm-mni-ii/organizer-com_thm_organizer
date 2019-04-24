@@ -9,15 +9,14 @@
  */
 
 defined('_JEXEC') or die;
-
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once 'list.php';
-
 define('DAILY', 1);
 define('MIXED', 2);
 define('CONTENT', 3);
 define('LESSON_LIST', 4);
+
+require_once 'list.php';
+
+use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class retrieves information for a filtered set of monitors.

@@ -9,7 +9,6 @@
  */
 
 defined('_JEXEC') or die;
-
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 

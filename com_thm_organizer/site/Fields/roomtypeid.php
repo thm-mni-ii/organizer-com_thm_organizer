@@ -10,12 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
-
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class creates a form field for room type selection
@@ -42,7 +41,7 @@ class JFormFieldRoomTypeID extends \JFormFieldList
 
         $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
         $query->select("DISTINCT rt.id, rt.name_$shortTag AS name")
             ->from('#__thm_organizer_room_types AS rt')
             ->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = rt.id');
@@ -70,7 +69,7 @@ class JFormFieldRoomTypeID extends \JFormFieldList
 
         $options = [];
         if (empty($types)) {
-            $lang      = THM_OrganizerHelperLanguage::getLanguage();
+            $lang      = Languages::getLanguage();
             $options[] = HTML::_('select.option', '', $lang->_('JNONE'));
 
             return $options;

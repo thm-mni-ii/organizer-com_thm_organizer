@@ -10,9 +10,12 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/languages.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class creates a generalized select box for selection of a single id column value among those already selected.
@@ -86,8 +89,7 @@ class JFormFieldMergeByID extends \JFormFieldList
         $localized   = $this->getAttribute('localized', false);
 
         if ($localized) {
-            require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
-            $tag = THM_OrganizerHelperLanguage::getShortTag();
+            $tag = Languages::getShortTag();
             foreach ($textColumns as $key => $value) {
                 $textColumns[$key] = $value . '_' . $tag;
             }

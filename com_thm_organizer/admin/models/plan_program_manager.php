@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once 'list.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of plan (degree) programs / organizational groupings.
@@ -32,7 +32,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
     protected function getListQuery()
     {
         $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
-        $shortTag           = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag           = Languages::getShortTag();
         $query              = $this->_db->getQuery(true);
 
         $select    = "DISTINCT ppr.id, ppr.gpuntisID, ppr.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";

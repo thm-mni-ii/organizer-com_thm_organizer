@@ -11,11 +11,12 @@
 defined('_JEXEC') or die();
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/departments.php';
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/subjects.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class searches THM Organizer resources for resources and views relevant to the given search query.
@@ -179,8 +180,8 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
          * Mentioned => one or more of the terms is a part of the extended text for the resource
          */
         $this->results     = ['exact' => [], 'strong' => [], 'good' => [], 'related' => [], 'mentioned' => []];
-        $this->lang        = THM_OrganizerHelperLanguage::getLanguage();
-        $this->languageTag = THM_OrganizerHelperLanguage::getShortTag();
+        $this->lang        = Languages::getLanguage();
+        $this->languageTag = Languages::getShortTag();
 
         $input     = THM_OrganizerHelperComponent::getInput();
         $rawSearch = trim($input->getString('search', ''));

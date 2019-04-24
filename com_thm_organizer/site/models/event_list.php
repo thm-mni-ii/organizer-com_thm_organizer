@@ -9,14 +9,15 @@
  */
 
 defined('_JEXEC') or die;
-
 define('SCHEDULE', 1);
 define('ALTERNATING', 2);
 define('CONTENT', 3);
 
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/date.php';
+
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class retrieves information about upcoming events for display on monitors.
@@ -351,7 +352,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
      */
     private function getEvents()
     {
-        $shortTag = THM_OrganizerHelperLanguage::getShortTag();
+        $shortTag = Languages::getShortTag();
 
         $query = $this->_db->getQuery(true);
 
@@ -458,7 +459,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
         $app         = THM_OrganizerHelperComponent::getApplication();
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
-            $base  = \JUri::root() . 'index.php?';
+            $base  = Uri::root() . 'index.php?';
             $query = $app->input->server->get('QUERY_STRING', '', 'raw');
             $query .= (strpos($query, 'com_thm_organizer') !== false) ? '' : '&option=com_thm_organizer';
             $query .= (strpos($query, 'event_list') !== false) ? '' : '&view=event_list';

@@ -10,7 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
+
+use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class creates a select box for the association of teachers with subject documentation.

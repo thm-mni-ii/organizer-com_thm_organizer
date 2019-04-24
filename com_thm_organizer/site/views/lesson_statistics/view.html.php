@@ -8,7 +8,8 @@
  * @link        www.thm.de
  */
 
-require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/language.php';
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads lesson statistic information into the display context.
@@ -40,7 +41,7 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $this->lang           = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang           = Languages::getLanguage();
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->languageParams = ['view' => 'lesson_statistics'];
         $this->state          = $this->get('State');
@@ -55,7 +56,7 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $this->lessons = $model->lessons;
         $this->total   = $model->total;
 
-        \JFactory::getDocument()->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
+        \JFactory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
 
         parent::display($tpl);
     }

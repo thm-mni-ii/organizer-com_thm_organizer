@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 \JFormHelper::loadFieldClass('list');
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
+
+use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class creates a generalized select box for selection of a single column value among those already selected.

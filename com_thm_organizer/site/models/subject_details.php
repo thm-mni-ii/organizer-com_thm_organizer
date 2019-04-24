@@ -11,9 +11,10 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
+
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class which retrieves subject information for a detailed display of subject attributes.
@@ -34,7 +35,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
     public function __construct($config = array())
     {
         parent::__construct($config);
-        $this->lang      = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang      = Languages::getLanguage();
         $this->subjectID = $this->resolveID();
     }
 
@@ -50,7 +51,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         }
 
         $input   = THM_OrganizerHelperComponent::getInput();
-        $langTag = $input->getString('languageTag', THM_OrganizerHelperLanguage::getShortTag());
+        $langTag = $input->getString('languageTag', Languages::getShortTag());
 
         $query = $this->_db->getQuery(true);
         $query->select("aids_$langTag AS aids, frequency_$langTag AS availability, campusID AS campus")
@@ -204,7 +205,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
     private function setDependencies(&$subject)
     {
         $subjectID = $subject['subjectID'];
-        $langTag   = THM_OrganizerHelperLanguage::getShortTag();
+        $langTag   = Languages::getShortTag();
         $programs  = THM_OrganizerHelperMapping::getSubjectPrograms($subjectID);
 
         $query  = $this->_db->getQuery(true);

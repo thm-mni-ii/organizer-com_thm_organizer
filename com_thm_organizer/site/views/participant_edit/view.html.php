@@ -9,10 +9,11 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use THM_OrganizerHelperLanguages as Languages;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads participant information into the display context.
@@ -56,7 +57,7 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
             $this->course['open']      = THM_OrganizerHelperCourses::isRegistrationOpen();
         }
 
-        $this->lang           = THM_OrganizerHelperLanguage::getLanguage();
+        $this->lang           = Languages::getLanguage();
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $courseID             = empty($this->course) ? 0 : $this->course['id'];
         $this->languageParams = ['lessonID' => $courseID, 'view' => 'participant_edit'];
@@ -75,6 +76,6 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
     {
         HTML::_('bootstrap.tooltip');
 
-        \JFactory::getDocument()->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/participant_edit.css');
+        \JFactory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/participant_edit.css');
     }
 }

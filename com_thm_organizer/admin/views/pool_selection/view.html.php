@@ -11,9 +11,10 @@
 
 defined('_JEXEC') or die;
 
-use \THM_OrganizerHelperHTML as HTML;
-
 require_once JPATH_COMPONENT . '/views/list.php';
+
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads pool information into the display context.
@@ -42,6 +43,6 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
         HTML::_('searchtools.form', '#adminForm', []);
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/child_selection.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/child_selection.css');
     }
 }

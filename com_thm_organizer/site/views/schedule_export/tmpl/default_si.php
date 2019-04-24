@@ -10,11 +10,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];
 ?>
 <script type="text/javascript">
-    var rootURI = '<?php echo \JUri::root(); ?>', allText = '<?php echo \JText::_('JALL');?>',
+    var rootURI = '<?php echo Uri::root(); ?>', allText = '<?php echo \JText::_('JALL');?>',
         selectionWarning = '<?php echo \JText::_('COM_THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
         downloadText = '<?php echo \JText::_('COM_THM_ORGANIZER_ACTION_DOWNLOAD');?>',
         generateText = '<?php echo \JText::_('COM_THM_ORGANIZER_ACTION_GENERATE_LINK');?>',

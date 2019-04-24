@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_thm_organizer/icalcreator/iCalcreator.php';
 
+use THM_OrganizerHelperLanguages as Languages;
+
 /**
  * Class creates a ICS file for the display of the filtered schedule information.
  */
@@ -62,7 +64,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
     {
         $vCalendar = new \vcalendar;
         $vCalendar->setConfig('unique_id', $this->parameters['docTitle']);
-        $vCalendar->setConfig('lang', THM_OrganizerHelperLanguage::getShortTag());
+        $vCalendar->setConfig('lang', Languages::getShortTag());
         $vCalendar->setProperty('x-wr-calname', $this->parameters['pageTitle']);
         $vCalendar->setProperty('X-WR-TIMEZONE', 'Europe/Berlin');
         $vCalendar->setProperty('METHOD', 'PUBLISH');

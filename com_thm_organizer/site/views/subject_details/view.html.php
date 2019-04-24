@@ -10,9 +10,8 @@
  * @link        www.thm.de
  */
 
-use \THM_OrganizerHelperHTML as HTML;
-
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/language.php';
+use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads the subject into the display context.
@@ -112,7 +111,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.framework', true);
 
         $document = \JFactory::getDocument();
-        $document->addStyleSheet(\JUri::root() . 'components/com_thm_organizer/css/subject_details.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_details.css');
     }
 
     /**
