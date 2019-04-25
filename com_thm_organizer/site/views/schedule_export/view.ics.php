@@ -162,7 +162,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $teachersText = implode('/', $teachers);
         $roomsText    = implode('/', $rooms);
 
-        $summary = sprintf(\JText::_('COM_THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
+        $summary = sprintf(\JText::_('THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
 
         $organizer = empty($this->parameters['mailto']) ? $teachersText : $this->parameters['mailto'];
         $vEvent->setProperty('ORGANIZER', $organizer);

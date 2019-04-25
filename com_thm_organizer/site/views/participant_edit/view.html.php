@@ -43,7 +43,7 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         if (empty(\JFactory::getUser()->id)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         $this->item   = $this->get('Item');

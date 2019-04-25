@@ -26,7 +26,7 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
     {
         parent::__construct($lessonID);
 
-        $exportType = $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT_STATISTICS');
+        $exportType = $this->lang->_('THM_ORGANIZER_DEPARTMENT_STATISTICS');
         $this->setNames($exportType);
 
         $this->setHeader();
@@ -116,8 +116,8 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
     private function createDepartmentTable()
     {
         $header = [
-            $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT') . ' - ' . $this->lang->_('COM_THM_ORGANIZER_PROGRAM'),
-            $this->lang->_('COM_THM_ORGANIZER_PARTICIPANTS')
+            $this->lang->_('THM_ORGANIZER_DEPARTMENT') . ' - ' . $this->lang->_('THM_ORGANIZER_PROGRAM'),
+            $this->lang->_('THM_ORGANIZER_PARTICIPANTS')
         ];
         $widths = [155, 25];
 

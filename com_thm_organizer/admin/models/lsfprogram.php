@@ -74,7 +74,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
-                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
             }
 
             $programImported = $this->importSingle($programID);
@@ -101,7 +101,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     {
         $programData = $this->getSavedProgramData($programID);
         if (empty($programData)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
 
             return false;
         }
@@ -220,7 +220,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
-                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
             }
 
             $subjectIDs = $this->getSubjectIDs($programID);

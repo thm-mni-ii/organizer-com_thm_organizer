@@ -659,7 +659,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $success = $table->save($data);
 
             if (!$success) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 continue;
             }
 
@@ -708,7 +708,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $success = $table->save($data);
 
             if (!$success) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
                 continue;
             }
@@ -767,7 +767,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $success = $table->save($data);
 
             if (!$success) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 continue;
             }
 
@@ -881,7 +881,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $dbSuccess = $this->save();
         if (!$dbSuccess) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL', 'notice');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL', 'notice');
 
             return false;
         }

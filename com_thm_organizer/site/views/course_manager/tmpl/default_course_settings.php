@@ -17,7 +17,7 @@
     <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
     <div class="section">
         <div class="left form-header">
-            <h4><?php echo $this->lang->_('COM_THM_ORGANIZER_COURSE_SETTINGS'); ?></h4>
+            <h4><?php echo $this->lang->_('THM_ORGANIZER_COURSE_SETTINGS'); ?></h4>
         </div>
         <div class="clear"></div>
         <?php foreach ($this->form->getFieldset('course_settings') as $field) : ?>

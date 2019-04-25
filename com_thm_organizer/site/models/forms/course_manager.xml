@@ -2,23 +2,23 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <field name="id" type="hidden"/>
     <fieldset name="course_settings">
-        <field name="campusID" type="campusID" label="COM_THM_ORGANIZER_CAMPUS"
-               description="COM_THM_ORGANIZER_COURSE_CAMPUS">
+        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS"
+               description="THM_ORGANIZER_COURSE_CAMPUS">
             <option value="">JNONE</option>
         </field>
-        <field name="max_participants" type="integer" default="300" label="COM_THM_ORGANIZER_MAX_PARTICIPANTS"
-               description="COM_THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
-        <field name="deadline" type="integer" default="5" label="COM_THM_ORGANIZER_DEADLINE"
-               description="COM_THM_ORGANIZER_DEADLINE_DESC" first="1" last="30" step="1"/>
-        <field name="fee" type="integer" first="0" last="500" step="5" label="COM_THM_ORGANIZER_COURSE_FEE"
-               description="COM_THM_ORGANIZER_COURSE_FEE_DESC" default="50"/>
+        <field name="max_participants" type="integer" default="300" label="THM_ORGANIZER_MAX_PARTICIPANTS"
+               description="THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
+        <field name="deadline" type="integer" default="5" label="THM_ORGANIZER_DEADLINE"
+               description="THM_ORGANIZER_DEADLINE_DESC" first="1" last="30" step="1"/>
+        <field name="fee" type="integer" first="0" last="500" step="5" label="THM_ORGANIZER_COURSE_FEE"
+               description="THM_ORGANIZER_COURSE_FEE_DESC" default="50"/>
     </fieldset>
     <fieldset name="circular">
         <field name="includeWaitList" type="list" class="chzn-color-state" label="" default="0">
-            <option value="1">COM_THM_ORGANIZER_FILTER_WAIT_LIST_NO</option>
-            <option value="0">COM_THM_ORGANIZER_FILTER_WAIT_LIST_YES</option>
+            <option value="1">THM_ORGANIZER_FILTER_WAIT_LIST_NO</option>
+            <option value="0">THM_ORGANIZER_FILTER_WAIT_LIST_YES</option>
         </field>
-        <field name="subject" type="text" size="60" label="COM_THM_ORGANIZER_MAIL_SUBJECT" required="true"/>
-        <field name="text" type="textarea" class="inputbox" label="COM_THM_ORGANIZER_TEXT" required="true"/>
+        <field name="subject" type="text" size="60" label="THM_ORGANIZER_MAIL_SUBJECT" required="true"/>
+        <field name="text" type="textarea" class="inputbox" label="THM_ORGANIZER_TEXT" required="true"/>
     </fieldset>
 </form>

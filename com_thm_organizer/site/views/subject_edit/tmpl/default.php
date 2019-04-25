@@ -27,7 +27,7 @@ $nameProperty = 'name_' . $this->languageTag;
 </div>
 <div class="subject-edit-view">
     <h1>
-        <?php echo $this->form->getValue($nameProperty) . ': ' . $this->lang->_('COM_THM_ORGANIZER_ACTION_EDIT'); ?>
+        <?php echo $this->form->getValue($nameProperty) . ': ' . $this->lang->_('THM_ORGANIZER_ACTION_EDIT'); ?>
     </h1>
     <form action="?" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm"
           class="form-horizontal">

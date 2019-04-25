@@ -35,7 +35,7 @@ class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -48,11 +48,11 @@ class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_SCHEDULE_MANAGER_VIEW_TITLE'), 'organizer_schedules');
+        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_SCHEDULE_MANAGER_VIEW_TITLE'), 'organizer_schedules');
         \JToolbarHelper::addNew('schedule.add');
-        \JToolbarHelper::makeDefault('schedule.activate', 'COM_THM_ORGANIZER_ACTION_ACTIVATE');
-        \JToolbarHelper::custom('schedule.setReference', 'tree', 'tree', 'COM_THM_ORGANIZER_ACTION_REFERENCE', true);
-        \JToolbarHelper::deleteList(\JText::_('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
+        \JToolbarHelper::makeDefault('schedule.activate', 'THM_ORGANIZER_ACTION_ACTIVATE');
+        \JToolbarHelper::custom('schedule.setReference', 'tree', 'tree', 'THM_ORGANIZER_ACTION_REFERENCE', true);
+        \JToolbarHelper::deleteList(\JText::_('THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
             \JToolbarHelper::preferences('com_thm_organizer');

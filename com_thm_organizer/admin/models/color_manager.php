@@ -87,7 +87,7 @@ class THM_OrganizerModelColor_Manager extends THM_OrganizerModelList
         $headers             = [];
         $headers['checkbox'] = '';
         $headers['name']     = HTML::sort('NAME', 'name', $direction, 'name');
-        $headers['color']    = \JText::_('COM_THM_ORGANIZER_COLOR');
+        $headers['color']    = \JText::_('THM_ORGANIZER_COLOR');
 
         return $headers;
     }

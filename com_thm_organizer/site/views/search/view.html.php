@@ -67,7 +67,7 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
 
         $document = \JFactory::getDocument();
-        $document->setTitle($this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'));
+        $document->setTitle($this->lang->_('THM_ORGANIZER_SEARCH_VIEW_TITLE'));
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/search.css');
     }
 }

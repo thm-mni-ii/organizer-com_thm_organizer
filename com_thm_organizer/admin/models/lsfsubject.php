@@ -213,7 +213,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
                 $this->_db->transactionRollback();
-                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
             }
 
             $subjectImported = $this->importSingle($subjectID);
@@ -251,7 +251,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
         $entryExists = $subject->load($subjectID);
         if (!$entryExists) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_BAD_ENTRY', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_BAD_ENTRY', 'error');
 
             return false;
         }
@@ -291,7 +291,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         $teachersSet = $this->setTeachers($subject->id, $dataObject);
 
         if (!$teachersSet) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
             return false;
         }

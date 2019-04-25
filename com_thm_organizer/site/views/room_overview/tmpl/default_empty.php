@@ -12,5 +12,5 @@ defined('_JEXEC') or die;
 
 ?>
 <div class="no-results">
-    <?php echo $this->lang->_('COM_THM_ORGANIZER_FILTER_NO_RESULTS'); ?>
+    <?php echo $this->lang->_('THM_ORGANIZER_FILTER_NO_RESULTS'); ?>
 </div>

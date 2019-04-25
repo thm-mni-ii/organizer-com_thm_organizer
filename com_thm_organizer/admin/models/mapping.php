@@ -89,7 +89,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $poolMapping['ordering']  = $this->getOrdering($parentMappingID, $poolsTable->id);
                 $poolAdded                = $this->addPool($poolMapping);
                 if (!$poolAdded) {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
+                    THM_OrganizerHelperComponent::message('THM_ORGANIZER_POOL_ADD_FAIL', 'error');
 
                     return false;
                 }
@@ -119,7 +119,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return true;
         }
 
-        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_POOL_MAP_FAIL', 'error');
+        THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_POOL_MAP_FAIL', 'error');
 
         return false;
     }
@@ -162,7 +162,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $subjectAdded                = $this->addSubject($subjectMapping);
 
             if (!$subjectAdded) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
 
                 return false;
             }
@@ -174,7 +174,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return true;
         }
 
-        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SUBJECT_MAP_FAIL', 'error');
+        THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SUBJECT_MAP_FAIL', 'error');
 
         return false;
     }
@@ -674,7 +674,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $poolData['ordering'] = $orderings[$parentID];
                 $poolAdded            = $this->addPool($poolData);
                 if (!$poolAdded) {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_POOL_ADD_FAIL', 'error');
+                    THM_OrganizerHelperComponent::message('THM_ORGANIZER_POOL_ADD_FAIL', 'error');
 
                     return false;
                 }

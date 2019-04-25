@@ -15,7 +15,7 @@ use Joomla\CMS\Uri\Uri;
 
 $current            = Languages::getShortTag();
 $lang               = Languages::getLanguage();
-$supportedLanguages = ['en' => $lang->_('COM_THM_ORGANIZER_ENGLISH'), 'de' => $lang->_('COM_THM_ORGANIZER_GERMAN')];
+$supportedLanguages = ['en' => $lang->_('THM_ORGANIZER_ENGLISH'), 'de' => $lang->_('THM_ORGANIZER_GERMAN')];
 unset($supportedLanguages[$current]);
 
 echo '<div class="tool-wrapper language-links">';

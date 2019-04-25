@@ -454,7 +454,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return;
         }
 
-        $this->departmentName = \JText::_('COM_THM_ORGANIZER_DEPARTMENT') . ' ' . $departmentName;
+        $this->departmentName = \JText::_('THM_ORGANIZER_DEPARTMENT') . ' ' . $departmentName;
     }
 
     /**

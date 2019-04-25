@@ -15,12 +15,12 @@ $menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
 $task   = 'participant.save';
 
 if (empty($this->course)) {
-    $headerText = $this->lang->_('COM_THM_ORGANIZER_USER_PROFILE');
+    $headerText = $this->lang->_('THM_ORGANIZER_USER_PROFILE');
     $lessonID   = 0;
     $message    = '';
     $submitText = $this->lang->_('JSAVE');
 } else {
-    $headerText = '<div class="header-introtext">' . $this->lang->_('COM_THM_ORGANIZER_PARTICIPANT_EDIT_REGISTER_HEADER') . '</div>';
+    $headerText = '<div class="header-introtext">' . $this->lang->_('THM_ORGANIZER_PARTICIPANT_EDIT_REGISTER_HEADER') . '</div>';
     $headerText .= $this->course['name'];
     $dateText   = "{$this->course['startDate']} - {$this->course['endDate']}";
     $headerText .= '<div class="header-subtext">' . $dateText . '</div>';
@@ -28,7 +28,7 @@ if (empty($this->course)) {
     $lessonID = $this->course['id'];
 
     $message    = '<div class="tbox-yellow">';
-    $message    .= $this->lang->_('COM_THM_ORGANIZER_REGISTRATION_REQUIRED');
+    $message    .= $this->lang->_('THM_ORGANIZER_REGISTRATION_REQUIRED');
     $message    .= '</div>';
     $submitText = $this->lang->_('JLOGIN');
     $task       = 'participant.register';

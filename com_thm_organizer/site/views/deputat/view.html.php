@@ -47,7 +47,7 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         // Sets js and css
@@ -93,7 +93,7 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         $schedules  = $this->model->getDepartmentSchedules();
 
         $options    = [];
-        $options[0] = \JText::_('COM_THM_ORGANIZER_FILTER_SCHEDULE');
+        $options[0] = \JText::_('THM_ORGANIZER_FILTER_SCHEDULE');
         foreach ($schedules as $schedule) {
             $options[$schedule['id']] = $schedule['name'];
         }

@@ -100,7 +100,7 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
         $lang    = Languages::getLanguage();
         $attribs = ['onchange' => 'form.submit();'];
 
-        $defaultOptions = [0 => $lang->_('COM_THM_ORGANIZER_ALL_CAMPUSES')];
+        $defaultOptions = [0 => $lang->_('THM_ORGANIZER_ALL_CAMPUSES')];
         $campusOptions  = $defaultOptions + THM_OrganizerHelperCampuses::getOptions(true);
 
         $selectCampus = $this->state->get('campusID');
@@ -112,16 +112,16 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
 
         if (THM_OrganizerHelperCourses::authorized()) {
             $activeOptions = [
-                'pending' => $lang->_('COM_THM_ORGANIZER_PENDING_COURSES'),
-                'current' => $lang->_('COM_THM_ORGANIZER_CURRENT_COURSES'),
-                'all'     => $lang->_('COM_THM_ORGANIZER_ALL_COURSES'),
-                'expired' => $lang->_('COM_THM_ORGANIZER_EXPIRED_COURSES')
+                'pending' => $lang->_('THM_ORGANIZER_PENDING_COURSES'),
+                'current' => $lang->_('THM_ORGANIZER_CURRENT_COURSES'),
+                'all'     => $lang->_('THM_ORGANIZER_ALL_COURSES'),
+                'expired' => $lang->_('THM_ORGANIZER_EXPIRED_COURSES')
             ];
 
             $selectStatus            = $this->state->get('status');
             $this->filters['status'] = HTML::selectBox($activeOptions, 'status', $attribs, $selectStatus, true);
 
-            $defaultOptions = [0 => $lang->_('COM_THM_ORGANIZER_ALL_COURSES')];
+            $defaultOptions = [0 => $lang->_('THM_ORGANIZER_ALL_COURSES')];
             $subjectOptions = $defaultOptions + THM_OrganizerHelperCourses::prepCourseList();
 
             $selectSubject              = $this->state->get('subjectID');

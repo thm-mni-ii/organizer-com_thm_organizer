@@ -24,7 +24,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     public function save()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
@@ -34,7 +34,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -58,7 +58,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     public function save2copy()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
@@ -71,7 +71,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -95,7 +95,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         return THM_OrganizerHelperComponent::delete('departments');

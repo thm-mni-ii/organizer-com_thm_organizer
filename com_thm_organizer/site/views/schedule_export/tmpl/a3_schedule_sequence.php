@@ -529,7 +529,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             $this->document->MultiCell(
                 $this->parameters['timeWidth'],
                 0,
-                \JText::_('COM_THM_ORGANIZER_TIME'),
+                \JText::_('THM_ORGANIZER_TIME'),
                 'TB',
                 'C',
                 0,
@@ -541,7 +541,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             $this->document->MultiCell(
                 $this->parameters['resourceWidth'],
                 0,
-                \JText::_('COM_THM_ORGANIZER_RESOURCE'),
+                \JText::_('THM_ORGANIZER_RESOURCE'),
                 'TB',
                 'C',
                 0,

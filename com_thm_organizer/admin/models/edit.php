@@ -71,7 +71,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
         $allowEdit  = $this->allowEdit();
 
         if (!$allowEdit) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         return $this->item;

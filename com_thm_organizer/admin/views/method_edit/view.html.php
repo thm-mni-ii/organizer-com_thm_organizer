@@ -27,10 +27,10 @@ class THM_OrganizerViewMethod_Edit extends THM_OrganizerViewEdit
         \JToolbarHelper::apply('method.apply');
         \JToolbarHelper::save('method.save');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_METHOD_EDIT_NEW_TITLE'), 'organizer_methods');
+            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_METHOD_EDIT_NEW_TITLE'), 'organizer_methods');
             \JToolbarHelper::cancel('method.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_METHOD_EDIT_EDIT_TITLE'), 'organizer_methods');
+            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_METHOD_EDIT_EDIT_TITLE'), 'organizer_methods');
             \JToolbarHelper::cancel('method.cancel', 'JTOOLBAR_CLOSE');
         }
     }

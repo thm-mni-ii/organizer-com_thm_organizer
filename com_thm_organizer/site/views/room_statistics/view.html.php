@@ -83,14 +83,14 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
 
         $intervals             = [];
         $intervalAttribs       = ['onChange' => 'handleDateRestriction();'];
-        $intervals['week']     = \JText::_('COM_THM_ORGANIZER_WEEK');
-        $intervals['month']    = \JText::_('COM_THM_ORGANIZER_MONTH');
-        $intervals['semester'] = \JText::_('COM_THM_ORGANIZER_SEMESTER');
+        $intervals['week']     = \JText::_('THM_ORGANIZER_WEEK');
+        $intervals['month']    = \JText::_('THM_ORGANIZER_MONTH');
+        $intervals['semester'] = \JText::_('THM_ORGANIZER_SEMESTER');
         $intervalSelect        = HTML::selectBox($intervals, 'dateRestriction', $intervalAttribs, 'semester');
 
         $this->fields['baseSettings']['dateRestriction'] = [
-            'label'       => \JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION'),
-            'description' => \JText::_('COM_THM_ORGANIZER_DATE_RESTRICTION_DESC'),
+            'label'       => \JText::_('THM_ORGANIZER_DATE_RESTRICTION'),
+            'description' => \JText::_('THM_ORGANIZER_DATE_RESTRICTION_DESC'),
             'input'       => $intervalSelect
         ];
 
@@ -101,7 +101,7 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
 
         $this->fields['baseSettings']['date'] = [
             'label'       => \JText::_('JDATE'),
-            'description' => \JText::_('COM_THM_ORGANIZER_DATE_DESC'),
+            'description' => \JText::_('THM_ORGANIZER_DATE_DESC'),
             'input'       => $dateSelect
         ];
 
@@ -111,8 +111,8 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $ppSelect  = HTML::selectBox($ppOptions, 'planningPeriodIDs', $ppAttribs, $ppDefault);
 
         $this->fields['baseSettings']['planningPeriodIDs'] = [
-            'label'       => \JText::_('COM_THM_ORGANIZER_PLANNING_PERIOD'),
-            'description' => \JText::_('COM_THM_ORGANIZER_ROOMS_EXPORT_DESC'),
+            'label'       => \JText::_('THM_ORGANIZER_PLANNING_PERIOD'),
+            'description' => \JText::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
             'input'       => $ppSelect
         ];
     }
@@ -128,49 +128,49 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $attribs                      = ['multiple' => 'multiple'];
 
         $roomAttribs                     = $attribs;
-        $roomAttribs['data-placeholder'] = \JText::_('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        $roomAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
         $planRoomOptions                 = $this->model->getRoomOptions();
         $roomSelect                      = HTML::selectBox($planRoomOptions, 'roomIDs', $roomAttribs);
 
         $this->fields['filterFields']['roomIDs'] = [
-            'label'       => \JText::_('COM_THM_ORGANIZER_ROOMS'),
-            'description' => \JText::_('COM_THM_ORGANIZER_ROOMS_EXPORT_DESC'),
+            'label'       => \JText::_('THM_ORGANIZER_ROOMS'),
+            'description' => \JText::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
             'input'       => $roomSelect
         ];
 
         $roomTypeAttribs                     = $attribs;
         $roomTypeAttribs['onChange']         = 'repopulateRooms();';
-        $roomTypeAttribs['data-placeholder'] = \JText::_('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
+        $roomTypeAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
         $typeOptions                         = $this->model->getRoomTypeOptions();
         $roomTypeSelect                      = HTML::selectBox($typeOptions, 'typeIDs', $roomTypeAttribs);
 
         $this->fields['filterFields']['typeIDs'] = [
-            'label'       => \JText::_('COM_THM_ORGANIZER_ROOM_TYPES'),
-            'description' => \JText::_('COM_THM_ORGANIZER_ROOM_TYPES_EXPORT_DESC'),
+            'label'       => \JText::_('THM_ORGANIZER_ROOM_TYPES'),
+            'description' => \JText::_('THM_ORGANIZER_ROOM_TYPES_EXPORT_DESC'),
             'input'       => $roomTypeSelect
         ];
 
         $deptAttribs                     = $attribs;
         $deptAttribs['onChange']         = 'repopulatePlanningPeriods();repopulatePrograms();repopulateRooms();';
-        $deptAttribs['data-placeholder'] = \JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $deptAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
         $departmentOptions               = $this->model->getDepartmentOptions();
         $departmentSelect                = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
 
         $this->fields['filterFields']['departmetIDs'] = [
-            'label'       => \JText::_('COM_THM_ORGANIZER_DEPARTMENTS'),
-            'description' => \JText::_('COM_THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
+            'label'       => \JText::_('THM_ORGANIZER_DEPARTMENTS'),
+            'description' => \JText::_('THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
             'input'       => $departmentSelect
         ];
 
         $programAttribs                     = $attribs;
         $programAttribs['onChange']         = 'repopulatePlanningPeriods();repopulateRooms();';
-        $programAttribs['data-placeholder'] = \JText::_('COM_THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
+        $programAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
         $planProgramOptions                 = $this->model->getProgramOptions();
         $programSelect                      = HTML::selectBox($planProgramOptions, 'programIDs', $programAttribs);
 
         $this->fields['filterFields']['programIDs'] = [
-            'label'       => \JText::_('COM_THM_ORGANIZER_PROGRAMS'),
-            'description' => \JText::_('COM_THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
+            'label'       => \JText::_('THM_ORGANIZER_PROGRAMS'),
+            'description' => \JText::_('THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
             'input'       => $programSelect
         ];
     }

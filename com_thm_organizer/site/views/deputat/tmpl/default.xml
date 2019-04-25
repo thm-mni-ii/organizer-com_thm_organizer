@@ -7,24 +7,24 @@
     <licence>GNU GPL v.2</licence>
     <authorEMail>james.antrim@nm.thm.de</authorEMail>
     <authorUrl>www.thm.de</authorUrl>
-    <layout title="COM_THM_ORGANIZER_DEPUTAT_TITLE">
-        <message>COM_THM_ORGANIZER_DEPUTAT_DESCRIPTION</message>
+    <layout title="THM_ORGANIZER_DEPUTAT_TITLE">
+        <message>THM_ORGANIZER_DEPUTAT_DESCRIPTION</message>
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
-        <fieldset name="basic" label="COM_THM_ORGANIZER_DEPUTAT_SETTINGS">
+        <fieldset name="basic" label="THM_ORGANIZER_DEPUTAT_SETTINGS">
             <field name="departmentID" type="genericlist" valuecolumn="id" textcolumn="short_name"
-                   table="thm_organizer_departments" label="COM_THM_ORGANIZER_DEPARTMENT" localized="true"
-                   description="COM_THM_ORGANIZER_DEPARTMENT_DESC" required="true">
-                <option value="">COM_THM_ORGANIZER_FILTER_DEPARTMENT</option>
+                   table="thm_organizer_departments" label="THM_ORGANIZER_DEPARTMENT" localized="true"
+                   description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">
+                <option value="">THM_ORGANIZER_FILTER_DEPARTMENT</option>
             </field>
-            <field name="deputat_weeks" type="integer" default="13" label="COM_THM_ORGANIZER_DEPUTAT_WEEKS"
-                   description="COM_THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
-            <field name="deputat_weeks" type="integer" default="13" label="COM_THM_ORGANIZER_DEPUTAT_WEEKS"
-                   description="COM_THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
-            <field name="bachelor_value" type="integer" default="25" label="COM_THM_ORGANIZER_BACHELOR_VALUE"
-                   description="COM_THM_ORGANIZER_BACHELOR_VALUE_DESC" first="5" last="100" step="5"/>
-            <field name="master_value" type="integer" default="50" label="COM_THM_ORGANIZER_MASTER_VALUE"
-                   description="COM_THM_ORGANIZER_MASTER_VALUE_DESC" first="5" last="100" step="5"/>
+            <field name="deputat_weeks" type="integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
+                   description="THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
+            <field name="deputat_weeks" type="integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
+                   description="THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
+            <field name="bachelor_value" type="integer" default="25" label="THM_ORGANIZER_BACHELOR_VALUE"
+                   description="THM_ORGANIZER_BACHELOR_VALUE_DESC" first="5" last="100" step="5"/>
+            <field name="master_value" type="integer" default="50" label="THM_ORGANIZER_MASTER_VALUE"
+                   description="THM_ORGANIZER_MASTER_VALUE_DESC" first="5" last="100" step="5"/>
         </fieldset>
     </fields>
 </metadata>

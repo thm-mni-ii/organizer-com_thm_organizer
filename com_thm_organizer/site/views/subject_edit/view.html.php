@@ -52,11 +52,11 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         $this->subjectID = $input->getInt('id', 0);
 
         if (empty($this->subjectID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperSubjects::allowEdit($this->subjectID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         $this->item = $this->get('Item');

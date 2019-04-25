@@ -113,7 +113,7 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
     private function getTemplate()
     {
 
-        $option = 'COM_THM_ORGANIZER_';
+        $option = 'THM_ORGANIZER_';
 
         $template = [
             'subjectID'                => $this->subjectID,
@@ -283,18 +283,18 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         if (!empty($subject['creditpoints']['value'])) {
             if (empty($subject['expenditure']['value'])) {
                 $subject['expenditure']['value'] = sprintf(
-                    $this->lang->_('COM_THM_ORGANIZER_EXPENDITURE_SHORT'),
+                    $this->lang->_('THM_ORGANIZER_EXPENDITURE_SHORT'),
                     $subject['creditpoints']
                 );
             } elseif (empty($subject['present']['value'])) {
                 $subject['expenditure']['value'] = sprintf(
-                    $this->lang->_('COM_THM_ORGANIZER_EXPENDITURE_MEDIUM'),
+                    $this->lang->_('THM_ORGANIZER_EXPENDITURE_MEDIUM'),
                     $subject['creditpoints']['value'],
                     $subject['expenditure']['value']
                 );
             } else {
                 $subject['expenditure']['value'] = sprintf(
-                    $this->lang->_('COM_THM_ORGANIZER_EXPENDITURE_FULL'),
+                    $this->lang->_('THM_ORGANIZER_EXPENDITURE_FULL'),
                     $subject['creditpoints']['value'],
                     $subject['expenditure']['value'],
                     $subject['present']['value']
@@ -317,12 +317,12 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         switch ($subject['instructionLanguage']['value']) {
             case 'E':
             case 'e':
-                $subject['instructionLanguage']['value'] = $this->lang->_('COM_THM_ORGANIZER_ENGLISH');
+                $subject['instructionLanguage']['value'] = $this->lang->_('THM_ORGANIZER_ENGLISH');
                 break;
             case 'D':
             case 'd':
             default:
-                $subject['instructionLanguage']['value'] = $this->lang->_('COM_THM_ORGANIZER_GERMAN');
+                $subject['instructionLanguage']['value'] = $this->lang->_('THM_ORGANIZER_GERMAN');
         }
     }
 

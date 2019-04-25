@@ -96,7 +96,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
             $return[$index]['planningPeriodID'] = $item->planningPeriodName;
 
             $return[$index]['active']
-                = $this->getToggle($item->id, $item->active, 'schedule', \JText::_('COM_THM_ORGANIZER_TOGGLE_ACTIVE'));
+                = $this->getToggle($item->id, $item->active, 'schedule', \JText::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
 
             $return[$index]['userName'] = $item->userName;
 

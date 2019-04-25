@@ -34,7 +34,7 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,12 +47,12 @@ class THM_OrganizerViewRoom_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_ROOM_MANAGER_VIEW_TITLE'), 'organizer_rooms');
+        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_ROOM_MANAGER_VIEW_TITLE'), 'organizer_rooms');
         \JToolbarHelper::addNew('room.add');
         \JToolbarHelper::editList('room.edit');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            \JToolbarHelper::custom('room.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE',
+            \JToolbarHelper::custom('room.mergeView', 'attachment', 'attachment', 'THM_ORGANIZER_ACTION_MERGE',
                 true);
             \JToolbarHelper::preferences('com_thm_organizer');
         }

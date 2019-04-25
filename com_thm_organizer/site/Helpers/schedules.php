@@ -234,7 +234,7 @@ class THM_OrganizerHelperSchedules
             self::filterTeacherIDs($parameters['teacherIDs'], $parameters['userID']);
 
             if (empty($parameters['teacherIDs'])) {
-                throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+                throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
             }
         }
 

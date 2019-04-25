@@ -23,7 +23,7 @@ $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 
             <div class="tool-wrapper search">
                 <input type="text" name="search" id="filter_search"
                        value="<?php echo $query; ?>"
-                       title="<?php echo \JText::_('COM_THM_ORGANIZER_SEARCH_SUBJECTS'); ?>"
+                       title="<?php echo \JText::_('THM_ORGANIZER_SEARCH_SUBJECTS'); ?>"
                        size="25"/>
                 <button type="submit" class="btn-search hasTooltip"
                         title="<?php echo HTML::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
@@ -49,35 +49,35 @@ $groupByArray    = [0 => 'alpha', 1 => 'number', 2 => 'pool', 3 => 'teacher', 4 
 
         if ($this->params->get('showByName', 1)) {
             require_once 'basic_list.php';
-            echo HTML::_('bootstrap.addTab', 'myTab', 'alpha', $this->lang->_('COM_THM_ORGANIZER_ALPHABETICAL'));
+            echo HTML::_('bootstrap.addTab', 'myTab', 'alpha', $this->lang->_('THM_ORGANIZER_ALPHABETICAL'));
             THM_OrganizerTemplateBasicList::render($this, 'name');
             echo HTML::_('bootstrap.endTab');
         }
 
         if ($this->params->get('showByModuleNumber', 1)) {
             require_once 'basic_list.php';
-            echo HTML::_('bootstrap.addTab', 'myTab', 'number', $this->lang->_('COM_THM_ORGANIZER_BY_SUBJECTNO'));
+            echo HTML::_('bootstrap.addTab', 'myTab', 'number', $this->lang->_('THM_ORGANIZER_BY_SUBJECTNO'));
             THM_OrganizerTemplateBasicList::render($this, 'number');
             echo HTML::_('bootstrap.endTab');
         }
 
         if ($this->params->get('showByPool', 1)) {
             require_once 'pool_list.php';
-            echo HTML::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('COM_THM_ORGANIZER_BY_GROUP'));
+            echo HTML::_('bootstrap.addTab', 'myTab', 'pool', $this->lang->_('THM_ORGANIZER_BY_GROUP'));
             THM_OrganizerTemplatePoolList::render($this);
             echo HTML::_('bootstrap.endTab');
         }
 
         if ($this->params->get('showByTeacher', 1)) {
             require_once 'teacher_list.php';
-            echo HTML::_('bootstrap.addTab', 'myTab', 'teacher', $this->lang->_('COM_THM_ORGANIZER_BY_TEACHER'));
+            echo HTML::_('bootstrap.addTab', 'myTab', 'teacher', $this->lang->_('THM_ORGANIZER_BY_TEACHER'));
             THM_OrganizerTemplateTeacherList::render($this);
             echo HTML::_('bootstrap.endTab');
         }
 
         if ($this->params->get('showByField', 0)) {
             require_once 'field_list.php';
-            echo HTML::_('bootstrap.addTab', 'myTab', 'field', $this->lang->_('COM_THM_ORGANIZER_BY_FIELD'));
+            echo HTML::_('bootstrap.addTab', 'myTab', 'field', $this->lang->_('THM_ORGANIZER_BY_FIELD'));
             THM_OrganizerTemplateFieldList::render($this);
             echo HTML::_('bootstrap.endTab');
         }

@@ -24,7 +24,7 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $poolIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
@@ -33,7 +33,7 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             foreach ($poolIDs as $poolID) {
                 if (!THM_OrganizerHelperAccess::allowDocumentAccess('pool', $poolID)) {
                     $this->_db->transactionRollback();
-                    throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+                    throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
                 }
 
                 $deleted = $this->deleteEntry($poolID);
@@ -89,14 +89,14 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         if (empty($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('pool', $data['id'])) {
-                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
             }
         } else {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
         }
 
         if (empty($data['fieldID'])) {

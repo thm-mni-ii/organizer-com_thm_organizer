@@ -51,17 +51,17 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             if ($count === 1) {
                 $active = $model->checkIfActive();
                 if ($active) {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'warning');
+                    THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'warning');
                 } else {
                     $success = $model->activate();
                     if ($success) {
-                        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
+                        THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
                     } else {
-                        THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
+                        THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
                     }
                 }
             } else {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
             }
         }
 
@@ -89,9 +89,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $resourceID = $this->getModel($this->resource)->save();
 
         if (!empty($resourceID)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -109,9 +109,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $success = $this->getModel($this->resource)->batch();
 
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -142,16 +142,16 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $url      = THM_OrganizerHelperComponent::getRedirectBase();
 
         if (empty($formData) or empty($formData['id'])) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
             $this->setRedirect(\JRoute::_($url, false));
         }
 
         $success = $this->getModel('course')->changeParticipantState();
 
         if (empty($success)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         }
 
         $url .= "&view=course_manager&lessonID={$formData['id']}";
@@ -166,9 +166,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
     public function circular()
     {
         if (empty($this->getModel('course')->circular())) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL', 'error');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS', 'error');
         }
 
         $lessonID = $this->input->get('lessonID');
@@ -186,9 +186,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $success = $this->getModel($this->resource)->delete($this->resource);
 
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_DELETE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_DELETE_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -221,9 +221,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $modelName = 'LSF' . ucfirst($this->resource);
         $success   = $this->getModel($modelName)->importBatch();
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -241,9 +241,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
     {
         $success = $this->getModel($this->resource)->merge($this->resource);
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_MERGE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_MERGE_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -263,7 +263,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
         $selected = $this->input->get('cid', [], '[]');
         if (count($selected) == 1) {
-            $msg = \JText::_('COM_THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
+            $msg = \JText::_('THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(\JRoute::_($url, false), $msg, 'warning');
             return;
         }
@@ -273,7 +273,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         if ($functionAvailable) {
             $autoMerged = $model->autoMerge();
             if ($autoMerged) {
-                $msg = \JText::_('COM_THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
+                $msg = \JText::_('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
                 $this->setRedirect(\JRoute::_($url, false), $msg);
                 return;
             }
@@ -309,7 +309,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             $participantSaved = $participantModel->save();
 
             if (empty($participantSaved)) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 $this->setRedirect(\JRoute::_($participantEditURL, false));
 
                 return;
@@ -344,15 +344,15 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         if ($success) {
 
             if (!empty($userState)) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_DEREGISTRATION_SUCCESS');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_DEREGISTRATION_SUCCESS');
             } else {
                 $newState = THM_OrganizerHelperCourses::getParticipantState();
                 $msg      = $newState['status'] ?
-                    'COM_THM_ORGANIZER_REGISTRATION_SUCCESS_REGISTERED' : 'COM_THM_ORGANIZER_REGISTRATION_SUCCESS_WAIT';
+                    'THM_ORGANIZER_REGISTRATION_SUCCESS_REGISTERED' : 'THM_ORGANIZER_REGISTRATION_SUCCESS_WAIT';
                 THM_OrganizerHelperComponent::message($msg);
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_STATUS_FAILURE', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_STATUS_FAILURE', 'error');
         }
 
         $view = explode('.', $this->input->get('task', ''))[0];
@@ -383,7 +383,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $lessonID = $this->resource == 'course' ? $formID : $this->input->getInt('lessonID', 0);
         $url        = THM_OrganizerHelperComponent::getRedirectBase();
         if (empty($resourceID)) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
             if ($isBackend) {
                 $url .= "&view={$this->resource}_manager";
@@ -403,7 +403,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
                 }
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
 
             if ($isBackend) {
                 $url .= "&view={$this->resource}_manager";
@@ -432,9 +432,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
     {
         $success = $this->getModel($this->resource)->save2copy();
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -451,9 +451,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
     {
         $success = $this->getModel($this->resource)->save();
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -478,17 +478,17 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
             $model  = $this->getModel('schedule');
             $active = $model->checkIfActive();
             if ($active) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'error');
             } else {
                 $success = $model->setReference();
                 if ($success) {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
+                    THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
                 } else {
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
+                    THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
                 }
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -510,12 +510,12 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         if ($functionAvailable) {
             $success = $model->toggle();
             if ($success) {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'error');
             } else {
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
             }
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -534,9 +534,9 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         $success   = $this->getModel($modelName)->updateBatch();
 
         if ($success) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
         } else {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_UPDATE_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_UPDATE_FAIL', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();
@@ -568,16 +568,16 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
                     $view    = $success ? 'manager' : 'edit';
                 } else {
                     $view = 'edit';
-                    THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
+                    THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
                 }
 
             } else {
                 $view = 'edit';
-                THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');
+                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');
             }
         } else {
             $view = 'manager';
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
 
         $url = THM_OrganizerHelperComponent::getRedirectBase();

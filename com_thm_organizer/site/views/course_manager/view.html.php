@@ -51,7 +51,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $lessonID   = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
 
         if (empty($lessonID) or !THM_OrganizerHelperCourses::authorized($lessonID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         $this->course                 = THM_OrganizerHelperCourses::getCourse();
@@ -63,7 +63,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $maxParticipants              = (!empty($this->course['lessonP']) ? $this->course['lessonP'] : $this->course['subjectP']);
         $accepted                     = count(THM_OrganizerHelperCourses::getParticipants($courseID, 1));
         $waiting                      = count(THM_OrganizerHelperCourses::getParticipants($courseID, 0));
-        $capacityText                 = $this->lang->_('COM_THM_ORGANIZER_CURRENT_CAPACITY');
+        $capacityText                 = $this->lang->_('THM_ORGANIZER_CURRENT_CAPACITY');
         $this->course['capacityText'] = sprintf($capacityText, $accepted, $maxParticipants, $waiting);
 
         $this->form = $this->get('Form');
@@ -100,7 +100,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
 
         $document = \JFactory::getDocument();
         $document->addScriptDeclaration(
-            "var chooseParticipants = '" . $this->lang->_('COM_THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
+            "var chooseParticipants = '" . $this->lang->_('THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
         );
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/course_manager.js');
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/course_manager.css');

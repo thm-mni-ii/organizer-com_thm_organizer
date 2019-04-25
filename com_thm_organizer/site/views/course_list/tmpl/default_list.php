@@ -10,8 +10,8 @@
  */
 
 // Course Status
-$current = $this->lang->_('COM_THM_ORGANIZER_CURRENT');
-$expired = $this->lang->_('COM_THM_ORGANIZER_EXPIRED');
+$current = $this->lang->_('THM_ORGANIZER_CURRENT');
+$expired = $this->lang->_('THM_ORGANIZER_EXPIRED');
 
 $pathPrefix = 'index.php?option=com_thm_organizer';
 $subjectURL = "{$pathPrefix}&view=subject_details&languageTag={$this->shortTag}";

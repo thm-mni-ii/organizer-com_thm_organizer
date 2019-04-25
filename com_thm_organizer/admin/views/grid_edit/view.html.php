@@ -27,10 +27,10 @@ class THM_OrganizerViewGrid_Edit extends THM_OrganizerViewEdit
     {
         \JToolbarHelper::save('grid.save');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_GRID_EDIT_NEW_TITLE'), 'organizer_grids');
+            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_GRID_EDIT_NEW_TITLE'), 'organizer_grids');
             \JToolbarHelper::cancel('grid.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_GRID_EDIT_EDIT_TITLE'), 'organizer_grids');
+            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_GRID_EDIT_EDIT_TITLE'), 'organizer_grids');
             \JToolbarHelper::cancel('grid.cancel', 'JTOOLBAR_CLOSE');
         }
     }

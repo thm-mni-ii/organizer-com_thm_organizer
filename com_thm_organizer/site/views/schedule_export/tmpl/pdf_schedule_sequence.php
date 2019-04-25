@@ -321,7 +321,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
         $columnHeaders = $this->getColumnHeaders();
         $dimensions    = $this->document->getPageDimensions();
         $timeConstant  = $this->parameters['dateRestriction'] == 'day' ?
-            '' : \JText::_('COM_THM_ORGANIZER_WEEK') . ': ';
+            '' : \JText::_('THM_ORGANIZER_WEEK') . ': ';
 
         $outputTimeGrid = !empty($rowHeaders);
         $startDate      = key($columnHeaders);
@@ -381,7 +381,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $this->outputTable();
         } else {
             $this->document->AddPage();
-            $this->document->cell('', '', \JText::_('COM_THM_ORGANIZER_NO_LESSONS'));
+            $this->document->cell('', '', \JText::_('THM_ORGANIZER_NO_LESSONS'));
         }
         $this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
         ob_flush();

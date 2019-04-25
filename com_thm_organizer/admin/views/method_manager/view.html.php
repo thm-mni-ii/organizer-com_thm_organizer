@@ -34,7 +34,7 @@ class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,10 +47,10 @@ class THM_OrganizerViewMethod_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_METHOD_MANAGER_VIEW_TITLE'), 'organizer_methods');
+        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_METHOD_MANAGER_VIEW_TITLE'), 'organizer_methods');
         \JToolbarHelper::addNew('method.add');
         \JToolbarHelper::editList('method.edit');
-        \JToolbarHelper::custom('method.mergeView', 'attachment', 'attachment', 'COM_THM_ORGANIZER_ACTION_MERGE', true);
+        \JToolbarHelper::custom('method.mergeView', 'attachment', 'attachment', 'THM_ORGANIZER_ACTION_MERGE', true);
         \JToolbarHelper::preferences('com_thm_organizer');
     }
 }

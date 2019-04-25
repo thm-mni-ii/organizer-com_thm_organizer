@@ -176,7 +176,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
 
         foreach ($methods as &$method) {
             if (empty($method['name'])) {
-                $method['name'] = $this->lang->_('COM_THM_ORGANIZER_NONE_GIVEN');
+                $method['name'] = $this->lang->_('THM_ORGANIZER_NONE_GIVEN');
             }
             $method['total'] = [];
         }

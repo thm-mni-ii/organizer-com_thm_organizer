@@ -18,7 +18,7 @@ $attribs = ['target' => '_blank'];
 <div id="j-main-container" class="organizer-search-container">
     <form action="<?php Uri::current(); ?>" id="adminForm" method="get" name="adminForm">
         <?php echo $this->languageLinks->render(); ?>
-        <h1 class="componentheading"><?php echo $this->lang->_('COM_THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
+        <h1 class="componentheading"><?php echo $this->lang->_('THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
         <div class="toolbar">
             <div class="tool-wrapper search">
                 <input type="text" name="search" id="search-input" class="search-input"
@@ -54,8 +54,8 @@ $attribs = ['target' => '_blank'];
 
                         if (!$headerShown) {
 
-                            $strengthTitle       = 'COM_THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
-                            $strengthDescription = 'COM_THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
+                            $strengthTitle       = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
+                            $strengthDescription = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
                             echo '<h3>' . $this->lang->_($strengthTitle) . '</h3><hr><ul>';
                             $headerShown = true;
                         }
@@ -65,7 +65,7 @@ $attribs = ['target' => '_blank'];
                         echo '<div class="resource-links">';
 
                         foreach ($result['links'] as $type => $link) {
-                            $constant = 'COM_THM_ORGANIZER_' . strtoupper($type);
+                            $constant = 'THM_ORGANIZER_' . strtoupper($type);
 
                             if ($type == 'curriculum') {
                                 $icon = '<span class="icon-grid-2"></span>';

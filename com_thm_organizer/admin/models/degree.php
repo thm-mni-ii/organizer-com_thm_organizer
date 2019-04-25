@@ -24,7 +24,7 @@ class THM_OrganizerModelDegree extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function save()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $data  = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
@@ -42,7 +42,7 @@ class THM_OrganizerModelDegree extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         return THM_OrganizerHelperComponent::delete('degrees');

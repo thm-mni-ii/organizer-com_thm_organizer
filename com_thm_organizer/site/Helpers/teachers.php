@@ -380,7 +380,7 @@ class THM_OrganizerHelperTeachers
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->teachers)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_TEACHERS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_TEACHERS_MISSING');
 
             return;
         }
@@ -395,14 +395,14 @@ class THM_OrganizerHelperTeachers
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'];
             unset($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
+                = sprintf(\JText::_('THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME'])) {
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-FORENAME'];
             unset($scheduleModel->scheduleWarnings['TEACHER-FORENAME']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
+                = sprintf(\JText::_('THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
         }
     }
 
@@ -419,8 +419,8 @@ class THM_OrganizerHelperTeachers
     {
         $internalID = trim((string)$teacherNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_ID_MISSING');
+            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_TEACHER_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_TEACHER_ID_MISSING');
             }
 
             return;
@@ -431,7 +431,7 @@ class THM_OrganizerHelperTeachers
         $surname = trim((string)$teacherNode->surname);
         if (empty($surname)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_('COM_THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $internalID);
+                = sprintf(\JText::_('THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $internalID);
 
             return;
         }

@@ -7,20 +7,20 @@
     <licence>GNU GPL v.2</licence>
     <authorEMail>james.antrim@nm.thm.de</authorEMail>
     <authorUrl>www.thm.de</authorUrl>
-    <layout title="COM_THM_ORGANIZER_CURRICULUM_TITLE">
-        <message>COM_THM_ORGANIZER_CURRICULUM_DESCRIPTION</message>
+    <layout title="THM_ORGANIZER_CURRICULUM_TITLE">
+        <message>THM_ORGANIZER_CURRICULUM_DESCRIPTION</message>
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
-        <fieldset name="basic" label="COM_THM_ORGANIZER_CURRICULUM_SETTINGS">
-            <field name="programID" type="programID" access="false" class="inputbox" label="COM_THM_ORGANIZER_PROGRAM"
-                   description="COM_THM_ORGANIZER_PROGRAM_DESC" required="true"/>
-            <field name="initialLanguage" type="list" default="de" required="true" label="COM_THM_ORGANIZER_LANGUAGE"
-                   description="COM_THM_ORGANIZER_LANGUAGE_DESC">
-                <option value="de">COM_THM_ORGANIZER_GERMAN</option>
-                <option value="en">COM_THM_ORGANIZER_ENGLISH</option>
+        <fieldset name="basic" label="THM_ORGANIZER_CURRICULUM_SETTINGS">
+            <field name="programID" type="programID" access="false" class="inputbox" label="THM_ORGANIZER_PROGRAM"
+                   description="THM_ORGANIZER_PROGRAM_DESC" required="true"/>
+            <field name="initialLanguage" type="list" default="de" required="true" label="THM_ORGANIZER_LANGUAGE"
+                   description="THM_ORGANIZER_LANGUAGE_DESC">
+                <option value="de">THM_ORGANIZER_GERMAN</option>
+                <option value="en">THM_ORGANIZER_ENGLISH</option>
             </field>
             <field name="displayECollabLink" type="list" default="0" class="chzn-color-state" required="true"
-                   label="COM_THM_ORGANIZER_DISPLAY_ECOLLAB" description="COM_THM_ORGANIZER_DISPLAY_ECOLLAB_DESC">
+                   label="THM_ORGANIZER_DISPLAY_ECOLLAB" description="THM_ORGANIZER_DISPLAY_ECOLLAB_DESC">
                 <option value="1">JYES</option>
                 <option value="0">JNO</option>
             </field>

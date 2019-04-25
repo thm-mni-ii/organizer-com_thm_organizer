@@ -63,7 +63,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         $departments = THM_OrganizerHelperDepartments::getOptions(false);
         $options     = [];
-        $options[''] = \JText::_('COM_THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $options[''] = \JText::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
         foreach ($departments as $departmentID => $departmentName) {
             $options[$departmentID] = $departmentName;
@@ -446,7 +446,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setTitles()
     {
-        $docTitle      = \JText::_('COM_THM_ORGANIZER_SCHEDULE') . '_';
+        $docTitle      = \JText::_('THM_ORGANIZER_SCHEDULE') . '_';
         $pageTitle     = '';
         $useMySchedule = !empty($this->parameters['mySchedule']);
         $useLessons    = !empty($this->parameters['lessonIDs']);
@@ -458,7 +458,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
 
         if ($useMySchedule) {
             $docTitle  = 'mySchedule_';
-            $pageTitle = \JText::_('COM_THM_ORGANIZER_MY_SCHEDULE');
+            $pageTitle = \JText::_('THM_ORGANIZER_MY_SCHEDULE');
         } elseif ((!$useLessons and !$useInstances) and ($usePools xor $useTeachers xor $useRooms xor $useSubjects)) {
             if ($usePools) {
                 $titles    = $this->getPoolTitles();

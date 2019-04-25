@@ -64,7 +64,7 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     private function printStatusReport()
     {
         if (count($this->scheduleErrors)) {
-            $errorMessage = \JText::_('COM_THM_ORGANIZER_ERROR_HEADER') . '<br />';
+            $errorMessage = \JText::_('THM_ORGANIZER_ERROR_HEADER') . '<br />';
             $errorMessage .= implode('<br />', $this->scheduleErrors);
             THM_OrganizerHelperComponent::message($errorMessage, 'error');
         }
@@ -129,7 +129,7 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $invalid        = ($invalidStart or $invalidEnd or $invalidPeriod);
 
         if ($invalid) {
-            $this->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_TERM_WRONG');
+            $this->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_TERM_WRONG');
         } elseif ($validSemesterName) {
             $planningPeriodID = Schedules::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
 
@@ -194,13 +194,13 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     {
         if (empty($value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleErrors[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
                 return;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleWarnings[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
             }
         }
 
@@ -224,25 +224,25 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     {
         if (empty($value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleErrors[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
                 return false;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleWarnings[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
             }
         }
 
         if (!empty($regex) and preg_match($regex, $value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+                $this->scheduleErrors[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
 
                 return false;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = \JText::_("COM_THM_ORGANIZER_ERROR_{$constant}_INVALID");
+                $this->scheduleWarnings[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
             }
         }
 

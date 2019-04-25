@@ -117,11 +117,11 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         if (empty($pool['minCrP']) and empty($pool['maxCrP'])) {
             return '';
         } elseif (empty($pool['minCrP'])) {
-            return sprintf(\JText::_('COM_THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
+            return sprintf(\JText::_('THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
         } elseif (empty($pool['maxCrP']) or $pool['minCrP'] == $pool['maxCrP']) {
             return "{$pool['minCrP']} CrP";
         } else {
-            return sprintf(\JText::_('COM_THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
+            return sprintf(\JText::_('THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
         }
     }
 
@@ -220,11 +220,11 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 
             default:
                 if ($isResponsible) {
-                    $responsibilities[1] = \JText::_('COM_THM_ORGANIZER_RESPONSIBLE');
+                    $responsibilities[1] = \JText::_('THM_ORGANIZER_RESPONSIBLE');
                 }
 
                 if ($isTeacher) {
-                    $responsibilities[2] = \JText::_('COM_THM_ORGANIZER_TEACHER');
+                    $responsibilities[2] = \JText::_('THM_ORGANIZER_TEACHER');
                 }
 
                 break;
@@ -253,7 +253,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
                 $displayTeachers[$name]['resp'] = '';
 
                 if ($responsibility == 0) {
-                    $displayTeachers[$name]['resp'] = \JText::_('COM_THM_ORGANIZER_RESPONSIBLE_ABBR');
+                    $displayTeachers[$name]['resp'] = \JText::_('THM_ORGANIZER_RESPONSIBLE_ABBR');
                 }
             }
         }
@@ -270,7 +270,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 
                 if ($responsibility == 0) {
                     $displayTeachers[$name]['resp'] .= empty($displayTeachers[$name]['resp']) ?
-                        \JText::_('COM_THM_ORGANIZER_TEACHER_ABBR') : ', ' . \JText::_('COM_THM_ORGANIZER_TEACHER_ABBR');
+                        \JText::_('THM_ORGANIZER_TEACHER_ABBR') : ', ' . \JText::_('THM_ORGANIZER_TEACHER_ABBR');
                 }
             }
         }

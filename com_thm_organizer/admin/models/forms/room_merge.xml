@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fieldset name="details">
-        <field name="gpuntisID" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_GPUNTISID"
-               description="COM_THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
-        <field name="name" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_NAME"
-               description="COM_THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="longname" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_DISPLAY_NAME"
-               description="COM_THM_ORGANIZER_DISPLAY_NAME_DESC" required="true"/>
+        <field name="gpuntisID" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_GPUNTISID"
+               description="THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
+        <field name="name" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_NAME"
+               description="THM_ORGANIZER_NAME_DESC" required="true"/>
+        <field name="longname" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_DISPLAY_NAME"
+               description="THM_ORGANIZER_DISPLAY_NAME_DESC" required="true"/>
         <field name="buildingID" type="mergeByID" textcolumn="b.name"
                tables="thm_organizer_rooms AS r,thm_organizer_buildings AS b ON b.id = r.buildingID" class="inputbox"
-               label="COM_THM_ORGANIZER_BUILDING">
+               label="THM_ORGANIZER_BUILDING">
             <option value="">JNONE</option>
         </field>
         <field name="typeID" type="mergeByID" textcolumn="name" localized="true"
                tables="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON t.id = r.typeID" class="inputbox"
-               label="COM_THM_ORGANIZER_TYPE" description="COM_THM_ORGANIZER_TYPE_DESC">
+               label="THM_ORGANIZER_TYPE" description="THM_ORGANIZER_TYPE_DESC">
             <option value="">JNONE</option>
         </field>
-        <field name="capacity" type="mergeByValue" class="inputbox" label="COM_THM_ORGANIZER_CAPACITY"
-               description="COM_THM_ORGANIZER_CAPACITY_DESC"/>
+        <field name="capacity" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_CAPACITY"
+               description="THM_ORGANIZER_CAPACITY_DESC"/>
         <field name="id" type="mergeID" other="false"/>
         <field name="otherIDs" type="mergeID" other="true"/>
     </fieldset>

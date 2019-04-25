@@ -355,7 +355,7 @@ const ScheduleApp = function (variables) {
 
                 if (resource === 'user')
                 {
-                    return Joomla.JText._('COM_THM_ORGANIZER_MY_SCHEDULE');
+                    return Joomla.JText._('THM_ORGANIZER_MY_SCHEDULE');
                 }
 
                 // Get pre-selected value like 'Informatik Master'
@@ -642,7 +642,7 @@ const ScheduleApp = function (variables) {
             {
                 const th = document.createElement('th');
 
-                th.innerHTML = (headIndex === 0) ? Joomla.JText._('COM_THM_ORGANIZER_TIME') : weekdays[headIndex - 1] +
+                th.innerHTML = (headIndex === 0) ? Joomla.JText._('THM_ORGANIZER_TIME') : weekdays[headIndex - 1] +
                     ' (' + headerDate.getPresentationFormat(true) + ')';
 
                 if (headIndex === visibleDay)
@@ -1724,11 +1724,11 @@ const ScheduleApp = function (variables) {
                 'teacher': document.getElementById('teacher')
             },
             placeholder = {
-                'pool': Joomla.JText._('COM_THM_ORGANIZER_POOL_SELECT_PLACEHOLDER'),
-                'program': Joomla.JText._('COM_THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER'),
-                'roomType': Joomla.JText._('COM_THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER'),
-                'room': Joomla.JText._('COM_THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER'),
-                'teacher': Joomla.JText._('COM_THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER')
+                'pool': Joomla.JText._('THM_ORGANIZER_POOL_SELECT_PLACEHOLDER'),
+                'program': Joomla.JText._('THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER'),
+                'roomType': Joomla.JText._('THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER'),
+                'room': Joomla.JText._('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER'),
+                'teacher': Joomla.JText._('THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER')
             },
             wrappers = {
                 'category': document.getElementById('category-input'),
@@ -2878,7 +2878,7 @@ const ScheduleApp = function (variables) {
 
         if (formats[0] === 'ics')
         {
-            window.prompt(Joomla.JText._('COM_THM_ORGANIZER_ACTION_GENERATE_LINK'), url);
+            window.prompt(Joomla.JText._('THM_ORGANIZER_ACTION_GENERATE_LINK'), url);
             exportSelection.val('placeholder');
             exportSelection.trigger('chosen:updated');
             return;

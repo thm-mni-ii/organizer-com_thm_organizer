@@ -64,13 +64,13 @@ class THM_OrganizerHelperLSF
         $result = $this->client->__soapCall('getDataXML', ['xmlParams' => $query]);
 
         if (!$result) {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_ERROR_SOAP_FAIL', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_ERROR_SOAP_FAIL', 'error');
 
             return false;
         }
 
         if ($result == 'error in soap-request') {
-            THM_OrganizerHelperComponent::message('COM_THM_ORGANIZER_ERROR_SOAP_INVALID', 'error');
+            THM_OrganizerHelperComponent::message('THM_ORGANIZER_ERROR_SOAP_INVALID', 'error');
 
             return false;
         }

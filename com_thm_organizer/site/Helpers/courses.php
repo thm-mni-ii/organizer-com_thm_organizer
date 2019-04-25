@@ -136,7 +136,7 @@ class THM_OrganizerHelperCourses
             $lessonURL = "&lessonID=$courseID";
 
             if ($authorized) {
-                $manage       = '<span class="icon-cogs"></span>' . $lang->_('COM_THM_ORGANIZER_MANAGE');
+                $manage       = '<span class="icon-cogs"></span>' . $lang->_('THM_ORGANIZER_MANAGE');
                 $managerRoute = \JRoute::_($managerURL . $lessonURL);
                 $register     = "<a class='btn' href='$managerRoute'>$manage</a>";
             } else {
@@ -148,9 +148,9 @@ class THM_OrganizerHelperCourses
                     $registerRoute = \JRoute::_($registrationURL . $lessonURL);
 
                     if (!empty($regState)) {
-                        $registerText = '<span class="icon-out-2"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_DEREGISTER');
+                        $registerText = '<span class="icon-out-2"></span>' . $lang->_('THM_ORGANIZER_COURSE_DEREGISTER');
                     } else {
-                        $registerText = '<span class="icon-apply"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_REGISTER');
+                        $registerText = '<span class="icon-apply"></span>' . $lang->_('THM_ORGANIZER_COURSE_REGISTER');
                     }
 
                     $register = "<a class='btn' href='$registerRoute' type='button'>$registerText</a>";
@@ -534,14 +534,14 @@ class THM_OrganizerHelperCourses
 
         // Personal Status
         $none        = $expired ?
-            $lang->_('COM_THM_ORGANIZER_EXPIRED') : $lang->_('COM_THM_ORGANIZER_COURSE_NOT_REGISTERED');
-        $notLoggedIn = '<span class="icon-warning"></span>' . $lang->_('COM_THM_ORGANIZER_NOT_LOGGED_IN');
-        $waitList    = '<span class="icon-checkbox-partial"></span>' . $lang->_('COM_THM_ORGANIZER_WAIT_LIST');
-        $registered  = '<span class="icon-checkbox-checked"></span>' . $lang->_('COM_THM_ORGANIZER_COURSE_REGISTERED');
+            $lang->_('THM_ORGANIZER_EXPIRED') : $lang->_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
+        $notLoggedIn = '<span class="icon-warning"></span>' . $lang->_('THM_ORGANIZER_NOT_LOGGED_IN');
+        $waitList    = '<span class="icon-checkbox-partial"></span>' . $lang->_('THM_ORGANIZER_WAIT_LIST');
+        $registered  = '<span class="icon-checkbox-checked"></span>' . $lang->_('THM_ORGANIZER_COURSE_REGISTERED');
 
         if (!empty(\JFactory::getUser()->id)) {
             if ($authorized) {
-                $userStatus = $lang->_('COM_THM_ORGANIZER_COURSE_ADMINISTRATOR');
+                $userStatus = $lang->_('THM_ORGANIZER_COURSE_ADMINISTRATOR');
             } else {
                 $regState = self::getParticipantState($courseID);
 

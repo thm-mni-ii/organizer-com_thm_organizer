@@ -547,7 +547,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
         // One or more items is not associated with a field
         if (isset($this->fields[0])) {
             $defaultField                    = [];
-            $defaultField['name']            = \JText::_('COM_THM_ORGANIZER_UNASSOCIATED');
+            $defaultField['name']            = \JText::_('THM_ORGANIZER_UNASSOCIATED');
             $defaultField['backgroundColor'] = $params['backgroundColor'];
             $defaultField['textColor']       = $params['darkTextColor'];
             $this->fields[0]                 = $defaultField;

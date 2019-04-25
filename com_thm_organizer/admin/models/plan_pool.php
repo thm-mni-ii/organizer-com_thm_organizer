@@ -70,7 +70,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 
         $pPoolIDs = Joomla\Utilities\ArrayHelper::toInteger($pPoolIDs);
         if (!THM_OrganizerHelperPlan_Pools::allowEdit($pPoolIDs)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         foreach ($pPoolIDs as $pPoolID) {

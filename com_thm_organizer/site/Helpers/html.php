@@ -165,7 +165,7 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
      */
     public static function sort($constant, $column, $direction, $ordering)
     {
-        $constant = "COM_THM_ORGANIZER_$constant";
+        $constant = "THM_ORGANIZER_$constant";
 
         return self::_('searchtools.sort', $constant, $column, $direction, $ordering);
     }

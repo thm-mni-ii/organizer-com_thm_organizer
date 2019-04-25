@@ -38,16 +38,16 @@ abstract class THM_OrganizerTemplateCourse_Export
     public function __construct($courseID)
     {
         if (empty($courseID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperCourses::authorized($courseID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         $course = THM_OrganizerHelperCourses::getCourse($courseID);
         if (empty($course)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_404'), 404);
+            throw new \Exception(\JText::_('THM_ORGANIZER_404'), 404);
         }
 
         $this->lang      = Languages::getLanguage();
@@ -97,7 +97,7 @@ abstract class THM_OrganizerTemplateCourse_Export
         $header           = $this->course['name'];
         $location         = empty($this->course['place']) ? '' : "{$this->course['place']}, ";
         $dates            = "{$this->course['start']} - {$this->course['end']}";
-        $participants     = $this->lang->_('COM_THM_ORGANIZER_PARTICIPANTS');
+        $participants     = $this->lang->_('THM_ORGANIZER_PARTICIPANTS');
         $participantCount = count($this->course['participants']);
         $subHeader        = "$location$dates\n$participants: $participantCount";
 

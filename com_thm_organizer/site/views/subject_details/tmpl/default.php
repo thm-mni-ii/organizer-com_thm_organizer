@@ -15,7 +15,7 @@ $containerClass = $this->showRegistration ? ' uses-login' : '';
 
 if (!empty($this->menu)) {
     $menuID   = $this->menu['id'];
-    $menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
+    $menuText = $this->lang->_('THM_ORGANIZER_BACK');
 }
 
 $position = THM_OrganizerHelperComponent::getParams()->get('loginPosition');
@@ -46,7 +46,7 @@ if ($this->showRegistration) {
         </script>
         <?php
         echo '<div class="tbox-yellow">';
-        echo '<p>' . $this->lang->_('COM_THM_ORGANIZER_COURSE_LOGIN_WARNING') . '</p>';
+        echo '<p>' . $this->lang->_('THM_ORGANIZER_COURSE_LOGIN_WARNING') . '</p>';
         echo HTML::_('content.prepare', '{loadposition ' . $position . '}');
         echo '<div class="right">';
         if (!empty($this->menu)) {
@@ -54,7 +54,7 @@ if ($this->showRegistration) {
             echo '<span class="icon-list"></span>' . $menuText . '</a>';
         }
         echo '<a class="btn" onclick="' . $casURL . '">';
-        echo '<span class="icon-apply"></span>' . $this->lang->_('COM_THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN');
+        echo '<span class="icon-apply"></span>' . $this->lang->_('THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN');
         echo '</a>';
         echo '</div>';
         echo '<div class="clear"></div>';

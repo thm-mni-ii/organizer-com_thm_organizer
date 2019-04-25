@@ -144,17 +144,17 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
     {
         $html = '<table id="childList" class="table table-striped">';
         $html .= '<thead><tr>';
-        $html .= '<th>' . \JText::_('COM_THM_ORGANIZER_NAME') . '</th>';
-        $html .= '<th class="thm_organizer_pools_ordering">' . \JText::_('COM_THM_ORGANIZER_ORDER') . '</th>';
+        $html .= '<th>' . \JText::_('THM_ORGANIZER_NAME') . '</th>';
+        $html .= '<th class="thm_organizer_pools_ordering">' . \JText::_('THM_ORGANIZER_ORDER') . '</th>';
         $html .= '</tr></thead>';
         $html .= '<tbody>';
 
-        $addSpace = \JText::_('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
-        \JText::script('COM_THM_ORGANIZER_ACTION_ADD_SPACE');
-        $makeFirst = \JText::_('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
-        \JText::script('COM_THM_ORGANIZER_ACTION_MAKE_FIRST');
-        $makeLast = \JText::_('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
-        \JText::script('COM_THM_ORGANIZER_ACTION_MAKE_LAST');
+        $addSpace = \JText::_('THM_ORGANIZER_ACTION_ADD_SPACE');
+        \JText::script('THM_ORGANIZER_ACTION_ADD_SPACE');
+        $makeFirst = \JText::_('THM_ORGANIZER_ACTION_MAKE_FIRST');
+        \JText::script('THM_ORGANIZER_ACTION_MAKE_FIRST');
+        $makeLast = \JText::_('THM_ORGANIZER_ACTION_MAKE_LAST');
+        \JText::script('THM_ORGANIZER_ACTION_MAKE_LAST');
         $moveChildUp = \JText::_('JLIB_HTML_MOVE_UP');
         \JText::script('JLIB_HTML_MOVE_UP');
         $moveChildDown = \JText::_('JLIB_HTML_MOVE_DOWN');

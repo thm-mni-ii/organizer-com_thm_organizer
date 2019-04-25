@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/components/com_thm_organizer/Fields">
-    <field name="planningPeriodID" type="planningPeriodID" label="COM_THM_ORGANIZER_DEPARTMENT"
-           description="COM_THM_ORGANIZER_DEPARTMENT_DESC" allowFuture="false" onchange="this.form.submit();">
-        <option value="">COM_THM_ORGANIZER_ALL_PLANNING_PERIODS</option>
+    <field name="planningPeriodID" type="planningPeriodID" label="THM_ORGANIZER_DEPARTMENT"
+           description="THM_ORGANIZER_DEPARTMENT_DESC" allowFuture="false" onchange="this.form.submit();">
+        <option value="">THM_ORGANIZER_ALL_PLANNING_PERIODS</option>
     </field>
-    <field name="departmentID" type="departmentID" label="COM_THM_ORGANIZER_DEPARTMENT"
-           description="COM_THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
-        <option value="">COM_THM_ORGANIZER_ALL_DEPARTMENTS</option>
+    <field name="departmentID" type="departmentID" label="THM_ORGANIZER_DEPARTMENT"
+           description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
+        <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
     </field>
     <field name="programID" type="planProgramID" access="false" departmentRestrict="true" class="inputbox"
-           label="COM_THM_ORGANIZER_PROGRAM" description="COM_THM_ORGANIZER_PROGRAM_DESC"
+           label="THM_ORGANIZER_PROGRAM" description="THM_ORGANIZER_PROGRAM_DESC"
            onchange="this.form.submit();">
-        <option value="">COM_THM_ORGANIZER_ALL_PROGRAMS</option>
+        <option value="">THM_ORGANIZER_ALL_PROGRAMS</option>
     </field>
 </form>

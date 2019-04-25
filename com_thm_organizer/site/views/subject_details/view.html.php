@@ -222,7 +222,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
             return;
         }
 
-        $option = 'COM_THM_ORGANIZER_';
+        $option = 'THM_ORGANIZER_';
         switch ($value) {
             case 3:
                 $stars = '<span class="icon-featured"></span>';

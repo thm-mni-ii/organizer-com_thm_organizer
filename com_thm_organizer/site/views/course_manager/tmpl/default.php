@@ -16,7 +16,7 @@ $editURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&l
 $editURL  .= "&view=subject_edit&id={$this->course['subjectID']}";
 
 if (!empty($this->menu)) {
-    $menuText = $this->lang->_('COM_THM_ORGANIZER_BACK');
+    $menuText = $this->lang->_('THM_ORGANIZER_BACK');
 }
 
 ?>
@@ -24,7 +24,7 @@ if (!empty($this->menu)) {
     <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="course-manager-view">
-    <h1><?php echo "{$this->lang->_('COM_THM_ORGANIZER_COURSE_MANAGEMENT')}: {$this->course['name']}"; ?></h1>
+    <h1><?php echo "{$this->lang->_('THM_ORGANIZER_COURSE_MANAGEMENT')}: {$this->course['name']}"; ?></h1>
     <div class="course-descriptors">
         <div class="left"><?php echo $this->course['dateText'] ?></div>
     </div>
@@ -32,7 +32,7 @@ if (!empty($this->menu)) {
         <?php if (THM_OrganizerHelperSubjects::allowEdit($this->course['subjectID'])): ?>
             <a href="<?php echo \JRoute::_($editURL, false); ?>" class="btn btn-mini" type="button">
                 <span class="icon-edit"></span>
-                <?php echo $this->lang->_('COM_THM_ORGANIZER_EDIT_COURSE_DESCRIPTION') ?>
+                <?php echo $this->lang->_('THM_ORGANIZER_EDIT_COURSE_DESCRIPTION') ?>
             </a>
         <?php endif; ?>
         <?php if (!empty($this->menu)): ?>

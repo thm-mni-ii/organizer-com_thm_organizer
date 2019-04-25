@@ -28,7 +28,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
     {
         parent::__construct($lessonID);
 
-        $exportType = $this->lang->_('COM_THM_ORGANIZER_BADGE_SHEETS');
+        $exportType = $this->lang->_('THM_ORGANIZER_BADGE_SHEETS');
         $this->setNames($exportType);
 
         $this->document->setPrintHeader(false);
@@ -149,7 +149,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $this->document->Ln();
         $this->document->SetFont('', 'B', 20);
         $this->document->SETXY($center, $yOffset + $halfTitleOffset + 45);
-        $this->document->Cell(80, 5, $this->lang->_('COM_THM_ORGANIZER_BADGE'), 0, 0, 'C');
+        $this->document->Cell(80, 5, $this->lang->_('THM_ORGANIZER_BADGE'), 0, 0, 'C');
         $this->document->SETXY($center, $yOffset + 45);
 
         $this->document->Ln();
@@ -162,12 +162,12 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $this->document->Ln();
         $this->document->SetFont('', '', 10);
         $this->document->SETXY($center, $yOffset + 68);
-        $this->document->Cell(20, 5, $this->lang->_('COM_THM_ORGANIZER_ADDRESS') . ': ', 0, 0, 'L');
+        $this->document->Cell(20, 5, $this->lang->_('THM_ORGANIZER_ADDRESS') . ': ', 0, 0, 'L');
         $this->document->Cell(65, 5, $participant['address'], 0, 0, 'L');
 
         $this->document->Ln();
         $this->document->SETXY($center, $yOffset + 73);
-        $this->document->Cell(20, 5, $this->lang->_('COM_THM_ORGANIZER_RESIDENCE') . ': ', 0, 0, 'L');
+        $this->document->Cell(20, 5, $this->lang->_('THM_ORGANIZER_RESIDENCE') . ': ', 0, 0, 'L');
         $this->document->Cell(65, 5, "{$participant['zip_code']} {$participant['city']}", 0, 0, 'L');
     }
 
@@ -207,16 +207,16 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
 
             $this->document->SetFont('', 'B', 11);
             $this->document->SETXY($badgeCenter, 37 + $yOffset);
-            $this->document->MultiCell(80, 5, $this->lang->_('COM_THM_ORGANIZER_BADGE_PAYMENT_TEXT'), 0, 'C');
+            $this->document->MultiCell(80, 5, $this->lang->_('THM_ORGANIZER_BADGE_PAYMENT_TEXT'), 0, 'C');
 
             $this->document->SetFont('', '', 8);
             $this->document->SETXY($badgeCenter, 50 + $yOffset);
-            $this->document->MultiCell(80, 5, $this->lang->_('COM_THM_ORGANIZER_BADGE_TAX_TEXT'), 0, 'C');
+            $this->document->MultiCell(80, 5, $this->lang->_('THM_ORGANIZER_BADGE_TAX_TEXT'), 0, 'C');
         }
 
         $this->document->SetFont('', 'BU', 20);
         $this->document->SETXY($badgeCenter, $receiptY);
-        $this->document->Cell(80, 5, $this->lang->_('COM_THM_ORGANIZER_RECEIPT'), 0, 0, 'C');
+        $this->document->Cell(80, 5, $this->lang->_('THM_ORGANIZER_RECEIPT'), 0, 0, 'C');
 
         $this->document->SetFont('', 'B', 10);
         $titleLength = strlen($this->course['name']);
@@ -230,7 +230,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
 
         $this->document->SetFont('', '', 6);
         $this->document->SETXY($badgeCenter, $representativeY);
-        $this->document->Cell(80, 5, $this->lang->_('COM_THM_ORGANIZER_REPRESENTATIVE'), 0, 0, 'C');
+        $this->document->Cell(80, 5, $this->lang->_('THM_ORGANIZER_REPRESENTATIVE'), 0, 0, 'C');
 
         if (!empty($params->get('signatureFile'))) {
             $signaturePath = K_PATH_IMAGES . $params->get('signatureFile');

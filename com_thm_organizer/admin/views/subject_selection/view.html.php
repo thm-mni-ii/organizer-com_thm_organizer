@@ -28,7 +28,7 @@ class THM_OrganizerViewSubject_Selection extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::addNew('pool.addSubject', 'COM_THM_ORGANIZER_ACTION_ADD', true);
+        \JToolbarHelper::addNew('pool.addSubject', 'THM_ORGANIZER_ACTION_ADD', true);
     }
 
     /**

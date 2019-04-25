@@ -3,30 +3,30 @@
     <fieldset name="details">
         <field name="id" type="hidden"/>
         <field name="name_de" type="text" class="inputbox required" size="60" maxlength="60"
-               label="COM_THM_ORGANIZER_NAME_DE" description="COM_THM_ORGANIZER_NAME_DE_DESC" required="true"/>
+               label="THM_ORGANIZER_NAME_DE" description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
         <field name="name_en" type="text" class="inputbox required validate-alpha" size="60" maxlength="60"
-               label="COM_THM_ORGANIZER_NAME_EN" description="COM_THM_ORGANIZER_NAME_EN_DESC" required="true"/>
+               label="THM_ORGANIZER_NAME_EN" description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
         <field name="parentID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
-               conditions="parentID IS NULL" table="thm_organizer_campuses" label="COM_THM_ORGANIZER_PARENT_CAMPUS"
-               description="COM_THM_ORGANIZER_PARENT_CAMPUS_DESC">
+               conditions="parentID IS NULL" table="thm_organizer_campuses" label="THM_ORGANIZER_PARENT_CAMPUS"
+               description="THM_ORGANIZER_PARENT_CAMPUS_DESC">
             <option value="">JNONE</option>
         </field>
-        <field name="isCity" type="list" class="chzn-color-state" label="COM_THM_ORGANIZER_IS_CITY"
-               description="COM_THM_ORGANIZER_IS_CITY_DESC" default="0">
+        <field name="isCity" type="list" class="chzn-color-state" label="THM_ORGANIZER_IS_CITY"
+               description="THM_ORGANIZER_IS_CITY_DESC" default="0">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
         <field name="location" type="text" class="inputbox validate-gps" size="60" maxlength="20"
-               label="COM_THM_ORGANIZER_LOCATION" description="COM_THM_ORGANIZER_LOCATION_DESC"/>
+               label="THM_ORGANIZER_LOCATION" description="THM_ORGANIZER_LOCATION_DESC"/>
         <field name="address" type="text" class="inputbox validate-german-address" size="60" maxlength="255"
-               label="COM_THM_ORGANIZER_ADDRESS" description="COM_THM_ORGANIZER_ADDRESS_DESC"/>
+               label="THM_ORGANIZER_ADDRESS" description="THM_ORGANIZER_ADDRESS_DESC"/>
         <field name="city" type="text" class="inputbox validate-alpha-german" size="60" maxlength="60"
-               label="COM_THM_ORGANIZER_CITY" description="COM_THM_ORGANIZER_CITY_DESC"/>
+               label="THM_ORGANIZER_CITY" description="THM_ORGANIZER_CITY_DESC"/>
         <field name="zipCode" type="text" class="inputbox validate-alphanumeric" size="60" maxlength="60"
-               label="COM_THM_ORGANIZER_ZIP_CODE" description="COM_THM_ORGANIZER_ZIP_CODE_DESC"/>
+               label="THM_ORGANIZER_ZIP_CODE" description="THM_ORGANIZER_ZIP_CODE_DESC"/>
         <field name="gridID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_grids" label="COM_THM_ORGANIZER_GRID"
-               description="COM_THM_ORGANIZER_GRID_EXPORT_DESC">
+               table="thm_organizer_grids" label="THM_ORGANIZER_GRID"
+               description="THM_ORGANIZER_GRID_EXPORT_DESC">
             <option value="">JNONE</option>
         </field>
     </fieldset>

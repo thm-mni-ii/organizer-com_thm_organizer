@@ -44,7 +44,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess($active->id)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         if (!empty($active->active)) {
@@ -96,7 +96,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $this->_db->transactionStart();
@@ -105,7 +105,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
             if (!THM_OrganizerHelperAccess::allowSchedulingAccess($scheduleID)) {
                 $this->_db->transactionRollback();
-                throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
             }
 
             try {
@@ -198,7 +198,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess($reference->id)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $active = $this->getScheduleRow($reference->departmentID, $reference->planningPeriodID);
@@ -253,11 +253,11 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
 
         if ($invalidForm) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperAccess::allowSchedulingAccess(null, $form['departmentID'])) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $xmlModel = new Schedule_XML;

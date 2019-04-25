@@ -34,7 +34,7 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_401'), 401);
+            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,24 +47,24 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('COM_THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_programs');
+        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_programs');
         \JToolbarHelper::addNew('program.add');
         \JToolbarHelper::editList('program.edit');
         \JToolbarHelper::custom(
             'program.importLSFData',
             'upload',
             'upload',
-            'COM_THM_ORGANIZER_ACTION_IMPORT',
+            'THM_ORGANIZER_ACTION_IMPORT',
             true
         );
         \JToolbarHelper::custom(
             'program.updateLSFData',
             'loop',
             'loop',
-            'COM_THM_ORGANIZER_ACTION_UPDATE_SUBJECTS',
+            'THM_ORGANIZER_ACTION_UPDATE_SUBJECTS',
             true
         );
-        \JToolbarHelper::deleteList('COM_THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
+        \JToolbarHelper::deleteList('THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
             \JToolbarHelper::preferences('com_thm_organizer');

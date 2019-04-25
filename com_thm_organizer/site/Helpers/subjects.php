@@ -330,7 +330,7 @@ class THM_OrganizerHelperSubjects
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->subjects)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_SUBJECTS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_SUBJECTS_MISSING');
 
             return;
         }
@@ -345,14 +345,14 @@ class THM_OrganizerHelperSubjects
             $warningCount = $scheduleModel->scheduleWarnings['SUBJECT-NO'];
             unset($scheduleModel->scheduleWarnings['SUBJECT-NO']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_SUBJECTNO_MISSING'), $warningCount);
+                = sprintf(\JText::_('THM_ORGANIZER_WARNING_SUBJECTNO_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['SUBJECT-FIELD'])) {
             $warningCount = $scheduleModel->scheduleWarnings['SUBJECT-FIELD'];
             unset($scheduleModel->scheduleWarnings['SUBJECT-FIELD']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('COM_THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING'), $warningCount);
+                = sprintf(\JText::_('THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING'), $warningCount);
         }
     }
 
@@ -369,8 +369,8 @@ class THM_OrganizerHelperSubjects
     {
         $subjectID = trim((string)$subjectNode[0]['id']);
         if (empty($subjectID)) {
-            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING');
+            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING');
             }
 
             return;
@@ -379,7 +379,7 @@ class THM_OrganizerHelperSubjects
         $longName = trim((string)$subjectNode->longname);
         if (empty($longName)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_('COM_THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING'), $subjectID);
+                = sprintf(\JText::_('THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING'), $subjectID);
 
             return;
         }

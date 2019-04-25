@@ -3,28 +3,28 @@
     <fieldset name="details">
         <field id="id" name="id" type="hidden"/>
         <field name="roomID" type="genericlist" valuecolumn="id" textcolumn="longname" table="thm_organizer_rooms"
-               label="COM_THM_ORGANIZER_ROOM" description="COM_THM_ORGANIZER_ROOM_DESC" class='inputbox required'
+               label="THM_ORGANIZER_ROOM" description="THM_ORGANIZER_ROOM_DESC" class='inputbox required'
                required="true">
-            <option value="">COM_THM_ORGANIZER_FILTER_ROOM</option>
+            <option value="">THM_ORGANIZER_FILTER_ROOM</option>
         </field>
-        <field id="ip" name="ip" type="text" label="COM_THM_ORGANIZER_IP" description="COM_THM_ORGANIZER_IP_DESC"
+        <field id="ip" name="ip" type="text" label="THM_ORGANIZER_IP" description="THM_ORGANIZER_IP_DESC"
                class="inputbox required validate-ip" required="true" maxlength="15" default=""/>
-        <field type="list" name="useDefaults" label="COM_THM_ORGANIZER_DEFAULT_SETTINGS"
-               description="COM_THM_ORGANIZER_DEFAULT_SETTINGS_DESC" class="inputbox" default="1">
+        <field type="list" name="useDefaults" label="THM_ORGANIZER_DEFAULT_SETTINGS"
+               description="THM_ORGANIZER_DEFAULT_SETTINGS_DESC" class="inputbox" default="1">
             <option value='1'>JYES</option>
             <option value='0'>JNO</option>
         </field>
-        <field type="list" id="display" name="display" label="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR"
-               description="COM_THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC" class="inputbox" required="true">
-            <option value='1'>COM_THM_ORGANIZER_DAILY_PLAN</option>
-            <option value='2'>COM_THM_ORGANIZER_MIXED_PLAN</option>
-            <option value='3'>COM_THM_ORGANIZER_CONTENT_DISPLAY</option>
+        <field type="list" id="display" name="display" label="THM_ORGANIZER_DISPLAY_BEHAVIOUR"
+               description="THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC" class="inputbox" required="true">
+            <option value='1'>THM_ORGANIZER_DAILY_PLAN</option>
+            <option value='2'>THM_ORGANIZER_MIXED_PLAN</option>
+            <option value='3'>THM_ORGANIZER_CONTENT_DISPLAY</option>
         </field>
-        <field id="schedule_refresh" name="schedule_refresh" type="integer" label="COM_THM_ORGANIZER_SCHEDULE_REFRESH"
-               description="COM_THM_ORGANIZER_SCHEDULE_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
-        <field id="content_refresh" name="content_refresh" type="integer" label="COM_THM_ORGANIZER_CONTENT_REFRESH"
-               description="COM_THM_ORGANIZER_CONTENT_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
-        <field id="content" name="content" type="filelist" label="COM_THM_ORGANIZER_DISPLAY_CONTENT"
-               description="COM_THM_ORGANIZER_DISPLAY_CONTENT_DESC" directory="images/thm_organizer/" exclude=""/>
+        <field id="schedule_refresh" name="schedule_refresh" type="integer" label="THM_ORGANIZER_SCHEDULE_REFRESH"
+               description="THM_ORGANIZER_SCHEDULE_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
+        <field id="content_refresh" name="content_refresh" type="integer" label="THM_ORGANIZER_CONTENT_REFRESH"
+               description="THM_ORGANIZER_CONTENT_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
+        <field id="content" name="content" type="filelist" label="THM_ORGANIZER_DISPLAY_CONTENT"
+               description="THM_ORGANIZER_DISPLAY_CONTENT_DESC" directory="images/thm_organizer/" exclude=""/>
     </fieldset>
 </form>

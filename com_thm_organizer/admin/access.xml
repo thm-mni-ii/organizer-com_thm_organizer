@@ -3,19 +3,19 @@
     <section name="component">
         <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC"/>
         <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC"/>
-        <action name="organizer.fm" title="COM_THM_ORGANIZER_FACILITY_MANAGEMENT"
-                description="COM_THM_ORGANIZER_FACILITY_MANAGEMENT_DESC"/>
-        <action name="organizer.hr" title="COM_THM_ORGANIZER_HUMAN_RESOURCES"
-                description="COM_THM_ORGANIZER_HUMAN_RESOURCES_DESC"/>
+        <action name="organizer.fm" title="THM_ORGANIZER_FACILITY_MANAGEMENT"
+                description="THM_ORGANIZER_FACILITY_MANAGEMENT_DESC"/>
+        <action name="organizer.hr" title="THM_ORGANIZER_HUMAN_RESOURCES"
+                description="THM_ORGANIZER_HUMAN_RESOURCES_DESC"/>
     </section>
     <section name="department">
-        <action name="organizer.document" title="COM_THM_ORGANIZER_ACTION_DOCUMENTATION_MANAGE"
-                description="COM_THM_ORGANIZER_ACTION_DOCUMENTATION_MANAGE_DESC"/>
-        <action name="organizer.manage" title="COM_THM_ORGANIZER_ACTION_MANAGE"
-                description="COM_THM_ORGANIZER_ACTION_MANAGE_DESC"/>
-        <action name="organizer.schedule" title="COM_THM_ORGANIZER_ACTION_SCHEDULE_MANAGE"
-                description="COM_THM_ORGANIZER_ACTION_SCHEDULE_MANAGE_DESC"/>
-        <action name="organizer.view" title="COM_THM_ORGANIZER_ACTION_VIEW"
-                description="COM_THM_ORGANIZER_ACTION_VIEW_DESC"/>
+        <action name="organizer.document" title="THM_ORGANIZER_ACTION_DOCUMENTATION_MANAGE"
+                description="THM_ORGANIZER_ACTION_DOCUMENTATION_MANAGE_DESC"/>
+        <action name="organizer.manage" title="THM_ORGANIZER_ACTION_MANAGE"
+                description="THM_ORGANIZER_ACTION_MANAGE_DESC"/>
+        <action name="organizer.schedule" title="THM_ORGANIZER_ACTION_SCHEDULE_MANAGE"
+                description="THM_ORGANIZER_ACTION_SCHEDULE_MANAGE_DESC"/>
+        <action name="organizer.view" title="THM_ORGANIZER_ACTION_VIEW"
+                description="THM_ORGANIZER_ACTION_VIEW_DESC"/>
     </section>
 </access>

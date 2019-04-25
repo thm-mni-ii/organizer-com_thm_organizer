@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fieldset name="details">
-        <field name="departmentID" type="departmentID" action="schedule" label="COM_THM_ORGANIZER_DEPARTMENT"
-               description="COM_THM_ORGANIZER_DEPARTMENT_DESC" required="true"/>
+        <field name="departmentID" type="departmentID" action="schedule" label="THM_ORGANIZER_DEPARTMENT"
+               description="THM_ORGANIZER_DEPARTMENT_DESC" required="true"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="file" type="file" label="COM_THM_ORGANIZER_SCHEDULE_FILE"
-               description="COM_THM_ORGANIZER_SCHEDULE_FILE_DESC" class="inputbox" accept=".xml" required="true"/>
+        <field name="file" type="file" label="THM_ORGANIZER_SCHEDULE_FILE"
+               description="THM_ORGANIZER_SCHEDULE_FILE_DESC" class="inputbox" accept=".xml" required="true"/>
     </fieldset>
 </form>

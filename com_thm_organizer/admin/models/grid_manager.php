@@ -85,7 +85,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
                 $return[$index]['endTime']   = '';
             }
 
-            $tip                           = \JText::_('COM_THM_ORGANIZER_GRID_DEFAULT_DESC');
+            $tip                           = \JText::_('THM_ORGANIZER_GRID_DEFAULT_DESC');
             $return[$index]['defaultGrid'] = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
             $index++;
         }
@@ -102,12 +102,12 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
     {
         $headers                = [];
         $headers['checkbox']    = '';
-        $headers['name']        = \JText::_('COM_THM_ORGANIZER_NAME');
-        $headers['startDay']    = \JText::_('COM_THM_ORGANIZER_START_DAY');
-        $headers['endDay']      = \JText::_('COM_THM_ORGANIZER_END_DAY');
-        $headers['startTime']   = \JText::_('COM_THM_ORGANIZER_START_TIME');
-        $headers['endTime']     = \JText::_('COM_THM_ORGANIZER_END_TIME');
-        $headers['defaultGrid'] = \JText::_('COM_THM_ORGANIZER_DEFAULT');
+        $headers['name']        = \JText::_('THM_ORGANIZER_NAME');
+        $headers['startDay']    = \JText::_('THM_ORGANIZER_START_DAY');
+        $headers['endDay']      = \JText::_('THM_ORGANIZER_END_DAY');
+        $headers['startTime']   = \JText::_('THM_ORGANIZER_START_TIME');
+        $headers['endTime']     = \JText::_('THM_ORGANIZER_END_TIME');
+        $headers['defaultGrid'] = \JText::_('THM_ORGANIZER_DEFAULT');
 
         return $headers;
     }

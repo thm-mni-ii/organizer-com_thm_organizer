@@ -43,7 +43,7 @@ if (!empty($showHeading)) {
             </div>
             <div class="control-group">
                 <button class="btn submit-button" onclick="showPostLoader();form.submit();">
-                    <?php echo $this->lang->_('COM_THM_ORGANIZER_ACTION_REFRESH'); ?>
+                    <?php echo $this->lang->_('THM_ORGANIZER_ACTION_REFRESH'); ?>
                     <span class="icon-loop"></span>
                 </button>
             </div>
@@ -53,18 +53,18 @@ if (!empty($showHeading)) {
 <?php
 
 if (empty($this->model->events)) {
-    echo '<h3 class="no-entries-found"> ' . \JText::_('COM_THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
+    echo '<h3 class="no-entries-found"> ' . \JText::_('THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
 }
 
 foreach ($this->model->events as $date => $times) {
     echo '<div class="event-date">';
     echo '<div class="event-date-head">' . THM_OrganizerHelperDate::formatDate($date) . '</div>';
     echo '<table><thead><tr class="list-head">';
-    echo '<th class="time-column">' . \JText::_('COM_THM_ORGANIZER_TIMES') . '</th>';
-    echo '<th class="name-column">' . \JText::_('COM_THM_ORGANIZER_EVENT') . '</th>';
-    echo '<th class="teachers-column">' . \JText::_('COM_THM_ORGANIZER_TEACHERS') . '</th>';
-    echo '<th class="rooms-column">' . \JText::_('COM_THM_ORGANIZER_ROOMS') . '</th>';
-    echo '<th class="org-column">' . \JText::_('COM_THM_ORGANIZER_ORGANIZATION') . '</th>';
+    echo '<th class="time-column">' . \JText::_('THM_ORGANIZER_TIMES') . '</th>';
+    echo '<th class="name-column">' . \JText::_('THM_ORGANIZER_EVENT') . '</th>';
+    echo '<th class="teachers-column">' . \JText::_('THM_ORGANIZER_TEACHERS') . '</th>';
+    echo '<th class="rooms-column">' . \JText::_('THM_ORGANIZER_ROOMS') . '</th>';
+    echo '<th class="org-column">' . \JText::_('THM_ORGANIZER_ORGANIZATION') . '</th>';
     echo '</tr></thead>';
 
     $rowNumber = 0;

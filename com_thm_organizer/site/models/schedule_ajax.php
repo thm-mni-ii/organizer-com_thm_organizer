@@ -41,12 +41,12 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
         }
 
         $userID = \JFactory::getUser()->id;
         if (empty($userID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $mode     = $input->getInt('mode', self::PERIOD_MODE);
@@ -298,7 +298,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         switch ($resource) {
             case 'room':
                 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/rooms.php';
-                $title = \JText::_('COM_THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
+                $title = \JText::_('THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
                 break;
             case 'pool':
                 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
@@ -327,12 +327,12 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_400'), 400);
+            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
         }
 
         $userID = \JFactory::getUser()->id;
         if (empty($userID)) {
-            throw new \Exception(\JText::_('COM_THM_ORGANIZER_403'), 403);
+            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
         $savedCcmIDs = [];

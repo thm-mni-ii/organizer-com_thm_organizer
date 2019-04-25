@@ -28,7 +28,7 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::addNew('', 'COM_THM_ORGANIZER_ACTION_ADD', true);
+        \JToolbarHelper::addNew('', 'THM_ORGANIZER_ACTION_ADD', true);
     }
 
     /**

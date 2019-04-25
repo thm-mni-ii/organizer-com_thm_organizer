@@ -216,7 +216,7 @@ class THM_OrganizerHelperPrograms
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->departments)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
+            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
 
             return;
         }
@@ -240,8 +240,8 @@ class THM_OrganizerHelperPrograms
     {
         $programID = trim((string)$programNode[0]['id']);
         if (empty($programID)) {
-            if (!in_array(\JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
+            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
             }
 
             return;
@@ -252,7 +252,7 @@ class THM_OrganizerHelperPrograms
         $programName = (string)$programNode->longname;
         if (!isset($programName)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_('COM_THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $programID);
+                = sprintf(\JText::_('THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $programID);
 
             return;
         }

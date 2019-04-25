@@ -46,7 +46,7 @@ class THM_OrganizerHelperCampuses
         $languageTag = Languages::getShortTag();
 
         if (empty($campusID)) {
-            return Languages::getLanguage()->_('COM_THM_ORGANIZER_CAMPUS_UNKNOWN');
+            return Languages::getLanguage()->_('THM_ORGANIZER_CAMPUS_UNKNOWN');
         }
 
         $dbo   = \JFactory::getDbo();

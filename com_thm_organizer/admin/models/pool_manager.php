@@ -136,7 +136,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
 
         $headers['checkbox']  = '';
         $headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['programID'] = \JText::_('COM_THM_ORGANIZER_PROGRAM');
+        $headers['programID'] = \JText::_('THM_ORGANIZER_PROGRAM');
         $headers['fieldID']   = HTML::sort('FIELD', 'field', $direction, $ordering);
 
         return $headers;

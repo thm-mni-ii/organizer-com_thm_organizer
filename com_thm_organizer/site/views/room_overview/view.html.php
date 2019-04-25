@@ -98,7 +98,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         $endTime   = THM_OrganizerHelperDate::formatTime($block['endTime']);
         $timeText  = " ($startTime - $endTime)<br />";
 
-        $roomText = $this->lang->_('COM_THM_ORGANIZER_ROOM') . " $roomNo<br />";
+        $roomText = $this->lang->_('THM_ORGANIZER_ROOM') . " $roomNo<br />";
 
         return htmlentities('<div>' . $dateText . $blockText . $timeText . $roomText . '</div>');
     }
@@ -116,16 +116,16 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         foreach ($events as $event) {
             $eventTip   = [];
             $eventTip[] = '<div>';
-            $eventTip[] = $this->lang->_('COM_THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
-            $eventTip[] = $this->lang->_('COM_THM_ORGANIZER_EVENT') . ": {$event['title']}<br/>";
-            $eventTip[] = $this->lang->_('COM_THM_ORGANIZER_TEACHERS') . ": {$event['teachers']}";
+            $eventTip[] = $this->lang->_('THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
+            $eventTip[] = $this->lang->_('THM_ORGANIZER_EVENT') . ": {$event['title']}<br/>";
+            $eventTip[] = $this->lang->_('THM_ORGANIZER_TEACHERS') . ": {$event['teachers']}";
             if (!empty($event['comment'])) {
                 $eventTip[] = '<br />';
-                $eventTip[] = $this->lang->_('COM_THM_ORGANIZER_EXTRA_INFORMATION') . ": {$event['comment']}";
+                $eventTip[] = $this->lang->_('THM_ORGANIZER_EXTRA_INFORMATION') . ": {$event['comment']}";
             }
             if (!empty($event['divTime'])) {
                 $eventTip[] = '<br />';
-                $eventTip[] = $this->lang->_('COM_THM_ORGANIZER_DIVERGENT_TIME') . ": {$event['divTime']}<br/>";
+                $eventTip[] = $this->lang->_('THM_ORGANIZER_DIVERGENT_TIME') . ": {$event['divTime']}<br/>";
             }
             $eventTip[] = '</div>';
             $tips[]     = implode('', $eventTip);
@@ -171,7 +171,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
 
         $capacityText = '';
         if (!empty($room['capacity'])) {
-            $capacityText .= $this->lang->_('COM_THM_ORGANIZER_CAPACITY');
+            $capacityText .= $this->lang->_('THM_ORGANIZER_CAPACITY');
             $capacityText .= ": {$room['capacity']}";
             $capacityText .= '<br />';
         }

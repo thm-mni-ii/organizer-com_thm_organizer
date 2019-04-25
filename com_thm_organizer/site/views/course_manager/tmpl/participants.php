@@ -30,7 +30,7 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
     {
         parent::__construct($lessonID);
 
-        $exportType = $this->lang->_('COM_THM_ORGANIZER_PARTICIPANTS');
+        $exportType = $this->lang->_('THM_ORGANIZER_PARTICIPANTS');
         $this->setNames($exportType);
 
         $this->setHeader();
@@ -40,9 +40,9 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
         $this->columnHeaders = [
             'index'      => '#',
             'name'       => 'Name',
-            'department' => $this->lang->_('COM_THM_ORGANIZER_DEPARTMENT'),
-            'program'    => $this->lang->_('COM_THM_ORGANIZER_PROGRAM'),
-            'room'       => $this->lang->_('COM_THM_ORGANIZER_ROOM')
+            'department' => $this->lang->_('THM_ORGANIZER_DEPARTMENT'),
+            'program'    => $this->lang->_('THM_ORGANIZER_PROGRAM'),
+            'room'       => $this->lang->_('THM_ORGANIZER_ROOM')
         ];
 
         $this->widths = [
@@ -54,7 +54,7 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
         ];
 
         if ($feeApplies) {
-            $this->columnHeaders['paid'] = $this->lang->_('COM_THM_ORGANIZER_PAID');
+            $this->columnHeaders['paid'] = $this->lang->_('THM_ORGANIZER_PAID');
             $this->widths['name']        = 59;
             $this->widths['paid']        = 20;
         }

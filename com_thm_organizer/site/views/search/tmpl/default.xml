@@ -7,7 +7,7 @@
     <licence>GNU GPL v.2</licence>
     <authorEMail>james.antrim@nm.thm.de</authorEMail>
     <authorUrl>www.thm.de</authorUrl>
-    <layout title="COM_THM_ORGANIZER_SEARCH_TITLE">
-        <message>COM_THM_ORGANIZER_SEARCH_DESCRIPTION</message>
+    <layout title="THM_ORGANIZER_SEARCH_TITLE">
+        <message>THM_ORGANIZER_SEARCH_DESCRIPTION</message>
     </layout>
 </metadata>

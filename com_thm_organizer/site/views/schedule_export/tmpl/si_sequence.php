@@ -137,28 +137,28 @@ class THM_OrganizerTemplateExport_XLS
     private function addHeader()
     {
         $this->spreadSheet->setActiveSheetIndex(0);
-        $this->spreadSheet->getActiveSheet()->setCellValue('A1', \JText::_('COM_THM_ORGANIZER_DATE'));
-        $this->spreadSheet->getActiveSheet()->setCellValue('B1', \JText::_('COM_THM_ORGANIZER_START_TIME'));
-        $this->spreadSheet->getActiveSheet()->setCellValue('C1', \JText::_('COM_THM_ORGANIZER_END_TIME'));
-        $this->spreadSheet->getActiveSheet()->setCellValue('D1', \JText::_('COM_THM_ORGANIZER_SUBJECTS'));
+        $this->spreadSheet->getActiveSheet()->setCellValue('A1', \JText::_('THM_ORGANIZER_DATE'));
+        $this->spreadSheet->getActiveSheet()->setCellValue('B1', \JText::_('THM_ORGANIZER_START_TIME'));
+        $this->spreadSheet->getActiveSheet()->setCellValue('C1', \JText::_('THM_ORGANIZER_END_TIME'));
+        $this->spreadSheet->getActiveSheet()->setCellValue('D1', \JText::_('THM_ORGANIZER_SUBJECTS'));
 
         $letter = 'D';
         if ($this->parameters['showTeachers']) {
             $column = ++$letter;
             $cell   = "{$column}1";
-            $this->spreadSheet->getActiveSheet()->setCellValue($cell, \JText::_('COM_THM_ORGANIZER_TEACHERS'));
+            $this->spreadSheet->getActiveSheet()->setCellValue($cell, \JText::_('THM_ORGANIZER_TEACHERS'));
         }
 
         if ($this->parameters['showRooms']) {
             $column = ++$letter;
             $cell   = "{$column}1";
-            $this->spreadSheet->getActiveSheet()->setCellValue($cell, \JText::_('COM_THM_ORGANIZER_ROOMS'));
+            $this->spreadSheet->getActiveSheet()->setCellValue($cell, \JText::_('THM_ORGANIZER_ROOMS'));
         }
 
         if ($this->parameters['showPools']) {
             $column = ++$letter;
             $cell   = "{$column}1";
-            $this->spreadSheet->getActiveSheet()->setCellValue($cell, \JText::_('COM_THM_ORGANIZER_POOLS'));
+            $this->spreadSheet->getActiveSheet()->setCellValue($cell, \JText::_('THM_ORGANIZER_POOLS'));
         }
 
         foreach (range('A', $letter) as $columnID) {
@@ -177,7 +177,7 @@ class THM_OrganizerTemplateExport_XLS
         $startDate   = THM_OrganizerHelperDate::formatDate(reset($lessonDates));
         $endDate     = THM_OrganizerHelperDate::formatDate(end($lessonDates));
 
-        return \JText::_('COM_THM_ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
+        return \JText::_('THM_ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
     }
 
     /**

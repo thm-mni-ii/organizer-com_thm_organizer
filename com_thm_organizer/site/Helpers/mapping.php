@@ -134,7 +134,7 @@ class THM_OrganizerHelperMapping
         if (count($pools) === 1) {
             return $pools[0];
         } else {
-            return \JText::_('COM_THM_ORGANIZER_MULTIPLE_POOLS');
+            return \JText::_('THM_ORGANIZER_MULTIPLE_POOLS');
         }
     }
 
@@ -255,7 +255,7 @@ class THM_OrganizerHelperMapping
         if (count($programs) === 1) {
             return $programs[0];
         } else {
-            return \JText::_('COM_THM_ORGANIZER_MULTIPLE_PROGRAMS');
+            return \JText::_('THM_ORGANIZER_MULTIPLE_PROGRAMS');
         }
     }
 
