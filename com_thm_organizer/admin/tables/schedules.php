@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class instantiates a \JTable Object associated with the schedules table.
  */
@@ -40,7 +42,7 @@ class THM_OrganizerTableSchedules extends \Joomla\CMS\Table\Table
             ->where("id = '{$this->departmentID}'");
 
         $dbo->setQuery($deptQuery);
-        $deptName = (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $deptName = (string)OrganizerHelper::executeQuery('loadResult');
 
         $planPeriodQuery = $dbo->getQuery(true);
         $planPeriodQuery->select('name')
@@ -48,7 +50,7 @@ class THM_OrganizerTableSchedules extends \Joomla\CMS\Table\Table
             ->where("id = '{$this->planningPeriodID}'");
 
         $dbo->setQuery($planPeriodQuery);
-        $planPeriodName = (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $planPeriodName = (string)OrganizerHelper::executeQuery('loadResult');
 
         return "Schedule: $deptName - $planPeriodName";
     }
@@ -92,7 +94,7 @@ class THM_OrganizerTableSchedules extends \Joomla\CMS\Table\Table
     public function bind($array, $ignore = '')
     {
         if (isset($array['rules']) && is_array($array['rules'])) {
-            THM_OrganizerHelperComponent::cleanRules($array['rules']);
+            OrganizerHelper::cleanRules($array['rules']);
             $rules = new \JAccessRules($array['rules']);
             $this->setRules($rules);
         }

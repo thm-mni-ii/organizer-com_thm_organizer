@@ -7,8 +7,11 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-$action = THM_OrganizerHelperComponent::getRedirectBase();
-$menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
+
+use OrganizerHelper;
+
+$action = OrganizerHelper::getRedirectBase();
+$menuID = OrganizerHelper::getInput()->getInt('Itemid');
 
 $departmentID = $this->state->get('departmentID');
 $periodID     = $this->state->get('periodID');

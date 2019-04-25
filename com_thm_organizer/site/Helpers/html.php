@@ -12,6 +12,7 @@
 require_once 'access.php';
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -180,7 +181,7 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
     public static function textColor($bgColor)
     {
         $color              = substr($bgColor, 1);
-        $params             = THM_OrganizerHelperComponent::getParams();
+        $params             = OrganizerHelper::getParams();
         $red                = hexdec(substr($color, 0, 2));
         $green              = hexdec(substr($color, 2, 2));
         $blue               = hexdec(substr($color, 4, 2));

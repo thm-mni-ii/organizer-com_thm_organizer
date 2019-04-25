@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
  * planning periods.
@@ -33,19 +35,19 @@ class JFormFieldPlanningPeriodPublishing extends \Joomla\CMS\Form\FormField
         $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order('startDate ASC');
         $dbo->setQuery($periodQuery);
 
-        $periods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $periods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($periods)) {
             return '';
         }
 
-        $poolID    = THM_OrganizerHelperComponent::getInput()->getInt('id');
+        $poolID    = OrganizerHelper::getInput()->getInt('id');
         $poolQuery = $dbo->getQuery(true);
         $poolQuery->select('planningPeriodID, published')
             ->from('#__thm_organizer_plan_pool_publishing')
             ->where("planPoolID = '$poolID'");
         $dbo->setQuery($poolQuery);
 
-        $publishingEntries = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'planningPeriodID');
+        $publishingEntries = OrganizerHelper::executeQuery('loadAssocList', [], 'planningPeriodID');
 
         $return = '<div class="publishing-container">';
         foreach ($periods as $period) {

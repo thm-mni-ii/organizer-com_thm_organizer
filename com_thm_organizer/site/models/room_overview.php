@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -79,8 +80,8 @@ class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
      */
     protected function populateState()
     {
-        $input         = THM_OrganizerHelperComponent::getInput();
-        $params        = THM_OrganizerHelperComponent::getParams();
+        $input         = OrganizerHelper::getInput();
+        $params        = OrganizerHelper::getParams();
         $format        = $params->get('dateFormat', 'd.m.Y');
         $formData      = $input->get('jform', [], 'array');
         $defaultDate   = date($format);
@@ -171,7 +172,7 @@ class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
         $query->select('grid')->from('#__thm_organizer_grids as g')->where("defaultGrid = '1'");
         $this->_db->setQuery($query);
 
-        $defaultGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $defaultGrid = OrganizerHelper::executeQuery('loadResult');
         $defaultGrid = json_decode($defaultGrid, true);
 
         if (empty($this->defaultCampus)) {
@@ -190,7 +191,7 @@ class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
             ->where("c1.id = '$this->defaultCampus'")
             ->where('(c1.gridID IS NOT NULL OR (c1.gridID IS NULL and c2.gridID IS NOT NULL))');
         $this->_db->setQuery($query);
-        $campusGrids = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $campusGrids = OrganizerHelper::executeQuery('loadAssoc', []);
 
         if (empty($campusGrids)) {
             $this->grid = $defaultGrid;
@@ -290,7 +291,7 @@ class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
             ->where("(ppp.published IS NULL OR ppp.published = '1')");
         $this->_db->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }

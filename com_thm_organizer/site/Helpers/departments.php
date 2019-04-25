@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -40,7 +41,7 @@ class THM_OrganizerHelperDepartments
             $query->where("{$resource}ID IS NOT NULL");
         }
         $dbo->setQuery($query);
-        $departmentIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         return empty($departmentIDs) ? [] : $departmentIDs;
     }
@@ -63,7 +64,7 @@ class THM_OrganizerHelperDepartments
 
         $dbo->setQuery($query);
 
-        return (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (string)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -86,7 +87,7 @@ class THM_OrganizerHelperDepartments
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -122,13 +123,13 @@ class THM_OrganizerHelperDepartments
             return;
         }
 
-        $formData             = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData             = OrganizerHelper::getInput()->get('jform', [], 'array');
         $data['departmentID'] = $formData['departmentID'];
 
         try {
             $deptResourceTable->save($data);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
         }
 
         return;

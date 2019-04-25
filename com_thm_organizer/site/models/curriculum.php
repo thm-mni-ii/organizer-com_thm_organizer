@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -28,8 +29,8 @@ class THM_OrganizerModelCurriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     public function getItem()
     {
-        $input   = THM_OrganizerHelperComponent::getInput();
-        $params  = THM_OrganizerHelperComponent::getParams();
+        $input   = OrganizerHelper::getInput();
+        $params  = OrganizerHelper::getParams();
         $program = new \stdClass;
 
         $programIDs = $input->get('programIDs');
@@ -78,7 +79,7 @@ class THM_OrganizerModelCurriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$program->id'");
         $this->_db->setQuery($query);
-        $programData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $programData = OrganizerHelper::executeQuery('loadAssoc', []);
         if (empty($programData)) {
             return;
         }
@@ -104,7 +105,7 @@ class THM_OrganizerModelCurriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $query->order('ordering ASC');
         $this->_db->setQuery($query);
 
-        $children = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
+        $children = OrganizerHelper::executeQuery('loadObjectList');
         if (empty($children)) {
             return;
         }
@@ -152,7 +153,7 @@ class THM_OrganizerModelCurriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $query->where("p.id = '$poolID'");
         $this->_db->setQuery($query);
 
-        $pool = THM_OrganizerHelperComponent::executeQuery('loadObject');
+        $pool = OrganizerHelper::executeQuery('loadObject');
         if (empty($pool)) {
             return null;
         }
@@ -176,7 +177,7 @@ class THM_OrganizerModelCurriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $query = $this->_db->getQuery(true);
 
         $select      = "s.id, externalID, s.name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
-        $menuID      = THM_OrganizerHelperComponent::getInput()->getInt('Itemid', 0);
+        $menuID      = OrganizerHelper::getInput()->getInt('Itemid', 0);
         $menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";
         $parts       = [$subjectLink, 's.id'];
@@ -189,7 +190,7 @@ class THM_OrganizerModelCurriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $query->where("s.id = '$subjectID'");
         $this->_db->setQuery($query);
 
-        $subject = THM_OrganizerHelperComponent::executeQuery('loadObject');
+        $subject = OrganizerHelper::executeQuery('loadObject');
         if (empty($subject)) {
             return null;
         }

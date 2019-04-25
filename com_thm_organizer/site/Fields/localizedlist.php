@@ -11,8 +11,9 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -52,7 +53,7 @@ class JFormFieldLocalizedList extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $resources      = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $resources      = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($resources)) {
             return $defaultOptions;
         }

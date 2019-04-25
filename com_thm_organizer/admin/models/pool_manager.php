@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -158,7 +159,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
         $dbo = \JFactory::getDbo();
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (int)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -173,7 +174,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
     {
         parent::populateState($ordering, $direction);
 
-        $filter = THM_OrganizerHelperComponent::getApplication()->getUserStateFromRequest(
+        $filter = OrganizerHelper::getApplication()->getUserStateFromRequest(
             $this->context . '.filter',
             'filter',
             [],

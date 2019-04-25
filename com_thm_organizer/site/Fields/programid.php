@@ -11,8 +11,9 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -45,7 +46,7 @@ class JFormFieldProgramID extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $programs       = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $programs       = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($programs)) {
             return $defaultOptions;
         }

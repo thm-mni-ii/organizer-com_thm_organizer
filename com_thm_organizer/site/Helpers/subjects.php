@@ -14,6 +14,7 @@ require_once 'date.php';
 require_once 'departments.php';
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -61,7 +62,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (bool)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -116,7 +117,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        $names = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $names = OrganizerHelper::executeQuery('loadAssoc', []);
         if (empty($names)) {
             return '';
         }
@@ -215,7 +216,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -234,7 +235,7 @@ class THM_OrganizerHelperSubjects
      */
     public static function getSubjectLessons()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $subjectIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('subjectIDs', '')));
         if (empty($subjectIDs[0])) {
@@ -293,7 +294,7 @@ class THM_OrganizerHelperSubjects
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }

@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use OrganizerHelper;
+
 /**
  * Class provides generalized functions regarding dates and times.
  */
@@ -45,7 +47,7 @@ class THM_OrganizerHelperDate
      */
     public static function formatTime($time)
     {
-        $timeFormat = THM_OrganizerHelperComponent::getParams()->get('timeFormat', 'H:i');
+        $timeFormat = OrganizerHelper::getParams()->get('timeFormat', 'H:i');
 
         return date($timeFormat, strtotime($time));
     }
@@ -57,7 +59,7 @@ class THM_OrganizerHelperDate
      */
     public static function getFormat()
     {
-        return THM_OrganizerHelperComponent::getParams()->get('dateFormat', 'd.m.Y');
+        return OrganizerHelper::getParams()->get('dateFormat', 'd.m.Y');
     }
 
     /**
@@ -119,7 +121,7 @@ class THM_OrganizerHelperDate
             ->where("'$date' BETWEEN startDate AND endDate");
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        return OrganizerHelper::executeQuery('loadAssoc', []);
     }
 
     /**

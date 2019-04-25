@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
@@ -49,6 +51,6 @@ class THM_OrganizerHelperPlan_Pools
 
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return (bool)OrganizerHelper::executeQuery('loadColumn', []);
     }
 }

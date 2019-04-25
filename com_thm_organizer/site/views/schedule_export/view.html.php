@@ -13,9 +13,10 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads the schedule export filter form into the display context.
@@ -72,7 +73,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function isSeeingImpaired()
     {
-        $app = THM_OrganizerHelperComponent::getApplication();
+        $app = OrganizerHelper::getApplication();
         if (empty($app->getMenu()) or empty($app->getMenu()->getActive())) {
             return 0;
         }
@@ -222,7 +223,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 //        ];
 
         // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = THM_OrganizerHelperComponent::getParams()->get('dateFormat');
+        $rawDateFormat = OrganizerHelper::getParams()->get('dateFormat');
         $today         = date('Y-m-d');
 
         if ($seeingImpaired) {

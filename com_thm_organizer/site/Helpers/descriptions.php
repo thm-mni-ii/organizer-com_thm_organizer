@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Provides functions for XML description validation and modeling.
  */
@@ -32,7 +34,7 @@ class THM_OrganizerHelperDescriptions
         $query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
         $dbo->setQuery($query);
 
-        $resourceID = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $resourceID = OrganizerHelper::executeQuery('loadResult');
 
         if (empty($resourceID)) {
             $scheduleModel->scheduleErrors[]

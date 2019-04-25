@@ -16,6 +16,7 @@ define('LESSON_LIST', 4);
 
 require_once 'list.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -90,7 +91,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
 
         $where = "m.display ='$requestDisplay'";
 
-        $params              = THM_OrganizerHelperComponent::getParams();
+        $params              = OrganizerHelper::getParams();
         $defaultDisplay      = $params->get('display', '');
         $useComponentDisplay = (!empty($defaultDisplay) and $requestDisplay == $defaultDisplay);
         if ($useComponentDisplay) {
@@ -111,7 +112,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
      */
     private function addContentFilter(&$query)
     {
-        $params         = THM_OrganizerHelperComponent::getParams();
+        $params         = OrganizerHelper::getParams();
         $requestContent = $this->state->get('filter.content', '');
 
         if ($requestContent === '') {
@@ -146,7 +147,7 @@ class THM_OrganizerModelMonitor_Manager extends THM_OrganizerModelList
             return $return;
         }
 
-        $params       = THM_OrganizerHelperComponent::getParams();
+        $params       = OrganizerHelper::getParams();
         $displayParam = $params->get('display');
         $contentParam = $params->get('content');
         $index        = 0;

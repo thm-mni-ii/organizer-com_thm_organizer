@@ -10,6 +10,7 @@
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -118,7 +119,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
 
         $this->_db->setQuery($this->query);
 
-        $departments = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $departments = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($departments)) {
             return [];
         }
@@ -169,7 +170,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
 
         $this->_db->setQuery($this->query);
 
-        $methods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $methods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($methods)) {
             return [];
         }
@@ -202,7 +203,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
 
         $this->_db->setQuery($this->query);
 
-        $planningPeriods = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $planningPeriods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($planningPeriods)) {
             return [];
         }
@@ -232,7 +233,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
 
         $this->_db->setQuery($this->query);
 
-        $pools = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $pools = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($pools)) {
             return [];
         }
@@ -261,7 +262,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
 
         $this->_db->setQuery($this->query);
 
-        $programs = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $programs = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($programs)) {
             return [];
         }
@@ -282,7 +283,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
     {
         parent::populateState();
         $defaultPeriod = THM_OrganizerHelperPlanning_Periods::getCurrentID();
-        $formData      = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData      = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         // Not reached by form action
         if (empty($formData)) {
@@ -370,7 +371,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
                 }
 
                 $this->_db->setQuery($this->query);
-                $lessons = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+                $lessons = OrganizerHelper::executeQuery('loadColumn', []);
 
                 $lessonCounts[$rowID][$columnID] = count($lessons);
 

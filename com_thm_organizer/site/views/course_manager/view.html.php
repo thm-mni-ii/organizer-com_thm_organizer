@@ -14,9 +14,10 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
+use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads persistent information about a course into the display context.
@@ -48,7 +49,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         $this->lang = Languages::getLanguage();
-        $lessonID   = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
+        $lessonID   = OrganizerHelper::getInput()->getInt('lessonID', 0);
 
         if (empty($lessonID) or !THM_OrganizerHelperCourses::authorized($lessonID)) {
             throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
@@ -84,7 +85,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->languageParams = ['lessonID' => $courseID, 'view' => 'course_manager'];
         $this->modifyDocument();
-        THM_OrganizerHelperComponent::addMenuParameters($this);
+        OrganizerHelper::addMenuParameters($this);
 
         parent::display($tpl);
     }

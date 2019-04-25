@@ -15,8 +15,9 @@ define('CONTENT', 3);
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information about daily events for display on monitors.
@@ -55,7 +56,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     protected function ensureComponentTemplate()
     {
-        $app         = THM_OrganizerHelperComponent::getApplication();
+        $app         = OrganizerHelper::getApplication();
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
             $query = $app->input->server->get('QUERY_STRING', '', 'raw') . '&tmpl=component';
@@ -118,7 +119,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             ->where("ls.delta != 'removed'");
         $this->_db->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -253,12 +254,12 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             $this->params['content_refresh']  = $monitorEntry->content_refresh;
             $this->params['content']          = $monitorEntry->content;
         } else {
-            $params                           = THM_OrganizerHelperComponent::getParams();
+            $params                           = OrganizerHelper::getParams();
             $this->params['display']          = $params->get('display', SCHEDULE);
             $this->params['schedule_refresh'] = $params->get('schedule_refresh', 60);
             $this->params['content_refresh']  = $params->get('content_refresh', 60);
 
-            $this->params['content'] = THM_OrganizerHelperComponent::getParams()->get('content');
+            $this->params['content'] = OrganizerHelper::getParams()->get('content');
         }
 
         // No need for special handling if no content has been set
@@ -290,7 +291,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $query->select('grid')->from('#__thm_organizer_grids')->where("defaultGrid = '1'");
         $this->_db->setQuery($query);
 
-        $rawGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $rawGrid = OrganizerHelper::executeQuery('loadResult');
 
         if (!empty($rawGrid)) {
             $this->grid = json_decode($rawGrid, true);
@@ -304,7 +305,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     private function setRoomData()
     {
-        $input        = THM_OrganizerHelperComponent::getInput();
+        $input        = OrganizerHelper::getInput();
         $ipData       = ['ip' => $input->server->getString('REMOTE_ADDR', '')];
         $monitorEntry = \JTable::getInstance('monitors', 'thm_organizerTable');
         $roomEntry    = \JTable::getInstance('rooms', 'thm_organizerTable');
@@ -336,7 +337,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         }
 
         // Room could not be resolved => redirect to home
-        THM_OrganizerHelperComponent::getApplication()->redirect(Uri::root());
+        OrganizerHelper::getApplication()->redirect(Uri::root());
     }
 
     /**

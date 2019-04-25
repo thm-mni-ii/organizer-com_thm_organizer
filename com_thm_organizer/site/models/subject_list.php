@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -70,7 +71,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
             $query->select('DISTINCT poolID, subjectID')->from('#__thm_organizer_mappings')->where("parentID = '{$pool['mapID']}'");
             $this->_db->setQuery($query);
 
-            $children = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $children = OrganizerHelper::executeQuery('loadAssocList');
             if (empty($children)) {
                 continue;
             }
@@ -241,7 +242,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
             ->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id')
             ->where("p.id = '$poolID'");
         $this->_db->setQuery($query);
-        $poolData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $poolData = OrganizerHelper::executeQuery('loadAssoc', []);
         if (empty($poolData)) {
             return [];
         }
@@ -256,7 +257,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
             ->where("m.rgt > '{$poolData['rgt']}'");
         $this->_db->setQuery($query);
 
-        $programName = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $programName = OrganizerHelper::executeQuery('loadResult');
 
         if (!empty($programName)) {
             $poolData['name'] = "$programName, {$poolData['name']}";
@@ -285,7 +286,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
         $query->where("p.id = '$programID'");
         $this->_db->setQuery($query);
-        $programData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $programData = OrganizerHelper::executeQuery('loadAssoc', []);
         if (!empty($programData)) {
             $this->displayName = $programData['name'];
         }
@@ -348,7 +349,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
                 ->order('m.lft');
             $this->_db->setQuery($query);
 
-            $poolEntries = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $poolEntries = OrganizerHelper::executeQuery('loadAssocList');
             if (empty($poolEntries)) {
                 continue;
             }
@@ -408,7 +409,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
             $query->where("m.lft < '{$mapping['left']}'");
             $query->where("m.rgt > '{$mapping['right']}'");
             $this->_db->setQuery($query);
-            $programData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+            $programData = OrganizerHelper::executeQuery('loadAssoc', []);
 
             $this->subjects[$index]->programs[$programData['id']] = $programData['name'];
         }
@@ -451,7 +452,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
             ->where("st.subjectID = '$subjectID'");
         $this->_db->setQuery($query);
 
-        $teachers = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $teachers = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($teachers)) {
             return;
         }
@@ -521,12 +522,12 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
             ->where("f.id IN $fieldIDs");
         $this->_db->setQuery($query);
 
-        $fields = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $fields = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
         if (empty($fields)) {
             return;
         }
 
-        $params = THM_OrganizerHelperComponent::getParams();
+        $params = OrganizerHelper::getParams();
 
         foreach ($fields as $fieldEntry) {
             if (empty($this->fields[$fieldEntry['id']])) {
@@ -569,7 +570,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
     protected function populateState($ordering = null, $direction = null)
     {
         parent::populateState($ordering, $direction);
-        $app = THM_OrganizerHelperComponent::getApplication();
+        $app = OrganizerHelper::getApplication();
 
         if (!empty($app->getMenu()->getActive()->id)) {
             $params = $app->getMenu()->getActive()->params;

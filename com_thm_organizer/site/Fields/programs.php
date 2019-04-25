@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
 use THM_OrganizerHelperHTML as HTML;

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored degree data.
  */
@@ -27,7 +29,7 @@ class THM_OrganizerModelDegree extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data  = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data  = OrganizerHelper::getInput()->get('jform', [], 'array');
         $table = \JTable::getInstance('degrees', 'thm_organizerTable');
 
         return $table->save($data);
@@ -45,6 +47,6 @@ class THM_OrganizerModelDegree extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        return THM_OrganizerHelperComponent::delete('degrees');
+        return OrganizerHelper::delete('degrees');
     }
 }

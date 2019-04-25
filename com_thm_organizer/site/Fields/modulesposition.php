@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/Helpers/modules.php');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+
+use OrganizerHelper;
 
 /**
  * Class creates a select box for module positions.
@@ -28,7 +30,7 @@ class JFormFieldModulesPosition extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $clientId = THM_OrganizerHelperComponent::getInput()->get('client_id', 0, 'int');
+        $clientId = OrganizerHelper::getInput()->get('client_id', 0, 'int');
         $options  = ModulesHelper::getPositions($clientId);
 
         return array_merge(parent::getOptions(), $options);

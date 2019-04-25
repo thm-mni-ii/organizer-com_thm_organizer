@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+use OrganizerHelper;
+
 /**
  * Class provides methods for communication with the LSF curriculum documentation system.
  */
@@ -26,7 +28,7 @@ class THM_OrganizerHelperLSF
      */
     public function __construct()
     {
-        $params         = THM_OrganizerHelperComponent::getParams();
+        $params         = OrganizerHelper::getParams();
         $this->username = $params->get('wsUsername');
         $this->password = $params->get('wsPassword');
         $uri            = $params->get('wsURI');
@@ -64,13 +66,13 @@ class THM_OrganizerHelperLSF
         $result = $this->client->__soapCall('getDataXML', ['xmlParams' => $query]);
 
         if (!$result) {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_ERROR_SOAP_FAIL', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_ERROR_SOAP_FAIL', 'error');
 
             return false;
         }
 
         if ($result == 'error in soap-request') {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_ERROR_SOAP_INVALID', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_ERROR_SOAP_INVALID', 'error');
 
             return false;
         }

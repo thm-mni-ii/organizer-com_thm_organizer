@@ -16,6 +16,7 @@ require_once 'grids.php';
 require_once 'languages.php';
 require_once 'programs.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -135,7 +136,7 @@ class THM_OrganizerHelperPools
         $query->select('ppl.id, ppl.name, ppl.full_name');
         $query->from('#__thm_organizer_plan_pools AS ppl');
 
-        $input               = THM_OrganizerHelperComponent::getInput();
+        $input               = OrganizerHelper::getInput();
         $selectedDepartments = $input->getString('departmentIDs');
         $selectedPrograms    = $input->getString('programIDs');
 
@@ -152,7 +153,7 @@ class THM_OrganizerHelperPools
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -175,7 +176,7 @@ class THM_OrganizerHelperPools
      */
     public static function getPoolLessons()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $poolIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
         if (empty($poolIDs[0])) {
@@ -236,7 +237,7 @@ class THM_OrganizerHelperPools
 
         $dbo->setQuery($query);
 
-        $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($results)) {
             return [];
         }
@@ -268,7 +269,7 @@ class THM_OrganizerHelperPools
      */
     public static function getPoolSubjects()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $poolIDs = Joomla\Utilities\ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
         if (empty($poolIDs[0])) {
@@ -325,7 +326,7 @@ class THM_OrganizerHelperPools
         }
 
         $dbo->setQuery($query);
-        $subjectIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $subjectIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         if (empty($subjectIDs)) {
             return [];

@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored course data.
  */
@@ -26,7 +28,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function changeParticipantState()
     {
-        $input    = THM_OrganizerHelperComponent::getInput();
+        $input    = OrganizerHelper::getInput();
         $data     = $input->getArray();
         $formData = $data['jform'];
 
@@ -69,7 +71,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function circular()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $courseID = $input->get('lessonID', 0);
 
@@ -87,7 +89,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $sender = \JFactory::getUser(THM_OrganizerHelperComponent::getParams()->get('mailSender'));
+        $sender = \JFactory::getUser(OrganizerHelper::getParams()->get('mailSender'));
 
         if (empty($sender->id)) {
             return false;
@@ -141,7 +143,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (!isset($data['id'])) {
             throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);

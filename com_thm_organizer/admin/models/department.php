@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored department data.
  */
@@ -27,14 +29,14 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         $this->_db->transactionStart();
         $department = \JTable::getInstance('departments', 'thm_organizerTable');
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -61,7 +63,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = OrganizerHelper::getInput()->get('jform', [], 'array');
         if (isset($data['id'])) {
             unset($data['id']);
         }
@@ -71,7 +73,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         try {
             $deptSuccess = $department->save($data);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_DATABASE_ERROR', 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -98,6 +100,6 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        return THM_OrganizerHelperComponent::delete('departments');
+        return OrganizerHelper::delete('departments');
     }
 }

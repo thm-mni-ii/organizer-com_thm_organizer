@@ -16,6 +16,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -38,7 +39,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
     public function __construct(array $config)
     {
         parent::__construct($config);
-        $format        = THM_OrganizerHelperComponent::getInput()->getString('format');
+        $format        = OrganizerHelper::getInput()->getString('format');
         $lessonFormats = ['pdf', 'ics', 'xls'];
 
         // Don't bother setting these variables for html and raw formats
@@ -86,7 +87,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $options = [];
 
-        $grids = THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        $grids = OrganizerHelper::executeQuery('loadAssocList', []);
 
         foreach ($grids as $grid) {
             if ($grid['defaultGrid']) {
@@ -120,7 +121,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             try {
                 $success = $table->load($poolID);
             } catch (Exception $exc) {
-                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+                OrganizerHelper::message($exc->getMessage(), 'error');
 
                 return [];
             }
@@ -153,7 +154,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setResourceArray($resourceName, &$parameters)
     {
-        $input          = THM_OrganizerHelperComponent::getInput();
+        $input          = OrganizerHelper::getInput();
         $rawResourceIDs = $input->get("{$resourceName}IDs", [], 'raw');
 
         if (!empty($rawResourceIDs)) {
@@ -201,7 +202,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             try {
                 $success = $table->load($roomID);
             } catch (Exception $exc) {
-                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+                OrganizerHelper::message($exc->getMessage(), 'error');
 
                 return [];
             }
@@ -251,7 +252,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             $query->clear('where');
             $query->where("ps.id = '$subjectID'");
             $this->_db->setQuery($query);
-            $subjectNames = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+            $subjectNames = OrganizerHelper::executeQuery('loadAssoc', []);
 
             if (!empty($subjectNames)) {
                 $gpuntisID = \JApplicationHelper::stringURLSafe($subjectNames['gpuntisID']);
@@ -321,7 +322,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
             try {
                 $success = $table->load($teacherID);
             } catch (Exception $exc) {
-                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+                OrganizerHelper::message($exc->getMessage(), 'error');
 
                 return [];
             }
@@ -363,7 +364,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $this->_db->setQuery($query);
 
-        $rawGrid = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $rawGrid = OrganizerHelper::executeQuery('loadResult');
         if (empty($rawGrid)) {
             return;
         }
@@ -385,7 +386,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setParameters()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $parameters                  = [];
         $parameters['departmentIDs'] = $input->get('departmentIDs', [], 'array');

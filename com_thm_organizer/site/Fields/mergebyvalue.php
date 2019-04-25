@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -32,7 +33,7 @@ class JFormFieldMergeByValue extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = OrganizerHelper::getInput();
         $selectedIDs = $input->get('cid', [], 'array');
         $column      = $this->getAttribute('name');
         $resource    = str_replace('_merge', '', $input->get('view')) . 's';
@@ -45,7 +46,7 @@ class JFormFieldMergeByValue extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $values         = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $values         = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($values)) {
             return $defaultOptions;
         }

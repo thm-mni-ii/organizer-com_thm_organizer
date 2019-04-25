@@ -15,6 +15,8 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
+use OrganizerHelper;
+
 /**
  * Class loads persistent information about a course into the display context.
  */
@@ -36,7 +38,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $lessonID   = $input->get('lessonID', 0);
         $type       = $input->get('type', 0);

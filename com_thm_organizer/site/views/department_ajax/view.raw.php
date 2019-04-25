@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class answers dynamic (degree) program related queries
  */
@@ -27,7 +29,7 @@ class THM_OrganizerViewDepartment_Ajax extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         $model    = $this->getModel();
-        $function = THM_OrganizerHelperComponent::getInput()->getString('task');
+        $function = OrganizerHelper::getInput()->getString('task');
         echo $model->$function();
     }
 }

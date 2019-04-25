@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
+use OrganizerHelper;
+
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
  */
@@ -46,7 +48,7 @@ class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
     protected function getOptions()
     {
         // Get basic resource data
-        $resourceID   = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
+        $resourceID   = OrganizerHelper::getInput()->getInt('id', 0);
         $contextParts = explode('.', $this->form->getName());
         $resourceType = str_replace('_edit', '', $contextParts[1]);
 

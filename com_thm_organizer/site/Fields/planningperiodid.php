@@ -11,9 +11,10 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -50,7 +51,7 @@ class JFormFieldPlanningPeriodID extends \JFormFieldList
         $query->order('pp.startDate DESC');
         $dbo->setQuery($query);
 
-        $planningPeriods = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $planningPeriods = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($planningPeriods)) {
             return $baseOptions;
         }

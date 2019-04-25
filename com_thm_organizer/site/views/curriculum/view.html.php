@@ -10,9 +10,10 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
 
+use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads curriculum information into the display context.
@@ -44,7 +45,7 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->modifyDocument();
 
-        $menu = THM_OrganizerHelperComponent::getApplication()->getMenu()->getActive();
+        $menu = OrganizerHelper::getApplication()->getMenu()->getActive();
 
         if (!is_object($menu)) {
             $this->ecollabLink = '';

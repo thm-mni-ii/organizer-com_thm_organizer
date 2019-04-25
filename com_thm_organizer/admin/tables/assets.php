@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Abstract class for use by resource tables whose access rules are to be stored in the Joomla assets table.
  */
@@ -105,7 +107,7 @@ abstract class THM_OrganizerTableAssets extends \Joomla\CMS\Table\Table
                             ->update($this->_db->quoteName($this->_tbl))
                             ->set('asset_id = ' . (int)$this->asset_id);
                         $this->appendPrimaryKeys($query);
-                        THM_OrganizerHelperComponent::executeQuery('execute');
+                        OrganizerHelper::executeQuery('execute');
                     }
                 }
             }

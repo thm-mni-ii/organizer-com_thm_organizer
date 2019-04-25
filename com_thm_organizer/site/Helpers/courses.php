@@ -14,6 +14,7 @@ require_once 'languages.php';
 require_once 'participants.php';
 require_once 'subjects.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -66,7 +67,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (bool)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -120,11 +121,11 @@ class THM_OrganizerHelperCourses
 
         $lang            = Languages::getLanguage();
         $shortTag        = Languages::getShortTag();
-        $menuID          = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
+        $menuID          = OrganizerHelper::getInput()->getInt('Itemid');
         $pathPrefix      = 'index.php?option=com_thm_organizer';
         $managerURL      = "{$pathPrefix}&view=course_manager&languageTag=$shortTag";
         $registrationURL = "$pathPrefix&task=$view.register&languageTag=$shortTag";
-        $registrationURL .= $view == 'subject' ? '&id=' . THM_OrganizerHelperComponent::getInput()->getInt('id',
+        $registrationURL .= $view == 'subject' ? '&id=' . OrganizerHelper::getInput()->getInt('id',
                 0) : '';
 
         if (!empty($menuID)) {
@@ -203,7 +204,7 @@ class THM_OrganizerHelperCourses
      */
     public static function getCourse($courseID = 0)
     {
-        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
+        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return [];
@@ -228,14 +229,14 @@ class THM_OrganizerHelperCourses
         $query->where("l.id = '$courseID'");
 
         $dbo->setQuery($query);
-        $courseData = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $courseData = OrganizerHelper::executeQuery('loadAssoc', []);
 
         // If empty it should stay empty
         if (empty($courseData)) {
             return $courseData;
         }
 
-        $params = THM_OrganizerHelperComponent::getParams();
+        $params = OrganizerHelper::getParams();
         if (empty($courseData['deadline'])) {
             $courseData['deadline'] = $params->get('deadline', 5);
         }
@@ -256,12 +257,12 @@ class THM_OrganizerHelperCourses
      */
     public static function getDateDisplay($courseID = 0)
     {
-        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
+        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
 
         $dates = self::getDates($courseID);
 
         if (!empty($dates)) {
-            $dateFormat = THM_OrganizerHelperComponent::getParams()->get('dateFormat', 'd.m.Y');
+            $dateFormat = OrganizerHelper::getParams()->get('dateFormat', 'd.m.Y');
             $start      = HTML::_('date', $dates[0], $dateFormat);
             $end        = HTML::_('date', end($dates), $dateFormat);
 
@@ -280,7 +281,7 @@ class THM_OrganizerHelperCourses
      */
     public static function getDates($courseID = 0)
     {
-        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
+        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return [];
@@ -298,7 +299,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -344,7 +345,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -382,7 +383,7 @@ class THM_OrganizerHelperCourses
         $query->order('map.id');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -429,7 +430,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        $courses = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $courses = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($courses)) {
             return [];
         }
@@ -490,7 +491,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -503,7 +504,7 @@ class THM_OrganizerHelperCourses
     public static function getParticipantState($courseID = 0)
     {
         $userID   = \JFactory::getUser()->id;
-        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
+        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID) || empty($userID)) {
             return [];
@@ -516,7 +517,7 @@ class THM_OrganizerHelperCourses
         $query->where("userID = '$userID' AND lessonID = '$courseID'");
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        return OrganizerHelper::executeQuery('loadAssoc', []);
     }
 
     /**
@@ -584,7 +585,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (int)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -607,7 +608,7 @@ class THM_OrganizerHelperCourses
         try {
             $interval = new \DateInterval("P{$deadline}D");
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return false;
 
@@ -642,7 +643,7 @@ class THM_OrganizerHelperCourses
 
             $dbo->setQuery($query);
 
-            $nextParticipantID = THM_OrganizerHelperComponent::executeQuery('loadResult');
+            $nextParticipantID = OrganizerHelper::executeQuery('loadResult');
 
             if (!empty($nextParticipantID)) {
                 THM_OrganizerHelperParticipants::changeState($nextParticipantID, $courseID, 1);
@@ -669,7 +670,7 @@ class THM_OrganizerHelperCourses
 
         $dbo->setQuery($query);
 
-        $courses = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $courses = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($courses)) {
             return [];
         }
@@ -691,7 +692,7 @@ class THM_OrganizerHelperCourses
      */
     public static function getName($courseID = 0)
     {
-        $courseID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', $courseID);
+        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return '';
@@ -707,6 +708,6 @@ class THM_OrganizerHelperCourses
             ->where("ls.lessonID = '{$courseID}'");
         $dbo->setQuery($query);
 
-        return (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (string)OrganizerHelper::executeQuery('loadResult');
     }
 }

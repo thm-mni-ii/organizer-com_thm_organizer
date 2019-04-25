@@ -20,6 +20,8 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
+
 /**
  * Class retrieves dynamic schedule information.
  */
@@ -37,7 +39,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
      */
     public function deleteLesson()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
@@ -116,7 +118,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         $query->order('map.id');
         $this->_db->setQuery($query);
 
-        $calReference = THM_OrganizerHelperComponent::executeQuery('loadObject');
+        $calReference = OrganizerHelper::executeQuery('loadObject');
 
         return empty($calReference) ? false : $calReference;
     }
@@ -128,7 +130,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
      */
     public function getLessons()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = OrganizerHelper::getInput();
         $inputParams = $input->getArray();
         $inputKeys   = array_keys($inputParams);
         $parameters  = [];
@@ -206,7 +208,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
      */
     public function getPools()
     {
-        $selectedPrograms = THM_OrganizerHelperComponent::getInput()->getString('programIDs');
+        $selectedPrograms = OrganizerHelper::getInput()->getString('programIDs');
         $programIDs       = explode(',', $selectedPrograms);
         $result           = THM_OrganizerHelperPools::getPlanPools(count($programIDs) == 1);
 
@@ -292,8 +294,8 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
      */
     public function getTitle()
     {
-        $resource = THM_OrganizerHelperComponent::getInput()->getString('resource');
-        $value    = THM_OrganizerHelperComponent::getInput()->getInt('value');
+        $resource = OrganizerHelper::getInput()->getString('resource');
+        $value    = OrganizerHelper::getInput()->getInt('value');
 
         switch ($resource) {
             case 'room':
@@ -323,7 +325,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
      */
     public function saveLesson()
     {
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
@@ -376,7 +378,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
      */
     public function setNotify()
     {
-        $isChecked = THM_OrganizerHelperComponent::getInput()->get('isChecked') == 'false' ? 0 : 1;
+        $isChecked = OrganizerHelper::getInput()->get('isChecked') == 'false' ? 0 : 1;
         $userID = \JFactory::getUser()->id;
         if ($userID == 0) {
             return;
@@ -390,7 +392,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
             ->where("profile_key = '$profile_key'")
             ->where("user_id = $userID");
         $this->_db->setQuery($query);
-        $result = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $result = OrganizerHelper::executeQuery('loadResult');
 
         if ($result == 0) {
             $query = $this->_db->getQuery(true);
@@ -410,7 +412,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
                 ->where("profile_key = 'organizer_notify'");
         }
         $this->_db->setQuery($query);
-        THM_OrganizerHelperComponent::executeQuery('execute');
+        OrganizerHelper::executeQuery('execute');
     }
 
 

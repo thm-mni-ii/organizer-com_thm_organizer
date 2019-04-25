@@ -16,6 +16,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/subjects.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -127,7 +128,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             ->from('#__thm_organizer_degrees');
         $this->_db->setQuery($query);
 
-        $degrees = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+        $degrees = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
 
         // Abbreviation or (title and type) matched
         $exactMatches = [];
@@ -183,7 +184,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->lang        = Languages::getLanguage();
         $this->languageTag = Languages::getShortTag();
 
-        $input     = THM_OrganizerHelperComponent::getInput();
+        $input     = OrganizerHelper::getInput();
         $rawSearch = trim($input->getString('search', ''));
 
         // New call or a hard reset
@@ -242,7 +243,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $tempClause = str_replace('XXX', $term, $standardClause);
                 $query->where($tempClause);
                 $this->_db->setQuery($query);
-                $typeResults = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+                $typeResults = OrganizerHelper::executeQuery('loadColumn', []);
 
                 if (!empty($typeResults)) {
                     unset($misc[$key]);
@@ -259,7 +260,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
             $this->_db->setQuery($query);
 
-            $typeResults = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+            $typeResults = OrganizerHelper::executeQuery('loadColumn', []);
 
             if (!empty($typeResults)) {
                 $typeIDs = array_merge($typeIDs, $typeResults);
@@ -631,7 +632,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->addInclusiveConditions($query, $eWherray);
         $this->_db->setQuery($query);
 
-        $associations = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $associations = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($associations)) {
             return;
         }
@@ -654,7 +655,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->select('DISTINCT d.id');
         $this->addInclusiveConditions($query, $sWherray);
         $this->_db->setQuery($query);
-        $departmentIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         if (empty($departmentIDs)) {
             return;
@@ -716,7 +717,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                     $ppQuery->where("programID = '{$program['pProgramID']}'");
                     $this->_db->setQuery($ppQuery);
 
-                    $pPoolIDs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+                    $pPoolIDs = OrganizerHelper::executeQuery('loadAssocList');
                 }
 
                 if (!empty($pPoolIDs)) {
@@ -733,7 +734,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                     $pQuery->where("(m.lft > '{$program['lft']}' AND m.rgt < '{$program['rgt']}')");
                     $this->_db->setQuery($pQuery);
 
-                    $poolIDs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+                    $poolIDs = OrganizerHelper::executeQuery('loadAssocList');
                 }
 
                 if (!empty($poolIDs)) {
@@ -787,7 +788,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        $eRooms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $eRooms = OrganizerHelper::executeQuery('loadAssocList');
 
         $this->results['exact']['rooms'] = $this->processRooms($eRooms);
 
@@ -861,7 +862,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             }
             $this->_db->setQuery($query);
 
-            $sRooms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $sRooms = OrganizerHelper::executeQuery('loadAssocList');
 
             $this->results['strong']['rooms'] = $this->processRooms($sRooms);
         }
@@ -884,7 +885,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         if ($performRelatedQuery) {
             $this->_db->setQuery($query);
 
-            $rRooms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $rRooms = OrganizerHelper::executeQuery('loadAssocList');
 
             $this->results['related']['rooms'] = $this->processRooms($rRooms);
         }
@@ -958,9 +959,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $sQuery->where($sClause);
 
         $this->_db->setQuery($psQuery);
-        $planSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'psID');
+        $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
         $this->_db->setQuery($sQuery);
-        $subjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'sID');
+        $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
         $this->results['exact']['subjects'] = $this->processSubjects($subjects, $planSubjects);
 
@@ -1004,9 +1005,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->filterLessons($sQuery);
 
         $this->_db->setQuery($psQuery);
-        $planSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'psID');
+        $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
         $this->_db->setQuery($sQuery);
-        $subjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'sID');
+        $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
         $this->results['strong']['subjects'] = $this->processSubjects($subjects, $planSubjects);
 
@@ -1056,14 +1057,14 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         if (!empty($psWherray)) {
             $this->_db->setQuery($psQuery);
-            $planSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'psID');
+            $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
         } else {
             $planSubjects = null;
         }
 
         if (!empty($sWherray)) {
             $this->_db->setQuery($sQuery);
-            $subjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'sID');
+            $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
         } else {
             $subjects = null;
         }
@@ -1098,7 +1099,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->addInclusiveConditions($sQuery, $sWherray);
         $this->_db->setQuery($sQuery);
 
-        $subjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'sID');
+        $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
         $this->results['mentioned']['subjects'] = $this->processSubjects($subjects, $planSubjects);
 
@@ -1137,9 +1138,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $this->_db->setQuery($psQuery);
-        $planSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'psID');
+        $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
         $this->_db->setQuery($sQuery);
-        $subjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'sID');
+        $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
         $this->results['related']['subjects'] = $this->processSubjects($subjects, $planSubjects);
     }
@@ -1192,7 +1193,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->addInclusiveConditions($query, $wherray);
             $this->_db->setQuery($query);
 
-            $eTeachers = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $eTeachers = OrganizerHelper::executeQuery('loadAssocList');
 
             $this->results['exact']['teachers'] = $this->processTeachers($eTeachers);
         }
@@ -1210,7 +1211,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        $sTeachers = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $sTeachers = OrganizerHelper::executeQuery('loadAssocList');
 
         $this->results['strong']['teachers'] = $this->processTeachers($sTeachers);
 
@@ -1227,7 +1228,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        $gTeachers = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $gTeachers = OrganizerHelper::executeQuery('loadAssocList');
 
         $this->results['good']['teachers'] = $this->processTeachers($gTeachers);
     }
@@ -1294,9 +1295,9 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->addInclusiveConditions($ppQuery, $degreeWherray);
 
             $this->_db->setQuery($ppQuery);
-            $planPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $planPrograms = OrganizerHelper::executeQuery('loadAssocList');
             $this->_db->setQuery($pQuery);
-            $programs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $programs = OrganizerHelper::executeQuery('loadAssocList');
 
             $programResults['exact'] = $this->processPrograms($programs, $planPrograms);
         }
@@ -1307,11 +1308,11 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         $this->addInclusiveConditions($ppQuery, $wherray);
         $this->_db->setQuery($ppQuery);
-        $sPlanPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $sPlanPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
         $this->addInclusiveConditions($pQuery, $wherray);
         $this->_db->setQuery($pQuery);
-        $sPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $sPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
         $programResults['strong'] = $this->processPrograms($sPrograms, $sPlanPrograms);
 
@@ -1323,11 +1324,11 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         $this->addInclusiveConditions($ppQuery, $wherray);
         $this->_db->setQuery($ppQuery);
-        $gPlanPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $gPlanPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
         $this->addInclusiveConditions($pQuery, $wherray);
         $this->_db->setQuery($pQuery);
-        $gPrograms = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $gPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
         $programResults['good'] = $this->processPrograms($gPrograms, $gPlanPrograms);
         $this->programResults   = $programResults;

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class loads item form data to edit an entry.
  */
@@ -102,7 +104,7 @@ class THM_OrganizerModelEdit extends \Joomla\CMS\MVC\Model\AdminModel
      */
     protected function loadFormData()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = OrganizerHelper::getInput();
         $resourceIDs = $input->get('cid', [], 'array');
         $resourceID  = empty($resourceIDs) ? $input->getInt('id', 0) : $resourceIDs[0];
 

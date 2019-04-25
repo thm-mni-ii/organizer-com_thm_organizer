@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -34,7 +35,7 @@ class JFormFieldBuildingID extends \JFormFieldList
     protected function getOptions()
     {
         $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $input          = THM_OrganizerHelperComponent::getInput();
+        $input          = OrganizerHelper::getInput();
         $formData       = $input->get('jform', [], 'array');
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
@@ -52,7 +53,7 @@ class JFormFieldBuildingID extends \JFormFieldList
         $query->order('name');
         $dbo->setQuery($query);
 
-        $buildings = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $buildings = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($buildings)) {
             return $defaultOptions;
         }

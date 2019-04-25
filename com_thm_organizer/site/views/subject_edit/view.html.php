@@ -13,9 +13,10 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
+use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads persistent information about a subject into the display context.
@@ -48,7 +49,7 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $input           = THM_OrganizerHelperComponent::getInput();
+        $input           = OrganizerHelper::getInput();
         $this->subjectID = $input->getInt('id', 0);
 
         if (empty($this->subjectID)) {
@@ -67,7 +68,7 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
 
         $this->lang = Languages::getLanguage();
 
-        THM_OrganizerHelperComponent::addMenuParameters($this);
+        OrganizerHelper::addMenuParameters($this);
 
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->languageParams = ['id' => $this->subjectID, 'lessonID' => $this->lessonID, 'view' => 'subject_edit'];

@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class provides generalized functions useful for several component files.
  */
-class THM_OrganizerHelperComponent
+class OrganizerHelper
 {
     /**
      * Adds menu parameters to the object (id and route)

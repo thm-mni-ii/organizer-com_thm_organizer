@@ -11,6 +11,7 @@
 require_once 'courses.php';
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -63,7 +64,7 @@ class THM_OrganizerHelperParticipants
                 $query->where("userID = '$participantID'");
                 $query->where("lessonID = '$courseID'");
                 $dbo->setQuery($query);
-                $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+                $success = (bool)OrganizerHelper::executeQuery('execute');
                 if (!$success) {
                     return false;
                 }
@@ -92,7 +93,7 @@ class THM_OrganizerHelperParticipants
     private static function notify($participantID, $courseID, $state)
     {
         $mailer = \JFactory::getMailer();
-        $input  = THM_OrganizerHelperComponent::getInput();
+        $input  = OrganizerHelper::getInput();
 
         $user       = \JFactory::getUser($participantID);
         $userParams = json_decode($user->params, true);
@@ -106,7 +107,7 @@ class THM_OrganizerHelperParticipants
             $input->set('languageTag', $tag);
         }
 
-        $params = THM_OrganizerHelperComponent::getParams();
+        $params = OrganizerHelper::getParams();
         $sender = \JFactory::getUser($params->get('mailSender'));
 
         if (empty($sender->id)) {

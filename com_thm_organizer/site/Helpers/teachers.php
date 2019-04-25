@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -73,7 +74,7 @@ class THM_OrganizerHelperTeachers
 
         if ($multiple) {
 
-            $teacherList = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $teacherList = OrganizerHelper::executeQuery('loadAssocList');
             if (empty($teacherList)) {
                 return [];
             }
@@ -85,7 +86,7 @@ class THM_OrganizerHelperTeachers
             return $teacherList;
         }
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        return OrganizerHelper::executeQuery('loadAssoc', []);
     }
 
     /**
@@ -126,7 +127,7 @@ class THM_OrganizerHelperTeachers
             ->from('#__thm_organizer_department_resources')
             ->where("teacherID = $teacherID");
         $dbo->setQuery($query);
-        $departmentIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         return empty($departmentIDs) ? [] : $departmentIDs;
     }
@@ -149,7 +150,7 @@ class THM_OrganizerHelperTeachers
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id')
             ->where("teacherID = $teacherID");
         $dbo->setQuery($query);
-        $departments = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $departments = OrganizerHelper::executeQuery('loadColumn', []);
 
         return empty($departments) ? [] : $departments;
     }
@@ -207,7 +208,7 @@ class THM_OrganizerHelperTeachers
             try {
                 $success = $teacherTable->load($criteria);
             } catch (Exception $exc) {
-                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+                OrganizerHelper::message($exc->getMessage(), 'error');
 
                 return 0;
             }
@@ -265,7 +266,7 @@ class THM_OrganizerHelperTeachers
             ->where("username = '{$user->username}'");
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (int)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -281,7 +282,7 @@ class THM_OrganizerHelperTeachers
             return [];
         }
 
-        $input         = THM_OrganizerHelperComponent::getInput();
+        $input         = OrganizerHelper::getInput();
         $departmentIDs = explode(',', $input->getString('departmentIDs'));
         $isTeacher     = self::getIDFromUserData();
         if (empty($departmentIDs) and empty($isTeacher)) {
@@ -331,7 +332,7 @@ class THM_OrganizerHelperTeachers
 
         $query->where(implode(' OR ', $wherray));
         $dbo->setQuery($query);
-        $teacherIDs = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $teacherIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         if (empty($teacherIDs)) {
             return [];
@@ -366,7 +367,7 @@ class THM_OrganizerHelperTeachers
         $query->select('COUNT(*)')->from("#__thm_organizer_{$table}_teachers")->where("teacherID = '$teacherID'");
         $dbo->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (bool)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**

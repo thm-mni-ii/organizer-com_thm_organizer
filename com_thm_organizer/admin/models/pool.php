@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored (subject) pool data.
  */
@@ -27,7 +29,7 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $poolIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $poolIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         if (!empty($poolIDs)) {
             $this->_db->transactionStart();
             foreach ($poolIDs as $poolID) {
@@ -85,7 +87,7 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (empty($data['id'])) {
             if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {

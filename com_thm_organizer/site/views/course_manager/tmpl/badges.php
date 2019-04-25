@@ -8,7 +8,10 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 require_once 'course_export.php';
+
+use OrganizerHelper;
 
 /**
  * Class generates sheets of participant badges based on the registered participants.
@@ -181,7 +184,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
      */
     private function addBadgeBack($xOffset, $yOffset)
     {
-        $params = THM_OrganizerHelperComponent::getParams();
+        $params = OrganizerHelper::getParams();
 
         $badgeCenter = $xOffset + 5;
 

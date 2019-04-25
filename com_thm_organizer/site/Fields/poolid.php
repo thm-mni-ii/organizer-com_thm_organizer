@@ -11,9 +11,10 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -56,7 +57,7 @@ class JFormFieldPoolID extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $pools          = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $pools          = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($pools)) {
             return $defaultOptions;
         }

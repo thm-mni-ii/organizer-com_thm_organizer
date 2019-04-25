@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
+use OrganizerHelper;
+
 /**
  * Class used to import lsf program data.
  */
@@ -34,7 +36,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         $query->where("p.id = '$programID'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        return OrganizerHelper::executeQuery('loadAssoc', []);
     }
 
     /**
@@ -56,7 +58,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             ->where("rgt < '{$borders[0]['rgt']}'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -67,7 +69,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function importBatch()
     {
-        $programIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $programIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
 
         $this->_db->transactionStart();
         foreach ($programIDs as $programID) {
@@ -101,7 +103,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
     {
         $programData = $this->getSavedProgramData($programID);
         if (empty($programData)) {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
 
             return false;
         }
@@ -207,7 +209,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function updateBatch()
     {
-        $programIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $programIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
 
         if (empty($programIDs)) {
             return false;

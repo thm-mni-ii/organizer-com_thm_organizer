@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
+
 /**
  * Class builds a model of a set of curriculum resources in JSON format.
  */
@@ -30,13 +32,13 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getCurriculum()
     {
-        $programID = THM_OrganizerHelperComponent::getInput()->getInt('programID');
+        $programID = OrganizerHelper::getInput()->getInt('programID');
 
         if (empty($programID)) {
             return '';
         }
 
-        $languageTag = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');
+        $languageTag = OrganizerHelper::getInput()->getString('languageTag', 'de');
 
         // Get the major in order to build the complete label of a given major/curriculum
         $program = $this->getProgramData($programID);
@@ -72,7 +74,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("m.rgt <= '$right'");
         $query->order('field');
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        return OrganizerHelper::executeQuery('loadAssocList');
     }
 
     /**
@@ -96,13 +98,13 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("p.id = '$poolID'");
         $dbo->setQuery($query);
 
-        $poolData = THM_OrganizerHelperComponent::executeQuery('loadObject');
+        $poolData = OrganizerHelper::executeQuery('loadObject');
         if (empty($poolData)) {
             $poolData = new \stdClass;
         }
 
         if (empty($poolData->color)) {
-            $poolData->color = THM_OrganizerHelperComponent::getParams()->get('backgroundColor', '#ffffff');
+            $poolData->color = OrganizerHelper::getParams()->get('backgroundColor', '#ffffff');
         }
 
         $poolData->children = [];
@@ -121,7 +123,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function getProgramData($programID)
     {
-        $languageTag = THM_OrganizerHelperComponent::getInput()->getString('languageTag', 'de');
+        $languageTag = OrganizerHelper::getInput()->getString('languageTag', 'de');
         $dbo         = \JFactory::getDbo();
         $query       = $dbo->getQuery(true);
         $parts       = ["p.name_{$languageTag}", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
@@ -134,7 +136,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("p.id = '$programID'");
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadObject');
+        return OrganizerHelper::executeQuery('loadObject');
     }
 
     /**
@@ -149,7 +151,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function getSubjectData($subjectID, $langTag)
     {
-        $itemID        = THM_OrganizerHelperComponent::getInput()->get('Itemid');
+        $itemID        = OrganizerHelper::getInput()->get('Itemid');
         $dbo           = \JFactory::getDbo();
         $query         = $dbo->getQuery(true);
         $select        = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
@@ -170,13 +172,13 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("s.id = '$subjectID'");
         $dbo->setQuery($query);
 
-        $subjectData = THM_OrganizerHelperComponent::executeQuery('loadObject');
+        $subjectData = OrganizerHelper::executeQuery('loadObject');
         if (empty($subjectData)) {
             return null;
         }
 
         if (empty($subjectData->color)) {
-            $subjectData->color = THM_OrganizerHelperComponent::getParams()->get('backgroundColor', '#ffffff');
+            $subjectData->color = OrganizerHelper::getParams()->get('backgroundColor', '#ffffff');
         }
 
         $subjectData->link = \JRoute::_($subjectData->link);
@@ -217,7 +219,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $mappingsQuery->order('lft');
         $dbo->setQuery($mappingsQuery);
 
-        $mappings = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $mappings = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($mappings)) {
             return $children;
         }
@@ -263,7 +265,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (int)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -284,7 +286,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
         $query->where("startDate <= '$date'")->where("endDate >= '$date'")->where("active = '1'");
         $dbo->setQuery($query);
 
-        $currentSchedules = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $currentSchedules = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($currentSchedules)) {
             return;
         }

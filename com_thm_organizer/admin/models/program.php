@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored (degree) program data.
  */
@@ -29,7 +31,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $programIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $programIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         if (!empty($programIDs)) {
             $this->_db->transactionStart();
             $table = \JTable::getInstance('programs', 'thm_organizerTable');
@@ -69,7 +71,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save($data = [])
     {
-        $data = empty($data) ? THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array') : $data;
+        $data = empty($data) ? OrganizerHelper::getInput()->get('jform', [], 'array') : $data;
 
         if (empty($data['id'])) {
             $documentationAccess = THM_OrganizerHelperAccess::allowDocumentAccess();
@@ -117,7 +119,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = OrganizerHelper::getInput()->get('jform', [], 'array');
         if (isset($data['id'])) {
             unset($data['id']);
         }

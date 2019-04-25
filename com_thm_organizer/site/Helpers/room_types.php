@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -34,7 +35,7 @@ class THM_OrganizerHelperRoomTypes
         try {
             $success = $roomTypesTable->load($typeID);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return '';
         }
@@ -64,6 +65,6 @@ class THM_OrganizerHelperRoomTypes
         $query->order('name');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], ['name', 'id']);
+        return OrganizerHelper::executeQuery('loadAssocList', [], ['name', 'id']);
     }
 }

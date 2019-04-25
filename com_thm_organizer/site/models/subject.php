@@ -14,6 +14,8 @@ defined('TEACHER') or define('TEACHER', 2);
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored subject data.
  */
@@ -35,7 +37,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->values("'$subjectID', '$prerequisite'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -57,7 +59,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -78,7 +80,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->values("'$subjectID', '$teacherID', '$responsibility'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -112,7 +114,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $subjectIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $subjectIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         if (!empty($subjectIDs)) {
             $this->_db->transactionStart();
             foreach ($subjectIDs as $subjectID) {
@@ -317,7 +319,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -334,7 +336,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->delete('#__thm_organizer_subject_mappings')->where("subjectID = '$subjectID'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -357,7 +359,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -369,7 +371,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (!isset($data['id'])) {
             throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
@@ -412,7 +414,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $lessonID = THM_OrganizerHelperComponent::getInput()->getInt('lessonID', 0);
+        $lessonID = OrganizerHelper::getInput()->getInt('lessonID', 0);
         if (!empty($lessonID)) {
             THM_OrganizerHelperCourses::refreshWaitList($lessonID);
         }

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class which models, validates and compares schedule data to and from json objects.
  */
@@ -183,7 +185,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
                 ->where("lessonID = '$lessonID'");
             $this->_db->setQuery($calendarQuery);
 
-            $calendarEntries = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'id');
+            $calendarEntries = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
 
             // Occurs when the planner left the room blank
             if (empty($calendarEntries)) {
@@ -196,7 +198,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
                 ->where("lessonID = '$lessonID'");
             $this->_db->setQuery($lessonSubjectsQuery);
 
-            $lessonSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'subjectID');
+            $lessonSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'subjectID');
 
             // Should not occur
             if (empty($lessonSubjects)) {
@@ -228,7 +230,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
                         ->where('configurationID NOT IN (' . implode(', ', $configIDs) . ')');
                     $this->_db->setQuery($deprecatedQuery);
 
-                    $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+                    $success = (bool)OrganizerHelper::executeQuery('execute');
                     if (empty($success)) {
                         return false;
                     }
@@ -259,7 +261,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -435,7 +437,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $calendarSaved        = $this->saveCalendar();
             $configurationsMapped = $this->mapConfigurations();
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
             $this->_db->transactionRollback();
 
             return false;
@@ -522,7 +524,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $deprecatedQuery->where("delta != 'removed'");
             $this->_db->setQuery($deprecatedQuery);
 
-            $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+            $success = (bool)OrganizerHelper::executeQuery('execute');
             if (!$success) {
                 return false;
             }
@@ -628,7 +630,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -659,7 +661,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $success = $table->save($data);
 
             if (!$success) {
-                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 continue;
             }
 
@@ -678,7 +680,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -708,7 +710,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $success = $table->save($data);
 
             if (!$success) {
-                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
                 continue;
             }
@@ -737,7 +739,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -767,7 +769,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             $success = $table->save($data);
 
             if (!$success) {
-                THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+                OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
                 continue;
             }
 
@@ -782,7 +784,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 
     /**
@@ -805,7 +807,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             ->innerJoin('#__thm_organizer_plan_pools as p_pool on p_prg.id = p_pool.programID')
             ->where("p_pool.id = '$poolID'");
         $this->_db->setQuery($boundariesQuery);
-        $boundaries = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $boundaries = OrganizerHelper::executeQuery('loadAssoc', []);
 
         if (empty($boundaries)) {
             return;
@@ -821,7 +823,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
             ->where("s.externalID = '$subjectNo'");
         $this->_db->setQuery($subjectQuery);
 
-        $subjectID = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $subjectID = OrganizerHelper::executeQuery('loadResult');
         if (empty($subjectID)) {
             return;
         }
@@ -881,7 +883,7 @@ class THM_OrganizerModelSchedule_JSON extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $dbSuccess = $this->save();
         if (!$dbSuccess) {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL', 'notice');
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SCHEDULE_SAVE_FAIL', 'notice');
 
             return false;
         }

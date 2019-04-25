@@ -20,6 +20,7 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperDescriptions as Descriptions;
 use THM_OrganizerHelperGrids as Grids;
 use THM_OrganizerHelperLessons as Lessons;
@@ -66,11 +67,11 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         if (count($this->scheduleErrors)) {
             $errorMessage = \JText::_('THM_ORGANIZER_ERROR_HEADER') . '<br />';
             $errorMessage .= implode('<br />', $this->scheduleErrors);
-            THM_OrganizerHelperComponent::message($errorMessage, 'error');
+            OrganizerHelper::message($errorMessage, 'error');
         }
 
         if (count($this->scheduleWarnings)) {
-            THM_OrganizerHelperComponent::message(implode('<br />', $this->scheduleWarnings), 'warning');
+            OrganizerHelper::message(implode('<br />', $this->scheduleWarnings), 'warning');
         }
     }
 
@@ -82,7 +83,7 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     public function validate()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = OrganizerHelper::getInput();
         $formFiles   = $input->files->get('jform', [], 'array');
         $file        = $formFiles['file'];
         $xmlSchedule = simplexml_load_file($file['tmp_name']);

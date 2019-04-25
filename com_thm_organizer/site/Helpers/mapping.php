@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -41,7 +42,7 @@ class THM_OrganizerHelperMapping
         $query->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($query);
 
-        $ufBoundarySet = THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        $ufBoundarySet = OrganizerHelper::executeQuery('loadAssocList', []);
 
         if ($resourceType == 'program' or $resourceType == 'subject' or !$excludeChildPools) {
             return $ufBoundarySet;
@@ -83,7 +84,7 @@ class THM_OrganizerHelperMapping
         $childrenQuery->where("rgt < '{$mapping['rgt']}'");
         $dbo->setQuery($childrenQuery);
 
-        return array_merge($children, THM_OrganizerHelperComponent::executeQuery('loadColumn', []));
+        return array_merge($children, OrganizerHelper::executeQuery('loadColumn', []));
     }
 
     /**
@@ -154,7 +155,7 @@ class THM_OrganizerHelperMapping
         try {
             $poolsTable->load($mapping['poolID']);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return '';
         }
@@ -188,7 +189,7 @@ class THM_OrganizerHelperMapping
             $query->where("rgt > '{$mapping['rgt']}'");
             $query->where('parentID IS NULL');
             $dbo->setQuery($query);
-            $program = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+            $program = OrganizerHelper::executeQuery('loadAssoc', []);
 
             if (!empty($program) and !in_array($program, $programs)) {
                 $programs[] = $program;
@@ -220,7 +221,7 @@ class THM_OrganizerHelperMapping
             $query->order('lft ASC');
             $dbo->setQuery($query);
 
-            $results = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+            $results = OrganizerHelper::executeQuery('loadAssocList');
             if (empty($results)) {
                 continue;
             }
@@ -281,7 +282,7 @@ class THM_OrganizerHelperMapping
         $query->where("dp.id = '{$mapping['programID']}'");
         $dbo->setQuery($query);
 
-        $name = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $name = OrganizerHelper::executeQuery('loadResult');
 
         if (empty($name)) {
             return '';
@@ -317,7 +318,7 @@ class THM_OrganizerHelperMapping
         $query->order('name ASC');
         $dbo->setQuery($query);
 
-        $programs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $programs = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($programs)) {
             return [];
         }
@@ -359,10 +360,10 @@ class THM_OrganizerHelperMapping
         $dbo->setQuery($query);
 
         if ($getIDs) {
-            return THM_OrganizerHelperComponent::executeQuery('loadAssocList', null, 'id');
+            return OrganizerHelper::executeQuery('loadAssocList', null, 'id');
         }
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -392,7 +393,7 @@ class THM_OrganizerHelperMapping
 
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -460,7 +461,7 @@ class THM_OrganizerHelperMapping
             $lftQuery->where("( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')");
             $dbo->setQuery($lftQuery);
 
-            $poolLFT = THM_OrganizerHelperComponent::executeQuery('loadResult');
+            $poolLFT = OrganizerHelper::executeQuery('loadResult');
             if (empty($poolLFT)) {
                 continue;
             }
@@ -469,7 +470,7 @@ class THM_OrganizerHelperMapping
             $nameQuery->where("lft = '$poolLFT'");
             $dbo->setQuery($nameQuery);
 
-            $pools[] = THM_OrganizerHelperComponent::executeQuery('loadResult');
+            $pools[] = OrganizerHelper::executeQuery('loadResult');
         }
 
         return $pools;
@@ -500,7 +501,7 @@ class THM_OrganizerHelperMapping
         $query->where($rangesClause);
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -511,7 +512,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getTeacherMappingClauses()
     {
-        $teacherID = THM_OrganizerHelperComponent::getInput()->getInt('teacherID', 0);
+        $teacherID = OrganizerHelper::getInput()->getInt('teacherID', 0);
         if (empty($teacherID) or $teacherID == '-1' or $teacherID == 'null') {
             return null;
         }
@@ -526,7 +527,7 @@ class THM_OrganizerHelperMapping
         $query->where("st.teacherID = '$teacherID'");
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -546,7 +547,7 @@ class THM_OrganizerHelperMapping
         $query->order('lft');
         $dbo->setQuery($query);
 
-        $exclusions = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $exclusions = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($exclusions)) {
             return [$boundaries];
         }
@@ -604,9 +605,9 @@ class THM_OrganizerHelperMapping
         $query->from('#__thm_organizer_mappings');
         $query->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($query);
-        $mappings   = array_merge($mappings, THM_OrganizerHelperComponent::executeQuery('loadAssocList', []));
-        $mappingIDs = array_merge($mappingIDs, THM_OrganizerHelperComponent::executeQuery('loadColumn', []));
-        $parentIDs  = array_merge($parentIDs, THM_OrganizerHelperComponent::executeQuery('loadColumn', [], 1));
+        $mappings   = array_merge($mappings, OrganizerHelper::executeQuery('loadAssocList', []));
+        $mappingIDs = array_merge($mappingIDs, OrganizerHelper::executeQuery('loadColumn', []));
+        $parentIDs  = array_merge($parentIDs, OrganizerHelper::executeQuery('loadColumn', [], 1));
     }
 
     /**

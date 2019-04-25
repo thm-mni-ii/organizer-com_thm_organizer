@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored monitor data.
  */
@@ -29,7 +31,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (empty($data['roomID'])) {
             unset($data['roomID']);
@@ -53,7 +55,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = OrganizerHelper::getInput();
         $monitorID   = $input->getInt('id', 0);
         $plausibleID = ($monitorID > 0);
 
@@ -83,7 +85,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $success    = true;
-        $monitorIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $monitorIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         $table      = \JTable::getInstance('monitors', 'thm_organizerTable');
 
         if (isset($monitorIDs) and count($monitorIDs) > 0) {
@@ -118,7 +120,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $input     = THM_OrganizerHelperComponent::getInput();
+        $input     = OrganizerHelper::getInput();
         $monitorID = $input->getInt('id', 0);
         if (empty($monitorID)) {
             return false;
@@ -132,6 +134,6 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $query->where("id = '$monitorID'");
         $this->_db->setQuery($query);
 
-        return (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+        return (bool)OrganizerHelper::executeQuery('execute');
     }
 }

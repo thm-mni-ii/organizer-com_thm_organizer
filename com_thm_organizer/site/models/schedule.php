@@ -15,6 +15,7 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/departments.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -59,7 +60,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             ->order('name');
         $this->_db->setQuery($query);
 
-        $grids = THM_OrganizerHelperComponent::executeQuery('loadObjectList');
+        $grids = OrganizerHelper::executeQuery('loadObjectList');
 
         return empty($grids) ? [] : $grids;
     }
@@ -88,8 +89,8 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function setParams()
     {
-        $input  = THM_OrganizerHelperComponent::getInput();
-        $params = THM_OrganizerHelperComponent::getParams();
+        $input  = OrganizerHelper::getInput();
+        $params = OrganizerHelper::getParams();
 
         $reqDepartmentID = $input->getInt('departmentID', 0);
         $rawDeptIDs      = $input->getString('departmentIDs');
@@ -288,10 +289,10 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function setResourceArray($resourceName)
     {
-        $rawResourceIDs = THM_OrganizerHelperComponent::getInput()->get("{$resourceName}IDs", [], 'raw');
+        $rawResourceIDs = OrganizerHelper::getInput()->get("{$resourceName}IDs", [], 'raw');
 
         if (empty($rawResourceIDs)) {
-            $rawResourceIDs = THM_OrganizerHelperComponent::getParams()->get("{$resourceName}IDs");
+            $rawResourceIDs = OrganizerHelper::getParams()->get("{$resourceName}IDs");
         }
 
         if (!empty($rawResourceIDs)) {
@@ -334,7 +335,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             ->where("user_id = $userID");
         $this->_db->setQuery($query);
 
-        if (THM_OrganizerHelperComponent::executeQuery('loadResult') == 1) {
+        if (OrganizerHelper::executeQuery('loadResult') == 1) {
             return 'checked';
         } else {
             return '';

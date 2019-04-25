@@ -11,6 +11,8 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
+use OrganizerHelper;
+
 /**
  * Class loads a form for editing participant data.
  */
@@ -33,7 +35,7 @@ class THM_OrganizerModelParticipant_Edit extends \Joomla\CMS\MVC\Model\FormModel
 
         $this->_db->setQuery($query);
 
-        $item = THM_OrganizerHelperComponent::executeQuery('loadObject');
+        $item = OrganizerHelper::executeQuery('loadObject');
 
         return empty($item->id) ? new \stdClass : $item;
     }

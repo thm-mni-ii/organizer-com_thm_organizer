@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -29,7 +30,7 @@ class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
     public function getInput()
     {
         $fieldName      = $this->getAttribute('name');
-        $subjectID      = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
+        $subjectID      = OrganizerHelper::getInput()->getInt('id', 0);
         $responsibility = $this->getAttribute('responsibility');
 
         $dbo           = \JFactory::getDbo();
@@ -38,7 +39,7 @@ class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
         $selectedQuery->from('#__thm_organizer_subject_teachers');
         $selectedQuery->where("subjectID = '$subjectID' AND teacherResp = '$responsibility'");
         $dbo->setQuery($selectedQuery);
-        $selected = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $selected = OrganizerHelper::executeQuery('loadColumn', []);
 
         $teachersQuery = $dbo->getQuery(true);
         $teachersQuery->select('id AS value, surname, forename');
@@ -46,7 +47,7 @@ class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
         $teachersQuery->order('surname, forename');
         $dbo->setQuery($teachersQuery);
 
-        $teachers = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $teachers = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($teachers)) {
             $teachers = [];
         }

@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -34,10 +35,10 @@ class JFormFieldColorID extends \Joomla\CMS\Form\FormField
      */
     public function getInput()
     {
-        $input   = THM_OrganizerHelperComponent::getInput();
+        $input   = OrganizerHelper::getInput();
         $fieldID = $input->getInt('id');
         if (empty($fieldID)) {
-            $selectedFields = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+            $selectedFields = OrganizerHelper::getInput()->get('cid', [], 'array');
         } else {
             $selectedFields = [$fieldID];
         }
@@ -60,7 +61,7 @@ class JFormFieldColorID extends \Joomla\CMS\Form\FormField
 
         $dbo->setQuery($query);
 
-        $colors = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $colors = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($colors)) {
             return '';
         }

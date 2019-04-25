@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class instantiates a \JTable Object associated with the pools table.
  */
@@ -36,7 +38,7 @@ class THM_OrganizerTablePools extends \Joomla\CMS\Table\Table
     public function bind($array, $ignore = '')
     {
         if (isset($array['rules']) && is_array($array['rules'])) {
-            THM_OrganizerHelperComponent::cleanRules($array['rules']);
+            OrganizerHelper::cleanRules($array['rules']);
             $rules = new \JAccessRules($array['rules']);
             $this->setRules($rules);
         }

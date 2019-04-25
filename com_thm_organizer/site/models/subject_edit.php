@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
+use OrganizerHelper;
+
 /**
  * Class loads a form for editing data.
  */
@@ -106,7 +108,7 @@ class THM_OrganizerModelSubject_Edit extends \Joomla\CMS\MVC\Model\AdminModel
      */
     protected function loadFormData()
     {
-        $input       = THM_OrganizerHelperComponent::getInput();
+        $input       = OrganizerHelper::getInput();
         $resourceIDs = $input->get('cid', [], 'array');
         $resourceID  = empty($resourceIDs) ? $input->getInt('id', 0) : $resourceIDs[0];
 

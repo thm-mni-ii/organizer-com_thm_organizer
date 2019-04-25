@@ -10,6 +10,7 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -28,7 +29,7 @@ class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
     public function getInput()
     {
         $fieldName = $this->getAttribute('name');
-        $subjectID = THM_OrganizerHelperComponent::getInput()->getInt('id', 0);
+        $subjectID = OrganizerHelper::getInput()->getInt('id', 0);
 
         $dbo           = \JFactory::getDbo();
         $selectedQuery = $dbo->getQuery(true);
@@ -36,7 +37,7 @@ class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
         $selectedQuery->from('#__thm_organizer_subject_mappings');
         $selectedQuery->where("subjectID = '$subjectID'");
         $dbo->setQuery($selectedQuery);
-        $selected = THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        $selected = OrganizerHelper::executeQuery('loadColumn', []);
 
         $planSubjectQuery = $dbo->getQuery(true);
         $planSubjectQuery->select('id AS value, name');
@@ -44,7 +45,7 @@ class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
         $planSubjectQuery->order('name');
         $dbo->setQuery($planSubjectQuery);
 
-        $planSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $planSubjects = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($planSubjects)) {
             $planSubjects = [];
         }

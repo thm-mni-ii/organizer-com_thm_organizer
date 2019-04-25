@@ -9,6 +9,7 @@
  * @link        www.thm.de
  */
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -25,7 +26,7 @@ $badgesRoute          = \JRoute::_($baseURL . 2, false);
 $registeredText = $this->lang->_('THM_ORGANIZER_COURSE_REGISTERED');
 $waitListText   = $this->lang->_('THM_ORGANIZER_WAIT_LIST');
 
-$params     = THM_OrganizerHelperComponent::getParams();
+$params     = OrganizerHelper::getParams();
 $dateFormat = $params->get('dateFormat', 'd.m.Y') . ' ';
 $dateFormat .= $params->get('timeFormat', 'H.i');
 ?>

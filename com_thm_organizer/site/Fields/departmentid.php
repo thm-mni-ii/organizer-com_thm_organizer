@@ -11,11 +11,12 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Class creates a select box for departments.
@@ -59,10 +60,10 @@ class JFormFieldDepartmentID extends \JFormFieldList
         // Get the field options.
         $options = (array)$this->getOptions();
 
-        $input      = THM_OrganizerHelperComponent::getInput();
+        $input      = OrganizerHelper::getInput();
         $resourceID = $input->getInt('id');
         if (empty($resourceID)) {
-            $selected = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+            $selected = OrganizerHelper::getInput()->get('cid', [], 'array');
         } else {
             $selected = [$resourceID];
         }
@@ -96,7 +97,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
         $query->from('#__thm_organizer_departments AS d');
 
         // For use in the merge view
-        $app               = THM_OrganizerHelperComponent::getApplication();
+        $app               = OrganizerHelper::getApplication();
         $isBackend         = $app->isClient('administrator');
         $selectedIDs       = $app->input->get('cid', [], 'array');
         $resource          = $this->getAttribute('resource', '');
@@ -126,7 +127,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
         $dbo->setQuery($query);
 
         $defaultOptions = parent::getOptions();
-        $departments    = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $departments    = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($departments)) {
             return $defaultOptions;
         }

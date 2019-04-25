@@ -14,6 +14,7 @@ require_once 'buildings.php';
 require_once 'departments.php';
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -38,12 +39,12 @@ class THM_OrganizerHelperRooms
         try {
             $roomTable->load($loadCriteria);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return null;
         }
 
-        $buildingREGEX = THM_OrganizerHelperComponent::getParams()->get('buildingRegex');
+        $buildingREGEX = OrganizerHelper::getParams()->get('buildingRegex');
 
         if (!empty($buildingREGEX) and !empty($data->name)) {
             $matchFound = preg_match("/$buildingREGEX/", $data->name, $matches);
@@ -83,7 +84,7 @@ class THM_OrganizerHelperRooms
         try {
             $success = $roomTable->load($roomID);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return '';
         }
@@ -105,7 +106,7 @@ class THM_OrganizerHelperRooms
             return $default;
         }
 
-        $app           = THM_OrganizerHelperComponent::getApplication();
+        $app           = OrganizerHelper::getApplication();
         $dbo           = \JFactory::getDbo();
         $relevantRooms = [];
 
@@ -140,7 +141,7 @@ class THM_OrganizerHelperRooms
 
             $dbo->setQuery($query);
 
-            $count = THM_OrganizerHelperComponent::executeQuery('loadResult');
+            $count = OrganizerHelper::executeQuery('loadResult');
 
             if (!empty($count)) {
                 $relevantRooms[$room['name']] = ['id' => $room['id'], 'typeID' => $room['typeID']];
@@ -160,7 +161,7 @@ class THM_OrganizerHelperRooms
     public static function getRooms()
     {
         $shortTag = Languages::getShortTag();
-        $app      = THM_OrganizerHelperComponent::getApplication();
+        $app      = OrganizerHelper::getApplication();
         $input    = $app->input;
         $formData = $input->get('jform', [], 'array');
 
@@ -225,7 +226,7 @@ class THM_OrganizerHelperRooms
         $query->order('longname');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**

@@ -9,9 +9,10 @@
  * @link        www.thm.de
  */
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
-$menuID = THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
+$menuID = OrganizerHelper::getInput()->getInt('Itemid');
 $task   = 'participant.save';
 
 if (empty($this->course)) {

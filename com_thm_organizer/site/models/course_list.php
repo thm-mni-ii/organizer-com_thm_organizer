@@ -11,6 +11,7 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -125,10 +126,10 @@ class THM_OrganizerModelCourse_List extends \Joomla\CMS\MVC\Model\ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (empty($formData)) {
-            $params    = THM_OrganizerHelperComponent::getParams();
+            $params    = OrganizerHelper::getParams();
             $campusID  = $params->get('campusID', 0);
             $status    = 'current';
             $subjectID = 0;

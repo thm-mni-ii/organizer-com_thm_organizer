@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 require_once 'schedule_json.php';
 require_once 'schedule_xml.php';
 
+use OrganizerHelper;
 use THM_OrganizerModelSchedule_JSON as Schedule_JSON;
 use THM_OrganizerModelSchedule_XML as Schedule_XML;
 
@@ -74,7 +75,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function checkIfActive()
     {
-        $scheduleIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $scheduleIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         if (!empty($scheduleIDs)) {
             $scheduleID = $scheduleIDs[0];
             $schedule   = \JTable::getInstance('schedules', 'thm_organizerTable');
@@ -100,7 +101,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         }
 
         $this->_db->transactionStart();
-        $scheduleIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $scheduleIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         foreach ($scheduleIDs as $scheduleID) {
 
             if (!THM_OrganizerHelperAccess::allowSchedulingAccess($scheduleID)) {
@@ -111,7 +112,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             try {
                 $success = $this->deleteSingle($scheduleID);
             } catch (Exception $exc) {
-                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+                OrganizerHelper::message($exc->getMessage(), 'error');
                 $this->_db->transactionRollback();
 
                 return false;
@@ -154,7 +155,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     private function getScheduleRow($departmentID = null, $planningPeriodID = null)
     {
         if (empty($departmentID) or empty($planningPeriodID)) {
-            $input = THM_OrganizerHelperComponent::getInput();
+            $input = OrganizerHelper::getInput();
 
             // called from activate or set reference => table id in request
             $listIDs = $input->get('cid', [], 'array');
@@ -223,7 +224,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function toggle()
     {
-        $input      = THM_OrganizerHelperComponent::getInput();
+        $input      = OrganizerHelper::getInput();
         $scheduleID = $input->getInt('id', 0);
 
         if (empty($scheduleID)) {
@@ -249,7 +250,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function upload($shouldNotify)
     {
-        $form        = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $form        = OrganizerHelper::getInput()->get('jform', [], 'array');
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
 
         if ($invalidForm) {

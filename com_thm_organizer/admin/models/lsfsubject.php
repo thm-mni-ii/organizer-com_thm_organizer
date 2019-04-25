@@ -15,6 +15,8 @@ defined('TEACHER') or define('TEACHER', 2);
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
+use OrganizerHelper;
+
 /**
  * Class used to import lsf subject data.
  */
@@ -85,7 +87,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                 $query->where("s.externalID = '$possibleModuleNumber'");
                 $this->_db->setQuery($query);
 
-                $mappedSubjects = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'mappingID');
+                $mappedSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'mappingID');
                 if (empty($mappedSubjects)) {
                     continue;
                 }
@@ -195,7 +197,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
             ->where("rgt < '{$program['rgt']}'");
         $this->_db->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -206,7 +208,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function importBatch()
     {
-        $subjectIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $subjectIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         $this->_db->transactionStart();
 
         foreach ($subjectIDs as $subjectID) {
@@ -251,7 +253,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
         $entryExists = $subject->load($subjectID);
         if (!$entryExists) {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_BAD_ENTRY', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_BAD_ENTRY', 'error');
 
             return false;
         }
@@ -291,7 +293,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         $teachersSet = $this->setTeachers($subject->id, $dataObject);
 
         if (!$teachersSet) {
-            THM_OrganizerHelperComponent::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
             return false;
         }
@@ -830,7 +832,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                 try {
                     $success = $teacherTable->load($criteria);
                 } catch (Exception $exc) {
-                    THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+                    OrganizerHelper::message($exc->getMessage(), 'error');
 
                     return false;
                 }
@@ -876,7 +878,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                     ->where("subjectID = '$subjectID'");
                 $this->_db->setQuery($checkQuery);
 
-                $entryExists = (bool)THM_OrganizerHelperComponent::executeQuery('loadResult');
+                $entryExists = (bool)OrganizerHelper::executeQuery('loadResult');
 
                 if (!$entryExists) {
                     $insertQuery = $this->_db->getQuery(true);
@@ -884,7 +886,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
                     $insertQuery->columns('prerequisite, subjectID');
                     $insertQuery->values("'$prerequisiteID', '$subjectID'");
                     $this->_db->setQuery($insertQuery);
-                    THM_OrganizerHelperComponent::executeQuery('execute');
+                    OrganizerHelper::executeQuery('execute');
                 }
             }
         }

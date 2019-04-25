@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once 'merge.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/plan_pools.php';
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored plan (subject) pool data.
  */
@@ -62,7 +64,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      */
     public function batch()
     {
-        $input    = THM_OrganizerHelperComponent::getInput();
+        $input    = OrganizerHelper::getInput();
         $pPoolIDs = $input->get('cid', [], 'array');
         if (empty($pPoolIDs)) {
             return false;
@@ -95,7 +97,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             return false;
         }
 
-        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         return $this->savePublishing($formData['id']);
     }
@@ -112,7 +114,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             return false;
         }
 
-        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (empty($this->savePublishing($formData['id']))) {
             return false;
@@ -130,7 +132,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
      */
     private function savePublishing($pPoolID)
     {
-        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData = OrganizerHelper::getInput()->get('jform', [], 'array');
         if (!empty($formData['publishing'])) {
             foreach ($formData['publishing'] as $periodID => $publish) {
                 $table = \JTable::getInstance('plan_pool_publishing', 'thm_organizerTable');
@@ -163,7 +165,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
         $query->select('*')->from('#__thm_organizer_lesson_pools')->where("poolID = {$this->data['id']}");
         $this->_db->setQuery($query);
 
-        $assocs = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $assocs = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($assocs)) {
             return true;
         }
@@ -193,7 +195,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
             $query       = $this->_db->getQuery(true);
             $query->delete('#__thm_organizer_lesson_pools')->where("id IN $idsToDelete");
             $this->_db->setQuery($query);
-            $success = (bool)THM_OrganizerHelperComponent::executeQuery('execute');
+            $success = (bool)OrganizerHelper::executeQuery('execute');
             if (!$success) {
                 return false;
             }

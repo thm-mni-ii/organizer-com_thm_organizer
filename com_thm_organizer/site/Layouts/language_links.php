@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
+use THM_OrganizerHelperLanguages as Languages;
 
 $current            = Languages::getShortTag();
 $lang               = Languages::getLanguage();
@@ -30,7 +31,7 @@ if (empty($displayData['view'])) {
     $params           = $displayData;
     $params['option'] = 'com_thm_organizer';
     $params           = array_merge($displayData, $params);
-    $menuID           = \THM_OrganizerHelperComponent::getInput()->getInt('Itemid');
+    $menuID           = OrganizerHelper::getInput()->getInt('Itemid');
     if (!empty($menuID)) {
         $params['Itemid'] = $menuID;
     }

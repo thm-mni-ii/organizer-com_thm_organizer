@@ -16,8 +16,9 @@ define('CONTENT', 3);
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/date.php';
 
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
+use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information about upcoming events for display on monitors.
@@ -62,8 +63,8 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
      */
     private function setParams()
     {
-        $this->params = THM_OrganizerHelperComponent::getParams();
-        $input        = THM_OrganizerHelperComponent::getInput();
+        $this->params = OrganizerHelper::getParams();
+        $input        = OrganizerHelper::getInput();
 
         $this->params['layout'] = empty($this->isRegistered()) ? 'default' : 'registered';
 
@@ -95,7 +96,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
      */
     protected function populateState()
     {
-        $formData = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         $menuStartDate      = $this->params->get('startDate');
         $menuEndDate        = $this->params->get('endDate');
@@ -286,7 +287,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
         $query->select('id')->from('#__thm_organizer_rooms');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadColumn', []);
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
@@ -385,7 +386,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
         $this->filterEvents($query);
         $this->_db->setQuery($query);
 
-        $events = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $events = OrganizerHelper::executeQuery('loadAssocList');
 
         if (!empty($events)) {
             foreach ($events as $index => $event) {
@@ -444,7 +445,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
      */
     private function isRegistered()
     {
-        $ipData       = ['ip' => THM_OrganizerHelperComponent::getInput()->server->getString('REMOTE_ADDR', '')];
+        $ipData       = ['ip' => OrganizerHelper::getInput()->server->getString('REMOTE_ADDR', '')];
         $monitorEntry = \JTable::getInstance('monitors', 'thm_organizerTable');
         $registered   = $monitorEntry->load($ipData);
         if (!$registered) {
@@ -456,7 +457,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
             return false;
         }
 
-        $app         = THM_OrganizerHelperComponent::getApplication();
+        $app         = OrganizerHelper::getApplication();
         $templateSet = $app->input->getString('tmpl', '') == 'component';
         if (!$templateSet) {
             $base  = Uri::root() . 'index.php?';
@@ -613,7 +614,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
             try {
                 $roomsTable->load($roomID);
             } catch (Exception $exc) {
-                THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+                OrganizerHelper::message($exc->getMessage(), 'error');
                 unset($this->rooms[$roomID]);
             }
 

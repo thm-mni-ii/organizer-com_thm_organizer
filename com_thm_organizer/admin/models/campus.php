@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored campus data.
  */
@@ -29,7 +31,7 @@ class THM_OrganizerModelCampus extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data      = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data      = OrganizerHelper::getInput()->get('jform', [], 'array');
         $dataTable = \JTable::getInstance('campuses', 'thm_organizerTable');
 
         // Ensure maximal depth of two
@@ -56,6 +58,6 @@ class THM_OrganizerModelCampus extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        return THM_OrganizerHelperComponent::delete('campuses');
+        return OrganizerHelper::delete('campuses');
     }
 }

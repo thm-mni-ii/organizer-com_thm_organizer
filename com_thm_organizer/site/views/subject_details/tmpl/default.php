@@ -8,6 +8,7 @@
  * @link        www.thm.de
  */
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
@@ -18,7 +19,7 @@ if (!empty($this->menu)) {
     $menuText = $this->lang->_('THM_ORGANIZER_BACK');
 }
 
-$position = THM_OrganizerHelperComponent::getParams()->get('loginPosition');
+$position = OrganizerHelper::getParams()->get('loginPosition');
 echo '<div class="toolbar">';
 echo $this->languageLinks->render($this->languageParams);
 echo '</div>';

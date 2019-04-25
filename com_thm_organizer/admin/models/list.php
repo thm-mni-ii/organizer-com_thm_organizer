@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
 
@@ -37,7 +38,7 @@ abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
     {
         parent::__construct($config);
 
-        $this->defaultLimit = THM_OrganizerHelperComponent::getApplication()->get('list_limit', '20');
+        $this->defaultLimit = OrganizerHelper::getApplication()->get('list_limit', '20');
     }
 
     /**
@@ -103,7 +104,7 @@ abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
         $query->select("COUNT(DISTINCT ($idColumn))");
         $this->_db->setQuery($query);
 
-        $total = (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $total = (int)OrganizerHelper::executeQuery('loadResult');
 
         // Add the total to the internal cache.
         $this->cache[$store] = $total;
@@ -119,7 +120,7 @@ abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = THM_OrganizerHelperComponent::getApplication()->getUserState($this->context, new \stdClass);
+        $data = OrganizerHelper::getApplication()->getUserState($this->context, new \stdClass);
 
         // Pre-create the list options
         if (!property_exists($data, 'list')) {
@@ -160,7 +161,7 @@ abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = THM_OrganizerHelperComponent::getApplication();
+        $app = OrganizerHelper::getApplication();
 
         // Receive & set filters
         $filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');

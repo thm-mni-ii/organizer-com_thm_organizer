@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
 use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
+use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads teacher workload statistics into the display context.
@@ -53,7 +54,7 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
         // Sets js and css
         $this->modifyDocument();
 
-        $this->params = THM_OrganizerHelperComponent::getParams();
+        $this->params = OrganizerHelper::getParams();
 
         $this->model          = $this->getModel();
         $this->departmentName = $this->model->departmentName;

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Provides general functions for language data retrieval and display.
  */
@@ -61,7 +63,7 @@ class THM_OrganizerHelperLanguages extends \Joomla\CMS\Language\Language
      */
     public static function getShortTag()
     {
-        $app          = THM_OrganizerHelperComponent::getApplication();
+        $app          = OrganizerHelper::getApplication();
         $requestedTag = $app->input->get('languageTag');
 
         if (!empty($requestedTag)) {

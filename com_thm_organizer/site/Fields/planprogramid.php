@@ -11,8 +11,9 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/component.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -40,7 +41,7 @@ class JFormFieldPlanProgramID extends \JFormFieldList
         $query->order('text ASC');
 
         // For use in the merge view
-        $selectedIDs = THM_OrganizerHelperComponent::getInput()->get('cid', [], 'array');
+        $selectedIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         if (!empty($selectedIDs)) {
             $selectedIDs = Joomla\Utilities\ArrayHelper::toInteger($selectedIDs);
             $query->innerJoin('#__thm_organizer_plan_pools AS ppl ON ppl.programID = ppr.id');
@@ -59,7 +60,7 @@ class JFormFieldPlanProgramID extends \JFormFieldList
             $defaultDept = $departmentRestrict === 'force' ? $allowedDepartments[0] : 0;
 
             // Direct input
-            $input        = THM_OrganizerHelperComponent::getInput();
+            $input        = OrganizerHelper::getInput();
             $departmentID = $input->getInt('departmentID', $defaultDept);
 
             // Possible frontend form (jform)
@@ -83,7 +84,7 @@ class JFormFieldPlanProgramID extends \JFormFieldList
         $dbo->setQuery($query);
         $defaultOptions = parent::getOptions();
 
-        $values = THM_OrganizerHelperComponent::executeQuery('loadAssocList');
+        $values = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($values)) {
             return $defaultOptions;
         }

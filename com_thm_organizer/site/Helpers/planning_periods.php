@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once 'departments.php';
 
+use OrganizerHelper;
+
 /**
  * Provides general functions for planning_period access checks, data retrieval and display.
  */
@@ -32,7 +34,7 @@ class THM_OrganizerHelperPlanning_Periods
             ->where("'$date' BETWEEN startDate and endDate");
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (int)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -49,7 +51,7 @@ class THM_OrganizerHelperPlanning_Periods
         try {
             $success = $ppTable->load($ppID);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return null;
         }
@@ -72,7 +74,7 @@ class THM_OrganizerHelperPlanning_Periods
         try {
             $success = $ppTable->load($loadCriteria);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return null;
         }
@@ -103,7 +105,7 @@ class THM_OrganizerHelperPlanning_Periods
         try {
             $success = $ppTable->load($ppID);
         } catch (Exception $exc) {
-            THM_OrganizerHelperComponent::message($exc->getMessage(), 'error');
+            OrganizerHelper::message($exc->getMessage(), 'error');
 
             return null;
         }
@@ -134,7 +136,7 @@ class THM_OrganizerHelperPlanning_Periods
             ->order('startDate ASC');
         $dbo->setQuery($query);
 
-        return (int)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (int)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**
@@ -146,7 +148,7 @@ class THM_OrganizerHelperPlanning_Periods
     public static function getPlanningPeriods()
     {
         $dbo   = \JFactory::getDbo();
-        $input = THM_OrganizerHelperComponent::getInput();
+        $input = OrganizerHelper::getInput();
 
         $selectedDepartments = $input->getString('departmentIDs');
         $selectedPrograms    = $input->getString('programIDs');
@@ -176,6 +178,6 @@ class THM_OrganizerHelperPlanning_Periods
         $query->order('startDate');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 }

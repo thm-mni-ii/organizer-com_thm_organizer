@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use OrganizerHelper;
+
 /**
  * Class which manages stored grid data.
  */
@@ -28,7 +30,7 @@ class THM_OrganizerModelGrid extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data  = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $data  = OrganizerHelper::getInput()->get('jform', [], 'array');
         $table = \JTable::getInstance('grids', 'thm_organizerTable');
 
         // Save grids in json by foreach because the index is not numeric
@@ -57,6 +59,6 @@ class THM_OrganizerModelGrid extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
-        return THM_OrganizerHelperComponent::delete('grids');
+        return OrganizerHelper::delete('grids');
     }
 }

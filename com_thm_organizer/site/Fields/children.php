@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
 
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
@@ -64,7 +65,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
          */
         $dbo->setQuery($idQuery, 0, 1);
 
-        $parentID = THM_OrganizerHelperComponent::executeQuery('loadResult');
+        $parentID = OrganizerHelper::executeQuery('loadResult');
 
         if (empty($parentID)) {
             return [];
@@ -77,7 +78,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
         $childMappingQuery->order('lft ASC');
         $dbo->setQuery($childMappingQuery);
 
-        $children = THM_OrganizerHelperComponent::executeQuery('loadAssocList', [], 'ordering');
+        $children = OrganizerHelper::executeQuery('loadAssocList', [], 'ordering');
         if (empty($children)) {
             return [];
         }
@@ -130,7 +131,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
         $query->where("id = '$resourceID'");
         $dbo->setQuery($query);
 
-        return (string)THM_OrganizerHelperComponent::executeQuery('loadResult');
+        return (string)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**

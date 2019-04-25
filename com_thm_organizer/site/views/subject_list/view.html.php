@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads a filtered set of subjects into the display context.
@@ -44,7 +45,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->modifyDocument();
 
-        $this->params = THM_OrganizerHelperComponent::getParams();
+        $this->params = OrganizerHelper::getParams();
 
         $this->fixGroupBy();
         $this->lang = Languages::getLanguage($this->params->get('initialLanguage', 'de'));

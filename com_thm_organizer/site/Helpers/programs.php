@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'languages.php';
 
+use OrganizerHelper;
 use THM_OrganizerHelperLanguages as Languages;
 
 /**
@@ -81,7 +82,7 @@ class THM_OrganizerHelperPrograms
         }
 
         $dbo->setQuery($query);
-        $names = THM_OrganizerHelperComponent::executeQuery('loadAssoc', []);
+        $names = OrganizerHelper::executeQuery('loadAssoc', []);
 
         return empty($names) ? '' : empty($names['name']) ? $names['ppName'] : $names['name'];
     }
@@ -95,7 +96,7 @@ class THM_OrganizerHelperPrograms
     {
         $dbo           = \JFactory::getDbo();
         $languageTag   = Languages::getShortTag();
-        $departmentIDs = THM_OrganizerHelperComponent::getInput()->get('departmentIDs', [], 'raw');
+        $departmentIDs = OrganizerHelper::getInput()->get('departmentIDs', [], 'raw');
 
         $query     = $dbo->getQuery(true);
         $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
@@ -113,7 +114,7 @@ class THM_OrganizerHelperPrograms
         $query->order('ppName');
         $dbo->setQuery($query);
 
-        return THM_OrganizerHelperComponent::executeQuery('loadAssocList', []);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -193,7 +194,7 @@ class THM_OrganizerHelperPrograms
             return $programTable->id;
         }
 
-        $formData                    = THM_OrganizerHelperComponent::getInput()->get('jform', [], 'array');
+        $formData                    = OrganizerHelper::getInput()->get('jform', [], 'array');
         $programData['departmentID'] = $formData['departmentID'];
         $programData['name_de']      = $tempName;
         $programData['name_en']      = $tempName;
