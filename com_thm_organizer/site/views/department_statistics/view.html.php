@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 jimport('tcpdf.tcpdf');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 
 use THM_OrganizerHelperHTML as HTML;
 use THM_OrganizerHelperLanguages as Languages;

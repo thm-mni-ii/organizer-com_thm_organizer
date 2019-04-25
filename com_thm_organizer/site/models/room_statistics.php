@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/departments.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedule.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 
 use THM_OrganizerHelperLanguages as Languages;
 
