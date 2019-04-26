@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/views/list.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -42,7 +42,7 @@ class THM_OrganizerViewPool_Selection extends THM_OrganizerViewList
         HTML::_('jquery.framework');
         HTML::_('searchtools.form', '#adminForm', []);
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/child_selection.css');
     }
 }

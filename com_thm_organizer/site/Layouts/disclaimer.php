@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
 
 $lsfLink   = HTML::link(
     'https://studien-sb-service.th-mittelhessen.de/docu/online.html',

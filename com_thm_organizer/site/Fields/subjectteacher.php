@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a select box for the association of teachers with subject documentation.
@@ -32,7 +32,7 @@ class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
         $subjectID      = OrganizerHelper::getInput()->getInt('id', 0);
         $responsibility = $this->getAttribute('responsibility');
 
-        $dbo           = \JFactory::getDbo();
+        $dbo           = Factory::getDbo();
         $selectedQuery = $dbo->getQuery(true);
         $selectedQuery->select('teacherID');
         $selectedQuery->from('#__thm_organizer_subject_teachers');

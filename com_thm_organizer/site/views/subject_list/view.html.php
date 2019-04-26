@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads a filtered set of subjects into the display context.
@@ -326,7 +326,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('jquery.ui');
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_list.css');
     }
 }

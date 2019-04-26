@@ -10,6 +10,8 @@
 
 jimport('phpexcel.library.PHPExcel');
 
+use Joomla\CMS\Factory;
+
 /**
  * Class generates the department statistics XLS file.
  */
@@ -56,7 +58,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
 
         $this->spreadSheet = new \PHPExcel();
 
-        $userName  = \JFactory::getUser()->name;
+        $userName  = Factory::getUser()->name;
         $startDate = THM_OrganizerHelperDate::formatDate($this->startDate);
         $endDate   = THM_OrganizerHelperDate::formatDate($this->endDate);
 

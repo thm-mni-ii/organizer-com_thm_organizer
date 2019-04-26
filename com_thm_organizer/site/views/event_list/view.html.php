@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -55,7 +55,7 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
     {
         HTML::_('jquery.ui');
         HTML::_('behavior.tooltip');
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/event_list.css');
     }
 }

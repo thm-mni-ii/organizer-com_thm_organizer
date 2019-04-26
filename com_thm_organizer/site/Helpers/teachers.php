@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
  */
@@ -54,7 +56,7 @@ class THM_OrganizerHelperTeachers
      */
     public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false, $unique = true)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, gpuntisID');
         $query->from('#__thm_organizer_teachers AS t');
@@ -118,7 +120,7 @@ class THM_OrganizerHelperTeachers
      */
     public static function getDepartmentIDs($teacherID)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('departmentID')
             ->from('#__thm_organizer_department_resources')
@@ -140,7 +142,7 @@ class THM_OrganizerHelperTeachers
     {
         $shortTag = Languages::getShortTag();
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("d.short_name_$shortTag AS name")
             ->from('#__thm_organizer_departments AS d')
@@ -251,12 +253,12 @@ class THM_OrganizerHelperTeachers
      */
     public static function getIDFromUserData($userID = null)
     {
-        $user = \JFactory::getUser($userID);
+        $user = Factory::getUser($userID);
         if (empty($user->id)) {
             return false;
         }
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')
             ->from('#__thm_organizer_teachers')
@@ -274,7 +276,7 @@ class THM_OrganizerHelperTeachers
      */
     public static function getPlanTeachers()
     {
-        $user = \JFactory::getUser();
+        $user = Factory::getUser();
         if (empty($user->id)) {
             return [];
         }
@@ -295,7 +297,7 @@ class THM_OrganizerHelperTeachers
             }
         }
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT lt.teacherID')
@@ -359,7 +361,7 @@ class THM_OrganizerHelperTeachers
             return false;
         }
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('COUNT(*)')->from("#__thm_organizer_{$table}_teachers")->where("teacherID = '$teacherID'");
         $dbo->setQuery($query);

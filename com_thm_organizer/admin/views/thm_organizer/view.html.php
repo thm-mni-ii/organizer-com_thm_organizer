@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -62,7 +62,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.formvalidation');
         HTML::_('formbehavior.chosen', 'select');
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
     }
 

@@ -15,8 +15,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
+use Joomla\CMS\Factory;
 
 /**
  * Class calculates room usage statistics.
@@ -292,7 +291,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     private function setData($roomID)
     {
         $tag       = Languages::getShortTag();
-        $dbo       = \JFactory::getDbo();
+        $dbo       = Factory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
         $rqSelect = 'DISTINCT ccm.id AS ccmID, ls.id as lsID, l.id AS lessonID, l.comment, ';
@@ -425,7 +424,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     private function setLSData($lsIDs)
     {
         $tag   = Languages::getShortTag();
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $select = 'DISTINCT ls.id AS lsID, ';
@@ -494,7 +493,7 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setRoomTypes()
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = Languages::getShortTag();
 

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Class which manages stored (curriculum) mapping data.
  */
@@ -292,7 +294,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function checkForMapping($resourceID, $resourceType)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
         $dbo->setQuery($query);
@@ -318,7 +320,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings');
@@ -358,7 +360,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function deleteChildren($mappingID)
     {
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         $mappingIDsQuery = $dbo->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
@@ -386,7 +388,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function deleteEntry($entryID)
     {
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         // Retrieves information about the current mapping including its total width
         $mappingQuery = $dbo->getQuery(true);
@@ -456,7 +458,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function determineLft($parentID, $ordering)
     {
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         // Right value of the next lowest sibling
         $rgtQuery = $dbo->getQuery(true);
@@ -490,7 +492,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getChildren($resourceID, $type = 'pool', $deep = true)
     {
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $children = [];
 
         /**
@@ -578,7 +580,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         // Check for an existing ordering as child of the parent element
         $existingOrderQuery = $dbo->getQuery(true);
@@ -618,7 +620,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function getParent($parentID)
     {
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
         $parentQuery = $dbo->getQuery(true);
         $parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
         $dbo->setQuery($parentQuery);
@@ -700,7 +702,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function saveProgram($programID)
     {
-        $dbo       = \JFactory::getDbo();
+        $dbo       = Factory::getDbo();
         $findQuery = $dbo->getQuery(true);
         $findQuery->select('*')->from('#__thm_organizer_mappings')->where('parentID IS NULL')->where("programID = '$programID'");
         $dbo->setQuery($findQuery);
@@ -849,7 +851,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function shiftOrder($parentID, $insertOrder)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->update('#__thm_organizer_mappings')->set('ordering = ordering + 1');
         $query->where("ordering >= '$insertOrder'")->where("parentID = '$parentID'");
@@ -868,7 +870,7 @@ class THM_OrganizerModelMapping extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     private function shiftRight($value)
     {
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->update('#__thm_organizer_mappings')->set('lft = lft + 2')->where("lft >= '$value'");
         $dbo->setQuery($lftQuery);

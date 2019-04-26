@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a form field for building selection.
@@ -38,7 +38,7 @@ class JFormFieldBuildingID extends \JFormFieldList
         $formData       = $input->get('jform', [], 'array');
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT b.id, b.name, c.id AS campusID, c.parentID');

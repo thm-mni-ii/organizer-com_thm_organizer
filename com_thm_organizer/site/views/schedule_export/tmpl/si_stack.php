@@ -10,6 +10,8 @@
 
 jimport('phpexcel.library.PHPExcel');
 
+use Joomla\CMS\Factory;
+
 /**
  * Class generates an XLS file for the schedule where lessons are listed as aggregates.
  */
@@ -34,7 +36,7 @@ class THM_OrganizerTemplateExport_XLS
 
         $spreadSheet = new \PHPExcel();
 
-        $userName    = \JFactory::getUser()->name;
+        $userName    = Factory::getUser()->name;
         $description = $this->getDescription();
         $spreadSheet->getProperties()->setCreator('THM Organizer')
             ->setLastModifiedBy($userName)

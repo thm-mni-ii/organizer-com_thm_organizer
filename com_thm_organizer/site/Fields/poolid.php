@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a select box for (subject) pools.
@@ -33,7 +33,7 @@ class JFormFieldPoolID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $programID = \JFactory::getSession()->get('programID');
+        $programID = Factory::getSession()->get('programID');
         if (empty($programID)) {
             return parent::getOptions();
         }
@@ -44,7 +44,7 @@ class JFormFieldPoolID extends \JFormFieldList
         }
 
         $shortTag = Languages::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
         $query->select("DISTINCT p.id AS value, p.name_$shortTag AS text");
         $query->from('#__thm_organizer_pools AS p');

@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads the schedule export filter form into the display context.
@@ -97,7 +97,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
             $this->setLayout('default_si');
         }
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/schedule_export.js');
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/schedule_export.css');
     }
@@ -287,7 +287,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 
         $attribs = ['multiple' => 'multiple'];
 
-        $user = \JFactory::getUser();
+        $user = Factory::getUser();
 
         if (!empty($user->id)) {
             $this->fields['resourceFields']['myschedule'] = [

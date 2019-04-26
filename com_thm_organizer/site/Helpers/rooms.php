@@ -14,6 +14,8 @@ require_once 'buildings.php';
 require_once 'departments.php';
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Class provides general functions for retrieving room data.
  */
@@ -104,7 +106,7 @@ class THM_OrganizerHelperRooms
         }
 
         $app           = OrganizerHelper::getApplication();
-        $dbo           = \JFactory::getDbo();
+        $dbo           = Factory::getDbo();
         $relevantRooms = [];
 
         $selectedDepartment = $app->input->getInt('departmentIDs');
@@ -173,7 +175,7 @@ class THM_OrganizerHelperRooms
         $inputRooms = (array)$input->getInt('roomID', $input->getInt('roomIDs'));
         $roomIDs    = empty($formData['rooms']) ? $inputRooms : $formData['rooms'];
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT r.id, r.*, rt.name_$shortTag AS typeName, rt.description_$shortTag AS typeDesc")
             ->from('#__thm_organizer_rooms AS r')

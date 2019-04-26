@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for department access checks, data retrieval and display.
  */
@@ -27,7 +29,7 @@ class THM_OrganizerHelperDepartments
      */
     public static function getDepartmentsByResource($resource, $resourceIDs = null)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT departmentID')
             ->from('#__thm_organizer_department_resources');
@@ -53,7 +55,7 @@ class THM_OrganizerHelperDepartments
     public static function getName($departmentID)
     {
         $languageTag = Languages::getShortTag();
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select("name_$languageTag as name")->from('#__thm_organizer_departments')
@@ -74,7 +76,7 @@ class THM_OrganizerHelperDepartments
      */
     public static function getOptions($short = true)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = Languages::getShortTag();
 

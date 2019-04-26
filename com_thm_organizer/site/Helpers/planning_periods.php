@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for planning_period access checks, data retrieval and display.
  */
@@ -26,7 +28,7 @@ class THM_OrganizerHelperPlanning_Periods
     public static function getCurrentID()
     {
         $date  = date('Y-m-d');
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')
             ->from('#__thm_organizer_planning_periods')
@@ -127,7 +129,7 @@ class THM_OrganizerHelperPlanning_Periods
 
         $currentEndDate = self::getEndDate($currentID);
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')
             ->from('#__thm_organizer_planning_periods')
@@ -146,7 +148,7 @@ class THM_OrganizerHelperPlanning_Periods
      */
     public static function getPlanningPeriods()
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $input = OrganizerHelper::getInput();
 
         $selectedDepartments = $input->getString('departmentIDs');

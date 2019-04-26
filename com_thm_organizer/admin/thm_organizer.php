@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-if (!\JFactory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
+use Joomla\CMS\Factory;
+
+if (!Factory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
     throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
 }
 

@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $containerClass = $this->showRegistration ? ' uses-login' : '';
@@ -29,7 +29,7 @@ if (!empty($this->item['name']['value'])) {
 }
 
 if ($this->showRegistration) {
-    if (empty(\JFactory::getUser()->id)) {
+    if (empty(Factory::getUser()->id)) {
         ?>
         <script type="text/javascript">
             jQuery(document).ready(function () {

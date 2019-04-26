@@ -10,8 +10,8 @@
  * @link        www.thm.de
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads the subject into the display context.
@@ -103,7 +103,7 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_details.css');
     }
 

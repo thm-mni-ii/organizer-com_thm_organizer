@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
 use Joomla\CMS\Uri\Uri;
 
 $attribs = ['target' => '_blank'];

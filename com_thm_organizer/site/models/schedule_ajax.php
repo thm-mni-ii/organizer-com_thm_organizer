@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Class retrieves dynamic schedule information.
@@ -46,7 +46,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
             throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
-        $userID = \JFactory::getUser()->id;
+        $userID = Factory::getUser()->id;
         if (empty($userID)) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
@@ -140,7 +140,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
             }
         }
 
-        $parameters['userID']          = \JFactory::getUser()->id;
+        $parameters['userID']          = Factory::getUser()->id;
         $parameters['mySchedule']      = $input->getBool('mySchedule', false);
         $parameters['date']            = $input->getString('date', date('Y-m-d', time()));
         $parameters['dateRestriction'] = $input->getString('dateRestriction');
@@ -332,7 +332,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
             throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
-        $userID = \JFactory::getUser()->id;
+        $userID = Factory::getUser()->id;
         if (empty($userID)) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
@@ -379,7 +379,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
     public function setNotify()
     {
         $isChecked = OrganizerHelper::getInput()->get('isChecked') == 'false' ? 0 : 1;
-        $userID = \JFactory::getUser()->id;
+        $userID = Factory::getUser()->id;
         if ($userID == 0) {
             return;
         }

@@ -13,9 +13,6 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
-
 /**
  * Retrieves lesson and event data for a filtered set of rooms.
  */

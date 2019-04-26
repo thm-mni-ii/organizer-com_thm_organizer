@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class provides a standardized framework for the display of listed resources.
@@ -262,7 +262,7 @@ abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
             and in_array(strtoupper($list['direction']), ['ASC', 'DESC', '']));
         $direction         = $validReqDirection ? $list['direction'] : $this->defaultDirection;
 
-        $session = \JFactory::getSession();
+        $session = Factory::getSession();
         if (!empty($list['fullordering'])) {
             $this->processFullOrdering($list, $session, $ordering, $direction);
         }
@@ -324,7 +324,7 @@ abstract class THM_OrganizerModelList extends \Joomla\CMS\MVC\Model\ListModel
     protected function setOrdering(&$query)
     {
         $defaultOrdering = "{$this->defaultOrdering} {$this->defaultDirection}";
-        $session         = \JFactory::getSession();
+        $session         = Factory::getSession();
         $listOrdering    = $this->state->get('list.fullordering', $defaultOrdering);
         if (strpos($listOrdering, 'null') !== false) {
             $sessionOrdering = $session->get('ordering', '');

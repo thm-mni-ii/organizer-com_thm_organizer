@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
  * planning periods.
@@ -30,7 +32,7 @@ class JFormFieldPlanningPeriodPublishing extends \Joomla\CMS\Form\FormField
      */
     protected function getInput()
     {
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
         $periodQuery = $dbo->getQuery(true);
         $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order('startDate ASC');
         $dbo->setQuery($periodQuery);

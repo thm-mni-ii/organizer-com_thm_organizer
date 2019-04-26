@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a select box for predefined colors.
@@ -41,7 +41,7 @@ class JFormFieldColorID extends \Joomla\CMS\Form\FormField
             $selectedFields = [$fieldID];
         }
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT c.id, c.name_de, c.name_en, c.color, f.id AS fieldID");
         $query->from(' #__thm_organizer_colors as c');

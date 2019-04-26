@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a select box for plan programs.
@@ -32,7 +32,7 @@ class JFormFieldPlanProgramID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT ppr.id AS value, ppr.name AS text');
         $query->from('#__thm_organizer_plan_programs AS ppr');

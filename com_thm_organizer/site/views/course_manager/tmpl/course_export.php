@@ -13,6 +13,8 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 jimport('tcpdf.tcpdf');
 
+use Joomla\CMS\Factory;
+
 /**
  * Base PDF export class used for the generation of various course exports.
  */
@@ -78,7 +80,7 @@ abstract class THM_OrganizerTemplateCourse_Export
         }
 
         $this->document = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $this->document->SetAuthor(\JFactory::getUser()->name);
+        $this->document->SetAuthor(Factory::getUser()->name);
         $this->document->SetCreator(PDF_CREATOR);
     }
 

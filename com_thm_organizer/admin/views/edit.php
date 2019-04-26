@@ -11,7 +11,7 @@
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/edit_basic.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/edit_tabbed.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -60,7 +60,7 @@ abstract class THM_OrganizerViewEdit extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.formvalidator');
         HTML::_('formbehavior.chosen', 'select');
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/submitButton.js');

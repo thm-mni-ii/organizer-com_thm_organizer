@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
 
-use OrganizerHelper as OrganizerHelper;
-
 /**
  * Class retrieves dynamic pool options.
  */

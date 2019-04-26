@@ -15,9 +15,8 @@ define('CONTENT', 3);
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
 
 /**
  * Class retrieves information about daily events for display on monitors.
@@ -222,7 +221,7 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
      */
     private function setAlternatingLayout()
     {
-        $session   = \JFactory::getSession();
+        $session   = Factory::getSession();
         $displayed = $session->get('displayed', 'schedule');
 
         if ($displayed == 'schedule') {

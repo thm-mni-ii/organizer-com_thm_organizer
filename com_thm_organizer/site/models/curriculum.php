@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
-
 /**
  * Class loads curriculum information into the view context.
  */

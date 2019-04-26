@@ -16,6 +16,8 @@ require_once 'OrganizerHelper.php';
 require_once 'rooms.php';
 require_once 'teachers.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for schedule access checks, data retrieval and display.
  */
@@ -251,7 +253,7 @@ class THM_OrganizerHelperSchedules
         }
 
         $tag   = Languages::getShortTag();
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
@@ -333,7 +335,7 @@ class THM_OrganizerHelperSchedules
         ];
 
         $tag           = Languages::getShortTag();
-        $dbo           = \JFactory::getDbo();
+        $dbo           = Factory::getDbo();
         $subjectsQuery = $dbo->getQuery(true);
 
         $select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, ";
@@ -524,7 +526,7 @@ class THM_OrganizerHelperSchedules
      */
     public static function getNextAvailableDates($parameters)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('MIN(c.schedule_date) AS minDate');
@@ -601,7 +603,7 @@ class THM_OrganizerHelperSchedules
      */
     private static function getUserFilteredLessons($lessons, $userID)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('lessonID, configuration')

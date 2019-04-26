@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class which manages stored monitor data.
  */
@@ -87,7 +89,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $table      = \JTable::getInstance('monitors', 'thm_organizerTable');
 
         if (isset($monitorIDs) and count($monitorIDs) > 0) {
-            $dbo = \JFactory::getDbo();
+            $dbo = Factory::getDbo();
             $dbo->transactionStart();
 
             foreach ($monitorIDs as $monitorID) {

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for mapping data retrieval.
  */
@@ -33,7 +35,7 @@ class THM_OrganizerHelperMapping
             return false;
         }
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("{$resourceType}ID, lft, rgt")->from('#__thm_organizer_mappings');
         $query->where("{$resourceType}ID = '$resourceID'");
@@ -64,7 +66,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getChildren(&$mappings)
     {
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $children = [];
 
         // The children should be the same regardless of which mapping is used, so we just take the last one
@@ -174,7 +176,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramEntries(&$mappings)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id, programID, lft, rgt');
         $query->from('#__thm_organizer_mappings');
@@ -205,7 +207,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getProgramMappings(&$programEntries)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('*');
         $query->from('#__thm_organizer_mappings');
@@ -269,7 +271,7 @@ class THM_OrganizerHelperMapping
     public static function getProgramOption(&$mapping, &$selectedParents, $resourceType)
     {
         $shortTag = Languages::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
         $text     = $query->concatenate($parts, '') . ' AS text';
@@ -304,7 +306,7 @@ class THM_OrganizerHelperMapping
     public static function getProgramOptions()
     {
         $shortTag = Languages::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
         $text     = $query->concatenate($parts, '') . ' AS name';
@@ -343,7 +345,7 @@ class THM_OrganizerHelperMapping
             $rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
         }
 
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $shortTag = Languages::getShortTag();
         $query    = $dbo->getQuery(true);
         $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
@@ -374,7 +376,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getResourceRanges($resourceType, $resourceID)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT lft, rgt')->from('#__thm_organizer_mappings');
 
@@ -436,7 +438,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getSubjectPools($ranges)
     {
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $lftQuery = $dbo->getQuery(true);
         $lftQuery->select('lft');
         $lftQuery->from('#__thm_organizer_pools AS p');
@@ -482,7 +484,7 @@ class THM_OrganizerHelperMapping
      */
     public static function getSelectedPrograms($ranges)
     {
-        $dbo             = \JFactory::getDbo();
+        $dbo             = Factory::getDbo();
         $rangeConditions = [];
         foreach ($ranges as $range) {
             $rangeConditions[] = "( lft < '{$range['lft']}' AND rgt > '{$range['rgt']}' )";
@@ -514,7 +516,7 @@ class THM_OrganizerHelperMapping
             return null;
         }
 
-        $dbo                  = \JFactory::getDbo();
+        $dbo                  = Factory::getDbo();
         $query                = $dbo->getQuery(true);
         $concateMappingClause = ["'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt'];
         $mappingClause        = $query->concatenate($concateMappingClause);
@@ -536,7 +538,7 @@ class THM_OrganizerHelperMapping
      */
     public static function removeExclusions($boundaries)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('lft, rgt')->from('#__thm_organizer_mappings');
         $query->where('poolID IS NOT NULL');
@@ -596,7 +598,7 @@ class THM_OrganizerHelperMapping
      */
     public static function setMappingData($resourceID, $resourceType, &$mappings, &$mappingIDs, &$parentIDs)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id, parentID, lft, rgt');
         $query->from('#__thm_organizer_mappings');

@@ -16,8 +16,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
+use Joomla\CMS\Factory;
 
 /**
  * Class retrieves information for the creation of a schedule export form.
@@ -403,11 +402,11 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
         $authentication = urldecode($input->getString('auth', ''));
 
         if (!empty($userName) and !empty($authentication)) {
-            $user          = \JFactory::getUser($userName);
+            $user          = Factory::getUser($userName);
             $authenticates = password_verify($user->email . $user->registerDate, $authentication);
-            $parameters['userID'] = $authenticates ? $user->id : \JFactory::getUser()->id;
-        } elseif (\JFactory::getUser()->id != 0) {
-            $parameters['userID'] = \JFactory::getUser()->id;
+            $parameters['userID'] = $authenticates ? $user->id : Factory::getUser()->id;
+        } elseif (Factory::getUser()->id != 0) {
+            $parameters['userID'] = Factory::getUser()->id;
         }
 
         $allowedLengths                = ['day', 'week', 'month', 'semester', 'custom'];

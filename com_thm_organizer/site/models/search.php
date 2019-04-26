@@ -16,9 +16,6 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/subjects.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
-
 /**
  * Class searches THM Organizer resources for resources and views relevant to the given search query.
  */

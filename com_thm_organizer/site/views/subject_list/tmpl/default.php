@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 
-use THM_OrganizerHelperHTML as HTML;
 use Joomla\CMS\Uri\Uri;
 
 $query           = $this->escape($this->state->get('search'));

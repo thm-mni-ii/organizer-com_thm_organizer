@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class retrieves information for a filtered set of (subject) pools.
@@ -154,7 +154,7 @@ class THM_OrganizerModelPool_Manager extends THM_OrganizerModelList
         $query->clear('select');
         $query->clear('order');
         $query->select('COUNT(DISTINCT p.id)');
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
         $dbo->setQuery($query);
 
         return (int)OrganizerHelper::executeQuery('loadResult');

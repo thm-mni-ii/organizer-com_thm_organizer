@@ -10,8 +10,8 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads curriculum information into the display context.
@@ -67,7 +67,7 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('bootstrap.framework');
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/curriculum.css');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/curriculum.js');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/container.js');

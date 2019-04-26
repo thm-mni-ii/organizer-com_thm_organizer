@@ -11,7 +11,7 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -39,7 +39,7 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        if (empty(\JFactory::getUser()->id)) {
+        if (empty(Factory::getUser()->id)) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
@@ -72,6 +72,6 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
     {
         HTML::_('bootstrap.tooltip');
 
-        \JFactory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/participant_edit.css');
+        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/participant_edit.css');
     }
 }

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
@@ -26,7 +28,7 @@ class THM_OrganizerHelperPlan_Programs
      */
     public static function allowEdit($ppIDs)
     {
-        $user = \JFactory::getUser();
+        $user = Factory::getUser();
 
         if (empty($user->id)) {
             return false;
@@ -43,7 +45,7 @@ class THM_OrganizerHelperPlan_Programs
         $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
         $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT id')
             ->from('#__thm_organizer_department_resources')

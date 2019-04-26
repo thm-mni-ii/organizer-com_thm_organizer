@@ -14,8 +14,8 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads room statistic information into the display context.
@@ -68,7 +68,7 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.calendar');
         HTML::_('formbehavior.chosen', 'select');
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/room_statistics.js');
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_statistics.css');
     }

@@ -9,8 +9,8 @@
  * @link        www.thm.de
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 $header      = Languages::_('THM_ORGANIZER_COURSE_OVERVIEW_HEADER');
 $campusName  = empty($this->state->filter_campus) ? '' : THM_OrganizerHelperCampuses::getName($this->state->filter_campus);
@@ -48,7 +48,7 @@ if (!empty($menuID)):
 <div class="course-list-view uses-login">
     <h1><?php echo $header; ?></h1>
 
-    <?php if (empty(\JFactory::getUser()->id)): ?>
+    <?php if (empty(Factory::getUser()->id)): ?>
         <div class="tbox-yellow">
             <p><?php echo Languages::_('THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
             <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>

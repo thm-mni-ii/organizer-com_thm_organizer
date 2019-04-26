@@ -11,12 +11,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 require_once 'OrganizerHelper.php';
 
 /**
  * Class provides generalized functions useful for several component files.
  */
-class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
+class HTML extends HTMLHelper
 {
     /**
      * Gets a div with a given background color and text with a dynamically calculated text color

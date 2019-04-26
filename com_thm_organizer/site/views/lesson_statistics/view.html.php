@@ -8,6 +8,7 @@
  * @link        www.thm.de
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -52,7 +53,7 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $this->lessons = $model->lessons;
         $this->total   = $model->total;
 
-        \JFactory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
+        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
 
         parent::display($tpl);
     }

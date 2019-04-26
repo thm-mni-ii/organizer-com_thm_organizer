@@ -10,11 +10,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['xlsWeekFormat', 'grouping'];
-$user          = \JFactory::getUser();
+$user          = Factory::getUser();
 ?>
 <script type="text/javascript">
     var rootURI = '<?php echo Uri::root(); ?>',

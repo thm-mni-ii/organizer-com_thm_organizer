@@ -15,6 +15,8 @@ require_once 'grids.php';
 require_once 'OrganizerHelper.php';
 require_once 'programs.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for (subject) pool access checks, data retrieval and display.
  */
@@ -126,7 +128,7 @@ class THM_OrganizerHelperPools
      */
     public static function getPlanPools($short = true)
     {
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select('ppl.id, ppl.name, ppl.full_name');
@@ -192,7 +194,7 @@ class THM_OrganizerHelperPools
 
         $languageTag = Languages::getShortTag();
 
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT l.id, l.comment, ls.subjectID, m.abbreviation_$languageTag AS method")
@@ -283,7 +285,7 @@ class THM_OrganizerHelperPools
             $interval = 'semester';
         }
 
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT ls.subjectID')

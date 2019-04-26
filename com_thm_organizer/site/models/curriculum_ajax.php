@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Class builds a model of a set of curriculum resources in JSON format.
@@ -88,7 +88,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function getPoolData($poolID, $langTag)
     {
-        $dbo    = \JFactory::getDbo();
+        $dbo    = Factory::getDbo();
         $query  = $dbo->getQuery(true);
         $select = "p.id, lsfID, hisID, externalID, name_$langTag AS name, minCrP, maxCrP, color";
         $query->select($select);
@@ -124,7 +124,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
     private function getProgramData($programID)
     {
         $languageTag = OrganizerHelper::getInput()->getString('languageTag', 'de');
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
         $query       = $dbo->getQuery(true);
         $parts       = ["p.name_{$languageTag}", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $select      = $query->concatenate($parts, '') . ' AS name, ';
@@ -152,7 +152,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
     private function getSubjectData($subjectID, $langTag)
     {
         $itemID        = OrganizerHelper::getInput()->get('Itemid');
-        $dbo           = \JFactory::getDbo();
+        $dbo           = Factory::getDbo();
         $query         = $dbo->getQuery(true);
         $select        = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
         $concateSelect = [
@@ -209,7 +209,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     public function getChildren($lft, $rgt, $langTag = 'de')
     {
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $children = [];
 
         $mappingsQuery = $dbo->getQuery(true);
@@ -260,7 +260,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function lastChildOrder($mappingID)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
         $dbo->setQuery($query);
@@ -280,7 +280,7 @@ class THM_OrganizerModelCurriculum_Ajax extends \Joomla\CMS\MVC\Model\BaseDataba
     private function setScheduleData($programName)
     {
         $date  = date('Y-m-d');
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id, schedule')->from('#__thm_organizer_schedules');
         $query->where("startDate <= '$date'")->where("endDate >= '$date'")->where("active = '1'");

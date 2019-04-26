@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_thm_organizer/icalcreator/iCalcreator.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Class creates a ICS file for the display of the filtered schedule information.
  */
@@ -37,7 +39,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $model                      = $this->getModel();
         $this->parameters           = $model->parameters;
         $this->parameters['mailto'] = empty($this->parameters['userID']) ?
-            '' : \JFactory::getUser($this->parameters['userID'])->email;
+            '' : Factory::getUser($this->parameters['userID'])->email;
 
         $this->createCalendar();
 

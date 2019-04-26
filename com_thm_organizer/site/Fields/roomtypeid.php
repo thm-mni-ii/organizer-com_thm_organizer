@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a form field for room type selection
@@ -38,7 +38,7 @@ class JFormFieldRoomTypeID extends \JFormFieldList
         $buildingID     = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
         $shortTag = Languages::getShortTag();
         $query->select("DISTINCT rt.id, rt.name_$shortTag AS name")

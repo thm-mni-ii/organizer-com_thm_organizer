@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides functions for XML description validation and modeling.
  */
@@ -29,7 +31,7 @@ class THM_OrganizerHelperDescriptions
      */
     private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
         $dbo->setQuery($query);

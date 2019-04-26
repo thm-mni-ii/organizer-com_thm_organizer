@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class retrieves information for a filtered set of subjects. Modal view.
@@ -31,7 +31,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
 
     protected function getListQuery()
     {
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $shortTag = Languages::getShortTag();
 
         // Create the sql query
@@ -125,7 +125,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
         $query->clear('select');
         $query->clear('order');
         $query->select('COUNT(DISTINCT s.id)');
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
         $dbo->setQuery($query);
 
         return (int)OrganizerHelper::executeQuery('loadResult');
@@ -143,7 +143,7 @@ class THM_OrganizerModelSubject_Selection extends THM_OrganizerModelList
     {
         parent::populateState($ordering, $direction);
 
-        $session = \JFactory::getSession();
+        $session = Factory::getSession();
         $session->clear('programID');
         $formProgramID = $this->state->get('list.programID', '');
         if (!empty($formProgramID)) {

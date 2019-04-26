@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads persistent information about a subject into the display context.
@@ -82,6 +82,6 @@ class THM_OrganizerViewSubject_Edit extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
 
-        \JFactory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_edit.css');
+        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_edit.css');
     }
 }

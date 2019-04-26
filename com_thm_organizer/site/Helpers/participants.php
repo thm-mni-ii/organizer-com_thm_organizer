@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once 'courses.php';
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for participant access checks, data retrieval and display.
  */
@@ -57,7 +59,7 @@ class THM_OrganizerHelperParticipants
                 break;
 
             case self::REMOVED:
-                $dbo   = \JFactory::getDbo();
+                $dbo   = Factory::getDbo();
                 $query = $dbo->getQuery(true);
                 $query->delete('#__thm_organizer_user_lessons');
                 $query->where("userID = '$participantID'");
@@ -91,10 +93,10 @@ class THM_OrganizerHelperParticipants
      */
     private static function notify($participantID, $courseID, $state)
     {
-        $mailer = \JFactory::getMailer();
+        $mailer = Factory::getMailer();
         $input  = OrganizerHelper::getInput();
 
-        $user       = \JFactory::getUser($participantID);
+        $user       = Factory::getUser($participantID);
         $userParams = json_decode($user->params, true);
         $mailer->addRecipient($user->email);
 
@@ -107,7 +109,7 @@ class THM_OrganizerHelperParticipants
         }
 
         $params = OrganizerHelper::getParams();
-        $sender = \JFactory::getUser($params->get('mailSender'));
+        $sender = Factory::getUser($params->get('mailSender'));
 
         if (empty($sender->id)) {
             return;

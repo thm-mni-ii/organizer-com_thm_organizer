@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 define('DAY', 1);
 define('WEEK', 2);
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -64,7 +64,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
         HTML::_('behavior.tooltip');
         HTML::_('formbehavior.chosen', 'select');
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->setCharset('utf-8');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/room_overview.js');
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_overview.css');

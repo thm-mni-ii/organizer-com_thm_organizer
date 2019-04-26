@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class provides a standardized display of basic item edit forms.

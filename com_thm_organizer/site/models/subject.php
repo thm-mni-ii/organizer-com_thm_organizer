@@ -14,8 +14,6 @@ defined('TEACHER') or define('TEACHER', 2);
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
-use OrganizerHelper as OrganizerHelper;
-
 /**
  * Class which manages stored subject data.
  */

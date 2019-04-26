@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
-use THM_OrganizerHelperHTML as HTML;
-use Languages as Languages;
 
 /**
  * Class retrieves the data regarding a filtered set of subjects.

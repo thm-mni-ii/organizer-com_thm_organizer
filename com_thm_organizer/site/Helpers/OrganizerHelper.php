@@ -13,9 +13,10 @@ defined('_JEXEC') or die;
 
 require_once 'access.php';
 require_once 'date.php';
-require_once 'html.php';
+require_once 'HTML.php';
 require_once 'Languages.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -219,7 +220,7 @@ class OrganizerHelper
         $cids         = self::getInput()->get('cid', [], '[]');
         $formattedIDs = "'" . implode("', '", $cids) . "'";
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->delete("#__thm_organizer_$table");
         $query->where("id IN ( $formattedIDs )");
@@ -249,7 +250,7 @@ class OrganizerHelper
     public static function getApplication()
     {
         try {
-            return \JFactory::getApplication();
+            return Factory::getApplication();
         } catch (Exception $exc) {
             return null;
         }
@@ -388,7 +389,7 @@ class OrganizerHelper
      */
     public static function executeQuery($function, $default = null, $args = null, $rollback = false)
     {
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
         try {
             if ($args !== null) {
                 if (is_string($args) or is_int($args)) {

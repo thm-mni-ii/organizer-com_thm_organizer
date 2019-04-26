@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a generalized select box for selection of a single id column value among those already selected.
@@ -38,7 +38,7 @@ class JFormFieldMergeByID extends \JFormFieldList
         $tables      = explode(',', $this->getAttribute('tables'));
         $tableAlias  = '';
 
-        $dbo        = \JFactory::getDbo();
+        $dbo        = Factory::getDbo();
         $query      = $dbo->getQuery(true);
         $textColumn = $this->resolveText($query);
         $query->select("DISTINCT $valueColumn AS value, $textColumn AS text");

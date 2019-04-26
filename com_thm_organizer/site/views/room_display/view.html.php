@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -41,7 +42,7 @@ class THM_OrganizerViewRoom_Display extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_display.css');
     }
 }

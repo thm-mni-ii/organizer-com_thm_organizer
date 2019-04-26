@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class retrieves the data regarding a filtered set of buildings.

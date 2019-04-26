@@ -14,7 +14,7 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -55,7 +55,7 @@ class THM_OrganizerViewDepartment_Statistics extends \Joomla\CMS\MVC\View\HtmlVi
         HTML::_('jquery.ui');
         HTML::_('formbehavior.chosen', 'select');
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/department_statistics.js');
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/department_statistics.css');
     }

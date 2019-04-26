@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/views/edit.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -47,6 +48,6 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        \JFactory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');
+        Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');
     }
 }

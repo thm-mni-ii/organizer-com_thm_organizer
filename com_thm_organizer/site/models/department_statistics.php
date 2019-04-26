@@ -15,8 +15,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
+use Joomla\CMS\Factory;
 
 /**
  * Class which calculates department statistic data.
@@ -273,7 +272,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
     private function setData($roomID)
     {
         $tag       = Languages::getShortTag();
-        $dbo       = \JFactory::getDbo();
+        $dbo       = Factory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
         $rqSelect = "DISTINCT ccm.id AS ccmID, d.id AS departmentID, d.short_name_$tag AS department, lc.configuration, ";
@@ -331,7 +330,7 @@ class THM_OrganizerModelDepartment_Statistics extends \Joomla\CMS\MVC\Model\Base
      */
     private function setRoomTypes()
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = Languages::getShortTag();
 

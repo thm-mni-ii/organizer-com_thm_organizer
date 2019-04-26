@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
+use Joomla\CMS\Factory;
 
 /**
  * Class which calculates the number of hours teachers taught individual lessons.
@@ -444,7 +443,7 @@ class THM_OrganizerModelDeputat extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     {
         $shortTag = Languages::getShortTag();
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery($query);

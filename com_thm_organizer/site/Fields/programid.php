@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a select box for (degree) programs.
@@ -33,7 +33,7 @@ class JFormFieldProgramID extends \JFormFieldList
     protected function getOptions()
     {
         $shortTag = Languages::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
 
         $query->select("dp.id AS value, dp.name_$shortTag AS name, d.abbreviation AS degree, dp.version");

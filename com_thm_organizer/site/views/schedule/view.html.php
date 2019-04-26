@@ -11,8 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class loads the schedule form into the display context.
@@ -102,7 +102,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function modifyDocument()
     {
-        $doc = \JFactory::getDocument();
+        $doc = Factory::getDocument();
 
         HTML::_('formbehavior.chosen', 'select');
         $this->addScriptOptions();
@@ -118,7 +118,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function addScriptOptions()
     {
-        $user = \JFactory::getUser();
+        $user = Factory::getUser();
         $root = Uri::root();
 
         $variables = [
@@ -158,7 +158,7 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
             }
         }
 
-        $doc = \JFactory::getDocument();
+        $doc = Factory::getDocument();
         $doc->addScriptOptions('variables', array_merge($variables, $this->model->params));
 
         Languages::script('APRIL');

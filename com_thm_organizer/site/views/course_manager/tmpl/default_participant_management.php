@@ -9,7 +9,6 @@
  * @link        www.thm.de
  */
 
-use THM_OrganizerHelperHTML as HTML;
 
 $fieldset = $this->form->getFieldset('participant_management');
 

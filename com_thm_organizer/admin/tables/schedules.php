@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class instantiates a \JTable Object associated with the schedules table.
  */
@@ -33,7 +35,7 @@ class THM_OrganizerTableSchedules extends \Joomla\CMS\Table\Table
      */
     protected function _getAssetTitle()
     {
-        $dbo       = \JFactory::getDbo();
+        $dbo       = Factory::getDbo();
         $deptQuery = $dbo->getQuery(true);
         $deptQuery->select('short_name_en')
             ->from('#__thm_organizer_departments')

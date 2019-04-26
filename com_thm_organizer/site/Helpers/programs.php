@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for program access checks, data retrieval and display.
  */
@@ -59,7 +61,7 @@ class THM_OrganizerHelperPrograms
      */
     public static function getName($programID, $type)
     {
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
         $languageTag = Languages::getShortTag();
 
         $query     = $dbo->getQuery(true);
@@ -91,7 +93,7 @@ class THM_OrganizerHelperPrograms
      */
     public static function getPlanPrograms()
     {
-        $dbo           = \JFactory::getDbo();
+        $dbo           = Factory::getDbo();
         $languageTag   = Languages::getShortTag();
         $departmentIDs = OrganizerHelper::getInput()->get('departmentIDs', [], 'raw');
 

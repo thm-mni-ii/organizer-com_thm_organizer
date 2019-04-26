@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
 
 $logoURL = 'components/com_thm_organizer/images/thm_organizer.png';
 $logo    = HTML::_('image', $logoURL, Languages::_('THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);

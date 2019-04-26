@@ -10,7 +10,7 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/merge.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -55,7 +55,7 @@ abstract class THM_OrganizerViewMerge extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('behavior.formvalidation');
         HTML::_('formbehavior.chosen', 'select');
 
-        $document = \JFactory::getDocument();
+        $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/submitButton.js');

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
-use OrganizerHelper as OrganizerHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Class which manages stored course data.
@@ -89,7 +89,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $sender = \JFactory::getUser(OrganizerHelper::getParams()->get('mailSender'));
+        $sender = Factory::getUser(OrganizerHelper::getParams()->get('mailSender'));
 
         if (empty($sender->id)) {
             return false;
@@ -101,7 +101,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return false;
         }
 
-        $mailer = \JFactory::getMailer();
+        $mailer = Factory::getMailer();
         $mailer->setSender([$sender->email, $sender->name]);
         $mailer->setSubject($data['subject']);
 

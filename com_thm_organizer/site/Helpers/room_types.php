@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for room type access checks, data retrieval and display.
  */
@@ -52,7 +54,7 @@ class THM_OrganizerHelperRoomTypes
     public static function getUsedRoomTypes()
     {
         $languageTag = Languages::getShortTag();
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT t.id, t.name_' . $languageTag . ' AS name')

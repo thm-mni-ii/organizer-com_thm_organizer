@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 $mobile      = $this->isMobile ? 'mobile' : '';
 $displayName = empty($this->model->displayName) ?
     'THM Organizer  - ' . Languages::_('THM_ORGANIZER_SCHEDULES')
@@ -268,7 +270,7 @@ $displayName = empty($this->model->displayName) ?
 
     <div id="scheduleWrapper" class="scheduleWrapper">
         <?php
-        if (\JFactory::getUser()->guest) {
+        if (Factory::getUser()->guest) {
             ?>
             <input id="default-input" class="schedule-input" checked="checked" type="radio" name="schedules">
             <div id="default-schedule" class="schedule-table">

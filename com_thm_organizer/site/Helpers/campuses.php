@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
@@ -47,7 +49,7 @@ class THM_OrganizerHelperCampuses
             return Languages::_('THM_ORGANIZER_CAMPUS_UNKNOWN');
         }
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("c1.name_$languageTag as name, c2.name_$languageTag as parentName")
             ->from('#__thm_organizer_campuses as c1')
@@ -73,7 +75,7 @@ class THM_OrganizerHelperCampuses
     public static function getOptions($used = false)
     {
         $options = [];
-        $dbo     = \JFactory::getDbo();
+        $dbo     = Factory::getDbo();
 
         if (!$used) {
             $query = $dbo->getQuery(true);

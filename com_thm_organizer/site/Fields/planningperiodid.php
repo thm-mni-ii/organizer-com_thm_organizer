@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
-use THM_OrganizerHelperHTML as HTML;
+use Joomla\CMS\Factory;
 
 /**
  * Class creates a select box for planning periods.
@@ -34,7 +34,7 @@ class JFormFieldPlanningPeriodID extends \JFormFieldList
     protected function getOptions()
     {
         $baseOptions = parent::getOptions();
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
         $query       = $dbo->getQuery(true);
 
         $query->select('DISTINCT pp.id, pp.name');

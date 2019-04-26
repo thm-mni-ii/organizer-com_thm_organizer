@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
-use OrganizerHelper as OrganizerHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Class which retrieves dynamic subject information.
@@ -33,7 +33,7 @@ class THM_OrganizerModelSubject_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
             return '[]';
         }
 
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $lang   = OrganizerHelper::getInput()->getString('languageTag', 'de');

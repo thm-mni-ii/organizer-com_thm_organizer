@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class renders a single curriculum panel.

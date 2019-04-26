@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Class provides generalized functions regarding dates and times.
  */
@@ -116,7 +118,7 @@ class THM_OrganizerHelperDate
      */
     public static function getSemester($date)
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('startDate, endDate')
             ->from('#__thm_organizer_planning_periods')

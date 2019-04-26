@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 require_once 'schedule_json.php';
 require_once 'schedule_xml.php';
 
+use Joomla\CMS\Factory;
 use THM_OrganizerModelSchedule_JSON as Schedule_JSON;
 use THM_OrganizerModelSchedule_XML as Schedule_XML;
 
@@ -275,7 +276,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $new->set('departmentID', $this->schedule->departmentID);
         $new->set('planningPeriodID', $this->schedule->planningPeriodID);
         $new->set('schedule', json_encode($this->schedule));
-        $new->set('userID', \JFactory::getUser()->id);
+        $new->set('userID', Factory::getUser()->id);
 
         $reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
         $jsonModel = new Schedule_JSON;

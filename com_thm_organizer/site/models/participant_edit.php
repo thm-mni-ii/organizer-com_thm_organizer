@@ -11,7 +11,7 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
-use OrganizerHelper as OrganizerHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Class loads a form for editing participant data.
@@ -26,7 +26,7 @@ class THM_OrganizerModelParticipant_Edit extends \Joomla\CMS\MVC\Model\FormModel
     public function getItem()
     {
         $query  = $this->_db->getQuery(true);
-        $userID = \JFactory::getUser()->id;
+        $userID = Factory::getUser()->id;
 
         $query->select('u.id, p.address, p.zip_code, p.city, p.programID, p.forename, p.surname');
         $query->from('#__users AS u');

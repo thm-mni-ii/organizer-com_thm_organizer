@@ -16,9 +16,8 @@ define('CONTENT', 3);
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/date.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
 
 /**
  * Class retrieves information about upcoming events for display on monitors.
@@ -282,7 +281,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
      */
     private function getAllRoomIDs()
     {
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')->from('#__thm_organizer_rooms');
         $dbo->setQuery($query);
@@ -330,7 +329,7 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
         }
 
         if (!empty($this->params['mySchedule']) && (boolean)$this->params['mySchedule']) {
-            $userID       = \JFactory::getUser()->id;
+            $userID       = Factory::getUser()->id;
             $teacherQuery = "";
             $teacherID    = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
 

@@ -9,7 +9,6 @@
  */
 
 use OrganizerHelper as OrganizerHelper;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class provides a standardized display of listed resources in a modal context. Elements normally displayed by the

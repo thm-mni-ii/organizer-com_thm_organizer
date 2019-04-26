@@ -11,9 +11,6 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
-
 /**
  * Class retrieves the data regarding a filtered set of courses.
  */

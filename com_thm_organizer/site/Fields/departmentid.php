@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use THM_OrganizerHelperHTML as HTML;
 
 /**
  * Class creates a select box for departments.
@@ -36,7 +36,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
     {
         // Add custom js script to update other fields like programs
         if (!empty($this->class) && $this->class === 'departmentlist') {
-            JFactory::getDocument()->addScript(Uri::root() . 'media/com_thm_organizer/js/departmentlist.js');
+            Factory::getDocument()->addScript(Uri::root() . 'media/com_thm_organizer/js/departmentlist.js');
         }
 
         $resource = $this->getAttribute('resource');
@@ -89,7 +89,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
     protected function getOptions()
     {
         $shortTag = Languages::getShortTag();
-        $dbo      = \JFactory::getDbo();
+        $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
         $query->select("DISTINCT d.id AS value, d.short_name_$shortTag AS text");
         $query->from('#__thm_organizer_departments AS d');

@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once 'departments.php';
 require_once 'OrganizerHelper.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Provides general functions for subject access checks, data retrieval and display.
  */
@@ -27,7 +29,7 @@ class THM_OrganizerHelperSubjects
      */
     public static function allowEdit($subjectID)
     {
-        $user = \JFactory::getUser();
+        $user = Factory::getUser();
 
         if (empty($user->id)) {
             return false;
@@ -46,7 +48,7 @@ class THM_OrganizerHelperSubjects
         }
 
         // Teacher coordinator responsibility association from the documentation system
-        $dbo   = \JFactory::getDbo();
+        $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('COUNT(*)')
@@ -91,7 +93,7 @@ class THM_OrganizerHelperSubjects
      */
     public static function getName($subjectID, $type, $withNumber = false)
     {
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
         $languageTag = Languages::getShortTag();
 
         $query = $dbo->getQuery(true);
@@ -184,7 +186,7 @@ class THM_OrganizerHelperSubjects
     public static function getPrograms($subjectID, $type)
     {
         $names       = [];
-        $dbo         = \JFactory::getDbo();
+        $dbo         = Factory::getDbo();
         $languageTag = Languages::getShortTag();
 
         $query     = $dbo->getQuery(true);
@@ -251,7 +253,7 @@ class THM_OrganizerHelperSubjects
 
         $languageTag = Languages::getShortTag();
 
-        $dbo = \JFactory::getDbo();
+        $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
         $query->select("DISTINCT l.id, l.comment, ls.subjectID, m.abbreviation_$languageTag AS method")

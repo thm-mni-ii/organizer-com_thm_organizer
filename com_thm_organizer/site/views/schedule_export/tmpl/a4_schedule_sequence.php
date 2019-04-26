@@ -10,6 +10,8 @@
 
 require_once 'pdf_schedule_sequence.php';
 
+use Joomla\CMS\Factory;
+
 /**
  * Class generates a PDF file in A4 format.
  */
@@ -50,7 +52,7 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         $orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
         $document    = new \THM_OrganizerTCPDFScheduleA4($orientation);
         $document->SetCreator('THM Organizer');
-        $document->SetAuthor(\JFactory::getUser()->name);
+        $document->SetAuthor(Factory::getUser()->name);
         $document->SetTitle($this->parameters['pageTitle']);
         $document->SetMargins(5, 25, 5);
         $document->SetAutoPageBreak(true, 5);

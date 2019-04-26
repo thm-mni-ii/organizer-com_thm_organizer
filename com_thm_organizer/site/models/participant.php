@@ -12,7 +12,7 @@
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/participants.php';
 
-use OrganizerHelper as OrganizerHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Class which manages stored participant data.
@@ -31,7 +31,7 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
      */
     public function register($participantID, $courseID, $state)
     {
-        if (!\JFactory::getUser()->id === $participantID) {
+        if (!Factory::getUser()->id === $participantID) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -53,7 +53,7 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
 
         if (!isset($data['id'])) {
             throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        } elseif ($data['id'] !== \JFactory::getUser()->id) {
+        } elseif ($data['id'] !== Factory::getUser()->id) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

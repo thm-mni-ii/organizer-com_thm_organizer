@@ -10,9 +10,6 @@
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
-use OrganizerHelper as OrganizerHelper;
-use Languages as Languages;
-
 /**
  * Class calculates lesson statistics and loads them into the view context.
  */
