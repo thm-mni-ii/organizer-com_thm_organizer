@@ -34,7 +34,7 @@ class THM_OrganizerViewColor_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,7 +47,7 @@ class THM_OrganizerViewColor_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_COLOR_MANAGER_VIEW_TITLE'), 'organizer_colors');
+        \JToolbarHelper::title(Languages::_('THM_ORGANIZER_COLOR_MANAGER_VIEW_TITLE'), 'organizer_colors');
         \JToolbarHelper::addNew('color.add');
         \JToolbarHelper::editList('color.edit');
         \JToolbarHelper::deleteList('THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'color.delete');

@@ -14,8 +14,6 @@ defined('TEACHER') or define('TEACHER', 2);
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
-use OrganizerHelper;
-
 /**
  * Class which manages stored subject data.
  */
@@ -111,7 +109,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $subjectIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
@@ -121,7 +119,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
                 if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
                     $this->_db->transactionRollback();
-                    throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+                    throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
                 }
 
                 $deleted = $this->deleteEntry($subjectID);
@@ -374,13 +372,13 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (!isset($data['id'])) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         } elseif (!THM_OrganizerHelperSubjects::allowEdit($data['id'])) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         if (!THM_OrganizerHelperSubjects::allowEdit($data['id'])) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $starProperties = ['expertise', 'self_competence', 'method_competence', 'social_competence'];

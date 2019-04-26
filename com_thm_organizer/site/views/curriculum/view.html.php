@@ -11,9 +11,7 @@
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class loads curriculum information into the display context.
@@ -22,13 +20,9 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $disclaimer;
 
-    public $disclaimerData;
-
     public $ecollabLink;
 
     public $item;
-
-    public $lang;
 
     public $languageLinks;
 
@@ -49,12 +43,8 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
 
         if (!is_object($menu)) {
             $this->ecollabLink = '';
-
-            $this->lang = Languages::getLanguage();
         } else {
             $this->ecollabLink = $menu->params->get('eCollabLink', '');
-
-            $this->lang = Languages::getLanguage($menu->params->get('initialLanguage', ''));
         }
 
         $this->item = $this->get('Item');
@@ -63,8 +53,6 @@ class THM_OrganizerViewCurriculum extends \Joomla\CMS\MVC\View\HtmlView
         $this->languageParams = ['id' => $this->item->id, 'view' => 'curriculum'];
 
         $this->disclaimer = new \JLayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-
-        $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);
     }

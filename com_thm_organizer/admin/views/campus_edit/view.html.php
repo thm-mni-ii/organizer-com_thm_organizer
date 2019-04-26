@@ -26,10 +26,10 @@ class THM_OrganizerViewCampus_Edit extends THM_OrganizerViewEdit
     {
         \JToolbarHelper::save('campus.save');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_CAMPUS_EDIT_NEW_TITLE'), 'organizer_campuses');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_CAMPUS_EDIT_NEW_TITLE'), 'organizer_campuses');
             \JToolbarHelper::cancel('campus.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_CAMPUS_EDIT_EDIT_TITLE'), 'organizer_campuses');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_CAMPUS_EDIT_EDIT_TITLE'), 'organizer_campuses');
             \JToolbarHelper::cancel('campus.cancel', 'JTOOLBAR_CLOSE');
         }
     }

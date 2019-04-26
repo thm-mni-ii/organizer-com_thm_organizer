@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 <div class="modal hide fade" id="modal-publishing">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&#215;</button>
-        <h3><?php echo \JText::_('THM_ORGANIZER_BATCH_PLAN_POOLS'); ?></h3>
+        <h3><?php echo Languages::_('THM_ORGANIZER_BATCH_PLAN_POOLS'); ?></h3>
     </div>
     <div class="modal-body modal-batch form-horizontal">
         <?php foreach ($this->filterForm->getGroup('batch') as $batchField): ?>
@@ -31,10 +31,10 @@ defined('_JEXEC') or die;
     </div>
     <div class="modal-footer">
         <button class="btn" type="button" data-dismiss="modal">
-            <?php echo \JText::_('JCANCEL'); ?>
+            <?php echo Languages::_('JCANCEL'); ?>
         </button>
         <button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('plan_pool.batch');">
-            <?php echo \JText::_('JSAVE'); ?>
+            <?php echo Languages::_('JSAVE'); ?>
         </button>
     </div>
 </div>

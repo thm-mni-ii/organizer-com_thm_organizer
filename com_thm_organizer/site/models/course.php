@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class which manages stored course data.
@@ -33,7 +33,7 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $formData = $data['jform'];
 
         if (!THM_OrganizerHelperCourses::authorized($formData['id'])) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $participantIDs = $data['checked'];
@@ -76,11 +76,11 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $courseID = $input->get('lessonID', 0);
 
         if (empty($courseID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_404'), 404);
+            throw new \Exception(Languages::_('THM_ORGANIZER_404'), 404);
         }
 
         if (empty(THM_OrganizerHelperCourses::authorized($courseID))) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $data = $input->get('jform', [], 'array');
@@ -146,9 +146,9 @@ class THM_OrganizerModelCourse extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (!isset($data['id'])) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         } elseif (!THM_OrganizerHelperCourses::authorized($data['id'])) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $table = $this->getTable();

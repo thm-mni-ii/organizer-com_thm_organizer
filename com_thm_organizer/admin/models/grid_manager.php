@@ -15,7 +15,6 @@ require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/date.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of (schedule) grids.
@@ -72,8 +71,8 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
                 $startDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid->startDay} days")));
                 $endDayConstant   = strtoupper(date('l', strtotime("Sunday + {$grid->endDay} days")));
 
-                $return[$index]['startDay'] = \JText::_($startDayConstant);
-                $return[$index]['endDay']   = \JText::_($endDayConstant);
+                $return[$index]['startDay'] = Languages::_($startDayConstant);
+                $return[$index]['endDay']   = Languages::_($endDayConstant);
 
                 $periods                     = get_object_vars($grid->periods);
                 $return[$index]['startTime'] = THM_OrganizerHelperDate::formatTime(reset($periods)->startTime);
@@ -85,7 +84,7 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
                 $return[$index]['endTime']   = '';
             }
 
-            $tip                           = \JText::_('THM_ORGANIZER_GRID_DEFAULT_DESC');
+            $tip                           = Languages::_('THM_ORGANIZER_GRID_DEFAULT_DESC');
             $return[$index]['defaultGrid'] = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
             $index++;
         }
@@ -102,12 +101,12 @@ class THM_OrganizerModelGrid_Manager extends THM_OrganizerModelList
     {
         $headers                = [];
         $headers['checkbox']    = '';
-        $headers['name']        = \JText::_('THM_ORGANIZER_NAME');
-        $headers['startDay']    = \JText::_('THM_ORGANIZER_START_DAY');
-        $headers['endDay']      = \JText::_('THM_ORGANIZER_END_DAY');
-        $headers['startTime']   = \JText::_('THM_ORGANIZER_START_TIME');
-        $headers['endTime']     = \JText::_('THM_ORGANIZER_END_TIME');
-        $headers['defaultGrid'] = \JText::_('THM_ORGANIZER_DEFAULT');
+        $headers['name']        = Languages::_('THM_ORGANIZER_NAME');
+        $headers['startDay']    = Languages::_('THM_ORGANIZER_START_DAY');
+        $headers['endDay']      = Languages::_('THM_ORGANIZER_END_DAY');
+        $headers['startTime']   = Languages::_('THM_ORGANIZER_START_TIME');
+        $headers['endTime']     = Languages::_('THM_ORGANIZER_END_TIME');
+        $headers['defaultGrid'] = Languages::_('THM_ORGANIZER_DEFAULT');
 
         return $headers;
     }

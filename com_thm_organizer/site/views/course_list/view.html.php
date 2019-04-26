@@ -12,7 +12,6 @@
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -23,8 +22,6 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
     public $filters = [];
 
     public $items;
-
-    public $lang;
 
     public $languageLinks;
 
@@ -51,7 +48,6 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->model = $this->getModel();
         $this->state = $this->model->getState();
 
-        $this->lang  = Languages::getLanguage();
         $this->items = $this->get('Items');
 
         // alphabetically sort by course name and campus name
@@ -97,10 +93,9 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function setFilters()
     {
-        $lang    = Languages::getLanguage();
         $attribs = ['onchange' => 'form.submit();'];
 
-        $defaultOptions = [0 => $lang->_('THM_ORGANIZER_ALL_CAMPUSES')];
+        $defaultOptions = [0 => Languages::_('THM_ORGANIZER_ALL_CAMPUSES')];
         $campusOptions  = $defaultOptions + THM_OrganizerHelperCampuses::getOptions(true);
 
         $selectCampus = $this->state->get('campusID');
@@ -112,16 +107,16 @@ class THM_OrganizerViewCourse_List extends \Joomla\CMS\MVC\View\HtmlView
 
         if (THM_OrganizerHelperCourses::authorized()) {
             $activeOptions = [
-                'pending' => $lang->_('THM_ORGANIZER_PENDING_COURSES'),
-                'current' => $lang->_('THM_ORGANIZER_CURRENT_COURSES'),
-                'all'     => $lang->_('THM_ORGANIZER_ALL_COURSES'),
-                'expired' => $lang->_('THM_ORGANIZER_EXPIRED_COURSES')
+                'pending' => Languages::_('THM_ORGANIZER_PENDING_COURSES'),
+                'current' => Languages::_('THM_ORGANIZER_CURRENT_COURSES'),
+                'all'     => Languages::_('THM_ORGANIZER_ALL_COURSES'),
+                'expired' => Languages::_('THM_ORGANIZER_EXPIRED_COURSES')
             ];
 
             $selectStatus            = $this->state->get('status');
             $this->filters['status'] = HTML::selectBox($activeOptions, 'status', $attribs, $selectStatus, true);
 
-            $defaultOptions = [0 => $lang->_('THM_ORGANIZER_ALL_COURSES')];
+            $defaultOptions = [0 => Languages::_('THM_ORGANIZER_ALL_COURSES')];
             $subjectOptions = $defaultOptions + THM_OrganizerHelperCourses::prepCourseList();
 
             $selectSubject              = $this->state->get('subjectID');

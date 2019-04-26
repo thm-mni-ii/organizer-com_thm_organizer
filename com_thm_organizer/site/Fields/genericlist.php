@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While the
@@ -48,7 +46,7 @@ class JFormFieldGenericList extends \JFormFieldList
         $attr        .= $this->required ? ' required aria-required="true"' : '';
         $attr        .= $this->autofocus ? ' autofocus' : '';
         $placeHolder = $this->getAttribute('placeholder', '');
-        $attr        .= empty($placeHolder) ? '' : ' placeholder="' . \JText::_($placeHolder) . '"';
+        $attr        .= empty($placeHolder) ? '' : ' placeholder="' . Languages::_($placeHolder) . '"';
 
         // To avoid user's confusion, readonly="true" should imply disabled="true".
         if ((string)$this->readonly == '1' || (string)$this->readonly == 'true' || (string)$this->disabled == '1' || (string)$this->disabled == 'true') {

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+require_once 'OrganizerHelper.php';
+
 /**
  * Class provides general functions for retrieving building data.
  */
@@ -99,7 +101,7 @@ class THM_OrganizerHelperGrids
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->timeperiods)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_PERIODS_MISSING');
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PERIODS_MISSING');
 
             return;
         }
@@ -141,8 +143,8 @@ class THM_OrganizerHelperGrids
         $invalidPeriod = ($invalidKeys or $invalidTimes);
 
         if ($invalidPeriod) {
-            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT');
+            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT');
             }
 
             return;

@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
-
 /**
  * Class answers dynamic subject related queries
  */

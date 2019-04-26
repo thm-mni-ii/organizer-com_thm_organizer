@@ -27,10 +27,10 @@ class THM_OrganizerViewRoom_Edit extends THM_OrganizerViewEdit
     {
         \JToolbarHelper::save('room.save');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_ROOM_EDIT_NEW_TITLE'), 'organizer_rooms');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_ROOM_EDIT_NEW_TITLE'), 'organizer_rooms');
             \JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_ROOM_EDIT_EDIT_TITLE'), 'organizer_rooms');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_ROOM_EDIT_EDIT_TITLE'), 'organizer_rooms');
             \JToolbarHelper::cancel('room.cancel', 'JTOOLBAR_CLOSE');
         }
     }

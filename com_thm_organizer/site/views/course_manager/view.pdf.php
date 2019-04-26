@@ -15,8 +15,6 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
-use OrganizerHelper;
-
 /**
  * Class loads persistent information about a course into the display context.
  */
@@ -45,11 +43,11 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $validTypes = [self::BADGES, self::DEPARTMENT_PARTICIPANTS, self::PARTICIPANTS];
 
         if (empty($lessonID) or !in_array($type, $validTypes)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperCourses::authorized($lessonID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         switch ($type) {
@@ -66,7 +64,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
                 new \THM_OrganizerTemplateParticipants($lessonID);
                 break;
             default:
-                throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+                throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
     }
 }

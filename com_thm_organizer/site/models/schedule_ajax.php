@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/rooms.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class retrieves dynamic schedule information.
@@ -43,12 +43,12 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
         $userID = \JFactory::getUser()->id;
         if (empty($userID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $mode     = $input->getInt('mode', self::PERIOD_MODE);
@@ -260,7 +260,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
     public function getRoomTypes()
     {
         $types   = THM_OrganizerHelperRoomTypes::getUsedRoomTypes();
-        $default = [\JText::_('JALL') => '0'];
+        $default = [Languages::_('JALL') => '0'];
 
         return json_encode(array_merge($default, $types));
     }
@@ -300,7 +300,7 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         switch ($resource) {
             case 'room':
                 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/rooms.php';
-                $title = \JText::_('THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
+                $title = Languages::_('THM_ORGANIZER_ROOM') . ' ' . THM_OrganizerHelperRooms::getName($value);
                 break;
             case 'pool':
                 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
@@ -329,12 +329,12 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
         $userID = \JFactory::getUser()->id;
         if (empty($userID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $savedCcmIDs = [];
@@ -414,6 +414,5 @@ class THM_OrganizerModelSchedule_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabase
         $this->_db->setQuery($query);
         OrganizerHelper::executeQuery('execute');
     }
-
 
 }

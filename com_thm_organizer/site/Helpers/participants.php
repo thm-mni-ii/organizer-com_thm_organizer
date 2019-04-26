@@ -8,11 +8,10 @@
  * @link        www.thm.de
  */
 
-require_once 'courses.php';
-require_once 'languages.php';
+defined('_JEXEC') or die;
 
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'courses.php';
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for participant access checks, data retrieval and display.
@@ -123,19 +122,18 @@ class THM_OrganizerHelperParticipants
             return;
         }
 
-        $lang       = Languages::getLanguage();
         $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
         $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
         $mailer->setSubject($courseName);
-        $body = $lang->_('THM_ORGANIZER_GREETING') . ',\n\n';
+        $body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
 
         $dates = explode(' - ', $dateText);
 
         if (count($dates) == 1 or $dates[0] == $dates[1]) {
-            $body .= sprintf($lang->_('THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
+            $body .= sprintf(Languages::_('THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
         } else {
             $body .= sprintf(
-                $lang->_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n', $courseName, $dates[0],
+                Languages::_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n', $courseName, $dates[0],
                 $dates[1]
             );
         }
@@ -144,13 +142,13 @@ class THM_OrganizerHelperParticipants
 
         switch ($state) {
             case 0:
-                $statusText .= $lang->_('THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
+                $statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
                 break;
             case 1:
-                $statusText .= $lang->_('THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
+                $statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
                 break;
             case 2:
-                $statusText .= $lang->_('THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
+                $statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
                 break;
             default:
                 return;
@@ -158,7 +156,7 @@ class THM_OrganizerHelperParticipants
 
         $body .= ' => ' . $statusText . '\n\n';
 
-        $body .= $lang->_('THM_ORGANIZER_CLOSING') . ',\n';
+        $body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
         $body .= $sender->name . '\n\n';
         $body .= $sender->email . '\n';
 

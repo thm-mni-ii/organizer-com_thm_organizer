@@ -39,7 +39,7 @@ class THM_OrganizerLayoutEdit_Tabbed
                     $isInitialized  = (bool)$view->form->getValue('id');
                     $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
                     if ($displayInitial or $isInitialized) {
-                        echo HTML::_('bootstrap.addTab', 'myTab', $set->name, \JText::_($set->label, true));
+                        echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_($set->label, true));
                         echo $view->form->renderFieldset($set->name);
                         echo HTML::_('bootstrap.endTab');
                     }

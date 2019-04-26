@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 require_once 'merge.php';
 
-use OrganizerHelper;
-
 /**
  * Class which manages stored room data.
  */

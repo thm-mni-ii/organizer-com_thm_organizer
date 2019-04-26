@@ -14,7 +14,6 @@ require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/date.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of schedules.
@@ -96,7 +95,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
             $return[$index]['planningPeriodID'] = $item->planningPeriodName;
 
             $return[$index]['active']
-                = $this->getToggle($item->id, $item->active, 'schedule', \JText::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
+                = $this->getToggle($item->id, $item->active, 'schedule', Languages::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
 
             $return[$index]['userName'] = $item->userName;
 

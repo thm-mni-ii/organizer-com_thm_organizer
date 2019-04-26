@@ -27,10 +27,10 @@ class THM_OrganizerViewMonitor_Edit extends THM_OrganizerViewEdit
         \JToolbarHelper::save('monitor.save');
         \JToolbarHelper::save2new('monitor.save2new');
         if ($this->form->getValue('id') == 0) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_MONITOR_EDIT_NEW_TITLE'), 'organizer_monitors');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_MONITOR_EDIT_NEW_TITLE'), 'organizer_monitors');
             \JToolbarHelper::cancel('monitor.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_MONITOR_EDIT_EDIT_TITLE'), 'organizer_monitors');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_MONITOR_EDIT_EDIT_TITLE'), 'organizer_monitors');
             \JToolbarHelper::cancel('monitor.cancel', 'JTOOLBAR_CLOSE');
         }
     }

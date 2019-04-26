@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/pools.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class retrieves dynamic pool options.
@@ -33,7 +33,7 @@ class THM_OrganizerModelPool_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseMode
         $programIDs     = explode(',', $input->getString('programIDs', ''));
         $programEntries = $this->getProgramEntries($programIDs);
         $options        = [];
-        $options[]      = '<option value="-1">' . \JText::_('JNONE') . '</option>';
+        $options[]      = '<option value="-1">' . Languages::_('JNONE') . '</option>';
 
         $invalidRequest = (empty($resourceID) or empty($resourceType));
         $none           = ($invalidRequest or empty($programEntries));

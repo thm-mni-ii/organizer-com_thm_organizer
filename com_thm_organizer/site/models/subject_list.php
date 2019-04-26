@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
+use Languages as Languages;
 
 /**
  * Class retrieves the data regarding a filtered set of subjects.
@@ -548,7 +548,7 @@ class THM_OrganizerModelSubject_List extends \Joomla\CMS\MVC\Model\ListModel
         // One or more items is not associated with a field
         if (isset($this->fields[0])) {
             $defaultField                    = [];
-            $defaultField['name']            = \JText::_('THM_ORGANIZER_UNASSOCIATED');
+            $defaultField['name']            = Languages::_('THM_ORGANIZER_UNASSOCIATED');
             $defaultField['backgroundColor'] = $params['backgroundColor'];
             $defaultField['textColor']       = $params['darkTextColor'];
             $this->fields[0]                 = $defaultField;

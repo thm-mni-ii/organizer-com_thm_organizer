@@ -15,8 +15,6 @@ defined('TEACHER') or define('TEACHER', 2);
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
-use OrganizerHelper;
-
 /**
  * Class used to import lsf subject data.
  */
@@ -215,7 +213,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
                 $this->_db->transactionRollback();
-                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+                throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
 
             $subjectImported = $this->importSingle($subjectID);

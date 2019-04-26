@@ -9,11 +9,9 @@
  * @link        www.thm.de
  */
 
-require_once 'access.php';
-require_once 'languages.php';
+defined('_JEXEC') or die;
 
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'OrganizerHelper.php';
 
 /**
  * Class provides generalized functions useful for several component files.
@@ -46,7 +44,6 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
      */
     public static function getTranslatedOptions($field, $element)
     {
-        $lang    = Languages::getLanguage();
         $options = [];
 
         foreach ($element->xpath('option') as $option) {
@@ -66,7 +63,7 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
 
             $tmp = [
                 'value'    => $value,
-                'text'     => $lang->_($text),
+                'text'     => Languages::_($text),
                 'disable'  => $disabled,
                 'class'    => (string)$option['class'],
                 'selected' => ($checked || $selected),
@@ -204,8 +201,8 @@ class THM_OrganizerHelperHTML extends \Joomla\CMS\HTML\HTMLHelper
      */
     public static function getLabel($view, $inputName)
     {
-        $title  = $view->lang->_($view->form->getField($inputName)->title);
-        $tip    = $view->lang->_($view->form->getField($inputName)->description);
+        $title  = Languages::_($view->form->getField($inputName)->title);
+        $tip    = Languages::_($view->form->getField($inputName)->description);
         $return = '<label id="jform_' . $inputName . '-lbl" for="jform_' . $inputName . '" class="hasPopover"';
         $return .= 'data-content="' . $tip . '" data-original-title="' . $title . '">' . $title . '</label>';
 

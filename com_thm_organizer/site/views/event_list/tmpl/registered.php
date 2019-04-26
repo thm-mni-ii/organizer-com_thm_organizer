@@ -37,7 +37,7 @@ $metric = 0;
         </div>
     </div>
     <div class="display-area">
-        <div class="exp-text"><?php echo \JText::_('THM_ORGANIZER_NEXT_4'); ?></div>
+        <div class="exp-text"><?php echo Languages::_('THM_ORGANIZER_NEXT_4'); ?></div>
         <?php
         foreach ($this->model->events as $date => $times) {
             if ($metric >= 4) {

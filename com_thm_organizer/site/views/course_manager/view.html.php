@@ -15,9 +15,7 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class loads persistent information about a course into the display context.
@@ -29,8 +27,6 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
     public $courseAuth = false;
 
     public $form;
-
-    public $lang;
 
     public $languageLinks;
 
@@ -48,11 +44,10 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $this->lang = Languages::getLanguage();
         $lessonID   = OrganizerHelper::getInput()->getInt('lessonID', 0);
 
         if (empty($lessonID) or !THM_OrganizerHelperCourses::authorized($lessonID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         $this->course                 = THM_OrganizerHelperCourses::getCourse();
@@ -64,7 +59,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $maxParticipants              = (!empty($this->course['lessonP']) ? $this->course['lessonP'] : $this->course['subjectP']);
         $accepted                     = count(THM_OrganizerHelperCourses::getParticipants($courseID, 1));
         $waiting                      = count(THM_OrganizerHelperCourses::getParticipants($courseID, 0));
-        $capacityText                 = $this->lang->_('THM_ORGANIZER_CURRENT_CAPACITY');
+        $capacityText                 = Languages::_('THM_ORGANIZER_CURRENT_CAPACITY');
         $this->course['capacityText'] = sprintf($capacityText, $accepted, $maxParticipants, $waiting);
 
         $this->form = $this->get('Form');
@@ -101,7 +96,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
 
         $document = \JFactory::getDocument();
         $document->addScriptDeclaration(
-            "var chooseParticipants = '" . $this->lang->_('THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
+            "var chooseParticipants = '" . Languages::_('THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
         );
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/course_manager.js');
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/course_manager.css');
@@ -117,7 +112,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
      */
     private function prepareLabel($field, $icon = '')
     {
-        $title = $this->lang->_($this->form->getFieldAttribute($field, 'label'));
+        $title = Languages::_($this->form->getFieldAttribute($field, 'label'));
 
         if (empty($icon)) {
             $this->form->setFieldAttribute($field, 'label', $title);
@@ -126,7 +121,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
             $titleHTML = '<span class="si-title">' . $title . '</span>';
             $this->form->setFieldAttribute($field, 'label', $iconHTML . $titleHTML);
         }
-        $description = $this->lang->_($this->form->getFieldAttribute($field, 'description'));
+        $description = Languages::_($this->form->getFieldAttribute($field, 'description'));
         $this->form->setFieldAttribute($field, 'description', $description);
 
     }
@@ -143,7 +138,7 @@ class THM_OrganizerViewCourse_Manager extends \Joomla\CMS\MVC\View\HtmlView
         $field = $this->form->getFieldXML($fieldName);
         $index = 0;
         foreach ($field->option as $option) {
-            $field->option[$index] = $this->lang->_($option[0]);
+            $field->option[$index] = Languages::_($option[0]);
             $index++;
         }
         $this->form->setField($field, null, true);

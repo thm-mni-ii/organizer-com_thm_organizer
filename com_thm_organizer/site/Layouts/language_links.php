@@ -11,12 +11,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 $current            = Languages::getShortTag();
-$lang               = Languages::getLanguage();
-$supportedLanguages = ['en' => $lang->_('THM_ORGANIZER_ENGLISH'), 'de' => $lang->_('THM_ORGANIZER_GERMAN')];
+$supportedLanguages = ['en' => Languages::_('THM_ORGANIZER_ENGLISH'), 'de' => Languages::_('THM_ORGANIZER_GERMAN')];
 unset($supportedLanguages[$current]);
 
 echo '<div class="tool-wrapper language-links">';

@@ -26,10 +26,10 @@ class THM_OrganizerViewBuilding_Edit extends THM_OrganizerViewEdit
     {
         \JToolbarHelper::save('building.save');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_BUILDING_EDIT_NEW_TITLE'), 'organizer_buildings');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_BUILDING_EDIT_NEW_TITLE'), 'organizer_buildings');
             \JToolbarHelper::cancel('building.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_BUILDING_EDIT_EDIT_TITLE'), 'organizer_buildings');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_BUILDING_EDIT_EDIT_TITLE'), 'organizer_buildings');
             \JToolbarHelper::cancel('building.cancel', 'JTOOLBAR_CLOSE');
         }
     }

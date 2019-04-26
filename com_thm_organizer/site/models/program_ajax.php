@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/programs.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class retrieves dynamic program options.
@@ -40,9 +40,7 @@ class THM_OrganizerModelProgram_Ajax extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     public function programsByTeacher()
     {
         $dbo          = \JFactory::getDbo();
-        $defaultArray = explode('-', \JFactory::getLanguage()->getTag());
-        $defaultTag   = $defaultArray[0];
-        $language     = OrganizerHelper::getInput()->get('languageTag', $defaultTag);
+        $language     = Languages::getShortTag();
         $query        = $dbo->getQuery(true);
         $concateQuery = ["dp.name_$language", "', ('", 'd.abbreviation', "' '", ' dp.version', "')'"];
         $query->select('dp.id, ' . $query->concatenate($concateQuery, '') . ' AS name');

@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**

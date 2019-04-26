@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -19,8 +18,6 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
     public $columns = [];
 
     public $form = null;
-
-    public $lang = null;
 
     public $languageLinks;
 
@@ -41,7 +38,6 @@ class THM_OrganizerViewLesson_Statistics extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $this->lang           = Languages::getLanguage();
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->languageParams = ['view' => 'lesson_statistics'];
         $this->state          = $this->get('State');

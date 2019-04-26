@@ -10,15 +10,11 @@
 
 defined('_JEXEC') or die;
 
-require_once 'languages.php';
+require_once 'courses.php';
 require_once 'mapping.php';
+require_once 'OrganizerHelper.php';
 require_once 'rooms.php';
 require_once 'teachers.php';
-require_once 'courses.php';
-require_once 'date.php';
-
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for schedule access checks, data retrieval and display.
@@ -235,7 +231,7 @@ class THM_OrganizerHelperSchedules
             self::filterTeacherIDs($parameters['teacherIDs'], $parameters['userID']);
 
             if (empty($parameters['teacherIDs'])) {
-                throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+                throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
             }
         }
 

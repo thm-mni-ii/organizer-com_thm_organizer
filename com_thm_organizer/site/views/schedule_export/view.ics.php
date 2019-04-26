@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_thm_organizer/icalcreator/iCalcreator.php';
 
-use THM_OrganizerHelperLanguages as Languages;
-
 /**
  * Class creates a ICS file for the display of the filtered schedule information.
  */
@@ -162,7 +160,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $teachersText = implode('/', $teachers);
         $roomsText    = implode('/', $rooms);
 
-        $summary = sprintf(\JText::_('THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
+        $summary = sprintf(Languages::_('THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
 
         $organizer = empty($this->parameters['mailto']) ? $teachersText : $this->parameters['mailto'];
         $vEvent->setProperty('ORGANIZER', $organizer);

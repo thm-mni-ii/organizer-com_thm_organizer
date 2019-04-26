@@ -11,10 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
-require_once 'languages.php';
-
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
@@ -381,7 +378,7 @@ class THM_OrganizerHelperTeachers
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->teachers)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_TEACHERS_MISSING');
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_TEACHERS_MISSING');
 
             return;
         }
@@ -396,14 +393,14 @@ class THM_OrganizerHelperTeachers
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-EXTERNALID'];
             unset($scheduleModel->scheduleWarnings['TEACHER-EXTERNALID']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_TEACHER_EXTID_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['TEACHER-FORENAME'])) {
             $warningCount = $scheduleModel->scheduleWarnings['TEACHER-FORENAME'];
             unset($scheduleModel->scheduleWarnings['TEACHER-FORENAME']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_FORENAME_MISSING'), $warningCount);
         }
     }
 
@@ -420,8 +417,8 @@ class THM_OrganizerHelperTeachers
     {
         $internalID = trim((string)$teacherNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_TEACHER_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_TEACHER_ID_MISSING');
+            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_TEACHER_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_TEACHER_ID_MISSING');
             }
 
             return;
@@ -432,7 +429,7 @@ class THM_OrganizerHelperTeachers
         $surname = trim((string)$teacherNode->surname);
         if (empty($surname)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_('THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $internalID);
+                = sprintf(Languages::_('THM_ORGANIZER_ERROR_TEACHER_SURNAME_MISSING'), $internalID);
 
             return;
         }

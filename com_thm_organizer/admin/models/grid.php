@@ -11,8 +11,6 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
-
 /**
  * Class which manages stored grid data.
  */
@@ -27,7 +25,7 @@ class THM_OrganizerModelGrid extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function save()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $data  = OrganizerHelper::getInput()->get('jform', [], 'array');
@@ -56,7 +54,7 @@ class THM_OrganizerModelGrid extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         return OrganizerHelper::delete('grids');

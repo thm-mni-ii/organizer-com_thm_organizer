@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 require_once 'assets.php';
 
-use THM_OrganizerHelperLanguages as Languages;
-
 /**
  * Class instantiates a \JTable Object associated with the departments table.
  */

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class which retrieves dynamic teacher information.

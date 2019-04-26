@@ -11,8 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
-
-use OrganizerHelper;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for planning_period access checks, data retrieval and display.

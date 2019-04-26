@@ -16,8 +16,8 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/programs.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/subjects.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 /**
  * Class searches THM Organizer resources for resources and views relevant to the given search query.
@@ -25,8 +25,6 @@ use THM_OrganizerHelperLanguages as Languages;
 class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
     private $schedDepts;
-
-    private $lang;
 
     public $languageTag;
 
@@ -181,7 +179,6 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
          * Mentioned => one or more of the terms is a part of the extended text for the resource
          */
         $this->results     = ['exact' => [], 'strong' => [], 'good' => [], 'related' => [], 'mentioned' => []];
-        $this->lang        = Languages::getLanguage();
         $this->languageTag = Languages::getShortTag();
 
         $input     = OrganizerHelper::getInput();
@@ -286,8 +283,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $departmentName = THM_OrganizerHelperDepartments::getName($departmentID);
 
                 $departments[$departmentID] = [];
-                $departments[$departmentID]['text']
-                                            = $this->lang->_('THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
+                $departments[$departmentID]['text'] = Languages::_('THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
 
                 $links['schedule']   = "?option=com_thm_organizer&view=schedule&departmentIDs=$departmentID";
                 $links['event_list'] = "?option=com_thm_organizer&view=event_list&departmentIDs=$departmentID";
@@ -323,7 +319,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             }
 
             $pools[$index]          = [];
-            $pools[$index]['text']  = $this->lang->_('THM_ORGANIZER_POOL') . ": {$result['program']}, $text";
+            $pools[$index]['text']  = Languages::_('THM_ORGANIZER_POOL') . ": {$result['program']}, $text";
             $pools[$index]['links'] = $links;
         }
 
@@ -363,7 +359,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $text                         = THM_OrganizerHelperPrograms::getName($program['id'], 'real');
                 $programs[$programID]['name'] = $text;
 
-                $programs[$programID]['text'] = $this->lang->_('THM_ORGANIZER_PROGRAM') . ": $text";
+                $programs[$programID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
                 $links = [];
 
@@ -408,7 +404,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
                 $text                      = THM_OrganizerHelperPrograms::getName($program['ppID'], 'plan');
                 $programs[$planID]['name'] = $text;
-                $programs[$planID]['text'] = $this->lang->_('THM_ORGANIZER_PROGRAM') . ": $text";
+                $programs[$planID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
                 $links = [];
 
@@ -445,14 +441,14 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $roomID         = $room['id'];
                 $rooms[$roomID] = [];
 
-                $rooms[$roomID]['text'] = $this->lang->_('THM_ORGANIZER_ROOM') . ": {$room['name']}";
+                $rooms[$roomID]['text'] = Languages::_('THM_ORGANIZER_ROOM') . ": {$room['name']}";
 
                 $description = empty($room['description']) ? $room['type'] : $room['description'];
 
                 if (empty($room['capacity'])) {
                     $capacity = '';
                 } else {
-                    $capacity = ' (~' . $room['capacity'] . ' ' . $this->lang->_('THM_ORGANIZER_SEATS') . ')';
+                    $capacity = ' (~' . $room['capacity'] . ' ' . Languages::_('THM_ORGANIZER_SEATS') . ')';
                 }
 
                 $rooms[$roomID]['description'] = "$description$capacity";
@@ -484,7 +480,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
                 $text = THM_OrganizerHelperSubjects::getName($sID, 'real', true);
 
-                $subjects[$subjectID]['text'] = $this->lang->_('THM_ORGANIZER_SUBJECT') . ": $text";
+                $subjects[$subjectID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
 
                 $links = [];
 
@@ -524,7 +520,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 
                 $text = THM_OrganizerHelperSubjects::getName($pID, 'plan', true);
 
-                $subjects[$planID]['text'] = $this->lang->_('THM_ORGANIZER_SUBJECT') . ": $text";
+                $subjects[$planID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
 
                 $links = [];
 
@@ -566,7 +562,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
                 $teacherName = THM_OrganizerHelperTeachers::getDefaultName($teacher['id']);
 
                 $teachers[$teacher['id']]         = [];
-                $teachers[$teacher['id']]['text'] = $this->lang->_('THM_ORGANIZER_TEACHER') . ": {$teacherName}";
+                $teachers[$teacher['id']]['text'] = Languages::_('THM_ORGANIZER_TEACHER') . ": {$teacherName}";
 
                 $links = [];
 

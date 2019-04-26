@@ -29,12 +29,12 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
         \JToolbarHelper::save('subject.save');
         \JToolbarHelper::save2new('subject.save2new');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_SUBJECT_EDIT_NEW_TITLE'), 'organizer_subjects');
-            \JToolbarHelper::apply('subject.apply', \JText::_('THM_ORGANIZER_CREATE'));
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_SUBJECT_EDIT_NEW_TITLE'), 'organizer_subjects');
+            \JToolbarHelper::apply('subject.apply', Languages::_('THM_ORGANIZER_CREATE'));
             \JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_SUBJECT_EDIT_EDIT_TITLE'), 'organizer_subjects');
-            \JToolbarHelper::apply('subject.apply', \JText::_('THM_ORGANIZER_APPLY'));
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_SUBJECT_EDIT_EDIT_TITLE'), 'organizer_subjects');
+            \JToolbarHelper::apply('subject.apply', Languages::_('THM_ORGANIZER_APPLY'));
             \JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CLOSE');
         }
     }

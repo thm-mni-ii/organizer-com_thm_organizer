@@ -9,12 +9,13 @@
  * @link        www.thm.de
  */
 
+defined('_JEXEC') or die;
+
 require_once 'access.php';
 require_once 'date.php';
 require_once 'html.php';
-require_once 'languages.php';
+require_once 'Languages.php';
 
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -61,26 +62,26 @@ class OrganizerHelper
     public static function adminSideBar($viewName)
     {
         \JHtmlSidebar::addEntry(
-            \JText::_('THM_ORGANIZER'),
+            Languages::_('THM_ORGANIZER'),
             'index.php?option=com_thm_organizer&amp;view=thm_organizer',
             $viewName == 'thm_organizer'
         );
 
         if (THM_OrganizerHelperAccess::allowSchedulingAccess()) {
-            $spanText = '<span class="menu-spacer">' . \JText::_('THM_ORGANIZER_SCHEDULING') . '</span>';
+            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_SCHEDULING') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 
             $scheduling = [];
 
-            $scheduling[\JText::_('THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]    = [
+            $scheduling[Languages::_('THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]    = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
                 'active' => $viewName == 'plan_pool_manager'
             ];
-            $scheduling[\JText::_('THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE')] = [
+            $scheduling[Languages::_('THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
                 'active' => $viewName == 'plan_program_manager'
             ];
-            $scheduling[\JText::_('THM_ORGANIZER_SCHEDULE_MANAGER_TITLE')]     = [
+            $scheduling[Languages::_('THM_ORGANIZER_SCHEDULE_MANAGER_TITLE')]     = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_manager',
                 'active' => $viewName == 'schedule_manager'
             ];
@@ -88,7 +89,7 @@ class OrganizerHelper
 
             // Uploading a schedule should always be the first menu item and will never be the active submenu item.
             $prepend    = [
-                \JText::_('THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>' => [
+                Languages::_('THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>' => [
                     'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_edit',
                     'active' => false
                 ]
@@ -100,26 +101,26 @@ class OrganizerHelper
         }
 
         if (THM_OrganizerHelperAccess::allowDocumentAccess()) {
-            $spanText = '<span class="menu-spacer">' . \JText::_('THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
+            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 
             $documentation = [];
 
             if (THM_OrganizerHelperAccess::isAdmin()) {
-                $documentation[\JText::_('THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')] = [
+                $documentation[Languages::_('THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')] = [
                     'url'    => 'index.php?option=com_thm_organizer&amp;view=department_manager',
                     'active' => $viewName == 'department_manager'
                 ];
             }
-            $documentation[\JText::_('THM_ORGANIZER_POOL_MANAGER_TITLE')]    = [
+            $documentation[Languages::_('THM_ORGANIZER_POOL_MANAGER_TITLE')]    = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=pool_manager',
                 'active' => $viewName == 'pool_manager'
             ];
-            $documentation[\JText::_('THM_ORGANIZER_PROGRAM_MANAGER_TITLE')] = [
+            $documentation[Languages::_('THM_ORGANIZER_PROGRAM_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=program_manager',
                 'active' => $viewName == 'program_manager'
             ];
-            $documentation[\JText::_('THM_ORGANIZER_SUBJECT_MANAGER_TITLE')] = [
+            $documentation[Languages::_('THM_ORGANIZER_SUBJECT_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=subject_manager',
                 'active' => $viewName == 'subject_manager'
             ];
@@ -130,38 +131,38 @@ class OrganizerHelper
         }
 
         if (THM_OrganizerHelperAccess::allowHRAccess()) {
-            $spanText = '<span class="menu-spacer">' . \JText::_('THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
+            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
             \JHtmlSidebar::addEntry(
-                \JText::_('THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
+                Languages::_('THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
                 'index.php?option=com_thm_organizer&amp;view=teacher_manager',
                 $viewName == 'teacher_manager'
             );
         }
 
         if (THM_OrganizerHelperAccess::allowFMAccess()) {
-            $spanText = '<span class="menu-spacer">' . \JText::_('THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
+            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 
             $fmEntries = [];
 
-            $fmEntries[\JText::_('THM_ORGANIZER_BUILDING_MANAGER_TITLE')]  = [
+            $fmEntries[Languages::_('THM_ORGANIZER_BUILDING_MANAGER_TITLE')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=building_manager',
                 'active' => $viewName == 'building_manager'
             ];
-            $fmEntries[\JText::_('THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]    = [
+            $fmEntries[Languages::_('THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]    = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=campus_manager',
                 'active' => $viewName == 'campus_manager'
             ];
-            $fmEntries[\JText::_('THM_ORGANIZER_MONITOR_MANAGER_TITLE')]   = [
+            $fmEntries[Languages::_('THM_ORGANIZER_MONITOR_MANAGER_TITLE')]   = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=monitor_manager',
                 'active' => $viewName == 'monitor_manager'
             ];
-            $fmEntries[\JText::_('THM_ORGANIZER_ROOM_MANAGER_TITLE')]      = [
+            $fmEntries[Languages::_('THM_ORGANIZER_ROOM_MANAGER_TITLE')]      = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=room_manager',
                 'active' => $viewName == 'room_manager'
             ];
-            $fmEntries[\JText::_('THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')] = [
+            $fmEntries[Languages::_('THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=room_type_manager',
                 'active' => $viewName == 'room_type_manager'
             ];
@@ -172,28 +173,28 @@ class OrganizerHelper
         }
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
-            $spanText = '<span class="menu-spacer">' . \JText::_('THM_ORGANIZER_ADMINISTRATION') . '</span>';
+            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_ADMINISTRATION') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 
             $adminEntries = [];
 
-            $adminEntries[\JText::_('THM_ORGANIZER_COLOR_MANAGER_TITLE')]  = [
+            $adminEntries[Languages::_('THM_ORGANIZER_COLOR_MANAGER_TITLE')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=color_manager',
                 'active' => $viewName == 'color_manager'
             ];
-            $adminEntries[\JText::_('THM_ORGANIZER_DEGREE_MANAGER_TITLE')] = [
+            $adminEntries[Languages::_('THM_ORGANIZER_DEGREE_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=degree_manager',
                 'active' => $viewName == 'degree_manager'
             ];
-            $adminEntries[\JText::_('THM_ORGANIZER_FIELD_MANAGER_TITLE')]  = [
+            $adminEntries[Languages::_('THM_ORGANIZER_FIELD_MANAGER_TITLE')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=field_manager',
                 'active' => $viewName == 'field_manager'
             ];
-            $adminEntries[\JText::_('THM_ORGANIZER_GRID_MANAGER_TITLE')]   = [
+            $adminEntries[Languages::_('THM_ORGANIZER_GRID_MANAGER_TITLE')]   = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=grid_manager',
                 'active' => $viewName == 'grid_manager'
             ];
-            $adminEntries[\JText::_('THM_ORGANIZER_METHOD_MANAGER_TITLE')] = [
+            $adminEntries[Languages::_('THM_ORGANIZER_METHOD_MANAGER_TITLE')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=method_manager',
                 'active' => $viewName == 'method_manager'
             ];
@@ -347,7 +348,7 @@ class OrganizerHelper
      */
     public static function message($message, $type = 'message')
     {
-        $message = Languages::getLanguage()->_($message);
+        $message = Languages::_($message);
         self::getApplication()->enqueueMessage($message, $type);
     }
 

@@ -27,17 +27,17 @@ $nameProperty = 'name_' . $this->languageTag;
 </div>
 <div class="subject-edit-view">
     <h1>
-        <?php echo $this->form->getValue($nameProperty) . ': ' . $this->lang->_('THM_ORGANIZER_ACTION_EDIT'); ?>
+        <?php echo $this->form->getValue($nameProperty) . ': ' . Languages::_('THM_ORGANIZER_ACTION_EDIT'); ?>
     </h1>
     <form action="?" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm"
           class="form-horizontal">
 
         <button type="submit" class="validate btn btn-primary">
-            <?php echo $this->lang->_('JSAVE'); ?>
+            <?php echo Languages::_('JSAVE'); ?>
         </button>
 
         <a href="<?php echo \JRoute::_($backURL, false); ?>"
-           class="btn" type="button"><?php echo $this->lang->_('JCANCEL') ?></a>
+           class="btn" type="button"><?php echo Languages::_('JCANCEL') ?></a>
         <hr>
         <div class="form-horizontal">
             <?php
@@ -48,7 +48,7 @@ $nameProperty = 'name_' . $this->languageTag;
                 $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
 
                 if ($displayInitial or $isInitialized) {
-                    echo HTML::_('bootstrap.addTab', 'myTab', $set->name, \JText::_($set->label, true));
+                    echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_($set->label, true));
                     echo $this->form->renderFieldset($set->name);
                     echo HTML::_('bootstrap.endTab');
                 }

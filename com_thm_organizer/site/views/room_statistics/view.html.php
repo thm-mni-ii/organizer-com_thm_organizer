@@ -15,9 +15,7 @@ jimport('tcpdf.tcpdf');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class loads room statistic information into the display context.
@@ -48,8 +46,6 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         $this->modifyDocument();
-
-        $this->lang = Languages::getLanguage();
 
         $this->model = $this->getModel();
 
@@ -84,14 +80,14 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
 
         $intervals             = [];
         $intervalAttribs       = ['onChange' => 'handleDateRestriction();'];
-        $intervals['week']     = \JText::_('THM_ORGANIZER_WEEK');
-        $intervals['month']    = \JText::_('THM_ORGANIZER_MONTH');
-        $intervals['semester'] = \JText::_('THM_ORGANIZER_SEMESTER');
+        $intervals['week']     = Languages::_('THM_ORGANIZER_WEEK');
+        $intervals['month']    = Languages::_('THM_ORGANIZER_MONTH');
+        $intervals['semester'] = Languages::_('THM_ORGANIZER_SEMESTER');
         $intervalSelect        = HTML::selectBox($intervals, 'dateRestriction', $intervalAttribs, 'semester');
 
         $this->fields['baseSettings']['dateRestriction'] = [
-            'label'       => \JText::_('THM_ORGANIZER_DATE_RESTRICTION'),
-            'description' => \JText::_('THM_ORGANIZER_DATE_RESTRICTION_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_DATE_RESTRICTION'),
+            'description' => Languages::_('THM_ORGANIZER_DATE_RESTRICTION_DESC'),
             'input'       => $intervalSelect
         ];
 
@@ -101,8 +97,8 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $dateSelect    = HTML::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
 
         $this->fields['baseSettings']['date'] = [
-            'label'       => \JText::_('JDATE'),
-            'description' => \JText::_('THM_ORGANIZER_DATE_DESC'),
+            'label'       => Languages::_('JDATE'),
+            'description' => Languages::_('THM_ORGANIZER_DATE_DESC'),
             'input'       => $dateSelect
         ];
 
@@ -112,8 +108,8 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $ppSelect  = HTML::selectBox($ppOptions, 'planningPeriodIDs', $ppAttribs, $ppDefault);
 
         $this->fields['baseSettings']['planningPeriodIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_PLANNING_PERIOD'),
-            'description' => \JText::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_PLANNING_PERIOD'),
+            'description' => Languages::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
             'input'       => $ppSelect
         ];
     }
@@ -129,49 +125,49 @@ class THM_OrganizerViewRoom_Statistics extends \Joomla\CMS\MVC\View\HtmlView
         $attribs                      = ['multiple' => 'multiple'];
 
         $roomAttribs                     = $attribs;
-        $roomAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        $roomAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
         $planRoomOptions                 = $this->model->getRoomOptions();
         $roomSelect                      = HTML::selectBox($planRoomOptions, 'roomIDs', $roomAttribs);
 
         $this->fields['filterFields']['roomIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_ROOMS'),
-            'description' => \JText::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_ROOMS'),
+            'description' => Languages::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
             'input'       => $roomSelect
         ];
 
         $roomTypeAttribs                     = $attribs;
         $roomTypeAttribs['onChange']         = 'repopulateRooms();';
-        $roomTypeAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
+        $roomTypeAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
         $typeOptions                         = $this->model->getRoomTypeOptions();
         $roomTypeSelect                      = HTML::selectBox($typeOptions, 'typeIDs', $roomTypeAttribs);
 
         $this->fields['filterFields']['typeIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_ROOM_TYPES'),
-            'description' => \JText::_('THM_ORGANIZER_ROOM_TYPES_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_ROOM_TYPES'),
+            'description' => Languages::_('THM_ORGANIZER_ROOM_TYPES_EXPORT_DESC'),
             'input'       => $roomTypeSelect
         ];
 
         $deptAttribs                     = $attribs;
         $deptAttribs['onChange']         = 'repopulatePlanningPeriods();repopulatePrograms();repopulateRooms();';
-        $deptAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
         $departmentOptions               = $this->model->getDepartmentOptions();
         $departmentSelect                = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
 
         $this->fields['filterFields']['departmetIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_DEPARTMENTS'),
-            'description' => \JText::_('THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_DEPARTMENTS'),
+            'description' => Languages::_('THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
             'input'       => $departmentSelect
         ];
 
         $programAttribs                     = $attribs;
         $programAttribs['onChange']         = 'repopulatePlanningPeriods();repopulateRooms();';
-        $programAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
+        $programAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
         $planProgramOptions                 = $this->model->getProgramOptions();
         $programSelect                      = HTML::selectBox($planProgramOptions, 'programIDs', $programAttribs);
 
         $this->fields['filterFields']['programIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_PROGRAMS'),
-            'description' => \JText::_('THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_PROGRAMS'),
+            'description' => Languages::_('THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
             'input'       => $programSelect
         ];
     }

@@ -9,14 +9,14 @@
  * @link        www.thm.de
  */
 
+defined('_JEXEC') or die;
+
 require_once 'campuses.php';
-require_once 'languages.php';
+require_once 'OrganizerHelper.php';
 require_once 'participants.php';
 require_once 'subjects.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
@@ -119,7 +119,6 @@ class THM_OrganizerHelperCourses
         $expired    = !self::isRegistrationOpen($courseID);
         $authorized = self::authorized($courseID);
 
-        $lang            = Languages::getLanguage();
         $shortTag        = Languages::getShortTag();
         $menuID          = OrganizerHelper::getInput()->getInt('Itemid');
         $pathPrefix      = 'index.php?option=com_thm_organizer';
@@ -137,7 +136,7 @@ class THM_OrganizerHelperCourses
             $lessonURL = "&lessonID=$courseID";
 
             if ($authorized) {
-                $manage       = '<span class="icon-cogs"></span>' . $lang->_('THM_ORGANIZER_MANAGE');
+                $manage       = '<span class="icon-cogs"></span>' . Languages::_('THM_ORGANIZER_MANAGE');
                 $managerRoute = \JRoute::_($managerURL . $lessonURL);
                 $register     = "<a class='btn' href='$managerRoute'>$manage</a>";
             } else {
@@ -149,9 +148,9 @@ class THM_OrganizerHelperCourses
                     $registerRoute = \JRoute::_($registrationURL . $lessonURL);
 
                     if (!empty($regState)) {
-                        $registerText = '<span class="icon-out-2"></span>' . $lang->_('THM_ORGANIZER_COURSE_DEREGISTER');
+                        $registerText = '<span class="icon-out-2"></span>' . Languages::_('THM_ORGANIZER_COURSE_DEREGISTER');
                     } else {
-                        $registerText = '<span class="icon-apply"></span>' . $lang->_('THM_ORGANIZER_COURSE_REGISTER');
+                        $registerText = '<span class="icon-apply"></span>' . Languages::_('THM_ORGANIZER_COURSE_REGISTER');
                     }
 
                     $register = "<a class='btn' href='$registerRoute' type='button'>$registerText</a>";
@@ -529,20 +528,19 @@ class THM_OrganizerHelperCourses
      */
     public static function getStatusDisplay($courseID)
     {
-        $lang       = Languages::getLanguage();
         $expired    = !self::isRegistrationOpen($courseID);
         $authorized = self::authorized($courseID);
 
         // Personal Status
         $none        = $expired ?
-            $lang->_('THM_ORGANIZER_EXPIRED') : $lang->_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
-        $notLoggedIn = '<span class="icon-warning"></span>' . $lang->_('THM_ORGANIZER_NOT_LOGGED_IN');
-        $waitList    = '<span class="icon-checkbox-partial"></span>' . $lang->_('THM_ORGANIZER_WAIT_LIST');
-        $registered  = '<span class="icon-checkbox-checked"></span>' . $lang->_('THM_ORGANIZER_COURSE_REGISTERED');
+            Languages::_('THM_ORGANIZER_EXPIRED') : Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
+        $notLoggedIn = '<span class="icon-warning"></span>' . Languages::_('THM_ORGANIZER_NOT_LOGGED_IN');
+        $waitList    = '<span class="icon-checkbox-partial"></span>' . Languages::_('THM_ORGANIZER_WAIT_LIST');
+        $registered  = '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_COURSE_REGISTERED');
 
         if (!empty(\JFactory::getUser()->id)) {
             if ($authorized) {
-                $userStatus = $lang->_('THM_ORGANIZER_COURSE_ADMINISTRATOR');
+                $userStatus = Languages::_('THM_ORGANIZER_COURSE_ADMINISTRATOR');
             } else {
                 $regState = self::getParticipantState($courseID);
 

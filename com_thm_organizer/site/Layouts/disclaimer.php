@@ -12,31 +12,29 @@ defined('_JEXEC') or die;
 
 use THM_OrganizerHelperHTML as HTML;
 
-$lang = $displayData['language'];
-
 $lsfLink   = HTML::link(
     'https://studien-sb-service.th-mittelhessen.de/docu/online.html',
-    $lang->_('THM_ORGANIZER_DISCLAIMER_LSF_TITLE')
+    Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TITLE')
 );
-$lsfText   = $lang->_('THM_ORGANIZER_DISCLAIMER_LSF_TEXT');
+$lsfText   = Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TEXT');
 $lsfOutput = sprintf($lsfText, $lsfLink);
 
 $ambLink   = HTML::link(
     'http://www.thm.de/amb/pruefungsordnungen',
-    $lang->_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE')
+    Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE')
 );
-$ambText   = $lang->_('THM_ORGANIZER_DISCLAIMER_AMB_TEXT');
+$ambText   = Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TEXT');
 $ambOutput = sprintf($ambText, $ambLink);
 
 $poLink   = HTML::link(
     'http://www.thm.de/site/studium/sie-studieren/pruefungsordnung.html',
-    $lang->_('THM_ORGANIZER_DISCLAIMER_PO_TITLE')
+    Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TITLE')
 );
-$poText   = $lang->_('THM_ORGANIZER_DISCLAIMER_PO_TEXT');
+$poText   = Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TEXT');
 $poOutput = sprintf($poText, $poLink);
 ?>
 <div class="legal-disclaimer">
-    <h4><?php echo $lang->_('THM_ORGANIZER_DISCLAIMER_HEADER'); ?></h4>
+    <h4><?php echo Languages::_('THM_ORGANIZER_DISCLAIMER_HEADER'); ?></h4>
     <ul>
         <li><?php echo $lsfOutput; ?></li>
         <li><?php echo $ambOutput; ?></li>

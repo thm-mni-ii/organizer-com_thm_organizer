@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class loads a form for editing data.
@@ -78,7 +78,7 @@ class THM_OrganizerModelSubject_Edit extends \Joomla\CMS\MVC\Model\AdminModel
         $allowEdit  = $this->allowEdit();
 
         if (!$allowEdit) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         return $this->item;

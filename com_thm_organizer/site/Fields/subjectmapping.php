@@ -8,9 +8,10 @@
  * @link        www.thm.de
  */
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/html.php';
+defined('_JEXEC') or die;
 
-use OrganizerHelper;
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+
 use THM_OrganizerHelperHTML as HTML;
 
 /**

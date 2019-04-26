@@ -16,8 +16,8 @@ define('CONTENT', 3);
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 /**
  * Class retrieves information about daily events for display on monitors.

@@ -18,11 +18,11 @@ $user          = \JFactory::getUser();
 ?>
 <script type="text/javascript">
     var rootURI = '<?php echo Uri::root(); ?>',
-        allText = '<?php echo \JText::_('JALL');?>',
-        selectionWarning = '<?php echo \JText::_('THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
-        downloadText = '<?php echo \JText::_('THM_ORGANIZER_ACTION_DOWNLOAD');?>',
-        generateText = '<?php echo \JText::_('THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
-        copyText = '<?php echo \JText::_('THM_ORGANIZER_COPY_SUBSCRIPTION');?>',
+        allText = '<?php echo Languages::_('JALL');?>',
+        selectionWarning = '<?php echo Languages::_('THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
+        downloadText = '<?php echo Languages::_('THM_ORGANIZER_ACTION_DOWNLOAD');?>',
+        generateText = '<?php echo Languages::_('THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
+        copyText = '<?php echo Languages::_('THM_ORGANIZER_COPY_SUBSCRIPTION');?>',
         registered = <?php echo $user->id; ?>,
         si = <?php echo $this->isSeeingImpaired(); ?>;
 
@@ -35,11 +35,11 @@ $user          = \JFactory::getUser();
     <form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank">
         <div id="header-container" class="header-container">
             <div class="header-title">
-                <?php echo \JText::_('THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
+                <?php echo Languages::_('THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
             </div>
             <div class="toolbar">
                 <a id="action-btn" class="btn" onclick="handleSubmit();">
-                    <?php echo \JText::_('THM_ORGANIZER_ACTION_DOWNLOAD') ?>
+                    <?php echo Languages::_('THM_ORGANIZER_ACTION_DOWNLOAD') ?>
                     <span class="icon-file-pdf"></span>
                 </a>
             </div>
@@ -47,7 +47,7 @@ $user          = \JFactory::getUser();
         </div>
         <fieldset id="filterFields">
             <legend>
-                <?php echo $this->lang->_('THM_ORGANIZER_FILTERS'); ?>
+                <?php echo Languages::_('THM_ORGANIZER_FILTERS'); ?>
             </legend>
             <?php
             foreach ($this->fields['filterFields'] as $filterID => $filter) {
@@ -68,7 +68,7 @@ $user          = \JFactory::getUser();
         </fieldset>
         <fieldset id="resourceFields">
             <legend>
-                <?php echo $this->lang->_('THM_ORGANIZER_SELECTION'); ?>
+                <?php echo Languages::_('THM_ORGANIZER_SELECTION'); ?>
             </legend>
             <?php
             foreach ($this->fields['resourceFields'] as $resourceID => $resource) {
@@ -88,7 +88,7 @@ $user          = \JFactory::getUser();
             ?>
         </fieldset>
         <fieldset>
-            <legend><?php echo $this->lang->_('THM_ORGANIZER_FORMAT_SETTINGS'); ?></legend>
+            <legend><?php echo Languages::_('THM_ORGANIZER_FORMAT_SETTINGS'); ?></legend>
             <?php
             foreach ($this->fields['formatSettings'] as $formatFieldID => $formatField) {
                 $hidden = in_array($formatFieldID, $initialHidden) ? 'style="display: none;"' : '';
@@ -110,7 +110,7 @@ $user          = \JFactory::getUser();
         if (!empty($this->fields['adminFields'])) {
             ?>
             <fieldset>
-                <legend><?php echo $this->lang->_('THM_ORGANIZER_ADMINISTRATION_SETTINGS'); ?></legend>
+                <legend><?php echo Languages::_('THM_ORGANIZER_ADMINISTRATION_SETTINGS'); ?></legend>
                 <?php
                 foreach ($this->fields['adminFields'] as $adminFieldID => $adminField) {
                     echo '<div id="' . $adminFieldID . '-container" class="control-item">';

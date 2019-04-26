@@ -8,7 +8,6 @@
  * @link        www.thm.de
  */
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
@@ -16,7 +15,7 @@ $containerClass = $this->showRegistration ? ' uses-login' : '';
 
 if (!empty($this->menu)) {
     $menuID   = $this->menu['id'];
-    $menuText = $this->lang->_('THM_ORGANIZER_BACK');
+    $menuText = Languages::_('THM_ORGANIZER_BACK');
 }
 
 $position = OrganizerHelper::getParams()->get('loginPosition');
@@ -47,7 +46,7 @@ if ($this->showRegistration) {
         </script>
         <?php
         echo '<div class="tbox-yellow">';
-        echo '<p>' . $this->lang->_('THM_ORGANIZER_COURSE_LOGIN_WARNING') . '</p>';
+        echo '<p>' . Languages::_('THM_ORGANIZER_COURSE_LOGIN_WARNING') . '</p>';
         echo HTML::_('content.prepare', '{loadposition ' . $position . '}');
         echo '<div class="right">';
         if (!empty($this->menu)) {
@@ -55,7 +54,7 @@ if ($this->showRegistration) {
             echo '<span class="icon-list"></span>' . $menuText . '</a>';
         }
         echo '<a class="btn" onclick="' . $casURL . '">';
-        echo '<span class="icon-apply"></span>' . $this->lang->_('THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN');
+        echo '<span class="icon-apply"></span>' . Languages::_('THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN');
         echo '</a>';
         echo '</div>';
         echo '<div class="clear"></div>';
@@ -104,6 +103,6 @@ if (!empty($this->courses)) {
         }
     }
     $this->renderCollab();
-    echo $this->disclaimer->render($this->disclaimerParams);
+    echo $this->disclaimer->render([]);
 } ?>
 </div>

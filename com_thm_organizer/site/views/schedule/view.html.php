@@ -12,9 +12,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class loads the schedule form into the display context.
@@ -163,33 +161,33 @@ class THM_OrganizerViewSchedule extends \Joomla\CMS\MVC\View\HtmlView
         $doc = \JFactory::getDocument();
         $doc->addScriptOptions('variables', array_merge($variables, $this->model->params));
 
-        \JText::script('APRIL');
-        \JText::script('AUGUST');
-        \JText::script('THM_ORGANIZER_ACTION_GENERATE_LINK');
-        \JText::script('DECEMBER');
-        \JText::script('FEBRUARY');
-        \JText::script('FRI');
-        \JText::script('JANUARY');
-        \JText::script('JULY');
-        \JText::script('JUNE');
-        \JText::script('THM_ORGANIZER_LUNCHTIME');
-        \JText::script('MARCH');
-        \JText::script('MAY');
-        \JText::script('MON');
-        \JText::script('THM_ORGANIZER_MY_SCHEDULE');
-        \JText::script('NOVEMBER');
-        \JText::script('OCTOBER');
-        \JText::script('THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
-        \JText::script('THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER');
-        \JText::script('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
-        \JText::script('THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
-        \JText::script('SAT');
-        \JText::script('SEPTEMBER');
-        \JText::script('SUN');
-        \JText::script('THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
-        \JText::script('THU');
-        \JText::script('THM_ORGANIZER_TIME');
-        \JText::script('TUE');
-        \JText::script('WED');
+        Languages::script('APRIL');
+        Languages::script('AUGUST');
+        Languages::script('THM_ORGANIZER_ACTION_GENERATE_LINK');
+        Languages::script('DECEMBER');
+        Languages::script('FEBRUARY');
+        Languages::script('FRI');
+        Languages::script('JANUARY');
+        Languages::script('JULY');
+        Languages::script('JUNE');
+        Languages::script('THM_ORGANIZER_LUNCHTIME');
+        Languages::script('MARCH');
+        Languages::script('MAY');
+        Languages::script('MON');
+        Languages::script('THM_ORGANIZER_MY_SCHEDULE');
+        Languages::script('NOVEMBER');
+        Languages::script('OCTOBER');
+        Languages::script('THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
+        Languages::script('THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER');
+        Languages::script('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        Languages::script('THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER');
+        Languages::script('SAT');
+        Languages::script('SEPTEMBER');
+        Languages::script('SUN');
+        Languages::script('THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
+        Languages::script('THU');
+        Languages::script('THM_ORGANIZER_TIME');
+        Languages::script('TUE');
+        Languages::script('WED');
     }
 }

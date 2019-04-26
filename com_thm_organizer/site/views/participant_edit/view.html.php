@@ -12,7 +12,6 @@
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -20,8 +19,6 @@ use Joomla\CMS\Uri\Uri;
  */
 class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
 {
-    public $lang;
-
     public $languageLinks;
 
     public $languageParams;
@@ -43,7 +40,7 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         if (empty(\JFactory::getUser()->id)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         $this->item   = $this->get('Item');
@@ -57,7 +54,6 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
             $this->course['open']      = THM_OrganizerHelperCourses::isRegistrationOpen();
         }
 
-        $this->lang           = Languages::getLanguage();
         $this->languageLinks  = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $courseID             = empty($this->course) ? 0 : $this->course['id'];
         $this->languageParams = ['lessonID' => $courseID, 'view' => 'participant_edit'];

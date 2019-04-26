@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+defined('_JEXEC') or die;
+
 /**
  * Class instantiates a \JTable Object associated with the participants table.
  */

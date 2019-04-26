@@ -15,7 +15,6 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/rooms.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class creates a form field for room selection.
@@ -39,8 +38,7 @@ class JFormFieldRoomID extends \JFormFieldList
 
         $options = [];
         if (empty($rooms)) {
-            $lang      = Languages::getLanguage();
-            $options[] = HTML::_('select.option', '', $lang->_('JNONE'));
+            $options[] = HTML::_('select.option', '', Languages::_('JNONE'));
 
             return $options;
         } else {

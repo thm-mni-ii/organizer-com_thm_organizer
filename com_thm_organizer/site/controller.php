@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class receives user actions and performs access checks and redirection.
@@ -265,7 +265,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
 
         $selected = $this->input->get('cid', [], '[]');
         if (count($selected) == 1) {
-            $msg = \JText::_('THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
+            $msg = Languages::_('THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(\JRoute::_($url, false), $msg, 'warning');
             return;
         }
@@ -275,7 +275,7 @@ class THM_OrganizerController extends \Joomla\CMS\MVC\Controller\BaseController
         if ($functionAvailable) {
             $autoMerged = $model->autoMerge();
             if ($autoMerged) {
-                $msg = \JText::_('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
+                $msg = Languages::_('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
                 $this->setRedirect(\JRoute::_($url, false), $msg);
                 return;
             }

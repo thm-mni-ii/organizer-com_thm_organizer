@@ -11,9 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class loads a filtered set of subjects into the display context.
@@ -22,13 +20,9 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $disclaimer;
 
-    public $disclaimerData;
-
     public $displayName;
 
     public $groupBy = 'list';
-
-    public $lang;
 
     public $languageLinks;
 
@@ -48,7 +42,6 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->params = OrganizerHelper::getParams();
 
         $this->fixGroupBy();
-        $this->lang = Languages::getLanguage($this->params->get('initialLanguage', 'de'));
 
         $this->state = $this->get('State');
 
@@ -67,7 +60,6 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         $this->displayName = $model->displayName;
 
         $this->disclaimer     = new \JLayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $this->disclaimerData = ['language' => $this->lang];
 
         parent::display($tpl);
     }
@@ -118,11 +110,11 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
         if (empty($pool['minCrP']) and empty($pool['maxCrP'])) {
             return '';
         } elseif (empty($pool['minCrP'])) {
-            return sprintf(\JText::_('THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
+            return sprintf(Languages::_('THM_ORGANIZER_CRP_UPTO'), $pool['maxCrP']);
         } elseif (empty($pool['maxCrP']) or $pool['minCrP'] == $pool['maxCrP']) {
             return "{$pool['minCrP']} CrP";
         } else {
-            return sprintf(\JText::_('THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
+            return sprintf(Languages::_('THM_ORGANIZER_CRP_BETWEEN'), $pool['minCrP'], $pool['maxCrP']);
         }
     }
 
@@ -221,11 +213,11 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 
             default:
                 if ($isResponsible) {
-                    $responsibilities[1] = \JText::_('THM_ORGANIZER_RESPONSIBLE');
+                    $responsibilities[1] = Languages::_('THM_ORGANIZER_RESPONSIBLE');
                 }
 
                 if ($isTeacher) {
-                    $responsibilities[2] = \JText::_('THM_ORGANIZER_TEACHER');
+                    $responsibilities[2] = Languages::_('THM_ORGANIZER_TEACHER');
                 }
 
                 break;
@@ -254,7 +246,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
                 $displayTeachers[$name]['resp'] = '';
 
                 if ($responsibility == 0) {
-                    $displayTeachers[$name]['resp'] = \JText::_('THM_ORGANIZER_RESPONSIBLE_ABBR');
+                    $displayTeachers[$name]['resp'] = Languages::_('THM_ORGANIZER_RESPONSIBLE_ABBR');
                 }
             }
         }
@@ -271,7 +263,7 @@ class THM_OrganizerViewSubject_List extends \Joomla\CMS\MVC\View\HtmlView
 
                 if ($responsibility == 0) {
                     $displayTeachers[$name]['resp'] .= empty($displayTeachers[$name]['resp']) ?
-                        \JText::_('THM_ORGANIZER_TEACHER_ABBR') : ', ' . \JText::_('THM_ORGANIZER_TEACHER_ABBR');
+                        Languages::_('THM_ORGANIZER_TEACHER_ABBR') : ', ' . Languages::_('THM_ORGANIZER_TEACHER_ABBR');
                 }
             }
         }

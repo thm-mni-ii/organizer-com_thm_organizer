@@ -8,7 +8,9 @@
  * @link        www.thm.de
  */
 
-use OrganizerHelper;
+defined('_JEXEC') or die;
+
+require_once 'OrganizerHelper.php';
 
 /**
  * Class provides methods for communication with the LSF curriculum documentation system.

@@ -13,8 +13,6 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 jimport('tcpdf.tcpdf');
 
-use THM_OrganizerHelperLanguages as Languages;
-
 /**
  * Base PDF export class used for the generation of various course exports.
  */
@@ -26,8 +24,6 @@ abstract class THM_OrganizerTemplateCourse_Export
 
     protected $filename;
 
-    protected $lang;
-
     /**
      * THM_OrganizerTemplateCourse_List_PDF constructor.
      *
@@ -38,19 +34,18 @@ abstract class THM_OrganizerTemplateCourse_Export
     public function __construct($courseID)
     {
         if (empty($courseID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!THM_OrganizerHelperCourses::authorized($courseID)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         $course = THM_OrganizerHelperCourses::getCourse($courseID);
         if (empty($course)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_404'), 404);
+            throw new \Exception(Languages::_('THM_ORGANIZER_404'), 404);
         }
 
-        $this->lang      = Languages::getLanguage();
         $dates           = THM_OrganizerHelperCourses::getDates($courseID);
         $maxParticipants = empty($course->lessonP) ? $course['subjectP'] : $course['lessonP'];
         $start           = explode('-', $dates[0]);
@@ -97,7 +92,7 @@ abstract class THM_OrganizerTemplateCourse_Export
         $header           = $this->course['name'];
         $location         = empty($this->course['place']) ? '' : "{$this->course['place']}, ";
         $dates            = "{$this->course['start']} - {$this->course['end']}";
-        $participants     = $this->lang->_('THM_ORGANIZER_PARTICIPANTS');
+        $participants     = Languages::_('THM_ORGANIZER_PARTICIPANTS');
         $participantCount = count($this->course['participants']);
         $subHeader        = "$location$dates\n$participants: $participantCount";
 

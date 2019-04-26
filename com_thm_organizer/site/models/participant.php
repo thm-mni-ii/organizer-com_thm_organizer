@@ -12,7 +12,7 @@
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/participants.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class which manages stored participant data.
@@ -32,7 +32,7 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
     public function register($participantID, $courseID, $state)
     {
         if (!\JFactory::getUser()->id === $participantID) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $canAccept = (int)THM_OrganizerHelperCourses::canAcceptParticipant($courseID);
@@ -52,9 +52,9 @@ class THM_OrganizerModelParticipant extends \Joomla\CMS\MVC\Model\BaseDatabaseMo
         $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (!isset($data['id'])) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         } elseif ($data['id'] !== \JFactory::getUser()->id) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $address   = trim($data['address']);

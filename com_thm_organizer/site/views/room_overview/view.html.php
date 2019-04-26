@@ -13,7 +13,6 @@ define('DAY', 1);
 define('WEEK', 2);
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -22,8 +21,6 @@ use Joomla\CMS\Uri\Uri;
 class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $form = null;
-
-    public $lang = null;
 
     public $languageLinks;
 
@@ -43,7 +40,6 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         $this->model = $this->getModel();
         $this->state = $this->get('State');
         $this->form  = $this->get('Form');
-        $this->lang  = Languages::getLanguage();
 
         $this->form->setValue('template', null, $this->state->get('template'));
         $this->form->setValue('date', null, $this->state->get('date'));
@@ -87,7 +83,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
     public function getBlockTip($date, $blockNo, $blockName, $roomNo)
     {
         $dayConstant   = strtoupper(date('l', strtotime($date)));
-        $day           = $this->lang->_($dayConstant);
+        $day           = Languages::_($dayConstant);
         $formattedDate = THM_OrganizerHelperDate::formatDate($date);
         $dateText      = "$day $formattedDate<br />";
 
@@ -98,7 +94,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         $endTime   = THM_OrganizerHelperDate::formatTime($block['endTime']);
         $timeText  = " ($startTime - $endTime)<br />";
 
-        $roomText = $this->lang->_('THM_ORGANIZER_ROOM') . " $roomNo<br />";
+        $roomText = Languages::_('THM_ORGANIZER_ROOM') . " $roomNo<br />";
 
         return htmlentities('<div>' . $dateText . $blockText . $timeText . $roomText . '</div>');
     }
@@ -116,16 +112,16 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
         foreach ($events as $event) {
             $eventTip   = [];
             $eventTip[] = '<div>';
-            $eventTip[] = $this->lang->_('THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
-            $eventTip[] = $this->lang->_('THM_ORGANIZER_EVENT') . ": {$event['title']}<br/>";
-            $eventTip[] = $this->lang->_('THM_ORGANIZER_TEACHERS') . ": {$event['teachers']}";
+            $eventTip[] = Languages::_('THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
+            $eventTip[] = Languages::_('THM_ORGANIZER_EVENT') . ": {$event['title']}<br/>";
+            $eventTip[] = Languages::_('THM_ORGANIZER_TEACHERS') . ": {$event['teachers']}";
             if (!empty($event['comment'])) {
                 $eventTip[] = '<br />';
-                $eventTip[] = $this->lang->_('THM_ORGANIZER_EXTRA_INFORMATION') . ": {$event['comment']}";
+                $eventTip[] = Languages::_('THM_ORGANIZER_EXTRA_INFORMATION') . ": {$event['comment']}";
             }
             if (!empty($event['divTime'])) {
                 $eventTip[] = '<br />';
-                $eventTip[] = $this->lang->_('THM_ORGANIZER_DIVERGENT_TIME') . ": {$event['divTime']}<br/>";
+                $eventTip[] = Languages::_('THM_ORGANIZER_DIVERGENT_TIME') . ": {$event['divTime']}<br/>";
             }
             $eventTip[] = '</div>';
             $tips[]     = implode('', $eventTip);
@@ -143,8 +139,8 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function getLabel($inputName)
     {
-        $title  = $this->lang->_($this->form->getField($inputName)->title);
-        $tip    = $this->lang->_($this->form->getField($inputName)->description);
+        $title  = Languages::_($this->form->getField($inputName)->title);
+        $tip    = Languages::_($this->form->getField($inputName)->description);
         $return = '<label id="jform_' . $inputName . '-lbl" for="jform_' . $inputName . '" class="hasPopover"';
         $return .= 'data-content="' . $tip . '" data-original-title="' . $title . '">' . $title . '</label>';
 
@@ -171,7 +167,7 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
 
         $capacityText = '';
         if (!empty($room['capacity'])) {
-            $capacityText .= $this->lang->_('THM_ORGANIZER_CAPACITY');
+            $capacityText .= Languages::_('THM_ORGANIZER_CAPACITY');
             $capacityText .= ": {$room['capacity']}";
             $capacityText .= '<br />';
         }

@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
-
 /**
  * Class instantiates a \JTable Object associated with the schedules table.
  */

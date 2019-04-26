@@ -14,9 +14,7 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class loads the schedule export filter form into the display context.
@@ -53,8 +51,6 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
     public function display($tpl = null)
     {
         $this->modifyDocument();
-
-        $this->lang = Languages::getLanguage();
 
         $this->model    = $this->getModel();
         $this->compiler = jimport('tcpdf.tcpdf');
@@ -118,14 +114,14 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         // Departments
         $deptAttribs                     = [];
         $deptAttribs['onChange']         = 'repopulatePrograms();repopulateResources();';
-        $deptAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
         $departmentOptions = $this->model->getDepartmentOptions();
         $departmentSelect  = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
 
         $this->fields['filterFields']['departmentIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_DEPARTMENT'),
-            'description' => \JText::_('THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_DEPARTMENT'),
+            'description' => Languages::_('THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
             'input'       => $departmentSelect
         ];
 
@@ -133,13 +129,13 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $programAttribs = [
             'multiple'         => 'multiple',
             'onChange'         => 'repopulateResources();',
-            'data-placeholder' => \JText::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER')
+            'data-placeholder' => Languages::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER')
         ];
         $programSelect  = HTML::selectBox([], 'programIDs', $programAttribs);
 
         $this->fields['filterFields']['programIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_PROGRAMS'),
-            'description' => \JText::_('THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_PROGRAMS'),
+            'description' => Languages::_('THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
             'input'       => $programSelect
         ];
     }
@@ -159,43 +155,43 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $formatAttribs             = $attribs;
         $formatAttribs['onChange'] = 'setFormat();';
         $fileFormats               = [];
-        $fileFormats['xls.si']     = \JText::_('THM_ORGANIZER_XLS_CALENDAR_BLIND');
-        $fileFormats['ics']        = \JText::_('THM_ORGANIZER_ICS_CALENDAR');
+        $fileFormats['xls.si']     = Languages::_('THM_ORGANIZER_XLS_CALENDAR_BLIND');
+        $fileFormats['ics']        = Languages::_('THM_ORGANIZER_ICS_CALENDAR');
 
         if (!empty($this->compiler)) {
-            $fileFormats['pdf.a3'] = \JText::_('THM_ORGANIZER_PDF_A3_DOCUMENT');
-            $fileFormats['pdf.a4'] = \JText::_('THM_ORGANIZER_PDF_A4_DOCUMENT');
+            $fileFormats['pdf.a3'] = Languages::_('THM_ORGANIZER_PDF_A3_DOCUMENT');
+            $fileFormats['pdf.a4'] = Languages::_('THM_ORGANIZER_PDF_A4_DOCUMENT');
         }
 
         $defaultFileFormat = $seeingImpaired ? 'xls.si' : 'pdf.a4';
         $fileFormatSelect  = HTML::selectBox($fileFormats, 'format', $formatAttribs, $defaultFileFormat);
 
         $this->fields['formatSettings']['format'] = [
-            'label'       => \JText::_('THM_ORGANIZER_FILE_FORMAT'),
-            'description' => \JText::_('THM_ORGANIZER_FILE_FORMAT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_FILE_FORMAT'),
+            'description' => Languages::_('THM_ORGANIZER_FILE_FORMAT_DESC'),
             'input'       => $fileFormatSelect
         ];
 
         $titlesOptions      = [];
-        $titlesOptions['1'] = \JText::_('THM_ORGANIZER_FULL_TITLE');
-        $titlesOptions['2'] = \JText::_('THM_ORGANIZER_SHORT_TITLE');
-        $titlesOptions['3'] = \JText::_('THM_ORGANIZER_ABBREVIATION');
+        $titlesOptions['1'] = Languages::_('THM_ORGANIZER_FULL_TITLE');
+        $titlesOptions['2'] = Languages::_('THM_ORGANIZER_SHORT_TITLE');
+        $titlesOptions['3'] = Languages::_('THM_ORGANIZER_ABBREVIATION');
         $titlesSelect       = HTML::selectBox($titlesOptions, 'titles', $attribs, '1');
 
         $this->fields['formatSettings']['titles'] = [
-            'label'       => \JText::_('THM_ORGANIZER_TITLES'),
-            'description' => \JText::_('THM_ORGANIZER_TITLES_FORMAT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_TITLES'),
+            'description' => Languages::_('THM_ORGANIZER_TITLES_FORMAT_DESC'),
             'input'       => $titlesSelect
         ];
 
         $groupingOptions      = [];
-        $groupingOptions['0'] = \JText::_('JNONE');
-        $groupingOptions['1'] = \JText::_('THM_ORGANIZER_BY_RESOURCE');
+        $groupingOptions['0'] = Languages::_('JNONE');
+        $groupingOptions['1'] = Languages::_('THM_ORGANIZER_BY_RESOURCE');
         $groupingSelect       = HTML::selectBox($groupingOptions, 'grouping', $attribs, '1');
 
         $this->fields['formatSettings']['grouping'] = [
-            'label'       => \JText::_('THM_ORGANIZER_GROUPING'),
-            'description' => \JText::_('THM_ORGANIZER_GROUPING_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_GROUPING'),
+            'description' => Languages::_('THM_ORGANIZER_GROUPING_DESC'),
             'input'       => $groupingSelect
         ];
 
@@ -204,21 +200,21 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $gridSelect  = HTML::selectBox($grids, 'gridID', $attribs, $defaultGrid);
 
         $this->fields['formatSettings']['gridID'] = [
-            'label'       => \JText::_('THM_ORGANIZER_GRID'),
-            'description' => \JText::_('THM_ORGANIZER_GRID_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_GRID'),
+            'description' => Languages::_('THM_ORGANIZER_GRID_EXPORT_DESC'),
             'input'       => $gridSelect
         ];
 
 //        $displayFormats             = [];
-//        $displayFormats['list']     = \JText::_('THM_ORGANIZER_LIST');
-//        $displayFormats['schedule'] = \JText::_('THM_ORGANIZER_SCHEDULE');
+//        $displayFormats['list']     = Languages::_('THM_ORGANIZER_LIST');
+//        $displayFormats['schedule'] = Languages::_('THM_ORGANIZER_SCHEDULE');
 //        $defaultDisplayFormat       = 'schedule';
 //        $displayFormatSelect        = HTML::selectBox($displayFormats, 'displayFormat', $attribs,
 //            $defaultDisplayFormat);
 //
 //        $this->fields['formatSettings']['displayFormat'] = [
-//            'label'       => \JText::_('THM_ORGANIZER_DISPLAY_FORMAT'),
-//            'description' => \JText::_('THM_ORGANIZER_DISPLAY_FORMAT_DESC'),
+//            'label'       => Languages::_('THM_ORGANIZER_DISPLAY_FORMAT'),
+//            'description' => Languages::_('THM_ORGANIZER_DISPLAY_FORMAT_DESC'),
 //            'input'       => $displayFormatSelect
 //        ];
 
@@ -234,48 +230,48 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         }
 
         $this->fields['formatSettings']['date'] = [
-            'label'       => \JText::_('JDATE'),
-            'description' => \JText::_('THM_ORGANIZER_DATE_DESC'),
+            'label'       => Languages::_('JDATE'),
+            'description' => Languages::_('THM_ORGANIZER_DATE_DESC'),
             'input'       => $dateSelect
         ];
 
         $intervals             = [];
-        $intervals['day']      = \JText::_('THM_ORGANIZER_DAY');
-        $intervals['week']     = \JText::_('THM_ORGANIZER_WEEK');
-        $intervals['month']    = \JText::_('THM_ORGANIZER_MONTH');
-        $intervals['semester'] = \JText::_('THM_ORGANIZER_SEMESTER');
+        $intervals['day']      = Languages::_('THM_ORGANIZER_DAY');
+        $intervals['week']     = Languages::_('THM_ORGANIZER_WEEK');
+        $intervals['month']    = Languages::_('THM_ORGANIZER_MONTH');
+        $intervals['semester'] = Languages::_('THM_ORGANIZER_SEMESTER');
         $defaultInterval       = 'week';
         $intervalSelect        = HTML::selectBox($intervals, 'dateRestriction', $attribs, $defaultInterval);
 
         $this->fields['formatSettings']['dateRestriction'] = [
-            'label'       => \JText::_('THM_ORGANIZER_DATE_RESTRICTION'),
-            'description' => \JText::_('THM_ORGANIZER_DATE_RESTRICTION_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_DATE_RESTRICTION'),
+            'description' => Languages::_('THM_ORGANIZER_DATE_RESTRICTION_DESC'),
             'input'       => $intervalSelect
         ];
 
 //        $pdfWeekFormats          = [];
-//        $pdfWeekFormats['stack'] = \JText::_('THM_ORGANIZER_STACKED_PLANS'),;
-//        $pdfWeekFormats['sequence'] = \JText::_('THM_ORGANIZER_SEQUENCED_PLANS');
+//        $pdfWeekFormats['stack'] = Languages::_('THM_ORGANIZER_STACKED_PLANS'),;
+//        $pdfWeekFormats['sequence'] = Languages::_('THM_ORGANIZER_SEQUENCED_PLANS');
 //        $defaultPDFWeekFormat       = 'sequence';
 //
 //        $pdfWeekFormatSelect = HTML::selectBox($pdfWeekFormats, 'pdfWeekFormat', $attribs, $defaultPDFWeekFormat);
 //
 //        $this->fields['formatSettings']['pdfWeekFormat'] = [
-//            'label'       => \JText::_('THM_ORGANIZER_WEEK_FORMAT'),
-//            'description' => \JText::_('THM_ORGANIZER_WEEK_FORMAT_PDF_DESC'),
+//            'label'       => Languages::_('THM_ORGANIZER_WEEK_FORMAT'),
+//            'description' => Languages::_('THM_ORGANIZER_WEEK_FORMAT_PDF_DESC'),
 //            'input'       => $pdfWeekFormatSelect
 //        ];
 
         $xlsWeekFormats       = [];
-        $xlsWeekFormats[]     = ['text' => \JText::_('THM_ORGANIZER_ONE_WORKSHEET'), 'value' => 'sequence'];
-        $xlsWeekFormats[]     = ['text' => \JText::_('THM_ORGANIZER_MULTIPLE_WORKSHEETS'), 'value' => 'stack'];
+        $xlsWeekFormats[]     = ['text' => Languages::_('THM_ORGANIZER_ONE_WORKSHEET'), 'value' => 'sequence'];
+        $xlsWeekFormats[]     = ['text' => Languages::_('THM_ORGANIZER_MULTIPLE_WORKSHEETS'), 'value' => 'stack'];
         $defaultXLSWeekFormat = 'sequence';
 
         $xlsWeekFormatSelect = HTML::selectBox($xlsWeekFormats, 'xlsWeekFormat', $attribs, $defaultXLSWeekFormat);
 
         $this->fields['formatSettings']['xlsWeekFormat'] = [
-            'label'       => \JText::_('THM_ORGANIZER_WEEK_FORMAT'),
-            'description' => \JText::_('THM_ORGANIZER_WEEK_FORMAT_XLS_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_WEEK_FORMAT'),
+            'description' => Languages::_('THM_ORGANIZER_WEEK_FORMAT_XLS_DESC'),
             'input'       => $xlsWeekFormatSelect
         ];
     }
@@ -295,20 +291,20 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 
         if (!empty($user->id)) {
             $this->fields['resourceFields']['myschedule'] = [
-                'label'       => \JText::_('THM_ORGANIZER_MY_SCHEDULE'),
-                'description' => \JText::_('THM_ORGANIZER_MY_SCHEDULE_EXPORT_DESC'),
+                'label'       => Languages::_('THM_ORGANIZER_MY_SCHEDULE'),
+                'description' => Languages::_('THM_ORGANIZER_MY_SCHEDULE_EXPORT_DESC'),
                 'input'       => '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">'
             ];
         }
 
         // Pools
         $poolAttribs                     = $attribs;
-        $poolAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
+        $poolAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_POOL_SELECT_PLACEHOLDER');
         $poolSelect                      = HTML::selectBox([], 'poolIDs', $poolAttribs);
 
         $this->fields['resourceFields']['poolIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_POOLS'),
-            'description' => \JText::_('THM_ORGANIZER_POOLS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_POOLS'),
+            'description' => Languages::_('THM_ORGANIZER_POOLS_EXPORT_DESC'),
             'input'       => $poolSelect
         ];
 
@@ -317,25 +313,25 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
 
         if ($privilegedAccess or !empty($isTeacher)) {
             $teacherAttribs                     = $attribs;
-            $teacherAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
+            $teacherAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER');
             $planTeacherOptions                 = $this->model->getTeacherOptions();
             $teacherSelect                      = HTML::selectBox($planTeacherOptions, 'teacherIDs', $teacherAttribs);
 
             $this->fields['resourceFields']['teacherIDs'] = [
-                'label'       => \JText::_('THM_ORGANIZER_TEACHERS'),
-                'description' => \JText::_('THM_ORGANIZER_TEACHERS_EXPORT_DESC'),
+                'label'       => Languages::_('THM_ORGANIZER_TEACHERS'),
+                'description' => Languages::_('THM_ORGANIZER_TEACHERS_EXPORT_DESC'),
                 'input'       => $teacherSelect
             ];
         }
 
         // Rooms
         $roomAttribs                     = $attribs;
-        $roomAttribs['data-placeholder'] = \JText::_('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
+        $roomAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER');
         $roomSelect                      = HTML::selectBox([], 'roomIDs', $roomAttribs);
 
         $this->fields['resourceFields']['roomIDs'] = [
-            'label'       => \JText::_('THM_ORGANIZER_ROOMS'),
-            'description' => \JText::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
+            'label'       => Languages::_('THM_ORGANIZER_ROOMS'),
+            'description' => Languages::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
             'input'       => $roomSelect
         ];
     }

@@ -26,7 +26,7 @@ class THM_OrganizerViewPlan_Pool_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_PLAN_POOL_EDIT_TITLE'), 'organizer_pools');
+        \JToolbarHelper::title(Languages::_('THM_ORGANIZER_PLAN_POOL_EDIT_TITLE'), 'organizer_pools');
         \JToolbarHelper::save('plan_pool.save');
         $cancelText = empty($this->item->id) ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE';
         \JToolbarHelper::cancel('plan_pool.cancel', $cancelText);

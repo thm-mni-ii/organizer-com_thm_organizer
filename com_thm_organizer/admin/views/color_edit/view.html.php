@@ -26,10 +26,10 @@ class THM_OrganizerViewColor_Edit extends THM_OrganizerViewEdit
     {
         \JToolbarHelper::save('color.save');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_COLOR_EDIT_NEW_TITLE'), 'organizer_colors');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_COLOR_EDIT_NEW_TITLE'), 'organizer_colors');
             \JToolbarHelper::cancel('color.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_COLOR_EDIT_EDIT_TITLE'), 'organizer_colors');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_COLOR_EDIT_EDIT_TITLE'), 'organizer_colors');
             \JToolbarHelper::cancel('color.cancel', 'JTOOLBAR_CLOSE');
         }
     }

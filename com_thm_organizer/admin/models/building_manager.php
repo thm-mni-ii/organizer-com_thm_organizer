@@ -78,19 +78,19 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
 
             switch ($item->propertyType) {
                 case self::OWNED:
-                    $propertyType = \JText::_('THM_ORGANIZER_OWNED');
+                    $propertyType = Languages::_('THM_ORGANIZER_OWNED');
                     break;
 
                 case self::RENTED:
-                    $propertyType = \JText::_('THM_ORGANIZER_RENTED');
+                    $propertyType = Languages::_('THM_ORGANIZER_RENTED');
                     break;
 
                 case self::USED:
-                    $propertyType = \JText::_('THM_ORGANIZER_USED');
+                    $propertyType = Languages::_('THM_ORGANIZER_USED');
                     break;
 
                 default:
-                    $propertyType = \JText::_('THM_ORGANIZER_UNKNOWN');
+                    $propertyType = Languages::_('THM_ORGANIZER_UNKNOWN');
                     break;
             }
 
@@ -113,9 +113,9 @@ class THM_OrganizerModelBuilding_Manager extends THM_OrganizerModelList
         $headers                 = [];
         $headers['checkbox']     = '';
         $headers['name']         = HTML::sort('NAME', 'name', $direction, 'name');
-        $headers['campusID']     = \JText::_('THM_ORGANIZER_CAMPUS');
-        $headers['propertyType'] = \JText::_('THM_ORGANIZER_PROPERTY_TYPE');
-        $headers['address']      = \JText::_('THM_ORGANIZER_ADDRESS');
+        $headers['campusID']     = Languages::_('THM_ORGANIZER_CAMPUS');
+        $headers['propertyType'] = Languages::_('THM_ORGANIZER_PROPERTY_TYPE');
+        $headers['address']      = Languages::_('THM_ORGANIZER_ADDRESS');
 
         return $headers;
     }

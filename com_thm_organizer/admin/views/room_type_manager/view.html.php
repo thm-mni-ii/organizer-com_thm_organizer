@@ -34,7 +34,7 @@ class THM_OrganizerViewRoom_Type_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,7 +47,7 @@ class THM_OrganizerViewRoom_Type_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_ROOM_TYPE_MANAGER_VIEW_TITLE'), 'organizer_room_types');
+        \JToolbarHelper::title(Languages::_('THM_ORGANIZER_ROOM_TYPE_MANAGER_VIEW_TITLE'), 'organizer_room_types');
         \JToolbarHelper::addNew('room_type.add');
         \JToolbarHelper::editList('room_type.edit');
         \JToolbarHelper::deleteList('THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room_type.delete');

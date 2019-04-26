@@ -10,12 +10,8 @@
 
 defined('_JEXEC') or die;
 
-require_once 'date.php';
 require_once 'departments.php';
-require_once 'languages.php';
-
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for subject access checks, data retrieval and display.
@@ -331,7 +327,7 @@ class THM_OrganizerHelperSubjects
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->subjects)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_SUBJECTS_MISSING');
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_SUBJECTS_MISSING');
 
             return;
         }
@@ -346,14 +342,14 @@ class THM_OrganizerHelperSubjects
             $warningCount = $scheduleModel->scheduleWarnings['SUBJECT-NO'];
             unset($scheduleModel->scheduleWarnings['SUBJECT-NO']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('THM_ORGANIZER_WARNING_SUBJECTNO_MISSING'), $warningCount);
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_SUBJECTNO_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['SUBJECT-FIELD'])) {
             $warningCount = $scheduleModel->scheduleWarnings['SUBJECT-FIELD'];
             unset($scheduleModel->scheduleWarnings['SUBJECT-FIELD']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING'), $warningCount);
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING'), $warningCount);
         }
     }
 
@@ -370,8 +366,8 @@ class THM_OrganizerHelperSubjects
     {
         $subjectID = trim((string)$subjectNode[0]['id']);
         if (empty($subjectID)) {
-            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING');
+            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING');
             }
 
             return;
@@ -380,7 +376,7 @@ class THM_OrganizerHelperSubjects
         $longName = trim((string)$subjectNode->longname);
         if (empty($longName)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_('THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING'), $subjectID);
+                = sprintf(Languages::_('THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING'), $subjectID);
 
             return;
         }

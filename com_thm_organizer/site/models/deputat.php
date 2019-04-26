@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 /**
  * Class which calculates the number of hours teachers taught individual lessons.

@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 require_once 'merge.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/plan_pools.php';
 
-use OrganizerHelper;
-
 /**
  * Class which manages stored plan (subject) pool data.
  */
@@ -72,7 +70,7 @@ class THM_OrganizerModelPlan_Pool extends THM_OrganizerModelMerge
 
         $pPoolIDs = Joomla\Utilities\ArrayHelper::toInteger($pPoolIDs);
         if (!THM_OrganizerHelperPlan_Pools::allowEdit($pPoolIDs)) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         foreach ($pPoolIDs as $pPoolID) {

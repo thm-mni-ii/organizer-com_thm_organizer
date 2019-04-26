@@ -16,24 +16,24 @@ $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];
 ?>
 <script type="text/javascript">
-    var rootURI = '<?php echo Uri::root(); ?>', allText = '<?php echo \JText::_('JALL');?>',
-        selectionWarning = '<?php echo \JText::_('THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
-        downloadText = '<?php echo \JText::_('THM_ORGANIZER_ACTION_DOWNLOAD');?>',
-        generateText = '<?php echo \JText::_('THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
-        copyText = '<?php echo \JText::_('THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
+    var rootURI = '<?php echo Uri::root(); ?>', allText = '<?php echo Languages::_('JALL');?>',
+        selectionWarning = '<?php echo Languages::_('THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
+        downloadText = '<?php echo Languages::_('THM_ORGANIZER_ACTION_DOWNLOAD');?>',
+        generateText = '<?php echo Languages::_('THM_ORGANIZER_ACTION_GENERATE_LINK');?>',
+        copyText = '<?php echo Languages::_('THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
     si = true;
 </script>
 <div id="j-main-container" class="export-si">
     <form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank">
         <div id="header-container" class="header-container">
             <div class="header-title">
-                <?php echo \JText::_('THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
+                <?php echo Languages::_('THM_ORGANIZER_SCHEDULE_EXPORT_TITLE'); ?>
             </div>
             <div class="clear"></div>
         </div>
         <fieldset>
             <legend>
-                <?php echo $this->lang->_('THM_ORGANIZER_FILTERS'); ?>
+                <?php echo Languages::_('THM_ORGANIZER_FILTERS'); ?>
             </legend>
             <?php
             foreach ($this->fields['filterFields'] as $filterID => $filter) {
@@ -54,7 +54,7 @@ $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];
         </fieldset>
         <fieldset>
             <legend>
-                <?php echo $this->lang->_('THM_ORGANIZER_SELECTION'); ?>
+                <?php echo Languages::_('THM_ORGANIZER_SELECTION'); ?>
             </legend>
             <?php
             foreach ($this->fields['resourceFields'] as $resourceID => $resource) {
@@ -74,7 +74,7 @@ $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];
             ?>
         </fieldset>
         <fieldset>
-            <legend><?php echo $this->lang->_('THM_ORGANIZER_FORMAT_SETTINGS'); ?></legend>
+            <legend><?php echo Languages::_('THM_ORGANIZER_FORMAT_SETTINGS'); ?></legend>
             <?php
             foreach ($this->fields['formatSettings'] as $formatFieldID => $formatField) {
                 $hidden = in_array($formatFieldID, $initialHidden);
@@ -97,7 +97,7 @@ $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];
             ?>
         </fieldset>
         <a id="action-btn" class="btn" onclick="handleSubmit();">
-            <?php echo \JText::_('THM_ORGANIZER_ACTION_DOWNLOAD') ?>
+            <?php echo Languages::_('THM_ORGANIZER_ACTION_DOWNLOAD') ?>
         </a>
         <input type="hidden" name="option" value="com_thm_organizer"/>
         <input type="hidden" name="view" value="schedule_export"/>

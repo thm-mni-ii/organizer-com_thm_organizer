@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 require_once 'list.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of colors.
@@ -87,7 +86,7 @@ class THM_OrganizerModelColor_Manager extends THM_OrganizerModelList
         $headers             = [];
         $headers['checkbox'] = '';
         $headers['name']     = HTML::sort('NAME', 'name', $direction, 'name');
-        $headers['color']    = \JText::_('THM_ORGANIZER_COLOR');
+        $headers['color']    = Languages::_('THM_ORGANIZER_COLOR');
 
         return $headers;
     }

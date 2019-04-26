@@ -81,7 +81,7 @@ class THM_OrganizerLayoutList
         }
         ?>
         <label for="filter_search" class="element-invisible">
-            <?php echo \JText::_('JSEARCH_FILTER'); ?>
+            <?php echo Languages::_('JSEARCH_FILTER'); ?>
         </label>
         <div class="btn-wrapper input-append">
             <?php echo $filters['filter_search']->input; ?>

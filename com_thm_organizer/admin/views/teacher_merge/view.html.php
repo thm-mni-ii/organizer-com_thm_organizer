@@ -26,7 +26,7 @@ class THM_OrganizerViewTeacher_Merge extends THM_OrganizerViewMerge
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_TEACHER_MERGE_VIEW_TITLE'));
+        \JToolbarHelper::title(Languages::_('THM_ORGANIZER_TEACHER_MERGE_VIEW_TITLE'));
         \JToolbarHelper::custom('teacher.merge', 'attachment', 'attachment', 'THM_ORGANIZER_ACTION_MERGE', false);
         \JToolbarHelper::cancel('teacher.cancel', 'JTOOLBAR_CANCEL');
     }

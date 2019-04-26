@@ -11,7 +11,6 @@
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Layouts/list_modal.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 use Joomla\CMS\Uri\Uri;
 

@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides functions for XML description validation and modeling.
@@ -38,7 +38,7 @@ class THM_OrganizerHelperDescriptions
 
         if (empty($resourceID)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_("THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
+                = sprintf(Languages::_("THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
 
             return false;
         }
@@ -57,7 +57,7 @@ class THM_OrganizerHelperDescriptions
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->descriptions)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING');
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_DESCRIPTIONS_MISSING');
 
             return;
         }
@@ -70,7 +70,7 @@ class THM_OrganizerHelperDescriptions
             $gpuntisID = trim((string)$descriptionNode[0]['id']);
 
             if (empty($gpuntisID)) {
-                $missingText = \JText::_('THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING');
+                $missingText = Languages::_('THM_ORGANIZER_ERROR_DESCRIPTION_ID_MISSING');
                 if (!in_array($missingText, $scheduleModel->scheduleErrors)) {
                     $scheduleModel->scheduleErrors[] = $missingText;
                 }
@@ -83,7 +83,7 @@ class THM_OrganizerHelperDescriptions
 
             if (empty($longName)) {
                 $scheduleModel->scheduleErrors[] = sprintf(
-                    \JText::_('THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'),
+                    Languages::_('THM_ORGANIZER_ERROR_DESCRIPTION_NAME_MISSING'),
                     $descriptionID
                 );
 
@@ -94,7 +94,7 @@ class THM_OrganizerHelperDescriptions
 
             if (empty($typeFlag)) {
                 $scheduleModel->scheduleErrors[] = sprintf(
-                    \JText::_('THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'),
+                    Languages::_('THM_ORGANIZER_ERROR_DESCRIPTION_TYPE_MISSING'),
                     $longName,
                     $descriptionID
                 );

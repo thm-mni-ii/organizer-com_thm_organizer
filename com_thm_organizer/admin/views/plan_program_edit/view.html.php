@@ -24,7 +24,7 @@ class THM_OrganizerViewPlan_Program_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_PLAN_PROGRAM_EDIT_TITLE'), 'organizer_plan_programs');
+        \JToolbarHelper::title(Languages::_('THM_ORGANIZER_PLAN_PROGRAM_EDIT_TITLE'), 'organizer_plan_programs');
         \JToolbarHelper::save('plan_program.save');
         $cancelText = empty($this->item->id) ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE';
         \JToolbarHelper::cancel('plan_program.cancel', $cancelText);

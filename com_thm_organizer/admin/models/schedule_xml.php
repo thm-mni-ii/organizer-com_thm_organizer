@@ -20,7 +20,6 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/subjects.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperDescriptions as Descriptions;
 use THM_OrganizerHelperGrids as Grids;
 use THM_OrganizerHelperLessons as Lessons;
@@ -65,7 +64,7 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     private function printStatusReport()
     {
         if (count($this->scheduleErrors)) {
-            $errorMessage = \JText::_('THM_ORGANIZER_ERROR_HEADER') . '<br />';
+            $errorMessage = Languages::_('THM_ORGANIZER_ERROR_HEADER') . '<br />';
             $errorMessage .= implode('<br />', $this->scheduleErrors);
             OrganizerHelper::message($errorMessage, 'error');
         }
@@ -130,7 +129,7 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $invalid        = ($invalidStart or $invalidEnd or $invalidPeriod);
 
         if ($invalid) {
-            $this->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_TERM_WRONG');
+            $this->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_TERM_WRONG');
         } elseif ($validSemesterName) {
             $planningPeriodID = Schedules::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
 
@@ -195,13 +194,13 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     {
         if (empty($value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleErrors[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
                 return;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleWarnings[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
             }
         }
 
@@ -225,25 +224,25 @@ class THM_OrganizerModelSchedule_XML extends \Joomla\CMS\MVC\Model\BaseDatabaseM
     {
         if (empty($value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleErrors[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
 
                 return false;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
+                $this->scheduleWarnings[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
             }
         }
 
         if (!empty($regex) and preg_match($regex, $value)) {
             if ($severity == 'error') {
-                $this->scheduleErrors[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
+                $this->scheduleErrors[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
 
                 return false;
             }
 
             if ($severity == 'warning') {
-                $this->scheduleWarnings[] = \JText::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
+                $this->scheduleWarnings[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
             }
         }
 

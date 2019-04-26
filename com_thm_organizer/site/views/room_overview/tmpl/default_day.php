@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperLanguages as Languages;
-
 $colNo      = count($this->model->grid['periods']);
 $labelIndex = 'label_' . Languages::getShortTag();
 $startDate  = $this->model->startDate;

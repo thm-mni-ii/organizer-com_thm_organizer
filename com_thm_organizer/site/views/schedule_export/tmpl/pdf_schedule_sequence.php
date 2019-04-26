@@ -321,7 +321,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
         $columnHeaders = $this->getColumnHeaders();
         $dimensions    = $this->document->getPageDimensions();
         $timeConstant  = $this->parameters['dateRestriction'] == 'day' ?
-            '' : \JText::_('THM_ORGANIZER_WEEK') . ': ';
+            '' : Languages::_('THM_ORGANIZER_WEEK') . ': ';
 
         $outputTimeGrid = !empty($rowHeaders);
         $startDate      = key($columnHeaders);
@@ -335,7 +335,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $showSegment = $this->outputSegment($startDate, $endDate);
 
             if ($showSegment) {
-                $headerString = \JText::_($timeConstant) . "$startDateText - $endDateText";
+                $headerString = Languages::_($timeConstant) . "$startDateText - $endDateText";
                 $this->document->SetHeaderData(
                     'thm.svg',
                     40,
@@ -381,7 +381,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $this->outputTable();
         } else {
             $this->document->AddPage();
-            $this->document->cell('', '', \JText::_('THM_ORGANIZER_NO_LESSONS'));
+            $this->document->cell('', '', Languages::_('THM_ORGANIZER_NO_LESSONS'));
         }
         $this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
         ob_flush();

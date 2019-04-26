@@ -11,10 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once 'departments.php';
-require_once 'languages.php';
-
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for program access checks, data retrieval and display.
@@ -217,7 +214,7 @@ class THM_OrganizerHelperPrograms
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->departments)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
 
             return;
         }
@@ -241,8 +238,8 @@ class THM_OrganizerHelperPrograms
     {
         $programID = trim((string)$programNode[0]['id']);
         if (empty($programID)) {
-            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
+            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
             }
 
             return;
@@ -253,7 +250,7 @@ class THM_OrganizerHelperPrograms
         $programName = (string)$programNode->longname;
         if (!isset($programName)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_('THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $programID);
+                = sprintf(Languages::_('THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $programID);
 
             return;
         }

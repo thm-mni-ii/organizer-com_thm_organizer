@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
-
 /**
  * Abstract class for use by resource tables whose access rules are to be stored in the Joomla assets table.
  */

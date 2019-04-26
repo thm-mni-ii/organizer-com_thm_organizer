@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-use OrganizerHelper;
-
 $action = OrganizerHelper::getRedirectBase();
 $menuID = OrganizerHelper::getInput()->getInt('Itemid');
 
@@ -23,7 +21,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
     <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
 <div class="lesson-statistics-view">
-    <h1 class="componentheading"><?php echo $this->lang->_('THM_ORGANIZER_LESSON_STATISTICS'); ?></h1>
+    <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_LESSON_STATISTICS'); ?></h1>
     <form enctype="multipart/form-data" method="post"
           id="form-lesson-statistics" class="form-horizontal">
         <input type="hidden" name="option" value="com_thm_organizer">
@@ -38,7 +36,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
             <tr>
                 <?php if ($showTable) : ?>
                     <td>
-                        <span class="name"><?php echo $this->lang->_('THM_ORGANIZER_TOTAL'); ?></span>
+                        <span class="name"><?php echo Languages::_('THM_ORGANIZER_TOTAL'); ?></span>
                         <br>
                         <?php echo $this->total; ?>
                     </td>
@@ -51,7 +49,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
                     <?php endforeach; ?>
                 <?php else: ?>
                     <td>
-                        <span class="name"><?php echo $this->lang->_('THM_ORGANIZER_NO_LESSONS_FOUND'); ?></span>
+                        <span class="name"><?php echo Languages::_('THM_ORGANIZER_NO_LESSONS_FOUND'); ?></span>
                     </td>
                 <?php endif; ?>
             </tr>

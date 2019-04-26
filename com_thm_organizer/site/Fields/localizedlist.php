@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
 \JFormHelper::loadFieldClass('list');
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. Both the

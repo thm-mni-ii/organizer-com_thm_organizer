@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
 /**
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
@@ -61,11 +61,11 @@ class JFormFieldPlanningPeriodPublishing extends \Joomla\CMS\Form\FormField
 
             // Implicitly (new) and explicitly published entries
             if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {
-                $return .= '<option value="1" selected="selected">' . \JText::_('JYES') . '</option>';
-                $return .= '<option value="0">' . \JText::_('JNO') . '</option>';
+                $return .= '<option value="1" selected="selected">' . Languages::_('JYES') . '</option>';
+                $return .= '<option value="0">' . Languages::_('JNO') . '</option>';
             } else {
-                $return .= '<option value="1">' . \JText::_('JYES') . '</option>';
-                $return .= '<option value="0" selected="selected">' . \JText::_('JNO') . '</option>';
+                $return .= '<option value="1">' . Languages::_('JYES') . '</option>';
+                $return .= '<option value="0" selected="selected">' . Languages::_('JNO') . '</option>';
             }
 
             $return .= '</select>';

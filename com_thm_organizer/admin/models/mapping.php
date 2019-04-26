@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 
-use OrganizerHelper;
-
 /**
  * Class which manages stored (curriculum) mapping data.
  */

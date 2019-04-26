@@ -14,7 +14,6 @@ require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of teachers.
@@ -81,11 +80,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
             $departments = THM_OrganizerHelperTeachers::getDepartmentNames($item->id);
 
             if (empty($departments)) {
-                $return[$index]['departmentID'] = \JText::_('JNONE');
+                $return[$index]['departmentID'] = Languages::_('JNONE');
             } elseif (count($departments) === 1) {
                 $return[$index]['departmentID'] = $departments[0];
             } else {
-                $return[$index]['departmentID'] = \JText::_('THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
+                $return[$index]['departmentID'] = Languages::_('THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
             }
 
             $index++;
@@ -103,11 +102,11 @@ class THM_OrganizerModelTeacher_Manager extends THM_OrganizerModelList
     {
         $headers                 = [];
         $headers['checkbox']     = '';
-        $headers['surname']      = \JText::_('THM_ORGANIZER_SURNAME');
-        $headers['forename']     = \JText::_('THM_ORGANIZER_FORENAME');
-        $headers['username']     = \JText::_('THM_ORGANIZER_USERNAME');
-        $headers['t.gpuntisID']  = \JText::_('THM_ORGANIZER_GPUNTISID');
-        $headers['departmentID'] = \JText::_('THM_ORGANIZER_DEPARTMENT');
+        $headers['surname']      = Languages::_('THM_ORGANIZER_SURNAME');
+        $headers['forename']     = Languages::_('THM_ORGANIZER_FORENAME');
+        $headers['username']     = Languages::_('THM_ORGANIZER_USERNAME');
+        $headers['t.gpuntisID']  = Languages::_('THM_ORGANIZER_GPUNTISID');
+        $headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
 
         return $headers;
     }

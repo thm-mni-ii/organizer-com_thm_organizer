@@ -19,10 +19,10 @@ defined('_JEXEC') or die;
     <form action="" method="post" name="adminForm" id="adminForm">
         <input type="hidden" name="languageTag" id="languageTag" value=""/>
         <div id="form-container" class="form-container">
-            <h1 class="componentheading"><?php echo $this->lang->_('THM_ORGANIZER_ROOM_OVERVIEW_TITLE'); ?></h1>
+            <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_ROOM_OVERVIEW_TITLE'); ?></h1>
             <div class="right">
                 <button class="btn submit-button" onclick="showPostLoader();form.submit();">
-                    <?php echo $this->lang->_('THM_ORGANIZER_ACTION_REFRESH'); ?>
+                    <?php echo Languages::_('THM_ORGANIZER_ACTION_REFRESH'); ?>
                     <span class="icon-loop"></span>
                 </button>
             </div>

@@ -42,7 +42,7 @@ class THM_OrganizerModelForm extends \Joomla\CMS\MVC\Model\FormModel
     {
         $allowEdit = $this->allowEdit();
         if (!$allowEdit) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         $name = $this->get('name');

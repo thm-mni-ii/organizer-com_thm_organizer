@@ -61,10 +61,10 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $endDate   = THM_OrganizerHelperDate::formatDate($this->endDate);
 
         $description
-            = sprintf(\JText::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);
+            = sprintf(Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);
         $this->spreadSheet->getProperties()->setCreator('THM Organizer')
             ->setLastModifiedBy($userName)
-            ->setTitle(\JText::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE'))
+            ->setTitle(Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE'))
             ->setDescription($description);
 
         $this->headerFill = [
@@ -110,7 +110,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         ]);
 
         $summaryPP = [
-            'name'      => \JText::_('THM_ORGANIZER_SUMMARY'),
+            'name'      => Languages::_('THM_ORGANIZER_SUMMARY'),
             'startDate' => $this->startDate,
             'endDate'   => $this->endDate
         ];
@@ -213,7 +213,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         ++$startColumn;
         $column = $startColumn;
         $this->spreadSheet->getActiveSheet($sheetNo)
-            ->setCellValue("{$column}3", \JText::_('THM_ORGANIZER_HOURS_ABBR'));
+            ->setCellValue("{$column}3", Languages::_('THM_ORGANIZER_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet($sheetNo)
             ->setCellValue("{$column}4", "=SUBTOTAL(109,{$column}{$firstRow}:{$column}{$lastRow})");
@@ -221,13 +221,13 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
         $this->spreadSheet->getActiveSheet($sheetNo)
-            ->setCellValue("{$column}7", \JText::_('THM_ORGANIZER_HOURS_ABBR'));
+            ->setCellValue("{$column}7", Languages::_('THM_ORGANIZER_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($column)->setWidth(10);
 
         ++$column;
         $this->spreadSheet->getActiveSheet($sheetNo)
-            ->setCellValue("{$column}3", \JText::_('THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
+            ->setCellValue("{$column}3", Languages::_('THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet($sheetNo)
             ->setCellValue("{$column}4", "=SUBTOTAL(109,{$column}{$firstRow}:{$column}{$lastRow})");
@@ -235,20 +235,20 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
         $this->spreadSheet->getActiveSheet($sheetNo)
-            ->setCellValue("{$column}7", \JText::_('THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
+            ->setCellValue("{$column}7", Languages::_('THM_ORGANIZER_SCHOOL_HOURS_ABBR'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($column)->setWidth(10);
 
         ++$column;
         $this->spreadSheet->getActiveSheet($sheetNo)
-            ->setCellValue("{$column}3", \JText::_('THM_ORGANIZER_PERCENT_USAGE'));
+            ->setCellValue("{$column}3", Languages::_('THM_ORGANIZER_PERCENT_USAGE'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet($sheetNo)->setCellValue("{$column}4", "==IFERROR({$startColumn}4/C4,0)");
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
         $this->spreadSheet->getActiveSheet($sheetNo)
-            ->setCellValue("{$column}7", \JText::_('THM_ORGANIZER_PERCENT_USAGE'));
+            ->setCellValue("{$column}7", Languages::_('THM_ORGANIZER_PERCENT_USAGE'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($column)->setWidth(10);
@@ -282,11 +282,11 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $title = $planningPeriod['name'];
 
         if ($planningPeriod['startDate'] < $this->startDate) {
-            $title .= ' ' . sprintf(\JText::_('THM_ORGANIZER_FROM_DATE'), $this->startDate);
+            $title .= ' ' . sprintf(Languages::_('THM_ORGANIZER_FROM_DATE'), $this->startDate);
         }
 
         if ($planningPeriod['endDate'] > $this->endDate) {
-            $title .= ' ' . sprintf(\JText::_('THM_ORGANIZER_TO_DATE'), $this->endDate);
+            $title .= ' ' . sprintf(Languages::_('THM_ORGANIZER_TO_DATE'), $this->endDate);
         }
 
         $this->spreadSheet->setActiveSheetIndex($sheetNumber);
@@ -297,7 +297,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
         $this->spreadSheet->getActiveSheet()->getStyle('B3')
             ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet()->setCellValue('B4', \JText::_('THM_ORGANIZER_SUMMARY'));
+        $this->spreadSheet->getActiveSheet()->setCellValue('B4', Languages::_('THM_ORGANIZER_SUMMARY'));
         $this->spreadSheet->getActiveSheet()->getStyle('B4')
             ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
 
@@ -307,11 +307,11 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
             $lastColumn = $this->addDataRow($sheetNumber, $lastRow, $ppIndex, $roomID);
         }
 
-        $this->addSummaryHeader($sheetNumber, 'C', \JText::_('THM_ORGANIZER_HOURS_ABBR'), $lastRow, 'lightBorder');
+        $this->addSummaryHeader($sheetNumber, 'C', Languages::_('THM_ORGANIZER_HOURS_ABBR'), $lastRow, 'lightBorder');
         $this->addSummaryHeader(
             $sheetNumber,
             'D',
-            \JText::_('THM_ORGANIZER_SCHOOL_HOURS_ABBR'),
+            Languages::_('THM_ORGANIZER_SCHOOL_HOURS_ABBR'),
             $lastRow,
             'rightBorder'
         );
@@ -322,10 +322,10 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
             $currentColumn = $this->addHeaderGroup($sheetNumber, $currentColumn, $departmentName, $firstRow, $lastRow);
         }
 
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('A7', \JText::_('THM_ORGANIZER_NAME'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('A7', Languages::_('THM_ORGANIZER_NAME'));
         $this->spreadSheet->getActiveSheet()->getStyle('A7')->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getStyle('B6')->applyFromArray(['borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('B7', \JText::_('THM_ORGANIZER_ROOM_TYPE'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('B7', Languages::_('THM_ORGANIZER_ROOM_TYPE'));
         $this->spreadSheet->getActiveSheet()->getStyle('D6')->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle('B7')
             ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
@@ -379,7 +379,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $objWriter = PHPExcel_IOFactory::createWriter($this->spreadSheet, 'Excel2007');
         ob_end_clean();
         header('Content-type: application/vnd.ms-excel');
-        $rawTitle = \JText::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE') . '_' . date('Ymd');
+        $rawTitle = Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE') . '_' . date('Ymd');
         $docTitle = \JApplicationHelper::stringURLSafe($rawTitle);
         header("Content-Disposition: attachment;filename=$docTitle.xlsx");
         $objWriter->save('php://output');

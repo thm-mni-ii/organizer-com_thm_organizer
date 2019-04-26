@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
-
 /**
  * Class provides methods for merging resources. Resource specific tasks are implemented in the extending classes.
  */
@@ -130,11 +128,11 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         $valid = $this->preprocess();
 
         if (!$valid) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!$this->allowEdit()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $table = $this->getTable();
@@ -232,7 +230,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
     public function merge()
     {
         if (!$this->allowEdit()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $valid = $this->preprocess();
@@ -299,7 +297,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         if (!empty($this->data)) {
             $invalidID = (!empty($this->data['id']) and !is_numeric($this->data['id']));
             if ($invalidID or empty($this->data['gpuntisID'])) {
-                throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
+                throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
             }
 
             if (!empty($this->data['otherIDs']) and !is_array($this->data['otherIDs'])) {
@@ -334,7 +332,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
         }
 
         if (!$this->allowEdit()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $this->_db->transactionStart();

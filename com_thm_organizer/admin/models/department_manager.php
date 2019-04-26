@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 require_once 'list.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of departments.

@@ -14,7 +14,6 @@ require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of campuses.
@@ -111,7 +110,7 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
             } elseif (!empty($item->parentGridName)) {
                 $gridName = $item->parentGridName;
             } else {
-                $gridName = \JText::_('JNONE');
+                $gridName = Languages::_('JNONE');
             }
             $return[$index]['gridID'] = $gridName;
         }
@@ -130,10 +129,10 @@ class THM_OrganizerModelCampus_Manager extends THM_OrganizerModelList
     {
         $headers             = [];
         $headers['checkbox'] = '';
-        $headers['name']     = \JText::_('THM_ORGANIZER_NAME');
-        $headers['address']  = \JText::_('THM_ORGANIZER_ADDRESS');
-        $headers['location'] = \JText::_('THM_ORGANIZER_LOCATION');
-        $headers['gridID']   = \JText::_('THM_ORGANIZER_GRID');
+        $headers['name']     = Languages::_('THM_ORGANIZER_NAME');
+        $headers['address']  = Languages::_('THM_ORGANIZER_ADDRESS');
+        $headers['location'] = Languages::_('THM_ORGANIZER_LOCATION');
+        $headers['gridID']   = Languages::_('THM_ORGANIZER_GRID');
 
         return $headers;
     }

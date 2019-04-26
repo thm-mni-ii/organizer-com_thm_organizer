@@ -14,9 +14,7 @@ defined('_JEXEC') or die;
 require_once 'list.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class retrieves information for a filtered set of (subject) pools. Modal view.
@@ -99,7 +97,7 @@ class THM_OrganizerModelPool_Selection extends THM_OrganizerModelList
         $headers              = [];
         $headers['checkbox']  = '';
         $headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['programID'] = \JText::_('THM_ORGANIZER_PROGRAM');
+        $headers['programID'] = Languages::_('THM_ORGANIZER_PROGRAM');
         $headers['fieldID']   = HTML::sort('FIELD', 'field', $direction, $ordering);
 
         return $headers;

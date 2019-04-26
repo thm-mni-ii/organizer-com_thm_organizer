@@ -10,9 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class provides a standardized framework for the display of listed resources.

@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
 /**
  * Class creates a two hidden fields for merging. One has the lowest selected id as its value, the other has all

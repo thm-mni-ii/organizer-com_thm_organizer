@@ -29,11 +29,11 @@ class THM_OrganizerViewDepartment_Edit extends THM_OrganizerViewEdit
         \JToolbarHelper::save('department.save');
         \JToolbarHelper::save2new('department.save2new');
         if (empty($this->item->id)) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_DEPARTMENT_EDIT_NEW_TITLE'), 'organizer_departments');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_DEPARTMENT_EDIT_NEW_TITLE'), 'organizer_departments');
             \JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CANCEL');
         } else {
             \JToolbarHelper::save2copy('department.save2copy');
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_DEPARTMENT_EDIT_EDIT_TITLE'), 'organizer_departments');
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_DEPARTMENT_EDIT_EDIT_TITLE'), 'organizer_departments');
             \JToolbarHelper::cancel('department.cancel', 'JTOOLBAR_CLOSE');
         }
     }

@@ -11,7 +11,7 @@
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/courses.php';
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 
 /**
  * Class loads a form for editing participant data.

@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 require_once 'schedule_json.php';
 require_once 'schedule_xml.php';
 
-use OrganizerHelper;
 use THM_OrganizerModelSchedule_JSON as Schedule_JSON;
 use THM_OrganizerModelSchedule_XML as Schedule_XML;
 

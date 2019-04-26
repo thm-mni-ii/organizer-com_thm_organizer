@@ -25,14 +25,14 @@ class THM_OrganizerViewProgram_Edit extends THM_OrganizerViewEdit
     protected function addToolBar()
     {
         if ($this->form->getValue('id') == 0) {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_PROGRAM_EDIT_NEW_TITLE'), 'organizer_degree_programs');
-            \JToolbarHelper::apply('program.apply', \JText::_('THM_ORGANIZER_CREATE'));
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_PROGRAM_EDIT_NEW_TITLE'), 'organizer_degree_programs');
+            \JToolbarHelper::apply('program.apply', Languages::_('THM_ORGANIZER_CREATE'));
             \JToolbarHelper::save('program.save');
             \JToolbarHelper::save2new('program.save2new');
             \JToolbarHelper::cancel('program.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            \JToolbarHelper::title(\JText::_('THM_ORGANIZER_PROGRAM_EDIT_EDIT_TITLE'), 'organizer_degree_programs');
-            \JToolbarHelper::apply('program.apply', \JText::_('JTOOLBAR_APPLY'));
+            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_PROGRAM_EDIT_EDIT_TITLE'), 'organizer_degree_programs');
+            \JToolbarHelper::apply('program.apply', Languages::_('JTOOLBAR_APPLY'));
             \JToolbarHelper::save('program.save');
             \JToolbarHelper::save2new('program.save2new');
             \JToolbarHelper::save2copy('program.save2copy');
@@ -41,7 +41,7 @@ class THM_OrganizerViewProgram_Edit extends THM_OrganizerViewEdit
             $toolbar = \JToolbar::getInstance('toolbar');
 
             $poolLink = 'index.php?option=com_thm_organizer&view=pool_selection&tmpl=component';
-            $toolbar->appendButton('Popup', 'list', \JText::_('THM_ORGANIZER_ADD_POOL'), $poolLink);
+            $toolbar->appendButton('Popup', 'list', Languages::_('THM_ORGANIZER_ADD_POOL'), $poolLink);
         }
     }
 }

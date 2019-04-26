@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class creates a select box for predefined colors.
@@ -90,7 +88,7 @@ class JFormFieldColorID extends \Joomla\CMS\Form\FormField
 
         if (!count($options) or !$merge) {
             $selectNone = $hasSelected ? '' : 'selected="selected"';
-            $none       = '<option ' . $selectNone . ' value="">' . \JText::_('JNONE') . '</option>';
+            $none       = '<option ' . $selectNone . ' value="">' . Languages::_('JNONE') . '</option>';
             $options    = array_merge([$none], $options);
         }
 

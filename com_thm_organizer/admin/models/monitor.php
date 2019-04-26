@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
-
 /**
  * Class which manages stored monitor data.
  */
@@ -28,7 +26,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function save()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $data = OrganizerHelper::getInput()->get('jform', [], 'array');
@@ -52,7 +50,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function saveDefaultBehaviour()
     {
         if (!THM_OrganizerHelperAccess::isAdmin()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $input       = OrganizerHelper::getInput();
@@ -81,7 +79,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function delete()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $success    = true;
@@ -117,7 +115,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function toggle()
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+            throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
         $input     = OrganizerHelper::getInput();

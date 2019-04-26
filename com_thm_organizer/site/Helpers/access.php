@@ -9,7 +9,9 @@
  * @link        www.thm.de
  */
 
-use OrganizerHelper;
+defined('_JEXEC') or die;
+
+require_once 'OrganizerHelper.php';
 
 /**
  * Class provides generalized functions useful for several component files.

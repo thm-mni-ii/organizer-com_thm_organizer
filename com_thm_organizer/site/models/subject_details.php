@@ -14,16 +14,14 @@ require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 /**
  * Class which retrieves subject information for a detailed display of subject attributes.
  */
 class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
 {
-    public $lang = null;
-
     public $subjectID;
 
     /**
@@ -36,7 +34,6 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
     public function __construct($config = array())
     {
         parent::__construct($config);
-        $this->lang      = Languages::getLanguage();
         $this->subjectID = $this->resolveID();
     }
 
@@ -97,16 +94,6 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
     }
 
     /**
-     * Returns the language.
-     *
-     * @return \JLanguage|null
-     */
-    public function getLanguage()
-    {
-        return $this->lang;
-    }
-
-    /**
      * Creates a framework for labeled subject attributes
      *
      * @return array the subject template
@@ -118,36 +105,36 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
 
         $template = [
             'subjectID'                => $this->subjectID,
-            'name'                     => ['label' => $this->lang->_($option . 'NAME')],
+            'name'                     => ['label' => Languages::_($option . 'NAME')],
             'departmentID'             => [],
-            'shortName'                => ['label' => $this->lang->_($option . 'SHORT_NAME')],
-            'campus'                   => ['label' => $this->lang->_($option . 'CAMPUS')],
-            'moduleCode'               => ['label' => $this->lang->_($option . 'MODULE_CODE')],
-            'executors'                => ['label' => $this->lang->_($option . 'MODULE_COORDINATOR')],
-            'teachers'                 => ['label' => $this->lang->_($option . 'TEACHER')],
-            'description'              => ['label' => $this->lang->_($option . 'SHORT_DESCRIPTION')],
-            'objective'                => ['label' => $this->lang->_($option . 'OBJECTIVES')],
-            'content'                  => ['label' => $this->lang->_($option . 'CONTENT')],
-            'expertise'                => ['label' => $this->lang->_($option . 'EXPERTISE')],
-            'methodCompetence'         => ['label' => $this->lang->_($option . 'METHOD_COMPETENCE')],
-            'socialCompetence'         => ['label' => $this->lang->_($option . 'SOCIAL_COMPETENCE')],
-            'selfCompetence'           => ['label' => $this->lang->_($option . 'SELF_COMPETENCE')],
-            'duration'                 => ['label' => $this->lang->_($option . 'DURATION')],
-            'instructionLanguage'      => ['label' => $this->lang->_($option . 'INSTRUCTION_LANGUAGE')],
-            'expenditure'              => ['label' => $this->lang->_($option . 'EXPENDITURE')],
-            'sws'                      => ['label' => $this->lang->_($option . 'SWS')],
-            'method'                   => ['label' => $this->lang->_($option . 'METHOD')],
-            'preliminaryWork'          => ['label' => $this->lang->_($option . 'PRELIMINARY_WORK')],
-            'proof'                    => ['label' => $this->lang->_($option . 'PROOF')],
-            'evaluation'               => ['label' => $this->lang->_($option . 'EVALUATION')],
-            'availability'             => ['label' => $this->lang->_($option . 'AVAILABILITY')],
-            'literature'               => ['label' => $this->lang->_($option . 'LITERATURE')],
-            'aids'                     => ['label' => $this->lang->_($option . 'STUDY_AIDS')],
-            'prerequisites'            => ['label' => $this->lang->_($option . 'PREREQUISITES')],
-            'preRequisiteModules'      => ['label' => $this->lang->_($option . 'PREREQUISITE_MODULES')],
-            'recommendedPrerequisites' => ['label' => $this->lang->_($option . 'RECOMMENDED_PREREQUISITES')],
-            'prerequisiteFor'          => ['label' => $this->lang->_($option . 'PREREQUISITE_FOR')],
-            'postRequisiteModules'     => ['label' => $this->lang->_($option . 'POSTREQUISITE_MODULES')],
+            'shortName'                => ['label' => Languages::_($option . 'SHORT_NAME')],
+            'campus'                   => ['label' => Languages::_($option . 'CAMPUS')],
+            'moduleCode'               => ['label' => Languages::_($option . 'MODULE_CODE')],
+            'executors'                => ['label' => Languages::_($option . 'MODULE_COORDINATOR')],
+            'teachers'                 => ['label' => Languages::_($option . 'TEACHER')],
+            'description'              => ['label' => Languages::_($option . 'SHORT_DESCRIPTION')],
+            'objective'                => ['label' => Languages::_($option . 'OBJECTIVES')],
+            'content'                  => ['label' => Languages::_($option . 'CONTENT')],
+            'expertise'                => ['label' => Languages::_($option . 'EXPERTISE')],
+            'methodCompetence'         => ['label' => Languages::_($option . 'METHOD_COMPETENCE')],
+            'socialCompetence'         => ['label' => Languages::_($option . 'SOCIAL_COMPETENCE')],
+            'selfCompetence'           => ['label' => Languages::_($option . 'SELF_COMPETENCE')],
+            'duration'                 => ['label' => Languages::_($option . 'DURATION')],
+            'instructionLanguage'      => ['label' => Languages::_($option . 'INSTRUCTION_LANGUAGE')],
+            'expenditure'              => ['label' => Languages::_($option . 'EXPENDITURE')],
+            'sws'                      => ['label' => Languages::_($option . 'SWS')],
+            'method'                   => ['label' => Languages::_($option . 'METHOD')],
+            'preliminaryWork'          => ['label' => Languages::_($option . 'PRELIMINARY_WORK')],
+            'proof'                    => ['label' => Languages::_($option . 'PROOF')],
+            'evaluation'               => ['label' => Languages::_($option . 'EVALUATION')],
+            'availability'             => ['label' => Languages::_($option . 'AVAILABILITY')],
+            'literature'               => ['label' => Languages::_($option . 'LITERATURE')],
+            'aids'                     => ['label' => Languages::_($option . 'STUDY_AIDS')],
+            'prerequisites'            => ['label' => Languages::_($option . 'PREREQUISITES')],
+            'preRequisiteModules'      => ['label' => Languages::_($option . 'PREREQUISITE_MODULES')],
+            'recommendedPrerequisites' => ['label' => Languages::_($option . 'RECOMMENDED_PREREQUISITES')],
+            'prerequisiteFor'          => ['label' => Languages::_($option . 'PREREQUISITE_FOR')],
+            'postRequisiteModules'     => ['label' => Languages::_($option . 'POSTREQUISITE_MODULES')],
         ];
 
         return $template;
@@ -284,18 +271,18 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         if (!empty($subject['creditpoints']['value'])) {
             if (empty($subject['expenditure']['value'])) {
                 $subject['expenditure']['value'] = sprintf(
-                    $this->lang->_('THM_ORGANIZER_EXPENDITURE_SHORT'),
+                    Languages::_('THM_ORGANIZER_EXPENDITURE_SHORT'),
                     $subject['creditpoints']
                 );
             } elseif (empty($subject['present']['value'])) {
                 $subject['expenditure']['value'] = sprintf(
-                    $this->lang->_('THM_ORGANIZER_EXPENDITURE_MEDIUM'),
+                    Languages::_('THM_ORGANIZER_EXPENDITURE_MEDIUM'),
                     $subject['creditpoints']['value'],
                     $subject['expenditure']['value']
                 );
             } else {
                 $subject['expenditure']['value'] = sprintf(
-                    $this->lang->_('THM_ORGANIZER_EXPENDITURE_FULL'),
+                    Languages::_('THM_ORGANIZER_EXPENDITURE_FULL'),
                     $subject['creditpoints']['value'],
                     $subject['expenditure']['value'],
                     $subject['present']['value']
@@ -318,12 +305,12 @@ class THM_OrganizerModelSubject_Details extends \Joomla\CMS\MVC\Model\BaseDataba
         switch ($subject['instructionLanguage']['value']) {
             case 'E':
             case 'e':
-                $subject['instructionLanguage']['value'] = $this->lang->_('THM_ORGANIZER_ENGLISH');
+                $subject['instructionLanguage']['value'] = Languages::_('THM_ORGANIZER_ENGLISH');
                 break;
             case 'D':
             case 'd':
             default:
-                $subject['instructionLanguage']['value'] = $this->lang->_('THM_ORGANIZER_GERMAN');
+                $subject['instructionLanguage']['value'] = Languages::_('THM_ORGANIZER_GERMAN');
         }
     }
 

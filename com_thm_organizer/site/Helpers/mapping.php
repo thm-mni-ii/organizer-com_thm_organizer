@@ -10,10 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once 'languages.php';
-
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for mapping data retrieval.
@@ -124,18 +121,18 @@ class THM_OrganizerHelperMapping
     {
         $resourceRanges = self::getResourceRanges('subject', $resourceID);
         if (empty($resourceRanges)) {
-            return \JText::_('JNONE');
+            return Languages::_('JNONE');
         }
 
         $pools = self::getSubjectPools($resourceRanges);
         if (empty($pools)) {
-            return \JText::_('JNONE');
+            return Languages::_('JNONE');
         }
 
         if (count($pools) === 1) {
             return $pools[0];
         } else {
-            return \JText::_('THM_ORGANIZER_MULTIPLE_POOLS');
+            return Languages::_('THM_ORGANIZER_MULTIPLE_POOLS');
         }
     }
 
@@ -245,18 +242,18 @@ class THM_OrganizerHelperMapping
     {
         $resourceRanges = self::getResourceRanges($resourceType, $resourceID);
         if (empty($resourceRanges)) {
-            return \JText::_('JNONE');
+            return Languages::_('JNONE');
         }
 
         $programs = self::getResourcePrograms($resourceRanges);
         if (empty($programs)) {
-            return \JText::_('JNONE');
+            return Languages::_('JNONE');
         }
 
         if (count($programs) === 1) {
             return $programs[0];
         } else {
-            return \JText::_('THM_ORGANIZER_MULTIPLE_PROGRAMS');
+            return Languages::_('THM_ORGANIZER_MULTIPLE_PROGRAMS');
         }
     }
 

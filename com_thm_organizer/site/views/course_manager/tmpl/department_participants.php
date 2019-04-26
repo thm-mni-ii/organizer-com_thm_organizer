@@ -26,7 +26,7 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
     {
         parent::__construct($lessonID);
 
-        $exportType = $this->lang->_('THM_ORGANIZER_DEPARTMENT_STATISTICS');
+        $exportType = Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS');
         $this->setNames($exportType);
 
         $this->setHeader();
@@ -49,7 +49,7 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
 
         foreach ($this->course['participants'] as $participant) {
             if (empty($participant['departmentID']) or empty($participant['departmentName'])) {
-                $departments[0] = $this->lang->_('JNONE');
+                $departments[0] = Languages::_('JNONE');
             } else {
                 $departments[$participant['departmentID']] = $participant['departmentName'];
             }
@@ -74,11 +74,11 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
 
         foreach ($this->course['participants'] as $data) {
             if ($data['programName'] === null) {
-                $data['programName'] = $this->lang->_('JNONE');
+                $data['programName'] = Languages::_('JNONE');
             }
 
             if ($data['departmentName'] === null) {
-                $data['departmentName'] = $this->lang->_('JNONE');
+                $data['departmentName'] = Languages::_('JNONE');
             }
 
             array_push($departments, $data['departmentName']);
@@ -116,8 +116,8 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
     private function createDepartmentTable()
     {
         $header = [
-            $this->lang->_('THM_ORGANIZER_DEPARTMENT') . ' - ' . $this->lang->_('THM_ORGANIZER_PROGRAM'),
-            $this->lang->_('THM_ORGANIZER_PARTICIPANTS')
+            Languages::_('THM_ORGANIZER_DEPARTMENT') . ' - ' . Languages::_('THM_ORGANIZER_PROGRAM'),
+            Languages::_('THM_ORGANIZER_PARTICIPANTS')
         ];
         $widths = [155, 25];
 

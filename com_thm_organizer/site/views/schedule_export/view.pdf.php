@@ -58,7 +58,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
         $this->compiler = jimport('tcpdf.tcpdf');
 
         if (!$this->compiler) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_501'), 501);
+            throw new \Exception(Languages::_('THM_ORGANIZER_501'), 501);
         }
 
         return true;

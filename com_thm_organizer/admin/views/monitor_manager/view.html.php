@@ -34,7 +34,7 @@ class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
     public function display($tpl = null)
     {
         if (!THM_OrganizerHelperAccess::allowFMAccess()) {
-            throw new \Exception(\JText::_('THM_ORGANIZER_401'), 401);
+            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         parent::display($tpl);
@@ -47,10 +47,10 @@ class THM_OrganizerViewMonitor_Manager extends THM_OrganizerViewList
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::title(\JText::_('THM_ORGANIZER_MONITOR_MANAGER_VIEW_TITLE'), 'organizer_monitors');
+        \JToolbarHelper::title(Languages::_('THM_ORGANIZER_MONITOR_MANAGER_VIEW_TITLE'), 'organizer_monitors');
         \JToolbarHelper::addNew('monitor.add');
         \JToolbarHelper::editList('monitor.edit');
-        \JToolbarHelper::deleteList(\JText::_('THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'monitor.delete');
+        \JToolbarHelper::deleteList(Languages::_('THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'monitor.delete');
 
         if (THM_OrganizerHelperAccess::isAdmin()) {
             \JToolbarHelper::preferences('com_thm_organizer');

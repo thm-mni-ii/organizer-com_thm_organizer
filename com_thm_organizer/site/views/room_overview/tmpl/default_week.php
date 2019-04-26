@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use THM_OrganizerHelperLanguages as Languages;
-
 $dates       = $this->model->data;
 $dayCount    = count($dates);
 $blockCount  = count($this->model->grid['periods']);
@@ -28,7 +26,7 @@ $dayCount    = count($dates);
             $dayConstant = strtoupper(date('l', strtotime($date)));
             $dayClass    = "day-row day-column columns-$dayCount-$blockCount";
             echo '<th class="' . $dayClass . '" colspan="' . $blockCount . '">';
-            echo $this->lang->_($dayConstant) . '<br />' . THM_OrganizerHelperDate::formatDate($date);
+            echo Languages::_($dayConstant) . '<br />' . THM_OrganizerHelperDate::formatDate($date);
             echo '</th>';
         }
         ?>

@@ -11,7 +11,6 @@
  */
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -28,13 +27,9 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
 
     public $disclaimer;
 
-    public $disclaimerParams;
-
     public $languageLinks;
 
     public $languageParams;
-
-    public $lang;
 
     public $langTag = 'de';
 
@@ -55,8 +50,6 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
         $this->item = $this->get('Item');
 
         if (!empty($this->item['subjectID'])) {
-            $this->lang = $this->get('Language');
-
             $courses = THM_OrganizerHelperCourses::getLatestCourses($this->item['subjectID']);
 
             if (!empty($courses)) {
@@ -95,7 +88,6 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
             $this->languageLinks    = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
             $this->languageParams   = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
             $this->disclaimer       = new \JLayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-            $this->disclaimerParams = ['language' => $this->lang];
         }
 
         parent::display($tpl);
@@ -229,26 +221,26 @@ class THM_OrganizerViewSubject_Details extends \Joomla\CMS\MVC\View\HtmlView
                 $stars = '<span class="icon-featured"></span>';
                 $stars .= '<span class="icon-featured"></span>';
                 $stars .= '<span class="icon-featured"></span>';
-                $aria  = $this->lang->_($option . 'THREE_STARS');
+                $aria  = Languages::_($option . 'THREE_STARS');
                 break;
             case 2:
                 $stars = '<span class="icon-featured"></span>';
                 $stars .= '<span class="icon-featured"></span>';
                 $stars .= '<span class="icon-unfeatured"></span>';
-                $aria  = $this->lang->_($option . 'TWO_STARS');
+                $aria  = Languages::_($option . 'TWO_STARS');
                 break;
             case 1:
                 $stars = '<span class="icon-featured"></span>';
                 $stars .= '<span class="icon-unfeatured"></span>';
                 $stars .= '<span class="icon-unfeatured"></span>';
-                $aria  = $this->lang->_($option . 'ONE_STAR');
+                $aria  = Languages::_($option . 'ONE_STAR');
                 break;
             case 0:
             default:
                 $stars = '<span class="icon-unfeatured"></span>';
                 $stars .= '<span class="icon-unfeatured"></span>';
                 $stars .= '<span class="icon-unfeatured"></span>';
-                $aria  = $this->lang->_($option . 'NO_STARS');
+                $aria  = Languages::_($option . 'NO_STARS');
                 break;
         }
 

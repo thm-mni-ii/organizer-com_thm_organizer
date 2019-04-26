@@ -26,5 +26,5 @@ require_once 'item.php';
         THM_OrganizerTemplateCurriculumPanel::render($pool, 'main');
     }
     ?>
-    <?php echo $this->disclaimer->render($this->disclaimerData); ?>
+    <?php echo $this->disclaimer->render([]); ?>
 </div>

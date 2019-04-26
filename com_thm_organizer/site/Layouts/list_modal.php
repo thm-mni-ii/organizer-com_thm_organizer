@@ -8,7 +8,7 @@
  * @link        www.thm.de
  */
 
-use OrganizerHelper;
+use OrganizerHelper as OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
 
 /**
@@ -78,7 +78,7 @@ class THM_OrganizerLayoutList_Modal
         }
         ?>
         <label for="filter_search" class="element-invisible">
-            <?php echo \JText::_('JSEARCH_FILTER'); ?>
+            <?php echo Languages::_('JSEARCH_FILTER'); ?>
         </label>
         <div class="btn-wrapper input-append">
             <?php echo $filters['filter_search']->input; ?>
@@ -91,7 +91,7 @@ class THM_OrganizerLayoutList_Modal
             <button type="button" class="btn hasTooltip js-stools-btn-clear"
                     title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
                 <i class="icon-refresh"></i>
-                <?php echo \JText::_('JSEARCH_RESET'); ?>
+                <?php echo Languages::_('JSEARCH_RESET'); ?>
             </button>
         </div>
         <?php

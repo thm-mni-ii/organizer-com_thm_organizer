@@ -11,8 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
-
-use OrganizerHelper;
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
@@ -58,7 +57,7 @@ class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
         THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 
         $options   = [];
-        $options[] = '<option value="-1">' . \JText::_('JNONE') . '</option>';
+        $options[] = '<option value="-1">' . Languages::_('JNONE') . '</option>';
 
         if (!empty($mappings)) {
             $unwantedMappings = [];

@@ -20,9 +20,7 @@ define('TEACHERS', 6);
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 
 /**
  * Class loads the query's results into the display context.
@@ -46,7 +44,6 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        $this->lang          = Languages::getLanguage();
         $this->languageTag   = Languages::getShortTag();
         $this->languageLinks = new \JLayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->query         = OrganizerHelper::getInput()->getString('search', '');
@@ -68,7 +65,7 @@ class THM_OrganizerViewSearch extends \Joomla\CMS\MVC\View\HtmlView
         HTML::_('jquery.ui');
 
         $document = \JFactory::getDocument();
-        $document->setTitle($this->lang->_('THM_ORGANIZER_SEARCH_VIEW_TITLE'));
+        $document->setTitle(Languages::_('THM_ORGANIZER_SEARCH_VIEW_TITLE'));
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/search.css');
     }
 }

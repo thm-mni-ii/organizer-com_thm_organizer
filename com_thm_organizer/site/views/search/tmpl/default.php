@@ -18,7 +18,7 @@ $attribs = ['target' => '_blank'];
 <div id="j-main-container" class="organizer-search-container">
     <form action="<?php Uri::current(); ?>" id="adminForm" method="get" name="adminForm">
         <?php echo $this->languageLinks->render(); ?>
-        <h1 class="componentheading"><?php echo $this->lang->_('THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
+        <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_SEARCH_VIEW_TITLE'); ?></h1>
         <div class="toolbar">
             <div class="tool-wrapper search">
                 <input type="text" name="search" id="search-input" class="search-input"
@@ -56,7 +56,7 @@ $attribs = ['target' => '_blank'];
 
                             $strengthTitle       = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
                             $strengthDescription = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
-                            echo '<h3>' . $this->lang->_($strengthTitle) . '</h3><hr><ul>';
+                            echo '<h3>' . Languages::_($strengthTitle) . '</h3><hr><ul>';
                             $headerShown = true;
                         }
 
@@ -69,27 +69,27 @@ $attribs = ['target' => '_blank'];
 
                             if ($type == 'curriculum') {
                                 $icon = '<span class="icon-grid-2"></span>';
-                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }
 
                             if ($type == 'schedule') {
                                 $icon = '<span class="icon-calendar"></span>';
-                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }
 
                             if ($type == 'subject_list') {
                                 $icon = '<span class="icon-list"></span>';
-                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }
 
                             if ($type == 'subject_details') {
                                 $icon = '<span class="icon-book"></span>';
-                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }
 
                             if ($type == 'event_list') {
                                 $icon = '<span class="icon-list"></span>';
-                                echo HTML::link($link, $icon . $this->lang->_($constant), $attribs);
+                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }
                         }
 

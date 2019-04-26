@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use THM_OrganizerHelperHTML as HTML;
-use THM_OrganizerHelperLanguages as Languages;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -20,8 +19,6 @@ use Joomla\CMS\Uri\Uri;
 class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
 {
     public $form = null;
-
-    public $lang = null;
 
     public $model;
 
@@ -38,7 +35,6 @@ class THM_OrganizerViewEvent_List extends \Joomla\CMS\MVC\View\HtmlView
     {
         $this->model = $this->getModel();
         $layout      = $this->model->params['layout'];
-        $this->lang  = Languages::getLanguage();
         $this->state = $this->get('State');
         $this->form  = $this->get('Form');
         $this->form->setValue('startDate', null, $this->state->get('startDate'));

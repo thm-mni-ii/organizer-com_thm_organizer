@@ -10,10 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once 'languages.php';
-
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for department access checks, data retrieval and display.

@@ -10,8 +10,8 @@
 
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/planning_periods.php';
 
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 /**
  * Class calculates lesson statistics and loads them into the view context.
@@ -19,8 +19,6 @@ use THM_OrganizerHelperLanguages as Languages;
 class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormModel
 {
     public $columns = [];
-
-    private $lang = null;
 
     private $langTag = 'de';
 
@@ -36,7 +34,6 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
     {
         parent::__construct($config);
 
-        $this->lang    = Languages::getLanguage();
         $this->langTag = Languages::getShortTag();
 
         $this->populateState();
@@ -177,7 +174,7 @@ class THM_OrganizerModelLesson_Statistics extends \Joomla\CMS\MVC\Model\FormMode
 
         foreach ($methods as &$method) {
             if (empty($method['name'])) {
-                $method['name'] = $this->lang->_('THM_ORGANIZER_NONE_GIVEN');
+                $method['name'] = Languages::_('THM_ORGANIZER_NONE_GIVEN');
             }
             $method['total'] = [];
         }

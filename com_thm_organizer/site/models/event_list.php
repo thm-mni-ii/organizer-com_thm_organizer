@@ -17,8 +17,8 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/date.php';
 
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 /**
  * Class retrieves information about upcoming events for display on monitors.

@@ -8,7 +8,9 @@
  * @link        www.thm.de
  */
 
-use OrganizerHelper;
+defined('_JEXEC') or die;
+
+require_once 'OrganizerHelper.php';
 
 /**
  * Class provides generalized functions regarding dates and times.
@@ -31,7 +33,7 @@ class THM_OrganizerHelperDate
         if ($withText) {
             $textFormat    = $short ? 'D' : 'l';
             $shortDOW      = date($textFormat, strtotime($date));
-            $text          = \JText::_(strtoupper($shortDOW));
+            $text          = Languages::_(strtoupper($shortDOW));
             $formattedDate = "$text $formattedDate";
         }
 

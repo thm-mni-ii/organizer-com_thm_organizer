@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
 use THM_OrganizerHelperHTML as HTML;
 use Joomla\CMS\Uri\Uri;
@@ -48,7 +48,7 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
             }
         }
 
-        $defaultOptions = ['-1' => \JText::_('JNONE')];
+        $defaultOptions = ['-1' => Languages::_('JNONE')];
         $programs       = $defaultOptions + $options;
         $attributes     = ['multiple' => 'multiple', 'size' => '10'];
 

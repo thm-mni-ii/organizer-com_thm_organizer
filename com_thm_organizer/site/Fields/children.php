@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+
 use Joomla\CMS\Uri\Uri;
-use OrganizerHelper;
 
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
@@ -124,7 +125,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
     {
         $dbo      = \JFactory::getDbo();
         $query    = $dbo->getQuery(true);
-        $language = explode('-', \JFactory::getLanguage()->getTag());
+        $language = Languages::getShortTag();
 
         $query->select("name_{$language[0]}");
         $query->from("#__thm_organizer_{$resourceType}s");
@@ -145,22 +146,22 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
     {
         $html = '<table id="childList" class="table table-striped">';
         $html .= '<thead><tr>';
-        $html .= '<th>' . \JText::_('THM_ORGANIZER_NAME') . '</th>';
-        $html .= '<th class="thm_organizer_pools_ordering">' . \JText::_('THM_ORGANIZER_ORDER') . '</th>';
+        $html .= '<th>' . Languages::_('THM_ORGANIZER_NAME') . '</th>';
+        $html .= '<th class="thm_organizer_pools_ordering">' . Languages::_('THM_ORGANIZER_ORDER') . '</th>';
         $html .= '</tr></thead>';
         $html .= '<tbody>';
 
-        $addSpace = \JText::_('THM_ORGANIZER_ACTION_ADD_SPACE');
-        \JText::script('THM_ORGANIZER_ACTION_ADD_SPACE');
-        $makeFirst = \JText::_('THM_ORGANIZER_ACTION_MAKE_FIRST');
-        \JText::script('THM_ORGANIZER_ACTION_MAKE_FIRST');
-        $makeLast = \JText::_('THM_ORGANIZER_ACTION_MAKE_LAST');
-        \JText::script('THM_ORGANIZER_ACTION_MAKE_LAST');
-        $moveChildUp = \JText::_('JLIB_HTML_MOVE_UP');
-        \JText::script('JLIB_HTML_MOVE_UP');
-        $moveChildDown = \JText::_('JLIB_HTML_MOVE_DOWN');
-        \JText::script('JLIB_HTML_MOVE_DOWN');
-        \JText::script('JTOOLBAR_DELETE');
+        $addSpace = Languages::_('THM_ORGANIZER_ACTION_ADD_SPACE');
+        Languages::script('THM_ORGANIZER_ACTION_ADD_SPACE');
+        $makeFirst = Languages::_('THM_ORGANIZER_ACTION_MAKE_FIRST');
+        Languages::script('THM_ORGANIZER_ACTION_MAKE_FIRST');
+        $makeLast = Languages::_('THM_ORGANIZER_ACTION_MAKE_LAST');
+        Languages::script('THM_ORGANIZER_ACTION_MAKE_LAST');
+        $moveChildUp = Languages::_('JLIB_HTML_MOVE_UP');
+        Languages::script('JLIB_HTML_MOVE_UP');
+        $moveChildDown = Languages::_('JLIB_HTML_MOVE_DOWN');
+        Languages::script('JLIB_HTML_MOVE_DOWN');
+        Languages::script('JTOOLBAR_DELETE');
 
         $rowClass = 'row0';
         if (!empty($children)) {
@@ -206,7 +207,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
                 $blank .= '<span class="icon-download"></span>';
                 $blank .= '</button>';
 
-                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . \JText::_('JTOOLBAR_DELETE') . '" >';
+                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . Languages::_('JTOOLBAR_DELETE') . '" >';
                 $trash .= '<span class="icon-trash"></span>';
                 $trash .= '</button>';
 

@@ -12,10 +12,7 @@ defined('_JEXEC') or die;
 
 require_once 'buildings.php';
 require_once 'departments.php';
-require_once 'languages.php';
-
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+require_once 'OrganizerHelper.php';
 
 /**
  * Class provides general functions for retrieving room data.
@@ -240,7 +237,7 @@ class THM_OrganizerHelperRooms
     public static function validate(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->rooms)) {
-            $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_ROOMS_MISSING');
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_ROOMS_MISSING');
 
             return;
         }
@@ -255,14 +252,14 @@ class THM_OrganizerHelperRooms
             $warningCount = $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'];
             unset($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'), $warningCount);
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'), $warningCount);
         }
 
         if (!empty($scheduleModel->scheduleWarnings['ROOM-TYPE'])) {
             $warningCount = $scheduleModel->scheduleWarnings['ROOM-TYPE'];
             unset($scheduleModel->scheduleWarnings['ROOM-TYPE']);
             $scheduleModel->scheduleWarnings[]
-                = sprintf(\JText::_('THM_ORGANIZER_WARNING_TYPE_MISSING'), $warningCount);
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_TYPE_MISSING'), $warningCount);
         }
     }
 
@@ -279,8 +276,8 @@ class THM_OrganizerHelperRooms
     {
         $internalID = trim((string)$roomNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(\JText::_('THM_ORGANIZER_ERROR_ROOM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = \JText::_('THM_ORGANIZER_ERROR_ROOM_ID_MISSING');
+            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_ROOM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_ROOM_ID_MISSING');
             }
 
             return;
@@ -292,7 +289,7 @@ class THM_OrganizerHelperRooms
         $displayName = trim((string)$roomNode->longname);
         if (empty($displayName)) {
             $scheduleModel->scheduleErrors[]
-                = sprintf(\JText::_('THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING'), $internalID);
+                = sprintf(Languages::_('THM_ORGANIZER_ERROR_ROOM_DISPLAY_NAME_MISSING'), $internalID);
 
             return;
         }

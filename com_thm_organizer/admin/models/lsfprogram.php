@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/lsf.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
 
-use OrganizerHelper;
-
 /**
  * Class used to import lsf program data.
  */
@@ -76,7 +74,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
-                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+                throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
 
             $programImported = $this->importSingle($programID);
@@ -222,7 +220,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
             if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
-                throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
+                throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
 
             $subjectIDs = $this->getSubjectIDs($programID);

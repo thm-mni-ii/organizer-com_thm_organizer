@@ -16,8 +16,8 @@ require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/pools.php';
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/schedules.php';
 require_once JPATH_SITE . '/components/com_thm_organizer/Helpers/teachers.php';
 
-use OrganizerHelper;
-use THM_OrganizerHelperLanguages as Languages;
+use OrganizerHelper as OrganizerHelper;
+use Languages as Languages;
 
 /**
  * Class retrieves information for the creation of a schedule export form.
@@ -64,7 +64,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         $departments = THM_OrganizerHelperDepartments::getOptions(false);
         $options     = [];
-        $options[''] = \JText::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $options[''] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
         foreach ($departments as $departmentID => $departmentName) {
             $options[$departmentID] = $departmentName;
@@ -447,7 +447,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
      */
     private function setTitles()
     {
-        $docTitle      = \JText::_('THM_ORGANIZER_SCHEDULE') . '_';
+        $docTitle      = Languages::_('THM_ORGANIZER_SCHEDULE') . '_';
         $pageTitle     = '';
         $useMySchedule = !empty($this->parameters['mySchedule']);
         $useLessons    = !empty($this->parameters['lessonIDs']);
@@ -459,7 +459,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
 
         if ($useMySchedule) {
             $docTitle  = 'mySchedule_';
-            $pageTitle = \JText::_('THM_ORGANIZER_MY_SCHEDULE');
+            $pageTitle = Languages::_('THM_ORGANIZER_MY_SCHEDULE');
         } elseif ((!$useLessons and !$useInstances) and ($usePools xor $useTeachers xor $useRooms xor $useSubjects)) {
             if ($usePools) {
                 $titles    = $this->getPoolTitles();

@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use OrganizerHelper;
+require_once 'OrganizerHelper.php';
 
 /**
  * Provides general functions for campus access checks, data retrieval and display.
