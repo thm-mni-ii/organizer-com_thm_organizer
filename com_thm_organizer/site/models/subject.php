@@ -108,7 +108,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
+        if (!Access::allowDocumentAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -117,7 +117,7 @@ class THM_OrganizerModelSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $this->_db->transactionStart();
             foreach ($subjectIDs as $subjectID) {
 
-                if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
+                if (!Access::allowDocumentAccess('subject', $subjectID)) {
                     $this->_db->transactionRollback();
                     throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
                 }

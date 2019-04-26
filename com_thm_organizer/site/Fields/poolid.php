@@ -65,7 +65,7 @@ class JFormFieldPoolID extends \JFormFieldList
         $options = [];
 
         foreach ($pools as $pool) {
-            if (!$access or THM_OrganizerHelperAccess::allowDocumentAccess('pool', $pool['value'])) {
+            if (!$access or Access::allowDocumentAccess('pool', $pool['value'])) {
                 $options[] = HTML::_('select.option', $pool['value'], $pool['text']);
             }
         }

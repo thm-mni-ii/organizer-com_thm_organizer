@@ -45,7 +45,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
     {
         \JToolbarHelper::title(Languages::_('THM_ORGANIZER_MAIN_VIEW_TITLE'), 'organizer');
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             \JToolbarHelper::preferences('com_thm_organizer');
         }
     }
@@ -80,7 +80,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
             'scheduling'         => []
         ];
 
-        if (THM_OrganizerHelperAccess::allowSchedulingAccess()) {
+        if (Access::allowSchedulingAccess()) {
             $scheduleItems = [];
 
             $scheduleItems[Languages::_('THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]
@@ -102,10 +102,10 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
             $this->menuItems['scheduling'] = [];
         }
 
-        if (THM_OrganizerHelperAccess::allowDocumentAccess()) {
+        if (Access::allowDocumentAccess()) {
             $docItems = [];
 
-            if (THM_OrganizerHelperAccess::isAdmin()) {
+            if (Access::isAdmin()) {
                 $docItems[Languages::_('THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')]
                     = 'index.php?option=com_thm_organizer&amp;view=department_manager';
             }
@@ -125,7 +125,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
             $this->menuItems['documentation'] = [];
         }
 
-        if (THM_OrganizerHelperAccess::allowHRAccess()) {
+        if (Access::allowHRAccess()) {
             $hrItems = [];
             $hrItems[Languages::_('THM_ORGANIZER_TEACHER_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=teacher_manager';
@@ -139,7 +139,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
             $this->menuItems['humanResources'] = [];
         }
 
-        if (THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (Access::allowFMAccess()) {
             $fmItems = [];
             $fmItems[Languages::_('THM_ORGANIZER_BUILDING_MANAGER_TITLE')]
                      = 'index.php?option=com_thm_organizer&amp;view=building_manager';
@@ -161,7 +161,7 @@ class THM_OrganizerViewTHM_Organizer extends \Joomla\CMS\MVC\View\HtmlView
             $this->menuItems['facilityManagement'] = [];
         }
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             $adminItems = [];
             $adminItems[Languages::_('THM_ORGANIZER_COLOR_MANAGER_TITLE')]
                         = 'index.php?option=com_thm_organizer&amp;view=color_manager';

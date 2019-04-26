@@ -173,8 +173,8 @@ class THM_OrganizerModelRoom_Statistics extends \Joomla\CMS\MVC\Model\BaseDataba
     {
         $options = [];
         foreach (THM_OrganizerHelperPlanning_Periods::getPlanningPeriods() as $planningPeriod) {
-            $shortSD = THM_OrganizerHelperDate::formatDate($planningPeriod['startDate']);
-            $shortED = THM_OrganizerHelperDate::formatDate($planningPeriod['endDate']);
+            $shortSD = Dates::formatDate($planningPeriod['startDate']);
+            $shortED = Dates::formatDate($planningPeriod['endDate']);
 
             $options[$planningPeriod['id']] = "{$planningPeriod['name']} ($shortSD - $shortED)";
         }

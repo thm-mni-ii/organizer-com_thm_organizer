@@ -351,16 +351,16 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
         $blocks = [];
         foreach ($this->grid['periods'] as $blockNo => $block) {
             $blocks[$blockNo]              = [];
-            $blockStartTime                = THM_OrganizerHelperDate::formatTime($block['startTime']);
-            $blockEndTime                  = THM_OrganizerHelperDate::formatTime($block['endTime']);
+            $blockStartTime                = Dates::formatTime($block['startTime']);
+            $blockEndTime                  = Dates::formatTime($block['endTime']);
             $blocks[$blockNo]['startTime'] = $blockStartTime;
             $blocks[$blockNo]['endTime']   = $blockEndTime;
             $blocks[$blockNo]['lessons']   = [];
 
             foreach ($events as $times => $eventInstances) {
                 list($eventStartTime, $eventEndTime) = explode('-', $times);
-                $eventStartTime = THM_OrganizerHelperDate::formatTime($eventStartTime);
-                $eventEndTime   = THM_OrganizerHelperDate::formatTime($eventEndTime);
+                $eventStartTime = Dates::formatTime($eventStartTime);
+                $eventEndTime   = Dates::formatTime($eventEndTime);
                 $before         = $eventEndTime < $blockStartTime;
                 $after          = $eventStartTime > $blockEndTime;
 
@@ -373,8 +373,8 @@ class THM_OrganizerModelRoom_Display extends \Joomla\CMS\MVC\Model\BaseDatabaseM
                 $endSynch   = $blockEndTime == $eventEndTime;
 
                 if (!$startSynch or !$endSynch) {
-                    $startTime = THM_OrganizerHelperDate::formatTime($eventStartTime);
-                    $endTime   = THM_OrganizerHelperDate::formatTime($eventEndTime);
+                    $startTime = Dates::formatTime($eventStartTime);
+                    $endTime   = Dates::formatTime($eventEndTime);
                     $divTime   .= " ($startTime -  $endTime)";
                 }
 

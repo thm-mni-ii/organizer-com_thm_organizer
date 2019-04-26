@@ -30,7 +30,7 @@ class THM_OrganizerModelTeacher extends THM_OrganizerModelMerge
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperAccess::allowHRAccess();
+        return Access::allowHRAccess();
     }
 
     /**

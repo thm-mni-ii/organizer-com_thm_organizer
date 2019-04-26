@@ -29,7 +29,7 @@ class THM_OrganizerModelPlan_Pool_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+        $allowedDepartments = Access::getAccessibleDepartments('schedule');
         $query              = $this->_db->getQuery(true);
 
         if (empty($allowedDepartments)) {

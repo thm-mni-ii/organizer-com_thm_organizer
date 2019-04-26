@@ -199,12 +199,12 @@ class THM_OrganizerHelperSchedules
             return;
         }
 
-        if (THM_OrganizerHelperAccess::isAdmin($userID) or THM_OrganizerHelperAccess::allowHRAccess()) {
+        if (Access::isAdmin($userID) or Access::allowHRAccess()) {
             return;
         }
 
         $userTeacherID     = THM_OrganizerHelperTeachers::getIDFromUserData($userID);
-        $accessibleDeptIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('view', $userID);
+        $accessibleDeptIDs = Access::getAccessibleDepartments('view', $userID);
 
         foreach ($teacherIDs as $key => $teacherID) {
             if (!empty($userTeacherID) and $userTeacherID == $teacherID) {
@@ -238,9 +238,9 @@ class THM_OrganizerHelperSchedules
         }
 
         if (!isset($parameters['departmentIDs'])) {
-            $parameters['showUnpublished'] = THM_OrganizerHelperAccess::isAdmin();
+            $parameters['showUnpublished'] = Access::isAdmin();
         } else {
-            $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+            $allowedIDs = Access::getAccessibleDepartments('schedule');
             $overlap    = array_intersect($parameters['departmentIDs'], $allowedIDs);
 
             // If the user has planning access to all requested departments show unpublished automatically.
@@ -497,20 +497,20 @@ class THM_OrganizerHelperSchedules
                 break;
 
             case 'week':
-                $dates = THM_OrganizerHelperDate::getWeek($date, $startDayNo, $endDayNo);
+                $dates = Dates::getWeek($date, $startDayNo, $endDayNo);
                 break;
 
             case 'month':
-                $dates = THM_OrganizerHelperDate::getMonth($date, $startDayNo, $endDayNo);
+                $dates = Dates::getMonth($date, $startDayNo, $endDayNo);
                 break;
 
             case 'semester':
-                $dates = THM_OrganizerHelperDate::getSemester($date);
+                $dates = Dates::getSemester($date);
                 break;
 
             case 'ics':
                 // ICS calendars get the next 6 months of data
-                $dates = THM_OrganizerHelperDate::getICSDates($date, $startDayNo, $endDayNo);
+                $dates = Dates::getICSDates($date, $startDayNo, $endDayNo);
                 break;
         }
 

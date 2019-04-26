@@ -255,13 +255,13 @@ $displayName = empty($this->model->displayName) ?
         Languages::_('SUN')
     ];
     $datesOfTheWeek = [
-        THM_OrganizerHelperDate::formatDate('monday this week'),
-        THM_OrganizerHelperDate::formatDate('tuesday this week'),
-        THM_OrganizerHelperDate::formatDate('wednesday this week'),
-        THM_OrganizerHelperDate::formatDate('thursday this week'),
-        THM_OrganizerHelperDate::formatDate('friday this week'),
-        THM_OrganizerHelperDate::formatDate('saturday this week'),
-        THM_OrganizerHelperDate::formatDate('sunday this week')
+        Dates::formatDate('monday this week'),
+        Dates::formatDate('tuesday this week'),
+        Dates::formatDate('wednesday this week'),
+        Dates::formatDate('thursday this week'),
+        Dates::formatDate('friday this week'),
+        Dates::formatDate('saturday this week'),
+        Dates::formatDate('sunday this week')
     ];
     $grid           = json_decode($this->defaultGrid->grid);
     $periods        = get_object_vars($grid->periods);
@@ -294,9 +294,9 @@ $displayName = empty($this->model->displayName) ?
                     for ($period = 1; $period <= count($periods); ++$period) {
                         echo '<tr>';
                         echo '<td>';
-                        echo THM_OrganizerHelperDate::formatTime($periods[$period]->startTime);
+                        echo Dates::formatTime($periods[$period]->startTime);
                         echo '<br> - <br>';
-                        echo THM_OrganizerHelperDate::formatTime($periods[$period]->endTime);
+                        echo Dates::formatTime($periods[$period]->endTime);
                         echo '</td>';
 
                         for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday) {

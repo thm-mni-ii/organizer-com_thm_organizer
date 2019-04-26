@@ -25,6 +25,6 @@ class THM_OrganizerModelPlan_Pool_Merge extends THM_OrganizerModelForm
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperAccess::isAdmin();
+        return Access::isAdmin();
     }
 }

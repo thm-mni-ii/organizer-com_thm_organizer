@@ -24,6 +24,6 @@ class THM_OrganizerModelSchedule_Edit extends THM_OrganizerModelEdit
      */
     public function allowEdit()
     {
-        return THM_OrganizerHelperAccess::allowSchedulingAccess();
+        return Access::allowSchedulingAccess();
     }
 }

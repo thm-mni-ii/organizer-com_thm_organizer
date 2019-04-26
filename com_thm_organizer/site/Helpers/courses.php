@@ -42,7 +42,7 @@ class THM_OrganizerHelperCourses
             return false;
         }
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             return true;
         }
 

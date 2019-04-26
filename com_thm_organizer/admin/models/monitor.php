@@ -27,7 +27,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (!Access::allowFMAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -51,7 +51,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function saveDefaultBehaviour()
     {
-        if (!THM_OrganizerHelperAccess::isAdmin()) {
+        if (!Access::isAdmin()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -80,7 +80,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (!Access::allowFMAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -116,7 +116,7 @@ class THM_OrganizerModelMonitor extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function toggle()
     {
-        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (!Access::allowFMAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

@@ -42,7 +42,7 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
         $options          = THM_OrganizerHelperMapping::getProgramOptions();
 
         foreach ($options as $id => $name) {
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $id)) {
+            if (!Access::allowDocumentAccess('program', $id)) {
                 unset($options[$id]);
             }
         }

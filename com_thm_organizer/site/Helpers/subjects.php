@@ -35,15 +35,15 @@ class THM_OrganizerHelperSubjects
             return false;
         }
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             return true;
         }
 
-        if (empty($subjectID) or !THM_OrganizerHelperAccess::checkAssetInitialization('subject', $subjectID)) {
-            return THM_OrganizerHelperAccess::allowDocumentAccess();
+        if (empty($subjectID) or !Access::checkAssetInitialization('subject', $subjectID)) {
+            return Access::allowDocumentAccess();
         }
 
-        if (THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
+        if (Access::allowDocumentAccess('subject', $subjectID)) {
             return true;
         }
 
@@ -242,7 +242,7 @@ class THM_OrganizerHelperSubjects
         $subjectIDs = implode(',', $subjectIDs);
 
         $date = $input->getString('date');
-        if (!THM_OrganizerHelperDate::isStandardized($date)) {
+        if (!Dates::isStandardized($date)) {
             $date = date('Y-m-d');
         }
 

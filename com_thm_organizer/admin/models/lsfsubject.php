@@ -211,7 +211,7 @@ class THM_OrganizerModelLSFSubject extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
         foreach ($subjectIDs as $subjectID) {
 
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('subject', $subjectID)) {
+            if (!Access::allowDocumentAccess('subject', $subjectID)) {
                 $this->_db->transactionRollback();
                 throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }

@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 /**
  * Class provides generalized functions regarding dates and times.
  */
-class THM_OrganizerHelperDate
+class Dates
 {
     /**
      * Formats the date stored in the database according to the format in the component parameters

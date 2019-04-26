@@ -49,7 +49,7 @@ class THM_OrganizerModelSubject_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('document');
+        $allowedDepartments = Access::getAccessibleDepartments('document');
         $dbo                = Factory::getDbo();
         $shortTag           = Languages::getShortTag();
 

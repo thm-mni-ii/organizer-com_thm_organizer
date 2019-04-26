@@ -543,13 +543,13 @@ class THM_OrganizerModelEvent_List extends \Joomla\CMS\MVC\Model\FormModel
                 $endDT = $startDT;
                 break;
             case 'week':
-                $dates = THM_OrganizerHelperDate::getWeek($date);
+                $dates = Dates::getWeek($date);
                 break;
             case 'month':
-                $dates = THM_OrganizerHelperDate::getMonth($date);
+                $dates = Dates::getMonth($date);
                 break;
             case 'semester':
-                $dates = THM_OrganizerHelperDate::getSemester($date);
+                $dates = Dates::getSemester($date);
                 break;
             case '':
                 $endDT = strtotime($this->state->get('endDate'));

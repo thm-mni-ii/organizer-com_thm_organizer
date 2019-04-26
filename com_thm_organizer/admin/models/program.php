@@ -25,7 +25,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
+        if (!Access::allowDocumentAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -35,7 +35,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             $table = \JTable::getInstance('programs', 'thm_organizerTable');
             $model = \Joomla\CMS\MVC\Model\BaseDatabaseModel::getInstance('mapping', 'THM_OrganizerModel');
             foreach ($programIDs as $programID) {
-                if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
+                if (!Access::allowDocumentAccess('program', $programID)) {
                     $this->_db->transactionRollback();
                     throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
                 }
@@ -72,15 +72,15 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $data = empty($data) ? OrganizerHelper::getInput()->get('jform', [], 'array') : $data;
 
         if (empty($data['id'])) {
-            $documentationAccess = THM_OrganizerHelperAccess::allowDocumentAccess();
+            $documentationAccess = Access::allowDocumentAccess();
 
             // New Programs often are introduced through schedules.
-            $schedulingAccess = THM_OrganizerHelperAccess::allowSchedulingAccess();
+            $schedulingAccess = Access::allowSchedulingAccess();
             if (!($documentationAccess or $schedulingAccess)) {
                 throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $data['id'])) {
+            if (!Access::allowDocumentAccess('program', $data['id'])) {
                 throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
         } else {
@@ -113,7 +113,7 @@ class THM_OrganizerModelProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save2copy()
     {
-        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
+        if (!Access::allowDocumentAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

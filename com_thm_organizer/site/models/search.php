@@ -166,7 +166,7 @@ class THM_OrganizerModelSearch extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
     public function getResults()
     {
         $this->teacherID  = THM_OrganizerHelperTeachers::getIDFromUserData();
-        $this->schedDepts = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+        $this->schedDepts = Access::getAccessibleDepartments('schedule');
 
         /**
          * Exact     => exact match for the whole search independent of capitalization

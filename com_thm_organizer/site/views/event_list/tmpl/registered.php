@@ -45,7 +45,7 @@ $metric = 0;
             }
             $displayedEvents = 0; ?>
             <div class="event-date">
-                <div class="event-date-head"><span><?php echo THM_OrganizerHelperDate::formatDate($date); ?></span>
+                <div class="event-date-head"><span><?php echo Dates::formatDate($date); ?></span>
                 </div>
                 <?php
                 $rowNumber = 0;
@@ -64,9 +64,9 @@ $metric = 0;
                         ?>
                         <div class="<?php echo $rowClass; ?> ym-clearfix">
                             <div class="event-times">
-                                <?php echo THM_OrganizerHelperDate::formatTime($lesson['startTime']); ?><br/>
+                                <?php echo Dates::formatTime($lesson['startTime']); ?><br/>
                                 -<br/>
-                                <?php echo THM_OrganizerHelperDate::formatTime($lesson['endTime']); ?>
+                                <?php echo Dates::formatTime($lesson['endTime']); ?>
                             </div>
                             <div class="event-main">
                                 <div class="event-names <?php echo $paddingClass; ?>">

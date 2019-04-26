@@ -32,7 +32,7 @@ class THM_OrganizerHelperPlan_Pools
             return false;
         }
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             return true;
         }
 
@@ -41,7 +41,7 @@ class THM_OrganizerHelperPlan_Pools
         }
 
         $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
-        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+        $allowedDepartments = Access::getAccessibleDepartments('schedule');
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);

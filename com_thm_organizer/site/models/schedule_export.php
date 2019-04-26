@@ -417,7 +417,7 @@ class THM_OrganizerModelSchedule_Export extends \Joomla\CMS\MVC\Model\BaseDataba
         if (empty($rawDate)) {
             $parameters['date'] = date('Y-m-d');
         } else {
-            $parameters['date'] = THM_OrganizerHelperDate::standardizeDate($rawDate);
+            $parameters['date'] = Dates::standardizeDate($rawDate);
         }
 
         switch ($parameters['format']) {

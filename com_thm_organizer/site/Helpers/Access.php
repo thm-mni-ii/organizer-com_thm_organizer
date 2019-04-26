@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 /**
  * Class provides generalized functions useful for several component files.
  */
-class THM_OrganizerHelperAccess
+class Access
 {
     /**
      * Checks whether the user has access to documentation resources and their respective views.

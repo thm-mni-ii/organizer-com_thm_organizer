@@ -20,8 +20,8 @@ $subjectURL .= empty($menuID) ? '' : "&Itemid=$menuID";
 foreach ($this->items as $item) {
     $subjectRoute = \JRoute::_($subjectURL . "&id={$item->subjectID}");
 
-    $startDate   = THM_OrganizerHelperDate::formatDate($item->start);
-    $endDate     = THM_OrganizerHelperDate::formatDate($item->end);
+    $startDate   = Dates::formatDate($item->start);
+    $endDate     = Dates::formatDate($item->end);
     $displayDate = $startDate == $endDate ? $endDate : "$startDate - $endDate";
 
     $courseStatus = $item->expired ? '<span class="disabled">' . $expired . '</span>' : $current;

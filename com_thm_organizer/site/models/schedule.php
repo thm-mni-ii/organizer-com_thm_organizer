@@ -107,7 +107,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $this->params['showSubjects']  = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
 
         $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
-        $privilegedAccess = THM_OrganizerHelperAccess::allowViewAccess($departmentID);
+        $privilegedAccess = Access::allowViewAccess($departmentID);
         $isTeacher        = THM_OrganizerHelperTeachers::getIDFromUserData();
         $showTeachers     = (($privilegedAccess or !empty($isTeacher)) and $stMenuParam);
 

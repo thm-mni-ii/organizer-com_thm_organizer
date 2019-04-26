@@ -46,7 +46,7 @@ class THM_OrganizerViewDeputat extends \Joomla\CMS\MVC\View\HtmlView
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::isAdmin()) {
+        if (!Access::isAdmin()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 

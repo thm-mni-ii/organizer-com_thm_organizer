@@ -27,7 +27,7 @@ class THM_OrganizerViewGrid_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::isAdmin()) {
+        if (!Access::isAdmin()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 

@@ -44,7 +44,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return true;
         }
 
-        if (!THM_OrganizerHelperAccess::allowSchedulingAccess($active->id)) {
+        if (!Access::allowSchedulingAccess($active->id)) {
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -96,7 +96,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
+        if (!Access::allowSchedulingAccess()) {
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -104,7 +104,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $scheduleIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
         foreach ($scheduleIDs as $scheduleID) {
 
-            if (!THM_OrganizerHelperAccess::allowSchedulingAccess($scheduleID)) {
+            if (!Access::allowSchedulingAccess($scheduleID)) {
                 $this->_db->transactionRollback();
                 throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
             }
@@ -198,7 +198,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             return true;
         }
 
-        if (!THM_OrganizerHelperAccess::allowSchedulingAccess($reference->id)) {
+        if (!Access::allowSchedulingAccess($reference->id)) {
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -257,7 +257,7 @@ class THM_OrganizerModelSchedule extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
             throw new \Exception(\JText::_('THM_ORGANIZER_400'), 400);
         }
 
-        if (!THM_OrganizerHelperAccess::allowSchedulingAccess(null, $form['departmentID'])) {
+        if (!Access::allowSchedulingAccess(null, $form['departmentID'])) {
             throw new \Exception(\JText::_('THM_ORGANIZER_403'), 403);
         }
 

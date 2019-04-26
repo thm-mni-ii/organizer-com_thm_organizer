@@ -29,7 +29,7 @@ class THM_OrganizerModelPlan_Program_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+        $allowedDepartments = Access::getAccessibleDepartments('schedule');
         $shortTag           = Languages::getShortTag();
         $query              = $this->_db->getQuery(true);
 

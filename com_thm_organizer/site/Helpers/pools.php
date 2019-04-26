@@ -183,7 +183,7 @@ class THM_OrganizerHelperPools
         $poolIDs = implode(',', $poolIDs);
 
         $date = $input->getString('date');
-        if (!THM_OrganizerHelperDate::isStandardized($date)) {
+        if (!Dates::isStandardized($date)) {
             $date = date('Y-m-d');
         }
 
@@ -276,7 +276,7 @@ class THM_OrganizerHelperPools
         $poolIDs = implode(',', $poolIDs);
 
         $date = $input->getString('date');
-        if (!THM_OrganizerHelperDate::isStandardized($date)) {
+        if (!Dates::isStandardized($date)) {
             $date = date('Y-m-d');
         }
 

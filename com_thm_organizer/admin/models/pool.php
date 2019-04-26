@@ -23,7 +23,7 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
+        if (!Access::allowDocumentAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -31,7 +31,7 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         if (!empty($poolIDs)) {
             $this->_db->transactionStart();
             foreach ($poolIDs as $poolID) {
-                if (!THM_OrganizerHelperAccess::allowDocumentAccess('pool', $poolID)) {
+                if (!Access::allowDocumentAccess('pool', $poolID)) {
                     $this->_db->transactionRollback();
                     throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
                 }
@@ -88,11 +88,11 @@ class THM_OrganizerModelPool extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
         $data = OrganizerHelper::getInput()->get('jform', [], 'array');
 
         if (empty($data['id'])) {
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
+            if (!Access::allowDocumentAccess()) {
                 throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
         } elseif (is_numeric($data['id'])) {
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('pool', $data['id'])) {
+            if (!Access::allowDocumentAccess('pool', $data['id'])) {
                 throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
         } else {

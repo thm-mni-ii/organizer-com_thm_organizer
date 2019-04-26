@@ -33,7 +33,7 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::allowDocumentAccess()) {
+        if (!Access::allowDocumentAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
@@ -66,7 +66,7 @@ class THM_OrganizerViewProgram_Manager extends THM_OrganizerViewList
         );
         \JToolbarHelper::deleteList('THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'program.delete');
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             \JToolbarHelper::preferences('com_thm_organizer');
         }
     }

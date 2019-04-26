@@ -49,8 +49,8 @@ class THM_OrganizerViewParticipant_Edit extends \Joomla\CMS\MVC\View\HtmlView
 
         if (!empty($this->course)) {
             $dates                     = THM_OrganizerHelperCourses::getDates();
-            $this->course['startDate'] = THM_OrganizerHelperDate::formatDate($dates[0]);
-            $this->course['endDate']   = THM_OrganizerHelperDate::formatDate(end($dates));
+            $this->course['startDate'] = Dates::formatDate($dates[0]);
+            $this->course['endDate']   = Dates::formatDate(end($dates));
             $this->course['open']      = THM_OrganizerHelperCourses::isRegistrationOpen();
         }
 

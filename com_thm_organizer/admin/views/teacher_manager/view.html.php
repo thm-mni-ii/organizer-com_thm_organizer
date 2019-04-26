@@ -33,7 +33,7 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::allowHRAccess()) {
+        if (!Access::allowHRAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
@@ -50,7 +50,7 @@ class THM_OrganizerViewTeacher_Manager extends THM_OrganizerViewList
         \JToolbarHelper::title(Languages::_('THM_ORGANIZER_TEACHER_MANAGER_VIEW_TITLE'), 'organizer_teachers');
         \JToolbarHelper::addNew('teacher.add');
         \JToolbarHelper::editList('teacher.edit');
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             \JToolbarHelper::custom('teacher.mergeView', 'attachment', 'attachment', 'THM_ORGANIZER_ACTION_MERGE',
                 true);
             \JToolbarHelper::preferences('com_thm_organizer');

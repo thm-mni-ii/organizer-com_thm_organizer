@@ -143,7 +143,7 @@ class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
      */
     private function setData()
     {
-        $date = THM_OrganizerHelperDate::standardizeDate($this->state->get('date'));
+        $date = Dates::standardizeDate($this->state->get('date'));
         switch ($this->state->get('template')) {
             case self::DAY:
                 $this->startDate = $this->endDate = $date;
@@ -380,9 +380,9 @@ class THM_OrganizerModelRoom_Overview extends \Joomla\CMS\MVC\Model\FormModel
                 $endSynch   = $blockEndTime == $eventEndTime;
 
                 if (!$startSynch or !$endSynch) {
-                    $divTime .= THM_OrganizerHelperDate::formatTime($eventStartTime);
+                    $divTime .= Dates::formatTime($eventStartTime);
                     $divTime .= ' - ';
-                    $divTime .= THM_OrganizerHelperDate::formatTime($eventEndTime);
+                    $divTime .= Dates::formatTime($eventEndTime);
                 }
 
                 foreach ($eventInstances as $eventID => $eventInstance) {

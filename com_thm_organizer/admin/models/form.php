@@ -24,7 +24,7 @@ class THM_OrganizerModelForm extends \Joomla\CMS\MVC\Model\FormModel
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperAccess::isAdmin();
+        return Access::isAdmin();
     }
 
     /**

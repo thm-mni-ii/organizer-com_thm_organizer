@@ -308,7 +308,7 @@ class THM_OrganizerViewSchedule_Export extends \Joomla\CMS\MVC\View\HtmlView
             'input'       => $poolSelect
         ];
 
-        $privilegedAccess = THM_OrganizerHelperAccess::allowViewAccess();
+        $privilegedAccess = Access::allowViewAccess();
         $isTeacher        = THM_OrganizerHelperTeachers::getIDFromUserData();
 
         if ($privilegedAccess or !empty($isTeacher)) {

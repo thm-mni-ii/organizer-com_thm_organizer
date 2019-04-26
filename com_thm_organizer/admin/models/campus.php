@@ -25,7 +25,7 @@ class THM_OrganizerModelCampus extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function save()
     {
-        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (!Access::allowFMAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -52,7 +52,7 @@ class THM_OrganizerModelCampus extends \Joomla\CMS\MVC\Model\BaseDatabaseModel
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (!Access::allowFMAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

@@ -84,14 +84,14 @@ class THM_OrganizerViewRoom_Overview extends \Joomla\CMS\MVC\View\HtmlView
     {
         $dayConstant   = strtoupper(date('l', strtotime($date)));
         $day           = Languages::_($dayConstant);
-        $formattedDate = THM_OrganizerHelperDate::formatDate($date);
+        $formattedDate = Dates::formatDate($date);
         $dateText      = "$day $formattedDate<br />";
 
         $block     = $this->model->grid['periods'][$blockNo];
         $blockText = is_numeric($blockName) ? "$blockName. Block" : $blockName;
 
-        $startTime = THM_OrganizerHelperDate::formatTime($block['startTime']);
-        $endTime   = THM_OrganizerHelperDate::formatTime($block['endTime']);
+        $startTime = Dates::formatTime($block['startTime']);
+        $endTime   = Dates::formatTime($block['endTime']);
         $timeText  = " ($startTime - $endTime)<br />";
 
         $roomText = Languages::_('THM_ORGANIZER_ROOM') . " $roomNo<br />";

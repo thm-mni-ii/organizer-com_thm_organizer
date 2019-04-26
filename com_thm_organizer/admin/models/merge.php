@@ -36,7 +36,7 @@ abstract class THM_OrganizerModelMerge extends \Joomla\CMS\MVC\Model\BaseDatabas
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperAccess::isAdmin();
+        return Access::isAdmin();
     }
 
     /**

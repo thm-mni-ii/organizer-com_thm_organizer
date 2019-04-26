@@ -11,8 +11,8 @@
 
 defined('_JEXEC') or die;
 
-require_once 'access.php';
-require_once 'date.php';
+require_once 'Access.php';
+require_once 'Dates.php';
 require_once 'HTML.php';
 require_once 'Languages.php';
 
@@ -68,7 +68,7 @@ class OrganizerHelper
             $viewName == 'thm_organizer'
         );
 
-        if (THM_OrganizerHelperAccess::allowSchedulingAccess()) {
+        if (Access::allowSchedulingAccess()) {
             $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_SCHEDULING') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 
@@ -101,13 +101,13 @@ class OrganizerHelper
             }
         }
 
-        if (THM_OrganizerHelperAccess::allowDocumentAccess()) {
+        if (Access::allowDocumentAccess()) {
             $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 
             $documentation = [];
 
-            if (THM_OrganizerHelperAccess::isAdmin()) {
+            if (Access::isAdmin()) {
                 $documentation[Languages::_('THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')] = [
                     'url'    => 'index.php?option=com_thm_organizer&amp;view=department_manager',
                     'active' => $viewName == 'department_manager'
@@ -131,7 +131,7 @@ class OrganizerHelper
             }
         }
 
-        if (THM_OrganizerHelperAccess::allowHRAccess()) {
+        if (Access::allowHRAccess()) {
             $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
             \JHtmlSidebar::addEntry(
@@ -141,7 +141,7 @@ class OrganizerHelper
             );
         }
 
-        if (THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (Access::allowFMAccess()) {
             $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 
@@ -173,7 +173,7 @@ class OrganizerHelper
             }
         }
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_ADMINISTRATION') . '</span>';
             \JHtmlSidebar::addEntry($spanText, '', false);
 

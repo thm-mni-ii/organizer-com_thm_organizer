@@ -68,8 +68,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         $this->spreadSheet = new \PHPExcel();
 
         $userName    = Factory::getUser()->name;
-        $startDate   = THM_OrganizerHelperDate::formatDate($this->startDate);
-        $endDate     = THM_OrganizerHelperDate::formatDate($this->endDate);
+        $startDate   = Dates::formatDate($this->startDate);
+        $endDate     = Dates::formatDate($this->endDate);
         $description = sprintf(Languages::_('THM_ORGANIZER_ROOM_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);
         $this->spreadSheet->getProperties()->setCreator('THM Organizer')
             ->setLastModifiedBy($userName)
@@ -478,8 +478,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         $currentColumn = 'B';
 
         foreach ($this->metaData['weeks'] as $weekData) {
-            $startDate          = THM_OrganizerHelperDate::formatDate($weekData['startDate']);
-            $endDate            = THM_OrganizerHelperDate::formatDate($weekData['endDate']);
+            $startDate          = Dates::formatDate($weekData['startDate']);
+            $endDate            = Dates::formatDate($weekData['endDate']);
             $groupTitle         = "$startDate - $endDate";
             $singleRoomTotal    = $weekData['total'] / count($this->roomData);
             $singleRoomAdjTotal = $weekData['adjustedTotal'] / count($this->roomData);

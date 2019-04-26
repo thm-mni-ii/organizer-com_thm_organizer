@@ -27,10 +27,10 @@ class THM_OrganizerModelProgram_Edit extends THM_OrganizerModelEdit
     public function allowEdit()
     {
         $programID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
-        if (empty($programID) or !THM_OrganizerHelperAccess::checkAssetInitialization('program', $programID)) {
-            return THM_OrganizerHelperAccess::allowDocumentAccess();
+        if (empty($programID) or !Access::checkAssetInitialization('program', $programID)) {
+            return Access::allowDocumentAccess();
         }
 
-        return THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID);
+        return Access::allowDocumentAccess('program', $programID);
     }
 }

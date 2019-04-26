@@ -28,8 +28,8 @@ class THM_OrganizerModelPlanning_Period_Ajax extends \Joomla\CMS\MVC\Model\BaseD
         $options         = [];
 
         foreach ($planningPeriods as $planningPeriod) {
-            $shortSD = THM_OrganizerHelperDate::formatDate($planningPeriod['startDate']);
-            $shortED = THM_OrganizerHelperDate::formatDate($planningPeriod['endDate']);
+            $shortSD = Dates::formatDate($planningPeriod['startDate']);
+            $shortED = Dates::formatDate($planningPeriod['endDate']);
 
             $option['value'] = $planningPeriod['id'];
             $option['text']  = "{$planningPeriod['name']} ($shortSD - $shortED)";

@@ -33,7 +33,7 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::isAdmin()) {
+        if (!Access::isAdmin()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
@@ -52,7 +52,7 @@ class THM_OrganizerViewDepartment_Manager extends THM_OrganizerViewList
         \JToolbarHelper::editList('department.edit');
         \JToolbarHelper::deleteList('', 'department.delete');
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             \JToolbarHelper::preferences('com_thm_organizer');
         }
     }

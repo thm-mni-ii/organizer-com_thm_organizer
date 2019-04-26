@@ -28,7 +28,7 @@ class THM_OrganizerModelRoom_Type extends THM_OrganizerModelMerge
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperAccess::allowFMAccess();
+        return Access::allowFMAccess();
     }
 
     /**

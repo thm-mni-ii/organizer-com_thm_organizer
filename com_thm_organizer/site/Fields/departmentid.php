@@ -117,7 +117,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
         $action = $this->getAttribute('action', '');
 
         if (!empty($action)) {
-            $allowedIDs = THM_OrganizerHelperAccess::getAccessibleDepartments($action);
+            $allowedIDs = Access::getAccessibleDepartments($action);
             $query->where("d.id IN ( '" . implode("', '", $allowedIDs) . "' )");
         }
 

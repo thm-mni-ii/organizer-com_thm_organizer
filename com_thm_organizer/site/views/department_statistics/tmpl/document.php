@@ -59,8 +59,8 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->spreadSheet = new \PHPExcel();
 
         $userName  = Factory::getUser()->name;
-        $startDate = THM_OrganizerHelperDate::formatDate($this->startDate);
-        $endDate   = THM_OrganizerHelperDate::formatDate($this->endDate);
+        $startDate = Dates::formatDate($this->startDate);
+        $endDate   = Dates::formatDate($this->endDate);
 
         $description
             = sprintf(Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);

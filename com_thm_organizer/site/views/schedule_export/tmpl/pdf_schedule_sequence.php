@@ -86,7 +86,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
         foreach ($dates as $date) {
             $columns[$date]          = [];
             $columns[$date]['value'] = $date;
-            $columns[$date]['text']  = THM_OrganizerHelperDate::formatDate($date, true, true);
+            $columns[$date]['text']  = Dates::formatDate($date, true, true);
         }
 
         return $columns;
@@ -116,8 +116,8 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
 
         // The 'grid' isn't one or the lesson is being displayed in a grid in which it wasn't planned.
         if (empty($rowHeader) or $startTime != $rowHeader['startTime'] or $endTime != $rowHeader['endTime']) {
-            $formattedStart = THM_OrganizerHelperDate::formatTime($startTime);
-            $formattedEnd   = THM_OrganizerHelperDate::formatTime($endTime);
+            $formattedStart = Dates::formatTime($startTime);
+            $formattedEnd   = Dates::formatTime($endTime);
             $text           .= "$formattedStart - $formattedEnd\n";
         }
 
@@ -253,8 +253,8 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $rows[$rowIndex]              = [];
             $rows[$rowIndex]['startTime'] = $times['startTime'];
             $rows[$rowIndex]['endTime']   = $times['endTime'];
-            $formattedStartTime           = THM_OrganizerHelperDate::formatTime($times['startTime']);
-            $formattedEndTime             = THM_OrganizerHelperDate::formatTime($times['endTime']);
+            $formattedStartTime           = Dates::formatTime($times['startTime']);
+            $formattedEndTime             = Dates::formatTime($times['endTime']);
             $rows[$rowIndex]['text']      = $formattedStartTime . "\n-\n" . $formattedEndTime;
             $rowIndex++;
         }
@@ -327,9 +327,9 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
         $startDate      = key($columnHeaders);
 
         while (!empty($columnHeaders[$startDate])) {
-            $startDateText = THM_OrganizerHelperDate::formatDate($startDate);
+            $startDateText = Dates::formatDate($startDate);
             $endDate       = date('Y-m-d', strtotime('+6 day', strtotime($startDate)));
-            $endDateText   = THM_OrganizerHelperDate::formatDate($endDate);
+            $endDateText   = Dates::formatDate($endDate);
             $breakDate     = date('Y-m-d', strtotime('+7 day', strtotime($startDate)));
 
             $showSegment = $this->outputSegment($startDate, $endDate);

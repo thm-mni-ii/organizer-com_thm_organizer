@@ -33,7 +33,7 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
+        if (!Access::allowSchedulingAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
@@ -49,7 +49,7 @@ class THM_OrganizerViewPlan_Program_Manager extends THM_OrganizerViewList
     {
         \JToolbarHelper::title(Languages::_('THM_ORGANIZER_PLAN_PROGRAM_MANAGER_VIEW_TITLE'), 'organizer_programs');
         \JToolbarHelper::editList('plan_program.edit');
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             \JToolbarHelper::custom('plan_program.mergeView', 'attachment', 'attachment',
                 'THM_ORGANIZER_ACTION_MERGE', true);
             \JToolbarHelper::preferences('com_thm_organizer');

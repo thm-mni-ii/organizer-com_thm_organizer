@@ -34,7 +34,7 @@ class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::allowSchedulingAccess()) {
+        if (!Access::allowSchedulingAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
@@ -54,7 +54,7 @@ class THM_OrganizerViewSchedule_Manager extends THM_OrganizerViewList
         \JToolbarHelper::custom('schedule.setReference', 'tree', 'tree', 'THM_ORGANIZER_ACTION_REFERENCE', true);
         \JToolbarHelper::deleteList(Languages::_('THM_ORGANIZER_ACTION_DELETE_CONFIRM'), 'schedule.delete');
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             \JToolbarHelper::preferences('com_thm_organizer');
         }
     }

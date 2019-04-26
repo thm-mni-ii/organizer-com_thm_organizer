@@ -44,7 +44,7 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
      */
     protected function getListQuery()
     {
-        $allowedDepartments = THM_OrganizerHelperAccess::getAccessibleDepartments('schedule');
+        $allowedDepartments = Access::getAccessibleDepartments('schedule');
         $shortTag           = Languages::getShortTag();
         $dbo                = $this->getDbo();
         $query              = $dbo->getQuery(true);
@@ -98,8 +98,8 @@ class THM_OrganizerModelSchedule_Manager extends THM_OrganizerModelList
 
             $return[$index]['userName'] = $item->userName;
 
-            $created                   = THM_OrganizerHelperDate::formatDate($item->creationDate);
-            $created                   .= ' / ' . THM_OrganizerHelperDate::formatTime($item->creationTime);
+            $created                   = Dates::formatDate($item->creationDate);
+            $created                   .= ' / ' . Dates::formatTime($item->creationTime);
             $return[$index]['created'] = $created;
 
             $index++;

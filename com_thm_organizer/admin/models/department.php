@@ -23,7 +23,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function save()
     {
-        if (!THM_OrganizerHelperAccess::isAdmin()) {
+        if (!Access::isAdmin()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -57,7 +57,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function save2copy()
     {
-        if (!THM_OrganizerHelperAccess::isAdmin()) {
+        if (!Access::isAdmin()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -94,7 +94,7 @@ class THM_OrganizerModelDepartment extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
      */
     public function delete()
     {
-        if (!THM_OrganizerHelperAccess::isAdmin()) {
+        if (!Access::isAdmin()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

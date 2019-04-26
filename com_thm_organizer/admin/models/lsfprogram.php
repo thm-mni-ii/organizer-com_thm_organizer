@@ -72,7 +72,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
         $this->_db->transactionStart();
         foreach ($programIDs as $programID) {
 
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
+            if (!Access::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
                 throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }
@@ -218,7 +218,7 @@ class THM_OrganizerModelLSFProgram extends \Joomla\CMS\MVC\Model\BaseDatabaseMod
 
         foreach ($programIDs as $programID) {
 
-            if (!THM_OrganizerHelperAccess::allowDocumentAccess('program', $programID)) {
+            if (!Access::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
                 throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
             }

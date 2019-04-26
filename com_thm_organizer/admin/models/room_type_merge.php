@@ -24,6 +24,6 @@ class THM_OrganizerModelRoom_Type_Merge extends THM_OrganizerModelForm
      */
     protected function allowEdit()
     {
-        return THM_OrganizerHelperAccess::isAdmin();
+        return Access::isAdmin();
     }
 }

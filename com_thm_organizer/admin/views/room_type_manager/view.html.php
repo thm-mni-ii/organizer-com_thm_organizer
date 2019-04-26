@@ -33,7 +33,7 @@ class THM_OrganizerViewRoom_Type_Manager extends THM_OrganizerViewList
      */
     public function display($tpl = null)
     {
-        if (!THM_OrganizerHelperAccess::allowFMAccess()) {
+        if (!Access::allowFMAccess()) {
             throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
@@ -52,7 +52,7 @@ class THM_OrganizerViewRoom_Type_Manager extends THM_OrganizerViewList
         \JToolbarHelper::editList('room_type.edit');
         \JToolbarHelper::deleteList('THM_ORGANIZER_ACTION_DELETE_CONFIRM', 'room_type.delete');
 
-        if (THM_OrganizerHelperAccess::isAdmin()) {
+        if (Access::isAdmin()) {
             \JToolbarHelper::custom('room_type.mergeView', 'attachment', 'attachment', 'THM_ORGANIZER_ACTION_MERGE',
                 true);
             \JToolbarHelper::preferences('com_thm_organizer');
