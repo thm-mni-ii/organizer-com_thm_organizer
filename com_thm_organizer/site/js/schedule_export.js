@@ -137,6 +137,7 @@ function copyLink()
 
     if (mySchedule === 'on' && authDefined)
     {
+        url += '&myschedule=1';
         addAuth = true;
     }
     else
@@ -169,7 +170,7 @@ function copyLink()
 
     if (addAuth)
     {
-        url += '&myschedule=1&username=' + username + '&auth=' + auth;
+        url += '&username=' + username + '&auth=' + auth;
     }
 
     window.prompt(copyText, url);
