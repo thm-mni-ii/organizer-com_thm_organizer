@@ -30,18 +30,22 @@
         </schemas>
     </update>
     <files folder="site">
+        <filename>autoloader.php</filename>
+        <filename>Controller.php</filename>
+        <filename>LICENSE.txt</filename>
+        <filename>metadata.xml</filename>
+        <filename>thm_organizer.php</filename>
         <folder>css</folder>
         <folder>Fields</folder>
+        <folder>Forms</folder>
         <folder>Helpers</folder>
         <folder>icalcreator</folder>
         <folder>images</folder>
         <folder>js</folder>
         <folder>Layouts</folder>
-        <folder>models</folder>
-        <folder>views</folder>
-        <filename>controller.php</filename>
-        <filename>LICENSE.txt</filename>
-        <filename>thm_organizer.php</filename>
+        <folder>Models</folder>
+        <folder>Tables</folder>
+        <folder>Views</folder>
     </files>
     <languages>
         <language tag="en-GB" client="site">language/en-GB/en-GB.com_thm_organizer.ini</language>
@@ -50,14 +54,13 @@
     <administration>
         <menu>THM_ORGANIZER</menu>
         <files folder="admin">
-            <folder>models</folder>
-            <folder>sql</folder>
-            <folder>tables</folder>
-            <folder>views</folder>
             <filename>access.xml</filename>
             <filename>config.xml</filename>
             <filename>LICENSE.txt</filename>
             <filename>thm_organizer.php</filename>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>views</folder>
         </files>
         <languages>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>

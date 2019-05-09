@@ -10,9 +10,12 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\OrganizerHelper;
+
+FormHelper::loadFieldClass('list');
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/Helpers/modules.php');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+
 
 /**
  * Class creates a select box for module positions.

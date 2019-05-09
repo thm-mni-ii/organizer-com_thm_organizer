@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/components/com_thm_organizer/Fields">
+    <fieldset name="details" label="THM_ORGANIZER_ATTRIBUTES_SUBJECT_DETAILS">
+        <field name="id" type="hidden"/>
+        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS">
+            <option value="">THM_ORGANIZER_NO_CAMPUSES</option>
+        </field>
+        <field name="departmentID" type="hidden" default="1" required="true"/>
+        <field name="max_participants" type="integer" default="300" label="THM_ORGANIZER_MAX_PARTICIPANTS"
+               description="THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
+        <field name="fieldID" type="genericlist" valuecolumn="id" textcolumn="field" localized="true"
+               table="thm_organizer_fields" class="inputbox" label="THM_ORGANIZER_FIELD"
+               description="THM_ORGANIZER_FIELD_DESC">
+            <option value="">THM_ORGANIZER_NO_FIELDS</option>
+        </field>
+        <field name="instructionLanguage" type="list" label="THM_ORGANIZER_INSTRUCTION_LANGUAGE"
+               description="THM_ORGANIZER_INSTRUCTION_LANGUAGE_DESC" default="D">
+            <option value="D">THM_ORGANIZER_GERMAN</option>
+            <option value="E">THM_ORGANIZER_ENGLISH</option>
+        </field>
+        <field name="is_prep_course" type="hidden"/>
+    </fieldset>
+    <fieldset name="de_texts" label="THM_ORGANIZER_ATTRIBUTES_DE">
+        <field name="name_de" type="text" class="inputbox" size="70" label="THM_ORGANIZER_NAME_DE"
+               description="THM_ORGANIZER_NAME_DE_DESC" hint="Brückenkurs Programmieren"/>
+        <field name="short_name_de" type="text" class="inputbox" size="70" label="THM_ORGANIZER_SHORT_NAME_DE"
+               description="THM_ORGANIZER_SHORT_NAME_DE_DESC" hint="BK Prog."/>
+        <field name="abbreviation_de" type="text" class="inputbox" size="70" label="THM_ORGANIZER_ABBREVIATION_DE"
+               description="THM_ORGANIZER_ABBREVIATION_DE_DESC" hint="BKPr"/>
+        <field name="description_de" type="editor" label="THM_ORGANIZER_DESC_DE"
+               description="THM_ORGANIZER_DESC_DE_DESC"/>
+        <field name="objective_de" type="editor" class="inputbox" size="6" label="THM_ORGANIZER_OBJECTIVE_DE"
+               description="THM_ORGANIZER_OBJECTIVE_DE_DESC"/>
+        <field name="content_de" type="editor" class="inputbox" size="6" label="THM_ORGANIZER_CONTENT_DE"
+               description="THM_ORGANIZER_CONTENT_DE_DESC"/>
+    </fieldset>
+    <fieldset name="en_texts" label="THM_ORGANIZER_ATTRIBUTES_EN">
+        <field name="name_en" type="text" class="inputbox" size="70" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC" hint="Preparatory Course Programming"/>
+        <field name="short_name_en" type="text" class="inputbox" size="70" label="THM_ORGANIZER_SHORT_NAME_EN"
+               description="THM_ORGANIZER_SHORT_NAME_EN_DESC" hint="PC Prog."/>
+        <field name="abbreviation_en" type="text" class="inputbox" size="70" label="THM_ORGANIZER_ABBREVIATION_EN"
+               description="THM_ORGANIZER_ABBREVIATION_DE_DESC" hint="PCPr"/>
+        <field name="description_en" type="editor" class="inputbox" size="6" label="THM_ORGANIZER_DESC_EN"
+               description="THM_ORGANIZER_DESC_EN_DESC"/>
+        <field name="objective_en" type="editor" class="inputbox" size="6" label="THM_ORGANIZER_OBJECTIVE_EN"
+               description="THM_ORGANIZER_OBJECTIVE_EN_DESC"/>
+        <field name="content_en" type="editor" class="inputbox" size="6" label="THM_ORGANIZER_CONTENT_EN"
+               description="THM_ORGANIZER_CONTENT_EN_DESC"/>
+    </fieldset>
+</form>

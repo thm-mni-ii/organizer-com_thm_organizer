@@ -10,10 +10,12 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\Campuses;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
 
+FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a form field for campus selection.
@@ -108,7 +110,7 @@ class JFormFieldCampusID extends \JFormFieldList
     protected function getOptions()
     {
         $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $campuses       = THM_OrganizerHelperCampuses::getOptions();
+        $campuses       = Campuses::getOptions();
 
         if (empty($campuses)) {
             return $defaultOptions;

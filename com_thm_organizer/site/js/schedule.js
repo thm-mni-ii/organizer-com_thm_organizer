@@ -328,6 +328,7 @@ const ScheduleApp = function (variables) {
             ajaxUrl = (function () {
                 let url = getAjaxUrl();
 
+                url += '&view=schedules';
                 url += '&deltaDays=' + (resource === 'room' || resource === 'teacher' ? '0' : variables.deltaDays);
                 url += '&date=' + getDateFieldString() + (variables.isMobile ? '&oneDay=true' : '');
                 url += '&mySchedule=' + (resource === 'user' ? '1' : '0');
@@ -1724,11 +1725,11 @@ const ScheduleApp = function (variables) {
                 'teacher': document.getElementById('teacher')
             },
             placeholder = {
-                'pool': Joomla.JText._('THM_ORGANIZER_POOL_SELECT_PLACEHOLDER'),
-                'program': Joomla.JText._('THM_ORGANIZER_PROGRAM_SELECT_PLACEHOLDER'),
-                'roomType': Joomla.JText._('THM_ORGANIZER_ROOM_TYPE_SELECT_PLACEHOLDER'),
-                'room': Joomla.JText._('THM_ORGANIZER_ROOM_SELECT_PLACEHOLDER'),
-                'teacher': Joomla.JText._('THM_ORGANIZER_TEACHER_SELECT_PLACEHOLDER')
+                'pool': Joomla.JText._('THM_ORGANIZER_SELECT_EVENT_PLAN'),
+                'program': Joomla.JText._('THM_ORGANIZER_SELECT_EVENT_CATEGORY'),
+                'roomType': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM_TYPE'),
+                'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
+                'teacher': Joomla.JText._('THM_ORGANIZER_SELECT_TEACHER')
             },
             wrappers = {
                 'category': document.getElementById('category-input'),
@@ -1750,7 +1751,25 @@ const ScheduleApp = function (variables) {
         function getFormTask(field, values)
         {
             const previousField = document.querySelector('[data-next=' + field.id + ']');
-            let task = getAjaxUrl('get' + (field.dataset.input === 'static' ? jQuery(field).val() : field.id) + 's');
+            let resource, task = getAjaxUrl('getOptions');
+
+            resource = field.dataset.input === 'static' ? jQuery(field).val() : field.id;
+            switch (resource)
+            {
+                case 'pool':
+                    resource = 'plan_pools';
+                    break;
+                case 'program':
+                    resource = 'plan_programs';
+                    break;
+                case 'roomType':
+                    resource = 'room_types';
+                    break;
+                default:
+                    resource = resource + 's';
+
+            }
+            task += '&view=' + resource;
 
             if (previousField)
             {
@@ -2272,9 +2291,9 @@ const ScheduleApp = function (variables) {
     function handleLesson(ccmID, taskNumber, save)
     {
         const saving = (typeof save === 'undefined') ? true : save;
-        let task = getAjaxUrl(saving ? 'saveLesson' : 'deleteLesson');
+        let task = getAjaxUrl(saving ? 'saveUserLesson' : 'deleteUserLesson');
 
-        task += '&mode=' + (taskNumber || '1') + '&ccmID=' + ccmID;
+        task += '&view=schedules&mode=' + (taskNumber || '1') + '&ccmID=' + ccmID;
         ajaxSave.open('GET', task, true);
         ajaxSave.onreadystatechange = function () {
             if (ajaxSave.readyState === 4 && ajaxSave.status === 200)
@@ -2878,7 +2897,7 @@ const ScheduleApp = function (variables) {
 
         if (formats[0] === 'ics')
         {
-            window.prompt(Joomla.JText._('THM_ORGANIZER_ACTION_GENERATE_LINK'), url);
+            window.prompt(Joomla.JText._('THM_ORGANIZER_GENERATE_LINK'), url);
             exportSelection.val('placeholder');
             exportSelection.trigger('chosen:updated');
             return;

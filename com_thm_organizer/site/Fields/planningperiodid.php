@@ -10,11 +10,12 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/planning_periods.php';
-
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\OrganizerHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a select box for planning periods.

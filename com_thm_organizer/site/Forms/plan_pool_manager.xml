@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/components/com_thm_organizer/Fields">
+    <fields name="filter">
+        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="departmentID" type="departmentID" action="schedule" label="THM_ORGANIZER_DEPARTMENT"
+               description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
+            <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
+            <option value="-1">THM_ORGANIZER_NO_DEPARTMENTS</option>
+        </field>
+        <field name="programID" type="planProgramID" valuecolumn="id" textcolumn="name" departmentRestrict="force"
+               access="true" table="thm_organizer_plan_programs" label="THM_ORGANIZER_PLAN_PROGRAM"
+               onchange="this.form.submit();">
+            <option value="">THM_ORGANIZER_ALL_PLAN_PROGRAMS</option>
+            <option value="-1">THM_ORGANIZER_NO_PLAN_PROGRAMS</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
+               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+    </fields>
+    <fields name="batch">
+        <field name="publishing" type="planningPeriodPublishing" label="THM_ORGANIZER_PUBLISHING"
+               description="THM_ORGANIZER_PERIOD_PUBLISHING_DESC" required="true"/>
+    </fields>
+</form>

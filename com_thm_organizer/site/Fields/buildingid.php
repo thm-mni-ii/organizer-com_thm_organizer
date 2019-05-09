@@ -10,11 +10,13 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/campuses.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\Campuses;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\OrganizerHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a form field for building selection.
@@ -35,7 +37,7 @@ class JFormFieldBuildingID extends \JFormFieldList
     {
         $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
         $input          = OrganizerHelper::getInput();
-        $formData       = $input->get('jform', [], 'array');
+        $formData       = OrganizerHelper::getForm();
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
         $dbo   = Factory::getDbo();
@@ -73,12 +75,12 @@ class JFormFieldBuildingID extends \JFormFieldList
 
             if (empty($thisBuilding['campusName'])) {
                 $thisCampusID               = empty($thisBuilding['parentID']) ? $thisBuilding['campusID'] : $thisBuilding['parentID'];
-                $thisBuilding['campusName'] = THM_OrganizerHelperCampuses::getName($thisCampusID);
+                $thisBuilding['campusName'] = Campuses::getName($thisCampusID);
             }
 
             $nextBuilding               = $buildings[$index + 1];
             $nextCampusID               = empty($nextBuilding['parentID']) ? $nextBuilding['campusID'] : $nextBuilding['parentID'];
-            $nextBuilding['campusName'] = THM_OrganizerHelperCampuses::getName($nextCampusID);
+            $nextBuilding['campusName'] = Campuses::getName($nextCampusID);
 
             // The campus name of the building being iterated comes alphabetically before the campus name of the next building
             if ($thisBuilding['campusName'] < $nextBuilding['campusName']) {

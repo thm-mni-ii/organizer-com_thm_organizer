@@ -10,10 +10,13 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a generalized select box for selection of a single id column value among those already selected.
@@ -32,8 +35,7 @@ class JFormFieldMergeByID extends \JFormFieldList
      */
     protected function getOptions()
     {
-        $input       = OrganizerHelper::getInput();
-        $selectedIDs = $input->get('cid', [], 'array');
+        $selectedIDs = OrganizerHelper::getSelectedIDs();
         $valueColumn = $this->getAttribute('name');
         $tables      = explode(',', $this->getAttribute('tables'));
         $tableAlias  = '';

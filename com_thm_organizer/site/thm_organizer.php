@@ -8,11 +8,14 @@
  * @link        www.thm.de
  */
 
+namespace Organizer;
+
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+require_once 'autoloader.php';
 
-use OrganizerHelper as OrganizerHelper;
+use Exception;
+use Organizer\Helpers\OrganizerHelper;
 
 try {
     OrganizerHelper::setUp();

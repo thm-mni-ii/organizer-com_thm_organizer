@@ -3,7 +3,7 @@
     <fieldset name="details" label="THM_ORGANIZER_ATTRIBUTES_SUBJECT_DETAILS">
         <field name="id" type="hidden"/>
         <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS">
-            <option value="">JNONE</option>
+            <option value="">THM_ORGANIZER_NO_CAMPUS</option>
         </field>
         <field name="departmentID" type="departmentID" action="manage" label="THM_ORGANIZER_DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" required="true"/>
@@ -40,8 +40,7 @@
         <field name="fieldID" type="genericlist" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields" class="inputbox" label="THM_ORGANIZER_FIELD"
                description="THM_ORGANIZER_FIELD_DESC">
-            <option value="">THM_ORGANIZER_FILTER_FIELD</option>
-            <option value="">JNONE</option>
+            <option value="">THM_ORGANIZER_NO_FIELDS</option>
         </field>
         <field name="planSubjectIDs" type="subjectmapping" responsibility="1" label="THM_ORGANIZER_PLAN_SUBJECT"/>
         <field type="spacer" name="spacer1" hr="true"/>
@@ -55,15 +54,15 @@
         </field>
         <field name="expenditure" type="integer" class="inputbox" label="THM_ORGANIZER_EXPENDITURE"
                description="THM_ORGANIZER_EXPENDITURE_DESC" first="30" last="900" step="30" default="0">
-            <option value="0">THM_ORGANIZER_FILTER_EXPENDITURE</option>
+            <option value="0">THM_ORGANIZER_NO_INPUT</option>
         </field>
         <field name="present" type="integer" class="inputbox" label="THM_ORGANIZER_PRESENT"
                description="THM_ORGANIZER_PRESENT_DESC" first="0" last="900" step="30" default="">
-            <option value="">THM_ORGANIZER_FILTER_PRESENT</option>
+            <option value="">THM_ORGANIZER_NO_INPUT</option>
         </field>
         <field name="independent" type="integer" class="inputbox" label="THM_ORGANIZER_INDEPENDENT"
                description="THM_ORGANIZER_INDEPENDENT_DESC" first="0" last="900" step="30" default="">
-            <option value="">THM_ORGANIZER_FILTER_INDEPENDENT</option>
+            <option value="">THM_ORGANIZER_NO_INPUT</option>
         </field>
         <field name="frequencyID" type="list" label="THM_ORGANIZER_AVAILABILITY"
                description="THM_ORGANIZER_AVAILABILITY_DESC">

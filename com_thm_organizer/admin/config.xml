@@ -43,7 +43,7 @@
         <field name="wsPassword" type="text" size="30" label="THM_ORGANIZER_PASSWORD"
                description="THM_ORGANIZER_LSF_PASSWORD_DESC"/>
     </fieldset>
-    <fieldset name="monitors" label="THM_ORGANIZER_MONITOR_MANAGER_TITLE"
+    <fieldset name="monitors" label="THM_ORGANIZER_MONITORS"
               description="THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
         <field name="display" id="display" type="list" label="THM_ORGANIZER_DISPLAY_BEHAVIOUR"
                description="THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC" class="inputbox">

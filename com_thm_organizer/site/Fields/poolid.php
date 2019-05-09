@@ -10,11 +10,14 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
-
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\Mappings;
+use Organizer\Helpers\OrganizerHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a select box for (subject) pools.
@@ -38,7 +41,7 @@ class JFormFieldPoolID extends \JFormFieldList
             return parent::getOptions();
         }
 
-        $programRanges = THM_OrganizerHelperMapping::getResourceRanges('program', $programID);
+        $programRanges = Mappings::getResourceRanges('program', $programID);
         if (empty($programRanges) or count($programRanges) > 1) {
             return parent::getOptions();
         }

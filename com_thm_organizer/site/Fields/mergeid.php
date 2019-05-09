@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a two hidden fields for merging. One has the lowest selected id as its value, the other has all
@@ -27,7 +27,7 @@ class JFormFieldMergeID extends \Joomla\CMS\Form\FormField
      */
     public function getInput()
     {
-        $selectedIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
+        $selectedIDs = OrganizerHelper::getSelectedIDs();
         asort($selectedIDs);
         $first  = array_shift($selectedIDs);
         $others = implode(',', $selectedIDs);

@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-
 use Joomla\CMS\Factory;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a select box for predefined colors.
@@ -33,10 +34,9 @@ class JFormFieldColorID extends \Joomla\CMS\Form\FormField
      */
     public function getInput()
     {
-        $input   = OrganizerHelper::getInput();
-        $fieldID = $input->getInt('id');
+        $fieldID = OrganizerHelper::getInput()->getInt('id');
         if (empty($fieldID)) {
-            $selectedFields = OrganizerHelper::getInput()->get('cid', [], 'array');
+            $selectedFields = OrganizerHelper::getSelectedIDs();
         } else {
             $selectedFields = [$fieldID];
         }

@@ -10,11 +10,18 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Access;
+use Organizer\Helpers\Departments;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a select box for departments.
@@ -36,7 +43,7 @@ class JFormFieldDepartmentID extends \JFormFieldList
     {
         // Add custom js script to update other fields like programs
         if (!empty($this->class) && $this->class === 'departmentlist') {
-            Factory::getDocument()->addScript(Uri::root() . 'media/com_thm_organizer/js/departmentlist.js');
+            Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/departmentlist.js');
         }
 
         $resource = $this->getAttribute('resource');
@@ -58,16 +65,14 @@ class JFormFieldDepartmentID extends \JFormFieldList
         // Get the field options.
         $options = (array)$this->getOptions();
 
-        $input      = OrganizerHelper::getInput();
-        $resourceID = $input->getInt('id');
+        $resourceID = OrganizerHelper::getInput()->getInt('id');
         if (empty($resourceID)) {
-            $selected = OrganizerHelper::getInput()->get('cid', [], 'array');
+            $selected = OrganizerHelper::getSelectedIDs();
         } else {
             $selected = [$resourceID];
         }
 
-        require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/departments.php';
-        $departmentIDs = THM_OrganizerHelperDepartments::getDepartmentsByResource($resource, $selected);
+        $departmentIDs = Departments::getDepartmentsByResource($resource, $selected);
 
         return HTML::_(
             'select.genericlist',
@@ -97,14 +102,12 @@ class JFormFieldDepartmentID extends \JFormFieldList
         // For use in the merge view
         $app               = OrganizerHelper::getApplication();
         $isBackend         = $app->isClient('administrator');
-        $selectedIDs       = $app->input->get('cid', [], 'array');
+        $selectedIDs       = OrganizerHelper::getSelectedIDs();
         $resource          = $this->getAttribute('resource', '');
         $validResources    = ['program', 'teacher'];
         $isValidResource   = in_array($resource, $validResources);
         $filterForSelected = ($isBackend and !empty($selectedIDs) and $isValidResource);
         if ($filterForSelected) {
-            $selectedIDs = Joomla\Utilities\ArrayHelper::toInteger($selectedIDs);
-
             // Set the selected items
             $this->value = $selectedIDs;
 

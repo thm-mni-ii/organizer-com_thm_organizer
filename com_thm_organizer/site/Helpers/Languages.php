@@ -8,9 +8,9 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Helpers;
 
-require_once 'OrganizerHelper.php';
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
@@ -114,8 +114,6 @@ class Languages extends Text
      * @param boolean   $script               To indicate that the string will be push in the javascript language store
      *
      * @return  boolean  Whether the string be interpreted as sprintf
-     *
-     * @since   3.4.4
      */
     private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
     {
@@ -184,8 +182,6 @@ class Languages extends Text
      * @param integer $n      The number of items
      *
      * @return  string  The translated strings or the key if 'script' is true in the array of options
-     *
-     * @since   11.1
      */
     public static function plural($string, $n)
     {
@@ -251,8 +247,6 @@ class Languages extends Text
      * @param string $string The format string.
      *
      * @return  mixed
-     *
-     * @since   11.1
      */
     public static function printf($string)
     {
@@ -295,8 +289,6 @@ class Languages extends Text
      * @param string $string The format string.
      *
      * @return  string  The translated strings or the key if 'script' is true in the array of options.
-     *
-     * @since   11.1
      */
     public static function sprintf($string)
     {

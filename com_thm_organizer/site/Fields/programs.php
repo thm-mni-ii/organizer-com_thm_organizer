@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\Mappings;
 
 /**
  * Class creates a select box for (degree) program mappings.
@@ -37,9 +37,9 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
         $resourceType = str_replace('_edit', '', $contextParts[1]);
         $this->addScript($resourceID, $resourceType);
 
-        $ranges           = THM_OrganizerHelperMapping::getResourceRanges($resourceType, $resourceID);
-        $selectedPrograms = empty($ranges) ? [] : THM_OrganizerHelperMapping::getSelectedPrograms($ranges);
-        $options          = THM_OrganizerHelperMapping::getProgramOptions();
+        $ranges           = Mappings::getResourceRanges($resourceType, $resourceID);
+        $selectedPrograms = empty($ranges) ? [] : Mappings::getSelectedPrograms($ranges);
+        $options          = Mappings::getProgramOptions();
 
         foreach ($options as $id => $name) {
             if (!Access::allowDocumentAccess('program', $id)) {

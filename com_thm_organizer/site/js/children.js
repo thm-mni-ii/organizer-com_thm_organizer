@@ -135,7 +135,7 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
     orderingHTML = '<td class="child-order">';
 
     orderingHTML += '<button class="btn btn-small" onclick="setFirst(' + nextRowNumber + ');" title="';
-    orderingHTML += Joomla.JText._('THM_ORGANIZER_ACTION_MAKE_FIRST') + '">';
+    orderingHTML += Joomla.JText._('THM_ORGANIZER_MAKE_FIRST') + '">';
     orderingHTML += '<span class="icon-first"></span>';
     orderingHTML += '</button>';
 
@@ -149,12 +149,12 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
     orderingHTML += 'onchange="moveChildToIndex(' + nextRowNumber + ');">';
 
     orderingHTML += '<button class="btn btn-small" onclick="addBlankChild(' + nextRowNumber + ');" title="';
-    orderingHTML += Joomla.JText._('THM_ORGANIZER_ACTION_ADD_SPACE') + '">';
+    orderingHTML += Joomla.JText._('THM_ORGANIZER_ADD_EMPTY') + '">';
     orderingHTML += '<span class="icon-download"></span>';
     orderingHTML += '</button>';
 
     orderingHTML += '<button class="btn btn-small" onclick="trash(' + nextRowNumber + ');" title="';
-    orderingHTML += Joomla.JText._('JTOOLBAR_DELETE') + '">';
+    orderingHTML += Joomla.JText._('THM_ORGANIZER_DELETE') + '">';
     orderingHTML += '<span class="icon-trash"></span>';
     orderingHTML += '</button>';
 
@@ -164,7 +164,7 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
     orderingHTML += '</button>';
 
     orderingHTML += '<button class="btn btn-small" onclick="setLast(' + nextRowNumber + ');" title="';
-    orderingHTML += Joomla.JText._('THM_ORGANIZER_ACTION_MAKE_LAST') + '">';
+    orderingHTML += Joomla.JText._('THM_ORGANIZER_MAKE_LAST') + '">';
     orderingHTML += '<span class="icon-last"></span>';
     orderingHTML += '</button>';
 

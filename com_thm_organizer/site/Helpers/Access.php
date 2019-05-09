@@ -9,9 +9,9 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Helpers;
 
-require_once 'OrganizerHelper.php';
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
@@ -49,6 +49,20 @@ class Access
         }
 
         return $user->authorise('organizer.document', "com_thm_organizer.$resource.$resourceID");
+    }
+
+    /**
+     * Checks whether the user has access to course management functions
+     *
+     * @param int $courseID the id of the course (lesson) to be checked against
+     *
+     * @return bool true if the user is authorized to manage courses, otherwise false
+     */
+    public static function allowCourseAccess($courseID = 0)
+    {
+        return self::isAdmin();
+
+        // TODO: add subsequent checks for granular access
     }
 
     /**

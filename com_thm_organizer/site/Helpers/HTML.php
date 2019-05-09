@@ -9,11 +9,15 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Helpers;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-require_once 'OrganizerHelper.php';
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class provides generalized functions useful for several component files.
@@ -151,6 +155,33 @@ class HTML extends HTMLHelper
         $name = $jform ? "jform[$name]$multiple" : "$name$multiple";
 
         return self::_('select.genericlist', $options, $name, $attributes, 'value', 'text', $selected);
+    }
+
+    public static function setPreferencesButton()
+    {
+        $uri    = (string)Uri::getInstance();
+        $return = urlencode(base64_encode($uri));
+        $link = "index.php?option=com_config&view=component&component=com_thm_organizer&return=$return";
+
+        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar->appendButton('Link', 'options', Languages::_('THM_ORGANIZER_SETTINGS'), $link);
+    }
+
+    /**
+     * Sets the title for the view and the document.
+     *
+     * @param string $title The title.
+     * @param string $icon  The hyphen-separated names of the icon class
+     *
+     * @return  void
+     */
+    public static function setTitle($title, $icon = 'generic.png')
+    {
+        $app                  = OrganizerHelper::getApplication();
+        $layout               = new FileLayout('joomla.toolbar.title');
+        $html                 = $layout->render(array('title' => $title, 'icon' => $icon));
+        $app->JComponentTitle = $html;
+        Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename'));
     }
 
     /**

@@ -25,25 +25,25 @@ jQuery(document).ready(function () {
      */
     function update(event)
     {
-        var ajaxBaseUrl = '../index.php?option=com_thm_organizer&view=schedule_ajax&format=raw',
+        var ajaxBaseUrl = '../index.php?option=com_thm_organizer&format=json',
             ajaxParams = '&departmentIDs=' + department.val() + '&programIDs=' + (program.val() || ''),
             keepValue = !event;
 
         // Update programs, when it is not its own trigger
         if (!event || (event && event.target.id !== program.attr('id')))
         {
-            jQuery.ajax(ajaxBaseUrl + '&task=getPrograms' + ajaxParams)
+            jQuery.ajax(ajaxBaseUrl + '&view=plan_programs&task=getOptions' + ajaxParams)
                 .done(function (request) {
                     insertOptions(program, request, keepValue);
                 });
         }
         // Update pools
-        jQuery.ajax(ajaxBaseUrl + '&task=getPools' + ajaxParams)
+        jQuery.ajax(ajaxBaseUrl + '&view=plan_pools&task=getOptions' + ajaxParams)
             .done(function (request) {
                 insertOptions(pool, request, keepValue);
             });
         // Update rooms
-        jQuery.ajax(ajaxBaseUrl + '&task=getRooms&roomtypeIDs=-1' + ajaxParams)
+        jQuery.ajax(ajaxBaseUrl + '&view=rooms&task=getOptions&roomtypeIDs=-1' + ajaxParams)
             .done(function (request) {
                 insertOptions(room, request, keepValue);
             });

@@ -13,12 +13,14 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT . '/views/edit.php';
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Languages;
 
 /**
  * Class loads the subject form into display context.
  */
-class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
+class Subject_Edit extends EditView
 {
     /**
      * Method to generate buttons for user interaction
@@ -27,17 +29,19 @@ class THM_OrganizerViewSubject_Edit extends THM_OrganizerViewEdit
      */
     protected function addToolBar()
     {
-        \JToolbarHelper::save('subject.save');
-        \JToolbarHelper::save2new('subject.save2new');
-        if (empty($this->item->id)) {
-            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_SUBJECT_EDIT_NEW_TITLE'), 'organizer_subjects');
-            \JToolbarHelper::apply('subject.apply', Languages::_('THM_ORGANIZER_CREATE'));
-            \JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CANCEL');
-        } else {
-            \JToolbarHelper::title(Languages::_('THM_ORGANIZER_SUBJECT_EDIT_EDIT_TITLE'), 'organizer_subjects');
-            \JToolbarHelper::apply('subject.apply', Languages::_('THM_ORGANIZER_APPLY'));
-            \JToolbarHelper::cancel('subject.cancel', 'JTOOLBAR_CLOSE');
-        }
+        $new = empty($this->item->id);
+        $title = $new ?
+            Languages::_('THM_ORGANIZER_SUBJECT_NEW') : Languages::_('THM_ORGANIZER_SUBJECT_EDIT');
+        HTML::setTitle($title, 'book');
+        $toolbar = Toolbar::getInstance();
+        $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+        $toolbar->appendButton('Standard', 'apply', $applyText, 'subject.apply', false);
+        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'subject.save', false);
+        $toolbar->appendButton(
+            'Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'subject.save2new', false
+        );
+        $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'subject.cancel', false);
     }
 
     /**

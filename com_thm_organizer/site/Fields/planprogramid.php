@@ -11,9 +11,11 @@
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Access;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a select box for plan programs.
@@ -40,9 +42,8 @@ class JFormFieldPlanProgramID extends \JFormFieldList
         $query->order('text ASC');
 
         // For use in the merge view
-        $selectedIDs = OrganizerHelper::getInput()->get('cid', [], 'array');
+        $selectedIDs = OrganizerHelper::getSelectedIDs();
         if (!empty($selectedIDs)) {
-            $selectedIDs = Joomla\Utilities\ArrayHelper::toInteger($selectedIDs);
             $query->innerJoin('#__thm_organizer_plan_pools AS ppl ON ppl.programID = ppr.id');
             $query->where("ppl.id IN ( '" . implode("', '", $selectedIDs) . "' )");
         }
@@ -54,7 +55,7 @@ class JFormFieldPlanProgramID extends \JFormFieldList
         if ($departmentRestrict !== 'false') {
             $allowedDepartments = $accessRequired ?
                 Access::getAccessibleDepartments('schedule')
-                : THM_OrganizerHelperDepartments::getDepartmentsByResource('program');
+                : Departments::getDepartmentsByResource('program');
 
             $defaultDept = $departmentRestrict === 'force' ? $allowedDepartments[0] : 0;
 
@@ -63,7 +64,7 @@ class JFormFieldPlanProgramID extends \JFormFieldList
             $departmentID = $input->getInt('departmentID', $defaultDept);
 
             // Possible frontend form (jform)
-            $feFormData      = $input->get('jform', [], 'array');
+            $feFormData      = OrganizerHelper::getForm();
             $plausibleFormID = (!empty($feFormData) and !empty($feFormData['departmentID']) and is_numeric($feFormData['departmentID']));
             $departmentID    = $plausibleFormID ? $feFormData['departmentID'] : $departmentID;
 

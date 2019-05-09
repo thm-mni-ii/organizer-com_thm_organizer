@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a select box for the association of teachers with subject documentation.

@@ -16,7 +16,7 @@ require_once 'edit.php';
 /**
  * Class loads a form for editing subject data.
  */
-class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
+class THM_OrganizerModelSubject_Edit extends EditModel
 {
     /**
      * Checks for user authorization to access the view.
@@ -27,6 +27,6 @@ class THM_OrganizerModelSubject_Edit extends THM_OrganizerModelEdit
     {
         $subjectID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
 
-        return THM_OrganizerHelperSubjects::allowEdit($subjectID);
+        return Subjects::allowEdit($subjectID);
     }
 }

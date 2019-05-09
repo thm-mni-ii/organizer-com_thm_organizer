@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/components/com_thm_organizer/Fields">
+    <fieldset name="details">
+        <field name="id" type="hidden"/>
+        <field name="name_de" type="text" class="inputbox" size="60" label="THM_ORGANIZER_NAME_DE"
+               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
+        <field name="name_en" type="text" class="inputbox" size="60" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
+        <field name="color" type="color" class="inputbox color" size="10" label="THM_ORGANIZER_COLOR"
+               description="THM_ORGANIZER_COLOR_DESC" required="true"/>
+    </fieldset>
+</form>

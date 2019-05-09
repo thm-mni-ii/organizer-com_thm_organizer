@@ -8,14 +8,19 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Admin;
+
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+require_once JPATH_COMPONENT_SITE . '/autoloader.php';
 
+use Exception;
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 
 if (!Factory::getUser()->authorise('core.manage', 'com_thm_organizer')) {
-    throw new \Exception(Languages::_('THM_ORGANIZER_403'), 403);
+    throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 }
 
 try {

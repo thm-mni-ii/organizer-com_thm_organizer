@@ -9,15 +9,21 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Helpers;
+
 defined('_JEXEC') or die;
 
-require_once 'Access.php';
-require_once 'Dates.php';
-require_once 'HTML.php';
-require_once 'Languages.php';
-
+use Exception;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
+use Organizer\Controller;
+use ReflectionMethod;
+use RuntimeException;
 
 /**
  * Class provides generalized functions useful for several component files.
@@ -54,161 +60,6 @@ class OrganizerHelper
     }
 
     /**
-     * Generates a sidebar menu for administrative views.
-     *
-     * @param $viewName
-     *
-     * @return string
-     */
-    public static function adminSideBar($viewName)
-    {
-        \JHtmlSidebar::addEntry(
-            Languages::_('THM_ORGANIZER'),
-            'index.php?option=com_thm_organizer&amp;view=thm_organizer',
-            $viewName == 'thm_organizer'
-        );
-
-        if (Access::allowSchedulingAccess()) {
-            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_SCHEDULING') . '</span>';
-            \JHtmlSidebar::addEntry($spanText, '', false);
-
-            $scheduling = [];
-
-            $scheduling[Languages::_('THM_ORGANIZER_PLAN_POOL_MANAGER_TITLE')]    = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
-                'active' => $viewName == 'plan_pool_manager'
-            ];
-            $scheduling[Languages::_('THM_ORGANIZER_PLAN_PROGRAM_MANAGER_TITLE')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
-                'active' => $viewName == 'plan_program_manager'
-            ];
-            $scheduling[Languages::_('THM_ORGANIZER_SCHEDULE_MANAGER_TITLE')]     = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_manager',
-                'active' => $viewName == 'schedule_manager'
-            ];
-            ksort($scheduling);
-
-            // Uploading a schedule should always be the first menu item and will never be the active submenu item.
-            $prepend    = [
-                Languages::_('THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>' => [
-                    'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_edit',
-                    'active' => false
-                ]
-            ];
-            $scheduling = $prepend + $scheduling;
-            foreach ($scheduling as $key => $value) {
-                \JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
-            }
-        }
-
-        if (Access::allowDocumentAccess()) {
-            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_MANAGEMENT_AND_DOCUMENTATION') . '</span>';
-            \JHtmlSidebar::addEntry($spanText, '', false);
-
-            $documentation = [];
-
-            if (Access::isAdmin()) {
-                $documentation[Languages::_('THM_ORGANIZER_DEPARTMENT_MANAGER_TITLE')] = [
-                    'url'    => 'index.php?option=com_thm_organizer&amp;view=department_manager',
-                    'active' => $viewName == 'department_manager'
-                ];
-            }
-            $documentation[Languages::_('THM_ORGANIZER_POOL_MANAGER_TITLE')]    = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=pool_manager',
-                'active' => $viewName == 'pool_manager'
-            ];
-            $documentation[Languages::_('THM_ORGANIZER_PROGRAM_MANAGER_TITLE')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=program_manager',
-                'active' => $viewName == 'program_manager'
-            ];
-            $documentation[Languages::_('THM_ORGANIZER_SUBJECT_MANAGER_TITLE')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=subject_manager',
-                'active' => $viewName == 'subject_manager'
-            ];
-            ksort($documentation);
-            foreach ($documentation as $key => $value) {
-                \JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
-            }
-        }
-
-        if (Access::allowHRAccess()) {
-            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
-            \JHtmlSidebar::addEntry($spanText, '', false);
-            \JHtmlSidebar::addEntry(
-                Languages::_('THM_ORGANIZER_TEACHER_MANAGER_TITLE'),
-                'index.php?option=com_thm_organizer&amp;view=teacher_manager',
-                $viewName == 'teacher_manager'
-            );
-        }
-
-        if (Access::allowFMAccess()) {
-            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
-            \JHtmlSidebar::addEntry($spanText, '', false);
-
-            $fmEntries = [];
-
-            $fmEntries[Languages::_('THM_ORGANIZER_BUILDING_MANAGER_TITLE')]  = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=building_manager',
-                'active' => $viewName == 'building_manager'
-            ];
-            $fmEntries[Languages::_('THM_ORGANIZER_CAMPUS_MANAGER_TITLE')]    = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=campus_manager',
-                'active' => $viewName == 'campus_manager'
-            ];
-            $fmEntries[Languages::_('THM_ORGANIZER_MONITOR_MANAGER_TITLE')]   = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=monitor_manager',
-                'active' => $viewName == 'monitor_manager'
-            ];
-            $fmEntries[Languages::_('THM_ORGANIZER_ROOM_MANAGER_TITLE')]      = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_manager',
-                'active' => $viewName == 'room_manager'
-            ];
-            $fmEntries[Languages::_('THM_ORGANIZER_ROOM_TYPE_MANAGER_TITLE')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_type_manager',
-                'active' => $viewName == 'room_type_manager'
-            ];
-            ksort($fmEntries);
-            foreach ($fmEntries as $key => $value) {
-                \JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
-            }
-        }
-
-        if (Access::isAdmin()) {
-            $spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_ADMINISTRATION') . '</span>';
-            \JHtmlSidebar::addEntry($spanText, '', false);
-
-            $adminEntries = [];
-
-            $adminEntries[Languages::_('THM_ORGANIZER_COLOR_MANAGER_TITLE')]  = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=color_manager',
-                'active' => $viewName == 'color_manager'
-            ];
-            $adminEntries[Languages::_('THM_ORGANIZER_DEGREE_MANAGER_TITLE')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=degree_manager',
-                'active' => $viewName == 'degree_manager'
-            ];
-            $adminEntries[Languages::_('THM_ORGANIZER_FIELD_MANAGER_TITLE')]  = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=field_manager',
-                'active' => $viewName == 'field_manager'
-            ];
-            $adminEntries[Languages::_('THM_ORGANIZER_GRID_MANAGER_TITLE')]   = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=grid_manager',
-                'active' => $viewName == 'grid_manager'
-            ];
-            $adminEntries[Languages::_('THM_ORGANIZER_METHOD_MANAGER_TITLE')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=method_manager',
-                'active' => $viewName == 'method_manager'
-            ];
-            ksort($adminEntries);
-            foreach ($adminEntries as $key => $value) {
-                \JHtmlSidebar::addEntry($key, $value['url'], $value['active']);
-            }
-        }
-
-        return \JHtmlSidebar::render();
-    }
-
-    /**
      * Attempts to delete entries from a standard table
      *
      * @param string $table the table name
@@ -217,8 +68,8 @@ class OrganizerHelper
      */
     public static function delete($table)
     {
-        $cids         = self::getInput()->get('cid', [], '[]');
-        $formattedIDs = "'" . implode("', '", $cids) . "'";
+        $selectedIDs  = self::getSelectedIDs();
+        $formattedIDs = "'" . implode("', '", $selectedIDs) . "'";
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
@@ -242,10 +93,51 @@ class OrganizerHelper
     }
 
     /**
+     * Executes a database query
+     *
+     * @param string $function the name of the query function to execute
+     * @param mixed  $default  the value to return if an error occurred
+     * @param mixed  $args     the arguments to use in the called function
+     * @param bool   $rollback whether to initiate a transaction rollback on error
+     *
+     * @return mixed the various return values appropriate to the functions called.
+     */
+    public static function executeQuery($function, $default = null, $args = null, $rollback = false)
+    {
+        $dbo = Factory::getDbo();
+        try {
+            if ($args !== null) {
+                if (is_string($args) or is_int($args)) {
+                    return $dbo->$function($args);
+                }
+                if (is_array($args)) {
+                    $reflectionMethod = new ReflectionMethod($dbo, $function);
+
+                    return $reflectionMethod->invokeArgs($dbo, $args);
+                }
+            }
+
+            return $dbo->$function();
+        } catch (RuntimeException $exc) {
+            self::message($exc->getMessage(), 'error');
+            if ($rollback) {
+                $dbo->transactionRollback();
+            }
+
+            return $default;
+        } catch (Exception $exc) {
+            self::message($exc->getMessage(), 'error');
+            if ($rollback) {
+                $dbo->transactionRollback();
+            }
+        }
+    }
+
+    /**
      * Surrounds the call to the application with a try catch so that not every function needs to have a throws tag. If
      * the application has an error it would have never made it to the component in the first place.
      *
-     * @return \Joomla\CMS\Application\CMSApplication|null
+     * @return CMSApplication|null
      */
     public static function getApplication()
     {
@@ -254,6 +146,37 @@ class OrganizerHelper
         } catch (Exception $exc) {
             return null;
         }
+    }
+
+    /**
+     * Gets the name of an object's class without its namespace.
+     *
+     * @param mixed $object the object whose namespace free name is requested or the fq name of the class to be loaded
+     *
+     * @return string the name of the class without its namespace
+     */
+    public static function getClass($object)
+    {
+        $fqName   = is_string($object) ? $object : get_class($object);
+        $nsParts  = explode('\\', $fqName);
+        $lastItem = array_pop($nsParts);
+        if (empty($lastItem)) {
+            return 'Organizer';
+        } elseif (strpos($lastItem, '_') !== false) {
+            return ucwords($lastItem, "_");
+        } else {
+            return ucfirst($lastItem);
+        }
+    }
+
+    /**
+     * Retrieves the request form.
+     *
+     * @return array with the request data if available
+     */
+    public static function getForm()
+    {
+        return self::getInput()->get('jform', [], 'array');
     }
 
     /**
@@ -269,11 +192,11 @@ class OrganizerHelper
     /**
      * Consolidates the application, component and menu parameters to a single registry with one call.
      *
-     * @return \Joomla\Registry\Registry
+     * @return Registry
      */
     public static function getParams()
     {
-        $params = \JComponentHelper::getParams('com_thm_organizer');
+        $params = ComponentHelper::getParams('com_thm_organizer');
 
         $app = self::getApplication();
 
@@ -310,6 +233,33 @@ class OrganizerHelper
         }
 
         return $url;
+    }
+
+    /**
+     * Returns the application's input object.
+     *
+     * @return array the selected ids
+     */
+    public static function getSelectedIDs()
+    {
+        $selected = self::getInput()->get('cid', [], 'array');
+
+        return ArrayHelper::toInteger($selected);
+    }
+
+    /**
+     * Instantiates an Organizer table with a given name
+     *
+     * @param string $name the table name
+     *
+     * @return Table
+     */
+    public static function getTable($name)
+    {
+        $dbo = Factory::getDbo();
+        $fqn = "\\Organizer\\Tables\\$name";
+
+        return new $fqn($dbo);
     }
 
     /**
@@ -354,12 +304,10 @@ class OrganizerHelper
     }
 
     /**
-     * Loads required files, calls the appropriate controller.
-     *
-     * @param boolean $isAdmin whether the file is being called from the backend
+     * Instantiates the controller.
      *
      * @return void
-     * @throws \Exception => task not found
+     * @throws Exception => task not found
      */
     public static function setUp()
     {
@@ -370,56 +318,8 @@ class OrganizerHelper
             $task = $handler[0];
         }
 
-        require_once JPATH_ROOT . '/components/com_thm_organizer/controller.php';
-
-        $controllerObj = new \THM_OrganizerController;
+        $controllerObj = new Controller;
         $controllerObj->execute($task);
         $controllerObj->redirect();
-    }
-
-    /**
-     * Executes a database query
-     *
-     * @param string $function the name of the query function to execute
-     * @param mixed  $default  the value to return if an error occurred
-     * @param mixed  $args     the arguments to use in the called function
-     * @param bool   $rollback whether to initiate a transaction rollback on error
-     *
-     * @return mixed the various return values appropriate to the functions called.
-     */
-    public static function executeQuery($function, $default = null, $args = null, $rollback = false)
-    {
-        $dbo = Factory::getDbo();
-        try {
-            if ($args !== null) {
-                if (is_string($args) or is_int($args)) {
-                    return $dbo->$function($args);
-                }
-                if (is_array($args)) {
-                    $reflectionMethod = new \ReflectionMethod($dbo, $function);
-
-                    return $reflectionMethod->invokeArgs($dbo, $args);
-                }
-            }
-
-            return $dbo->$function();
-        } catch (RuntimeException $exc) {
-            self::message($exc->getMessage(), 'error');
-            if ($rollback) {
-                $dbo->transactionRollback();
-            }
-
-            return $default;
-        } catch (ReflectionException $exc) {
-            self::message($exc->getMessage(), 'error');
-            if ($rollback) {
-                $dbo->transactionRollback();
-            }
-        } catch (Exception $exc) {
-            self::message($exc->getMessage(), 'error');
-            if ($rollback) {
-                $dbo->transactionRollback();
-            }
-        }
     }
 }

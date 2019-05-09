@@ -8,9 +8,9 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Helpers;
 
-require_once 'OrganizerHelper.php';
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 

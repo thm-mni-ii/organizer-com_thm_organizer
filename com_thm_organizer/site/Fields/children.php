@@ -10,10 +10,11 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
@@ -152,17 +153,17 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
         $html .= '</tr></thead>';
         $html .= '<tbody>';
 
-        $addSpace = Languages::_('THM_ORGANIZER_ACTION_ADD_SPACE');
-        Languages::script('THM_ORGANIZER_ACTION_ADD_SPACE');
-        $makeFirst = Languages::_('THM_ORGANIZER_ACTION_MAKE_FIRST');
-        Languages::script('THM_ORGANIZER_ACTION_MAKE_FIRST');
-        $makeLast = Languages::_('THM_ORGANIZER_ACTION_MAKE_LAST');
-        Languages::script('THM_ORGANIZER_ACTION_MAKE_LAST');
+        $addSpace = Languages::_('THM_ORGANIZER_ADD_EMPTY');
+        Languages::script('THM_ORGANIZER_ADD_EMPTY');
+        $makeFirst = Languages::_('THM_ORGANIZER_MAKE_FIRST');
+        Languages::script('THM_ORGANIZER_MAKE_FIRST');
+        $makeLast = Languages::_('THM_ORGANIZER_MAKE_LAST');
+        Languages::script('THM_ORGANIZER_MAKE_LAST');
         $moveChildUp = Languages::_('JLIB_HTML_MOVE_UP');
         Languages::script('JLIB_HTML_MOVE_UP');
         $moveChildDown = Languages::_('JLIB_HTML_MOVE_DOWN');
         Languages::script('JLIB_HTML_MOVE_DOWN');
-        Languages::script('JTOOLBAR_DELETE');
+        Languages::script('THM_ORGANIZER_DELETE');
 
         $rowClass = 'row0';
         if (!empty($children)) {
@@ -171,7 +172,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
                 if (isset($children[$ordering])) {
                     $childID = $children[$ordering]['id'];
                     $name    = $children[$ordering]['name'];
-                    $link    = \JRoute::_($children[$ordering]['link'], false);
+                    $link    = Route::_($children[$ordering]['link'], false);
                 } else {
                     $link = $name = $childID = '';
                 }
@@ -208,7 +209,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
                 $blank .= '<span class="icon-download"></span>';
                 $blank .= '</button>';
 
-                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . Languages::_('JTOOLBAR_DELETE') . '" >';
+                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . Languages::_('THM_ORGANIZER_DELETE') . '" >';
                 $trash .= '<span class="icon-trash"></span>';
                 $trash .= '</button>';
 

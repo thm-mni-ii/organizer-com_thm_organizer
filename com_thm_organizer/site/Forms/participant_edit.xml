@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/components/com_thm_organizer/Fields">
+    <fieldset name="details">
+        <field name="id" type="hidden" default="0"/>
+        <field name="forename" type="text" id="forename" required="true" label="THM_ORGANIZER_FORENAME"/>
+        <field name="surname" type="text" id="surname" required="true" label="THM_ORGANIZER_SURNAME"/>
+        <field name="address" type="text" id="address" required="true" label="THM_ORGANIZER_ADDRESS"
+               description="THM_ORGANIZER_ADDRESS_DESC"/>
+        <field name="zip_code" type="text" id="zip_code" required="true" label="THM_ORGANIZER_ZIP_CODE"
+               description="THM_ORGANIZER_ZIP_CODE_DESC"/>
+        <field name="city" type="text" id="city" required="true" label="THM_ORGANIZER_RESIDENCE"
+               description="THM_ORGANIZER_RESIDENCE_DESC"/>
+        <field name="programID" type="programID" plan="true" unique="true" access="false" class="inputbox"
+               label="THM_ORGANIZER_PROGRAMS" description="THM_ORGANIZER_PROGRAM_DESC" required="true">
+            <option value="">-</option>
+        </field>
+    </fieldset>
+</form>

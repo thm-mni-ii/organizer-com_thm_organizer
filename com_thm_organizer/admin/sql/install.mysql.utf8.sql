@@ -496,7 +496,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
              CHARACTER SET utf8
                  COLLATE utf8_bin   DEFAULT NULL,
     `name` VARCHAR(10) NOT NULL,
-    `longname` VARCHAR(50) NOT NULL DEFAULT '',
     `typeID` INT(11) UNSIGNED       DEFAULT NULL,
     `capacity` INT(4) UNSIGNED      DEFAULT NULL,
     PRIMARY KEY (`id`),
@@ -1072,7 +1071,7 @@ VALUES ('SR.K', 'Seminarraum, Klein', 'Seminar Room, Small', '', '', NULL, 19),
        ('GAR', 'Gruppenarbeitsraum', 'Groupwork Room', '', '', NULL, NULL),
        ('BR', 'Büro', 'Office', '', '', NULL, NULL),
        ('PUM', 'Philipps-Universität Marburg', 'Philipps University Marburg', '', '', NULL, NULL),
-       ('XRM', 'Raumtyp unbekannt', 'Unknown Room Type', '', '', NULL, NULL),
+       ('XRM', 'Raumart unbekannt', 'Unknown Room Type', '', '', NULL, NULL),
        ('FUAS', 'Frankfurt UAS', 'Frankfurt UAS', '', '', NULL, NULL),
        ('SR.G', 'Seminarraum, Groß', 'Seminar Room, Large', '', '', 60, NULL),
        ('EXT', 'externer Raum', 'External Room', '', '', NULL, NULL);

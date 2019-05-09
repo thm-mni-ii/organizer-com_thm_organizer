@@ -10,10 +10,12 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/rooms.php';
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\Rooms;
 
+FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a form field for room selection.
@@ -33,7 +35,7 @@ class JFormFieldRoomID extends \JFormFieldList
     protected function getOptions()
     {
         $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $rooms          = THM_OrganizerHelperRooms::getRooms();
+        $rooms          = Rooms::getRooms();
 
         $options = [];
         if (empty($rooms)) {
@@ -42,7 +44,7 @@ class JFormFieldRoomID extends \JFormFieldList
             return $options;
         } else {
             foreach ($rooms as $room) {
-                $options[] = HTML::_('select.option', $room['id'], $room['longname']);
+                $options[] = HTML::_('select.option', $room['id'], $room['name']);
             }
         }
 

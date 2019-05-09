@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/components/com_thm_organizer/Fields">
+    <fieldset name="details">
+        <field name="id" type="hidden"/>
+        <field name="gpuntisID" type="text" class="inputbox" size="60" label="THM_ORGANIZER_GPUNTISID"
+               description="THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
+        <field name="name_de" type="text" class="inputbox" size="60" label="THM_ORGANIZER_NAME_DE"
+               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
+        <field name="name_en" type="text" class="inputbox" size="60" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
+        <field name="grid" type="periods" formsource="grid_blocks" multiple="true" buttons="add,remove"
+               layout="joomla.form.field.subform.repeatable-table" label="THM_ORGANIZER_GRID"
+               description="THM_ORGANIZER_GRID_DESC"/>
+        <field name="startDay" type="list" class="inputbox" required="true" default="1"
+               label="THM_ORGANIZER_START_DAY" description="THM_ORGANIZER_START_DAY_DESC">
+            <option value='1'>MONDAY</option>
+            <option value='2'>TUESDAY</option>
+            <option value='3'>WEDNESDAY</option>
+            <option value='4'>THURSDAY</option>
+            <option value='5'>FRIDAY</option>
+            <option value='6'>SATURDAY</option>
+            <option value='0'>SUNDAY</option>
+        </field>
+        <field name="endDay" type="list" class="inputbox" required="true" default="6" label="THM_ORGANIZER_END_DAY"
+               description="THM_ORGANIZER_END_DAY_DESC">
+            <option value='1'>MONDAY</option>
+            <option value='2'>TUESDAY</option>
+            <option value='3'>WEDNESDAY</option>
+            <option value='4'>THURSDAY</option>
+            <option value='5'>FRIDAY</option>
+            <option value='6'>SATURDAY</option>
+            <option value='0'>SUNDAY</option>
+        </field>
+        <field name="defaultGrid" type="list" class="inputbox" default="1" label="THM_ORGANIZER_DEFAULT"
+               description="THM_ORGANIZER_GRID_DEFAULT_DESC">
+            <option value='1'>JYES</option>
+            <option value='0'>JNO</option>
+        </field>
+    </fieldset>
+</form>

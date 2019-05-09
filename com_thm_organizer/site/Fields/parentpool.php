@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/mapping.php';
-require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\Mappings;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
@@ -54,19 +55,19 @@ class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
         $mappings   = [];
         $mappingIDs = [];
         $parentIDs  = [];
-        THM_OrganizerHelperMapping::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
+        Mappings::setMappingData($resourceID, $resourceType, $mappings, $mappingIDs, $parentIDs);
 
         $options   = [];
         $options[] = '<option value="-1">' . Languages::_('JNONE') . '</option>';
 
         if (!empty($mappings)) {
             $unwantedMappings = [];
-            $programEntries   = THM_OrganizerHelperMapping::getProgramEntries($mappings);
-            $programMappings  = THM_OrganizerHelperMapping::getProgramMappings($programEntries);
+            $programEntries   = Mappings::getProgramEntries($mappings);
+            $programMappings  = Mappings::getProgramMappings($programEntries);
 
             // Pools should not be allowed to be placed anywhere where recursion could occur
             if ($resourceType == 'pool') {
-                $children         = THM_OrganizerHelperMapping::getChildren($mappings);
+                $children         = Mappings::getChildren($mappings);
                 $unwantedMappings = array_merge($unwantedMappings, $mappingIDs, $children);
             }
 
@@ -77,9 +78,9 @@ class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
                 }
 
                 if (!empty($mapping['poolID'])) {
-                    $options[] = THM_OrganizerHelperMapping::getPoolOption($mapping, $parentIDs);
+                    $options[] = Mappings::getPoolOption($mapping, $parentIDs);
                 } else {
-                    $options[] = THM_OrganizerHelperMapping::getProgramOption($mapping, $parentIDs, $resourceType);
+                    $options[] = Mappings::getProgramOption($mapping, $parentIDs, $resourceType);
                 }
             }
         }

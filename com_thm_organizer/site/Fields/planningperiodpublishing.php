@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/Helpers/OrganizerHelper.php';
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific

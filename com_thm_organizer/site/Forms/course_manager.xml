@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/component/com_thm_organizer/Fields">
+    <fields name="filter">
+        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="status" type="list" label="THM_ORGANIZER_STATE" onchange="this.form.submit();">
+            <option value="">THM_ORGANIZER_ALL_COURSES</option>
+            <option value="pending">THM_ORGANIZER_PENDING_COURSES</option>
+            <option value="current">THM_ORGANIZER_CURRENT_COURSES</option>
+            <option value="expired">THM_ORGANIZER_EXPIRED_COURSES</option>
+        </field>
+        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS" onchange="this.form.submit();">
+            <option value="">THM_ORGANIZER_ALL_CAMPUSES</option>
+            <option value="-1">THM_ORGANIZER_NO_CAMPUSES</option>
+        </field>
+        <field name="methodID" type="genericlist" onchange="this.form.submit();"
+               valuecolumn="id" textcolumn="name" table="thm_organizer_methods" localized="true">
+            <option value="">JALL</option>
+            <option value="-1">NONE</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
+               onchange="this.form.submit();"/>
+    </fields>
+</form>
