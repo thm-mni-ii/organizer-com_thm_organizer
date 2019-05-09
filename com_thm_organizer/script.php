@@ -170,20 +170,6 @@ class Com_THM_OrganizerInstallerScript
             foreach ($siteFolders as $siteFolder) {
                 Folder::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFolder);
             }
-
-            $mediaFiles = Folder::files(JPATH_SITE . '/media/com_thm_organizer');
-            if (!empty($mediaFiles)) {
-                foreach ($mediaFiles as $mediaFile) {
-                    File::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFile);
-                }
-            }
-
-            $mediaFolders = Folder::folders(JPATH_SITE . '/media/com_thm_organizer');
-            if (!empty($mediaFolders)) {
-                foreach ($mediaFolders as $mediaFolder) {
-                    Folder::delete(JPATH_SITE . '/media/com_thm_organizer/' . $mediaFolder);
-                }
-            }
         }
     }
 
