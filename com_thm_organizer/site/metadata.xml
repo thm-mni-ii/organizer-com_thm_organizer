@@ -2,8 +2,9 @@
 <metadata>
     <menu>
         <options var="view">
-            <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_VIEW_DESC" value="schedule_grid"/>
             <option name="THM_ORGANIZER_COURSES" msg="THM_ORGANIZER_COURSES_DESC" value="course_manager"/>
+            <option name="THM_ORGANIZER_SCHEDULE_EXPORT" msg="THM_ORGANIZER_SCHEDULE_EXPORT_DESC" value="schedule_export"/>
+            <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_VIEW_DESC" value="schedule_grid"/>
         </options>
     </menu>
 </metadata>

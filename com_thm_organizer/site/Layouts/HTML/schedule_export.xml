@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metadata>
-    <name>THM_ORGANIZER</name>
-    <author>James Antrim</author>
-    <creationDate>October 2016</creationDate>
-    <copyright>TH Mittelhessen 2016</copyright>
-    <licence>GNU GPL v.2</licence>
-    <authorEMail>james.antrim@nm.thm.de</authorEMail>
-    <authorUrl>www.thm.de</authorUrl>
-    <layout title="THM_ORGANIZER_SCHEDULE_EXPORT_TITLE">
-        <message>THM_ORGANIZER_SCHEDULE_EXPORT_DESCRIPTION</message>
-    </layout>
+<form>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="si" type="list" label="THM_ORGANIZER_SI_DISPLAY" default="0"
@@ -19,4 +9,4 @@
             </field>
         </fieldset>
     </fields>
-</metadata>
+</form>

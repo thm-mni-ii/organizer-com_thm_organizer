@@ -14,6 +14,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Access;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Teachers;
 
 /**
@@ -89,9 +93,8 @@ class Schedule_Export extends BaseHTMLView
             HTML::_('jquery.ui');
             HTML::_('behavior.calendar');
             HTML::_('formbehavior.chosen', 'select');
-            $this->setLayout('default');
         } else {
-            $this->setLayout('default_si');
+            $this->setLayout('schedule_export_si');
         }
 
         $document = Factory::getDocument();

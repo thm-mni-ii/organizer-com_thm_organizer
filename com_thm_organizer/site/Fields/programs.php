@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
+
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;

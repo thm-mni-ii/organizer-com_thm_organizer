@@ -10,12 +10,14 @@
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('list');
+require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
+
+\JFormHelper::loadFieldClass('list');
 
 /**
  * Class creates a select box for plan programs.

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
+
 use Organizer\Helpers\OrganizerHelper;
 
 /**

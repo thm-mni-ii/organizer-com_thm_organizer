@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Languages;
 
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['format', 'pdfWeekFormat', 'displayFormat'];

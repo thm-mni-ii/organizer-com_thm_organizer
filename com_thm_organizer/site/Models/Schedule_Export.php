@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Departments;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Schedules;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
