@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Languages;
+
 $dates       = $this->model->data;
 $dayCount    = count($dates);
 $blockCount  = count($this->model->grid['periods']);

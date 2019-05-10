@@ -13,8 +13,9 @@ namespace Organizer\Views\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
 
 /**
  * Loads lesson and event data for a filtered set of rooms into the view context.

@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Languages;
+
 ?>
 <div class="no-results">
     <?php echo Languages::_('THM_ORGANIZER_FILTER_NO_RESULTS'); ?>

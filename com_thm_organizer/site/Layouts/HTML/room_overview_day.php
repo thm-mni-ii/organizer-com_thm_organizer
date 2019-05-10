@@ -10,6 +10,9 @@
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Dates;
+use Organizer\Helpers\Languages;
+
 $colNo      = count($this->model->grid['periods']);
 $labelIndex = 'label_' . Languages::getShortTag();
 $startDate  = $this->model->startDate;

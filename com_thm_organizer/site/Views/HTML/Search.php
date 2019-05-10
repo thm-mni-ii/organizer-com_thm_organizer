@@ -13,7 +13,6 @@ namespace Organizer\Views\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
 
 /**

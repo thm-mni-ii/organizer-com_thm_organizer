@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Languages;
+
 ?>
 <div class="toolbar">
     <?php echo $this->languageLinks->render(); ?>
