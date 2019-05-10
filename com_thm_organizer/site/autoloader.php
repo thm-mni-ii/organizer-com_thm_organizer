@@ -36,7 +36,7 @@ spl_autoload_register(function ($originalClassName) {
 
     if (is_file($filepath)) {
         require_once $filepath;
-        if (!class_exists($namespacedClassName)) {
+        if (!class_exists($namespacedClassName) and !interface_exists($namespacedClassName)) {
             echo "<pre>" . print_r('no class!', true) . "</pre>";
             echo "<pre>class name:              " . print_r($className, true) . "</pre>";
             echo "<pre>original fq namespace:   " . print_r($originalClassName, true) . "</pre>";

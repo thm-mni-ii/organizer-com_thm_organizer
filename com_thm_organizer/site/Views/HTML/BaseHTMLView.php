@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use JHtmlSidebar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Views\BaseView;
 
 /**
@@ -31,6 +32,10 @@ abstract class BaseHTMLView extends BaseView
      */
     protected function addMenu()
     {
+        if (OrganizerHelper::getApplication()->isClient('site')) {
+            return;
+        }
+
         $viewName = strtolower($this->get('name'));
 
         JHtmlSidebar::addEntry(
