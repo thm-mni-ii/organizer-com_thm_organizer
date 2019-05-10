@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metadata>
-    <name>THM_ORGANIZER</name>
-    <author>James Antrim</author>
-    <creationDate>October 2015</creationDate>
-    <copyright>TH Mittelhessen 2016</copyright>
-    <licence>GNU GPL v.2</licence>
-    <authorEMail>james.antrim@nm.thm.de</authorEMail>
-    <authorUrl>www.thm.de</authorUrl>
-    <layout title="THM_ORGANIZER_EVENT_LIST_TITLE">
-        <message>THM_ORGANIZER_EVENT_LIST_DESCRIPTION</message>
-    </layout>
+<form>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic" label="THM_ORGANIZER_EVENT_LIST_SETTINGS">
             <field name="rooms" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
@@ -43,4 +33,4 @@
                    description="THM_ORGANIZER_END_DATE_DESC" format="%Y-%m-%d"/>
         </fieldset>
     </fields>
-</metadata>
+</form>

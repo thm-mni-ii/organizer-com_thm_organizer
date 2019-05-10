@@ -3,6 +3,7 @@
     <menu>
         <options var="view">
             <option name="THM_ORGANIZER_COURSES" msg="THM_ORGANIZER_COURSES_DESC" value="course_manager"/>
+            <option name="THM_ORGANIZER_EVENTS" msg="THM_ORGANIZER_EVENTS_DESC" value="event_list"/>
             <option name="THM_ORGANIZER_ROOM_OVERVIEW" msg="THM_ORGANIZER_ROOM_OVERVIEW_DESC" value="room_overview"/>
             <option name="THM_ORGANIZER_SCHEDULE_EXPORT" msg="THM_ORGANIZER_SCHEDULE_EXPORT_DESC" value="schedule_export"/>
             <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_VIEW_DESC" value="schedule_grid"/>

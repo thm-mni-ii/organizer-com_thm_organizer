@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
 
