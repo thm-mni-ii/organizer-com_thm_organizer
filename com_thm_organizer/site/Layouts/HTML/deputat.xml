@@ -7,11 +7,11 @@
     <licence>GNU GPL v.2</licence>
     <authorEMail>james.antrim@nm.thm.de</authorEMail>
     <authorUrl>www.thm.de</authorUrl>
-    <layout title="THM_ORGANIZER_DEPUTAT_TITLE">
-        <message>THM_ORGANIZER_DEPUTAT_DESCRIPTION</message>
+    <layout title="THM_ORGANIZER_DEPUTAT">
+        <message>THM_ORGANIZER_DEPUTAT_DESC</message>
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
-        <fieldset name="basic" label="THM_ORGANIZER_DEPUTAT_SETTINGS">
+        <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="departmentID" type="genericlist" valuecolumn="id" textcolumn="short_name"
                    table="thm_organizer_departments" label="THM_ORGANIZER_DEPARTMENT" localized="true"
                    description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">

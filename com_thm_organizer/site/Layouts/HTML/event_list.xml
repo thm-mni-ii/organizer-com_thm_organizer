@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
-        <fieldset name="basic" label="THM_ORGANIZER_EVENT_LIST_SETTINGS">
+        <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="rooms" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
                    label="THM_ORGANIZER_ROOMS" description="THM_ORGANIZER_REL_ROOMS_DESC" multiple="true">
                 <option value="">THM_ORGANIZER_FILTER_ALL_ROOMS</option>

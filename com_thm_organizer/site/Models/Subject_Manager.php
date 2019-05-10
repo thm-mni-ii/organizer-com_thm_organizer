@@ -21,7 +21,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class retrieves information for a filtered set of subjects.
  */
-class Subject_Manager extends ListModel
+class Subject_Manager extends ListModelMenu
 {
     public $programs = null;
 

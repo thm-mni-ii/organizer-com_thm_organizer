@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadata>
-    <name>THM_ORGANIZER</name>
-    <author>James Antrim</author>
-    <creationDate>December 2014</creationDate>
-    <copyright>TH Mittelhessen 2016</copyright>
-    <licence>GNU GPL v.2</licence>
-    <authorEMail>james.antrim@nm.thm.de</authorEMail>
-    <authorUrl>www.thm.de</authorUrl>
-    <layout title="THM_ORGANIZER_SUBJECT_CATALOG_TITLE">
-        <message>THM_ORGANIZER_SUBJECT_CATALOG_DESCRIPTION</message>
-    </layout>
+<form>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
-        <fieldset name="basic" label="THM_ORGANIZER_SUBJECT_CATALOG_SETTINGS">
+        <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="programID" type="programID" access="false" class="inputbox" label="THM_ORGANIZER_PROGRAM"
                    description="THM_ORGANIZER_PROGRAM_DESC" required="true"/>
             <field name="initialLanguage" type="list" default="de" required="true" label="THM_ORGANIZER_LANGUAGE"
@@ -70,4 +60,4 @@
             </field>
         </fieldset>
     </fields>
-</metadata>
+</form>

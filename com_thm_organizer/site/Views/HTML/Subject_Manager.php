@@ -53,7 +53,7 @@ class Subject_Manager extends ListView
      */
     protected function allowAccess()
     {
-        return Access::allowDocumentAccess();
+        return true;
     }
 
     /**
