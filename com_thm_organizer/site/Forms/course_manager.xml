@@ -17,6 +17,11 @@
             <option value="">JALL</option>
             <option value="-1">NONE</option>
         </field>
+        <field name="onlyPrepCourses" type="list" label="THM_ORGANIZER_PREP_COURSES" default="0">
+            <option value="">THM_ORGANIZER_ALL_COURSES</option>
+            <option value="1">THM_ORGANIZER_ONLY_PREP_COURSES</option>
+            <option value="-1">THM_ORGANIZER_NOT_PREP_COURSES</option>
+        </field>
     </fields>
     <fields name="list">
         <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"

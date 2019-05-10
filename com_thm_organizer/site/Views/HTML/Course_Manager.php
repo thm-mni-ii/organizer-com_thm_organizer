@@ -64,7 +64,7 @@ class Course_Manager extends ListView
      */
     protected function allowAccess()
     {
-        return Access::allowCourseAccess();
+        return true;
     }
 
     /**

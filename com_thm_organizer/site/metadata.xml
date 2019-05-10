@@ -3,6 +3,7 @@
     <menu>
         <options var="view">
             <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_VIEW_DESC" value="schedule_grid"/>
+            <option name="THM_ORGANIZER_COURSES" msg="THM_ORGANIZER_COURSES_DESC" value="course_manager"/>
         </options>
     </menu>
 </metadata>

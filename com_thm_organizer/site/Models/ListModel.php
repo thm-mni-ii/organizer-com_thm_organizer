@@ -32,8 +32,6 @@ abstract class ListModel extends ParentModel
 
     protected $defaultStart = '0';
 
-    protected $defaultFilters = [];
-
     protected $option = 'com_thm_organizer';
 
     /**
@@ -152,11 +150,6 @@ abstract class ListModel extends ParentModel
         $data->list['limit']     = $this->state->get('list.limit', $this->defaultLimit);
         $data->list['start']     = $this->state->get('list.start', $this->defaultStart);
 
-        // Set default values for filters
-        foreach ($this->defaultFilters as $name => $defaultValue) {
-            $data->filter[$name] = $this->state->get('filter.' . $name, $defaultValue);
-        }
-
         return $data;
     }
 
@@ -179,10 +172,6 @@ abstract class ListModel extends ParentModel
         if (!empty($filters)) {
             foreach ($filters as $name => $value) {
                 $this->setState('filter.' . $name, $value);
-            }
-        } else {
-            foreach ($this->defaultFilters as $name => $defaultValue) {
-                $this->state->set('filter.' . $name, $defaultValue);
             }
         }
 

@@ -18,7 +18,7 @@ use Organizer\Helpers\Languages;
 /**
  * Class retrieves the data regarding a filtered set of courses.
  */
-class Course_Manager extends ListModel
+class Course_Manager extends ListModelMenu
 {
     /**
      * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
@@ -60,10 +60,10 @@ class Course_Manager extends ListModel
             ->leftJoin('#__thm_organizer_subjects AS s on s.id = sm.subjectID');
 
         // Prep Course Filter
-//        if (!empty($this->state->get('list.prep'))) {
-//            $courseQuery->where("s.is_prep_course = 1");
-//            $courseQuery->where("ls.subjectID is not null and sq.start is not null");
-//        }
+        if (!empty($this->state->get('filter.onlyPrepCourses'))) {
+            $courseQuery->where("s.is_prep_course = 1");
+            $courseQuery->where("ls.subjectID is not null and sq.start is not null");
+        }
 
         // Status filter
 //        switch ($this->state->get('list.status')) {

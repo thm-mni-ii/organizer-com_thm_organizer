@@ -196,19 +196,9 @@ class OrganizerHelper
      */
     public static function getParams()
     {
-        $params = ComponentHelper::getParams('com_thm_organizer');
-
         $app = self::getApplication();
 
-        if (method_exists($app, 'getParams')) {
-            $params->merge($app->getParams());
-
-            if (!empty($app->getMenu()) and !empty($app->getMenu()->getActive())) {
-                $params->merge($app->getMenu()->getActive()->getParams());
-            }
-        }
-
-        return $params;
+        return method_exists($app, 'getParams') ? $app->getParams() : ComponentHelper::getParams('com_thm_organizer');
     }
 
     /**
