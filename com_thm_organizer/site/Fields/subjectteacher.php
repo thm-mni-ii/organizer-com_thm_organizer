@@ -54,7 +54,7 @@ class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
         }
 
         $options = [];
-        foreach ($teachers as $key => $teacher) {
+        foreach ($teachers as $teacher) {
             $name                       = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
             $options[$teacher['value']] = $name;
         }

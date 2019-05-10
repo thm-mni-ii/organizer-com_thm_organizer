@@ -12,20 +12,21 @@ namespace Organizer\Views\JSON;
 
 defined('_JEXEC') or die;
 
+use Organizer\Models\Subject_Details as Subject_DetailsModel;
+
 /**
  * Class loads the subject into the display context.
  */
-class Subject_Details extends \Joomla\CMS\MVC\View\HtmlView
+class Subject_Details extends BaseView
 {
     /**
-     * Method to get display
-     *
-     * @param Object $tpl template  (default: null)
+     * loads model data into view context
      *
      * @return void
      */
-    public function display($tpl = null)
+    public function display()
     {
-        echo json_encode($this->get('Item'));
+        $model = new Subject_DetailsModel;
+        echo json_encode($model->get('Item'));
     }
 }

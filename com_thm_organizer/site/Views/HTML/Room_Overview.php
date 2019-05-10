@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Loads lesson and event data for a filtered set of rooms into the view context.
  */
-class Room_Overview extends BaseView
+class Room_Overview extends BaseHTMLView
 {
     const DAY = 1;
 

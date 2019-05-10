@@ -12,24 +12,21 @@ namespace Organizer\Views\JSON;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Planning_Periods as PlanningPeriodsHelper;
+
 /**
  * Class answers dynamic planning period related queries
  */
-class Planning_Period extends \Joomla\CMS\MVC\View\HtmlView
+class Planning_Period extends BaseView
 {
     /**
      * loads model data into view context
      *
-     * @param string $tpl the name of the template to be used
-     *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display($tpl = null)
+    public function display()
     {
-        $model = $this->getModel();
-        $task  = OrganizerHelper::getInput()->getString('task');
-        echo $model->$task();
+        $function = OrganizerHelper::getInput()->getString('task');
+        echo json_encode(PlanningPeriodsHelper::$function());
     }
 }

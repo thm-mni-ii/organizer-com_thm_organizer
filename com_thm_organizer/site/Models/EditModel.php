@@ -128,7 +128,7 @@ abstract class EditModel extends AdminModel
      *
      * @return Table  A Table object
      */
-    public function getTable($name = '', $prefix = 'Table', $options = array())
+    public function getTable($name = '', $prefix = '', $options = array())
     {
         $name             = str_replace('Model', 'Table', $this->get('name'));
         $singularName     = str_replace('_Edit', '', $name);

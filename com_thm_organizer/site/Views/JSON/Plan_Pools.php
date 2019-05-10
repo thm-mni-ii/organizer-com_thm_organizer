@@ -13,25 +13,21 @@ namespace Organizer\Views\JSON;
 defined('_JEXEC') or die;
 
 use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Plan_Pools as Plan_PoolsHelper;
+use Organizer\Helpers\Plan_Pools as PlanPoolsHelper;
 
 /**
- * Class answers dynamic (degree) program related queries
+ * Class answers dynamic event group related queries
  */
 class Plan_Pools extends BaseView
 {
     /**
      * loads model data into view context
      *
-     * @param string $tpl the name of the template to be used
-     *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display($tpl = null)
+    public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        echo json_encode(Plan_PoolsHelper::$function());
+        echo json_encode(PlanPoolsHelper::$function());
     }
 }

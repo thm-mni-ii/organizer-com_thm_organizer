@@ -22,7 +22,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class loads the schedule form into the display context.
  */
-class Schedule_Grid extends BaseView
+class Schedule_Grid extends BaseHTMLView
 {
     /**
      * format for displaying dates

@@ -21,7 +21,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads department statistics into the display context.
  */
-class Department_Statistics extends BaseView
+class Department_Statistics extends BaseHTMLView
 {
     public $fields = [];
 

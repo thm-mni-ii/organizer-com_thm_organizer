@@ -24,10 +24,8 @@ class THM_OrganizerTemplateDeputat
 
     /**
      * THM_OrganizerTemplateRoom_Statistics_XLS constructor.
-     *
-     * @param object &$model the model containing the data for the room statistics
      */
-    public function __construct(&$model)
+    public function __construct()
     {
         $this->spreadSheet = new \PHPExcel();
 

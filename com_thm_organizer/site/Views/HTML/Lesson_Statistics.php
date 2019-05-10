@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads lesson statistic information into the display context.
  */
-class Lesson_Statistics extends BaseView
+class Lesson_Statistics extends BaseHTMLView
 {
     public $columns = [];
 

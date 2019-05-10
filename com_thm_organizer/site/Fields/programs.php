@@ -41,9 +41,9 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
         $selectedPrograms = empty($ranges) ? [] : Mappings::getSelectedPrograms($ranges);
         $options          = Mappings::getProgramOptions();
 
-        foreach ($options as $id => $name) {
-            if (!Access::allowDocumentAccess('program', $id)) {
-                unset($options[$id]);
+        foreach (array_keys($options) as $optionID) {
+            if (!Access::allowDocumentAccess('program', $optionID)) {
+                unset($options[$optionID]);
             }
         }
 

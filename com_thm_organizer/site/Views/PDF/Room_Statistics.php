@@ -13,12 +13,13 @@ namespace Organizer\Views\PDF;
 defined('_JEXEC') or die;
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
+use Organizer\Views\BaseView;
 jimport('tcpdf.tcpdf');
 
 /**
  * Class loads room statistic information into the display context.
  */
-class Room_Statistics extends \Joomla\CMS\MVC\View\HtmlView
+class Room_Statistics extends BaseView
 {
     public $fields = [];
 

@@ -12,12 +12,10 @@ namespace Organizer\Views\XLS;
 
 defined('_JEXEC') or die;
 
-jimport('phpexcel.library.PHPExcel');
-
 /**
  * Class instantiates and renders an XLS File with the department statistics.
  */
-class Department_Statistics extends \Joomla\CMS\MVC\View\HtmlView
+class Department_Statistics extends BaseXMLView
 {
     /**
      * Sets context variables and renders the view.

@@ -13,7 +13,7 @@ namespace Organizer\Views\JSON;
 defined('_JEXEC') or die;
 
 use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Fields as Room_TypesHelper;
+use Organizer\Helpers\Fields as RoomTypesHelper;
 
 /**
  * Class answers dynamic (degree) program related queries
@@ -23,15 +23,11 @@ class Room_Types extends BaseView
     /**
      * loads model data into view context
      *
-     * @param string $tpl the name of the template to be used
-     *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display($tpl = null)
+    public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        echo json_encode(Room_TypesHelper::$function());
+        echo json_encode(RoomTypesHelper::$function());
     }
 }

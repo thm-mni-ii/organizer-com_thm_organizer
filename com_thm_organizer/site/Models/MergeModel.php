@@ -294,7 +294,6 @@ abstract class MergeModel extends BaseModel
      */
     private function preprocess()
     {
-        $input      = OrganizerHelper::getInput();
         $this->data = OrganizerHelper::getForm();
 
         // From the edit form

@@ -22,7 +22,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads the subject into the display context.
  */
-class Subject_Details extends BaseView
+class Subject_Details extends BaseHTMLView
 {
     const PENDING = 0;
     const REGISTERED = 1;

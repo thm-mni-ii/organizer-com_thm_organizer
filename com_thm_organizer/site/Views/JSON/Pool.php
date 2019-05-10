@@ -12,24 +12,21 @@ namespace Organizer\Views\JSON;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Pools as PoolsHelper;
+
 /**
- * Class answers dynamic (subject) pool related queries
+ * Class answers dynamic subject pool related queries
  */
-class Pool extends \Joomla\CMS\MVC\View\HtmlView
+class Pool extends BaseView
 {
     /**
      * loads model data into view context
      *
-     * @param string $tpl the name of the template to be used
-     *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display($tpl = null)
+    public function display()
     {
-        $model    = $this->getModel();
         $function = OrganizerHelper::getInput()->getString('task');
-        echo $model->$function();
+        echo json_encode(PoolsHelper::$function());
     }
 }

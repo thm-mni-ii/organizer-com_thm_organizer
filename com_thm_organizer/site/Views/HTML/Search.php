@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads the query's results into the display context.
  */
-class Search extends BaseView
+class Search extends BaseHTMLView
 {
     public $languageLinks;
 

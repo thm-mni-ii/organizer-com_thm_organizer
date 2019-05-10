@@ -12,14 +12,14 @@ namespace Organizer\Views\ICS;
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_thm_organizer/icalcreator/iCalcreator.php';
-
 use Joomla\CMS\Factory;
+use Organizer\Views\BaseView;
+require_once JPATH_SITE . '/components/com_thm_organizer/icalcreator/iCalcreator.php';
 
 /**
  * Class creates a ICS file for the display of the filtered schedule information.
  */
-class Schedule_Export extends \Joomla\CMS\MVC\View\HtmlView
+class Schedule_Export extends BaseView
 {
     private $parameters;
 

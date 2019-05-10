@@ -12,13 +12,14 @@ namespace Organizer\Views\HTML;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
  * Class loads teacher workload statistics into the display context.
  */
-class Deputat extends BaseView
+class Deputat extends BaseHTMLView
 {
     public $endCalendar = '';
 
@@ -49,7 +50,7 @@ class Deputat extends BaseView
     public function display($tpl = null)
     {
         if (!Access::isAdmin()) {
-            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
+            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         // Sets js and css

@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
  * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by
  * extending class.
  */
-abstract class MergeView extends BaseView
+abstract class MergeView extends BaseHTMLView
 {
     protected $_layout = 'merge';
 

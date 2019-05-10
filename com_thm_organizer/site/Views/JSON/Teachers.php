@@ -23,13 +23,9 @@ class Teachers extends BaseView
     /**
      * loads model data into view context
      *
-     * @param string $tpl the name of the template to be used
-     *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function display($tpl = null)
+    public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
         echo json_encode(TeachersHelper::$function());

@@ -84,14 +84,8 @@ abstract class BaseView extends CMSObject
 
     /**
      * Display the view output
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed  A string if successful, otherwise an Error object.
-     *
-     * @see     \JViewLegacy::loadTemplate()
      */
-    public abstract function display($tpl = null);
+    public abstract function display();
 
     /**
      * Method to get the view name

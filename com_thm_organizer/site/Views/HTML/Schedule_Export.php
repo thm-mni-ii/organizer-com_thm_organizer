@@ -19,7 +19,7 @@ use Organizer\Helpers\Teachers;
 /**
  * Class loads the schedule export filter form into the display context.
  */
-class Schedule_Export extends BaseView
+class Schedule_Export extends BaseHTMLView
 {
     public $date;
 

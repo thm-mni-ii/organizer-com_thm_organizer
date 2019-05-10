@@ -9,11 +9,16 @@
  * @link        www.thm.de
  */
 
-namespace Organizer\Views\HTML;
+namespace Organizer\Views\PDF;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Organizer\Helpers\Courses;
+use Organizer\Views\BaseView;
+use THM_OrganizerTemplateBadges;
+use THM_OrganizerTemplateDepartment_Participants;
+use THM_OrganizerTemplateParticipants;
 
 /**
  * Class loads persistent information about a course into the display context.
@@ -43,28 +48,28 @@ class Course_Manager extends BaseView
         $validTypes = [self::BADGES, self::DEPARTMENT_PARTICIPANTS, self::PARTICIPANTS];
 
         if (empty($lessonID) or !in_array($type, $validTypes)) {
-            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
+            throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!Courses::authorized($lessonID)) {
-            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
+            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         switch ($type) {
             case self::BADGES:
                 require_once __DIR__ . '/tmpl/badges.php';
-                new \THM_OrganizerTemplateBadges($lessonID);
+                new THM_OrganizerTemplateBadges($lessonID);
                 break;
             case self::DEPARTMENT_PARTICIPANTS:
                 require_once __DIR__ . '/tmpl/department_participants.php';
-                new \THM_OrganizerTemplateDepartment_Participants($lessonID);
+                new THM_OrganizerTemplateDepartment_Participants($lessonID);
                 break;
             case self::PARTICIPANTS:
                 require_once __DIR__ . '/tmpl/participants.php';
-                new \THM_OrganizerTemplateParticipants($lessonID);
+                new THM_OrganizerTemplateParticipants($lessonID);
                 break;
             default:
-                throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
+                throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
     }
 }

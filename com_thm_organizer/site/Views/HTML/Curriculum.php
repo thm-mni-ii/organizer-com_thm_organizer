@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads curriculum information into the display context.
  */
-class Curriculum extends BaseView
+class Curriculum extends BaseHTMLView
 {
     public $disclaimer;
 

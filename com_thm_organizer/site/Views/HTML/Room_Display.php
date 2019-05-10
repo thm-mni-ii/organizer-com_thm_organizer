@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads a room's daily schedule into the display context.
  */
-class Room_Display extends BaseView
+class Room_Display extends BaseHTMLView
 {
     /**
      * Loads persistent data into the view context

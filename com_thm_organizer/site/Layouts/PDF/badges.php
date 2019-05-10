@@ -23,7 +23,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
      *
      * @param int $lessonID the lessonID of the exported course
      *
-     * @throws \Exception => invalid request / unauthorized access / not found
+     * @throws Exception => invalid request / unauthorized access / not found
      */
     public function __construct($lessonID)
     {

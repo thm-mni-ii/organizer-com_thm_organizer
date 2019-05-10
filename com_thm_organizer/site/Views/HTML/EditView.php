@@ -19,7 +19,7 @@ use Organizer\Helpers\HTML;
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.
  */
-abstract class EditView extends BaseView
+abstract class EditView extends BaseHTMLView
 {
     protected $_layout = 'edit';
 

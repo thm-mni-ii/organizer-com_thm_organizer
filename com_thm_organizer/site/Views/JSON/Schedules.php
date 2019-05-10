@@ -12,6 +12,7 @@ namespace Organizer\Views\JSON;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Schedules as SchedulesHelper;
@@ -24,13 +25,10 @@ class Schedules extends BaseView
     /**
      * loads model data into view context
      *
-     * @param string $tpl the name of the template to be used
-     *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws Exception
      */
-    public function display($tpl = null)
+    public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
         if ($function === 'getLessons') {

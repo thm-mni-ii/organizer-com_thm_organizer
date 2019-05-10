@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads room statistic information into the display context.
  */
-class Room_Statistics extends BaseView
+class Room_Statistics extends BaseHTMLView
 {
     public $fields = [];
 

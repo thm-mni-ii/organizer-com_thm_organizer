@@ -21,7 +21,7 @@ use Organizer\Helpers\Languages;
 /**
  * Class loads a filtered set of resources into the display context. Specific resource determined by extending class.
  */
-abstract class ListView extends BaseView
+abstract class ListView extends BaseHTMLView
 {
     protected $_layout = 'list';
 

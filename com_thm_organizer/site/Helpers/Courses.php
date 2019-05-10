@@ -623,7 +623,6 @@ class Courses
      * @param int $courseID lesson id of lesson where participants have to be moved up
      *
      * @return void
-     * @throws \Exception => unauthorized access
      */
     public static function refreshWaitList($courseID)
     {

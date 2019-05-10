@@ -52,7 +52,7 @@ class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
         }
 
         $options = [];
-        foreach ($planSubjects as $key => $planSubject) {
+        foreach ($planSubjects as $planSubject) {
             $options[$planSubject['value']] = $planSubject['name'];
         }
 

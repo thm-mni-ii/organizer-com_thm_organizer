@@ -21,35 +21,6 @@ use stdClass;
 class Descriptions implements XMLValidator
 {
     /**
-     * Checks whether the resource already exists in the database
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $tableName     the name of the table to check
-     * @param string  $gpuntisID     the gpuntis description id
-     * @param string  $constant      the text constant for message output
-     *
-     * @return bool  true if the entry already exists, otherwise false
-     */
-    private static function exists(&$scheduleModel, $tableName, $gpuntisID, $constant)
-    {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('id')->from("#__thm_organizer_$tableName")->where("gpuntisID = '$gpuntisID'");
-        $dbo->setQuery($query);
-
-        $resourceID = OrganizerHelper::executeQuery('loadResult');
-
-        if (empty($resourceID)) {
-            $scheduleModel->scheduleErrors[]
-                = sprintf(Languages::_("THM_ORGANIZER_ERROR_INVALID_$constant"), $gpuntisID);
-
-            return false;
-        }
-
-        return $resourceID;
-    }
-
-    /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
      * @param object &$scheduleModel the validating schedule model

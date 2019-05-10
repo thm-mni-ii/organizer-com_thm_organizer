@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads filtered events into the display context.
  */
-class Event_List extends BaseView
+class Event_List extends BaseHTMLView
 {
     public $form = null;
 

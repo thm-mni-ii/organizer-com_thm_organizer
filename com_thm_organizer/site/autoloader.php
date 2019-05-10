@@ -10,6 +10,8 @@
 
 namespace Organizer;
 
+use Exception;
+
 defined('_JEXEC') or die;
 
 spl_autoload_register(function ($originalClassName) {
@@ -40,7 +42,7 @@ spl_autoload_register(function ($originalClassName) {
             echo "<pre>original fq namespace:   " . print_r($originalClassName, true) . "</pre>";
             echo "<pre>calculated fq namespace: " . print_r($namespacedClassName, true) . "</pre>";
             echo "<pre>file path:               " . print_r($filepath, true) . "</pre>";
-            $exc = new \Exception;
+            $exc = new Exception;
             echo "<pre>" . print_r($exc->getTraceAsString(), true) . "</pre>";
             die;
         }
@@ -51,7 +53,7 @@ spl_autoload_register(function ($originalClassName) {
         echo "<pre>original fq namespace:   " . print_r($originalClassName, true) . "</pre>";
         echo "<pre>calculated fq namespace: " . print_r($namespacedClassName, true) . "</pre>";
         echo "<pre>file path:               " . print_r($filepath, true) . "</pre>";
-        $exc = new \Exception;
+        $exc = new Exception;
         echo "<pre>" . print_r($exc->getTraceAsString(), true) . "</pre>";
         die;
     }

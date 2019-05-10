@@ -13,6 +13,7 @@ namespace Organizer\Views\HTML;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
@@ -33,7 +34,15 @@ class Course_Edit extends EditView
 
     public $languageParams;
 
-    public $menu;
+    public $menu;/**
+ * Concrete classes are supposed to use this method to add a toolbar.
+ *
+ * @return void  adds toolbar items to the view
+ */
+
+    protected function addToolBar() {
+        return;
+    }
 
     /**
      * Method to get display
@@ -48,7 +57,7 @@ class Course_Edit extends EditView
         $lessonID   = OrganizerHelper::getInput()->getInt('lessonID', 0);
 
         if (empty($lessonID) or !Courses::authorized($lessonID)) {
-            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
+            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         $this->course                 = Courses::getCourse();
@@ -91,7 +100,7 @@ class Course_Edit extends EditView
      *
      * @return void
      */
-    private function modifyDocument()
+    protected function modifyDocument()
     {
         HTML::_('bootstrap.tooltip');
 

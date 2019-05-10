@@ -54,11 +54,9 @@ class Access
     /**
      * Checks whether the user has access to course management functions
      *
-     * @param int $courseID the id of the course (lesson) to be checked against
-     *
      * @return bool true if the user is authorized to manage courses, otherwise false
      */
-    public static function allowCourseAccess($courseID = 0)
+    public static function allowCourseAccess()
     {
         return self::isAdmin();
 

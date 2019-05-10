@@ -13,6 +13,7 @@ namespace Organizer\Views\HTML;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
@@ -51,11 +52,11 @@ class Subject_Edit extends EditView
         $this->subjectID = $input->getInt('id', 0);
 
         if (empty($this->subjectID)) {
-            throw new \Exception(Languages::_('THM_ORGANIZER_400'), 400);
+            throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
         if (!Subjects::allowEdit($this->subjectID)) {
-            throw new \Exception(Languages::_('THM_ORGANIZER_401'), 401);
+            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
         $this->item = $this->get('Item');

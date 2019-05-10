@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Class loads a filtered set of subjects into the display context.
  */
-class Subject_List extends BaseView
+class Subject_List extends BaseHTMLView
 {
     public $disclaimer;
 

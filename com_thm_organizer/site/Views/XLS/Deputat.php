@@ -12,14 +12,11 @@ namespace Organizer\Views\XLS;
 
 defined('_JEXEC') or die;
 
-jimport('phpexcel.library.PHPExcel');
-
 /**
  * Class creates a XLS file for the display of the filtered schedule information.
  */
-class Deputat extends \Joomla\CMS\MVC\View\HtmlView
+class Deputat extends BaseXMLView
 {
-
     /**
      * Sets context variables and renders the view.
      *

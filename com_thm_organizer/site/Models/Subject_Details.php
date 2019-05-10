@@ -205,7 +205,7 @@ class Subject_Details extends BaseModel
         $query->innerJoin('#__thm_organizer_mappings AS m2 ON pr.subjectID = m2.id');
         $query->innerJoin('#__thm_organizer_subjects AS s2 ON m2.subjectID = s2.id');
 
-        foreach ($programs as $programID => $program) {
+        foreach ($programs as $program) {
             $query->clear('where');
             $query->where("m1.lft > {$program['lft']} AND m1.rgt < {$program['rgt']}");
             $query->where("m2.lft > {$program['lft']} AND m2.rgt < {$program['rgt']}");
