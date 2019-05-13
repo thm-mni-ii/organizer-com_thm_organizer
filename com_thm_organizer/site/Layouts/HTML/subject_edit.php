@@ -43,27 +43,22 @@ $nameProperty = 'name_' . $this->languageTag;
             <?php
             echo HTML::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
 
-            foreach ($this->form->getFieldSets() as $set) {
-                $isInitialized  = (bool)$this->form->getValue('id');
-                $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
+    foreach ($this->form->getFieldSets() as $set) {
+        $isInitialized  = (bool)$this->form->getValue('id');
+        $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
 
-                if ($displayInitial or $isInitialized) {
-                    echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_($set->label, true));
-                    echo $this->form->renderFieldset($set->name);
-                    echo HTML::_('bootstrap.endTab');
-                }
-            }
-            echo HTML::_('bootstrap.endTabSet');
-            ?>
-        </div>
-        <?php echo HTML::_('form.token'); ?>
-        <input type="hidden" name="option" value="com_thm_organizer"/>
-        <input type="hidden" name="task" value="subject.save"/>
-        <?php echo $this->form->getInput('id'); ?>
-        <input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
-        <input type="hidden" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
-        <?php if (!empty($this->menu)): ?>
-            <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
-        <?php endif; ?>
-    </form>
+        if ($displayInitial or $isInitialized) {
+            echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_($set->label, true));
+            echo $this->form->renderFieldset($set->name);
+            echo HTML::_('bootstrap.endTab');
+        }
+    }
+    echo HTML::_('bootstrap.endTabSet');
+    ?>
+    </div>
+    <?php echo HTML::_('form.token'); ?>
+    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
+    <input type="hidden" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
+</form>
 </div>

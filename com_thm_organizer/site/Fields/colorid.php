@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -20,7 +21,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for predefined colors.
  */
-class JFormFieldColorID extends \Joomla\CMS\Form\FormField
+class JFormFieldColorID extends FormField
 {
     /**
      * Type

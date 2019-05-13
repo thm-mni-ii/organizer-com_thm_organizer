@@ -60,7 +60,6 @@
             <filename>thm_organizer.php</filename>
             <folder>models</folder>
             <folder>sql</folder>
-            <folder>views</folder>
         </files>
         <languages>
             <language tag="en-GB">language/en-GB/en-GB.com_thm_organizer.ini</language>

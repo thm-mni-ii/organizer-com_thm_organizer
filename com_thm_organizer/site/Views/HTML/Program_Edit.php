@@ -13,6 +13,7 @@ namespace Organizer\Views\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\Toolbar;
+use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 /**
@@ -20,7 +21,7 @@ use Organizer\Helpers\Languages;
  */
 class Program_Edit extends EditView
 {
-    protected $_layout = 'edit_tabbed';
+    protected $_layout = 'tabs';
 
     /**
      * Method to generate buttons for user interaction

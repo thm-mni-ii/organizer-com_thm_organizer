@@ -11,6 +11,7 @@ namespace Organizer\Views\HTML;
 defined('_JEXEC') or die;
 
 use JHtmlSidebar;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -23,7 +24,88 @@ use Organizer\Views\BaseView;
  */
 abstract class BaseHTMLView extends BaseView
 {
-    public $submenu = null;
+    public $disclaimer = '';
+
+    public $languageLinks = '';
+
+    public $submenu = '';
+
+    /**
+     * Adds a legal disclaimer to the view.
+     *
+     * @return void modifies the class property disclaimer
+     */
+    protected function addDisclaimer()
+    {
+        if (OrganizerHelper::getApplication()->isClient('administrator')) {
+            return;
+        }
+
+        $documentationViews = ['Curriculum', 'Subject_Details', 'Subjects'];
+        if (!in_array(OrganizerHelper::getClass($this), $documentationViews)) {
+            return;
+        }
+
+        $lsfLink = HTML::link(
+            'https://studien-sb-service.th-mittelhessen.de/docu/online.html',
+            Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TITLE')
+        );
+        $ambLink = HTML::link(
+            'http://www.thm.de/amb/pruefungsordnungen', Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE')
+        );
+        $poLink  = HTML::link(
+            'http://www.thm.de/site/studium/sie-studieren/pruefungsordnung.html',
+            Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TITLE')
+        );
+
+        $disclaimer = '<div class="legal-disclaimer">';
+        $disclaimer .= '<h4>' . Languages::_('THM_ORGANIZER_DISCLAIMER_HEADER') . '</h4>';
+        $disclaimer .= '<ul>';
+        $disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TEXT'), $lsfLink) . '</li>';
+        $disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TEXT'), $ambLink) . '</li>';
+        $disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TEXT'), $poLink) . '</li>';
+        $disclaimer .= '</ul>';
+        $disclaimer .= '</div>';
+
+        $this->disclaimer = $disclaimer;
+    }
+
+    /**
+     * Adds a language links to the view.
+     *
+     * @param array $params the parameters used to call the current view.
+     *
+     * @return void modifies the class property languageLinks
+     */
+    protected function addLanguageLinks($params)
+    {
+        if (OrganizerHelper::getApplication()->isClient('administrator')) {
+            return;
+        }
+
+        $current            = Languages::getShortTag();
+        $supportedLanguages = [
+            'de' => Languages::_('THM_ORGANIZER_GERMAN'),
+            'en' => Languages::_('THM_ORGANIZER_ENGLISH')
+        ];
+        unset($supportedLanguages[$current]);
+
+        $links            = '<div class="tool-wrapper language-links">';
+        $params['option'] = 'com_thm_organizer';
+        $menuID           = OrganizerHelper::getInput()->getInt('Itemid');
+        if (!empty($menuID)) {
+            $params['Itemid'] = $menuID;
+        }
+
+        foreach ($supportedLanguages as $languageTag => $text) {
+            $params['languageTag'] = $languageTag;
+            $href                  = Uri::buildQuery($params);
+            $links .= '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
+        }
+
+        $links .= '</div>';
+        $this->languageLinks = $links;
+    }
 
     /**
      * Adds the component menu to the view.

@@ -35,9 +35,12 @@ class Participant_Manager extends ListView
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'participant.edit', true);
 
         if (Access::isAdmin()) {
+            /*$toolbar->appendButton(
+                'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'participant.mergeView', true
+            );
             $toolbar->appendButton(
                 'Standard', 'eye-close', Languages::_('THM_ORGANIZER_ANONYMIZE'), 'participant.anonymize', false
-            );
+            );*/
             HTML::setPreferencesButton();
         }
     }

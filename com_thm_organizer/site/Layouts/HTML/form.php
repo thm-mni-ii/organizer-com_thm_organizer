@@ -17,7 +17,7 @@ use Organizer\Helpers\HTML;
       enctype="multipart/form-data"
       method="post"
       name="adminForm"
-      id="item-form"
+      id="adminForm"
       class="form-horizontal form-validate">
     <?php echo $this->form->renderFieldset('details'); ?>
     <?php echo HTML::_('form.token'); ?>

@@ -15,9 +15,11 @@ defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Courses;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
 
 /**
  * Class loads participant information into the display context.
@@ -36,7 +38,17 @@ class Participant_Edit extends EditView
 
     protected function addToolBar()
     {
-        // TODO: Implement addToolBar() method.
+        $new   = empty($this->item->id);
+        $title = $new ?
+            Languages::_('THM_ORGANIZER_BUILDING_NEW') : Languages::_('THM_ORGANIZER_BUILDING_EDIT');
+        HTML::setTitle($title, 'home-2');
+        $toolbar   = Toolbar::getInstance();
+        $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+        $toolbar->appendButton('Standard', 'apply', $applyText, 'building.apply', false);
+        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'building.save', false);
+        $cancelText = $new ?
+            Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'building.cancel', false);
     }
 
     /**
@@ -64,24 +76,11 @@ class Participant_Edit extends EditView
             $this->course['open']      = Courses::isRegistrationOpen();
         }
 
-        $this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+        /*$this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $courseID             = empty($this->course) ? 0 : $this->course['id'];
-        $this->languageParams = ['lessonID' => $courseID, 'view' => 'participant_edit'];
-
-        $this->modifyDocument();
+        $this->languageParams = ['lessonID' => $courseID, 'view' => 'participant_edit'];*/
 
         parent::display($tpl);
     }
-
-    /**
-     * Adds resource files to the document
-     *
-     * @return void
-     */
-    protected function modifyDocument()
-    {
-        HTML::_('bootstrap.tooltip');
-
-        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/participant_edit.css');
-    }
 }
+// $bar->appendButton( 'Link', 'custom', 'Custom', '../index.php?option=com_mycomponent&format=raw' );

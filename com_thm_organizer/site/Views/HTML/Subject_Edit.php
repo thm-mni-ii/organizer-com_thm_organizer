@@ -15,7 +15,10 @@ defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Subjects;
 
 /**
@@ -27,6 +30,8 @@ class Subject_Edit extends EditView
 
     public $item;
 
+    protected $_layout = 'tabs';
+
     public $languageLinks;
 
     public $languageParams;
@@ -36,6 +41,26 @@ class Subject_Edit extends EditView
     public $menu;
 
     public $subjectID;
+    /**
+     * Method to generate buttons for user interaction
+     *
+     * @return void
+     */
+    protected function addToolBar()
+    {
+        $new = empty($this->item->id);
+        $title = $new ? Languages::_('THM_ORGANIZER_SUBJECT_NEW') : Languages::_('THM_ORGANIZER_SUBJECT_EDIT');
+        HTML::setTitle($title, 'book');
+        $toolbar = Toolbar::getInstance();
+        $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+        $toolbar->appendButton('Standard', 'apply', $applyText, 'subject.apply', false);
+        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'subject.save', false);
+        $toolbar->appendButton(
+            'Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'subject.save2new', false
+        );
+        $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'subject.cancel', false);
+    }
 
     /**
      * Method to get display
@@ -85,5 +110,6 @@ class Subject_Edit extends EditView
         HTML::_('behavior.framework', true);
 
         Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_edit.css');
+        Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');
     }
 }

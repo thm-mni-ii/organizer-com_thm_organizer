@@ -57,7 +57,7 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
         $contextParts = explode('.', $this->form->getName());
 
         // Option.View
-        $resourceType = str_replace('_edit', '', $contextParts[1]);
+        $resourceType = strtolower(str_replace('_Edit', '', $contextParts[1]));
 
         $dbo     = Factory::getDbo();
         $idQuery = $dbo->getQuery(true);
@@ -69,7 +69,6 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
          * therefore only the first mapping needs to be found
          */
         $dbo->setQuery($idQuery, 0, 1);
-
         $parentID = OrganizerHelper::executeQuery('loadResult');
 
         if (empty($parentID)) {
@@ -129,9 +128,9 @@ class JFormFieldChildren extends \Joomla\CMS\Form\FormField
     {
         $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
-        $language = Languages::getShortTag();
+        $shortTag = Languages::getShortTag();
 
-        $query->select("name_{$language[0]}");
+        $query->select("name_$shortTag");
         $query->from("#__thm_organizer_{$resourceType}s");
         $query->where("id = '$resourceID'");
         $dbo->setQuery($query);

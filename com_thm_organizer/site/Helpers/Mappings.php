@@ -450,7 +450,6 @@ class Mappings
         $nameQuery->select("DISTINCT p.name_$shortTag AS name");
         $nameQuery->from('#__thm_organizer_pools AS p');
         $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
-
         $pools = [];
 
         // Each range is a unique pool association
