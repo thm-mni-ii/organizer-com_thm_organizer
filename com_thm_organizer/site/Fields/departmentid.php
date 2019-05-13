@@ -41,37 +41,28 @@ class JFormFieldDepartmentID extends \JFormFieldList
      */
     protected function getInput()
     {
-        // Add custom js script to update other fields like programs
-        if (!empty($this->class) && $this->class === 'departmentlist') {
-            Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/departmentlist.js');
-        }
+        $resource    = $this->getAttribute('resource');
+        $selected    = OrganizerHelper::getSelectedIDs();
+        $rudimentary = (empty($resource) or empty($selected) or !in_array($resource, ['program', 'teacher']));
 
-        $resource = $this->getAttribute('resource');
-        if (empty($resource) or !in_array($resource, ['program', 'teacher'])) {
+        // If this is not being used in the merge view the parent handling of the input is sufficient.
+        if (empty($rudimentary)) {
             return parent::getInput();
         }
 
-        $attr = '';
+        // In merge views
+        $attr = ' multiple required aria-required="true"';
 
-        $attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-        $attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-        $attr .= $this->multiple ? ' multiple' : '';
-        $attr .= $this->required ? ' required aria-required="true"' : '';
-        $attr .= $this->autofocus ? ' autofocus' : '';
+        // Add custom js script to update other fields like programs
+        if (!empty($this->class)) {
+            $attr .= ' class="' . $this->class . '"';
 
-        // Initialize JavaScript field attributes.
-        $attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-        // Get the field options.
-        $options = (array)$this->getOptions();
-
-        $resourceID = OrganizerHelper::getInput()->getInt('id');
-        if (empty($resourceID)) {
-            $selected = OrganizerHelper::getSelectedIDs();
-        } else {
-            $selected = [$resourceID];
+            if ($this->class === 'departmentlist') {
+                Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/departmentlist.js');
+            }
         }
 
+        $options       = (array)$this->getOptions();
         $departmentIDs = Departments::getDepartmentsByResource($resource, $selected);
 
         return HTML::_(

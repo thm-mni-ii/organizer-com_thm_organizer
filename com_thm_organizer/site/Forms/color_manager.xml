@@ -2,14 +2,6 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="name" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_colors" label="THM_ORGANIZER_NAME" onchange="this.form.submit();">
-            <option value="">JALL</option>
-        </field>
-        <field name="color" type="genericlist" valuecolumn="color" textcolumn="color" table="thm_organizer_colors"
-               label="THM_ORGANIZER_NAME" onchange="this.form.submit();">
-            <option value="">JALL</option>
-        </field>
     </fields>
     <fields name="list">
         <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"

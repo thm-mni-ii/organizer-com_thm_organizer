@@ -2,19 +2,6 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="externalID" type="list" label="THM_ORGANIZER_SUBJECT" onchange="this.form.submit();">
-            <option value="">JALL</option>
-            <option value="-1">JNONE</option>
-        </field>
-        <field name="field" type="localizedlist" valuecolumn="field" textcolumn="field"
-               table="thm_organizer_subjects AS s,thm_organizer_fields AS f ON f.id = s.fieldID" class="inputbox"
-               label="THM_ORGANIZER_FIELD" description="THM_ORGANIZER_FIELD_DESC"
-               onchange="this.form.submit();">
-            <option value="">JALL</option>
-            <option value="-1">JNONE</option>
-        </field>
-    </fields>
-    <fields name="list">
         <field name="is_prep_course" type="list" label="THM_ORGANIZER_PREP_COURSE" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="1">THM_ORGANIZER_FILTER_PREP_COURSES_YES</option>
@@ -29,6 +16,15 @@
             <option value="">THM_ORGANIZER_FILTER_POOL</option>
             <option value="-1">JNONE</option>
         </field>
+        <field name="field" type="localizedlist" valuecolumn="field" textcolumn="field"
+               table="thm_organizer_subjects AS s,thm_organizer_fields AS f ON f.id = s.fieldID" class="inputbox"
+               label="THM_ORGANIZER_FIELD" description="THM_ORGANIZER_FIELD_DESC"
+               onchange="this.form.submit();">
+            <option value="">JALL</option>
+            <option value="-1">JNONE</option>
+        </field>
+    </fields>
+    <fields name="list">
         <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
                description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
