@@ -76,7 +76,7 @@ $attribs = ['target' => '_blank'];
                                 echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }
 
-                            if ($type == 'subject_list') {
+                            if ($type == 'subject_manager') {
                                 $icon = '<span class="icon-list"></span>';
                                 echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }

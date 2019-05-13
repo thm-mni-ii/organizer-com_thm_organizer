@@ -310,7 +310,7 @@ class Search extends BaseModel
             if ($type == 'real') {
                 $index = "d{$result['id']}";
                 $text  = Pools::getName($result['id'], 'real');
-                $links = ['subject_list' => "?option=com_thm_organizer&view=subject_list&poolIDs={$result['id']}"];
+                $links = ['subject_manager' => "?option=com_thm_organizer&view=subject_manager&poolIDs={$result['id']}"];
             } else {
                 $index               = "p{$result['id']}";
                 $text                = Pools::getName($result['id'], 'plan');
@@ -367,7 +367,7 @@ class Search extends BaseModel
 
                 // If the mapping is invalid only an empty data set would be displayed for subject list and curriculum
                 if (!$invalidMapping) {
-                    $links['subject_list'] = "?option=com_thm_organizer&view=subject_list&programIDs={$program['id']}";
+                    $links['subject_manager'] = "?option=com_thm_organizer&view=subject_manager&programIDs={$program['id']}";
                     $links['curriculum']   = "?option=com_thm_organizer&view=curriculum&programIDs={$program['id']}";
                 }
 
@@ -412,7 +412,7 @@ class Search extends BaseModel
 
                 if (!$invalidMapping) {
                     $programs[$planID]['programID'] = $program['id'];
-                    $links['subject_list']          = "?option=com_thm_organizer&view=subject_list&programIDs={$program['id']}";
+                    $links['subject_manager']          = "?option=com_thm_organizer&view=subject_manager&programIDs={$program['id']}";
                     $links['curriculum']            = "?option=com_thm_organizer&view=curriculum&programIDs={$program['id']}";
                 }
 
@@ -567,7 +567,7 @@ class Search extends BaseModel
                 $links = [];
 
                 if ($documented) {
-                    $links['subject_list'] = "?option=com_thm_organizer&view=subject_list&teacherIDs={$teacher['id']}";
+                    $links['subject_manager'] = "?option=com_thm_organizer&view=subject_manager&teacherIDs={$teacher['id']}";
                 }
 
                 $overlap = array_intersect(
