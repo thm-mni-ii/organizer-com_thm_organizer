@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 /**
  * Class instantiates a Table Object associated with the calendar_configuration_map table.
  */
-class Calendar_Configuration_Map extends BaseTableTable
+class Calendar_Configuration_Map extends BaseTable
 {
     /**
      * Declares the associated table

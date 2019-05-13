@@ -211,7 +211,7 @@ class Plan_Programs implements XMLValidator
     }
 
     /**
-     * Checks whether subject nodes have the expected structure and required
+     * Checks whether XML node has the expected structure and required
      * information
      *
      * @param object &$scheduleModel the validating schedule model
@@ -243,7 +243,7 @@ class Plan_Programs implements XMLValidator
         $plausibleData = self::parsePlausibleProgramData($untisID);
         $tempArray     = explode('(', $name);
         $tempName      = trim($tempArray[0]);
-        $programID     = empty($plausibleData) ? null : Programs::getProgramID($plausibleData, $tempName);
+        $programID     = empty($plausibleData) ? null : Programs::getID($plausibleData, $tempName);
 
         $program            = new stdClass;
         $program->gpuntisID = $untisID;

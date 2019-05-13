@@ -36,7 +36,7 @@ interface XMLValidator
     public static function validateCollection(&$scheduleModel, &$xmlObject);
 
     /**
-     * Checks whether subject nodes have the expected structure and required
+     * Checks whether XML node has the expected structure and required
      * information
      *
      * @param object &$scheduleModel the validating schedule model

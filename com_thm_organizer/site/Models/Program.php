@@ -13,6 +13,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Exception;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -111,16 +112,18 @@ class Program extends BaseModel
     /**
      * Method to save existing degree programs as copies
      *
+     * @param array $data the data to be used to create the program when called from the program helper
+     *
      * @return Boolean
      * @throws Exception => unauthorized access
      */
-    public function save2copy()
+    public function save2copy($data = [])
     {
         if (!Access::allowDocumentAccess()) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = OrganizerHelper::getForm();
+        $data = empty($data) ? OrganizerHelper::getForm() : $data;
         if (isset($data['id'])) {
             unset($data['id']);
         }

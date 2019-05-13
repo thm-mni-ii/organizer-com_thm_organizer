@@ -36,60 +36,47 @@ class Grids implements XMLValidator
     }
 
     /**
-     * Saves the grid to the corresponding table if not already existent.
+     * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
-     * @param string $gpuntisID the gpuntis name for the grid
-     * @param object $grid      the object modelling the grid information
+     * @param object &$scheduleModel the validating schedule model
+     * @param string  $untisID       the id of the resource in Untis
      *
-     * @return void creates database entries
+     * @return void modifies the scheduleModel, setting the id property of the resource
      */
-    private static function saveGridEntry($gpuntisID, $grid)
+    public static function setID(&$scheduleModel, $untisID)
     {
-        $gridID = self::getID($gpuntisID);
-        if (!empty($gridID)) {
+        if (empty($scheduleModel->schedule->periods->$untisID)) {
             return;
         }
 
+        $grid = $scheduleModel->schedule->periods->$untisID;
         $grid->grid = json_encode($grid->grid);
 
-        $gridTable = OrganizerHelper::getTable('Grids');
-        $gridTable->save($grid);
-    }
+        $table        = OrganizerHelper::getTable('Grids');
+        $loadCriteria = ['gpuntisID' => $untisID];
+        $exists       = $table->load($loadCriteria);
+        if ($exists) {
+            $altered = false;
+            foreach ($grid as $key => $value) {
+                if (property_exists($table, $key) and empty($table->$key) and !empty($value)) {
+                    $table->set($key, $value);
+                    $altered = true;
+                }
+            }
 
-    /**
-     * Sets grid entries for later storage in the database
-     *
-     * @param object $grids    the grids container object
-     * @param string $gridName the name used for the grid in untis
-     * @param int    $day      the day number
-     * @param int    $periodNo the period number
-     * @param int    $period   the period start time as a 4 digit number
-     *
-     * @return void modifies the grids object
-     */
-    private static function setGridEntry(&$grids, $gridName, $day, $periodNo, $period)
-    {
-        // Builds the object for the DB
-        if (!isset($grids->$gridName)) {
-            $grids->$gridName                = new stdClass;
-            $grids->$gridName->gpuntisID     = $gridName;
-            $grids->$gridName->name_de       = $gridName;
-            $grids->$gridName->name_en       = $gridName;
-            $grids->$gridName->grid          = new stdClass;
-            $grids->$gridName->grid->periods = new stdClass;
+            if ($altered) {
+                $table->store();
+            }
+
+            $scheduleModel->schedule->periods->$untisID->id = $table->id;
+
+            return;
         }
 
-        $setStartDay = (empty($grids->$gridName->grid->startDay) or $grids->$gridName->grid->startDay > $day);
-        if ($setStartDay) {
-            $grids->$gridName->grid->startDay = $day;
-        }
+        $table->save($grid);
+        $scheduleModel->schedule->periods->$untisID->id = $table->id;
 
-        $setEndDay = (empty($grids->$gridName->grid->endDay) or $grids->$gridName->grid->endDay < $day);
-        if ($setEndDay) {
-            $grids->$gridName->grid->endDay = $day;
-        }
-
-        $grids->$gridName->grid->periods->$periodNo = $period;
+        return;
     }
 
     /**
@@ -109,14 +96,13 @@ class Grids implements XMLValidator
         }
 
         $scheduleModel->schedule->periods = new stdClass;
-        $grids                            = new stdClass;
 
         foreach ($xmlObject->timeperiods->children() as $timePeriodNode) {
-            self::validateIndividual($scheduleModel, $timePeriodNode, $grids);
+            self::validateIndividual($scheduleModel, $timePeriodNode);
         }
 
-        foreach ($grids as $gpuntisID => $grid) {
-            self::saveGridEntry($gpuntisID, $grid);
+        foreach (array_keys((array)$scheduleModel->schedule->periods) as $gridName) {
+            self::validateIndividual($scheduleModel, $timePeriodNode);
         }
     }
 
@@ -126,11 +112,10 @@ class Grids implements XMLValidator
      *
      * @param object &$scheduleModel  the validating schedule model
      * @param object &$timePeriodNode the time period node to be validated
-     * @param object &$grids          the container for grids
      *
      * @return void
      */
-    private static function validateIndividual(&$scheduleModel, &$timePeriodNode, &$grids)
+    public static function validateIndividual(&$scheduleModel, &$timePeriodNode)
     {
         // Not actually referenced but evinces data inconsistencies in Untis
         $exportKey = trim((string)$timePeriodNode[0]['id']);
@@ -173,7 +158,5 @@ class Grids implements XMLValidator
                 $scheduleModel->schedule->periods->$gridName->$periodNo->type = 'break';
             }
         }
-
-        self::setGridEntry($grids, $gridName, $day, $periodNo, $scheduleModel->schedule->periods->$gridName->$periodNo);
     }
 }

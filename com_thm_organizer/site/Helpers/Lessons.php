@@ -17,80 +17,61 @@ defined('_JEXEC') or die;
 /**
  * Provides functions for XML lesson validation and modeling.
  */
-class Lessons
+class Lessons implements XMLValidator
 {
-    private $lessonID;
-
-    private $lessonName;
-
-    private $pools;
-
-    private $scheduleModel = null;
-
-    private $subjectID;
-
-    private $subjectUntisID;
-
-    private $teacherID;
-
-    private $xmlObject = null;
-
-    /**
-     * Creates the lesson model
-     *
-     * @param object &$scheduleModel the model for the schedule
-     * @param object &$xmlObject     the xml object being validated
-     */
-    public function __construct(&$scheduleModel, &$xmlObject)
-    {
-        $this->scheduleModel = $scheduleModel;
-        $this->xmlObject     = $xmlObject;
-    }
-
     /**
      * Processes instance information for the new schedule format
      *
-     * @param string $currentDate the date being iterated
-     * @param object $period      the period information from the grid
-     * @param object $roomIDs     the room ids assigned to the instance
+     * @param object &$scheduleModel the validating schedule model
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param int     $teacherID     the id of the teacher associated with this lesson unit
+     * @param string  $currentDate   the date being iterated
+     * @param object  $period        the period information from the grid
+     * @param object  $roomIDs       the room ids assigned to the instance
      *
      * @return void
      */
-    private function processInstance($currentDate, $period, $roomIDs)
-    {
+    private static function processInstance(
+        &$scheduleModel,
+        $lessonID,
+        $subjectID,
+        $teacherID,
+        $currentDate,
+        $period,
+        $roomIDs
+    ) {
         // New format calendar items are created as necessary
-        if (!isset($this->scheduleModel->schedule->calendar->$currentDate)) {
-            $this->scheduleModel->schedule->calendar->$currentDate = new stdClass;
+        if (!isset($scheduleModel->schedule->calendar->$currentDate)) {
+            $scheduleModel->schedule->calendar->$currentDate = new stdClass;
         }
 
         $times = $period->startTime . '-' . $period->endTime;
-        if (!isset($this->scheduleModel->schedule->calendar->$currentDate->$times)) {
-            $this->scheduleModel->schedule->calendar->$currentDate->$times = new stdClass;
+        if (!isset($scheduleModel->schedule->calendar->$currentDate->$times)) {
+            $scheduleModel->schedule->calendar->$currentDate->$times = new stdClass;
         }
 
-        $lessonID = $this->lessonID;
-
-        if (!isset($this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID)) {
-            $this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID                 = new stdClass;
-            $this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->delta          = '';
-            $this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations = [];
+        if (!isset($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID)) {
+            $scheduleModel->schedule->calendar->$currentDate->$times->$lessonID                 = new stdClass;
+            $scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->delta          = '';
+            $scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations = [];
         }
 
-        $config                               = new stdClass;
-        $config->lessonID                     = $this->lessonID;
-        $config->subjectID                    = $this->subjectID;
-        $config->teachers                     = new stdClass;
-        $config->teachers->{$this->teacherID} = '';
-        $config->rooms                        = $roomIDs;
-        $existingIndex                        = null;
+        $config                         = new stdClass;
+        $config->lessonID               = $lessonID;
+        $config->subjectID              = $subjectID;
+        $config->teachers               = new stdClass;
+        $config->teachers->{$teacherID} = '';
+        $config->rooms                  = $roomIDs;
+        $existingIndex                  = null;
 
-        if (!empty($this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations)) {
+        if (!empty($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations)) {
             $compConfig = null;
 
-            foreach ($this->scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex) {
-                $tempConfig = json_decode($this->scheduleModel->schedule->configurations[$configIndex]);
+            foreach ($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex) {
+                $tempConfig = json_decode($scheduleModel->schedule->configurations[$configIndex]);
 
-                if ($tempConfig->subjectID == $this->subjectID) {
+                if ($tempConfig->subjectID == $subjectID) {
                     $compConfig    = $tempConfig;
                     $existingIndex = $configIndex;
                     break;
@@ -98,8 +79,8 @@ class Lessons
             }
 
             if (!empty($compConfig)) {
-                foreach ($compConfig->teachers as $teacherID => $emptyDelta) {
-                    $config->teachers->$teacherID = $emptyDelta;
+                foreach ($compConfig->teachers as $localTeacherID => $emptyDelta) {
+                    $config->teachers->$localTeacherID = $emptyDelta;
                 }
 
                 foreach ($compConfig->rooms as $roomID => $emptyDelta) {
@@ -108,7 +89,7 @@ class Lessons
             }
         }
 
-        $this->createConfig($config, $currentDate, $times, $existingIndex);
+        self::createConfig($scheduleModel, $lessonID, $config, $currentDate, $times, $existingIndex);
 
         return;
 
@@ -117,101 +98,131 @@ class Lessons
     /**
      * Creates a new configuration
      *
-     * @param object $config        the configuration object
-     * @param string $date          the date to which the configuration should be referenced
-     * @param string $times         the times used for indexing blocks in the calendar
-     * @param int    $existingIndex the existing index of the configuration if existent
+     * @param object &$scheduleModel the validating schedule model
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param object  $config        the configuration object
+     * @param string  $date          the date to which the configuration should be referenced
+     * @param string  $times         the times used for indexing blocks in the calendar
+     * @param int     $existingIndex the existing index of the configuration if existent
      *
      * @return void
      */
-    private function createConfig($config, $date, $times, $existingIndex)
+    private static function createConfig(&$scheduleModel, $lessonID, $config, $date, $times, $existingIndex)
     {
         $jsonConfig = json_encode($config);
 
         if (!empty($existingIndex)) {
-            $this->scheduleModel->schedule->configurations[$existingIndex] = $jsonConfig;
+            $scheduleModel->schedule->configurations[$existingIndex] = $jsonConfig;
 
             return;
         }
 
-        $this->scheduleModel->schedule->configurations[] = $jsonConfig;
-        $configKeys                                      = array_keys($this->scheduleModel->schedule->configurations);
-        $configIndex                                     = end($configKeys);
+        $scheduleModel->schedule->configurations[] = $jsonConfig;
+        $configKeys                                = array_keys($scheduleModel->schedule->configurations);
+        $configIndex                               = end($configKeys);
 
-        $this->scheduleModel->schedule->calendar->$date->$times->{$this->lessonID}->configurations[] = $configIndex;
+        $scheduleModel->schedule->calendar->$date->$times->$lessonID->configurations[] = $configIndex;
     }
 
     /**
      * Determines how the missing room attribute will be handled
      *
-     * @param string $currentDT the timestamp of the date being iterated
-     * @param string $period    the value of the period attribute
+     * @param object &$scheduleModel the validating schedule model
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param string  $lessonName    the name of the lesson as used for error reporting
+     * @param array   $pools         the pools associated with the lesson unit
+     * @param string  $currentDT     the timestamp of the date being iterated
+     * @param string  $period        the value of the period attribute
      *
      * @return void adds a message to the scheduleModel scheduleWarnings array
      */
-    private function createMissingRoomMessage($currentDT, $period)
-    {
-        $pools        = implode(', ', $this->pools);
+    private static function createMissingRoomMessage(
+        &$scheduleModel,
+        $lessonID,
+        $lessonName,
+        $pools,
+        $currentDT,
+        $period
+    ) {
+        $pools        = implode(', ', $pools);
         $dow          = strtoupper(date('l', $currentDT));
         $localizedDoW = Languages::_($dow);
-        $error        = sprintf(Languages::_('THM_ORGANIZER_ERROR_LESSON_ROOM_MISSING'),
-            $this->lessonName,
-            $this->lessonID,
+        $error        = sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_ROOM'),
+            $lessonName,
+            $lessonID,
             $pools,
             $localizedDoW,
             $period
         );
 
-        if (!in_array($error, $this->scheduleModel->scheduleWarnings)) {
-            $this->scheduleModel->scheduleWarnings[] = $error;
+        if (!in_array($error, $scheduleModel->scheduleWarnings)) {
+            $scheduleModel->scheduleWarnings[] = $error;
         }
     }
 
     /**
-     * Checks whether subject nodes have the expected structure and required information
+     * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
-     * @return void
+     * @param object &$scheduleModel the validating schedule model
+     * @param string  $untisID       the id of the resource in Untis
+     *
+     * @return void modifies the scheduleModel, setting the id property of the resource
      */
-    public function validate()
+    public static function setID(&$scheduleModel, $untisID)
     {
-        if (empty($this->xmlObject->lessons)) {
-            $this->scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_LESSONS_MISSING');
+        // Lessons are only saved if the validation completed.
+    }
+
+    /**
+     * Checks whether nodes have the expected structure and required information
+     *
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$xmlObject     the object being validated
+     *
+     * @return void modifies &$scheduleModel
+     */
+    public static function validateCollection(&$scheduleModel, &$xmlObject)
+    {
+        if (empty($xmlObject->lessons)) {
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_LESSONS_MISSING');
 
             return;
         }
 
-        $this->scheduleModel->schedule->configurations = [];
-        $this->scheduleModel->schedule->lessons        = new stdClass;
+        $scheduleModel->schedule->configurations = [];
+        $scheduleModel->schedule->lessons        = new stdClass;
 
-        foreach ($this->xmlObject->lessons->children() as $lessonNode) {
-            $this->validateIndividual($lessonNode);
+        foreach ($xmlObject->lessons->children() as $node) {
+            self::validateIndividual($scheduleModel, $node);
         }
 
-        if (!empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD'])) {
-            $warningCount = $this->scheduleModel->scheduleWarnings['LESSON-METHOD'];
-            unset($this->scheduleModel->scheduleWarnings['LESSON-METHOD']);
-            $this->scheduleModel->scheduleWarnings[]
-                = sprintf(Languages::_('THM_ORGANIZER_WARNING_METHODID'), $warningCount);
+        if (!empty($scheduleModel->scheduleWarnings['LESSON-METHOD'])) {
+            $warningCount = $scheduleModel->scheduleWarnings['LESSON-METHOD'];
+            unset($scheduleModel->scheduleWarnings['LESSON-METHOD']);
+            $scheduleModel->scheduleWarnings[]
+                = sprintf(Languages::_('THM_ORGANIZER_METHOD_ID_WARNING'), $warningCount);
         }
     }
 
     /**
-     * Checks whether lesson nodes have the expected structure and required information
+     * Checks whether XML node has the expected structure and required
+     * information
      *
-     * @param object &$lessonNode a SimpleXML object modeling the lesson node to be validated
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$node          the node to be validated
      *
      * @return void
      */
-    private function validateIndividual(&$lessonNode)
+    public static function validateIndividual(&$scheduleModel, &$node)
     {
-        $effBeginDT  = isset($lessonNode->begindate) ?
-            strtotime(trim((string)$lessonNode->begindate)) :
-            strtotime(trim((string)$lessonNode->effectivebegindate));
-        $termBeginDT = strtotime($this->scheduleModel->schedule->startDate);
-        $effEndDT    = isset($lessonNode->enddate) ?
-            strtotime(trim((string)$lessonNode->enddate)) :
-            strtotime(trim((string)$lessonNode->effectiveenddate));
-        $termEndDT   = strtotime($this->scheduleModel->schedule->endDate);
+        $effBeginDT  = isset($node->begindate) ?
+            strtotime(trim((string)$node->begindate)) :
+            strtotime(trim((string)$node->effectivebegindate));
+        $termBeginDT = strtotime($scheduleModel->schedule->startDate);
+        $effEndDT    = isset($node->enddate) ?
+            strtotime(trim((string)$node->enddate)) :
+            strtotime(trim((string)$node->effectiveenddate));
+        $termEndDT   = strtotime($scheduleModel->schedule->endDate);
 
         // Lesson is not relevant for the uploaded schedule (starts after term ends or ends before term begins)
         if ($effBeginDT > $termEndDT or $effEndDT < $termBeginDT) {
@@ -219,79 +230,93 @@ class Lessons
         }
 
         // Reset variables passed through the object
-        $this->lessonID  = $this->validateUntisID(trim((string)$lessonNode[0]['id']));
-        $this->subjectID = '';
-        $this->teacherID = '';
+        $lessonID = self::validateUntisID($scheduleModel, trim((string)$node[0]['id']));
 
-        if (empty($this->lessonID)) {
+        if (empty($lessonID)) {
             return;
         }
 
-        if (!isset($this->scheduleModel->schedule->lessons->{$this->lessonID})) {
-            $this->scheduleModel->schedule->lessons->{$this->lessonID} = new stdClass;
+        if (!isset($scheduleModel->schedule->lessons->$lessonID)) {
+            $scheduleModel->schedule->lessons->$lessonID = new stdClass;
         }
 
-        if (!$this->validateSubject($lessonNode)) {
+        $lessonName = '';
+        $subjectID  = '';
+        if (!self::validateSubject($scheduleModel, $node, $lessonID, $subjectID, $lessonName)) {
             return;
         }
 
-        $this->validateMethod($lessonNode);
+        self::validateMethod($scheduleModel, $node, $lessonID, $lessonName);
 
-        if (!$this->validatePools($lessonNode)) {
+        $pools = [];
+        if (!self::validatePools($scheduleModel, $node, $lessonID, $lessonName, $subjectID, $pools)) {
             return;
         }
 
-        if (!$this->validateTeacher($lessonNode)) {
+        $teacherID = '';
+        if (!self::validateTeacher($scheduleModel, $node, $lessonID, $lessonName, $subjectID, $teacherID)) {
             return;
         }
 
-        if (!$this->validateDates($effBeginDT, $effEndDT)) {
+        if (!self::validateDates($scheduleModel, $lessonID, $lessonName, $effBeginDT, $effEndDT)) {
             return;
         }
 
         // Should not have been exported
-        if (empty($lessonNode->times->count())) {
+        if (empty($node->times->count())) {
             return;
         }
 
-        $times   = $lessonNode->times->children();
-        $comment = trim((string)$lessonNode->text);
+        $times   = $node->times->children();
+        $comment = trim((string)$node->text);
 
         if (empty($comment) or $comment == '.') {
             $comment = '';
         }
 
-        $this->scheduleModel->schedule->lessons->{$this->lessonID}->comment = $comment;
+        $scheduleModel->schedule->lessons->{$lessonID}->comment = $comment;
 
-        $rawInstances = trim((string)$lessonNode->occurence);
+        $rawInstances = trim((string)$node->occurence);
         $startDT      = $effBeginDT < $termBeginDT ? $termBeginDT : $effBeginDT;
         $endDT        = $termEndDT < $effEndDT ? $termEndDT : $effEndDT;
 
         // Adjusted dates are used because effective dts are not always accurate for the time frame
-        $potentialInstances = $this->truncateInstances($rawInstances, $startDT, $endDT);
+        $potentialInstances = self::truncateInstances($scheduleModel, $rawInstances, $startDT, $endDT);
 
-        $gridName = empty((string)$lessonNode->timegrid) ? 'Haupt-Zeitraster' : (string)$lessonNode->timegrid;
+        $gridName = empty((string)$node->timegrid) ? 'Haupt-Zeitraster' : (string)$node->timegrid;
 
         // Cannot produce blocking errors
-        $this->validateInstances($potentialInstances, $startDT, $times, $gridName);
+        self::validateInstances(
+            $scheduleModel,
+            $lessonID,
+            $lessonName,
+            $subjectID,
+            $teacherID,
+            $pools,
+            $potentialInstances,
+            $startDT,
+            $times,
+            $gridName
+        );
     }
 
     /**
      * Checks if the untis id is valid
      *
-     * @param string $rawUntisID the untis lesson id
+     * @param object &$scheduleModel the validating schedule model
+     * @param string  $rawUntisID    the untis lesson id
      *
      * @return mixed  string if valid, otherwise false
      */
-    private function validateUntisID($rawUntisID)
+    private static function validateUntisID(&$scheduleModel, $rawUntisID)
     {
         $withoutPrefix = str_replace("LS_", '', $rawUntisID);
         $untisID       = substr($withoutPrefix, 0, strlen($withoutPrefix) - 2);
 
         if (empty($untisID)) {
-            $missingText = Languages::_('THM_ORGANIZER_ERROR_LESSON_ID_MISSING');
-            if (!in_array($missingText, $this->scheduleModel->scheduleErrors)) {
-                $this->scheduleModel->scheduleErrors[] = $missingText;
+            $missingText = Languages::_('THM_ORGANIZER_LESSON_MISSING_ID');
+            if (!in_array($missingText, $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = $missingText;
             }
 
             return false;
@@ -303,54 +328,54 @@ class Lessons
     /**
      * Validates the subjectID and builds dependant structural elements
      *
-     * @param object &$lessonNode the lesson node
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$node          the lesson node
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param string &$lessonName    the name of the lesson as used for error reporting
      *
      * @return mixed  string the name of the lesson (subjects) on success,
      *                 otherwise boolean false
      */
-    private function validateSubject(&$lessonNode)
+    private static function validateSubject(&$scheduleModel, &$node, $lessonID, &$subjectID, &$lessonName)
     {
-        $untisID = str_replace('SU_', '', trim((string)$lessonNode->lesson_subject[0]['id']));
+        $lessonName = str_replace('SU_', '', trim((string)$node->lesson_subject[0]['id']));
 
-        if (empty($untisID)) {
-            $this->scheduleModel->scheduleErrors[] =
-                sprintf(Languages::_('THM_ORGANIZER_ERROR_LESSON_SUBJECT_MISSING'), $this->lessonID);
+        if (empty($lessonName)) {
+            $scheduleModel->scheduleErrors[] =
+                sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_SUBJECT'), $lessonID);
 
             return false;
         }
 
-        $this->subjectUntisID = $untisID;
-        $subjectIndex         = $this->scheduleModel->schedule->departmentname . "_" . $untisID;
+        $subjectIndex = $scheduleModel->schedule->departmentname . "_" . $lessonName;
 
-        if (empty($this->scheduleModel->schedule->subjects->$subjectIndex)) {
-            $this->scheduleModel->scheduleErrors[] =
+        if (empty($scheduleModel->schedule->subjects->$subjectIndex)) {
+            $scheduleModel->scheduleErrors[] =
                 sprintf(
                     Languages::_('THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING'),
-                    $this->lessonID,
-                    $this->subjectUntisID
+                    $lessonID,
+                    $lessonName
                 );
 
             return false;
         }
 
-        // Used for error reporting
-        $this->lessonName = $this->subjectUntisID;
-
-        if (!isset($this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects)) {
-            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects = new stdClass;
+        if (!isset($scheduleModel->schedule->lessons->{$lessonID}->subjects)) {
+            $scheduleModel->schedule->lessons->{$lessonID}->subjects = new stdClass;
         }
 
         // Used in configurations, teachers and pools
-        $this->subjectID = $this->scheduleModel->schedule->subjects->$subjectIndex->id;
+        $subjectID = $scheduleModel->schedule->subjects->$subjectIndex->id;
 
-        if (!isset($this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID})) {
+        if (!isset($scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID)) {
             $newSubject            = new stdClass;
             $newSubject->delta     = '';
-            $newSubject->subjectNo = $this->scheduleModel->schedule->subjects->$subjectIndex->subjectNo;
+            $newSubject->subjectNo = $scheduleModel->schedule->subjects->$subjectIndex->subjectNo;
             $newSubject->pools     = new stdClass;
             $newSubject->teachers  = new stdClass;
 
-            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID} = $newSubject;
+            $scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID = $newSubject;
         }
 
         return true;
@@ -359,26 +384,29 @@ class Lessons
     /**
      * Validates the description
      *
-     * @param object &$lessonNode the lesson node
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$node          the lesson node
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param string &$lessonName    the name of the lesson as used for error reporting
      *
      * @return void modifies object properties
      */
-    private function validateMethod(&$lessonNode)
+    private static function validateMethod(&$scheduleModel, &$node, $lessonID, &$lessonName)
     {
-        $untisID       = str_replace('DS_', '', trim((string)$lessonNode->lesson_description));
-        $invalidMethod = (empty($untisID) or empty($this->scheduleModel->schedule->methods->$untisID));
+        $untisID       = str_replace('DS_', '', trim((string)$node->lesson_description));
+        $invalidMethod = (empty($untisID) or empty($scheduleModel->schedule->methods->$untisID));
 
         if ($invalidMethod) {
-            $this->scheduleModel->scheduleWarnings['LESSON-METHOD'] = empty($this->scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
-                1 : $this->scheduleModel->scheduleWarnings['LESSON-METHOD']++;
+            $scheduleModel->scheduleWarnings['LESSON-METHOD'] = empty($scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
+                1 : $scheduleModel->scheduleWarnings['LESSON-METHOD']++;
 
             return;
         }
 
-        $this->lessonName .= " - $untisID";
+        $lessonName .= " - $untisID";
 
-        $this->scheduleModel->schedule->lessons->{$this->lessonID}->methodID
-            = $this->scheduleModel->schedule->methods->$untisID->id;
+        $scheduleModel->schedule->lessons->{$lessonID}->methodID
+            = $scheduleModel->schedule->methods->$untisID->id;
 
         return;
     }
@@ -386,39 +414,46 @@ class Lessons
     /**
      * Validates the teacher attribute and sets corresponding schedule elements
      *
-     * @param object &$lessonNode the lesson node
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$node          the lesson node
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param string  $lessonName    the name of the lesson as used for error reporting
+     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param int    &$teacherID     the id of the teacher associated with this lesson unit
      *
      * @return boolean  true if valid, otherwise false
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    private function validateTeacher(&$lessonNode)
+    private static function validateTeacher(&$scheduleModel, &$node, $lessonID, $lessonName, $subjectID, &$teacherID)
     {
-        $untisID = str_replace('TR_', '', trim((string)$lessonNode->lesson_teacher[0]['id']));
+        $untisID = str_replace('TR_', '', trim((string)$node->lesson_teacher[0]['id']));
 
         if (empty($untisID)) {
-            $this->scheduleModel->scheduleErrors[] =
-                sprintf(Languages::_('THM_ORGANIZER_ERROR_LESSON_TEACHER_MISSING'), $this->lessonName,
-                    $this->lessonID);
+            $scheduleModel->scheduleErrors[] =
+                sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_TEACHER'), $lessonName,
+                    $lessonID);
 
             return false;
         }
 
-        if (empty($this->scheduleModel->schedule->teachers->$untisID)
-            or empty($this->scheduleModel->schedule->teachers->$untisID->id)) {
-            $this->scheduleModel->scheduleErrors[] =
+        if (empty($scheduleModel->schedule->teachers->$untisID)
+            or empty($scheduleModel->schedule->teachers->$untisID->id)) {
+            $scheduleModel->scheduleErrors[] =
                 sprintf(
                     Languages::_('THM_ORGANIZER_ERROR_LESSON_TEACHER_LACKING'),
-                    $this->lessonName,
-                    $this->lessonID,
-                    $untisID
+                    $lessonName,
+                    $lessonID,
+                    $teacherID
                 );
 
             return false;
         }
 
-        if (!empty($this->subjectID)) {
-            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->teachers->{$this->teacherID} = '';
+        if (!empty($subjectID)) {
+            $teacherID = $scheduleModel->schedule->teachers->$untisID->id;
+
+            $scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID->teachers->$teacherID = '';
         }
 
         return true;
@@ -427,83 +462,88 @@ class Lessons
     /**
      * Validates the pools attribute and sets corresponding schedule elements
      *
-     * @param object &$lessonNode the lesson node
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$node          the lesson node
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param string  $lessonName    the name of the lesson as used for error reporting
+     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param array  &$pools         the untis ids of the pools associated with the lesson for error reporting
      *
      * @return boolean  true if valid, otherwise false
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    private function validatePools(&$lessonNode)
+    private static function validatePools(&$scheduleModel, &$node, $lessonID, $lessonName, $subjectID, &$pools)
     {
-        $rawUntisIDs = str_replace('CL_', '', (string)$lessonNode->lesson_classes[0]['id']);
+        $rawUntisIDs = str_replace('CL_', '', (string)$node->lesson_classes[0]['id']);
 
         if (empty($rawUntisIDs)) {
-            $this->scheduleModel->scheduleErrors[] =
-                sprintf(Languages::_('THM_ORGANIZER_ERROR_LESSON_POOL_MISSING'), $this->lessonName, $this->lessonID);
+            $scheduleModel->scheduleErrors[] =
+                sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_POOL'), $lessonName, $lessonID);
 
             return false;
         }
 
-        $untisIDs    = explode(" ", $rawUntisIDs);
-        $this->pools = [];
+        $untisIDs = explode(" ", $rawUntisIDs);
 
         foreach ($untisIDs as $untisID) {
-            $poolID    = null;
-
-            if (empty($this->scheduleModel->schedule->pools->$untisID)
-                or empty($this->scheduleModel->schedule->pools->$untisID->id)) {
-                $this->scheduleModel->scheduleErrors[] =
+            if (empty($scheduleModel->schedule->pools->$untisID)
+                or empty($scheduleModel->schedule->pools->$untisID->id)) {
+                $scheduleModel->scheduleErrors[] =
                     sprintf(
                         Languages::_('THM_ORGANIZER_ERROR_LESSON_POOL_LACKING'),
-                        $this->lessonName,
-                        $this->lessonID,
+                        $lessonName,
+                        $lessonID,
                         $untisID
                     );
 
                 continue;
             }
 
-            $this->scheduleModel->schedule->lessons->{$this->lessonID}->subjects->{$this->subjectID}->pools->$poolID
-                = $this->scheduleModel->schedule->pools->$untisID->id;
+            $poolID = $scheduleModel->schedule->pools->$untisID->id;
 
-            $this->pools[$untisID] = $untisID;
+            $scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID->pools->$poolID = '';
+            $pools[$untisID] = $untisID;
         }
 
-        return empty($this->pools) ? false : true;
+        return empty($pools) ? false : true;
     }
 
     /**
      * Checks for the validity and consistency of date values
      *
-     * @param int $startDT the start date as integer
-     * @param int $endDT   the end date as integer
+     * @param object &$scheduleModel the validating schedule model
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param string  $lessonName    the name of the lesson as used for error reporting
+     * @param int     $startDT       the start date as integer
+     * @param int     $endDT         the end date as integer
      *
      * @return boolean  true if dates are valid, otherwise false
      */
-    private function validateDates($startDT, $endDT)
+    private static function validateDates(&$scheduleModel, $lessonID, $lessonName, $startDT, $endDT)
     {
 
         if (empty($startDT)) {
-            $this->scheduleModel->scheduleErrors[] =
+            $scheduleModel->scheduleErrors[] =
                 sprintf(
-                    Languages::_('THM_ORGANIZER_ERROR_LESSON_START_DATE_MISSING'),
-                    $this->lessonName,
-                    $this->lessonID
+                    Languages::_('THM_ORGANIZER_LESSON_MISSING_START_DATE'),
+                    $lessonName,
+                    $lessonID
                 );
 
             return false;
         }
 
-        $syStartTime     = strtotime($this->scheduleModel->schedule->syStartDate);
-        $syEndTime       = strtotime($this->scheduleModel->schedule->syEndDate);
+        $syStartTime     = strtotime($scheduleModel->schedule->syStartDate);
+        $syEndTime       = strtotime($scheduleModel->schedule->syEndDate);
         $lessonStartDate = date('Y-m-d', $startDT);
 
         $validStartDate = ($startDT >= $syStartTime and $startDT <= $syEndTime);
         if (!$validStartDate) {
-            $this->scheduleModel->scheduleErrors[] = sprintf(
+            $scheduleModel->scheduleErrors[] = sprintf(
                 Languages::_('THM_ORGANIZER_ERROR_LESSON_START_DATE_INVALID'),
-                $this->lessonName,
-                $this->lessonID,
+                $lessonName,
+                $lessonID,
                 $lessonStartDate
             );
 
@@ -511,10 +551,10 @@ class Lessons
         }
 
         if (empty($endDT)) {
-            $this->scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_ERROR_LESSON_END_DATE_MISSING'),
-                $this->lessonName,
-                $this->lessonID
+            $scheduleModel->scheduleErrors[] = sprintf(
+                Languages::_('THM_ORGANIZER_LESSON_MISSING_END_DATE'),
+                $lessonName,
+                $lessonID
             );
 
             return false;
@@ -524,10 +564,10 @@ class Lessons
 
         $validEndDate = ($endDT >= $syStartTime and $endDT <= $syEndTime);
         if (!$validEndDate) {
-            $this->scheduleModel->scheduleErrors[] = sprintf(
+            $scheduleModel->scheduleErrors[] = sprintf(
                 Languages::_('THM_ORGANIZER_ERROR_LESSON_END_DATE_INVALID'),
-                $this->lessonName,
-                $this->lessonID,
+                $lessonName,
+                $lessonID,
                 $lessonEndDate
             );
 
@@ -536,11 +576,11 @@ class Lessons
 
         // Checks if start date is before end date
         if ($endDT < $startDT) {
-            $this->scheduleModel->scheduleErrors[] =
+            $scheduleModel->scheduleErrors[] =
                 sprintf(
                     Languages::_('THM_ORGANIZER_ERROR_LESSON_DATES_INCONSISTENT'),
-                    $this->lessonName,
-                    $this->lessonID,
+                    $lessonName,
+                    $lessonID,
                     $lessonStartDate,
                     $lessonEndDate
                 );
@@ -554,19 +594,20 @@ class Lessons
     /**
      * Validates the occurrences attribute
      *
-     * @param string $raw   the string containing the occurrences
-     * @param int    $start the timestamp of the lesson's begin
-     * @param int    $end   the timestamp of the lesson's end
+     * @param object &$scheduleModel the validating schedule model
+     * @param string  $raw           the string containing the occurrences
+     * @param int     $start         the timestamp of the lesson's begin
+     * @param int     $end           the timestamp of the lesson's end
      *
      * @return mixed   array if valid, otherwise false
      */
-    private function truncateInstances($raw, $start, $end)
+    private static function truncateInstances(&$scheduleModel, $raw, $start, $end)
     {
         // Increases the end value one day (Untis uses inclusive dates)
         $end = strtotime('+1 day', $end);
 
         // 86400 is the number of seconds in a day 24 * 60 * 60
-        $offset = floor(($start - strtotime($this->scheduleModel->schedule->syStartDate)) / 86400);
+        $offset = floor(($start - strtotime($scheduleModel->schedule->syStartDate)) / 86400);
         $length = floor(($end - $start) / 86400);
 
         $validOccurrences = substr($raw, $offset, $length);
@@ -578,6 +619,12 @@ class Lessons
     /**
      * Iterates over possible occurrences and validates them
      *
+     * @param object &$scheduleModel      the validating schedule model
+     * @param int     $lessonID           the id of the lesson being iterated
+     * @param string  $lessonName         the name of the lesson as used for error reporting
+     * @param int     $subjectID          the id of the subject associated with this lesson unit
+     * @param int     $teacherID          the id of the teacher associated with this lesson unit
+     * @param array   $pools              the pools associated with the lesson unit
      * @param array   $potentialInstances an array of 'occurrences'
      * @param int     $currentDT          the starting timestamp
      * @param array  &$instances          the object containing the instances
@@ -585,8 +632,18 @@ class Lessons
      *
      * @return void
      */
-    private function validateInstances($potentialInstances, $currentDT, &$instances, $grid)
-    {
+    private static function validateInstances(
+        $scheduleModel,
+        $lessonID,
+        $lessonName,
+        $subjectID,
+        $teacherID,
+        $pools,
+        $potentialInstances,
+        $currentDT,
+        &$instances,
+        $grid
+    ) {
         if (count($instances) == 0) {
             return;
         }
@@ -601,7 +658,17 @@ class Lessons
             }
 
             foreach ($instances as $instance) {
-                if (!$this->validateInstance($instance, $currentDT, $grid)) {
+                if (!self::validateInstance(
+                    $scheduleModel,
+                    $lessonID,
+                    $lessonName,
+                    $subjectID,
+                    $teacherID,
+                    $pools,
+                    $instance,
+                    $currentDT,
+                    $grid)
+                ) {
                     return;
                 }
             }
@@ -615,14 +682,29 @@ class Lessons
     /**
      * Validates a lesson instance
      *
-     * @param object &$instance  the lesson instance
-     * @param int     $currentDT the current date time in the iteration
-     * @param string  $grid      the grid used by the lesson
+     * @param object &$scheduleModel the validating schedule model
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param string  $lessonName    the name of the lesson as used for error reporting
+     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param int     $teacherID     the id of the teacher associated with this lesson unit
+     * @param array   $pools         the untis ids of the pools associated with the lesson for error reporting
+     * @param object &$instance      the lesson instance
+     * @param int     $currentDT     the current date time in the iteration
+     * @param string  $grid          the grid used by the lesson
      *
      * @return boolean  true if valid, otherwise false
      */
-    private function validateInstance(&$instance, $currentDT, $grid)
-    {
+    private static function validateInstance(
+        &$scheduleModel,
+        $lessonID,
+        $lessonName,
+        $subjectID,
+        $teacherID,
+        $pools,
+        &$instance,
+        $currentDT,
+        $grid
+    ) {
         $assigned_day = trim((string)$instance->assigned_day);
         $dow          = date('w', $currentDT);
 
@@ -642,20 +724,22 @@ class Lessons
         $roomAttribute = trim((string)$instance->assigned_room[0]['id']);
 
         if (empty($roomAttribute)) {
-            $this->createMissingRoomMessage($currentDT, $periodNo);
+            self::createMissingRoomMessage($scheduleModel, $lessonID, $lessonName, $pools, $currentDT, $periodNo);
 
             return false;
         }
 
-        $roomsIDs = $this->validateRooms($roomAttribute, $currentDT, $periodNo);
+        $roomIDs = self::validateRooms(
+            $scheduleModel, $lessonID, $lessonName, $pools, $roomAttribute, $currentDT, $periodNo
+        );
 
-        if ($roomsIDs === false) {
+        if ($roomIDs === false) {
             return false;
         }
 
         $currentDate = date('Y-m-d', $currentDT);
-        $period      = $this->scheduleModel->schedule->periods->$grid->$periodNo;
-        $this->processInstance($currentDate, $period, $roomsIDs);
+        $period      = $scheduleModel->schedule->periods->$grid->$periodNo;
+        self::processInstance($scheduleModel, $lessonID, $subjectID, $teacherID, $currentDate, $period, $roomIDs);
 
         return true;
     }
@@ -663,39 +747,50 @@ class Lessons
     /**
      * Validates the room attribute
      *
-     * @param string $roomAttribute the room attribute
-     * @param int    $currentDT     the timestamp of the date being iterated
-     * @param string $period        the period attribute
+     * @param object &$scheduleModel the validating schedule model
+     * @param int     $lessonID      the id of the lesson being iterated
+     * @param string  $lessonName    the name of the lesson as used for error reporting
+     * @param array   $pools         the untis ids of the pools associated with the lesson for error reporting
+     * @param string  $roomAttribute the room attribute
+     * @param int     $currentDT     the timestamp of the date being iterated
+     * @param string  $period        the period attribute
      *
-     * @return mixed the roomIDs (array) on success, otherwise false
+     * @return mixed the roomIDs object on success, otherwise false
      */
-    private function validateRooms($roomAttribute, $currentDT, $period)
-    {
+    private static function validateRooms(
+        &$scheduleModel,
+        $lessonID,
+        $lessonName,
+        $pools,
+        $roomAttribute,
+        $currentDT,
+        $period
+    ) {
         $roomIDs      = new stdClass;
         $roomUntisIDs = explode(' ', str_replace('RM_', '', strtoupper($roomAttribute)));
 
-        foreach ($roomUntisIDs as $roomID) {
+        foreach ($roomUntisIDs as $roomUntisID) {
 
-            if (!isset($this->scheduleModel->schedule->rooms->$roomID)
-                or empty($this->scheduleModel->schedule->rooms->$roomID->id)) {
+            if (!isset($scheduleModel->schedule->rooms->$roomUntisID)
+                or empty($scheduleModel->schedule->rooms->$roomUntisID->id)) {
 
-                $pools        = implode(', ', $this->pools);
+                $pools        = implode(', ', $pools);
                 $dow          = strtoupper(date('l', $currentDT));
                 $localizedDoW = Languages::_($dow);
                 $error        = sprintf(
                     Languages::_('THM_ORGANIZER_ERROR_LESSON_ROOM_LACKING'),
-                    $this->lessonName, $this->lessonID, $pools,
-                    $localizedDoW, $period, $roomID
+                    $lessonName, $lessonID, $pools, $localizedDoW, $period, $roomUntisID
                 );
-                if (!in_array($error, $this->scheduleModel->scheduleErrors)) {
-                    $this->scheduleModel->scheduleErrors[] = $error;
+                if (!in_array($error, $scheduleModel->scheduleErrors)) {
+                    $scheduleModel->scheduleErrors[] = $error;
                 }
 
                 return false;
 
             }
 
-            $roomIDs->{$this->scheduleModel->schedule->rooms->$roomID->id} = '';
+            $roomID           = $scheduleModel->schedule->rooms->$roomUntisID->id;
+            $roomIDs->$roomID = '';
         }
 
         return $roomIDs;

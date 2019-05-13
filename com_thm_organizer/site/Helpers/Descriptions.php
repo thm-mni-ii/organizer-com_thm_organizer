@@ -12,7 +12,6 @@ namespace Organizer\Helpers;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use stdClass;
 
 /**
@@ -59,7 +58,7 @@ class Descriptions implements XMLValidator
     }
 
     /**
-     * Checks whether subject nodes have the expected structure and required
+     * Checks whether XML node has the expected structure and required
      * information
      *
      * @param object &$scheduleModel the validating schedule model
@@ -92,7 +91,7 @@ class Descriptions implements XMLValidator
         }
 
         $typeFlag   = strtolower(trim((string)$node->flags));
-        $validFlags = ['f' => 'Fields', 'r' => 'Room_Types', 'u' => 'Methods'];
+        $validFlags = ['f', 'r', 'u'];
 
         if (empty($typeFlag)) {
             $scheduleModel->scheduleErrors[] = sprintf(
@@ -100,7 +99,8 @@ class Descriptions implements XMLValidator
             );
 
             return;
-        } elseif (!isset($validFlags[$typeFlag])) {
+        } elseif (!in_array($typeFlag, $validFlags)) {
+            echo "<pre>" . print_r($typeFlag, true) . "</pre>";
             $scheduleModel->scheduleErrors[] = sprintf(
                 Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_INVALID'), $name, $untisID
             );
@@ -108,7 +108,16 @@ class Descriptions implements XMLValidator
             return;
         }
 
-        $helper = $validFlags[$typeFlag];
-        $helper::setID($scheduleModel, $untisID);
+        switch ($typeFlag) {
+            case 'f':
+                Fields::setID($scheduleModel, $untisID);
+                return;
+            case 'r':
+                Room_Types::setID($scheduleModel, $untisID);
+                return;
+            case 'u':
+                Methods::setID($scheduleModel, $untisID);
+                return;
+        }
     }
 }

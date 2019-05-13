@@ -318,12 +318,12 @@ class Plan_Pools implements XMLValidator
                 $table->store();
             }
 
-            $scheduleModel->schedule->degrees->$untisID->id = $table->id;
+            $scheduleModel->schedule->pools->$untisID->id = $table->id;
 
             return;
         }
         $table->save($data);
-        $scheduleModel->schedule->degrees->$untisID->id = $table->id;
+        $scheduleModel->schedule->pools->$untisID->id = $table->id;
 
         return;
 
@@ -353,7 +353,7 @@ class Plan_Pools implements XMLValidator
     }
 
     /**
-     * Checks whether subject nodes have the expected structure and required
+     * Checks whether XML node has the expected structure and required
      * information
      *
      * @param object &$scheduleModel the validating schedule model

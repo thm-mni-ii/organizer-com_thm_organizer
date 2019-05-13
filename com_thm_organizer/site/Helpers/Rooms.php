@@ -331,6 +331,6 @@ class Rooms implements XMLValidator
         $room->typeID     = $typeID;
 
         $scheduleModel->schedule->rooms->$internalID = $room;
-        self::setID($internalID, $room);
+        self::setID($scheduleModel, $internalID);
     }
 }
