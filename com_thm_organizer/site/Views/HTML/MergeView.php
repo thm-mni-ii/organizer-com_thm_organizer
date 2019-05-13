@@ -10,58 +10,32 @@
 
 namespace Organizer\Views\HTML;
 
+use Joomla\CMS\Toolbar\Toolbar;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-
 /**
- * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by
- * extending class.
+ * Class loads the resource form into display context. Specific resource determined by extending class.
  */
-abstract class MergeView extends BaseHTMLView
+abstract class MergeView extends FormView
 {
-    protected $_layout = 'merge';
-
-    public $params = null;
-
-    public $form = null;
-
     /**
-     * Method to get display
+     * Concrete classes are supposed to use this method to add a toolbar.
      *
-     * @param Object $tpl template  (default: null)
-     *
-     * @return void
+     * @return void  adds toolbar items to the view
      */
-    public function display($tpl = null)
+    protected function addToolBar()
     {
-        $this->modifyDocument();
-
-        $this->form = $this->get('Form');
-
-        // Allows for view specific toolbar handling
-        if (method_exists($this, 'addToolBar')) {
-            $this->addToolBar();
-        }
-        parent::display($tpl);
-    }
-
-    /**
-     * Adds styles and scripts to the document
-     *
-     * @return void  modifies the document
-     */
-    protected function modifyDocument()
-    {
-        HTML::_('bootstrap.tooltip');
-        HTML::_('behavior.framework', true);
-        HTML::_('behavior.formvalidation');
-        HTML::_('formbehavior.chosen', 'select');
-
-        $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
-        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');
-        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/submitButton.js');
+        $name = OrganizerHelper::getClass($this);
+        HTML::setTitle(Languages::_('THM_ORGANIZER_' . strtoupper($name)));
+        $dataModel = str_replace('_merge', '', strtolower($name));
+        $toolbar = Toolbar::getInstance();
+        $toolbar->appendButton(
+            'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), $dataModel . '.merge', false
+        );
+        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), $dataModel . '.cancel', false);
     }
 }

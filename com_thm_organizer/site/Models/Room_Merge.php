@@ -12,6 +12,8 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Access;
+
 /**
  * Class loads a form for merging room data.
  */

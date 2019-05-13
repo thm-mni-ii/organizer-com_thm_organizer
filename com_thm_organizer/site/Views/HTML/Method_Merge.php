@@ -12,24 +12,10 @@ namespace Organizer\Views\HTML;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Languages;
-
 /**
  * Class loads the (lesson) method merge form into display context.
  */
 class Method_Merge extends MergeView
 {
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_METHOD_MERGE'));
-        $toolbar = Toolbar::getInstance();;
-        $toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'method.merge', true);
-        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'method.cancel', false);
-    }
+    // Everything is taken care of in the inheritance hierarchy.
 }

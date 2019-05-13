@@ -90,24 +90,26 @@ class Plan_Pool extends MergeModel
     }
 
     /**
-     * Attempts to save a resource entry, updating schedule data as necessary.
+     * Attempts to save the resource.
      *
-     * @return mixed  integer on success, otherwise false
+     * @param array $data form data which has been preprocessed by inheriting classes.
+     *
+     * @return bool true on success, otherwise false
      * @throws Exception => unauthorized access
      */
-    public function save()
+    public function save($data = [])
     {
-        if (empty(parent::save())) {
+        if (empty(parent::save($data))) {
             return false;
         }
 
-        $formData = OrganizerHelper::getForm();
+        $data = empty($data) ? OrganizerHelper::getForm() : $data;
 
-        if (empty($this->savePublishing($formData['id']))) {
+        if (empty($this->savePublishing($data['id']))) {
             return false;
         }
 
-        return $formData['id'];
+        return $data['id'];
     }
 
     /**

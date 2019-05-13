@@ -12,26 +12,10 @@ namespace Organizer\Views\HTML;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Languages;
-
 /**
  * Class loads the teacher merge form into display context.
  */
 class Teacher_Merge extends MergeView
 {
-    public $form = null;
-
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_TEACHER_MERGE'));
-        $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'teacher.merge', true);
-        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'teacher.cancel', false);
-    }
+    // Everything is taken care of in the inheritance hierarchy.
 }

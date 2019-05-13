@@ -13,6 +13,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Exception;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -322,12 +323,14 @@ abstract class MergeModel extends BaseModel
     }
 
     /**
-     * Attempts to save a resource entry, updating schedule data as necessary.
+     * Attempts to save the resource.
      *
-     * @return mixed  integer on success, otherwise false
+     * @param array $data form data which has been preprocessed by inheriting classes.
+     *
+     * @return bool true on success, otherwise false
      * @throws Exception => unauthorized access
      */
-    public function save()
+    public function save($data = [])
     {
         $valid = $this->preprocess();
         if (!$valid) {

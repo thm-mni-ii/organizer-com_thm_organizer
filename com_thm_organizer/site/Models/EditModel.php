@@ -24,7 +24,10 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class EditModel extends AdminModel
 {
-    protected $context;
+    /**
+     * @var string provides a unique form context so that data does not overlap between extensions and views
+     */
+    protected $context = '';
 
     protected $deptResource;
 
@@ -62,13 +65,19 @@ abstract class EditModel extends AdminModel
      * @param bool  $loadData Load data  (default: true)
      *
      * @return mixed Form object on success, False on error.
+     * @throws Exception => unauthorized access
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getForm($data = [], $loadData = true)
     {
-        $name = strtolower($this->getName());
-        $form = $this->loadForm($this->context, $name, ['control' => 'jform', 'load_data' => $loadData]);
+        $allowEdit = $this->allowEdit();
+        if (!$allowEdit) {
+            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+        }
+
+        $name = $this->get('name');
+        $form = $this->loadForm("com_thm_organizer.$name", $name, ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;

@@ -12,6 +12,9 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Access;
+use Organizer\Helpers\OrganizerHelper;
+
 /**
  * Class which manages stored teacher data.
  */

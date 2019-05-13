@@ -18,8 +18,8 @@ use Organizer\Helpers\HTML;
       method="post"
       name="adminForm"
       id="item-form"
-      class="form-horizontal">
-        <?php echo $this->form->renderFieldset('details'); ?>
+      class="form-horizontal form-validate">
+    <?php echo $this->form->renderFieldset('details'); ?>
     <?php echo HTML::_('form.token'); ?>
     <input type="hidden" name="task" value=""/>
 </form>
