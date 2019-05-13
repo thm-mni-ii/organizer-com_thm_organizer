@@ -60,7 +60,7 @@ abstract class MergeView extends BaseHTMLView
         HTML::_('formbehavior.chosen', 'select');
 
         $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/submitButton.js');
     }

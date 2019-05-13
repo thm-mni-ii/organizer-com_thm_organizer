@@ -1,0 +1,140 @@
+/**********************************************************************************************************************/
+/* icons **************************************************************************************************************/
+/**********************************************************************************************************************/
+.icon-organizer::before,
+a[href$="view=thm_organizer"]::before {
+  font-family: icomoon;
+  content: '\e931'; }
+
+a[href$="view=thm_organizer"]::before {
+  margin-right: .2rem; }
+
+.sidebar-nav {
+  color: #394a59; }
+
+.menu-spacer {
+  background-color: #dfe5e6;
+  display: block;
+  font-size: 1.1rem;
+  margin: .3rem -2rem 0 -2rem;
+  padding: .3rem 1.6rem .3rem 2rem;
+  width: 100%; }
+
+.organizer-logo, .organizer-description {
+  font-size: .9rem;
+  margin-bottom: .6rem; }
+
+.searchArea a, thead a {
+  color: #4a5c66; }
+  .searchArea a:hover, thead a:hover {
+    color: #80ba24; }
+
+.js-stools-container-bar {
+  margin-bottom: 0.3rem; }
+
+.js-stools-field-filter, .js-stools-field-list {
+  display: inline-block; }
+  .js-stools-field-filter select, .js-stools-field-list select {
+    width: auto; }
+  .js-stools-field-filter span, .js-stools-field-list span {
+    overflow: hidden !important; }
+
+.chzn-container {
+  max-width: inherit; }
+  .contentpane .js-stools-container-bar .chzn-container {
+    width: auto !important; }
+    .contentpane .js-stools-container-bar .chzn-container .chzn-single span {
+      padding: 0 10px 0 0; }
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .controls input[type="file"] {
+    line-height: 0;
+    padding-top: 3px; } }
+.chzn-container-multi .chzn-choices li {
+  float: none; }
+
+@media (min-width: 768px) {
+  #mapping .control-group:nth-of-type(1), #mappings .control-group:nth-of-type(1) {
+    width: 50%;
+    float: left; }
+    #mapping .control-group:nth-of-type(1) .controls select, #mappings .control-group:nth-of-type(1) .controls select {
+      width: 95%; }
+  #mapping .control-group:nth-of-type(2), #mappings .control-group:nth-of-type(2) {
+    width: 50%;
+    float: right; }
+    #mapping .control-group:nth-of-type(2) .controls select, #mappings .control-group:nth-of-type(2) .controls select {
+      width: 95%; }
+  #mapping .control-group:nth-of-type(3), #mappings .control-group:nth-of-type(3) {
+    clear: both; } }
+#mapping table, #mappings table {
+  width: 98%; }
+#mapping thead tr:nth-child(1) th, #mappings thead tr:nth-child(1) th {
+  padding: 5px 0 5px 8px; }
+#mapping thead .thm_organizer_pools_ordering, #mappings thead .thm_organizer_pools_ordering {
+  width: 16rem; }
+#mapping tbody .child-order .btn-small, #mappings tbody .child-order .btn-small {
+  padding: 1px 4px;
+  font-size: 12px;
+  line-height: 8px; }
+#mapping tbody .child-order .text-area-order, #mappings tbody .child-order .text-area-order {
+  padding: 1px 2px;
+  text-align: center;
+  height: 14px; }
+#mapping tbody .child-name, #mappings tbody .child-name {
+  padding-right: 30px; }
+
+@media (max-width: 480px) {
+  .table-striped thead th, .table-striped tbody td {
+    display: none; }
+    .table-striped thead th:nth-child(2), .table-striped tbody td:nth-child(2) {
+      display: table-cell; }
+    .table-striped thead th:nth-child(2), .table-striped tbody td:nth-child(2) {
+      padding-left: 20px;
+      padding-right: 20px; }
+
+  #color_manager-list thead th, #color_manager-list tbody td {
+    display: none; }
+    #color_manager-list thead th:nth-child(3), #color_manager-list tbody td:nth-child(3) {
+      display: table-cell; }
+    #color_manager-list thead th:nth-child(3), #color_manager-list tbody td:nth-child(3) {
+      padding-left: 20px;
+      padding-right: 20px; }
+
+  #teacher_manager-list thead th, #teacher_manager-list tbody td {
+    display: none; }
+    #teacher_manager-list thead th:nth-child(2), #teacher_manager-list tbody td:nth-child(2) {
+      display: table-cell; }
+    #teacher_manager-list thead th:nth-child(3), #teacher_manager-list tbody td:nth-child(3) {
+      display: table-cell; }
+    #teacher_manager-list thead th:nth-child(2), #teacher_manager-list tbody td:nth-child(2) {
+      padding-left: 8px; }
+
+  #pool_manager-list thead th, #pool_manager-list tbody td {
+    display: none; }
+    #pool_manager-list thead th:nth-child(2), #pool_manager-list tbody td:nth-child(2) {
+      display: table-cell; }
+    #pool_manager-list thead th:nth-child(4), #pool_manager-list tbody td:nth-child(4) {
+      display: table-cell; }
+    #pool_manager-list thead th:nth-child(2), #pool_manager-list tbody td:nth-child(2) {
+      padding-left: 8px; } }
+@media (min-width: 480px) and (max-width: 768px) {
+  .table-striped thead th:nth-child(n+5), .table-striped tbody td:nth-child(n+5) {
+    display: none; } }
+/* Modal Styles */
+.modal .modal-body.modal-batch {
+  overflow-y: auto;
+  padding: 1rem 1rem 0 1rem; }
+
+/*Plan Pool Period Publishing Field Styles*/
+.period-container {
+  margin-bottom: .5rem; }
+
+.period-label {
+  margin-right: 1rem;
+  min-width: 5rem; }
+
+.period-label, .period-input {
+  display: inline-block; }
+
+.period-input .chzn-container {
+  width: 124px !important; }

@@ -146,7 +146,7 @@ abstract class ListView extends BaseHTMLView
      */
     protected function modifyDocument()
     {
-        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
+        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
 
         HTML::_('bootstrap.tooltip');
         HTML::_('searchtools.form', '#adminForm', []);

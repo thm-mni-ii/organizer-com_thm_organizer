@@ -17,6 +17,8 @@ jimport('tcpdf.tcpdf');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
 
 /**
  * Class loads department statistics into the display context.

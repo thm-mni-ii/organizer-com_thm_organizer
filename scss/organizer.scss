@@ -195,17 +195,6 @@ a[href$="view=thm_organizer"]::before {
   }
 }
 
-// just for monitor-edit
-.view-monitor_edit {
-  .form-horizontal .controls {
-    margin-left: 190px;
-  }
-}
-
-.adminform .controls textarea {
-  width: 618px;
-}
-
 /* Modal Styles */
 .modal .modal-body.modal-batch {
   overflow-y: auto;

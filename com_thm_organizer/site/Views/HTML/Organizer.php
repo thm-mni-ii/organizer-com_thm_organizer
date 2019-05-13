@@ -68,6 +68,6 @@ class Organizer extends BaseHTMLView
         HTML::_('formbehavior.chosen', 'select');
 
         $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/backend.css');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
     }
 }

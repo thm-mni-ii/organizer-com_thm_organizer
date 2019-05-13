@@ -19,9 +19,7 @@ use Organizer\Helpers\HTML;
       name="adminForm"
       id="item-form"
       class="form-horizontal form-validate">
-    <fieldset class="adminform">
         <?php echo $this->form->renderFieldset('details'); ?>
-    </fieldset>
     <?php echo $this->form->getInput('id'); ?>
     <?php echo HTML::_('form.token'); ?>
     <input type="hidden" name="task" value=""/>
