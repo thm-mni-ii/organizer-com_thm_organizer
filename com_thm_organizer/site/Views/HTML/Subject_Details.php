@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Access;
 
 /**
  * Class loads the subject into the display context.
@@ -59,7 +60,7 @@ class Subject_Details extends BaseHTMLView
 
             if (!empty($courses)) {
                 $this->showRegistration = true;
-                $isCoordinator          = Subjects::allowEdit($this->item['subjectID']);
+                $isCoordinator          = Access::allowSubjectAccess($this->item['subjectID']);
 
                 foreach ($courses as &$course) {
                     $courseID                     = $course['id'];
@@ -71,7 +72,7 @@ class Subject_Details extends BaseHTMLView
                     $course['statusDisplay']      = Courses::getStatusDisplay($courseID);
 
                     // Course administrators are green
-                    $isTeacher = Courses::authorized($courseID);
+                    $isTeacher = Access::allowCourseAccess($courseID);
                     if ($isCoordinator or $isTeacher) {
                         $this->color = 'green';
                         continue;

@@ -14,6 +14,7 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 jimport('tcpdf.tcpdf');
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Access;
 
 /**
  * Base PDF export class used for the generation of various course exports.
@@ -39,7 +40,7 @@ abstract class THM_OrganizerTemplateCourse_Export
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
-        if (!Courses::authorized($courseID)) {
+        if (!Access::allowCourseAccess($courseID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 

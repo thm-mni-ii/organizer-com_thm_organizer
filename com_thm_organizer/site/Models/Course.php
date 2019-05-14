@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -36,7 +37,7 @@ class Course extends BaseModel
         $data     = $input->getArray();
         $formData = OrganizerHelper::getForm();
 
-        if (!Courses::authorized($formData['id'])) {
+        if (!Access::allowCourseAccess($formData['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -81,7 +82,7 @@ class Course extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_404'), 404);
         }
 
-        if (empty(Courses::authorized($courseID))) {
+        if (empty(Access::allowCourseAccess($courseID))) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -148,7 +149,7 @@ class Course extends BaseModel
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        } elseif (!Courses::authorized($data['id'])) {
+        } elseif (!Access::allowCourseAccess($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

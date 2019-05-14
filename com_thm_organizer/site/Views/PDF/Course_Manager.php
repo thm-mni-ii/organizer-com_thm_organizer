@@ -14,7 +14,7 @@ namespace Organizer\Views\PDF;
 defined('_JEXEC') or die;
 
 use Exception;
-use Organizer\Helpers\Courses;
+use Organizer\Helpers\Access;
 use Organizer\Views\BaseView;
 use THM_OrganizerTemplateBadges;
 use THM_OrganizerTemplateDepartment_Participants;
@@ -51,7 +51,7 @@ class Course_Manager extends BaseView
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
-        if (!Courses::authorized($lessonID)) {
+        if (!Access::allowCourseAccess($lessonID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 

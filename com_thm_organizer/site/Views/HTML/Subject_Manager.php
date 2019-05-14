@@ -16,12 +16,25 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads persistent information a filtered set of subjects into the display context.
  */
 class Subject_Manager extends ListView
 {
+    const ALPHA = 0;
+
+    const NUMBER = 1;
+
+    const POOL = 2;
+
+    const TEACHER = 3;
+
+    private $administration = true;
+
+    private $documentAccess = false;
+
     /**
      * Sets Joomla view title and action buttons
      *
@@ -30,19 +43,21 @@ class Subject_Manager extends ListView
     protected function addToolBar()
     {
         HTML::setTitle(Languages::_('THM_ORGANIZER_SUBJECT_MANAGER'), 'book');
-        $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'subject.add', false);
-        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'subject.edit', true);
-        $toolbar->appendButton(
-            'Standard', 'upload', Languages::_('THM_ORGANIZER_IMPORT_LSF'), 'subject.importLSFData', true
-        );
-        $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'subject.delete', true
-        );
+        if ($this->documentAccess) {
+            $toolbar = Toolbar::getInstance();
+            $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'subject.add', false);
+            $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'subject.edit', true);
+            $toolbar->appendButton(
+                'Standard', 'upload', Languages::_('THM_ORGANIZER_IMPORT_LSF'), 'subject.importLSFData', true
+            );
+            $toolbar->appendButton(
+                'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
+                Languages::_('THM_ORGANIZER_DELETE'), 'subject.delete', true
+            );
 
-        if (Access::isAdmin()) {
-            HTML::setPreferencesButton();
+            if (OrganizerHelper::getApplication()->isClient('administrator') and Access::isAdmin()) {
+                HTML::setPreferencesButton();
+            }
         }
     }
 
@@ -53,7 +68,10 @@ class Subject_Manager extends ListView
      */
     protected function allowAccess()
     {
-        return true;
+        $this->administration = OrganizerHelper::getApplication()->isClient('administrator');
+        $this->documentAccess = Access::allowDocumentAccess();
+
+        return $this->administration ? $this->documentAccess : true;
     }
 
     /**
@@ -63,14 +81,24 @@ class Subject_Manager extends ListView
      */
     public function getHeaders()
     {
-        $ordering  = $this->state->get('list.ordering');
         $direction = $this->state->get('list.direction');
+        $ordering  = $this->state->get('list.ordering');
+        $grouping  = $this->state->get('list.grouping');
         $headers   = [];
 
-        $headers['checkbox']   = '';
-        $headers['name']       = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['externalID'] = HTML::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
-        $headers['field']      = HTML::sort('FIELD', 'field', $direction, $ordering);
+        $headers['checkbox'] = '';
+        if ($this->administration) {
+            $headers['name'] = HTML::sort('NAME', 'name', $direction, $ordering);
+        } else {
+            $headers['name'] = Languages::_('THM_ORGANIZER_NAME');
+        }
+
+        if ($grouping == self::TEACHER) {
+            $headers['responsibility'] = Languages::_('THM_ORGANIZER_RESPONSIBILITY');
+        } else {
+            $headers['teachers'] = Languages::_('THM_ORGANIZER_TEACHERS');
+        }
+        $headers['creditpoints'] = Languages::_('THM_ORGANIZER_CREDIT_POINTS');
 
         return $headers;
     }
@@ -86,23 +114,39 @@ class Subject_Manager extends ListView
             return;
         }
 
+        $editIcon       = '<span class="icon-edit"></span>';
+        $grouping       = $this->administration ? '0' : $this->state->get('list.grouping');
         $index          = 0;
         $processedItems = [];
 
         foreach ($this->items as $item) {
-            $processedItems[$index]               = [];
-            $processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']       = HTML::_('link', $item->link, $item->name);
-            $processedItems[$index]['externalID'] = HTML::_('link', $item->link, $item->externalID);
-            if (!empty($item->field)) {
-                if (!empty($item->color)) {
-                    $processedItems[$index]['field'] = HTML::colorField($item->field, $item->color);
-                } else {
-                    $processedItems[$index]['field'] = $item->field;
-                }
+            $access   = Access::allowSubjectAccess($item->id);
+            $editLink = $item->url . '&view=subject_edit';
+            if ($grouping == '1') {
+                $name = empty($item->externalID) ? '' : "$item->externalID - ";
+                $name .= $item->name;
             } else {
-                $processedItems[$index]['field'] = '';
+                $name = $item->name;
+                $name .= empty($item->externalID) ? '' : " ($item->externalID)";
             }
+            $itemLink               = HTML::_('link', $item->url . '&view=subject_details', $name);
+            $processedItems[$index] = [];
+
+            if ($access) {
+                $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+                $processedItems[$index]['name']     = $this->administration ?
+                    HTML::_('link', $editLink, $name) : $itemLink . HTML::_('link', $editLink, $editIcon);
+            } else {
+                $processedItems[$index]['checkbox'] = '';
+                $processedItems[$index]['name']     = $itemLink;
+            }
+
+            if ($grouping == self::TEACHER) {
+                $processedItems[$index]['responsibility'] = 'responsibility display';
+            } else {
+                $processedItems[$index]['teachers'] = 'teachers display';
+            }
+            $processedItems[$index]['creditpoints'] = empty($item->creditpoints) ? '' : $item->creditpoints;
 
             $index++;
         }

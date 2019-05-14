@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Organizer\Helpers\Access;
 
 $shortTag = Languages::getShortTag();
 $editURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
@@ -31,7 +32,7 @@ if (!empty($this->menu)) {
         <div class="left"><?php echo $this->course['dateText'] ?></div>
     </div>
     <div class="right">
-        <?php if (Subjects::allowEdit($this->course['subjectID'])): ?>
+        <?php if (Access::allowSubjectAccess($this->course['subjectID'])): ?>
             <a href="<?php echo Route::_($editURL, false); ?>" class="btn btn-mini" type="button">
                 <span class="icon-edit"></span>
                 <?php echo Languages::_('THM_ORGANIZER_EDIT_COURSE_DESCRIPTION') ?>

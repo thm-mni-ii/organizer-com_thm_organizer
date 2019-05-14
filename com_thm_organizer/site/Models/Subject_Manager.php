@@ -12,6 +12,8 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use JDatabaseQuery;
+use Joomla\CMS\Form\Form;
 use Organizer\Helpers\Access;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Mappings;
@@ -23,31 +25,48 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Subject_Manager extends ListModelMenu
 {
-    public $programs = null;
+    const ALPHA = 0;
 
-    public $pools = null;
+    const NUMBER = 1;
+
+    const POOL = 2;
+
+    const TEACHER = 3;
+
+    private $admin = true;
+
+    /**
+     * Filters out form inputs which should not be displayed due to menu settings.
+     *
+     * @param Form $form the form to be filtered
+     *
+     * @return void modifies $form
+     */
+    protected function filterFilterForm(&$form)
+    {
+        $form->removeField('filter.isPrepCourse');
+        $form->removeField('programID');
+
+        return;
+    }
 
     /**
      * Method to select all existent assets from the database
      *
-     * @return \JDatabaseQuery  the query object
+     * @return JDatabaseQuery  the query object
      */
     protected function getListQuery()
     {
-        $allowedDepartments = Access::getAccessibleDepartments('document');
-        $dbo                = Factory::getDbo();
-        $shortTag           = Languages::getShortTag();
+        $dbo      = Factory::getDbo();
+        $shortTag = Languages::getShortTag();
 
         // Create the sql query
         $query  = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, externalID, s.name_$shortTag AS name, field_$shortTag AS field, color, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=subject_edit&id='", 's.id'];
-        $select .= $query->concatenate($parts, '') . ' AS link ';
+        $select = "DISTINCT id, externalID, name_$shortTag AS name, fieldID, creditpoints, ";
+        $parts  = ["'index.php?option=com_thm_organizer&id='", 's.id'];
+        $select .= $query->concatenate($parts, '') . ' AS url ';
         $query->select($select);
         $query->from('#__thm_organizer_subjects AS s');
-        $query->leftJoin('#__thm_organizer_fields AS f ON s.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->where('(s.departmentID IN (' . implode(',', $allowedDepartments) . ') OR s.departmentID IS NULL)');
 
         $searchFields = [
             's.name_de',
@@ -66,13 +85,12 @@ class Subject_Manager extends ListModelMenu
             'lsfID'
         ];
 
+        $this->setDepartmentFilter($query);
         $this->setSearchFilter($query, $searchFields);
-        $this->setValueFilters($query, ['externalID']);
-        $this->setLocalizedFilters($query, ['name', 'field']);
 
-        $programID = $this->state->get('list.programID', '');
+        $programID = $this->state->get('filter.programID', '');
         Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
-        $poolID = $this->state->get('list.poolID', '');
+        $poolID = $this->state->get('filter.poolID', '');
         Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
         $isPrepCourse = $this->state->get('list.is_prep_course', '');
         if ($isPrepCourse !== "") {
@@ -82,5 +100,46 @@ class Subject_Manager extends ListModelMenu
         $this->setOrdering($query);
 
         return $query;
+    }
+
+    /**
+     * Sets restrictions to the subject's departmentID field
+     *
+     * @param JDatabaseQuery &$query the query to be modified
+     *
+     * @return void modifies the query
+     */
+    private function setDepartmentFilter(&$query)
+    {
+        if ($this->admin) {
+            $allowedDepartments = Access::getAccessibleDepartments('document');
+            $query->where('(s.departmentID IN (' . implode(',', $allowedDepartments) . ') OR s.departmentID IS NULL)');
+        }
+        $departmentID = $this->state->get('filter.departmentID');
+        if (empty($departmentID)) {
+            return;
+        } elseif ($departmentID == '-1') {
+            $query->where('(s.departmentID IS NULL)');
+        }
+    }
+
+    /**
+     * Overrides state properties with menu settings values.
+     *
+     * @return void sets state properties
+     */
+    protected function populateStateFromMenu()
+    {
+        $this->admin = false;
+        $params = OrganizerHelper::getParams();
+        if (empty($params->get('programID'))) {
+            return;
+        }
+        $this->state->set('filter.programID', $params->get('programID'));
+        if ($this->state->get('list.grouping') === null) {
+            $this->state->set('list.grouping', $params->get('groupBy', '0'));
+        }
+
+        return;
     }
 }

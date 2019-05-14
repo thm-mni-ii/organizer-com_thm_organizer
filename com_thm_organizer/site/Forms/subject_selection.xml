@@ -4,8 +4,8 @@
         <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
         <field name="programID" type="programID" access="false" label="THM_ORGANIZER_PROGRAM"
                onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_FILTER_PROGRAM</option>
-            <option value="-1">JNONE</option>
+            <option value="">THM_ORGANIZER_ALL_PROGRAMS</option>
+            <option value="-1">THM_ORGANIZER_NO_PROGRAMS</option>
         </field>
         <field name="poolID" type="poolID" access="true" label="THM_ORGANIZER_POOL" onchange="this.form.submit();">
             <option value="">THM_ORGANIZER_FILTER_POOL</option>

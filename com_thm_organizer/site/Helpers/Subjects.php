@@ -22,31 +22,15 @@ use stdClass;
 class Subjects implements XMLValidator
 {
     /**
-     * Check if user is registered as a subject's teacher, optionally for a specific subject
+     * Check if user is registered as a subject's coordinator.
      *
-     * @param int $subjectID id of the course resource
+     * @param int $subjectID id of the subject
      *
-     * @return boolean true if the user is a registered teacher, otherwise false
+     * @return boolean true if the user registered as a coordinator, otherwise false
      */
-    public static function allowEdit($subjectID)
+    public static function coordinates($subjectID)
     {
         $user = Factory::getUser();
-
-        if (empty($user->id)) {
-            return false;
-        }
-
-        if (Access::isAdmin()) {
-            return true;
-        }
-
-        if (empty($subjectID) or !Access::checkAssetInitialization('subject', $subjectID)) {
-            return Access::allowDocumentAccess();
-        }
-
-        if (Access::allowDocumentAccess('subject', $subjectID)) {
-            return true;
-        }
 
         // Teacher coordinator responsibility association from the documentation system
         $dbo   = Factory::getDbo();

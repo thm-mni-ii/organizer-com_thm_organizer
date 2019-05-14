@@ -28,49 +28,6 @@ class Courses
     const INSTANCE_MODE = 3;
 
     /**
-     * Check if user is registered as a teacher, optionally for a specific course
-     *
-     * @param int $courseID id of the course resource
-     *
-     * @return boolean if user is authorized
-     */
-    public static function authorized($courseID = 0)
-    {
-        $user = Factory::getUser();
-
-        if (empty($user->id)) {
-            return false;
-        }
-
-        if (Access::isAdmin()) {
-            return true;
-        }
-
-        $subjectID = self::getSubjectID($courseID);
-
-        if (Subjects::allowEdit($subjectID)) {
-            return true;
-        }
-
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-
-        $query->select('COUNT(*)')
-            ->from('#__thm_organizer_lesson_subjects AS ls')
-            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id')
-            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
-            ->where("t.username = '{$user->username}'");
-
-        if (!empty($courseID)) {
-            $query->where("ls.lessonID = '$courseID'");
-        }
-
-        $dbo->setQuery($query);
-
-        return (bool)OrganizerHelper::executeQuery('loadResult');
-    }
-
-    /**
      * Check if course with specific id is full
      *
      * @param int $courseID identifier of course
@@ -453,6 +410,34 @@ class Courses
     }
 
     /**
+     * Get name of course/lesson
+     *
+     * @param int $courseID
+     *
+     * @return string
+     */
+    public static function getName($courseID = 0)
+    {
+        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
+
+        if (empty($courseID)) {
+            return '';
+        }
+
+        $lang  = Languages::getShortTag();
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("name_$lang")
+            ->from('#__thm_organizer_lesson_subjects AS ls')
+            ->innerJoin('#__thm_organizer_subject_mappings AS map ON map.plan_subjectID = ls.subjectID')
+            ->innerJoin('#__thm_organizer_subjects AS s ON s.id = map.subjectID')
+            ->where("ls.lessonID = '{$courseID}'");
+        $dbo->setQuery($query);
+
+        return (string)OrganizerHelper::executeQuery('loadResult');
+    }
+
+    /**
      * Get list of registered students in specific course
      *
      * @param int $courseID identifier of course
@@ -618,36 +603,6 @@ class Courses
     }
 
     /**
-     * Might move users from state waiting to registered
-     *
-     * @param int $courseID lesson id of lesson where participants have to be moved up
-     *
-     * @return void
-     */
-    public static function refreshWaitList($courseID)
-    {
-        $canAccept = self::canAcceptParticipant($courseID);
-
-        if ($canAccept) {
-            $dbo   = Factory::getDbo();
-            $query = $dbo->getQuery(true);
-
-            $query->select('userID');
-            $query->from('#__thm_organizer_user_lessons');
-            $query->where("lessonID = '$courseID' and status = '0'");
-            $query->order('status_date, user_date');
-
-            $dbo->setQuery($query);
-
-            $nextParticipantID = OrganizerHelper::executeQuery('loadResult');
-
-            if (!empty($nextParticipantID)) {
-                Participants::changeState($nextParticipantID, $courseID, 1);
-            }
-        }
-    }
-
-    /**
      * Get formatted array with all prep courses in format id => name
      *
      * @return array  assoc array with all prep courses with id => name
@@ -680,30 +635,67 @@ class Courses
     }
 
     /**
-     * Get name of course/lesson
+     * Might move users from state waiting to registered
      *
-     * @param int $courseID
+     * @param int $courseID lesson id of lesson where participants have to be moved up
      *
-     * @return string
+     * @return void
      */
-    public static function getName($courseID = 0)
+    public static function refreshWaitList($courseID)
     {
-        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
+        $canAccept = self::canAcceptParticipant($courseID);
 
-        if (empty($courseID)) {
-            return '';
+        if ($canAccept) {
+            $dbo   = Factory::getDbo();
+            $query = $dbo->getQuery(true);
+
+            $query->select('userID');
+            $query->from('#__thm_organizer_user_lessons');
+            $query->where("lessonID = '$courseID' and status = '0'");
+            $query->order('status_date, user_date');
+
+            $dbo->setQuery($query);
+
+            $nextParticipantID = OrganizerHelper::executeQuery('loadResult');
+
+            if (!empty($nextParticipantID)) {
+                Participants::changeState($nextParticipantID, $courseID, 1);
+            }
+        }
+    }
+
+    /**
+     * Check if user is registered as a teacher, optionally for a specific course
+     *
+     * @param int $courseID id of the course resource
+     *
+     * @return boolean if user is authorized
+     */
+    public static function teaches($courseID = 0)
+    {
+        $subjectID = self::getSubjectID($courseID);
+
+        // Documented coordinator
+        if (Access::allowSubjectAccess($subjectID)) {
+            return true;
         }
 
-        $lang  = Languages::getShortTag();
+        $user  = Factory::getUser();
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("name_$lang")
+
+        $query->select('COUNT(*)')
             ->from('#__thm_organizer_lesson_subjects AS ls')
-            ->innerJoin('#__thm_organizer_subject_mappings AS map ON map.plan_subjectID = ls.subjectID')
-            ->innerJoin('#__thm_organizer_subjects AS s ON s.id = map.subjectID')
-            ->where("ls.lessonID = '{$courseID}'");
+            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id')
+            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
+            ->where("t.username = '{$user->username}'");
+
+        if (!empty($courseID)) {
+            $query->where("ls.lessonID = '$courseID'");
+        }
+
         $dbo->setQuery($query);
 
-        return (string)OrganizerHelper::executeQuery('loadResult');
+        return (bool)OrganizerHelper::executeQuery('loadResult');
     }
 }

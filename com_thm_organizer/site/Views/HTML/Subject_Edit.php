@@ -17,9 +17,9 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Subjects;
 
 /**
  * Class loads persistent information about a subject into the display context.
@@ -79,7 +79,7 @@ class Subject_Edit extends EditView
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
-        if (!Subjects::allowEdit($this->subjectID)) {
+        if (!Access::allowSubjectAccess($this->subjectID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 

@@ -159,12 +159,11 @@ abstract class ListModel extends ParentModel
      * @param string $ordering  An optional ordering field.
      * @param string $direction An optional direction (asc|desc).
      *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return void populates state properties
      */
     protected function populateState($ordering = null, $direction = null)
     {
+        parent::populateState($ordering, $direction);
         $app = OrganizerHelper::getApplication();
 
         // Receive & set filters

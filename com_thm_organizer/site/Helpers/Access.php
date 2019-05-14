@@ -54,12 +54,23 @@ class Access
     /**
      * Checks whether the user has access to course management functions
      *
+     * @param int $courseID id of the course resource
+     *
      * @return bool true if the user is authorized to manage courses, otherwise false
      */
-    public static function allowCourseAccess()
+    public static function allowCourseAccess($courseID = 0)
     {
-        return self::isAdmin();
+        $user = Factory::getUser();
 
+        if (empty($user->id)) {
+            return false;
+        }
+
+        if (Access::isAdmin()) {
+            return true;
+        }
+
+        return Courses::teaches($courseID);
         // TODO: add subsequent checks for granular access
     }
 
@@ -137,6 +148,37 @@ class Access
         }
 
         return $user->authorise('organizer.schedule', "com_thm_organizer.schedule.$scheduleID");
+    }
+
+    /**
+     * Checks whether the user has authorization to edit a specific subject's documentation.
+     *
+     * @param $subjectID
+     *
+     * @return bool
+     */
+    public static function allowSubjectAccess($subjectID)
+    {
+
+        $user = Factory::getUser();
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        if (Access::isAdmin()) {
+            return true;
+        }
+
+        if (empty($subjectID) or !Access::checkAssetInitialization('subject', $subjectID)) {
+            return Access::allowDocumentAccess();
+        }
+
+        if (Access::allowDocumentAccess('subject', $subjectID)) {
+            return true;
+        }
+
+        return Subjects::coordinates($subjectID);
     }
 
     /**

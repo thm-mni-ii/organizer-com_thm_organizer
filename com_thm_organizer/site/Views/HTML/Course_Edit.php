@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -58,7 +59,7 @@ class Course_Edit extends EditView
     {
         $lessonID   = OrganizerHelper::getInput()->getInt('id', 0);
 
-        if (empty($lessonID) or !Courses::authorized($lessonID)) {
+        if (empty($lessonID) or !Access::allowCourseAccess($lessonID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 

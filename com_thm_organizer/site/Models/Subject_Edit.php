@@ -14,7 +14,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Exception;
-use Organizer\Helpers\Subjects;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -35,7 +35,7 @@ class Subject_Edit extends EditModel
      */
     protected function allowEdit($subjectID = null)
     {
-        return Subjects::allowEdit($subjectID);
+        return Access::allowSubjectAccess($subjectID);
     }
 
     /**

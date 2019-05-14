@@ -91,12 +91,17 @@ class Event_List extends FormModel
     }
 
     /**
-     * Gets the given values from the form input
+     * Method to auto-populate the model state.
      *
-     * @return void
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
+     *
+     * @return void populates state properties
      */
-    protected function populateState()
+    protected function populateState($ordering = null, $direction = null)
     {
+        parent::populateState($ordering, $direction);
+
         $formData = OrganizerHelper::getForm();
 
         $menuStartDate      = $this->params->get('startDate');

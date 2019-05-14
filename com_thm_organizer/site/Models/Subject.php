@@ -13,6 +13,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Exception;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\Subjects;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -363,11 +364,7 @@ class Subject extends BaseModel
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        } elseif (!Subjects::allowEdit($data['id'])) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
-
-        if (!Subjects::allowEdit($data['id'])) {
+        } elseif (!Access::allowSubjectAccess($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

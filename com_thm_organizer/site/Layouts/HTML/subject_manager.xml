@@ -9,13 +9,12 @@
                 <option value="de">THM_ORGANIZER_GERMAN</option>
                 <option value="en">THM_ORGANIZER_ENGLISH</option>
             </field>
-            <field name="groupBy" type="list" default="0" label="THM_ORGANIZER_ORGANIZE_BY"
+            <field name="grouping" type="list" default="0" label="THM_ORGANIZER_ORGANIZE_BY"
                    description="THM_ORGANIZER_ORGANIZE_BY_DESC">
                 <option value="0">THM_ORGANIZER_ALPHABETICAL</option>
                 <option value="1">THM_ORGANIZER_BY_SUBJECTNO</option>
                 <option value="2">THM_ORGANIZER_BY_GROUP</option>
                 <option value="3">THM_ORGANIZER_BY_TEACHER</option>
-                <option value="4">THM_ORGANIZER_BY_FIELD</option>
             </field>
             <field name="teacherResp" type="list" default="0" label="THM_ORGANIZER_SHOW_TEACHER_RESP"
                    description="THM_ORGANIZER_SHOW_TEACHER_RESP_DESC">

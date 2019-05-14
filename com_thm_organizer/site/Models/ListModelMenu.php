@@ -12,11 +12,7 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
-use Exception;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Model\ListModel as ParentModel;
-use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -25,40 +21,54 @@ use Organizer\Helpers\OrganizerHelper;
 abstract class ListModelMenu extends ListModel
 {
     /**
+     * Filters out form inputs which should not be displayed due to menu settings.
+     *
+     * @param Form $form the form to be filtered
+     *
+     * @return void modifies $form
+     */
+    abstract protected function filterFilterForm(&$form);
+
+    /**
+     * Method to get a form object.
+     *
+     * @param string         $name    The name of the form.
+     * @param string         $source  The form source. Can be XML string if file flag is set to false.
+     * @param array          $options Optional array of options for the form creation.
+     * @param boolean        $clear   Optional argument to force load a new form.
+     * @param string|boolean $xpath   An optional xpath to search for the fields.
+     *
+     * @return  Form|boolean  Form object on success, False on error.
+     */
+    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
+    {
+        $form = parent::loadForm($name, $source, $options, $clear, $xpath);
+        $this->filterFilterForm($form);
+
+        return $form;
+    }
+
+    /**
+     * Overrides state properties with menu settings values.
+     *
+     * @return void sets state properties
+     */
+    abstract protected function populateStateFromMenu();
+
+    /**
      * Method to auto-populate the model state.
      *
      * @param string $ordering  An optional ordering field.
      * @param string $direction An optional direction (asc|desc).
      *
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $params = OrganizerHelper::getParams();
-        $app = OrganizerHelper::getApplication();
+        parent::populateState($ordering, $direction);
 
-        // Receive & set filters
-        $filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
-        if (!empty($filters)) {
-            foreach ($filters as $name => $value) {
-                if(!empty($params->get($name))) {
-                    $value = $params->get($name);
-                }
-                $this->setState('filter.' . $name, $value);
-            }
+        if (!empty(OrganizerHelper::getApplication()->getMenu()->getActive()->id)) {
+            $this->populateStateFromMenu();
         }
-
-        $list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array');
-        $this->setListState($list);
-
-        $validLimit = (isset($list['limit']) && is_numeric($list['limit']));
-        $limit      = $validLimit ? $list['limit'] : $this->defaultLimit;
-        $this->setState('list.limit', $limit);
-
-        $value = $this->getUserStateFromRequest('limitstart', 'limitstart', 0);
-        $start = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
-        $this->setState('list.start', $start);
     }
 }
