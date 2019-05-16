@@ -27,7 +27,7 @@ class Com_THM_OrganizerInstallerScript
      */
     private function createImageDirectory()
     {
-        return Folder::create(JPATH_SITE . '/images/thm_organizer');
+        return Folder::create(JPATH_ROOT . '/images/thm_organizer');
     }
 
     /**
@@ -159,16 +159,16 @@ class Com_THM_OrganizerInstallerScript
                 Folder::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFolder);
             }
 
-            $siteFiles = Folder::files(JPATH_SITE . '/components/com_thm_organizer');
+            $siteFiles = Folder::files(JPATH_ROOT . '/components/com_thm_organizer');
 
             foreach ($siteFiles as $siteFile) {
-                File::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFile);
+                File::delete(JPATH_ROOT . '/components/com_thm_organizer/' . $siteFile);
             }
 
-            $siteFolders = Folder::folders(JPATH_SITE . '/components/com_thm_organizer');
+            $siteFolders = Folder::folders(JPATH_ROOT . '/components/com_thm_organizer');
 
             foreach ($siteFolders as $siteFolder) {
-                Folder::delete(JPATH_SITE . '/components/com_thm_organizer/' . $siteFolder);
+                Folder::delete(JPATH_ROOT . '/components/com_thm_organizer/' . $siteFolder);
             }
         }
     }
@@ -184,7 +184,7 @@ class Com_THM_OrganizerInstallerScript
      */
     public function uninstall($parent)
     {
-        $dirDeleted = Folder::delete(JPATH_SITE . '/images/thm_organizer');
+        $dirDeleted = Folder::delete(JPATH_ROOT . '/images/thm_organizer');
         if (!$dirDeleted) {
             echo Text::_('The directory located at &quot;/images/thm_organizer&quot; could not be removed.');
         }
