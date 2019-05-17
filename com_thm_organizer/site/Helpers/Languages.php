@@ -79,7 +79,8 @@ class Languages extends Text
                 $language = Language::getInstance('de-DE');
                 break;
         }
-        $language->load('com_thm_organizer');
+
+        $language->load('com_thm_organizer', JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
 
         return $language;
     }
