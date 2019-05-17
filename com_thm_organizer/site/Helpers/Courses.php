@@ -79,7 +79,7 @@ class Courses
         $shortTag        = Languages::getShortTag();
         $menuID          = OrganizerHelper::getInput()->getInt('Itemid');
         $pathPrefix      = 'index.php?option=com_thm_organizer';
-        $managerURL      = "{$pathPrefix}&view=course_manager&languageTag=$shortTag";
+        $managerURL      = "{$pathPrefix}&view=courses&languageTag=$shortTag";
         $registrationURL = "$pathPrefix&task=$view.register&languageTag=$shortTag";
         $registrationURL .= $view == 'subject' ? '&id=' . OrganizerHelper::getInput()->getInt('id',
                 0) : '';

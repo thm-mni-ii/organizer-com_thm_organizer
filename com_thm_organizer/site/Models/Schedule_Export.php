@@ -120,7 +120,7 @@ class Schedule_Export extends BaseModel
             return $titles;
         }
 
-        $table       = OrganizerHelper::getTable('Plan_Pools');
+        $table       = OrganizerHelper::getTable('Groups');
         $oneResource = count($poolIDs) === 1;
 
         foreach ($poolIDs as $poolID) {

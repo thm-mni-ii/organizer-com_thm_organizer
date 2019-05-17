@@ -91,7 +91,7 @@ class Course_Edit extends EditView
         $this->prepareLabel('text');
 
         /*$this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $this->languageParams = ['lessonID' => $courseID, 'view' => 'course_manager'];*/
+        $this->languageParams = ['lessonID' => $courseID, 'view' => 'courses'];*/
         $this->modifyDocument();
         OrganizerHelper::addMenuParameters($this);
 
@@ -111,8 +111,8 @@ class Course_Edit extends EditView
         $document->addScriptDeclaration(
             "var chooseParticipants = '" . Languages::_('THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
         );
-        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/course_manager.js');
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/course_manager.css');
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/courses.js');
+        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/courses.css');
     }
 
     /**

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Mappings;
-use Organizer\Helpers\Plan_Programs;
+use Organizer\Helpers\Categories;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -29,7 +29,7 @@ class Program_Ajax extends BaseModel
      */
     public function getPlanOptions()
     {
-        $planOptions = Plan_Programs::getPlanPrograms();
+        $planOptions = Categories::getCategories();
 
         return json_encode($planOptions);
     }

@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 $fieldset = $this->form->getFieldset('participant_management');
 
 $shortTag = Languages::getShortTag();
-$baseURL  = '?option=com_thm_organizer&view=course_manager&format=pdf';
+$baseURL  = '?option=com_thm_organizer&view=courses&format=pdf';
 $baseURL  .= "&lessonID={$this->course['id']}&languageTag=$shortTag&type=";
 
 $participantListRoute = Route::_($baseURL . 0, false);

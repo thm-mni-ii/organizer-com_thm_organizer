@@ -133,15 +133,15 @@ abstract class BaseHTMLView extends BaseView
             $scheduling = [];
 
             $scheduling[Languages::_('THM_ORGANIZER_GROUPS')]    = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
-                'active' => $viewName == 'plan_pool_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=groups',
+                'active' => $viewName == 'groups'
             ];
             $scheduling[Languages::_('THM_ORGANIZER_CATEGORIES')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
-                'active' => $viewName == 'plan_programs'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=categories',
+                'active' => $viewName == 'categories'
             ];
             $scheduling[Languages::_('THM_ORGANIZER_SCHEDULES')]     = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_manager',
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=schedules',
                 'active' => $viewName == 'schedules'
             ];
             ksort($scheduling);
@@ -167,21 +167,21 @@ abstract class BaseHTMLView extends BaseView
 
             if (Access::isAdmin()) {
                 $documentation[Languages::_('THM_ORGANIZER_DEPARTMENTS')] = [
-                    'url'    => 'index.php?option=com_thm_organizer&amp;view=department_manager',
-                    'active' => $viewName == 'department_manager'
+                    'url'    => 'index.php?option=com_thm_organizer&amp;view=departments',
+                    'active' => $viewName == 'departments'
                 ];
             }
             $documentation[Languages::_('THM_ORGANIZER_POOLS')]    = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=pool_manager',
-                'active' => $viewName == 'pool_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=pools',
+                'active' => $viewName == 'pools'
             ];
             $documentation[Languages::_('THM_ORGANIZER_PROGRAMS')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=program_manager',
-                'active' => $viewName == 'program_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=programs',
+                'active' => $viewName == 'programs'
             ];
             $documentation[Languages::_('THM_ORGANIZER_SUBJECTS')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=subject_manager',
-                'active' => $viewName == 'subject_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=subjects',
+                'active' => $viewName == 'subjects'
             ];
             ksort($documentation);
             foreach ($documentation as $key => $value) {
@@ -196,12 +196,12 @@ abstract class BaseHTMLView extends BaseView
             $courseItems = [];
 
             $courseItems[Languages::_('THM_ORGANIZER_PARTICIPANTS')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=participant_manager',
-                'active' => $viewName == 'participant_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=participants',
+                'active' => $viewName == 'participants'
             ];
             $courseItems[Languages::_('THM_ORGANIZER_COURSES')]      = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=course_manager',
-                'active' => $viewName == 'course_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=courses',
+                'active' => $viewName == 'courses'
             ];
             ksort($courseItems);
 
@@ -215,8 +215,8 @@ abstract class BaseHTMLView extends BaseView
             JHtmlSidebar::addEntry($spanText, '', false);
             JHtmlSidebar::addEntry(
                 Languages::_('THM_ORGANIZER_TEACHERS'),
-                'index.php?option=com_thm_organizer&amp;view=teacher_manager',
-                $viewName == 'teacher_manager'
+                'index.php?option=com_thm_organizer&amp;view=teachers',
+                $viewName == 'teachers'
             );
         }
 
@@ -227,24 +227,24 @@ abstract class BaseHTMLView extends BaseView
             $fmEntries = [];
 
             $fmEntries[Languages::_('THM_ORGANIZER_BUILDINGS')]  = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=building_manager',
-                'active' => $viewName == 'building_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=buildings',
+                'active' => $viewName == 'buildings'
             ];
             $fmEntries[Languages::_('THM_ORGANIZER_CAMPUSES')]   = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=campus_manager',
-                'active' => $viewName == 'campus_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=campuses',
+                'active' => $viewName == 'campuses'
             ];
             $fmEntries[Languages::_('THM_ORGANIZER_MONITORS')]   = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=monitor_manager',
-                'active' => $viewName == 'monitor_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=monitors',
+                'active' => $viewName == 'monitors'
             ];
             $fmEntries[Languages::_('THM_ORGANIZER_ROOMS')]      = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_manager',
-                'active' => $viewName == 'room_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=rooms',
+                'active' => $viewName == 'rooms'
             ];
             $fmEntries[Languages::_('THM_ORGANIZER_ROOM_TYPES')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_type_manager',
-                'active' => $viewName == 'room_type_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_types',
+                'active' => $viewName == 'room_types'
             ];
             ksort($fmEntries);
             foreach ($fmEntries as $key => $value) {
@@ -259,24 +259,24 @@ abstract class BaseHTMLView extends BaseView
             $adminEntries = [];
 
             $adminEntries[Languages::_('THM_ORGANIZER_COLORS')]  = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=color_manager',
-                'active' => $viewName == 'color_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=colors',
+                'active' => $viewName == 'colors'
             ];
             $adminEntries[Languages::_('THM_ORGANIZER_DEGREES')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=degree_manager',
-                'active' => $viewName == 'degree_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=degrees',
+                'active' => $viewName == 'degrees'
             ];
             $adminEntries[Languages::_('THM_ORGANIZER_FIELDS')]  = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=field_manager',
-                'active' => $viewName == 'field_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=fields',
+                'active' => $viewName == 'fields'
             ];
             $adminEntries[Languages::_('THM_ORGANIZER_GRIDS')]   = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=grid_manager',
-                'active' => $viewName == 'grid_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=grids',
+                'active' => $viewName == 'grids'
             ];
             $adminEntries[Languages::_('THM_ORGANIZER_METHODS')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=method_manager',
-                'active' => $viewName == 'method_manager'
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=methods',
+                'active' => $viewName == 'methods'
             ];
             ksort($adminEntries);
             foreach ($adminEntries as $key => $value) {

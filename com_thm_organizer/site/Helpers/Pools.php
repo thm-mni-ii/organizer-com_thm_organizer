@@ -56,7 +56,7 @@ class Pools
      */
     public static function getFullName($poolID)
     {
-        $table  = OrganizerHelper::getTable('Plan_Pools');
+        $table  = OrganizerHelper::getTable('Groups');
         $exists = $table->load($poolID);
 
         return $exists ? $table->full_name : '';
@@ -73,7 +73,7 @@ class Pools
     public static function getName($poolID, $type = 'plan')
     {
         if ($type == 'plan') {
-            $table  = OrganizerHelper::getTable('Plan_Pools');
+            $table  = OrganizerHelper::getTable('Groups');
             $exists = $table->load($poolID);
 
             return $exists ? $table->name : '';

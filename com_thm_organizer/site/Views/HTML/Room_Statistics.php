@@ -160,8 +160,8 @@ class Room_Statistics extends BaseHTMLView
         $programAttribs                     = $attribs;
         $programAttribs['onChange']         = 'repopulatePlanningPeriods();repopulateRooms();';
         $programAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
-        $planProgramOptions                 = $this->model->getProgramOptions();
-        $programSelect                      = HTML::selectBox($planProgramOptions, 'programIDs', $programAttribs);
+        $categoryOptions                    = $this->model->getProgramOptions();
+        $programSelect                      = HTML::selectBox($categoryOptions, 'programIDs', $programAttribs);
 
         $this->fields['filterFields']['programIDs'] = [
             'label'       => Languages::_('THM_ORGANIZER_PROGRAMS'),

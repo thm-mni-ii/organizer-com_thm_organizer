@@ -49,8 +49,8 @@ class Course_Edit extends FormModel
     public function getForm($data = [], $loadData = true)
     {
         $form = $this->loadForm(
-            'com_thm_organizer.course_manager',
-            'course_manager',
+            'com_thm_organizer.courses',
+            'courses',
             ['control' => 'jform', 'load_data' => true]
         );
 

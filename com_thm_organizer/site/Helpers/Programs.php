@@ -93,7 +93,7 @@ class Programs
      *
      * @return array an array of program information
      */
-    public static function getPlanPrograms()
+    public static function getCategories()
     {
         $dbo           = Factory::getDbo();
         $languageTag   = Languages::getShortTag();

@@ -46,7 +46,7 @@ class Subject extends BaseModel
     }
 
     /**
-     * Adds a Subject Plan_Subject association. No access checks => this is not directly accessible and requires
+     * Adds a Subject => Event association. No access checks => this is not directly accessible and requires
      * differing checks according to its calling context.
      *
      * @param int   $subjectID      the id of the subject

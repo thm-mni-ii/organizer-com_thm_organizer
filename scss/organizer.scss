@@ -173,15 +173,15 @@ a[href$="view=thm_organizer"]::before {
     @include displayAndHideColumns(2);
   }
   // specific . Just display the third column.
-  #color_manager-list {
+  #colors-list {
     @include displayAndHideColumns(3);
   }
   // specific . Display the second and the third column.
-  #teacher_manager-list {
+  #teachers-list {
     @include displayAndHideColumns(2, 3);
   }
   // specific . Display the second and the fourth column.
-  #pool_manager-list {
+  #pools-list {
     @include displayAndHideColumns(2, 4);
   }
 }

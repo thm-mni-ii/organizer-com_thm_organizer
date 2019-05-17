@@ -28,6 +28,8 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Controller extends BaseController
 {
+    private $listView = '';
+
     private $resource = '';
 
     /**
@@ -43,6 +45,21 @@ class Controller extends BaseController
         $task           = $this->input->get('task', '');
         $taskParts      = explode('.', $task);
         $this->resource = $taskParts[0];
+
+        switch (true) {
+            case $this->resource == 'equipment':
+                $this->listView = 'equipment';
+                break;
+            case mb_substr($this->resource, -1) == 's':
+                $this->listView = $this->resource . 'es';
+                break;
+            case mb_substr($this->resource, -1) == 'y':
+                $this->listView = mb_substr($this->resource, 0, mb_strlen($this->resource - 1)) . 'ies';
+                break;
+            default:
+                $this->listView = $this->resource . 's';
+                break;
+        }
     }
 
     /**
@@ -76,7 +93,7 @@ class Controller extends BaseController
             }
         }
 
-        $this->setRedirect("index.php?option=com_thm_organizer&view={$this->resource}_manager");
+        $this->setRedirect("index.php?option=com_thm_organizer&view={$this->listView}");
     }
 
     /**
@@ -126,7 +143,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_manager";
+        $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
 
@@ -137,7 +154,7 @@ class Controller extends BaseController
      */
     public function cancel()
     {
-        $this->input->set('view', "{$this->resource}_manager");
+        $this->input->set('view', $this->listView);
         parent::display();
     }
 
@@ -165,7 +182,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         }
 
-        $url .= "&view=course_manager&lessonID={$formData['id']}";
+        $url .= "&view=courses&lessonID={$formData['id']}";
         $this->setRedirect(Route::_($url, false));
     }
 
@@ -183,7 +200,7 @@ class Controller extends BaseController
         }
 
         $lessonID = $this->input->get('lessonID');
-        $redirect = OrganizerHelper::getRedirectBase() . "view=course_manager&lessonID=$lessonID";
+        $redirect = OrganizerHelper::getRedirectBase() . "view=courses&lessonID=$lessonID";
         $this->setRedirect(Route::_($redirect, false));
     }
 
@@ -203,7 +220,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_manager";
+        $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
 
@@ -385,7 +402,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_manager";
+        $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
 
@@ -405,7 +422,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_manager";
+        $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
 
@@ -417,7 +434,7 @@ class Controller extends BaseController
      */
     public function mergeView()
     {
-        $url = "index.php?option=com_thm_organizer&view={$this->resource}_manager";
+        $url = "index.php?option=com_thm_organizer&view={$this->listView}";
 
         $selected = OrganizerHelper::getSelectedIDs();
         if (count($selected) == 1) {
@@ -546,7 +563,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
             if ($isBackend) {
-                $url .= "&view={$this->resource}_manager";
+                $url .= "&view={$this->listView}";
             } else {
                 switch ($this->resource) {
                     case 'participant':
@@ -557,7 +574,7 @@ class Controller extends BaseController
                         $url .= empty($lessonID) ? '' : "&lessonID=$lessonID";
                         break;
                     default:
-                        $url .= "&view=course_manager";
+                        $url .= "&view=courses";
                         $url .= empty($lessonID) ? '' : "&lessonID=$lessonID";
                         break;
                 }
@@ -566,14 +583,14 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
 
             if ($isBackend) {
-                $url .= "&view={$this->resource}_manager";
+                $url .= "&view={$this->listView}";
             } else {
                 switch ($this->resource) {
                     case 'participant':
                         $url .= '&view=course_list';
                         break;
                     default:
-                        $url .= "&view=course_manager";
+                        $url .= "&view=courses";
                         $url .= empty($lessonID) ? '' : "&lessonID=$lessonID";
                         break;
                 }
@@ -598,7 +615,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_manager";
+        $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
 
@@ -652,7 +669,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view=schedule_manager";
+        $url .= "&view=schedules";
         $this->setRedirect($url);
     }
 
@@ -679,7 +696,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_manager";
+        $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
 
@@ -700,7 +717,7 @@ class Controller extends BaseController
         }
 
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_manager";
+        $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
 

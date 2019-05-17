@@ -48,15 +48,15 @@ class Schedules extends BaseTable
         $dbo->setQuery($deptQuery);
         $deptName = (string)OrganizerHelper::executeQuery('loadResult');
 
-        $planPeriodQuery = $dbo->getQuery(true);
-        $planPeriodQuery->select('name')
+        $termQuery = $dbo->getQuery(true);
+        $termQuery->select('name')
             ->from('#__thm_organizer_planning_periods')
             ->where("id = '{$this->planningPeriodID}'");
 
-        $dbo->setQuery($planPeriodQuery);
-        $planPeriodName = (string)OrganizerHelper::executeQuery('loadResult');
+        $dbo->setQuery($termQuery);
+        $termName = (string)OrganizerHelper::executeQuery('loadResult');
 
-        return "Schedule: $deptName - $planPeriodName";
+        return "Schedule: $deptName - $termName";
     }
 
     /**

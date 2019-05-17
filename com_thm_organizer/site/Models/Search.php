@@ -94,18 +94,18 @@ class Search extends BaseModel
     /**
      * Filters lessons according to status and planning period
      *
-     * @param object &$query        the query object to filter
-     * @param int     $planPeriodID the id of the planning period for lesson results
+     * @param object &$query  the query object to filter
+     * @param int     $termID the id of the planning period for lesson results
      *
      * @return void modifies the query
      */
-    private function filterLessons(&$query, $planPeriodID = null)
+    private function filterLessons(&$query, $termID = null)
     {
         $query->where("(ls.delta IS NULL OR ls.delta != 'removed')")
             ->where("(l.delta IS NULL OR l.delta != 'removed')");
 
-        if (!empty($planPeriodID) and is_int($planPeriodID)) {
-            $query->where("l.planningPeriodID = '$planPeriodID'");
+        if (!empty($termID) and is_int($termID)) {
+            $query->where("l.planningPeriodID = '$termID'");
         }
 
         return;
@@ -310,12 +310,12 @@ class Search extends BaseModel
             if ($type == 'real') {
                 $index = "d{$result['id']}";
                 $text  = Pools::getName($result['id'], 'real');
-                $links = ['subject_manager' => "?option=com_thm_organizer&view=subject_manager&poolIDs={$result['id']}"];
+                $links = ['subjects' => "?option=com_thm_organizer&view=subjects&poolIDs={$result['id']}"];
             } else {
                 $index               = "p{$result['id']}";
                 $text                = Pools::getName($result['id'], 'plan');
                 $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&poolIDs={$result['id']}";
-                $links['event_list'] = "?option=com_thm_organizer&view=event_list&planPoolIDs={$result['id']}";
+                $links['event_list'] = "?option=com_thm_organizer&view=event_list&groupIDs={$result['id']}";
             }
 
             $pools[$index]          = [];
@@ -367,7 +367,7 @@ class Search extends BaseModel
 
                 // If the mapping is invalid only an empty data set would be displayed for subject list and curriculum
                 if (!$invalidMapping) {
-                    $links['subject_manager'] = "?option=com_thm_organizer&view=subject_manager&programIDs={$program['id']}";
+                    $links['subjects'] = "?option=com_thm_organizer&view=subjects&programIDs={$program['id']}";
                     $links['curriculum']   = "?option=com_thm_organizer&view=curriculum&programIDs={$program['id']}";
                 }
 
@@ -384,7 +384,7 @@ class Search extends BaseModel
             foreach ($ppResults as $program) {
                 $planID        = "p{$program['ppID']}";
                 $scheduleLink  = "?option=com_thm_organizer&view=schedule_grid&programIDs={$program['ppID']}";
-                $eventlistLink = "?option=com_thm_organizer&view=event_list&planProgramIDs={$program['ppID']}";
+                $eventlistLink = "?option=com_thm_organizer&view=event_list&categoryIDs={$program['ppID']}";
 
                 // Subject was found
                 if (!empty($program['id'])) {
@@ -412,7 +412,7 @@ class Search extends BaseModel
 
                 if (!$invalidMapping) {
                     $programs[$planID]['programID'] = $program['id'];
-                    $links['subject_manager']          = "?option=com_thm_organizer&view=subject_manager&programIDs={$program['id']}";
+                    $links['subjects']          = "?option=com_thm_organizer&view=subjects&programIDs={$program['id']}";
                     $links['curriculum']            = "?option=com_thm_organizer&view=curriculum&programIDs={$program['id']}";
                 }
 
@@ -567,7 +567,7 @@ class Search extends BaseModel
                 $links = [];
 
                 if ($documented) {
-                    $links['subject_manager'] = "?option=com_thm_organizer&view=subject_manager&teacherIDs={$teacher['id']}";
+                    $links['subjects'] = "?option=com_thm_organizer&view=subjects&teacherIDs={$teacher['id']}";
                 }
 
                 $overlap = array_intersect(
@@ -1291,11 +1291,11 @@ class Search extends BaseModel
             $this->addInclusiveConditions($ppQuery, $degreeWherray);
 
             $this->_db->setQuery($ppQuery);
-            $planPrograms = OrganizerHelper::executeQuery('loadAssocList');
+            $categories = OrganizerHelper::executeQuery('loadAssocList');
             $this->_db->setQuery($pQuery);
             $programs = OrganizerHelper::executeQuery('loadAssocList');
 
-            $programResults['exact'] = $this->processPrograms($programs, $planPrograms);
+            $programResults['exact'] = $this->processPrograms($programs, $categories);
         }
 
         // Strong => full program name
@@ -1304,13 +1304,13 @@ class Search extends BaseModel
 
         $this->addInclusiveConditions($ppQuery, $wherray);
         $this->_db->setQuery($ppQuery);
-        $sPlanPrograms = OrganizerHelper::executeQuery('loadAssocList');
+        $sGroups = OrganizerHelper::executeQuery('loadAssocList');
 
         $this->addInclusiveConditions($pQuery, $wherray);
         $this->_db->setQuery($pQuery);
         $sPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
-        $programResults['strong'] = $this->processPrograms($sPrograms, $sPlanPrograms);
+        $programResults['strong'] = $this->processPrograms($sPrograms, $sGroups);
 
         // Good => parts of the program name
         $wherray = [];
@@ -1320,13 +1320,13 @@ class Search extends BaseModel
 
         $this->addInclusiveConditions($ppQuery, $wherray);
         $this->_db->setQuery($ppQuery);
-        $gPlanPrograms = OrganizerHelper::executeQuery('loadAssocList');
+        $gCategories = OrganizerHelper::executeQuery('loadAssocList');
 
         $this->addInclusiveConditions($pQuery, $wherray);
         $this->_db->setQuery($pQuery);
         $gPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
-        $programResults['good'] = $this->processPrograms($gPrograms, $gPlanPrograms);
+        $programResults['good'] = $this->processPrograms($gPrograms, $gCategories);
         $this->programResults   = $programResults;
     }
 

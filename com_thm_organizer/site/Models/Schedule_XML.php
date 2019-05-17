@@ -12,12 +12,12 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Categories;
 use Organizer\Helpers\Descriptions;
 use Organizer\Helpers\Grids;
+use Organizer\Helpers\Groups;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Lessons;
-use Organizer\Helpers\Plan_Pools;
-use Organizer\Helpers\Plan_Programs;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\Schedules;
 use Organizer\Helpers\Subjects;
@@ -132,8 +132,8 @@ class Schedule_XML extends BaseModel
 
         Grids::validateCollection($this, $xmlSchedule);
         Descriptions::validateCollection($this, $xmlSchedule);
-        Plan_Programs::validateCollection($this, $xmlSchedule);
-        Plan_Pools::validateCollection($this, $xmlSchedule);
+        Categories::validateCollection($this, $xmlSchedule);
+        Groups::validateCollection($this, $xmlSchedule);
         Rooms::validateCollection($this, $xmlSchedule);
         Subjects::validateCollection($this, $xmlSchedule);
         Teachers::validateCollection($this, $xmlSchedule);

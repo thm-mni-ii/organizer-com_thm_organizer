@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/components/com_thm_organizer/Fields">
-    <field name="planningPeriodID" type="planningPeriodID" label="THM_ORGANIZER_DEPARTMENT"
+    <field name="planningPeriodID" type="termID" label="THM_ORGANIZER_DEPARTMENT"
            description="THM_ORGANIZER_DEPARTMENT_DESC" allowFuture="false" onchange="this.form.submit();">
         <option value="">THM_ORGANIZER_ALL_PLANNING_PERIODS</option>
     </field>
@@ -8,7 +8,7 @@
            description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
         <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
     </field>
-    <field name="programID" type="planProgramID" access="false" departmentRestrict="true" class="inputbox"
+    <field name="programID" type="categoryID" access="false" departmentRestrict="true" class="inputbox"
            label="THM_ORGANIZER_PROGRAM" description="THM_ORGANIZER_PROGRAM_DESC"
            onchange="this.form.submit();">
         <option value="">THM_ORGANIZER_ALL_PROGRAMS</option>

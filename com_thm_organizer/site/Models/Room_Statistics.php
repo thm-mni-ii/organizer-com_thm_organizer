@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Plan_Programs;
+use Organizer\Helpers\Categories;
 use Organizer\Helpers\Planning_Periods;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\OrganizerHelper;
@@ -198,7 +198,7 @@ class Room_Statistics extends BaseModel
      */
     public function getProgramOptions()
     {
-        $options = Plan_Programs::getOptions();
+        $options = Categories::getOptions();
         $options = array_flip($options);
 
         return $options;

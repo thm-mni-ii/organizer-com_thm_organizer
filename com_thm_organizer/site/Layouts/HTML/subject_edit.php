@@ -18,7 +18,7 @@ $backURL = empty($this->menu) ? Uri::base() . '?option=com_thm_organizer&' : $th
 
 // Accessed from subject_details
 $backURL .= empty($this->lessonID) ?
-    "&view=subject_details&id={$this->subjectID}" : "&view=course_manager&lessonID={$this->lessonID}";
+    "&view=subject_details&id={$this->subjectID}" : "&view=courses&lessonID={$this->lessonID}";
 
 $nameProperty = 'name_' . $this->languageTag;
 ?>

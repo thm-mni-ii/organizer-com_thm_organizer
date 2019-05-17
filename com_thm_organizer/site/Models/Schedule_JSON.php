@@ -53,6 +53,7 @@ class Schedule_JSON extends BaseDatabaseModel
             parent::__construct([]);
         } catch (Exception $exception) {
             OrganizerHelper::message($exception->getMessage(), 'error');
+
             return;
         }
 
@@ -789,13 +790,13 @@ class Schedule_JSON extends BaseDatabaseModel
     /**
      * Attempts to associate subjects used in scheduling with their documentation
      *
-     * @param string $planSubjectID the id of the subject in the plan_subjects table
-     * @param string $poolID        the id of the pool in the plan_pools table
-     * @param string $subjectNo     the subject id used in documentation
+     * @param string $eventID  the id of the event
+     * @param string $groupID  the id of the group
+     * @param string $moduleNo the module number of the subject
      *
      * @return void saves/updates a database entry
      */
-    private function savePlanSubjectMapping($planSubjectID, $poolID, $subjectNo)
+    private function savePlanSubjectMapping($eventID, $groupID, $moduleNo)
     {
         // Get the mapping boundaries for the program
         $boundariesQuery = $this->_db->getQuery(true);
@@ -804,7 +805,7 @@ class Schedule_JSON extends BaseDatabaseModel
             ->innerJoin('#__thm_organizer_programs as prg on m.programID = prg.id')
             ->innerJoin('#__thm_organizer_plan_programs as p_prg on prg.id = p_prg.programID')
             ->innerJoin('#__thm_organizer_plan_pools as p_pool on p_prg.id = p_pool.programID')
-            ->where("p_pool.id = '$poolID'");
+            ->where("p_pool.id = '$groupID'");
         $this->_db->setQuery($boundariesQuery);
         $boundaries = OrganizerHelper::executeQuery('loadAssoc', []);
 
@@ -819,7 +820,7 @@ class Schedule_JSON extends BaseDatabaseModel
             ->innerJoin('#__thm_organizer_subjects as s on m.subjectID = s.id')
             ->where("m.lft > '{$boundaries['lft']}'")
             ->where("m.rgt < '{$boundaries['rgt']}'")
-            ->where("s.externalID = '$subjectNo'");
+            ->where("s.externalID = '$moduleNo'");
         $this->_db->setQuery($subjectQuery);
 
         $subjectID = OrganizerHelper::executeQuery('loadResult');
@@ -827,7 +828,7 @@ class Schedule_JSON extends BaseDatabaseModel
             return;
         }
 
-        $data  = ['subjectID' => $subjectID, 'plan_subjectID' => $planSubjectID];
+        $data  = ['subjectID' => $subjectID, 'plan_subjectID' => $eventID];
         $table = OrganizerHelper::getTable('Subject_Mappings');
         $table->load($data);
         $table->save($data);
@@ -845,8 +846,8 @@ class Schedule_JSON extends BaseDatabaseModel
     public function setReference($reference, $active, $shouldNotify = false)
     {
         $this->shouldNotify = $shouldNotify;
-        $this->refSchedule = json_decode($reference->schedule);
-        $this->schedule    = json_decode($active->schedule);
+        $this->refSchedule  = json_decode($reference->schedule);
+        $this->schedule     = json_decode($active->schedule);
 
         $this->sanitize('refSchedule');
         $this->sanitize('schedule');
@@ -1208,17 +1209,17 @@ class Schedule_JSON extends BaseDatabaseModel
     /**
      * Notifies all users which are subscribed to the changed lessons about the change via mail
      *
-     * @param string $status        the batch instance status [new|removed]
-     * @param string $date          the date when the times occure
-     * @param array  $time          the time interval of the new/removed lesson
-     * @param array  $lessonID      the lesson which has changed
+     * @param string $status   the batch instance status [new|removed]
+     * @param string $date     the date when the times occure
+     * @param array  $time     the time interval of the new/removed lesson
+     * @param array  $lessonID the lesson which has changed
      *
      * @return void modifies the schedule date object
      */
     private function notify($status, $date, $time, $lessonID)
     {
-        if($this->shouldNotify) {
-           //Do Notify
+        if ($this->shouldNotify) {
+            //Do Notify
         }
     }
 }

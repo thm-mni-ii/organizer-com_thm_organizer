@@ -1757,10 +1757,10 @@ const ScheduleApp = function (variables) {
             switch (resource)
             {
                 case 'pool':
-                    resource = 'plan_pools';
+                    resource = 'groups';
                     break;
                 case 'program':
-                    resource = 'plan_programs';
+                    resource = 'categories';
                     break;
                 case 'roomType':
                     resource = 'room_types';

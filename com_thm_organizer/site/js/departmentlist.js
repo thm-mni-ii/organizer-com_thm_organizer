@@ -32,13 +32,13 @@ jQuery(document).ready(function () {
         // Update programs, when it is not its own trigger
         if (!event || (event && event.target.id !== program.attr('id')))
         {
-            jQuery.ajax(ajaxBaseUrl + '&view=plan_programs&task=getOptions' + ajaxParams)
+            jQuery.ajax(ajaxBaseUrl + '&view=categories&task=getOptions' + ajaxParams)
                 .done(function (request) {
                     insertOptions(program, request, keepValue);
                 });
         }
         // Update pools
-        jQuery.ajax(ajaxBaseUrl + '&view=plan_pools&task=getOptions' + ajaxParams)
+        jQuery.ajax(ajaxBaseUrl + '&view=groups&task=getOptions' + ajaxParams)
             .done(function (request) {
                 insertOptions(pool, request, keepValue);
             });

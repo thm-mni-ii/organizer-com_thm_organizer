@@ -92,30 +92,30 @@ a[href$="view=thm_organizer"]::before {
       padding-left: 20px;
       padding-right: 20px; }
 
-  #color_manager-list thead th, #color_manager-list tbody td {
+  #colors-list thead th, #colors-list tbody td {
     display: none; }
-    #color_manager-list thead th:nth-child(3), #color_manager-list tbody td:nth-child(3) {
+    #colors-list thead th:nth-child(3), #colors-list tbody td:nth-child(3) {
       display: table-cell; }
-    #color_manager-list thead th:nth-child(3), #color_manager-list tbody td:nth-child(3) {
+    #colors-list thead th:nth-child(3), #colors-list tbody td:nth-child(3) {
       padding-left: 20px;
       padding-right: 20px; }
 
-  #teacher_manager-list thead th, #teacher_manager-list tbody td {
+  #teachers-list thead th, #teachers-list tbody td {
     display: none; }
-    #teacher_manager-list thead th:nth-child(2), #teacher_manager-list tbody td:nth-child(2) {
+    #teachers-list thead th:nth-child(2), #teachers-list tbody td:nth-child(2) {
       display: table-cell; }
-    #teacher_manager-list thead th:nth-child(3), #teacher_manager-list tbody td:nth-child(3) {
+    #teachers-list thead th:nth-child(3), #teachers-list tbody td:nth-child(3) {
       display: table-cell; }
-    #teacher_manager-list thead th:nth-child(2), #teacher_manager-list tbody td:nth-child(2) {
+    #teachers-list thead th:nth-child(2), #teachers-list tbody td:nth-child(2) {
       padding-left: 8px; }
 
-  #pool_manager-list thead th, #pool_manager-list tbody td {
+  #pools-list thead th, #pools-list tbody td {
     display: none; }
-    #pool_manager-list thead th:nth-child(2), #pool_manager-list tbody td:nth-child(2) {
+    #pools-list thead th:nth-child(2), #pools-list tbody td:nth-child(2) {
       display: table-cell; }
-    #pool_manager-list thead th:nth-child(4), #pool_manager-list tbody td:nth-child(4) {
+    #pools-list thead th:nth-child(4), #pools-list tbody td:nth-child(4) {
       display: table-cell; }
-    #pool_manager-list thead th:nth-child(2), #pool_manager-list tbody td:nth-child(2) {
+    #pools-list thead th:nth-child(2), #pools-list tbody td:nth-child(2) {
       padding-left: 8px; } }
 @media (min-width: 480px) and (max-width: 768px) {
   .table-striped thead th:nth-child(n+5), .table-striped tbody td:nth-child(n+5) {

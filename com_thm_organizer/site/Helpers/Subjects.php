@@ -306,7 +306,7 @@ class Subjects implements XMLValidator
     {
         $subject = $scheduleModel->schedule->subjects->$subjectIndex;
 
-        $table        = OrganizerHelper::getTable('Plan_Subjects');
+        $table        = OrganizerHelper::getTable('Events');
         $loadCriteria = ['subjectIndex' => $subjectIndex];
         $exists       = $table->load($loadCriteria);
 

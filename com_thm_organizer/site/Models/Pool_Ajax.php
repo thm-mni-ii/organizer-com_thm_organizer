@@ -12,8 +12,8 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Groups;
 use Organizer\Helpers\Mappings;
-use Organizer\Helpers\Pools;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -59,13 +59,11 @@ class Pool_Ajax extends BaseModel
     /**
      * Gets the pool options as a string
      *
-     * @param bool $short whether or not the options should use abbreviated names
-     *
      * @return string the concatenated plan pool options
      */
-    public function getPlanOptions($short = false)
+    public function getPlanOptions()
     {
-        $planOptions = Pools::getPlanPools($short);
+        $planOptions = Groups::getOptions();
 
         return json_encode($planOptions);
     }

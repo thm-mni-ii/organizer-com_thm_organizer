@@ -35,7 +35,7 @@ use Organizer\Helpers\Languages;
         <button class="btn" type="button" data-dismiss="modal">
             <?php echo Languages::_('JCANCEL'); ?>
         </button>
-        <button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('plan_pool.batch');">
+        <button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('group.batch');">
             <?php echo Languages::_('JSAVE'); ?>
         </button>
     </div>
