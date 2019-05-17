@@ -8,10 +8,10 @@
             <option value="-1">THM_ORGANIZER_NO_DEPARTMENTS</option>
         </field>
         <field name="programID" type="planProgramID" valuecolumn="id" textcolumn="name" departmentRestrict="force"
-               access="true" table="thm_organizer_plan_programs" label="THM_ORGANIZER_PLAN_PROGRAM"
+               access="true" table="thm_organizer_plan_programs" label="THM_ORGANIZER_CATEGORY"
                onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_PLAN_PROGRAMS</option>
-            <option value="-1">THM_ORGANIZER_NO_PLAN_PROGRAMS</option>
+            <option value="">THM_ORGANIZER_ALL_CATEGORIES</option>
+            <option value="-1">THM_ORGANIZER_NO_CATEGORIES</option>
         </field>
     </fields>
     <fields name="list">

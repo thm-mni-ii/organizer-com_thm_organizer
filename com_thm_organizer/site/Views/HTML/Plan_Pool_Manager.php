@@ -32,7 +32,7 @@ class Plan_Pool_Manager extends ListView
      */
     protected function addToolBar()
     {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_PLAN_POOL_MANAGER'), 'list-2');
+        HTML::setTitle(Languages::_('THM_ORGANIZER_GROUP_MANAGER'), 'list-2');
         $toolbar = Toolbar::getInstance();
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'plan_pool.edit', true);
 

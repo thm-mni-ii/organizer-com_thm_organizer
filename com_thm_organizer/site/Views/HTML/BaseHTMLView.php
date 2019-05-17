@@ -132,11 +132,11 @@ abstract class BaseHTMLView extends BaseView
 
             $scheduling = [];
 
-            $scheduling[Languages::_('THM_ORGANIZER_PLAN_POOLS')]    = [
+            $scheduling[Languages::_('THM_ORGANIZER_GROUPS')]    = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_pool_manager',
                 'active' => $viewName == 'plan_pool_manager'
             ];
-            $scheduling[Languages::_('THM_ORGANIZER_PLAN_PROGRAMS')] = [
+            $scheduling[Languages::_('THM_ORGANIZER_CATEGORIES')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=plan_program_manager',
                 'active' => $viewName == 'plan_programs'
             ];

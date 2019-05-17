@@ -28,7 +28,7 @@ class Plan_Program_Edit extends EditView
      */
     protected function addToolBar()
     {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_PLAN_PROGRAM_EDIT'), 'list');
+        HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORY_EDIT'), 'list');
         $toolbar = Toolbar::getInstance();
         $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'plan_program.save', false);
         $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'plan_program.cancel', false);

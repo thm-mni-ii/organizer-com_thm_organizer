@@ -28,7 +28,7 @@ class Plan_Pool_Edit extends EditView
      */
     protected function addToolBar()
     {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_PLAN_POOL_EDIT'), 'list-2');
+        HTML::setTitle(Languages::_('THM_ORGANIZER_GROUP_EDIT'), 'list-2');
         $toolbar = Toolbar::getInstance();
         $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'plan_pool.save', false);
         $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'plan_pool.cancel', false);

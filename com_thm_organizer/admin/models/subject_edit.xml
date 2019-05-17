@@ -42,7 +42,7 @@
                description="THM_ORGANIZER_FIELD_DESC">
             <option value="">THM_ORGANIZER_NO_FIELDS</option>
         </field>
-        <field name="planSubjectIDs" type="subjectmapping" responsibility="1" label="THM_ORGANIZER_PLAN_SUBJECT"/>
+        <field name="planSubjectIDs" type="subjectmapping" responsibility="1" label="THM_ORGANIZER_EVENT"/>
         <field type="spacer" name="spacer1" hr="true"/>
         <field name="creditpoints" type="integer" class="inputbox" label="THM_ORGANIZER_CREDIT_POINTS"
                description="THM_ORGANIZER_CREDIT_POINTS_DESC" first="1" last="30" step="1" default="0">

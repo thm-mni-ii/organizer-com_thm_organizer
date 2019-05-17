@@ -29,7 +29,7 @@ class Plan_Program_Manager extends ListView
      */
     protected function addToolBar()
     {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_PLAN_PROGRAM_MANAGER'), 'list');
+        HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORY_MANAGER'), 'list');
         $toolbar = Toolbar::getInstance();
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'plan_program.edit', true);
         if (Access::isAdmin()) {
