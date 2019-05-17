@@ -25,15 +25,32 @@ class Subject_Manager extends ListView
 {
     const ALPHA = 0;
 
+    const COORDINATES = 1;
+
     const NUMBER = 1;
 
     const POOL = 2;
 
     const TEACHER = 3;
 
+    const TEACHES = 2;
+
     private $administration = true;
 
     private $documentAccess = false;
+
+    private $params = null;
+
+    /**
+     * Constructor
+     *
+     * @param array $config A named configuration array for object construction.
+     */
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+        $this->params = OrganizerHelper::getParams();
+    }
 
     /**
      * Sets Joomla view title and action buttons
@@ -104,6 +121,58 @@ class Subject_Manager extends ListView
     }
 
     /**
+     * Retrieves the teacher texts and formats them according to their responisibilites for the subject being iterated
+     *
+     * @param object $subject the subject being iterated
+     *
+     * @return string
+     */
+    private function getTeacherDisplay($subject)
+    {
+        $names = [];
+        foreach ($subject->teachers as $teacherID => $teacher) {
+            $name = $this->getTeacherText($teacher);
+
+            $responsibilities = [];
+            if (isset($teacher['teacherResp'][self::COORDINATES])) {
+                $responsibilities[] = Languages::_('THM_ORGANIZER_COORDINATOR_ABBR');
+            }
+            if (isset($teacher['teacherResp'][self::TEACHES])) {
+                $responsibilities[] = Languages::_('THM_ORGANIZER_TEACHER_ABBR');
+            }
+
+            $name .= ' (' . implode(', ', $responsibilities) . ')';
+            $names[] = $name;
+        }
+
+        return implode('<br>', $names);
+    }
+
+    /**
+     * Generates the teacher text (surname(, forename)?( title)?) for the given teacher
+     *
+     * @param array $teacher the subject teacher
+     *
+     * @return string
+     */
+    public function getTeacherText($teacher)
+    {
+        $showTitle = (bool)$this->params->get('showTitle');
+
+        $text = $teacher['surname'];
+
+        if (!empty($teacher['forename'])) {
+            $text .= ", {$teacher['forename']}";
+        }
+
+        if ($showTitle and !empty($teacher['title'])) {
+            $text .= " {$teacher['title']}";
+        }
+
+        return $text;
+    }
+
+    /**
      * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
      *
      * @return void processes the class items property
@@ -119,21 +188,21 @@ class Subject_Manager extends ListView
         $index          = 0;
         $processedItems = [];
 
-        foreach ($this->items as $item) {
-            $access   = Access::allowSubjectAccess($item->id);
-            $editLink = $item->url . '&view=subject_edit';
+        foreach ($this->items as $subject) {
+            $access   = Access::allowSubjectAccess($subject->id);
+            $editLink = $subject->url . '&view=subject_edit';
             if ($grouping == '1') {
-                $name = empty($item->externalID) ? '' : "$item->externalID - ";
-                $name .= $item->name;
+                $name = empty($subject->externalID) ? '' : "$subject->externalID - ";
+                $name .= $subject->name;
             } else {
-                $name = $item->name;
-                $name .= empty($item->externalID) ? '' : " ($item->externalID)";
+                $name = $subject->name;
+                $name .= empty($subject->externalID) ? '' : " ($subject->externalID)";
             }
-            $itemLink               = HTML::_('link', $item->url . '&view=subject_details', $name);
+            $itemLink               = HTML::_('link', $subject->url . '&view=subject_details', $name);
             $processedItems[$index] = [];
 
             if ($access) {
-                $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+                $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $subject->id);
                 $processedItems[$index]['name']     = $this->administration ?
                     HTML::_('link', $editLink, $name) : $itemLink . HTML::_('link', $editLink, $editIcon);
             } else {
@@ -144,9 +213,9 @@ class Subject_Manager extends ListView
             if ($grouping == self::TEACHER) {
                 $processedItems[$index]['responsibility'] = 'responsibility display';
             } else {
-                $processedItems[$index]['teachers'] = 'teachers display';
+                $processedItems[$index]['teachers'] = $this->getTeacherDisplay($subject);
             }
-            $processedItems[$index]['creditpoints'] = empty($item->creditpoints) ? '' : $item->creditpoints;
+            $processedItems[$index]['creditpoints'] = empty($subject->creditpoints) ? '' : $subject->creditpoints;
 
             $index++;
         }

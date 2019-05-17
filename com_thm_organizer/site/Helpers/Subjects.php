@@ -251,6 +251,50 @@ class Subjects implements XMLValidator
     }
 
     /**
+     * Retrieves the teachers associated with a given subject and their respective responsibilities for it.
+     *
+     * @param int $subjectID the id of the subject with which the teachers must be associated
+     *
+     * @return array the teachers associated with the subject, empty if none were found.
+     */
+    public static function getTeachers($subjectID)
+    {
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('t.id, t.surname, t.forename, t.fieldID, t.title, st.teacherResp')
+            ->from('#__thm_organizer_teachers AS t')
+            ->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id')
+            ->where("st.subjectID = '$subjectID'");
+        $dbo->setQuery($query);
+
+        $results = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($results)) {
+            return [];
+        }
+
+        $teachers = [];
+        foreach ($results as $teacher) {
+            $forename = empty($teacher['forename']) ? '' : $teacher['forename'];
+            $fullName = $teacher['surname'];
+            $fullName .= empty($forename) ? '' : ", {$teacher['forename']}";
+            if (empty($teachers[$teacher['id']])) {
+                $teacher['forename']      = $forename;
+                $teacher['title']         = empty($teacher['title']) ? '' : $teacher['title'];
+                $teacher['teacherResp']   = [$teacher['teacherResp'] => $teacher['teacherResp']];
+                $teachers[$fullName] = $teacher;
+                continue;
+            }
+
+            $teachers[$teacher['id']]['teacherResp'] = [$teacher['teacherResp'] => $teacher['teacherResp']];
+        }
+
+        Teachers::nameSort($teachers);
+        Teachers::respSort($teachers);
+
+        return $teachers;
+    }
+
+    /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
      * @param object &$scheduleModel the validating schedule model

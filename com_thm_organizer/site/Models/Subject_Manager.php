@@ -19,6 +19,7 @@ use Joomla\CMS\Factory;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Subjects;
 
 /**
  * Class retrieves information for a filtered set of subjects.
@@ -51,6 +52,26 @@ class Subject_Manager extends ListModelMenu
     }
 
     /**
+     * Method to get an array of data items.
+     *
+     * @return  array  item objects on success, otherwise empty
+     */
+    public function getItems()
+    {
+        $items = parent::getItems();
+
+        if (empty($items)) {
+            return [];
+        }
+
+        foreach ($items as $item) {
+            $item->teachers = Subjects::getTeachers($item->id);
+        }
+
+        return $items;
+    }
+
+    /**
      * Method to select all existent assets from the database
      *
      * @return JDatabaseQuery  the query object
@@ -62,7 +83,7 @@ class Subject_Manager extends ListModelMenu
 
         // Create the sql query
         $query  = $dbo->getQuery(true);
-        $select = "DISTINCT id, externalID, name_$shortTag AS name, fieldID, creditpoints, ";
+        $select = "DISTINCT s.id, s.externalID, s.name_$shortTag AS name, s.fieldID, s.creditpoints, ";
         $parts  = ["'index.php?option=com_thm_organizer&id='", 's.id'];
         $select .= $query->concatenate($parts, '') . ' AS url ';
         $query->select($select);

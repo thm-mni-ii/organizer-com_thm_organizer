@@ -21,6 +21,10 @@ use stdClass;
  */
 class Teachers implements XMLValidator
 {
+    const COORDINATES = 1;
+
+    const TEACHER = 2;
+
     /**
      * Checks for multiple teacher entries (responsibilities) for a subject and removes the lesser
      *
@@ -295,6 +299,40 @@ class Teachers implements XMLValidator
     }
 
     /**
+     * Function to sort teachers by their surnames and forenames.
+     *
+     * @param array &$teachers the teachers array to sort.
+     */
+    public static function nameSort(&$teachers)
+    {
+        uasort($teachers, function ($teacherOne, $teacherTwo) {
+            $oneResp = isset($teacherOne['teacherResp'][self::COORDINATES]);
+            $twoResp = isset($teacherTwo['teacherResp'][self::COORDINATES]);
+            if ($oneResp or !$twoResp) {
+                return 1;
+            }
+
+            return -1;
+        });
+    }
+
+    /**
+     * Function to sort teachers by their surnames and forenames.
+     *
+     * @param array &$teachers the teachers array to sort.
+     */
+    public static function respSort(&$teachers)
+    {
+        uasort($teachers, function ($teacherOne, $teacherTwo) {
+            if ($teacherOne['surname'] == $teacherTwo['surname']) {
+                return $teacherOne['forename'] > $teacherTwo['forename'];
+            }
+
+            return $teacherOne['surname'] > $teacherTwo['surname'];
+        });
+    }
+
+    /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
      * @param object &$scheduleModel the validating schedule model
@@ -466,13 +504,13 @@ class Teachers implements XMLValidator
         $title          = trim((string)$teacherNode->title);
         $userName       = trim((string)$teacherNode->payrollnumber);
 
-        $teacher               = new stdClass;
-        $teacher->fieldID      = $fieldID;
-        $teacher->forename     = $forename;
-        $teacher->gpuntisID    = $untisID;
-        $teacher->surname      = $surname;
-        $teacher->title        = $title;
-        $teacher->username     = $userName;
+        $teacher            = new stdClass;
+        $teacher->fieldID   = $fieldID;
+        $teacher->forename  = $forename;
+        $teacher->gpuntisID = $untisID;
+        $teacher->surname   = $surname;
+        $teacher->title     = $title;
+        $teacher->username  = $userName;
 
         $scheduleModel->schedule->teachers->$internalID = $teacher;
 

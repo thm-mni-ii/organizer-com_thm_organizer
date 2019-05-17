@@ -20,7 +20,7 @@
                    description="THM_ORGANIZER_SHOW_TEACHER_RESP_DESC">
                 <option value="0">JALL</option>
                 <option value="2">THM_ORGANIZER_TEACHER</option>
-                <option value="1">THM_ORGANIZER_RESPONSIBLE</option>
+                <option value="1">THM_ORGANIZER_COORDINATOR</option>
             </field>
             <field name="showTitle" type="list" default="1" label="THM_ORGANIZER_SHOW_TEACHER_TITLE"
                    description="THM_ORGANIZER_SHOW_TEACHER_TITLE_DESC">

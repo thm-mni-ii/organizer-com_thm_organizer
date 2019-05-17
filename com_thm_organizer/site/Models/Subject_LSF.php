@@ -22,9 +22,9 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Subject_LSF extends BaseModel
 {
-    const RESPONSIBLE = 1;
+    const COORDINATES = 1;
 
-    const TEACHER = 2;
+    const TEACHES = 2;
 
     private $crp = 0;
 
@@ -773,12 +773,12 @@ class Subject_LSF extends BaseModel
             return true;
         }
 
-        $responsibleSet = $this->setTeachersByResponsibility($subjectID, $responsible, self::RESPONSIBLE);
+        $responsibleSet = $this->setTeachersByResponsibility($subjectID, $responsible, self::COORDINATES);
         if (!$responsibleSet) {
             return false;
         }
 
-        $teachingSet = $this->setTeachersByResponsibility($subjectID, $teaching, self::TEACHER);
+        $teachingSet = $this->setTeachersByResponsibility($subjectID, $teaching, self::TEACHES);
         if (!$teachingSet) {
             return false;
         }
@@ -809,8 +809,8 @@ class Subject_LSF extends BaseModel
             return true;
         }
 
-        $surnameAttribute  = $responsibility == self::RESPONSIBLE ? 'nachname' : 'personal.nachname';
-        $forenameAttribute = $responsibility == self::RESPONSIBLE ? 'vorname' : 'personal.vorname';
+        $surnameAttribute  = $responsibility == self::COORDINATES ? 'nachname' : 'personal.nachname';
+        $forenameAttribute = $responsibility == self::COORDINATES ? 'vorname' : 'personal.vorname';
 
         foreach ($teachers as $teacher) {
             $teacherData             = [];

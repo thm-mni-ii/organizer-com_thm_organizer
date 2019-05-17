@@ -22,9 +22,9 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Subject extends BaseModel
 {
-    const RESPONSIBLE = 1;
+    const COORDINATES = 1;
 
-    const TEACHER = 2;
+    const TEACHES = 2;
 
     /**
      * Adds a prerequisite association. No access checks => this is not directly accessible and requires differing
@@ -275,7 +275,7 @@ class Subject extends BaseModel
 
         if (!empty($data['responsible'])) {
             foreach ($data['responsible'] as $responsibleID) {
-                $respAdded = $this->addTeacher($subjectID, $responsibleID, self::RESPONSIBLE);
+                $respAdded = $this->addTeacher($subjectID, $responsibleID, self::COORDINATES);
                 if (!$respAdded) {
                     return false;
                 }
@@ -284,7 +284,7 @@ class Subject extends BaseModel
 
         if (!empty($data['teacherID'])) {
             foreach ($data['teacherID'] as $teacherID) {
-                $teacherAdded = $this->addTeacher($subjectID, $teacherID, self::TEACHER);
+                $teacherAdded = $this->addTeacher($subjectID, $teacherID, self::TEACHES);
                 if (!$teacherAdded) {
                     return false;
                 }
