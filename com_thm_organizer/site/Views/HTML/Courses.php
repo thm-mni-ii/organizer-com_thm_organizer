@@ -44,11 +44,11 @@ class Courses extends ListView
     {
         HTML::setTitle(Languages::_('THM_ORGANIZER_COURSES_TITLE'), 'contract-2');
         $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'color.add', false);
-        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'color.edit', true);
+        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'course.add', false);
+        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'course.edit', true);
         $toolbar->appendButton(
             'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'color.delete', true
+            Languages::_('THM_ORGANIZER_DELETE'), 'course.delete', true
         );
         HTML::setPreferencesButton();
     }
