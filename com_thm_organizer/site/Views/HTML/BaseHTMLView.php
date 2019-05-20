@@ -194,14 +194,17 @@ abstract class BaseHTMLView extends BaseView
             JHtmlSidebar::addEntry($spanText, '', false);
 
             $courseItems = [];
-
-            $courseItems[Languages::_('THM_ORGANIZER_PARTICIPANTS')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=participants',
-                'active' => $viewName == 'participants'
-            ];
             $courseItems[Languages::_('THM_ORGANIZER_COURSES')]      = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=courses',
                 'active' => $viewName == 'courses'
+            ];
+            $courseItems[Languages::_('THM_ORGANIZER_LESSONS')] = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=lessons',
+                'active' => $viewName == 'lessons'
+            ];
+            $courseItems[Languages::_('THM_ORGANIZER_PARTICIPANTS')] = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=participants',
+                'active' => $viewName == 'participants'
             ];
             ksort($courseItems);
 
