@@ -122,7 +122,7 @@ class Dates
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('startDate, endDate')
-            ->from('#__thm_organizer_planning_periods')
+            ->from('#__thm_organizer_terms')
             ->where("'$date' BETWEEN startDate AND endDate");
         $dbo->setQuery($query);
 

@@ -34,30 +34,30 @@ function addPools(pools)
 }
 
 /**
- * Clear the current list and add new programs to it
+ * Clear the current list and add new categories to it
  *
- * @param  {object}  programs   the programs received
+ * @param  {object}  categories   the category received
  */
-function addPrograms(programs)
+function addCategories(categories)
 {
     'use strict';
 
-    const programSelection = jQuery('#programIDs'),
-        selectedPrograms = programSelection.val();
+    const categorySelection = jQuery('#categoryIDs'),
+        selectedCategories = categorySelection.val();
     let selected;
 
-    programSelection.children().remove();
+    categorySelection.children().remove();
 
-    jQuery.each(programs, function (key, value) {
+    jQuery.each(categories, function (key, value) {
         var name = value.name == null ? value.ppName : value.name;
-        selected = jQuery.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
-        programSelection.append('<option value="' + value.id + '" ' + selected + '>' + name + '</option>');
+        selected = jQuery.inArray(value.id, selectedCategories) > -1 ? 'selected' : '';
+        categorySelection.append('<option value="' + value.id + '" ' + selected + '>' + name + '</option>');
     });
 
     if (si !== true)
     {
-        programSelection.chosen('destroy');
-        programSelection.chosen();
+        categorySelection.chosen('destroy');
+        categorySelection.chosen();
     }
 }
 
@@ -200,21 +200,21 @@ function handleSubmit()
 }
 
 /**
- * Load pools dependent on the selected departments and programs
+ * Load pools dependent on the selected departments and categories
  */
 function repopulateResources()
 {
     'use strict';
 
     const selectedDepartments = jQuery('#departmentIDs').val(),
-        selectedPrograms = jQuery('#programIDs').val();
-    let invalidDepartments, invalidPrograms, componentParameters, selectionParameters = '';
+        selectedCategories = jQuery('#categoryIDs').val();
+    let invalidDepartments, invalidCategories, componentParameters, selectionParameters = '';
 
     invalidDepartments = selectedDepartments == null || selectedDepartments.length === 0;
-    invalidPrograms = selectedPrograms == null || selectedPrograms.length === 0;
+    invalidCategories = selectedCategories == null || selectedCategories.length === 0;
 
     // The all selection was revoked from something.
-    if (invalidDepartments && invalidPrograms)
+    if (invalidDepartments && invalidCategories)
     {
         return;
     }
@@ -226,9 +226,9 @@ function repopulateResources()
         selectionParameters += '&departmentIDs=' + selectedDepartments;
     }
 
-    if (!invalidPrograms)
+    if (!invalidCategories)
     {
-        selectionParameters += '&programIDs=' + selectedPrograms;
+        selectionParameters += '&categoryIDs=' + selectedCategories;
     }
 
     jQuery.ajax({
@@ -278,13 +278,13 @@ function repopulateResources()
 }
 
 /**
- * Load programs dependent on the selected departments
+ * Load categories dependent on the selected departments
  */
-function repopulatePrograms()
+function repopulateCategories()
 {
     'use strict';
 
-    const componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions',
+    const componentParameters = '/index.php?option=com_thm_organizer&view=categories&format=json&task=getOptions',
         selectedDepartments = jQuery('#departmentIDs').val();
     let selectionParameters;
 
@@ -300,12 +300,12 @@ function repopulatePrograms()
         url: rootURI + componentParameters + selectionParameters,
         dataType: 'json',
         success: function (data) {
-            addPrograms(data);
+            addCategories(data);
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.status === 404 || xhr.status === 500)
             {
-                jQuery.ajax(repopulatePrograms());
+                jQuery.ajax(repopulateCategories());
             }
         }
     });

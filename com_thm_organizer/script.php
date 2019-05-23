@@ -134,46 +134,6 @@ class Com_THM_OrganizerInstallerScript
     }
 
     /**
-     * Removes folder contents before update to ensure removal of deprecated files
-     *
-     * @param string $type   the type of action being performed with the component.
-     * @param object $parent the 'parent' running this script
-     *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function preflight($type, $parent)
-    {
-        // Remove all old files to ensure no access to deprecated code. Current files will later be installed to these folders.
-        if ($type == 'update') {
-            $adminFiles = Folder::files(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
-
-            foreach ($adminFiles as $adminFile) {
-                File::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFile);
-            }
-
-            $adminFolders = Folder::folders(JPATH_ADMINISTRATOR . '/components/com_thm_organizer');
-
-            foreach ($adminFolders as $adminFolder) {
-                Folder::delete(JPATH_ADMINISTRATOR . '/components/com_thm_organizer/' . $adminFolder);
-            }
-
-            $siteFiles = Folder::files(JPATH_ROOT . '/components/com_thm_organizer');
-
-            foreach ($siteFiles as $siteFile) {
-                File::delete(JPATH_ROOT . '/components/com_thm_organizer/' . $siteFile);
-            }
-
-            $siteFolders = Folder::folders(JPATH_ROOT . '/components/com_thm_organizer');
-
-            foreach ($siteFolders as $siteFolder) {
-                Folder::delete(JPATH_ROOT . '/components/com_thm_organizer/' . $siteFolder);
-            }
-        }
-    }
-
-    /**
      * Method to uninstall the component
      *
      * @param object $parent the class calling this method

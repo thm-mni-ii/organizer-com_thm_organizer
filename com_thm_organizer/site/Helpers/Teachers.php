@@ -63,7 +63,7 @@ class Teachers implements XMLValidator
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, gpuntisID');
+        $query->select('t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, untisID');
         $query->from('#__thm_organizer_teachers AS t');
         $query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
         $query->leftJoin('#__users AS u ON t.username = u.username');
@@ -269,11 +269,11 @@ class Teachers implements XMLValidator
 
             if (!empty($selectedPrograms)) {
                 $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-                $query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lt.subjectID = ls.id');
-                $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
-                $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id');
+                $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lt.lessonCourseID = lcrs.id');
+                $query->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id');
+                $query->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');
 
-                $where .= " AND ppo.programID in ($programIDs)";
+                $where .= " AND gr.programID in ($programIDs)";
                 $where = "($where)";
             }
 
@@ -352,7 +352,7 @@ class Teachers implements XMLValidator
         if (!empty($teacher->forename)) {
             $loadCriteria[] = ['surname' => $teacher->surname, 'forename' => $teacher->forename];
         }
-        $loadCriteria[] = ['gpuntisID' => $teacher->gpuntisID];
+        $loadCriteria[] = ['untisID' => $teacher->untisID];
 
         $extPattern = "/^[v]?[A-ZÀ-ÖØ-Þ][a-zß-ÿ]{1,3}([A-ZÀ-ÖØ-Þ][A-ZÀ-ÖØ-Þa-zß-ÿ]*)$/";
         foreach ($loadCriteria as $criteria) {
@@ -367,11 +367,11 @@ class Teachers implements XMLValidator
                     }
                 }
 
-                $existingInvalid = empty(preg_match($extPattern, $table->gpuntisID));
+                $existingInvalid = empty(preg_match($extPattern, $table->untisID));
                 $newValid        = preg_match($extPattern, $untisID);
-                $overwriteUntis  = ($table->gpuntisID != $untisID and $existingInvalid and $newValid);
+                $overwriteUntis  = ($table->untisID != $untisID and $existingInvalid and $newValid);
                 if ($overwriteUntis) {
-                    $table->gpuntisID = $untisID;
+                    $table->untisID = $untisID;
                     $altered          = true;
                 }
                 if ($altered) {
@@ -507,7 +507,7 @@ class Teachers implements XMLValidator
         $teacher            = new stdClass;
         $teacher->fieldID   = $fieldID;
         $teacher->forename  = $forename;
-        $teacher->gpuntisID = $untisID;
+        $teacher->untisID = $untisID;
         $teacher->surname   = $surname;
         $teacher->title     = $title;
         $teacher->username  = $userName;

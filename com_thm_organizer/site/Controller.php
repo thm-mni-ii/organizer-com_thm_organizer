@@ -532,9 +532,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_STATUS_FAILURE', 'error');
         }
 
-        $view = explode('.', $this->input->get('task', ''))[0];
-
-        if ($view == 'subject') {
+        if ($this->resource == 'subject') {
             $subjectID = $this->input->getInt('id', 0);
             $url       .= "&view=subject_details&id=$subjectID";
         } else {
@@ -640,7 +638,7 @@ class Controller extends BaseController
 
     /**
      * performs access checks, activates/deactivates the chosen schedule in the
-     * context of its planning period, and redirects to the schedule manager view
+     * context of its term, and redirects to the schedule manager view
      *
      * @return void
      */

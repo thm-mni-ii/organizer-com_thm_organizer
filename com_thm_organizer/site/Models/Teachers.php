@@ -27,7 +27,7 @@ class Teachers extends ListModel
     protected function getListQuery()
     {
         $query  = $this->_db->getQuery(true);
-        $select = 'DISTINCT t.id, t.surname, t.forename, t.username, t.gpuntisID, d.id AS departmentID, ';
+        $select = 'DISTINCT t.id, t.surname, t.forename, t.username, t.untisID, d.id AS departmentID, ';
         $parts  = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", 't.id'];
         $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
@@ -35,9 +35,9 @@ class Teachers extends ListModel
             ->leftJoin('#__thm_organizer_department_resources AS dr on dr.teacherID = t.id')
             ->leftJoin('#__thm_organizer_departments AS d on d.id = dr.id');
 
-        $this->setSearchFilter($query, ['surname', 'forename', 'username', 't.gpuntisID']);
+        $this->setSearchFilter($query, ['surname', 'forename', 'username', 't.untisID']);
         $this->setIDFilter($query, 'departmentID', 'list.departmentID');
-        $this->setValueFilters($query, ['forename', 'username', 't.gpuntisID']);
+        $this->setValueFilters($query, ['forename', 'username', 't.untisID']);
 
         $this->setOrdering($query);
 

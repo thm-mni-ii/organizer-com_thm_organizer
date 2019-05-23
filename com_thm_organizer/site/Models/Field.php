@@ -28,13 +28,13 @@ class Field extends MergeModel
      */
     protected function updateAssociations()
     {
-        $ppUpdated = $this->updateAssociation('plan_pools');
-        if (!$ppUpdated) {
+        $groupsUpdated = $this->updateAssociation('groups');
+        if (!$groupsUpdated) {
             return false;
         }
 
-        $psUpdated = $this->updateAssociation('plan_subjects');
-        if (!$psUpdated) {
+        $coursesUpdated = $this->updateAssociation('courses');
+        if (!$coursesUpdated) {
             return false;
         }
 

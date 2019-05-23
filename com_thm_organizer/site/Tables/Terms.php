@@ -13,9 +13,9 @@ namespace Organizer\Tables;
 defined('_JEXEC') or die;
 
 /**
- * Class instantiates a Table Object associated with the lesson_subjects table.
+ * Class instantiates a Table Object associated with the terms table.
  */
-class Lesson_Subjects extends Nullable
+class Terms extends BaseTable
 {
     /**
      * Declares the associated table
@@ -24,18 +24,6 @@ class Lesson_Subjects extends Nullable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_lesson_subjects', 'id', $dbo);
-    }
-
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $this->modified = null;
-
-        return true;
+        parent::__construct('#__thm_organizer_terms', 'id', $dbo);
     }
 }

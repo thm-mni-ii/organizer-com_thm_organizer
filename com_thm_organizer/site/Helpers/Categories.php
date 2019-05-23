@@ -24,11 +24,11 @@ class Categories implements XMLValidator
     /**
      * Checks whether the given plan program is associated with an allowed department
      *
-     * @param array $ppIDs the ids of the plan programs being checked
+     * @param array $categoryIDs the ids of the plan programs being checked
      *
      * @return bool  true if the plan program is associated with an allowed department, otherwise false
      */
-    public static function allowEdit($ppIDs)
+    public static function allowEdit($categoryIDs)
     {
         $user = Factory::getUser();
 
@@ -40,18 +40,18 @@ class Categories implements XMLValidator
             return true;
         }
 
-        if (empty($ppIDs)) {
+        if (empty($categoryIDs)) {
             return false;
         }
 
-        $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
+        $categoryIDs        = "'" . implode("', '", $categoryIDs) . "'";
         $allowedDepartments = Access::getAccessibleDepartments('schedule');
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT id')
             ->from('#__thm_organizer_department_resources')
-            ->where("programID IN ( $ppIDs )")
+            ->where("categoryID IN ( $categoryIDs )")
             ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
 
         $dbo->setQuery($query);
@@ -73,21 +73,48 @@ class Categories implements XMLValidator
 
         $query     = $dbo->getQuery(true);
         $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-        $query->select('DISTINCT ppr.id, ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
-        $query->from('#__thm_organizer_plan_programs AS ppr');
-        $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id');
-        $query->leftJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
+        $query->select('DISTINCT cat.id, cat.name AS catName, ' . $query->concatenate($nameParts, "") . ' AS name');
+        $query->from('#__thm_organizer_categories AS cat');
+        $query->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id');
+        $query->leftJoin('#__thm_organizer_programs AS p ON p.id = cat.programID');
         $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
 
         if (!empty($departmentIDs)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id');
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
             $query->where("dr.departmentID IN ($departmentIDs)");
         }
 
-        $query->order('ppName');
+        $query->order('catName');
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList', []);
+    }
+
+    /**
+     * Retrieves the category name
+     *
+     * @param int $categoryID the table id for the program
+     *
+     * @return string the name of the (plan) program, otherwise empty
+     */
+    public static function getName($categoryID)
+    {
+        $dbo         = Factory::getDbo();
+        $languageTag = Languages::getShortTag();
+
+        $query     = $dbo->getQuery(true);
+        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $query->select('cat.name AS catName, ' . $query->concatenate($nameParts, "") . ' AS name');
+
+        $query->from('#__thm_organizer_categories AS cat');
+        $query->leftJoin('#__thm_organizer_programs AS p ON cat.programID = p.id');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+        $query->where("cat.id = '$categoryID'");
+
+        $dbo->setQuery($query);
+        $names = OrganizerHelper::executeQuery('loadAssoc', []);
+
+        return empty($names) ? '' : empty($names['name']) ? $names['catName'] : $names['name'];
     }
 
     /**
@@ -101,7 +128,7 @@ class Categories implements XMLValidator
 
         $results = [];
         foreach ($programs as $program) {
-            $name           = empty($program['name']) ? $program['ppName'] : $program['name'];
+            $name           = empty($program['name']) ? $program['catName'] : $program['name'];
             $results[$name] = $program['id'];
         }
 
@@ -157,7 +184,7 @@ class Categories implements XMLValidator
         $program        = $scheduleModel->schedule->degrees->$untisID;
         $table          = OrganizerHelper::getTable('Categories');
         $loadCriteria   = [];
-        $loadCriteria[] = ['gpuntisID' => $untisID];
+        $loadCriteria[] = ['untisID' => $untisID];
         $loadCriteria[] = ['name' => $program->name];
 
         foreach ($loadCriteria as $criterion) {
@@ -245,15 +272,15 @@ class Categories implements XMLValidator
         $tempName      = trim($tempArray[0]);
         $programID     = empty($plausibleData) ? null : Programs::getID($plausibleData, $tempName);
 
-        $program            = new stdClass;
-        $program->gpuntisID = $untisID;
-        $program->name      = $name;
-        $program->programID = $programID;
+        $category            = new stdClass;
+        $category->untisID   = $untisID;
+        $category->name      = $name;
+        $category->programID = $programID;
 
-        $scheduleModel->schedule->degrees->$untisID = $program;
+        $scheduleModel->schedule->degrees->$untisID = $category;
 
         self::setID($scheduleModel, $untisID);
-        Departments::setDepartmentResource($program->id, 'programID');
+        Departments::setDepartmentResource($category->id, 'categoryID');
 
     }
 }

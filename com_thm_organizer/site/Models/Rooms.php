@@ -32,7 +32,7 @@ class Rooms extends ListModel
         $query    = $this->_db->getQuery(true);
 
         $linkParts = ["'index.php?option=com_thm_organizer&view=room_edit&id='", 'r.id'];
-        $query->select('r.id, r.gpuntisID, r.name')
+        $query->select('r.id, r.untisID, r.name')
             ->select("t.id AS typeID, t.name_$shortTag AS type")
             ->select('b.id AS buildingID, b.name AS buildingName')
             ->select($query->concatenate($linkParts, '') . ' AS link')

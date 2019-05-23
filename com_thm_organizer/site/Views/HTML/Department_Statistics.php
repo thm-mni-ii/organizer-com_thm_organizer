@@ -70,12 +70,12 @@ class Department_Statistics extends BaseHTMLView
 
         $options  = $this->model->getYearOptions();
         $default  = date('Y');
-        $ppSelect = HTML::selectBox($options, 'year', $attribs, $default);
+        $termSelect = HTML::selectBox($options, 'year', $attribs, $default);
 
-        $this->fields['baseSettings']['planningPeriodIDs'] = [
+        $this->fields['baseSettings']['termIDs'] = [
             'label'       => Languages::_('THM_ORGANIZER_YEAR'),
             'description' => Languages::_('THM_ORGANIZER_YEAR_EXPORT_DESC'),
-            'input'       => $ppSelect
+            'input'       => $termSelect
         ];
     }
 

@@ -20,7 +20,7 @@ class Department_Ajax extends BaseModel
     /**
      * Gets the program options as a string
      *
-     * @return string the concatenated plan program options
+     * @return string the concatenated category options
      */
     public function getOptions()
     {

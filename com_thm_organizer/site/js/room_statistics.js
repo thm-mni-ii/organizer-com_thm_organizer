@@ -7,42 +7,42 @@ $(document).ready(function () {
 });
 
 /**
- * Clear the current list and add new programs to it
+ * Clear the current list and add new categories to it
  *
- * @param  {object}  programs   the programs received
+ * @param  {object}  categories   the categories received
  */
-function addPrograms(programs)
+function addCategories(categories)
 {
     'use strict';
 
-    var programSelection = $('#programIDs'), selectedPrograms = programSelection.val(), selected;
+    var categorySelection = $('#categoryIDs'), selectedCategories = categorySelection.val(), selected;
 
-    programSelection.children().remove();
+    categorySelection.children().remove();
 
-    $.each(programs, function (key, value) {
+    $.each(categories, function (key, value) {
         var name = value.name == null ? value.ppName : value.name;
-        selected = $.inArray(value.id, selectedPrograms) > -1 ? 'selected' : '';
-        programSelection.append('<option value="' + value.id + '" ' + selected + '>' + name + '</option>');
+        selected = $.inArray(value.id, selectedCategories) > -1 ? 'selected' : '';
+        categorySelection.append('<option value="' + value.id + '" ' + selected + '>' + name + '</option>');
     });
 
-    programSelection.chosen('destroy');
-    programSelection.chosen();
+    categorySelection.chosen('destroy');
+    categorySelection.chosen();
 }
 
 /**
- * Clear the current list and add new planning periods to it
+ * Clear the current list and add new terms to it
  *
- * @param  {object}  planningPeriods   the rooms received
+ * @param  {object}  terms   the terms received
  */
-function addPlanningPeriods(planningPeriods)
+function addTerms(terms)
 {
     'use strict';
 
-    var ppSelection = $('#planningPeriodIDs'), selectedPP = ppSelection.val(), selected;
+    var ppSelection = $('#termIDs'), selectedPP = ppSelection.val(), selected;
 
     ppSelection.children().remove();
 
-    $.each(planningPeriods, function (index, data) {
+    $.each(terms, function (index, data) {
         selected = $.inArray(data.value, selectedPP) > -1 ? 'selected' : '';
         ppSelection.append('<option value="' + data.value + '" ' + selected + '>' + data.text + '</option>');
     });
@@ -79,14 +79,14 @@ function addRooms(rooms)
 function handleDateRestriction()
 {
     var drValue = $('#dateRestriction').find(':selected').val(), dateContainer = $('#date-container'),
-        periodsContainer = $('#planningPeriodIDs-container'), useInput = $('input[name=use]');
+        periodsContainer = $('#termIDs-container'), useInput = $('input[name=use]');
 
     switch (drValue)
     {
         case 'semester':
             dateContainer.hide();
             periodsContainer.show();
-            useInput.val('planningPeriodIDs');
+            useInput.val('termIDs');
             break;
         case 'month':
         case 'week':
@@ -99,30 +99,30 @@ function handleDateRestriction()
 }
 
 /**
- * Load planning periods dependent on the selected departments and programs
+ * Load terms dependent on the selected departments and categories
  */
-function repopulatePlanningPeriods()
+function repopulateTerms()
 {
     'use strict';
 
     var selectedDepartments = $('#departmentIDs').val(),
-        selectedPrograms = $('#programIDs').val(),
-        validDepartments, validPrograms,
+        selectedCategories = $('#categoryIDs').val(),
+        validDepartments, validCategories,
         componentParameters, selectionParameters = '';
 
     validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
-    validPrograms = selectedPrograms != null && selectedPrograms.length !== 0;
+    validCategories = selectedCategories != null && selectedCategories.length !== 0;
 
-    componentParameters = 'index.php?option=com_thm_organizer&view=planning_period_ajax&format=raw&task=getOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&view=terms&format=json&task=getOptions';
 
     if (validDepartments)
     {
         componentParameters += '&departmentIDs=' + selectedDepartments;
     }
 
-    if (validPrograms)
+    if (validCategories)
     {
-        componentParameters += '&programIDs=' + selectedPrograms;
+        componentParameters += '&categoryIDs=' + selectedCategories;
     }
 
     $.ajax({
@@ -130,32 +130,32 @@ function repopulatePlanningPeriods()
         url: rootURI + componentParameters,
         dataType: 'json',
         success: function (data) {
-            addPlanningPeriods(data);
+            addTerms(data);
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.status === 404 || xhr.status === 500)
             {
-                $.ajax(repopulatePlanningPeriods());
+                $.ajax(repopulateTerms());
             }
         }
     });
 }
 
 /**
- * Load rooms dependent on the selected departments and programs
+ * Load rooms dependent on the selected departments and categories
  */
 function repopulateRooms()
 {
     'use strict';
 
     var selectedDepartments = $('#departmentIDs').val(),
-        selectedPrograms = $('#programIDs').val(),
+        selectedCategories = $('#categoryIDs').val(),
         selectedTypes = $('#typeIDs').val(),
-        validDepartments, validPrograms, validTypes,
+        validDepartments, validCategories, validTypes,
         componentParameters;
 
     validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
-    validPrograms = selectedPrograms != null && selectedPrograms.length !== 0;
+    validCategories = selectedCategories != null && selectedCategories.length !== 0;
     validTypes = selectedTypes != null && selectedTypes.length !== 0;
 
     componentParameters = 'index.php?option=com_thm_organizer&view=room_ajax&format=raw&task=getPlanOptions';
@@ -165,9 +165,9 @@ function repopulateRooms()
         componentParameters += '&departmentIDs=' + selectedDepartments;
     }
 
-    if (validPrograms)
+    if (validCategories)
     {
-        componentParameters += '&programIDs=' + selectedPrograms;
+        componentParameters += '&categoryIDs=' + selectedCategories;
     }
 
     if (validTypes)
@@ -192,14 +192,14 @@ function repopulateRooms()
 }
 
 /**
- * Load programs dependent on the selected departments
+ * Load categories dependent on the selected departments
  */
-function repopulatePrograms()
+function repopulateCategories()
 {
     'use strict';
 
     var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
-    componentParameters = '/index.php?option=com_thm_organizer&view=program_ajax&format=raw&task=getPlanOptions';
+    componentParameters = '/index.php?option=com_thm_organizer&view=categories&format=json&task=getOptions';
 
     if (selectedDepartments == null)
     {
@@ -213,12 +213,12 @@ function repopulatePrograms()
         url: rootURI + componentParameters + selectionParameters,
         dataType: 'json',
         success: function (data) {
-            addPrograms(data);
+            addCategories(data);
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.status === 404 || xhr.status === 500)
             {
-                $.ajax(repopulatePrograms());
+                $.ajax(repopulateCategories());
             }
         }
     });

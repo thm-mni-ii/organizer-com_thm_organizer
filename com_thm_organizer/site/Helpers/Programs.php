@@ -54,67 +54,29 @@ class Programs
     }
 
     /**
-     * Retrieves the (plan) program name
+     * Retrieves the program name
      *
-     * @param int    $programID the table id for the program
-     * @param string $type      the type of the id (real or plan)
+     * @param int $programID the table id for the program
      *
      * @return string the name of the (plan) program, otherwise empty
      */
-    public static function getName($programID, $type)
+    public static function getName($programID)
     {
         $dbo         = Factory::getDbo();
         $languageTag = Languages::getShortTag();
 
         $query     = $dbo->getQuery(true);
         $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-        $query->select('ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
+        $query->select('cat.name AS catName, ' . $query->concatenate($nameParts, "") . ' AS name');
 
-        if ($type == 'real') {
-            $query->from('#__thm_organizer_programs AS p');
-            $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-            $query->leftJoin('#__thm_organizer_plan_programs AS ppr ON ppr.programID = p.id');
-            $query->where("p.id = '$programID'");
-        } else {
-            $query->from('#__thm_organizer_plan_programs AS ppr');
-            $query->leftJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
-            $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-            $query->where("ppr.id = '$programID'");
-        }
+        $query->from('#__thm_organizer_programs AS p');
+        $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+        $query->leftJoin('#__thm_organizer_categories AS cat ON cat.programID = p.id');
+        $query->where("p.id = '$programID'");
 
         $dbo->setQuery($query);
         $names = OrganizerHelper::executeQuery('loadAssoc', []);
 
-        return empty($names) ? '' : empty($names['name']) ? $names['ppName'] : $names['name'];
-    }
-
-    /**
-     * Getter method for schedule programs in database
-     *
-     * @return array an array of program information
-     */
-    public static function getCategories()
-    {
-        $dbo           = Factory::getDbo();
-        $languageTag   = Languages::getShortTag();
-        $departmentIDs = OrganizerHelper::getInput()->get('departmentIDs', [], 'raw');
-
-        $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-        $query->select('DISTINCT ppr.id, ppr.name AS ppName, ' . $query->concatenate($nameParts, "") . ' AS name');
-        $query->from('#__thm_organizer_plan_programs AS ppr');
-        $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id');
-        $query->leftJoin('#__thm_organizer_programs AS p ON ppr.programID = p.id');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-
-        if (!empty($departmentIDs)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id');
-            $query->where("dr.departmentID IN ($departmentIDs)");
-        }
-
-        $query->order('ppName');
-        $dbo->setQuery($query);
-
-        return OrganizerHelper::executeQuery('loadAssocList', []);
+        return empty($names) ? '' : empty($names['name']) ? $names['catName'] : $names['name'];
     }
 }

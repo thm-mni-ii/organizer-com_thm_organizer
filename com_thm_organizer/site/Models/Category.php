@@ -15,15 +15,15 @@ defined('_JEXEC') or die;
 use Organizer\Helpers\Categories;
 
 /**
- * Class which manages stored plan (degree) program / organizational grouping data.
+ * Class which manages event categories.
  */
 class Category extends MergeModel
 {
-    protected $deptResource = 'programID';
+    protected $deptResource = 'categoryID';
 
-    protected $fkColumn = 'programID';
+    protected $fkColumn = 'categoryID';
 
-    protected $tableName = 'plan_programs';
+    protected $tableName = 'categories';
 
     /**
      * Provides resource specific user access checks
@@ -50,12 +50,12 @@ class Category extends MergeModel
      */
     protected function updateAssociations()
     {
-        $drUpdated = $this->updateDRAssociation('program');
+        $drUpdated = $this->updateDRAssociation();
         if (!$drUpdated) {
             return false;
         }
 
-        return $this->updateAssociation('plan_pools');
+        return $this->updateAssociation('groups');
     }
 
     /**

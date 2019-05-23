@@ -124,7 +124,7 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         }
 
         $this->document->SETXY($center, $yOffset + 28);
-        $headerLine   = "{$this->course['name']} {$this->course['planningPeriodName']}";
+        $headerLine   = "{$this->course['name']} {$this->course['termName']}";
         $headerLength = strlen($headerLine);
         if ($headerLength > 35) {
             $this->document->MultiCell(80, 5, $headerLine, 0, 'C', false, 2);

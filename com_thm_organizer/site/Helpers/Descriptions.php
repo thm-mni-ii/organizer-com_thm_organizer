@@ -100,7 +100,6 @@ class Descriptions implements XMLValidator
 
             return;
         } elseif (!in_array($typeFlag, $validFlags)) {
-            echo "<pre>" . print_r($typeFlag, true) . "</pre>";
             $scheduleModel->scheduleErrors[] = sprintf(
                 Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_INVALID'), $name, $untisID
             );

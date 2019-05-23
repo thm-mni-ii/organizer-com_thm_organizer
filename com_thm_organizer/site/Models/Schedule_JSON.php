@@ -115,13 +115,13 @@ class Schedule_JSON extends BaseDatabaseModel
     /**
      * Retrieves the configurations associated with the lesson instance
      *
-     * @param int   $lessonID       the id of the lesson in the database
-     * @param array $calendarEntry  the the calendar entry being currently iterated
-     * @param array $lessonSubjects an array containing the plan subject id (subjectID) and lesson subject id (id), indexed by the plan subject id
+     * @param int   $lessonID      the id of the lesson in the database
+     * @param array $calendarEntry the the calendar entry being currently iterated
+     * @param array $lessonCourses an array containing the course id and lesson course id (id), indexed by the course id
      *
      * @return array
      */
-    private function getInstanceConfigurations($lessonID, $calendarEntry, $lessonSubjects)
+    private function getInstanceConfigurations($lessonID, $calendarEntry, $lessonCourses)
     {
         $date      = $calendarEntry['schedule_date'];
         $startTime = date('Hi', strtotime($calendarEntry['startTime']));
@@ -139,7 +139,7 @@ class Schedule_JSON extends BaseDatabaseModel
         foreach ($configIndexes as $instanceIndex => $configIndex) {
             /**
              * lessonID => the untis lesson id
-             * subjectID => the db / plan subject id
+             * courseID => the course id
              * teachers & rooms => the teachers and rooms for this configuration
              */
             $rawConfig     = $this->schedule->configurations[$configIndex];
@@ -151,11 +151,11 @@ class Schedule_JSON extends BaseDatabaseModel
                 continue;
             }
 
-            $lessonSubjectID = $lessonSubjects[$configuration->subjectID]['id'];
-            $pullConfig      = $configuration;
-            unset($pullConfig->lessonID, $pullConfig->subjectID);
+            $lessonCourseID = $lessonCourses[$configuration->courseID]['id'];
+            $pullConfig     = $configuration;
+            unset($pullConfig->lessonID, $pullConfig->courseID);
             $pullConfig   = json_encode($pullConfig);
-            $configData   = ['lessonID' => $lessonSubjectID, 'configuration' => $pullConfig];
+            $configData   = ['lessonCourseID' => $lessonCourseID, 'configuration' => $pullConfig];
             $configsTable = OrganizerHelper::getTable('Lesson_Configurations');
             $exists       = $configsTable->load($configData);
 
@@ -174,11 +174,11 @@ class Schedule_JSON extends BaseDatabaseModel
      */
     private function mapConfigurations()
     {
-        foreach (array_keys((array)$this->schedule->lessons) as $lessonGPUntisID) {
-            $lessonsData                     = [];
-            $lessonsData['gpuntisID']        = $lessonGPUntisID;
-            $lessonsData['departmentID']     = $this->schedule->departmentID;
-            $lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
+        foreach (array_keys((array)$this->schedule->lessons) as $lessonUntisID) {
+            $lessonsData                 = [];
+            $lessonsData['untisID']      = $lessonUntisID;
+            $lessonsData['departmentID'] = $this->schedule->departmentID;
+            $lessonsData['termID']       = $this->schedule->termID;
 
             $lessonsTable = OrganizerHelper::getTable('Lessons');
             $lessonExists = $lessonsTable->load($lessonsData);
@@ -204,21 +204,21 @@ class Schedule_JSON extends BaseDatabaseModel
                 continue;
             }
 
-            $lessonSubjectsQuery = $this->_db->getQuery(true);
-            $lessonSubjectsQuery->select('id, subjectID')
-                ->from('#__thm_organizer_lesson_subjects')
+            $lessonCoursesQuery = $this->_db->getQuery(true);
+            $lessonCoursesQuery->select('id, courseID')
+                ->from('#__thm_organizer_lesson_courses')
                 ->where("lessonID = '$lessonID'");
-            $this->_db->setQuery($lessonSubjectsQuery);
+            $this->_db->setQuery($lessonCoursesQuery);
 
-            $lessonSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'subjectID');
+            $lessonCourses = OrganizerHelper::executeQuery('loadAssocList', [], 'courseID');
 
             // Should not occur
-            if (empty($lessonSubjects)) {
+            if (empty($lessonCourses)) {
                 return false;
             }
 
             foreach ($calendarEntries as $calendarID => $calendarEntry) {
-                $instanceConfigs = $this->getInstanceConfigurations($lessonGPUntisID, $calendarEntry, $lessonSubjects);
+                $instanceConfigs = $this->getInstanceConfigurations($lessonUntisID, $calendarEntry, $lessonCourses);
 
                 $configIDs = [];
 
@@ -386,18 +386,18 @@ class Schedule_JSON extends BaseDatabaseModel
             }
 
             // If any of the subordinate nodes/collections are empty after sanitization, the node being processed must be removed
-            if (isset($object->subjects)) {
-                $this->sanitizeObjectNodes($object->subjects);
-                $empty = empty((array)$object->subjects);
+            if (isset($object->courses)) {
+                $this->sanitizeObjectNodes($object->courses);
+                $empty = empty((array)$object->courses);
                 if ($empty) {
                     unset($objectNodes->$objectID);
                     continue;
                 }
             }
 
-            if (isset($object->pools)) {
-                $this->sanitizeNumericCollection($object->pools);
-                $empty = empty($object->pools);
+            if (isset($object->groups)) {
+                $this->sanitizeNumericCollection($object->groups);
+                $empty = empty($object->groups);
                 if ($empty) {
                     unset($objectNodes->$objectID);
                     continue;
@@ -478,10 +478,10 @@ class Schedule_JSON extends BaseDatabaseModel
                 $calData['endTime']   = $endTime . '00';
 
                 foreach ($lessons as $lessonID => $instanceData) {
-                    $lessonsData                     = [];
-                    $lessonsData['gpuntisID']        = $lessonID;
-                    $lessonsData['departmentID']     = $this->schedule->departmentID;
-                    $lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
+                    $lessonsData                 = [];
+                    $lessonsData['untisID']      = $lessonID;
+                    $lessonsData['departmentID'] = $this->schedule->departmentID;
+                    $lessonsData['termID']       = $this->schedule->termID;
 
                     $lessonsTable = OrganizerHelper::getTable('Lessons');
                     $lessonsTable->load($lessonsData);
@@ -548,10 +548,10 @@ class Schedule_JSON extends BaseDatabaseModel
         foreach ($this->schedule->configurations as $json) {
             $config = json_decode($json);
 
-            $lessonsData                     = [];
-            $lessonsData['gpuntisID']        = $config->lessonID;
-            $lessonsData['departmentID']     = $this->schedule->departmentID;
-            $lessonsData['planningPeriodID'] = $this->schedule->planningPeriodID;
+            $lessonsData                 = [];
+            $lessonsData['untisID']      = $config->lessonID;
+            $lessonsData['departmentID'] = $this->schedule->departmentID;
+            $lessonsData['termID']       = $this->schedule->termID;
 
             $lessonsTable = OrganizerHelper::getTable('Lessons');
             $lessonsTable->load($lessonsData);
@@ -560,21 +560,21 @@ class Schedule_JSON extends BaseDatabaseModel
                 return false;
             }
 
-            $lSubjectsData              = [];
-            $lSubjectsData['lessonID']  = $lessonsTable->id;
-            $lSubjectsData['subjectID'] = $config->subjectID;
+            $lCourseData             = [];
+            $lCourseData['lessonID'] = $lessonsTable->id;
+            $lCourseData['courseID'] = $config->courseID;
 
-            $lSubjectsTable = OrganizerHelper::getTable('Lesson_Subjects');
-            $lSubjectsTable->load($lSubjectsData);
+            $lCoursesTable = OrganizerHelper::getTable('Lesson_Courses');
+            $lCoursesTable->load($lCourseData);
 
-            if (empty($lSubjectsTable->id)) {
+            if (empty($lCoursesTable->id)) {
                 return false;
             }
 
             // Information would be redundant in the db
-            unset($config->lessonID, $config->subjectID);
+            unset($config->lessonID, $config->courseID);
 
-            $configData    = ['lessonID' => $lSubjectsTable->id, 'configuration' => json_encode($config)];
+            $configData    = ['lessonCourseID' => $lCoursesTable->id, 'configuration' => json_encode($config)];
             $lConfigsTable = OrganizerHelper::getTable('Lesson_Configurations');
             $lConfigsTable->load($configData);
             $success = $lConfigsTable->save($configData);
@@ -593,16 +593,16 @@ class Schedule_JSON extends BaseDatabaseModel
      */
     private function saveLessons()
     {
-        $departmentID     = $this->schedule->departmentID;
-        $planningPeriodID = $this->schedule->planningPeriodID;
-        foreach ($this->schedule->lessons as $gpuntisID => $lesson) {
+        $departmentID = $this->schedule->departmentID;
+        $termID       = $this->schedule->termID;
+        foreach ($this->schedule->lessons as $untisID => $lesson) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
             $table = OrganizerHelper::getTable('Lessons');
 
-            $data                     = [];
-            $data['gpuntisID']        = $gpuntisID;
-            $data['departmentID']     = $departmentID;
-            $data['planningPeriodID'] = $planningPeriodID;
+            $data                 = [];
+            $data['untisID']      = $untisID;
+            $data['departmentID'] = $departmentID;
+            $data['termID']       = $termID;
 
             $table->load($data);
 
@@ -619,9 +619,9 @@ class Schedule_JSON extends BaseDatabaseModel
                 return false;
             }
 
-            $subjectsSaved = $this->saveLessonSubjects($table->id, $lesson->subjects);
+            $coursesSaved = $this->saveLessonCourses($table->id, $lesson->courses);
 
-            if (!$subjectsSaved) {
+            if (!$coursesSaved) {
                 return false;
             }
         }
@@ -630,8 +630,8 @@ class Schedule_JSON extends BaseDatabaseModel
 
         $query = $this->_db->getQuery(true);
         $query->update('#__thm_organizer_lessons')->set("delta = 'removed'")
-            ->where("departmentID = '$departmentID'")->where("planningPeriodID = '$planningPeriodID'")
-            ->where("gpuntisID NOT IN ('" . implode("', '", $lessonIDs) . "')")
+            ->where("departmentID = '$departmentID'")->where("termID = '$termID'")
+            ->where("untisID NOT IN ('" . implode("', '", $lessonIDs) . "')")
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
@@ -639,26 +639,26 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Saves the lesson pools from the schedule object to the database and triggers functions for saving lesson associations.
+     * Saves the lesson groups from the schedule object to the database and triggers functions for saving lesson associations.
      *
-     * @param string $lessonSubjectID the db id of the lesson subject association
-     * @param object $pools           the pools associated with the subject
-     * @param int    $subjectID       the id of the lesson subject entry
-     * @param string $subjectNo       the subject's id in documentation
+     * @param string $lessonCourseID the db id of the lesson course association
+     * @param object $groups         the groups associated with the course
+     * @param int    $courseID       the id of the course
+     * @param string $subjectNo      the module number of the subject
      *
      * @return boolean true if the save process was successful, otherwise false
      */
-    private function saveLessonPools($lessonSubjectID, $pools, $subjectID, $subjectNo)
+    private function saveLessonGroups($lessonCourseID, $groups, $courseID, $subjectNo)
     {
         $processedIDs = [];
 
-        foreach ($pools as $poolID => $delta) {
+        foreach ($groups as $groupID => $delta) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = OrganizerHelper::getTable('Lesson_Pools');
+            $table = OrganizerHelper::getTable('Lesson_Groups');
 
-            $data              = [];
-            $data['subjectID'] = $lessonSubjectID;
-            $data['poolID']    = $poolID;
+            $data                   = [];
+            $data['lessonCourseID'] = $lessonCourseID;
+            $data['groupID']        = $groupID;
             $table->load($data);
 
             $data['delta'] = $delta;
@@ -673,15 +673,15 @@ class Schedule_JSON extends BaseDatabaseModel
             $processedIDs[] = $table->id;
 
             if (!empty($subjectNo)) {
-                $this->savePlanSubjectMapping($subjectID, $poolID, $subjectNo);
+                $this->saveCourseMapping($courseID, $groupID, $subjectNo);
             }
         }
 
         $query = $this->_db->getQuery(true);
-        $query->update('#__thm_organizer_lesson_pools')
+        $query->update('#__thm_organizer_lesson_groups')
             ->set("delta = 'removed'")
             ->where("id NOT IN ('" . implode("', '", $processedIDs) . "')")
-            ->where("subjectID = '$lessonSubjectID'")
+            ->where("lessonCourseID = '$lessonCourseID'")
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
@@ -689,28 +689,28 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Saves the lesson subjects from the schedule object to the database and triggers functions for saving lesson
+     * Saves the lesson courses from the schedule object to the database and triggers functions for saving lesson
      * associations.
      *
-     * @param string $lessonID the db id of the lesson subject association
-     * @param object $subjects the subjects associated with the lesson
+     * @param string $lessonID the db id of the lesson
+     * @param object $courses  the courses associated with the lesson
      *
      * @return boolean true if the save process was successful, otherwise false
      */
-    private function saveLessonSubjects($lessonID, $subjects)
+    private function saveLessonCourses($lessonID, $courses)
     {
         $processedIDs = [];
 
-        foreach ($subjects as $subjectID => $subjectData) {
+        foreach ($courses as $courseID => $courseData) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = OrganizerHelper::getTable('Lesson_Subjects');
+            $table = OrganizerHelper::getTable('Lesson_Courses');
 
-            $data              = [];
-            $data['lessonID']  = $lessonID;
-            $data['subjectID'] = $subjectID;
+            $data             = [];
+            $data['lessonID'] = $lessonID;
+            $data['courseID'] = $courseID;
             $table->load($data);
 
-            $data['delta'] = $subjectData->delta;
+            $data['delta'] = $courseData->delta;
 
             $success = $table->save($data);
 
@@ -721,15 +721,15 @@ class Schedule_JSON extends BaseDatabaseModel
             }
 
             $processedIDs[] = $table->id;
-            $subjectNo      = empty($subjectData->subjectNo) ? null : $subjectData->subjectNo;
+            $subjectNo      = empty($courseData->subjectNo) ? null : $courseData->subjectNo;
 
-            $poolsSaved = $this->saveLessonPools($table->id, $subjectData->pools, $subjectID, $subjectNo);
+            $groupSaved = $this->saveLessonGroups($table->id, $courseData->groups, $courseID, $subjectNo);
 
-            if (!$poolsSaved) {
+            if (!$groupSaved) {
                 return false;
             }
 
-            $teachersSaved = $this->saveLessonTeachers($table->id, $subjectData->teachers);
+            $teachersSaved = $this->saveLessonTeachers($table->id, $courseData->teachers);
 
             if (!$teachersSaved) {
                 return false;
@@ -737,7 +737,7 @@ class Schedule_JSON extends BaseDatabaseModel
         }
 
         $query = $this->_db->getQuery(true);
-        $query->update('#__thm_organizer_lesson_subjects')
+        $query->update('#__thm_organizer_lesson_courses')
             ->set("delta = 'removed'")
             ->where("id NOT IN ('" . implode("', '", $processedIDs) . "')")
             ->where("lessonID = '$lessonID'")
@@ -748,14 +748,14 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Saves the lesson pools from the schedule object to the database and triggers functions for saving lesson associations.
+     * Saves the lesson groups from the schedule object to the database and triggers functions for saving lesson associations.
      *
-     * @param string $subjectID the db id of the lesson subject association
-     * @param object $teachers  the teachers associated with the subject
+     * @param string $lessonCourseID the id of the lesson => course association
+     * @param object $teachers       the teachers associated with the course
      *
      * @return boolean true if the save process was successful, otherwise false
      */
-    private function saveLessonTeachers($subjectID, $teachers)
+    private function saveLessonTeachers($lessonCourseID, $teachers)
     {
         $processedIDs = [];
 
@@ -763,9 +763,9 @@ class Schedule_JSON extends BaseDatabaseModel
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
             $table = OrganizerHelper::getTable('Lesson_Teachers');
 
-            $data              = [];
-            $data['subjectID'] = $subjectID;
-            $data['teacherID'] = $teacherID;
+            $data                   = [];
+            $data['lessonCourseID'] = $lessonCourseID;
+            $data['teacherID']      = $teacherID;
             $table->load($data);
 
             // Delta will be 'calculated' later but explicitly overwritten now irregardless
@@ -785,7 +785,7 @@ class Schedule_JSON extends BaseDatabaseModel
         $query->update('#__thm_organizer_lesson_teachers')
             ->set("delta = 'removed'")
             ->where("id NOT IN ('" . implode("', '", $processedIDs) . "')")
-            ->where("subjectID = '$subjectID'")
+            ->where("lessonCourseID = '$lessonCourseID'")
             ->where("delta != 'removed'");
         $this->_db->setQuery($query);
 
@@ -793,24 +793,24 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Attempts to associate subjects used in scheduling with their documentation
+     * Attempts to associate courses with subjects
      *
-     * @param string $eventID  the id of the event
-     * @param string $groupID  the id of the group
-     * @param string $moduleNo the module number of the subject
+     * @param string $courseID  the id of the event
+     * @param string $groupID   the id of the group
+     * @param string $subjectNo the module number of the subject
      *
      * @return void saves/updates a database entry
      */
-    private function savePlanSubjectMapping($eventID, $groupID, $moduleNo)
+    private function saveCourseMapping($courseID, $groupID, $subjectNo)
     {
         // Get the mapping boundaries for the program
         $boundariesQuery = $this->_db->getQuery(true);
         $boundariesQuery->select('lft, rgt')
             ->from('#__thm_organizer_mappings as m')
             ->innerJoin('#__thm_organizer_programs as prg on m.programID = prg.id')
-            ->innerJoin('#__thm_organizer_plan_programs as p_prg on prg.id = p_prg.programID')
-            ->innerJoin('#__thm_organizer_plan_pools as p_pool on p_prg.id = p_pool.programID')
-            ->where("p_pool.id = '$groupID'");
+            ->innerJoin('#__thm_organizer_categories as cat on cat.programID = prg.id')
+            ->innerJoin('#__thm_organizer_groups as gr on gr.categoryID = cat.id')
+            ->where("gr.id = '$groupID'");
         $this->_db->setQuery($boundariesQuery);
         $boundaries = OrganizerHelper::executeQuery('loadAssoc', []);
 
@@ -825,7 +825,7 @@ class Schedule_JSON extends BaseDatabaseModel
             ->innerJoin('#__thm_organizer_subjects as s on m.subjectID = s.id')
             ->where("m.lft > '{$boundaries['lft']}'")
             ->where("m.rgt < '{$boundaries['rgt']}'")
-            ->where("s.externalID = '$moduleNo'");
+            ->where("s.externalID = '$subjectNo'");
         $this->_db->setQuery($subjectQuery);
 
         $subjectID = OrganizerHelper::executeQuery('loadResult');
@@ -833,7 +833,7 @@ class Schedule_JSON extends BaseDatabaseModel
             return;
         }
 
-        $data  = ['subjectID' => $subjectID, 'plan_subjectID' => $eventID];
+        $data  = ['subjectID' => $subjectID, 'courseID' => $courseID];
         $table = OrganizerHelper::getTable('Subject_Mappings');
         $table->load($data);
         $table->save($data);
@@ -1029,8 +1029,11 @@ class Schedule_JSON extends BaseDatabaseModel
             foreach ($oldConfigurations as $oldConfiguration) {
                 $oldConfigObject = json_decode($oldConfiguration);
 
-                // Changes of subject are handled at the lesson subjects level and deprecated subjects don't need config deltas.
-                if ($oldConfigObject->subjectID != $newConfigObject->subjectID) {
+                /**
+                 * Changes of to courses are handled at the lesson courses level.
+                 * Deprecated courses associations don't need config deltas.
+                 */
+                if ($oldConfigObject->courseID != $newConfigObject->courseID) {
                     continue;
                 }
 
@@ -1065,7 +1068,7 @@ class Schedule_JSON extends BaseDatabaseModel
                 }
             }
 
-            // Subject was newly added to the lesson
+            // Course was newly added to the lesson
             if (!$comparisonFound) {
                 foreach ($teachers as $teacherID) {
                     $newConfigObject->teachers->$teacherID = 'new';
@@ -1095,56 +1098,58 @@ class Schedule_JSON extends BaseDatabaseModel
         $carriedLessons = array_intersect($referenceLessonIDs, $activeLessonIDs);
 
         foreach ($carriedLessons as $carriedLessonID) {
-            $referenceSubjectIDs = array_keys((array)$this->refSchedule->lessons->$carriedLessonID->subjects);
-            $activeSubjectIDs    = array_keys((array)$this->schedule->lessons->$carriedLessonID->subjects);
+            $referenceCourseIDs = array_keys((array)$this->refSchedule->lessons->$carriedLessonID->courses);
+            $activeCourseIDs    = array_keys((array)$this->schedule->lessons->$carriedLessonID->courses);
 
-            $carriedSubjectIDs = array_intersect($referenceSubjectIDs, $activeSubjectIDs);
+            $carriedCouseIDs = array_intersect($referenceCourseIDs, $activeCourseIDs);
 
-            foreach ($carriedSubjectIDs as $carriedSubjectID) {
-                $referencePoolIDs = array_keys((array)$this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools);
-                $activePoolIDs    = array_keys((array)$this->schedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools);
+            foreach ($carriedCouseIDs as $carriedCouseID) {
+                $referenceGroupIDs =
+                    array_keys((array)$this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups);
+                $activeGroupIDs    =
+                    array_keys((array)$this->schedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups);
 
-                $removedPoolIDs = array_diff($referencePoolIDs, $activePoolIDs);
+                $removedGroupIDs = array_diff($referenceGroupIDs, $activeGroupIDs);
 
-                foreach ($removedPoolIDs as $removedPoolID) {
-                    $this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools->$removedPoolID = 'removed';
+                foreach ($removedGroupIDs as $removedGroupID) {
+                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups->$removedGroupID = 'removed';
                 }
 
-                $newPoolIDs = array_diff($activePoolIDs, $referencePoolIDs);
+                $newGroupIDs = array_diff($activeGroupIDs, $referenceGroupIDs);
 
-                foreach ($newPoolIDs as $newPoolID) {
-                    $this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->pools->$newPoolID = 'new';
+                foreach ($newGroupIDs as $newGroupID) {
+                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups->$newGroupID = 'new';
                 }
 
-                $referenceTeacherIDs = array_keys((array)$this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers);
-                $activeTeacherIDs    = array_keys((array)$this->schedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers);
+                $referenceTeacherIDs = array_keys((array)$this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers);
+                $activeTeacherIDs    = array_keys((array)$this->schedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers);
 
                 $removedTeacherIDs = array_diff($referenceTeacherIDs, $activeTeacherIDs);
 
                 foreach ($removedTeacherIDs as $removedTeacherID) {
-                    $this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers->$removedTeacherID = 'removed';
+                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers->$removedTeacherID = 'removed';
                 }
 
                 $newTeacherIDs = array_diff($activeTeacherIDs, $referenceTeacherIDs);
 
                 foreach ($newTeacherIDs as $newTeacherID) {
-                    $this->refSchedule->lessons->$carriedLessonID->subjects->$carriedSubjectID->teachers->$newTeacherID = 'new';
+                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers->$newTeacherID = 'new';
                 }
             }
 
-            $removedSubjectIDs = array_diff($referenceSubjectIDs, $activeSubjectIDs);
+            $removedCourseIDs = array_diff($referenceCourseIDs, $activeCourseIDs);
 
-            foreach ($removedSubjectIDs as $removedSubjectID) {
-                $removedSubject        = $this->refSchedule->lessons->$carriedLessonID->subjects->$removedSubjectID;
-                $removedSubject->delta = 'removed';
+            foreach ($removedCourseIDs as $removedCourseID) {
+                $removedCourse        = $this->refSchedule->lessons->$carriedLessonID->courses->$removedCourseID;
+                $removedCourse->delta = 'removed';
 
-                $this->schedule->lessons->$carriedLessonID->subjects->$removedSubjectID = $removedSubject;
+                $this->schedule->lessons->$carriedLessonID->courses->$removedCourseID = $removedCourse;
             }
 
-            $newSubjectIDs = array_diff($activeSubjectIDs, $referenceSubjectIDs);
+            $newCourseIDs = array_diff($activeCourseIDs, $referenceCourseIDs);
 
-            foreach ($newSubjectIDs as $newSubjectID) {
-                $this->schedule->lessons->$carriedLessonID->subjects->$newSubjectID->delta = 'new';
+            foreach ($newCourseIDs as $newCourseID) {
+                $this->schedule->lessons->$carriedLessonID->courses->$newCourseID->delta = 'new';
             }
         }
 

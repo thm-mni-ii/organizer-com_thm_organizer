@@ -33,10 +33,10 @@ class Event_List extends FormModel
     public $rooms = [];
 
     private $columnMap = [
-        'subject'     => 'ps.id',
+        'course'     => 'co.id',
         'department'  => 'd.id',
-        'planProgram' => 'ppr.id',
-        'planPool'    => 'pp.id'
+        'category' => 'cat.id',
+        'group'    => 'gr.id'
     ];
 
     private $dates = [];
@@ -160,7 +160,7 @@ class Event_List extends FormModel
 
         foreach ($events as $event) {
             $lessonID  = $event['lessonID'];
-            $title     = empty($event['sName']) ? $event['psName'] : $event['sName'];
+            $title     = empty($event['sName']) ? $event['courseName'] : $event['sName'];
             $startTime = substr(str_replace(':', '', $event['startTime']), 0, 4);
             $endTime   = substr(str_replace(':', '', $event['endTime']), 0, 4);
             $times     = "$startTime-$endTime";
@@ -366,27 +366,27 @@ class Event_List extends FormModel
         $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, cal.schedule_date, ';
         $select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
         $select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
-        $select .= "ps.name AS psName, s.name_$shortTag AS sName";
+        $select .= "co.name AS courseName, s.name_$shortTag AS sName";
         $query->select($select)
             ->from('#__thm_organizer_calendar AS cal')
             ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')
             ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
             ->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
             ->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id AND conf.lessonID = ls.id')
-            ->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
-            ->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id')
-            ->innerJoin('#__thm_organizer_plan_pools AS pp ON lp.poolID = pp.id')
-            ->innerJoin('#__thm_organizer_plan_programs AS ppr ON pp.programID = ppr.id')
-            ->leftJoin('#__thm_organizer_plan_pool_publishing AS ppp ON ppp.planPoolID = pp.id AND ppp.planningPeriodID = l.planningPeriodID')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id AND lcrs.id = conf.lessonCourseID')
+            ->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID')
+            ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
+            ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lp.groupID')
+            ->innerJoin('#__thm_organizer_categories AS cat ON cat.id = gr.categoryID')
+            ->leftJoin('#__thm_organizer_group_publishing AS gp ON gp.groupID = gr.id AND gp.termID = l.termID')
             ->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
-            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
+            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')
             ->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
             ->where("cal.schedule_date IN ($this->dates)")
             ->where("cal.delta != 'removed'")
             ->where("l.delta != 'removed'")
-            ->where("ls.delta != 'removed'")
-            ->where("(ppp.published IS NULL OR ppp.published = '1')")
+            ->where("lcrs.delta != 'removed'")
+            ->where("(gp.published IS NULL OR gp.published = '1')")
             ->order('cal.schedule_date');
 
         $this->filterEvents($query);

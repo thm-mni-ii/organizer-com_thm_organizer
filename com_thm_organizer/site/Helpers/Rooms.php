@@ -79,17 +79,17 @@ class Rooms implements XMLValidator
         $relevantRooms = [];
 
         $selectedDepartment = $app->input->getInt('departmentIDs');
-        $selectedPrograms   = explode(',', $app->input->getString('programIDs'));
-        $programIDs         = $selectedPrograms[0] > 0 ?
-            implode(',', ArrayHelper::toInteger($selectedPrograms)) : '';
+        $selectedCategories = explode(',', $app->input->getString('categoryIDs'));
+        $categoryIDs        = $selectedCategories[0] > 0 ?
+            implode(',', ArrayHelper::toInteger($selectedCategories)) : '';
 
         $query = $dbo->getQuery(true);
-        $query->select('COUNT(DISTINCT lc.id)')
-            ->from('#__thm_organizer_lesson_configurations AS lc')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON lc.lessonID = ls.id')
-            ->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id')
-            ->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id')
-            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppo.programID');
+        $query->select('COUNT(DISTINCT lcnf.id)')
+            ->from('#__thm_organizer_lesson_configurations AS lcnf')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.id = lcnf.lessonCourseID')
+            ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
+            ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lp.groupID')
+            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
 
         foreach ($allRooms as $room) {
 
@@ -97,13 +97,13 @@ class Rooms implements XMLValidator
             // Negative lookaheads are not possible in MySQL and POSIX (e.g. [[:colon:]]) is not in MariaDB
             // This regex is compatible with both
             $regex = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $room['id'] . '":("new"|"")';
-            $query->where("lc.configuration REGEXP '$regex'");
+            $query->where("lcnf.configuration REGEXP '$regex'");
 
             if (!empty($selectedDepartment)) {
                 $query->where("dr.departmentID = $selectedDepartment");
 
-                if (!empty($programIDs)) {
-                    $query->where("ppo.programID in ($programIDs)");
+                if (!empty($categoryIDs)) {
+                    $query->where("gr.programID in ($categoryIDs)");
                 }
             }
 
@@ -209,7 +209,7 @@ class Rooms implements XMLValidator
     {
         $room         = $scheduleModel->schedule->rooms->$untisID;
         $table        = OrganizerHelper::getTable('Rooms');
-        $loadCriteria = ['gpuntisID' => $room->gpuntisID];
+        $loadCriteria = ['untisID' => $room->untisID];
         $exists       = $table->load($loadCriteria);
 
         if ($exists) {
@@ -326,7 +326,7 @@ class Rooms implements XMLValidator
         $room             = new stdClass;
         $room->buildingID = $buildingID;
         $room->capacity   = $capacity;
-        $room->gpuntisID  = $untisID;
+        $room->untisID    = $untisID;
         $room->name       = $untisID;
         $room->typeID     = $typeID;
 

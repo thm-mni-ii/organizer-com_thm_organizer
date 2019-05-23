@@ -143,7 +143,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             // Only if no specific pool was requested individually
             if (empty($this->parameters['poolIDs']) or count($this->parameters['poolIDs']) > 1) {
                 foreach ($subject['pools'] as $poolID => $pool) {
-                    $pools[$poolID] = $pool['gpuntisID'];
+                    $pools[$poolID] = $pool['untisID'];
                 }
             }
 

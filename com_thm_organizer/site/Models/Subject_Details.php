@@ -200,7 +200,7 @@ class Subject_Details extends BaseModel
         $select .= "s2.id AS postID, s2.name_$langTag AS postName, s2.externalID AS postModuleNumber";
         $query->select($select);
         $query->from('#__thm_organizer_prerequisites AS pr');
-        $query->innerJoin('#__thm_organizer_mappings AS m1 ON pr.prerequisite = m1.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m1 ON pr.prerequisiteID = m1.id');
         $query->innerJoin('#__thm_organizer_subjects AS s1 ON m1.subjectID = s1.id');
         $query->innerJoin('#__thm_organizer_mappings AS m2 ON pr.subjectID = m2.id');
         $query->innerJoin('#__thm_organizer_subjects AS s2 ON m2.subjectID = s2.id');

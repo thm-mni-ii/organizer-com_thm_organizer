@@ -70,12 +70,12 @@ class Schedules extends ListView
         $direction = $this->state->get('list.direction');
         $headers   = [];
 
-        $headers['checkbox']         = '';
-        $headers['departmentID']     = HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering);
-        $headers['planningPeriodID'] = HTML::sort('PLANNING_PERIOD', 'planningPeriodName', $direction, $ordering);
-        $headers['active']           = HTML::sort('STATE', 'active', $direction, $ordering);
-        $headers['userName']         = HTML::sort('USERNAME', 'userName', $direction, $ordering);
-        $headers['created']          = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
+        $headers['checkbox']     = '';
+        $headers['departmentID'] = HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering);
+        $headers['termID']       = HTML::sort('TERM', 'termName', $direction, $ordering);
+        $headers['active']       = HTML::sort('STATE', 'active', $direction, $ordering);
+        $headers['userName']     = HTML::sort('USERNAME', 'userName', $direction, $ordering);
+        $headers['created']      = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
 
         return $headers;
     }
@@ -97,9 +97,9 @@ class Schedules extends ListView
         foreach ($this->items as $item) {
             $processedItems[$index] = [];
 
-            $processedItems[$index]['checkbox']         = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['departmentID']     = $item->departmentName;
-            $processedItems[$index]['planningPeriodID'] = $item->planningPeriodName;
+            $processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
+            $processedItems[$index]['departmentID'] = $item->departmentName;
+            $processedItems[$index]['termID']       = $item->termName;
 
             $processedItems[$index]['active']
                 = $this->getToggle($item->id, $item->active, 'schedule', Languages::_('THM_ORGANIZER_TOGGLE_ACTIVE'));

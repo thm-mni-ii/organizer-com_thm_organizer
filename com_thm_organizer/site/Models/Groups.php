@@ -15,11 +15,11 @@ defined('_JEXEC') or die;
 use Organizer\Helpers\Access;
 
 /**
- * Class retrieves information for a filtered set of plan (subject) pools.
+ * Class retrieves information for a filtered set of groups.
  */
 class Groups extends ListModel
 {
-    protected $defaultOrdering = 'ppl.gpuntisID';
+    protected $defaultOrdering = 'gr.untisID';
 
     /**
      * Method to get all groups from the database
@@ -35,12 +35,12 @@ class Groups extends ListModel
             return $query;
         }
 
-        $select    = 'DISTINCT ppl.id, ppl.gpuntisID, ppl.full_name, ppl.name, ';
-        $linkParts = ["'index.php?option=com_thm_organizer&view=group_edit&id='", 'ppl.id'];
+        $select    = 'DISTINCT gr.id, gr.untisID, gr.full_name, gr.name, ';
+        $linkParts = ["'index.php?option=com_thm_organizer&view=group_edit&id='", 'gr.id'];
         $select    .= $query->concatenate($linkParts, '') . ' AS link';
 
-        $query->from('#__thm_organizer_plan_pools AS ppl');
-        $query->leftJoin('#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID');
+        $query->from('#__thm_organizer_groups AS gr');
+        $query->leftJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
 
         $departmentID = $this->state->get('filter.departmentID');
 
@@ -52,17 +52,17 @@ class Groups extends ListModel
             $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
         }
 
-        $programID = $this->state->get('filter.programID');
+        $categoryID = $this->state->get('filter.categoryID');
 
-        if ($programID) {
-            $select .= ', ppr.id as programID, ppr.name as programName';
-            $query->innerJoin('#__thm_organizer_plan_programs AS ppr ON ppl.programID = ppr.id');
-            $query->where("ppl.programID = '$programID'");
+        if ($categoryID) {
+            $select .= ', cat.id as categoryID, cat.name as categoryName';
+            $query->innerJoin('#__thm_organizer_categories AS cat ON cat.id = gr.categoryID');
+            $query->where("gr.categoryID = '$categoryID'");
         }
 
         $query->select($select);
 
-        $searchColumns = ['ppl.full_name', 'ppl.name', 'ppl.gpuntisID'];
+        $searchColumns = ['gr.full_name', 'gr.name', 'gr.untisID'];
         $this->setSearchFilter($query, $searchColumns);
 
         $this->setOrdering($query);

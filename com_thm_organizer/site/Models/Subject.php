@@ -30,16 +30,16 @@ class Subject extends BaseModel
      * Adds a prerequisite association. No access checks => this is not directly accessible and requires differing
      * checks according to its calling context.
      *
-     * @param int   $subjectID    the id of the subject
-     * @param array $prerequisite the id of the prerequisite
+     * @param int   $subjectID      the id of the subject
+     * @param array $prerequisiteID the id of the prerequisite
      *
      * @return bool  true on success, otherwise false
      */
-    private function addPrerequisite($subjectID, $prerequisite)
+    private function addPrerequisite($subjectID, $prerequisiteID)
     {
         $query = $this->_db->getQuery(true);
-        $query->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisite');
-        $query->values("'$subjectID', '$prerequisite'");
+        $query->insert('#__thm_organizer_prerequisites')->columns('subjectID, prerequisiteID');
+        $query->values("'$subjectID', '$prerequisiteID'");
         $this->_db->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('execute');
@@ -49,17 +49,17 @@ class Subject extends BaseModel
      * Adds a Subject => Event association. No access checks => this is not directly accessible and requires
      * differing checks according to its calling context.
      *
-     * @param int   $subjectID      the id of the subject
-     * @param array $planSubjectIDs the id of the planSubject
+     * @param int   $subjectID the id of the subject
+     * @param array $courseIDs the id of the planSubject
      *
      * @return bool  true on success, otherwise false
      */
-    private function addSubjectMappings($subjectID, $planSubjectIDs)
+    private function addSubjectMappings($subjectID, $courseIDs)
     {
         $query = $this->_db->getQuery(true);
-        $query->insert('#__thm_organizer_subject_mappings')->columns('subjectID, plan_subjectID');
-        foreach ($planSubjectIDs as $planSubjectID) {
-            $query->values("'$subjectID', '$planSubjectID'");
+        $query->insert('#__thm_organizer_subject_mappings')->columns('subjectID, courseID');
+        foreach ($courseIDs as $courseID) {
+            $query->values("'$subjectID', '$courseID'");
         }
 
         $this->_db->setQuery($query);
@@ -235,7 +235,7 @@ class Subject extends BaseModel
      */
     private function processFormSubjectMappings(&$data)
     {
-        if (!isset($data['planSubjectIDs'])) {
+        if (!isset($data['courseIDs'])) {
             return true;
         }
 
@@ -245,7 +245,7 @@ class Subject extends BaseModel
             return false;
         }
         if (!empty($data['planSubjectIDs'])) {
-            $respAdded = $this->addSubjectMappings($subjectID, $data['planSubjectIDs']);
+            $respAdded = $this->addSubjectMappings($subjectID, $data['courseIDs']);
             if (!$respAdded) {
                 return false;
             }
@@ -305,7 +305,7 @@ class Subject extends BaseModel
     private function removePrerequisites($subjectID)
     {
         $query = $this->_db->getQuery(true);
-        $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisite ='$subjectID'");
+        $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisiteID ='$subjectID'");
         $this->_db->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('execute');

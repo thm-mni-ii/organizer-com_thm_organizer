@@ -12,12 +12,12 @@ namespace Organizer\Views\JSON;
 
 defined('_JEXEC') or die;
 
-use Organizer\Helpers\Planning_Periods as PlanningPeriodsHelper;
+use Organizer\Helpers\Terms as TermsHelper;
 
 /**
- * Class answers dynamic planning period related queries
+ * Class answers dynamic term related queries
  */
-class Planning_Period extends BaseView
+class Terms extends BaseView
 {
     /**
      * loads model data into view context
@@ -27,6 +27,6 @@ class Planning_Period extends BaseView
     public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        echo json_encode(PlanningPeriodsHelper::$function());
+        echo json_encode(TermsHelper::$function());
     }
 }

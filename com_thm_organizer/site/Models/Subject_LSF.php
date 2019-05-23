@@ -878,7 +878,7 @@ class Subject_LSF extends BaseModel
                 $checkQuery = $this->_db->getQuery(true);
                 $checkQuery->select('COUNT(*)');
                 $checkQuery->from('#__thm_organizer_prerequisites')
-                    ->where("prerequisite = '$prerequisiteID'")
+                    ->where("prerequisiteID = '$prerequisiteID'")
                     ->where("subjectID = '$subjectID'");
                 $this->_db->setQuery($checkQuery);
 
@@ -887,7 +887,7 @@ class Subject_LSF extends BaseModel
                 if (!$entryExists) {
                     $insertQuery = $this->_db->getQuery(true);
                     $insertQuery->insert('#__thm_organizer_prerequisites');
-                    $insertQuery->columns('prerequisite, subjectID');
+                    $insertQuery->columns('prerequisiteID, subjectID');
                     $insertQuery->values("'$prerequisiteID', '$subjectID'");
                     $this->_db->setQuery($insertQuery);
                     OrganizerHelper::executeQuery('execute');

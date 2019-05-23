@@ -24,7 +24,7 @@ class Groups extends Nullable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_plan_pools', 'id', $dbo);
+        parent::__construct('#__thm_organizer_groups', 'id', $dbo);
     }
 
     /**

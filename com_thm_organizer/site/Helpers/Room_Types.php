@@ -92,7 +92,7 @@ class Room_Types implements ResourceCategory
     public static function setID(&$scheduleModel, $untisID)
     {
         $table  = OrganizerHelper::getTable('Room_Types');
-        $data   = ['gpuntisID' => $untisID];
+        $data   = ['untisID' => $untisID];
         $exists = $table->load($data);
 
         if ($exists) {

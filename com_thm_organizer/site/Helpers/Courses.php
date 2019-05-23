@@ -17,11 +17,13 @@ use DateInterval;
 use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Joomla\Utilities\ArrayHelper;
+use stdClass;
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
  */
-class Courses
+class Courses implements XMLValidator
 {
     const MANUAL_ACCEPTANCE = 1;
     const PERIOD_MODE = 2;
@@ -152,6 +154,45 @@ class Courses
     }
 
     /**
+     * Looks up the names of the categories associated with the course
+     *
+     * @param int $courseID the id of the course
+     *
+     * @return array the associated program names
+     */
+    public static function getCategories($courseID)
+    {
+        $names       = [];
+        $dbo         = Factory::getDbo();
+        $languageTag = Languages::getShortTag();
+
+        $query     = $dbo->getQuery(true);
+        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $query->select('cat.name AS categoryName, ' . $query->concatenate($nameParts, "") . ' AS name')
+            ->select('cat.id')
+            ->from('#__thm_organizer_categories AS cat')
+            ->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id')
+            ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.groupID = gr.id')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.id = lg.lessonCourseID')
+            ->leftJoin('#__thm_organizer_programs AS p ON cat.programID = p.id')
+            ->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
+            ->where("lc.courseID = '$courseID'");
+
+        $dbo->setQuery($query);
+
+        $results = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($results)) {
+            return [];
+        }
+
+        foreach ($results as $result) {
+            $names[$result['id']] = empty($result['name']) ? $result['categoryName'] : $result['name'];
+        }
+
+        return $names;
+    }
+
+    /**
      * Loads course information from the database
      *
      * @param int $courseID int id of requested lesson
@@ -171,17 +212,17 @@ class Courses
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select('pp.name as planningPeriodName, pp.id as planningPeriodID')
+        $query->select('pp.name as termName, pp.id as termID')
             ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID, l.registration_type, l.deadline, l.fee')
             ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
             ->select('s.campusID AS abstractCampusID, s.is_prep_course');
 
         $query->from('#__thm_organizer_lessons AS l');
-        $query->leftJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
-        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ls.subjectID');
+        $query->leftJoin('#__thm_organizer_lesson_courses AS lc ON lc.lessonID = l.id');
+        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = lc.courseID');
         $query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
         $query->leftJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id');
-        $query->leftJoin('#__thm_organizer_planning_periods AS pp ON l.planningPeriodID = pp.id');
+        $query->leftJoin('#__thm_organizer_terms AS term ON l.termID = term.id');
         $query->where("l.id = '$courseID'");
 
         $dbo->setQuery($query);
@@ -363,15 +404,15 @@ class Courses
 
         $query->select('DISTINCT l.id, l.max_participants as lessonP')
             ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
-            ->select('pp.name as planningPeriodName')
+            ->select('term.name as termName')
             ->select('l.campusID AS campusID, s.campusID AS abstractCampusID');
 
         $query->from('#__thm_organizer_lessons AS l')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id')
-            ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ls.subjectID')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.lessonID = l.id')
+            ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = lc.courseID')
             ->innerJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
             ->innerJoin('#__thm_organizer_calendar AS ca ON ca.lessonID = l.id')
-            ->innerJoin('#__thm_organizer_planning_periods AS pp ON l.planningPeriodID = pp.id')
+            ->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
             ->leftJoin('#__thm_organizer_campuses as cp on s.campusID = cp.id')
             ->where("s.id = '$subjectID'")
             ->where("(s.is_prep_course = '1' OR s.registration_type IS NOT NULL OR l.registration_type IS NOT NULL)");
@@ -410,13 +451,105 @@ class Courses
     }
 
     /**
+     * Retrieves a list of lessons associated with a subject
+     *
+     * @return array the lessons associated with the subject
+     */
+    public static function getLessons()
+    {
+        $input = OrganizerHelper::getInput();
+
+        $courseIDs = ArrayHelper::toInteger(explode(',', $input->getString('courseIDs', '')));
+        if (empty($courseIDs[0])) {
+            return [];
+        }
+        $courseIDs = implode(',', $courseIDs);
+
+        $date = $input->getString('date');
+        if (!Dates::isStandardized($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $interval = $input->getString('dateRestriction');
+        if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
+            $interval = 'semester';
+        }
+
+        $languageTag = Languages::getShortTag();
+
+        $dbo = Factory::getDbo();
+
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$languageTag AS method")
+            ->from('#__thm_organizer_lessons AS l')
+            ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lc on lc.lessonID = l.id')
+            ->where("lc.courseID IN ($courseIDs)")
+            ->where("l.delta != 'removed'")
+            ->where("lc.delta != 'removed'");
+
+        $dateTime = strtotime($date);
+        switch ($interval) {
+            case 'semester':
+                $query->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
+                    ->where("'$date' BETWEEN term.startDate AND term.endDate");
+                break;
+            case 'month':
+                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
+                $startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
+                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
+                $endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'week':
+                $startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
+                $endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+                break;
+            case 'day':
+                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+                    ->where("c.schedule_date = '$date'");
+                break;
+        }
+
+        $dbo->setQuery($query);
+
+        $results = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($results)) {
+            return [];
+        }
+
+        $lessons = [];
+        foreach ($results as $lesson) {
+            $index = '';
+
+            $lesson['subjectName'] = Courses::getName($lesson['subjectID'], true);
+
+            $index .= $lesson['subjectName'];
+
+            if (!empty($lesson['method'])) {
+                $index .= " - {$lesson['method']}";
+            }
+
+            $index           .= " - {$lesson['id']}";
+            $lessons[$index] = $lesson;
+        }
+
+        ksort($lessons);
+
+        return $lessons;
+    }
+
+    /**
      * Get name of course/lesson
      *
      * @param int $courseID
      *
      * @return string
      */
-    public static function getName($courseID = 0)
+    public static function getNameByLessonID($courseID = 0)
     {
         $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
 
@@ -428,13 +561,63 @@ class Courses
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select("name_$lang")
-            ->from('#__thm_organizer_lesson_subjects AS ls')
-            ->innerJoin('#__thm_organizer_subject_mappings AS map ON map.plan_subjectID = ls.subjectID')
+            ->from('#__thm_organizer_lesson_courses AS lc')
+            ->innerJoin('#__thm_organizer_subject_mappings AS map ON map.courseID = lc.courseID')
             ->innerJoin('#__thm_organizer_subjects AS s ON s.id = map.subjectID')
-            ->where("ls.lessonID = '{$courseID}'");
+            ->where("lc.lessonID = '{$courseID}'");
         $dbo->setQuery($query);
 
         return (string)OrganizerHelper::executeQuery('loadResult');
+    }
+
+    /**
+     * Retrieves the course name
+     *
+     * @param int     $courseID the table id for the subject
+     * @param boolean $withNumber
+     *
+     * @return string the course name
+     */
+    public static function getName($courseID, $withNumber = falce)
+    {
+        $dbo         = Factory::getDbo();
+        $languageTag = Languages::getShortTag();
+
+        $query = $dbo->getQuery(true);
+        $query->select("co.name as courseName, s.name_$languageTag as name")
+            ->select("s.short_name_$languageTag as shortName, s.abbreviation_$languageTag as abbreviation")
+            ->select('co.subjectNo as courseSubjectNo, s.externalID as subjectNo')
+            ->from('#__thm_organizer_courses AS co')
+            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')
+            ->leftJoin('#__thm_organizer_subjects AS s ON s.id = sm.subjectID')
+            ->where("co.id = '$courseID'");
+
+        $dbo->setQuery($query);
+
+        $names = OrganizerHelper::executeQuery('loadAssoc', []);
+        if (empty($names)) {
+            return '';
+        }
+
+        $suffix = '';
+
+        if ($withNumber) {
+            if (!empty($names['subjectNo'])) {
+                $suffix .= " ({$names['subjectNo']})";
+            } elseif (!empty($names['courseSubjectNo'])) {
+                $suffix .= " ({$names['courseSubjectNo']})";
+            }
+        }
+
+        if (!empty($names['name'])) {
+            return $names['name'] . $suffix;
+        }
+
+        if (!empty($names['shortName'])) {
+            return $names['shortName'] . $suffix;
+        }
+
+        return empty($names['courseName']) ? $names['abbreviation'] . $suffix : $names['courseName'] . $suffix;
     }
 
     /**
@@ -546,15 +729,15 @@ class Courses
     }
 
     /**
-     * Gets the subject id which corresponds to a given course id
+     * Gets the subject id which corresponds to a given lesson id
      *
-     * @param int $courseID the id of the course
+     * @param int $lessonID the id of the course
      *
      * @return int the id of the subject or 0 if the course could not be resolved to a subject
      */
-    public static function getSubjectID($courseID)
+    public static function getSubjectID($lessonID)
     {
-        if (empty($courseID)) {
+        if (empty($lessonID)) {
             return 0;
         }
 
@@ -563,8 +746,8 @@ class Courses
 
         $query->select('sm.subjectID AS id')
             ->from('#__thm_organizer_subject_mappings AS sm')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.subjectID = sm.plan_subjectID')
-            ->where("ls.lessonID = '$courseID'");
+            ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.courseID = sm.courseID')
+            ->where("lc.lessonID = '$lessonID'");
 
         $dbo->setQuery($query);
 
@@ -665,15 +848,52 @@ class Courses
     }
 
     /**
+     * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
+     *
+     * @param object &$scheduleModel the validating schedule model
+     * @param string  $index         the id of the resource in Untis
+     *
+     * @return void modifies the scheduleModel, setting the id property of the resource
+     */
+    public static function setID(&$scheduleModel, $index)
+    {
+        $subject = $scheduleModel->schedule->courses->$index;
+
+        $table        = OrganizerHelper::getTable('Courses');
+        $loadCriteria = ['subjectIndex' => $index];
+        $exists       = $table->load($loadCriteria);
+
+        if ($exists) {
+            $altered = false;
+            foreach ($subject as $key => $value) {
+                if (property_exists($table, $key) and empty($table->$key) and !empty($value)) {
+                    $table->set($key, $value);
+                    $altered = true;
+                }
+            }
+
+            if ($altered) {
+                $table->store();
+            }
+        } else {
+            $table->save($subject);
+        }
+
+        $scheduleModel->schedule->courses->$index->id = $table->id;
+
+        return;
+    }
+
+    /**
      * Check if user is registered as a teacher, optionally for a specific course
      *
-     * @param int $courseID id of the course resource
+     * @param int $lessonID id of the lesson resource
      *
      * @return boolean if user is authorized
      */
-    public static function teaches($courseID = 0)
+    public static function teaches($lessonID = 0)
     {
-        $subjectID = self::getSubjectID($courseID);
+        $subjectID = self::getSubjectID($lessonID);
 
         // Documented coordinator
         if (Access::allowSubjectAccess($subjectID)) {
@@ -685,17 +905,111 @@ class Courses
         $query = $dbo->getQuery(true);
 
         $query->select('COUNT(*)')
-            ->from('#__thm_organizer_lesson_subjects AS ls')
-            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id')
+            ->from('#__thm_organizer_lesson_courses AS lc')
+            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.lessonCourseID = lc.id')
             ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
             ->where("t.username = '{$user->username}'");
 
-        if (!empty($courseID)) {
-            $query->where("ls.lessonID = '$courseID'");
+        if (!empty($lessonID)) {
+            $query->where("lc.lessonID = '$lessonID'");
         }
 
         $dbo->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('loadResult');
+    }
+
+    /**
+     * Checks whether nodes have the expected structure and required information
+     *
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$xmlObject     the object being validated
+     *
+     * @return void modifies &$scheduleModel
+     */
+    public static function validateCollection(&$scheduleModel, &$xmlObject)
+    {
+        if (empty($xmlObject->subjects)) {
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_SUBJECTS_MISSING');
+
+            return;
+        }
+
+        $scheduleModel->schedule->courses = new stdClass;
+
+        foreach ($xmlObject->subjects->children() as $node) {
+            self::validateIndividual($scheduleModel, $node);
+        }
+
+        if (!empty($scheduleModel->scheduleWarnings['SUBJECT-NO'])) {
+            $warningCount = $scheduleModel->scheduleWarnings['SUBJECT-NO'];
+            unset($scheduleModel->scheduleWarnings['SUBJECT-NO']);
+            $scheduleModel->scheduleWarnings[]
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_SUBJECTNO_MISSING'), $warningCount);
+        }
+
+        if (!empty($scheduleModel->scheduleWarnings['SUBJECT-FIELD'])) {
+            $warningCount = $scheduleModel->scheduleWarnings['SUBJECT-FIELD'];
+            unset($scheduleModel->scheduleWarnings['SUBJECT-FIELD']);
+            $scheduleModel->scheduleWarnings[]
+                = sprintf(Languages::_('THM_ORGANIZER_WARNING_SUBJECT_FIELD_MISSING'), $warningCount);
+        }
+    }
+
+    /**
+     * Checks whether XML node has the expected structure and required
+     * information
+     *
+     * @param object &$scheduleModel the validating schedule model
+     * @param object &$node          the node to be validated
+     *
+     * @return void
+     */
+    public static function validateIndividual(&$scheduleModel, &$node)
+    {
+        $untisID = trim((string)$node[0]['id']);
+        if (empty($untisID)) {
+            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_SUBJECT_ID_MISSING');
+            }
+
+            return;
+        }
+
+        $untisID      = str_replace('SU_', '', $untisID);
+        $subjectIndex = $scheduleModel->schedule->departmentname . '_' . $untisID;
+        $name         = trim((string)$node->longname);
+
+        if (empty($name)) {
+            $scheduleModel->scheduleErrors[]
+                = sprintf(Languages::_('THM_ORGANIZER_ERROR_SUBJECT_LONGNAME_MISSING'), $untisID);
+
+            return;
+        }
+
+
+        $subjectNo = trim((string)$node->text);
+
+        if (empty($subjectNo)) {
+            $scheduleModel->scheduleWarnings['SUBJECT-NO'] = empty($scheduleModel->scheduleWarnings['SUBJECT-NO']) ?
+                1 : $scheduleModel->scheduleWarnings['SUBJECT-NO']++;
+
+            $subjectNo = '';
+        }
+
+
+        $fieldID      = str_replace('DS_', '', trim($node->subject_description[0]['id']));
+        $invalidField = (empty($fieldID) or empty($scheduleModel->schedule->fields->$fieldID));
+        $fieldID      = $invalidField ? null : $scheduleModel->schedule->fields->$fieldID->id;
+
+        $subject               = new stdClass;
+        $subject->fieldID      = $fieldID;
+        $subject->untisID      = $untisID;
+        $subject->name         = $name;
+        $subject->subjectIndex = $subjectIndex;
+        $subject->subjectNo    = $subjectNo;
+
+        $scheduleModel->schedule->courses->$subjectIndex = $subject;
+        self::setID($scheduleModel, $subjectIndex);
     }
 }

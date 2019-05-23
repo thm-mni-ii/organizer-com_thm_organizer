@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 use Organizer\Helpers\Access;
 
 /**
- * Class loads a form for merging plan (subject) pool data.
+ * Class loads a form for merging group data.
  */
 class Groups_Merge extends FormModel
 {

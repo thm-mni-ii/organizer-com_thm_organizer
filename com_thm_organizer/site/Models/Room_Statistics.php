@@ -17,7 +17,7 @@ use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Categories;
-use Organizer\Helpers\Planning_Periods;
+use Organizer\Helpers\Terms;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -114,7 +114,6 @@ class Room_Statistics extends BaseModel
      */
     private function aggregateInstances($ringData)
     {
-
         foreach ($ringData as $instance) {
             $rawConfig = json_decode($instance['configuration'], true);
 
@@ -126,7 +125,7 @@ class Room_Statistics extends BaseModel
             $date     = $instance['date'];
             $lessonID = $instance['lessonID'];
             $method   = $instance['method'];
-            $lsIDs    = [$instance['lsID'] => $instance['lsID']];
+            $lcrsIDs    = [$instance['lcrsID'] => $instance['lcrsID']];
 
             foreach ($rawConfig['rooms'] as $roomID => $delta) {
                 if (!in_array($roomID, array_keys($this->roomTypeMap)) or $delta == 'removed') {
@@ -149,10 +148,10 @@ class Room_Statistics extends BaseModel
                         $this->calendarData[$date][$blockNo][$roomID][$lessonID]['method'] = $method;
                     }
 
-                    $existingLSIDs = empty($this->calendarData[$date][$blockNo][$roomID][$lessonID]['lsIDs']) ?
-                        [] : $this->calendarData[$date][$blockNo][$roomID][$lessonID]['lsIDs'];
+                    $existingLCRSIDs = empty($this->calendarData[$date][$blockNo][$roomID][$lessonID]['lcrsIDs']) ?
+                        [] : $this->calendarData[$date][$blockNo][$roomID][$lessonID]['lcrsIDs'];
 
-                    $this->calendarData[$date][$blockNo][$roomID][$lessonID]['lsIDs'] = $existingLSIDs + $lsIDs;
+                    $this->calendarData[$date][$blockNo][$roomID][$lessonID]['lcrsIDs'] = $existingLCRSIDs + $lcrsIDs;
                 }
             }
         }
@@ -174,29 +173,29 @@ class Room_Statistics extends BaseModel
     }
 
     /**
-     * Creates planning period selection options
+     * Creates term selection options
      *
      * @return array
      */
-    public function getPlanningPeriodOptions()
+    public function getTermOptions()
     {
         $options = [];
-        foreach (Planning_Periods::getPlanningPeriods() as $planningPeriod) {
-            $shortSD = Dates::formatDate($planningPeriod['startDate']);
-            $shortED = Dates::formatDate($planningPeriod['endDate']);
+        foreach (Terms::getTerms() as $term) {
+            $shortSD = Dates::formatDate($term['startDate']);
+            $shortED = Dates::formatDate($term['endDate']);
 
-            $options[$planningPeriod['id']] = "{$planningPeriod['name']} ($shortSD - $shortED)";
+            $options[$term['id']] = "{$term['name']} ($shortSD - $shortED)";
         }
 
         return $options;
     }
 
     /**
-     * Retrieves program options
+     * Retrieves category options
      *
-     * @return array an array of program options
+     * @return array an array of category options
      */
-    public function getProgramOptions()
+    public function getCategoryOptions()
     {
         $options = Categories::getOptions();
         $options = array_flip($options);
@@ -301,36 +300,36 @@ class Room_Statistics extends BaseModel
         $dbo       = Factory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
-        $rqSelect = 'DISTINCT ccm.id AS ccmID, ls.id as lsID, l.id AS lessonID, l.comment, ';
+        $rqSelect = 'DISTINCT ccm.id AS ccmID, lcrs.id as lcrsID, l.id AS lessonID, l.comment, ';
         $rqSelect .= "m.id AS methodID, m.abbreviation_$tag AS method, m.name_$tag as methodName, ";
         $rqSelect .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
-        $rqSelect .= 'lc.configuration ';
+        $rqSelect .= 'conf.configuration ';
 
         $ringQuery->select($rqSelect);
         $ringQuery->from('#__thm_organizer_lessons AS l');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
+        $ringQuery->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
         $ringQuery->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_configurations AS lc ON lc.lessonID = ls.id');
-        $ringQuery->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = lc.id');
+        $ringQuery->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.lessonCourseID = lcrs.id');
+        $ringQuery->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = conf.id');
         $ringQuery->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
 
-        $ringQuery->where("ls.delta != 'removed'");
+        $ringQuery->where("lcrs.delta != 'removed'");
         $ringQuery->where("l.delta != 'removed'");
         $ringQuery->where("c.delta != 'removed'");
         $ringQuery->where("schedule_date BETWEEN '$this->startDate' AND '$this->endDate'");
 
         $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
-        $ringQuery->where("lc.configuration REGEXP '$regexp'");
+        $ringQuery->where("conf.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
         $ringData = OrganizerHelper::executeQuery('loadAssocList');
-        $lsIDs    = OrganizerHelper::executeQuery('loadColumn', [], 1);
+        $lcrsIDs    = OrganizerHelper::executeQuery('loadColumn', [], 1);
 
-        if (empty($ringData) or empty($lsIDs)) {
+        if (empty($ringData) or empty($lcrsIDs)) {
             return false;
         }
 
         $this->aggregateInstances($ringData);
-        $this->setLSData($lsIDs);
+        $this->setLSData($lcrsIDs);
 
         return true;
     }
@@ -342,18 +341,18 @@ class Room_Statistics extends BaseModel
      */
     private function setDates()
     {
-        $input     = OrganizerHelper::getInput();
-        $use       = $input->getString('use');
-        $ppIDs     = $input->get('planningPeriodIDs', [], 'array');
-        $validPPID = (!empty($ppIDs) and !empty($ppIDs[0])) ? true : false;
+        $input       = OrganizerHelper::getInput();
+        $use         = $input->getString('use');
+        $termIDs     = $input->get('termIDs', [], 'array');
+        $validTermID = (!empty($termIDs) and !empty($termIDs[0])) ? true : false;
 
-        if ($use == 'planningPeriodIDs' and $validPPID) {
-            $ppTable = OrganizerHelper::getTable('Planning_Periods');
-            $success = $ppTable->load($ppIDs[0]);
+        if ($use == 'termIDs' and $validTermID) {
+            $table   = OrganizerHelper::getTable('Terms');
+            $success = $table->load($termIDs[0]);
 
             if ($success) {
-                $this->startDate = $ppTable->startDate;
-                $this->endDate   = $ppTable->endDate;
+                $this->startDate = $table->startDate;
+                $this->endDate   = $table->endDate;
 
                 return;
             }
@@ -424,54 +423,57 @@ class Room_Statistics extends BaseModel
     /**
      * Sets mostly textual data which is dependent on the lesson subject ids
      *
-     * @param array $lsIDs the lesson subject database ids
+     * @param array $lcrsIDs the lesson subject database ids
      *
      * @return void sets object variable indexes
      */
-    private function setLSData($lsIDs)
+    private function setLSData($lcrsIDs)
     {
         $tag   = Languages::getShortTag();
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $select = 'DISTINCT ls.id AS lsID, ';
-        $query->from('#__thm_organizer_lesson_subjects AS ls');
+        $select = 'DISTINCT lcrs.id AS lcrsID, ';
+        $query->from('#__thm_organizer_lesson_courses AS lcrs');
 
         // Subject Data
-        $select .= 'ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ';
-        $select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, s.abbreviation_$tag AS subjectAbbr, ";
-        $query->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id');
-        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
+        $select .= 'co.id AS courseID, co.name AS courseName, co.subjectNo, co.untisID AS courseUntisID, ';
+        $select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, ";
+        $select .= "s.abbreviation_$tag AS subjectAbbr, ";
+        $query->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID');
+        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id');
         $query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
 
-        // Pool Data
-        $select .= 'pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, ';
-        $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
-        $query->innerJoin('#__thm_organizer_plan_pools AS pool ON pool.id = lp.poolID');
+        // Group Data
+        $select .= 'group.id AS groupID, group.untisID AS groupUntisID, ';
+        $select .= 'group.name AS groupName, group.full_name AS groupFullName, ';
+        $query->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id');
+        $query->innerJoin('#__thm_organizer_groups AS group ON group.id = lg.groupID');
 
-        // Program Data
-        $select .= "pp.id AS programID, pp.name AS ppName, prog.name_$tag AS progName, prog.version, dg.abbreviation AS progAbbr, ";
-        $query->innerJoin('#__thm_organizer_plan_programs AS pp ON pool.programID = pp.id');
-        $query->leftJoin('#__thm_organizer_programs AS prog ON pp.programID = prog.id');
+        // Category/Program Data
+        $select .= 'cat.id AS categoryID, cat.name AS categoryName, ';
+        $select .= "prog.name_$tag AS progName, prog.version, dg.abbreviation AS progAbbr, ";
+        $query->innerJoin('#__thm_organizer_categories AS cat ON cat.id = group.categoryID');
+        $query->leftJoin('#__thm_organizer_programs AS prog ON cat.programID = prog.id');
         $query->leftJoin('#__thm_organizer_degrees AS dg ON prog.degreeID = dg.id');
 
         // Department Data
         $select .= "d.id AS departmentID, d.short_name_$tag AS department, d.name_$tag AS departmentName";
-        $query->innerJoin('#__thm_organizer_department_resources AS dr ON pp.id = dr.programID');
+        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
         $query->innerJoin('#__thm_organizer_departments AS d ON dr.departmentID = d.id');
 
         $query->select($select);
-        $query->where("lp.delta != 'removed'");
-        $query->where("ls.id IN ('" . implode("', '", $lsIDs) . "')");
+        $query->where("lg.delta != 'removed'");
+        $query->where("lcrs.id IN ('" . implode("', '", $lcrsIDs) . "')");
         $dbo->setQuery($query);
 
-        $results = OrganizerHelper::executeQuery('loadAssocList', [], 'lsID');
+        $results = OrganizerHelper::executeQuery('loadAssocList', [], 'lcrsID');
         if (empty($results)) {
             return;
         }
 
-        foreach ($results as $lsID => $lsData) {
-            $this->lsData[$lsID] = $lsData;
+        foreach ($results as $lcrsID => $lsData) {
+            $this->lsData[$lcrsID] = $lsData;
         }
     }
 

@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
  * @param {number} variables.PERIOD_MODE - present selected mode of saving/deleting lessons
  * @param {boolean} variables.registered - indicates whether an user is logged in
  * @param {number} variables.SEMESTER_MODE - present selected mode of saving/deleting lessons
- * @param {number} variables.showPools - whether pools are allowed to show
+ * @param {number} variables.showGroups - whether groups are allowed to show
  * @param {string} variables.subjectDetailBase - basic url for subject details
  * @param {string} variables.username - name of currently logged in user
  */
@@ -360,7 +360,7 @@ const ScheduleApp = function (variables) {
                 }
 
                 // Get pre-selected value like 'Informatik Master'
-                if (resource === 'pool' && programField.selectedIndex !== -1)
+                if (resource === 'group' && programField.selectedIndex !== -1)
                 {
                     (function () {
                         const options = programField.options;
@@ -918,15 +918,15 @@ const ScheduleApp = function (variables) {
 
                 const lessonElement = document.createElement('div'),
                     subjectData = data.subjects[subject],
-                    irrelevantPool = (scheduleResource === 'pool' &&
-                        subjectData.poolDeltas[scheduleID.replace('pool', '')] === 'removed');
+                    irrelevantGroup = (scheduleResource === 'group' &&
+                        subjectData.groupDeltas[scheduleID.replace('group', '')] === 'removed');
 
                 // Data attributes instead of classes for finding the lesson later
                 lessonElement.dataset.ccmID = data.ccmID;
                 lessonElement.dataset.regType = data.regType;
                 lessonElement.classList.add('lesson');
 
-                if (irrelevantPool ||
+                if (irrelevantGroup ||
                     (data.lessonDelta && data.lessonDelta === 'removed') ||
                     (data.calendarDelta && data.calendarDelta === 'removed'))
                 {
@@ -963,12 +963,12 @@ const ScheduleApp = function (variables) {
                     lessonElement.appendChild(commentDiv);
                 }
 
-                if (scheduleResource !== 'pool' && subjectData.pools && !isUserSchedule)
+                if (scheduleResource !== 'group' && subjectData.groups && !isUserSchedule)
                 {
-                    const poolsOuterDiv = document.createElement('div');
-                    poolsOuterDiv.className = 'pools';
-                    addDataElements('pool', poolsOuterDiv, subjectData.pools, subjectData.poolDeltas);
-                    lessonElement.appendChild(poolsOuterDiv);
+                    const groupsOuterDiv = document.createElement('div');
+                    groupsOuterDiv.className = 'groups';
+                    addDataElements('group', groupsOuterDiv, subjectData.groups, subjectData.groupDeltas);
+                    lessonElement.appendChild(groupsOuterDiv);
                 }
 
                 if (scheduleResource !== 'teacher' && subjectData.teachers)
@@ -1091,7 +1091,7 @@ const ScheduleApp = function (variables) {
          * @param {string} data.name - name of subject
          * @param {string} data.method - method (e.g. lecture) of a lesson
          * @param {string} data.subjectDelta - changes of subject
-         * @param {string} data.subjectID - ID of lesson subject
+         * @param {string} data.subjectID - ID of subject associated with course
          * @param {string} data.subjectNo - number of subject
          * @param {string} data.shortName - short name of subject for small devices
          */
@@ -1106,7 +1106,7 @@ const ScheduleApp = function (variables) {
             {
                 let subjectNameElement;
 
-                if (data.subjectID && variables.showPools)
+                if (data.subjectID && variables.showGroups)
                 {
                     subjectNameElement = document.createElement('a');
                     subjectNameElement.addEventListener('click', openSubjectDetailsLink);
@@ -1152,10 +1152,10 @@ const ScheduleApp = function (variables) {
 
         /**
          * Adds HTML elements containing the given data in relation to given resource.
-         * @param {string} resource - resource to add e.g. 'room' or 'pool'
+         * @param {string} resource - resource to add e.g. 'room' or 'group'
          * @param {HTMLElement} outerElement - wrapper element
          * @param {Object.<number, string>} data - lesson data
-         * @param {string} data[].gpuntisID - subject id in schedule planner program
+         * @param {string} data[].untisID - subject id in the untis scheduling program
          * @param {Object.<number, string>} [delta] - optional, delta like 'new' or 'remove' assigned to (resource) id
          * @param {string} [className] - optional, class to style the elements
          */
@@ -1175,7 +1175,7 @@ const ScheduleApp = function (variables) {
                         nameElement = linkElement ? document.createElement('a') : document.createElement('span');
 
                     span.className = (className ? className : resource) + ' ' + deltaClass;
-                    resourceName = data[id].gpuntisID ? data[id].gpuntisID : data[id];
+                    resourceName = data[id].untisID ? data[id].untisID : data[id];
                     nameElement.innerHTML = resourceName;
 
                     if (linkElement)
@@ -1464,7 +1464,7 @@ const ScheduleApp = function (variables) {
             descriptionSpan = lessonMenuElement.getElementsByClassName('description')[0],
             moduleSpan = lessonMenuElement.getElementsByClassName('module')[0],
             personsDiv = lessonMenuElement.getElementsByClassName('persons')[0],
-            poolsDiv = lessonMenuElement.getElementsByClassName('pools')[0],
+            groupsDiv = lessonMenuElement.getElementsByClassName('groups')[0],
             roomsDiv = lessonMenuElement.getElementsByClassName('rooms')[0],
             saveInstanceMode = document.getElementById('save-mode-instance'),
             saveMenu = lessonMenuElement.getElementsByClassName('save')[0],
@@ -1480,7 +1480,7 @@ const ScheduleApp = function (variables) {
         {
             removeChildren(personsDiv);
             removeChildren(roomsDiv);
-            removeChildren(poolsDiv);
+            removeChildren(groupsDiv);
         }
 
         /**
@@ -1488,8 +1488,8 @@ const ScheduleApp = function (variables) {
          * @param {Object} data - lesson data like subject name, persons, locations...
          * @param {string} data.name - name of lesson subject
          * @param {string} data.subjectNo - number of subject
-         * @param {Object} data.pools - all pools
-         * @param {Object} data.poolDeltas - changed pools
+         * @param {Object} data.groups - all groups
+         * @param {Object} data.groupDeltas - changed groups
          * @param {Object} data.rooms - all rooms
          * @param {Object} data.roomDeltas - changed rooms
          * @param {Object} data.teachers - all teachers
@@ -1497,7 +1497,7 @@ const ScheduleApp = function (variables) {
          */
         function setLessonData(data)
         {
-            let poolID, roomID, teacherID;
+            let groupID, roomID, teacherID;
 
             resetElements();
             subjectSpan.innerHTML = data.name;
@@ -1535,13 +1535,13 @@ const ScheduleApp = function (variables) {
                 }
             }
 
-            for (poolID in data.pools)
+            for (groupID in data.groups)
             {
-                if (data.pools.hasOwnProperty(poolID))
+                if (data.groups.hasOwnProperty(groupID))
                 {
-                    const poolSpan = document.createElement('span');
-                    poolSpan.innerHTML = data.pools[poolID].gpuntisID;
-                    poolsDiv.appendChild(poolSpan);
+                    const groupSpan = document.createElement('span');
+                    groupSpan.innerHTML = data.groups[groupID].untisID;
+                    groupsDiv.appendChild(groupSpan);
                 }
             }
         }
@@ -1718,14 +1718,14 @@ const ScheduleApp = function (variables) {
             fields = {
                 'category': document.getElementById('category'),
                 'department': document.getElementById('department'),
-                'pool': document.getElementById('pool'),
+                'group': document.getElementById('group'),
                 'program': document.getElementById('program'),
                 'roomType': document.getElementById('roomType'),
                 'room': document.getElementById('room'),
                 'teacher': document.getElementById('teacher')
             },
             placeholder = {
-                'pool': Joomla.JText._('THM_ORGANIZER_SELECT_EVENT_PLAN'),
+                'group': Joomla.JText._('THM_ORGANIZER_SELECT_EVENT_PLAN'),
                 'program': Joomla.JText._('THM_ORGANIZER_SELECT_EVENT_CATEGORY'),
                 'roomType': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM_TYPE'),
                 'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
@@ -1734,7 +1734,7 @@ const ScheduleApp = function (variables) {
             wrappers = {
                 'category': document.getElementById('category-input'),
                 'department': document.getElementById('department-input'),
-                'pool': document.getElementById('pool-input'),
+                'group': document.getElementById('group-input'),
                 'program': document.getElementById('program-input'),
                 'roomType': document.getElementById('roomType-input'),
                 'room': document.getElementById('room-input'),
@@ -1756,9 +1756,6 @@ const ScheduleApp = function (variables) {
             resource = field.dataset.input === 'static' ? jQuery(field).val() : field.id;
             switch (resource)
             {
-                case 'pool':
-                    resource = 'groups';
-                    break;
                 case 'program':
                     resource = 'categories';
                     break;
@@ -2880,9 +2877,9 @@ const ScheduleApp = function (variables) {
                 return;
             }
 
-            if (schedule.search(/pool/) === 0)
+            if (schedule.search(/group/) === 0)
             {
-                url += '&poolIDs=' + resourceID;
+                url += '&groupIDs=' + resourceID;
             }
             else if (schedule.search(/room/) === 0)
             {

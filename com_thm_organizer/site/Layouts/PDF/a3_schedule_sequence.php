@@ -193,10 +193,10 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
             }
 
             if ($resourceIndex == 'pools') {
-                $return['resourceName'] = $subject[$resourceIndex][$resourceID]['gpuntisID'];
+                $return['resourceName'] = $subject[$resourceIndex][$resourceID]['untisID'];
             } else {
                 foreach ($subject['pools'] as $poolID => $pool) {
-                    $pools[$poolID] = $pool['gpuntisID'];
+                    $pools[$poolID] = $pool['untisID'];
                 }
             }
 

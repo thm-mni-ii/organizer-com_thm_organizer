@@ -24,6 +24,6 @@ class Group_Publishing extends BaseTable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_plan_pool_publishing', 'id', $dbo);
+        parent::__construct('#__thm_organizer_group_publishing', 'id', $dbo);
     }
 }

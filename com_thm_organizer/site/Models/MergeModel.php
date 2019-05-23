@@ -56,7 +56,7 @@ abstract class MergeModel extends BaseModel
     {
         $entries = $this->getEntries();
 
-        $keyProperties = ['gpuntisID'];
+        $keyProperties = ['untisID'];
         if ($this->fkColumn == 'teacherID') {
             $keyProperties[] = 'username';
         }
@@ -288,7 +288,7 @@ abstract class MergeModel extends BaseModel
     }
 
     /**
-     * Ensures that the data property is set and that mandatory indexes id and gpuntis id are also set
+     * Ensures that the data property is set and that mandatory indexes id and untis id are also set
      *
      * @return bool true if the basic requirements are met, otherwise false
      * @throws Exception => invalid request
@@ -300,7 +300,7 @@ abstract class MergeModel extends BaseModel
         // From the edit form
         if (!empty($this->data)) {
             $invalidID = (!empty($this->data['id']) and !is_numeric($this->data['id']));
-            if ($invalidID or empty($this->data['gpuntisID'])) {
+            if ($invalidID or empty($this->data['untisID'])) {
                 throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
             }
 

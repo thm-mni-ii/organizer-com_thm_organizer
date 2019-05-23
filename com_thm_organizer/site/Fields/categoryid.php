@@ -38,16 +38,16 @@ class JFormFieldCategoryID extends \JFormFieldList
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT ppr.id AS value, ppr.name AS text');
-        $query->from('#__thm_organizer_plan_programs AS ppr');
-        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = ppr.id');
+        $query->select('DISTINCT cat.id AS value, cat.name AS text');
+        $query->from('#__thm_organizer_categories AS cat');
+        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
         $query->order('text ASC');
 
         // For use in the merge view
         $selectedIDs = OrganizerHelper::getSelectedIDs();
         if (!empty($selectedIDs)) {
-            $query->innerJoin('#__thm_organizer_plan_pools AS ppl ON ppl.programID = ppr.id');
-            $query->where("ppl.id IN ( '" . implode("', '", $selectedIDs) . "' )");
+            $query->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id');
+            $query->where("gr.id IN ( '" . implode("', '", $selectedIDs) . "' )");
         }
 
         // Ensures a boolean value and avoids double checking the variable because of false string positives.

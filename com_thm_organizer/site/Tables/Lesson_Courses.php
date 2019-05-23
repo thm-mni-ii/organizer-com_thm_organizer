@@ -13,9 +13,9 @@ namespace Organizer\Tables;
 defined('_JEXEC') or die;
 
 /**
- * Class instantiates a Table Object associated with the lesson_pools table.
+ * Class instantiates a Table Object associated with the lesson_courses table.
  */
-class Lesson_Pools extends Nullable
+class Lesson_Courses extends Nullable
 {
     /**
      * Declares the associated table
@@ -24,7 +24,7 @@ class Lesson_Pools extends Nullable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_lesson_pools', 'id', $dbo);
+        parent::__construct('#__thm_organizer_lesson_courses', 'id', $dbo);
     }
 
     /**

@@ -25,13 +25,13 @@ class Teacher_Ajax extends BaseModel
     /**
      * Gets the pool options as a string
      *
-     * @return string the concatenated plan pool options
+     * @return string the concatenated teacher options
      */
     public function getPlanOptions()
     {
-        $planOptions = Teachers::getPlanTeachers();
+        $plannedTeachers = Teachers::getPlanTeachers();
 
-        return json_encode($planOptions);
+        return json_encode($plannedTeachers);
     }
 
     /**

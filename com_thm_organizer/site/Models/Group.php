@@ -18,7 +18,7 @@ use Organizer\Helpers\Groups;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
- * Class which manages stored plan (subject) pool data.
+ * Class which manages stored group data.
  */
 class Group extends MergeModel
 {
@@ -52,18 +52,18 @@ class Group extends MergeModel
      */
     public function batch()
     {
-        $pPoolIDs = OrganizerHelper::getSelectedIDs();
-        if (empty($pPoolIDs)) {
+        $groupIDs = OrganizerHelper::getSelectedIDs();
+        if (empty($groupIDs)) {
             return false;
         }
 
-        $pPoolIDs = ArrayHelper::toInteger($pPoolIDs);
-        if (!Groups::allowEdit($pPoolIDs)) {
+        $groupIDs = ArrayHelper::toInteger($groupIDs);
+        if (!Groups::allowEdit($groupIDs)) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        foreach ($pPoolIDs as $pPoolID) {
-            if (empty($this->savePublishing($pPoolID))) {
+        foreach ($groupIDs as $groupID) {
+            if (empty($this->savePublishing($groupID))) {
                 return false;
             }
         }
@@ -72,7 +72,7 @@ class Group extends MergeModel
     }
 
     /**
-     * Merges plan pool entries and cleans association tables.
+     * Merges group entries and cleans association tables.
      *
      * @return boolean  true on success, otherwise false
      * @throws Exception => unauthorized access
@@ -113,19 +113,19 @@ class Group extends MergeModel
     }
 
     /**
-     * Saves the publishing data for a plan pool.
+     * Saves the publishing data for a group.
      *
-     * @param int $pPoolID the id of the plan pool
+     * @param int $groupID the id of the group
      *
      * @return bool true on success, otherwise false
      */
-    private function savePublishing($pPoolID)
+    private function savePublishing($groupID)
     {
         $formData = OrganizerHelper::getForm();
         if (!empty($formData['publishing'])) {
-            foreach ($formData['publishing'] as $periodID => $publish) {
+            foreach ($formData['publishing'] as $termID => $publish) {
                 $table = OrganizerHelper::getTable('Group_Publishing');
-                $data  = ['planPoolID' => $pPoolID, 'planningPeriodID' => $periodID];
+                $data  = ['groupID' => $groupID, 'termID' => $termID];
                 $table->load($data);
                 $data['published'] = $publish;
 
@@ -145,13 +145,13 @@ class Group extends MergeModel
      */
     protected function updateAssociations()
     {
-        $lpsUpdated = $this->updateAssociation('lesson_pools');
+        $lpsUpdated = $this->updateAssociation('lesson_groups');
         if (!$lpsUpdated) {
             return false;
         }
 
         $query = $this->_db->getQuery(true);
-        $query->select('*')->from('#__thm_organizer_lesson_pools')->where("poolID = {$this->data['id']}");
+        $query->select('*')->from('#__thm_organizer_lesson_groups')->where("groupID = {$this->data['id']}");
         $this->_db->setQuery($query);
 
         $assocs = OrganizerHelper::executeQuery('loadAssocList');
@@ -159,19 +159,19 @@ class Group extends MergeModel
             return true;
         }
 
-        $uniqueLessonSubjects = [];
+        $uniqueLessonCourses = [];
         $duplicateIDs         = [];
 
         foreach ($assocs as $assoc) {
-            if (!isset($uniqueLessonSubjects[$assoc['subjectID']])) {
-                $uniqueLessonSubjects[$assoc['subjectID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
+            if (!isset($uniqueLessonCourses[$assoc['lessonCourseID']])) {
+                $uniqueLessonCourses[$assoc['lessonCourseID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
                 continue;
             } // Duplicate
             else {
                 // An already iterated duplicate has the removed flag => replace and remove it
-                if ($uniqueLessonSubjects[$assoc['subjectID']]['delta'] == 'removed') {
-                    $duplicateIDs[]                            = $uniqueLessonSubjects[$assoc['subjectID']]['id'];
-                    $uniqueLessonSubjects[$assoc['subjectID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
+                if ($uniqueLessonCourses[$assoc['lessonCourseID']]['delta'] == 'removed') {
+                    $duplicateIDs[]                            = $uniqueLessonCourses[$assoc['subjectID']]['id'];
+                    $uniqueLessonCourses[$assoc['lessonCourseID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
                 } // The other duplicate is sufficient => remove this one
                 else {
                     $duplicateIDs[] = $assoc['id'];
@@ -182,7 +182,7 @@ class Group extends MergeModel
         if (count($duplicateIDs)) {
             $idsToDelete = "('" . implode("', '", $duplicateIDs) . "')";
             $query       = $this->_db->getQuery(true);
-            $query->delete('#__thm_organizer_lesson_pools')->where("id IN $idsToDelete");
+            $query->delete('#__thm_organizer_lesson_groups')->where("id IN $idsToDelete");
             $this->_db->setQuery($query);
             $success = (bool)OrganizerHelper::executeQuery('execute');
             if (!$success) {
@@ -204,13 +204,13 @@ class Group extends MergeModel
     {
         $lessons = (array)$schedule->lessons;
         foreach ($lessons as $lessonIndex => $lesson) {
-            $subjects = (array)$lesson->subjects;
-            foreach ($subjects as $subjectID => $subjectConfig) {
-                $pools = (array)$subjectConfig->pools;
+            $courses = (array)$lesson->courses;
+            foreach ($courses as $courseID => $courseConfig) {
+                $pools = (array)$courseConfig->pools;
                 foreach ($pools as $poolID => $delta) {
                     if (in_array($poolID, $this->data['otherIDs'])) {
-                        unset($schedule->lessons->$lessonIndex->subjects->$subjectID->pools->$poolID);
-                        $schedule->lessons->$lessonIndex->subjects->$subjectID->pools->{$this->data['id']} = $delta;
+                        unset($schedule->lessons->$lessonIndex->courses->$courseID->pools->$poolID);
+                        $schedule->lessons->$lessonIndex->courses->$courseID->pools->{$this->data['id']} = $delta;
                     }
                 }
             }

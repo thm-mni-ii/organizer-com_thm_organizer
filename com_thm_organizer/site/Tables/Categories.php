@@ -24,7 +24,7 @@ class Categories extends Nullable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_plan_programs', 'id', $dbo);
+        parent::__construct('#__thm_organizer_categories', 'id', $dbo);
     }
 
     /**

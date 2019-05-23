@@ -63,7 +63,7 @@ class Fields extends ListView
         $headers              = [];
         $headers['checkbox']  = '';
         $headers['field']     = HTML::sort('NAME', 'field', $direction, $ordering);
-        $headers['gpuntisID'] = HTML::sort('GPUNTISID', 'gpuntisID', $direction, $ordering);
+        $headers['untisID'] = HTML::sort('UNTISID', 'untisID', $direction, $ordering);
         $headers['colorID']   = HTML::sort('COLOR', 'c.name', $direction, $ordering);
 
         return $headers;
@@ -87,7 +87,7 @@ class Fields extends ListView
             $processedItems[$index]              = [];
             $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['field']     = HTML::_('link', $item->link, $item->field);
-            $processedItems[$index]['gpuntisID'] = HTML::_('link', $item->link, $item->gpuntisID);
+            $processedItems[$index]['untisID'] = HTML::_('link', $item->link, $item->untisID);
             $processedItems[$index]['colorID']   = HTML::colorField($item->name, $item->color);
             $index++;
         }

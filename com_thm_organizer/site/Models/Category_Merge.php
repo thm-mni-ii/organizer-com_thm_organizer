@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 use Organizer\Helpers\Access;
 
 /**
- * Class loads a form for merging plan (degree) program / organizational grouping data.
+ * Class loads a form for merging category data.
  */
 class Category_Merge extends FormModel
 {

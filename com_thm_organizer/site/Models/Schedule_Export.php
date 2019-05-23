@@ -133,17 +133,17 @@ class Schedule_Export extends BaseModel
             }
 
             if ($success) {
-                $gpuntisID = ApplicationHelper::stringURLSafe($table->gpuntisID);
+                $untisID = ApplicationHelper::stringURLSafe($table->untisID);
 
                 if ($oneResource) {
-                    $titles['docTitle']  = $gpuntisID . '_';
+                    $titles['docTitle']  = $untisID . '_';
                     $titles['pageTitle'] = $table->full_name;
 
                     return $titles;
                 }
 
-                $titles['docTitle']  .= $gpuntisID . '_';
-                $titles['pageTitle'] .= empty($titles['pageTitle']) ? $table->gpuntisID : ", {$table->gpuntisID}";
+                $titles['docTitle']  .= $untisID . '_';
+                $titles['pageTitle'] .= empty($titles['pageTitle']) ? $table->untisID : ", {$table->untisID}";
             }
         }
 
@@ -214,16 +214,16 @@ class Schedule_Export extends BaseModel
             }
 
             if ($success) {
-                $gpuntisID = ApplicationHelper::stringURLSafe($table->gpuntisID);
+                $untisID = ApplicationHelper::stringURLSafe($table->untisID);
 
                 if ($oneResource) {
-                    $titles['docTitle']  = $gpuntisID . '_';
+                    $titles['docTitle']  = $untisID . '_';
                     $titles['pageTitle'] = $table->name;
 
                     return $titles;
                 }
 
-                $titles['docTitle']  .= $gpuntisID . '_';
+                $titles['docTitle']  .= $untisID . '_';
                 $titles['pageTitle'] .= empty($titles['pageTitle']) ? $table->name : ", {$table->name}";
             }
         }
@@ -238,50 +238,50 @@ class Schedule_Export extends BaseModel
      */
     private function getSubjectTitles()
     {
-        $subjectIDs = array_values($this->parameters['subjectIDs']);
+        $courseIDs = array_values($this->parameters['courseIDs']);
         $titles     = ['docTitle' => '', 'pageTitle' => ''];
 
-        if (empty($subjectIDs)) {
+        if (empty($courseIDs)) {
             return $titles;
         }
 
-        $oneResource = count($subjectIDs) === 1;
+        $oneResource = count($courseIDs) === 1;
         $tag         = Languages::getShortTag();
 
         $query = $this->_db->getQuery(true);
-        $query->select("ps.name AS psName, ps.gpuntisID AS gpuntisID, s.short_name_$tag AS shortName, s.name_$tag AS name");
-        $query->from('#__thm_organizer_plan_subjects AS ps');
-        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id');
+        $query->select("co.name AS courseName, co.untisID AS untisID, s.short_name_$tag AS shortName, s.name_$tag AS name");
+        $query->from('#__thm_organizer_courses AS co');
+        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON co.id = sm.courseID');
         $query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
 
-        foreach ($subjectIDs as $subjectID) {
+        foreach ($courseIDs as $courseID) {
             $query->clear('where');
-            $query->where("ps.id = '$subjectID'");
+            $query->where("co.id = '$courseID'");
             $this->_db->setQuery($query);
-            $subjectNames = OrganizerHelper::executeQuery('loadAssoc', []);
+            $courseNames = OrganizerHelper::executeQuery('loadAssoc', []);
 
-            if (!empty($subjectNames)) {
-                $gpuntisID = ApplicationHelper::stringURLSafe($subjectNames['gpuntisID']);
+            if (!empty($courseNames)) {
+                $untisID = ApplicationHelper::stringURLSafe($courseNames['untisID']);
 
-                if (empty($subjectNames['name'])) {
-                    if (empty($subjectNames['shortName'])) {
-                        $name = $subjectNames['psName'];
+                if (empty($courseNames['name'])) {
+                    if (empty($courseNames['shortName'])) {
+                        $name = $courseNames['courseName'];
                     } else {
-                        $name = $subjectNames['shortName'];
+                        $name = $courseNames['shortName'];
                     }
                 } else {
-                    $name = $subjectNames['name'];
+                    $name = $courseNames['name'];
                 }
 
                 if ($oneResource) {
-                    $titles['docTitle']  = $gpuntisID . '_';
+                    $titles['docTitle']  = $untisID . '_';
                     $titles['pageTitle'] = $name;
 
                     return $titles;
                 }
 
-                $titles['docTitle']  .= $gpuntisID . '_';
-                $titles['pageTitle'] .= empty($titles['pageTitle']) ? $gpuntisID : ", {$gpuntisID}";
+                $titles['docTitle']  .= $untisID . '_';
+                $titles['pageTitle'] .= empty($titles['pageTitle']) ? $untisID : ", {$untisID}";
             }
 
         }
@@ -343,8 +343,8 @@ class Schedule_Export extends BaseModel
                 }
 
                 $displayName         = Teachers::getLNFName($teacherID, true);
-                $gpuntisID           = ApplicationHelper::stringURLSafe($table->gpuntisID);
-                $titles['docTitle']  .= $gpuntisID . '_';
+                $untisID           = ApplicationHelper::stringURLSafe($table->untisID);
+                $titles['docTitle']  .= $untisID . '_';
                 $titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
             }
         }

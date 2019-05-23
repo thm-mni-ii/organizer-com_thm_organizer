@@ -53,8 +53,8 @@ class Schedules
     {
         $wherray = [];
 
-        if (!empty($parameters['poolIDs'])) {
-            $wherray[] = "pool.id IN ('" . implode("', '", $parameters['poolIDs']) . "')";
+        if (!empty($parameters['groupIDs'])) {
+            $wherray[] = "gr.id IN ('" . implode("', '", $parameters['groupIDs']) . "')";
         }
 
         if (!empty($parameters['teacherIDs'])) {
@@ -62,7 +62,7 @@ class Schedules
                 $regexp = '"teachers":\\{[^\}]*"' . $teacherID . '"';
                 $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
 
-                $wherray[] = "lc.configuration REGEXP '$regexp'";
+                $wherray[] = "conf.configuration REGEXP '$regexp'";
             }
         }
 
@@ -71,12 +71,12 @@ class Schedules
                 $regexp = '"rooms":\\{[^\}]*"' . $roomID . '"';
                 $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
 
-                $wherray[] = "lc.configuration REGEXP '$regexp'";
+                $wherray[] = "conf.configuration REGEXP '$regexp'";
             }
         }
 
         if (!empty($parameters['subjectIDs'])) {
-            $wherray[] = "ps.id IN ('" . implode("', '", $parameters['subjectIDs']) . "')";
+            $wherray[] = "co.id IN ('" . implode("', '", $parameters['subjectIDs']) . "')";
         }
 
         if (!empty($parameters['lessonIDs'])) {
@@ -148,7 +148,7 @@ class Schedules
                 $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']   = $configuration['teachers'];
                 $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']      = $configuration['rooms'];
                 $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs']   = [];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'] = [];
+                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groupDeltas'] = [];
             } else {
                 $previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'];
                 $previousRooms    = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'];
@@ -161,18 +161,18 @@ class Schedules
                 $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['subjectDelta'] = $subjectDelta;
             }
 
-            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['poolDeltas'][$lesson['poolID']]
-                = (empty($lesson['poolDelta']) or $lesson['poolModified'] < $delta) ? '' : $lesson['poolDelta'];
+            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groupDeltas'][$lesson['groupID']]
+                = (empty($lesson['groupDelta']) or $lesson['groupModified'] < $delta) ? '' : $lesson['groupDelta'];
 
             $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teacherDeltas'] = $configuration['teacherDeltas'];
 
             $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['roomDeltas'] = $configuration['roomDeltas'];
 
-            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['pools'][$lesson['poolID']]
+            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groups'][$lesson['groupID']]
                 = [
-                'gpuntisID' => $lesson['poolGPUntisID'],
-                'name'      => $lesson['poolName'],
-                'fullName'  => $lesson['poolFullName']
+                'untisID' => $lesson['groupUntisID'],
+                'name'      => $lesson['grouoName'],
+                'fullName'  => $lesson['groupFullName']
             ];
 
             if (!empty($subjectData['subjectID'])) {
@@ -296,11 +296,11 @@ class Schedules
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('cal.lessonID, startTime, endTime, schedule_date, DAYOFWEEK(schedule_date) AS weekday, subjectID')
+        $query->select('cal.lessonID, startTime, endTime, schedule_date, DAYOFWEEK(schedule_date) AS weekday, courseID')
             ->from('#__thm_organizer_calendar_configuration_map AS map')
             ->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
             ->innerJoin('#__thm_organizer_lessons AS l ON l.id = cal.lessonID')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id')
             ->where("map.id = '$ccmID'")
             ->where("cal.delta != 'removed'");
 
@@ -368,9 +368,9 @@ class Schedules
     }
 
     /**
-     * Gets the lessons for the given pool ids.
+     * Gets the lessons for the given group ids.
      *
-     * @param array $parameters array of pool ids or a single pool id
+     * @param array $parameters array of group ids or a single group id
      *
      * @return array
      * @throws Exception => unauthorized access to teacher lessons
@@ -406,14 +406,15 @@ class Schedules
 
         $select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
         $select .= 'l.registration_type AS regType, l.max_participants AS maxParties, ';
-        $select .= 'ps.id AS psID, ps.name AS psName, ps.subjectNo, ps.gpuntisID AS psUntisID, ';
-        $select .= 'pool.id AS poolID, pool.gpuntisID AS poolGPUntisID, pool.name AS poolName, pool.full_name AS poolFullName, pool.gridID, ';
+        $select .= 'co.id AS coID, co.name AS courseName, co.subjectNo, co.untisID AS courseUntisID, ';
+        $select .= 'gr.id AS groupID, group.untisID AS groupUntisID, group.name AS groupName, ';
+        $select .= 'group.full_name AS groupFullName, group.gridID, ';
         $select .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
-        $select .= 'lc.configuration, lc.modified AS configModified, pp.id AS planProgramID';
+        $select .= 'conf.configuration, conf.modified AS configModified, cat.id AS categoryID';
 
         if (!empty($parameters['delta'])) {
-            $select .= ', lp.delta AS poolDelta, lp.modified AS poolModified';
-            $select .= ', ls.delta AS subjectsDelta, ls.modified AS subjectsModified';
+            $select .= ', lg.delta AS groupDelta, lg.modified AS groupModified';
+            $select .= ', lcrs.delta AS subjectsDelta, lcrs.modified AS subjectsModified';
             $select .= ', l.delta AS lessonDelta, l.modified AS lessonModified';
             $select .= ', c.delta AS calendarDelta, c.modified AS calendarModified';
             $select .= ', lt.delta AS teacherDelta, lt.modified AS teacherModified';
@@ -422,8 +423,8 @@ class Schedules
         $query->select($select);
         self::setLessonQuery($parameters, $query);
 
-        $query->innerJoin('#__thm_organizer_plan_programs AS pp ON pool.programID = pp.id');
-        $query->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id');
+        $query->innerJoin('#__thm_organizer_categories AS cat ON gr.categoryID = cat.id');
+        $query->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.lessonCourseID = lcrs.id');
         $query->innerJoin('#__thm_organizer_teachers AS teacher ON lt.teacherID = teacher.id');
 
         $query->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
@@ -521,28 +522,28 @@ class Schedules
     }
 
     /**
-     * Saves the planning period to the corresponding table if not already existent.
+     * Saves the term to the corresponding table if not already existent.
      *
-     * @param string $ppName    the abbreviation for the planning period
+     * @param string $termName  the abbreviation for the term
      * @param int    $startDate the integer value of the start date
      * @param int    $endDate   the integer value of the end date
      *
      * @return int id of database entry
      */
-    public static function getPlanningPeriodID($ppName, $startDate, $endDate)
+    public static function getTermID($termName, $startDate, $endDate)
     {
         $data              = [];
         $data['startDate'] = date('Y-m-d', $startDate);
         $data['endDate']   = date('Y-m-d', $endDate);
 
-        $table  = OrganizerHelper::getTable('Planning_Periods');
+        $table  = OrganizerHelper::getTable('Terms');
         $exists = $table->load($data);
         if ($exists) {
             return $table->id;
         }
 
         $shortYear    = date('y', $endDate);
-        $data['name'] = $ppName . $shortYear;
+        $data['name'] = $termName . $shortYear;
         $table->save($data);
 
         return $table->id;
@@ -558,12 +559,12 @@ class Schedules
     private static function getSubjectData($lesson)
     {
         $return = [
-            'planSubjectID' => $lesson['psID'],
+            'courseID' => $lesson['courseID'],
             'subjectID'     => null,
             'subjectNo'     => $lesson['subjectNo'],
-            'name'          => $lesson['psName'],
-            'shortName'     => $lesson['psUntisID'],
-            'abbr'          => $lesson['psUntisID']
+            'name'          => $lesson['courseName'],
+            'shortName'     => $lesson['courseUntisID'],
+            'abbr'          => $lesson['courseUntisID']
         ];
 
         $tag           = Languages::getShortTag();
@@ -577,7 +578,7 @@ class Schedules
             ->from('#__thm_organizer_subjects AS s')
             ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.subjectID = s.id')
             ->leftJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
-            ->where("sm.plan_subjectID ='{$lesson['psID']}'");
+            ->where("sm.courseID ='{$lesson['courseID']}'");
         $dbo->setQuery($subjectsQuery);
 
         $mappedSubjects = OrganizerHelper::executeQuery('loadAssocList');
@@ -602,9 +603,9 @@ class Schedules
         $programQuery->select($select)
             ->from('#__thm_organizer_mappings AS m')
             ->innerJoin('#__thm_organizer_programs AS p ON p.id = m.programID')
-            ->innerJoin('#__thm_organizer_plan_programs AS ppr ON ppr.programID = p.id')
-            ->innerJoin('#__thm_organizer_plan_pools AS ppo ON ppo.programID = ppr.id')
-            ->where("ppo.id ='{$lesson['poolID']}'");
+            ->innerJoin('#__thm_organizer_categories AS cat ON cat.programID = p.id')
+            ->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id')
+            ->where("gr.id ='{$lesson['groupID']}'");
         $dbo->setQuery($programQuery);
         $programMapping = OrganizerHelper::executeQuery('loadAssoc', []);
 
@@ -776,26 +777,26 @@ class Schedules
     {
         $query->from('#__thm_organizer_lessons AS l');
         $query->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
-        $query->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
-        $query->innerJoin('#__thm_organizer_lesson_configurations AS lc ON lc.lessonID = ls.id');
-        $query->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = lc.id');
-        $query->innerJoin('#__thm_organizer_lesson_pools AS lp ON lp.subjectID = ls.id');
-        $query->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id');
-        $query->innerJoin('#__thm_organizer_plan_pools AS pool ON pool.id = lp.poolID');
-        $query->leftJoin('#__thm_organizer_plan_pool_publishing AS ppp ON pool.id = ppp.planPoolID AND l.planningPeriodID = ppp.planningPeriodID');
+        $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
+        $query->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.lessonCourseID = lcrs.id');
+        $query->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = conf.id');
+        $query->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id');
+        $query->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID');
+        $query->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');
+        $query->leftJoin('#__thm_organizer_group_publishing AS grp ON grp.groupID = gr.id AND grp.termID = l.termID');
 
         if (empty($parameters['showUnpublished'])) {
-            $query->where("(ppp.published IS NULL OR ppp.published = '1')");
+            $query->where("(grp.published IS NULL OR grp.published = '1')");
         }
 
         if (empty($parameters['delta'])) {
-            $query->where("lp.delta != 'removed'");
-            $query->where("ls.delta != 'removed'");
+            $query->where("lg.delta != 'removed'");
+            $query->where("lcrs.delta != 'removed'");
             $query->where("l.delta != 'removed'");
             $query->where("c.delta != 'removed'");
         } else {
-            $query->where("(lp.delta != 'removed' OR (lp.delta = 'removed' AND lp.modified > '" . $parameters['delta'] . "'))");
-            $query->where("(ls.delta != 'removed' OR (ls.delta = 'removed' AND ls.modified > '" . $parameters['delta'] . "'))");
+            $query->where("(lg.delta != 'removed' OR (lg.delta = 'removed' AND lg.modified > '" . $parameters['delta'] . "'))");
+            $query->where("(lcrs.delta != 'removed' OR (lcrs.delta = 'removed' AND lcrs.modified > '" . $parameters['delta'] . "'))");
             $query->where("(l.delta != 'removed' OR (l.delta = 'removed' AND l.modified > '" . $parameters['delta'] . "'))");
             $query->where("(c.delta != 'removed' OR (c.delta = 'removed' AND c.modified > '" . $parameters['delta'] . "'))");
         }

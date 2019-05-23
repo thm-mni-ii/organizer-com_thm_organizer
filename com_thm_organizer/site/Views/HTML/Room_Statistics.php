@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Terms;
 
 /**
  * Class loads room statistic information into the display context.
@@ -26,7 +27,7 @@ class Room_Statistics extends BaseHTMLView
 
     public $timePeriods;
 
-    public $planningPeriods;
+    public $terms;
 
     public $departments;
 
@@ -100,15 +101,15 @@ class Room_Statistics extends BaseHTMLView
             'input'       => $dateSelect
         ];
 
-        $ppAttribs = $attribs;
-        $ppOptions = $this->model->getPlanningPeriodOptions();
-        $ppDefault = Planning_Periods::getCurrentID();
-        $ppSelect  = HTML::selectBox($ppOptions, 'planningPeriodIDs', $ppAttribs, $ppDefault);
+        $termAttribs = $attribs;
+        $termOptions = $this->model->getTermOptions();
+        $defaultTerm = Terms::getCurrentID();
+        $termSelect  = HTML::selectBox($termOptions, 'termIDs', $termAttribs, $defaultTerm);
 
-        $this->fields['baseSettings']['planningPeriodIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_PLANNING_PERIOD'),
+        $this->fields['baseSettings']['termIDs'] = [
+            'label'       => Languages::_('THM_ORGANIZER_TERM'),
             'description' => Languages::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
-            'input'       => $ppSelect
+            'input'       => $termSelect
         ];
     }
 
@@ -146,7 +147,7 @@ class Room_Statistics extends BaseHTMLView
         ];
 
         $deptAttribs                     = $attribs;
-        $deptAttribs['onChange']         = 'repopulatePlanningPeriods();repopulatePrograms();repopulateRooms();';
+        $deptAttribs['onChange']         = 'repopulateTerms();repopulateCategories();repopulateRooms();';
         $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
         $departmentOptions               = $this->model->getDepartmentOptions();
         $departmentSelect                = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
@@ -157,16 +158,16 @@ class Room_Statistics extends BaseHTMLView
             'input'       => $departmentSelect
         ];
 
-        $programAttribs                     = $attribs;
-        $programAttribs['onChange']         = 'repopulatePlanningPeriods();repopulateRooms();';
-        $programAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER');
-        $categoryOptions                    = $this->model->getProgramOptions();
-        $programSelect                      = HTML::selectBox($categoryOptions, 'programIDs', $programAttribs);
+        $categoryAttribs                     = $attribs;
+        $categoryAttribs['onChange']         = 'repopulateTerms();repopulateRooms();';
+        $categoryAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_EVENT_CATEGORY');
+        $categoryOptions                     = $this->model->getCategoryOptions();
+        $categorySelect                      = HTML::selectBox($categoryOptions, 'categoryIDs', $categoryAttribs);
 
-        $this->fields['filterFields']['programIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_PROGRAMS'),
-            'description' => Languages::_('THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
-            'input'       => $programSelect
+        $this->fields['filterFields']['categoryIDs'] = [
+            'label'       => Languages::_('THM_ORGANIZER_CATEGORIES'),
+            'description' => Languages::_('THM_ORGANIZER_CATEGORIES_TITLE'),
+            'input'       => $categorySelect
         ];
     }
 }

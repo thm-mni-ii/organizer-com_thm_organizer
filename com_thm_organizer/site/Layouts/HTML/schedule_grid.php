@@ -160,8 +160,8 @@ $displayName = empty($this->model->displayName) ?
                     <select id="category" required data-input="static"
                             data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_CATEGORY'); ?>">
                         <?php
-                        if (!empty($this->model->params['showPrograms'])) {
-                            echo '<option value="program" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS') . '</option>';
+                        if (!empty($this->model->params['showCategories'])) {
+                            echo '<option value="category" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS') . '</option>';
                         }
 
                         if (!empty($this->model->params['showRooms'])) {
@@ -174,14 +174,14 @@ $displayName = empty($this->model->displayName) ?
                         ?>
                     </select>
                 </div>
-                <div id="program-input" class="input-wrapper">
-                    <select id="program" data-next="pool"
+                <div id="category-input" class="input-wrapper">
+                    <select id="category" data-next="group"
                             data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_EVENT_CATEGORY'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
-                <div id="pool-input" class="input-wrapper">
-                    <select id="pool" data-next="lesson"
+                <div id="group-input" class="input-wrapper">
+                    <select id="group" data-next="lesson"
                             data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_EVENT_PLAN'); ?>">
                         <!-- filled by ajax -->
                     </select>
@@ -330,7 +330,7 @@ $displayName = empty($this->model->displayName) ?
             </div>
             <div class="persons"></div>
             <div class="rooms"></div>
-            <div class="pools"></div>
+            <div class="groups"></div>
             <span class="description"></span>
         </div>
         <div class="save">

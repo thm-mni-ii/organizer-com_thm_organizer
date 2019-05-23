@@ -35,27 +35,27 @@ class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
         $subjectID = OrganizerHelper::getInput()->getInt('id', 0);
 
         $dbo           = Factory::getDbo();
-        $selectedQuery = $dbo->getQuery(true);
-        $selectedQuery->select('plan_subjectID');
-        $selectedQuery->from('#__thm_organizer_subject_mappings');
-        $selectedQuery->where("subjectID = '$subjectID'");
-        $dbo->setQuery($selectedQuery);
+        $subjectQuery = $dbo->getQuery(true);
+        $subjectQuery->select('courseID');
+        $subjectQuery->from('#__thm_organizer_subject_mappings');
+        $subjectQuery->where("subjectID = '$subjectID'");
+        $dbo->setQuery($subjectQuery);
         $selected = OrganizerHelper::executeQuery('loadColumn', []);
 
-        $planSubjectQuery = $dbo->getQuery(true);
-        $planSubjectQuery->select('id AS value, name');
-        $planSubjectQuery->from('#__thm_organizer_plan_subjects');
-        $planSubjectQuery->order('name');
-        $dbo->setQuery($planSubjectQuery);
+        $courseQuery = $dbo->getQuery(true);
+        $courseQuery->select('id AS value, name');
+        $courseQuery->from('#__thm_organizer_courses');
+        $courseQuery->order('name');
+        $dbo->setQuery($courseQuery);
 
-        $planSubjects = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($planSubjects)) {
-            $planSubjects = [];
+        $courses = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($courses)) {
+            $courses = [];
         }
 
         $options = [];
-        foreach ($planSubjects as $planSubject) {
-            $options[$planSubject['value']] = $planSubject['name'];
+        foreach ($courses as $course) {
+            $options[$course['value']] = $course['name'];
         }
 
         $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];

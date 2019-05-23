@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fieldset name="details">
-        <field name="gpuntisID" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_GPUNTISID"
-               description="THM_ORGANIZER_GPUNTISID_DESC" required="true"/>
+        <field name="untisID" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_UNTISID"
+               description="THM_ORGANIZER_UNTISID_DESC" required="true"/>
         <field name="surname" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_SURNAME"
                description="THM_ORGANIZER_SURNAME_DESC" required="true"/>
         <field name="forename" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_FORENAME"

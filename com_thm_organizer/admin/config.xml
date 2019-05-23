@@ -52,8 +52,8 @@
             <option value='3'>THM_ORGANIZER_CONTENT_DISPLAY</option>
             <option value='4'>THM_ORGANIZER_LESSON_LIST</option>
         </field>
-        <field name="schedule_refresh" id="schedule_refresh" type="integer" label="THM_ORGANIZER_SCHEDULE_REFRESH"
-               description="THM_ORGANIZER_SCHEDULE_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
+        <field name="schedule_refresh" id="schedule_refresh" type="integer" label="THM_ORGANIZER_SCHEDULE_REFRESH_RATE"
+               description="THM_ORGANIZER_SCHEDULE_REFRESH_RATE_DESC" first="10" last="990" step="10" default="60"/>
         <field name="content_refresh" id="content_refresh" type="integer" label="THM_ORGANIZER_CONTENT_REFRESH"
                description="THM_ORGANIZER_CONTENT_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
         <field name="content" id="content" type="filelist" label="THM_ORGANIZER_DISPLAY_CONTENT"

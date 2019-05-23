@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 use Organizer\Helpers\Categories;
 
 /**
- * Class loads a form for editing plan (degree) program / organizational grouping data.
+ * Class loads a form for editing category data.
  */
 class Category_Edit extends EditModel
 {

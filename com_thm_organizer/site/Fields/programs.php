@@ -92,7 +92,7 @@ class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
                     }
 
                     poolUrl = '<?php echo Uri::root(); ?>index.php?option=com_thm_organizer';
-                    poolUrl += '&view=pool_ajax&format=raw&task=parentOptions';
+                    poolUrl += '&view=pools&format=json&task=parentOptions';
                     poolUrl += "&id=<?php echo $resourceID; ?>";
                     poolUrl += "&type=<?php echo $resourceType; ?>";
                     poolUrl += '&programIDs=' + selectedPrograms;

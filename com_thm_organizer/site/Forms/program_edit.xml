@@ -3,7 +3,7 @@
     <fieldset name="details" label="THM_ORGANIZER_ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="departmentID" type="departmentID" action="manage" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="departmentID" type="departmentID" action="document" label="THM_ORGANIZER_DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">
             <option value="">THM_ORGANIZER_NO_INPUT</option>
         </field>

@@ -47,9 +47,9 @@ class Lesson_Statistics extends BaseHTMLView
         $this->languageParams = ['view' => 'lesson_statistics'];
         $this->state          = $this->get('State');
         $this->form           = $this->get('Form');
-        $this->form->setValue('planningPeriodID', null, $this->state->get('planningPeriodID'));
+        $this->form->setValue('termID', null, $this->state->get('termID'));
         $this->form->setValue('departmentID', null, $this->state->get('departmentID'));
-        $this->form->setValue('programID', null, $this->state->get('programID'));
+        $this->form->setValue('categoryID', null, $this->state->get('categoryID'));
 
         $model         = $this->getModel();
         $this->columns = $model->columns;

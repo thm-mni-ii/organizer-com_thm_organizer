@@ -49,7 +49,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
     public function __construct(&$model)
     {
         $this->endDate         = $model->endDate;
-        $this->planningPeriods = $model->planningPeriods;
+        $this->terms = $model->terms;
         $this->rooms           = $model->rooms;
         $this->roomTypes       = $model->roomTypes;
         $this->roomTypeMap     = $model->roomTypeMap;
@@ -117,15 +117,15 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
             'startDate' => $this->startDate,
             'endDate'   => $this->endDate
         ];
-        $this->addPlanningPeriodSheet(0, $summaryPP);
+        $this->addTermSheet(0, $summaryPP);
 
         $sheetNumber = 1;
-        foreach ($this->planningPeriods as $planningPeriod) {
+        foreach ($this->terms as $term) {
             // Saving these here prevents messy array functions and explicit iterative calculation permissions
             $this->hoursColumns  = [];
             $this->sHoursColumns = [];
 
-            $this->addPlanningPeriodSheet($sheetNumber, $planningPeriod);
+            $this->addTermSheet($sheetNumber, $term);
             $sheetNumber++;
         }
 
@@ -136,14 +136,14 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
     /**
      * Adds a data row (single room use) to the active sheet
      *
-     * @param int    $sheetNo the sheet number
-     * @param int    $rowNo   the row number
-     * @param string $ppIndex the index used for the planning period being iterated
-     * @param int    $roomID  the id of the room
+     * @param int    $sheetNo   the sheet number
+     * @param int    $rowNo     the row number
+     * @param string $termIndex the index used for the term being iterated
+     * @param int    $roomID    the id of the room
      *
      * @return string
      */
-    private function addDataRow($sheetNo, $rowNo, $ppIndex, $roomID)
+    private function addDataRow($sheetNo, $rowNo, $termIndex, $roomID)
     {
         $typeName = empty($this->roomTypeMap[$roomID]) ? 'X' : $this->roomTypes[$this->roomTypeMap[$roomID]]['name'];
 
@@ -154,7 +154,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
 
         $column = 'D';
 
-        foreach ($this->useData[$ppIndex] as $roomUsage) {
+        foreach ($this->useData[$termIndex] as $roomUsage) {
             $minutes = empty($roomUsage[$roomID]) ? 0 : $roomUsage[$roomID];
 
             ++$column;
@@ -266,29 +266,29 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
     }
 
     /**
-     * Adds a planning period sheet
+     * Adds a term sheet
      *
-     * @param int   $sheetNumber    the number of the sheet being iterated
-     * @param array $planningPeriod the planning period this sheet references
+     * @param int   $sheetNumber the number of the sheet being iterated
+     * @param array $term        the term this sheet references
      *
      * @return void
      */
-    private function addPlanningPeriodSheet($sheetNumber, $planningPeriod)
+    private function addTermSheet($sheetNumber, $term)
     {
         if ($sheetNumber !== 0) {
-            $ppIndex = $planningPeriod['name'];
+            $termIndex = $term['name'];
             $this->spreadSheet->createSheet();
         } else {
-            $ppIndex = 'total';
+            $termIndex = 'total';
         }
 
-        $title = $planningPeriod['name'];
+        $title = $term['name'];
 
-        if ($planningPeriod['startDate'] < $this->startDate) {
+        if ($term['startDate'] < $this->startDate) {
             $title .= ' ' . sprintf(Languages::_('THM_ORGANIZER_FROM_DATE'), $this->startDate);
         }
 
-        if ($planningPeriod['endDate'] > $this->endDate) {
+        if ($term['endDate'] > $this->endDate) {
             $title .= ' ' . sprintf(Languages::_('THM_ORGANIZER_TO_DATE'), $this->endDate);
         }
 
@@ -307,7 +307,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $lastRow = $firstRow = 7;
         foreach (array_keys($this->rooms) as $roomID) {
             $lastRow++;
-            $lastColumn = $this->addDataRow($sheetNumber, $lastRow, $ppIndex, $roomID);
+            $lastColumn = $this->addDataRow($sheetNumber, $lastRow, $termIndex, $roomID);
         }
 
         $this->addSummaryHeader($sheetNumber, 'C', Languages::_('THM_ORGANIZER_HOURS_ABBR'), $lastRow, 'lightBorder');
@@ -321,7 +321,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
 
         $currentColumn = 'D';
 
-        foreach (array_keys($this->useData[$ppIndex]) as $departmentName) {
+        foreach (array_keys($this->useData[$termIndex]) as $departmentName) {
             $currentColumn = $this->addHeaderGroup($sheetNumber, $currentColumn, $departmentName, $firstRow, $lastRow);
         }
 

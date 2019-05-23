@@ -38,31 +38,31 @@ class Lessons extends ListModel
             ->where("delta != 'removed'")
             ->group('lessonID');
 
-        $linkParts = ["'index.php?option=com_thm_organizer&view=course_edit&id='", 'ls.lessonID'];
-        $courseQuery->select('DISTINCT ls.id AS id')
+        $linkParts = ["'index.php?option=com_thm_organizer&view=course_edit&id='", 'lcrs.lessonID'];
+        $courseQuery->select('DISTINCT lcrs.id AS id')
             ->select($courseQuery->concatenate($linkParts, '') . ' AS link')
-            ->select("ps.id as planSubjectID, ps.name AS name")
+            ->select("co.id as courseID, co.name AS name")
             ->select('l.id AS lessonID, l.campusID AS campusID')
             ->select("m.id AS methodID, m.abbreviation_$tag AS method")
             ->select("d.id AS departmentID, d.short_name_$tag AS department")
-            ->select('pp.id AS planningPeriodID, pp.name AS planningPeriod')
+            ->select('term.id AS termID, term.name AS term')
             ->select('sq.start, sq.end, sq.expired')
             ->select("s.id as subjectID, s.name_$tag as subject, s.campusID AS abstractCampusID");
 
-        $courseQuery->from('#__thm_organizer_lesson_subjects AS ls')
-            ->innerJoin('#__thm_organizer_plan_subjects AS ps ON ps.id = ls.subjectID')
-            ->innerJoin('#__thm_organizer_subject_mappings AS sm on sm.plan_subjectID = ps.id')
-            ->innerJoin('#__thm_organizer_lessons as l on l.id = ls.lessonID')
+        $courseQuery->from('#__thm_organizer_lesson_courses AS lcrs')
+            ->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID')
+            ->innerJoin('#__thm_organizer_subject_mappings AS sm on sm.courseID = co.id')
+            ->innerJoin('#__thm_organizer_lessons as l on l.id = lcrs.lessonID')
             ->innerJoin('#__thm_organizer_methods as m on m.id = l.methodID')
             ->innerJoin('#__thm_organizer_departments as d on d.id = l.departmentID')
-            ->innerJoin('#__thm_organizer_planning_periods as pp on pp.id = l.planningPeriodID')
-            ->innerJoin("($subQuery) as sq on sq.lessonID = ls.lessonID")
+            ->innerJoin('#__thm_organizer_terms as term on term.id = l.termID')
+            ->innerJoin("($subQuery) as sq on sq.lessonID = lcrs.lessonID")
             ->leftJoin('#__thm_organizer_subjects AS s on s.id = sm.subjectID');
 
         // Prep Course Filter
         if (!empty($this->state->get('filter.onlyPrepCourses'))) {
             $courseQuery->where("s.is_prep_course = 1");
-            $courseQuery->where("ls.subjectID is not null and sq.start is not null");
+            $courseQuery->where("lcrs.courseID is not null and sq.start is not null");
         }
 
         // Status filter

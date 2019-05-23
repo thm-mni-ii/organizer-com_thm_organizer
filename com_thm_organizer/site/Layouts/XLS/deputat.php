@@ -29,10 +29,10 @@ class THM_OrganizerTemplateDeputat
     {
         $this->spreadSheet = new \PHPExcel();
 
-        $userName       = Factory::getUser()->name;
-        $planningPeriod = 'PLANNING_PERIOD_NAME';
-        $date           = \Date::formatDate(date('Y-m-d'));
-        $description    = Languages::sprintf('THM_ORGANIZER_DEPUTAT_DESCRIPTION', $planningPeriod, $date);
+        $userName    = Factory::getUser()->name;
+        $term        = 'TERM';
+        $date        = \Date::formatDate(date('Y-m-d'));
+        $description = Languages::sprintf('THM_ORGANIZER_DEPUTAT_DESCRIPTION', $term, $date);
         $this->spreadSheet->getProperties()->setCreator('THM Organizer')
             ->setLastModifiedBy($userName)
             ->setTitle(Languages::_('THM_ORGANIZER_DEPUTAT'))
@@ -560,7 +560,7 @@ class THM_OrganizerTemplateDeputat
         $activeSheet->setCellValue("D$row", 'Schwerbehinderung');
         $row++;
 
-         $ranges = [['start' => $startRow, 'end' => $endRow]];
+        $ranges = [['start' => $startRow, 'end' => $endRow]];
         $this->addSumRow($row++, 'C', $ranges);
 
         $activeSheet->getRowDimension($row++)->setRowHeight($this->heights['spacer']);

@@ -20,7 +20,7 @@ use Organizer\Helpers\OrganizerHelper;
 FormHelper::loadFieldClass('list');
 
 /**
- * Class creates a select box for planning periods.
+ * Class creates a select box for terms.
  */
 class JFormFieldTermID extends \JFormFieldList
 {
@@ -40,28 +40,28 @@ class JFormFieldTermID extends \JFormFieldList
         $dbo         = Factory::getDbo();
         $query       = $dbo->getQuery(true);
 
-        $query->select('DISTINCT pp.id, pp.name');
-        $query->from('#__thm_organizer_planning_periods AS pp');
-        $query->innerJoin('#__thm_organizer_schedules AS s ON s.planningPeriodID = pp.id');
+        $query->select('DISTINCT term.id, term.name');
+        $query->from('#__thm_organizer_terms AS term');
+        $query->innerJoin('#__thm_organizer_schedules AS s ON s.termID = term.id');
 
         $allowFuture = $this->getAttribute('allowFuture', 'true');
 
         if ($allowFuture !== 'true') {
-            $query->where('pp.startDate <= CURDATE()');
+            $query->where('term.startDate <= CURDATE()');
         }
 
-        $query->order('pp.startDate DESC');
+        $query->order('term.startDate DESC');
         $dbo->setQuery($query);
 
-        $planningPeriods = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($planningPeriods)) {
+        $terms = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($terms)) {
             return $baseOptions;
         }
 
         $options = [];
-        foreach ($planningPeriods as $planningPeriod) {
+        foreach ($terms as $term) {
 
-            $options[] = HTML::_('select.option', $planningPeriod['id'], $planningPeriod['name']);
+            $options[] = HTML::_('select.option', $term['id'], $term['name']);
 
         }
 

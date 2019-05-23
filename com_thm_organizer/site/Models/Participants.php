@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 use Organizer\Helpers\Languages;
 
 /**
- * Class retrieves information for a filtered set of plan (subject) pools.
+ * Class retrieves information for a filtered set of participants.
  */
 class Participants extends ListModel
 {

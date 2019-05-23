@@ -25,13 +25,13 @@ class Program_Ajax extends BaseModel
     /**
      * Gets the program options as a string
      *
-     * @return string the concatenated plan program options
+     * @return string the concatenated category options
      */
     public function getPlanOptions()
     {
-        $planOptions = Categories::getCategories();
+        $categoryOptions = Categories::getCategories();
 
-        return json_encode($planOptions);
+        return json_encode($categoryOptions);
     }
 
     /**

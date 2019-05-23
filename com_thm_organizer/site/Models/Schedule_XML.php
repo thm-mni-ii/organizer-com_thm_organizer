@@ -13,6 +13,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Organizer\Helpers\Categories;
+use Organizer\Helpers\Courses;
 use Organizer\Helpers\Descriptions;
 use Organizer\Helpers\Grids;
 use Organizer\Helpers\Groups;
@@ -20,7 +21,6 @@ use Organizer\Helpers\Languages;
 use Organizer\Helpers\Lessons;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\Schedules;
-use Organizer\Helpers\Subjects;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -108,13 +108,13 @@ class Schedule_XML extends BaseModel
 
         $this->schedule->departmentID = $form['departmentID'];
 
-        // Planning period start & end dates
+        // Term start & end dates
         $startDate = trim((string)$xmlSchedule->general->termbegindate);
         $this->validateDateAttribute('startDate', $startDate, 'TERM_START_DATE');
         $endDate = trim((string)$xmlSchedule->general->termenddate);
         $this->validateDateAttribute('endDate', $endDate, 'TERM_END_DATE');
 
-        // Checks if planning period and school year dates are consistent
+        // Checks if term and school year dates are consistent
         $startTimeStamp = strtotime($startDate);
         $endTimeStamp   = strtotime($endDate);
         $invalidStart   = $startTimeStamp < strtotime($syStartDate);
@@ -123,11 +123,11 @@ class Schedule_XML extends BaseModel
         $invalid        = ($invalidStart or $invalidEnd or $invalidPeriod);
 
         if ($invalid) {
-            $this->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_TERM_WRONG');
+            $this->scheduleErrors[] = Languages::_('THM_ORGANIZER_INVALID_TERM');
         } elseif ($validSemesterName) {
-            $planningPeriodID = Schedules::getPlanningPeriodID($semesterName, $startTimeStamp, $endTimeStamp);
+            $termID = Schedules::getTermID($semesterName, $startTimeStamp, $endTimeStamp);
 
-            $this->schedule->planningPeriodID = $planningPeriodID;
+            $this->schedule->termID = $termID;
         }
 
         Grids::validateCollection($this, $xmlSchedule);
@@ -135,7 +135,7 @@ class Schedule_XML extends BaseModel
         Categories::validateCollection($this, $xmlSchedule);
         Groups::validateCollection($this, $xmlSchedule);
         Rooms::validateCollection($this, $xmlSchedule);
-        Subjects::validateCollection($this, $xmlSchedule);
+        Courses::validateCollection($this, $xmlSchedule);
         Teachers::validateCollection($this, $xmlSchedule);
 
         $this->schedule->calendar = new \stdClass;
@@ -158,7 +158,7 @@ class Schedule_XML extends BaseModel
             $this->schedule->fields,
             $this->schedule->methods,
             $this->schedule->periods,
-            $this->schedule->pools,
+            $this->schedule->groups,
             $this->schedule->programs,
             $this->schedule->room_types,
             $this->schedule->rooms,

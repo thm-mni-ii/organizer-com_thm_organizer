@@ -27,7 +27,7 @@ class Room_Statistics extends BaseView
 
     public $timePeriods;
 
-    public $planningPeriods;
+    public $terms;
 
     public $departments;
 

@@ -32,14 +32,14 @@ class Fields extends ListModel
 
         // Create the query
         $query  = $this->_db->getQuery(true);
-        $select = "f.id, gpuntisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
+        $select = "f.id, untisID, f.field_$shortTag AS field, c.name_$shortTag AS name, c.color, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=field_edit&id='", 'f.id'];
         $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
         $query->from('#__thm_organizer_fields AS f');
         $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $this->setSearchFilter($query, ['field_de', 'field_en', 'gpuntisID', 'color']);
+        $this->setSearchFilter($query, ['field_de', 'field_en', 'untisID', 'color']);
         $this->setValueFilters($query, ['colorID']);
         $this->setLocalizedFilters($query, ['field']);
 

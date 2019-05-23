@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Categories;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Pools;
-use Organizer\Helpers\Programs;
+use Organizer\Helpers\Groups;
 use Organizer\Helpers\Fields;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\Subjects;
@@ -108,8 +108,8 @@ class Schedule_Grid extends BaseModel
 
         $this->params                  = [];
         $this->params['departmentID']  = $departmentID;
-        $this->params['showPrograms']  = $input->getInt('showPrograms', (int)$params->get('showPrograms', 1));
-        $this->params['showPools']     = $input->getInt('showPools', (int)$params->get('showPools', 1));
+        $this->params['showCategories']  = $input->getInt('showCategories', (int)$params->get('showCategories', 1));
+        $this->params['showGroups']     = $input->getInt('showGroups', (int)$params->get('showGroups', 1));
         $this->params['showRooms']     = $input->getInt('showRooms', (int)$params->get('showRooms', 1));
         $this->params['showRoomTypes'] = $input->getInt('showRoomTypes', (int)$params->get('showRoomTypes', 1));
         $this->params['showSubjects']  = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
@@ -132,20 +132,20 @@ class Schedule_Grid extends BaseModel
         $setTitle = empty($this->displayName);
 
         // Explicit setting of resources is done in the priority of resource type and is mutually exclusive
-        if ($this->params['showPools']) {
-            $this->setResourceArray('pool');
+        if ($this->params['showGroups']) {
+            $this->setResourceArray('group');
         }
 
-        if (!empty($this->params['poolIDs'])) {
+        if (!empty($this->params['groupIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showPrograms']    = 0;
+            $this->params['showCategories']    = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
 
-            if (count($this->params['poolIDs']) === 1 and $setTitle) {
-                $this->displayName           = Pools::getFullName($this->params['poolIDs'][0]);
+            if (count($this->params['groupIDs']) === 1 and $setTitle) {
+                $this->displayName           = Groups::getFullName($this->params['groupIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 
@@ -158,8 +158,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['teacherIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showPools']       = 0;
-            $this->params['showPrograms']    = 0;
+            $this->params['showGroups']       = 0;
+            $this->params['showCategories']    = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showSubjects']    = 0;
@@ -178,8 +178,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['roomIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showPools']       = 0;
-            $this->params['showPrograms']    = 0;
+            $this->params['showGroups']       = 0;
+            $this->params['showCategories']    = 0;
             $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
 
@@ -197,8 +197,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['roomTypeIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showPools']       = 0;
-            $this->params['showPrograms']    = 0;
+            $this->params['showGroups']       = 0;
+            $this->params['showCategories']    = 0;
             $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
 
@@ -216,8 +216,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['subjectIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showPools']       = 0;
-            $this->params['showPrograms']    = 0;
+            $this->params['showGroups']       = 0;
+            $this->params['showCategories']    = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
@@ -226,10 +226,7 @@ class Schedule_Grid extends BaseModel
             $singleValue                = array_shift($this->params['subjectIDs']);
             $this->params['subjectIDs'] = [$singleValue];
 
-            $this->displayName           = Subjects::getName(
-                $this->params['subjectIDs'][0],
-                'plan'
-            );
+            $this->displayName           = Courses::getName($this->params['subjectIDs'][0]);
             $this->params['displayName'] = $this->displayName;
 
             return;
@@ -239,32 +236,32 @@ class Schedule_Grid extends BaseModel
         $this->setResourceArray('lesson');
         if (!empty($this->params['lessonIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showPools']       = 0;
-            $this->params['showPrograms']    = 0;
+            $this->params['showGroups']       = 0;
+            $this->params['showCategories']    = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
 
-            $this->displayName           = Courses::getName($this->params['lessonIDs'][0]);
+            $this->displayName           = Courses::getNameByLessonID($this->params['lessonIDs'][0]);
             $this->params['displayName'] = $this->displayName;
 
             return;
         }
 
-        // Program as the last setting, because the others lead directly to a schedule and program is just a form value
-        if ($this->params['showPrograms']) {
-            $this->setResourceArray('program');
+        // Program as the last setting, because the others lead directly to a schedule and category is just a form value
+        if ($this->params['showCategories']) {
+            $this->setResourceArray('category');
         }
 
-        if (!empty($this->params['programIDs'])) {
+        if (!empty($this->params['categoryIDs'])) {
             $this->params['showDepartments'] = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
 
-            if (count($this->params['programIDs']) === 1 and $setTitle) {
-                $this->displayName           = Programs::getName(
-                    $this->params['programIDs'][0],
+            if (count($this->params['categoryIDs']) === 1 and $setTitle) {
+                $this->displayName           = Categories::getName(
+                    $this->params['categoryIDs'][0],
                     'plan'
                 );
                 $this->params['displayName'] = $this->displayName;

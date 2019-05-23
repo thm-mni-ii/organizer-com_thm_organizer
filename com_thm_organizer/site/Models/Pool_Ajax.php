@@ -59,13 +59,13 @@ class Pool_Ajax extends BaseModel
     /**
      * Gets the pool options as a string
      *
-     * @return string the concatenated plan pool options
+     * @return string the concatenated group options
      */
     public function getPlanOptions()
     {
-        $planOptions = Groups::getOptions();
+        $groupOptions = Groups::getOptions();
 
-        return json_encode($planOptions);
+        return json_encode($groupOptions);
     }
 
     /**

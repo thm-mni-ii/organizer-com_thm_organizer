@@ -15,6 +15,7 @@ jimport('tcpdf.tcpdf');
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Terms;
 
 /**
  * Base PDF export class used for the generation of various course exports.
@@ -71,13 +72,13 @@ abstract class THM_OrganizerTemplateCourse_Export
         }
 
         // Preparatory course 'semesters' are the semesters they are preparing for, not the actual semesters
-        if (!empty($course['is_prep_course']) and !empty($course['planningPeriodID'])) {
-            $nextPPID = Planning_Periods::getNextID($course['planningPeriodID']);
+        if (!empty($course['is_prep_course']) and !empty($course['termID'])) {
+            $nextPPID = Terms::getNextID($course['termID']);
 
-            $this->course['planningPeriodName'] = empty($nextPPID) ?
-                $course['planningPeriodName'] : Planning_Periods::getName($nextPPID);
+            $this->course['termName'] = empty($nextPPID) ?
+                $course['termName'] : Terms::getName($nextPPID);
         } else {
-            $this->course['planningPeriodName'] = $course['planningPeriodName'];
+            $this->course['termName'] = $course['termName'];
         }
 
         $this->document = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);

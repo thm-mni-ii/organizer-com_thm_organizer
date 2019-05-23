@@ -13,9 +13,9 @@ namespace Organizer\Tables;
 defined('_JEXEC') or die;
 
 /**
- * Class instantiates a Table Object associated with the planning_periods table.
+ * Class instantiates a Table Object associated with the events table.
  */
-class Planning_Periods extends BaseTable
+class Courses extends BaseTable
 {
     /**
      * Declares the associated table
@@ -24,6 +24,6 @@ class Planning_Periods extends BaseTable
      */
     public function __construct(&$dbo)
     {
-        parent::__construct('#__thm_organizer_planning_periods', 'id', $dbo);
+        parent::__construct('#__thm_organizer_courses', 'id', $dbo);
     }
 }

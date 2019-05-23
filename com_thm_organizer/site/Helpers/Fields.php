@@ -30,7 +30,7 @@ class Fields implements ResourceCategory
     public static function setID(&$scheduleModel, $untisID)
     {
         $table  = OrganizerHelper::getTable('Fields');
-        $data   = ['gpuntisID' => $untisID];
+        $data   = ['untisID' => $untisID];
         $exists = $table->load($data);
 
         if ($exists) {

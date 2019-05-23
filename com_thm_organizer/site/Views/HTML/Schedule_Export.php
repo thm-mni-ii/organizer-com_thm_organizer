@@ -31,7 +31,7 @@ class Schedule_Export extends BaseHTMLView
 
     public $fields = [];
 
-    public $planningPeriods;
+    public $terms;
 
     public $pools;
 
@@ -113,7 +113,7 @@ class Schedule_Export extends BaseHTMLView
 
         // Departments
         $deptAttribs                     = [];
-        $deptAttribs['onChange']         = 'repopulatePrograms();repopulateResources();';
+        $deptAttribs['onChange']         = 'repopulateCategories();repopulateResources();';
         $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
 
         $departmentOptions = $this->model->getDepartmentOptions();
@@ -125,18 +125,17 @@ class Schedule_Export extends BaseHTMLView
             'input'       => $departmentSelect
         ];
 
-        // Programs
-        $programAttribs = [
+        $categoryAttribs = [
             'multiple'         => 'multiple',
             'onChange'         => 'repopulateResources();',
             'data-placeholder' => Languages::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER')
         ];
-        $programSelect  = HTML::selectBox([], 'programIDs', $programAttribs);
+        $categorySelect  = HTML::selectBox([], 'categoryIDs', $categoryAttribs);
 
-        $this->fields['filterFields']['programIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_PROGRAMS'),
-            'description' => Languages::_('THM_ORGANIZER_PROGRAMS_EXPORT_DESC'),
-            'input'       => $programSelect
+        $this->fields['filterFields']['categoryIDs'] = [
+            'label'       => Languages::_('THM_ORGANIZER_CATEGORIES'),
+            'description' => Languages::_('THM_ORGANIZER_CATEGORIES_TITLE'),
+            'input'       => $categorySelect
         ];
     }
 

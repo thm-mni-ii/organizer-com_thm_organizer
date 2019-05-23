@@ -15,7 +15,7 @@ $menuID = OrganizerHelper::getInput()->getInt('Itemid');
 
 $departmentID = $this->state->get('departmentID');
 $periodID     = $this->state->get('periodID');
-$programID    = $this->state->get('programID');
+$categoryID   = $this->state->get('categoryID');
 $showTable    = (!empty($this->columns) and !empty($this->rows));
 
 ?>
@@ -29,7 +29,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
         <input type="hidden" name="option" value="com_thm_organizer">
         <input type="hidden" name="view" value="lesson_statistics">
         <input type='hidden' name='Itemid' value='<?php echo $menuID; ?>'>
-        <?php echo $this->form->getField('planningPeriodID')->input; ?>
+        <?php echo $this->form->getField('termID')->input; ?>
         <?php echo $this->form->getField('departmentID')->input; ?>
         <?php echo $this->form->getField('programID')->input; ?>
     </form>

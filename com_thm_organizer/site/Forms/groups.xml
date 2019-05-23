@@ -7,7 +7,7 @@
             <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
             <option value="-1">THM_ORGANIZER_NO_DEPARTMENTS</option>
         </field>
-        <field name="programID" type="categoryID" valuecolumn="id" textcolumn="name" departmentRestrict="force"
+        <field name="categoryID" type="categoryID" valuecolumn="id" textcolumn="name" departmentRestrict="force"
                access="true" table="thm_organizer_plan_programs" label="THM_ORGANIZER_CATEGORY"
                onchange="this.form.submit();">
             <option value="">THM_ORGANIZER_ALL_CATEGORIES</option>

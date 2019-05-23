@@ -50,8 +50,8 @@ class Schedules extends BaseTable
 
         $termQuery = $dbo->getQuery(true);
         $termQuery->select('name')
-            ->from('#__thm_organizer_planning_periods')
-            ->where("id = '{$this->planningPeriodID}'");
+            ->from('#__thm_organizer_terms')
+            ->where("id = '{$this->termID}'");
 
         $dbo->setQuery($termQuery);
         $termName = (string)OrganizerHelper::executeQuery('loadResult');

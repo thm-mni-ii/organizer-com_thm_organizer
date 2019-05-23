@@ -5,8 +5,8 @@ jQuery(document).ready(function () {
     'use strict';
 
     var department = jQuery('#jform_params_departmentID'),
-        program = jQuery('#jform_params_programIDs'),
-        pool = jQuery('#jform_params_poolIDs'),
+        category = jQuery('#jform_params_categoryIDs'),
+        group = jQuery('#jform_params_groupIDs'),
         room = jQuery('#jform_params_roomIDs');
 
     // init loading
@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
     }
 
     department.change(update);
-    program.change(update);
+    category.change(update);
 
     /**
      * All values get filtered by department/program through Ajax
@@ -26,21 +26,21 @@ jQuery(document).ready(function () {
     function update(event)
     {
         var ajaxBaseUrl = '../index.php?option=com_thm_organizer&format=json',
-            ajaxParams = '&departmentIDs=' + department.val() + '&programIDs=' + (program.val() || ''),
+            ajaxParams = '&departmentIDs=' + department.val() + '&categoryIDs=' + (category.val() || ''),
             keepValue = !event;
 
         // Update programs, when it is not its own trigger
-        if (!event || (event && event.target.id !== program.attr('id')))
+        if (!event || (event && event.target.id !== category.attr('id')))
         {
             jQuery.ajax(ajaxBaseUrl + '&view=categories&task=getOptions' + ajaxParams)
                 .done(function (request) {
-                    insertOptions(program, request, keepValue);
+                    insertOptions(category, request, keepValue);
                 });
         }
         // Update pools
         jQuery.ajax(ajaxBaseUrl + '&view=groups&task=getOptions' + ajaxParams)
             .done(function (request) {
-                insertOptions(pool, request, keepValue);
+                insertOptions(group, request, keepValue);
             });
         // Update rooms
         jQuery.ajax(ajaxBaseUrl + '&view=rooms&task=getOptions&roomtypeIDs=-1' + ajaxParams)

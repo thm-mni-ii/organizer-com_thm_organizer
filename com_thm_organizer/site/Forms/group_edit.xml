@@ -6,10 +6,10 @@
                description="THM_ORGANIZER_NAME_DESC" required="true"/>
         <field name="name" type="text" class="inputbox" size="40" label="THM_ORGANIZER_SHORT_NAME"
                description="THM_ORGANIZER_SHORT_NAME_DESC" required="true"/>
-        <field name="gpuntisID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_GPUNTISID"
-               description="THM_ORGANIZER_GPUNTISID_DESC" readonly="true"/>
-        <field name="programID" type="genericlist" valuecolumn="id" textcolumn="name"
-               table="thm_organizer_plan_programs" label="THM_ORGANIZER_PROGRAM" required="true"/>
+        <field name="untisID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_UNTISID"
+               description="THM_ORGANIZER_UNTISID_DESC" readonly="true"/>
+        <field name="categoryID" type="genericlist" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_categories" label="THM_ORGANIZER_PROGRAM" required="true"/>
         <field name="publishing" type="termPublishing" label="THM_ORGANIZER_PUBLISHING"
                description="THM_ORGANIZER_PERIOD_PUBLISHING_DESC" required="true"/>
         <field name="gridID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"

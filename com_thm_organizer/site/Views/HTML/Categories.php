@@ -62,7 +62,7 @@ class Categories extends ListView
         $headers   = [];
 
         $headers['checkbox']  = '';
-        $headers['gpuntisID'] = HTML::sort('GPUNTISID', 'ppr.gpuntisID', $direction, $ordering);
+        $headers['untisID'] = HTML::sort('UNTISID', 'ppr.untisID', $direction, $ordering);
         $headers['name']      = HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
 
         return $headers;
@@ -85,7 +85,7 @@ class Categories extends ListView
         foreach ($this->items as $item) {
             $processedItems[$index]              = [];
             $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['gpuntisID'] = HTML::_('link', $item->link, $item->gpuntisID);
+            $processedItems[$index]['untisID'] = HTML::_('link', $item->link, $item->untisID);
             $processedItems[$index]['name']      = HTML::_('link', $item->link, $item->name);
             $index++;
         }

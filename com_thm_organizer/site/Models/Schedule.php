@@ -62,7 +62,7 @@ class Schedule extends BaseModel
         $jsonModel = new Schedule_JSON;
 
         // No access checks for the reference schedule, because access rights are inherited through the department.
-        $reference = $this->getScheduleRow($active->departmentID, $active->planningPeriodID);
+        $reference = $this->getScheduleRow($active->departmentID, $active->termID);
 
         if (empty($reference) or empty($reference->id)) {
             $jsonModel->save($active->schedule);
@@ -155,13 +155,13 @@ class Schedule extends BaseModel
      * Gets a schedule row for referencing.
      *
      * @param int $departmentID     the department id of the reference row
-     * @param int $planningPeriodID the planning period id of the reference row
+     * @param int $termID the term id of the reference row
      *
      * @return mixed  object if successful, otherwise null
      */
-    private function getScheduleRow($departmentID = null, $planningPeriodID = null)
+    private function getScheduleRow($departmentID = null, $termID = null)
     {
-        if (empty($departmentID) or empty($planningPeriodID)) {
+        if (empty($departmentID) or empty($termID)) {
 
             // called from activate or set reference => table id in request
             $listIDs = OrganizerHelper::getSelectedIDs();
@@ -179,7 +179,7 @@ class Schedule extends BaseModel
         } else {
             $pullData = [
                 'departmentID'     => $departmentID,
-                'planningPeriodID' => $planningPeriodID,
+                'termID' => $termID,
                 'active'           => 1
             ];
         }
@@ -278,7 +278,7 @@ class Schedule extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $active = $this->getScheduleRow($reference->departmentID, $reference->planningPeriodID);
+        $active = $this->getScheduleRow($reference->departmentID, $reference->termID);
 
         if (empty($active)) {
             return true;
@@ -350,11 +350,11 @@ class Schedule extends BaseModel
         $new->set('creationDate', $this->schedule->creationDate);
         $new->set('creationTime', $this->schedule->creationTime);
         $new->set('departmentID', $this->schedule->departmentID);
-        $new->set('planningPeriodID', $this->schedule->planningPeriodID);
+        $new->set('termID', $this->schedule->termID);
         $new->set('schedule', json_encode($this->schedule));
         $new->set('userID', Factory::getUser()->id);
 
-        $reference = $this->getScheduleRow($new->departmentID, $new->planningPeriodID);
+        $reference = $this->getScheduleRow($new->departmentID, $new->termID);
         $jsonModel = new Schedule_JSON;
 
         if (empty($reference) or empty($reference->id)) {

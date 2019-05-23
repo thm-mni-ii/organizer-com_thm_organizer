@@ -24,7 +24,7 @@ class Lessons implements XMLValidator
      *
      * @param object &$scheduleModel the validating schedule model
      * @param int     $lessonID      the id of the lesson being iterated
-     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param int     $courseID      the id of the subject associated with this lesson unit
      * @param int     $teacherID     the id of the teacher associated with this lesson unit
      * @param string  $currentDate   the date being iterated
      * @param object  $period        the period information from the grid
@@ -35,7 +35,7 @@ class Lessons implements XMLValidator
     private static function processInstance(
         &$scheduleModel,
         $lessonID,
-        $subjectID,
+        $courseID,
         $teacherID,
         $currentDate,
         $period,
@@ -57,13 +57,13 @@ class Lessons implements XMLValidator
             $scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations = [];
         }
 
-        $config                         = new stdClass;
-        $config->lessonID               = $lessonID;
-        $config->subjectID              = $subjectID;
-        $config->teachers               = new stdClass;
-        $config->teachers->{$teacherID} = '';
-        $config->rooms                  = $roomIDs;
-        $existingIndex                  = null;
+        $config                       = new stdClass;
+        $config->lessonID             = $lessonID;
+        $config->courseID             = $courseID;
+        $config->teachers             = new stdClass;
+        $config->teachers->$teacherID = '';
+        $config->rooms                = $roomIDs;
+        $existingIndex                = null;
 
         if (!empty($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations)) {
             $compConfig = null;
@@ -71,7 +71,7 @@ class Lessons implements XMLValidator
             foreach ($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex) {
                 $tempConfig = json_decode($scheduleModel->schedule->configurations[$configIndex]);
 
-                if ($tempConfig->subjectID == $subjectID) {
+                if ($tempConfig->courseID == $courseID) {
                     $compConfig    = $tempConfig;
                     $existingIndex = $configIndex;
                     break;
@@ -130,7 +130,7 @@ class Lessons implements XMLValidator
      * @param object &$scheduleModel the validating schedule model
      * @param int     $lessonID      the id of the lesson being iterated
      * @param string  $lessonName    the name of the lesson as used for error reporting
-     * @param array   $pools         the pools associated with the lesson unit
+     * @param array   $groups        the groups associated with the lesson unit
      * @param string  $currentDT     the timestamp of the date being iterated
      * @param string  $period        the value of the period attribute
      *
@@ -140,17 +140,17 @@ class Lessons implements XMLValidator
         &$scheduleModel,
         $lessonID,
         $lessonName,
-        $pools,
+        $groups,
         $currentDT,
         $period
     ) {
-        $pools        = implode(', ', $pools);
+        $groups       = implode(', ', $groups);
         $dow          = strtoupper(date('l', $currentDT));
         $localizedDoW = Languages::_($dow);
         $error        = sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_ROOM'),
             $lessonName,
             $lessonID,
-            $pools,
+            $groups,
             $localizedDoW,
             $period
         );
@@ -241,20 +241,20 @@ class Lessons implements XMLValidator
         }
 
         $lessonName = '';
-        $subjectID  = '';
-        if (!self::validateSubject($scheduleModel, $node, $lessonID, $subjectID, $lessonName)) {
+        $courseID   = '';
+        if (!self::validateSubject($scheduleModel, $node, $lessonID, $courseID, $lessonName)) {
             return;
         }
 
         self::validateMethod($scheduleModel, $node, $lessonID, $lessonName);
 
-        $pools = [];
-        if (!self::validatePools($scheduleModel, $node, $lessonID, $lessonName, $subjectID, $pools)) {
+        $groups = [];
+        if (!self::validateGroups($scheduleModel, $node, $lessonID, $lessonName, $courseID, $groups)) {
             return;
         }
 
         $teacherID = '';
-        if (!self::validateTeacher($scheduleModel, $node, $lessonID, $lessonName, $subjectID, $teacherID)) {
+        if (!self::validateTeacher($scheduleModel, $node, $lessonID, $lessonName, $courseID, $teacherID)) {
             return;
         }
 
@@ -290,9 +290,9 @@ class Lessons implements XMLValidator
             $scheduleModel,
             $lessonID,
             $lessonName,
-            $subjectID,
+            $courseID,
             $teacherID,
-            $pools,
+            $groups,
             $potentialInstances,
             $startDT,
             $times,
@@ -331,13 +331,13 @@ class Lessons implements XMLValidator
      * @param object &$scheduleModel the validating schedule model
      * @param object &$node          the lesson node
      * @param int     $lessonID      the id of the lesson being iterated
-     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param int     $courseID      the id of the subject associated with this lesson unit
      * @param string &$lessonName    the name of the lesson as used for error reporting
      *
      * @return mixed  string the name of the lesson (subjects) on success,
      *                 otherwise boolean false
      */
-    private static function validateSubject(&$scheduleModel, &$node, $lessonID, &$subjectID, &$lessonName)
+    private static function validateSubject(&$scheduleModel, &$node, $lessonID, &$courseID, &$lessonName)
     {
         $lessonName = str_replace('SU_', '', trim((string)$node->lesson_subject[0]['id']));
 
@@ -350,7 +350,7 @@ class Lessons implements XMLValidator
 
         $subjectIndex = $scheduleModel->schedule->departmentname . "_" . $lessonName;
 
-        if (empty($scheduleModel->schedule->subjects->$subjectIndex)) {
+        if (empty($scheduleModel->schedule->courses->$subjectIndex)) {
             $scheduleModel->scheduleErrors[] =
                 sprintf(
                     Languages::_('THM_ORGANIZER_ERROR_LESSON_SUBJECT_LACKING'),
@@ -361,21 +361,21 @@ class Lessons implements XMLValidator
             return false;
         }
 
-        if (!isset($scheduleModel->schedule->lessons->{$lessonID}->subjects)) {
-            $scheduleModel->schedule->lessons->{$lessonID}->subjects = new stdClass;
+        if (!isset($scheduleModel->schedule->lessons->{$lessonID}->courses)) {
+            $scheduleModel->schedule->lessons->{$lessonID}->courses = new stdClass;
         }
 
-        // Used in configurations, teachers and pools
-        $subjectID = $scheduleModel->schedule->subjects->$subjectIndex->id;
+        // Used in configurations, teachers and groups
+        $courseID = $scheduleModel->schedule->courses->$subjectIndex->id;
 
-        if (!isset($scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID)) {
+        if (!isset($scheduleModel->schedule->lessons->$lessonID->courses->$courseID)) {
             $newSubject            = new stdClass;
             $newSubject->delta     = '';
-            $newSubject->subjectNo = $scheduleModel->schedule->subjects->$subjectIndex->subjectNo;
-            $newSubject->pools     = new stdClass;
+            $newSubject->subjectNo = $scheduleModel->schedule->courses->$subjectIndex->subjectNo;
+            $newSubject->groups    = new stdClass;
             $newSubject->teachers  = new stdClass;
 
-            $scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID = $newSubject;
+            $scheduleModel->schedule->lessons->$lessonID->courses->$courseID = $newSubject;
         }
 
         return true;
@@ -418,14 +418,14 @@ class Lessons implements XMLValidator
      * @param object &$node          the lesson node
      * @param int     $lessonID      the id of the lesson being iterated
      * @param string  $lessonName    the name of the lesson as used for error reporting
-     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param int     $courseID      the id of the subject associated with this lesson unit
      * @param int    &$teacherID     the id of the teacher associated with this lesson unit
      *
      * @return boolean  true if valid, otherwise false
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    private static function validateTeacher(&$scheduleModel, &$node, $lessonID, $lessonName, $subjectID, &$teacherID)
+    private static function validateTeacher(&$scheduleModel, &$node, $lessonID, $lessonName, $courseID, &$teacherID)
     {
         $untisID = str_replace('TR_', '', trim((string)$node->lesson_teacher[0]['id']));
 
@@ -450,36 +450,36 @@ class Lessons implements XMLValidator
             return false;
         }
 
-        if (!empty($subjectID)) {
+        if (!empty($courseID)) {
             $teacherID = $scheduleModel->schedule->teachers->$untisID->id;
 
-            $scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID->teachers->$teacherID = '';
+            $scheduleModel->schedule->lessons->$lessonID->courses->$courseID->teachers->$teacherID = '';
         }
 
         return true;
     }
 
     /**
-     * Validates the pools attribute and sets corresponding schedule elements
+     * Validates the groups attribute and sets corresponding schedule elements
      *
      * @param object &$scheduleModel the validating schedule model
      * @param object &$node          the lesson node
      * @param int     $lessonID      the id of the lesson being iterated
      * @param string  $lessonName    the name of the lesson as used for error reporting
-     * @param int     $subjectID     the id of the subject associated with this lesson unit
-     * @param array  &$pools         the untis ids of the pools associated with the lesson for error reporting
+     * @param int     $courseID      the id of the subject associated with this lesson unit
+     * @param array  &$groups        the untis ids of the groups associated with the lesson for error reporting
      *
      * @return boolean  true if valid, otherwise false
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    private static function validatePools(&$scheduleModel, &$node, $lessonID, $lessonName, $subjectID, &$pools)
+    private static function validateGroups(&$scheduleModel, &$node, $lessonID, $lessonName, $courseID, &$groups)
     {
         $rawUntisIDs = str_replace('CL_', '', (string)$node->lesson_classes[0]['id']);
 
         if (empty($rawUntisIDs)) {
             $scheduleModel->scheduleErrors[] =
-                sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_POOL'), $lessonName, $lessonID);
+                sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_GROUP'), $lessonName, $lessonID);
 
             return false;
         }
@@ -487,11 +487,11 @@ class Lessons implements XMLValidator
         $untisIDs = explode(" ", $rawUntisIDs);
 
         foreach ($untisIDs as $untisID) {
-            if (empty($scheduleModel->schedule->pools->$untisID)
-                or empty($scheduleModel->schedule->pools->$untisID->id)) {
+            if (empty($scheduleModel->schedule->groups->$untisID)
+                or empty($scheduleModel->schedule->groups->$untisID->id)) {
                 $scheduleModel->scheduleErrors[] =
                     sprintf(
-                        Languages::_('THM_ORGANIZER_ERROR_LESSON_POOL_LACKING'),
+                        Languages::_('THM_ORGANIZER_LESSON_GROUP_LACKING'),
                         $lessonName,
                         $lessonID,
                         $untisID
@@ -500,13 +500,13 @@ class Lessons implements XMLValidator
                 continue;
             }
 
-            $poolID = $scheduleModel->schedule->pools->$untisID->id;
+            $groupID = $scheduleModel->schedule->groups->$untisID->id;
 
-            $scheduleModel->schedule->lessons->$lessonID->subjects->$subjectID->pools->$poolID = '';
-            $pools[$untisID] = $untisID;
+            $scheduleModel->schedule->lessons->$lessonID->courses->$courseID->groups->$groupID = '';
+            $groups[$untisID]                                                                  = $untisID;
         }
 
-        return empty($pools) ? false : true;
+        return empty($groups) ? false : true;
     }
 
     /**
@@ -622,9 +622,9 @@ class Lessons implements XMLValidator
      * @param object &$scheduleModel      the validating schedule model
      * @param int     $lessonID           the id of the lesson being iterated
      * @param string  $lessonName         the name of the lesson as used for error reporting
-     * @param int     $subjectID          the id of the subject associated with this lesson unit
+     * @param int     $courseID           the id of the subject associated with this lesson unit
      * @param int     $teacherID          the id of the teacher associated with this lesson unit
-     * @param array   $pools              the pools associated with the lesson unit
+     * @param array   $groups             the groups associated with the lesson unit
      * @param array   $potentialInstances an array of 'occurrences'
      * @param int     $currentDT          the starting timestamp
      * @param array  &$instances          the object containing the instances
@@ -636,9 +636,9 @@ class Lessons implements XMLValidator
         $scheduleModel,
         $lessonID,
         $lessonName,
-        $subjectID,
+        $courseID,
         $teacherID,
-        $pools,
+        $groups,
         $potentialInstances,
         $currentDT,
         &$instances,
@@ -662,9 +662,9 @@ class Lessons implements XMLValidator
                     $scheduleModel,
                     $lessonID,
                     $lessonName,
-                    $subjectID,
+                    $courseID,
                     $teacherID,
-                    $pools,
+                    $groups,
                     $instance,
                     $currentDT,
                     $grid)
@@ -685,9 +685,9 @@ class Lessons implements XMLValidator
      * @param object &$scheduleModel the validating schedule model
      * @param int     $lessonID      the id of the lesson being iterated
      * @param string  $lessonName    the name of the lesson as used for error reporting
-     * @param int     $subjectID     the id of the subject associated with this lesson unit
+     * @param int     $courseID      the id of the subject associated with this lesson unit
      * @param int     $teacherID     the id of the teacher associated with this lesson unit
-     * @param array   $pools         the untis ids of the pools associated with the lesson for error reporting
+     * @param array   $groups        the untis ids of the groups associated with the lesson for error reporting
      * @param object &$instance      the lesson instance
      * @param int     $currentDT     the current date time in the iteration
      * @param string  $grid          the grid used by the lesson
@@ -698,9 +698,9 @@ class Lessons implements XMLValidator
         &$scheduleModel,
         $lessonID,
         $lessonName,
-        $subjectID,
+        $courseID,
         $teacherID,
-        $pools,
+        $groups,
         &$instance,
         $currentDT,
         $grid
@@ -724,13 +724,13 @@ class Lessons implements XMLValidator
         $roomAttribute = trim((string)$instance->assigned_room[0]['id']);
 
         if (empty($roomAttribute)) {
-            self::createMissingRoomMessage($scheduleModel, $lessonID, $lessonName, $pools, $currentDT, $periodNo);
+            self::createMissingRoomMessage($scheduleModel, $lessonID, $lessonName, $groups, $currentDT, $periodNo);
 
             return false;
         }
 
         $roomIDs = self::validateRooms(
-            $scheduleModel, $lessonID, $lessonName, $pools, $roomAttribute, $currentDT, $periodNo
+            $scheduleModel, $lessonID, $lessonName, $groups, $roomAttribute, $currentDT, $periodNo
         );
 
         if ($roomIDs === false) {
@@ -739,7 +739,7 @@ class Lessons implements XMLValidator
 
         $currentDate = date('Y-m-d', $currentDT);
         $period      = $scheduleModel->schedule->periods->$grid->$periodNo;
-        self::processInstance($scheduleModel, $lessonID, $subjectID, $teacherID, $currentDate, $period, $roomIDs);
+        self::processInstance($scheduleModel, $lessonID, $courseID, $teacherID, $currentDate, $period, $roomIDs);
 
         return true;
     }
@@ -750,7 +750,7 @@ class Lessons implements XMLValidator
      * @param object &$scheduleModel the validating schedule model
      * @param int     $lessonID      the id of the lesson being iterated
      * @param string  $lessonName    the name of the lesson as used for error reporting
-     * @param array   $pools         the untis ids of the pools associated with the lesson for error reporting
+     * @param array   $groups        the untis ids of the groups associated with the lesson for error reporting
      * @param string  $roomAttribute the room attribute
      * @param int     $currentDT     the timestamp of the date being iterated
      * @param string  $period        the period attribute
@@ -761,7 +761,7 @@ class Lessons implements XMLValidator
         &$scheduleModel,
         $lessonID,
         $lessonName,
-        $pools,
+        $groups,
         $roomAttribute,
         $currentDT,
         $period
@@ -774,12 +774,12 @@ class Lessons implements XMLValidator
             if (!isset($scheduleModel->schedule->rooms->$roomUntisID)
                 or empty($scheduleModel->schedule->rooms->$roomUntisID->id)) {
 
-                $pools        = implode(', ', $pools);
+                $groups       = implode(', ', $groups);
                 $dow          = strtoupper(date('l', $currentDT));
                 $localizedDoW = Languages::_($dow);
                 $error        = sprintf(
                     Languages::_('THM_ORGANIZER_ERROR_LESSON_ROOM_LACKING'),
-                    $lessonName, $lessonID, $pools, $localizedDoW, $period, $roomUntisID
+                    $lessonName, $lessonID, $groups, $localizedDoW, $period, $roomUntisID
                 );
                 if (!in_array($error, $scheduleModel->scheduleErrors)) {
                     $scheduleModel->scheduleErrors[] = $error;

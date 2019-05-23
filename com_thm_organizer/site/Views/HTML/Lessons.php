@@ -70,14 +70,14 @@ class Lessons extends ListView
      */
     public function getHeaders()
     {
-        $direction                 = $this->state->get('list.direction');
-        $headers                   = [];
-        $headers['checkbox']       = '';
-        $headers['name']           = HTML::sort('NAME', 'name', $direction, 'name');
-        $headers['department']     = Languages::_('THM_ORGANIZER_DEPARTMENT');
-        $headers['planningPeriod'] = Languages::_('THM_ORGANIZER_PLANNING_PERIOD');
-        $headers['status']         = Languages::_('THM_ORGANIZER_STATE');
-        $headers['campus']         = Languages::_('THM_ORGANIZER_CAMPUS');
+        $direction             = $this->state->get('list.direction');
+        $headers               = [];
+        $headers['checkbox']   = '';
+        $headers['name']       = HTML::sort('NAME', 'name', $direction, 'name');
+        $headers['department'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
+        $headers['term']       = Languages::_('THM_ORGANIZER_TERM');
+        $headers['status']     = Languages::_('THM_ORGANIZER_STATE');
+        $headers['campus']     = Languages::_('THM_ORGANIZER_CAMPUS');
 
         return $headers;
     }
@@ -114,13 +114,13 @@ class Lessons extends ListView
                 $status = Languages::_('THM_ORGANIZER_CURRENT');
             }
 
-            $processedItems[$index]                   = [];
-            $processedItems[$index]['checkbox']       = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']           = HTML::_('link', $item->link, $name);
-            $processedItems[$index]['department']     = HTML::_('link', $item->link, $item->department);
-            $processedItems[$index]['planningPeriod'] = HTML::_('link', $item->link, $item->planningPeriod);
-            $processedItems[$index]['status']         = HTML::_('link', $item->link, $status);
-            $processedItems[$index]['campus']         = HTML::_('link', $item->link, $campus);
+            $processedItems[$index]               = [];
+            $processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
+            $processedItems[$index]['name']       = HTML::_('link', $item->link, $name);
+            $processedItems[$index]['department'] = HTML::_('link', $item->link, $item->department);
+            $processedItems[$index]['term']       = HTML::_('link', $item->link, $item->term);
+            $processedItems[$index]['status']     = HTML::_('link', $item->link, $status);
+            $processedItems[$index]['campus']     = HTML::_('link', $item->link, $campus);
 
             $index++;
         }

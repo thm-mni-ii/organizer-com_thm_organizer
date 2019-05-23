@@ -6,12 +6,12 @@
                    description="THM_ORGANIZER_DEPARTMENT_DESC" class="departmentlist">
                 <option value="0">JALL</option>
             </field>
-            <field name="programIDs" type="genericlist" valuecolumn="id" textcolumn="name" multiple="true"
-                   table="thm_organizer_plan_programs" label="THM_ORGANIZER_PROGRAMS"
-                   description="THM_ORGANIZER_PROGRAMS_EXPORT_DESC">
+            <field name="categoryIDs" type="genericlist" valuecolumn="id" textcolumn="name" multiple="true"
+                   table="thm_organizer_plan_programs" label="THM_ORGANIZER_CATEGORIES"
+                   description="THM_ORGANIZER_CATEGORIES_DESC">
                 <option value="">JALL</option>
             </field>
-            <field name="poolIDs" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_plan_pools"
+            <field name="groupIDs" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_groups"
                    label="THM_ORGANIZER_POOLS" description="THM_ORGANIZER_POOLS_EXPORT_DESC" multiple="true">
                 <option value="">JALL</option>
             </field>

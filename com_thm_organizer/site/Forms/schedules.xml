@@ -6,9 +6,9 @@
                description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
             <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
         </field>
-        <field name="planningPeriodID" type="termID" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="termID" type="termID" label="THM_ORGANIZER_DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_PLANNING_PERIODS</option>
+            <option value="">THM_ORGANIZER_ALL_TERMS</option>
         </field>
         <field name="active" type="list" label="THM_ORGANIZER_STATE" onchange="this.form.submit();">
             <option value="">THM_ORGANIZER_ALL_STATES</option>

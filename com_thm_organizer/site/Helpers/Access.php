@@ -71,7 +71,6 @@ class Access
         }
 
         return Courses::teaches($courseID);
-        // TODO: add subsequent checks for granular access
     }
 
     /**

@@ -39,7 +39,7 @@ class Groups extends ListView
         $if          = "alert('" . Languages::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
         $else        = "jQuery('#modal-publishing').modal('show'); return true;";
         $script      = 'if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}';
-        $batchButton = '<button id="pool-publishing" data-toggle="modal" class="btn btn-small" onclick="' . $script . '">';
+        $batchButton = '<button id="group-publishing" data-toggle="modal" class="btn btn-small" onclick="' . $script . '">';
 
         $title       = Languages::_('THM_ORGANIZER_BATCH');
         $batchButton .= '<span class="icon-stack" title="' . $title . '"></span>' . " $title";
@@ -95,7 +95,7 @@ class Groups extends ListView
         $headers['checkbox']  = '';
         $headers['full_name'] = HTML::sort('NAME', 'ppl.full_name', $direction, $ordering);
         $headers['name']      = HTML::sort('SHORT_NAME', 'ppl.name', $direction, $ordering);
-        $headers['gpuntisID'] = HTML::sort('GPUNTISID', 'ppl.gpuntisID', $direction, $ordering);
+        $headers['untisID'] = HTML::sort('UNTISID', 'ppl.untisID', $direction, $ordering);
 
         return $headers;
     }
@@ -119,7 +119,7 @@ class Groups extends ListView
             $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['full_name'] = HTML::_('link', $item->link, $item->full_name);
             $processedItems[$index]['name']      = HTML::_('link', $item->link, $item->name);
-            $processedItems[$index]['gpuntisID'] = HTML::_('link', $item->link, $item->gpuntisID);
+            $processedItems[$index]['untisID'] = HTML::_('link', $item->link, $item->untisID);
             $index++;
         }
 

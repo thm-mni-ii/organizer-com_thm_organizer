@@ -19,7 +19,7 @@ use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
- * planning periods.
+ * terms.
  */
 class JFormFieldTermPublishing extends FormField
 {
@@ -37,7 +37,7 @@ class JFormFieldTermPublishing extends FormField
     {
         $dbo         = Factory::getDbo();
         $periodQuery = $dbo->getQuery(true);
-        $periodQuery->select('id, name')->from('#__thm_organizer_planning_periods')->order('startDate ASC');
+        $periodQuery->select('id, name')->from('#__thm_organizer_terms')->order('startDate ASC');
         $dbo->setQuery($periodQuery);
 
         $periods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
@@ -47,12 +47,12 @@ class JFormFieldTermPublishing extends FormField
 
         $groupID    = OrganizerHelper::getInput()->getInt('id');
         $poolQuery = $dbo->getQuery(true);
-        $poolQuery->select('planningPeriodID, published')
-            ->from('#__thm_organizer_plan_pool_publishing')
-            ->where("planPoolID = '$groupID'");
+        $poolQuery->select('termID, published')
+            ->from('#__thm_organizer_group_publishing')
+            ->where("groupID = '$groupID'");
         $dbo->setQuery($poolQuery);
 
-        $publishingEntries = OrganizerHelper::executeQuery('loadAssocList', [], 'planningPeriodID');
+        $publishingEntries = OrganizerHelper::executeQuery('loadAssocList', [], 'termID');
 
         $return = '<div class="publishing-container">';
         foreach ($periods as $period) {

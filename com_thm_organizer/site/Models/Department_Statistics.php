@@ -26,7 +26,7 @@ class Department_Statistics extends BaseModel
 
     public $endDate;
 
-    public $planningPeriods;
+    public $terms;
 
     public $rooms;
 
@@ -59,7 +59,7 @@ class Department_Statistics extends BaseModel
                 $this->startDate = "$year-01-01";
                 $this->endDate   = "$year-12-31";
 
-                $this->setPlanningPeriods($year);
+                $this->setTerms($year);
 
                 $this->calendarData = [];
 
@@ -104,12 +104,12 @@ class Department_Statistics extends BaseModel
         $this->useData          = [];
         $this->useData['total'] = [];
 
-        foreach ($this->planningPeriods as $pp) {
-            $ppName                 = $pp['name'];
-            $this->useData[$ppName] = [];
+        foreach ($this->terms as $term) {
+            $termName                 = $term['name'];
+            $this->useData[$termName] = [];
 
-            $currentDate = $pp['startDate'] < $this->startDate ? $this->startDate : $pp['startDate'];
-            $endDate     = $this->endDate < $pp['endDate'] ? $this->endDate : $pp['endDate'];
+            $currentDate = $term['startDate'] < $this->startDate ? $this->startDate : $term['startDate'];
+            $endDate     = $this->endDate < $term['endDate'] ? $this->endDate : $term['endDate'];
 
             while ($currentDate <= $endDate) {
                 if (empty($this->calendarData[$currentDate])) {
@@ -123,7 +123,7 @@ class Department_Statistics extends BaseModel
                     foreach ($roomDepts as $roomID => $departments) {
                         $departmentName = $this->getDepartmentName($departments);
                         $this->setUseData('total', $departmentName, $roomID, $minutes);
-                        $this->setUseData($ppName, $departmentName, $roomID, $minutes);
+                        $this->setUseData($termName, $departmentName, $roomID, $minutes);
                     }
                 }
 
@@ -131,7 +131,7 @@ class Department_Statistics extends BaseModel
             }
 
             ksort($this->useData['total']);
-            ksort($this->useData[$ppName]);
+            ksort($this->useData[$termName]);
         }
         unset ($this->calendarData);
     }
@@ -280,24 +280,24 @@ class Department_Statistics extends BaseModel
         $dbo       = Factory::getDbo();
         $ringQuery = $dbo->getQuery(true);
 
-        $rqSelect = "DISTINCT ccm.id AS ccmID, d.id AS departmentID, d.short_name_$tag AS department, lc.configuration, ";
+        $rqSelect = "DISTINCT ccm.id AS ccmID, d.id AS departmentID, d.short_name_$tag AS department, conf.configuration, ";
         $rqSelect .= "c.schedule_date AS date, TIME_FORMAT(c.startTime, '%H:%i') AS startTime, TIME_FORMAT(c.endTime, '%H:%i') AS endTime";
 
         $ringQuery->select($rqSelect);
         $ringQuery->from('#__thm_organizer_lessons AS l');
         $ringQuery->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id');
+        $ringQuery->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
         $ringQuery->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_configurations AS lc ON lc.lessonID = ls.id');
-        $ringQuery->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = lc.id');
+        $ringQuery->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.lessonCourseID = lcrs.id');
+        $ringQuery->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = conf.id');
 
-        $ringQuery->where("ls.delta != 'removed'");
+        $ringQuery->where("lcrs.delta != 'removed'");
         $ringQuery->where("l.delta != 'removed'");
         $ringQuery->where("c.delta != 'removed'");
         $ringQuery->where("schedule_date BETWEEN '$this->startDate' AND '$this->endDate'");
 
         $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
-        $ringQuery->where("lc.configuration REGEXP '$regexp'");
+        $ringQuery->where("conf.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
 
         $roomConfigurations = OrganizerHelper::executeQuery('loadAssocList');
@@ -348,42 +348,43 @@ class Department_Statistics extends BaseModel
     }
 
     /**
-     * Retrieves the relevant planning period data from the database
+     * Retrieves the relevant term data from the database
      *
      * @param string $year the year used for the statistics generation
      *
      * @return bool true if the query was successfull, otherwise false
      */
-    private function setPlanningPeriods($year)
+    private function setTerms($year)
     {
         $query = $this->_db->getQuery(true);
-        $query->select('*')->from('#__thm_organizer_planning_periods')
+        $query->select('*')->from('#__thm_organizer_terms')
             ->where("(YEAR(startDate) = $year OR YEAR(endDate) = $year)")
             ->order('startDate');
         $this->_db->setQuery($query);
 
-        $this->planningPeriods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+        $this->terms = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
 
-        return empty($this->planningPeriods) ? false : true;
+        return empty($this->terms) ? false : true;
     }
 
     /**
      * Sets/sums individual usage values in it's container property
      *
-     * @param string $ppName   the name of the planning period
+     * @param string $termName the name of the term
      * @param string $deptName the name of the department
      * @param int    $roomID   the id of the room
      * @param int    $value    the number of minutes
      *
      * @return void
      */
-    private function setUseData($ppName, $deptName, $roomID, $value)
+    private function setUseData($termName, $deptName, $roomID, $value)
     {
-        if (empty($this->useData[$ppName][$deptName])) {
-            $this->useData[$ppName][$deptName] = [];
+        if (empty($this->useData[$termName][$deptName])) {
+            $this->useData[$termName][$deptName] = [];
         }
 
-        $existingValue                              = empty($this->useData[$ppName][$deptName][$roomID]) ? 0 : $this->useData[$ppName][$deptName][$roomID];
-        $this->useData[$ppName][$deptName][$roomID] = $existingValue + $value;
+        $existingValue = empty($this->useData[$termName][$deptName][$roomID]) ? 0 : $this->useData[$termName][$deptName][$roomID];
+
+        $this->useData[$termName][$deptName][$roomID] = $existingValue + $value;
     }
 }

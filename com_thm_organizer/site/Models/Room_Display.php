@@ -104,21 +104,21 @@ class Room_Display extends BaseModel
 
         $select = "DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ";
         $select .= "l.id as lessonID, m.abbreviation_$shortTag AS method, ";
-        $select .= "ps.name AS psName, s.name_$shortTag AS sName";
+        $select .= "co.name AS courseName, s.name_$shortTag AS sName";
         $query->select($select)
             ->from('#__thm_organizer_calendar AS cal')
             ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')
-            ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
+            ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.id = ccm.configurationID')
             ->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id AND conf.lessonID = ls.id')
-            ->innerJoin('#__thm_organizer_plan_subjects AS ps ON ls.subjectID = ps.id')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id AND lcrs.id = conf.lessonID')
+            ->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID')
             ->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id')
-            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
+            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')
             ->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
             ->where("cal.schedule_date = '$date'")
             ->where("cal.delta != 'removed'")
             ->where("l.delta != 'removed'")
-            ->where("ls.delta != 'removed'");
+            ->where("lcrs.delta != 'removed'");
         $this->_db->setQuery($query);
 
         $results = OrganizerHelper::executeQuery('loadAssocList');
@@ -154,7 +154,7 @@ class Room_Display extends BaseModel
                 $events[$times][$lessonID]['endTime']   = $endTime;
             }
 
-            $title = empty($result['sName']) ? $result['psName'] : $result['sName'];
+            $title = empty($result['sName']) ? $result['courseName'] : $result['sName'];
 
             if (!in_array($title, $events[$times][$lessonID]['titles'])) {
                 $events[$times][$lessonID]['titles'][] = $title;

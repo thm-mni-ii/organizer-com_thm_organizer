@@ -12,6 +12,8 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\Categories;
+use Organizer\Helpers\Courses;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Pools;
 use Organizer\Helpers\Programs;
@@ -92,20 +94,20 @@ class Search extends BaseModel
     }
 
     /**
-     * Filters lessons according to status and planning period
+     * Filters lessons according to status and term
      *
      * @param object &$query  the query object to filter
-     * @param int     $termID the id of the planning period for lesson results
+     * @param int     $termID the id of the term for lesson results
      *
      * @return void modifies the query
      */
     private function filterLessons(&$query, $termID = null)
     {
-        $query->where("(ls.delta IS NULL OR ls.delta != 'removed')")
+        $query->where("(lcrs.delta IS NULL OR lcrs.delta != 'removed')")
             ->where("(l.delta IS NULL OR l.delta != 'removed')");
 
         if (!empty($termID) and is_int($termID)) {
-            $query->where("l.planningPeriodID = '$termID'");
+            $query->where("l.termID = '$termID'");
         }
 
         return;
@@ -282,7 +284,7 @@ class Search extends BaseModel
             foreach ($results as $departmentID) {
                 $departmentName = Departments::getName($departmentID);
 
-                $departments[$departmentID] = [];
+                $departments[$departmentID]         = [];
                 $departments[$departmentID]['text'] = Languages::_('THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
 
                 $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&departmentIDs=$departmentID";
@@ -327,102 +329,102 @@ class Search extends BaseModel
     }
 
     /**
-     * Processes (plan) program results into a standardized array for output
+     * Processes category results into a standardized array for output
      *
-     * @param array $pResults  the program documentation results
-     * @param array $ppResults the program planning results lesson results
+     * @param array $programs   the program documentation results
+     * @param array $categories the category results
      *
      * @return array $programs
      */
-    private function processPrograms($pResults, $ppResults)
+    private function processPrograms($programs, $categories)
     {
-        $programs = [];
+        $results = [];
 
-        if (!empty($pResults)) {
-            foreach ($pResults as $program) {
-                $invalidMapping = (empty($program['lft']) or empty($program['rgt']) or $program['rgt'] - $program['lft'] < 2);
-                $noPlan         = empty($program['ppID']);
+        if (!empty($programs)) {
+            foreach ($programs as $category) {
+                $invalidMapping = (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
+                $noPlan         = empty($category['categoryID']);
 
                 // Any linked view would be empty
                 if ($invalidMapping and $noPlan) {
                     continue;
                 }
 
-                $programID = "d{$program['id']}";
+                $programID = "d{$category['id']}";
 
-                $programs[$programID]               = [];
-                $programs[$programID]['programID']  = $program['id'];
-                $programs[$programID]['pProgramID'] = $program['ppID'];
-                $programs[$programID]['lft']        = $program['lft'];
-                $programs[$programID]['rgt']        = $program['rgt'];
+                $results[$programID]               = [];
+                $results[$programID]['programID']  = $category['id'];
+                $results[$programID]['categoryID'] = $category['categoryID'];
+                $results[$programID]['lft']        = $category['lft'];
+                $results[$programID]['rgt']        = $category['rgt'];
 
-                $text                         = Programs::getName($program['id'], 'real');
-                $programs[$programID]['name'] = $text;
+                $text                        = Programs::getName($category['id']);
+                $results[$programID]['name'] = $text;
 
-                $programs[$programID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
+                $results[$programID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
                 $links = [];
 
-                $invalidMapping = (empty($program['lft']) or empty($program['rgt']) or $program['rgt'] - $program['lft'] < 2);
+                $invalidMapping = (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
 
                 // If the mapping is invalid only an empty data set would be displayed for subject list and curriculum
                 if (!$invalidMapping) {
-                    $links['subjects'] = "?option=com_thm_organizer&view=subjects&programIDs={$program['id']}";
-                    $links['curriculum']   = "?option=com_thm_organizer&view=curriculum&programIDs={$program['id']}";
+                    $links['subjects']   = "?option=com_thm_organizer&view=subjects&programIDs={$category['id']}";
+                    $links['curriculum'] = "?option=com_thm_organizer&view=curriculum&programIDs={$category['id']}";
                 }
 
                 if (!$noPlan) {
-                    $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&programIDs={$program['ppID']}";
-                    $links['event_list'] = "?option=com_thm_organizer&view=event_list&planProgramIDs={$program['ppID']}";
+                    $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&programIDs={$category['categoryID']}";
+                    $links['event_list'] = "?option=com_thm_organizer&view=event_list&categoryIDs={$category['categoryID']}";
                 }
 
-                $programs[$programID]['links'] = $links;
+                $results[$programID]['links'] = $links;
             }
         }
 
-        if (!empty($ppResults)) {
-            foreach ($ppResults as $program) {
-                $planID        = "p{$program['ppID']}";
-                $scheduleLink  = "?option=com_thm_organizer&view=schedule_grid&programIDs={$program['ppID']}";
-                $eventlistLink = "?option=com_thm_organizer&view=event_list&categoryIDs={$program['ppID']}";
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $categoryID    = "p{$category['categoryID']}";
+                $scheduleLink  = "?option=com_thm_organizer&view=schedule_grid&programIDs={$category['categoryID']}";
+                $eventlistLink = "?option=com_thm_organizer&view=event_list&categoryIDs={$category['categoryID']}";
 
                 // Subject was found
-                if (!empty($program['id'])) {
-                    $programID = "d{$program['id']}";
+                if (!empty($category['id'])) {
+                    $programID = "d{$category['id']}";
 
                     // No redundant subject entries
-                    if (!empty($programID) and !empty($programs[$programID])) {
-                        $programs[$programID]['pProgramID']        = $program['ppID'];
-                        $programs[$programID]['links']['schedule'] = $scheduleLink;
+                    if (!empty($programID) and !empty($results[$programID])) {
+                        $results[$programID]['categoryID']        = $category['categoryID'];
+                        $results[$programID]['links']['schedule'] = $scheduleLink;
 
                         continue;
                     }
                 }
 
-                $programs[$planID]               = [];
-                $programs[$planID]['pProgramID'] = $program['ppID'];
+                $results[$categoryID]               = [];
+                $results[$categoryID]['categoryID'] = $category['categoryID'];
 
-                $text                      = Programs::getName($program['ppID'], 'plan');
-                $programs[$planID]['name'] = $text;
-                $programs[$planID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
+                $text                         = Categories::getName($category['categoryID']);
+                $results[$categoryID]['name'] = $text;
+                $results[$categoryID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
                 $links = [];
 
-                $invalidMapping = (empty($program['lft']) or empty($program['rgt']) or $program['rgt'] - $program['lft'] < 2);
+                $invalidMapping = (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
 
                 if (!$invalidMapping) {
-                    $programs[$planID]['programID'] = $program['id'];
-                    $links['subjects']          = "?option=com_thm_organizer&view=subjects&programIDs={$program['id']}";
-                    $links['curriculum']            = "?option=com_thm_organizer&view=curriculum&programIDs={$program['id']}";
+                    $results[$categoryID]['programID'] = $category['id'];
+                    $links['subjects']                 = "?option=com_thm_organizer&view=subjects&programIDs={$category['id']}";
+                    $links['curriculum']               = "?option=com_thm_organizer&view=curriculum&programIDs={$category['id']}";
                 }
 
-                $links['schedule']          = $scheduleLink;
-                $links['event_list']        = $eventlistLink;
-                $programs[$planID]['links'] = $links;
+                $links['schedule']             = $scheduleLink;
+                $links['event_list']           = $eventlistLink;
+                $results[$categoryID]['links'] = $links;
             }
         }
 
-        return $programs;
+        return $results;
     }
 
     /**
@@ -464,11 +466,11 @@ class Search extends BaseModel
      * Processes subject/lesson results into a standardized array for output
      *
      * @param array $sResults  the subject documentation results
-     * @param array $psResults the subject lesson results
+     * @param array $coResults the course results
      *
      * @return array $subjects
      */
-    private function processSubjects($sResults, $psResults)
+    private function processSubjects($sResults, $coResults)
     {
         $subjects = [];
 
@@ -478,7 +480,7 @@ class Search extends BaseModel
 
                 $subjects[$subjectID] = [];
 
-                $text = Subjects::getName($sID, 'real', true);
+                $text = Subjects::getName($sID, true);
 
                 $subjects[$subjectID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
 
@@ -486,24 +488,24 @@ class Search extends BaseModel
 
                 $links['subject_details'] = "?option=com_thm_organizer&view=subject_details&id=$sID";
 
-                if (!empty($subject['psID'])) {
-                    $links['schedule'] = "?option=com_thm_organizer&view=schedule_grid&subjectIDs={$subject['psID']}";
+                if (!empty($subject['courseID'])) {
+                    $links['schedule'] = "?option=com_thm_organizer&view=schedule_grid&subjectIDs={$subject['courseID']}";
                 }
 
                 $subjects[$subjectID]['links']       = $links;
-                $subjects[$subjectID]['description'] = Subjects::getPrograms($sID, 'real');
+                $subjects[$subjectID]['description'] = Subjects::getPrograms($sID);
             }
         }
 
-        if (!empty($psResults)) {
-            foreach ($psResults as $pID => $plan) {
-                $planID           = "p$pID";
-                $scheduleLink     = "?option=com_thm_organizer&view=schedule_grid&subjectIDs=$pID";
-                $scheduleListLink = "?option=com_thm_organizer&view=event_list&subjectIDs=$pID";
+        if (!empty($coResults)) {
+            foreach ($coResults as $courseID => $course) {
+                $courseID         = "p$courseID";
+                $scheduleLink     = "?option=com_thm_organizer&view=schedule_grid&subjectIDs=$courseID";
+                $scheduleListLink = "?option=com_thm_organizer&view=event_list&subjectIDs=$courseID";
 
                 // Subject was found
-                if (!empty($plan['sID'])) {
-                    $subjectID = "s{$plan['sID']}";
+                if (!empty($course['sID'])) {
+                    $subjectID = "s{$course['sID']}";
 
                     // No redundant subject entries
                     if (!empty($subjects[$subjectID])) {
@@ -516,22 +518,22 @@ class Search extends BaseModel
                     }
                 }
 
-                $subjects[$planID] = [];
+                $subjects[$courseID] = [];
 
-                $text = Subjects::getName($pID, 'plan', true);
+                $text = Courses::getName($courseID, true);
 
-                $subjects[$planID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
+                $subjects[$courseID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
 
                 $links = [];
 
-                if (!empty($plan['sID'])) {
-                    $links['subject_details'] = "?option=com_thm_organizer&view=subject_details&id={$plan['sID']}";
+                if (!empty($course['sID'])) {
+                    $links['subject_details'] = "?option=com_thm_organizer&view=subject_details&id={$course['sID']}";
                 }
 
-                $links['schedule']                = $scheduleLink;
-                $links['event_list']              = $scheduleListLink;
-                $subjects[$planID]['links']       = $links;
-                $subjects[$planID]['description'] = Subjects::getPrograms($pID, 'plan');
+                $links['schedule']                  = $scheduleLink;
+                $links['event_list']                = $scheduleListLink;
+                $subjects[$courseID]['links']       = $links;
+                $subjects[$courseID]['description'] = Courses::getCategories($courseID);
             }
         }
 
@@ -619,9 +621,9 @@ class Search extends BaseModel
         }
 
         $query = $this->_db->getQuery(true);
-        $query->select('p.id AS ppID, d.id AS departmentID')
-            ->from('#__thm_organizer_plan_programs AS p')
-            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.programID = p.ID')
+        $query->select('cat.id AS categoryID, d.id AS departmentID')
+            ->from('#__thm_organizer_categories AS cat')
+            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.ID')
             ->innerJoin('#__thm_organizer_departments AS d on dr.departmentID = d.id');
 
         // Exact
@@ -692,43 +694,43 @@ class Search extends BaseModel
         }
 
         // Plan programs have to be found in strings => standardized name as extra temp variable for comparison
-        $ppQuery = $this->_db->getQuery(true);
-        $ppQuery->from('#__thm_organizer_plan_pools');
+        $groupQuery = $this->_db->getQuery(true);
+        $groupQuery->from('#__thm_organizer_groups');
 
-        $pQuery = $this->_db->getQuery(true);
-        $pQuery->from('#__thm_organizer_pools AS pl')
+        $poolQuery = $this->_db->getQuery(true);
+        $poolQuery->from('#__thm_organizer_pools AS pl')
             ->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = pl.id');
 
         foreach ($this->programResults as $strength => $programs) {
             $pools = [];
 
             foreach ($programs as $program) {
-                $ppQuery->clear('select');
-                $ppQuery->clear('where');
-                $pQuery->clear('select');
-                $pQuery->clear('where');
+                $groupQuery->clear('select');
+                $groupQuery->clear('where');
+                $poolQuery->clear('select');
+                $poolQuery->clear('where');
 
-                if (!empty($program['pProgramID'])) {
-                    $ppQuery->select("DISTINCT id, '{$program['name']}' AS program");
-                    $ppQuery->where("programID = '{$program['pProgramID']}'");
-                    $this->_db->setQuery($ppQuery);
+                if (!empty($program['categoryID'])) {
+                    $groupQuery->select("DISTINCT id, '{$program['name']}' AS program");
+                    $groupQuery->where("programID = '{$program['categoryID']}'");
+                    $this->_db->setQuery($groupQuery);
 
-                    $pPoolIDs = OrganizerHelper::executeQuery('loadAssocList');
+                    $groupIDs = OrganizerHelper::executeQuery('loadAssocList');
                 }
 
-                if (!empty($pPoolIDs)) {
-                    $this->processPools($pools, $pPoolIDs, 'plan');
+                if (!empty($groupIDs)) {
+                    $this->processPools($pools, $groupIDs, 'plan');
                 }
 
                 if (!empty($program['lft']) and !empty($program['rgt'])) {
-                    $pQuery->select("DISTINCT pl.id, '{$program['name']}' AS program");
+                    $poolQuery->select("DISTINCT pl.id, '{$program['name']}' AS program");
 
                     if (!empty($wherray)) {
-                        $this->addInclusiveConditions($pQuery, $wherray);
+                        $this->addInclusiveConditions($poolQuery, $wherray);
                     }
 
-                    $pQuery->where("(m.lft > '{$program['lft']}' AND m.rgt < '{$program['rgt']}')");
-                    $this->_db->setQuery($pQuery);
+                    $poolQuery->where("(m.lft > '{$program['lft']}' AND m.rgt < '{$program['rgt']}')");
+                    $this->_db->setQuery($poolQuery);
 
                     $poolIDs = OrganizerHelper::executeQuery('loadAssocList');
                 }
@@ -913,61 +915,61 @@ class Search extends BaseModel
 
         $termCount = count($terms);
 
-        // A plan subject does not necessarily have subject documentation
-        $psQuery = $this->_db->getQuery(true);
-        $psQuery->select('DISTINCT ps.id AS psID, s.id AS sID')
-            ->from('#__thm_organizer_plan_subjects AS ps')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.subjectID = ps.id')
-            ->innerJoin('#__thm_organizer_lessons AS l ON ls.lessonID = l.id')
-            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.plan_subjectID = ps.id')
+        // A course does not necessarily have subject documentation
+        $courseQuery = $this->_db->getQuery(true);
+        $courseQuery->select('DISTINCT co.id AS courseID, s.id AS sID')
+            ->from('#__thm_organizer_course AS co')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON co.id = lcrs.courseID')
+            ->innerJoin('#__thm_organizer_lessons AS l ON lcrs.lessonID = l.id')
+            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')
             ->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
 
         // Subject documentation does not necessarily have planned lesson instances
-        $sQuery = $this->_db->getQuery(true);
-        $sQuery->select('DISTINCT s.id AS sID, ps.id as psID')
+        $subjectQuery = $this->_db->getQuery(true);
+        $subjectQuery->select('DISTINCT s.id AS sID, co.id as courseID')
             ->from('#__thm_organizer_subjects AS s')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm on sm.subjectID = s.id')
-            ->leftJoin('#__thm_organizer_plan_subjects AS ps on sm.plan_subjectID = ps.id')
-            ->leftJoin('#__thm_organizer_lesson_subjects AS ls on ls.subjectID = ps.id')
-            ->leftJoin('#__thm_organizer_lessons AS l on ls.lessonID = l.id');
+            ->leftJoin('#__thm_organizer_courses AS co on co.id = sm.courseID')
+            ->leftJoin('#__thm_organizer_lesson_courses AS lcrs on lcrs.courseID = co.id')
+            ->leftJoin('#__thm_organizer_lessons AS l on lcrs.lessonID = l.id');
 
         // EXACT => exact (case independent) match for the search term
         $initialTerm = current($terms);
 
-        $psClause = "(ps.name LIKE '$initialTerm' OR ps.subjectNo LIKE '$initialTerm'";
+        $courseClause = "(co.name LIKE '$initialTerm' OR co.subjectNo LIKE '$initialTerm'";
 
         $sClause = "(s.externalID LIKE '$initialTerm' OR s.name_de LIKE '$initialTerm' OR s.name_en LIKE '$initialTerm' OR ";
         $sClause .= "s.short_name_de LIKE '$initialTerm' OR s.short_name_en LIKE '$initialTerm' OR ";
         $sClause .= "s.abbreviation_de LIKE '$initialTerm' OR s.abbreviation_en LIKE '$initialTerm'";
 
         foreach ($terms as $term) {
-            $psClause .= " OR ps.subjectNo LIKE '$term'";
-            $sClause  .= "OR s.externalID LIKE '$term'";
+            $courseClause .= " OR co.subjectNo LIKE '$term'";
+            $sClause      .= "OR s.externalID LIKE '$term'";
         }
 
-        $psClause .= ')';
-        $sClause  .= ')';
+        $courseClause .= ')';
+        $sClause      .= ')';
 
-        $this->filterLessons($psQuery);
-        $psQuery->where($psClause);
+        $this->filterLessons($courseQuery);
+        $courseQuery->where($courseClause);
 
-        $this->filterLessons($sQuery);
-        $sQuery->where($sClause);
+        $this->filterLessons($subjectQuery);
+        $subjectQuery->where($sClause);
 
-        $this->_db->setQuery($psQuery);
-        $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
-        $this->_db->setQuery($sQuery);
+        $this->_db->setQuery($courseQuery);
+        $courses = OrganizerHelper::executeQuery('loadAssocList', [], 'courseID');
+        $this->_db->setQuery($subjectQuery);
         $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
-        $this->results['exact']['subjects'] = $this->processSubjects($subjects, $planSubjects);
+        $this->results['exact']['subjects'] = $this->processSubjects($subjects, $courses);
 
         if (empty($terms)) {
             return;
         }
 
         // STRONG => exact match on at least one term
-        $psQuery->clear('where');
-        $sQuery->clear('where');
+        $courseQuery->clear('where');
+        $subjectQuery->clear('where');
         $nameDEArray = [];
         $nameENArray = [];
 
@@ -982,37 +984,37 @@ class Search extends BaseModel
 
             // Numeric values will always be listed separately at the end of the names. Direct comparison delivers false positives.
             if ($asNumber) {
-                $psQuery->where("ps.name LIKE '% $term'");
+                $courseQuery->where("co.name LIKE '% $term'");
                 $nameDEArray[] = "s.name_de LIKE '% $term'";
                 $nameENArray[] = "s.name_en LIKE '% $term'";
             } else {
-                $psQuery->where("ps.name LIKE '%$term%'");
+                $courseQuery->where("co.name LIKE '%$term%'");
                 $nameDEArray[] = "s.name_de LIKE '%$term%'";
                 $nameENArray[] = "s.name_en LIKE '%$term%'";
             }
         }
 
-        $this->filterLessons($psQuery);
-        $this->_db->setQuery($psQuery);
+        $this->filterLessons($courseQuery);
+        $this->_db->setQuery($courseQuery);
 
         $nameDEClause = '(' . implode(' AND ', $nameDEArray) . ')';
         $nameENClause = '(' . implode(' AND ', $nameENArray) . ')';
-        $sQuery->where("($nameDEClause OR $nameENClause)");
-        $this->filterLessons($sQuery);
+        $subjectQuery->where("($nameDEClause OR $nameENClause)");
+        $this->filterLessons($subjectQuery);
 
-        $this->_db->setQuery($psQuery);
-        $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
-        $this->_db->setQuery($sQuery);
+        $this->_db->setQuery($courseQuery);
+        $courses = OrganizerHelper::executeQuery('loadAssocList', [], 'courseID');
+        $this->_db->setQuery($subjectQuery);
         $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
-        $this->results['strong']['subjects'] = $this->processSubjects($subjects, $planSubjects);
+        $this->results['strong']['subjects'] = $this->processSubjects($subjects, $courses);
 
         // Good
-        $psQuery->clear('where');
-        $sQuery->clear('where');
+        $courseQuery->clear('where');
+        $subjectQuery->clear('where');
 
         $sWherray  = [];
-        $psWherray = [];
+        $coWherray = [];
 
         foreach ($terms as $index => $term) {
             $asNumber = false;
@@ -1029,48 +1031,48 @@ class Search extends BaseModel
                 $sClause     .= "s.short_name_de REGEXP '%$term' OR s.short_name_en REGEXP '%$term' OR ";
                 $sClause     .= "s.abbreviation_de REGEXP '%$term' OR s.abbreviation_en REGEXP '%$term'";
                 $sWherray[]  = $sClause;
-                $psWherray[] = "ps.name LIKE '% $term' OR ps.subjectNo REGEXP '%$term%'";
+                $coWherray[] = "co.name LIKE '% $term' OR co.subjectNo REGEXP '%$term%'";
             } else {
                 $sClause     = "s.name_de LIKE '%$term%' OR s.name_en LIKE '%$term%' OR ";
                 $sClause     .= "s.short_name_de LIKE '%$term%' OR s.short_name_en LIKE '%$term%' OR ";
                 $sClause     .= "s.abbreviation_de LIKE '%$term%' OR s.abbreviation_en LIKE '%$term%'";
                 $sWherray[]  = $sClause;
-                $psWherray[] = "ps.name REGEXP '%$term%' OR ps.subjectNo REGEXP '%$term%'";
+                $coWherray[] = "co.name REGEXP '%$term%' OR co.subjectNo REGEXP '%$term%'";
             }
 
         }
 
         // There were only numeric values in the search so the conditions are empty => don't execute queries
-        if (empty($psWherray) and empty($sWherray)) {
+        if (empty($coWherray) and empty($sWherray)) {
             return;
         }
 
-        $this->filterLessons($psQuery);
-        $this->addInclusiveConditions($psQuery, $psWherray);
+        $this->filterLessons($courseQuery);
+        $this->addInclusiveConditions($courseQuery, $coWherray);
 
-        $this->filterLessons($sQuery);
-        $this->addInclusiveConditions($sQuery, $sWherray);
+        $this->filterLessons($subjectQuery);
+        $this->addInclusiveConditions($subjectQuery, $sWherray);
 
-        if (!empty($psWherray)) {
-            $this->_db->setQuery($psQuery);
-            $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
+        if (!empty($coWherray)) {
+            $this->_db->setQuery($courseQuery);
+            $courses = OrganizerHelper::executeQuery('loadAssocList', [], 'courseID');
         } else {
-            $planSubjects = null;
+            $courses = null;
         }
 
         if (!empty($sWherray)) {
-            $this->_db->setQuery($sQuery);
+            $this->_db->setQuery($subjectQuery);
             $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
         } else {
             $subjects = null;
         }
 
-        $this->results['good']['subjects'] = $this->processSubjects($subjects, $planSubjects);
+        $this->results['good']['subjects'] = $this->processSubjects($subjects, $courses);
 
         // Mentioned Looks for mention of the terms in the differing text fields of the module descriptions.
 
-        $sQuery->clear('where');
-        $planSubjects = null;
+        $subjectQuery->clear('where');
+        $courses = null;
 
         $sWherray = [];
 
@@ -1091,27 +1093,27 @@ class Search extends BaseModel
             return;
         }
 
-        $this->filterLessons($sQuery);
-        $this->addInclusiveConditions($sQuery, $sWherray);
-        $this->_db->setQuery($sQuery);
+        $this->filterLessons($subjectQuery);
+        $this->addInclusiveConditions($subjectQuery, $sWherray);
+        $this->_db->setQuery($subjectQuery);
 
         $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
-        $this->results['mentioned']['subjects'] = $this->processSubjects($subjects, $planSubjects);
+        $this->results['mentioned']['subjects'] = $this->processSubjects($subjects, $courses);
 
         // Related
-        $psQuery->clear('where');
-        $sQuery->clear('where');
+        $courseQuery->clear('where');
+        $subjectQuery->clear('where');
 
-        $psQuery->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.subjectID = ls.id')
+        $courseQuery->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.lessonCourseID = lcrs.id')
             ->innerJoin('#__thm_organizer_teachers AS t on lt.teacherID = t.id');
 
-        $sQuery->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
+        $subjectQuery->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
             ->innerJoin('#__thm_organizer_teachers AS t on st.teacherID = t.id');
 
         if ($termCount == 1) {
-            $psQuery->where("t.surname LIKE '%$initialTerm%'");
-            $sQuery->where("t.surname LIKE '%$initialTerm%'");
+            $courseQuery->where("t.surname LIKE '%$initialTerm%'");
+            $subjectQuery->where("t.surname LIKE '%$initialTerm%'");
         } else {
             $wherray    = [];
             $innerTerms = $terms;
@@ -1129,16 +1131,16 @@ class Search extends BaseModel
                 }
             }
 
-            $this->addInclusiveConditions($psQuery, $wherray);
-            $this->addInclusiveConditions($sQuery, $wherray);
+            $this->addInclusiveConditions($courseQuery, $wherray);
+            $this->addInclusiveConditions($subjectQuery, $wherray);
         }
 
-        $this->_db->setQuery($psQuery);
-        $planSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'psID');
-        $this->_db->setQuery($sQuery);
+        $this->_db->setQuery($courseQuery);
+        $courses = OrganizerHelper::executeQuery('loadAssocList', [], 'courseID');
+        $this->_db->setQuery($subjectQuery);
         $subjects = OrganizerHelper::executeQuery('loadAssocList', [], 'sID');
 
-        $this->results['related']['subjects'] = $this->processSubjects($subjects, $planSubjects);
+        $this->results['related']['subjects'] = $this->processSubjects($subjects, $courses);
     }
 
     /**
@@ -1258,41 +1260,41 @@ class Search extends BaseModel
             $sPWherray[] = "p.name_de LIKE '%$term%' OR p.name_en LIKE '%$term%'";
 
             // Plan program degrees have to be resolved by string comparison
-            $ePPWherray[] = "REPLACE(LCASE(pp.name), '.', '') LIKE '$term%'";
-            $sPPWherray[] = "REPLACE(LCASE(pp.name), '.', '') LIKE '%$term%'";
+            $ePPWherray[] = "REPLACE(LCASE(cat.name), '.', '') LIKE '$term%'";
+            $sPPWherray[] = "REPLACE(LCASE(cat.name), '.', '') LIKE '%$term%'";
         }
 
-        $pQuery = $this->_db->getQuery(true);
-        $pQuery->select("p.id, name_{$this->languageTag} AS name, degreeID, pp.id AS ppID, lft, rgt")
+        $programQuery = $this->_db->getQuery(true);
+        $programQuery->select("p.id, name_{$this->languageTag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
             ->from('#__thm_organizer_programs AS p')
             ->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.ID')
-            ->leftJoin('#__thm_organizer_plan_programs AS pp ON pp.programID = p.ID');
+            ->leftJoin('#__thm_organizer_categories AS cat ON cat.programID = p.ID');
 
         // Plan programs have to be found in strings => standardized name as extra temp variable for comparison
-        $ppQuery = $this->_db->getQuery(true);
-        $ppQuery->select("p.id, name_{$this->languageTag} AS name, degreeID, pp.id AS ppID, lft, rgt")
-            ->from('#__thm_organizer_plan_programs AS pp')
-            ->leftJoin('#__thm_organizer_programs AS p ON pp.programID = p.ID')
+        $categoryQuery = $this->_db->getQuery(true);
+        $categoryQuery->select("p.id, name_{$this->languageTag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
+            ->from('#__thm_organizer_categories AS cat')
+            ->leftJoin('#__thm_organizer_programs AS p ON cat.programID = p.ID')
             ->leftJoin('#__thm_organizer_mappings AS m ON m.programID = p.ID');
 
         // Exact => program name and degree
         if (!empty($degrees['exact'])) {
             $degreeIDs = array_keys($degrees['exact']);
-            $pQuery->where("p.degreeID IN ('" . implode("','", $degreeIDs) . "')");
-            $this->addInclusiveConditions($pQuery, $ePWherray);
+            $programQuery->where("p.degreeID IN ('" . implode("','", $degreeIDs) . "')");
+            $this->addInclusiveConditions($programQuery, $ePWherray);
 
             $degreeWherray = [];
-            $this->addInclusiveConditions($ppQuery, $ePPWherray);
+            $this->addInclusiveConditions($categoryQuery, $ePPWherray);
 
             foreach ($degrees['exact'] as $degree) {
-                $degreeWherray[] = "REPLACE(LCASE(pp.name), '.', '') LIKE '%{$degree['stdAbbr']}%'";
+                $degreeWherray[] = "REPLACE(LCASE(cat.name), '.', '') LIKE '%{$degree['stdAbbr']}%'";
             }
 
-            $this->addInclusiveConditions($ppQuery, $degreeWherray);
+            $this->addInclusiveConditions($categoryQuery, $degreeWherray);
 
-            $this->_db->setQuery($ppQuery);
+            $this->_db->setQuery($categoryQuery);
             $categories = OrganizerHelper::executeQuery('loadAssocList');
-            $this->_db->setQuery($pQuery);
+            $this->_db->setQuery($programQuery);
             $programs = OrganizerHelper::executeQuery('loadAssocList');
 
             $programResults['exact'] = $this->processPrograms($programs, $categories);
@@ -1302,12 +1304,12 @@ class Search extends BaseModel
         $wherray   = [];
         $wherray[] = "(name LIKE '%$firstTerm%')";
 
-        $this->addInclusiveConditions($ppQuery, $wherray);
-        $this->_db->setQuery($ppQuery);
+        $this->addInclusiveConditions($categoryQuery, $wherray);
+        $this->_db->setQuery($categoryQuery);
         $sGroups = OrganizerHelper::executeQuery('loadAssocList');
 
-        $this->addInclusiveConditions($pQuery, $wherray);
-        $this->_db->setQuery($pQuery);
+        $this->addInclusiveConditions($programQuery, $wherray);
+        $this->_db->setQuery($programQuery);
         $sPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
         $programResults['strong'] = $this->processPrograms($sPrograms, $sGroups);
@@ -1318,12 +1320,12 @@ class Search extends BaseModel
             $wherray[] = "(name LIKE '%$term%')";
         }
 
-        $this->addInclusiveConditions($ppQuery, $wherray);
-        $this->_db->setQuery($ppQuery);
+        $this->addInclusiveConditions($categoryQuery, $wherray);
+        $this->_db->setQuery($categoryQuery);
         $gCategories = OrganizerHelper::executeQuery('loadAssocList');
 
-        $this->addInclusiveConditions($pQuery, $wherray);
-        $this->_db->setQuery($pQuery);
+        $this->addInclusiveConditions($programQuery, $wherray);
+        $this->_db->setQuery($programQuery);
         $gPrograms = OrganizerHelper::executeQuery('loadAssocList');
 
         $programResults['good'] = $this->processPrograms($gPrograms, $gCategories);

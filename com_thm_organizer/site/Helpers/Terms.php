@@ -15,14 +15,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 
 /**
- * Provides general functions for planning_period access checks, data retrieval and display.
+ * Provides general functions for term access checks, data retrieval and display.
  */
-class Planning_Periods
+class Terms
 {
     /**
-     * Gets the id of the planning period whose dates encompass the current date
+     * Gets the id of the term whose dates encompass the current date
      *
-     * @return int the id of the planning period for the dates used on success, otherwise 0
+     * @return int the id of the term for the dates used on success, otherwise 0
      */
     public static function getCurrentID()
     {
@@ -30,7 +30,7 @@ class Planning_Periods
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')
-            ->from('#__thm_organizer_planning_periods')
+            ->from('#__thm_organizer_terms')
             ->where("'$date' BETWEEN startDate and endDate");
         $dbo->setQuery($query);
 
@@ -38,41 +38,41 @@ class Planning_Periods
     }
 
     /**
-     * Checks for the planning period end date for a given planning period id
+     * Checks for the term end date for a given term id
      *
-     * @param string $ppID the planning period's id
+     * @param string $termID the term's id
      *
-     * @return mixed  string the end date of the planning period could be resolved, otherwise null
+     * @return mixed  string the end date of the term could be resolved, otherwise null
      */
-    public static function getEndDate($ppID)
+    public static function getEndDate($termID)
     {
-        $ppTable = OrganizerHelper::getTable('Planning_Periods');
+        $table = OrganizerHelper::getTable('Terms');
 
         try {
-            $success = $ppTable->load($ppID);
+            $success = $table->load($termID);
         } catch (Exception $exc) {
             OrganizerHelper::message($exc->getMessage(), 'error');
 
             return null;
         }
 
-        return $success ? $ppTable->endDate : null;
+        return $success ? $table->endDate : null;
     }
 
     /**
-     * Checks for the planning period entry in the database, creating it as necessary.
+     * Checks for the term entry in the database, creating it as necessary.
      *
-     * @param array $data the planning period's data
+     * @param array $data the term's data
      *
      * @return mixed  int the id if the room could be resolved/added, otherwise null
      */
     public static function getID($data)
     {
-        $ppTable      = OrganizerHelper::getTable('Planning_Periods');
+        $table      = OrganizerHelper::getTable('Terms');
         $loadCriteria = ['startDate' => $data['startDate'], 'endDate' => $data['endDate']];
 
         try {
-            $success = $ppTable->load($loadCriteria);
+            $success = $table->load($loadCriteria);
         } catch (Exception $exc) {
             OrganizerHelper::message($exc->getMessage(), 'error');
 
@@ -80,45 +80,45 @@ class Planning_Periods
         }
 
         if ($success) {
-            return $ppTable->id;
+            return $table->id;
         } elseif (empty($data)) {
             return null;
         }
 
         // Entry not found
-        $success = $ppTable->save($data);
+        $success = $table->save($data);
 
-        return $success ? $ppTable->id : null;
+        return $success ? $table->id : null;
     }
 
     /**
-     * Checks for the planning period name for a given planning period id
+     * Checks for the term name for a given term id
      *
-     * @param string $ppID the planning period's id
+     * @param string $termID the term's id
      *
-     * @return mixed  string the name if the planning period could be resolved, otherwise null
+     * @return mixed  string the name if the term could be resolved, otherwise null
      */
-    public static function getName($ppID)
+    public static function getName($termID)
     {
-        $ppTable = OrganizerHelper::getTable('Planning_Periods');
+        $table = OrganizerHelper::getTable('Terms');
 
         try {
-            $success = $ppTable->load($ppID);
+            $success = $table->load($termID);
         } catch (Exception $exc) {
             OrganizerHelper::message($exc->getMessage(), 'error');
 
             return null;
         }
 
-        return $success ? $ppTable->name : null;
+        return $success ? $table->name : null;
     }
 
     /**
-     * Retrieves the ID of the planning period occurring immediately after the reference planning period.
+     * Retrieves the ID of the term occurring immediately after the reference term.
      *
-     * @param int $currentID the id of the reference planning period
+     * @param int $currentID the id of the reference term
      *
-     * @return int the id of the subsequent planning period if successful, otherwise 0
+     * @return int the id of the subsequent term if successful, otherwise 0
      */
     public static function getNextID($currentID = 0)
     {
@@ -131,7 +131,7 @@ class Planning_Periods
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')
-            ->from('#__thm_organizer_planning_periods')
+            ->from('#__thm_organizer_terms')
             ->where("startDate > '$currentEndDate'")
             ->order('startDate ASC');
         $dbo->setQuery($query);
@@ -145,20 +145,20 @@ class Planning_Periods
      *
      * @return string  all pools in JSON format
      */
-    public static function getPlanningPeriods()
+    public static function getTerms()
     {
         $dbo   = Factory::getDbo();
         $input = OrganizerHelper::getInput();
 
         $selectedDepartments = $input->getString('departmentIDs');
-        $selectedPrograms    = $input->getString('programIDs');
+        $selectedCategories  = $input->getString('categoryIDs');
 
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT pp.id, pp.name, pp.startDate, pp.endDate')
-            ->from('#__thm_organizer_planning_periods AS pp');
+        $query->select('DISTINCT term.id, term.name, term.startDate, term.endDate')
+            ->from('#__thm_organizer_terms AS term');
 
-        if (!empty($selectedDepartments) or !empty($selectedPrograms)) {
-            $query->innerJoin('#__thm_organizer_lessons AS l on l.planningPeriodID = pp.id');
+        if (!empty($selectedDepartments) or !empty($selectedCategories)) {
+            $query->innerJoin('#__thm_organizer_lessons AS l on term.id = l.termID');
 
             if (!empty($selectedDepartments)) {
                 $query->innerJoin('#__thm_organizer_departments AS dpt ON l.departmentID = dpt.id');
@@ -166,12 +166,12 @@ class Planning_Periods
                 $query->where("l.departmentID IN ($departmentIDs)");
             }
 
-            if (!empty($selectedPrograms)) {
-                $query->innerJoin('#__thm_organizer_lesson_subjects AS ls on ls.lessonID = l.id');
-                $query->innerJoin('#__thm_organizer_lesson_pools AS lp on lp.subjectID = ls.id');
-                $query->innerJoin('#__thm_organizer_plan_pools AS ppo ON lp.poolID = ppo.id');
-                $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-                $query->where("ppo.programID in ($programIDs)");
+            if (!empty($selectedCategories)) {
+                $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs on lcrs.lessonID = l.id');
+                $query->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lcrs.id');
+                $query->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');
+                $categoryIDs = "'" . str_replace(',', "', '", $selectedCategories) . "'";
+                $query->where("gr.categoryID in ($categoryIDs)");
             }
         }
 

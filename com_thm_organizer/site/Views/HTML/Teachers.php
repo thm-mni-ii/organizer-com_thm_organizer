@@ -70,7 +70,7 @@ class Teachers extends ListView
         $headers['surname']      = Languages::_('THM_ORGANIZER_SURNAME');
         $headers['forename']     = Languages::_('THM_ORGANIZER_FORENAME');
         $headers['username']     = Languages::_('THM_ORGANIZER_USERNAME');
-        $headers['t.gpuntisID']  = Languages::_('THM_ORGANIZER_GPUNTISID');
+        $headers['t.untisID']  = Languages::_('THM_ORGANIZER_UNTISID');
         $headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
 
         return $headers;
@@ -93,14 +93,14 @@ class Teachers extends ListView
         foreach ($this->items as $item) {
             $itemForename  = empty($item->forename) ? '' : $item->forename;
             $itemUsername  = empty($item->username) ? '' : $item->username;
-            $itemGPUntisID = empty($item->gpuntisID) ? '' : $item->gpuntisID;
+            $itemUntisID = empty($item->untisID) ? '' : $item->untisID;
 
             $processedItems[$index]                = [];
             $processedItems[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['surname']     = HTML::_('link', $item->link, $item->surname);
             $processedItems[$index]['forename']    = HTML::_('link', $item->link, $itemForename);
             $processedItems[$index]['username']    = HTML::_('link', $item->link, $itemUsername);
-            $processedItems[$index]['t.gpuntisID'] = HTML::_('link', $item->link, $itemGPUntisID);
+            $processedItems[$index]['t.untisID'] = HTML::_('link', $item->link, $itemUntisID);
 
             $departments = TeachersHelper::getDepartmentNames($item->id);
 

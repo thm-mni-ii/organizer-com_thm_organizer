@@ -38,7 +38,7 @@ class Schedules extends ListModel
 
         $select       = 's.id, s.active, s.creationDate, s.creationTime, ';
         $select       .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
-        $select       .= 'pp.id AS planningPeriodID, pp.name AS planningPeriodName, ';
+        $select       .= 'pp.id AS termID, pp.name AS termName, ';
         $select       .= 'u.name AS userName, ';
         $createdParts = ['s.creationDate', 's.creationTime'];
         $select       .= $query->concatenate($createdParts, ' ') . ' AS created ';
@@ -46,11 +46,11 @@ class Schedules extends ListModel
         $query->select($select)
             ->from('#__thm_organizer_schedules AS s')
             ->innerJoin('#__thm_organizer_departments AS d ON s.departmentID = d.id')
-            ->innerJoin('#__thm_organizer_planning_periods AS pp ON s.planningPeriodID = pp.id')
+            ->innerJoin('#__thm_organizer_terms AS term ON term.id = s.termID')
             ->leftJoin('#__users AS u ON u.id = s.userID')
             ->where('d.id IN (' . implode(', ', $allowedDepartments) . ')');
 
-        $this->setValueFilters($query, ['departmentID', 'planningPeriodID', 'active']);
+        $this->setValueFilters($query, ['departmentID', 'termID', 'active']);
 
         $this->setOrdering($query);
 

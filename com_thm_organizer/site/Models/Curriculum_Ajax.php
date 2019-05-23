@@ -337,9 +337,9 @@ class Curriculum_Ajax extends BaseModel
             $subjectData->teacherName = $defaultName;
         }
 
-        if (!empty($teacherData['gpuntisID']) and !empty($this->_scheduleLink)) {
+        if (!empty($teacherData['untisID']) and !empty($this->_scheduleLink)) {
             $subjectData->teacherScheduleLink
-                = $this->_scheduleLink . "&teacherID={$teacherData['gpuntisID']}";
+                = $this->_scheduleLink . "&teacherID={$teacherData['untisID']}";
         }
     }
 }

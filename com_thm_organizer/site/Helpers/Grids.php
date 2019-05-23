@@ -29,7 +29,7 @@ class Grids implements XMLValidator
     public static function getID($untisID)
     {
         $table  = OrganizerHelper::getTable('Grids');
-        $data   = ['gpuntisID' => $untisID];
+        $data   = ['untisID' => $untisID];
         $exists = $table->load($data);
 
         return empty ($exists) ? null : $table->id;
@@ -53,7 +53,7 @@ class Grids implements XMLValidator
         $grid->grid = json_encode($grid->grid);
 
         $table        = OrganizerHelper::getTable('Grids');
-        $loadCriteria = ['gpuntisID' => $untisID];
+        $loadCriteria = ['untisID' => $untisID];
         $exists       = $table->load($loadCriteria);
         if ($exists) {
             $altered = false;

@@ -12,8 +12,8 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
-use Organizer\Helpers\Planning_Periods;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Terms;
 
 /**
  * Class calculates lesson statistics and loads them into the view context.
@@ -39,25 +39,25 @@ class Lesson_Statistics extends FormModel
         $this->langTag = Languages::getShortTag();
 
         $this->populateState();
+        $categoryID   = $this->state->get('categoryID');
         $departmentID = $this->state->get('departmentID');
-        $periodID     = $this->state->get('planningPeriodID');
-        $programID    = $this->state->get('programID');
+        $periodID     = $this->state->get('termID');
 
         $this->query = $this->_db->getQuery(true);
         $this->setBaseQuery();
 
         if (empty($periodID)) {
-            $this->rows = $this->getPlanningPeriods();
+            $this->rows = $this->getTerms();
         } else {
             $this->rows = $this->getMethods();
         }
 
-        if (empty($departmentID) and empty($programID)) {
+        if (empty($departmentID) and empty($categoryID)) {
             $this->columns = $this->getDepartments();
-        } elseif (empty($programID)) {
-            $this->columns = $this->getPrograms();
+        } elseif (empty($categoryID)) {
+            $this->columns = $this->getCategories();
         } else {
-            $this->columns = $this->getPools();
+            $this->columns = $this->getGroups();
         }
 
         $this->setLessonCounts();
@@ -77,29 +77,58 @@ class Lesson_Statistics extends FormModel
     }
 
     /**
-     * Adds a planning period restriction to the query as appropriate.
+     * Adds a term restriction to the query as appropriate.
      *
      * @return void
      */
     private function addPeriodRestriction()
     {
-        $periodID = $this->state->get('planningPeriodID');
+        $periodID = $this->state->get('termID');
         if (!empty($periodID)) {
-            $this->query->where("l.planningPeriodID = '$periodID'");
+            $this->query->where("l.termID = '$periodID'");
         }
     }
 
     /**
-     * Adds a program restriction to the query as appropriate.
+     * Adds a category restriction to the query as appropriate.
      *
      * @return void
      */
-    private function addProgramRestriction()
+    private function addCategoryRestriction()
     {
-        $programID = $this->state->get('programID');
-        if (!empty($programID)) {
-            $this->query->where("pProg.id = '$programID'");
+        $categoryID = $this->state->get('categoryID');
+        if (!empty($categoryID)) {
+            $this->query->where("cat.id = '$categoryID'");
         }
+    }
+
+    /**
+     * Gets an array of event categories.
+     *
+     * @return array the terms
+     */
+    private function getCategories()
+    {
+        $this->resetAdaptiveClauses();
+        $this->query->select('DISTINCT cat.id, cat.name')
+            ->where("l.delta != 'removed'")
+            ->order('cat.name');
+
+        $this->addDepartmentRestriction();
+        $this->addPeriodRestriction();
+
+        $this->_db->setQuery($this->query);
+
+        $categories = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+        if (empty($categories)) {
+            return [];
+        }
+
+        foreach ($categories as &$category) {
+            $category['total'] = [];
+        }
+
+        return $categories;
     }
 
     /**
@@ -152,9 +181,39 @@ class Lesson_Statistics extends FormModel
     }
 
     /**
-     * Gets an array of planning periods.
+     * Gets an array of groups.
      *
-     * @return array the planning periods
+     * @return array the groups
+     */
+    private function getGroups()
+    {
+        $this->resetAdaptiveClauses();
+        $this->query->select('DISTINCT group.id, group.name')
+            ->where("l.delta != 'removed'")
+            ->order('group.name');
+
+        $this->addDepartmentRestriction();
+        $this->addPeriodRestriction();
+        $this->addCategoryRestriction();
+
+        $this->_db->setQuery($this->query);
+
+        $pools = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+        if (empty($pools)) {
+            return [];
+        }
+
+        foreach ($pools as &$pool) {
+            $pool['total'] = [];
+        }
+
+        return $pools;
+    }
+
+    /**
+     * Gets an array of methods.
+     *
+     * @return array the methods
      */
     private function getMethods()
     {
@@ -165,7 +224,7 @@ class Lesson_Statistics extends FormModel
 
         $this->addDepartmentRestriction();
         $this->addPeriodRestriction();
-        $this->addProgramRestriction();
+        $this->addCategoryRestriction();
 
         $this->_db->setQuery($this->query);
 
@@ -185,92 +244,33 @@ class Lesson_Statistics extends FormModel
     }
 
     /**
-     * Gets an array of planning periods.
+     * Gets an array of terms.
      *
-     * @return array the planning periods
+     * @return array the terms
      */
-    private function getPlanningPeriods()
+    private function getTerms()
     {
         $this->resetAdaptiveClauses();
-        $this->query->select('DISTINCT pp.*')
-            ->where('pp.startDate <= CURDATE()')
+        $this->query->select('DISTINCT term.*')
+            ->where('term.startDate <= CURDATE()')
             ->where("l.delta != 'removed'")
-            ->order('pp.startDate DESC');
+            ->order('term.startDate DESC');
 
         $this->addDepartmentRestriction();
-        $this->addProgramRestriction();
+        $this->addCategoryRestriction();
 
         $this->_db->setQuery($this->query);
 
-        $planningPeriods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
-        if (empty($planningPeriods)) {
+        $terms = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+        if (empty($terms)) {
             return [];
         }
 
-        foreach ($planningPeriods as &$planningPeriod) {
-            $planningPeriod['total'] = [];
+        foreach ($terms as &$term) {
+            $term['total'] = [];
         }
 
-        return $planningPeriods;
-    }
-
-    /**
-     * Gets an array of plan pools.
-     *
-     * @return array the planning periods
-     */
-    private function getPools()
-    {
-        $this->resetAdaptiveClauses();
-        $this->query->select('DISTINCT pPool.id, pPool.name')
-            ->where("l.delta != 'removed'")
-            ->order('pPool.name');
-
-        $this->addDepartmentRestriction();
-        $this->addPeriodRestriction();
-        $this->addProgramRestriction();
-
-        $this->_db->setQuery($this->query);
-
-        $pools = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
-        if (empty($pools)) {
-            return [];
-        }
-
-        foreach ($pools as &$pool) {
-            $pool['total'] = [];
-        }
-
-        return $pools;
-    }
-
-    /**
-     * Gets an array of degree programs.
-     *
-     * @return array the planning periods
-     */
-    private function getPrograms()
-    {
-        $this->resetAdaptiveClauses();
-        $this->query->select('DISTINCT pProg.id, pProg.name')
-            ->where("l.delta != 'removed'")
-            ->order('pProg.name');
-
-        $this->addDepartmentRestriction();
-        $this->addPeriodRestriction();
-
-        $this->_db->setQuery($this->query);
-
-        $programs = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
-        if (empty($programs)) {
-            return [];
-        }
-
-        foreach ($programs as &$program) {
-            $program['total'] = [];
-        }
-
-        return $programs;
+        return $terms;
     }
 
     /**
@@ -281,27 +281,25 @@ class Lesson_Statistics extends FormModel
     protected function populateState()
     {
         parent::populateState();
-        $defaultPeriod = Planning_Periods::getCurrentID();
-        $formData      = OrganizerHelper::getForm();
+        $defaultTerm = Terms::getCurrentID();
+        $formData    = OrganizerHelper::getForm();
 
-        // Not reached by form action
-        if (empty($formData)) {
-            $periodID     = $defaultPeriod;
-            $departmentID = '';
-            $programID    = '';
-        } else {
-            $periodID = empty($formData['planningPeriodID']) ? '' : (int)$formData['planningPeriodID'];
+        $categoryID   = '';
+        $departmentID = '';
+        $termID       = $defaultTerm;
+        if (!empty($formData)) {
+            $termID = empty($formData['termID']) ? $defaultTerm : (int)$formData['termID'];
 
             $departmentSelected = !empty($formData['departmentID']);
             $departmentID       = $departmentSelected ? (int)$formData['departmentID'] : '';
 
-            $programSelected = !empty($formData['programID']);
-            $programID       = $programSelected ? (int)$formData['programID'] : '';
+            $categorySelected = !empty($formData['categoryID']);
+            $categoryID      = $categorySelected ? (int)$formData['categoryID'] : '';
         }
 
-        $this->setState('planningPeriodID', $periodID);
+        $this->setState('categoryID', $categoryID);
         $this->setState('departmentID', $departmentID);
-        $this->setState('programID', $programID);
+        $this->setState('termID', $termID);
     }
 
     /**
@@ -324,12 +322,12 @@ class Lesson_Statistics extends FormModel
     private function setBaseQuery()
     {
         $this->query->from('#__thm_organizer_lessons AS l')
-            ->innerJoin('#__thm_organizer_planning_periods AS pp ON pp.id = l.planningPeriodID')
+            ->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
             ->innerJoin('#__thm_organizer_departments AS dpt ON dpt.id = l.departmentID')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.lessonID = l.id')
-            ->innerJoin('#__thm_organizer_lesson_pools AS lp on lp.subjectID = ls.id')
-            ->innerJoin('#__thm_organizer_plan_pools AS pPool ON pPool.id = lp.poolID')
-            ->innerJoin('#__thm_organizer_plan_programs AS pProg ON pProg.id = pPool.programID')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id')
+            ->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lcrs.id')
+            ->innerJoin('#__thm_organizer_groups AS group ON group.id = lg.groupID')
+            ->innerJoin('#__thm_organizer_categories AS cat ON cat.id = group.categoryID')
             ->leftJoin('#__thm_organizer_methods AS m ON m.id = l.methodID');
     }
 
@@ -340,9 +338,9 @@ class Lesson_Statistics extends FormModel
      */
     private function setLessonCounts()
     {
+        $categoryID   = $this->state->get('categoryID');
         $departmentID = $this->state->get('departmentID');
-        $periodID     = $this->state->get('planningPeriodID');
-        $programID    = $this->state->get('programID');
+        $termID       = $this->state->get('termID');
         $lessonCounts = [];
         foreach (array_keys($this->rows) as $rowID) {
             $lessons[$rowID] = [];
@@ -353,18 +351,18 @@ class Lesson_Statistics extends FormModel
 
                 // Define column column
                 if (empty($departmentID)) {
-                    $column = empty($programID) ? 'dpt' : 'pPool';
+                    $column = empty($categoryID) ? 'dpt' : 'group';
                 } else {
                     $this->query->where("l.departmentID = '$departmentID'");
-                    $column = empty($programID) ? 'pProg' : 'pPool';
+                    $column = empty($categoryID) ? 'cat' : 'group';
                 }
                 $this->query->where("$column.id = '$columnID'");
 
                 // Define row column
-                if (empty($periodID)) {
-                    $this->query->where("pp.id = '$rowID'");
+                if (empty($termID)) {
+                    $this->query->where("term.id = '$rowID'");
                 } else {
-                    $this->query->where("pp.id = '$periodID'");
+                    $this->query->where("term.id = '$termID'");
                     $clause = empty($rowID) ? 'm.id IS NULL' : "m.id = '$rowID'";
                     $this->query->where($clause);
                 }

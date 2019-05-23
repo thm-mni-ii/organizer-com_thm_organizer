@@ -22,13 +22,13 @@ use stdClass;
 class Groups implements XMLValidator
 {
     /**
-     * Checks whether the given plan pool is associated with an allowed department
+     * Checks whether the given group is associated with an allowed department
      *
-     * @param array $ppIDs the ids of the plan pools being checked
+     * @param array $groupIDs the ids of the groups being checked
      *
-     * @return bool  true if the plan pool is associated with an allowed department, otherwise false
+     * @return bool  true if the group is associated with an allowed department, otherwise false
      */
-    public static function allowEdit($ppIDs)
+    public static function allowEdit($groupIDs)
     {
         if (empty(Factory::getUser()->id)) {
             return false;
@@ -38,19 +38,19 @@ class Groups implements XMLValidator
             return true;
         }
 
-        if (empty($ppIDs)) {
+        if (empty($groupIDs)) {
             return false;
         }
 
-        $ppIDs              = "'" . implode("', '", $ppIDs) . "'";
+        $groupIDs           = "'" . implode("', '", $groupIDs) . "'";
         $allowedDepartments = Access::getAccessibleDepartments('schedule');
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('DISTINCT dr.id')
             ->from('#__thm_organizer_department_resources as dr')
-            ->innerJoin('#__thm_organizer_plan_pools as ppl on ppl.programID = dr.programID')
-            ->where("ppl.id IN ( $ppIDs )")
+            ->innerJoin('#__thm_organizer_groups as gr on gr.categoryID = dr.categoryID')
+            ->where("gr.id IN ( $groupIDs )")
             ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
 
         $dbo->setQuery($query);
@@ -59,19 +59,19 @@ class Groups implements XMLValidator
     }
 
     /**
-     * Retrieves a list of lessons associated with a pool
+     * Retrieves a list of lessons associated with a group
      *
-     * @return array the lessons associated with the pool
+     * @return array the lessons associated with the group
      */
     public static function getLessons()
     {
         $input = OrganizerHelper::getInput();
 
-        $poolIDs = ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
-        if (empty($poolIDs[0])) {
+        $groupIDs = ArrayHelper::toInteger(explode(',', $input->getString('groupIDs', '')));
+        if (empty($groupIDs[0])) {
             return [];
         }
-        $poolIDs = implode(',', $poolIDs);
+        $groupIDs = implode(',', $groupIDs);
 
         $date = $input->getString('date');
         if (!Dates::isStandardized($date)) {
@@ -88,21 +88,21 @@ class Groups implements XMLValidator
         $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT l.id, l.comment, ls.subjectID, m.abbreviation_$languageTag AS method")
+        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$languageTag AS method")
             ->from('#__thm_organizer_lessons AS l')
             ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
-            ->innerJoin('#__thm_organizer_lesson_subjects AS ls on ls.lessonID = l.id')
-            ->innerJoin('#__thm_organizer_lesson_pools AS lp on lp.subjectID = ls.id')
-            ->where("lp.poolID IN ($poolIDs)")
+            ->innerJoin('#__thm_organizer_lesson_courses AS lc on lc.lessonID = l.id')
+            ->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lc.id')
+            ->where("lg.groupID IN ($groupIDs)")
             ->where("l.delta != 'removed'")
-            ->where("lp.delta != 'removed'")
-            ->where("ls.delta != 'removed'");
+            ->where("lg.delta != 'removed'")
+            ->where("lc.delta != 'removed'");
 
         $dateTime = strtotime($date);
         switch ($interval) {
             case 'semester':
-                $query->innerJoin('#__thm_organizer_planning_periods AS pp ON pp.id = l.planningPeriodID')
-                    ->where("'$date' BETWEEN pp.startDate AND pp.endDate");
+                $query->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
+                    ->where("'$date' BETWEEN term.startDate AND term.endDate");
                 break;
             case 'month':
                 $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
@@ -135,7 +135,7 @@ class Groups implements XMLValidator
         foreach ($results as $lesson) {
             $index = '';
 
-            $lesson['subjectName'] = Subjects::getName($lesson['subjectID'], 'plan', true);
+            $lesson['subjectName'] = Courses::getName($lesson['subjectID'], true);
 
             $index .= $lesson['subjectName'];
 
@@ -158,9 +158,8 @@ class Groups implements XMLValidator
      */
     public static function getOptions()
     {
-
-        $selectedPrograms = OrganizerHelper::getInput()->getString('programIDs');
-        $short            = count($selectedPrograms) === 1;
+        $selectedCategories = OrganizerHelper::getInput()->getString('categoryIDs');
+        $short            = count($selectedCategories) === 1;
         $groups           = self::getGroups();
 
         $results = [];
@@ -184,22 +183,22 @@ class Groups implements XMLValidator
         $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select('ppl.id, ppl.name, ppl.full_name');
-        $query->from('#__thm_organizer_plan_pools AS ppl');
+        $query->select('gr.id, gr.name, gr.full_name');
+        $query->from('#__thm_organizer_groups AS gr');
 
         $input               = OrganizerHelper::getInput();
         $selectedDepartments = $input->getString('departmentIDs');
-        $selectedPrograms    = $input->getString('programIDs');
+        $selectedCategories  = $input->getString('categoryIDs');
 
         if (!empty($selectedDepartments)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON ppl.programID = dr.programID');
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON gr.categoryID = dr.categoryID');
             $departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
             $query->where("dr.departmentID IN ($departmentIDs)");
         }
 
-        if (!empty($selectedPrograms)) {
-            $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-            $query->where("ppl.programID in ($programIDs)");
+        if (!empty($selectedCategories)) {
+            $categoryIDs = "'" . str_replace(',', "', '", $selectedCategories) . "'";
+            $query->where("gr.categoryID in ($categoryIDs)");
         }
 
         $dbo->setQuery($query);
@@ -208,19 +207,19 @@ class Groups implements XMLValidator
     }
 
     /**
-     * Retrieves a list of subjects associated with a pool
+     * Retrieves a list of subjects associated with a group
      *
-     * @return array the subjects associated with the pool
+     * @return array the subjects associated with the group
      */
     public static function getSubjects()
     {
         $input = OrganizerHelper::getInput();
 
-        $poolIDs = ArrayHelper::toInteger(explode(',', $input->getString('poolIDs', '')));
-        if (empty($poolIDs[0])) {
+        $groupIDs = ArrayHelper::toInteger(explode(',', $input->getString('groupIDs', '')));
+        if (empty($groupIDs[0])) {
             return [];
         }
-        $poolIDs = implode(',', $poolIDs);
+        $groupIDs = implode(',', $groupIDs);
 
         $date = $input->getString('date');
         if (!Dates::isStandardized($date)) {
@@ -235,20 +234,20 @@ class Groups implements XMLValidator
         $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT ls.subjectID')
-            ->from('#__thm_organizer_lesson_subjects AS ls')
-            ->innerJoin('#__thm_organizer_lessons AS l on l.id = ls.lessonID')
-            ->innerJoin('#__thm_organizer_lesson_pools AS lp on lp.subjectID = ls.id')
-            ->where("lp.poolID IN ($poolIDs)")
+        $query->select('DISTINCT lc.courseID')
+            ->from('#__thm_organizer_lesson_courses AS lc')
+            ->innerJoin('#__thm_organizer_lessons AS l on l.id = lc.lessonID')
+            ->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lc.id')
+            ->where("lg.groupID IN ($groupIDs)")
             ->where("l.delta != 'removed'")
-            ->where("lp.delta != 'removed'")
-            ->where("ls.delta != 'removed'");
+            ->where("lg.delta != 'removed'")
+            ->where("lc.delta != 'removed'");
 
         $dateTime = strtotime($date);
         switch ($interval) {
             case 'semester':
-                $query->innerJoin('#__thm_organizer_planning_periods AS pp ON pp.id = l.planningPeriodID')
-                    ->where("'$date' BETWEEN pp.startDate AND pp.endDate");
+                $query->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
+                    ->where("'$date' BETWEEN term.startDate AND term.endDate");
                 break;
             case 'month':
                 $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
@@ -271,16 +270,16 @@ class Groups implements XMLValidator
         }
 
         $dbo->setQuery($query);
-        $subjectIDs = OrganizerHelper::executeQuery('loadColumn', []);
+        $courseIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
-        if (empty($subjectIDs)) {
+        if (empty($courseIDs)) {
             return [];
         }
 
         $subjects = [];
-        foreach ($subjectIDs as $subjectID) {
-            $name            = Subjects::getName($subjectID, 'plan', true);
-            $subjects[$name] = $subjectID;
+        foreach ($courseIDs as $courseID) {
+            $name            = Courses::getName($courseID, true);
+            $subjects[$name] = $courseID;
         }
 
         ksort($subjects);
@@ -298,15 +297,15 @@ class Groups implements XMLValidator
      */
     public static function setID(&$scheduleModel, $untisID)
     {
-        $pool = $scheduleModel->schedule->pools->$untisID;
+        $group = $scheduleModel->schedule->groups->$untisID;
 
         $table  = OrganizerHelper::getTable('Groups');
-        $data   = ['gpuntisID' => $pool->gpuntisID];
+        $data   = ['untisID' => $group->untisID];
         $exists = $table->load($data);
 
         if ($exists) {
             $altered = false;
-            foreach ($pool as $key => $value) {
+            foreach ($group as $key => $value) {
                 if (property_exists($table, $key) and empty($table->$key) and !empty($value)) {
                     $table->set($key, $value);
                     $altered = true;
@@ -317,12 +316,12 @@ class Groups implements XMLValidator
                 $table->store();
             }
 
-            $scheduleModel->schedule->pools->$untisID->id = $table->id;
+            $scheduleModel->schedule->groups->$untisID->id = $table->id;
 
             return;
         }
         $table->save($data);
-        $scheduleModel->schedule->pools->$untisID->id = $table->id;
+        $scheduleModel->schedule->groups->$untisID->id = $table->id;
 
         return;
 
@@ -339,15 +338,15 @@ class Groups implements XMLValidator
     public static function validateCollection(&$scheduleModel, &$xmlObject)
     {
         if (empty($xmlObject->classes)) {
-            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_POOLS_MISSING');
+            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_GROUPS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->pools = new stdClass;
+        $scheduleModel->schedule->groups = new stdClass;
 
-        foreach ($xmlObject->classes->children() as $poolNode) {
-            self::validateIndividual($scheduleModel, $poolNode);
+        foreach ($xmlObject->classes->children() as $groupNode) {
+            self::validateIndividual($scheduleModel, $groupNode);
         }
     }
 
@@ -364,8 +363,8 @@ class Groups implements XMLValidator
     {
         $internalID = trim((string)$node[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(Languages::_('THM_ORGANIZER_POOL_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_POOL_ID_MISSING');
+            if (!in_array(Languages::_('THM_ORGANIZER_GROUP_ID_MISSING'), $scheduleModel->scheduleErrors)) {
+                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_GROUP_ID_MISSING');
             }
 
             return;
@@ -378,7 +377,7 @@ class Groups implements XMLValidator
         $full_name = trim((string)$node->longname);
         if (empty($full_name)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_POOL_LONGNAME_MISSING'),
+                Languages::_('THM_ORGANIZER_GROUP_LONGNAME_MISSING'),
                 $internalID
             );
 
@@ -399,13 +398,13 @@ class Groups implements XMLValidator
         $degreeID = str_replace('DP_', '', trim((string)$node->class_department[0]['id']));
         if (empty($degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_POOL_PROGRAM_MISSING'), $full_name, $internalID
+                Languages::_('THM_ORGANIZER_GROUP_MISSING_CATEGORY'), $full_name, $internalID
             );
 
             return;
         } elseif (empty($scheduleModel->schedule->degrees->$degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_POOL_PROGRAM_LACKING'), $full_name, $internalID, $degreeID
+                Languages::_('THM_ORGANIZER_GROUP_CATEGORY_LACKING'), $full_name, $internalID, $degreeID
             );
 
             return;
@@ -414,27 +413,27 @@ class Groups implements XMLValidator
         $grid = (string)$node->timegrid;
         if (empty($grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_POOL_GRID_MISSING'), $full_name, $internalID
+                Languages::_('THM_ORGANIZER_GROUP_MISSING_GRID'), $full_name, $internalID
             );
 
             return;
         } elseif (empty($scheduleModel->schedule->periods->$grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_POOL_GRID_LACKING'), $full_name, $internalID, $grid
+                Languages::_('THM_ORGANIZER_GROUP_GRID_LACKING'), $full_name, $internalID, $grid
             );
 
             return;
         }
 
-        $pool            = new stdClass;
-        $pool->degree    = $degreeID;
-        $pool->gpuntisID = $untisID;
-        $pool->full_name = $full_name;
-        $pool->name      = $name;
-        $pool->grid      = $grid;
-        $pool->gridID    = Grids::getID($grid);
+        $group            = new stdClass;
+        $group->degree    = $degreeID;
+        $group->untisID   = $untisID;
+        $group->full_name = $full_name;
+        $group->name      = $name;
+        $group->grid      = $grid;
+        $group->gridID    = Grids::getID($grid);
 
-        $scheduleModel->schedule->pools->$internalID = $pool;
+        $scheduleModel->schedule->groups->$internalID = $group;
         self::setID($scheduleModel, $internalID);
     }
 }

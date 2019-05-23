@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 use Organizer\Helpers\Groups;
 
 /**
- * Class loads a form for editing plan (subject) pool data.
+ * Class loads a form for editing group data.
  */
 class Group_Edit extends EditModel
 {

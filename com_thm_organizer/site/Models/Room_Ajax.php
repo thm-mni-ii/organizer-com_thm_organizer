@@ -24,7 +24,7 @@ class Room_Ajax extends BaseModel
      *
      * @param bool $short whether or not the options should use abbreviated names
      *
-     * @return string the concatenated plan pool options
+     * @return string the concatenated room options
      */
     public function getPlanOptions($short = false)
     {

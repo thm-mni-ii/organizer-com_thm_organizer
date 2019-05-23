@@ -208,7 +208,7 @@ class Deputat extends BaseModel
 
         /**
          * TODO: get the departments for which the user has scheduling access, and their schedules.
-         * TODO: get the names from the schedules from the department resource name and the planning period name
+         * TODO: get the names from the schedules from the department resource name and the term name
          * $canManageSchedules = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
          */
 
@@ -367,9 +367,9 @@ class Deputat extends BaseModel
      */
     private function isTallied(&$schedule, $lessonID)
     {
-        $subjects = $schedule->lessons->$lessonID->subjects;
-        foreach ($subjects as $subjectID => $delta) {
-            if ($delta != 'removed' and strpos($subjectID, 'KOL.') !== false) {
+        $courses = $schedule->lessons->$lessonID->courses;
+        foreach ($courses as $courseID => $delta) {
+            if ($delta != 'removed' and strpos($courseID, 'KOL.') !== false) {
                 return true;
             }
         }
