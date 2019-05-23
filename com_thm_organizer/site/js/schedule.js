@@ -2671,16 +2671,19 @@ const ScheduleApp = function (variables) {
         if (variables.isMobile)
         {
             jQuery('.date-input').insertAfter('.menu-bar');
+            jQuery('.check-input').insertAfter('.date-input');
         }
 
         mq.addListener(function () {
             if (mq.matches)
             {
                 jQuery('.date-input').insertAfter('.menu-bar');
+                jQuery('.check-input').insertAfter('.date-input');
             }
             else
             {
                 jQuery('.date-input').insertAfter(jQuery('.tabs-tab').eq(-2));
+                jQuery('.check-input').insertAfter('.date-input');
             }
         });
     }

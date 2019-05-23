@@ -258,7 +258,7 @@ input[type=radio] {
 
 // Date-Input ********************************************************************************************************//
 .date-input {
-  display: inline-block;
+  display: inline;
   margin-left: 0;
   vertical-align: super;
 
@@ -364,6 +364,29 @@ input[type=radio] {
   }
 }
 
+// Check-Input *******************************************************************************************************//
+.menu-bar .check-input {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.check-input {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.check-input #check-notify-text {
+  margin: auto;
+  vertical-align: bottom;
+  display: inline;
+}
+
+.check-input #check-notify-box {
+  margin: 0.25rem auto;
+  vertical-align: bottom;
+}
 // Content - Schedule-Table
 //********************************************************************************************************************//
 .scheduleWrapper {

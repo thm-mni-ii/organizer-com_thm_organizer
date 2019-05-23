@@ -122,6 +122,10 @@ $displayName = empty($this->model->displayName) ?
                     <span class="icon-arrow-right-22"></span>
                 </button>
             </li>
+            <li class="check-input">
+                <input type="checkbox" id="check-notify-box" onclick="scheduleApp.toggleCheckbox();" <?php echo $this->model->setCheckboxChecked(); ?>/>
+                <span class= "tab-text" id="check-notify-text"><?php echo \JText::_('THM_ORGANIZER_CHECK_NOTIFY'); ?></span>
+            </li>
             <li class="tabs-tab" role="presentation">
                 <a href="#exports" class="tabs-toggle" id="tab-exports" data-toggle="tab"
                    data-id="exports" role="tab" aria-controls="exports" aria-selected="true">

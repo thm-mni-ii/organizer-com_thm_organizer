@@ -177,6 +177,11 @@ input[type=radio] {
     margin-right: 0.3rem;
 }
 
+.menu-bar .check-input {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
 .menu-bar a:hover,
 .menu-bar label:hover {
     cursor: pointer;
@@ -429,6 +434,24 @@ input[type=radio] {
 
 .date-input div .today {
     width: 100%;
+}
+
+.check-input {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.check-input #check-notify-text {
+    margin: auto;
+    vertical-align: bottom;
+    display: inline;
+}
+
+.check-input #check-notify-box {
+    margin: 0.25rem auto;
+    vertical-align: bottom;
 }
 
 .scheduleWrapper a,

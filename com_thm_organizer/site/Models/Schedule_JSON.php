@@ -42,6 +42,11 @@ class Schedule_JSON extends BaseDatabaseModel
      */
     private $shouldNotify = false;
 
+    private $changedStatus = array();
+    private $changedDate = array();
+    private $changedTime = array();
+    private $changedLessonID = array();
+
     /**
      * JSONSchedule constructor.
      *
@@ -878,6 +883,10 @@ class Schedule_JSON extends BaseDatabaseModel
 
             return false;
         }
+        elseif ($shouldNotify)
+        {
+            $this->notify();
+        }
 
         $this->_db->transactionCommit();
 
@@ -1175,7 +1184,7 @@ class Schedule_JSON extends BaseDatabaseModel
 
             $this->setConfigurations($instance, $configurations, $source);
             $this->schedule->calendar->$date->$time->$lessonID = $instance;
-            $this->notify($status, $date, $time, $lessonID);
+            $this->saveChangedLesson($status, $date, $time, $lessonID);
         }
     }
 
@@ -1207,19 +1216,136 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Notifies all users which are subscribed to the changed lessons about the change via mail
+     * Saves all changes every time a change is detected
      *
      * @param string $status   the batch instance status [new|removed]
      * @param string $date     the date when the times occure
-     * @param array  $time     the time interval of the new/removed lesson
-     * @param array  $lessonID the lesson which has changed
+     * @param string $time     the time of the new/removed lesson
+     * @param string $lessonID the lesson which has changed
+     */
+    private function saveChangedLesson($status, $date, $time, $lessonID)
+    {
+        array_push($this->changedStatus, $status);
+        array_push($this->changedDate, $date);
+        array_push($this->changedTime, $time);
+        array_push($this->changedLessonID, $lessonID);
+    }
+
+    /**
+     * Notifies all users which are subscribed to the changed lessons about the change via mail
+     *
      *
      * @return void modifies the schedule date object
      */
-    private function notify($status, $date, $time, $lessonID)
+    private function notify()
     {
-        if ($this->shouldNotify) {
-            //Do Notify
+        for ($i = 0; $i < count($this->changedStatus); $i++) {
+            if ($this->changedStatus[$i] == "removed") {
+                for ($j = 0; $j < count($this->changedStatus); $j++) {
+                    $status = 0;
+                    $participants = THM_OrganizerHelperCourses::getFullParticipantData($this->changedLessonID[$j]);
+
+                    if ($this->changedStatus[$j] == "new" and $this->changedLessonID[$i] == $this->changedLessonID[$j]) {
+
+                        if ($this->changedTime[$j] != $this->changedTime[$i]) {
+                            $status += 1;
+                        }
+
+                        if ($this->changedDate[$j] != $this->changedDate[$i]) {
+                            $status += 2;
+                        }
+
+                        $this->notifyUsers($participants, $this->changedLessonID[$i], $status,
+                            $this->changedDate[$i], $this->changedDate[$j],
+                            $this->changedTime[$i], $this->changedTime[$j]);
+                    }
+                }
+            }
+        }
+    }
+
+    private function notifyUsers($participants, $courseID, $state, $oldDate, $newDate, $oldTime, $newTime)
+    {
+        foreach($participants as $participant) {
+            $participantID = $participant['id'];
+            $mailer = \JFactory::getMailer();
+            $input = THM_OrganizerHelperComponent::getInput();
+
+            $user = \JFactory::getUser($participantID);
+            $userParams = json_decode($user->params, true);
+            $mailer->addRecipient($user->email);
+
+            if (!empty($userParams['language'])) {
+                $input->set('languageTag', explode('-', $userParams['language'])[0]);
+            } else {
+                $officialAbbreviation = THM_OrganizerHelperCourses::getCourse($courseID)['instructionLanguage'];
+                $tag = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
+                $input->set('languageTag', $tag);
+            }
+
+            $params = THM_OrganizerHelperComponent::getParams();
+            $sender = \JFactory::getUser($params->get('mailSender'));
+
+            if (empty($sender->id)) {
+                return;
+            }
+
+            $mailer->setSender([$sender->email, $sender->name]);
+
+            $course = THM_OrganizerHelperCourses::getCourse($courseID);
+            if (empty($course)) {
+                return;
+            }
+
+            $lang = THM_OrganizerHelperLanguages::getLanguage();
+            $campus = THM_OrganizerHelperCourses::getCampus($courseID);
+            $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
+            $mailer->setSubject($courseName);
+            $body = $lang->_('THM_ORGANIZER_GREETING') . ',\n\n';
+
+            $statusText = '';
+
+            switch ($state) {
+                case 0:
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED'),
+                        $courseName, $oldDate, $oldTime);
+                    break;
+                case 1:
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_TIME_CHANGED'),
+                        $courseName, $oldDate, $oldTime, $newTime);
+                    break;
+                case 2:
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_DATE_CHANGED'),
+                        $courseName, $oldDate, $newDate);
+                    break;
+                case 3:
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_BOTH_CHANGED'),
+                        $courseName, $oldDate, $newDate, $newTime);
+                    break;
+                default:
+                    return;
+            }
+
+            $body .= ' => ' . $statusText . '\n\n';
+
+            $body .= $lang->_('THM_ORGANIZER_CLOSING') . ',\n';
+            $body .= $sender->name . '\n\n';
+            $body .= $sender->email . '\n';
+
+            $addressParts = explode(' � ', $params->get('address'));
+
+            foreach ($addressParts as $aPart) {
+                $body .= $aPart . '\n';
+            }
+
+            $contactParts = explode(' � ', $params->get('contact'));
+
+            foreach ($contactParts as $cPart) {
+                $body .= $cPart . '\n';
+            }
+
+            $mailer->setBody($body);
+            $mailer->Send();
         }
     }
 }

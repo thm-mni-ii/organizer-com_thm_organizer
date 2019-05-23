@@ -742,23 +742,22 @@ class Controller extends BaseController
             if ($validType) {
                 if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8') {
                     $success = $model->upload($shouldNotify);
-                    $view    = $success ? 'manager' : 'edit';
+                    $view    = $success ? 'Schedules' : 'Schedule_Edit';
                 } else {
-                    $view = 'edit';
+                    $view = 'Schedule_Edit';
                     OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
                 }
 
             } else {
-                $view = 'edit';
+                $view = 'Schedule_Edit';
                 OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');
             }
         } else {
-            $view = 'manager';
+            $view = 'Schedules';
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
-
         $url = OrganizerHelper::getRedirectBase();
-        $url .= "&view={$this->resource}_{$view}";
+        $url .= "&view={$view}";
         $this->setRedirect($url);
     }
 
