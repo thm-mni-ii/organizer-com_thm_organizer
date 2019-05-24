@@ -8,9 +8,9 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Fields;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;

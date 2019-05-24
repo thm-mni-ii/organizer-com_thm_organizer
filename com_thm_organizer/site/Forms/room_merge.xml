@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="untisID" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC" required="true"/>
-        <field name="name" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="buildingID" type="mergeByID" textcolumn="b.name"
-               tables="thm_organizer_rooms AS r,thm_organizer_buildings AS b ON b.id = r.buildingID" class="inputbox"
-               label="THM_ORGANIZER_BUILDING">
-            <option value="">JNONE</option>
-        </field>
-        <field name="typeID" type="mergeByID" textcolumn="name" localized="true"
-               tables="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON t.id = r.typeID" class="inputbox"
-               label="THM_ORGANIZER_TYPE" description="THM_ORGANIZER_TYPE_DESC">
-            <option value="">JNONE</option>
-        </field>
-        <field name="capacity" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_CAPACITY"
-               description="THM_ORGANIZER_CAPACITY_DESC"/>
-        <field name="id" type="mergeID" other="false"/>
-        <field name="otherIDs" type="mergeID" other="true"/>
+        <field name="untisID" type="MergeValues" class="inputbox" label="UNTISID"/>
+        <field name="name" type="MergeValues" class="inputbox" label="NAME"/>
+        <field name="buildingID" type="MergeAssociations" class="inputbox" label="BUILDING"
+               textcolumn="b.name" from="rooms AS rm" innerJoins="buildings AS b ON b.id = rm.buildingID"/>
+        <field name="typeID" type="MergeAssociations" class="inputbox" label="TYPE"
+               textcolumn="name" localized="true" from="rooms AS rm" innerJoins="room_types AS rt ON rt.id = rm.typeID"/>
+        <field name="capacity" type="MergeValues" class="inputbox" label="CAPACITY"/>
+        <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>
 </form>

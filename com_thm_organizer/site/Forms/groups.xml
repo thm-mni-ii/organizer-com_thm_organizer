@@ -19,7 +19,6 @@
                description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
     <fields name="batch">
-        <field name="publishing" type="termPublishing" label="THM_ORGANIZER_PUBLISHING"
-               description="THM_ORGANIZER_PERIOD_PUBLISHING_DESC" required="true"/>
+        <field name="publishing" type="TermPublishing" label="PUBLISHING"/>
     </fields>
 </form>

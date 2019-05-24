@@ -8,9 +8,9 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Fields;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -21,12 +21,12 @@ use Organizer\Helpers\OrganizerHelper;
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
  * terms.
  */
-class JFormFieldTermPublishing extends FormField
+class TermPublishingField extends FormField
 {
     /**
      * @var  string
      */
-    protected $type = 'termPublishing';
+    protected $type = 'TermPublishing';
 
     /**
      * Returns a select box where resource attributes can be selected

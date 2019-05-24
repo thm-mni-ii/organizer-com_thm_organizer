@@ -13,11 +13,9 @@ namespace Organizer\Views\HTML;
 
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -26,21 +24,7 @@ use Organizer\Helpers\Languages;
  */
 class Subject_Edit extends EditView
 {
-    public $form;
-
-    public $item;
-
     protected $_layout = 'tabs';
-
-    public $languageLinks;
-
-    public $languageParams;
-
-    public $lessonID;
-
-    public $menu;
-
-    public $subjectID;
     /**
      * Method to generate buttons for user interaction
      *
@@ -60,43 +44,6 @@ class Subject_Edit extends EditView
         );
         $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
         $toolbar->appendButton('Standard', 'cancel', $cancelText, 'subject.cancel', false);
-    }
-
-    /**
-     * Method to get display
-     *
-     * @param Object $tpl template  (default: null)
-     *
-     * @return void
-     * @throws Exception => invalid request / unauthorized access
-     */
-    public function display($tpl = null)
-    {
-        $input           = OrganizerHelper::getInput();
-        $this->subjectID = $input->getInt('id', 0);
-
-        if (empty($this->subjectID)) {
-            throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        }
-
-        if (!Access::allowSubjectAccess($this->subjectID)) {
-            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
-        }
-
-        $this->item = $this->get('Item');
-        $this->form = $this->get('Form');
-
-        $this->lessonID    = $input->getInt('lessonID', 0);
-        $this->languageTag = Languages::getShortTag();
-
-        OrganizerHelper::addMenuParameters($this);
-
-        $this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $this->languageParams = ['id' => $this->subjectID, 'lessonID' => $this->lessonID, 'view' => 'subject_edit'];
-
-        $this->modifyDocument();
-
-        parent::display($tpl);
     }
 
     /**

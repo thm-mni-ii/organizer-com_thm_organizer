@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
@@ -18,12 +20,10 @@ use Organizer\Helpers\Campuses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Class creates a form field for building selection.
  */
-class JFormFieldBuildingID extends \JFormFieldList
+class JFormFieldBuildingID extends ListField
 {
     /**
      * @var  string

@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
@@ -17,12 +19,10 @@ use Organizer\Helpers\Campuses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Class creates a form field for campus selection.
  */
-class JFormFieldCampusID extends \JFormFieldList
+class JFormFieldCampusID extends ListField
 {
     /**
      * @var  string

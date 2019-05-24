@@ -22,9 +22,9 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Group extends MergeModel
 {
-    protected $fkColumn = 'poolID';
+    protected $fkColumn = 'groupID';
 
-    protected $tableName = 'plan_pools';
+    protected $tableName = 'groups';
 
     /**
      * Provides resource specific user access checks

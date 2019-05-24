@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="field_de" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="field_en" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="untisID" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC" required="true"/>
-        <field name="colorID" type="colorID" class="inputbox color" size="10" label="THM_ORGANIZER_COLOR"
-               description="THM_ORGANIZER_COLOR_DESC"/>
-        <field name="id" type="mergeID" other="false"/>
-        <field name="otherIDs" type="mergeID" other="true"/>
+        <field name="field_de" type="MergeValues" class="inputbox" label="NAME_DE" />
+        <field name="field_en" type="MergeValues" class="inputbox" label="NAME_EN" />
+        <field name="untisID" type="MergeValues" class="inputbox" label="UNTISID" />
+        <field name="colorID" type="MergeAssociations" class="inputbox" label="COLOR"
+               textcolumn="name" localized="true" from="fields AS f" innerJoins="colors AS c ON c.id = f.colorID"/>
+        <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>
 </form>

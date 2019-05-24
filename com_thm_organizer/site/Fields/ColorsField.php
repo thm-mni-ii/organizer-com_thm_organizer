@@ -8,9 +8,9 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
+namespace Organizer\Fields;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -21,14 +21,14 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for predefined colors.
  */
-class JFormFieldColorID extends FormField
+class ColorsField extends FormField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'colorID';
+    protected $type = 'Colors';
 
     /**
      * Returns a select box which contains the colors
@@ -37,9 +37,9 @@ class JFormFieldColorID extends FormField
      */
     public function getInput()
     {
+        $selectedFields = OrganizerHelper::getSelectedIDs();
         $fieldID = OrganizerHelper::getInput()->getInt('id');
-        if (empty($fieldID)) {
-            $selectedFields = OrganizerHelper::getSelectedIDs();
+        if (empty($selectedFields)) {
         } else {
             $selectedFields = [$fieldID];
         }

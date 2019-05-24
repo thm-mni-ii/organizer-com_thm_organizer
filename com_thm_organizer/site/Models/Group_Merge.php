@@ -17,7 +17,7 @@ use Organizer\Helpers\Access;
 /**
  * Class loads a form for merging group data.
  */
-class Groups_Merge extends FormModel
+class Group_Merge extends FormModel
 {
     /**
      * Checks for user authorization to access the view

@@ -12,9 +12,11 @@ namespace Organizer\Views\HTML;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
 
 /**
  * Class loads a non-item based resource form (merge) into the display context. Specific resource determined by

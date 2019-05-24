@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="untisID" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC" required="true"/>
-        <field name="name" type="mergeByValue" class="inputbox" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="programID" type="mergeByID" textcolumn="p.name_de,p.version,d.abbreviation" glue=", "
-               tables="thm_organizer_plan_programs AS ppr,thm_organizer_programs AS p ON ppr.programID = p.id,thm_organizer_degrees AS d ON p.degreeID = d.id"
-               class="inputbox" label="THM_ORGANIZER_PROGRAM" description="THM_ORGANIZER_PROGRAM_DESC">
-            <option value="-1">JNONE</option>
-        </field>
-        <field name="departmentID" type="departmentID" class="inputbox" multiple="multiple" required="true"
-               label="THM_ORGANIZER_DEPARTMENTS" description="THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
-               resource="program"/>
-        <field name="id" type="mergeID" other="false"/>
-        <field name="otherIDs" type="mergeID" other="true"/>
+        <field name="untisID" type="MergeValues" class="inputbox" label="UNTISID" />
+        <field name="name" type="MergeValues" class="inputbox" label="NAME" />
+        <field name="programID" type="MergeAssociations" class="inputbox" label="PROGRAM"
+               textcolumn="prg.name,prg.version,dgr.abbreviation" localized="true" glue=", " from="categories AS cat"
+               innerJoins="programs AS prg ON prg.id = cat.programID,degrees AS dgr ON dgr.id = prg.degreeID"/>
+        <field name="departmentID" type="MergeDepartments" class="inputbox" label="DEPARTMENTS" resource="category" multiple="multiple"/>
+        <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>
 </form>

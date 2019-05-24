@@ -46,15 +46,7 @@ spl_autoload_register(function ($originalClassName) {
             echo "<pre>" . print_r($exc->getTraceAsString(), true) . "</pre>";
             die;
         }
-    } // The legitimate reason for this case is Joomla using default namespaces to look for component files.
-    else {
-        echo "<pre>" . print_r('no file!', true) . "</pre>";
-        echo "<pre>class name:              " . print_r($className, true) . "</pre>";
-        echo "<pre>original fq namespace:   " . print_r($originalClassName, true) . "</pre>";
-        echo "<pre>calculated fq namespace: " . print_r($namespacedClassName, true) . "</pre>";
-        echo "<pre>file path:               " . print_r($filepath, true) . "</pre>";
-        $exc = new Exception;
-        echo "<pre>" . print_r($exc->getTraceAsString(), true) . "</pre>";
-        die;
+    } else {
+        //echo "<pre>file not found" . print_r($filepath, true) . "</pre>";
     }
 });

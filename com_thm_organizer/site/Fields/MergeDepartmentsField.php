@@ -1,0 +1,75 @@
+<?php
+/**
+ * @package     THM_Organizer
+ * @extension   com_thm_organizer
+ * @author      James Antrim, <james.antrim@nm.thm.de>
+ * @copyright   2018 TH Mittelhessen
+ * @license     GNU GPL v.2
+ * @link        www.thm.de
+ */
+
+namespace Organizer\Fields;
+
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
+
+/**
+ * Class creates a generalized select box for selection of a single id column value among those already selected.
+ */
+class MergeDepartmentsField extends ListField
+{
+    /**
+     * @var  string
+     */
+    protected $type = 'MergeDepartments';
+
+    /**
+     * Returns a select box where resource attributes can be selected
+     *
+     * @return array the options for the select box
+     */
+    protected function getOptions()
+    {
+        $selectedIDs = OrganizerHelper::getSelectedIDs();
+        $resource    = str_replace('_merge', '', OrganizerHelper::getInput()->get('view'));
+        $validResources = ['category', 'teacher'];
+        $invalid = (empty($selectedIDs) or empty($resource) or !in_array($resource, $validResources));
+        if ($invalid) {
+            return [];
+        }
+
+        $textColumn = 'short_name_' . Languages::getShortTag();
+        $table = $resource === 'category' ? 'categories' : 'teachers';
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+
+        $query->select("DISTINCT depts.id AS value, depts.$textColumn AS text")
+            ->from("#__thm_organizer_departments as depts")
+            ->innerJoin("#__thm_organizer_department_resources AS dr ON dr.departmentID = depts.id")
+            ->innerJoin("#__thm_organizer_$table AS res ON res.id = dr.{$resource}ID")
+            ->where("res.id IN ( '" . implode("', '", $selectedIDs) . "' )")
+            ->order('text ASC');
+        $dbo->setQuery($query);
+
+        $valuePairs = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($valuePairs)) {
+            return [];
+        }
+
+        $options = [];
+        $values  = [];
+        foreach ($valuePairs as $valuePair) {
+            $options[] = HTML::_('select.option', $valuePair['value'], $valuePair['text']);
+            $values[$valuePair['value']] = $valuePair['value'];
+        }
+
+        $this->value = $values;
+        return empty($options) ? [] : $options;
+    }
+}

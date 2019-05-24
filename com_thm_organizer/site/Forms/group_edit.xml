@@ -10,8 +10,7 @@
                description="THM_ORGANIZER_UNTISID_DESC" readonly="true"/>
         <field name="categoryID" type="genericlist" valuecolumn="id" textcolumn="name"
                table="thm_organizer_categories" label="THM_ORGANIZER_PROGRAM" required="true"/>
-        <field name="publishing" type="termPublishing" label="THM_ORGANIZER_PUBLISHING"
-               description="THM_ORGANIZER_PERIOD_PUBLISHING_DESC" required="true"/>
+        <field name="publishing" type="TermPublishing" label="PUBLISHING"/>
         <field name="gridID" type="genericlist" valuecolumn="id" textcolumn="name" localized="true"
                table="thm_organizer_grids" label="THM_ORGANIZER_GRID"
                description="THM_ORGANIZER_GRID_EXPORT_DESC" required="true"/>

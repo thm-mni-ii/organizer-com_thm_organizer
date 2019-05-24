@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
 \JFormHelper::loadFieldClass('subform');

@@ -54,7 +54,7 @@ class Controller extends BaseController
                 $this->listView = $this->resource . 'es';
                 break;
             case mb_substr($this->resource, -1) == 'y':
-                $this->listView = mb_substr($this->resource, 0, mb_strlen($this->resource - 1)) . 'ies';
+                $this->listView = mb_substr($this->resource, 0, mb_strlen($this->resource) - 1) . 'ies';
                 break;
             default:
                 $this->listView = $this->resource . 's';
