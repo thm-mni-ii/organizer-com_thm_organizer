@@ -13,23 +13,21 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
 
-FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a select box for (subject) pools.
  */
-class JFormFieldPoolID extends \JFormFieldList
+class PoolsField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'poolID';
+    protected $type = 'Pools';
 
     /**
      * Returns an array of pool options

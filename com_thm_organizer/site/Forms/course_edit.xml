@@ -2,7 +2,7 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <field name="id" type="hidden"/>
     <fieldset name="course_settings">
-        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS"
+        <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS"
                description="THM_ORGANIZER_COURSE_CAMPUS">
             <option value="">THM_ORGANIZER_NO_CAMPUSES</option>
         </field>

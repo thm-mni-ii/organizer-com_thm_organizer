@@ -6,10 +6,10 @@
                description="THM_ORGANIZER_NAME_DESC" required="true"/>
         <field name="untisID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_UNTISID"
                description="THM_ORGANIZER_UNTISID_DESC" readonly="true"/>
-        <field name="programID" type="programID" access="true" label="THM_ORGANIZER_PROGRAM">
+        <field name="programID" type="Programs" access="true" label="THM_ORGANIZER_PROGRAM">
             <option value="">JNONE</option>
         </field>
-        <field name="departmentID" type="departmentID" class="inputbox" multiple="multiple" required="true"
+        <field name="departmentID" type="Departments" class="inputbox" multiple="multiple" required="true"
                label="THM_ORGANIZER_DEPARTMENTS" description="THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
                resource="program"/>
     </fieldset>

@@ -3,11 +3,11 @@
     <fieldset name="details" label="THM_ORGANIZER_ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="departmentID" type="departmentID" action="document" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="departmentID" type="Departments" action="document" label="THM_ORGANIZER_DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">
             <option value="">THM_ORGANIZER_NO_INPUT</option>
         </field>
-        <field name="degreeID" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_degrees"
+        <field name="degreeID" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_degrees"
                label="THM_ORGANIZER_DEGREE" description="THM_ORGANIZER_DEGREE_DESC" class="inputbox required"
                required="true">
             <option value="">THM_ORGANIZER_NO_INPUT</option>
@@ -16,7 +16,7 @@
                description="THM_ORGANIZER_VERSION_DESC" required="true"/>
         <field name="code" type="text" class="inputbox" size="40" label="THM_ORGANIZER_LSF_FIELD_ID"
                description="THM_ORGANIZER_LSF_FIELD_ID_DESC" required="true"/>
-        <field name="fieldID" type="genericlist" valuecolumn="id" textcolumn="field" table="thm_organizer_fields"
+        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" table="thm_organizer_fields"
                localized="true" class="inputbox" label="THM_ORGANIZER_FIELD"
                description="THM_ORGANIZER_FIELD_DESC" required="true">
             <option value="">THM_ORGANIZER_NO_FIELDS</option>
@@ -42,7 +42,7 @@
                description="THM_ORGANIZER_DESC_DESC_EN"/>
     </fieldset>
     <fieldset name="mapping" label="THM_ORGANIZER_POOLS" displayinitial="0">
-        <field name="children" type="children" label="THM_ORGANIZER_CHILDREN"
+        <field name="children" type="Children" label="THM_ORGANIZER_CHILDREN"
                description="THM_ORGANIZER_CHILDREN_DESC"/>
     </fieldset>
 </form>

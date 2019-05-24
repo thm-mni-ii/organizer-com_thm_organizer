@@ -12,9 +12,6 @@ namespace Organizer\Fields;
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
-
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\Campuses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -22,12 +19,12 @@ use Organizer\Helpers\Languages;
 /**
  * Class creates a form field for campus selection.
  */
-class JFormFieldCampusID extends ListField
+class CampusesField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'campusID';
+    protected $type = 'Campuses';
 
     /**
      * Method to get the field input markup for a generic list.

@@ -20,9 +20,9 @@ use Organizer\Helpers\OrganizerHelper;
  * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done implicitly
  * during the schedule import process according to degree programs and the subject's module number.
  */
-class JFormFieldSubjectMapping extends \Joomla\CMS\Form\FormField
+class SubjectCoursesField extends BaseField
 {
-    protected $type = 'subjectMapping';
+    protected $type = 'SubjectCourses';
 
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node

@@ -12,21 +12,18 @@ namespace Organizer\Fields;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\HTML;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a form field for template selection.
  * @todo rename this and make it generally accessible should this usage occur again.
  */
-class JFormFieldTemplateID extends \JFormFieldList
+class TemplatesField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'templateID';
+    protected $type = 'Templates';
 
     /**
      * Returns a select box where stored degree programs can be chosen

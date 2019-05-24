@@ -13,25 +13,22 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. Both the
  * value and the text are localized.
  */
-class JFormFieldLocalizedList extends \JFormFieldList
+class LocalizedListField extends ListField
 {
     /**
      * Type
      *
      * @var    String
      */
-    public $type = 'localizedlist';
+    public $type = 'LocalizedList';
 
     /**
      * Method to get the field options for category.

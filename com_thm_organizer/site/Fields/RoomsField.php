@@ -12,22 +12,19 @@ namespace Organizer\Fields;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Rooms;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Class creates a form field for room selection.
  */
-class JFormFieldRoomID extends \JFormFieldList
+class RoomsField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'roomID';
+    protected $type = 'Rooms';
 
     /**
      * Returns a select box where stored degree programs can be chosen

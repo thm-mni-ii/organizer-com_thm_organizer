@@ -3,7 +3,7 @@
     <fieldset name="details" label="THM_ORGANIZER_ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="departmentID" type="departmentID" action="document" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="departmentID" type="Departments" action="document" label="THM_ORGANIZER_DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">
             <option value="">THM_ORGANIZER_NO_INPUT</option>
         </field>
@@ -13,7 +13,7 @@
                description="THM_ORGANIZER_HIS_ID_DESC"/>
         <field name="externalID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_MODULE_ID"
                description="THM_ORGANIZER_MODULE_ID_DESC"/>
-        <field name="fieldID" type="genericlist" valuecolumn="id" textcolumn="field" localized="true"
+        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields" class="inputbox" label="THM_ORGANIZER_FIELD"
                description="THM_ORGANIZER_FIELD_DESC">
             <option value="">THM_ORGANIZER_NO_FIELDS</option>
@@ -44,11 +44,11 @@
                label="THM_ORGANIZER_DESC_EN" description="THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
     <fieldset name="mapping" label="THM_ORGANIZER_ATTRIBUTES_STRUCTURE" displayinitial="0">
-        <field name="programID" type="programs" access="true" class="inputbox" label="THM_ORGANIZER_PROGRAMS"
+        <field name="programID" type="ProgramMappings" access="true" class="inputbox" label="THM_ORGANIZER_PROGRAMS"
                description="THM_ORGANIZER_PROGRAMS_DESC" required="false"/>
-        <field name="parentID" type="parentpool" class="inputbox" label="THM_ORGANIZER_PARENT_POOLS"
+        <field name="parentID" type="ParentPool" class="inputbox" label="THM_ORGANIZER_PARENT_POOLS"
                description="THM_ORGANIZER_PARENT_POOLS_DESC" required="false"/>
-        <field name="children" type="children" label="THM_ORGANIZER_CHILDREN"
+        <field name="children" type="Children" label="THM_ORGANIZER_CHILDREN"
                description="THM_ORGANIZER_CHILDREN_DESC"/>
     </fieldset>
 </form>

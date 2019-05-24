@@ -21,14 +21,14 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
  */
-class JFormFieldChildren extends \Joomla\CMS\Form\FormField
+class ChildrenField extends BaseField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'children';
+    protected $type = 'Children';
 
     /**
      * Generates a text for the management of child elements

@@ -2,12 +2,12 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="departmentID" type="departmentID" action="schedule" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="departmentID" type="Departments" action="schedule" label="THM_ORGANIZER_DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
             <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
             <option value="-1">THM_ORGANIZER_NO_DEPARTMENTS</option>
         </field>
-        <field name="categoryID" type="categoryID" valuecolumn="id" textcolumn="name" departmentRestrict="force"
+        <field name="categoryID" type="Categories" valuecolumn="id" textcolumn="name" departmentRestrict="force"
                access="true" table="thm_organizer_plan_programs" label="THM_ORGANIZER_CATEGORY"
                onchange="this.form.submit();">
             <option value="">THM_ORGANIZER_ALL_CATEGORIES</option>

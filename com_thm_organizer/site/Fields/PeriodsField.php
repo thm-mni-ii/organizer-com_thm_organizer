@@ -12,13 +12,15 @@ namespace Organizer\Fields;
 
 defined('_JEXEC') or die;
 
-\JFormHelper::loadFieldClass('subform');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('subform');
 
 /**
  * Class loads multiple/repeatable grid blocks from database and make it possible to advance them.
  * This needs an own form field to load the values, maybe because the periods are saved as json string.
  */
-class JFormFieldPeriods extends \JFormFieldSubform
+class PeriodsField extends \JFormFieldSubform
 {
     /**
      * Type

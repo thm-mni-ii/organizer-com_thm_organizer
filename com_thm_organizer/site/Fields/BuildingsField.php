@@ -12,10 +12,7 @@ namespace Organizer\Fields;
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_thm_organizer/autoloader.php';
-
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\Campuses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
@@ -23,12 +20,12 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a form field for building selection.
  */
-class JFormFieldBuildingID extends ListField
+class BuildingsField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'buildingID';
+    protected $type = 'Buildings';
 
     /**
      * Returns a select box where stored buildings can be chosen

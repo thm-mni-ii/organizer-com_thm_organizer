@@ -13,7 +13,6 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -21,7 +20,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for predefined colors.
  */
-class ColorsField extends FormField
+class ColorsField extends BaseField
 {
     /**
      * Type

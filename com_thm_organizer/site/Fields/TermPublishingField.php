@@ -13,7 +13,6 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -21,7 +20,7 @@ use Organizer\Helpers\OrganizerHelper;
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
  * terms.
  */
-class TermPublishingField extends FormField
+class TermPublishingField extends BaseField
 {
     /**
      * @var  string

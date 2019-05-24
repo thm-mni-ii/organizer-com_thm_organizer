@@ -19,9 +19,9 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for the association of teachers with subject documentation.
  */
-class JFormFieldSubjectTeacher extends \Joomla\CMS\Form\FormField
+class SubjectTeachersField extends BaseField
 {
-    protected $type = 'subjectTeacher';
+    protected $type = 'SubjectTeachers';
 
     /**
      * Returns a select box where stored teachers can be associated with a subject

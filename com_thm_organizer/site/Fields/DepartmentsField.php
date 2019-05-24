@@ -13,7 +13,6 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Departments;
@@ -21,17 +20,15 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Class creates a select box for departments.
  */
-class JFormFieldDepartmentID extends \JFormFieldList
+class DepartmentsField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'departmentID';
+    protected $type = 'Departments';
 
     /**
      * Method to get the field input markup for department selection.

@@ -13,25 +13,22 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While the
  * display text can be localized, the value cannot be.
  */
-class JFormFieldGenericList extends \JFormFieldList
+class GenericListField extends ListField
 {
     /**
      * Type
      *
      * @var    String
      */
-    public $type = 'genericlist';
+    public $type = 'GenericList';
 
     /**
      * Method to get the field input markup for a generic list.

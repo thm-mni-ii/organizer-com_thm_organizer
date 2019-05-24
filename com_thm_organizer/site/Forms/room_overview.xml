@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fieldset name="fields">
-        <field name="template" type="templateID" label="THM_ORGANIZER_DISPLAY_RANGE" default="1"
+        <field name="template" type="Templates" label="THM_ORGANIZER_DISPLAY_RANGE" default="1"
                description="THM_ORGANIZER_DISPLAY_RANGE_DESC" translateLabel="false">
             <option value="1">THM_ORGANIZER_SINGLE_DAY</option>
             <option value="2">THM_ORGANIZER_WEEK</option>
         </field>
         <field name="date" type="calendar" default="NOW" label="THM_ORGANIZER_DATE" format="%d.%m.%Y"
                class="input-small" todaybutton="true" minyear="-3" maxyear="1" translateLabel="false"/>
-        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS" translateLabel="false">
+        <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS" translateLabel="false">
             <option value="">THM_ORGANIZER_ALL_CAMPUSES</option>
         </field>
-        <field name="buildingID" type="buildingID" label="THM_ORGANIZER_BUILDING" translateLabel="false">
+        <field name="buildingID" type="Buildings" label="THM_ORGANIZER_BUILDING" translateLabel="false">
             <option value="">THM_ORGANIZER_ALL_BUILDINGS</option>
         </field>
-        <field name="types" type="roomTypeID" label="THM_ORGANIZER_ROOM_TYPES" multiple="true"
+        <field name="types" type="RoomTypes" label="THM_ORGANIZER_ROOM_TYPES" multiple="true"
                translateLabel="false">
             <option value="">THM_ORGANIZER_ALL_ROOM_TYPES</option>
         </field>
-        <field name="rooms" type="roomID" label="THM_ORGANIZER_ROOMS" multiple="true" translateLabel="false">
+        <field name="rooms" type="Rooms" label="THM_ORGANIZER_ROOMS" multiple="true" translateLabel="false">
             <option value="">THM_ORGANIZER_ALL_ROOMS</option>
         </field>
     </fieldset>

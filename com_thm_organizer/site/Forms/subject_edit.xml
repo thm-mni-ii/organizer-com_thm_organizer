@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details" label="THM_ORGANIZER_ATTRIBUTES_SUBJECT_DETAILS">
         <field name="id" type="hidden"/>
-        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS">
+        <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS">
             <option value="">THM_ORGANIZER_NO_CAMPUS</option>
         </field>
-        <field name="departmentID" type="departmentID" action="document" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="departmentID" type="Departments" action="document" label="THM_ORGANIZER_DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" required="true"/>
         <field name="lsfID" type="text" class="inputbox" size="70" label="THM_ORGANIZER_LSF_ID"
                description="THM_ORGANIZER_LSF_ID_DESC"/>
@@ -37,12 +37,12 @@
             <option value="4">THM_ORGANIZER_AVAILABILITY_AS_NEEDED</option>
             <option value="0">THM_ORGANIZER_AVAILABILITY_APPT</option>
         </field>
-        <field name="fieldID" type="genericlist" valuecolumn="id" textcolumn="field" localized="true"
+        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields" class="inputbox" label="THM_ORGANIZER_FIELD"
                description="THM_ORGANIZER_FIELD_DESC">
             <option value="">THM_ORGANIZER_NO_FIELDS</option>
         </field>
-        <field name="planSubjectIDs" type="subjectmapping" responsibility="1" label="THM_ORGANIZER_EVENT"/>
+        <field name="planSubjectIDs" type="SubjectCourses" responsibility="1" label="THM_ORGANIZER_EVENT"/>
         <field type="spacer" name="spacer1" hr="true"/>
         <field name="creditpoints" type="integer" class="inputbox" label="THM_ORGANIZER_CREDIT_POINTS"
                description="THM_ORGANIZER_CREDIT_POINTS_DESC" first="1" last="30" step="1" default="0">
@@ -145,9 +145,9 @@
                description="THM_ORGANIZER_AIDS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="THM_ORGANIZER_ATTRIBUTES_SUBJECT_ADVANCED">
-        <field name="responsible" type="subjectTeacher" responsibility="1" label="THM_ORGANIZER_MODULE_COORDINATORS"
+        <field name="responsible" type="SubjectTeachers" responsibility="1" label="THM_ORGANIZER_MODULE_COORDINATORS"
                description="THM_ORGANIZER_MODULE_COORDINATORS_DESC"/>
-        <field name="teacherID" type="subjectTeacher" responsibility="2" label="THM_ORGANIZER_TEACHERS"
+        <field name="teacherID" type="SubjectTeachers" responsibility="2" label="THM_ORGANIZER_TEACHERS"
                description="THM_ORGANIZER_TEACHERS_DESC"/>
         <field name="spacer4" type="spacer" hr="true"/>
         <field name="expertise" type="list" class="inputbox" label="THM_ORGANIZER_EXPERTISE"
@@ -184,9 +184,9 @@
         </field>
     </fieldset>
     <fieldset name="mappings" label="THM_ORGANIZER_ATTRIBUTES_MAPPINGS" displayinitial="0">
-        <field name="programID" type="programs" class="inputbox" label="THM_ORGANIZER_PROGRAMS"
+        <field name="programID" type="ProgramMappings" class="inputbox" label="THM_ORGANIZER_PROGRAMS"
                description="THM_ORGANIZER_PROGRAMS_DESC"/>
-        <field name="parentID" type="parentpool" class="inputbox" label="THM_ORGANIZER_PARENT_POOLS"
+        <field name="parentID" type="ParentPool" class="inputbox" label="THM_ORGANIZER_PARENT_POOLS"
                description="THM_ORGANIZER_PARENT_POOLS_DESC"/>
     </fieldset>
 </form>

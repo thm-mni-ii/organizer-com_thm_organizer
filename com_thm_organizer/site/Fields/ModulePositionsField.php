@@ -12,19 +12,16 @@ namespace Organizer\Fields;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\OrganizerHelper;
 
-FormHelper::loadFieldClass('list');
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/Helpers/modules.php');
-
 
 /**
  * Class creates a select box for module positions.
  */
-class JFormFieldModulesPosition extends \JFormFieldList
+class ModulePositionsField extends ListField
 {
-    protected $type = 'ModulesPosition';
+    protected $type = 'ModulePositions';
 
     /**
      * Method to get the field options.

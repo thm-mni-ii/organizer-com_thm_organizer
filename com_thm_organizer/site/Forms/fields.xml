@@ -2,11 +2,11 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="field" type="localizedlist" valuecolumn="field" textcolumn="field" table="thm_organizer_fields"
+        <field name="field" type="LocalizedList" valuecolumn="field" textcolumn="field" table="thm_organizer_fields"
                label="THM_ORGANIZER_NAME" onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field name="colorID" type="genericlist" valuecolumn="c.id" textcolumn="name" localized="true"
+        <field name="colorID" type="GenericList" valuecolumn="c.id" textcolumn="name" localized="true"
                table="thm_organizer_fields AS f,thm_organizer_colors AS c ON f.colorID = c.id"
                label="THM_ORGANIZER_COLOR" onchange="this.form.submit();">
             <option value="">JALL</option>

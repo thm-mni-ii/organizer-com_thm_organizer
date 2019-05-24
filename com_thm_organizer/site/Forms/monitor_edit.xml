@@ -2,7 +2,7 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fieldset name="details">
         <field id="id" name="id" type="hidden"/>
-        <field name="roomID" type="genericlist" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
+        <field name="roomID" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
                label="THM_ORGANIZER_ROOM" description="THM_ORGANIZER_ROOM_DESC" class='inputbox required'
                required="true">
             <option value="">THM_ORGANIZER_ALL_ROOMS</option>

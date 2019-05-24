@@ -8,7 +8,7 @@
                description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
         <field name="name_en" type="text" class="inputbox" size="60" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="grid" type="periods" formsource="grid_blocks" multiple="true" buttons="add,remove"
+        <field name="grid" type="Periods" formsource="grid_blocks" multiple="true" buttons="add,remove"
                layout="joomla.form.field.subform.repeatable-table" label="THM_ORGANIZER_GRID"
                description="THM_ORGANIZER_GRID_DESC"/>
         <field name="startDay" type="list" class="inputbox" required="true" default="1"

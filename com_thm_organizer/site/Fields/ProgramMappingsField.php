@@ -20,12 +20,12 @@ use Organizer\Helpers\Mappings;
 /**
  * Class creates a select box for (degree) program mappings.
  */
-class JFormFieldPrograms extends \Joomla\CMS\Form\FormField
+class ProgramMappingsField extends BaseField
 {
     /**
      * @var  string
      */
-    protected $type = 'programs';
+    protected $type = 'ProgramMappings';
 
     /**
      * Returns a select box where stored degree program can be chosen

@@ -4,7 +4,7 @@
         <field name="id" type="hidden"/>
         <field name="name" type="text" class="inputbox required" size="60" maxlength="60" label="THM_ORGANIZER_NAME"
                description="THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS">
+        <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS">
             <option value="">THM_ORGANIZER_NO_CAMPUS</option>
         </field>
         <field name="location" type="text" class="inputbox validate-gps" size="60" maxlength="20"

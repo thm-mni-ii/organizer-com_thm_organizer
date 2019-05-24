@@ -13,12 +13,9 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Class creates a generalized select box for selection of a single id column value among those already selected.

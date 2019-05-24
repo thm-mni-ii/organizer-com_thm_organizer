@@ -2,7 +2,7 @@
 <form addfieldpath="/component/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="campusID" type="campusID" label="THM_ORGANIZER_NAME" onchange="this.form.submit();"
+        <field name="campusID" type="Campuses" label="THM_ORGANIZER_NAME" onchange="this.form.submit();"
                placeholder="THM_ORGANIZER_FILTER_CAMPUS">
             <option value="">THM_ORGANIZER_ALL_CAMPUSES</option>
             <option value="-1">THM_ORGANIZER_NO_CAMPUS</option>

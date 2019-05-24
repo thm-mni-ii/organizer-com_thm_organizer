@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Fields;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
@@ -15,17 +17,15 @@ use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
 
-\JFormHelper::loadFieldClass('list');
-
 /**
  * Class creates a select box for plan programs.
  */
-class JFormFieldCategoryID extends \JFormFieldList
+class CategoriesField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'categoryID';
+    protected $type = 'Categories';
 
     /**
      * Returns a select box where resource attributes can be selected

@@ -13,23 +13,20 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Class creates a select box for (degree) programs.
  */
-class JFormFieldProgramID extends \JFormFieldList
+class ProgramsField extends ListField
 {
     /**
      * @var  string
      */
-    protected $type = 'programID';
+    protected $type = 'Programs';
 
     /**
      * Returns a select box where stored degree programs can be chosen

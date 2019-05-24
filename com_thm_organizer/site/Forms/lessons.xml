@@ -8,11 +8,11 @@
             <option value="current">THM_ORGANIZER_CURRENT_COURSES</option>
             <option value="expired">THM_ORGANIZER_EXPIRED_COURSES</option>
         </field>
-        <field name="campusID" type="campusID" label="THM_ORGANIZER_CAMPUS" onchange="this.form.submit();">
+        <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS" onchange="this.form.submit();">
             <option value="">THM_ORGANIZER_ALL_CAMPUSES</option>
             <option value="-1">THM_ORGANIZER_NO_CAMPUSES</option>
         </field>
-        <field name="methodID" type="genericlist" onchange="this.form.submit();"
+        <field name="methodID" type="GenericList" onchange="this.form.submit();"
                valuecolumn="id" textcolumn="name" table="thm_organizer_methods" localized="true">
             <option value="">JALL</option>
             <option value="-1">NONE</option>

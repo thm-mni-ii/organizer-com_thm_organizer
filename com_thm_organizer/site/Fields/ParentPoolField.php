@@ -19,14 +19,14 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
  */
-class JFormFieldParentPool extends \Joomla\CMS\Form\FormField
+class ParentPoolField extends BaseField
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'parentpool';
+    protected $type = 'ParentPool';
 
     /**
      * Returns a select box in which pools can be chosen as a parent node
