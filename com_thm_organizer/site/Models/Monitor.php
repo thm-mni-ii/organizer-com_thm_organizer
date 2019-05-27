@@ -31,7 +31,7 @@ class Monitor extends BaseModel
      */
     public function save()
     {
-        $data = OrganizerHelper::getForm();
+        $data = OrganizerHelper::getFormInput();
 
         if (empty($data['roomID'])) {
             unset($data['roomID']);

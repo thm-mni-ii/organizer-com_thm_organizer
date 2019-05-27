@@ -360,7 +360,7 @@ class Subject extends BaseModel
      */
     public function save()
     {
-        $data = OrganizerHelper::getForm();
+        $data = OrganizerHelper::getFormInput();
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);

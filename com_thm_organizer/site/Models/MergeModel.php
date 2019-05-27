@@ -31,9 +31,24 @@ abstract class MergeModel extends BaseModel
      */
     protected $deptResource;
 
-    protected $fkColumn;
+    /**
+     * The column name referencing this resource in other resource tables.
+     * @var string
+     */
+    protected $fkColumn = '';
 
-    protected $tableName;
+    /**
+     * The ids selected by the user
+     *
+     * @var array
+     */
+    protected $selected = [];
+
+    /**
+     * The name of the table where this resource is stored.
+     * @var string
+     */
+    protected $tableName = '';
 
     /**
      * Provides resource specific user access checks
@@ -54,23 +69,20 @@ abstract class MergeModel extends BaseModel
      */
     public function autoMerge()
     {
-        $entries = $this->getEntries();
+        $this->selected = OrganizerHelper::getSelectedIDs();
+        $entries        = $this->getEntries();
 
         $keyProperties = ['untisID'];
         if ($this->fkColumn == 'teacherID') {
             $keyProperties[] = 'username';
         }
 
-        $data             = [];
-        $data['otherIDs'] = [];
+        $updateIDs = $this->selected;
+
+        $data       = [];
+        $data['id'] = array_shift($updateIDs);
 
         foreach ($entries as $entry) {
-            if (empty($data['id'])) {
-                $data['id'] = $entry['id'];
-            } else {
-                $data['otherIDs'][] = $entry['id'];
-            }
-
             foreach ($entry as $property => $value) {
                 if ($property == 'id') {
                     continue;
@@ -131,10 +143,10 @@ abstract class MergeModel extends BaseModel
      */
     public function delete()
     {
-        $valid = $this->preprocess();
+        $this->selected = OrganizerHelper::getSelectedIDs();
 
-        if (!$valid) {
-            throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+        if (empty($this->selected)) {
+            return false;
         }
 
         if (!$this->allowEdit()) {
@@ -143,7 +155,7 @@ abstract class MergeModel extends BaseModel
 
         $table = $this->getTable();
 
-        foreach ($this->data['otherIDs'] as $resourceID) {
+        foreach ($this->selected as $resourceID) {
             try {
                 $table->load($resourceID);
             } catch (Exception $exc) {
@@ -177,14 +189,10 @@ abstract class MergeModel extends BaseModel
     protected function getEntries()
     {
         $query = $this->_db->getQuery(true);
-        $query->select('*');
-        $query->from("#__thm_organizer_{$this->tableName}");
-
-        $requestIDs = OrganizerHelper::getSelectedIDs();
-        $selected   = "'" . implode("', '", $requestIDs) . "'";
-        $query->where("id IN ( $selected )");
-
-        $query->order('id ASC');
+        $query->select('*')
+            ->from("#__thm_organizer_{$this->tableName}")
+            ->where("id IN ('" . implode("', '", $this->selected) . "')")
+            ->order('id ASC');
 
         $this->_db->setQuery($query);
 
@@ -234,13 +242,10 @@ abstract class MergeModel extends BaseModel
      */
     public function merge()
     {
+        $this->selected = OrganizerHelper::getSelectedIDs();
+
         if (!$this->allowEdit()) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
-
-        $valid = $this->preprocess();
-        if (!$valid) {
-            return false;
         }
 
         set_time_limit(0);
@@ -255,11 +260,14 @@ abstract class MergeModel extends BaseModel
             return false;
         }
 
-        $table = $this->getTable();
+        $data          = empty($this->data) ? OrganizerHelper::getFormInput() : $this->data;
+        $deprecatedIDs = $this->selected;
+        $data['id']    = array_shift($deprecatedIDs);
+        $table         = $this->getTable();
 
         // Remove deprecated entries
-        foreach ($this->data['otherIDs'] as $oldID) {
-            $deleted = $table->delete($oldID);
+        foreach ($deprecatedIDs as $deprecated) {
+            $deleted = $table->delete($deprecated);
             if (!$deleted) {
                 $this->_db->transactionRollback();
 
@@ -268,7 +276,7 @@ abstract class MergeModel extends BaseModel
         }
 
         // Save the merged values of the current entry
-        $success = $table->save($this->data);
+        $success = $table->save($data);
         if (!$success) {
             $this->_db->transactionRollback();
 
@@ -284,42 +292,10 @@ abstract class MergeModel extends BaseModel
 
         $this->_db->transactionCommit();
 
+        // Any further processing should not iterate over deprecated ids.
+        $this->selected = [$data['id']];
+
         return true;
-    }
-
-    /**
-     * Ensures that the data property is set and that mandatory indexes id and untis id are also set
-     *
-     * @return bool true if the basic requirements are met, otherwise false
-     * @throws Exception => invalid request
-     */
-    private function preprocess()
-    {
-        $this->data = OrganizerHelper::getForm();
-
-        // From the edit form
-        if (!empty($this->data)) {
-            $invalidID = (!empty($this->data['id']) and !is_numeric($this->data['id']));
-            if ($invalidID or empty($this->data['untisID'])) {
-                throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-            }
-
-            if (!empty($this->data['otherIDs']) and !is_array($this->data['otherIDs'])) {
-                $this->data['otherIDs'] = explode(',', $this->data['otherIDs']);
-            }
-
-            return true;
-        }
-
-        // From the manager list
-        $selected = OrganizerHelper::getSelectedIDs();
-        if (count($selected)) {
-            $this->data = ['otherIDs' => $selected];
-
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -380,12 +356,14 @@ abstract class MergeModel extends BaseModel
      */
     protected function updateAssociation($tableName)
     {
-        $oldIDString = "'" . implode("', '", $this->data['otherIDs']) . "'";
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
+        $updateIDs = "'" . implode("', '", $updateIDs) . "'";
 
         $query = $this->_db->getQuery(true);
-        $query->update("#__thm_organizer_{$tableName}");
-        $query->set("{$this->fkColumn} = '{$this->data['id']}'");
-        $query->where("{$this->fkColumn} IN ( $oldIDString )");
+        $query->update("#__thm_organizer_$tableName");
+        $query->set("{$this->fkColumn} = '$mergeID'");
+        $query->where("{$this->fkColumn} IN ( $updateIDs )");
         $this->_db->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('execute', false, null, true);
@@ -454,13 +432,12 @@ abstract class MergeModel extends BaseModel
      */
     protected function updateDRAssociation()
     {
-        // Hanlding them all together avoids creating differing queries for insert & update later.
-        $allIDString = "'" . implode("', '", array_merge([$this->data['id']], $this->data['otherIDs'])) . "'";
+        $relevantIDs = "'" . implode("', '", $this->selected) . "'";
 
         $departmentQuery = $this->_db->getQuery(true);
         $departmentQuery->select('DISTINCT departmentID');
         $departmentQuery->from('#__thm_organizer_department_resources');
-        $departmentQuery->where("{$this->deptResource} IN ( $allIDString )");
+        $departmentQuery->where("{$this->deptResource} IN ( $relevantIDs )");
         $this->_db->setQuery($departmentQuery);
         $deptIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
@@ -470,7 +447,7 @@ abstract class MergeModel extends BaseModel
 
         $deleteQuery = $this->_db->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_department_resources')
-            ->where("{$this->fkColumn} IN ( $allIDString )");
+            ->where("{$this->fkColumn} IN ( $relevantIDs )");
         $this->_db->setQuery($deleteQuery);
 
         $deleted = (bool)OrganizerHelper::executeQuery('execute', false, null, true);
@@ -478,12 +455,13 @@ abstract class MergeModel extends BaseModel
             return false;
         }
 
+        $mergeID     = reset($this->selected);
         $insertQuery = $this->_db->getQuery(true);
         $insertQuery->insert('#__thm_organizer_department_resources');
         $insertQuery->columns("departmentID, {$this->fkColumn}");
 
         foreach ($deptIDs as $deptID) {
-            $insertQuery->values("'$deptID', '{$this->data['id']}'");
+            $insertQuery->values("'$deptID', $mergeID");
         }
 
         $this->_db->setQuery($insertQuery);

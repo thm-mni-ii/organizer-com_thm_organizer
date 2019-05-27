@@ -35,7 +35,7 @@ class Course extends BaseModel
     {
         $input    = OrganizerHelper::getInput();
         $data     = $input->getArray();
-        $formData = OrganizerHelper::getForm();
+        $formData = OrganizerHelper::getFormInput();
 
         if (!Access::allowCourseAccess($formData['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
@@ -86,7 +86,7 @@ class Course extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = OrganizerHelper::getForm();
+        $data = OrganizerHelper::getFormInput();
 
         if (empty($data['text'])) {
             return false;
@@ -145,7 +145,7 @@ class Course extends BaseModel
      */
     public function save()
     {
-        $data = OrganizerHelper::getForm();
+        $data = OrganizerHelper::getFormInput();
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);

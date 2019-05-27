@@ -134,7 +134,7 @@ class ListField extends BaseField
         }
 
         if ($this->element['useglobal']) {
-            $input = OrganizerHelper::getInput();
+            $input      = OrganizerHelper::getInput();
             $tmp        = new stdClass;
             $tmp->value = '';
             $tmp->text  = Languages::_('JGLOBAL_USE_GLOBAL');

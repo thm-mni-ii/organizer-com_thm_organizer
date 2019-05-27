@@ -174,7 +174,7 @@ class OrganizerHelper
      *
      * @return array with the request data if available
      */
-    public static function getForm()
+    public static function getFormInput()
     {
         return self::getInput()->get('jform', [], 'array');
     }
@@ -199,6 +199,28 @@ class OrganizerHelper
         $app = self::getApplication();
 
         return method_exists($app, 'getParams') ? $app->getParams() : ComponentHelper::getParams('com_thm_organizer');
+    }
+
+    /**
+     * Creates the plural of the given resource.
+     *
+     * @param string $resource the resource for which the plural is needed
+     *
+     * @return string the plural of the resource name
+     */
+    public static function getPlural($resource)
+    {
+        switch (true) {
+            case $resource == 'equipment':
+                return 'equipment';
+            case mb_substr($resource, -1) == 's':
+                return $resource . 'es';
+            case mb_substr($resource, -1) == 'y':
+                return mb_substr($resource, 0, mb_strlen($resource) - 1) . 'ies';
+                break;
+            default:
+                return $resource . 's';
+        }
     }
 
     /**
@@ -233,6 +255,8 @@ class OrganizerHelper
     public static function getSelectedIDs()
     {
         $input = self::getInput();
+
+        // List Views
         $selectedIDs = $input->get('cid', [], 'array');
         $selectedIDs = ArrayHelper::toInteger($selectedIDs);
 
@@ -240,9 +264,30 @@ class OrganizerHelper
             return $selectedIDs;
         }
 
+        // Forms
+        $formData = OrganizerHelper::getFormInput();
+        if (!empty($formData)) {
+
+            // Merge Views
+            if (isset($formData['ids'])) {
+                $selectedIDs = array_filter(ArrayHelper::toInteger(explode(',', $formData['ids'])));
+                if (!empty($selectedIDs)) {
+                    asort($selectedIDs);
+
+                    return $selectedIDs;
+                }
+            }
+
+            // Edit Views
+            if (isset($formData['id'])) {
+                return [(int)$formData['id']];
+            }
+        }
+
+        // Default: explicit GET/POST parameter
         $selectedID = $input->getInt('id', 0);
 
-        return empty($selectedID) ? []: [$selectedID];
+        return empty($selectedID) ? [] : [$selectedID];
     }
 
     /**

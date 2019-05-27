@@ -34,9 +34,9 @@ class Event_List extends FormModel
 
     private $columnMap = [
         'course'     => 'co.id',
-        'department'  => 'd.id',
-        'category' => 'cat.id',
-        'group'    => 'gr.id'
+        'department' => 'd.id',
+        'category'   => 'cat.id',
+        'group'      => 'gr.id'
     ];
 
     private $dates = [];
@@ -102,7 +102,7 @@ class Event_List extends FormModel
     {
         parent::populateState($ordering, $direction);
 
-        $formData = OrganizerHelper::getForm();
+        $formData = OrganizerHelper::getFormInput();
 
         $menuStartDate      = $this->params->get('startDate');
         $menuEndDate        = $this->params->get('endDate');

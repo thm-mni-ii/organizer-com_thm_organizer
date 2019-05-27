@@ -131,7 +131,7 @@ class Rooms implements XMLValidator
         $shortTag = Languages::getShortTag();
         $app      = OrganizerHelper::getApplication();
         $input    = $app->input;
-        $formData = OrganizerHelper::getForm();
+        $formData = OrganizerHelper::getFormInput();
 
         $menuCampus    = (empty($app->getMenu()) or empty($app->getMenu()->getActive())) ?
             0 : $app->getMenu()->getActive()->params->get('campusID', 0);

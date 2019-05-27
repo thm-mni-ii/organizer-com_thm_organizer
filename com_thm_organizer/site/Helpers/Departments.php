@@ -123,7 +123,7 @@ class Departments
             return;
         }
 
-        $formData             = OrganizerHelper::getForm();
+        $formData             = OrganizerHelper::getFormInput();
         $data['departmentID'] = $formData['departmentID'];
 
         try {

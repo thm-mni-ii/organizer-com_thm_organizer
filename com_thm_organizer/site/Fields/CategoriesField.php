@@ -64,7 +64,7 @@ class CategoriesField extends ListField
             $departmentID = $input->getInt('departmentID', $defaultDept);
 
             // Possible frontend form (jform)
-            $feFormData      = OrganizerHelper::getForm();
+            $feFormData      = OrganizerHelper::getFormInput();
             $plausibleFormID = (!empty($feFormData) and !empty($feFormData['departmentID']) and is_numeric($feFormData['departmentID']));
             $departmentID    = $plausibleFormID ? $feFormData['departmentID'] : $departmentID;
 

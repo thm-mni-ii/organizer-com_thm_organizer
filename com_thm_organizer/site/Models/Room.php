@@ -63,17 +63,20 @@ class Room extends MergeModel
      */
     protected function updateSchedule(&$schedule)
     {
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
+
         foreach ($schedule->configurations as $index => $configuration) {
             $inConfig      = false;
             $configuration = json_decode($configuration);
 
             foreach ($configuration->rooms as $roomID => $delta) {
-                if (in_array($roomID, $this->data['otherIDs'])) {
+                if (in_array($roomID, $updateIDs)) {
                     $inConfig = true;
 
                     // Whether old or new high probability of having to overwrite an attribute this enables standard handling.
                     unset($configuration->rooms->$roomID);
-                    $configuration->rooms->{$this->data['id']} = $delta;
+                    $configuration->rooms->$mergeID = $delta;
                 }
             }
 
@@ -98,9 +101,12 @@ class Room extends MergeModel
         $updateQuery = $this->_db->getQuery(true);
         $updateQuery->update($table);
 
-        foreach ($this->data['otherIDs'] as $oldID) {
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
+
+        foreach ($updateIDs as $updateID) {
             $selectQuery->clear('where');
-            $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $oldID . '"';
+            $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $updateID . '"';
             $selectQuery->where("configuration REGEXP '$regexp'");
             $this->_db->setQuery($selectQuery);
 
@@ -112,13 +118,13 @@ class Room extends MergeModel
             foreach ($storedConfigurations as $storedConfiguration) {
                 $configuration = json_decode($storedConfiguration['configuration'], true);
 
-                $oldDelta = $configuration['rooms'][$oldID];
-                unset($configuration['rooms'][$oldID]);
+                $oldDelta = $configuration['rooms'][$updateID];
+                unset($configuration['rooms'][$updateID]);
 
                 // The new id is not yet an index, or it is, but has no delta value and the old id did
-                if (!isset($configuration['rooms'][$this->data['id']])
-                    or (empty($configuration['rooms'][$this->data['id']]) and !empty($oldDelta))) {
-                    $configuration['rooms'][$this->data['id']] = $oldDelta;
+                if (!isset($configuration['rooms'][$mergeID])
+                    or (empty($configuration['rooms'][$mergeID]) and !empty($oldDelta))) {
+                    $configuration['rooms'][$mergeID] = $oldDelta;
                 }
 
                 $configuration = json_encode($configuration);

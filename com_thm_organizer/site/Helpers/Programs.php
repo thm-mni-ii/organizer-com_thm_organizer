@@ -42,7 +42,7 @@ class Programs
             return null;
         }
 
-        $formData                    = OrganizerHelper::getForm();
+        $formData                    = OrganizerHelper::getFormInput();
         $programData['departmentID'] = $formData['departmentID'];
         $programData['name_de']      = $initialName;
         $programData['name_en']      = $initialName;

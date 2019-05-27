@@ -86,7 +86,7 @@ class Room_Overview extends FormModel
     {
         $params        = OrganizerHelper::getParams();
         $format        = $params->get('dateFormat', 'd.m.Y');
-        $formData      = OrganizerHelper::getForm();
+        $formData      = OrganizerHelper::getFormInput();
         $defaultDate   = date($format);
         $defaultCampus = $params->get('campusID', 0);
 

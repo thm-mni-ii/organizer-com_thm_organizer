@@ -282,7 +282,7 @@ class Lesson_Statistics extends FormModel
     {
         parent::populateState();
         $defaultTerm = Terms::getCurrentID();
-        $formData    = OrganizerHelper::getForm();
+        $formData    = OrganizerHelper::getFormInput();
 
         $categoryID   = '';
         $departmentID = '';
@@ -294,7 +294,7 @@ class Lesson_Statistics extends FormModel
             $departmentID       = $departmentSelected ? (int)$formData['departmentID'] : '';
 
             $categorySelected = !empty($formData['categoryID']);
-            $categoryID      = $categorySelected ? (int)$formData['categoryID'] : '';
+            $categoryID       = $categorySelected ? (int)$formData['categoryID'] : '';
         }
 
         $this->setState('categoryID', $categoryID);

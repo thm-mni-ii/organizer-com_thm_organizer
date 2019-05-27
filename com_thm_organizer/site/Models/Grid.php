@@ -33,7 +33,7 @@ class Grid extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data  = OrganizerHelper::getForm();
+        $data = OrganizerHelper::getFormInput();
 
         // Save grids in json by foreach because the index is not numeric
         $periods = [];

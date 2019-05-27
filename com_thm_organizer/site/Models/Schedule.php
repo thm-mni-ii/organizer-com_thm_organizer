@@ -320,7 +320,7 @@ class Schedule extends BaseModel
      */
     public function upload($shouldNotify)
     {
-        $form        = OrganizerHelper::getForm();
+        $form        = OrganizerHelper::getFormInput();
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
 
         if ($invalidForm) {

@@ -36,6 +36,7 @@ abstract class BaseModel extends BaseDatabaseModel
             parent::__construct($config);
         } catch (Exception $exception) {
             OrganizerHelper::message($exception->getMessage(), 'error');
+
             return;
         }
     }
@@ -43,7 +44,8 @@ abstract class BaseModel extends BaseDatabaseModel
     /**
      * Authenticates the user
      */
-    protected function allow() {
+    protected function allow()
+    {
         return Access::isAdmin();
     }
 
@@ -60,11 +62,11 @@ abstract class BaseModel extends BaseDatabaseModel
         }
 
         $selectedIDs = OrganizerHelper::getSelectedIDs();
-        $success = true;
+        $success     = true;
         foreach ($selectedIDs as $selectedID) {
-            $table = $this->getTable();
+            $table             = $this->getTable();
             $individualSuccess = $table->delete($selectedID);
-            $success = ($success and $individualSuccess);
+            $success           = ($success and $individualSuccess);
         }
 
         // TODO: create a message with an accurate count of successes.
@@ -83,12 +85,11 @@ abstract class BaseModel extends BaseDatabaseModel
      */
     public function getTable($name = '', $prefix = '', $options = [])
     {
-        $name = OrganizerHelper::getClass($this);
+        $name               = OrganizerHelper::getClass($this);
         $functionalSuffixes = ['_Edit', '_LSF', '_Merge', '_XML'];
-        $singularName = str_replace($functionalSuffixes, '',$name);
-        $irregularPlurals = ['Campus'];
-        $pluralName = in_array($singularName, $irregularPlurals) ? $singularName . 'es' : $singularName . 's';
-        $fqName = "\\Organizer\\Tables\\$pluralName";
+        $singularName       = str_replace($functionalSuffixes, '', $name);
+        $pluralName         = OrganizerHelper::getPlural($singularName);
+        $fqName             = "\\Organizer\\Tables\\$pluralName";
 
         return new $fqName($this->_db);
     }
@@ -107,7 +108,7 @@ abstract class BaseModel extends BaseDatabaseModel
             throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data  = empty($data) ? OrganizerHelper::getForm() : $data;
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
 
         return $this->getTable()->save($data);
     }
@@ -126,12 +127,12 @@ abstract class BaseModel extends BaseDatabaseModel
             throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data  = empty($data) ? OrganizerHelper::getForm() : $data;
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
         unset($data['id']);
 
-        $table = $this->getTable();
+        $table   = $this->getTable();
         $success = $table->save($data);
 
-        return $success? $table->id : false;
+        return $success ? $table->id : false;
     }
 }

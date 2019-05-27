@@ -40,9 +40,12 @@ class Method extends MergeModel
      */
     protected function updateSchedule(&$schedule)
     {
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
+
         foreach ($schedule->lessons as $lessonIndex => $lesson) {
-            if (isset($lesson->methodID) and in_array($lesson->methodID, $this->data['otherIDs'])) {
-                $schedule->lessons->$lessonIndex->methodID = $this->data['id'];
+            if (isset($lesson->methodID) and in_array($lesson->methodID, $updateIDs)) {
+                $schedule->lessons->$lessonIndex->methodID = $mergeID;
             }
         }
     }

@@ -73,7 +73,7 @@ class Program extends BaseModel
      */
     public function save($data = [])
     {
-        $data = empty($data) ? OrganizerHelper::getForm() : $data;
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
 
         if (empty($data['id'])) {
             $documentationAccess = Access::allowDocumentAccess();
@@ -123,7 +123,7 @@ class Program extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = empty($data) ? OrganizerHelper::getForm() : $data;
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
         if (isset($data['id'])) {
             unset($data['id']);
         }

@@ -104,7 +104,7 @@ class Schedule_XML extends BaseModel
         $validSemesterName
                       = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
-        $form = OrganizerHelper::getForm();
+        $form = OrganizerHelper::getFormInput();
 
         $this->schedule->departmentID = $form['departmentID'];
 
@@ -152,18 +152,18 @@ class Schedule_XML extends BaseModel
 
         // These items are now modeled in the database.
         unset(
+            $this->schedule->courses,
             $this->schedule->departmentname,
             $this->schedule->degrees,
             $this->schedule->endDate,
             $this->schedule->fields,
+            $this->schedule->groups,
             $this->schedule->methods,
             $this->schedule->periods,
-            $this->schedule->groups,
             $this->schedule->programs,
             $this->schedule->room_types,
             $this->schedule->rooms,
             $this->schedule->semestername,
-            $this->schedule->subjects,
             $this->schedule->startDate,
             $this->schedule->syEndDate,
             $this->schedule->syStartDate,

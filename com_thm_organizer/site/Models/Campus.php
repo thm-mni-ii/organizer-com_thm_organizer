@@ -38,7 +38,7 @@ class Campus extends BaseModel
     public function save()
     {
         // Ensure maximum depth of two campuses
-        $data = OrganizerHelper::getForm();
+        $data = OrganizerHelper::getFormInput();
         if (!empty($data['parentID'])) {
             $table = $this->getTable();
             $table->load($data['parentID']);

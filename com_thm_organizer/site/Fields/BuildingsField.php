@@ -36,7 +36,7 @@ class BuildingsField extends ListField
     {
         $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
         $input          = OrganizerHelper::getInput();
-        $formData       = OrganizerHelper::getForm();
+        $formData       = OrganizerHelper::getFormInput();
         $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
 
         $dbo   = Factory::getDbo();

@@ -33,15 +33,7 @@ class Group extends MergeModel
      */
     protected function allowEdit()
     {
-        $allIDs = [];
-        if (!empty($this->data['id'])) {
-            $allIDs = $allIDs + [$this->data['id']];
-        }
-        if (!empty($this->data['otherIDs'])) {
-            $allIDs = $allIDs + $this->data['otherIDs'];
-        }
-
-        return Groups::allowEdit($allIDs);
+        return Groups::allowEdit($this->selected);
     }
 
     /**
@@ -62,13 +54,7 @@ class Group extends MergeModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        foreach ($groupIDs as $groupID) {
-            if (empty($this->savePublishing($groupID))) {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->savePublishing();
     }
 
     /**
@@ -84,9 +70,7 @@ class Group extends MergeModel
             return false;
         }
 
-        $formData = OrganizerHelper::getForm();
-
-        return $this->savePublishing($formData['id']);
+        return $this->savePublishing();
     }
 
     /**
@@ -99,30 +83,32 @@ class Group extends MergeModel
      */
     public function save($data = [])
     {
+        $this->selected = OrganizerHelper::getSelectedIDs();
+
         if (empty(parent::save($data))) {
             return false;
         }
 
-        $data = empty($data) ? OrganizerHelper::getForm() : $data;
-
-        if (empty($this->savePublishing($data['id']))) {
+        if (empty($this->savePublishing())) {
             return false;
         }
 
-        return $data['id'];
+        return reset($this->selected);
     }
 
     /**
      * Saves the publishing data for a group.
      *
-     * @param int $groupID the id of the group
-     *
      * @return bool true on success, otherwise false
      */
-    private function savePublishing($groupID)
+    private function savePublishing()
     {
-        $formData = OrganizerHelper::getForm();
-        if (!empty($formData['publishing'])) {
+        $formData = OrganizerHelper::getFormInput();
+        if (empty($formData['publishing'])) {
+            return true;
+        }
+
+        foreach ($this->selected as $groupID) {
             foreach ($formData['publishing'] as $termID => $publish) {
                 $table = OrganizerHelper::getTable('Group_Publishing');
                 $data  = ['groupID' => $groupID, 'termID' => $termID];
@@ -150,8 +136,9 @@ class Group extends MergeModel
             return false;
         }
 
-        $query = $this->_db->getQuery(true);
-        $query->select('*')->from('#__thm_organizer_lesson_groups')->where("groupID = {$this->data['id']}");
+        $mergeID = reset($this->selected);
+        $query   = $this->_db->getQuery(true);
+        $query->select('*')->from('#__thm_organizer_lesson_groups')->where("groupID = $mergeID");
         $this->_db->setQuery($query);
 
         $assocs = OrganizerHelper::executeQuery('loadAssocList');
@@ -160,7 +147,7 @@ class Group extends MergeModel
         }
 
         $uniqueLessonCourses = [];
-        $duplicateIDs         = [];
+        $duplicateIDs        = [];
 
         foreach ($assocs as $assoc) {
             if (!isset($uniqueLessonCourses[$assoc['lessonCourseID']])) {
@@ -170,7 +157,7 @@ class Group extends MergeModel
             else {
                 // An already iterated duplicate has the removed flag => replace and remove it
                 if ($uniqueLessonCourses[$assoc['lessonCourseID']]['delta'] == 'removed') {
-                    $duplicateIDs[]                            = $uniqueLessonCourses[$assoc['subjectID']]['id'];
+                    $duplicateIDs[]                                = $uniqueLessonCourses[$assoc['subjectID']]['id'];
                     $uniqueLessonCourses[$assoc['lessonCourseID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
                 } // The other duplicate is sufficient => remove this one
                 else {
@@ -202,15 +189,18 @@ class Group extends MergeModel
      */
     protected function updateSchedule(&$schedule)
     {
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
+
         $lessons = (array)$schedule->lessons;
         foreach ($lessons as $lessonIndex => $lesson) {
             $courses = (array)$lesson->courses;
             foreach ($courses as $courseID => $courseConfig) {
-                $pools = (array)$courseConfig->pools;
-                foreach ($pools as $poolID => $delta) {
-                    if (in_array($poolID, $this->data['otherIDs'])) {
-                        unset($schedule->lessons->$lessonIndex->courses->$courseID->pools->$poolID);
-                        $schedule->lessons->$lessonIndex->courses->$courseID->pools->{$this->data['id']} = $delta;
+                $groups = (array)$courseConfig->groups;
+                foreach ($groups as $groupID => $delta) {
+                    if (in_array($groupID, $updateIDs)) {
+                        unset($schedule->lessons->$lessonIndex->courses->$courseID->groups->$groupID);
+                        $schedule->lessons->$lessonIndex->courses->$courseID->groups->$mergeID = $delta;
                     }
                 }
             }

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Teachers;
 
 /**
  * Class which manages stored teacher data.
@@ -33,7 +34,22 @@ class Teacher extends MergeModel
      */
     protected function allowEdit()
     {
-        return Access::allowHRAccess();
+        if (Access::allowHRAccess()) {
+            return true;
+        }
+
+        $plannerFor = Access::getAccessibleDepartments('schedule');
+
+        foreach ($this->selected as $selected) {
+            $teacherDepartments = Teachers:: getDepartmentIDs($selected);
+            foreach ($teacherDepartments as $teacherDepartment) {
+                if (in_array($teacherDepartment, $plannerFor)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -43,16 +59,18 @@ class Teacher extends MergeModel
      */
     private function removeDuplicateResponsibilities()
     {
-        $table = '#__thm_organizer_subject_teachers';
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
+        $updateIDs = "'" . implode("', '", $updateIDs) . "'";
+        $table     = '#__thm_organizer_subject_teachers';
 
         $selectQuery = $this->_db->getQuery(true);
         $selectQuery->select('DISTINCT subjectID, teacherResp')
             ->from($table)
-            ->where("teacherID = '{$this->data['id']}'");
+            ->where("teacherID = $mergeID");
         $this->_db->setQuery($selectQuery);
 
         $existingResps = OrganizerHelper::executeQuery('loadAssocList');
-        $oldIDString   = "'" . implode("', '", $this->data['otherIDs']) . "'";
 
         if (!empty($existingResps)) {
             $potentialDuplicates = [];
@@ -63,9 +81,7 @@ class Teacher extends MergeModel
             $potentialDuplicates = '(' . implode(' OR ', $potentialDuplicates) . ')';
 
             $deleteQuery = $this->_db->getQuery(true);
-            $deleteQuery->delete($table)
-                ->where("teacherID IN ( $oldIDString )")
-                ->where($potentialDuplicates);
+            $deleteQuery->delete($table)->where("teacherID IN ( $updateIDs )")->where($potentialDuplicates);
             $this->_db->setQuery($deleteQuery);
             $success = (bool)OrganizerHelper::executeQuery('execute');
             if (!$success) {
@@ -125,12 +141,15 @@ class Teacher extends MergeModel
      */
     protected function updateSchedule(&$schedule)
     {
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
+
         foreach ($schedule->lessons as $lessonIndex => $lesson) {
-            foreach ($lesson->subjects as $subjectID => $subjectConfig) {
+            foreach ($lesson->courses as $subjectID => $subjectConfig) {
                 foreach ($subjectConfig->teachers as $teacherID => $delta) {
-                    if (in_array($teacherID, $this->data['otherIDs'])) {
-                        unset($schedule->lessons->$lessonIndex->subjects->$subjectID->teachers->$teacherID);
-                        $schedule->lessons->$lessonIndex->subjects->$subjectID->teachers->{$this->data['id']} = $delta;
+                    if (in_array($teacherID, $updateIDs)) {
+                        unset($schedule->lessons->$lessonIndex->courses->$subjectID->teachers->$teacherID);
+                        $schedule->lessons->$lessonIndex->courses->$subjectID->teachers->$mergeID = $delta;
                     }
                 }
             }
@@ -141,11 +160,11 @@ class Teacher extends MergeModel
             $configuration = json_decode($configuration);
 
             foreach ($configuration->teachers as $teacherID => $delta) {
-                if (in_array($teacherID, $this->data['otherIDs'])) {
+                if (in_array($teacherID, $updateIDs)) {
                     // Whether old or new high probability of having to overwrite an attribute this enables standard handling.
                     unset($configuration->teachers->$teacherID);
-                    $inConfig                                     = true;
-                    $configuration->teachers->{$this->data['id']} = $delta;
+                    $inConfig                          = true;
+                    $configuration->teachers->$mergeID = $delta;
                 }
             }
 
@@ -162,6 +181,8 @@ class Teacher extends MergeModel
      */
     private function updateStoredConfigurations()
     {
+        $updateIDs = $this->selected;
+        $mergeID   = array_shift($updateIDs);
 
         $table       = '#__thm_organizer_lesson_configurations';
         $selectQuery = $this->_db->getQuery(true);
@@ -171,9 +192,9 @@ class Teacher extends MergeModel
         $updateQuery = $this->_db->getQuery(true);
         $updateQuery->update($table);
 
-        foreach ($this->data['otherIDs'] as $oldID) {
+        foreach ($updateIDs as $updateID) {
             $selectQuery->clear('where');
-            $regexp = '"teachers":\\{("[0-9]+":"[\w]*",)*"' . $oldID . '"';
+            $regexp = '"teachers":\\{("[0-9]+":"[\w]*",)*"' . $updateID . '"';
             $selectQuery->where("configuration REGEXP '$regexp'");
             $this->_db->setQuery($selectQuery);
 
@@ -185,13 +206,13 @@ class Teacher extends MergeModel
             foreach ($storedConfigurations as $storedConfiguration) {
                 $configuration = json_decode($storedConfiguration['configuration'], true);
 
-                $oldDelta = $configuration['teachers'][$oldID];
-                unset($configuration['teachers'][$oldID]);
+                $oldDelta = $configuration['teachers'][$updateID];
+                unset($configuration['teachers'][$updateID]);
 
                 // The new id is not yet an index, or it is, but has no delta value and the old id did
-                if (!isset($configuration['teachers'][$this->data['id']])
-                    or (empty($configuration['teachers'][$this->data['id']]) and !empty($oldDelta))) {
-                    $configuration['teachers'][$this->data['id']] = $oldDelta;
+                if (!isset($configuration['teachers'][$mergeID])
+                    or (empty($configuration['teachers'][$mergeID]) and !empty($oldDelta))) {
+                    $configuration['teachers'][$mergeID] = $oldDelta;
                 }
 
                 $configuration = json_encode($configuration);

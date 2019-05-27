@@ -32,15 +32,7 @@ class Category extends MergeModel
      */
     protected function allowEdit()
     {
-        $allIDs = [];
-        if (!empty($this->data['id'])) {
-            $allIDs = $allIDs + [$this->data['id']];
-        }
-        if (!empty($this->data['otherIDs'])) {
-            $allIDs = $allIDs + $this->data['otherIDs'];
-        }
-
-        return Categories::allowEdit($allIDs);
+        return Categories::allowEdit($this->selected);
     }
 
     /**

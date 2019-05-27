@@ -228,7 +228,7 @@ class Deputat extends BaseModel
         $previousPoolIDs = empty($this->lessonValues[$lessonID][$teacherID]['pools']) ?
             [] : $this->lessonValues[$lessonID][$teacherID]['pools'];
 
-        $newPools = (array)$schedule->lessons->$lessonID->pools;
+        $newPools = (array)$schedule->lessons->$lessonID->groups;
         foreach ($newPools as $pool => $delta) {
             if ($delta == 'removed') {
                 unset($newPools[$pool]);
@@ -282,29 +282,29 @@ class Deputat extends BaseModel
      */
     private function getSubjectName(&$schedule, $lessonID)
     {
-        $subjects = (array)$schedule->lessons->$lessonID->subjects;
-        foreach ($subjects as $subject => $delta) {
+        $courses = (array)$schedule->lessons->$lessonID->courses;
+        foreach ($courses as $course => $delta) {
             if ($delta == 'removed') {
-                unset($subjects[$subject]);
+                unset($courses[$course]);
                 continue;
             }
 
-            if (strpos($subject, 'KOL.B') !== false) {
+            if (strpos($course, 'KOL.B') !== false) {
                 return 'Betreuung von Bachelorarbeiten';
             }
 
-            if (strpos($subject, 'KOL.D') !== false) {
+            if (strpos($course, 'KOL.D') !== false) {
                 return 'Betreuung von Diplomarbeiten';
             }
 
-            if (strpos($subject, 'KOL.M') !== false) {
+            if (strpos($course, 'KOL.M') !== false) {
                 return 'Betreuung von Masterarbeiten';
             }
 
-            $subjects[$subject] = $schedule->subjects->$subject->name;
+            $courses[$course] = $schedule->courses->$course->name;
         }
 
-        return implode('/', $subjects);
+        return implode('/', $courses);
     }
 
     /**
@@ -341,14 +341,14 @@ class Deputat extends BaseModel
      */
     private function isSubjectRelevant(&$schedule, $lessonID)
     {
-        $subjects = (array)$schedule->lessons->$lessonID->subjects;
-        foreach ($subjects as $subject => $delta) {
+        $courses = (array)$schedule->lessons->$lessonID->courses;
+        foreach ($courses as $course => $delta) {
             if ($delta == 'removed') {
                 continue;
             }
 
             foreach ($this->irrelevant['subjects'] as $prefix) {
-                if (strpos($subject, $prefix) !== false) {
+                if (strpos($course, $prefix) !== false) {
                     return false;
                 }
             }

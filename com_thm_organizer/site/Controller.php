@@ -45,21 +45,7 @@ class Controller extends BaseController
         $task           = $this->input->get('task', '');
         $taskParts      = explode('.', $task);
         $this->resource = $taskParts[0];
-
-        switch (true) {
-            case $this->resource == 'equipment':
-                $this->listView = 'equipment';
-                break;
-            case mb_substr($this->resource, -1) == 's':
-                $this->listView = $this->resource . 'es';
-                break;
-            case mb_substr($this->resource, -1) == 'y':
-                $this->listView = mb_substr($this->resource, 0, mb_strlen($this->resource) - 1) . 'ies';
-                break;
-            default:
-                $this->listView = $this->resource . 's';
-                break;
-        }
+        $this->listView = OrganizerHelper::getPlural($this->resource);
     }
 
     /**
@@ -166,7 +152,7 @@ class Controller extends BaseController
      */
     public function changeParticipantState()
     {
-        $formData = OrganizerHelper::getForm();
+        $formData = OrganizerHelper::getFormInput();
         $url      = OrganizerHelper::getRedirectBase();
 
         if (empty($formData) or empty($formData['id'])) {
@@ -477,7 +463,7 @@ class Controller extends BaseController
             $this->setRedirect(Route::_($url, false));
         }
 
-        $formData           = OrganizerHelper::getForm();
+        $formData           = OrganizerHelper::getFormInput();
         $participantModel   = $this->getModel('participant');
         $participantEditURL = "{$url}&view=participant_edit&lessonID=$courseID";
 
@@ -553,7 +539,7 @@ class Controller extends BaseController
         $resourceID = $this->getModel($this->resource)->save();
 
         $isBackend = OrganizerHelper::getApplication()->isClient('administrator');
-        $data      = OrganizerHelper::getForm();
+        $data      = OrganizerHelper::getFormInput();
         $formID    = empty($data['id']) ? 0 : (int)$data['id'];
         $lessonID  = $this->resource == 'course' ? $formID : $this->input->getInt('lessonID', 0);
         $url       = OrganizerHelper::getRedirectBase();
