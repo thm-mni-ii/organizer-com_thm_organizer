@@ -13,6 +13,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Exception;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
@@ -267,7 +268,7 @@ class Subject_LSF extends BaseModel
             return true;
         }
 
-        $client  = new \LSF;
+        $client  = new LSF;
         $lsfData = $client->getModuleByModulid($subject->lsfID);
 
         // The system administrator does not wish to display entries with this value

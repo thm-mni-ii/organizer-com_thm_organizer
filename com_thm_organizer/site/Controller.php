@@ -379,7 +379,7 @@ class Controller extends BaseController
      */
     public function importLSFData()
     {
-        $modelName = 'LSF' . ucfirst($this->resource);
+        $modelName = ucfirst($this->resource) . '_LSF';
         $success   = $this->getModel($modelName)->importBatch();
         if ($success) {
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');

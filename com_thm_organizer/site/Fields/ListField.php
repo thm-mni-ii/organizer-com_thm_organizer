@@ -118,7 +118,7 @@ class ListField extends BaseField
 
             $tmp = array(
                 'value'    => $value,
-                'text'     => Languages::alt($text, $fieldname),
+                'text'     => Languages::alt('THM_ORGANIZER_' . $text, $fieldname),
                 'disable'  => $disabled,
                 'class'    => (string)$option['class'],
                 'selected' => ($checked || $selected),
