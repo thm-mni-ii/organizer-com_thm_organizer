@@ -37,11 +37,6 @@ class ColorsField extends BaseField
     public function getInput()
     {
         $selectedFields = OrganizerHelper::getSelectedIDs();
-        $fieldID = OrganizerHelper::getInput()->getInt('id');
-        if (empty($selectedFields)) {
-        } else {
-            $selectedFields = [$fieldID];
-        }
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);

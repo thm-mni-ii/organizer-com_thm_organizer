@@ -83,8 +83,7 @@ class Courses implements XMLValidator
         $pathPrefix      = 'index.php?option=com_thm_organizer';
         $managerURL      = "{$pathPrefix}&view=courses&languageTag=$shortTag";
         $registrationURL = "$pathPrefix&task=$view.register&languageTag=$shortTag";
-        $registrationURL .= $view == 'subject' ? '&id=' . OrganizerHelper::getInput()->getInt('id',
-                0) : '';
+        $registrationURL .= $view == 'subject' ? '&id=' . OrganizerHelper::getInput()->getInt('id', 0) : '';
 
         if (!empty($menuID)) {
             $managerURL      .= "&Itemid=$menuID";

@@ -232,9 +232,17 @@ class OrganizerHelper
      */
     public static function getSelectedIDs()
     {
-        $selected = self::getInput()->get('cid', [], 'array');
+        $input = self::getInput();
+        $selectedIDs = $input->get('cid', [], 'array');
+        $selectedIDs = ArrayHelper::toInteger($selectedIDs);
 
-        return ArrayHelper::toInteger($selected);
+        if (!empty($selectedIDs)) {
+            return $selectedIDs;
+        }
+
+        $selectedID = $input->getInt('id', 0);
+
+        return empty($selectedID) ? []: [$selectedID];
     }
 
     /**

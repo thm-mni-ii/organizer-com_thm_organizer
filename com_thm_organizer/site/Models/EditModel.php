@@ -176,7 +176,7 @@ abstract class EditModel extends AdminModel
     protected function loadFormData()
     {
         $resourceIDs = OrganizerHelper::getSelectedIDs();
-        $resourceID  = empty($resourceIDs) ? OrganizerHelper::getInput()->getInt('id', 0) : $resourceIDs[0];
+        $resourceID  = empty($resourceIDs) ? 0 : $resourceIDs[0];
 
         return $this->getItem($resourceID);
     }

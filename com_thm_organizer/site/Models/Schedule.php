@@ -154,8 +154,8 @@ class Schedule extends BaseModel
     /**
      * Gets a schedule row for referencing.
      *
-     * @param int $departmentID     the department id of the reference row
-     * @param int $termID the term id of the reference row
+     * @param int $departmentID the department id of the reference row
+     * @param int $termID       the term id of the reference row
      *
      * @return mixed  object if successful, otherwise null
      */
@@ -163,24 +163,18 @@ class Schedule extends BaseModel
     {
         if (empty($departmentID) or empty($termID)) {
 
-            // called from activate or set reference => table id in request
-            $listIDs = OrganizerHelper::getSelectedIDs();
+            $selectedIDs = OrganizerHelper::getSelectedIDs();
 
-            // implicitly called by the toggle function
-            $toggleID = OrganizerHelper::getInput()->getInt('id', 0);
-
-            $pullID = empty($listIDs) ? $toggleID : $listIDs[0];
-
-            if (empty($pullID)) {
+            if (empty($selectedIDs)) {
                 return null;
             }
 
-            $pullData = $pullID;
+            $pullData = $selectedIDs[0];
         } else {
             $pullData = [
-                'departmentID'     => $departmentID,
-                'termID' => $termID,
-                'active'           => 1
+                'departmentID' => $departmentID,
+                'termID'       => $termID,
+                'active'       => 1
             ];
         }
 
@@ -224,13 +218,13 @@ class Schedule extends BaseModel
     public function setNotify()
     {
         $isChecked = OrganizerHelper::getInput()->get('isChecked') == 'false' ? 0 : 1;
-        $userID = Factory::getUser()->id;
+        $userID    = Factory::getUser()->id;
         if ($userID == 0) {
             return;
         }
-        $table = '#__user_profiles';
+        $table       = '#__user_profiles';
         $profile_key = 'organizer_notify';
-        $query = $this->_db->getQuery(true);
+        $query       = $this->_db->getQuery(true);
 
         $query->select('COUNT(*)')
             ->from($table)
@@ -240,9 +234,9 @@ class Schedule extends BaseModel
         $result = OrganizerHelper::executeQuery('loadResult');
 
         if ($result == 0) {
-            $query = $this->_db->getQuery(true);
+            $query   = $this->_db->getQuery(true);
             $columns = array('user_id', 'profile_key', 'profile_value', 'ordering');
-            $values = array($userID, $this->_db->quote($profile_key), $this->_db->quote($isChecked), 0);
+            $values  = array($userID, $this->_db->quote($profile_key), $this->_db->quote($isChecked), 0);
 
             $query
                 ->insert($table)
