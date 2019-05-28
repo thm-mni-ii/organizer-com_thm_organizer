@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form>
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" class="inputbox" size="60" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC" required="true"/>
-        <field type="spacer" name="spacer1" label="THM_ORGANIZER_ENGLISH_PROPERTIES"/>
-        <field name="name_en" type="text" class="inputbox" size="50" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
+        <field name="untisID" type="text" class="inputbox" size="60" required="true" label="THM_ORGANIZER_UNTISID"
+               description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field type="spacer"/>
+        <field name="name_en" type="text" class="inputbox" size="50" required="true" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC"/>
         <field name="abbreviation_en" type="text" class="inputbox" label="THM_ORGANIZER_ABBREVIATION_EN"
                description="THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
-        <field type="spacer" name="spacer2" label="THM_ORGANIZER_GERMAN_PROPERTIES"/>
-        <field name="name_de" type="text" class="inputbox" size="50" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
+        <field type="spacer"/>
+        <field name="name_de" type="text" class="inputbox" size="50" required="true" label="THM_ORGANIZER_NAME_DE"
+               description="THM_ORGANIZER_NAME_DE_DESC"/>
         <field name="abbreviation_de" type="text" class="inputbox" label="THM_ORGANIZER_ABBREVIATION_DE"
                description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
     </fieldset>

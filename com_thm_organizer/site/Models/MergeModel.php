@@ -308,8 +308,7 @@ abstract class MergeModel extends BaseModel
      */
     public function save($data = [])
     {
-        $valid = $this->preprocess();
-        if (!$valid) {
+        if (empty(OrganizerHelper::getSelectedIDs())) {
             return false;
         }
 
@@ -319,9 +318,9 @@ abstract class MergeModel extends BaseModel
 
         $this->_db->transactionStart();
 
-        $table = $this->getTable();
-        $table->load($this->data['id']);
-        $success = $table->save($this->data);
+        $this->data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $table      = $this->getTable();
+        $success    = $table->save($this->data);
 
         if ($success) {
 

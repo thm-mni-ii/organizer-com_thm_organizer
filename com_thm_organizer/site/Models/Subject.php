@@ -263,7 +263,7 @@ class Subject extends BaseModel
      */
     private function processFormTeachers(&$data)
     {
-        if (!isset($data['responsible']) and !isset($data['teacherID'])) {
+        if (!isset($data['coordinators']) and !isset($data['teachers'])) {
             return true;
         }
 
@@ -273,17 +273,17 @@ class Subject extends BaseModel
             return false;
         }
 
-        if (!empty($data['responsible'])) {
-            foreach ($data['responsible'] as $responsibleID) {
-                $respAdded = $this->addTeacher($subjectID, $responsibleID, self::COORDINATES);
+        if (!empty($data['coordinators'])) {
+            foreach ($data['coordinators'] as $coordinatorID) {
+                $respAdded = $this->addTeacher($subjectID, $coordinatorID, self::COORDINATES);
                 if (!$respAdded) {
                     return false;
                 }
             }
         }
 
-        if (!empty($data['teacherID'])) {
-            foreach ($data['teacherID'] as $teacherID) {
+        if (!empty($data['teachers'])) {
+            foreach ($data['teachers'] as $teacherID) {
                 $teacherAdded = $this->addTeacher($subjectID, $teacherID, self::TEACHES);
                 if (!$teacherAdded) {
                     return false;

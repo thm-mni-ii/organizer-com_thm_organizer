@@ -2,10 +2,10 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="untisID" type="MergeValues" class="inputbox" label="UNTISID"/>
-        <field type="spacer" name="spacer1" label="THM_ORGANIZER_ENGLISH_PROPERTIES"/>
+        <field type="spacer"/>
         <field name="abbreviation_en" type="MergeValues" class="inputbox" label="ABBREVIATION_EN"/>
         <field name="name_en" type="MergeValues" class="inputbox" label="NAME_EN"/>
-        <field type="spacer" name="spacer2" label="THM_ORGANIZER_GERMAN_PROPERTIES"/>
+        <field type="spacer"/>
         <field name="abbreviation_de" type="MergeValues" class="inputbox" label="ABBREVIATION_DE"/>
         <field name="name_de" type="MergeValues" class="inputbox" label="NAME_DE"/>
         <field name="ids" type="MergeIDs" hidden="true"/>

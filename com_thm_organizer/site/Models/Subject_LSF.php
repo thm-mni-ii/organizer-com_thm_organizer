@@ -758,7 +758,7 @@ class Subject_LSF extends BaseModel
     }
 
     /**
-     * Sets the responsible teachers in the association table
+     * Creates an association between teachers, subjects and their responsibilites for that subject.
      *
      * @param int     $subjectID  the id of the subject
      * @param object &$dataObject an object containing the lsf response
@@ -767,19 +767,19 @@ class Subject_LSF extends BaseModel
      */
     private function setTeachers($subjectID, &$dataObject)
     {
-        $responsible = $dataObject->xpath('//verantwortliche');
-        $teaching    = $dataObject->xpath('//dozent');
+        $coordinators = $dataObject->xpath('//verantwortliche');
+        $teachers     = $dataObject->xpath('//dozent');
 
-        if (empty($responsible) and empty($teaching)) {
+        if (empty($coordinators) and empty($teachers)) {
             return true;
         }
 
-        $responsibleSet = $this->setTeachersByResponsibility($subjectID, $responsible, self::COORDINATES);
+        $responsibleSet = $this->setTeachersByResponsibility($subjectID, $coordinators, self::COORDINATES);
         if (!$responsibleSet) {
             return false;
         }
 
-        $teachingSet = $this->setTeachersByResponsibility($subjectID, $teaching, self::TEACHES);
+        $teachingSet = $this->setTeachersByResponsibility($subjectID, $teachers, self::TEACHES);
         if (!$teachingSet) {
             return false;
         }

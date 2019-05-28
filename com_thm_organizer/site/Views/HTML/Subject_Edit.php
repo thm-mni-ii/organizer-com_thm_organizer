@@ -25,6 +25,7 @@ use Organizer\Helpers\Languages;
 class Subject_Edit extends EditView
 {
     protected $_layout = 'tabs';
+
     /**
      * Method to generate buttons for user interaction
      *
@@ -32,10 +33,10 @@ class Subject_Edit extends EditView
      */
     protected function addToolBar()
     {
-        $new = empty($this->item->id);
+        $new   = empty($this->item->id);
         $title = $new ? Languages::_('THM_ORGANIZER_SUBJECT_NEW') : Languages::_('THM_ORGANIZER_SUBJECT_EDIT');
         HTML::setTitle($title, 'book');
-        $toolbar = Toolbar::getInstance();
+        $toolbar   = Toolbar::getInstance();
         $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
         $toolbar->appendButton('Standard', 'apply', $applyText, 'subject.apply', false);
         $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'subject.save', false);
@@ -55,6 +56,7 @@ class Subject_Edit extends EditView
     {
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
+        HTML::_('formbehavior.chosen', 'select');
 
         Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_edit.css');
         Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');

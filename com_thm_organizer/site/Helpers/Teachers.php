@@ -52,8 +52,7 @@ class Teachers implements XMLValidator
      * Retrieves the teacher responsible for the subject's development
      *
      * @param int  $subjectID      the subject's id
-     * @param int  $responsibility represents the teacher's level of
-     *                             responsibility for the subject
+     * @param int  $responsibility represents the teacher's level of responsibility for the subject
      * @param bool $multiple       whether or not multiple results are desired
      * @param bool $unique         whether or not unique results are desired
      *
@@ -372,7 +371,7 @@ class Teachers implements XMLValidator
                 $overwriteUntis  = ($table->untisID != $untisID and $existingInvalid and $newValid);
                 if ($overwriteUntis) {
                     $table->untisID = $untisID;
-                    $altered          = true;
+                    $altered        = true;
                 }
                 if ($altered) {
                     $table->store();
@@ -504,13 +503,13 @@ class Teachers implements XMLValidator
         $title          = trim((string)$teacherNode->title);
         $userName       = trim((string)$teacherNode->payrollnumber);
 
-        $teacher            = new stdClass;
-        $teacher->fieldID   = $fieldID;
-        $teacher->forename  = $forename;
-        $teacher->untisID = $untisID;
-        $teacher->surname   = $surname;
-        $teacher->title     = $title;
-        $teacher->username  = $userName;
+        $teacher           = new stdClass;
+        $teacher->fieldID  = $fieldID;
+        $teacher->forename = $forename;
+        $teacher->untisID  = $untisID;
+        $teacher->surname  = $surname;
+        $teacher->title    = $title;
+        $teacher->username = $userName;
 
         $scheduleModel->schedule->teachers->$internalID = $teacher;
 
