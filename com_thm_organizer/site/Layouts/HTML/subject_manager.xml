@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
-    <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
+    <fields name="params">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="programID" type="Programs" access="false" class="inputbox" label="THM_ORGANIZER_PROGRAM"
                    description="THM_ORGANIZER_PROGRAM_DESC" required="true"/>
@@ -24,38 +24,38 @@
             </field>
             <field name="showTitle" type="list" default="1" label="THM_ORGANIZER_SHOW_TEACHER_TITLE"
                    description="THM_ORGANIZER_SHOW_TEACHER_TITLE_DESC">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="inlinePoolCrP" type="list" default="1" label="THM_ORGANIZER_SHOW_INLINE_CRP"
                    description="THM_ORGANIZER_SHOW_INLINE_CRP_DESC">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showByName" type="list" default="1" label="THM_ORGANIZER_SHOW_BY_NAME"
                    description="THM_ORGANIZER_SHOW_BY_NAME_DESC">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showByModuleNumber" type="list" default="1" label="THM_ORGANIZER_SHOW_BY_MODULE_NUMBER"
                    description="THM_ORGANIZER_SHOW_BY_MODULE_NUMBER_DESC">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showByPool" type="list" default="1" label="THM_ORGANIZER_SHOW_BY_POOL"
                    description="THM_ORGANIZER_SHOW_BY_POOL_DESC">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showByTeacher" type="list" default="1" label="THM_ORGANIZER_SHOW_BY_TEACHER"
                    description="THM_ORGANIZER_SHOW_BY_TEACHER_DESC">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showByField" type="list" default="0" label="THM_ORGANIZER_SHOW_BY_FIELD"
                    description="THM_ORGANIZER_SHOW_BY_FIELD_DESC">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
         </fieldset>
     </fields>

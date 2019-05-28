@@ -14,6 +14,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Exception;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -22,18 +23,20 @@ use Organizer\Helpers\OrganizerHelper;
 class Grid extends BaseModel
 {
     /**
-     * Save the form data for a new grid
+     * Attempts to save the resource.
      *
-     * @return bool true on success, otherwise false
+     * @param array $data form data which has been preprocessed by inheriting classes.
+     *
+     * @return mixed int id of the resource on success, otherwise boolean false
      * @throws Exception => unauthorized access
      */
-    public function save()
+    public function save($data = [])
     {
         if (!Access::isAdmin()) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = OrganizerHelper::getFormInput();
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
 
         // Save grids in json by foreach because the index is not numeric
         $periods = [];
@@ -46,6 +49,9 @@ class Grid extends BaseModel
         $grid         = ['periods' => $periods, 'startDay' => $data['startDay'], 'endDay' => $data['endDay']];
         $data['grid'] = json_encode($grid);
 
-        return $this->getTable()->save($data);
+        $table   = $this->getTable();
+        $success = $table->save($data);
+
+        return $success ? $table->id : false;
     }
 }

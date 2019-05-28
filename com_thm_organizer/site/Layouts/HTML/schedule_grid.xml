@@ -23,23 +23,23 @@
                    description="THM_ORGANIZER_DELTA_DISPLAY_DESC" first="0" last="100" step="1" default="5"/>
             <field name="showDepartments" type="radio" class="inputbox" label="THM_ORGANIZER_SHOW_DEPARTMENTS_TITLE"
                    description="THM_ORGANIZER_SHOW_DEPARTMENTS_DESC" default="1">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showPrograms" type="radio" class="inputbox" label="THM_ORGANIZER_SHOW_PROGRAMS_TITLE"
                    description="THM_ORGANIZER_SHOW_PROGRAMS_DESC" default="1">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showTeachers" type="radio" class="inputbox" label="THM_ORGANIZER_SHOW_TEACHERS_TITLE"
                    description="THM_ORGANIZER_SHOW_TEACHERS_DESC" default="1">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
             <field name="showRooms" type="radio" class="inputbox" label="THM_ORGANIZER_SHOW_ROOMS_TITLE"
                    description="THM_ORGANIZER_SHOW_ROOMS_DESC" default="1">
-                <option value="1">JYES</option>
-                <option value="0">JNO</option>
+                <option value="1">YES</option>
+                <option value="0">NO</option>
             </field>
         </fieldset>
     </fields>

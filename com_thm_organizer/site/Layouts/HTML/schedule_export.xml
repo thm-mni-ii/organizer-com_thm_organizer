@@ -4,8 +4,8 @@
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="si" type="list" label="THM_ORGANIZER_SI_DISPLAY" default="0"
                    description="THM_ORGANIZER_SI_DISPLAY_DESC" class="chzn-color-state">
-                <option value="0">JNO</option>
-                <option value="1">JYES</option>
+                <option value="0">NO</option>
+                <option value="1">YES</option>
             </field>
         </fieldset>
     </fields>

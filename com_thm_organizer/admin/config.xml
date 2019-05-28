@@ -65,13 +65,12 @@
         <field name="signatureFile" type="imagelist" hide_none="true" directory="components/com_thm_organizer/images"
                label="THM_ORGANIZER_SIGNATURE_FILE" description="THM_ORGANIZER_SIGNATURE_FILE_DESC" size="60"
                default="unterschrift-willems.png"/>
-        <field name="address" type="text" label="THM_ORGANIZER_ADDRESS"
-               description="THM_ORGANIZER_CONTACT_ADDRESS_DESC" size="100"
-               default="Technische Hochschule Mittelhessen – Wiesenstraße 14 – 35390 Gießen"/>
+        <field name="address" type="text" label="THM_ORGANIZER_ADDRESS" description="THM_ORGANIZER_CONTACT_ADDRESS_DESC"
+               size="100" default="Technische Hochschule Mittelhessen – Wiesenstraße 14 – 35390 Gießen"/>
         <field name="contact" type="text" label="THM_ORGANIZER_CONTACT" description="THM_ORGANIZER_CONTACT_DESC"
                size="100" default="Tel.: 0641/309 0 – Fax: 0641/309 2901 – www.thm.de"/>
-        <field name="mailSender" type="user" label="THM_ORGANIZER_SENDER"
-               description="THM_ORGANIZER_SENDER_DESC" default=""/>
+        <field name="mailSender" type="user" label="THM_ORGANIZER_SENDER" description="THM_ORGANIZER_SENDER_DESC"
+               default=""/>
         <field name="deadline" type="integer" first="1" last="30" label="THM_ORGANIZER_DEADLINE"
                description="THM_ORGANIZER_DEADLINE_DESC" default="5"/>
         <field name="fee" type="integer" first="0" last="500" step="5" label="THM_ORGANIZER_COURSE_FEE"

@@ -44,7 +44,7 @@ class TermPublishingField extends BaseField
             return '';
         }
 
-        $groupID    = OrganizerHelper::getInput()->getInt('id');
+        $groupID   = OrganizerHelper::getInput()->getInt('id');
         $poolQuery = $dbo->getQuery(true);
         $poolQuery->select('termID, published')
             ->from('#__thm_organizer_group_publishing')
@@ -65,11 +65,11 @@ class TermPublishingField extends BaseField
 
             // Implicitly (new) and explicitly published entries
             if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {
-                $return .= '<option value="1" selected="selected">' . Languages::_('JYES') . '</option>';
-                $return .= '<option value="0">' . Languages::_('JNO') . '</option>';
+                $return .= '<option value="1" selected="selected">' . Languages::_('YES') . '</option>';
+                $return .= '<option value="0">' . Languages::_('THM_ORGANIZER_NO') . '</option>';
             } else {
-                $return .= '<option value="1">' . Languages::_('JYES') . '</option>';
-                $return .= '<option value="0" selected="selected">' . Languages::_('JNO') . '</option>';
+                $return .= '<option value="1">' . Languages::_('THM_ORGANIZER_YES') . '</option>';
+                $return .= '<option value="0" selected="selected">' . Languages::_('NO') . '</option>';
             }
 
             $return .= '</select>';

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="periods">
         <field name="startTime" type="text" class="inputbox" label="THM_ORGANIZER_START_TIME"
                description="THM_ORGANIZER_START_TIME_DESC"/>
@@ -9,9 +9,9 @@
                description="THM_ORGANIZER_NAME_DE_DESC"/>
         <field name="label_en" type="text" class="inputbox" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="type" type="list" class="inputbox" default="" label="THM_ORGANIZER_TYPE">
-            <option value="">THM_ORGANIZER_DEFAULT</option>
-            <option value="break">THM_ORGANIZER_BREAK</option>
+        <field name="type" type="list" class="inputbox" default="" label="TYPE">
+            <option value="">DEFAULT</option>
+            <option value="break">BREAK</option>
         </field>
     </fieldset>
 </form>
