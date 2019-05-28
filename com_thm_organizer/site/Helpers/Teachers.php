@@ -19,7 +19,7 @@ use stdClass;
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
  */
-class Teachers implements XMLValidator
+class Teachers implements DepartmentAssociated, XMLValidator
 {
     const COORDINATES = 1;
 
@@ -116,19 +116,19 @@ class Teachers implements XMLValidator
     }
 
     /**
-     * Gets the ids of departments with which the teacher is associated
+     * Retrieves the ids of departments associated with the resource
      *
-     * @param int $teacherID the teacher's id
+     * @param int $resourceID the id of the resource for which the associated departments are requested
      *
-     * @return array the ids of departments with which the teacher is associated
+     * @return array the ids of departments associated with the resource
      */
-    public static function getDepartmentIDs($teacherID)
+    public static function getDepartmentIDs($resourceID)
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('departmentID')
             ->from('#__thm_organizer_department_resources')
-            ->where("teacherID = $teacherID");
+            ->where("teacherID = $resourceID");
         $dbo->setQuery($query);
         $departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 

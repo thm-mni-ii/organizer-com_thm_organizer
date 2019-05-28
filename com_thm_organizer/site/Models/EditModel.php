@@ -33,6 +33,8 @@ abstract class EditModel extends AdminModel
 
     public $item = null;
 
+    public $tableName = null;
+
     protected $option = 'com_thm_organizer';
 
     /**
@@ -139,11 +141,14 @@ abstract class EditModel extends AdminModel
      */
     public function getTable($name = '', $prefix = '', $options = array())
     {
-        $name             = str_replace('Model', 'Table', $this->get('name'));
-        $singularName     = str_replace('_Edit', '', $name);
-        $irregularPlurals = ['Campus'];
-        $pluralName       = in_array($singularName, $irregularPlurals) ? $singularName . 'es' : $singularName . 's';
-        $fqName           = "\\Organizer\\Tables\\$pluralName";
+        if (empty($this->tableName)) {
+            $view            = str_replace('Model', 'Table', $this->get('name'));
+            $singularName    = OrganizerHelper::getResource($view);
+            $className       = OrganizerHelper::getClass($singularName);
+            $this->tableName = OrganizerHelper::getPlural($className);
+        }
+
+        $fqName = "\\Organizer\\Tables\\{$this->tableName}";
 
         return new $fqName($this->_db);
     }

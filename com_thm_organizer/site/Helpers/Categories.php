@@ -19,7 +19,7 @@ use stdClass;
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Categories implements XMLValidator
+class Categories implements DepartmentAssociated, XMLValidator
 {
     /**
      * Checks whether the given plan program is associated with an allowed department
@@ -88,6 +88,26 @@ class Categories implements XMLValidator
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList', []);
+    }
+
+    /**
+     * Retrieves the ids of departments associated with the resource
+     *
+     * @param int $resourceID the id of the resource for which the associated departments are requested
+     *
+     * @return array the ids of departments associated with the resource
+     */
+    public static function getDepartmentIDs($resourceID)
+    {
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('departmentID')
+            ->from('#__thm_organizer_department_resources')
+            ->where("categoryID = $resourceID");
+        $dbo->setQuery($query);
+        $departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
+
+        return empty($departmentIDs) ? [] : $departmentIDs;
     }
 
     /**

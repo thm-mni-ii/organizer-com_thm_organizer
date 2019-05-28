@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name" type="text" class="inputbox" size="40" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="untisID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC" readonly="true"/>
-        <field name="programID" type="Programs" access="true" label="THM_ORGANIZER_PROGRAM">
-            <option value="">JNONE</option>
+        <field name="name" type="text" class="inputbox" size="40" required="true" label="THM_ORGANIZER_NAME"
+               description="THM_ORGANIZER_NAME_DESC"/>
+        <field name="untisID" type="text" class="inputbox" size="40" readonly="true" label="THM_ORGANIZER_UNTISID"
+               description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field name="programID" type="Programs" access="true" label="PROGRAM">
+            <option value="">NO_PROGRAMS</option>
         </field>
         <field name="departmentID" type="Departments" class="inputbox" multiple="multiple" required="true"
-               label="THM_ORGANIZER_DEPARTMENTS" description="THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
-               resource="program"/>
+               label="DEPARTMENTS_ASSOC"/>
     </fieldset>
 </form>

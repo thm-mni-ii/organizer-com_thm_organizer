@@ -256,7 +256,7 @@ class OrganizerHelper
      */
     public static function getResource($view)
     {
-        switch ($view) {
+        switch (strtolower($view)) {
             case 'categories':
             case 'category_edit':
                 return 'category';

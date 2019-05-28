@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Organizer\Helpers\Categories;
 
 /**
@@ -33,5 +34,21 @@ class Category_Edit extends EditModel
         }
 
         return Categories::allowEdit([$this->item->id]);
+    }
+
+    /**
+     * Method to get a single record.
+     *
+     * @param integer $pk The id of the primary key.
+     *
+     * @return mixed    Object on success, false on failure.
+     * @throws Exception => unauthorized access
+     */
+    public function getItem($pk = null)
+    {
+        $this->item               = parent::getItem($pk);
+        $this->item->departmentID = Categories::getDepartmentIDs($this->item->id);
+
+        return $this->item;
     }
 }
