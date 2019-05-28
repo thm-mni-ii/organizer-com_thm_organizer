@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_UNTISID"
+        <field name="untisID" type="text" size="40" label="THM_ORGANIZER_UNTISID"
                description="THM_ORGANIZER_UNTISID_DESC"/>
-        <field name="name" type="text" class="inputbox" size="40" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="buildingID" type="Buildings" label="THM_ORGANIZER_BUILDING">
+        <field name="name" type="text" size="40" label="THM_ORGANIZER_NAME" description="THM_ORGANIZER_NAME_DESC"
+               required="true"/>
+        <field name="buildingID" type="Buildings" label="BUILDING">
             <option value="">JNONE</option>
         </field>
         <field name="typeID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_room_types" label="THM_ORGANIZER_TYPE" description="THM_ORGANIZER_TYPE_DESC"
-               required="true">
+               table="thm_organizer_room_types" label="TYPE" description="THM_ORGANIZER_TYPE_DESC" required="true">
             <option value="">JNONE</option>
         </field>
-        <field name="capacity" type="integer" label="THM_ORGANIZER_CAPACITY"
-               description="THM_ORGANIZER_CAPACITY_DESC" last="500" step="1"/>
+        <field name="capacity" type="integer" label="CAPACITY" description="THM_ORGANIZER_CAPACITY_DESC" last="500"
+               step="1"/>
     </fieldset>
 </form>

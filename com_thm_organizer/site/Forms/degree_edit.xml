@@ -2,11 +2,11 @@
 <form>
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name" type="text" class="inputbox required" size="80" required="true" label="THM_ORGANIZER_NAME"
+        <field name="name" type="text" class="required" size="80" required="true" label="THM_ORGANIZER_NAME"
                description="THM_ORGANIZER_NAME_DESC"/>
-        <field name="abbreviation" type="text" class="inputbox required" size="10" required="true"
+        <field name="abbreviation" type="text" class="required" size="10" required="true"
                label="THM_ORGANIZER_ABBREVIATION" description="THM_ORGANIZER_ABBREVIATION_DESC"/>
-        <field name="code" type="text" class="inputbox required" size="10" required="true"
-               label="THM_ORGANIZER_DEGREE_CODE" description="THM_ORGANIZER_DEGREE_CODE_DESC"/>
+        <field name="code" type="text" class="required" size="10" required="true" label="THM_ORGANIZER_DEGREE_CODE"
+               description="THM_ORGANIZER_DEGREE_CODE_DESC"/>
     </fieldset>
 </form>

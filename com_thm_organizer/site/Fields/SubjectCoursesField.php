@@ -34,7 +34,7 @@ class SubjectCoursesField extends BaseField
         $fieldName = $this->getAttribute('name');
         $subjectID = OrganizerHelper::getInput()->getInt('id', 0);
 
-        $dbo           = Factory::getDbo();
+        $dbo          = Factory::getDbo();
         $subjectQuery = $dbo->getQuery(true);
         $subjectQuery->select('courseID');
         $subjectQuery->from('#__thm_organizer_subject_mappings');
@@ -58,7 +58,7 @@ class SubjectCoursesField extends BaseField
             $options[$course['value']] = $course['name'];
         }
 
-        $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
+        $attributes       = ['multiple' => 'multiple', 'size' => '10'];
         $selectedMappings = empty($selected) ? [] : $selected;
 
         return HTML::selectBox($options, $fieldName, $attributes, $selectedMappings, true);

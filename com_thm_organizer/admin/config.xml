@@ -11,18 +11,15 @@
         <field name="timeFormat" label="THM_ORGANIZER_TIME_FORMAT" description="THM_ORGANIZER_TIME_FORMAT_DESC"
                type="text" size="40" required="true" default="H:i"/>
         <field name="buildingRegex" type="text" label="THM_ORGANIZER_BUILDING_REGEX"
-               description="THM_ORGANIZER_BUILDING_REGEX_DESC" class="inputbox color" size="40" required="false"/>
+               description="THM_ORGANIZER_BUILDING_REGEX_DESC" size="40" required="false"/>
         <field name="emailFilter" type="text" label="THM_ORGANIZER_EMAIL_FILTER"
-               description="THM_ORGANIZER_EMAIL_FILTER_DESC" class="inputbox color" size="40" required="false"/>
+               description="THM_ORGANIZER_EMAIL_FILTER_DESC" size="40" required="false"/>
         <field name="backgroundColor" type="color" label="THM_ORGANIZER_BACKGROUND_COLOR"
-               description="THM_ORGANIZER_BACKGROUND_COLOR_DESC" class="inputbox color" size="10" required="true"
-               default="#eeeeee"/>
+               description="THM_ORGANIZER_BACKGROUND_COLOR_DESC" size="10" required="true" default="#eeeeee"/>
         <field name="lightTextColor" type="color" label="THM_ORGANIZER_TEXT_LIGHT_COLOR"
-               description="THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC" class="inputbox color" size="10" required="true"
-               default="#eeeeee"/>
+               description="THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC" size="10" required="true" default="#eeeeee"/>
         <field name="darkTextColor" type="color" label="THM_ORGANIZER_TEXT_DARK_COLOR"
-               description="THM_ORGANIZER_TEXT_DARK_COLOR_DESC" class="inputbox color" size="10" required="true"
-               default="#4a5c66"/>
+               description="THM_ORGANIZER_TEXT_DARK_COLOR_DESC" size="10" required="true" default="#4a5c66"/>
     </fieldset>
     <fieldset name="eCollab" label="THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
               description="THM_ORGANIZER_ECOLLAB_SETTINGS_DESCRIPTION">
@@ -46,7 +43,7 @@
     <fieldset name="monitors" label="THM_ORGANIZER_MONITORS"
               description="THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
         <field name="display" id="display" type="list" label="THM_ORGANIZER_DISPLAY_BEHAVIOUR"
-               description="THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC" class="inputbox">
+               description="THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC">
             <option value='1'>THM_ORGANIZER_DAILY_PLAN</option>
             <option value='2'>THM_ORGANIZER_MIXED_PLAN</option>
             <option value='3'>THM_ORGANIZER_CONTENT_DISPLAY</option>

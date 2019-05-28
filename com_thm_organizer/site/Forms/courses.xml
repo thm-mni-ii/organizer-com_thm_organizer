@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldpath="/component/com_thm_organizer/Fields">
     <fields name="filter">
-        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="status" type="list" label="THM_ORGANIZER_STATE" onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_COURSES</option>
-            <option value="pending">THM_ORGANIZER_PENDING_COURSES</option>
-            <option value="current">THM_ORGANIZER_CURRENT_COURSES</option>
-            <option value="expired">THM_ORGANIZER_EXPIRED_COURSES</option>
+        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="status" type="list" label="STATE" onchange="this.form.submit();">
+            <option value="">ALL_COURSES</option>
+            <option value="pending">PENDING_COURSES</option>
+            <option value="current">CURRENT_COURSES</option>
+            <option value="expired">EXPIRED_COURSES</option>
         </field>
-        <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS" onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_CAMPUSES</option>
-            <option value="-1">THM_ORGANIZER_NO_CAMPUSES</option>
+        <field name="campusID" type="Campuses" label="CAMPUS" onchange="this.form.submit();">
+            <option value="">ALL_CAMPUSES</option>
+            <option value="-1">NO_CAMPUSES</option>
         </field>
-        <field name="methodID" type="GenericList" onchange="this.form.submit();"
-               valuecolumn="id" textcolumn="name" table="thm_organizer_methods" localized="true">
+        <field name="methodID" type="GenericList" onchange="this.form.submit();" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_methods" localized="true">
             <option value="">JALL</option>
             <option value="-1">NONE</option>
         </field>
-        <field name="onlyPrepCourses" type="list" label="THM_ORGANIZER_PREP_COURSES" default="0">
-            <option value="">THM_ORGANIZER_ALL_COURSES</option>
-            <option value="1">THM_ORGANIZER_ONLY_PREP_COURSES</option>
-            <option value="-1">THM_ORGANIZER_NOT_PREP_COURSES</option>
+        <field name="onlyPrepCourses" type="list" label="PREP_COURSES" default="0">
+            <option value="">ALL_COURSES</option>
+            <option value="1">ONLY_PREP_COURSES</option>
+            <option value="-1">NOT_PREP_COURSES</option>
         </field>
     </fields>
     <fields name="list">

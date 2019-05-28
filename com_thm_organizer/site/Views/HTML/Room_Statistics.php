@@ -148,7 +148,7 @@ class Room_Statistics extends BaseHTMLView
 
         $deptAttribs                     = $attribs;
         $deptAttribs['onChange']         = 'repopulateTerms();repopulateCategories();repopulateRooms();';
-        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
         $departmentOptions               = $this->model->getDepartmentOptions();
         $departmentSelect                = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
 
@@ -160,7 +160,7 @@ class Room_Statistics extends BaseHTMLView
 
         $categoryAttribs                     = $attribs;
         $categoryAttribs['onChange']         = 'repopulateTerms();repopulateRooms();';
-        $categoryAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_EVENT_CATEGORY');
+        $categoryAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_CATEGORY');
         $categoryOptions                     = $this->model->getCategoryOptions();
         $categorySelect                      = HTML::selectBox($categoryOptions, 'categoryIDs', $categoryAttribs);
 

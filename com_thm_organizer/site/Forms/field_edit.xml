@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field type="text" name="field_de" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" class="inputbox" size="60" maxlength="60" required="true"/>
-        <field type="text" name="field_en" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC" class="inputbox" size="100" maxlength="100"
-               required="true"/>
-        <field type="text" name="untisID" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC" size="60" maxlength="60" class="inputbox"/>
-        <field name="colorID" type="colorID" class="inputbox color" size="10" label="THM_ORGANIZER_COLOR"
-               description="THM_ORGANIZER_COLOR_DESC"/>
+        <field type="text" name="field_de" size="60" maxlength="60" required="true" label="THM_ORGANIZER_NAME_DE"
+               description="THM_ORGANIZER_NAME_DE_DESC"/>
+        <field type="text" name="field_en" size="100" maxlength="100" required="true" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC"/>
+        <field type="text" name="untisID" size="60" maxlength="60" label="THM_ORGANIZER_UNTISID"
+               description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field name="colorID" type="colorID" size="10" label="COLOR" description="THM_ORGANIZER_COLOR_DESC"/>
     </fieldset>
 </form>

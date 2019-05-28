@@ -182,8 +182,8 @@ class Schedule_Grid extends BaseHTMLView
         Languages::script('THM_ORGANIZER_MY_SCHEDULE');
         Languages::script('NOVEMBER');
         Languages::script('OCTOBER');
-        Languages::script('THM_ORGANIZER_SELECT_EVENT_PLAN');
-        Languages::script('THM_ORGANIZER_SELECT_EVENT_CATEGORY');
+        Languages::script('THM_ORGANIZER_SELECT_GROUP');
+        Languages::script('THM_ORGANIZER_SELECT_CATEGORY');
         Languages::script('THM_ORGANIZER_SELECT_ROOM');
         Languages::script('THM_ORGANIZER_SELECT_ROOM_TYPE');
         Languages::script('SAT');

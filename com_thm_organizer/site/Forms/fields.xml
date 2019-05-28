@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
         <field name="field" type="LocalizedList" valuecolumn="field" textcolumn="field" table="thm_organizer_fields"
-               label="THM_ORGANIZER_NAME" onchange="this.form.submit();">
+               label="NAME" onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
         <field name="colorID" type="GenericList" valuecolumn="c.id" textcolumn="name" localized="true"
-               table="thm_organizer_fields AS f,thm_organizer_colors AS c ON f.colorID = c.id"
-               label="THM_ORGANIZER_COLOR" onchange="this.form.submit();">
+               table="thm_organizer_fields AS f,thm_organizer_colors AS c ON f.colorID = c.id" label="COLOR"
+               onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>

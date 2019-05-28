@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="untisID" type="MergeValues" class="inputbox" label="UNTISID"/>
-        <field name="surname" type="MergeValues" class="inputbox" label="SURNAME"/>
-        <field name="forename" type="MergeValues" class="inputbox" label="FORENAME"/>
-        <field name="title" type="MergeValues" class="inputbox" label="TITLE"/>
-        <field name="username" type="MergeValues" class="inputbox" label="USERNAME"/>
-        <field name="fieldID" type="MergeAssociations" class="inputbox" label="FIELD"
-               textcolumn="field" localized="true" from="teachers AS t" innerJoins="fields AS f ON f.id = t.fieldID"/>
-        <field name="departmentID" type="MergeDepartments" class="inputbox" label="DEPARTMENTS" resource="teacher" multiple="multiple"/>
+        <field name="untisID" type="MergeValues" label="UNTISID"/>
+        <field name="surname" type="MergeValues" label="SURNAME"/>
+        <field name="forename" type="MergeValues" label="FORENAME"/>
+        <field name="title" type="MergeValues" label="TITLE"/>
+        <field name="username" type="MergeValues" label="USERNAME"/>
+        <field name="fieldID" type="MergeAssociations" label="FIELD" textcolumn="field" localized="true"
+               from="teachers AS t" innerJoins="fields AS f ON f.id = t.fieldID"/>
+        <field name="departmentID" type="MergeDepartments" label="DEPARTMENTS" resource="teacher" multiple="multiple"/>
         <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>
 </form>

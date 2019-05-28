@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
-    <field name="termID" type="Terms" label="THM_ORGANIZER_DEPARTMENT"
-           description="THM_ORGANIZER_DEPARTMENT_DESC" allowFuture="false" onchange="this.form.submit();">
-        <option value="">THM_ORGANIZER_ALL_TERMS</option>
-    </field>
-    <field name="departmentID" type="Departments" label="THM_ORGANIZER_DEPARTMENT"
-           description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
-        <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
-    </field>
-    <field name="categoryID" type="Categories" access="false" departmentRestrict="true" class="inputbox"
-           label="THM_ORGANIZER_PROGRAM" description="THM_ORGANIZER_PROGRAM_DESC"
+<form addfieldprefix="Organizer\Fields">
+    <field name="termID" type="Terms" label="DEPARTMENT" description="THM_ORGANIZER_DEPARTMENT_DESC" allowFuture="false"
            onchange="this.form.submit();">
-        <option value="">THM_ORGANIZER_ALL_PROGRAMS</option>
+        <option value="">ALL_TERMS</option>
+    </field>
+    <field name="departmentID" type="Departments" label="DEPARTMENT" description="THM_ORGANIZER_DEPARTMENT_DESC"
+           onchange="this.form.submit();">
+        <option value="">ALL_DEPARTMENTS</option>
+    </field>
+    <field name="categoryID" type="Categories" access="false" departmentRestrict="true" label="PROGRAM"
+           description="THM_ORGANIZER_PROGRAM_DESC" onchange="this.form.submit();">
+        <option value="">ALL_PROGRAMS</option>
     </field>
 </form>

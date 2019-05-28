@@ -114,7 +114,7 @@ class Schedule_Export extends BaseHTMLView
         // Departments
         $deptAttribs                     = [];
         $deptAttribs['onChange']         = 'repopulateCategories();repopulateResources();';
-        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
 
         $departmentOptions = $this->model->getDepartmentOptions();
         $departmentSelect  = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
@@ -128,7 +128,7 @@ class Schedule_Export extends BaseHTMLView
         $categoryAttribs = [
             'multiple'         => 'multiple',
             'onChange'         => 'repopulateResources();',
-            'data-placeholder' => Languages::_('THM_ORGANIZER_PROGRAMS_SELECT_PLACEHOLDER')
+            'data-placeholder' => Languages::_('THM_ORGANIZER_SELECT_CATEGORIES')
         ];
         $categorySelect  = HTML::selectBox([], 'categoryIDs', $categoryAttribs);
 
@@ -295,7 +295,7 @@ class Schedule_Export extends BaseHTMLView
 
         // Pools
         $poolAttribs                     = $attribs;
-        $poolAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_EVENT_PLANS');
+        $poolAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_GROUPS');
         $poolSelect                      = HTML::selectBox([], 'poolIDs', $poolAttribs);
 
         $this->fields['resourceFields']['poolIDs'] = [

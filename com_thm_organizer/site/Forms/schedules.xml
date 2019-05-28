@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="departmentID" type="Departments" action="schedule" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="departmentID" type="Departments" action="schedule" label="DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_DEPARTMENTS</option>
+            <option value="">ALL_DEPARTMENTS</option>
         </field>
-        <field name="termID" type="Terms" label="THM_ORGANIZER_DEPARTMENT"
-               description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_TERMS</option>
+        <field name="termID" type="Terms" label="DEPARTMENT" description="THM_ORGANIZER_DEPARTMENT_DESC"
+               onchange="this.form.submit();">
+            <option value="">ALL_TERMS</option>
         </field>
-        <field name="active" type="list" label="THM_ORGANIZER_STATE" onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_STATES</option>
-            <option value="1">THM_ORGANIZER_ACTIVE</option>
-            <option value="0">THM_ORGANIZER_INACTIVE</option>
+        <field name="active" type="list" label="STATE" onchange="this.form.submit();">
+            <option value="">ALL_STATES</option>
+            <option value="1">ACTIVE</option>
+            <option value="0">INACTIVE</option>
         </field>
     </fields>
     <fields name="list">

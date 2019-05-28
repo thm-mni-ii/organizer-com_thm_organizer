@@ -2,21 +2,19 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" class="inputbox" size="40" maxlength="50" required="true"
-               label="THM_ORGANIZER_UNTISID" description="THM_ORGANIZER_UNTISID_DESC"/>
-        <field name="surname" type="text" class="inputbox required" size="40" maxlength="255" required="true"
+        <field name="untisID" type="text" size="40" maxlength="50" required="true" label="THM_ORGANIZER_UNTISID"
+               description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field name="surname" type="text" class="required" size="40" maxlength="255" required="true"
                label="THM_ORGANIZER_SURNAME" description="THM_ORGANIZER_SURNAME_DESC"/>
-        <field name="forename" type="text" class="inputbox" size="40" maxlength="255" label="THM_ORGANIZER_FORENAME"
+        <field name="forename" type="text" size="40" maxlength="255" label="THM_ORGANIZER_FORENAME"
                description="THM_ORGANIZER_FORENAME_DESC"/>
-        <field name="title" type="text" class="inputbox" size="40" maxlength="45" label="THM_ORGANIZER_TITLE"
+        <field name="title" type="text" size="40" maxlength="45" label="THM_ORGANIZER_TITLE"
                description="THM_ORGANIZER_TITLE_DESC"/>
-        <field name="username" type="text" class="inputbox" label="THM_ORGANIZER_USERNAME"
-               description="THM_ORGANIZER_USERNAME_DESC"/>
+        <field name="username" type="text" label="THM_ORGANIZER_USERNAME" description="THM_ORGANIZER_USERNAME_DESC"/>
         <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
-               table="thm_organizer_fields" class="inputbox" label="FIELD">
+               table="thm_organizer_fields" label="FIELD">
             <option value="">NO_FIELDS</option>
         </field>
-        <field name="departmentID" type="Departments" class="inputbox" multiple="multiple" required="true"
-               label="DEPARTMENTS_ASSOC"/>
+        <field name="departmentID" type="Departments" multiple="multiple" required="true" label="DEPARTMENTS_ASSOC"/>
     </fieldset>
 </form>

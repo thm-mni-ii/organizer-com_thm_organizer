@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" class="inputbox" size="60" label="THM_ORGANIZER_UNTISID"
+        <field name="untisID" type="text" size="60" label="THM_ORGANIZER_UNTISID"
                description="THM_ORGANIZER_UNTISID_DESC" required="true"/>
-        <field type="spacer" name="spacer1" label="THM_ORGANIZER_ENGLISH_PROPERTIES"/>
-        <field name="name_en" type="text" class="inputbox" size="50" label="THM_ORGANIZER_NAME_EN"
+        <field type="spacer" name="spacer1" label="ENGLISH_PROPERTIES"/>
+        <field name="name_en" type="text" size="50" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="description_en" type="textarea" class="inputbox" label="THM_ORGANIZER_DESC_EN"
-               description="THM_ORGANIZER_DESC_EN_DESC"/>
-        <field type="spacer" name="spacer2" label="THM_ORGANIZER_GERMAN_PROPERTIES"/>
-        <field name="name_de" type="text" class="inputbox" size="50" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
-        <field name="description_de" type="textarea" class="inputbox" label="THM_ORGANIZER_DESC_DE"
+        <field name="description_en" type="textarea" label="DESC_EN" description="THM_ORGANIZER_DESC_EN_DESC"/>
+        <field type="spacer" name="spacer2" label="GERMAN_PROPERTIES"/>
+        <field name="name_de" type="text" size="50" label="NAME_DE" description="THM_ORGANIZER_NAME_DE_DESC"
+               required="true"/>
+        <field name="description_de" type="textarea" label="THM_ORGANIZER_DESC_DE"
                description="THM_ORGANIZER_DESC_DE_DESC"/>
-        <field type="spacer" name="spacer3" label="THM_ORGANIZER_CAPACITY_PROPERTIES"/>
-        <field name="min_capacity" type="integer" class="inputbox" label="THM_ORGANIZER_MIN_CAPACITY"
-               description="THM_ORGANIZER_MIN_CAPACITY_DESC" first="10" last="9990" step="10" default="-1">
+        <field type="spacer" name="spacer3" label="CAPACITY_PROPERTIES"/>
+        <field name="min_capacity" type="integer" label="MIN_CAPACITY" description="THM_ORGANIZER_MIN_CAPACITY_DESC"
+               first="10" last="9990" step="10" default="-1">
             <option value="-1">JNONE</option>
         </field>
-        <field name="max_capacity" type="integer" class="inputbox" label="THM_ORGANIZER_MAX_CAPACITY"
-               description="THM_ORGANIZER_MAX_CAPACITY_DESC" first="9" last="9999" step="10" default="-1">
+        <field name="max_capacity" type="integer" label="MAX_CAPACITY" description="THM_ORGANIZER_MAX_CAPACITY_DESC"
+               first="9" last="9999" step="10" default="-1">
             <option value="-1">JNONE</option>
         </field>
     </fieldset>

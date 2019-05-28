@@ -1,54 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
-    <fieldset name="details" label="THM_ORGANIZER_ATTRIBUTES_BASIC">
+<form addfieldprefix="Organizer\Fields">
+    <fieldset name="details" label="ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="departmentID" type="Departments" action="document" label="THM_ORGANIZER_DEPARTMENT"
+        <field name="departmentID" type="Departments" action="document" label="DEPARTMENT"
                description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">
-            <option value="">THM_ORGANIZER_NO_INPUT</option>
+            <option value="">NO_INPUT</option>
         </field>
-        <field name="lsfID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_LSF_ID"
-               description="THM_ORGANIZER_LSF_ID_DESC"/>
-        <field name="hisID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_HIS_ID"
-               description="THM_ORGANIZER_HIS_ID_DESC"/>
-        <field name="externalID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_MODULE_ID"
-               description="THM_ORGANIZER_MODULE_ID_DESC"/>
+        <field name="lsfID" type="text" size="40" label="THM_ORGANIZER_LSF_ID" description="THM_ORGANIZER_LSF_ID_DESC"/>
+        <field name="hisID" type="text" size="40" label="THM_ORGANIZER_HIS_ID" description="THM_ORGANIZER_HIS_ID_DESC"/>
+        <field name="externalID" type="text" size="40" label="MODULE_ID" description="THM_ORGANIZER_MODULE_ID_DESC"/>
         <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
-               table="thm_organizer_fields" class="inputbox" label="THM_ORGANIZER_FIELD"
-               description="THM_ORGANIZER_FIELD_DESC">
-            <option value="">THM_ORGANIZER_NO_FIELDS</option>
+               table="thm_organizer_fields" label="FIELD" description="THM_ORGANIZER_FIELD_DESC">
+            <option value="">NO_FIELDS</option>
         </field>
-        <field name="minCrP" type="integer" class="inputbox" label="THM_ORGANIZER_CRP_MIN"
-               description="THM_ORGANIZER_CRP_MIN_DESC" required="true" first="0" last="120" step="1" default="24"/>
-        <field name="maxCrP" type="integer" class="inputbox" label="THM_ORGANIZER_CRP_MAX"
-               description="THM_ORGANIZER_CRP_MAX_DESC" required="true" first="0" last="120" step="1" default="24"/>
+        <field name="minCrP" type="integer" label="CRP_MIN" description="THM_ORGANIZER_CRP_MIN_DESC" required="true"
+               first="0" last="120" step="1" default="24"/>
+        <field name="maxCrP" type="integer" label="CRP_MAX" description="THM_ORGANIZER_CRP_MAX_DESC" required="true"
+               first="0" last="120" step="1" default="24"/>
     </fieldset>
-    <fieldset name="de" label="THM_ORGANIZER_ATTRIBUTES_DE">
-        <field name="name_de" type="text" class="inputbox required" size="40" label="THM_ORGANIZER_NAME_DE"
+    <fieldset name="de" label="ATTRIBUTES_DE">
+        <field name="name_de" type="text" class="required" size="40" label="THM_ORGANIZER_NAME_DE"
                description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
-        <field name="short_name_de" type="text" class="inputbox" size="40" label="THM_ORGANIZER_SHORT_NAME_DE"
+        <field name="short_name_de" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_DE"
                description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
-        <field name="abbreviation_de" type="text" class="inputbox" size="40" label="THM_ORGANIZER_ABBREVIATION_DE"
+        <field name="abbreviation_de" type="text" size="40" label="THM_ORGANIZER_ABBREVIATION_DE"
                description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
-        <field name="description_de" type="textarea" class="inputbox" cols="30" row="3"
-               label="THM_ORGANIZER_DESC_DE" description="THM_ORGANIZER_DESC_DE_DESC"/>
+        <field name="description_de" type="textarea" cols="30" row="3" label="THM_ORGANIZER_DESC_DE"
+               description="THM_ORGANIZER_DESC_DE_DESC"/>
     </fieldset>
-    <fieldset name="en" label="THM_ORGANIZER_ATTRIBUTES_EN">
-        <field name="name_en" type="text" class="inputbox required" size="40" label="THM_ORGANIZER_NAME_EN"
+    <fieldset name="en" label="ATTRIBUTES_EN">
+        <field name="name_en" type="text" class="required" size="40" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="short_name_en" type="text" class="inputbox" size="40" label="THM_ORGANIZER_SHORT_NAME_EN"
+        <field name="short_name_en" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_EN"
                description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
-        <field name="abbreviation_en" type="text" class="inputbox" size="40" label="THM_ORGANIZER_ABBREVIATION_EN"
+        <field name="abbreviation_en" type="text" size="40" label="THM_ORGANIZER_ABBREVIATION_EN"
                description="THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
-        <field name="description_en" type="textarea" class="inputbox" cols="30" row="3"
-               label="THM_ORGANIZER_DESC_EN" description="THM_ORGANIZER_DESC_EN_DESC"/>
+        <field name="description_en" type="textarea" cols="30" row="3" label="DESC_EN"
+               description="THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
-    <fieldset name="mapping" label="THM_ORGANIZER_ATTRIBUTES_STRUCTURE" displayinitial="0">
-        <field name="programID" type="ProgramMappings" access="true" class="inputbox" label="THM_ORGANIZER_PROGRAMS"
+    <fieldset name="mapping" label="ATTRIBUTES_STRUCTURE" displayinitial="0">
+        <field name="programID" type="ProgramMappings" access="true" label="PROGRAMS"
                description="THM_ORGANIZER_PROGRAMS_DESC" required="false"/>
-        <field name="parentID" type="ParentPool" class="inputbox" label="THM_ORGANIZER_PARENT_POOLS"
-               description="THM_ORGANIZER_PARENT_POOLS_DESC" required="false"/>
-        <field name="children" type="Children" label="THM_ORGANIZER_CHILDREN"
-               description="THM_ORGANIZER_CHILDREN_DESC"/>
+        <field name="parentID" type="ParentPool" label="PARENT_POOLS" description="THM_ORGANIZER_PARENT_POOLS_DESC"
+               required="false"/>
+        <field name="children" type="Children" label="CHILDREN" description="THM_ORGANIZER_CHILDREN_DESC"/>
     </fieldset>
 </form>

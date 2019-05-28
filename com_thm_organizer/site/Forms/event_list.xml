@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="fields">
-        <field name="startDate" type="calendar" default="NOW" label="THM_ORGANIZER_DATE" format="%d.%m.%Y"
-               class="input-small" todaybutton="true" minyear="-3" maxyear="1" translateLabel="false"/>
-        <field name="dateRestriction" type="list" label="THM_ORGANIZER_DATE_RESTRICTION"
-               class="date-restriction-list" translateLabel="false">
-            <option value="">THM_ORGANIZER_DATE_RESTRICTION_HINT</option>
-            <option value="day">THM_ORGANIZER_DAY</option>
-            <option value="week">THM_ORGANIZER_WEEK</option>
-            <option value="month">THM_ORGANIZER_MONTH</option>
-            <option value="semester">THM_ORGANIZER_SEMESTER</option>
+        <field name="startDate" type="calendar" default="NOW" label="DATE" format="%d.%m.%Y" class="input-small"
+               todaybutton="true" minyear="-3" maxyear="1" translateLabel="false"/>
+        <field name="dateRestriction" type="list" label="DATE_RESTRICTION" class="date-restriction-list"
+               translateLabel="false">
+            <option value="">DATE_RESTRICTION_HINT</option>
+            <option value="day">DAY</option>
+            <option value="week">WEEK</option>
+            <option value="month">MONTH</option>
+            <option value="semester">SEMESTER</option>
         </field>
     </fieldset>
 </form>

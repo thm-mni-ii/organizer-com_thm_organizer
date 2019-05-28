@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="full_name" type="MergeValues" class="inputbox" label="NAME"/>
-        <field name="name" type="MergeValues" class="inputbox" label="SHORT_NAME"/>
-        <field name="untisID" type="MergeValues" class="inputbox" label="UNTISID"/>
-        <field name="categoryID" type="MergeAssociations" class="inputbox" label="CATEGORY"
-               textcolumn="c.name" from="groups AS g" innerJoins="categories AS c ON c.id = g.categoryID"/>
+        <field name="full_name" type="MergeValues" label="NAME"/>
+        <field name="name" type="MergeValues" label="SHORT_NAME"/>
+        <field name="untisID" type="MergeValues" label="UNTISID"/>
+        <field name="categoryID" type="MergeAssociations" label="CATEGORY" textcolumn="c.name" from="groups AS g"
+               innerJoins="categories AS c ON c.id = g.categoryID"/>
         <field name="publishing" type="TermPublishing" label="PUBLISHING"/>
-        <field name="gridID" type="MergeAssociations" class="inputbox" label="GRID"
-               textcolumn="name" localized="true" from="groups AS gp" innerJoins="grids AS gd ON gd.id = gp.gridID"/>
+        <field name="gridID" type="MergeAssociations" label="GRID" textcolumn="name" localized="true"
+               from="groups AS gp" innerJoins="grids AS gd ON gd.id = gp.gridID"/>
         <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>
 </form>

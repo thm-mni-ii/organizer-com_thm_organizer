@@ -123,8 +123,10 @@ $displayName = empty($this->model->displayName) ?
                 </button>
             </li>
             <li class="check-input">
-                <input type="checkbox" id="check-notify-box" onclick="scheduleApp.toggleCheckbox();" <?php echo $this->model->setCheckboxChecked(); ?>/>
-                <span class= "tab-text" id="check-notify-text"><?php echo \JText::_('THM_ORGANIZER_CHECK_NOTIFY'); ?></span>
+                <input type="checkbox" id="check-notify-box"
+                       onclick="scheduleApp.toggleCheckbox();" <?php echo $this->model->setCheckboxChecked(); ?>/>
+                <span class="tab-text"
+                      id="check-notify-text"><?php echo \JText::_('THM_ORGANIZER_CHECK_NOTIFY'); ?></span>
             </li>
             <li class="tabs-tab" role="presentation">
                 <a href="#exports" class="tabs-toggle" id="tab-exports" data-toggle="tab"
@@ -145,7 +147,7 @@ $displayName = empty($this->model->displayName) ?
                     ?>
                     <div id="department-input" class="input-wrapper">
                         <select id="department" multiple data-input="static"
-                                data-placeholder="<?php echo Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER'); ?>">
+                                data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT'); ?>">
                             <?php
                             foreach ($this->getModel()->departments as $id => $department) {
                                 echo "<option value='" . $id . "'>$department</option>";
@@ -176,13 +178,13 @@ $displayName = empty($this->model->displayName) ?
                 </div>
                 <div id="category-input" class="input-wrapper">
                     <select id="category" data-next="group"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_EVENT_CATEGORY'); ?>">
+                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_CATEGORY'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="group-input" class="input-wrapper">
                     <select id="group" data-next="lesson"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_EVENT_PLAN'); ?>">
+                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_GROUP'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>

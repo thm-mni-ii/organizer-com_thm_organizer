@@ -70,7 +70,7 @@ class Schedule_Export extends BaseModel
     {
         $departments = Departments::getOptions(false);
         $options     = [];
-        $options[''] = Languages::_('THM_ORGANIZER_DEPARTMENT_SELECT_PLACEHOLDER');
+        $options[''] = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
 
         foreach ($departments as $departmentID => $departmentName) {
             $options[$departmentID] = $departmentName;
@@ -239,7 +239,7 @@ class Schedule_Export extends BaseModel
     private function getSubjectTitles()
     {
         $courseIDs = array_values($this->parameters['courseIDs']);
-        $titles     = ['docTitle' => '', 'pageTitle' => ''];
+        $titles    = ['docTitle' => '', 'pageTitle' => ''];
 
         if (empty($courseIDs)) {
             return $titles;
@@ -343,7 +343,7 @@ class Schedule_Export extends BaseModel
                 }
 
                 $displayName         = Teachers::getLNFName($teacherID, true);
-                $untisID           = ApplicationHelper::stringURLSafe($table->untisID);
+                $untisID             = ApplicationHelper::stringURLSafe($table->untisID);
                 $titles['docTitle']  .= $untisID . '_';
                 $titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
             }
@@ -409,8 +409,8 @@ class Schedule_Export extends BaseModel
         $authentication = urldecode($input->getString('auth', ''));
 
         if (!empty($userName) and !empty($authentication)) {
-            $user          = Factory::getUser($userName);
-            $authenticates = password_verify($user->email . $user->registerDate, $authentication);
+            $user                 = Factory::getUser($userName);
+            $authenticates        = password_verify($user->email . $user->registerDate, $authentication);
             $parameters['userID'] = $authenticates ? $user->id : Factory::getUser()->id;
         } elseif (Factory::getUser()->id != 0) {
             $parameters['userID'] = Factory::getUser()->id;

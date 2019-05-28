@@ -2,15 +2,15 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" class="inputbox" size="60" required="true" label="THM_ORGANIZER_UNTISID"
+        <field name="untisID" type="text" size="60" required="true" label="THM_ORGANIZER_UNTISID"
                description="THM_ORGANIZER_UNTISID_DESC"/>
-        <field name="name_de" type="text" class="inputbox" size="60" required="true" label="THM_ORGANIZER_NAME_DE"
+        <field name="name_de" type="text" size="60" required="true" label="THM_ORGANIZER_NAME_DE"
                description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="name_en" type="text" class="inputbox" size="60" required="true" label="THM_ORGANIZER_NAME_EN"
+        <field name="name_en" type="text" size="60" required="true" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC"/>
         <field name="grid" type="periods" formsource="grid_blocks" multiple="true" buttons="add,remove"
                layout="joomla.form.field.subform.repeatable-table" label="GRID" description="THM_ORGANIZER_GRID_DESC"/>
-        <field name="startDay" type="list" class="inputbox" required="true" default="1" label="START_DAY"
+        <field name="startDay" type="list" required="true" default="1" label="START_DAY"
                description="THM_ORGANIZER_START_DAY_DESC">
             <option value='1'>MONDAY</option>
             <option value='2'>TUESDAY</option>
@@ -20,7 +20,7 @@
             <option value='6'>SATURDAY</option>
             <option value='0'>SUNDAY</option>
         </field>
-        <field name="endDay" type="list" class="inputbox" required="true" default="6" label="END_DAY">
+        <field name="endDay" type="list" required="true" default="6" label="END_DAY">
             <option value='1'>MONDAY</option>
             <option value='2'>TUESDAY</option>
             <option value='3'>WEDNESDAY</option>
@@ -29,7 +29,7 @@
             <option value='6'>SATURDAY</option>
             <option value='0'>SUNDAY</option>
         </field>
-        <field name="defaultGrid" type="list" class="inputbox" default="1" label="DEFAULT">
+        <field name="defaultGrid" type="list" default="1" label="DEFAULT">
             <option value='1'>YES</option>
             <option value='0'>NO</option>
         </field>

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="full_name" type="text" class="inputbox" size="40" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="name" type="text" class="inputbox" size="40" label="THM_ORGANIZER_SHORT_NAME"
-               description="THM_ORGANIZER_SHORT_NAME_DESC" required="true"/>
-        <field name="untisID" type="text" class="inputbox" size="40" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC" readonly="true"/>
-        <field name="categoryID" type="GenericList" valuecolumn="id" textcolumn="name"
-               table="thm_organizer_categories" label="THM_ORGANIZER_PROGRAM" required="true"/>
+        <field name="full_name" type="text" size="40" required="true" label="THM_ORGANIZER_NAME"
+               description="THM_ORGANIZER_NAME_DESC"/>
+        <field name="name" type="text" size="40" required="true" label="THM_ORGANIZER_SHORT_NAME"
+               description="THM_ORGANIZER_SHORT_NAME_DESC"/>
+        <field name="untisID" type="text" size="40" readonly="true" label="THM_ORGANIZER_UNTISID"
+               description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field name="categoryID" type="GenericList" required="true" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_categories" label="PROGRAM" />
         <field name="publishing" type="TermPublishing" label="PUBLISHING"/>
-        <field name="gridID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_grids" label="THM_ORGANIZER_GRID"
-               description="THM_ORGANIZER_GRID_EXPORT_DESC" required="true"/>
+        <field name="gridID" type="GenericList" required="true" valuecolumn="id" textcolumn="name" localized="true"
+               table="thm_organizer_grids" label="GRID"/>
     </fieldset>
 </form>

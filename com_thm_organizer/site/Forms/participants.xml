@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="programID" type="Programs" plan="true" unique="true" access="false" class="inputbox"
-               label="THM_ORGANIZER_PROGRAMS" description="THM_ORGANIZER_PROGRAM_DESC"  onchange="this.form.submit();">
-            <option value="">THM_ORGANIZER_ALL_PROGRAMS</option>
+        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="programID" type="Programs" plan="true" unique="true" access="false" label="PROGRAMS"
+               description="THM_ORGANIZER_PROGRAM_DESC" onchange="this.form.submit();">
+            <option value="">ALL_PROGRAMS</option>
         </field>
     </fields>
     <fields name="list">

@@ -1725,8 +1725,8 @@ const ScheduleApp = function (variables) {
                 'teacher': document.getElementById('teacher')
             },
             placeholder = {
-                'group': Joomla.JText._('THM_ORGANIZER_SELECT_EVENT_PLAN'),
-                'program': Joomla.JText._('THM_ORGANIZER_SELECT_EVENT_CATEGORY'),
+                'group': Joomla.JText._('THM_ORGANIZER_SELECT_GROUP'),
+                'program': Joomla.JText._('THM_ORGANIZER_SELECT_CATEGORY'),
                 'roomType': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM_TYPE'),
                 'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
                 'teacher': Joomla.JText._('THM_ORGANIZER_SELECT_TEACHER')
@@ -2926,7 +2926,7 @@ const ScheduleApp = function (variables) {
         jQuery.ajax({
             type: 'GET',
             url: getAjaxUrl('setNotify'),
-            data: { isChecked: notifyChecked }
+            data: {isChecked: notifyChecked}
         });
     };
 

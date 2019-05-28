@@ -5,7 +5,7 @@
             <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS">
                 <option value="">THM_ORGANIZER_NO_CAMPUSES</option>
             </field>
-            <field name="onlyPrepCourses" type="list" class="inputbox" label="THM_ORGANIZER_PREP_COURSES"
+            <field name="onlyPrepCourses" type="list" label="THM_ORGANIZER_PREP_COURSES"
                    description="THM_ORGANIZER_PREP_COURSES_DESC" default="0">
                 <option value="">THM_ORGANIZER_ALL_COURSES</option>
                 <option value="1">THM_ORGANIZER_ONLY_PREP_COURSES</option>

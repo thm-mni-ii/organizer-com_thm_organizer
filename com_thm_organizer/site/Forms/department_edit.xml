@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form>
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field type="text" name="short_name_de" label="THM_ORGANIZER_SHORT_NAME_DE"
-               description="THM_ORGANIZER_SHORT_NAME_DE_DESC" size="10" maxlength="50" class="inputbox"
-               required="true"/>
-        <field name="name_de" type="text" class="inputbox" size="200" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
-        <field type="text" name="short_name_en" label="THM_ORGANIZER_SHORT_NAME_EN"
-               description="THM_ORGANIZER_SHORT_NAME_EN_DESC" size="10" maxlength="50" class="inputbox"
-               required="true"/>
-        <field name="name_en" type="text" class="inputbox" size="200" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
+        <field name="short_name_de" type="text" size="10" maxlength="50" required="true"
+               label="THM_ORGANIZER_SHORT_NAME_DE" description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
+        <field name="name_de" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_DE"
+               description="THM_ORGANIZER_NAME_DE_DESC"/>
+        <field name="short_name_en" type="text" size="10" maxlength="50" required="true"
+               label="THM_ORGANIZER_SHORT_NAME_EN" description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
+        <field name="name_en" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC"/>
         <field name="asset_id" type="hidden" filter="unset"/>
         <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" validate="rules" filter="rules"
                component="com_thm_organizer" section="department"/>
-
     </fieldset>
 </form>
