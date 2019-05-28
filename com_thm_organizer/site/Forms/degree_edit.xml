@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form>
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name" type="text" label="THM_ORGANIZER_NAME" class="inputbox required" size="80"
-               description="THM_ORGANIZER_NAME_DESC" required="true"/>
-        <field name="abbreviation" type="text" class="inputbox required" size="10"
-               label="THM_ORGANIZER_ABBREVIATION" description="THM_ORGANIZER_ABBREVIATION_DESC"
-               required="true"/>
-        <field name="code" type="text" class="inputbox required" size="10" label="THM_ORGANIZER_DEGREE_CODE"
-               description="THM_ORGANIZER_DEGREE_CODE_DESC" required="true"/>
+        <field name="name" type="text" class="inputbox required" size="80" required="true" label="THM_ORGANIZER_NAME"
+               description="THM_ORGANIZER_NAME_DESC"/>
+        <field name="abbreviation" type="text" class="inputbox required" size="10" required="true"
+               label="THM_ORGANIZER_ABBREVIATION" description="THM_ORGANIZER_ABBREVIATION_DESC"/>
+        <field name="code" type="text" class="inputbox required" size="10" required="true"
+               label="THM_ORGANIZER_DEGREE_CODE" description="THM_ORGANIZER_DEGREE_CODE_DESC"/>
     </fieldset>
 </form>
