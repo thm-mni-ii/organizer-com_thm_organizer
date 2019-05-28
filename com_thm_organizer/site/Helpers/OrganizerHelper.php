@@ -248,6 +248,49 @@ class OrganizerHelper
     }
 
     /**
+     * Resolves a view name to the corresponding resource.
+     *
+     * @param string $view the view for which the resource is needed
+     *
+     * @return string the resource name
+     */
+    public static function getResource($view)
+    {
+        switch ($view) {
+            case 'categories':
+            case 'category_edit':
+                return 'category';
+            case 'course_edit':
+            case 'courses'      :
+                return 'course';
+            case 'group_edit':
+            case 'groups'       :
+                return 'group';
+            case 'event_edit':
+            case 'events'       :
+                return 'event';
+            case 'pool_edit':
+            case 'pools'        :
+                return 'pool';
+            case 'program_edit':
+            case 'programs'     :
+                return 'program';
+            case 'schedule_edit':
+            case 'schedules'     :
+                return 'schedule';
+            case 'subject_edit':
+            case 'subjects'     :
+                return 'subject';
+            case 'teacher_edit':
+            case 'teachers'     :
+                return 'teacher';
+            case 'topic_edit':
+            case 'topics'     :
+                return 'topic';
+        }
+    }
+
+    /**
      * Returns the application's input object.
      *
      * @return array the selected ids

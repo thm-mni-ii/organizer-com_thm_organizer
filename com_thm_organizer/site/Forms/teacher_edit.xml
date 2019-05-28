@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" class="inputbox" size="40" maxlength="50"
-               label="THM_ORGANIZER_UNTISID" description="THM_ORGANIZER_UNTISID_DESC" required="true"/>
-        <field name="surname" type="text" class="inputbox required" size="40" maxlength="255"
-               label="THM_ORGANIZER_SURNAME" description="THM_ORGANIZER_SURNAME_DESC" required="true"/>
+        <field name="untisID" type="text" class="inputbox" size="40" maxlength="50" required="true"
+               label="THM_ORGANIZER_UNTISID" description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field name="surname" type="text" class="inputbox required" size="40" maxlength="255" required="true"
+               label="THM_ORGANIZER_SURNAME" description="THM_ORGANIZER_SURNAME_DESC"/>
         <field name="forename" type="text" class="inputbox" size="40" maxlength="255" label="THM_ORGANIZER_FORENAME"
                description="THM_ORGANIZER_FORENAME_DESC"/>
         <field name="title" type="text" class="inputbox" size="40" maxlength="45" label="THM_ORGANIZER_TITLE"
@@ -13,12 +13,10 @@
         <field name="username" type="text" class="inputbox" label="THM_ORGANIZER_USERNAME"
                description="THM_ORGANIZER_USERNAME_DESC"/>
         <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
-               table="thm_organizer_fields" class="inputbox" label="THM_ORGANIZER_FIELD"
-               description="THM_ORGANIZER_FIELD_DESC">
-            <option value="">THM_ORGANIZER_NO_FIELDS</option>
+               table="thm_organizer_fields" class="inputbox" label="FIELD">
+            <option value="">NO_FIELDS</option>
         </field>
         <field name="departmentID" type="Departments" class="inputbox" multiple="multiple" required="true"
-               label="THM_ORGANIZER_DEPARTMENTS" description="THM_ORGANIZER_DEPARTMENTS_ASSOC_DESC"
-               resource="teacher"/>
+               label="DEPARTMENTS_ASSOC"/>
     </fieldset>
 </form>

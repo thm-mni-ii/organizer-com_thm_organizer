@@ -30,6 +30,39 @@ class DepartmentsField extends ListField
      */
     protected $type = 'Departments';
 
+    private function addFilters(&$query)
+    {
+        $view = OrganizerHelper::getInput()->getCmd('view');
+        if (empty($view)) {
+            return;
+        }
+
+        $action               = null;
+        $resource             = OrganizerHelper::getResource($view);
+        $isDepartmentResource = in_array($resource, ['category', 'teacher']);
+        $isDocumentResource   = in_array($resource, ['program', 'pool', 'subject']);
+
+        if ($isDepartmentResource or $resource === 'schedule') {
+            $action = 'schedule';
+            if ($isDepartmentResource) {
+                $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
+                $query->where("dpr.{$resource}ID IS NOT NULL");
+            }
+        } elseif ($isDocumentResource) {
+            $action = 'document';
+            $table  = OrganizerHelper::getPlural($resource);
+            $query->innerJoin("#__thm_organizer_$table AS res ON res.departmentID = depts.id");
+        }
+
+        $auth   = $this->getAttribute('auth', '0') === '0' ? false : true;
+        $isEdit = strpos($view, '_edit') !== false;
+
+        if (($auth or $isEdit) and $action) {
+            $allowedIDs = Access::getAccessibleDepartments($action);
+            $query->where("depts.id IN ( '" . implode("', '", $allowedIDs) . "' )");
+        }
+    }
+
     /**
      * Method to get the field input markup for department selection.
      * Use the multiple attribute to enable multiselect.
@@ -38,40 +71,12 @@ class DepartmentsField extends ListField
      */
     protected function getInput()
     {
-        $resource    = $this->getAttribute('resource');
-        $selected    = OrganizerHelper::getSelectedIDs();
-        $rudimentary = (empty($resource) or empty($selected) or !in_array($resource, ['program', 'teacher']));
-
-        // If this is not being used in the merge view the parent handling of the input is sufficient.
-        if (empty($rudimentary)) {
-            return parent::getInput();
-        }
-
-        // In merge views
-        $attr = ' multiple required aria-required="true"';
-
         // Add custom js script to update other fields like programs
-        if (!empty($this->class)) {
-            $attr .= ' class="' . $this->class . '"';
-
-            if ($this->class === 'departmentlist') {
-                Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/departmentlist.js');
-            }
+        if (!empty($this->class) and $this->class === 'departmentlist') {
+            Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/departmentlist.js');
         }
 
-        $options       = (array)$this->getOptions();
-        $departmentIDs = Departments::getDepartmentsByResource($resource, $selected);
-
-        return HTML::_(
-            'select.genericlist',
-            $options,
-            $this->name,
-            trim($attr),
-            'value',
-            'text',
-            $departmentIDs,
-            $this->id
-        );
+        return parent::getInput();
     }
 
     /**
@@ -81,51 +86,29 @@ class DepartmentsField extends ListField
      */
     protected function getOptions()
     {
+        $options = parent::getOptions();
+
+        // Edit views always require access.
         $shortTag = Languages::getShortTag();
         $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
-        $query->select("DISTINCT d.id AS value, d.short_name_$shortTag AS text");
-        $query->from('#__thm_organizer_departments AS d');
+        $query->select("DISTINCT depts.id AS value, depts.short_name_$shortTag AS text");
+        $query->from('#__thm_organizer_departments AS depts');
 
-        // For use in the merge view
-        $app               = OrganizerHelper::getApplication();
-        $isBackend         = $app->isClient('administrator');
-        $selectedIDs       = OrganizerHelper::getSelectedIDs();
-        $resource          = $this->getAttribute('resource', '');
-        $validResources    = ['program', 'teacher'];
-        $isValidResource   = in_array($resource, $validResources);
-        $filterForSelected = ($isBackend and !empty($selectedIDs) and $isValidResource);
-        if ($filterForSelected) {
-            // Set the selected items
-            $this->value = $selectedIDs;
-
-            // Apply the filter
-            $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = d.id');
-            $query->where("dpr.{$resource}ID IN ( '" . implode("', '", $selectedIDs) . "' )");
-        }
-
-        // Should a restriction be made according to access rights?
-        $action = $this->getAttribute('action', '');
-
-        if (!empty($action)) {
-            $allowedIDs = Access::getAccessibleDepartments($action);
-            $query->where("d.id IN ( '" . implode("', '", $allowedIDs) . "' )");
-        }
+        $this->addFilters($query);
 
         $query->order('text ASC');
         $dbo->setQuery($query);
+        $departments = OrganizerHelper::executeQuery('loadAssocList');
 
-        $defaultOptions = parent::getOptions();
-        $departments    = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($departments)) {
-            return $defaultOptions;
+            return $options;
         }
 
-        $options = [];
         foreach ($departments as $department) {
             $options[] = HTML::_('select.option', $department['value'], $department['text']);
         }
 
-        return array_merge($defaultOptions, $options);
+        return $options;
     }
 }

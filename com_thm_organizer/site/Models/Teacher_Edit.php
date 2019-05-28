@@ -12,7 +12,9 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Teachers;
 
 /**
  * Class loads a form for editing teacher data.
@@ -29,5 +31,21 @@ class Teacher_Edit extends EditModel
     protected function allowEdit()
     {
         return Access::allowHRAccess();
+    }
+
+    /**
+     * Method to get a single record.
+     *
+     * @param integer $pk The id of the primary key.
+     *
+     * @return mixed    Object on success, false on failure.
+     * @throws Exception => unauthorized access
+     */
+    public function getItem($pk = null)
+    {
+        $item               = parent::getItem($pk);
+        $item->departmentID = Teachers::getDepartmentIDs($item->id);
+
+        return $this->item;
     }
 }
