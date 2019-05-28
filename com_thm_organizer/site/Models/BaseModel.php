@@ -99,7 +99,7 @@ abstract class BaseModel extends BaseDatabaseModel
      *
      * @param array $data form data which has been preprocessed by inheriting classes.
      *
-     * @return bool true on success, otherwise false
+     * @return mixed int id of the resource on success, otherwise boolean false
      * @throws Exception => unauthorized access
      */
     public function save($data = [])
@@ -108,9 +108,11 @@ abstract class BaseModel extends BaseDatabaseModel
             throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data    = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $table   = $this->getTable();
+        $success = $table->save($data);
 
-        return $this->getTable()->save($data);
+        return $success ? $table->id : false;
     }
 
     /**
@@ -123,16 +125,9 @@ abstract class BaseModel extends BaseDatabaseModel
      */
     public function save2copy($data = [])
     {
-        if (!$this->allow()) {
-            throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
-        }
-
         $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
         unset($data['id']);
 
-        $table   = $this->getTable();
-        $success = $table->save($data);
-
-        return $success ? $table->id : false;
+        return $this->save($data);
     }
 }
