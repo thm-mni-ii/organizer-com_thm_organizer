@@ -2,9 +2,9 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="dp.name" type="LocalizedList" valuecolumn="name" textcolumn="name" table="thm_organizer_programs"
-               label="NAME" onchange="this.form.submit();">
-            <option value="">JALL</option>
+        <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" onchange="this.form.submit();">
+            <option value="">ALL_DEPARTMENTS</option>
+            <option value="-1">NO_DEPARTMENTS</option>
         </field>
         <field name="degreeID" type="GenericList" valuecolumn="d.id" textcolumn="d.abbreviation"
                table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id" label="DEGREE"

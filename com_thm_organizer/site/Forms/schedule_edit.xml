@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="departmentID" type="Departments" action="schedule" label="DEPARTMENT"
-               description="THM_ORGANIZER_DEPARTMENT_DESC" required="true"/>
+        <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" required="true"/>
         <field name="asset_id" type="hidden" filter="unset"/>
         <field name="file" type="file" label="SCHEDULE_FILE" description="THM_ORGANIZER_SCHEDULE_FILE_DESC"
                accept=".xml" required="true"/>

@@ -15,6 +15,6 @@
                table="thm_organizer_fields" label="FIELD">
             <option value="">NO_FIELDS</option>
         </field>
-        <field name="departmentID" type="Departments" multiple="multiple" required="true" label="DEPARTMENTS_ASSOC"/>
+        <field name="departmentID" type="Departments" label="DEPARTMENTS" auth="1" required="true" multiple="multiple"/>
     </fieldset>
 </form>

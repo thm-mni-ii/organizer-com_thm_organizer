@@ -2,12 +2,12 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="params">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="programID" type="Programs" access="false" label="THM_ORGANIZER_PROGRAM"
-                   description="THM_ORGANIZER_PROGRAM_DESC" required="true"/>
-            <field name="initialLanguage" type="list" default="de" required="true" label="THM_ORGANIZER_LANGUAGE"
-                   description="THM_ORGANIZER_LANGUAGE_DESC">
-                <option value="de">THM_ORGANIZER_GERMAN</option>
-                <option value="en">THM_ORGANIZER_ENGLISH</option>
+            <field name="programID" type="Programs" label="PROGRAM" auth="0" required="true">
+                <option value="">SELECT_PROGRAM</option>
+            </field>
+            <field name="initialLanguage" type="list" label="LANGUAGE" default="de">
+                <option value="de">GERMAN</option>
+                <option value="en">ENGLISH</option>
             </field>
             <field name="displayECollabLink" type="list" default="0" class="chzn-color-state" required="true"
                    label="THM_ORGANIZER_DISPLAY_ECOLLAB" description="THM_ORGANIZER_DISPLAY_ECOLLAB_DESC">

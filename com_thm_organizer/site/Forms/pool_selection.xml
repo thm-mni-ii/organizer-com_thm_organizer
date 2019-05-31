@@ -2,15 +2,15 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="programID" type="Programs" access="false" label="PROGRAM" onchange="this.form.submit();">
-            <option value="">JALL</option>
-            <option value="-1">JNONE</option>
+        <field name="programID" type="Programs" label="PROGRAM" auth="0" onchange="this.form.submit();">
+            <option value="">ALL_PROGRAMS</option>
+            <option value="-1">NO_PROGRAMS</option>
         </field>
         <field name="fieldID" type="GenericList" valuecolumn="f.id" textcolumn="f.field" localized="true"
                table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id" label="FIELD"
                onchange="this.form.submit();">
-            <option value="">JALL</option>
-            <option value="-1">JNONE</option>
+            <option value="">ALL_FIELDS</option>
+            <option value="-1">NO_FIELDS</option>
         </field>
     </fields>
     <fields name="list">

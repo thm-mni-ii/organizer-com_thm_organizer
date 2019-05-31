@@ -269,6 +269,9 @@ class OrganizerHelper
             case 'event_edit':
             case 'events'       :
                 return 'event';
+            case 'participant_edit':
+            case 'participants'     :
+                return 'participant';
             case 'pool_edit':
             case 'pools'        :
                 return 'pool';

@@ -54,10 +54,9 @@ class DepartmentsField extends ListField
             $query->innerJoin("#__thm_organizer_$table AS res ON res.departmentID = depts.id");
         }
 
-        $auth   = $this->getAttribute('auth', '0') === '0' ? false : true;
-        $isEdit = strpos($view, '_edit') !== false;
+        $auth = $this->getAttribute('auth', '0') === '0' ? false : true;
 
-        if (($auth or $isEdit) and $action) {
+        if ($auth and $action) {
             $allowedIDs = Access::getAccessibleDepartments($action);
             $query->where("depts.id IN ( '" . implode("', '", $allowedIDs) . "' )");
         }

@@ -142,7 +142,7 @@ abstract class EditModel extends AdminModel
     public function getTable($name = '', $prefix = '', $options = array())
     {
         if (empty($this->tableName)) {
-            $view            = str_replace('Model', 'Table', $this->get('name'));
+            $view            = $this->get('name');
             $singularName    = OrganizerHelper::getResource($view);
             $className       = OrganizerHelper::getClass($singularName);
             $this->tableName = OrganizerHelper::getPlural($className);

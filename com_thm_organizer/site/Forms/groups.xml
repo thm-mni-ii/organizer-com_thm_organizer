@@ -2,13 +2,11 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="departmentID" type="Departments" action="schedule" label="DEPARTMENT"
-               description="THM_ORGANIZER_DEPARTMENT_DESC" onchange="this.form.submit();">
+        <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENTS</option>
         </field>
-        <field name="categoryID" type="Categories" valuecolumn="id" textcolumn="name" departmentRestrict="force"
-               access="true" table="thm_organizer_plan_programs" label="CATEGORY" onchange="this.form.submit();">
+        <field name="categoryID" type="Categories" label="CATEGORY" auth="1" onchange="this.form.submit();">
             <option value="">ALL_CATEGORIES</option>
             <option value="-1">NO_CATEGORIES</option>
         </field>

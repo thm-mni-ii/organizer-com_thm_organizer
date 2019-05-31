@@ -2,25 +2,26 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="params">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="programID" type="Programs" access="false" label="THM_ORGANIZER_PROGRAM"
-                   description="THM_ORGANIZER_PROGRAM_DESC" required="true"/>
+            <field name="programID" type="Programs" label="PROGRAM" auth="0" required="true">
+                <option value="">SELECT_PROGRAM</option>
+            </field>
             <field name="initialLanguage" type="list" default="de" required="true" label="THM_ORGANIZER_LANGUAGE"
                    description="THM_ORGANIZER_LANGUAGE_DESC">
-                <option value="de">THM_ORGANIZER_GERMAN</option>
-                <option value="en">THM_ORGANIZER_ENGLISH</option>
+                <option value="de">GERMAN</option>
+                <option value="en">ENGLISH</option>
             </field>
             <field name="grouping" type="list" default="0" label="THM_ORGANIZER_ORGANIZE_BY"
                    description="THM_ORGANIZER_ORGANIZE_BY_DESC">
-                <option value="0">THM_ORGANIZER_ALPHABETICAL</option>
-                <option value="1">THM_ORGANIZER_BY_SUBJECTNO</option>
-                <option value="2">THM_ORGANIZER_BY_GROUP</option>
-                <option value="3">THM_ORGANIZER_BY_TEACHER</option>
+                <option value="0">ALPHABETICAL</option>
+                <option value="1">BY_SUBJECTNO</option>
+                <option value="2">BY_GROUP</option>
+                <option value="3">BY_TEACHER</option>
             </field>
             <field name="teacherResp" type="list" default="0" label="THM_ORGANIZER_SHOW_TEACHER_RESP"
                    description="THM_ORGANIZER_SHOW_TEACHER_RESP_DESC">
-                <option value="0">JALL</option>
-                <option value="2">THM_ORGANIZER_TEACHER</option>
-                <option value="1">THM_ORGANIZER_COORDINATOR</option>
+                <option value="0">ALL_RESPONSIBILITIES</option>
+                <option value="2">TEACHER</option>
+                <option value="1">COORDINATOR</option>
             </field>
             <field name="showTitle" type="list" default="1" label="THM_ORGANIZER_SHOW_TEACHER_TITLE"
                    description="THM_ORGANIZER_SHOW_TEACHER_TITLE_DESC">
