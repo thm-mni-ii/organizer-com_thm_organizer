@@ -85,13 +85,9 @@ abstract class BaseModel extends BaseDatabaseModel
      */
     public function getTable($name = '', $prefix = '', $options = [])
     {
-        $name               = OrganizerHelper::getClass($this);
-        $functionalSuffixes = ['_Edit', '_LSF', '_Merge', '_XML'];
-        $singularName       = str_replace($functionalSuffixes, '', $name);
-        $pluralName         = OrganizerHelper::getPlural($singularName);
-        $fqName             = "\\Organizer\\Tables\\$pluralName";
+        $name = OrganizerHelper::getClass($this);
 
-        return new $fqName($this->_db);
+        return OrganizerHelper::getTable($name);
     }
 
     /**

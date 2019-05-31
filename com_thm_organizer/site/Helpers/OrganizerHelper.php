@@ -256,41 +256,30 @@ class OrganizerHelper
      */
     public static function getResource($view)
     {
-        switch (strtolower($view)) {
-            case 'categories':
-            case 'category_edit':
-                return 'category';
-            case 'course_edit':
-            case 'courses'      :
-                return 'course';
-            case 'group_edit':
-            case 'groups'       :
-                return 'group';
-            case 'event_edit':
-            case 'events'       :
-                return 'event';
-            case 'participant_edit':
-            case 'participants'     :
-                return 'participant';
-            case 'pool_edit':
-            case 'pools'        :
-                return 'pool';
-            case 'program_edit':
-            case 'programs'     :
-                return 'program';
-            case 'schedule_edit':
-            case 'schedules'     :
-                return 'schedule';
-            case 'subject_edit':
-            case 'subjects'     :
-                return 'subject';
-            case 'teacher_edit':
-            case 'teachers'     :
-                return 'teacher';
-            case 'topic_edit':
-            case 'topics'     :
-                return 'topic';
+        $initial       = strtolower($view);
+        $withoutSuffix = str_replace(['_edit', '_lsf', '_merge', '_xml'], $initial);
+        if ($withoutSuffix !== $initial) {
+            return $withoutSuffix;
         }
+
+        $listViews = [
+            'categories'   => 'category',
+            'courses'      => 'course',
+            'groups'       => 'group',
+            'equipment'    => 'equipment',
+            'events'       => 'event',
+            'participants' => 'participant',
+            'pools'        => 'pool',
+            'programs'     => 'program',
+            'rooms'        => 'room',
+            'room_types'   => 'room_type',
+            'schedules'    => 'schedule',
+            'subjects'     => 'subject',
+            'teachers'     => 'teacher',
+            'topics'       => 'topic'
+        ];
+
+        return $listViews[$initial];
     }
 
     /**
@@ -345,10 +334,12 @@ class OrganizerHelper
      */
     public static function getTable($name)
     {
-        $dbo = Factory::getDbo();
-        $fqn = "\\Organizer\\Tables\\$name";
+        $functionalSuffixes = ['_Edit', '_LSF', '_Merge', '_XML'];
+        $singularName       = str_replace($functionalSuffixes, '', $name);
+        $pluralName         = self::getPlural($singularName);
+        $fqn                = "\\Organizer\\Tables\\$pluralName";
 
-        return new $fqn($dbo);
+        return new $fqn;
     }
 
     /**

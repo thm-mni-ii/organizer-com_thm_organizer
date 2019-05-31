@@ -25,7 +25,7 @@ class Pools extends BaseTable
      *
      * @param \JDatabaseDriver &$dbo A database connector object
      */
-    public function __construct(&$dbo)
+    public function __construct(&$dbo = null)
     {
         parent::__construct('#__thm_organizer_pools', 'id', $dbo);
     }

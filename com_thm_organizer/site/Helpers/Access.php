@@ -70,7 +70,7 @@ class Access
             return true;
         }
 
-        return Courses::teaches($courseID);
+        return empty($courseID) ? false : Courses::teaches($courseID);
     }
 
     /**
@@ -118,6 +118,29 @@ class Access
         $assetIndex = "com_thm_organizer.department.$departmentID";
 
         return Factory::getUser($userID)->authorise('organizer.manage', $assetIndex);
+    }
+
+    /**
+     * Checks whether the user has access to the participant information
+     *
+     * @param int $participantID the id of the participant
+     * @param int $lessonID      id of the lesson resource
+     *
+     * @return bool true if the user is authorized to manage courses, otherwise false
+     */
+    public static function allowParticipantAccess($participantID, $lessonID = 0)
+    {
+        $user = Factory::getUser();
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        if (Access::isAdmin() or $user->id == $participantID) {
+            return true;
+        }
+
+        return empty($lessonID) ? false : Courses::teaches($lessonID);
     }
 
     /**

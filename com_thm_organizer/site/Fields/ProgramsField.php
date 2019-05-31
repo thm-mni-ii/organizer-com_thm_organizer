@@ -17,6 +17,7 @@ use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Participants;
 
 /**
  * Class creates a select box for (degree) programs.
@@ -46,36 +47,47 @@ class ProgramsField extends ListField
         $query->order('name ASC, degree ASC, version DESC');
         $dbo->setQuery($query);
 
-        $defaultOptions = parent::getOptions();
-        $programs       = OrganizerHelper::executeQuery('loadAssocList');
+        $options  = parent::getOptions();
+        $programs = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($programs)) {
-            return $defaultOptions;
+            return $options;
+        }
+
+        $onlyLatest = false;
+        $view = OrganizerHelper::getInput()->getCmd('view');
+        $selected = OrganizerHelper::getSelectedIDs();
+        if ($view === 'participant_edit') {
+            $participantID = empty($selected) ? Factory::getUser() : $selected[0];
+            $table = new Participants;
+            $exists = $table->load($participantID);
+
+            if (!$exists) {
+                $onlyLatest = true;
+            }
         }
 
         // Whether or not the program display should be prefiltered according to user resource access
-        $access = $this->getAttribute('access', 'false') == 'true';
-
-        // Unique will only use the most recently accredited program for a specific name and degree
-        $unique      = $this->getAttribute('unique', 'false') == 'true';
+        $authRequired = $this->getAttribute('auth', '0') === '0' ? false : true;
         $uniqueNames = [];
-        $options     = [];
 
         foreach ($programs as $program) {
-            $index = "{$program['name']} {$program['degree']}";
-
-            if ($unique and in_array($index, $uniqueNames)) {
+            if ($authRequired and !Access::allowDocumentAccess('program', $program['value'])) {
                 continue;
-            } else {
+            }
+
+            $index = "{$program['name']}, {$program['degree']}";
+            if ($onlyLatest) {
+                if (in_array($index, $uniqueNames)) {
+                    continue;
+                }
                 $uniqueNames[$index] = $index;
             }
 
-            $text = "{$program['name']}, {$program['degree']} ({$program['version']})";
+            $text = "$index ({$program['version']})";
 
-            if (!$access or Access::allowDocumentAccess('program', $program['value'])) {
-                $options[] = HTML::_('select.option', $program['value'], $text);
-            }
+            $options[] = HTML::_('select.option', $program['value'], $text);
         }
 
-        return array_merge($defaultOptions, $options);
+        return $options;
     }
 }

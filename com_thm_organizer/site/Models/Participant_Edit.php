@@ -13,33 +13,28 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Exception;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads a form for editing participant data.
  */
-class Participant_Edit extends FormModel
+class Participant_Edit extends EditModel
 {
     /**
-     * Loads user registration information from the database
+     * Method to get a single record.
      *
-     * @return object  filled with user registration data on success, otherwise empty
+     * @param integer $pk The id of the primary key.
+     *
+     * @return mixed    Object on success, false on failure.
+     * @throws Exception => unauthorized access
      */
-    public function getItem()
+    public function getItem($pk = null)
     {
-        $query  = $this->_db->getQuery(true);
-        $userID = Factory::getUser()->id;
-
-        $query->select('u.id, p.address, p.zip_code, p.city, p.programID, p.forename, p.surname');
-        $query->from('#__users AS u');
-        $query->leftJoin('#__thm_organizer_participants AS p ON p.id = u.id');
-        $query->where("u.id = '$userID'");
-
-        $this->_db->setQuery($query);
-
-        $item = OrganizerHelper::executeQuery('loadObject');
-
-        return empty($item->id) ? new \stdClass : $item;
+        $item = parent::getItem($pk);
+        $item->languageTag = Languages::getShortTag();
+        $item->lessonID = OrganizerHelper::getInput()->getInt('lessonID');
+        return $item;
     }
 }

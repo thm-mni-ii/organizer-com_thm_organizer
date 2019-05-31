@@ -16,8 +16,6 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Dates;
-use Organizer\Helpers\Courses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -40,15 +38,15 @@ class Participant_Edit extends EditView
     {
         $new   = empty($this->item->id);
         $title = $new ?
-            Languages::_('THM_ORGANIZER_BUILDING_NEW') : Languages::_('THM_ORGANIZER_BUILDING_EDIT');
-        HTML::setTitle($title, 'home-2');
+            Languages::_('THM_ORGANIZER_PARTICIPANT_NEW') : Languages::_('THM_ORGANIZER_PARTICIPANT_EDIT');
+        HTML::setTitle($title, 'user');
         $toolbar   = Toolbar::getInstance();
         $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-        $toolbar->appendButton('Standard', 'apply', $applyText, 'building.apply', false);
-        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'building.save', false);
+        $toolbar->appendButton('Standard', 'apply', $applyText, 'participant.apply', false);
+        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'participant.save', false);
         $cancelText = $new ?
             Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'building.cancel', false);
+        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'participant.cancel', false);
     }
 
     /**
@@ -65,22 +63,9 @@ class Participant_Edit extends EditView
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
-        $this->item   = $this->get('Item');
-        $this->form   = $this->get('Form');
-        $this->course = Courses::getCourse();
-
-        if (!empty($this->course)) {
-            $dates                     = Courses::getDates();
-            $this->course['startDate'] = Dates::formatDate($dates[0]);
-            $this->course['endDate']   = Dates::formatDate(end($dates));
-            $this->course['open']      = Courses::isRegistrationOpen();
-        }
-
-        /*$this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $courseID             = empty($this->course) ? 0 : $this->course['id'];
-        $this->languageParams = ['lessonID' => $courseID, 'view' => 'participant_edit'];*/
+        $this->item = $this->get('Item');
+        $this->form = $this->get('Form');
 
         parent::display($tpl);
     }
 }
-// $bar->appendButton( 'Link', 'custom', 'Custom', '../index.php?option=com_mycomponent&format=raw' );

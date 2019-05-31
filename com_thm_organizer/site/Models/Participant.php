@@ -15,7 +15,9 @@ defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\Courses;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Participants;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -24,6 +26,26 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Participant extends BaseModel
 {
+    /**
+     * Normalized strings used for participant name pieces.
+     *
+     * @param string $item the attribute item being normalized.
+     *
+     * @return void modifies the string
+     */
+    private function normalize(&$item)
+    {
+        if (strpos($item, '-') !== false) {
+            $compoundParts = explode('-', $item);
+            array_walk($compoundParts, 'normalize');
+            $item = implode('-', $compoundParts);
+
+            return;
+        }
+        $item = ucfirst(strtolower($item));
+
+    }
+
     /**
      * (De-) Registers course participants
      *
@@ -47,64 +69,51 @@ class Participant extends BaseModel
     }
 
     /**
-     * Saves user information to database
+     * Attempts to save the resource.
      *
-     * @return boolean true on success, false on error
-     * @throws Exception => invalid request / unauthorized access
+     * @param array $data form data which has been preprocessed by inheriting classes.
+     *
+     * @return mixed int id of the resource on success, otherwise boolean false
+     * @throws Exception => unauthorized access
      */
-    public function save()
+    public function save($data = [])
     {
-        $data = OrganizerHelper::getFormInput();
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        } elseif ($data['id'] !== Factory::getUser()->id) {
+        }
+
+        $lessonID = empty($data['lessonID']) ? null : $data['lessonID'];
+        if (!Access::allowParticipantAccess($data['id'], $lessonID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $address   = trim($data['address']);
-        $city      = trim($data['city']);
-        $forename  = trim($data['forename']);
-        $programID = trim($data['programID']);
-        $surname   = trim($data['surname']);
-        $zipCode   = trim($data['zip_code']);
+        $numericFields  = ['id', 'programID', 'zip_code'];
+        $requiredFields = ['address', 'city', 'forename', 'id', 'programID', 'surname', 'zip_code'];
 
-        if (empty($address) or empty($city) or empty($forename) or empty($programID)
-            or empty($surname) or empty($zipCode) or !is_numeric($zipCode)) {
-            return false;
-        }
-
-        function normalize(&$item)
-        {
-            if (strpos($item, '-') !== false) {
-                $compoundParts = explode('-', $item);
-                array_walk($compoundParts, 'normalize');
-                $item = implode('-', $compoundParts);
-
-                return;
+        foreach ($data as $index => $value) {
+            if (in_array($index, $requiredFields)) {
+                $data[$index] = trim($value);
+                if (empty($data[$index])) {
+                    return false;
+                }
+                if (in_array($index, $numericFields) and !is_numeric($value)) {
+                    return false;
+                }
             }
-            $item = ucfirst(strtolower($item));
         }
 
-        // Standardize name formatting/casing
-
-        $forenames = explode(' ', $forename);
+        $forenames = explode(' ', $data['forename']);
         array_filter($forenames);
-        array_walk($forenames, 'normalize');
-        $forename = implode(' ', $forenames);
+        array_walk($forenames, array($this, 'normalize'));
+        $data['forename'] = implode(' ', $forenames);
 
-        $surname  = str_replace('-', ' ', $surname);
+        $surname  = str_replace('-', ' ', $data['surname']);
         $surnames = explode(' ', $surname);
         $surnames = array_filter($surnames);
-        array_walk($surnames, 'normalize');
-        $surname = implode('-', $surnames);
-
-        $data['address']   = $address;
-        $data['city']      = $city;
-        $data['forename']  = $forename;
-        $data['programID'] = $programID;
-        $data['surname']   = $surname;
-        $data['zip_code']  = $zipCode;
+        array_walk($surnames, array($this, 'normalize'));
+        $data['surname'] = implode('-', $surnames);
 
         $table = $this->getTable();
 
@@ -113,31 +122,8 @@ class Participant extends BaseModel
         }
 
         $table->load($data['id']);
+        $success = $table->save($data);
 
-        if (empty($table->id)) {
-            $initial = true;
-            $values  = '';
-
-            foreach ($data as $value) {
-                if ($initial) {
-                    $initial = false;
-                } else {
-                    $values .= ', ';
-                }
-
-                $values .= $this->_db->q($value);
-            }
-
-            $query = $this->_db->getQuery(true);
-            $query->insert('#__thm_organizer_participants')
-                ->columns($this->_db->qn(array_keys($data)))
-                ->values($values);
-            $this->_db->setQuery($query);
-
-            return (bool)OrganizerHelper::executeQuery('execute');
-        } else {
-            return (bool)$table->save($data);
-        }
-
+        return $success ? $table->id : false;
     }
 }

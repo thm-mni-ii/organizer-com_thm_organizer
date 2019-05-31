@@ -24,7 +24,7 @@ class Subjects extends Assets
      *
      * @param \JDatabaseDriver &$dbo A database connector object
      */
-    public function __construct(&$dbo)
+    public function __construct(&$dbo = null)
     {
         parent::__construct('#__thm_organizer_subjects', 'id', $dbo);
     }
