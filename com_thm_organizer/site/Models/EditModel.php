@@ -141,9 +141,11 @@ abstract class EditModel extends AdminModel
      */
     public function getTable($name = '', $prefix = '', $options = array())
     {
-        $name = OrganizerHelper::getClass($this);
+        $name         = OrganizerHelper::getClass($this);
+        $singularName = str_replace('_Edit', '', $name);
+        $pluralName   = OrganizerHelper::getPlural($singularName);
 
-        return OrganizerHelper::getTable($name);
+        return OrganizerHelper::getTable($pluralName);
     }
 
     /**

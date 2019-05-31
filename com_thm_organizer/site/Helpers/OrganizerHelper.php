@@ -257,7 +257,7 @@ class OrganizerHelper
     public static function getResource($view)
     {
         $initial       = strtolower($view);
-        $withoutSuffix = str_replace(['_edit', '_lsf', '_merge', '_xml'], $initial);
+        $withoutSuffix = str_replace(['_edit', '_lsf', '_merge', '_xml'], '', $initial);
         if ($withoutSuffix !== $initial) {
             return $withoutSuffix;
         }
@@ -334,10 +334,7 @@ class OrganizerHelper
      */
     public static function getTable($name)
     {
-        $functionalSuffixes = ['_Edit', '_LSF', '_Merge', '_XML'];
-        $singularName       = str_replace($functionalSuffixes, '', $name);
-        $pluralName         = $singularName === $name ? $name : self::getPlural($singularName);
-        $fqn                = "\\Organizer\\Tables\\$pluralName";
+        $fqn = "\\Organizer\\Tables\\$name";
 
         return new $fqn;
     }

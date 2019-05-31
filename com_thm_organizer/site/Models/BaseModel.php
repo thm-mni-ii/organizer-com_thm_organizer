@@ -85,9 +85,10 @@ abstract class BaseModel extends BaseDatabaseModel
      */
     public function getTable($name = '', $prefix = '', $options = [])
     {
-        $name = OrganizerHelper::getClass($this);
+        $name       = OrganizerHelper::getClass($this);
+        $pluralName = OrganizerHelper::getPlural($name);
 
-        return OrganizerHelper::getTable($name);
+        return OrganizerHelper::getTable($pluralName);
     }
 
     /**

@@ -74,48 +74,40 @@ class Campuses
      */
     public static function getOptions($used = false)
     {
+        $selectedIDs = OrganizerHelper::getSelectedIDs();
+        $resource = OrganizerHelper::getResource(OrganizerHelper::getInput()->get('view'));
+        $tag = Languages::getShortTag();
+
         $options = [];
         $dbo     = Factory::getDbo();
+        $query   = $dbo->getQuery(true);
+        $query->select("c1.id, c1.name_$tag AS name")
+            ->from('#__thm_organizer_campuses as c1');
 
-        if (!$used) {
-            $query = $dbo->getQuery(true);
-            $query->select('id')->from('#__thm_organizer_campuses as c');
-            $dbo->setQuery($query);
-            $campusIDs = OrganizerHelper::executeQuery('loadColumn', []);
+        if ($resource === 'campus' and !empty($selectedIDs)) {
+            $query->where("c1.id != {$selectedIDs[0]}")
+                ->where("c1.parentID IS NULL");
         } else {
-            // Parent campuses should always be displayed.
-            $query = $dbo->getQuery(true);
-            $query->select('DISTINCT parentID')
-                ->from('#__thm_organizer_campuses as c')
-                ->where('parentID IS NOT NULL');
-
-            $dbo->setQuery($query);
-            $parentCampusIDs = OrganizerHelper::executeQuery('loadColumn', []);
-
-            $query = $dbo->getQuery(true);
-            $query->select('c.id')
-                ->from('#__thm_organizer_campuses as c')
-                ->innerJoin('#__thm_organizer_subjects as s on s.campusID = c.id');
-
-            $dbo->setQuery($query);
-            $subjectCampusIDs = OrganizerHelper::executeQuery('loadColumn', []);
-
-            $query = $dbo->getQuery(true);
-            $query->select('c.id')
-                ->from('#__thm_organizer_campuses as c')
-                ->innerJoin('#__thm_organizer_lessons as l on l.campusID = c.id');
-            $dbo->setQuery($query);
-            $courseCampusIDs = OrganizerHelper::executeQuery('loadColumn', []);
-
-            $campusIDs = array_unique(array_merge($parentCampusIDs, $subjectCampusIDs, $courseCampusIDs));
+            $query->select('c2.name_$tag as parentName')
+                ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID');
         }
 
-        if (empty($campusIDs)) {
+        if ($used) {
+            $query->leftJoin('#__thm_organizer_subjects as s on s.campusID = c1.id')
+                ->leftJoin('#__thm_organizer_lessons as l on l.campusID = c1.id')
+                ->where('(s.id IS NOT NULL or l.id IS NOT NULL)');
+        }
+
+        $dbo->setQuery($query);
+        $campuses = OrganizerHelper::executeQuery('loadAssocList', []);
+
+        if (empty($campuses)) {
             return $options;
         }
 
-        foreach ($campusIDs as $campusID) {
-            $options[self::getName($campusID)] = $campusID;
+        foreach ($campuses as $campus) {
+            $name           = empty($campus['parentName']) ? $campus['name'] : "{$campus['parentName']} / {$campus['name']}";
+            $options[$name] = $campus['id'];
         }
 
         // Sort alphabetically by full name
