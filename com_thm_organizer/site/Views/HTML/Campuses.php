@@ -108,7 +108,7 @@ class Campuses extends ListView
             }
 
             $processedItems[$index]['address']  = $address;
-            $processedItems[$index]['location'] = CampusesHelper::getPin($item->id);
+            $processedItems[$index]['location'] = CampusesHelper::getPin($item->location);
 
             if (!empty($item->gridName)) {
                 $gridName = $item->gridName;

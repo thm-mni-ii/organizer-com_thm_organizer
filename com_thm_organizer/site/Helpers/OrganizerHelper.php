@@ -336,7 +336,7 @@ class OrganizerHelper
     {
         $functionalSuffixes = ['_Edit', '_LSF', '_Merge', '_XML'];
         $singularName       = str_replace($functionalSuffixes, '', $name);
-        $pluralName         = self::getPlural($singularName);
+        $pluralName         = $singularName === $name ? $name : self::getPlural($singularName);
         $fqn                = "\\Organizer\\Tables\\$pluralName";
 
         return new $fqn;

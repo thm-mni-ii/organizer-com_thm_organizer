@@ -134,7 +134,7 @@ class Campuses
      */
     public static function getPin($input)
     {
-        $isID     = is_int($input);
+        $isID     = is_numeric($input);
         $location = $isID ? self::getLocation($input) : $input;
 
         if (!preg_match('/\d{1,2}\.\d{6},[ ]*\d{1,2}\.\d{6}/', $location)) {
