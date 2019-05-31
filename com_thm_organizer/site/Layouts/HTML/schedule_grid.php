@@ -375,7 +375,7 @@ $displayName = empty($this->model->displayName) ?
     <div id="no-lessons" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo Languages::_('THM_ORGANIZER_NO_LESSONS'); ?></span>
+            <span><?php echo Languages::_('THM_ORGANIZER_NO_LESSONS_PLANNED'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>

@@ -9,16 +9,16 @@
             <option value="expired">EXPIRED_COURSES</option>
         </field>
         <field name="departmentID" type="Departments" label="Department" auth="1" onchange="this.form.submit();">
-            <option value="">ALL_CATEGORIES</option>
-            <option value="-1">NO_CATEGORIES</option>
+            <option value="">ALL_DEPARTMENTS</option>
+            <option value="-1">NO_DEPARTMENTS</option>
         </field>
         <field name="categoryID" type="Categories" label="CATEGORY" auth="1" onchange="this.form.submit();">
             <option value="">ALL_CATEGORIES</option>
             <option value="-1">NO_CATEGORIES</option>
         </field>
         <field name="groupID" type="Groups" label="GROUP" auth="1" onchange="this.form.submit();">
-            <option value="">ALL_CATEGORIES</option>
-            <option value="-1">NO_CATEGORIES</option>
+            <option value="">ALL_GROUPS</option>
+            <option value="-1">NO_GROUPS</option>
         </field>
         <field name="campusID" type="Campuses" label="CAMPUS" onchange="this.form.submit();">
             <option value="">ALL_CAMPUSES</option>

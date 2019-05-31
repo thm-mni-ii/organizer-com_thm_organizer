@@ -33,8 +33,8 @@ class CampusesField extends ListField
      */
     protected function getOptions()
     {
-        $options = parent::getOptions();
-        $campuses       = Campuses::getOptions();
+        $options  = parent::getOptions();
+        $campuses = Campuses::getOptions();
 
         if (empty($campuses)) {
             return $options;

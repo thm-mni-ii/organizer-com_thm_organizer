@@ -9,20 +9,20 @@
             <option value="expired">EXPIRED_COURSES</option>
         </field>
         <field name="departmentID" type="Departments" label="Department" auth="1" onchange="this.form.submit();">
-            <option value="">ALL_CATEGORIES</option>
-            <option value="-1">NO_CATEGORIES</option>
+            <option value="">ALL_DEPARTMENTS</option>
+            <option value="-1">NO_DEPARTMENT</option>
         </field>
         <field name="categoryID" type="Categories" label="CATEGORY" auth="1" onchange="this.form.submit();">
             <option value="">ALL_CATEGORIES</option>
-            <option value="-1">NO_CATEGORIES</option>
+            <option value="-1">NO_CATEGORY</option>
         </field>
         <field name="groupID" type="Groups" label="GROUP" auth="1" onchange="this.form.submit();">
-            <option value="">ALL_CATEGORIES</option>
-            <option value="-1">NO_CATEGORIES</option>
+            <option value="">ALL_GROUPS</option>
+            <option value="-1">NO_GROUP</option>
         </field>
         <field name="campusID" type="Campuses" label="CAMPUS" onchange="this.form.submit();">
             <option value="">ALL_CAMPUSES</option>
-            <option value="-1">NO_CAMPUSES</option>
+            <option value="-1">NO_CAMPUS</option>
         </field>
         <field name="methodID" type="GenericList" onchange="this.form.submit();" valuecolumn="id" textcolumn="name"
                table="thm_organizer_methods" localized="true">

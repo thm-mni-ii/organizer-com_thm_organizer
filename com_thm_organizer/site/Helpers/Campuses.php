@@ -88,7 +88,7 @@ class Campuses
             $query->where("c1.id != {$selectedIDs[0]}")
                 ->where("c1.parentID IS NULL");
         } else {
-            $query->select('c2.name_$tag as parentName')
+            $query->select("c2.name_$tag as parentName")
                 ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID');
         }
 

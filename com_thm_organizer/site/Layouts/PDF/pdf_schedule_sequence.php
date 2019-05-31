@@ -381,7 +381,7 @@ abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
             $this->outputTable();
         } else {
             $this->document->AddPage();
-            $this->document->cell('', '', Languages::_('THM_ORGANIZER_NO_LESSONS'));
+            $this->document->cell('', '', Languages::_('THM_ORGANIZER_NO_LESSONS_PLANNED'));
         }
         $this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
         ob_flush();
