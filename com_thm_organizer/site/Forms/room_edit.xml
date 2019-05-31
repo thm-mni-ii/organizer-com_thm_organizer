@@ -6,12 +6,13 @@
                description="THM_ORGANIZER_UNTISID_DESC"/>
         <field name="name" type="text" size="40" label="THM_ORGANIZER_NAME" description="THM_ORGANIZER_NAME_DESC"
                required="true"/>
-        <field name="buildingID" type="Buildings" label="BUILDING">
-            <option value="">JNONE</option>
+        <field name="buildingID" type="GenericList" label="BUILDING" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_buildings">
+            <option value="">NO_INPUT</option>
         </field>
         <field name="typeID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
                table="thm_organizer_room_types" label="TYPE" description="THM_ORGANIZER_TYPE_DESC" required="true">
-            <option value="">JNONE</option>
+            <option value="">SELECT_ROOM_TYPE</option>
         </field>
         <field name="capacity" type="integer" label="CAPACITY" description="THM_ORGANIZER_CAPACITY_DESC" last="500"
                step="1"/>
