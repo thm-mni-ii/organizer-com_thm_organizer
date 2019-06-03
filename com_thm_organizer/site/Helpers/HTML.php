@@ -161,7 +161,7 @@ class HTML extends HTMLHelper
     {
         $uri    = (string)Uri::getInstance();
         $return = urlencode(base64_encode($uri));
-        $link = "index.php?option=com_config&view=component&component=com_thm_organizer&return=$return";
+        $link   = "index.php?option=com_config&view=component&component=com_thm_organizer&return=$return";
 
         $toolbar = Toolbar::getInstance('toolbar');
         $toolbar->appendButton('Link', 'options', Languages::_('THM_ORGANIZER_SETTINGS'), $link);

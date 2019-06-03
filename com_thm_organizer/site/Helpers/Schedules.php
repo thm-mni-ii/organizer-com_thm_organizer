@@ -144,10 +144,10 @@ class Schedules
             self::resolveConfiguration($configuration, $delta);
 
             if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName])) {
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]               = $subjectData;
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']   = $configuration['teachers'];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']      = $configuration['rooms'];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs']   = [];
+                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]                = $subjectData;
+                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']    = $configuration['teachers'];
+                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']       = $configuration['rooms'];
+                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs']    = [];
                 $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groupDeltas'] = [];
             } else {
                 $previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'];
@@ -170,9 +170,9 @@ class Schedules
 
             $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groups'][$lesson['groupID']]
                 = [
-                'untisID' => $lesson['groupUntisID'],
-                'name'      => $lesson['grouoName'],
-                'fullName'  => $lesson['groupFullName']
+                'untisID'  => $lesson['groupUntisID'],
+                'name'     => $lesson['grouoName'],
+                'fullName' => $lesson['groupFullName']
             ];
 
             if (!empty($subjectData['subjectID'])) {
@@ -388,11 +388,12 @@ class Schedules
         if (!isset($parameters['departmentIDs'])) {
             $parameters['showUnpublished'] = Access::isAdmin();
         } else {
-            $allowedIDs = Access::getAccessibleDepartments('schedule');
-            $overlap    = array_intersect($parameters['departmentIDs'], $allowedIDs);
+            $allowedIDs   = Access::getAccessibleDepartments('schedule');
+            $overlap      = array_intersect($parameters['departmentIDs'], $allowedIDs);
+            $overlapCount = count($overlap);
 
             // If the user has planning access to all requested departments show unpublished automatically.
-            if (count($overlap) == count($parameters['departmentIDs'])) {
+            if ($overlapCount and $overlapCount == count($parameters['departmentIDs'])) {
                 $parameters['departmentIDs']   = $overlap;
                 $parameters['showUnpublished'] = true;
             } else {
@@ -559,12 +560,12 @@ class Schedules
     private static function getSubjectData($lesson)
     {
         $return = [
-            'courseID' => $lesson['courseID'],
-            'subjectID'     => null,
-            'subjectNo'     => $lesson['subjectNo'],
-            'name'          => $lesson['courseName'],
-            'shortName'     => $lesson['courseUntisID'],
-            'abbr'          => $lesson['courseUntisID']
+            'courseID'  => $lesson['courseID'],
+            'subjectID' => null,
+            'subjectNo' => $lesson['subjectNo'],
+            'name'      => $lesson['courseName'],
+            'shortName' => $lesson['courseUntisID'],
+            'abbr'      => $lesson['courseUntisID']
         ];
 
         $tag           = Languages::getShortTag();

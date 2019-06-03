@@ -38,7 +38,7 @@ class Schedules extends ListModel
 
         $select       = 's.id, s.active, s.creationDate, s.creationTime, ';
         $select       .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
-        $select       .= 'pp.id AS termID, pp.name AS termName, ';
+        $select       .= 'term.id AS termID, term.name AS termName, ';
         $select       .= 'u.name AS userName, ';
         $createdParts = ['s.creationDate', 's.creationTime'];
         $select       .= $query->concatenate($createdParts, ' ') . ' AS created ';
