@@ -273,8 +273,9 @@ class Subject extends BaseModel
             return false;
         }
 
-        if (!empty($data['coordinators'])) {
-            foreach ($data['coordinators'] as $coordinatorID) {
+        $coordinators = array_filter($data['coordinators']);
+        if (!empty($coordinators)) {
+            foreach ($coordinators as $coordinatorID) {
                 $respAdded = $this->addTeacher($subjectID, $coordinatorID, self::COORDINATES);
                 if (!$respAdded) {
                     return false;
@@ -282,8 +283,9 @@ class Subject extends BaseModel
             }
         }
 
-        if (!empty($data['teachers'])) {
-            foreach ($data['teachers'] as $teacherID) {
+        $teachers = array_filter($data['teachers']);
+        if (!empty($teachers)) {
+            foreach ($teachers as $teacherID) {
                 $teacherAdded = $this->addTeacher($subjectID, $teacherID, self::TEACHES);
                 if (!$teacherAdded) {
                     return false;
@@ -352,15 +354,16 @@ class Subject extends BaseModel
     }
 
     /**
-     * Attempts to save a subject entry, updating subject-teacher data as
-     * necessary.
+     * Attempts to save the resource.
      *
-     * @return true on success, otherwise false
+     * @param array $data form data which has been preprocessed by inheriting classes.
+     *
+     * @return mixed int id of the resource on success, otherwise boolean false
      * @throws Exception => unauthorized access
      */
-    public function save()
+    public function save($data = [])
     {
-        $data = OrganizerHelper::getFormInput();
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);

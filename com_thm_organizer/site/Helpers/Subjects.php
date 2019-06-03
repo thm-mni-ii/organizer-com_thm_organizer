@@ -140,11 +140,13 @@ class Subjects
     /**
      * Retrieves the teachers associated with a given subject and their respective responsibilities for it.
      *
-     * @param int $subjectID the id of the subject with which the teachers must be associated
+     * @param int  $subjectID the id of the subject with which the teachers must be associated
+     *
+     * @param null $responsibility
      *
      * @return array the teachers associated with the subject, empty if none were found.
      */
-    public static function getTeachers($subjectID)
+    public static function getTeachers($subjectID, $responsibility = null)
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
@@ -152,6 +154,10 @@ class Subjects
             ->from('#__thm_organizer_teachers AS t')
             ->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id')
             ->where("st.subjectID = '$subjectID'");
+
+        if (!empty($responsibility) and is_numeric($responsibility)) {
+            $query->where("st.teacherResp = $responsibility");
+        }
         $dbo->setQuery($query);
 
         $results = OrganizerHelper::executeQuery('loadAssocList');

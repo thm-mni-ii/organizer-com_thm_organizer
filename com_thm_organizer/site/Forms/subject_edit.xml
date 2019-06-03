@@ -80,26 +80,31 @@
                description="THM_ORGANIZER_PROOF_DE_DESC" hint="schriftliche Klausur"/>
         <field name="evaluation_de" type="text" size="20" label="THM_ORGANIZER_EVALUATION_DE"
                description="THM_ORGANIZER_EVALUATION_DE_DESC" hint="gem. § 9 der Allg. Bestimmungen (Teil I der PO)"/>
-        <field name="description_de" type="editor" size="6" label="DESC_DE" description="THM_ORGANIZER_DESC_DE_DESC"/>
-        <field name="objective_de" type="editor" size="6" label="OBJECTIVE_DE"
+        <field name="description_de" type="editor" size="6" label="THM_ORGANIZER_DESC_DE"
+               description="THM_ORGANIZER_DESC_DE_DESC"/>
+        <field name="objective_de" type="editor" size="6" label="THM_ORGANIZER_OBJECTIVE_DE"
                description="THM_ORGANIZER_OBJECTIVE_DE_DESC"/>
-        <field name="content_de" type="editor" size="6" label="CONTENT_DE" description="THM_ORGANIZER_CONTENT_DE_DESC"/>
-        <field name="prerequisites_de" type="editor" size="6" label="PREREQUISITES_DE"
+        <field name="content_de" type="editor" size="6" label="THM_ORGANIZER_CONTENT_DE"
+               description="THM_ORGANIZER_CONTENT_DE_DESC"/>
+        <field name="prerequisites_de" type="editor" size="6" label="THM_ORGANIZER_PREREQUISITES_DE"
                description="THM_ORGANIZER_PREREQUISITES_DE_DESC"/>
-        <field name="recommended_prerequisites_de" type="editor" size="6" label="RECOMMENDED_PREREQUISITES_DE"
+        <field name="recommended_prerequisites_de" type="editor" size="6"
+               label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
                description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC"/>
-        <field name="used_for_de" type="editor" size="6" label="USED_FOR" description="THM_ORGANIZER_USED_FOR_DE_DESC"/>
-        <field name="aids_de" type="editor" size="6" label="AIDS_DE" description="THM_ORGANIZER_AIDS_DE_DESC"/>
+        <field name="used_for_de" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
+               description="THM_ORGANIZER_USED_FOR_DE_DESC"/>
+        <field name="aids_de" type="editor" size="6" label="THM_ORGANIZER_AIDS_DE"
+               description="THM_ORGANIZER_AIDS_DE_DESC"/>
     </fieldset>
     <fieldset name="en_texts" label="ATTRIBUTES_EN">
-        <field name="name_en" type="text" size="70" label="NAME_EN" description="THM_ORGANIZER_NAME_EN_DESC"
-               hint="Fundamentals of Computer Science"/>
+        <field name="name_en" type="text" size="70" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC" hint="Fundamentals of Computer Science"/>
         <field name="short_name_en" type="text" size="70" label="THM_ORGANIZER_SHORT_NAME_EN"
                description="THM_ORGANIZER_SHORT_NAME_EN_DESC" hint="Fund. Comp. Sci."/>
         <field name="abbreviation_en" type="text" size="70" label="THM_ORGANIZER_ABBREVIATION_EN"
                description="THM_ORGANIZER_ABBREVIATION_DE_DESC" hint="FCS"/>
-        <field name="method_en" type="text" size="70" label="METHOD_EN" description="THM_ORGANIZER_METHOD_EN_DESC"
-               hint="2 SWS Lecture, 2 SWS Practice"/>
+        <field name="method_en" type="text" size="70" label="THM_ORGANIZER_METHOD_EN"
+               description="THM_ORGANIZER_METHOD_EN_DESC" hint="2 SWS Lecture, 2 SWS Practice"/>
         <field name="preliminary_work_en" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_EN"
                description="THM_ORGANIZER_PRELIMINARY_WORK_EN_DESC"
                hint="Successful completion of six homework assignments."/>
@@ -108,22 +113,27 @@
         <field name="evaluation_en" type="text" size="6" label="THM_ORGANIZER_EVALUATION_EN"
                description="THM_ORGANIZER_EVALUATION_EN_DESC"
                hint="acc. § 9 of the gen. provisions (Part I of the PO)"/>
-        <field name="description_en" type="editor" size="6" label="DESC_EN" description="THM_ORGANIZER_DESC_EN_DESC"/>
-        <field name="objective_en" type="editor" size="6" label="OBJECTIVE_EN"
+        <field name="description_en" type="editor" size="6" label="THM_ORGANIZER_DESC_EN"
+               description="THM_ORGANIZER_DESC_EN_DESC"/>
+        <field name="objective_en" type="editor" size="6" label="THM_ORGANIZER_OBJECTIVE_EN"
                description="THM_ORGANIZER_OBJECTIVE_EN_DESC"/>
-        <field name="content_en" type="editor" size="6" label="CONTENT_EN" description="THM_ORGANIZER_CONTENT_EN_DESC"/>
-        <field name="prerequisites_en" type="editor" size="6" label="PREREQUISITES_EN"
+        <field name="content_en" type="editor" size="6" label="THM_ORGANIZER_CONTENT_EN"
+               description="THM_ORGANIZER_CONTENT_EN_DESC"/>
+        <field name="prerequisites_en" type="editor" size="6" label="THM_ORGANIZER_PREREQUISITES_EN"
                description="THM_ORGANIZER_PREREQUISITES_EN_DESC"/>
-        <field name="recommended_prerequisites_en" type="editor" size="6" label="RECOMMENDED_PREREQUISITES_EN"
+        <field name="recommended_prerequisites_en" type="editor" size="6"
+               label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
                description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC"/>
-        <field name="used_for_en" type="editor" size="6" label="USED_FOR" description="THM_ORGANIZER_USED_FOR_EN_DESC"/>
-        <field name="aids_en" type="editor" size="6" label="AIDS_EN" description="THM_ORGANIZER_AIDS_EN_DESC"/>
+        <field name="used_for_en" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
+               description="THM_ORGANIZER_USED_FOR_EN_DESC"/>
+        <field name="aids_en" type="editor" size="6" label="THM_ORGANIZER_AIDS_EN"
+               description="THM_ORGANIZER_AIDS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
-        <field name="coordinators" type="SubjectTeachers" label="COORDINATORS" responsibility="1">
+        <field name="coordinators" type="SubjectTeachers" label="COORDINATORS" responsibility="1" multiple="multiple">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="teachers" type="SubjectTeachers" label="TEACHERS" responsibility="2">
+        <field name="teachers" type="SubjectTeachers" label="TEACHERS" responsibility="2" multiple="multiple">
             <option value="">UNSPECIFIED_TEACHERS</option>
         </field>
         <field name="spacer4" type="spacer" hr="true"/>

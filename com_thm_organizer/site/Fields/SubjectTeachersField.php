@@ -15,53 +15,88 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Subjects;
 
 /**
  * Class creates a select box for the association of teachers with subject documentation.
  */
-class SubjectTeachersField extends BaseField
+class SubjectTeachersField extends ListField
 {
     protected $type = 'SubjectTeachers';
 
     /**
-     * Returns a select box where stored teachers can be associated with a subject
+     * Returns a select box which contains the colors
      *
-     * @return string  the HTML output
+     * @return string  the HTML for the color select box
      */
     public function getInput()
     {
-        $fieldName      = $this->getAttribute('name');
-        $subjectID      = OrganizerHelper::getInput()->getInt('id', 0);
+        $html    = '<select name="' . $this->name . '" multiple>';
+        $options = $this->getOptions();
+        if (empty($this->value)) {
+            $this->value = [0 => ''];
+        }
+        foreach ($options as $option) {
+            $selected = in_array($option->value, $this->value) ? ' selected="selected"' : '';
+            $html     .= '<option value="' . $option->value . '"' . $selected . '>' . $option->text . '</option>';
+        }
+        $html .= '</select>';
+
+        return $html;
+    }
+
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     */
+    protected function getOptions()
+    {
+        $subjectIDs     = OrganizerHelper::getSelectedIDs();
         $responsibility = $this->getAttribute('responsibility');
+        $invalid        = (empty($subjectIDs) or empty($subjectIDs[0]) or empty($responsibility));
 
-        $dbo           = Factory::getDbo();
-        $selectedQuery = $dbo->getQuery(true);
-        $selectedQuery->select('teacherID');
-        $selectedQuery->from('#__thm_organizer_subject_teachers');
-        $selectedQuery->where("subjectID = '$subjectID' AND teacherResp = '$responsibility'");
-        $dbo->setQuery($selectedQuery);
-        $selected = OrganizerHelper::executeQuery('loadColumn', []);
+        if ($invalid) {
+            return [];
+        }
 
-        $teachersQuery = $dbo->getQuery(true);
-        $teachersQuery->select('id AS value, surname, forename');
-        $teachersQuery->from('#__thm_organizer_teachers');
-        $teachersQuery->order('surname, forename');
-        $dbo->setQuery($teachersQuery);
+        $existingTeachers = Subjects::getTeachers($subjectIDs[0], $responsibility);
+        $this->value      = [];
+        foreach ($existingTeachers as $teacher) {
+            $this->value[$teacher['id']] = $teacher['id'];
+        }
 
-        $teachers = OrganizerHelper::executeQuery('loadAssocList');
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('t.id, t.surname, t.forename')
+            ->from('#__thm_organizer_teachers AS t')
+            ->order('surname, forename');
+
+        $departmentID = $this->form->getValue('departmentID');
+        if (!empty($departmentID)) {
+            if (empty($this->value)) {
+                $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = t.id');
+                $query->where("departmentID = $departmentID");
+            } else {
+                $query->leftJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = t.id');
+                $teacherIDs = implode(',', $this->value);
+                $query->where("(departmentID = $departmentID OR (departmentID != $departmentID AND teacherID IN ($teacherIDs)))");
+            }
+        }
+
+        $dbo->setQuery($query);
+        $teachers = OrganizerHelper::executeQuery('loadAssocList', null, 'id');
+
+        $options = parent::getOptions();
         if (empty($teachers)) {
-            $teachers = [];
+            return $options;
         }
 
-        $options = [];
         foreach ($teachers as $teacher) {
-            $name                       = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
-            $options[$teacher['value']] = $name;
+            $text      = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
+            $options[] = HTML::_('select.option', $teacher['id'], $text);
         }
 
-        $attributes       = ['multiple' => 'multiple', 'class' => 'inputbox', 'size' => '10'];
-        $selectedTeachers = empty($selected) ? [] : $selected;
-
-        return HTML::selectBox($options, $fieldName, $attributes, $selectedTeachers, true);
+        return $options;
     }
 }
