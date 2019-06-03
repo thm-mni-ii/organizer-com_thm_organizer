@@ -11,7 +11,7 @@
                description="THM_ORGANIZER_LOCATION_DESC"/>
         <field name="address" type="text" class="validate-german-address" size="60" maxlength="255"
                label="THM_ORGANIZER_ADDRESS" description="THM_ORGANIZER_ADDRESS_DESC"/>
-        <field name="propertyType" type="list" label="PROPERTY_TYPE" description="THM_ORGANIZER_PROPERTY_TYPE_DESC">
+        <field name="propertyType" type="List" label="PROPERTY_TYPE" description="THM_ORGANIZER_PROPERTY_TYPE_DESC">
             <option value="0">UNKNOWN</option>
             <option value="1">OWNED</option>
             <option value="2">RENTED</option>

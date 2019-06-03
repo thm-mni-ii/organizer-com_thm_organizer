@@ -4,13 +4,13 @@
         <field name="id" type="hidden" default="0"/>
         <field name="languageTag" type="hidden" default=""/>
         <field name="lessonID" type="hidden" default=""/>
-        <field name="forename" type="text" id="forename" required="true" label="THM_ORGANIZER_FORENAME"/>
-        <field name="surname" type="text" id="surname" required="true" label="THM_ORGANIZER_SURNAME"/>
-        <field name="address" type="text" id="address" required="true" label="THM_ORGANIZER_ADDRESS"
+        <field name="forename" type="text" required="true" label="THM_ORGANIZER_FORENAME"/>
+        <field name="surname" type="text" required="true" label="THM_ORGANIZER_SURNAME"/>
+        <field name="address" type="text" required="true" label="THM_ORGANIZER_ADDRESS"
                description="THM_ORGANIZER_ADDRESS_DESC"/>
         <field name="zip_code" type="text" id="zip_code" required="true" label="THM_ORGANIZER_ZIP_CODE"
                description="THM_ORGANIZER_ZIP_CODE_DESC"/>
-        <field name="city" type="text" id="city" required="true" label="THM_ORGANIZER_RESIDENCE"
+        <field name="city" type="text" required="true" label="THM_ORGANIZER_RESIDENCE"
                description="THM_ORGANIZER_RESIDENCE_DESC"/>
         <field name="programID" type="Programs" label="PROGRAM" auth="0" required="true">
             <option value="">SELECT_PROGRAM</option>

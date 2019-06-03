@@ -13,9 +13,9 @@
                table="thm_organizer_fields" label="FIELD" description="THM_ORGANIZER_FIELD_DESC">
             <option value="">NO_FIELDS</option>
         </field>
-        <field name="minCrP" type="integer" label="CRP_MIN" description="THM_ORGANIZER_CRP_MIN_DESC" required="true"
+        <field name="minCrP" type="Integer" label="CRP_MIN" description="THM_ORGANIZER_CRP_MIN_DESC" required="true"
                first="0" last="120" step="1" default="24"/>
-        <field name="maxCrP" type="integer" label="CRP_MAX" description="THM_ORGANIZER_CRP_MAX_DESC" required="true"
+        <field name="maxCrP" type="Integer" label="CRP_MAX" description="THM_ORGANIZER_CRP_MAX_DESC" required="true"
                first="0" last="120" step="1" default="24"/>
     </fieldset>
     <fieldset name="de" label="ATTRIBUTES_DE">

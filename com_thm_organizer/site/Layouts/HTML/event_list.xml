@@ -6,7 +6,7 @@
                    label="THM_ORGANIZER_ROOMS" description="THM_ORGANIZER_REL_ROOMS_DESC" multiple="true">
                 <option value="">THM_ORGANIZER_FILTER_ALL_ROOMS</option>
             </field>
-            <field name="days" type="list" label="THM_ORGANIZER_DAYS" description="THM_ORGANIZER_REL_DAYS_DESC"
+            <field name="days" type="List" label="THM_ORGANIZER_DAYS" description="THM_ORGANIZER_REL_DAYS_DESC"
                    multiple="true">
                 <option value="">THM_ORGANIZER_FILTER_ALL_DAYS</option>
                 <option value="1">MONDAY</option>

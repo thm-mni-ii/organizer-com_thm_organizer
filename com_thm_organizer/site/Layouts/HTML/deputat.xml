@@ -17,13 +17,13 @@
                    description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">
                 <option value="">THM_ORGANIZER_FILTER_DEPARTMENT</option>
             </field>
-            <field name="deputat_weeks" type="integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
+            <field name="deputat_weeks" type="Integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
                    description="THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
-            <field name="deputat_weeks" type="integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
+            <field name="deputat_weeks" type="Integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
                    description="THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
-            <field name="bachelor_value" type="integer" default="25" label="THM_ORGANIZER_BACHELOR_VALUE"
+            <field name="bachelor_value" type="Integer" default="25" label="THM_ORGANIZER_BACHELOR_VALUE"
                    description="THM_ORGANIZER_BACHELOR_VALUE_DESC" first="5" last="100" step="5"/>
-            <field name="master_value" type="integer" default="50" label="THM_ORGANIZER_MASTER_VALUE"
+            <field name="master_value" type="Integer" default="50" label="THM_ORGANIZER_MASTER_VALUE"
                    description="THM_ORGANIZER_MASTER_VALUE_DESC" first="5" last="100" step="5"/>
         </fieldset>
     </fields>

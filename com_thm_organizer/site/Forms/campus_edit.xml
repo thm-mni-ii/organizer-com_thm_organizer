@@ -9,7 +9,7 @@
         <field name="parentID" type="Campuses" label="PARENT_CAMPUS">
             <option value="">NO_PARENT_CAMPUS</option>
         </field>
-        <field name="isCity" type="list" class="chzn-color-state" label="IS_CITY"
+        <field name="isCity" type="List" class="chzn-color-state" label="IS_CITY"
                description="THM_ORGANIZER_IS_CITY_DESC" default="0">
             <option value="1">YES</option>
             <option value="0">NO</option>

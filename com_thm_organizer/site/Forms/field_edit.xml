@@ -2,11 +2,11 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field type="text" name="field_de" size="60" maxlength="60" required="true" label="THM_ORGANIZER_NAME_DE"
+        <field name="field_de" type="text" size="60" maxlength="60" required="true" label="THM_ORGANIZER_NAME_DE"
                description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field type="text" name="field_en" size="100" maxlength="100" required="true" label="THM_ORGANIZER_NAME_EN"
+        <field name="field_en" type="text" size="100" maxlength="100" required="true" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field type="text" name="untisID" size="60" maxlength="60" label="THM_ORGANIZER_UNTISID"
+        <field name="untisID" type="text" size="60" maxlength="60" label="THM_ORGANIZER_UNTISID"
                description="THM_ORGANIZER_UNTISID_DESC"/>
         <field name="colorID" type="Colors" label="COLOR">
             <option value="">SELECT_COLOR</option>

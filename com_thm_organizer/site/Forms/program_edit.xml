@@ -16,7 +16,7 @@
                localized="true" label="FIELD" description="THM_ORGANIZER_FIELD_DESC" required="true">
             <option value="">NO_FIELDS</option>
         </field>
-        <field name="frequencyID" type="list" label="FREQUENCY" description="THM_ORGANIZER_FREQUENCY_DESC" default="3">
+        <field name="frequencyID" type="List" label="FREQUENCY" description="THM_ORGANIZER_FREQUENCY_DESC" default="3">
             <option value="3">AVAILABILITY_SEMESTER</option>
             <option value="5">AVAILABILITY_YEAR</option>
             <option value="1">AVAILABILITY_SUMMER</option>

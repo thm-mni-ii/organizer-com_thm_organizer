@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field id="id" name="id" type="hidden"/>
-        <field name="roomID" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
-               label="ROOM" description="THM_ORGANIZER_ROOM_DESC" class="required" required="true">
-            <option value="">ALL_ROOMS</option>
+        <field name="id" type="hidden"/>
+        <field name="roomID" type="GenericList" label="ROOM" required="true" table="thm_organizer_rooms"
+               valuecolumn="id" textcolumn="name">
+            <option value="">SELECT_ROOM</option>
         </field>
-        <field id="ip" name="ip" type="text" label="THM_ORGANIZER_IP" description="THM_ORGANIZER_IP_DESC"
+        <field name="ip" type="text" label="THM_ORGANIZER_IP" description="THM_ORGANIZER_IP_DESC"
                class="required validate-ip" required="true" maxlength="15" default=""/>
-        <field type="list" name="useDefaults" label="DEFAULT_SETTINGS" description="THM_ORGANIZER_DEFAULT_SETTINGS_DESC"
+        <field name="useDefaults" type="List" label="DEFAULT_SETTINGS" description="THM_ORGANIZER_DEFAULT_SETTINGS_DESC"
                default="1">
             <option value='1'>YES</option>
             <option value='0'>NO</option>
         </field>
-        <field type="list" id="display" name="display" label="DISPLAY_BEHAVIOUR"
-               description="THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC" required="true">
+        <field name="display" type="List" label="DISPLAY_BEHAVIOUR" required="true">
             <option value='1'>DAILY_PLAN</option>
             <option value='2'>MIXED_PLAN</option>
             <option value='3'>CONTENT_DISPLAY</option>
         </field>
-        <field id="schedule_refresh" name="schedule_refresh" type="integer" label="SCHEDULE_REFRESH_RATE"
+        <field name="schedule_refresh" type="Integer" label="SCHEDULE_REFRESH_RATE"
                description="THM_ORGANIZER_SCHEDULE_REFRESH_RATE_DESC" first="10" last="990" step="10" default="60"/>
-        <field id="content_refresh" name="content_refresh" type="integer" label="CONTENT_REFRESH"
+        <field name="content_refresh" type="Integer" label="CONTENT_REFRESH"
                description="THM_ORGANIZER_CONTENT_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
-        <field id="content" name="content" type="filelist" label="DISPLAY_CONTENT"
-               description="THM_ORGANIZER_DISPLAY_CONTENT_DESC" directory="images/thm_organizer/" exclude=""/>
+        <field name="content" type="FileList" label="DISPLAY_CONTENT" directory="images/thm_organizer/" exclude=""/>
     </fieldset>
 </form>

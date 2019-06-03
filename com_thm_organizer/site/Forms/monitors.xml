@@ -6,12 +6,12 @@
                onchange="this.form.submit();">
             <option value="">JALL</option>
         </field>
-        <field name="useDefaults" type="list" label="DEFAULT_SETTINGS" onchange="this.form.submit();">
+        <field name="useDefaults" type="List" label="DEFAULT_SETTINGS" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="1">FILTER_DEFAULT_YES</option>
             <option value="0">FILTER_DEFAULT_NO</option>
         </field>
-        <field name="display" type="list" label="DISPLAY_BEHAVIOUR" onchange="this.form.submit();">
+        <field name="display" type="List" label="DISPLAY_BEHAVIOUR" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="1">DAILY_PLAN</option>
             <option value="2">MIXED_PLAN</option>
@@ -26,7 +26,7 @@
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
+        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
                description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
 </form>

@@ -5,11 +5,11 @@
             <field name="programID" type="Programs" label="PROGRAM" auth="0" required="true">
                 <option value="">SELECT_PROGRAM</option>
             </field>
-            <field name="initialLanguage" type="list" label="LANGUAGE" default="de">
+            <field name="initialLanguage" type="List" label="LANGUAGE" default="de">
                 <option value="de">GERMAN</option>
                 <option value="en">ENGLISH</option>
             </field>
-            <field name="displayECollabLink" type="list" default="0" class="chzn-color-state" required="true"
+            <field name="displayECollabLink" type="List" default="0" class="chzn-color-state" required="true"
                    label="THM_ORGANIZER_DISPLAY_ECOLLAB" description="THM_ORGANIZER_DISPLAY_ECOLLAB_DESC">
                 <option value="1">YES</option>
                 <option value="0">NO</option>

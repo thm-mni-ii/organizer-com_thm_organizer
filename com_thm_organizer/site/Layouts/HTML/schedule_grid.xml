@@ -18,7 +18,7 @@
                    label="THM_ORGANIZER_ROOMS" description="THM_ORGANIZER_ROOMS_DESC" multiple="true">
                 <option value="">JALL</option>
             </field>
-            <field name="deltaDays" type="integer" label="THM_ORGANIZER_DELTA_DISPLAY_TITLE"
+            <field name="deltaDays" type="Integer" label="THM_ORGANIZER_DELTA_DISPLAY_TITLE"
                    description="THM_ORGANIZER_DELTA_DISPLAY_DESC" first="0" last="100" step="1" default="5"/>
             <field name="showDepartments" type="radio" label="THM_ORGANIZER_SHOW_DEPARTMENTS_TITLE"
                    description="THM_ORGANIZER_SHOW_DEPARTMENTS_DESC" default="1">

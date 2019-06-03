@@ -9,14 +9,14 @@
                onchange="this.form.submit();">
             <option value="">ALL_TERMS</option>
         </field>
-        <field name="active" type="list" label="STATE" onchange="this.form.submit();">
+        <field name="active" type="List" label="STATE" onchange="this.form.submit();">
             <option value="">ALL_STATES</option>
             <option value="1">ACTIVE</option>
             <option value="0">INACTIVE</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
+        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
                description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
 </form>

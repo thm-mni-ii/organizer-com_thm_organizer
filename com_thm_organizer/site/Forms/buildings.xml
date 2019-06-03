@@ -7,7 +7,7 @@
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
         </field>
-        <field name="propertyType" type="list" onchange="this.form.submit();">
+        <field name="propertyType" type="List" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="0">UNKNOWN</option>
             <option value="1">OWNED</option>
@@ -16,7 +16,7 @@
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
+        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
                onchange="this.form.submit();"/>
     </fields>
 </form>

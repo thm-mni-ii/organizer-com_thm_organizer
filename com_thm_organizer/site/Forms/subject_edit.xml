@@ -9,23 +9,23 @@
         <field name="lsfID" type="text" size="70" label="THM_ORGANIZER_LSF_ID" description="THM_ORGANIZER_LSF_ID_DESC"/>
         <field name="externalID" type="text" size="70" label="THM_ORGANIZER_MODULE_ID"
                description="THM_ORGANIZER_MODULE_ID_DESC"/>
-        <field name="duration" type="integer" label="DURATION" description="THM_ORGANIZER_DURATION_DESC" first="1"
+        <field name="duration" type="Integer" label="DURATION" description="THM_ORGANIZER_DURATION_DESC" first="1"
                last="30" step="1" default="1">
             <option value="0">FILTER_CREDIT_POINTS</option>
         </field>
-        <field name="instructionLanguage" type="list" label="INSTRUCTION_LANGUAGE"
+        <field name="instructionLanguage" type="List" label="INSTRUCTION_LANGUAGE"
                description="THM_ORGANIZER_INSTRUCTION_LANGUAGE_DESC" default="D">
             <option value="D">GERMAN</option>
             <option value="E">ENGLISH</option>
         </field>
-        <field name="is_prep_course" type="list" class="chzn-color-state" label="PREP_COURSES"
+        <field name="is_prep_course" type="List" class="chzn-color-state" label="PREP_COURSES"
                description="THM_ORGANIZER_PREP_COURSE_DESC" default="0">
             <option value="1">YES</option>
             <option value="0">NO</option>
         </field>
-        <field name="max_participants" type="integer" default="300" label="MAX_PARTICIPANTS"
+        <field name="max_participants" type="Integer" default="300" label="MAX_PARTICIPANTS"
                description="THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
-        <field name="frequencyID" type="list" label="AVAILABILITY" description="THM_ORGANIZER_AVAILABILITY_DESC">
+        <field name="frequencyID" type="List" label="AVAILABILITY" description="THM_ORGANIZER_AVAILABILITY_DESC">
             <option value="">FILTER_AVAILABILITY</option>
             <option value="3">AVAILABILITY_SEMESTER</option>
             <option value="5">AVAILABILITY_YEAR</option>
@@ -39,28 +39,28 @@
             <option value="">NO_FIELDS</option>
         </field>
         <field name="planSubjectIDs" type="SubjectCourses" responsibility="1" label="EVENT"/>
-        <field type="spacer" name="spacer1" hr="true"/>
-        <field name="creditpoints" type="integer" label="CREDIT_POINTS" description="THM_ORGANIZER_CREDIT_POINTS_DESC"
+        <field name="spacer1" type="spacer" hr="true"/>
+        <field name="creditpoints" type="Integer" label="CREDIT_POINTS" description="THM_ORGANIZER_CREDIT_POINTS_DESC"
                first="1" last="30" step="1" default="0">
             <option value="0">FILTER_CREDIT_POINTS</option>
         </field>
-        <field name="sws" type="integer" label="SWS" description="THM_ORGANIZER_SWS_DESC" first="1" last="30" step="1"
+        <field name="sws" type="Integer" label="SWS" description="THM_ORGANIZER_SWS_DESC" first="1" last="30" step="1"
                default="0">
             <option value="0">FILTER_SEMESTER_HOURS</option>
         </field>
-        <field name="expenditure" type="integer" label="EXPENDITURE" description="THM_ORGANIZER_EXPENDITURE_DESC"
+        <field name="expenditure" type="Integer" label="EXPENDITURE" description="THM_ORGANIZER_EXPENDITURE_DESC"
                first="30" last="900" step="30" default="0">
             <option value="0">NO_INPUT</option>
         </field>
-        <field name="present" type="integer" label="PRESENT" description="THM_ORGANIZER_PRESENT_DESC" first="0"
+        <field name="present" type="Integer" label="PRESENT" description="THM_ORGANIZER_PRESENT_DESC" first="0"
                last="900" step="30" default="">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="independent" type="integer" label="INDEPENDENT" description="THM_ORGANIZER_INDEPENDENT_DESC"
+        <field name="independent" type="Integer" label="INDEPENDENT" description="THM_ORGANIZER_INDEPENDENT_DESC"
                first="0" last="900" step="30" default="">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="frequencyID" type="list" label="AVAILABILITY" description="THM_ORGANIZER_AVAILABILITY_DESC">
+        <field name="frequencyID" type="List" label="AVAILABILITY" description="THM_ORGANIZER_AVAILABILITY_DESC">
             <option value="">FILTER_AVAILABILITY</option>
             <option value="3">AVAILABILITY_SEMESTER</option>
             <option value="5">AVAILABILITY_YEAR</option>
@@ -136,14 +136,14 @@
             <option value="">UNSPECIFIED_TEACHERS</option>
         </field>
         <field name="spacer4" type="spacer" hr="true"/>
-        <field name="expertise" type="list" label="EXPERTISE" description="THM_ORGANIZER_EXPERTISE_DESC" default="">
+        <field name="expertise" type="List" label="EXPERTISE" description="THM_ORGANIZER_EXPERTISE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
             <option value='1'>ONE_STAR</option>
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="method_competence" type="list" label="METHOD_COMPETENCE"
+        <field name="method_competence" type="List" label="METHOD_COMPETENCE"
                description="THM_ORGANIZER_METHOD_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
@@ -151,7 +151,7 @@
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="self_competence" type="list" label="SELF_COMPETENCE"
+        <field name="self_competence" type="List" label="SELF_COMPETENCE"
                description="THM_ORGANIZER_SELF_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
@@ -159,7 +159,7 @@
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="social_competence" type="list" label="SOCIAL_COMPETENCE"
+        <field name="social_competence" type="List" label="SOCIAL_COMPETENCE"
                description="THM_ORGANIZER_SOCIAL_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>

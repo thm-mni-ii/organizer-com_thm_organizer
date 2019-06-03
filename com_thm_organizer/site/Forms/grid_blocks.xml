@@ -6,7 +6,7 @@
         <field name="endTime" type="text" label="THM_ORGANIZER_END_TIME" description="THM_ORGANIZER_END_TIME_DESC"/>
         <field name="label_de" type="text" label="THM_ORGANIZER_NAME_DE" description="THM_ORGANIZER_NAME_DE_DESC"/>
         <field name="label_en" type="text" label="THM_ORGANIZER_NAME_EN" description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="type" type="list" default="" label="TYPE">
+        <field name="type" type="List" default="" label="TYPE">
             <option value="">DEFAULT</option>
             <option value="break">BREAK</option>
         </field>

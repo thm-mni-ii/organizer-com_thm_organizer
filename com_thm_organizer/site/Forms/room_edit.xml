@@ -14,7 +14,7 @@
                table="thm_organizer_room_types" label="TYPE" description="THM_ORGANIZER_TYPE_DESC" required="true">
             <option value="">SELECT_ROOM_TYPE</option>
         </field>
-        <field name="capacity" type="integer" label="CAPACITY" description="THM_ORGANIZER_CAPACITY_DESC" last="500"
+        <field name="capacity" type="Integer" label="CAPACITY" description="THM_ORGANIZER_CAPACITY_DESC" last="500"
                step="1"/>
     </fieldset>
 </form>

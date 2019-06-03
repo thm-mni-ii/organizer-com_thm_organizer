@@ -2,7 +2,7 @@
 <form addfieldpath="/component/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="status" type="list" label="STATE" onchange="this.form.submit();">
+        <field name="status" type="List" label="STATE" onchange="this.form.submit();">
             <option value="">ALL_COURSES</option>
             <option value="pending">PENDING_COURSES</option>
             <option value="current">CURRENT_COURSES</option>
@@ -29,14 +29,14 @@
             <option value="">JALL</option>
             <option value="-1">NONE</option>
         </field>
-        <field name="onlyPrepCourses" type="list" label="PREP_COURSES" default="0">
+        <field name="onlyPrepCourses" type="List" label="PREP_COURSES" default="0">
             <option value="">ALL_COURSES</option>
             <option value="1">ONLY_PREP_COURSES</option>
             <option value="-1">NOT_PREP_COURSES</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
+        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
                onchange="this.form.submit();"/>
     </fields>
 </form>
