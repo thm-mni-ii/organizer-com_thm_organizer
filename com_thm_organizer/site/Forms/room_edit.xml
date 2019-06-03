@@ -10,11 +10,10 @@
                table="thm_organizer_buildings">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="typeID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_room_types" label="TYPE" description="THM_ORGANIZER_TYPE_DESC" required="true">
+        <field name="typeID" type="GenericList" label="TYPE" required="true" valuecolumn="id" textcolumn="name"
+               localized="true" table="thm_organizer_room_types">
             <option value="">SELECT_ROOM_TYPE</option>
         </field>
-        <field name="capacity" type="Integer" label="CAPACITY" description="THM_ORGANIZER_CAPACITY_DESC" last="500"
-               step="1"/>
+        <field name="capacity" type="Integer" label="CAPACITY" last="500" step="1"/>
     </fieldset>
 </form>

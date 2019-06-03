@@ -22,8 +22,8 @@
                description="THM_ORGANIZER_CITY_DESC"/>
         <field name="zipCode" type="text" class="validate-alphanumeric" size="60" maxlength="60"
                label="THM_ORGANIZER_ZIP_CODE" description="THM_ORGANIZER_ZIP_CODE_DESC"/>
-        <field name="gridID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_grids" label="GRID">
+        <field name="gridID" type="GenericList" label="GRID" valuecolumn="id" textcolumn="name" localized="true"
+               table="thm_organizer_grids">
             <option value="">DEFAULT_GRID</option>
         </field>
     </fieldset>

@@ -5,21 +5,20 @@
             <field name="departmentID" type="Departments" label="DEPARTMENT" auth="0" class="departmentlist">
                 <option value="0">ALL_DEPARTMENTS</option>
             </field>
-            <field name="categoryIDs" type="GenericList" valuecolumn="id" textcolumn="name" multiple="true"
-                   table="thm_organizer_plan_programs" label="THM_ORGANIZER_CATEGORIES"
-                   description="THM_ORGANIZER_CATEGORIES_DESC">
+            <field name="categoryIDs" type="GenericList" label="CATEGORIES" valuecolumn="id" textcolumn="name"
+                   multiple="true" table="thm_organizer_plan_programs" description="THM_ORGANIZER_CATEGORIES_DESC">
                 <option value="">JALL</option>
             </field>
-            <field name="groupIDs" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_groups"
-                   label="THM_ORGANIZER_POOLS" description="THM_ORGANIZER_POOLS_EXPORT_DESC" multiple="true">
+            <field name="groupIDs" type="GenericList" label="GROUPS" multiple="true" valuecolumn="id" textcolumn="name"
+                   table="thm_organizer_groups">
                 <option value="">JALL</option>
             </field>
-            <field name="roomIDs" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"
-                   label="THM_ORGANIZER_ROOMS" description="THM_ORGANIZER_ROOMS_DESC" multiple="true">
+            <field name="roomIDs" type="GenericList" label="ROOMS" multiple="true" valuecolumn="id" textcolumn="name"
+                   table="thm_organizer_rooms">
                 <option value="">JALL</option>
             </field>
-            <field name="deltaDays" type="Integer" label="THM_ORGANIZER_DELTA_DISPLAY_TITLE"
-                   description="THM_ORGANIZER_DELTA_DISPLAY_DESC" first="0" last="100" step="1" default="5"/>
+            <field name="deltaDays" type="Integer" label="DELTA_DISPLAY_TITLE" first="0" last="100" step="1"
+                   default="5"/>
             <field name="showDepartments" type="radio" label="THM_ORGANIZER_SHOW_DEPARTMENTS_TITLE"
                    description="THM_ORGANIZER_SHOW_DEPARTMENTS_DESC" default="1">
                 <option value="1">YES</option>

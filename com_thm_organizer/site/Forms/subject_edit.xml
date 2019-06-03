@@ -9,23 +9,20 @@
         <field name="lsfID" type="text" size="70" label="THM_ORGANIZER_LSF_ID" description="THM_ORGANIZER_LSF_ID_DESC"/>
         <field name="externalID" type="text" size="70" label="THM_ORGANIZER_MODULE_ID"
                description="THM_ORGANIZER_MODULE_ID_DESC"/>
-        <field name="duration" type="Integer" label="DURATION" description="THM_ORGANIZER_DURATION_DESC" first="1"
-               last="30" step="1" default="1">
-            <option value="0">FILTER_CREDIT_POINTS</option>
+        <field name="duration" type="Integer" label="DURATION" first="1" last="30" step="1" default="1">
+            <option value="0">SELECT_DURATION</option>
         </field>
-        <field name="instructionLanguage" type="List" label="INSTRUCTION_LANGUAGE"
-               description="THM_ORGANIZER_INSTRUCTION_LANGUAGE_DESC" default="D">
+        <field name="instructionLanguage" type="List" label="INSTRUCTION_LANGUAGE" default="D">
             <option value="D">GERMAN</option>
             <option value="E">ENGLISH</option>
         </field>
-        <field name="is_prep_course" type="List" class="chzn-color-state" label="PREP_COURSES"
-               description="THM_ORGANIZER_PREP_COURSE_DESC" default="0">
+        <field name="is_prep_course" type="List" class="chzn-color-state" label="PREP_COURSES" default="0">
             <option value="1">YES</option>
             <option value="0">NO</option>
         </field>
-        <field name="max_participants" type="Integer" default="300" label="MAX_PARTICIPANTS"
-               description="THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
-        <field name="frequencyID" type="List" label="AVAILABILITY" description="THM_ORGANIZER_AVAILABILITY_DESC">
+        <field name="max_participants" type="Integer" label="MAX_PARTICIPANTS" default="300" first="20" last="1000"
+               step="20"/>
+        <field name="frequencyID" type="List" label="AVAILABILITY">
             <option value="">FILTER_AVAILABILITY</option>
             <option value="3">AVAILABILITY_SEMESTER</option>
             <option value="5">AVAILABILITY_YEAR</option>
@@ -34,33 +31,28 @@
             <option value="4">AVAILABILITY_AS_NEEDED</option>
             <option value="0">AVAILABILITY_APPT</option>
         </field>
-        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
-               table="thm_organizer_fields" label="FIELD" description="THM_ORGANIZER_FIELD_DESC">
+        <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
+               table="thm_organizer_fields">
             <option value="">NO_FIELDS</option>
         </field>
         <field name="planSubjectIDs" type="SubjectCourses" responsibility="1" label="EVENT"/>
         <field name="spacer1" type="spacer" hr="true"/>
-        <field name="creditpoints" type="Integer" label="CREDIT_POINTS" description="THM_ORGANIZER_CREDIT_POINTS_DESC"
-               first="1" last="30" step="1" default="0">
-            <option value="0">FILTER_CREDIT_POINTS</option>
+        <field name="creditpoints" type="Integer" label="CREDIT_POINTS" first="1" last="30" step="1" default="0">
+            <option value="0">SELECT_CREDIT_POINTS</option>
         </field>
-        <field name="sws" type="Integer" label="SWS" description="THM_ORGANIZER_SWS_DESC" first="1" last="30" step="1"
-               default="0">
+        <field name="sws" type="Integer" label="SWS" first="1" last="30" step="1" default="0">
             <option value="0">FILTER_SEMESTER_HOURS</option>
         </field>
-        <field name="expenditure" type="Integer" label="EXPENDITURE" description="THM_ORGANIZER_EXPENDITURE_DESC"
-               first="30" last="900" step="30" default="0">
+        <field name="expenditure" type="Integer" label="EXPENDITURE" first="30" last="900" step="30" default="0">
             <option value="0">NO_INPUT</option>
         </field>
-        <field name="present" type="Integer" label="PRESENT" description="THM_ORGANIZER_PRESENT_DESC" first="0"
-               last="900" step="30" default="">
+        <field name="present" type="Integer" label="PRESENT" first="0" last="900" step="30" default="">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="independent" type="Integer" label="INDEPENDENT" description="THM_ORGANIZER_INDEPENDENT_DESC"
-               first="0" last="900" step="30" default="">
+        <field name="independent" type="Integer" label="INDEPENDENT" first="0" last="900" step="30" default="">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="frequencyID" type="List" label="AVAILABILITY" description="THM_ORGANIZER_AVAILABILITY_DESC">
+        <field name="frequencyID" type="List" label="AVAILABILITY">
             <option value="">FILTER_AVAILABILITY</option>
             <option value="3">AVAILABILITY_SEMESTER</option>
             <option value="5">AVAILABILITY_YEAR</option>
@@ -70,15 +62,16 @@
             <option value="0">AVAILABILITY_APPT</option>
         </field>
         <field name="spacer2" type="spacer" hr="true"/>
-        <field name="literature" type="editor" size="6" label="LITERATURE" description="THM_ORGANIZER_LITERATURE_DESC"/>
+        <field name="literature" type="editor" label="THM_ORGANIZER_LITERATURE" size="6"
+               description="THM_ORGANIZER_LITERATURE_DESC"/>
     </fieldset>
     <fieldset name="de_texts" label="ATTRIBUTES_DE">
-        <field name="name_de" type="text" size="70" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" hint="Grundlagen der Informatik"/>
-        <field name="short_name_de" type="text" size="70" label="THM_ORGANIZER_SHORT_NAME_DE"
-               description="THM_ORGANIZER_SHORT_NAME_DE_DESC" hint="Grundl. d. Inf."/>
-        <field name="abbreviation_de" type="text" size="70" label="THM_ORGANIZER_ABBREVIATION_DE"
-               description="THM_ORGANIZER_ABBREVIATION_DE_DESC" hint="GDI"/>
+        <field name="name_de" type="text" label="THM_ORGANIZER_NAME_DE" size="70" hint="Grundlagen der Informatik"
+               description="THM_ORGANIZER_NAME_DE_DESC"/>
+        <field name="short_name_de" type="text" label="THM_ORGANIZER_SHORT_NAME_DE" size="70" hint="Grundl. d. Inf."
+               description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
+        <field name="abbreviation_de" type="text" label="THM_ORGANIZER_ABBREVIATION_DE" size="70" hint="GDI"
+               description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
         <field name="method_de" type="text" size="70" label="THM_ORGANIZER_METHOD_DE"
                description="THM_ORGANIZER_METHOD_DE_DESC" hint="2 SWS Vorlesung, 2 SWS Übung"/>
         <field name="preliminary_work_de" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_DE"
@@ -127,12 +120,10 @@
         <field name="aids_en" type="editor" size="6" label="AIDS_EN" description="THM_ORGANIZER_AIDS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
-        <field name="coordinators" type="SubjectTeachers" responsibility="1" label="COORDINATORS"
-               description="THM_ORGANIZER_MODULE_COORDINATORS_DESC">
+        <field name="coordinators" type="SubjectTeachers" label="COORDINATORS" responsibility="1">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="teachers" type="SubjectTeachers" responsibility="2" label="TEACHERS"
-               description="THM_ORGANIZER_TEACHERS_DESC">
+        <field name="teachers" type="SubjectTeachers" label="TEACHERS" responsibility="2">
             <option value="">UNSPECIFIED_TEACHERS</option>
         </field>
         <field name="spacer4" type="spacer" hr="true"/>
@@ -169,7 +160,7 @@
         </field>
     </fieldset>
     <fieldset name="mappings" label="ATTRIBUTES_MAPPINGS" displayinitial="0">
-        <field name="programID" type="ProgramMappings" label="PROGRAMS" description="THM_ORGANIZER_PROGRAMS_DESC"/>
-        <field name="parentID" type="ParentPool" label="PARENT_POOLS" description="THM_ORGANIZER_PARENT_POOLS_DESC"/>
+        <field name="programID" type="ProgramMappings" label="PROGRAMS"/>
+        <field name="parentID" type="ParentPool" label="PARENT_POOLS"/>
     </fieldset>
 </form>

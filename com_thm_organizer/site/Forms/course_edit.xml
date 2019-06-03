@@ -5,12 +5,10 @@
         <field name="campusID" type="Campuses" label="CAMPUS" description="THM_ORGANIZER_COURSE_CAMPUS">
             <option value="">NO_CAMPUSES</option>
         </field>
-        <field name="max_participants" type="Integer" default="300" label="MAX_PARTICIPANTS"
-               description="THM_ORGANIZER_MAX_PARTICIPANTS_DESC" first="20" last="1000" step="20"/>
-        <field name="deadline" type="Integer" default="5" label="DEADLINE" description="THM_ORGANIZER_DEADLINE_DESC"
-               first="1" last="30" step="1"/>
-        <field name="fee" type="Integer" first="0" last="500" step="5" label="COURSE_FEE"
-               description="THM_ORGANIZER_COURSE_FEE_DESC" default="50"/>
+        <field name="max_participants" type="Integer" label="MAX_PARTICIPANTS" first="20" last="1000" step="20"
+               default="300"/>
+        <field name="deadline" type="Integer" label="DEADLINE" first="1" last="30" step="1" default="5"/>
+        <field name="fee" type="Integer" label="COURSE_FEE" first="0" last="500" step="5" default="50"/>
     </fieldset>
     <fieldset name="circular">
         <field name="includeWaitList" type="List" class="chzn-color-state" label="" default="0">

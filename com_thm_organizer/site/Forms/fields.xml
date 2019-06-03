@@ -2,19 +2,12 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="field" type="LocalizedList" valuecolumn="field" textcolumn="field" table="thm_organizer_fields"
-               label="NAME" onchange="this.form.submit();">
-            <option value="">JALL</option>
-        </field>
-        <field name="colorID" type="GenericList" valuecolumn="c.id" textcolumn="name" localized="true"
-               table="thm_organizer_fields AS f,thm_organizer_colors AS c ON f.colorID = c.id" label="COLOR"
-               onchange="this.form.submit();">
+        <field name="colorID" type="Colors" label="COLOR" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" description=" LIST_LIMIT_DESC" onchange="this.form.submit();"/>
     </fields>
 </form>

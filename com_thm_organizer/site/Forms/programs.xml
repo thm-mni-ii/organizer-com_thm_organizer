@@ -6,23 +6,22 @@
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENTS</option>
         </field>
-        <field name="degreeID" type="GenericList" valuecolumn="d.id" textcolumn="d.abbreviation"
-               table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id" label="DEGREE"
-               onchange="this.form.submit();">
+        <field name="degreeID" type="GenericList" label="DEGREE" onchange="this.form.submit();" valuecolumn="d.id"
+               textcolumn="d.abbreviation"
+               table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id">
             <option value="">JALL</option>
         </field>
-        <field name="version" type="GenericList" valuecolumn="version" textcolumn="version"
-               table="thm_organizer_programs" label="VERSION" onchange="this.form.submit();">
+        <field name="version" type="GenericList" label="VERSION" onchange="this.form.submit();" valuecolumn="version"
+               textcolumn="version" table="thm_organizer_programs">
             <option value="">JALL</option>
         </field>
-        <field name="departmentID" type="GenericList" valuecolumn="d.id" textcolumn="d.short_name" localized="true"
-               table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID"
-               onchange="this.form.submit();">
+        <field name="departmentID" type="GenericList" onchange="this.form.submit();" valuecolumn="d.id"
+               textcolumn="d.short_name" localized="true"
+               table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID">
             <option value="">JALL</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

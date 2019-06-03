@@ -108,7 +108,7 @@ class Subject_Details extends BaseModel
             'shortName'                => ['label' => Languages::_($option . 'SHORT_NAME')],
             'campus'                   => ['label' => Languages::_($option . 'CAMPUS')],
             'moduleCode'               => ['label' => Languages::_($option . 'MODULE_CODE')],
-            'executors'                => ['label' => Languages::_($option . 'MODULE_COORDINATOR')],
+            'executors'                => ['label' => Languages::_($option . 'COORDINATOR')],
             'teachers'                 => ['label' => Languages::_($option . 'TEACHER')],
             'description'              => ['label' => Languages::_($option . 'SHORT_DESCRIPTION')],
             'objective'                => ['label' => Languages::_($option . 'OBJECTIVES')],

@@ -11,8 +11,8 @@
         <field name="title" type="text" size="40" maxlength="45" label="THM_ORGANIZER_TITLE"
                description="THM_ORGANIZER_TITLE_DESC"/>
         <field name="username" type="text" label="THM_ORGANIZER_USERNAME" description="THM_ORGANIZER_USERNAME_DESC"/>
-        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
-               table="thm_organizer_fields" label="FIELD">
+        <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
+               table="thm_organizer_fields">
             <option value="">NO_FIELDS</option>
         </field>
         <field name="departmentID" type="Departments" label="DEPARTMENTS" auth="1" required="true" multiple="multiple"/>

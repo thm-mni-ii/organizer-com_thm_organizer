@@ -4,16 +4,16 @@
         <field name="id" type="hidden"/>
         <field name="asset_id" type="hidden" filter="unset"/>
         <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" required="true"/>
-        <field name="degreeID" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_degrees"
-               label="DEGREE" description="THM_ORGANIZER_DEGREE_DESC" class="required" required="true">
+        <field name="degreeID" type="GenericList" label="DEGREE" required="true" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_degrees">
             <option value="">NO_INPUT</option>
         </field>
         <field name="version" type="text" size="10" label="THM_ORGANIZER_VERSION"
                description="THM_ORGANIZER_VERSION_DESC" required="true"/>
         <field name="code" type="text" size="40" label="THM_ORGANIZER_LSF_FIELD_ID"
                description="THM_ORGANIZER_LSF_FIELD_ID_DESC" required="true"/>
-        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" table="thm_organizer_fields"
-               localized="true" label="FIELD" description="THM_ORGANIZER_FIELD_DESC" required="true">
+        <field name="fieldID" type="GenericList" label="FIELD" required="true" valuecolumn="id" textcolumn="field"
+               localized="true" table="thm_organizer_fields">
             <option value="">NO_FIELDS</option>
         </field>
         <field name="frequencyID" type="List" label="FREQUENCY" description="THM_ORGANIZER_FREQUENCY_DESC" default="3">

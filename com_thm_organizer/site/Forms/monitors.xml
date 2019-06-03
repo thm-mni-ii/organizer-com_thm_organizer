@@ -2,8 +2,8 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="ip" type="GenericList" valuecolumn="ip" textcolumn="ip" table="thm_organizer_monitors" label="IP"
-               onchange="this.form.submit();">
+        <field name="ip" type="GenericList" label="IP" onchange="this.form.submit();" valuecolumn="ip" textcolumn="ip"
+               table="thm_organizer_monitors">
             <option value="">JALL</option>
         </field>
         <field name="useDefaults" type="List" label="DEFAULT_SETTINGS" onchange="this.form.submit();">
@@ -18,15 +18,13 @@
             <option value="3">CONTENT_DISPLAY</option>
             <option value="4">LESSON_LIST</option>
         </field>
-        <field name="content" type="GenericList" valuecolumn="content" textcolumn="content"
-               table="thm_organizer_monitors" label="DISPLAY_CONTENT" onchange="this.form.submit();"
-               valueParameter="content">
+        <field name="content" type="GenericList" label="DISPLAY_CONTENT" onchange="this.form.submit();"
+               valuecolumn="content" textcolumn="content" table="thm_organizer_monitors" valueParameter="content">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

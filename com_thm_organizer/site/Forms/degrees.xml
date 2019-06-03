@@ -2,21 +2,20 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="name" type="GenericList" valuecolumn="id" textcolumn="name" table="thm_organizer_degrees"
-               label="NAME" onchange="this.form.submit();">
+        <field name="name" type="GenericList" label="NAME" onchange="this.form.submit();" valuecolumn="id"
+               textcolumn="name" table="thm_organizer_degrees">
             <option value="">JALL</option>
         </field>
-        <field name="abbreviation" type="GenericList" valuecolumn="id" textcolumn="abbreviation"
-               table="thm_organizer_degrees" label="ABBREVIATION" onchange="this.form.submit();">
+        <field name="abbreviation" type="GenericList" label="ABBREVIATION" onchange="this.form.submit();"
+               valuecolumn="id" textcolumn="abbreviation" table="thm_organizer_degrees">
             <option value="">JALL</option>
         </field>
-        <field name="code" type="GenericList" valuecolumn="id" textcolumn="code" table="thm_organizer_degrees"
-               label="DEGREE_CODE" onchange="this.form.submit();">
+        <field name="code" type="GenericList" label="DEGREE_CODE" onchange="this.form.submit();" valuecolumn="id"
+               textcolumn="code" table="thm_organizer_degrees">
             <option value="">JALL</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

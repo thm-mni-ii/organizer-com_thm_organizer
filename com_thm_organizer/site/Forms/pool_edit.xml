@@ -9,14 +9,12 @@
         <field name="lsfID" type="text" size="40" label="THM_ORGANIZER_LSF_ID" description="THM_ORGANIZER_LSF_ID_DESC"/>
         <field name="hisID" type="text" size="40" label="THM_ORGANIZER_HIS_ID" description="THM_ORGANIZER_HIS_ID_DESC"/>
         <field name="externalID" type="text" size="40" label="MODULE_ID" description="THM_ORGANIZER_MODULE_ID_DESC"/>
-        <field name="fieldID" type="GenericList" valuecolumn="id" textcolumn="field" localized="true"
-               table="thm_organizer_fields" label="FIELD" description="THM_ORGANIZER_FIELD_DESC">
+        <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
+               table="thm_organizer_fields">
             <option value="">NO_FIELDS</option>
         </field>
-        <field name="minCrP" type="Integer" label="CRP_MIN" description="THM_ORGANIZER_CRP_MIN_DESC" required="true"
-               first="0" last="120" step="1" default="24"/>
-        <field name="maxCrP" type="Integer" label="CRP_MAX" description="THM_ORGANIZER_CRP_MAX_DESC" required="true"
-               first="0" last="120" step="1" default="24"/>
+        <field name="minCrP" type="Integer" label="CRP_MIN" required="true" first="0" last="120" step="1" default="24"/>
+        <field name="maxCrP" type="Integer" label="CRP_MAX" required="true" first="0" last="120" step="1" default="24"/>
     </fieldset>
     <fieldset name="de" label="ATTRIBUTES_DE">
         <field name="name_de" type="text" class="required" size="40" label="THM_ORGANIZER_NAME_DE"

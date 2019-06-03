@@ -12,19 +12,15 @@
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="departmentID" type="GenericList" valuecolumn="id" textcolumn="short_name"
-                   table="thm_organizer_departments" label="THM_ORGANIZER_DEPARTMENT" localized="true"
-                   description="THM_ORGANIZER_DEPARTMENT_DESC" required="true">
+            <field name="departmentID" type="GenericList" label="DEPARTMENT" required="true" valuecolumn="id"
+                   textcolumn="short_name" localized="true" table="thm_organizer_departments">
                 <option value="">THM_ORGANIZER_FILTER_DEPARTMENT</option>
             </field>
-            <field name="deputat_weeks" type="Integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
-                   description="THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
-            <field name="deputat_weeks" type="Integer" default="13" label="THM_ORGANIZER_DEPUTAT_WEEKS"
-                   description="THM_ORGANIZER_DEPUTAT_WEEKS_DESC" first="1" last="52" step="1"/>
-            <field name="bachelor_value" type="Integer" default="25" label="THM_ORGANIZER_BACHELOR_VALUE"
-                   description="THM_ORGANIZER_BACHELOR_VALUE_DESC" first="5" last="100" step="5"/>
-            <field name="master_value" type="Integer" default="50" label="THM_ORGANIZER_MASTER_VALUE"
-                   description="THM_ORGANIZER_MASTER_VALUE_DESC" first="5" last="100" step="5"/>
+            <field name="deputat_weeks" type="Integer" label="DEPUTAT_WEEKS" first="1" last="52" step="1" default="13"/>
+            <field name="deputat_weeks" type="Integer" label="DEPUTAT_WEEKS" first="1" last="52" step="1" default="13"/>
+            <field name="bachelor_value" type="Integer" label="BACHELOR_VALUE" default="25" first="5" last="100"
+                   step="5"/>
+            <field name="master_value" type="Integer" label="MASTER_VALUE" first="5" last="100" step="5" default="50"/>
         </fieldset>
     </fields>
 </metadata>

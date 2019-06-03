@@ -10,15 +10,14 @@
             <option value="">ALL_PROGRAMS</option>
             <option value="-1">NO_PROGRAMS</option>
         </field>
-        <field name="fieldID" type="GenericList" valuecolumn="f.id" textcolumn="f.field" localized="true"
-               table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id" label="FIELD"
-               onchange="this.form.submit();">
+        <field name="fieldID" type="GenericList" label="FIELD" onchange="this.form.submit();" valuecolumn="f.id"
+               textcolumn="f.field" localized="true"
+               table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id">
             <option value="">ALL_FIELDS</option>
             <option value="-1">NO_FIELDS</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

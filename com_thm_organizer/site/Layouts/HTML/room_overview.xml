@@ -3,7 +3,7 @@
     <fields name="params">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS">
-                <option value="">THM_ORGANIZER_ALL_CAMPUSES</option>
+                <option value="">ALL_CAMPUSES</option>
             </field>
         </fieldset>
     </fields>

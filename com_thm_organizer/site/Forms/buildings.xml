@@ -2,8 +2,7 @@
 <form addfieldpath="/component/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="campusID" type="Campuses" label="NAME" onchange="this.form.submit();"
-               placeholder="THM_ORGANIZER_FILTER_CAMPUS">
+        <field name="campusID" type="Campuses" label="NAME" onchange="this.form.submit();">
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
         </field>
@@ -16,7 +15,6 @@
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

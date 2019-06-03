@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="fields">
-        <field name="template" type="Templates" label="DISPLAY_RANGE" default="1"
-               description="THM_ORGANIZER_DISPLAY_RANGE_DESC" translateLabel="false">
+        <field name="template" type="Templates" label="DISPLAY_RANGE" default="1" translateLabel="false">
             <option value="1">SINGLE_DAY</option>
             <option value="2">WEEK</option>
         </field>

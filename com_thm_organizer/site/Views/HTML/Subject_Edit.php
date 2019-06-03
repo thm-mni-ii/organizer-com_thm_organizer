@@ -59,6 +59,5 @@ class Subject_Edit extends EditView
         HTML::_('formbehavior.chosen', 'select');
 
         Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_edit.css');
-        Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/subject_prep_course.js');
     }
 }

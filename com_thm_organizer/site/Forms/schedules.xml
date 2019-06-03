@@ -5,8 +5,7 @@
         <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
         </field>
-        <field name="termID" type="Terms" label="DEPARTMENT" description="THM_ORGANIZER_DEPARTMENT_DESC"
-               onchange="this.form.submit();">
+        <field name="termID" type="Terms" label="DEPARTMENT" onchange="this.form.submit();">
             <option value="">ALL_TERMS</option>
         </field>
         <field name="active" type="List" label="STATE" onchange="this.form.submit();">
@@ -16,7 +15,6 @@
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

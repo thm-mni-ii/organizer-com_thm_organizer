@@ -2,20 +2,18 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="city" type="GenericList" valuecolumn="city" textcolumn="city" table="thm_organizer_campuses"
-               label="NAME" onchange="this.form.submit();" default="" placeholder="THM_ORGANIZER_FILTER_CITY">
+        <field name="city" type="GenericList" label="NAME" onchange="this.form.submit();" default="" valuecolumn="city"
+               textcolumn="city" table="thm_organizer_campuses">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="gridID" type="GenericList" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_grids" label="GRID" onchange="this.form.submit();"
-               description="THM_ORGANIZER_GRID_EXPORT_DESC" required="true">
+        <field name="gridID" type="GenericList" label="GRID" required="true" onchange="this.form.submit();"
+               valuecolumn="id" textcolumn="name" localized="true" table="thm_organizer_grids">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>
