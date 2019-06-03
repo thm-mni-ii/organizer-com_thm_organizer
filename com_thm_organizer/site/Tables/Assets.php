@@ -12,6 +12,7 @@ namespace Organizer\Tables;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -133,7 +134,7 @@ abstract class Assets extends BaseTable
     {
         if (isset($array['rules']) && is_array($array['rules'])) {
             self::cleanRules($array['rules']);
-            $rules = new AccessRules($array['rules']);
+            $rules = new Rules($array['rules']);
             $this->setRules($rules);
         }
 
