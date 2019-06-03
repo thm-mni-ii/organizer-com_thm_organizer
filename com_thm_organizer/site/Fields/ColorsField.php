@@ -16,11 +16,12 @@ use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use stdClass;
 
 /**
  * Class creates a select box for predefined colors.
  */
-class ColorsField extends BaseField
+class ColorsField extends ListField
 {
     /**
      * Type
@@ -36,61 +37,58 @@ class ColorsField extends BaseField
      */
     public function getInput()
     {
-        $selectedFields = OrganizerHelper::getSelectedIDs();
+        $html    = '<select id="' . $this->id . '" name="' . $this->name . '">';
+        $options = $this->getOptions();
+        foreach ($options as $option) {
+            $style    = isset($option->style) ? ' style="' . $option->style . '"' : '';
+            $selected = $this->value == $option->value ? ' selected="selected"' : '';
+            $html     .= '<option value="' . $option->value . '"' . $selected . $style . '>' . $option->text . '</option>';
+        }
+        $html .= '</select>';
 
-        $dbo   = Factory::getDbo();
+        return $html;
+    }
+
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     */
+    protected function getOptions()
+    {
+        $options = parent::getOptions();
+
+        $tag = Languages::getShortTag();
+        $dbo = Factory::getDbo();
+
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT c.id, c.name_de, c.name_en, c.color, f.id AS fieldID");
-        $query->from(' #__thm_organizer_colors as c');
+        $query->select("DISTINCT c.id AS value, c.name_$tag AS text, c.color")
+            ->from(' #__thm_organizer_colors AS c')
+            ->order('text');
 
-        $merge = count($selectedFields) > 1;
-        if ($merge) {
-            $query->innerJoin('#__thm_organizer_fields AS f ON f.colorID = c.id');
-            $idString = "'" . implode("', '", $selectedFields) . "'";
-            $query->where("f.id IN ( $idString )");
-            $query->group('c.id');
-        } else {
-            $query->leftJoin('#__thm_organizer_fields AS f ON f.colorID = c.id');
-            $query->group('c.id');
+        // Filter irrelevant filter colors out.
+        $view = OrganizerHelper::getInput()->getCmd('view');
+        if ($view !== 'field_edit') {
+            $query->innerJoin('#__thm_organizer_fields AS f on f.colorID = c.id');
         }
 
         $dbo->setQuery($query);
 
         $colors = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($colors)) {
-            return '';
+            return $options;
         }
 
-        $shortTag    = Languages::getShortTag();
-        $property    = "name_$shortTag";
-        $hasSelected = false;
-        $options     = [];
         foreach ($colors as $color) {
+            $option        = new stdClass;
+            $option->text  = $color['text'];
+            $option->value = $color['value'];
 
-            if (!empty($color['fieldID'])) {
-                if ($hasSelected) {
-                    $selected = '';
-                } else {
-                    $selected    = 'selected="selected"';
-                    $hasSelected = true;
-                }
-            }
-            $backgroundColor = $color['color'];
-            $textColor       = HTML::textColor($backgroundColor);
-            $style           = 'style="background-color: ' . $backgroundColor . '; color:' . $textColor . ';"';
-            $value           = 'value="' . $color['id'] . '"';
-
-            $options[] = "<option $style $selected $value >" . $color[$property] . "</option>";
+            $textColor     = HTML::textColor($color['color']);
+            $option->style = "background-color:{$color['color']};color:$textColor;";
+            $options[]     = $option;
         }
 
-        if (!count($options) or !$merge) {
-            $selectNone = $hasSelected ? '' : 'selected="selected"';
-            $none       = '<option ' . $selectNone . ' value="">' . Languages::_('JNONE') . '</option>';
-            $options    = array_merge([$none], $options);
-        }
-
-        $select = "<select id = 'jform_colorID' name='jform[colorID]'>OPTIONS</select>";
-
-        return str_replace('OPTIONS', implode('', $options), $select);
+        return $options;
     }
 }

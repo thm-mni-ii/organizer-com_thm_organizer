@@ -31,16 +31,14 @@ class BaseField extends FormField
      * Method to get the data to be passed to the layout for rendering.
      *
      * @return  array
-     *
-     * @since 3.5
      */
     protected function getLayoutData()
     {
         if (!empty($this->element['label'])) {
-            $labelConstant = 'THM_ORGANIZER_' . (string) $this->element['label'];
-            $descriptionConstant = $labelConstant . '_DESC';
+            $labelConstant          = 'THM_ORGANIZER_' . (string)$this->element['label'];
+            $descriptionConstant    = $labelConstant . '_DESC';
             $this->element['label'] = Languages::_($labelConstant);
-            $this->description = Languages::_($descriptionConstant);
+            $this->description      = Languages::_($descriptionConstant);
         }
 
         return parent::getLayoutData();

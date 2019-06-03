@@ -11,9 +11,7 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 /**
- * Field to load a list of posible item count limits
- *
- * @since  3.2
+ * Field to load a list of possible item count limits
  */
 class LimitboxField extends ListField
 {
@@ -21,7 +19,6 @@ class LimitboxField extends ListField
      * The form field type.
      *
      * @var    string
-     * @since  3.2
      */
     public $type = 'Limitbox';
 
@@ -29,7 +26,6 @@ class LimitboxField extends ListField
      * Cached array of the category items.
      *
      * @var    array
-     * @since  3.2
      */
     protected static $options = array();
 
@@ -44,8 +40,6 @@ class LimitboxField extends ListField
      * Method to get the options to populate to populate list
      *
      * @return  array  The field option objects.
-     *
-     * @since   3.2
      */
     protected function getOptions()
     {

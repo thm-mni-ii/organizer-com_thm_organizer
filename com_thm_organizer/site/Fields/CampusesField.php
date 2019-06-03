@@ -27,9 +27,9 @@ class CampusesField extends ListField
     protected $type = 'Campuses';
 
     /**
-     * Returns an array of pool options
+     * Returns an array of options
      *
-     * @return array  the pool options
+     * @return array  the options
      */
     protected function getOptions()
     {

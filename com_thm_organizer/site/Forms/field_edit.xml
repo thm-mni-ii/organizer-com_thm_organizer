@@ -8,6 +8,8 @@
                description="THM_ORGANIZER_NAME_EN_DESC"/>
         <field type="text" name="untisID" size="60" maxlength="60" label="THM_ORGANIZER_UNTISID"
                description="THM_ORGANIZER_UNTISID_DESC"/>
-        <field name="colorID" type="colorID" size="10" label="COLOR" description="THM_ORGANIZER_COLOR_DESC"/>
+        <field name="colorID" type="Colors" label="COLOR">
+            <option value="">SELECT_COLOR</option>
+        </field>
     </fieldset>
 </form>
