@@ -71,9 +71,9 @@ class Schedules extends ListView
         $headers   = [];
 
         $headers['checkbox']     = '';
-        $headers['departmentID'] = HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering);
-        $headers['termID']       = HTML::sort('TERM', 'termName', $direction, $ordering);
-        $headers['active']       = HTML::sort('STATE', 'active', $direction, $ordering);
+        $headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
+        $headers['termID']       = Languages::_('THM_ORGANIZER_TERM');
+        $headers['active']       = Languages::_('THM_ORGANIZER_STATE');
         $headers['userName']     = HTML::sort('USERNAME', 'userName', $direction, $ordering);
         $headers['created']      = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
 
