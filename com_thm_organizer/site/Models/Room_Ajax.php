@@ -26,7 +26,7 @@ class Room_Ajax extends BaseModel
      *
      * @return string the concatenated room options
      */
-    public function getPlanOptions($short = false)
+    public function getOptions($short = false)
     {
         $rooms = Rooms::getPlannedRooms($short);
 

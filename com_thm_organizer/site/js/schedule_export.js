@@ -219,7 +219,7 @@ function repopulateResources()
         return;
     }
 
-    componentParameters = 'index.php?option=com_thm_organizer&format=raw&task=getPlanOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&format=raw&task=getOptions';
 
     if (!invalidDepartments)
     {
@@ -233,7 +233,7 @@ function repopulateResources()
 
     jQuery.ajax({
         type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=pool_ajax',
+        url: rootURI + componentParameters + selectionParameters + '&view=groups',
         dataType: 'json',
         success: function (data) {
             addPools(data);
@@ -248,7 +248,7 @@ function repopulateResources()
 
     jQuery.ajax({
         type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=teacher_ajax',
+        url: rootURI + componentParameters + selectionParameters + '&view=teachers',
         dataType: 'json',
         success: function (data) {
             addTeachers(data);
@@ -263,7 +263,7 @@ function repopulateResources()
 
     jQuery.ajax({
         type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=room_ajax',
+        url: rootURI + componentParameters + selectionParameters + '&view=rooms',
         dataType: 'json',
         success: function (data) {
             addRooms(data);

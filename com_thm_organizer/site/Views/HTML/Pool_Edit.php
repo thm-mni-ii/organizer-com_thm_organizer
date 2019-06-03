@@ -21,6 +21,8 @@ use Organizer\Helpers\Languages;
  */
 class Pool_Edit extends EditView
 {
+    protected $_layout = 'tabs';
+
     /**
      * Method to generate buttons for user interaction
      *

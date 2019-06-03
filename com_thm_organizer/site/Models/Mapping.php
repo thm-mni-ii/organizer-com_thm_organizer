@@ -311,10 +311,6 @@ class Mapping extends BaseModel
      * @param string $type       the mapping's type
      *
      * @return boolean true on success, otherwise false
-     *
-     * @see Program
-     * @see Pool
-     * @see Subjects
      */
     public function deleteByResourceID($resourceID, $type)
     {
@@ -636,8 +632,6 @@ class Mapping extends BaseModel
      * @param array &$data the pool form data from the post request
      *
      * @return boolean  true on success, otherwise false
-     *
-     * @see Pool
      */
     public function savePool(&$data)
     {

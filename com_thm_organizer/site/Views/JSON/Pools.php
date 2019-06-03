@@ -12,12 +12,13 @@ namespace Organizer\Views\JSON;
 
 defined('_JEXEC') or die;
 
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Pools as PoolsHelper;
 
 /**
  * Class answers dynamic subject pool related queries
  */
-class Pool extends BaseView
+class Pools extends BaseView
 {
     /**
      * loads model data into view context

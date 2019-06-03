@@ -52,7 +52,7 @@ class ParentPoolField extends BaseField
         // Get basic resource data
         $resourceID   = OrganizerHelper::getInput()->getInt('id', 0);
         $contextParts = explode('.', $this->form->getName());
-        $resourceType = str_replace('_edit', '', $contextParts[1]);
+        $resourceType = str_replace('_Edit', '', $contextParts[1]);
 
         $mappings   = [];
         $mappingIDs = [];

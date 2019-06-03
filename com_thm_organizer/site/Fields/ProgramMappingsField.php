@@ -37,7 +37,7 @@ class ProgramMappingsField extends BaseField
     {
         $resourceID   = $this->form->getValue('id');
         $contextParts = explode('.', $this->form->getName());
-        $resourceType = str_replace('_edit', '', $contextParts[1]);
+        $resourceType = str_replace('_Edit', '', $contextParts[1]);
         $this->addScript($resourceID, $resourceType);
 
         $ranges           = Mappings::getResourceRanges($resourceType, $resourceID);
@@ -93,7 +93,7 @@ class ProgramMappingsField extends BaseField
                     }
 
                     poolUrl = '<?php echo Uri::root(); ?>index.php?option=com_thm_organizer';
-                    poolUrl += '&view=pools&format=json&task=parentOptions';
+                    poolUrl += '&view=pools&format=json&task=getParentOptions';
                     poolUrl += "&id=<?php echo $resourceID; ?>";
                     poolUrl += "&type=<?php echo $resourceType; ?>";
                     poolUrl += '&programIDs=' + selectedPrograms;

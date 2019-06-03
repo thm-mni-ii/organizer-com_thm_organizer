@@ -27,7 +27,7 @@ class Program_Ajax extends BaseModel
      *
      * @return string the concatenated category options
      */
-    public function getPlanOptions()
+    public function getOptions()
     {
         $categoryOptions = Categories::getCategories();
 

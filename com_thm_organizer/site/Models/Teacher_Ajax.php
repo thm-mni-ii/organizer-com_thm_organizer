@@ -27,7 +27,7 @@ class Teacher_Ajax extends BaseModel
      *
      * @return string the concatenated teacher options
      */
-    public function getPlanOptions()
+    public function getOptions()
     {
         $plannedTeachers = Teachers::getPlanTeachers();
 

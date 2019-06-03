@@ -158,7 +158,7 @@ function repopulateRooms()
     validCategories = selectedCategories != null && selectedCategories.length !== 0;
     validTypes = selectedTypes != null && selectedTypes.length !== 0;
 
-    componentParameters = 'index.php?option=com_thm_organizer&view=room_ajax&format=raw&task=getPlanOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&view=room_ajax&format=raw&task=getOptions';
 
     if (validDepartments)
     {
