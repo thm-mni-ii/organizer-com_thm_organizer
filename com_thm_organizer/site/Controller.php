@@ -448,6 +448,25 @@ class Controller extends BaseController
     }
 
     /**
+     * Sets the publication status for any group / complete term pairing to true
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function publishPast()
+    {
+        $success = $this->getModel('group')->publishPast();
+        $url     = OrganizerHelper::getRedirectBase() . '&view=groups';
+        if ($success) {
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
+        } else {
+            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+        }
+
+        $this->setRedirect(Route::_($url, false));
+    }
+
+    /**
      * Check if a course was selected and is valid. Check if the required participant data exists, if not redirect to the
      * participant edit view. Otherwise register/deregister the user from the course.
      *

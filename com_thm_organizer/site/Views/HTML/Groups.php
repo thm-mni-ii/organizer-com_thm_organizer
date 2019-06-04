@@ -52,6 +52,9 @@ class Groups extends ListView
             $toolbar->appendButton(
                 'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'group.mergeView', true
             );
+            $toolbar->appendButton(
+                'Standard', 'eye-open', Languages::_('THM_ORGANIZER_PUBLISH_EXPIRED_TERMS'), 'group.publishPast', false
+            );
             HTML::setPreferencesButton();
         }
     }
@@ -95,7 +98,7 @@ class Groups extends ListView
         $headers['checkbox']  = '';
         $headers['full_name'] = HTML::sort('NAME', 'ppl.full_name', $direction, $ordering);
         $headers['name']      = HTML::sort('SHORT_NAME', 'ppl.name', $direction, $ordering);
-        $headers['untisID'] = HTML::sort('UNTISID', 'ppl.untisID', $direction, $ordering);
+        $headers['untisID']   = HTML::sort('UNTISID', 'ppl.untisID', $direction, $ordering);
 
         return $headers;
     }
@@ -119,7 +122,7 @@ class Groups extends ListView
             $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['full_name'] = HTML::_('link', $item->link, $item->full_name);
             $processedItems[$index]['name']      = HTML::_('link', $item->link, $item->name);
-            $processedItems[$index]['untisID'] = HTML::_('link', $item->link, $item->untisID);
+            $processedItems[$index]['untisID']   = HTML::_('link', $item->link, $item->untisID);
             $index++;
         }
 

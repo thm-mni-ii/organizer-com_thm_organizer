@@ -44,13 +44,12 @@ class Group extends MergeModel
      */
     public function batch()
     {
-        $groupIDs = OrganizerHelper::getSelectedIDs();
-        if (empty($groupIDs)) {
+        $this->selected = OrganizerHelper::getSelectedIDs();
+        if (empty($this->selected)) {
             return false;
         }
 
-        $groupIDs = ArrayHelper::toInteger($groupIDs);
-        if (!Groups::allowEdit($groupIDs)) {
+        if (!Groups::allowEdit($this->selected)) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -71,6 +70,37 @@ class Group extends MergeModel
         }
 
         return $this->savePublishing();
+    }
+
+    /**
+     * Sets all expired group / term associations to published.
+     *
+     * @return bool true on success, otherwise false.
+     */
+    public function publishPast()
+    {
+        $terms = \Organizer\Helpers\Terms::getTerms();
+        $today = date('Y-m-d');
+
+        $query = $this->_db->getQuery(true);
+        $query->update('#__thm_organizer_group_publishing')->set('published = 1');
+
+        foreach ($terms as $term) {
+            if ($term['endDate'] >= $today) {
+                continue;
+            }
+
+            $query->clear('where');
+            $query->where("termID = {$term['id']}");
+
+            $this->_db->setQuery($query);
+            $success = OrganizerHelper::executeQuery('execute');
+            if (!$success) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

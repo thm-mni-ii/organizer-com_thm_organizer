@@ -34,9 +34,13 @@ class TermPublishingField extends BaseField
      */
     protected function getInput()
     {
+        $today       = date('Y-m-d');
         $dbo         = Factory::getDbo();
         $periodQuery = $dbo->getQuery(true);
-        $periodQuery->select('id, name')->from('#__thm_organizer_terms')->order('startDate ASC');
+        $periodQuery->select('id, name')
+            ->from('#__thm_organizer_terms')
+            ->where("endDate > '$today'")
+            ->order('startDate ASC');
         $dbo->setQuery($periodQuery);
 
         $periods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
@@ -65,11 +69,11 @@ class TermPublishingField extends BaseField
 
             // Implicitly (new) and explicitly published entries
             if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {
-                $return .= '<option value="1" selected="selected">' . Languages::_('YES') . '</option>';
+                $return .= '<option value="1" selected="selected">' . Languages::_('THM_ORGANIZER_YES') . '</option>';
                 $return .= '<option value="0">' . Languages::_('THM_ORGANIZER_NO') . '</option>';
             } else {
                 $return .= '<option value="1">' . Languages::_('THM_ORGANIZER_YES') . '</option>';
-                $return .= '<option value="0" selected="selected">' . Languages::_('NO') . '</option>';
+                $return .= '<option value="0" selected="selected">' . Languages::_('THM_ORGANIZER_NO') . '</option>';
             }
 
             $return .= '</select>';
