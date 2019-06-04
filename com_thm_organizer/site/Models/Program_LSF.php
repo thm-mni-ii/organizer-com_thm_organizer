@@ -13,6 +13,7 @@ namespace Organizer\Models;
 defined('_JEXEC') or die;
 
 use Exception;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
@@ -110,7 +111,7 @@ class Program_LSF extends BaseModel
             return false;
         }
 
-        $client  = new \LSF;
+        $client  = new LSF;
         $program = $client->getModules($programData['program'], $programData['degree'], $programData['version']);
         if (empty($program)) {
             return false;

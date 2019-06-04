@@ -22,6 +22,8 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class CategoriesField extends ListField
 {
+    use DepartmentFilters;
+
     /**
      * @var  string
      */
@@ -36,49 +38,20 @@ class CategoriesField extends ListField
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT cat.id AS value, cat.name AS text');
-        $query->from('#__thm_organizer_categories AS cat');
-        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
-        $query->order('text ASC');
+        $query->select('DISTINCT cat.id AS value, cat.name AS text')
+            ->from('#__thm_organizer_categories AS cat')
+            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id')
+            ->order('text ASC');
 
-        // For use in the merge view
-        $selectedIDs = OrganizerHelper::getSelectedIDs();
-        if (!empty($selectedIDs)) {
-            $query->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id');
-            $query->where("gr.id IN ( '" . implode("', '", $selectedIDs) . "' )");
+        $access = $this->getAttribute('access');
+        if (!empty($access)) {
+            $this->addDeptAccessFilter($query, 'dr', $access);
         }
 
-        // Ensures a boolean value and avoids double checking the variable because of false string positives.
-        $accessRequired     = $this->getAttribute('access', 'false') == 'true';
-        $departmentRestrict = $this->getAttribute('departmentRestrict', 'false');
+        $this->addDeptSelectionFilter($query, 'dr');
 
-        if ($departmentRestrict !== 'false') {
-            $allowedDepartments = $accessRequired ?
-                Access::getAccessibleDepartments('schedule')
-                : Departments::getDepartmentsByResource('program');
-
-            $defaultDept = $departmentRestrict === 'force' ? $allowedDepartments[0] : 0;
-
-            // Direct input
-            $input        = OrganizerHelper::getInput();
-            $departmentID = $input->getInt('departmentID', $defaultDept);
-
-            // Possible frontend form (jform)
-            $feFormData      = OrganizerHelper::getFormInput();
-            $plausibleFormID = (!empty($feFormData) and !empty($feFormData['departmentID']) and is_numeric($feFormData['departmentID']));
-            $departmentID    = $plausibleFormID ? $feFormData['departmentID'] : $departmentID;
-
-            // Possible backend form (list)
-            $beFormData      = $input->get('list', [], 'array');
-            $plausibleFormID = (!empty($beFormData) and !empty($beFormData['departmentID']) and is_numeric($beFormData['departmentID']));
-            $departmentID    = $plausibleFormID ? $beFormData['departmentID'] : $departmentID;
-
-            $restrict = (!empty($departmentID)
-                and (empty($allowedDepartments) or in_array($departmentID, $allowedDepartments)));
-
-            if ($restrict) {
-                $query->where("dr.departmentID = '$departmentID'");
-            }
+        if ($this->getAttribute('participant') === '1') {
+            $query->innerJoin('#__thm_organizer_participants AS part ON part.categoryID = cat.id');
         }
 
         $dbo->setQuery($query);

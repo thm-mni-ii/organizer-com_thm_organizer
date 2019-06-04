@@ -72,9 +72,9 @@ class Programs extends ListView
 
         $headers['checkbox']     = '';
         $headers['dp.name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['degreeID']     = HTML::sort('DEGREE', 'abbreviation', $direction, $ordering);
-        $headers['version']      = HTML::sort('VERSION', 'version', $direction, $ordering);
-        $headers['departmentID'] = HTML::sort('DEPARTMENT', 'departmentID', $direction, $ordering);
+        $headers['degreeID']     = Languages::_('THM_ORGANIZER_DEGREE');
+        $headers['version']      = Languages::_('THM_ORGANIZER_VERSION');
+        $headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
 
         return $headers;
     }

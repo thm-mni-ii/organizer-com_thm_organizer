@@ -41,7 +41,6 @@ class Fields extends ListModel
 
         $this->setSearchFilter($query, ['field_de', 'field_en', 'untisID', 'color']);
         $this->setValueFilters($query, ['colorID']);
-        $this->setLocalizedFilters($query, ['field']);
 
         $this->setOrdering($query);
 

@@ -10,16 +10,11 @@
         <field name="degreeID" type="GenericList" label="DEGREE" onchange="this.form.submit();" valuecolumn="d.id"
                textcolumn="d.abbreviation"
                table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id">
-            <option value="">JALL</option>
+            <option value="">ALL_DEGREES</option>
         </field>
         <field name="version" type="GenericList" label="VERSION" onchange="this.form.submit();" valuecolumn="version"
                textcolumn="version" table="thm_organizer_programs">
-            <option value="">JALL</option>
-        </field>
-        <field name="departmentID" type="GenericList" onchange="this.form.submit();" valuecolumn="d.id"
-               textcolumn="d.short_name" localized="true"
-               table="thm_organizer_programs AS p,thm_organizer_departments AS d ON d.id = p.departmentID">
-            <option value="">JALL</option>
+            <option value="">ALL_ACCREDITATION_YEARS</option>
         </field>
     </fields>
     <fields name="list">

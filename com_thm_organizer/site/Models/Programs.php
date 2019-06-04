@@ -46,7 +46,6 @@ class Programs extends ListModel
         $searchColumns = ['dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en'];
         $this->setSearchFilter($query, $searchColumns);
         $this->setValueFilters($query, ['degreeID', 'version', 'departmentID']);
-        $this->setLocalizedFilters($query, ['dp.name']);
 
         $this->setOrdering($query);
 

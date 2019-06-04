@@ -281,40 +281,6 @@ abstract class ListModel extends ParentModel
     }
 
     /**
-     * Provides a default method for setting filters for non-unique values
-     *
-     * @param object &$query       the query object
-     * @param array   $filterNames the filter names. names should be synonymous with db column names.
-     *
-     * @return void
-     */
-    protected function setLocalizedFilters(&$query, $filterNames)
-    {
-        $tag = Languages::getShortTag();
-        foreach ($filterNames as $name) {
-            $value = $this->state->get("filter.$name", '');
-            if ($value === '') {
-                continue;
-            }
-
-            // The column is localized the filter is not
-            $name .= "_$tag";
-
-            /**
-             * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
-             * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
-             * be extended we could maybe add a parameter for it later.
-             */
-            if ($value == '-1') {
-                $query->where("( $name = '' OR $name IS NULL )");
-                continue;
-            }
-
-            $query->where("$name = '$value'");
-        }
-    }
-
-    /**
      * Provides a default method for setting the list ordering
      *
      * @param object &$query the query object

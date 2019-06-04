@@ -54,7 +54,6 @@ class Subject_Selection extends ListModel
         ];
         $this->setSearchFilter($query, $searchFields);
         $this->setValueFilters($query, ['externalID', 'fieldID']);
-        $this->setLocalizedFilters($query, ['name']);
 
         $programID = $this->state->get('list.programID', '');
         Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');

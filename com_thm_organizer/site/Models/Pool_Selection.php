@@ -53,7 +53,6 @@ class Pool_Selection extends ListModel
             'description_en'
         ];
         $this->setSearchFilter($query, $searchColumns);
-        $this->setLocalizedFilters($query, ['p.name']);
         $this->setValueFilters($query, ['fieldID']);
 
         // Only pools

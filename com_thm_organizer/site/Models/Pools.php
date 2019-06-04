@@ -53,7 +53,6 @@ class Pools extends ListModel
             'description_en'
         ];
         $this->setSearchFilter($query, $searchColumns);
-        $this->setLocalizedFilters($query, ['p.name']);
         $this->setValueFilters($query, ['fieldID']);
 
         $programID = $this->state->get('filter.programID', '');

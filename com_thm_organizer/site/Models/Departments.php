@@ -43,7 +43,6 @@ class Departments extends ListModel
         $query->where('d.id IN (' . implode(',', $allowedDepartments) . ')');
 
         $this->setSearchFilter($query, ['short_name_de', 'name_de', 'short_name_en', 'name_en']);
-        $this->setLocalizedFilters($query, ['short_name', 'name']);
 
         $this->setOrdering($query);
 

@@ -710,7 +710,7 @@ class Controller extends BaseController
      */
     public function updateLSFData()
     {
-        $modelName = 'LSF' . ucfirst($this->resource);
+        $modelName = ucfirst($this->resource) . '_LSF';
         $success   = $this->getModel($modelName)->updateBatch();
 
         if ($success) {
