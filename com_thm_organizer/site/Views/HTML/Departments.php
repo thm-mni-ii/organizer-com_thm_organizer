@@ -61,7 +61,7 @@ class Departments extends ListView
         $direction             = $this->state->get('list.direction');
         $headers               = [];
         $headers['checkbox']   = '';
-        $headers['short_name'] = HTML::sort('SHORT_NAME', 'f.field', $direction, $ordering);
+        $headers['short_name'] = HTML::sort('SHORT_NAME', 'short_name', $direction, $ordering);
         $headers['name']       = HTML::sort('NAME', 'name', $direction, $ordering);
 
         return $headers;
