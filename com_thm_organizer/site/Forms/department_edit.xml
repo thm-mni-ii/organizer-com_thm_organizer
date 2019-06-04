@@ -10,6 +10,14 @@
                label="THM_ORGANIZER_SHORT_NAME_EN" description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
         <field name="name_en" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC"/>
+        <field name="contact_type" type="List" label="THM_ORGANIZER_CONTACT_TYPE" required="true">
+            <option value="0">THM_ORGANIZER_CONTACT_PERSON</option>
+            <option value="1">THM_ORGANIZER_CONTACT_EMAIL</option>
+        </field>
+        <field name="contactID" type="user" label="THM_ORGANIZER_CONTACT_PERSON"
+               description="THM_ORGANIZER_CONTACT_PERSON_DESC" showon="contact_type:0"/>
+        <field name="contact_email" type="email" label="THM_ORGANIZER_CONTACT_EMAIL" validate="email"
+               showon="contact_type:1"/>
         <field name="asset_id" type="hidden" filter="unset"/>
         <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" validate="rules" filter="rules"
                component="com_thm_organizer" section="department"/>

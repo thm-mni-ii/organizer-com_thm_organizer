@@ -132,17 +132,21 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
-    `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `asset_id`      INT(11)          NOT NULL,
-    `short_name_de` VARCHAR(50)      NOT NULL,
-    `name_de`       VARCHAR(150)     NOT NULL,
-    `short_name_en` VARCHAR(50)      NOT NULL,
-    `name_en`       VARCHAR(150)     NOT NULL,
+    `id`                INT(11)     UNSIGNED   NOT NULL AUTO_INCREMENT,
+    `asset_id`          INT(11)                NOT NULL,
+    `short_name_de`     VARCHAR(50)            NOT NULL,
+    `name_de`           VARCHAR(150)           NOT NULL,
+    `short_name_en`     VARCHAR(50)            NOT NULL,
+    `name_en`           VARCHAR(150)           NOT NULL,
+    `contact_type`      TINYINT(1)             NOT NULL,
+    `contactID`         INT(11)                          DEFAULT NULL,
+    `contact_email`     VARCHAR(100)           NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `short_name` (`short_name_de`),
     UNIQUE INDEX `name` (`name_de`),
     UNIQUE INDEX `short_name_en` (`short_name_en`),
-    UNIQUE INDEX `name_en` (`name_en`)
+    UNIQUE INDEX `name_en` (`name_en`),
+    INDEX `contactID` (`contactID`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -691,6 +695,11 @@ ALTER TABLE `#__thm_organizer_department_resources`
         ON UPDATE CASCADE,
     ADD CONSTRAINT `department_resources_teacherID_fk` FOREIGN KEY (`teacherID`) REFERENCES `#__thm_organizer_teachers` (`id`)
         ON DELETE CASCADE
+        ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_departments`
+    ADD CONSTRAINT `departments_contactID_fk` FOREIGN KEY (`contactID`) REFERENCES `#__users` (`id`)
+        ON DELETE SET NULL
         ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_fields`
