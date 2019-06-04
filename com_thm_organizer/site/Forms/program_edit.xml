@@ -3,7 +3,7 @@
     <fieldset name="details" label="ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" required="true"/>
+        <field name="departmentID" type="Departments" label="DEPARTMENT" access="document" required="true"/>
         <field name="degreeID" type="GenericList" label="DEGREE" required="true" valuecolumn="id" textcolumn="name"
                table="thm_organizer_degrees">
             <option value="">NO_INPUT</option>

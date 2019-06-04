@@ -29,31 +29,16 @@ class Categories extends ListModel
      */
     protected function getListQuery()
     {
-        $allowedDepartments = Access::getAccessibleDepartments('schedule');
-        $shortTag           = Languages::getShortTag();
-        $query              = $this->_db->getQuery(true);
+        $query = $this->_db->getQuery(true);
+        $query->select('DISTINCT cat.id, cat.untisID, cat.name, cat.programID')
+            ->from('#__thm_organizer_categories AS cat')
+            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
 
-        $select    = "DISTINCT cat.id, cat.untisID, cat.name, pr.name_$shortTag AS prName, pr.version, d.abbreviation AS abbreviation, ";
-        $linkParts = ["'index.php?option=com_thm_organizer&view=category_edit&id='", 'cat.id'];
-        $select    .= $query->concatenate($linkParts, '') . ' AS link';
-        $query->select($select);
+        $allowedDepartments = implode(",", Access::getAccessibleDepartments('schedule'));
+        $query->where("dr.departmentID IN ($allowedDepartments)");
 
-        $query->from('#__thm_organizer_categories AS cat');
-        $query->leftJoin('#__thm_organizer_programs AS pr ON cat.programID = pr.id');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON pr.degreeID = d.id');
-
-        $departmentID = $this->state->get('list.departmentID');
-        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
-
-        if ($departmentID and in_array($departmentID, $allowedDepartments)) {
-            $query->where("dr.departmentID = '$departmentID'");
-        } else {
-            $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
-        }
-
-        $searchColumns = ['cat.name', 'cat.untisID'];
-        $this->setSearchFilter($query, $searchColumns);
-
+        $this->setSearchFilter($query, ['cat.name', 'cat.untisID']);
+        $this->setValueFilters($query, ['departmentID', 'programID']);
         $this->setOrdering($query);
 
         return $query;

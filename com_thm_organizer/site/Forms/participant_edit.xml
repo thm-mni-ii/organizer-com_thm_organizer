@@ -12,7 +12,7 @@
                description="THM_ORGANIZER_ZIP_CODE_DESC"/>
         <field name="city" type="text" required="true" label="THM_ORGANIZER_RESIDENCE"
                description="THM_ORGANIZER_RESIDENCE_DESC"/>
-        <field name="programID" type="Programs" label="PROGRAM" auth="0" required="true">
+        <field name="programID" type="Programs" label="PROGRAM" required="true">
             <option value="">SELECT_PROGRAM</option>
         </field>
     </fieldset>

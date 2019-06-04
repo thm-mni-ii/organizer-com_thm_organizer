@@ -31,12 +31,13 @@ spl_autoload_register(function ($originalClassName) {
 
     $classNameParts[] = empty($className) ? 'Organizer' : $className;
 
-    $filepath            = JPATH_ROOT . '/components/com_thm_organizer/' .  implode('/', $classNameParts) . '.php';
+    $filepath            = JPATH_ROOT . '/components/com_thm_organizer/' . implode('/', $classNameParts) . '.php';
     $namespacedClassName = "Organizer\\" . implode('\\', $classNameParts);
 
     if (is_file($filepath)) {
         require_once $filepath;
-        if (!class_exists($namespacedClassName) and !interface_exists($namespacedClassName)) {
+        $valid = (class_exists($namespacedClassName) or interface_exists($namespacedClassName) or trait_exists($namespacedClassName));
+        if (!$valid) {
             echo "<pre>" . print_r('no class!', true) . "</pre>";
             echo "<pre>class name:              " . print_r($className, true) . "</pre>";
             echo "<pre>original fq namespace:   " . print_r($originalClassName, true) . "</pre>";

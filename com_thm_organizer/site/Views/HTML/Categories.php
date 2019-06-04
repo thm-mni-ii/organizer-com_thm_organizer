@@ -16,6 +16,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\Programs;
 
 /**
  * Class loads persistent information a filtered set of (scheduled degree) programs (or organizational groupings) into the display context.
@@ -61,9 +62,10 @@ class Categories extends ListView
         $direction = $this->state->get('list.direction');
         $headers   = [];
 
-        $headers['checkbox']  = '';
-        $headers['untisID'] = HTML::sort('UNTISID', 'ppr.untisID', $direction, $ordering);
-        $headers['name']      = HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
+        $headers['checkbox'] = '';
+        $headers['untisID']  = HTML::sort('UNTISID', 'ppr.untisID', $direction, $ordering);
+        $headers['name']     = HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
+        $headers['program']  = Languages::_('THM_ORGANIZER_PROGRAM');
 
         return $headers;
     }
@@ -80,13 +82,16 @@ class Categories extends ListView
         }
 
         $index          = 0;
+        $link           = 'index.php?option=com_thm_organizer&view=category_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {
-            $processedItems[$index]              = [];
-            $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['untisID'] = HTML::_('link', $item->link, $item->untisID);
-            $processedItems[$index]['name']      = HTML::_('link', $item->link, $item->name);
+            $thisLink                           = $link . $item->id;
+            $processedItems[$index]             = [];
+            $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+            $processedItems[$index]['untisID']  = HTML::_('link', $thisLink, $item->untisID);
+            $processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
+            $processedItems[$index]['program']  = Programs::getName($item->programID);
             $index++;
         }
 

@@ -4,10 +4,10 @@
            onchange="this.form.submit();">
         <option value="">ALL_TERMS</option>
     </field>
-    <field name="departmentID" type="Departments" label="DEPARTMENT" auth="0" onchange="this.form.submit();">
+    <field name="departmentID" type="Departments" label="DEPARTMENT" onchange="this.form.submit();">
         <option value="">ALL_DEPARTMENTS</option>
     </field>
-    <field name="categoryID" type="Categories" label="CATEGORY" auth="0" onchange="this.form.submit();">
+    <field name="categoryID" type="Categories" label="CATEGORY" onchange="this.form.submit();">
         <option value="">ALL_CATEGORIES</option>
         <option value="-1">NO_CATEGORIES</option>
     </field>

@@ -17,6 +17,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\Programs;
 
 /**
  * Class loads persistent information a filtered set of course participants into the display context.
@@ -35,12 +36,12 @@ class Participants extends ListView
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'participant.edit', true);
 
         if (Access::isAdmin()) {
-            /*$toolbar->appendButton(
+            $toolbar->appendButton(
                 'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'participant.mergeView', true
             );
             $toolbar->appendButton(
                 'Standard', 'eye-close', Languages::_('THM_ORGANIZER_ANONYMIZE'), 'participant.anonymize', false
-            );*/
+            );
             HTML::setPreferencesButton();
         }
     }
@@ -78,11 +79,11 @@ class Participants extends ListView
      */
     protected function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering');
-        $direction            = $this->state->get('list.direction');
-        $headers              = [];
-        $headers['checkbox']  = '';
-        $headers['fullName'] = HTML::sort('NAME', 'fullName', $direction, $ordering);
+        $ordering               = $this->state->get('list.ordering');
+        $direction              = $this->state->get('list.direction');
+        $headers                = [];
+        $headers['checkbox']    = '';
+        $headers['fullName']    = HTML::sort('NAME', 'fullName', $direction, $ordering);
         $headers['programName'] = HTML::sort('PROGRAM', 'programName', $direction, $ordering);
 
         return $headers;
@@ -100,13 +101,15 @@ class Participants extends ListView
         }
 
         $index          = 0;
+        $link           = 'index.php?option=com_thm_organizer&view=participant_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {
-            $processedItems[$index]              = [];
-            $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['fullName'] = HTML::_('link', $item->link, $item->fullName);
-            $processedItems[$index]['programName'] = HTML::_('link', $item->link, $item->programName);
+            $thisLink                              = $link . $item->id;
+            $processedItems[$index]                = [];
+            $processedItems[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
+            $processedItems[$index]['fullName']    = HTML::_('link', $thisLink, $item->fullName);
+            $processedItems[$index]['programName'] = Programs::getName($item->programID);
             $index++;
         }
 

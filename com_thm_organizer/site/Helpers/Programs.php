@@ -62,6 +62,10 @@ class Programs
      */
     public static function getName($programID)
     {
+        if (empty($programID)) {
+            return Languages::_('THM_ORGANIZER_NO_PROGRAM');
+        }
+
         $dbo         = Factory::getDbo();
         $languageTag = Languages::getShortTag();
 

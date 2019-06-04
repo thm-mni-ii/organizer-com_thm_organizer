@@ -7,7 +7,8 @@
             <option value="1">ACTIVE</option>
             <option value="0">INACTIVE</option>
         </field>
-        <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" onchange="this.form.submit();">
+        <field name="departmentID" type="Departments" label="DEPARTMENT" access="schedule"
+               onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
         </field>
         <field name="termID" type="Terms" label="DEPARTMENT" onchange="this.form.submit();">

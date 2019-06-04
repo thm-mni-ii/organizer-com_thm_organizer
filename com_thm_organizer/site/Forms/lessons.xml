@@ -8,15 +8,15 @@
             <option value="current">CURRENT_COURSES</option>
             <option value="expired">EXPIRED_COURSES</option>
         </field>
-        <field name="departmentID" type="Departments" label="Department" auth="1" onchange="this.form.submit();">
+        <field name="departmentID" type="Departments" label="Department" onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENTS</option>
         </field>
-        <field name="categoryID" type="Categories" label="CATEGORY" auth="1" onchange="this.form.submit();">
+        <field name="categoryID" type="Categories" label="CATEGORY" onchange="this.form.submit();">
             <option value="">ALL_CATEGORIES</option>
             <option value="-1">NO_CATEGORIES</option>
         </field>
-        <field name="groupID" type="Groups" label="GROUP" auth="1" onchange="this.form.submit();">
+        <field name="groupID" type="Groups" label="GROUP" onchange="this.form.submit();">
             <option value="">ALL_GROUPS</option>
             <option value="-1">NO_GROUPS</option>
         </field>

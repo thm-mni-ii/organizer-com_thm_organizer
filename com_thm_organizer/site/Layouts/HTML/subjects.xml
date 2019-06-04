@@ -2,7 +2,7 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="params">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="programID" type="Programs" label="PROGRAM" auth="0" required="true">
+            <field name="programID" type="Programs" label="PROGRAM" required="true">
                 <option value="">SELECT_PROGRAM</option>
             </field>
             <field name="initialLanguage" type="List" default="de" required="true" label="THM_ORGANIZER_LANGUAGE"

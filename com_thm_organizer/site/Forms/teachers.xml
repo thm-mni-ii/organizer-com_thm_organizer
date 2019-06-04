@@ -2,7 +2,7 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" onchange="this.form.submit();">
+        <field name="departmentID" type="Departments" label="DEPARTMENT" onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
         </field>
     </fields>

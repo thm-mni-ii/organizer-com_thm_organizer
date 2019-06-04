@@ -2,11 +2,12 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="departmentID" type="Departments" label="DEPARTMENT" auth="1" onchange="this.form.submit();">
+        <field name="departmentID" type="Departments" label="DEPARTMENT" access="schedule"
+               onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENTS</option>
         </field>
-        <field name="programID" type="Programs" label="PROGRAM" auth="1" onchange="this.form.submit();">
+        <field name="programID" type="Programs" label="PROGRAM" access="schedule" onchange="this.form.submit();">
             <option value="">ALL_PROGRAMS</option>
             <option value="-1">NO_PROGRAMS</option>
         </field>

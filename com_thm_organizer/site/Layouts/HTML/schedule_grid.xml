@@ -2,7 +2,7 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="departmentID" type="Departments" label="DEPARTMENT" auth="0" class="departmentlist">
+            <field name="departmentID" type="Departments" label="DEPARTMENT" class="departmentlist">
                 <option value="0">ALL_DEPARTMENTS</option>
             </field>
             <field name="categoryIDs" type="GenericList" label="CATEGORIES" valuecolumn="id" textcolumn="name"

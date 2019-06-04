@@ -31,24 +31,23 @@ class Schedules extends ListModel
      */
     protected function getListQuery()
     {
-        $allowedDepartments = Access::getAccessibleDepartments('schedule');
-        $shortTag           = Languages::getShortTag();
-        $dbo                = $this->getDbo();
-        $query              = $dbo->getQuery(true);
-
-        $select       = 's.id, s.active, s.creationDate, s.creationTime, ';
-        $select       .= "d.id AS departmentID, d.short_name_$shortTag AS departmentName, ";
-        $select       .= 'term.id AS termID, term.name AS termName, ';
-        $select       .= 'u.name AS userName, ';
+        $dbo          = $this->getDbo();
         $createdParts = ['s.creationDate', 's.creationTime'];
-        $select       .= $query->concatenate($createdParts, ' ') . ' AS created ';
+        $shortTag     = Languages::getShortTag();
+        $query        = $dbo->getQuery(true);
 
-        $query->select($select)
+        $query->select('s.id, s.active, s.creationDate, s.creationTime')
+            ->select($query->concatenate($createdParts, ' ') . ' AS created ')
+            ->select("d.id AS departmentID, d.short_name_$shortTag AS departmentName")
+            ->select('term.id AS termID, term.name AS termName')
+            ->select('u.name AS userName')
             ->from('#__thm_organizer_schedules AS s')
             ->innerJoin('#__thm_organizer_departments AS d ON s.departmentID = d.id')
             ->innerJoin('#__thm_organizer_terms AS term ON term.id = s.termID')
-            ->leftJoin('#__users AS u ON u.id = s.userID')
-            ->where('d.id IN (' . implode(', ', $allowedDepartments) . ')');
+            ->leftJoin('#__users AS u ON u.id = s.userID');
+
+        $allowedDepartments = implode(', ', Access::getAccessibleDepartments('schedule'));
+        $query->where("d.id IN ($allowedDepartments)");
 
         $this->setValueFilters($query, ['departmentID', 'termID', 'active']);
 

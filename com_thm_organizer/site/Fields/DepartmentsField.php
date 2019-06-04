@@ -12,10 +12,10 @@ namespace Organizer\Fields;
 
 defined('_JEXEC') or die;
 
+use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Departments;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -30,36 +30,32 @@ class DepartmentsField extends ListField
      */
     protected $type = 'Departments';
 
+    /**
+     * Filters departments according to user access and relevant resource associations.
+     *
+     * @param JDatabaseQuery &$query the query to be modified.
+     */
     private function addFilters(&$query)
     {
-        $view = OrganizerHelper::getInput()->getCmd('view');
-        if (empty($view)) {
+        $access = $this->getAttribute('access');
+        $view   = OrganizerHelper::getInput()->getCmd('view');
+        if (empty($access) or empty($view)) {
             return;
         }
 
-        $action               = null;
-        $resource             = OrganizerHelper::getResource($view);
-        $isDepartmentResource = in_array($resource, ['category', 'teacher']);
-        $isDocumentResource   = in_array($resource, ['program', 'pool', 'subject']);
-
-        if ($isDepartmentResource or $resource === 'schedule') {
-            $action = 'schedule';
-            if ($isDepartmentResource) {
-                $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
+        $resource = OrganizerHelper::getResource($view);
+        if ($access === 'schedule') {
+            $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
+            if (in_array($resource, ['category', 'teacher'])) {
                 $query->where("dpr.{$resource}ID IS NOT NULL");
             }
-        } elseif ($isDocumentResource) {
-            $action = 'document';
-            $table  = OrganizerHelper::getPlural($resource);
+        } elseif ($access === 'document') {
+            $table = OrganizerHelper::getPlural($resource);
             $query->innerJoin("#__thm_organizer_$table AS res ON res.departmentID = depts.id");
         }
 
-        $auth = $this->getAttribute('auth', '0') === '0' ? false : true;
-
-        if ($auth and $action) {
-            $allowedIDs = Access::getAccessibleDepartments($action);
-            $query->where("depts.id IN ( '" . implode("', '", $allowedIDs) . "' )");
-        }
+        $allowedIDs = Access::getAccessibleDepartments($access);
+        $query->where("depts.id IN ( '" . implode("', '", $allowedIDs) . "' )");
     }
 
     /**
