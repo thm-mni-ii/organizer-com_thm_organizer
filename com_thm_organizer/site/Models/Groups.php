@@ -29,41 +29,17 @@ class Groups extends ListModel
     protected function getListQuery()
     {
         $allowedDepartments = Access::getAccessibleDepartments('schedule');
-        $query              = $this->_db->getQuery(true);
 
-        if (empty($allowedDepartments)) {
-            return $query;
-        }
+        $query = $this->_db->getQuery(true);
+        $query->select('DISTINCT gr.id, gr.untisID, gr.full_name, gr.name, gr.categoryID, gr.gridID')
+            ->select('dr.departmentID')
+            ->from('#__thm_organizer_groups AS gr')
+            ->innerJoin('#__thm_organizer_categories AS cat ON cat.id = gr.categoryID')
+            ->leftJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID')
+            ->where('(dr.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dr.departmentID IS NULL)');
 
-        $select    = 'DISTINCT gr.id, gr.untisID, gr.full_name, gr.name, ';
-        $linkParts = ["'index.php?option=com_thm_organizer&view=group_edit&id='", 'gr.id'];
-        $select    .= $query->concatenate($linkParts, '') . ' AS link';
-
-        $query->from('#__thm_organizer_groups AS gr');
-        $query->leftJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
-
-        $departmentID = $this->state->get('filter.departmentID');
-
-        if ($departmentID and in_array($departmentID, $allowedDepartments)) {
-            $query->where("dr.departmentID = '$departmentID'");
-        } elseif ($departmentID == '-1') {
-            $query->where('dr.departmentID IS NULL');
-        } else {
-            $query->where("dr.departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
-        }
-
-        $categoryID = $this->state->get('filter.categoryID');
-
-        if ($categoryID) {
-            $select .= ', cat.id as categoryID, cat.name as categoryName';
-            $query->innerJoin('#__thm_organizer_categories AS cat ON cat.id = gr.categoryID');
-            $query->where("gr.categoryID = '$categoryID'");
-        }
-
-        $query->select($select);
-
-        $searchColumns = ['gr.full_name', 'gr.name', 'gr.untisID'];
-        $this->setSearchFilter($query, $searchColumns);
+        $this->setSearchFilter($query, ['gr.full_name', 'gr.name', 'gr.untisID']);
+        $this->setValueFilters($query, ['gr.categoryID', 'dr.departmentID', 'gr.gridID']);
 
         $this->setOrdering($query);
 

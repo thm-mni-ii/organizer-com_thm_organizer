@@ -7,7 +7,7 @@
         <field name="untisID" type="text" size="40" readonly="true" label="THM_ORGANIZER_UNTISID"
                description="THM_ORGANIZER_UNTISID_DESC"/>
         <field name="programID" type="Programs" label="PROGRAM" access="schedule">
-            <option value="">NO_PROGRAMS</option>
+            <option value="">NO_PROGRAM</option>
         </field>
         <field name="departmentID" type="Departments" label="DEPARTMENTS" access="schedule" required="true"
                multiple="multiple"/>

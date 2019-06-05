@@ -36,6 +36,22 @@ class Grids implements XMLValidator
     }
 
     /**
+     * Retrieves the grid name.
+     *
+     * @param int $gridID the grid id
+     *
+     * @return string the localized name of the grid if found, otherwise an empty string
+     */
+    public static function getName($gridID)
+    {
+        $table  = OrganizerHelper::getTable('Grids');
+        $exists = $table->load($gridID);
+        $column = 'name_' . Languages::getShortTag();
+
+        return empty ($exists) ? '' : $table->$column;
+    }
+
+    /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
      * @param object &$scheduleModel the validating schedule model
@@ -49,7 +65,7 @@ class Grids implements XMLValidator
             return;
         }
 
-        $grid = $scheduleModel->schedule->periods->$untisID;
+        $grid       = $scheduleModel->schedule->periods->$untisID;
         $grid->grid = json_encode($grid->grid);
 
         $table        = OrganizerHelper::getTable('Grids');

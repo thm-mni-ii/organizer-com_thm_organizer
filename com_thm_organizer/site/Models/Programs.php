@@ -30,22 +30,19 @@ class Programs extends ListModel
         $allowedDepartments = Access::getAccessibleDepartments('document');
         $shortTag           = Languages::getShortTag();
 
-        $query  = $this->_db->getQuery(true);
-        $select = "dp.name_$shortTag AS name, version, ";
-        $select .= "dp.id AS id, d.abbreviation AS abbreviation, dpt.short_name_$shortTag AS departmentname, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=program_edit&id='", 'dp.id'];
-        $select .= $query->concatenate($parts, '') . ' AS link ';
-        $query->select($select);
-
-        $query->from('#__thm_organizer_programs AS dp');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-        $query->leftJoin('#__thm_organizer_fields AS f ON dp.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id');
-        $query->where('(dp.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dp.departmentID IS NULL)');
+        $query = $this->_db->getQuery(true);
+        $query->select("DISTINCT dp.id AS id, dp.name_$shortTag AS name, version")
+            ->from('#__thm_organizer_programs AS dp')
+            ->select('d.abbreviation AS abbreviation')
+            ->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID')
+            ->leftJoin('#__thm_organizer_fields AS f ON f.id = dp.fieldID')
+            ->select("dpt.short_name_$shortTag AS department")
+            ->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id')
+            ->where('(dp.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dp.departmentID IS NULL)');
 
         $searchColumns = ['dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en'];
         $this->setSearchFilter($query, $searchColumns);
-        $this->setValueFilters($query, ['degreeID', 'version', 'departmentID']);
+        $this->setValueFilters($query, ['degreeID', 'departmentID', 'fieldID', 'frequencyID', 'version']);
 
         $this->setOrdering($query);
 

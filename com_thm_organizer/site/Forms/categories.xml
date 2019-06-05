@@ -9,7 +9,7 @@
         </field>
         <field name="programID" type="Programs" label="PROGRAM" access="schedule" onchange="this.form.submit();">
             <option value="">ALL_PROGRAMS</option>
-            <option value="-1">NO_PROGRAMS</option>
+            <option value="-1">NO_PROGRAM</option>
         </field>
     </fields>
     <fields name="list">

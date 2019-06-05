@@ -5,7 +5,7 @@
         <field name="departmentID" type="Departments" label="DEPARTMENT" access="document"
                onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
-            <option value="-1">NO_DEPARTMENTS</option>
+            <option value="-1">NO_DEPARTMENT</option>
         </field>
         <field name="programID" type="Programs" label="PROGRAM" access="document" onchange="this.form.submit();">
             <option value="">ALL_PROGRAMS</option>

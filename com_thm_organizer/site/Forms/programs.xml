@@ -5,7 +5,7 @@
         <field name="departmentID" type="Departments" label="DEPARTMENT" access="document"
                onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
-            <option value="-1">NO_DEPARTMENTS</option>
+            <option value="-1">NO_DEPARTMENT</option>
         </field>
         <field name="degreeID" type="GenericList" label="DEGREE" onchange="this.form.submit();" valuecolumn="d.id"
                textcolumn="d.abbreviation"
@@ -15,6 +15,18 @@
         <field name="version" type="GenericList" label="VERSION" onchange="this.form.submit();" valuecolumn="version"
                textcolumn="version" table="thm_organizer_programs">
             <option value="">ALL_ACCREDITATION_YEARS</option>
+        </field>
+        <field name="frequencyID" type="GenericList" label="FREQUENCY" onchange="this.form.submit();" valuecolumn="f.id"
+               textcolumn="f.frequency" localized="true"
+               table="thm_organizer_frequencies AS f,thm_organizer_programs AS p ON f.id = p.frequencyID">
+            <option value="">ALL_FREQUENCIES</option>
+            <option value="-1">NO_FREQUENCY</option>
+        </field>
+        <field name="fieldID" type="GenericList" label="FIELD" onchange="this.form.submit();" valuecolumn="f.id"
+               textcolumn="f.field" localized="true"
+               table="thm_organizer_fields AS f,thm_organizer_programs AS p ON f.id = p.fieldID">
+            <option value="">ALL_FIELDS</option>
+            <option value="-1">NO_FIELD</option>
         </field>
     </fields>
     <fields name="list">

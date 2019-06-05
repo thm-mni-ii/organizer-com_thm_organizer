@@ -91,14 +91,16 @@ class Programs extends ListView
         }
 
         $index          = 0;
+        $link           = 'index.php?option=com_thm_organizer&view=program_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {
+            $thisLink                               = $link . $item->id;
             $processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['dp.name']      = HTML::_('link', $item->link, $item->name);
-            $processedItems[$index]['degreeID']     = HTML::_('link', $item->link, $item->abbreviation);
-            $processedItems[$index]['version']      = HTML::_('link', $item->link, $item->version);
-            $processedItems[$index]['departmentID'] = HTML::_('link', $item->link, $item->departmentname);
+            $processedItems[$index]['dp.name']      = HTML::_('link', $thisLink, $item->name);
+            $processedItems[$index]['degreeID']     = HTML::_('link', $thisLink, $item->abbreviation);
+            $processedItems[$index]['version']      = HTML::_('link', $thisLink, $item->version);
+            $processedItems[$index]['departmentID'] = HTML::_('link', $thisLink, $item->department);
             $index++;
         }
 

@@ -33,7 +33,7 @@
         </field>
         <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields">
-            <option value="">NO_FIELDS</option>
+            <option value="">NO_FIELD</option>
         </field>
         <field name="planSubjectIDs" type="SubjectCourses" responsibility="1" label="EVENT"/>
         <field name="spacer1" type="spacer" hr="true"/>

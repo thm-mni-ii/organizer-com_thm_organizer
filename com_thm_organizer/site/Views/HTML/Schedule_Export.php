@@ -169,7 +169,7 @@ class Schedule_Export extends BaseHTMLView
         ];
 
         $titlesOptions      = [];
-        $titlesOptions['1'] = Languages::_('THM_ORGANIZER_FULL_TITLE');
+        $titlesOptions['1'] = Languages::_('THM_ORGANIZER_FULL_NAMES');
         $titlesOptions['2'] = Languages::_('THM_ORGANIZER_SHORT_TITLE');
         $titlesOptions['3'] = Languages::_('THM_ORGANIZER_ABBREVIATION');
         $titlesSelect       = HTML::selectBox($titlesOptions, 'titles', $attribs, '1');

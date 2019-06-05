@@ -14,7 +14,7 @@
         </field>
         <field name="categoryID" type="Categories" label="CATEGORY" access="manage" onchange="this.form.submit();">
             <option value="">ALL_CATEGORIES</option>
-            <option value="-1">NO_CATEGORY</option>
+            <option value="-1">NO_CATEGORIES</option>
         </field>
         <field name="groupID" type="Groups" label="GROUP" access="manage" onchange="this.form.submit();">
             <option value="">ALL_GROUPS</option>

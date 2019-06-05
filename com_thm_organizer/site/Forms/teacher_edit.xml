@@ -13,7 +13,7 @@
         <field name="username" type="text" label="THM_ORGANIZER_USERNAME" description="THM_ORGANIZER_USERNAME_DESC"/>
         <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields">
-            <option value="">NO_FIELDS</option>
+            <option value="">NO_FIELD</option>
         </field>
         <field name="departmentID" type="Departments" label="DEPARTMENTS" required="true" multiple="multiple"/>
     </fieldset>

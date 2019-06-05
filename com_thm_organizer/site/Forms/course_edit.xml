@@ -3,7 +3,7 @@
     <field name="id" type="hidden"/>
     <fieldset name="course_settings">
         <field name="campusID" type="Campuses" label="CAMPUS" description="THM_ORGANIZER_COURSE_CAMPUS">
-            <option value="">NO_CAMPUSES</option>
+            <option value="">NO_CAMPUS</option>
         </field>
         <field name="max_participants" type="Integer" label="MAX_PARTICIPANTS" first="20" last="1000" step="20"
                default="300"/>
