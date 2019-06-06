@@ -186,39 +186,34 @@ class ChildrenField extends BaseField
                 $visualDetails = '<td class="child-name">';
                 $visualDetails .= '<a id="child' . $ordering . 'Link" href="' . $link . '" target="_blank">';
                 $visualDetails .= '<span id="child' . $ordering . 'Icon" class="' . $icon . '"></span>';
-                $visualDetails .= '<span id="child' . $ordering . 'Name">' . $name . '</span>';
-                $visualDetails .= '</a>';
-                $visualDetails .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" value="' . $childID . '" />';
-                $visualDetails .= '</td>';
+                $visualDetails .= '<span id="child' . $ordering . 'Name">' . $name . '</span></a>';
+                $visualDetails .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" ';
+                $visualDetails .= 'value="' . $childID . '" /></td>';
 
                 $orderingToolbar = '<td class="child-order">';
 
-                $first = '<button class="btn btn-small" onclick="setFirst(\'' . $ordering . '\');" title="' . $makeFirst . '">';
-                $first .= '<span class="icon-first"></span>';
-                $first .= '</button>';
+                $first = '<button class="btn btn-small" onclick="setFirst(\'' . $ordering . '\');" ';
+                $first .= 'title="' . $makeFirst . '"><span class="icon-first"></span></button>';
 
-                $previous = '<button class="btn btn-small" onclick="moveChildUp(\'' . $ordering . '\');" title="' . $moveChildUp . '">';
-                $previous .= '<span class="icon-previous"></span>';
-                $previous .= '</button>';
+                $previous = '<button class="btn btn-small" onclick="moveChildUp(\'' . $ordering . '\');" ';
+                $previous .= 'title="' . $moveChildUp . '"><span class="icon-previous"></span></button>';
 
-                $order = '<input type="text" title="Ordering" name="child' . $ordering . 'Order" id="child' . $ordering . 'Order" ';
-                $order .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="moveChildToIndex(' . $ordering . ');"/>';
+                $order = '<input type="text" title="Ordering" name="child' . $ordering . 'Order" ';
+                $order .= 'id="child' . $ordering . 'Order" size="2" value="' . $ordering . '" ';
+                $order .= 'class="text-area-order" onChange="moveChildToIndex(' . $ordering . ');"/>';
 
-                $blank = '<button class="btn btn-small" onclick="addBlankChild(\'' . $ordering . '\');" title="' . $addSpace . '">';
-                $blank .= '<span class="icon-download"></span>';
-                $blank .= '</button>';
+                $blank = '<button class="btn btn-small" onclick="addBlankChild(\'' . $ordering . '\');" ';
+                $blank .= 'title="' . $addSpace . '"><span class="icon-download"></span></button>';
 
-                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" title="' . Languages::_('THM_ORGANIZER_DELETE') . '" >';
-                $trash .= '<span class="icon-trash"></span>';
+                $trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" ';
+                $trash .= 'title="' . Languages::_('THM_ORGANIZER_DELETE') . '" ><span class="icon-trash"></span>';
                 $trash .= '</button>';
 
-                $next = '<button class="btn btn-small" onclick="moveChildDown(\'' . $ordering . '\');" title="' . $moveChildDown . '">';
-                $next .= '<span class="icon-next"></span>';
-                $next .= '</button>';
+                $next = '<button class="btn btn-small" onclick="moveChildDown(\'' . $ordering . '\');" ';
+                $next .= 'title="' . $moveChildDown . '"><span class="icon-next"></span></button>';
 
-                $last = '<button class="btn btn-small" onclick="setLast(\'' . $ordering . '\');" title="' . $makeLast . '">';
-                $last .= '<span class="icon-last"></span>';
-                $last .= '</button>';
+                $last = '<button class="btn btn-small" onclick="setLast(\'' . $ordering . '\');" ';
+                $last .= 'title="' . $makeLast . '"><span class="icon-last"></span></button>';
 
                 $orderingToolbar .= $first . $previous . $order . $blank . $trash . $next . $last . '</td>';
 

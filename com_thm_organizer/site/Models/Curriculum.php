@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -47,10 +48,6 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
         }
 
         $program->id = $programID;
-
-        $defaultLang   = Languages::getShortTag();
-        $this->langTag = $input->get('languageTag', $defaultLang);
-
         $this->setProgramInformation($program);
         if (empty($program->name)) {
             return $program;
@@ -141,8 +138,9 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     private function getPool($poolID, $mappingID)
     {
+        $tag    = Languages::getShortTag();
         $query  = $this->_db->getQuery(true);
-        $select = "p.id, p.name_$this->langTag AS name, description_$this->langTag AS description, minCrP, maxCrP, ";
+        $select = "p.id, p.name_$tag AS name, description_$tag AS description, minCrP, maxCrP, ";
         $select .= 'enable_desc, color AS bgColor';
         $query->select($select);
         $query->from('#__thm_organizer_pools AS p');
@@ -172,12 +170,13 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     private function getSubject($subjectID, $mappingID)
     {
+        $tag   = Languages::getShortTag();
         $query = $this->_db->getQuery(true);
 
-        $select      = "s.id, externalID, s.name_$this->langTag AS name, creditpoints AS CrP, color AS bgColor, ";
+        $select      = "s.id, externalID, s.name_$tag AS name, creditpoints AS CrP, color AS bgColor, ";
         $menuID      = OrganizerHelper::getInput()->getInt('Itemid', 0);
         $menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
-        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag={$this->langTag}{$menuIDParam}&id='";
+        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$tag$menuIDParam&id='";
         $parts       = [$subjectLink, 's.id'];
         $select      .= $query->concatenate($parts, '') . ' AS link';
 

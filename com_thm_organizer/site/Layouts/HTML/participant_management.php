@@ -67,17 +67,20 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
                 <ul id="print" class="dropdown-menu">
                     <li>
                         <a href="<?php echo $participantListRoute; ?>" target="_blank">
-                            <span class="icon-file-pdf"></span><?php echo Languages::_('THM_ORGANIZER_PARTICIPANTS'); ?>
+                            <span class="icon-file-pdf"></span>
+                            <?php echo Languages::_('THM_ORGANIZER_PARTICIPANTS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $departmentListRoute; ?>" target="_blank">
-                            <span class="icon-file-pdf"></span><?php echo Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
+                            <span class="icon-file-pdf"></span>
+                            <?php echo Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $badgesRoute; ?>" target="_blank">
-                            <span class="icon-file-pdf"></span><?php echo Languages::_('THM_ORGANIZER_BADGE_SHEETS'); ?>
+                            <span class="icon-file-pdf"></span>
+                            <?php echo Languages::_('THM_ORGANIZER_BADGE_SHEETS'); ?>
                         </a>
                     </li>
                 </ul>

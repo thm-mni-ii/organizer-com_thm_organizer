@@ -47,7 +47,8 @@ class Courses implements XMLValidator
             return false;
         }
 
-        $manualAcceptance = (!empty($course['registration_type']) and $course['registration_type'] === self::MANUAL_ACCEPTANCE);
+        $regType          = $course['registration_type'];
+        $manualAcceptance = (!empty($regType) and $regType === self::MANUAL_ACCEPTANCE);
 
         if ($manualAcceptance) {
             return false;
@@ -104,9 +105,11 @@ class Courses implements XMLValidator
                     $registerRoute = Route::_($registrationURL . $lessonURL);
 
                     if (!empty($regState)) {
-                        $registerText = '<span class="icon-out-2"></span>' . Languages::_('THM_ORGANIZER_COURSE_DEREGISTER');
+                        $registerText = '<span class="icon-out-2"></span>';
+                        $registerText .= Languages::_('THM_ORGANIZER_COURSE_DEREGISTER');
                     } else {
-                        $registerText = '<span class="icon-apply"></span>' . Languages::_('THM_ORGANIZER_COURSE_REGISTER');
+                        $registerText = '<span class="icon-apply"></span>';
+                        $registerText .= Languages::_('THM_ORGANIZER_COURSE_REGISTER');
                     }
 
                     $register = "<a class='btn' href='$registerRoute' type='button'>$registerText</a>";
@@ -210,9 +213,10 @@ class Courses implements XMLValidator
         $query = $dbo->getQuery(true);
 
         $query->select('pp.name as termName, pp.id as termID')
-            ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID, l.registration_type, l.deadline, l.fee')
-            ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
-            ->select('s.campusID AS abstractCampusID, s.is_prep_course');
+            ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID')
+            ->select('l.registration_type, l.deadline, l.fee')
+            ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage")
+            ->select('s.campusID AS abstractCampusID, s.is_prep_course, s.max_participants as subjectP');
 
         $query->from('#__thm_organizer_lessons AS l');
         $query->leftJoin('#__thm_organizer_lesson_courses AS lc ON lc.lessonID = l.id');
@@ -399,16 +403,15 @@ class Courses implements XMLValidator
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select('DISTINCT l.id, l.max_participants as lessonP')
-            ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage, s.max_participants as subjectP")
-            ->select('term.name as termName')
-            ->select('l.campusID AS campusID, s.campusID AS abstractCampusID');
-
-        $query->from('#__thm_organizer_lessons AS l')
+        $query->select('DISTINCT l.id, l.max_participants as lessonP, l.campusID AS campusID')
+            ->from('#__thm_organizer_lessons AS l')
             ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.lessonID = l.id')
             ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = lc.courseID')
+            ->select("s.id as subjectID, s.name_$shortTag as name, s.campusID AS abstractCampusID")
+            ->select('s.instructionLanguage, s.max_participants as subjectP')
             ->innerJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
             ->innerJoin('#__thm_organizer_calendar AS ca ON ca.lessonID = l.id')
+            ->select('term.name as termName')
             ->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
             ->leftJoin('#__thm_organizer_campuses as cp on s.campusID = cp.id')
             ->where("s.id = '$subjectID'")

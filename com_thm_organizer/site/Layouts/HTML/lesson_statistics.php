@@ -60,12 +60,13 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
                         <br>
                         <span class="total"><?php echo '(' . $row['total'] . ')'; ?></span>
                     </td>
-                    <?php foreach (array_keys($this->columns) as $columnID) : ?>
-                        <td>
-                            <?php echo (empty($this->lessons[$row['id']]) or empty($this->lessons[$row['id']][$columnID])) ?
-                                0 : $this->lessons[$row['id']][$columnID]; ?>
-                        </td>
-                    <?php endforeach; ?>
+                    <?php
+                    foreach (array_keys($this->columns) as $columnID) {
+                        $invalid = (empty($this->lessons[$row['id']]) or empty($this->lessons[$row['id']][$columnID]));
+                        $value   = $invalid ? 0 : $this->lessons[$row['id']][$columnID];
+                        echo "<td>$value</td>";
+                    }
+                    ?>
                 </tr>
             <?php endforeach; ?>
         </table>

@@ -16,8 +16,8 @@ use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
- * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While the
- * display text can be localized, the value cannot be.
+ * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While
+ * the display text can be localized, the value cannot be.
  */
 class GenericListField extends ListField
 {
@@ -48,8 +48,12 @@ class GenericListField extends ListField
         $placeHolder = $this->getAttribute('placeholder', '');
         $attr        .= empty($placeHolder) ? '' : ' placeholder="' . Languages::_($placeHolder) . '"';
 
+        $isReadOnly     = ($this->readonly == '1' or $this->readonly == 'true');
+        $this->readonly = (string)$isReadOnly;
+        $isDisabled     = ($this->disabled == '1' or $this->disabled == 'true');
+        $this->disabled = (string)$isDisabled;
         // To avoid user's confusion, readonly="true" should imply disabled="true".
-        if ((string)$this->readonly == '1' || (string)$this->readonly == 'true' || (string)$this->disabled == '1' || (string)$this->disabled == 'true') {
+        if ($isReadOnly or $isDisabled) {
             $attr .= ' disabled="disabled"';
         }
 
@@ -60,7 +64,7 @@ class GenericListField extends ListField
         $options = (array)$this->getOptions();
 
         // Create a read-only list (no name) with hidden input(s) to store the value(s).
-        if ((string)$this->readonly == '1' || (string)$this->readonly == 'true') {
+        if ($isReadOnly) {
             $html[] = HTML::_(
                 'select.genericlist',
                 $options,

@@ -247,10 +247,11 @@ class Schedule_Export extends BaseModel
         $tag         = Languages::getShortTag();
 
         $query = $this->_db->getQuery(true);
-        $query->select("co.name AS courseName, co.untisID AS untisID, s.short_name_$tag AS shortName, s.name_$tag AS name");
-        $query->from('#__thm_organizer_courses AS co');
-        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON co.id = sm.courseID');
-        $query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
+        $query->select('co.name AS courseName, co.untisID AS untisID')
+            ->select("s.short_name_$tag AS shortName, s.name_$tag AS name")
+            ->from('#__thm_organizer_courses AS co')
+            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON co.id = sm.courseID')
+            ->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
 
         foreach ($courseIDs as $courseID) {
             $query->clear('where');

@@ -72,7 +72,8 @@ class Subject_LSF extends BaseModel
         $select .= 'm.id AS mappingID, m.lft, m.rgt, ';
 
         $query = $this->_db->getQuery(true);
-        $query->from('#__thm_organizer_subjects AS s')->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
+        $query->from('#__thm_organizer_subjects AS s')
+            ->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
 
         $subjects = [];
         foreach ($possibleModNos as $possibleModuleNumber) {
@@ -476,7 +477,7 @@ class Subject_LSF extends BaseModel
             return true;
         }
 
-        // These have to be in order of potential string length in case the shorter attribute is a real subset of a longer one.
+        // Ordered by length for faster in case short is a subset of long.
         $checkedAttributes = [
             'externalID',
             'name_de',

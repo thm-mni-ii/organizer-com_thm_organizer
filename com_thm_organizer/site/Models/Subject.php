@@ -305,7 +305,8 @@ class Subject extends BaseModel
     private function removePrerequisites($subjectID)
     {
         $query = $this->_db->getQuery(true);
-        $query->delete('#__thm_organizer_prerequisites')->where("subjectID = '$subjectID' OR prerequisiteID ='$subjectID'");
+        $query->delete('#__thm_organizer_prerequisites')
+            ->where("subjectID = '$subjectID' OR prerequisiteID ='$subjectID'");
         $this->_db->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('execute');

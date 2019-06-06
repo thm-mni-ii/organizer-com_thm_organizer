@@ -36,7 +36,11 @@ spl_autoload_register(function ($originalClassName) {
 
     if (is_file($filepath)) {
         require_once $filepath;
-        $valid = (class_exists($namespacedClassName) or interface_exists($namespacedClassName) or trait_exists($namespacedClassName));
+        $valid = (
+            class_exists($namespacedClassName)
+            or interface_exists($namespacedClassName)
+            or trait_exists($namespacedClassName)
+        );
         if (!$valid) {
             echo "<pre>" . print_r('no class!', true) . "</pre>";
             echo "<pre>class name:              " . print_r($className, true) . "</pre>";

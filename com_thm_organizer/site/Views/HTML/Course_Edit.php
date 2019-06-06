@@ -70,10 +70,11 @@ class Course_Edit extends EditView
         $this->course['participants'] = Courses::getParticipants($courseID);
         $this->course['dateText']     = Courses::getDateDisplay();
 
-        $maxParticipants              = (!empty($this->course['lessonP']) ? $this->course['lessonP'] : $this->course['subjectP']);
-        $accepted                     = count(Courses::getParticipants($courseID, 1));
-        $waiting                      = count(Courses::getParticipants($courseID, 0));
-        $capacityText                 = Languages::_('THM_ORGANIZER_CURRENT_CAPACITY');
+        $maxParticipants = (!empty($this->course['lessonP']) ? $this->course['lessonP'] : $this->course['subjectP']);
+        $accepted        = count(Courses::getParticipants($courseID, 1));
+        $waiting         = count(Courses::getParticipants($courseID, 0));
+        $capacityText    = Languages::_('THM_ORGANIZER_CURRENT_CAPACITY');
+
         $this->course['capacityText'] = sprintf($capacityText, $accepted, $maxParticipants, $waiting);
 
         $this->form = $this->get('Form');
@@ -91,8 +92,10 @@ class Course_Edit extends EditView
         $this->prepareLabel('subject');
         $this->prepareLabel('text');
 
-        /*$this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $this->languageParams = ['lessonID' => $courseID, 'view' => 'courses'];*/
+        /*
+        $this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+        $this->languageParams = ['lessonID' => $courseID, 'view' => 'courses'];
+        */
         $this->modifyDocument();
         OrganizerHelper::addMenuParameters($this);
 

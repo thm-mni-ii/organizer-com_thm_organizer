@@ -104,7 +104,8 @@ class Campuses
         }
 
         foreach ($campuses as $campus) {
-            $name           = empty($campus['parentName']) ? $campus['name'] : "{$campus['parentName']} / {$campus['name']}";
+            $name           = empty($campus['parentName']) ?
+                $campus['name'] : "{$campus['parentName']} / {$campus['name']}";
             $options[$name] = $campus['id'];
         }
 

@@ -628,8 +628,9 @@ class Mappings
             return;
         }
 
-        $alias = $resourceType == 'pool' ? 'm1' : 'm2';
-        $query->leftJoin("#__thm_organizer_mappings AS $alias ON $alias.{$formResourceType}ID = {$formResourceType[0]}.id");
+        $alias           = $resourceType == 'pool' ? 'm1' : 'm2';
+        $aliasConditions = "$alias.{$formResourceType}ID = {$formResourceType[0]}.id";
+        $query->leftJoin("#__thm_organizer_mappings AS $alias on $aliasConditions");
 
         // No associations
         if ($resourceID == '-1') {

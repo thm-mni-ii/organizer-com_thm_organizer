@@ -180,8 +180,9 @@ class THM_OrganizerTemplateDeputat
         $this->addLogo('B1', 60, 25);
 
         $activeSheet->getRowDimension('2')->setRowHeight('90');
-        $preface = 'Mit dem ablaufenden Wintersemester 2017/18 wird ein leicht veränderter B-Bogen in Umlauf gesetzt. ';
-        $preface .= 'Er dient einer dezi\ndieteren Kostenrechnung. Bitte nutzen Sie ausschließlich diesen Bogen.';
+        $preface = 'Mit dem ablaufenden Wintersemester 2017/18 wird ein leicht veränderter B-Bogen in Umlauf ';
+        $preface .= 'gesetzt. Er dient einer dezi\ndieteren Kostenrechnung. Bitte nutzen Sie ausschließlich diesen ';
+        $preface .= 'Bogen.';
         $activeSheet->setCellValue('B2', $preface);
         $activeSheet->getStyle('B2')->getAlignment()->setWrapText(true);
         $activeSheet->getStyle('B2')->getAlignment()
@@ -369,11 +370,12 @@ class THM_OrganizerTemplateDeputat
 
         $vParaText = '„Die Lehrenden teilen jeweils am Ende eines Semesters unter thematischer Bezeichnung der ';
         $vParaText .= 'einzelnen Lehrveranstaltungen Art und Umfang ihrer Lehrtätigkeit und die Zahl der ';
-        $vParaText .= 'gegebenenfalls mitwirkenden Lehrkräfte, bei Lehrveranstaltungen mit beschränkter Teilnehmerzahl ';
-        $vParaText .= 'auch die Zahl der teilnehmenden Studierenden sowie der betreuten Abschlussarbeiten und ';
-        $vParaText .= 'vergleichbaren Studienarbeiten der Fachbereichsleitung schriftlich mit. Wesentliche ';
-        $vParaText .= 'Unterbrechungen, die nicht ausgeglichen worden sind, sind anzugeben. Bei Nichterfüllung ';
-        $vParaText .= 'der Lehrverpflichtung unterrichtet die Fachbereichsleitung die Hochschulleitung.“';
+        $vParaText .= 'gegebenenfalls mitwirkenden Lehrkräfte, bei Lehrveranstaltungen mit beschränkter ';
+        $vParaText .= 'Teilnehmerzahl auch die Zahl der teilnehmenden Studierenden sowie der betreuten ';
+        $vParaText .= 'Abschlussarbeiten und vergleichbaren Studienarbeiten der Fachbereichsleitung schriftlich mit. ';
+        $vParaText .= 'Wesentliche Unterbrechungen, die nicht ausgeglichen worden sind, sind anzugeben. Bei ';
+        $vParaText .= 'Nichterfüllung der Lehrverpflichtung unterrichtet die Fachbereichsleitung die ';
+        $vParaText .= 'Hochschulleitung.“';
 
         $vComments = [
             ['title' => 'Nur auszufüllen, wenn entsprechende Module definiert und bezeichnet sind.'],
@@ -675,7 +677,8 @@ class THM_OrganizerTemplateDeputat
         $activeSheet->getStyle("G$row:J$row")->applyFromArray([
             'borders' => $this->borders['cell']
         ]);
-        $activeSheet->getStyle("G$row")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+        $activeSheet->getStyle("G$row")->getNumberFormat()
+            ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
         $activeSheet->setCellValue("G$row", $category['weight']);
 
         $activeSheet->mergeCells("K$row:L$row");
@@ -687,7 +690,8 @@ class THM_OrganizerTemplateDeputat
         $activeSheet->getStyle("M$row")->applyFromArray([
             'borders' => $this->borders['cell']
         ]);
-        $activeSheet->getStyle("M$row")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+        $activeSheet->getStyle("M$row")->getNumberFormat()
+            ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
         $activeSheet->setCellValue("M$row", '=IF(K' . $row . '<>"",G' . $row . '*K' . $row . ',0)');
     }
 
@@ -734,7 +738,8 @@ class THM_OrganizerTemplateDeputat
             'fill'    => $this->fills['header']
         ]);
 
-        $headerText = 'Bericht über die Erfüllung der Lehrverpflichtung gemäß § 4 (5) LVVO (Version 1.4; Stand 07.02.2018)';
+        $headerText = 'Bericht über die Erfüllung der Lehrverpflichtung gemäß';
+        $headerText .= '§ 4 (5) LVVO (Version 1.4; Stand 07.02.2018)';
         $activeSheet->setCellValue('B2', $headerText);
         $cellStyle = $activeSheet->getStyle('B2');
         $cellStyle->getFont()->setSize('14');

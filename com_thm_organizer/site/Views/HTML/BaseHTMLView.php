@@ -97,8 +97,9 @@ abstract class BaseHTMLView extends BaseView
 
         foreach ($supportedLanguages as $languageTag => $text) {
             $params['languageTag'] = $languageTag;
-            $href                  = Uri::buildQuery($params);
-            $links                 .= '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
+
+            $href  = Uri::buildQuery($params);
+            $links .= '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
         }
 
         $links               .= '</div>';

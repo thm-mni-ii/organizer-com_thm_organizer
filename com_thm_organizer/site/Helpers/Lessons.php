@@ -44,15 +44,16 @@ class Lessons implements XMLValidator
             $scheduleModel->schedule->calendar->$currentDate = new stdClass;
         }
 
-        $times = $period->startTime . '-' . $period->endTime;
-        if (!isset($scheduleModel->schedule->calendar->$currentDate->$times)) {
-            $scheduleModel->schedule->calendar->$currentDate->$times = new stdClass;
+        $dateObject = $scheduleModel->schedule->calendar->$currentDate;
+        $times      = $period->startTime . '-' . $period->endTime;
+        if (!isset($dateObject->$times)) {
+            $dateObject->$times = new stdClass;
         }
 
-        if (!isset($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID)) {
-            $scheduleModel->schedule->calendar->$currentDate->$times->$lessonID                 = new stdClass;
-            $scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->delta          = '';
-            $scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations = [];
+        if (!isset($dateObject->$times->$lessonID)) {
+            $dateObject->$times->$lessonID                 = new stdClass;
+            $dateObject->$times->$lessonID->delta          = '';
+            $dateObject->$times->$lessonID->configurations = [];
         }
 
         $config                       = new stdClass;
@@ -63,10 +64,10 @@ class Lessons implements XMLValidator
         $config->rooms                = $roomIDs;
         $existingIndex                = null;
 
-        if (!empty($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations)) {
+        if (!empty($dateObject->$times->$lessonID->configurations)) {
             $compConfig = null;
 
-            foreach ($scheduleModel->schedule->calendar->$currentDate->$times->$lessonID->configurations as $configIndex) {
+            foreach ($dateObject->$times->$lessonID->configurations as $configIndex) {
                 $tempConfig = json_decode($scheduleModel->schedule->configurations[$configIndex]);
 
                 if ($tempConfig->courseID == $courseID) {
@@ -394,8 +395,9 @@ class Lessons implements XMLValidator
         $invalidMethod = (empty($untisID) or empty($scheduleModel->schedule->methods->$untisID));
 
         if ($invalidMethod) {
-            $scheduleModel->scheduleWarnings['LESSON-METHOD'] = empty($scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
-                1 : $scheduleModel->scheduleWarnings['LESSON-METHOD']++;
+            $scheduleModel->scheduleWarnings['LESSON-METHOD'] =
+                empty($scheduleModel->scheduleWarnings['LESSON-METHOD']) ?
+                    1 : $scheduleModel->scheduleWarnings['LESSON-METHOD']++;
 
             return;
         }

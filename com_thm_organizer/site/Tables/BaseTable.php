@@ -11,6 +11,7 @@
 namespace Organizer\Tables;
 
 use InvalidArgumentException;
+use JDatabaseDriver;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\OrganizerHelper;
@@ -27,9 +28,9 @@ abstract class BaseTable extends Table
      * be overridden by child classes to explicitly set the table and key fields
      * for a particular database table.
      *
-     * @param string           $table Name of the table to model.
-     * @param mixed            $key   Name of the primary key field in the table or array of field names that compose the primary key.
-     * @param \JDatabaseDriver $db    \JDatabaseDriver object.
+     * @param string          $table Name of the table to model.
+     * @param mixed           $key   Name of the primary key field or array of composite primary field names.
+     * @param JDatabaseDriver $db    JDatabaseDriver object.
      */
     public function __construct($table, $key, $db = null)
     {

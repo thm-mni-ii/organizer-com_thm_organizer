@@ -231,7 +231,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         $this->spreadSheet->getActiveSheet()->getDefaultRowDimension()->setRowHeight('18');
         $this->spreadSheet->getActiveSheet()->setTitle(Languages::_('THM_ORGANIZER_SUMMARY'));
         $this->spreadSheet->getActiveSheet()->mergeCells('A1:H1');
-        $title = Languages::_('THM_ORGANIZER_SUMMARY') . ' - ' . $this->startDate . ' ' . Languages::_('THM_ORGANIZER_UNTIL') . ' ' . $this->endDate;
+        $title = Languages::_('THM_ORGANIZER_SUMMARY') . ' - ' . $this->startDate . ' ';
+        $title .= Languages::_('THM_ORGANIZER_UNTIL') . ' ' . $this->endDate;
         $this->spreadSheet->getActiveSheet()->setCellValue('A1', $title);
         $this->spreadSheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(16);
 
@@ -379,45 +380,52 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         $totalColumn   = $currentColumn;
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue("{$currentColumn}3", Languages::_('THM_ORGANIZER_RAW_UTIL_TEXT'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")
+            ->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet(1)->setCellValue(
             "{$currentColumn}4", "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})"
         );
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")
+            ->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue("{$currentColumn}7", Languages::_('THM_ORGANIZER_RAW_UTIL_TEXT'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")
+            ->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue("{$currentColumn}3", Languages::_('THM_ORGANIZER_RAW_PERCENT_TEXT'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")
+            ->applyFromArray(['fill' => $this->headerFill]);
+        $denominator = "(SUBTOTAL(102,{$totalColumn}{$firstRow}:{$totalColumn}{$lastRow})*{$total})";
         $this->spreadSheet->getActiveSheet(1)
-            ->setCellValue(
-                "{$currentColumn}4",
-                "=IF({$totalColumn}4=0,0,{$totalColumn}4/(SUBTOTAL(102,{$totalColumn}{$firstRow}:{$totalColumn}{$lastRow})*{$total}))"
-            );
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
+            ->setCellValue("{$currentColumn}4", "=IF({$totalColumn}4=0,0,{$totalColumn}4/$denominator)");
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")
+            ->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue("{$currentColumn}7", Languages::_('THM_ORGANIZER_RAW_PERCENT_TEXT'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")
+            ->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
         $adjTotalColumn = $currentColumn;
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue("{$currentColumn}3", Languages::_('THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")
+            ->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue("{$currentColumn}4",
                 "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->lightBorder]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")
+            ->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet(1)
             ->setCellValue("{$currentColumn}7", Languages::_('THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}7")
+            ->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getColumnDimension($currentColumn)->setWidth(10);
 
         ++$currentColumn;
@@ -425,12 +433,12 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
             ->setCellValue("{$currentColumn}3", Languages::_('THM_ORGANIZER_WEIGHTED_PERCENT_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")
             ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
+
+        $denominator = "(SUBTOTAL(102,{$adjTotalColumn}{$firstRow}:{$adjTotalColumn}{$lastRow})*{$adjustedTotal})";
         $this->spreadSheet->getActiveSheet(1)
-            ->setCellValue(
-                "{$currentColumn}4",
-                "=IF({$adjTotalColumn}4=0,0,{$adjTotalColumn}4/(SUBTOTAL(102,{$adjTotalColumn}{$firstRow}:{$adjTotalColumn}{$lastRow})*{$adjustedTotal}))"
-            );
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->applyFromArray(['borders' => $this->rightBorder]);
+            ->setCellValue("{$currentColumn}4", "=IF({$adjTotalColumn}4=0,0,{$adjTotalColumn}4/$denominator)");
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")
+            ->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
         $this->spreadSheet->getActiveSheet(1)
@@ -441,8 +449,10 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
 
         $this->spreadSheet->getActiveSheet(1)->mergeCells("{$startColumn}6:{$currentColumn}6");
         $this->spreadSheet->getActiveSheet(1)->setCellValue("{$startColumn}6", $groupTitle);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$startColumn}6")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}6")->applyFromArray(['borders' => $this->rightBorder]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$startColumn}6")
+            ->applyFromArray(['fill' => $this->headerFill]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}6")
+            ->applyFromArray(['borders' => $this->rightBorder]);
 
         return $currentColumn;
     }

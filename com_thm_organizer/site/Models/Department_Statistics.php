@@ -274,20 +274,23 @@ class Department_Statistics extends BaseModel
      */
     private function setData($roomID)
     {
-        $tag       = Languages::getShortTag();
-        $dbo       = Factory::getDbo();
-        $ringQuery = $dbo->getQuery(true);
+        $tag     = Languages::getShortTag();
+        $cSelect = "c.schedule_date AS date, TIME_FORMAT(c.startTime, '%H:%i') AS startTime, ";
+        $cSelect .= "TIME_FORMAT(c.endTime, '%H:%i') AS endTime";
 
-        $rqSelect = "DISTINCT ccm.id AS ccmID, d.id AS departmentID, d.short_name_$tag AS department, conf.configuration, ";
-        $rqSelect .= "c.schedule_date AS date, TIME_FORMAT(c.startTime, '%H:%i') AS startTime, TIME_FORMAT(c.endTime, '%H:%i') AS endTime";
+        $ringQuery = $this->_db->getQuery(true);
+        $ringQuery->select('DISTINCT ccm.id AS ccmID')
+            ->from('#__thm_organizer_calendar_configuration_map AS ccm')
+            ->select($cSelect)
+            ->innerJoin('#__thm_organizer_calendar AS c ON c.id = ccm.calendarID')
+            ->select('conf.configuration')
+            ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.id = ccm.configurationID')
+            ->innerJoin('#__thm_organizer_lessons AS l ON l.id = c.lessonID')
+            ->select("d.id AS departmentID, d.short_name_$tag AS department")
+            ->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
+            ->select('lcrs.id as lcrsID')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
 
-        $ringQuery->select($rqSelect);
-        $ringQuery->from('#__thm_organizer_lessons AS l');
-        $ringQuery->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
-        $ringQuery->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.lessonCourseID = lcrs.id');
-        $ringQuery->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = conf.id');
 
         $ringQuery->where("lcrs.delta != 'removed'");
         $ringQuery->where("l.delta != 'removed'");
@@ -381,7 +384,8 @@ class Department_Statistics extends BaseModel
             $this->useData[$termName][$deptName] = [];
         }
 
-        $existingValue = empty($this->useData[$termName][$deptName][$roomID]) ? 0 : $this->useData[$termName][$deptName][$roomID];
+        $existingValue = empty($this->useData[$termName][$deptName][$roomID]) ?
+            0 : $this->useData[$termName][$deptName][$roomID];
 
         $this->useData[$termName][$deptName][$roomID] = $existingValue + $value;
     }

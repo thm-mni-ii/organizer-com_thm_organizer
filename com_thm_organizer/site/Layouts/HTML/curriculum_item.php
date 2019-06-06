@@ -58,7 +58,8 @@ class THM_OrganizerTemplateCurriculumItemPanel
                 }
                 if (!empty($element->children)) {
                     $script = 'onclick="toggleGroupDisplay(\'#panel-' . $element->mapping . '\')"';
-                    echo '<a class="btn hasTooltip" ' . $script . ' title="' . Languages::_('THM_ORGANIZER_SHOW_SUBJECTS') . '">';
+                    $title  = 'title="' . Languages::_('THM_ORGANIZER_SHOW_SUBJECTS');
+                    echo '<a class="btn hasTooltip" ' . $script . ' ' . $title . '">';
                     echo '<icon class="icon-grid-view-2"></icon></a>';
                     THM_OrganizerTemplateCurriculumPanel::render($element);
                 }

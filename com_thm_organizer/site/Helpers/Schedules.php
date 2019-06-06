@@ -115,22 +115,23 @@ class Schedules
                 $aggregatedLessons[$date][$times] = [];
             }
 
-            if (empty($aggregatedLessons[$date][$times][$lessonID])) {
-                $aggregatedLessons[$date][$times][$lessonID]              = [];
-                $aggregatedLessons[$date][$times][$lessonID]['ccmID']     = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
-                $aggregatedLessons[$date][$times][$lessonID]['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
-                $aggregatedLessons[$date][$times][$lessonID]['endTime']   = $lesson['endTime'];
-                $aggregatedLessons[$date][$times][$lessonID]['full']      = !Courses::canAcceptParticipant($lessonID);
-                $aggregatedLessons[$date][$times][$lessonID]['gridID']    = $lesson['gridID'];
-                $aggregatedLessons[$date][$times][$lessonID]['method']    = empty($lesson['method']) ? '' : $lesson['method'];
-                $aggregatedLessons[$date][$times][$lessonID]['regType']   = $lesson['regType'];
-                $aggregatedLessons[$date][$times][$lessonID]['startTime'] = $lesson['startTime'];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects']  = [];
+            $lessonReference =& $aggregatedLessons[$date][$times][$lessonID];
+            if (empty($lessonReference)) {
+                $lessonReference              = [];
+                $lessonReference['ccmID']     = empty($lesson['ccmID']) ? '' : $lesson['ccmID'];
+                $lessonReference['comment']   = empty($lesson['comment']) ? '' : $lesson['comment'];
+                $lessonReference['endTime']   = $lesson['endTime'];
+                $lessonReference['full']      = !Courses::canAcceptParticipant($lessonID);
+                $lessonReference['gridID']    = $lesson['gridID'];
+                $lessonReference['method']    = empty($lesson['method']) ? '' : $lesson['method'];
+                $lessonReference['regType']   = $lesson['regType'];
+                $lessonReference['startTime'] = $lesson['startTime'];
+                $lessonReference['subjects']  = [];
 
-                $aggregatedLessons[$date][$times][$lessonID]['lessonDelta']
+                $lessonReference['lessonDelta']
                     = (empty($lesson['lessonDelta']) or $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
 
-                $aggregatedLessons[$date][$times][$lessonID]['calendarDelta']
+                $lessonReference['calendarDelta']
                     = (empty($lesson['calendarDelta']) or $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
             }
 
@@ -141,32 +142,33 @@ class Schedules
             $configuration['modified'] = empty($lesson['configModified']) ? '' : $lesson['configModified'];
             self::resolveConfiguration($configuration, $delta);
 
-            if (empty($aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName])) {
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]                = $subjectData;
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']    = $configuration['teachers'];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms']       = $configuration['rooms'];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs']    = [];
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groupDeltas'] = [];
+            $course =& $lessonReference['subjects'][$subjectName];
+            if (empty($course)) {
+                $course                = $subjectData;
+                $course['teachers']    = $configuration['teachers'];
+                $course['rooms']       = $configuration['rooms'];
+                $course['programs']    = [];
+                $course['groupDeltas'] = [];
             } else {
-                $previousTeachers = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers'];
-                $previousRooms    = $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'];
+                $previousTeachers = $course['teachers'];
+                $previousRooms    = $course['rooms'];
 
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teachers']
+                $course['teachers']
                     = $previousTeachers + $configuration['teachers'];
 
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['rooms'] = $previousRooms + $configuration['rooms'];
+                $course['rooms'] = $previousRooms + $configuration['rooms'];
 
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['subjectDelta'] = $subjectDelta;
+                $course['subjectDelta'] = $subjectDelta;
             }
 
-            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groupDeltas'][$lesson['groupID']]
+            $course['groupDeltas'][$lesson['groupID']]
                 = (empty($lesson['groupDelta']) or $lesson['groupModified'] < $delta) ? '' : $lesson['groupDelta'];
 
-            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['teacherDeltas'] = $configuration['teacherDeltas'];
+            $course['teacherDeltas'] = $configuration['teacherDeltas'];
 
-            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['roomDeltas'] = $configuration['roomDeltas'];
+            $course['roomDeltas'] = $configuration['roomDeltas'];
 
-            $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['groups'][$lesson['groupID']]
+            $course['groups'][$lesson['groupID']]
                 = [
                 'untisID'  => $lesson['groupUntisID'],
                 'name'     => $lesson['grouoName'],
@@ -174,8 +176,8 @@ class Schedules
             ];
 
             if (!empty($subjectData['subjectID'])) {
-                $aggregatedLessons[$date][$times][$lessonID]['subjects'][$subjectName]['programs'][$subjectData['subjectID']]
-                    = Mappings::getSubjectPrograms($subjectData['subjectID']);
+                $course['programs'][$subjectData['subjectID']] =
+                    Mappings::getSubjectPrograms($subjectData['subjectID']);
             }
         }
 
@@ -431,7 +433,8 @@ class Schedules
         if (empty($parameters['delta'])) {
             $query->where("lt.delta != 'removed'");
         } else {
-            $query->where("(lt.delta != 'removed' OR (lt.delta = 'removed' AND lt.modified > '" . $parameters['delta'] . "'))");
+            $activeBase = "modified > '" . $parameters['delta'] . "'";
+            $query->where("(lt.delta != 'removed' OR (lt.delta = 'removed' AND lt.$activeBase))");
         }
 
         self::addDateClauses($parameters, $query);
@@ -794,10 +797,11 @@ class Schedules
             $query->where("l.delta != 'removed'");
             $query->where("c.delta != 'removed'");
         } else {
-            $query->where("(lg.delta != 'removed' OR (lg.delta = 'removed' AND lg.modified > '" . $parameters['delta'] . "'))");
-            $query->where("(lcrs.delta != 'removed' OR (lcrs.delta = 'removed' AND lcrs.modified > '" . $parameters['delta'] . "'))");
-            $query->where("(l.delta != 'removed' OR (l.delta = 'removed' AND l.modified > '" . $parameters['delta'] . "'))");
-            $query->where("(c.delta != 'removed' OR (c.delta = 'removed' AND c.modified > '" . $parameters['delta'] . "'))");
+            $activeBase = "modified > '" . $parameters['delta'] . "'";
+            $query->where("(lg.delta != 'removed' OR (lg.delta = 'removed' AND lg.$activeBase))");
+            $query->where("(lcrs.delta != 'removed' OR (lcrs.delta = 'removed' AND lcrs.m$activeBase))");
+            $query->where("(l.delta != 'removed' OR (l.delta = 'removed' AND l.$activeBase))");
+            $query->where("(c.delta != 'removed' OR (c.delta = 'removed' AND c.$activeBase))");
         }
 
         if (!empty($parameters['mySchedule']) and !empty($parameters['userID'])) {

@@ -21,7 +21,8 @@ $specTitle   = "$coursesType $campusName";
 $header      = sprintf($header, $specTitle);
 
 $action = Uri::current();
-$action .= empty(OrganizerHelper::getApplication()->getMenu()->getActive()) ? '' : '?option=com_thm_organizer&view=course_list';
+$action .= empty(OrganizerHelper::getApplication()->getMenu()->getActive()) ?
+    '' : '?option=com_thm_organizer&view=course_list';
 
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $loginRoute    = Route::_('index.php?option=com_users&view=login&tmpl=component', false, 1);

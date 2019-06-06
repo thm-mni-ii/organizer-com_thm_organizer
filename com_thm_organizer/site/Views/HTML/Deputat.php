@@ -188,20 +188,21 @@ class Deputat extends BaseHTMLView
         $weeks     = $this->params->get('deputat_weeks', 13);
         $rowNumber = 0;
         foreach ($deputat['summary'] as $summary) {
-            $remove      = '<a id="remove-data-row-' . $teacherID . '-' . $rowNumber . '" onclick="removeRow(this)">';
+            $rowID       = $teacherID . '-' . $rowNumber;
+            $remove      = '<a id="remove-data-row-' . $rowID . '" onclick="removeRow(this)">';
             $remove      .= '<i class="icon-remove"></i>';
             $remove      .= '</a>';
             $periodsText = (count($summary['periods']) > 10) ?
                 "{$summary['startDate']} bis {$summary['endDate']}" : implode(', ', array_keys($summary['periods']));
-            $row         = '<tr class="data-row" id="data-row-' . $teacherID . '-' . $rowNumber . '">';
+            $row         = '<tr class="data-row" id="data-row-' . $rowID . '">';
             $row         .= '<td>' . $summary['name'] . '</td>';
             $row         .= '<td>' . $summary['type'] . '</td>';
             $row         .= '<td>' . implode(',', $summary['pools']) . '</td>';
             $row         .= '<td>' . $periodsText . '</td>';
             $sws         = ceil((int)$summary['hours'] / $weeks);
             $row         .= '<td>';
-            $row         .= '<span class="row-sws" id="row-sws-' . $teacherID . '-' . $rowNumber . '">' . $sws . '</span>';
-            $row         .= ' (<span class="row-sws" id="row-total-' . $teacherID . '-' . $rowNumber . '">' . $summary['hours'] . '</span>)';
+            $row         .= '<span class="row-sws" id="row-sws-' . $rowID . '">' . $sws . '</span>';
+            $row         .= ' (<span class="row-sws" id="row-total-' . $rowID . '">' . $summary['hours'] . '</span>)';
             $row         .= $remove . '</td>';
             $swsSum      += $sws;
             $realSum     += $summary['hours'];

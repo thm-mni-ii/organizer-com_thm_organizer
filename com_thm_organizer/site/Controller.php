@@ -209,15 +209,12 @@ class Controller extends BaseController
     }
 
     /**
-     * Typical view method for MVC based architecture
-     *
-     * This function is provide as a default implementation, in most cases
-     * you will need to override it in your own controllers.
+     * Typical view method for MVC based architecture.
      *
      * @param boolean $cachable  If true, the view output will be cached
-     * @param array   $urlparams An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param array   $urlparams An array of safe URL parameters and their variable types.
      *
-     * @return  BaseController  A BaseController object to support chaining.
+     * @return BaseController  A BaseController object to support chaining.
      * @throws Exception
      */
     public function display($cachable = false, $urlparams = array())
@@ -460,8 +457,8 @@ class Controller extends BaseController
     }
 
     /**
-     * Check if a course was selected and is valid. Check if the required participant data exists, if not redirect to the
-     * participant edit view. Otherwise register/deregister the user from the course.
+     * Check if a course was selected and is valid. Check if the required participant data exists, if not redirect to
+     * the participant edit view. Otherwise register/deregister the user from the course.
      *
      * @return void
      */

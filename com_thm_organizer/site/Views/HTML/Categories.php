@@ -17,7 +17,7 @@ use Organizer\Helpers\Languages;
 use Organizer\Helpers\Programs;
 
 /**
- * Class loads persistent information a filtered set of (scheduled degree) programs (or organizational groupings) into the display context.
+ * Class loads persistent information a filtered set of event categories into the display context.
  */
 class Categories extends ListView
 {

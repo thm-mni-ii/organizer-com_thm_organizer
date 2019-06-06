@@ -368,7 +368,7 @@ class Event_List extends FormModel
             ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
             ->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
             ->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
-            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id AND lcrs.id = conf.lessonCourseID')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id')
             ->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID')
             ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
             ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lp.groupID')
@@ -530,7 +530,10 @@ class Event_List extends FormModel
     private function setDates()
     {
         $isRegistered     = ($this->params['layout'] == 'registered');
-        $invalidSelection = (empty($this->params['days']) or (count($this->params['days']) === 1 and empty($this->params['days'][0])));
+        $invalidSelection = (
+            empty($this->params['days'])
+            or (count($this->params['days']) === 1 and empty($this->params['days'][0]))
+        );
         if ($isRegistered or $invalidSelection) {
             $days = [1, 2, 3, 4, 5, 6];
         } else {
@@ -597,7 +600,10 @@ class Event_List extends FormModel
     {
         // Registered room(s) would have already been set
         if (empty($this->rooms)) {
-            $invalidSelection = (empty($this->params['rooms']) or (count($this->params['rooms']) === 1 and empty($this->params['rooms'][0])));
+            $invalidSelection = (
+                empty($this->params['rooms'])
+                or (count($this->params['rooms']) === 1 and empty($this->params['rooms'][0]))
+            );
 
             // All rooms
             if ($invalidSelection) {

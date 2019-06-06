@@ -71,8 +71,6 @@ class Room extends MergeModel
             foreach ($configuration->rooms as $roomID => $delta) {
                 if (in_array($roomID, $updateIDs)) {
                     $inConfig = true;
-
-                    // Whether old or new high probability of having to overwrite an attribute this enables standard handling.
                     unset($configuration->rooms->$roomID);
                     $configuration->rooms->$mergeID = $delta;
                 }

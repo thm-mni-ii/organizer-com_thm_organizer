@@ -77,8 +77,9 @@ class SubjectTeachersField extends ListField
                 $query->where("departmentID = $departmentID");
             } else {
                 $query->leftJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = t.id');
-                $teacherIDs = implode(',', $this->value);
-                $query->where("(departmentID = $departmentID OR (departmentID != $departmentID AND teacherID IN ($teacherIDs)))");
+                $teacherIDs  = implode(',', $this->value);
+                $extTeachers = "(departmentID != $departmentID AND teacherID IN ($teacherIDs))";
+                $query->where("(departmentID = $departmentID OR $extTeachers)");
             }
         }
 
@@ -91,7 +92,8 @@ class SubjectTeachersField extends ListField
         }
 
         foreach ($teachers as $teacher) {
-            $text      = empty($teacher['forename']) ? $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
+            $text      = empty($teacher['forename']) ?
+                $teacher['surname'] : "{$teacher['surname']}, {$teacher['forename']}";
             $options[] = HTML::_('select.option', $teacher['id'], $text);
         }
 

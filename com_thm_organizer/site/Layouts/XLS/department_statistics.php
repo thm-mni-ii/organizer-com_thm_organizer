@@ -356,16 +356,19 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
     {
         $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$column}3", $title);
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")->applyFromArray(['borders' => $this->$borderStyle]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}3")
+            ->applyFromArray(['borders' => $this->$borderStyle]);
 
         $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$column}4", "=SUBTOTAL(109,C8:C{$lastRow})");
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->getNumberFormat()
             ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")->applyFromArray(['borders' => $this->$borderStyle]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}4")
+            ->applyFromArray(['borders' => $this->$borderStyle]);
 
         $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue("{$column}7", $title);
         $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")->applyFromArray(['borders' => $this->$borderStyle]);
+        $this->spreadSheet->getActiveSheet()->getStyle("{$column}7")
+            ->applyFromArray(['borders' => $this->$borderStyle]);
     }
 
     /**

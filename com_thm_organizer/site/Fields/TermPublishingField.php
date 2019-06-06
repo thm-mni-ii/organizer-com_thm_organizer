@@ -57,13 +57,13 @@ class TermPublishingField extends BaseField
 
         $return = '<div class="publishing-container">';
         foreach ($periods as $period) {
-            $pID   = $period['id'];
-            $pName = $period['name'];
+            $pID   = "jform_publishing_{$period['id']}";
+            $pName = "jform[publishing][{$period['id']}]";
 
             $return .= '<div class="period-container">';
-            $return .= '<div class="period-label">' . $pName . '</div>';
+            $return .= '<div class="period-label">' . $period['name'] . '</div>';
             $return .= '<div class="period-input">';
-            $return .= '<select id="jform_publishing_' . $pID . '" name="jform[publishing][' . $pID . ']" class="chzn-color-state">';
+            $return .= '<select id="' . $pID . '" name="' . $pName . '" class="chzn-color-state">';
 
             // Implicitly (new) and explicitly published entries
             if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {

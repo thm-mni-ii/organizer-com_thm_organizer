@@ -159,9 +159,8 @@ class Teacher extends MergeModel
 
             foreach ($configuration->teachers as $teacherID => $delta) {
                 if (in_array($teacherID, $updateIDs)) {
-                    // Whether old or new high probability of having to overwrite an attribute this enables standard handling.
+                    $inConfig = true;
                     unset($configuration->teachers->$teacherID);
-                    $inConfig                          = true;
                     $configuration->teachers->$mergeID = $delta;
                 }
             }

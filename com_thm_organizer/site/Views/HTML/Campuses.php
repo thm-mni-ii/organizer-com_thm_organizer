@@ -99,9 +99,11 @@ class Campuses extends ListView
 
             if ($ownAddress) {
                 $addressParts   = [];
-                $addressParts[] = empty($item->address) ? empty($item->parentAddress) ? '' : $item->parentAddress : $item->address;
+                $addressParts[] = empty($item->address) ? empty($item->parentAddress) ?
+                    '' : $item->parentAddress : $item->address;
                 $addressParts[] = empty($item->city) ? empty($item->parentCity) ? '' : $item->parentCity : $item->city;
-                $addressParts[] = empty($item->zipCode) ? empty($item->parentZIPCode) ? '' : $item->parentZIPCode : $item->zipCode;
+                $addressParts[] = empty($item->zipCode) ? empty($item->parentZIPCode) ?
+                    '' : $item->parentZIPCode : $item->zipCode;
                 $address        = implode(' ', $addressParts);
             }
 

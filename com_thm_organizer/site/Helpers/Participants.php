@@ -121,7 +121,8 @@ class Participants
         }
 
         $campus     = Courses::getCampus($courseID);
-        $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
+        $courseName = (empty($campus) or empty($campus['name'])) ?
+            $course['name'] : "{$course['name']} ({$campus['name']})";
         $mailer->setSubject($courseName);
         $body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
 

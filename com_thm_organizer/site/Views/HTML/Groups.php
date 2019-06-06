@@ -37,8 +37,8 @@ class Groups extends ListView
 
         $if          = "alert('" . Languages::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
         $else        = "jQuery('#modal-publishing').modal('show'); return true;";
-        $script      = 'if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}';
-        $batchButton = '<button id="group-publishing" data-toggle="modal" class="btn btn-small" onclick="' . $script . '">';
+        $script      = 'onclick="if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}"';
+        $batchButton = '<button id="group-publishing" data-toggle="modal" class="btn btn-small" ' . $script . '>';
 
         $title       = Languages::_('THM_ORGANIZER_BATCH');
         $batchButton .= '<span class="icon-stack" title="' . $title . '"></span>' . " $title";

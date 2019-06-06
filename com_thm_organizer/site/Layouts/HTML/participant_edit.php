@@ -20,8 +20,8 @@ if (empty($this->course)) {
     $message    = '';
     $submitText = Languages::_('THM_ORGANIZER_SAVE');
 } else {
-    $headerText = '<div class="header-introtext">' . Languages::_('THM_ORGANIZER_PARTICIPANT_EDIT_REGISTER_HEADER') . '</div>';
-    $headerText .= $this->course['name'];
+    $headerText = '<div class="header-introtext">' . Languages::_('THM_ORGANIZER_PARTICIPANT_EDIT_REGISTER_HEADER');
+    $headerText .= '</div>' . $this->course['name'];
     $dateText   = "{$this->course['startDate']} - {$this->course['endDate']}";
     $headerText .= '<div class="header-subtext">' . $dateText . '</div>';
 

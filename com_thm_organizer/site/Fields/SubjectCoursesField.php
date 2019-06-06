@@ -15,8 +15,8 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
- * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done implicitly
- * during the schedule import process according to degree programs and the subject's module number.
+ * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done
+ * implicitly during the schedule import process according to degree programs and the subject's module number.
  */
 class SubjectCoursesField extends BaseField
 {

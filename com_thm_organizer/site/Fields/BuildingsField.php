@@ -35,7 +35,8 @@ class BuildingsField extends ListField
         $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
         $input          = OrganizerHelper::getInput();
         $formData       = OrganizerHelper::getFormInput();
-        $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
+        $campusID       = (empty($formData) or empty($formData['campusID'])) ?
+            $input->getInt('campusID') : (int)$formData['campusID'];
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
@@ -61,7 +62,8 @@ class BuildingsField extends ListField
             $thisBuilding = $buildings[$index];
 
             // Nothing to compare, or the comparison reveals non-identical names
-            $standardHandling = (empty($buildings[$index + 1]) or $thisBuilding['name'] != $buildings[$index + 1]['name']);
+            $standardHandling =
+                (empty($buildings[$index + 1]) or $thisBuilding['name'] != $buildings[$index + 1]['name']);
             if ($standardHandling) {
                 // Integrate the campus name as appropriate
                 $buildingName = empty($thisBuilding['campusName']) ?
@@ -71,15 +73,16 @@ class BuildingsField extends ListField
             }
 
             if (empty($thisBuilding['campusName'])) {
-                $thisCampusID               = empty($thisBuilding['parentID']) ? $thisBuilding['campusID'] : $thisBuilding['parentID'];
+                $thisCampusID               = empty($thisBuilding['parentID']) ?
+                    $thisBuilding['campusID'] : $thisBuilding['parentID'];
                 $thisBuilding['campusName'] = Campuses::getName($thisCampusID);
             }
 
             $nextBuilding               = $buildings[$index + 1];
-            $nextCampusID               = empty($nextBuilding['parentID']) ? $nextBuilding['campusID'] : $nextBuilding['parentID'];
+            $nextCampusID               = empty($nextBuilding['parentID']) ?
+                $nextBuilding['campusID'] : $nextBuilding['parentID'];
             $nextBuilding['campusName'] = Campuses::getName($nextCampusID);
 
-            // The campus name of the building being iterated comes alphabetically before the campus name of the next building
             if ($thisBuilding['campusName'] < $nextBuilding['campusName']) {
                 $options[] = HTML::_(
                     'select.option',

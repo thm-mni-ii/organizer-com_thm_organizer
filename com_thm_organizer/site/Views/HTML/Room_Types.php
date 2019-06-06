@@ -87,13 +87,15 @@ class Room_Types extends ListView
         }
 
         $index          = 0;
+        $link           = 'index.php?option=com_thm_organizer&view=room_type_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {
+            $thisLink                               = $link . $item->id;
             $processedItems[$index]                 = [];
             $processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['untisID']      = HTML::_('link', $item->link, $item->untisID);
-            $processedItems[$index]['name']         = HTML::_('link', $item->link, $item->name);
+            $processedItems[$index]['untisID']      = HTML::_('link', $thisLink, $item->untisID);
+            $processedItems[$index]['name']         = HTML::_('link', $thisLink, $item->name);
             $processedItems[$index]['min_capacity'] = $item->min_capacity;
             $processedItems[$index]['max_capacity'] = $item->max_capacity;
             $processedItems[$index]['roomCount']    = $item->roomCount;

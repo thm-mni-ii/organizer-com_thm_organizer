@@ -294,10 +294,9 @@ class Mapping extends BaseModel
      */
     public function checkForMapping($resourceID, $resourceType)
     {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->select('COUNT(*)')->from('#__thm_organizer_mappings')->where("{$resourceType}ID = '$resourceID'");
-        $dbo->setQuery($query);
+        $this->_db->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('loadResult');
     }
@@ -316,9 +315,7 @@ class Mapping extends BaseModel
             return false;
         }
 
-        $dbo = Factory::getDbo();
-
-        $mappingIDsQuery = $dbo->getQuery(true);
+        $mappingIDsQuery = $this->_db->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings');
         switch ($type) {
             case 'program':
@@ -332,7 +329,7 @@ class Mapping extends BaseModel
                 break;
         }
 
-        $dbo->setQuery($mappingIDsQuery);
+        $this->_db->setQuery($mappingIDsQuery);
         $mappingIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         if (!empty($mappingIDs)) {
@@ -356,11 +353,9 @@ class Mapping extends BaseModel
      */
     private function deleteChildren($mappingID)
     {
-        $dbo = Factory::getDbo();
-
-        $mappingIDsQuery = $dbo->getQuery(true);
+        $mappingIDsQuery = $this->_db->getQuery(true);
         $mappingIDsQuery->select('id')->from('#__thm_organizer_mappings')->where("parentID = '$mappingID'");
-        $dbo->setQuery($mappingIDsQuery);
+        $this->_db->setQuery($mappingIDsQuery);
         $mappingIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         if (!empty($mappingIDs)) {
@@ -384,33 +379,31 @@ class Mapping extends BaseModel
      */
     private function deleteEntry($entryID)
     {
-        $dbo = Factory::getDbo();
-
         // Retrieves information about the current mapping including its total width
-        $mappingQuery = $dbo->getQuery(true);
+        $mappingQuery = $this->_db->getQuery(true);
         $mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
-        $dbo->setQuery($mappingQuery);
+        $this->_db->setQuery($mappingQuery);
         $mapping = OrganizerHelper::executeQuery('loadAssoc', []);
         if (empty($mapping)) {
             return false;
         }
 
         // Deletes the mapping
-        $deleteQuery = $dbo->getQuery(true);
+        $deleteQuery = $this->_db->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_mappings')->where("id = '{$mapping['id']}'");
-        $dbo->setQuery($deleteQuery);
+        $this->_db->setQuery($deleteQuery);
         $success = (bool)OrganizerHelper::executeQuery('execute');
         if (!$success) {
             return false;
         }
 
         // Reduces the ordering of siblings with a greater ordering
-        $siblingsQuery = $dbo->getQuery(true);
+        $siblingsQuery = $this->_db->getQuery(true);
         $siblingsQuery->update('#__thm_organizer_mappings');
         $siblingsQuery->set('ordering = ordering - 1');
         $siblingsQuery->where("parentID = '{$mapping['parentID']}'");
         $siblingsQuery->where("ordering > '{$mapping['ordering']}'");
-        $dbo->setQuery($siblingsQuery);
+        $this->_db->setQuery($siblingsQuery);
         $success = (bool)OrganizerHelper::executeQuery('execute');
         if (!$success) {
             return false;
@@ -420,11 +413,11 @@ class Mapping extends BaseModel
          *  Reduces lft values at or above the mapping's rgt value according to
          *  the mapping's width
          */
-        $updateLeftQuery = $dbo->getQuery(true);
+        $updateLeftQuery = $this->_db->getQuery(true);
         $updateLeftQuery->update('#__thm_organizer_mappings');
         $updateLeftQuery->set("lft = lft - {$mapping['width']}");
         $updateLeftQuery->where("lft > '{$mapping['lft']}'");
-        $dbo->setQuery($updateLeftQuery);
+        $this->_db->setQuery($updateLeftQuery);
         $success = (bool)OrganizerHelper::executeQuery('execute');
         if (!$success) {
             return false;
@@ -434,11 +427,11 @@ class Mapping extends BaseModel
          *  Reduces rgt values at or above the mapping's rgt value according to
          *  the mapping's width
          */
-        $updateRightQuery = $dbo->getQuery(true);
+        $updateRightQuery = $this->_db->getQuery(true);
         $updateRightQuery->update('#__thm_organizer_mappings');
         $updateRightQuery->set("rgt = rgt - {$mapping['width']}");
         $updateRightQuery->where("rgt > '{$mapping['lft']}'");
-        $dbo->setQuery($updateRightQuery);
+        $this->_db->setQuery($updateRightQuery);
 
         return OrganizerHelper::executeQuery('execute');
     }
@@ -454,23 +447,21 @@ class Mapping extends BaseModel
      */
     private function determineLft($parentID, $ordering)
     {
-        $dbo = Factory::getDbo();
-
         // Right value of the next lowest sibling
-        $rgtQuery = $dbo->getQuery(true);
+        $rgtQuery = $this->_db->getQuery(true);
         $rgtQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
         $rgtQuery->where("parentID = '$parentID'")->where("ordering < '$ordering'");
-        $dbo->setQuery($rgtQuery);
+        $this->_db->setQuery($rgtQuery);
         $rgt = OrganizerHelper::executeQuery('loadResult');
         if (!empty($rgt)) {
             return $rgt + 1;
         }
 
         // No siblings => use parent left for reference
-        $lftQuery = $dbo->getQuery(true);
+        $lftQuery = $this->_db->getQuery(true);
         $lftQuery->select('lft')->from('#__thm_organizer_mappings');
         $lftQuery->where("id = '$parentID'");
-        $dbo->setQuery($lftQuery);
+        $this->_db->setQuery($lftQuery);
         $lft = OrganizerHelper::executeQuery('loadResult');
 
         return empty($lft) ? false : $lft + 1;
@@ -488,26 +479,25 @@ class Mapping extends BaseModel
      */
     private function getChildren($resourceID, $type = 'pool', $deep = true)
     {
-        $dbo      = Factory::getDbo();
         $children = [];
 
         /**
          * Subordinate structures are the same for every parent mapping,
          * therefore only the first mapping needs to be found
          */
-        $existingQuery = $dbo->getQuery(true);
+        $existingQuery = $this->_db->getQuery(true);
         $existingQuery->select('id')->from('#__thm_organizer_mappings');
         $existingQuery->where("{$type}ID = '$resourceID'");
-        $dbo->setQuery($existingQuery, 0, 1);
+        $this->_db->setQuery($existingQuery, 0, 1);
         $firstID = OrganizerHelper::executeQuery('loadResult');
 
         if (!empty($firstID)) {
-            $childrenQuery = $dbo->getQuery(true);
+            $childrenQuery = $this->_db->getQuery(true);
             $childrenQuery->select('poolID, subjectID, ordering');
             $childrenQuery->from('#__thm_organizer_mappings');
             $childrenQuery->where("parentID = '$firstID'");
             $childrenQuery->order('lft ASC');
-            $dbo->setQuery($childrenQuery);
+            $this->_db->setQuery($childrenQuery);
 
             $results = OrganizerHelper::executeQuery('loadAssocList');
 
@@ -576,10 +566,8 @@ class Mapping extends BaseModel
      */
     private function getOrdering($parentID, $resourceID, $type = 'pool')
     {
-        $dbo = Factory::getDbo();
-
         // Check for an existing ordering as child of the parent element
-        $existingOrderQuery = $dbo->getQuery(true);
+        $existingOrderQuery = $this->_db->getQuery(true);
         $existingOrderQuery->select('ordering')->from('#__thm_organizer_mappings');
         $existingOrderQuery->where("parentID = '$parentID'");
         if ($type == 'subject') {
@@ -588,7 +576,7 @@ class Mapping extends BaseModel
             $existingOrderQuery->where("poolID = '$resourceID'");
         }
 
-        $dbo->setQuery($existingOrderQuery);
+        $this->_db->setQuery($existingOrderQuery);
         $existingOrder = OrganizerHelper::executeQuery('loadResult');
 
         if (!empty($existingOrder)) {
@@ -599,9 +587,9 @@ class Mapping extends BaseModel
          *  No order exists for parent element order is then either one more
          *  the existing max value, or 1 if no children exist
          */
-        $maxOrderQuery = $dbo->getQuery(true);
+        $maxOrderQuery = $this->_db->getQuery(true);
         $maxOrderQuery->select('MAX(ordering)')->from('#__thm_organizer_mappings')->where("parentID = '$parentID'");
-        $dbo->setQuery($maxOrderQuery);
+        $this->_db->setQuery($maxOrderQuery);
         $maxOrder = OrganizerHelper::executeQuery('loadResult');
 
         return empty($maxOrder) ? 1 : $maxOrder + 1;
@@ -616,10 +604,9 @@ class Mapping extends BaseModel
      */
     private function getParent($parentID)
     {
-        $dbo         = Factory::getDbo();
-        $parentQuery = $dbo->getQuery(true);
+        $parentQuery = $this->_db->getQuery(true);
         $parentQuery->select('*')->from('#__thm_organizer_mappings')->where("id = '$parentID'");
-        $dbo->setQuery($parentQuery);
+        $this->_db->setQuery($parentQuery);
 
         return OrganizerHelper::executeQuery('loadAssoc', []);
     }
@@ -682,16 +669,18 @@ class Mapping extends BaseModel
      */
     public function saveProgram($programID)
     {
-        $dbo       = Factory::getDbo();
-        $findQuery = $dbo->getQuery(true);
-        $findQuery->select('*')->from('#__thm_organizer_mappings')->where('parentID IS NULL')->where("programID = '$programID'");
-        $dbo->setQuery($findQuery);
+        $findQuery = $this->_db->getQuery(true);
+        $findQuery->select('*')
+            ->from('#__thm_organizer_mappings')
+            ->where('parentID IS NULL')
+            ->where("programID = '$programID'");
+        $this->_db->setQuery($findQuery);
         $rootMapping = OrganizerHelper::executeQuery('loadAssoc', []);
 
         if (empty($rootMapping)) {
-            $leftQuery = $dbo->getQuery(true);
+            $leftQuery = $this->_db->getQuery(true);
             $leftQuery->select('MAX(rgt)')->from('#__thm_organizer_mappings');
-            $dbo->setQuery($leftQuery);
+            $this->_db->setQuery($leftQuery);
 
             $maxRgt = OrganizerHelper::executeQuery('loadResult');
             if (empty($maxRgt)) {
@@ -831,11 +820,10 @@ class Mapping extends BaseModel
      */
     private function shiftOrder($parentID, $insertOrder)
     {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
         $query->update('#__thm_organizer_mappings')->set('ordering = ordering + 1');
         $query->where("ordering >= '$insertOrder'")->where("parentID = '$parentID'");
-        $dbo->setQuery($query);
+        $this->_db->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('execute');
     }
@@ -850,18 +838,17 @@ class Mapping extends BaseModel
      */
     private function shiftRight($value)
     {
-        $dbo      = Factory::getDbo();
-        $lftQuery = $dbo->getQuery(true);
+        $lftQuery = $this->_db->getQuery(true);
         $lftQuery->update('#__thm_organizer_mappings')->set('lft = lft + 2')->where("lft >= '$value'");
-        $dbo->setQuery($lftQuery);
+        $this->_db->setQuery($lftQuery);
         $success = (bool)OrganizerHelper::executeQuery('execute');
         if (!$success) {
             return false;
         }
 
-        $rgtQuery = $dbo->getQuery(true);
+        $rgtQuery = $this->_db->getQuery(true);
         $rgtQuery->update('#__thm_organizer_mappings')->set('rgt = rgt + 2')->where("rgt >= '$value'");
-        $dbo->setQuery($rgtQuery);
+        $this->_db->setQuery($rgtQuery);
 
         return (bool)OrganizerHelper::executeQuery('execute');
     }

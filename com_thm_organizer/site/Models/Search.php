@@ -147,7 +147,7 @@ class Search extends BaseModel
             $exactMatch = ($key !== false or ($titleFoundAt !== false and $subjectFoundAt !== false));
 
             if ($exactMatch) {
-                // The abbreviated degree name only has relevance here, and can create false positives elsewhere => delete
+                // The abbreviated degree name only relevant here and can create false positives elsewhere => delete
                 if ($key !== false) {
                     unset($this->terms[$key]);
                 }
@@ -251,8 +251,9 @@ class Search extends BaseModel
             $query->where("(min_capacity IS NULL OR min_capacity = '0' OR min_capacity <= '$capacity')");
             $query->where("(max_capacity IS NULL OR max_capacity = '0' OR max_capacity >= '$capacity')");
 
-            // One must have a legitimate value for this to have meaning.
-            $query->where("((min_capacity IS NOT NULL AND min_capacity > '0') OR (max_capacity IS NOT NULL AND max_capacity > '0'))");
+            $maxCapacityValid = "(max_capacity IS NOT NULL AND max_capacity > '0')";
+            $minCapacityValid = "(min_capacity IS NOT NULL AND min_capacity > '0')";
+            $query->where("($maxCapacityValid OR $minCapacityValid)");
 
             $this->_db->setQuery($query);
 
@@ -339,85 +340,93 @@ class Search extends BaseModel
 
         if (!empty($programs)) {
             foreach ($programs as $category) {
-                $invalidMapping = (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
-                $noPlan         = empty($category['categoryID']);
+                $invalidMapping =
+                    (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
+
+                $noPlan = empty($category['categoryID']);
 
                 // Any linked view would be empty
                 if ($invalidMapping and $noPlan) {
                     continue;
                 }
 
-                $programID = "d{$category['id']}";
+                $pIndex     = "d{$category['id']}";
+                $programID  = $category['id'];
+                $categoryID = $category['categoryID'];
 
-                $results[$programID]               = [];
-                $results[$programID]['programID']  = $category['id'];
-                $results[$programID]['categoryID'] = $category['categoryID'];
-                $results[$programID]['lft']        = $category['lft'];
-                $results[$programID]['rgt']        = $category['rgt'];
+                $results[$pIndex]               = [];
+                $results[$pIndex]['programID']  = $programID;
+                $results[$pIndex]['categoryID'] = $categoryID;
+                $results[$pIndex]['lft']        = $category['lft'];
+                $results[$pIndex]['rgt']        = $category['rgt'];
 
-                $text                        = Programs::getName($category['id']);
-                $results[$programID]['name'] = $text;
-
-                $results[$programID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
+                $text                     = Programs::getName($programID);
+                $results[$pIndex]['name'] = $text;
+                $results[$pIndex]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
                 $links = [];
 
-                $invalidMapping = (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
+                $invalidMapping =
+                    (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
 
                 // If the mapping is invalid only an empty data set would be displayed for subject list and curriculum
                 if (!$invalidMapping) {
-                    $links['subjects']   = "?option=com_thm_organizer&view=subjects&programIDs={$category['id']}";
-                    $links['curriculum'] = "?option=com_thm_organizer&view=curriculum&programIDs={$category['id']}";
+                    $links['subjects']   = "?option=com_thm_organizer&view=subjects&programIDs=$programID";
+                    $links['curriculum'] = "?option=com_thm_organizer&view=curriculum&programIDs=$programID";
                 }
 
                 if (!$noPlan) {
-                    $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&programIDs={$category['categoryID']}";
-                    $links['event_list'] = "?option=com_thm_organizer&view=event_list&categoryIDs={$category['categoryID']}";
+                    $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&programIDs=$categoryID";
+                    $links['event_list'] = "?option=com_thm_organizer&view=event_list&categoryIDs=$categoryID";
                 }
 
-                $results[$programID]['links'] = $links;
+                $results[$pIndex]['links'] = $links;
             }
         }
 
         if (!empty($categories)) {
             foreach ($categories as $category) {
-                $categoryID    = "p{$category['categoryID']}";
-                $scheduleLink  = "?option=com_thm_organizer&view=schedule_grid&programIDs={$category['categoryID']}";
-                $eventlistLink = "?option=com_thm_organizer&view=event_list&categoryIDs={$category['categoryID']}";
+                $cIndex     = "p{$category['categoryID']}";
+                $programID  = $category['id'];
+                $categoryID = $category['categoryID'];
+
+                $scheduleLink  = "?option=com_thm_organizer&view=schedule_grid&programIDs=$categoryID";
+                $eventListLink = "?option=com_thm_organizer&view=event_list&categoryIDs=$categoryID";
 
                 // Subject was found
                 if (!empty($category['id'])) {
-                    $programID = "d{$category['id']}";
+                    $pIndex = "d{$category['id']}";
 
                     // No redundant subject entries
-                    if (!empty($programID) and !empty($results[$programID])) {
-                        $results[$programID]['categoryID']        = $category['categoryID'];
-                        $results[$programID]['links']['schedule'] = $scheduleLink;
+                    if (!empty($pIndex) and !empty($results[$pIndex])) {
+                        $results[$pIndex]['categoryID']        = $categoryID;
+                        $results[$pIndex]['links']['schedule'] = $scheduleLink;
 
                         continue;
                     }
                 }
 
-                $results[$categoryID]               = [];
-                $results[$categoryID]['categoryID'] = $category['categoryID'];
-
-                $text                         = Categories::getName($category['categoryID']);
-                $results[$categoryID]['name'] = $text;
-                $results[$categoryID]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
+                $results[$cIndex]               = [];
+                $results[$cIndex]['categoryID'] = $categoryID;
+                $text                           = Categories::getName($categoryID);
+                $results[$cIndex]['name']       = $text;
+                $results[$cIndex]['text']       = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
                 $links = [];
 
-                $invalidMapping = (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
+                $invalidMapping =
+                    (empty($category['lft']) or empty($category['rgt']) or $category['rgt'] - $category['lft'] < 2);
 
                 if (!$invalidMapping) {
-                    $results[$categoryID]['programID'] = $category['id'];
-                    $links['subjects']                 = "?option=com_thm_organizer&view=subjects&programIDs={$category['id']}";
-                    $links['curriculum']               = "?option=com_thm_organizer&view=curriculum&programIDs={$category['id']}";
+                    $results[$cIndex]['programID'] = $programID;
+
+                    $links['subjects']   = "?option=com_thm_organizer&view=subjects&programIDs=$programID";
+                    $links['curriculum'] = "?option=com_thm_organizer&view=curriculum&programIDs=$programID";
                 }
 
-                $links['schedule']             = $scheduleLink;
-                $links['event_list']           = $eventlistLink;
-                $results[$categoryID]['links'] = $links;
+                $links['schedule']         = $scheduleLink;
+                $links['event_list']       = $eventListLink;
+                $results[$cIndex]['links'] = $links;
             }
         }
 
@@ -452,7 +461,8 @@ class Search extends BaseModel
 
                 $rooms[$roomID]['description'] = "$description$capacity";
 
-                $rooms[$roomID]['links'] = ['schedule' => "?option=com_thm_organizer&view=schedule_grid&roomIDs={$room['id']}"];
+                $rooms[$roomID]['links'] =
+                    ['schedule' => "?option=com_thm_organizer&view=schedule_grid&roomIDs={$room['id']}"];
             }
         }
 
@@ -486,7 +496,8 @@ class Search extends BaseModel
                 $links['subject_details'] = "?option=com_thm_organizer&view=subject_details&id=$sID";
 
                 if (!empty($subject['courseID'])) {
-                    $links['schedule'] = "?option=com_thm_organizer&view=schedule_grid&subjectIDs={$subject['courseID']}";
+                    $links['schedule'] =
+                        "?option=com_thm_organizer&view=schedule_grid&subjectIDs={$subject['courseID']}";
                 }
 
                 $subjects[$subjectID]['links']       = $links;
@@ -934,9 +945,10 @@ class Search extends BaseModel
 
         $courseClause = "(co.name LIKE '$initialTerm' OR co.subjectNo LIKE '$initialTerm'";
 
-        $sClause = "(s.externalID LIKE '$initialTerm' OR s.name_de LIKE '$initialTerm' OR s.name_en LIKE '$initialTerm' OR ";
-        $sClause .= "s.short_name_de LIKE '$initialTerm' OR s.short_name_en LIKE '$initialTerm' OR ";
-        $sClause .= "s.abbreviation_de LIKE '$initialTerm' OR s.abbreviation_en LIKE '$initialTerm'";
+        $sClause = "(s.externalID LIKE '$initialTerm' OR s.name_de LIKE '$initialTerm' OR ";
+        $sClause .= "s.name_en LIKE '$initialTerm' OR s.short_name_de LIKE '$initialTerm' OR ";
+        $sClause .= "s.short_name_en LIKE '$initialTerm' OR s.abbreviation_de LIKE '$initialTerm' OR ";
+        $sClause .= "s.abbreviation_en LIKE '$initialTerm'";
 
         foreach ($terms as $term) {
             $courseClause .= " OR co.subjectNo LIKE '$term'";
@@ -978,7 +990,7 @@ class Search extends BaseModel
                 $asNumber = true;
             }
 
-            // Numeric values will always be listed separately at the end of the names. Direct comparison delivers false positives.
+            // Direct comparison delivers false positives because of how like evaluates integers. Space necessary.
             if ($asNumber) {
                 $courseQuery->where("co.name LIKE '% $term'");
                 $nameDEArray[] = "s.name_de LIKE '% $term'";
@@ -1021,7 +1033,7 @@ class Search extends BaseModel
                 $asNumber = true;
             }
 
-            // Numeric values will always be listed separately at the end of the names. Direct comparison delivers false positives.
+            // Direct comparison delivers false positives because of how like evaluates integers. Space necessary.
             if ($asNumber) {
                 $sClause     = "s.name_de LIKE '% $term' OR s.name_en LIKE '% $term' OR ";
                 $sClause     .= "s.short_name_de REGEXP '%$term' OR s.short_name_en REGEXP '%$term' OR ";

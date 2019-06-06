@@ -290,8 +290,9 @@ class Rooms implements XMLValidator
         $externalID = trim((string)$roomNode->external_name);
 
         if (empty($externalID)) {
-            $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'] = empty($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']) ?
-                1 : $scheduleModel->scheduleWarnings['ROOM-EXTERNALID']++;
+            $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'] =
+                empty($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']) ?
+                    1 : $scheduleModel->scheduleWarnings['ROOM-EXTERNALID']++;
         } else {
             $externalID = strtoupper(str_replace('RM_', '', $externalID));
         }

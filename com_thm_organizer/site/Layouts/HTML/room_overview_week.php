@@ -13,7 +13,7 @@ use Organizer\Helpers\Languages;
 $dates       = $this->model->data;
 $dayCount    = count($dates);
 $blockCount  = count($this->model->grid['periods']);
-$totalBlocks = $dayCount * $blockCount;
+$totalBlocks = 'columns-' . ($dayCount * $blockCount);
 $labelIndex  = 'label_' . Languages::getShortTag();
 $dayCount    = count($dates);
 ?>
@@ -43,7 +43,7 @@ $dayCount    = count($dates);
                 } else {
                     $shown = substr($times[$labelIndex], 0, 1);
                 }
-                echo '<th class="block-column block-row columns-' . $totalBlocks . '">' . $shown . '</th>';
+                echo '<th class="block-column block-row ' . $totalBlocks . '">' . $shown . '</th>';
             }
         }
         ?>
@@ -64,13 +64,14 @@ $dayCount    = count($dates);
                 } else {
                     $blockName = $this->model->grid['periods'][$blockKey][$labelIndex];
                 }
-                $blockTip = $this->getBlockTip($date, $blockKey, $blockName, $room['name']);
+                $blockClasses = "block-column room-row $totalBlocks hasTip";
+                $blockTip     = $this->getBlockTip($date, $blockKey, $blockName, $room['name']);
                 if (empty($rooms[$roomID])) {
-                    echo '<td class="block-column room-row columns-' . $totalBlocks . ' hasTip" title="' . $blockTip . '"></td>';
+                    echo '<td class="' . $blockClasses . '" title="' . $blockTip . '"></td>';
                 } else {
                     $iconClass = count($rooms[$roomID]) > 1 ? 'grid' : 'square';
                     $blockTip  .= $this->getEventTips($rooms[$roomID]);
-                    echo '<td class="block-column room-row columns-' . $totalBlocks . ' hasTip" title="' . $blockTip . '">';
+                    echo '<td class="' . $blockClasses . '" title="' . $blockTip . '">';
                     echo '<span class="icon-' . $iconClass . '"></span>';
                     echo '</td>';
                 }

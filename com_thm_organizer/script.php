@@ -118,10 +118,7 @@ class Com_THM_OrganizerInstallerScript
                     <?php
                 } else {
                     ?>
-                    <h4>Please check the /images/thm_organizer Directory.</h4>
-                    If it does not exist, please create this directory, and ensure THM - Organizer has write access to it.
-                    <br/>
-                    Failure to do so will prevent THM - Organizer from being able use images.
+                    <h4>Please ensure that the /images/thm_organizer directory exists.</h4>
                     <?php
                 }
                 ?>
@@ -157,7 +154,8 @@ class Com_THM_OrganizerInstallerScript
     public function update($parent)
     {
         $logoURL     = 'components/com_thm_organizer/images/thm_organizer.png';
-        $licenseLink = '<a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public License</a>';
+        $licenseLink = '<a href="http://www.gnu.org/licenses/gpl-2.0.html" ';
+        $licenseLink .= 'target="_blank">GNU General Public License</a>';
         $version     = (string)$parent->get('manifest')->version;
 
         $dirSpan    = '';

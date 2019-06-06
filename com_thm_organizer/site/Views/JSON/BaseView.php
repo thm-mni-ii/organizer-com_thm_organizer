@@ -43,14 +43,7 @@ abstract class BaseView extends CMSObject
     /**
      * Constructor
      *
-     * @param array $config     A named configuration array for object construction.
-     *                          name: the name (optional) of the view (defaults to the view class name suffix).
-     *                          charset: the character set to use for display
-     *                          escape: the name (optional) of the function to use for escaping strings
-     *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
-     *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
-     *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
-     *                          layout: the layout (optional) to use to display the view
+     * @param array $config A named configuration array for object construction.
      */
     public function __construct($config = array())
     {

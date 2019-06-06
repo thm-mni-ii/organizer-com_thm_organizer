@@ -295,21 +295,19 @@ class Room_Statistics extends BaseModel
     private function setData($roomID)
     {
         $tag       = Languages::getShortTag();
-        $dbo       = Factory::getDbo();
-        $ringQuery = $dbo->getQuery(true);
-
-        $rqSelect = 'DISTINCT ccm.id AS ccmID, lcrs.id as lcrsID, l.id AS lessonID, l.comment, ';
-        $rqSelect .= "m.id AS methodID, m.abbreviation_$tag AS method, m.name_$tag as methodName, ";
-        $rqSelect .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
-        $rqSelect .= 'conf.configuration ';
-
-        $ringQuery->select($rqSelect);
-        $ringQuery->from('#__thm_organizer_lessons AS l');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
-        $ringQuery->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
-        $ringQuery->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.lessonCourseID = lcrs.id');
-        $ringQuery->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = conf.id');
-        $ringQuery->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
+        $ringQuery = $this->_db->getQuery(true);
+        $ringQuery->select('DISTINCT ccm.id AS ccmID')
+            ->from('#__thm_organizer_calendar_configuration_map AS ccm')
+            ->select('c.schedule_date AS date, c.startTime, c.endTime')
+            ->innerJoin('#__thm_organizer_calendar AS c ON c.id = ccm.calendarID')
+            ->select('conf.configuration')
+            ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.id = ccm.configurationID')
+            ->select('l.id AS lessonID, l.comment')
+            ->innerJoin('#__thm_organizer_lessons AS l ON l.id = c.lessonID')
+            ->select('lcrs.id as lcrsID')
+            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id')
+            ->select("m.id AS methodID, m.abbreviation_$tag AS method, m.name_$tag as methodName")
+            ->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
 
         $ringQuery->where("lcrs.delta != 'removed'");
         $ringQuery->where("l.delta != 'removed'");
@@ -318,7 +316,7 @@ class Room_Statistics extends BaseModel
 
         $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
         $ringQuery->where("conf.configuration REGEXP '$regexp'");
-        $dbo->setQuery($ringQuery);
+        $this->_db->setQuery($ringQuery);
         $ringData = OrganizerHelper::executeQuery('loadAssocList');
         $lcrsIDs  = OrganizerHelper::executeQuery('loadColumn', [], 1);
 
@@ -428,8 +426,7 @@ class Room_Statistics extends BaseModel
     private function setLSData($lcrsIDs)
     {
         $tag   = Languages::getShortTag();
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
         $select = 'DISTINCT lcrs.id AS lcrsID, ';
         $query->from('#__thm_organizer_lesson_courses AS lcrs');
@@ -463,7 +460,7 @@ class Room_Statistics extends BaseModel
         $query->select($select);
         $query->where("lg.delta != 'removed'");
         $query->where("lcrs.id IN ('" . implode("', '", $lcrsIDs) . "')");
-        $dbo->setQuery($query);
+        $this->_db->setQuery($query);
 
         $results = OrganizerHelper::executeQuery('loadAssocList', [], 'lcrsID');
         if (empty($results)) {
@@ -500,19 +497,16 @@ class Room_Statistics extends BaseModel
      */
     private function setRoomTypes()
     {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
         $tag   = Languages::getShortTag();
+        $query = $this->_db->getQuery(true);
 
-        $query->select("id, name_$tag AS name, description_$tag AS description");
-        $query->from('#__thm_organizer_room_types');
-        $query->order('name');
+        $query->select("id, name_$tag AS name, description_$tag AS description")
+            ->from('#__thm_organizer_room_types')
+            ->order('name');
 
-        $dbo->setQuery($query);
+        $this->_db->setQuery($query);
 
-        $results = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
-
-        $this->roomTypes = empty($results) ? [] : $results;
+        $this->roomTypes = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
     }
 
     /**
@@ -532,8 +526,10 @@ class Room_Statistics extends BaseModel
             $this->metaData['days'][$date]['use']   = 0;
 
             foreach ($this->rooms as $roomName => $roomData) {
+                $roomUse = empty($this->roomData[$roomData['id']]['days'][$date]) ?
+                    0 : $this->roomData[$roomData['id']]['days'][$date];
+
                 $this->metaData['days'][$date]['total'] += $dailyBlocks;
-                $roomUse                                = empty($this->roomData[$roomData['id']]['days'][$date]) ? 0 : $this->roomData[$roomData['id']]['days'][$date];
                 $this->metaData['days'][$date]['use']   += $roomUse;
             }
         }
@@ -575,13 +571,13 @@ class Room_Statistics extends BaseModel
                     }
 
                     $this->roomData[$roomData['id']]['weeks'][$weekNo]['total'] += $dailyBlocks;
-                    $this->roomData[$roomData['id']]['weeks'][$weekNo]['use']
-                                                                                += $this->roomData[$roomData['id']]['days'][$currentDate];
+                    $this->roomData[$roomData['id']]['weeks'][$weekNo]['use']   +=
+                        $this->roomData[$roomData['id']]['days'][$currentDate];
 
                     if ($dailyAverage > $this->threshhold) {
                         $this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedTotal'] += $dailyBlocks;
-                        $this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedUse']
-                                                                                            += $this->roomData[$roomData['id']]['days'][$currentDate];
+                        $this->roomData[$roomData['id']]['weeks'][$weekNo]['adjustedUse']   +=
+                            $this->roomData[$roomData['id']]['days'][$currentDate];
                     }
                 }
 

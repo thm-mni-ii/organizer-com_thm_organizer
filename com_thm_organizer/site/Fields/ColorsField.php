@@ -35,13 +35,15 @@ class ColorsField extends ListField
      */
     public function getInput()
     {
-        $onChange = empty($this->getAttribute('onchange')) ? '' : ' onchange="' . $this->getAttribute('onchange') . '"';
+        $onChange = empty($this->getAttribute('onchange')) ?
+            '' : ' onchange="' . $this->getAttribute('onchange') . '"';
         $html     = '<select name="' . $this->name . '"' . $onChange . '>';
         $options  = $this->getOptions();
         foreach ($options as $option) {
             $style    = isset($option->style) ? ' style="' . $option->style . '"' : '';
             $selected = $this->value == $option->value ? ' selected="selected"' : '';
-            $html     .= '<option value="' . $option->value . '"' . $selected . $style . '>' . $option->text . '</option>';
+            $html     .= '<option value="' . $option->value . '"' . $selected . $style . '>';
+            $html     .= $option->text . '</option>';
         }
         $html .= '</select>';
 

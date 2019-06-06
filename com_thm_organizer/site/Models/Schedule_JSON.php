@@ -382,7 +382,7 @@ class Schedule_JSON extends BaseDatabaseModel
                 $objectNodes->$objectID->delta = '';
             }
 
-            // If any of the subordinate nodes/collections are empty after sanitization, the node being processed must be removed
+            // If subordinate nodes/collections are empty after sanitization => remove.
             if (isset($object->courses)) {
                 $this->sanitizeObjectNodes($object->courses);
                 $empty = empty((array)$object->courses);
@@ -636,7 +636,8 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Saves the lesson groups from the schedule object to the database and triggers functions for saving lesson associations.
+     * Saves the lesson groups from the schedule object to the database and triggers functions for saving lesson
+     * associations.
      *
      * @param string $lessonCourseID the db id of the lesson course association
      * @param object $groups         the groups associated with the course
@@ -745,7 +746,8 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Saves the lesson groups from the schedule object to the database and triggers functions for saving lesson associations.
+     * Saves the lesson groups from the schedule object to the database and triggers functions for saving lesson
+     * associations.
      *
      * @param string $lessonCourseID the id of the lesson => course association
      * @param object $teachers       the teachers associated with the course
@@ -1093,65 +1095,68 @@ class Schedule_JSON extends BaseDatabaseModel
         $carriedLessons = array_intersect($referenceLessonIDs, $activeLessonIDs);
 
         foreach ($carriedLessons as $carriedLessonID) {
-            $referenceCourseIDs = array_keys((array)$this->refSchedule->lessons->$carriedLessonID->courses);
-            $activeCourseIDs    = array_keys((array)$this->schedule->lessons->$carriedLessonID->courses);
+            $activeCourses      = $this->schedule->lessons->$carriedLessonID->courses;
+            $activeCourseIDs    = array_keys((array)$activeCourses);
+            $refCourses         = $this->refSchedule->lessons->$carriedLessonID->courses;
+            $referenceCourseIDs = array_keys((array)$refCourses);
 
-            $carriedCouseIDs = array_intersect($referenceCourseIDs, $activeCourseIDs);
+            $carriedCourseIDs = array_intersect($referenceCourseIDs, $activeCourseIDs);
 
-            foreach ($carriedCouseIDs as $carriedCouseID) {
-                $referenceGroupIDs =
-                    array_keys((array)$this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups);
-                $activeGroupIDs    =
-                    array_keys((array)$this->schedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups);
+            foreach ($carriedCourseIDs as $carriedCourseID) {
+                $activeCourse = $activeCourses->$carriedCourseID;
+                $refCourse    = $refCourses->$carriedCourseID;
+
+                $referenceGroupIDs = array_keys((array)$refCourse->groups);
+                $activeGroupIDs    = array_keys((array)$activeCourse->groups);
 
                 $removedGroupIDs = array_diff($referenceGroupIDs, $activeGroupIDs);
 
                 foreach ($removedGroupIDs as $removedGroupID) {
-                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups->$removedGroupID = 'removed';
+                    $refCourse->groups->$removedGroupID = 'removed';
                 }
 
                 $newGroupIDs = array_diff($activeGroupIDs, $referenceGroupIDs);
 
                 foreach ($newGroupIDs as $newGroupID) {
-                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->groups->$newGroupID = 'new';
+                    $refCourse->groups->$newGroupID = 'new';
                 }
 
-                $referenceTeacherIDs = array_keys((array)$this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers);
-                $activeTeacherIDs    = array_keys((array)$this->schedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers);
+                $referenceTeacherIDs = array_keys((array)$refCourse->teachers);
+                $activeTeacherIDs    = array_keys((array)$activeCourse->teachers);
 
                 $removedTeacherIDs = array_diff($referenceTeacherIDs, $activeTeacherIDs);
 
                 foreach ($removedTeacherIDs as $removedTeacherID) {
-                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers->$removedTeacherID = 'removed';
+                    $refCourse->teachers->$removedTeacherID = 'removed';
                 }
 
                 $newTeacherIDs = array_diff($activeTeacherIDs, $referenceTeacherIDs);
 
                 foreach ($newTeacherIDs as $newTeacherID) {
-                    $this->refSchedule->lessons->$carriedLessonID->courses->$carriedCouseID->teachers->$newTeacherID = 'new';
+                    $refCourse->teachers->$newTeacherID = 'new';
                 }
             }
 
             $removedCourseIDs = array_diff($referenceCourseIDs, $activeCourseIDs);
 
             foreach ($removedCourseIDs as $removedCourseID) {
-                $removedCourse        = $this->refSchedule->lessons->$carriedLessonID->courses->$removedCourseID;
-                $removedCourse->delta = 'removed';
-
-                $this->schedule->lessons->$carriedLessonID->courses->$removedCourseID = $removedCourse;
+                $removedCourse                   = $refCourses->$removedCourseID;
+                $removedCourse->delta            = 'removed';
+                $activeCourses->$removedCourseID = $removedCourse;
             }
 
             $newCourseIDs = array_diff($activeCourseIDs, $referenceCourseIDs);
 
             foreach ($newCourseIDs as $newCourseID) {
-                $this->schedule->lessons->$carriedLessonID->courses->$newCourseID->delta = 'new';
+                $activeCourses->$newCourseID->delta = 'new';
             }
         }
 
         $removedLessonIDs = array_diff($referenceLessonIDs, $activeLessonIDs);
 
         foreach ($removedLessonIDs as $removedLessonID) {
-            $this->schedule->lessons->$removedLessonID        = $this->refSchedule->lessons->$removedLessonID;
+            $this->schedule->lessons->$removedLessonID = $this->refSchedule->lessons->$removedLessonID;
+
             $this->schedule->lessons->$removedLessonID->delta = 'removed';
         }
 
@@ -1189,7 +1194,8 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Transfers time intervals which need no configuration reference processing. (The time interval itself is new or removed.)
+     * Transfers time intervals which need no configuration reference processing, because the time interval itself is
+     * new or removed.
      *
      * @param string $status         the batch instance status [new|removed]
      * @param string $date           the date when the times occur
@@ -1245,7 +1251,9 @@ class Schedule_JSON extends BaseDatabaseModel
                     $status       = 0;
                     $participants = THM_OrganizerHelperCourses::getFullParticipantData($this->changedLessonID[$j]);
 
-                    if ($this->changedStatus[$j] == "new" and $this->changedLessonID[$i] == $this->changedLessonID[$j]) {
+                    $newInstanceFound = $this->changedStatus[$j] == 'new';
+                    $sameLessonID     = $this->changedLessonID[$i] == $this->changedLessonID[$j];
+                    if ($newInstanceFound and $sameLessonID) {
 
                         if ($this->changedTime[$j] != $this->changedTime[$i]) {
                             $status += 1;
@@ -1299,7 +1307,8 @@ class Schedule_JSON extends BaseDatabaseModel
 
             $lang       = THM_OrganizerHelperLanguages::getLanguage();
             $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
-            $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
+            $courseName = (empty($campus) or empty($campus['name'])) ?
+                $course['name'] : "{$course['name']} ({$campus['name']})";
             $mailer->setSubject($courseName);
             $body = $lang->_('THM_ORGANIZER_GREETING') . ',\n\n';
 

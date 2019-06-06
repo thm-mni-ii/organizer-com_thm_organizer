@@ -35,8 +35,10 @@ class RoomTypesField extends ListField
         $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
         $input          = OrganizerHelper::getInput();
         $formData       = OrganizerHelper::getFormInput();
-        $buildingID     = (empty($formData) or empty($formData['buildingID'])) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID       = (empty($formData) or empty($formData['campusID'])) ? $input->getInt('campusID') : (int)$formData['campusID'];
+        $buildingID     = (empty($formData) or empty($formData['buildingID'])) ?
+            $input->getInt('buildingID') : (int)$formData['buildingID'];
+        $campusID       = (empty($formData) or empty($formData['campusID'])) ?
+            $input->getInt('campusID') : (int)$formData['campusID'];
 
         $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);

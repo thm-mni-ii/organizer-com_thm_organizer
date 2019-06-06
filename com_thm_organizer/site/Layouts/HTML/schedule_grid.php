@@ -161,7 +161,8 @@ $displayName = empty($this->model->displayName) ?
                             data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_CATEGORY'); ?>">
                         <?php
                         if (!empty($this->model->params['showCategories'])) {
-                            echo '<option value="category" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS') . '</option>';
+                            echo '<option value="category" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS');
+                            echo '</option>';
                         }
 
                         if (!empty($this->model->params['showRooms'])) {

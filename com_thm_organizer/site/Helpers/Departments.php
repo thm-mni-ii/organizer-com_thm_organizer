@@ -66,8 +66,8 @@ class Departments
     }
 
     /**
-     * Getter method for departments in database. Only retrieving the IDs here allows for formatting the names according to
-     * the needs of the calling views.
+     * Getter method for departments in database. Only retrieving the IDs here allows for formatting the names
+     * according to the needs of the calling views.
      *
      * @param bool $short whether or not abbreviated names should be returned
      *
@@ -101,7 +101,8 @@ class Departments
     }
 
     /**
-     * Checks whether the plan resource is already associated with a department, creating an entry if none already exists.
+     * Checks whether the plan resource is already associated with a department, creating an entry if none already
+     * exists.
      *
      * @param int    $resourceID the db id for the plan resource
      * @param string $column     the column in which the resource information is stored
