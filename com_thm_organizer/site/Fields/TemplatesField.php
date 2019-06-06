@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\HTML;
 
 /**

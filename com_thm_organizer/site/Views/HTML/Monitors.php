@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
@@ -88,7 +86,7 @@ class Monitors extends ListView
         $headers   = [];
 
         $headers['checkbox']    = '';
-        $headers['name']    = HTML::sort('ROOM', 'r.name', $direction, $ordering);
+        $headers['name']        = HTML::sort('ROOM', 'r.name', $direction, $ordering);
         $headers['ip']          = HTML::sort('IP', 'm.ip', $direction, $ordering);
         $headers['useDefaults'] = HTML::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering);
         $headers['display']     = Languages::_('THM_ORGANIZER_DISPLAY_BEHAVIOUR');
@@ -124,7 +122,7 @@ class Monitors extends ListView
 
             $processedItems[$index]                = [];
             $processedItems[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']    = HTML::_('link', $item->link, $item->name);
+            $processedItems[$index]['name']        = HTML::_('link', $item->link, $item->name);
             $processedItems[$index]['ip']          = HTML::_('link', $item->link, $item->ip);
             $tip                                   = Languages::_('THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
             $processedItems[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);

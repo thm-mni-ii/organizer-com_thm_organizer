@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Languages;
 

@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\Terms as TermsHelper;
 
 /**
@@ -26,8 +24,8 @@ class Terms extends BaseModel
      */
     public function getOptions()
     {
-        $terms = TermsHelper::getTerms();
-        $options         = [];
+        $terms   = TermsHelper::getTerms();
+        $options = [];
 
         foreach ($terms as $term) {
             $shortSD = Dates::formatDate($term['startDate']);

@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
@@ -125,7 +123,7 @@ class Room_Statistics extends BaseModel
             $date     = $instance['date'];
             $lessonID = $instance['lessonID'];
             $method   = $instance['method'];
-            $lcrsIDs    = [$instance['lcrsID'] => $instance['lcrsID']];
+            $lcrsIDs  = [$instance['lcrsID'] => $instance['lcrsID']];
 
             foreach ($rawConfig['rooms'] as $roomID => $delta) {
                 if (!in_array($roomID, array_keys($this->roomTypeMap)) or $delta == 'removed') {
@@ -322,7 +320,7 @@ class Room_Statistics extends BaseModel
         $ringQuery->where("conf.configuration REGEXP '$regexp'");
         $dbo->setQuery($ringQuery);
         $ringData = OrganizerHelper::executeQuery('loadAssocList');
-        $lcrsIDs    = OrganizerHelper::executeQuery('loadColumn', [], 1);
+        $lcrsIDs  = OrganizerHelper::executeQuery('loadColumn', [], 1);
 
         if (empty($ringData) or empty($lcrsIDs)) {
             return false;

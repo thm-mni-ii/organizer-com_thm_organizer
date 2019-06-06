@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Languages;
 

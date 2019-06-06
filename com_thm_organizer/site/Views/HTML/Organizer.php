@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Joomla\CMS\Factory;

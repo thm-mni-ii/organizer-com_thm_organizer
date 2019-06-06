@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;

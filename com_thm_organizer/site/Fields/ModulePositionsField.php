@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\OrganizerHelper;
 
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/Helpers/modules.php');

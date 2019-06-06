@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Teachers;

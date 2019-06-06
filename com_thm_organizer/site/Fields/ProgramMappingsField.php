@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;

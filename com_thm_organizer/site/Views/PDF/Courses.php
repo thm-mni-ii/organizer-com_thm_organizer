@@ -11,8 +11,6 @@
 
 namespace Organizer\Views\PDF;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Organizer\Helpers\Access;
 use Organizer\Views\BaseView;

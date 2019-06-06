@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
@@ -70,7 +68,7 @@ class Teachers extends ListView
         $headers['surname']      = Languages::_('THM_ORGANIZER_SURNAME');
         $headers['forename']     = Languages::_('THM_ORGANIZER_FORENAME');
         $headers['username']     = Languages::_('THM_ORGANIZER_USERNAME');
-        $headers['t.untisID']  = Languages::_('THM_ORGANIZER_UNTIS_ID');
+        $headers['t.untisID']    = Languages::_('THM_ORGANIZER_UNTIS_ID');
         $headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
 
         return $headers;
@@ -91,15 +89,15 @@ class Teachers extends ListView
         $processedItems = [];
 
         foreach ($this->items as $item) {
-            $itemForename  = empty($item->forename) ? '' : $item->forename;
-            $itemUsername  = empty($item->username) ? '' : $item->username;
-            $itemUntisID = empty($item->untisID) ? '' : $item->untisID;
+            $itemForename = empty($item->forename) ? '' : $item->forename;
+            $itemUsername = empty($item->username) ? '' : $item->username;
+            $itemUntisID  = empty($item->untisID) ? '' : $item->untisID;
 
-            $processedItems[$index]                = [];
-            $processedItems[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['surname']     = HTML::_('link', $item->link, $item->surname);
-            $processedItems[$index]['forename']    = HTML::_('link', $item->link, $itemForename);
-            $processedItems[$index]['username']    = HTML::_('link', $item->link, $itemUsername);
+            $processedItems[$index]              = [];
+            $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
+            $processedItems[$index]['surname']   = HTML::_('link', $item->link, $item->surname);
+            $processedItems[$index]['forename']  = HTML::_('link', $item->link, $itemForename);
+            $processedItems[$index]['username']  = HTML::_('link', $item->link, $itemUsername);
             $processedItems[$index]['t.untisID'] = HTML::_('link', $item->link, $itemUntisID);
 
             $departments = TeachersHelper::getDepartmentNames($item->id);

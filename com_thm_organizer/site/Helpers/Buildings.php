@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 /**
  * Class provides general functions for retrieving building data.
  */

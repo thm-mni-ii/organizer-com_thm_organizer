@@ -11,8 +11,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -32,9 +30,10 @@ class Participant_Edit extends EditModel
      */
     public function getItem($pk = null)
     {
-        $item = parent::getItem($pk);
+        $item              = parent::getItem($pk);
         $item->languageTag = Languages::getShortTag();
-        $item->lessonID = OrganizerHelper::getInput()->getInt('lessonID');
+        $item->lessonID    = OrganizerHelper::getInput()->getInt('lessonID');
+
         return $item;
     }
 }

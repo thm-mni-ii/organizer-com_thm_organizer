@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -40,9 +38,9 @@ class MergeAssociationsField extends ListField
             return [];
         }
 
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $textColumn  = $this->resolveTextColumn($query);
+        $dbo        = Factory::getDbo();
+        $query      = $dbo->getQuery(true);
+        $textColumn = $this->resolveTextColumn($query);
         if (empty($textColumn)) {
             return [];
         }

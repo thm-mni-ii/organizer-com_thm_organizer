@@ -10,8 +10,6 @@
 
 namespace Organizer\Tables;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Table\Table;
 
 /**
@@ -71,7 +69,7 @@ class Subjects extends Assets
     /**
      * Sets the parent as the component root
      *
-     * @param Table $table A Table object for the asset parent.
+     * @param Table   $table A Table object for the asset parent.
      * @param integer $id    Id to look up
      *
      * @return int  the asset id of the component root

@@ -8,8 +8,6 @@
 
 namespace Organizer\Views;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use JHtmlSidebar;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;

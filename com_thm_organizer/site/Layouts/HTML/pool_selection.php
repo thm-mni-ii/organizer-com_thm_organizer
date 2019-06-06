@@ -9,8 +9,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 require_once 'list_modal.php';
 ?>
 <script>

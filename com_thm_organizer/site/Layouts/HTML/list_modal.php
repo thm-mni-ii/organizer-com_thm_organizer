@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 
@@ -64,21 +62,21 @@ $showFilters = !($noFilters or $onlySearch);
                 <?php endforeach; ?>
             </tr>
             <?php if ($showFilters): ?>
-            <tr>
-                <?php foreach (array_keys($this->headers) as $name) :?>
-                <th>
-                <?php if ($name === 'checkbox') : ?>
-                        <div class="js-stools-field-filter">
-                            <?php echo HTML::_('grid.checkall'); ?>
-                        </div>
-                    <?php elseif (isset($filters["filter_$name"])) : ?>
-                        <div class="js-stools-field-filter">
-                            <?php echo $filters["filter_$name"]->input; ?>
-                        </div>
-                    <?php endif; ?>
-                </th>
-                <?php endforeach; ?>
-            </tr>
+                <tr>
+                    <?php foreach (array_keys($this->headers) as $name) : ?>
+                        <th>
+                            <?php if ($name === 'checkbox') : ?>
+                                <div class="js-stools-field-filter">
+                                    <?php echo HTML::_('grid.checkall'); ?>
+                                </div>
+                            <?php elseif (isset($filters["filter_$name"])) : ?>
+                                <div class="js-stools-field-filter">
+                                    <?php echo $filters["filter_$name"]->input; ?>
+                                </div>
+                            <?php endif; ?>
+                        </th>
+                    <?php endforeach; ?>
+                </tr>
             <?php endif; ?>
             </thead>
             <tbody>

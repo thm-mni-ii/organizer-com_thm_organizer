@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\Rooms;
 
 /**

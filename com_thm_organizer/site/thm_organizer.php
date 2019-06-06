@@ -10,8 +10,6 @@
 
 namespace Organizer;
 
-defined('_JEXEC') or die;
-
 require_once 'autoloader.php';
 
 use Organizer\Helpers\OrganizerHelper;

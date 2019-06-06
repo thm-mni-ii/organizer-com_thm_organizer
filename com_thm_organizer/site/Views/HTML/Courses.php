@@ -11,8 +11,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Campuses;
 use Organizer\Helpers\HTML;

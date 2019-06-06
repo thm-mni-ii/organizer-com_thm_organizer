@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 /**
  * Class loads the (lesson) method merge form into display context.
  */

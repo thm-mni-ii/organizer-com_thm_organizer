@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 
 $showHeading = $this->model->params->get('show_page_heading', '');
 $title       = $this->model->params->get('page_title', '');

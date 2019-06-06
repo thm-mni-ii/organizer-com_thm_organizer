@@ -9,8 +9,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 ?>
 <div class="modal fade" id="circular">
     <div class="modal-dialog">

@@ -11,8 +11,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 /**
  * Class loads a form for editing grid data.
  */

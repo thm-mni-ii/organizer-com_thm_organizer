@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 /**
  * Displays a filtered set of subjects into the display context, grouped by associated teachers/coordinators.
  */

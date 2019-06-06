@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -34,16 +32,16 @@ class MergeDepartmentsField extends ListField
      */
     protected function getOptions()
     {
-        $selectedIDs = OrganizerHelper::getSelectedIDs();
-        $resource    = str_replace('_merge', '', OrganizerHelper::getInput()->get('view'));
+        $selectedIDs    = OrganizerHelper::getSelectedIDs();
+        $resource       = str_replace('_merge', '', OrganizerHelper::getInput()->get('view'));
         $validResources = ['category', 'teacher'];
-        $invalid = (empty($selectedIDs) or empty($resource) or !in_array($resource, $validResources));
+        $invalid        = (empty($selectedIDs) or empty($resource) or !in_array($resource, $validResources));
         if ($invalid) {
             return [];
         }
 
         $textColumn = 'short_name_' . Languages::getShortTag();
-        $table = $resource === 'category' ? 'categories' : 'teachers';
+        $table      = $resource === 'category' ? 'categories' : 'teachers';
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
@@ -64,11 +62,12 @@ class MergeDepartmentsField extends ListField
         $options = [];
         $values  = [];
         foreach ($valuePairs as $valuePair) {
-            $options[] = HTML::_('select.option', $valuePair['value'], $valuePair['text']);
+            $options[]                   = HTML::_('select.option', $valuePair['value'], $valuePair['text']);
             $values[$valuePair['value']] = $valuePair['value'];
         }
 
         $this->value = $values;
+
         return empty($options) ? [] : $options;
     }
 }

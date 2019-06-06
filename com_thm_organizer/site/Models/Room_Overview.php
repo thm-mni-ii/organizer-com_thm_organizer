@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Joomla\Utilities\ArrayHelper;
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Languages;

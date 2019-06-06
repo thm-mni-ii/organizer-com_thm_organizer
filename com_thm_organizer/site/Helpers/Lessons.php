@@ -12,8 +12,6 @@ namespace Organizer\Helpers;
 
 use stdClass;
 
-defined('_JEXEC') or die;
-
 /**
  * Provides functions for XML lesson validation and modeling.
  */

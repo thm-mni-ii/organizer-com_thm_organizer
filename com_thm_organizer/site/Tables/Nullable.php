@@ -10,8 +10,6 @@
 
 namespace Organizer\Tables;
 
-defined('_JEXEC') or die;
-
 /**
  * Abstract class for use by resources with nullable values.
  */

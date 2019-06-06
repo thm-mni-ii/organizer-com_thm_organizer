@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;
@@ -24,7 +22,8 @@ class Building extends BaseModel
     /**
      * Authenticates the user
      */
-    protected function allow() {
+    protected function allow()
+    {
         return Access::allowFMAccess();
     }
 }

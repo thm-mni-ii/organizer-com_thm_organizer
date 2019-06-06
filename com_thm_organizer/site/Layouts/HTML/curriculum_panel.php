@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 
 /**
  * Class renders a single curriculum panel.
@@ -20,7 +18,7 @@ class THM_OrganizerTemplateCurriculumPanel
      * Generates the HTML output for a panel element
      *
      * @param object &$pool the element to be rendered
-     * @param string $type  the pool display type
+     * @param string  $type the pool display type
      *
      * @return void  generates HTML output
      */
@@ -42,7 +40,7 @@ class THM_OrganizerTemplateCurriculumPanel
      * Generates the HTML output for a panel element header
      *
      * @param object &$pool the element to be rendered
-     * @param string $type  the pool display type (main for first level pools|modal for others)
+     * @param string  $type the pool display type (main for first level pools|modal for others)
      *
      * @return void  generates HTML output
      */
@@ -71,7 +69,7 @@ class THM_OrganizerTemplateCurriculumPanel
      * Generates the HTML output for a panel element body
      *
      * @param object &$pool the element to be rendered
-     * @param string $type  the pool display type
+     * @param string  $type the pool display type
      *
      * @return void  generates HTML output
      */

@@ -11,8 +11,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use DateInterval;
 use DateTime;
 use Joomla\CMS\Factory;

@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 $time    = date('H:i');
 $blockNo = 0;
 ?>

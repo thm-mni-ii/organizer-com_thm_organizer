@@ -11,8 +11,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Organizer\Helpers\Access;
@@ -106,13 +104,13 @@ class Schedule_Grid extends BaseModel
         }
         $departmentID = empty($reqDepartmentID) ? (int)$params->get('departmentID', 0) : $reqDepartmentID;
 
-        $this->params                  = [];
-        $this->params['departmentID']  = $departmentID;
-        $this->params['showCategories']  = $input->getInt('showCategories', (int)$params->get('showCategories', 1));
+        $this->params                   = [];
+        $this->params['departmentID']   = $departmentID;
+        $this->params['showCategories'] = $input->getInt('showCategories', (int)$params->get('showCategories', 1));
         $this->params['showGroups']     = $input->getInt('showGroups', (int)$params->get('showGroups', 1));
-        $this->params['showRooms']     = $input->getInt('showRooms', (int)$params->get('showRooms', 1));
-        $this->params['showRoomTypes'] = $input->getInt('showRoomTypes', (int)$params->get('showRoomTypes', 1));
-        $this->params['showSubjects']  = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
+        $this->params['showRooms']      = $input->getInt('showRooms', (int)$params->get('showRooms', 1));
+        $this->params['showRoomTypes']  = $input->getInt('showRoomTypes', (int)$params->get('showRoomTypes', 1));
+        $this->params['showSubjects']   = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
 
         $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
         $privilegedAccess = Access::allowViewAccess($departmentID);
@@ -138,7 +136,7 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['groupIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showCategories']    = 0;
+            $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
@@ -158,8 +156,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['teacherIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showGroups']       = 0;
-            $this->params['showCategories']    = 0;
+            $this->params['showGroups']      = 0;
+            $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showSubjects']    = 0;
@@ -178,8 +176,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['roomIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showGroups']       = 0;
-            $this->params['showCategories']    = 0;
+            $this->params['showGroups']      = 0;
+            $this->params['showCategories']  = 0;
             $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
 
@@ -197,8 +195,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['roomTypeIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showGroups']       = 0;
-            $this->params['showCategories']    = 0;
+            $this->params['showGroups']      = 0;
+            $this->params['showCategories']  = 0;
             $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
 
@@ -216,8 +214,8 @@ class Schedule_Grid extends BaseModel
 
         if (!empty($this->params['subjectIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showGroups']       = 0;
-            $this->params['showCategories']    = 0;
+            $this->params['showGroups']      = 0;
+            $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
@@ -236,8 +234,8 @@ class Schedule_Grid extends BaseModel
         $this->setResourceArray('lesson');
         if (!empty($this->params['lessonIDs'])) {
             $this->params['showDepartments'] = 0;
-            $this->params['showGroups']       = 0;
-            $this->params['showCategories']    = 0;
+            $this->params['showGroups']      = 0;
+            $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
@@ -315,15 +313,16 @@ class Schedule_Grid extends BaseModel
      * sets notification value in user_profile table depending on user selection
      * @return string value of previous selection
      */
-    public function setCheckboxChecked(){
+    public function setCheckboxChecked()
+    {
         $userID = Factory::getUser()->id;
         if ($userID == 0) {
             return '';
         }
 
-        $table = '#__user_profiles';
+        $table       = '#__user_profiles';
         $profile_key = 'organizer_notify';
-        $query = $this->_db->getQuery(true);
+        $query       = $this->_db->getQuery(true);
 
         $query->select('profile_value')
             ->from($table)

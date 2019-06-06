@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
@@ -141,7 +139,7 @@ class Subjects extends ListView
                 $responsibilities[] = Languages::_('THM_ORGANIZER_TEACHER_ABBR');
             }
 
-            $name .= ' (' . implode(', ', $responsibilities) . ')';
+            $name    .= ' (' . implode(', ', $responsibilities) . ')';
             $names[] = $name;
         }
 

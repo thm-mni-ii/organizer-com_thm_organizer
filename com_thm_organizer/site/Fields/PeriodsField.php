@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('subform');

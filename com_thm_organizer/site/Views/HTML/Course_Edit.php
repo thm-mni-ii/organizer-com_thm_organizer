@@ -11,8 +11,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
@@ -37,13 +35,16 @@ class Course_Edit extends EditView
 
     public $languageParams;
 
-    public $menu;/**
- * Concrete classes are supposed to use this method to add a toolbar.
- *
- * @return void  adds toolbar items to the view
- */
+    public $menu;
 
-    protected function addToolBar() {
+    /**
+     * Concrete classes are supposed to use this method to add a toolbar.
+     *
+     * @return void  adds toolbar items to the view
+     */
+
+    protected function addToolBar()
+    {
         return;
     }
 
@@ -57,7 +58,7 @@ class Course_Edit extends EditView
      */
     public function display($tpl = null)
     {
-        $lessonID   = OrganizerHelper::getInput()->getInt('id', 0);
+        $lessonID = OrganizerHelper::getInput()->getInt('id', 0);
 
         if (empty($lessonID) or !Access::allowCourseAccess($lessonID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);

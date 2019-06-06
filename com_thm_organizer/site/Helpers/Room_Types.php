@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use stdClass;
 
@@ -96,8 +94,8 @@ class Room_Types implements ResourceCategory
         $exists = $table->load($data);
 
         if ($exists) {
-            $scheduleModel->schedule->room_types->$untisID            = new stdClass;
-            $scheduleModel->schedule->room_types->$untisID->id        = $table->id;
+            $scheduleModel->schedule->room_types->$untisID     = new stdClass;
+            $scheduleModel->schedule->room_types->$untisID->id = $table->id;
         }
     }
 }

@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 
 /**
@@ -75,8 +73,8 @@ class Campuses
     public static function getOptions($used = false)
     {
         $selectedIDs = OrganizerHelper::getSelectedIDs();
-        $resource = OrganizerHelper::getResource(OrganizerHelper::getInput()->get('view'));
-        $tag = Languages::getShortTag();
+        $resource    = OrganizerHelper::getResource(OrganizerHelper::getInput()->get('view'));
+        $tag         = Languages::getShortTag();
 
         $options = [];
         $dbo     = Factory::getDbo();

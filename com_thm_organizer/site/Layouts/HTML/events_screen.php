@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 $params = $this->model->params;
 $metric = 0;
 ?>

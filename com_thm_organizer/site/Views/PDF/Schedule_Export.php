@@ -10,12 +10,12 @@
 
 namespace Organizer\Views\PDF;
 
-defined('_JEXEC') or die;
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 use Exception;
 use Organizer\Views\BaseView;
 use THM_OrganizerTemplateSchedule_Export_PDF;
+
 jimport('tcpdf.tcpdf');
 
 /**

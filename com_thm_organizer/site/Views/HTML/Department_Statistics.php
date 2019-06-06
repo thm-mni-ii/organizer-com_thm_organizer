@@ -10,7 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 jimport('tcpdf.tcpdf');
@@ -68,8 +67,8 @@ class Department_Statistics extends BaseHTMLView
         $attribs                      = [];
         $this->fields['baseSettings'] = [];
 
-        $options  = $this->model->getYearOptions();
-        $default  = date('Y');
+        $options    = $this->model->getYearOptions();
+        $default    = date('Y');
         $termSelect = HTML::selectBox($options, 'year', $attribs, $default);
 
         $this->fields['baseSettings']['termIDs'] = [

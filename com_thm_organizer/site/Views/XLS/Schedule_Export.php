@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\XLS;
 
-defined('_JEXEC') or die;
-
 /**
  * Class creates a XLS file for the display of the filtered schedule information.
  */
@@ -20,11 +18,11 @@ class Schedule_Export extends BaseXMLView
     /**
      * Sets context variables and renders the view.
      *
-     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
      */
-    public function display($tpl = NULL)
+    public function display($tpl = null)
     {
         $model      = $this->getModel();
         $parameters = $model->parameters;

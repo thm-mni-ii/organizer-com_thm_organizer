@@ -8,8 +8,6 @@
 
 namespace Organizer\Views\JSON;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\OrganizerHelper;
@@ -45,7 +43,7 @@ abstract class BaseView extends CMSObject
     /**
      * Constructor
      *
-     * @param   array  $config  A named configuration array for object construction.
+     * @param array $config     A named configuration array for object construction.
      *                          name: the name (optional) of the view (defaults to the view class name suffix).
      *                          charset: the character set to use for display
      *                          escape: the name (optional) of the function to use for escaping strings
@@ -57,25 +55,18 @@ abstract class BaseView extends CMSObject
     public function __construct($config = array())
     {
         // Set the view name
-        if (empty($this->_name))
-        {
-            if (array_key_exists('name', $config))
-            {
+        if (empty($this->_name)) {
+            if (array_key_exists('name', $config)) {
                 $this->_name = $config['name'];
-            }
-            else
-            {
+            } else {
                 $this->_name = $this->getName();
             }
         }
 
         // Set a base path for use by the view
-        if (array_key_exists('base_path', $config))
-        {
+        if (array_key_exists('base_path', $config)) {
             $this->_basePath = $config['base_path'];
-        }
-        else
-        {
+        } else {
             $this->_basePath = JPATH_COMPONENT;
         }
 

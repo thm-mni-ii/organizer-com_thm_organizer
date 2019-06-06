@@ -8,8 +8,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use JHtmlSidebar;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;

@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';

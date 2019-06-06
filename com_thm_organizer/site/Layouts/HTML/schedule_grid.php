@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Languages;

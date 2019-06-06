@@ -10,8 +10,6 @@
 
 namespace Organizer\Tables;
 
-defined('_JEXEC') or die;
-
 use InvalidArgumentException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;

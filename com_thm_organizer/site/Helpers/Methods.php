@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use stdClass;
 
 /**
@@ -34,8 +32,8 @@ class Methods implements ResourceCategory
         $exists = $table->load($data);
 
         if ($exists) {
-            $scheduleModel->schedule->methods->$untisID            = new stdClass;
-            $scheduleModel->schedule->methods->$untisID->id        = $table->id;
+            $scheduleModel->schedule->methods->$untisID     = new stdClass;
+            $scheduleModel->schedule->methods->$untisID->id = $table->id;
         }
     }
 }

@@ -12,8 +12,6 @@
 
 namespace Organizer;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;

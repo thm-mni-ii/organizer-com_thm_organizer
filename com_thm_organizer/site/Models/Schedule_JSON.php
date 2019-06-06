@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Organizer\Helpers\OrganizerHelper;
@@ -882,9 +880,7 @@ class Schedule_JSON extends BaseDatabaseModel
             $this->_db->transactionRollback();
 
             return false;
-        }
-        elseif ($shouldNotify)
-        {
+        } elseif ($shouldNotify) {
             $this->notify();
         }
 
@@ -1247,7 +1243,7 @@ class Schedule_JSON extends BaseDatabaseModel
         for ($i = 0; $i < count($this->changedStatus); $i++) {
             if ($this->changedStatus[$i] == "removed") {
                 for ($j = 0; $j < count($this->changedStatus); $j++) {
-                    $status = 0;
+                    $status       = 0;
                     $participants = THM_OrganizerHelperCourses::getFullParticipantData($this->changedLessonID[$j]);
 
                     if ($this->changedStatus[$j] == "new" and $this->changedLessonID[$i] == $this->changedLessonID[$j]) {
@@ -1271,12 +1267,12 @@ class Schedule_JSON extends BaseDatabaseModel
 
     private function notifyUsers($participants, $courseID, $state, $oldDate, $newDate, $oldTime, $newTime)
     {
-        foreach($participants as $participant) {
+        foreach ($participants as $participant) {
             $participantID = $participant['id'];
-            $mailer = \JFactory::getMailer();
-            $input = THM_OrganizerHelperComponent::getInput();
+            $mailer        = \JFactory::getMailer();
+            $input         = THM_OrganizerHelperComponent::getInput();
 
-            $user = \JFactory::getUser($participantID);
+            $user       = \JFactory::getUser($participantID);
             $userParams = json_decode($user->params, true);
             $mailer->addRecipient($user->email);
 
@@ -1284,7 +1280,7 @@ class Schedule_JSON extends BaseDatabaseModel
                 $input->set('languageTag', explode('-', $userParams['language'])[0]);
             } else {
                 $officialAbbreviation = THM_OrganizerHelperCourses::getCourse($courseID)['instructionLanguage'];
-                $tag = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
+                $tag                  = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
                 $input->set('languageTag', $tag);
             }
 
@@ -1302,8 +1298,8 @@ class Schedule_JSON extends BaseDatabaseModel
                 return;
             }
 
-            $lang = THM_OrganizerHelperLanguages::getLanguage();
-            $campus = THM_OrganizerHelperCourses::getCampus($courseID);
+            $lang       = THM_OrganizerHelperLanguages::getLanguage();
+            $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
             $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
             $mailer->setSubject($courseName);
             $body = $lang->_('THM_ORGANIZER_GREETING') . ',\n\n';

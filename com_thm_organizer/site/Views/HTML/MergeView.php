@@ -15,8 +15,6 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
-defined('_JEXEC') or die;
-
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.
  */
@@ -32,10 +30,11 @@ abstract class MergeView extends FormView
         $name = OrganizerHelper::getClass($this);
         HTML::setTitle(Languages::_('THM_ORGANIZER_' . strtoupper($name)));
         $dataModel = str_replace('_merge', '', strtolower($name));
-        $toolbar = Toolbar::getInstance();
+        $toolbar   = Toolbar::getInstance();
         $toolbar->appendButton(
             'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), $dataModel . '.merge', false
         );
-        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), $dataModel . '.cancel', false);
+        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), $dataModel . '.cancel',
+            false);
     }
 }

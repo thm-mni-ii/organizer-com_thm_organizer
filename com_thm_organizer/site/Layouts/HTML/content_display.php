@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 ?>
 <script type="text/javascript">
     var timer = null;

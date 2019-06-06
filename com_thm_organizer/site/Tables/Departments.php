@@ -10,8 +10,6 @@
 
 namespace Organizer\Tables;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Languages;
 
@@ -59,7 +57,7 @@ class Departments extends Assets
      * Sets the parent as the component root
      *
      * @param Table $table the Table object
-     * @param int     $id    the resource id
+     * @param int   $id    the resource id
      *
      * @return int  the asset id of the component root
      *

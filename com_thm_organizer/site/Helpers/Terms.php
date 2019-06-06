@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 
 /**
@@ -68,7 +66,7 @@ class Terms
      */
     public static function getID($data)
     {
-        $table      = OrganizerHelper::getTable('Terms');
+        $table        = OrganizerHelper::getTable('Terms');
         $loadCriteria = ['startDate' => $data['startDate'], 'endDate' => $data['endDate']];
 
         try {

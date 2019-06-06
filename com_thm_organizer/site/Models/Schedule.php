@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Access;

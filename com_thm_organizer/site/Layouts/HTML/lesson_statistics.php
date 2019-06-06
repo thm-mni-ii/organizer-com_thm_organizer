@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 $action = OrganizerHelper::getRedirectBase();
 $menuID = OrganizerHelper::getInput()->getInt('Itemid');
 

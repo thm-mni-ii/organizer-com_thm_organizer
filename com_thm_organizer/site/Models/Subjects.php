@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use JDatabaseQuery;
 use Joomla\CMS\Form\Form;
 use Organizer\Helpers\Access;
@@ -152,7 +150,7 @@ class Subjects extends ListModelMenu
     protected function populateStateFromMenu()
     {
         $this->admin = false;
-        $params = OrganizerHelper::getParams();
+        $params      = OrganizerHelper::getParams();
         if (empty($params->get('programID'))) {
             return;
         }

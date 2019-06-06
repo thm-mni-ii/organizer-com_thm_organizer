@@ -16,8 +16,6 @@ use Organizer\Helpers\Access;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
-defined('_JEXEC') or die;
-
 /**
  * Class which manages stored building data.
  */

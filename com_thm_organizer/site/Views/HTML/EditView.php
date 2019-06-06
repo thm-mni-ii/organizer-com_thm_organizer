@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.
  */

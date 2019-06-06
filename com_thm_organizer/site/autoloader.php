@@ -10,9 +10,9 @@
 
 namespace Organizer;
 
-use Exception;
-
 defined('_JEXEC') or die;
+
+use Exception;
 
 spl_autoload_register(function ($originalClassName) {
 

@@ -10,8 +10,6 @@
 
 namespace Organizer\Admin;
 
-defined('_JEXEC') or die;
-
 require_once JPATH_COMPONENT_SITE . '/autoloader.php';
 
 use Exception;

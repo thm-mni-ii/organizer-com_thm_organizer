@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\XLS;
 
-defined('_JEXEC') or die;
-
 /**
  * Class creates a XLS file for the display of the filtered schedule information.
  */

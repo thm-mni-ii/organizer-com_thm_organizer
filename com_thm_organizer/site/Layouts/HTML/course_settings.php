@@ -9,8 +9,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 ?>
 <form action="" method="post" id="adminForm" name="adminForm">
     <input type="hidden" name="option" value="com_thm_organizer"/>

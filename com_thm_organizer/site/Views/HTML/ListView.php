@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Organizer\Helpers\HTML;
 use Joomla\CMS\Factory;
@@ -131,7 +129,7 @@ abstract class ListView extends BaseHTMLView
         $attributes['class'] = 'btn btn-micro hasTooltip';
         $attributes['class'] .= empty($value) ? ' inactive' : '';
 
-        $url = "index.php?option=com_thm_organizer&id=$id&value=$value";
+        $url  = "index.php?option=com_thm_organizer&id=$id&value=$value";
         $url  .= "&task=$resource.toggle";
         $url  .= empty($attribute) ? '' : "&attribute=$attribute";
         $link = HTML::_('link', $url, $icon, $attributes);

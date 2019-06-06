@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 require_once 'panel.php';
 require_once 'item.php';
 ?>

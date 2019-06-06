@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Router\Route;
 
@@ -43,22 +41,22 @@ $nameProperty = 'name_' . $this->languageTag;
             <?php
             echo HTML::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
 
-    foreach ($this->form->getFieldSets() as $set) {
-        $isInitialized  = (bool)$this->form->getValue('id');
-        $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
+            foreach ($this->form->getFieldSets() as $set) {
+                $isInitialized  = (bool)$this->form->getValue('id');
+                $displayInitial = isset($set->displayinitial) ? $set->displayinitial : true;
 
-        if ($displayInitial or $isInitialized) {
-            echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_($set->label, true));
-            echo $this->form->renderFieldset($set->name);
-            echo HTML::_('bootstrap.endTab');
-        }
-    }
-    echo HTML::_('bootstrap.endTabSet');
-    ?>
-    </div>
-    <?php echo HTML::_('form.token'); ?>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
-    <input type="hidden" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
-</form>
+                if ($displayInitial or $isInitialized) {
+                    echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_($set->label, true));
+                    echo $this->form->renderFieldset($set->name);
+                    echo HTML::_('bootstrap.endTab');
+                }
+            }
+            echo HTML::_('bootstrap.endTabSet');
+            ?>
+        </div>
+        <?php echo HTML::_('form.token'); ?>
+        <input type="hidden" name="task" value=""/>
+        <input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
+        <input type="hidden" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
+    </form>
 </div>

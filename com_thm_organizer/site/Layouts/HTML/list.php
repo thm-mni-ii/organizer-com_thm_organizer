@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Layout\LayoutHelper;
 use Organizer\Helpers\HTML;
 

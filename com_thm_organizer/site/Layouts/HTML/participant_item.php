@@ -9,8 +9,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Router\Route;
 
 // Course Status

@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\JSON;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Pools as PoolsHelper;
 

@@ -11,8 +11,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;

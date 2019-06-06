@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\Categories;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Descriptions;

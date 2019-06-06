@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\Campuses;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Teachers;

@@ -10,8 +10,6 @@
 
 namespace Organizer\Tables;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Rules;
 use Organizer\Helpers\OrganizerHelper;
 

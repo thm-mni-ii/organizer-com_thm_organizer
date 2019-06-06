@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\JSON;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\OrganizerHelper;
@@ -44,7 +42,8 @@ class Schedules extends BaseView
      *
      * @return array the lesson parameters
      */
-    private function getLessonParameters() {
+    private function getLessonParameters()
+    {
 
         $input       = OrganizerHelper::getInput();
         $inputParams = $input->getArray();

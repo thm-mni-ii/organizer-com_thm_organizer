@@ -8,8 +8,6 @@
  * @link        www.thm.de
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 
 $showHeading = $this->params->get('show_page_heading', '');

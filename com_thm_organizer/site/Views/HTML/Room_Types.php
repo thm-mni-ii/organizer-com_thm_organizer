@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
@@ -68,7 +66,7 @@ class Room_Types extends ListView
         $headers   = [];
 
         $headers['checkbox']     = '';
-        $headers['untisID']    = HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering);
+        $headers['untisID']      = HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering);
         $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
         $headers['min_capacity'] = HTML::sort('MIN_CAPACITY', 'min_capacity', $direction, $ordering);
         $headers['max_capacity'] = HTML::sort('MAX_CAPACITY', 'max_capacity', $direction, $ordering);
@@ -94,7 +92,7 @@ class Room_Types extends ListView
         foreach ($this->items as $item) {
             $processedItems[$index]                 = [];
             $processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['untisID']    = HTML::_('link', $item->link, $item->untisID);
+            $processedItems[$index]['untisID']      = HTML::_('link', $item->link, $item->untisID);
             $processedItems[$index]['name']         = HTML::_('link', $item->link, $item->name);
             $processedItems[$index]['min_capacity'] = $item->min_capacity;
             $processedItems[$index]['max_capacity'] = $item->max_capacity;

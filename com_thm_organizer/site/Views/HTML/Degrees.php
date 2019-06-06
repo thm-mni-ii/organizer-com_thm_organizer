@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
@@ -83,7 +81,7 @@ class Degrees extends ListView
             return;
         }
 
-        $index = 0;
+        $index          = 0;
         $processedItems = [];
 
         foreach ($this->items as $item) {

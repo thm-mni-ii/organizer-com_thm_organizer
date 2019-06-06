@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\XLS;
 
-defined('_JEXEC') or die;
-
 /**
  * Class instantiates and renders an XLS File with the department statistics.
  */
@@ -20,7 +18,7 @@ class Department_Statistics extends BaseXMLView
     /**
      * Sets context variables and renders the view.
      *
-     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
      * @return void
      *

@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\JSON;
 
-defined('_JEXEC') or die;
-
 use Organizer\Models\Subject_Details as Subject_DetailsModel;
 
 /**

@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -32,6 +30,7 @@ class MergeIDsField extends BaseField
         $selectedIDs = OrganizerHelper::getSelectedIDs();
         asort($selectedIDs);
         $values = implode(',', $selectedIDs);
+
         return '<input type="hidden" name="' . $this->name . '" value="' . $values . '"/>';
     }
 }

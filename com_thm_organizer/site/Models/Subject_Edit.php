@@ -11,8 +11,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Exception;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;

@@ -11,8 +11,6 @@
 
 namespace Organizer\Tables;
 
-defined('_JEXEC') or die;
-
 /**
  * Class instantiates a Table Object associated with the colors table.
  */

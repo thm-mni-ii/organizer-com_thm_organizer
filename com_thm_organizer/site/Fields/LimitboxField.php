@@ -8,8 +8,6 @@
 
 namespace Organizer\Fields;
 
-defined('_JEXEC') or die;
-
 /**
  * Field to load a list of possible item count limits
  */

@@ -8,9 +8,8 @@
 
 namespace Organizer\Views\XML;
 
-defined('_JEXEC') or die;
-
 use Organizer\Views\BaseView;
+
 jimport('phpexcel.library.PHPExcel');
 
 /**

@@ -10,8 +10,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
@@ -64,7 +62,7 @@ class Rooms extends ListView
         $headers   = [];
 
         $headers['checkbox']   = '';
-        $headers['name']   = HTML::sort('NAME', 'r.name', $direction, $ordering);
+        $headers['name']       = HTML::sort('NAME', 'r.name', $direction, $ordering);
         $headers['buildingID'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
         $headers['typeID']     = HTML::sort('TYPE', 'type', $direction, $ordering);
 
@@ -88,7 +86,7 @@ class Rooms extends ListView
         foreach ($this->items as $item) {
             $processedItems[$index]               = [];
             $processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']   = HTML::_('link', $item->link, $item->name);
+            $processedItems[$index]['name']       = HTML::_('link', $item->link, $item->name);
             $processedItems[$index]['buildingID'] = HTML::_('link', $item->link, $item->buildingName);
             $processedItems[$index]['typeID']     = HTML::_('link', $item->link, $item->type);
             $index++;

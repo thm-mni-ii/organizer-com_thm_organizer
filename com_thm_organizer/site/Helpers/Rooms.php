@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use stdClass;
@@ -133,7 +131,7 @@ class Rooms implements XMLValidator
         $input    = $app->input;
         $formData = OrganizerHelper::getFormInput();
 
-        $menuCampusID = OrganizerHelper::getParams()->get('campusID', 0);
+        $menuCampusID  = OrganizerHelper::getParams()->get('campusID', 0);
         $defaultCampus = $input->getInt('campusID', $menuCampusID);
 
         $buildingID = empty($formData['buildingID']) ? $input->getInt('buildingID') : (int)$formData['buildingID'];

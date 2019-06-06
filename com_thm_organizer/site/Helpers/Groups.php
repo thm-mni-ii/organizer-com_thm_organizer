@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use stdClass;
@@ -159,8 +157,8 @@ class Groups implements XMLValidator
     public static function getOptions()
     {
         $selectedCategories = OrganizerHelper::getInput()->getString('categoryIDs');
-        $short            = count($selectedCategories) === 1;
-        $groups           = self::getGroups();
+        $short              = count($selectedCategories) === 1;
+        $groups             = self::getGroups();
 
         $results = [];
         foreach ($groups as $group) {

@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 /**
  * Class provides methods for communication with the LSF curriculum documentation system.
  */

@@ -12,8 +12,6 @@
 
 namespace Organizer\Views\HTML;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -91,9 +89,10 @@ class Subject_Details extends BaseHTMLView
 
             OrganizerHelper::addMenuParameters($this);
 
-            $this->languageLinks    = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-            $this->languageParams   = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
-            $this->disclaimer       = new LayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+            $this->languageLinks  = new LayoutFile('language_links',
+                JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+            $this->languageParams = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
+            $this->disclaimer     = new LayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         }
 
         parent::display($tpl);

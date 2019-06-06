@@ -10,10 +10,9 @@
 
 namespace Organizer\Views\ICS;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Organizer\Views\BaseView;
+
 require_once JPATH_ROOT . '/components/com_thm_organizer/icalcreator/iCalcreator.php';
 
 /**

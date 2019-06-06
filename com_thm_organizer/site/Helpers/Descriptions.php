@@ -10,8 +10,6 @@
 
 namespace Organizer\Helpers;
 
-defined('_JEXEC') or die;
-
 use stdClass;
 
 /**
@@ -110,12 +108,15 @@ class Descriptions implements XMLValidator
         switch ($typeFlag) {
             case 'f':
                 Fields::setID($scheduleModel, $untisID);
+
                 return;
             case 'r':
                 Room_Types::setID($scheduleModel, $untisID);
+
                 return;
             case 'u':
                 Methods::setID($scheduleModel, $untisID);
+
                 return;
         }
     }
