@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="untisID" type="MergeValues" label="UNTISID"/>
+        <field name="untisID" type="MergeValues" label="UNTIS_ID"/>
         <field type="spacer"/>
         <field name="abbreviation_en" type="MergeValues" label="ABBREVIATION_EN"/>
         <field name="name_en" type="MergeValues" label="NAME_EN"/>

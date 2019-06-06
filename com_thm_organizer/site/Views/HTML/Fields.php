@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Colors;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -58,13 +59,13 @@ class Fields extends ListView
      */
     public function getHeaders()
     {
-        $ordering             = $this->state->get('list.ordering');
-        $direction            = $this->state->get('list.direction');
-        $headers              = [];
-        $headers['checkbox']  = '';
-        $headers['field']     = HTML::sort('NAME', 'field', $direction, $ordering);
-        $headers['untisID'] = HTML::sort('UNTISID', 'untisID', $direction, $ordering);
-        $headers['colorID']   = HTML::sort('COLOR', 'c.name', $direction, $ordering);
+        $ordering            = $this->state->get('list.ordering');
+        $direction           = $this->state->get('list.direction');
+        $headers             = [];
+        $headers['checkbox'] = '';
+        $headers['field']    = HTML::sort('NAME', 'field', $direction, $ordering);
+        $headers['untisID']  = HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering);
+        $headers['colorID']  = HTML::sort('COLOR', 'c.name', $direction, $ordering);
 
         return $headers;
     }
@@ -80,15 +81,17 @@ class Fields extends ListView
             return;
         }
 
-        $index = 0;
+        $index          = 0;
+        $link           = 'index.php?option=com_thm_organizer&view=field_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {
-            $processedItems[$index]              = [];
-            $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['field']     = HTML::_('link', $item->link, $item->field);
-            $processedItems[$index]['untisID'] = HTML::_('link', $item->link, $item->untisID);
-            $processedItems[$index]['colorID']   = HTML::colorField($item->name, $item->color);
+            $thisLink                           = $link . $item->id;
+            $processedItems[$index]             = [];
+            $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+            $processedItems[$index]['field']    = HTML::_('link', $thisLink, $item->field);
+            $processedItems[$index]['untisID']  = HTML::_('link', $thisLink, $item->untisID);
+            $processedItems[$index]['colorID']  = Colors::getListDisplay($item->color, $item->colorID);
             $index++;
         }
 

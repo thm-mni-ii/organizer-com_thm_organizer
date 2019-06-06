@@ -33,10 +33,10 @@ use Organizer\Helpers\Languages;
     </div>
     <div class="modal-footer">
         <button class="btn" type="button" data-dismiss="modal">
-            <?php echo Languages::_('JCANCEL'); ?>
+            <?php echo Languages::_('THM_ORGANIZER_CANCEL'); ?>
         </button>
         <button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('group.batch');">
-            <?php echo Languages::_('JSAVE'); ?>
+            <?php echo Languages::_('THM_ORGANIZER_SAVE'); ?>
         </button>
     </div>
 </div>

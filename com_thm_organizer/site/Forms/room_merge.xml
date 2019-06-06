@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="untisID" type="MergeValues" label="UNTISID"/>
+        <field name="untisID" type="MergeValues" label="UNTIS_ID"/>
         <field name="name" type="MergeValues" label="NAME"/>
         <field name="buildingID" type="MergeAssociations" label="BUILDING" textcolumn="b.name" from="rooms AS rm"
                innerJoins="buildings AS b ON b.id = rm.buildingID"/>

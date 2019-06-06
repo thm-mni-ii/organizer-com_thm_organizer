@@ -20,6 +20,28 @@ use stdClass;
 class Fields implements ResourceCategory
 {
     /**
+     * Creates the display for a field item as used in a list view.
+     *
+     * @param int $fieldID the field id
+     *
+     * @return string the HTML output of the field attribute display
+     */
+    public static function getListDisplay($fieldID)
+    {
+        $table = OrganizerHelper::getTable('Fields');
+
+        $text    = '';
+        $colorID = 0;
+        if ($table->load($fieldID)) {
+            $textColumn = 'field_' . Languages::getShortTag();
+            $text       = $table->$textColumn;
+            $colorID    = $table->colorID;
+        }
+
+        return Colors::getListDisplay($text, $colorID);
+    }
+
+    /**
      * Sets indexes for previously defined resource category types. Does not create them.
      *
      * @param object &$scheduleModel the validating schedule model
@@ -34,8 +56,8 @@ class Fields implements ResourceCategory
         $exists = $table->load($data);
 
         if ($exists) {
-            $scheduleModel->schedule->fields->$untisID            = new stdClass;
-            $scheduleModel->schedule->fields->$untisID->id        = $table->id;
+            $scheduleModel->schedule->fields->$untisID     = new stdClass;
+            $scheduleModel->schedule->fields->$untisID->id = $table->id;
         }
     }
 }

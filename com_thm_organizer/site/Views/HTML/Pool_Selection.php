@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Fields;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
@@ -103,19 +104,7 @@ class Pool_Selection extends ListView
             $processedItems[$index]['name']      = $item->name;
             $programName                         = Mappings::getProgramName('pool', $item->id);
             $processedItems[$index]['programID'] = $programName;
-            if (!empty($item->field)) {
-                if (!empty($item->color)) {
-                    $processedItems[$index]['fieldID'] = HTML::colorField(
-                        $item->field,
-                        $item->color
-                    );
-                } else {
-                    $processedItems[$index]['fieldID'] = $item->field;
-                }
-            } else {
-                $processedItems[$index]['fieldID'] = '';
-            }
-
+            $processedItems[$index]['fieldID']   = Fields::getListDisplay($item->fieldID);
             $index++;
         }
 

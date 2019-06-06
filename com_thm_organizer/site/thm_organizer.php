@@ -14,11 +14,6 @@ defined('_JEXEC') or die;
 
 require_once 'autoloader.php';
 
-use Exception;
 use Organizer\Helpers\OrganizerHelper;
 
-try {
-    OrganizerHelper::setUp();
-} catch (Exception $exc) {
-    throw $exc;
-}
+OrganizerHelper::setUp();

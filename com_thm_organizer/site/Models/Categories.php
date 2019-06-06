@@ -20,7 +20,7 @@ use Organizer\Helpers\Languages;
  */
 class Categories extends ListModel
 {
-    protected $defaultOrdering = 'cat.untisID';
+    protected $defaultOrdering = 'cat.name';
 
     /**
      * Method to get all categories from the database

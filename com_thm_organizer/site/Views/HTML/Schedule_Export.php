@@ -75,7 +75,7 @@ class Schedule_Export extends BaseHTMLView
             return 0;
         }
 
-        return (int)$app->getMenu()->getActive()->params->get('si', false);
+        return (int)OrganizerHelper::getParams()->get('si');
     }
 
     /**

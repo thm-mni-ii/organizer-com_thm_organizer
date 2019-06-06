@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Colors as ColorsHelper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -77,14 +78,16 @@ class Colors extends ListView
             return;
         }
 
-        $index = 0;
+        $index          = 0;
+        $link           = 'index.php?option=com_thm_organizer&view=color_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {
+            $thisLink                           = $link . $item->id;
             $processedItems[$index]             = [];
             $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']     = HTML::_('link', $item->link, $item->name);
-            $processedItems[$index]['color']    = HTML::colorField($item->color, $item->color);
+            $processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
+            $processedItems[$index]['color']    = ColorsHelper::getListDisplay($item->color, $item->id);
             $index++;
         }
 

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Fields;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
@@ -85,27 +86,17 @@ class Pools extends ListView
         }
 
         $index          = 0;
+        $link           = 'index.php?option=com_thm_organizer&view=pool_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {
+            $thisLink                            = $link . $item->id;
             $processedItems[$index]              = [];
             $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']      = HTML::_('link', $item->link, $item->name);
-            $programName                 = Mappings::getProgramName('pool', $item->id);
-            $processedItems[$index]['programID'] = HTML::_('link', $item->link, $programName);
-            if (!empty($item->field)) {
-                if (!empty($item->color)) {
-                    $processedItems[$index]['fieldID'] = HTML::colorField(
-                        $item->field,
-                        $item->color
-                    );
-                } else {
-                    $processedItems[$index]['fieldID'] = $item->field;
-                }
-            } else {
-                $processedItems[$index]['fieldID'] = '';
-            }
-
+            $processedItems[$index]['name']      = HTML::_('link', $thisLink, $item->name);
+            $programName                         = Mappings::getProgramName('pool', $item->id);
+            $processedItems[$index]['programID'] = HTML::_('link', $thisLink, $programName);
+            $processedItems[$index]['fieldID']   = Fields::getListDisplay($item->fieldID);
             $index++;
         }
 

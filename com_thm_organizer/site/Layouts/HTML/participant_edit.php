@@ -20,7 +20,7 @@ if (empty($this->course)) {
     $headerText = Languages::_('THM_ORGANIZER_USER_PROFILE');
     $lessonID   = 0;
     $message    = '';
-    $submitText = Languages::_('JSAVE');
+    $submitText = Languages::_('THM_ORGANIZER_SAVE');
 } else {
     $headerText = '<div class="header-introtext">' . Languages::_('THM_ORGANIZER_PARTICIPANT_EDIT_REGISTER_HEADER') . '</div>';
     $headerText .= $this->course['name'];
@@ -69,7 +69,7 @@ if (empty($this->course)) {
                     <?php echo $submitText; ?>
                 </button>
                 <a href="<?php echo Route::_('index.php?option=com_thm_organizer&view=course_list', false, 2); ?>"
-                   class="btn" type="button"><?php echo Languages::_('JCANCEL') ?></a>
+                   class="btn" type="button"><?php echo Languages::_('THM_ORGANIZER_CANCEL') ?></a>
             </div>
         </div>
     </form>

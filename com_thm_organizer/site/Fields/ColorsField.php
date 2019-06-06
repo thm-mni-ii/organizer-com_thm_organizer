@@ -13,7 +13,7 @@ namespace Organizer\Fields;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Organizer\Helpers\HTML;
+use Organizer\Helpers\Colors;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use stdClass;
@@ -37,8 +37,9 @@ class ColorsField extends ListField
      */
     public function getInput()
     {
-        $html    = '<select id="' . $this->id . '" name="' . $this->name . '">';
-        $options = $this->getOptions();
+        $onChange = empty($this->getAttribute('onchange')) ? '' : ' onchange="' . $this->getAttribute('onchange') . '"';
+        $html     = '<select name="' . $this->name . '"' . $onChange . '>';
+        $options  = $this->getOptions();
         foreach ($options as $option) {
             $style    = isset($option->style) ? ' style="' . $option->style . '"' : '';
             $selected = $this->value == $option->value ? ' selected="selected"' : '';
@@ -84,7 +85,7 @@ class ColorsField extends ListField
             $option->text  = $color['text'];
             $option->value = $color['value'];
 
-            $textColor     = HTML::textColor($color['color']);
+            $textColor     = Colors::getDynamicTextColor($color['color']);
             $option->style = "background-color:{$color['color']};color:$textColor;";
             $options[]     = $option;
         }

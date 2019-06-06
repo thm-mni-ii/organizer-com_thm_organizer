@@ -100,7 +100,7 @@ class Groups extends ListView
         $headers['full_name'] = HTML::sort('FULL_NAME', 'ppl.full_name', $direction, $ordering);
         $headers['name']      = HTML::sort('SELECT_BOX_DISPLAY', 'ppl.name', $direction, $ordering);
         $headers['grid']      = Languages::_('THM_ORGANIZER_GRID');
-        $headers['untisID']   = HTML::sort('UNTISID', 'ppl.untisID', $direction, $ordering);
+        $headers['untisID']   = HTML::sort('UNTIS_ID', 'ppl.untisID', $direction, $ordering);
 
         return $headers;
     }

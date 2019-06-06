@@ -73,7 +73,7 @@ abstract class BaseView extends HtmlView
                     }
                 }
                 if (!$exists) {
-                    throw new Exception(Languages::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $layoutName),
+                    throw new Exception(Languages::sprintf('THM_ORGANIZER_LAYOUT_NOT_FOUND', $layoutName),
                         500);
                 }
                 $this->_layout = strtolower($this->getName());

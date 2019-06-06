@@ -33,11 +33,11 @@ $nameProperty = 'name_' . $this->languageTag;
           class="form-horizontal">
 
         <button type="submit" class="validate btn btn-primary">
-            <?php echo Languages::_('JSAVE'); ?>
+            <?php echo Languages::_('THM_ORGANIZER_SAVE'); ?>
         </button>
 
         <a href="<?php echo Route::_($backURL, false); ?>"
-           class="btn" type="button"><?php echo Languages::_('JCANCEL') ?></a>
+           class="btn" type="button"><?php echo Languages::_('THM_ORGANIZER_CANCEL') ?></a>
         <hr>
         <div class="form-horizontal">
             <?php

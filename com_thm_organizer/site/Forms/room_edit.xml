@@ -2,8 +2,8 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" size="40" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field name="untisID" type="text" size="40" label="THM_ORGANIZER_UNTIS_ID"
+               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
         <field name="name" type="text" size="40" label="THM_ORGANIZER_NAME" description="THM_ORGANIZER_NAME_DESC"
                required="true"/>
         <field name="buildingID" type="GenericList" label="BUILDING" valuecolumn="id" textcolumn="name"

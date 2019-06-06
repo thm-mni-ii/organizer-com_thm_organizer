@@ -107,5 +107,5 @@ if (!empty($this->courses)) {
     }
     $this->renderCollab();
     echo $this->disclaimer->render([]);
-} ?>
-</div>
+}
+echo '</div>';

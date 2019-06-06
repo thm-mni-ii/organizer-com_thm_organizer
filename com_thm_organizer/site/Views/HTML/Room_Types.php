@@ -68,7 +68,7 @@ class Room_Types extends ListView
         $headers   = [];
 
         $headers['checkbox']     = '';
-        $headers['untisID']    = HTML::sort('UNTISID', 'untisID', $direction, $ordering);
+        $headers['untisID']    = HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering);
         $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
         $headers['min_capacity'] = HTML::sort('MIN_CAPACITY', 'min_capacity', $direction, $ordering);
         $headers['max_capacity'] = HTML::sort('MAX_CAPACITY', 'max_capacity', $direction, $ordering);

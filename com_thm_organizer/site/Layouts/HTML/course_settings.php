@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
             </div>
         <?php endforeach; ?>
         <button type="submit" class="btn">
-            <span class="icon-forward-2"></span> <?php echo Languages::_('JSAVE'); ?>
+            <span class="icon-forward-2"></span> <?php echo Languages::_('THM_ORGANIZER_SAVE'); ?>
         </button>
         <div class="clear"></div>
     </div>

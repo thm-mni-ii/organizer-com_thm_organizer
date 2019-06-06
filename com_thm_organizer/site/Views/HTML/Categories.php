@@ -63,7 +63,7 @@ class Categories extends ListView
         $headers   = [];
 
         $headers['checkbox'] = '';
-        $headers['untisID']  = HTML::sort('UNTISID', 'ppr.untisID', $direction, $ordering);
+        $headers['untisID']  = HTML::sort('UNTIS_ID', 'ppr.untisID', $direction, $ordering);
         $headers['name']     = HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
         $headers['program']  = Languages::_('THM_ORGANIZER_PROGRAM');
 

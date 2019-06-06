@@ -133,9 +133,8 @@ class Rooms implements XMLValidator
         $input    = $app->input;
         $formData = OrganizerHelper::getFormInput();
 
-        $menuCampus    = (empty($app->getMenu()) or empty($app->getMenu()->getActive())) ?
-            0 : $app->getMenu()->getActive()->params->get('campusID', 0);
-        $defaultCampus = $input->getInt('campusID', $menuCampus);
+        $menuCampusID = OrganizerHelper::getParams()->get('campusID', 0);
+        $defaultCampus = $input->getInt('campusID', $menuCampusID);
 
         $buildingID = empty($formData['buildingID']) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
         $campusID   = empty($formData['campusID']) ? $defaultCampus : (int)$formData['campusID'];

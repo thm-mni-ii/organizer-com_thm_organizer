@@ -70,7 +70,7 @@ class Teachers extends ListView
         $headers['surname']      = Languages::_('THM_ORGANIZER_SURNAME');
         $headers['forename']     = Languages::_('THM_ORGANIZER_FORENAME');
         $headers['username']     = Languages::_('THM_ORGANIZER_USERNAME');
-        $headers['t.untisID']  = Languages::_('THM_ORGANIZER_UNTISID');
+        $headers['t.untisID']  = Languages::_('THM_ORGANIZER_UNTIS_ID');
         $headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
 
         return $headers;

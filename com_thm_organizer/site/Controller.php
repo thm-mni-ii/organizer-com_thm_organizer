@@ -261,13 +261,9 @@ class Controller extends BaseController
                 $app->registeredurlparams = $registeredurlparams;
             }
 
-            try {
-                /** @var \JCacheControllerView $cache */
-                $cache = \JFactory::getCache($option, 'view');
-                $cache->get($view, 'display');
-            } catch (\JCacheException $exception) {
-                $view->display();
-            }
+            $cache = Factory::getCache($option, 'view');
+            $cache->get($view, 'display');
+
         } else {
             $view->display();
         }

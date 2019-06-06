@@ -130,7 +130,11 @@ class OrganizerHelper
             if ($rollback) {
                 $dbo->transactionRollback();
             }
+
+            return $default;
         }
+
+        return $default;
     }
 
     /**
@@ -384,7 +388,6 @@ class OrganizerHelper
      * Instantiates the controller.
      *
      * @return void
-     * @throws Exception => task not found
      */
     public static function setUp()
     {
@@ -396,7 +399,12 @@ class OrganizerHelper
         }
 
         $controllerObj = new Controller;
-        $controllerObj->execute($task);
+
+        try {
+            $controllerObj->execute($task);
+        } catch (Exception $exception) {
+            self::message($exception->getMessage(), 'error');
+        }
         $controllerObj->redirect();
     }
 }

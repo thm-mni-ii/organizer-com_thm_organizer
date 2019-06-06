@@ -25,22 +25,6 @@ use Joomla\CMS\Uri\Uri;
 class HTML extends HTMLHelper
 {
     /**
-     * Gets a div with a given background color and text with a dynamically calculated text color
-     *
-     * @param string $text    the text to be displayed
-     * @param string $bgColor hexadecimal color code
-     *
-     * @return string  the html output string
-     */
-    public static function colorField($text, $bgColor)
-    {
-        $textColor = self::textColor($bgColor);
-        $style     = 'color: ' . $textColor . '; background-color: ' . $bgColor . '; text-align:center';
-
-        return '<div class="color-preview" style="' . $style . '">' . $text . '</div>';
-    }
-
-    /**
      * Gets an array of dynamically translated default options.
      *
      * @param object $field   the field object.
@@ -199,29 +183,6 @@ class HTML extends HTMLHelper
         $constant = "THM_ORGANIZER_$constant";
 
         return self::_('searchtools.sort', $constant, $column, $direction, $ordering);
-    }
-
-    /**
-     * Gets an appropriate value for contrasting text color.
-     *
-     * @param string $bgColor the background color with which do
-     *
-     * @return string  the hexadecimal value for an appropriate text color
-     */
-    public static function textColor($bgColor)
-    {
-        $color              = substr($bgColor, 1);
-        $params             = OrganizerHelper::getParams();
-        $red                = hexdec(substr($color, 0, 2));
-        $green              = hexdec(substr($color, 2, 2));
-        $blue               = hexdec(substr($color, 4, 2));
-        $relativeBrightness = ($red * 299) + ($green * 587) + ($blue * 114);
-        $brightness         = $relativeBrightness / 1000;
-        if ($brightness >= 128) {
-            return $params->get('darkTextColor', '#4a5c66');
-        } else {
-            return $params->get('lightTextColor', '#ffffff');
-        }
     }
 
     /**

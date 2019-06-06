@@ -13,9 +13,9 @@ namespace Organizer\Models;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Organizer\Helpers\Access;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class retrieves information for a filtered set of (subject) pools. Modal view.
@@ -23,129 +23,39 @@ use Organizer\Helpers\OrganizerHelper;
 class Pool_Selection extends ListModel
 {
     /**
-     * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+     * Method to select the tree of a given major
      *
-     * @return \JDatabaseQuery   A \JDatabaseQuery object to retrieve the data set.
+     * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {
-        $query = $this->_db->getQuery(true);
-
         $shortTag = Languages::getShortTag();
-        $select   = "DISTINCT p.id, p.name_$shortTag AS name, field_$shortTag as field, color, ";
-        $parts    = ["'index.php?option=com_thm_organizer&view=pool_selection&id='", 'p.id'];
-        $select   .= $query->concatenate($parts, '') . ' AS link ';
-        $query->select($select);
+        $query    = $this->_db->getQuery(true);
 
-        $query->from('#__thm_organizer_pools AS p');
-        $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->leftJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
+        $query->select("DISTINCT p.id, p.name_$shortTag AS name, p.fieldID")
+            ->from('#__thm_organizer_pools AS p');
+
+        $allowedDepartments = Access::getAccessibleDepartments('document');
+        $query->where('(p.departmentID IN (' . implode(',', $allowedDepartments) . ') OR p.departmentID IS NULL)');
 
         $searchColumns = [
-            'name_de',
-            'short_name_de',
-            'abbreviation_de',
-            'description_de',
-            'name_en',
-            'short_name_en',
-            'abbreviation_en',
-            'description_en'
+            'p.name_de',
+            'p.short_name_de',
+            'p.abbreviation_de',
+            'p.description_de',
+            'p.name_en',
+            'p.short_name_en',
+            'p.abbreviation_en',
+            'p.description_en'
         ];
         $this->setSearchFilter($query, $searchColumns);
-        $this->setValueFilters($query, ['fieldID']);
-
-        // Only pools
-        $query->where('m.programID IS NULL AND m.subjectID IS NULL');
+        $this->setValueFilters($query, ['departmentID', 'fieldID']);
 
         $programID = $this->state->get('filter.programID', '');
-
-        // Program filter selection made
-        if (!empty($programID)) {
-            // Pools unassociated with programs => no mappings
-            if ($programID == -1) {
-                $query->where('m.id IS NULL');
-            } else {
-                $this->setProgramFilter($query, $programID);
-            }
-        }
-
-        // Mapping filters are irrelevant without mappings :)
-        if ($programID != -1) {
-            $this->setMappingFilters($query);
-        }
+        Mappings::setResourceIDFilter($query, $programID, 'program', 'pool');
 
         $this->setOrdering($query);
 
         return $query;
-    }
-
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return mixed  The data for the form.
-     */
-    protected function loadFormData()
-    {
-        $data               = parent::loadFormData();
-        $data->list['type'] = $this->state->{'list.type'};
-        $data->list['id']   = $this->state->{'list.id'};
-
-        return $data;
-    }
-
-    /**
-     * Sets exclusions for parent and child pools based on mapping values.
-     *
-     * @param object &$query the query object
-     */
-    private function setMappingFilters(&$query)
-    {
-        $type       = $this->state->{'list.type'};
-        $resourceID = $this->state->{'list.id'};
-
-        $invalid = (($type != 'program' and $type != 'pool') or $resourceID == 0);
-        if ($invalid) {
-            return;
-        }
-
-        $boundarySets = Mappings::getBoundaries($type, $resourceID);
-        if (empty($boundarySets)) {
-            return;
-        }
-
-        $newQuery = $this->_db->getQuery(true);
-        $newQuery->select('poolID')->from('#__thm_organizer_mappings');
-        $newQuery->where('poolID IS NOT NULL');
-        foreach ($boundarySets as $boundarySet) {
-            $newQuery->where("(lft BETWEEN '{$boundarySet['lft']}' AND '{$boundarySet['rgt']}')");
-            $query->where("NOT (m.lft < '{$boundarySet['lft']}' AND m.rgt > '{$boundarySet['rgt']}')");
-        }
-
-        $query->where('p.id NOT IN (' . (string)$newQuery . ')');
-    }
-
-    /**
-     * Sets the program id filter for a query. Used in pool manager and subject manager.
-     *
-     * @param object &$query     the query object
-     * @param int     $programID the id of the resource from the filter
-     *
-     * @return void  sets query object variables
-     */
-    public function setProgramFilter(&$query, $programID)
-    {
-        if (!is_numeric($programID)) {
-            return;
-        }
-
-        $ranges = Mappings::getResourceRanges('program', $programID);
-        if (empty($ranges)) {
-            return;
-        }
-
-        // Specific association
-        $query->where("m.lft > '{$ranges[0]['lft']}'");
-        $query->where("m.rgt < '{$ranges[0]['rgt']}'");
     }
 }

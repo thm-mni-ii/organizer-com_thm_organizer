@@ -35,6 +35,26 @@ class Subject_Selection extends ListView
     }
 
     /**
+     * Function determines whether the user may access the view.
+     *
+     * @return bool true if the use may access the view, otherwise false
+     */
+    protected function allowAccess()
+    {
+        // TODO: Implement allowAccess() method.
+    }
+
+    /**
+     * Function to get table headers
+     *
+     * @return array including headers
+     */
+    protected function getHeaders()
+    {
+        // TODO: Implement getHeaders() method.
+    }
+
+    /**
      * Adds styles and scripts to the document
      *
      * @return void  modifies the document
@@ -48,5 +68,15 @@ class Subject_Selection extends ListView
 
         $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/child_selection.css');
+    }
+
+    /**
+     * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
+     *
+     * @return void processes the class items property
+     */
+    protected function preProcessItems()
+    {
+        // TODO: Implement preProcessItems() method.
     }
 }

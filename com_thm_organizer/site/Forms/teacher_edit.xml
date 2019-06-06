@@ -2,8 +2,8 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" size="40" maxlength="50" required="true" label="THM_ORGANIZER_UNTISID"
-               description="THM_ORGANIZER_UNTISID_DESC"/>
+        <field name="untisID" type="text" size="40" maxlength="50" required="true" label="THM_ORGANIZER_UNTIS_ID"
+               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
         <field name="surname" type="text" class="required" size="40" maxlength="255" required="true"
                label="THM_ORGANIZER_SURNAME" description="THM_ORGANIZER_SURNAME_DESC"/>
         <field name="forename" type="text" size="40" maxlength="255" label="THM_ORGANIZER_FORENAME"
