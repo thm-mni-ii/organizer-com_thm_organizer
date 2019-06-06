@@ -48,13 +48,13 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
      */
     public function __construct(&$model)
     {
-        $this->endDate         = $model->endDate;
-        $this->terms = $model->terms;
-        $this->rooms           = $model->rooms;
-        $this->roomTypes       = $model->roomTypes;
-        $this->roomTypeMap     = $model->roomTypeMap;
-        $this->startDate       = $model->startDate;
-        $this->useData         = $model->useData;
+        $this->endDate     = $model->endDate;
+        $this->terms       = $model->terms;
+        $this->rooms       = $model->rooms;
+        $this->roomTypes   = $model->roomTypes;
+        $this->roomTypeMap = $model->roomTypeMap;
+        $this->startDate   = $model->startDate;
+        $this->useData     = $model->useData;
         unset ($model);
 
         $this->spreadSheet = new \PHPExcel();
@@ -181,7 +181,6 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
                 ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")
                 ->applyFromArray(['borders' => $this->rightBorder]);
-
         }
 
         $hoursCells = implode("$rowNo,", $this->hoursColumns) . $rowNo;

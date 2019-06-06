@@ -54,7 +54,6 @@ class THM_OrganizerTemplateTeacherList
                 if ($relevant) {
                     $rows[] = $view->getItemRow($view->items[$subjectKey], 'teacher', $teacherID);
                 }
-
             }
 
             if (!empty($rows)) {

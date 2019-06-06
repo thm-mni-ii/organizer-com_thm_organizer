@@ -33,7 +33,6 @@ class THM_OrganizerTemplateFieldList
                 if ($subject->fieldID == $fieldID) {
                     $rows[] = $view->getItemRow($subject, 'field');
                 }
-
             }
 
             if (!empty($rows)) {

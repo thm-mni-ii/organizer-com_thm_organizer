@@ -123,7 +123,6 @@ class Pools
         }
 
         return !empty($table->{'abbreviation_' . $languageTag}) ? $table->{'abbreviation_' . $languageTag} : '';
-
     }
 
     /**

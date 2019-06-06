@@ -322,7 +322,6 @@ class Groups implements XMLValidator
         $scheduleModel->schedule->groups->$untisID->id = $table->id;
 
         return;
-
     }
 
     /**

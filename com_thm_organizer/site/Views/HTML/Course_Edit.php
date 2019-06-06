@@ -137,7 +137,6 @@ class Course_Edit extends EditView
         }
         $description = Languages::_($this->form->getFieldAttribute($field, 'description'));
         $this->form->setFieldAttribute($field, 'description', $description);
-
     }
 
     /**

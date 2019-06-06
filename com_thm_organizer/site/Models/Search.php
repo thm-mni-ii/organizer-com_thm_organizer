@@ -246,7 +246,6 @@ class Search extends BaseModel
                     unset($misc[$key]);
                     $typeIDs = array_merge($typeIDs, $typeResults);
                 }
-
             }
         } elseif (!empty($capacity)) {
             $query->where("(min_capacity IS NULL OR min_capacity = '0' OR min_capacity <= '$capacity')");
@@ -885,7 +884,6 @@ class Search extends BaseModel
 
             $this->results['related']['rooms'] = $this->processRooms($rRooms);
         }
-
     }
 
     /**
@@ -1037,7 +1035,6 @@ class Search extends BaseModel
                 $sWherray[]  = $sClause;
                 $coWherray[] = "co.name REGEXP '%$term%' OR co.subjectNo REGEXP '%$term%'";
             }
-
         }
 
         // There were only numeric values in the search so the conditions are empty => don't execute queries

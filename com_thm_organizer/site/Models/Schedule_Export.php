@@ -281,7 +281,6 @@ class Schedule_Export extends BaseModel
                 $titles['docTitle']  .= $untisID . '_';
                 $titles['pageTitle'] .= empty($titles['pageTitle']) ? $untisID : ", {$untisID}";
             }
-
         }
 
         return $titles;

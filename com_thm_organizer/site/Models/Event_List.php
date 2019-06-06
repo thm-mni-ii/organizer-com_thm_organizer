@@ -176,7 +176,6 @@ class Event_List extends FormModel
                 $aggregatedEvents[$times][$lessonID]['teachers']  = $event['teachers'];
                 $aggregatedEvents[$times][$lessonID]['startTime'] = $event['startTime'];
                 $aggregatedEvents[$times][$lessonID]['endTime']   = $event['endTime'];
-
             } else {
                 if (!in_array($title, $aggregatedEvents[$times][$lessonID]['titles'])) {
                     $aggregatedEvents[$times][$lessonID]['titles'][] = $title;
@@ -185,7 +184,6 @@ class Event_List extends FormModel
                     = array_unique(array_merge($aggregatedEvents[$times][$lessonID]['rooms'], $event['rooms']));
                 $aggregatedEvents[$times][$lessonID]['teachers']
                     = array_unique(array_merge($aggregatedEvents[$times][$lessonID]['teachers'], $event['teachers']));
-
             }
             $aggregatedEvents[$times][$lessonID]['departments'][$event['departmentID']] = $event['department'];
         }
@@ -275,7 +273,6 @@ class Event_List extends FormModel
             if (empty($times)) {
                 unset($this->events[$date]);
             }
-
         }
     }
 

@@ -132,7 +132,6 @@ abstract class ListModel extends ParentModel
         // Pre-create the list options
         if (!property_exists($data, 'list')) {
             $data->list = [];
-
         }
 
         if (!property_exists($data, 'filter')) {

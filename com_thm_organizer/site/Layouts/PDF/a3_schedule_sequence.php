@@ -254,7 +254,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
         $return['instanceText'] = $text;
 
         return $return;
-
     }
 
     /**

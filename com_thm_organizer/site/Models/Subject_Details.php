@@ -96,7 +96,6 @@ class Subject_Details extends BaseModel
      */
     private function getTemplate()
     {
-
         $option = 'THM_ORGANIZER_';
 
         $template = [

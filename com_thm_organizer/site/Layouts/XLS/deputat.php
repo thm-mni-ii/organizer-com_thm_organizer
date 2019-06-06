@@ -318,7 +318,6 @@ class THM_OrganizerTemplateDeputat
                 $activeSheet->getStyle("B$row")->getFont()->setBold(true);
                 $activeSheet->getStyle("B$row")->getAlignment()->setWrapText(true);
             }
-
         }
     }
 

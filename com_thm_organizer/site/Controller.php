@@ -261,7 +261,6 @@ class Controller extends BaseController
 
             $cache = Factory::getCache($option, 'view');
             $cache->get($view, 'display');
-
         } else {
             $view->display();
         }
@@ -518,7 +517,6 @@ class Controller extends BaseController
         $success = $participantModel->register($participant->id, $courseID, $action);
 
         if ($success) {
-
             if (!empty($userState)) {
                 OrganizerHelper::message('THM_ORGANIZER_DEREGISTRATION_SUCCESS');
             } else {
@@ -744,7 +742,6 @@ class Controller extends BaseController
                     $view = 'Schedule_Edit';
                     OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
                 }
-
             } else {
                 $view = 'Schedule_Edit';
                 OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');

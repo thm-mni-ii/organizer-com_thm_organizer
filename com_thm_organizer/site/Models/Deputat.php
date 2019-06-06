@@ -209,7 +209,6 @@ class Deputat extends BaseModel
          * TODO: get the names from the schedules from the department resource name and the term name
          * $canManageSchedules = $user->authorise('organizer.schedule', "com_thm_organizer.$resource.$resourceID");
          */
-
     }
 
     /**

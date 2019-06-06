@@ -98,7 +98,6 @@ class ListField extends BaseField
         $options   = array();
 
         foreach ($this->element->xpath('option') as $option) {
-
             $value = (string)$option['value'];
             $text  = trim((string)$option) != '' ? trim((string)$option) : $value;
 

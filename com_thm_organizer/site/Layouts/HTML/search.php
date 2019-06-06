@@ -105,13 +105,10 @@ $attribs = ['target' => '_blank'];
                         }
                         echo '</li>';
                     }
-
                 }
 
                 echo '</ul>';
-
             }
-
         }
 
         if ($containerOpened) {

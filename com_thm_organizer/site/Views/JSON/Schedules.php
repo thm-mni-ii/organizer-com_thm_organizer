@@ -44,7 +44,6 @@ class Schedules extends BaseView
      */
     private function getLessonParameters()
     {
-
         $input       = OrganizerHelper::getInput();
         $inputParams = $input->getArray();
         $inputKeys   = array_keys($inputParams);

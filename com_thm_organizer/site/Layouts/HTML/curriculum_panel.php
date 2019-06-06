@@ -30,7 +30,6 @@ class THM_OrganizerTemplateCurriculumPanel
         self::renderHead($pool, $type);
         if (!$dontDisplayDesc) {
             echo '<div class="' . $type . '-panel-description">' . $pool->description . '</div>';
-
         }
         self::renderBody($pool, $type);
         echo '</div>';

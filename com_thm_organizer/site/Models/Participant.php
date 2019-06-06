@@ -41,7 +41,6 @@ class Participant extends BaseModel
             return;
         }
         $item = ucfirst(strtolower($item));
-
     }
 
     /**

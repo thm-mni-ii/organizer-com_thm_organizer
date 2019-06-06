@@ -105,7 +105,6 @@ class Schedule_JSON extends BaseDatabaseModel
                 if (is_array($instanceConfigs)) {
                     unset($instanceConfigs[$instanceConfigIndex]);
                 }
-
             }
         }
     }

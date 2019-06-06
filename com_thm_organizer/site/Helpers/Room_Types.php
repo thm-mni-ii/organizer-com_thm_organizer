@@ -50,7 +50,6 @@ class Room_Types implements ResourceCategory
      */
     public static function getOptions()
     {
-
         $types   = self::getPlanRoomTypes();
         $default = [Languages::_('THM_ORGANIZER_ALL_ROOM_TYPES') => '0'];
 

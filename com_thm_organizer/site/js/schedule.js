@@ -1764,7 +1764,6 @@ const ScheduleApp = function (variables) {
                     break;
                 default:
                     resource = resource + 's';
-
             }
             task += '&view=' + resource;
 

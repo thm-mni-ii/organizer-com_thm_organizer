@@ -179,7 +179,6 @@ class Access
      */
     public static function allowSubjectAccess($subjectID)
     {
-
         $user = Factory::getUser();
 
         if (empty($user->id)) {

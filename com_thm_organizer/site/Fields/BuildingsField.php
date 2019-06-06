@@ -99,7 +99,6 @@ class BuildingsField extends ListField
             );
 
             $buildings[$index + 1] = $thisBuilding;
-
         }
 
         return array_merge($defaultOptions, $options);

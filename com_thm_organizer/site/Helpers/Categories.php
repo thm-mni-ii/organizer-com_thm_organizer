@@ -64,7 +64,6 @@ class Categories implements DepartmentAssociated, XMLValidator
      */
     public static function getCategories()
     {
-
         $dbo           = Factory::getDbo();
         $languageTag   = Languages::getShortTag();
         $departmentIDs = OrganizerHelper::getInput()->get('departmentIDs', [], 'raw');
@@ -299,6 +298,5 @@ class Categories implements DepartmentAssociated, XMLValidator
 
         self::setID($scheduleModel, $untisID);
         Departments::setDepartmentResource($category->id, 'categoryID');
-
     }
 }

@@ -90,7 +90,6 @@ class Lessons implements XMLValidator
         self::createConfig($scheduleModel, $lessonID, $config, $currentDate, $times, $existingIndex);
 
         return;
-
     }
 
     /**
@@ -520,7 +519,6 @@ class Lessons implements XMLValidator
      */
     private static function validateDates(&$scheduleModel, $lessonID, $lessonName, $startDT, $endDT)
     {
-
         if (empty($startDT)) {
             $scheduleModel->scheduleErrors[] =
                 sprintf(
@@ -784,7 +782,6 @@ class Lessons implements XMLValidator
                 }
 
                 return false;
-
             }
 
             $roomID           = $scheduleModel->schedule->rooms->$roomUntisID->id;

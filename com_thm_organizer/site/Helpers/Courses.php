@@ -773,7 +773,6 @@ class Courses implements XMLValidator
             OrganizerHelper::message($exc->getMessage(), 'error');
 
             return false;
-
         }
 
         $adjustedDate = new DateTime;
