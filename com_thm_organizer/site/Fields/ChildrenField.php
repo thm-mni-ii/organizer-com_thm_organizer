@@ -186,9 +186,9 @@ class ChildrenField extends BaseField
                 $html .= '<tr id="childRow' . $ordering . '" class="' . $rowClass . '">';
 
                 $visualDetails = '<td class="child-name">';
-                $visualDetails .= '<a id="child' . $ordering . 'link" href="' . $link . '" target="_blank">';
-                $visualDetails .= '<span id="child' . $ordering . 'icon" class="' . $icon . '"></span>';
-                $visualDetails .= '<span id="child' . $ordering . 'name">' . $name . '</span>';
+                $visualDetails .= '<a id="child' . $ordering . 'Link" href="' . $link . '" target="_blank">';
+                $visualDetails .= '<span id="child' . $ordering . 'Icon" class="' . $icon . '"></span>';
+                $visualDetails .= '<span id="child' . $ordering . 'Name">' . $name . '</span>';
                 $visualDetails .= '</a>';
                 $visualDetails .= '<input type="hidden" name="child' . $ordering . '" id="child' . $ordering . '" value="' . $childID . '" />';
                 $visualDetails .= '</td>';
@@ -203,7 +203,7 @@ class ChildrenField extends BaseField
                 $previous .= '<span class="icon-previous"></span>';
                 $previous .= '</button>';
 
-                $order = '<input type="text" title="Ordering" name="child' . $ordering . 'order" id="child' . $ordering . 'order" ';
+                $order = '<input type="text" title="Ordering" name="child' . $ordering . 'Order" id="child' . $ordering . 'Order" ';
                 $order .= 'size="2" value="' . $ordering . '" class="text-area-order" onChange="moveChildToIndex(' . $ordering . ');"/>';
 
                 $blank = '<button class="btn btn-small" onclick="addBlankChild(\'' . $ordering . '\');" title="' . $addSpace . '">';

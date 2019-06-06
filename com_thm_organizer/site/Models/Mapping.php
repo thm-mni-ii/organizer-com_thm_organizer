@@ -538,8 +538,8 @@ class Mapping extends BaseModel
         $index    = 1;
         $children = [];
         $input    = OrganizerHelper::getInput();
-        while (!empty($input->getInt("child{$index}order"))) {
-            $ordering      = $input->getInt("child{$index}order");
+        while (!empty($input->getInt("child{$index}Order"))) {
+            $ordering      = $input->getInt("child{$index}Order");
             $aggregateInfo = $input->getString("child{$index}");
 
             if (!empty($aggregateInfo)) {

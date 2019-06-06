@@ -125,9 +125,9 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
     html = '<tr id="childRow' + nextRowNumber + '" class="' + nextRowClass + '">';
 
     resourceHTML = '<td class="child-name">';
-    resourceHTML += '<a id="child' + nextRowNumber + 'link" href="' + link + '">';
-    resourceHTML += '<span id="child' + nextRowNumber + 'icon" class="' + icon + '"></span>';
-    resourceHTML += '<span id="child' + nextRowNumber + 'name">' + name + '</span>';
+    resourceHTML += '<a id="child' + nextRowNumber + 'Link" href="' + link + '">';
+    resourceHTML += '<span id="child' + nextRowNumber + 'Icon" class="' + icon + '"></span>';
+    resourceHTML += '<span id="child' + nextRowNumber + 'Name">' + name + '</span>';
     resourceHTML += '</a>';
     resourceHTML += '<input id="child' + nextRowNumber + '" type="hidden" value="' + mID + '" name="child' + nextRowNumber + '">';
     resourceHTML += '</td>';
@@ -182,11 +182,11 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
  */
 function clearChildData(position)
 {
-    jQuery('#child' + position + 'icon').attr('class', '');
-    jQuery('#child' + position + 'name').text('');
+    jQuery('#child' + position + 'Icon').attr('class', '');
+    jQuery('#child' + position + 'Name').text('');
     jQuery('#child' + position).val('');
-    jQuery('#child' + position + 'link').attr('href', "");
-    jQuery('#child' + position + 'order').val(position);
+    jQuery('#child' + position + 'Link').attr('href', "");
+    jQuery('#child' + position + 'Order').val(position);
 }
 
 /**
@@ -198,11 +198,11 @@ function clearChildData(position)
  */
 function cloneChild(position, child)
 {
-    jQuery('#child' + position + 'icon').attr('class', (child.class));
-    jQuery('#child' + position + 'name').text(child.name);
+    jQuery('#child' + position + 'Icon').attr('class', (child.class));
+    jQuery('#child' + position + 'Name').text(child.name);
     jQuery('#child' + position).val(child.id);
-    jQuery('#child' + position + 'link').attr('href', child.link);
-    jQuery('#child' + position + 'order').val(position);
+    jQuery('#child' + position + 'Link').attr('href', child.link);
+    jQuery('#child' + position + 'Order').val(position);
 }
 
 /**
@@ -242,11 +242,11 @@ function getChildren()
     {
         order = index + 1;
         currentChildren[index] = {};
-        currentChildren[index].class = jQuery('#child' + order + 'icon').attr('class').trim();
-        currentChildren[index].name = jQuery('#child' + order + 'name').text().trim();
+        currentChildren[index].class = jQuery('#child' + order + 'Icon').attr('class').trim();
+        currentChildren[index].name = jQuery('#child' + order + 'Name').text().trim();
         currentChildren[index].id = jQuery('#child' + order).val();
-        currentChildren[index].link = jQuery('#child' + order + 'link').attr('href');
-        currentChildren[index].order = jQuery('#child' + order + 'order').val();
+        currentChildren[index].link = jQuery('#child' + order + 'Link').attr('href');
+        currentChildren[index].order = jQuery('#child' + order + 'Order').val();
     }
     return currentChildren;
 }
@@ -307,7 +307,7 @@ function moveChildToIndex(currentPosition)
     let children = getChildren(),
         length = children.length,
         child = children[currentPosition - 1],
-        secondPosOrder = jQuery('#child' + currentPosition + 'order'),
+        secondPosOrder = jQuery('#child' + currentPosition + 'Order'),
         requestedPosition = secondPosOrder.val();
 
     requestedPosition = parseInt(requestedPosition, 10);
