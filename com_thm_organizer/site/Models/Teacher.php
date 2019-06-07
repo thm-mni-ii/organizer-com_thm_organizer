@@ -99,31 +99,26 @@ class Teacher extends MergeModel
     {
         $drUpdated = $this->updateDRAssociation();
         if (!$drUpdated) {
-
             return false;
         }
 
         $ltUpdated = $this->updateAssociation('lesson_teachers');
         if (!$ltUpdated) {
-
             return false;
         }
 
         $duplicatesRemoved = $this->removeDuplicateResponsibilities();
         if (!$duplicatesRemoved) {
-
             return false;
         }
 
         $stUpdated = $this->updateAssociation('subject_teachers');
         if (!$stUpdated) {
-
             return false;
         }
 
         $configsUpdated = $this->updateStoredConfigurations();
         if (!$configsUpdated) {
-
             return false;
         }
 

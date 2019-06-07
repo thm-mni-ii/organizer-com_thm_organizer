@@ -55,7 +55,6 @@ class TermsField extends ListField
 
         $options = [];
         foreach ($terms as $term) {
-
             $options[] = HTML::_('select.option', $term['id'], $term['name']);
         }
 

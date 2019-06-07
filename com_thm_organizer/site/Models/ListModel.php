@@ -336,7 +336,6 @@ abstract class ListModel extends ParentModel
     {
         // The view level filters
         foreach ($filterNames as $filterName) {
-
             $queryColumnName = $filterName;
 
             if (strpos($filterName, '.') !== false) {

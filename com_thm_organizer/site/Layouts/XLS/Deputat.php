@@ -8,13 +8,15 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\XLS;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 
 /**
  * Class generates the room statistics XLS file.
  */
-class THM_OrganizerTemplateDeputat
+class Deputat
 {
     private $borders;
 
@@ -443,8 +445,11 @@ class THM_OrganizerTemplateDeputat
 
         $this->addColumnHeader("B$startRow", "B$endRow", 'Rechtsgrundlage gemäß LVVO');
         $this->addColumnHeader("C$startRow", "F$endRow", 'Art der Abschlussarbeit (nur bei Betreuung als Referent/in)');
-        $this->addColumnHeader("G$startRow", "J$endRow",
-            "Umfang der Anrechnung in SWS je Arbeit (insgesamt max. 2 SWS)");
+        $this->addColumnHeader(
+            "G$startRow",
+            "J$endRow",
+            "Umfang der Anrechnung in SWS je Arbeit (insgesamt max. 2 SWS)"
+        );
         $this->addColumnHeader("K$startRow", "L$endRow", "Anzahl der Arbeiten");
         $this->addColumnHeader("M$startRow", "M$endRow", "Gemeldetes\nDeputat\n(SWS)");
         $row = $endRow + 1;
@@ -484,8 +489,11 @@ class THM_OrganizerTemplateDeputat
 
         $this->addColumnHeader("B$startRow", "C$endRow", 'Rechtsgrundlage gemäß LVVO');
         $this->addColumnHeader("D$startRow", "G$endRow", 'Grund für Deputatsfreistellung');
-        $this->addColumnHeader("H$startRow", "L$endRow",
-            "Bezeichnung aus dem Genehmigungsschreiben bzw. Dekanatsunterlagen");
+        $this->addColumnHeader(
+            "H$startRow",
+            "L$endRow",
+            "Bezeichnung aus dem Genehmigungsschreiben bzw. Dekanatsunterlagen"
+        );
         $this->addColumnHeader("M$startRow", "M$endRow", "Gemeldetes\nDeputat\n(SWS)");
         $row++;
 

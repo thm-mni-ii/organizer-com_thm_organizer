@@ -40,7 +40,11 @@ class Teachers extends ListView
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'teacher.edit', true);
         if (Access::isAdmin()) {
             $toolbar->appendButton(
-                'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'teacher.mergeView', true
+                'Standard',
+                'attachment',
+                Languages::_('THM_ORGANIZER_MERGE'),
+                'teacher.mergeView',
+                true
             );
             HTML::setPreferencesButton();
         }

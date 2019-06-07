@@ -47,7 +47,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
                             <span class="total"><?php echo '(' . $column['total'] . ')'; ?></span>
                         </td>
                     <?php endforeach; ?>
-                <?php else: ?>
+                <?php else : ?>
                     <td>
                         <span class="name"><?php echo Languages::_('THM_ORGANIZER_NO_LESSONS_FOUND'); ?></span>
                     </td>

@@ -34,7 +34,11 @@ class Rooms extends ListView
 
         if (Access::isAdmin()) {
             $toolbar->appendButton(
-                'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'room.mergeView', true
+                'Standard',
+                'attachment',
+                Languages::_('THM_ORGANIZER_MERGE'),
+                'room.mergeView',
+                true
             );
             HTML::setPreferencesButton();
         }

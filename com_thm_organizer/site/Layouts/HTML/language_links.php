@@ -38,6 +38,5 @@ if (empty($displayData['view'])) {
         $href                  = Uri::buildQuery($params);
         echo '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
     }
-
 }
 echo '</div>';

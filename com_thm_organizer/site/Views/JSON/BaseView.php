@@ -69,7 +69,7 @@ abstract class BaseView extends CMSObject
     /**
      * Display the view output
      */
-    public abstract function display();
+    abstract public function display();
 
     /**
      * Method to get the view name

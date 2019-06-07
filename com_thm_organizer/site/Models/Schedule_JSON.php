@@ -1256,7 +1256,6 @@ class Schedule_JSON extends BaseDatabaseModel
                     $newInstanceFound = $this->changedStatus[$j] == 'new';
                     $sameLessonID     = $this->changedLessonID[$i] == $this->changedLessonID[$j];
                     if ($newInstanceFound and $sameLessonID) {
-
                         if ($this->changedTime[$j] != $this->changedTime[$i]) {
                             $status += 1;
                         }
@@ -1265,9 +1264,15 @@ class Schedule_JSON extends BaseDatabaseModel
                             $status += 2;
                         }
 
-                        $this->notifyUsers($participants, $this->changedLessonID[$i], $status,
-                            $this->changedDate[$i], $this->changedDate[$j],
-                            $this->changedTime[$i], $this->changedTime[$j]);
+                        $this->notifyUsers(
+                            $participants,
+                            $this->changedLessonID[$i],
+                            $status,
+                            $this->changedDate[$i],
+                            $this->changedDate[$j],
+                            $this->changedTime[$i],
+                            $this->changedTime[$j]
+                        );
                     }
                 }
             }
@@ -1317,20 +1322,38 @@ class Schedule_JSON extends BaseDatabaseModel
 
             switch ($state) {
                 case 0:
-                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED'),
-                        $courseName, $oldDate, $oldTime);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED'),
+                        $courseName,
+                        $oldDate,
+                        $oldTime
+                    );
                     break;
                 case 1:
-                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_TIME_CHANGED'),
-                        $courseName, $oldDate, $oldTime, $newTime);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_TIME_CHANGED'),
+                        $courseName,
+                        $oldDate,
+                        $oldTime,
+                        $newTime
+                    );
                     break;
                 case 2:
-                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_DATE_CHANGED'),
-                        $courseName, $oldDate, $newDate);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_DATE_CHANGED'),
+                        $courseName,
+                        $oldDate,
+                        $newDate
+                    );
                     break;
                 case 3:
-                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_BOTH_CHANGED'),
-                        $courseName, $oldDate, $newDate, $newTime);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_BOTH_CHANGED'),
+                        $courseName,
+                        $oldDate,
+                        $newDate,
+                        $newTime
+                    );
                     break;
                 default:
                     return;

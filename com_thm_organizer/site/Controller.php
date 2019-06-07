@@ -224,8 +224,12 @@ class Controller extends BaseController
         $viewName   = $this->input->get('view', $this->default_view);
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
-        $view = $this->getView($viewName, $viewType, '',
-            array('base_path' => $this->basePath, 'layout' => $viewLayout));
+        $view = $this->getView(
+            $viewName,
+            $viewType,
+            '',
+            array('base_path' => $this->basePath, 'layout' => $viewLayout)
+        );
 
         // JSON Views rely on standard functions available in helper files
         if ($viewType !== 'json' and $model = $this->getModel($viewName)) {
@@ -354,8 +358,8 @@ class Controller extends BaseController
             if ($view = new $name($config)) {
                 self::$views[$key][$type][$prefix] = &$view;
             } else {
-                throw new Exception(Languages::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix),
-                    404);
+                $message = Languages::sprintf('THM_ORGANIZER_VIEW_NOT_FOUND', $name, $type, $prefix);
+                throw new Exception($message, 404);
             }
         }
 
@@ -561,7 +565,7 @@ class Controller extends BaseController
                     case 'participant':
                         $url .= '&view=participant_edit';
                         break;
-                    case 'subject' :
+                    case 'subject':
                         $url .= "&view=subject_edit&id={$formID}";
                         $url .= empty($lessonID) ? '' : "&lessonID=$lessonID";
                         break;

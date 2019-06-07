@@ -126,7 +126,6 @@ class Room_Display extends BaseModel
 
         $events = [];
         foreach ($results as $result) {
-
             $configuration = json_decode($result['configuration'], true);
             $relevant      = $this->hasRelevantRoom($configuration['rooms']);
             if (!$relevant) {

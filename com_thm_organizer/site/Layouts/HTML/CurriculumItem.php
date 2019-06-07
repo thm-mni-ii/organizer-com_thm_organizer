@@ -8,11 +8,12 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\HTML;
 
 /**
  * Class renders curriculum item panel information.
  */
-class THM_OrganizerTemplateCurriculumItemPanel
+class CurriculumItem
 {
     /**
      * Generates the HTML output for a main panel element

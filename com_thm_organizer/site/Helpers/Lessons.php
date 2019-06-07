@@ -145,7 +145,8 @@ class Lessons implements XMLValidator
         $groups       = implode(', ', $groups);
         $dow          = strtoupper(date('l', $currentDT));
         $localizedDoW = Languages::_($dow);
-        $error        = sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_ROOM'),
+        $error        = sprintf(
+            Languages::_('THM_ORGANIZER_LESSON_MISSING_ROOM'),
             $lessonName,
             $lessonID,
             $groups,
@@ -429,9 +430,11 @@ class Lessons implements XMLValidator
         $untisID = str_replace('TR_', '', trim((string)$node->lesson_teacher[0]['id']));
 
         if (empty($untisID)) {
-            $scheduleModel->scheduleErrors[] =
-                sprintf(Languages::_('THM_ORGANIZER_LESSON_MISSING_TEACHER'), $lessonName,
-                    $lessonID);
+            $scheduleModel->scheduleErrors[] = sprintf(
+                Languages::_('THM_ORGANIZER_LESSON_MISSING_TEACHER'),
+                $lessonName,
+                $lessonID
+            );
 
             return false;
         }
@@ -656,7 +659,7 @@ class Lessons implements XMLValidator
             }
 
             foreach ($instances as $instance) {
-                if (!self::validateInstance(
+                $valid = self::validateInstance(
                     $scheduleModel,
                     $lessonID,
                     $lessonName,
@@ -665,8 +668,9 @@ class Lessons implements XMLValidator
                     $groups,
                     $instance,
                     $currentDT,
-                    $grid)
-                ) {
+                    $grid
+                );
+                if (!$valid) {
                     return;
                 }
             }
@@ -722,13 +726,26 @@ class Lessons implements XMLValidator
         $roomAttribute = trim((string)$instance->assigned_room[0]['id']);
 
         if (empty($roomAttribute)) {
-            self::createMissingRoomMessage($scheduleModel, $lessonID, $lessonName, $groups, $currentDT, $periodNo);
+            self::createMissingRoomMessage(
+                $scheduleModel,
+                $lessonID,
+                $lessonName,
+                $groups,
+                $currentDT,
+                $periodNo
+            );
 
             return false;
         }
 
         $roomIDs = self::validateRooms(
-            $scheduleModel, $lessonID, $lessonName, $groups, $roomAttribute, $currentDT, $periodNo
+            $scheduleModel,
+            $lessonID,
+            $lessonName,
+            $groups,
+            $roomAttribute,
+            $currentDT,
+            $periodNo
         );
 
         if ($roomIDs === false) {
@@ -768,16 +785,19 @@ class Lessons implements XMLValidator
         $roomUntisIDs = explode(' ', str_replace('RM_', '', strtoupper($roomAttribute)));
 
         foreach ($roomUntisIDs as $roomUntisID) {
-
             if (!isset($scheduleModel->schedule->rooms->$roomUntisID)
                 or empty($scheduleModel->schedule->rooms->$roomUntisID->id)) {
-
                 $groups       = implode(', ', $groups);
                 $dow          = strtoupper(date('l', $currentDT));
                 $localizedDoW = Languages::_($dow);
                 $error        = sprintf(
                     Languages::_('THM_ORGANIZER_ERROR_LESSON_ROOM_LACKING'),
-                    $lessonName, $lessonID, $groups, $localizedDoW, $period, $roomUntisID
+                    $lessonName,
+                    $lessonID,
+                    $groups,
+                    $localizedDoW,
+                    $period,
+                    $roomUntisID
                 );
                 if (!in_array($error, $scheduleModel->scheduleErrors)) {
                     $scheduleModel->scheduleErrors[] = $error;

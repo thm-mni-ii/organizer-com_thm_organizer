@@ -216,7 +216,6 @@ class Subject_LSF extends BaseModel
         $this->_db->transactionStart();
 
         foreach ($subjectIDs as $subjectID) {
-
             if (!Access::allowDocumentAccess('subject', $subjectID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);

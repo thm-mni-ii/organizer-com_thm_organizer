@@ -82,7 +82,8 @@ class Descriptions implements XMLValidator
 
         if (empty($name)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_DESCRIPTION_NAME_MISSING'), $untisID
+                Languages::_('THM_ORGANIZER_DESCRIPTION_NAME_MISSING'),
+                $untisID
             );
 
             return;
@@ -93,13 +94,17 @@ class Descriptions implements XMLValidator
 
         if (empty($typeFlag)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_MISSING'), $name, $untisID
+                Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_MISSING'),
+                $name,
+                $untisID
             );
 
             return;
         } elseif (!in_array($typeFlag, $validFlags)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_INVALID'), $name, $untisID
+                Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_INVALID'),
+                $name,
+                $untisID
             );
 
             return;

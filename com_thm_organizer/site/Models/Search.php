@@ -857,7 +857,6 @@ class Search extends BaseModel
         $performStrongQuery = (!empty($misc) or !empty($buildings));
 
         if ($performStrongQuery) {
-
             if (!empty($capacity) and !empty($typeString)) {
                 // Opens main clause and room cap existent
                 $query->where("((r.capacity >= '$capacity' OR r.capacity = '0') AND rt.id IN ($typeString))");

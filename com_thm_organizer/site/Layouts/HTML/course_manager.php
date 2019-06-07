@@ -33,7 +33,7 @@ $position = OrganizerHelper::getParams()->get('loginPosition');
 
 // This variable is also used in the subordinate template
 $menuID = OrganizerHelper::getInput()->getInt('Itemid', 0);
-if (!empty($menuID)):
+if (!empty($menuID)) :
     ?>
     <script type="text/javascript">
         jQuery(document).ready(function () {
@@ -50,7 +50,7 @@ if (!empty($menuID)):
 <div class="course-list-view uses-login">
     <h1><?php echo $header; ?></h1>
 
-    <?php if (empty(Factory::getUser()->id)): ?>
+    <?php if (empty(Factory::getUser()->id)) : ?>
         <div class="tbox-yellow">
             <p><?php echo Languages::_('THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
             <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>
@@ -62,7 +62,7 @@ if (!empty($menuID)):
             </div>
             <div class="clear"></div>
         </div>
-    <?php else: ?>
+    <?php else : ?>
         <div class="toolbar">
             <div class="tool-wrapper">
                 <a class='btn btn-max' href='<?php echo $profileRoute; ?>'>
@@ -78,12 +78,12 @@ if (!empty($menuID)):
             <div class="filter-item short-item">
                 <?php echo $this->filters['campusID']; ?>
             </div>
-            <?php if (!empty($this->filters['subjectID'])): ?>
+            <?php if (!empty($this->filters['subjectID'])) : ?>
                 <div class="filter-item short-item">
                     <?php echo $this->filters['subjectID']; ?>
                 </div>
             <?php endif; ?>
-            <?php if (!empty($this->filters['status'])): ?>
+            <?php if (!empty($this->filters['status'])) : ?>
                 <div class="filter-item short-item">
                     <?php echo $this->filters['status']; ?>
                 </div>

@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\XLS;
+
 jimport('phpexcel.library.PHPExcel');
 
 use Joomla\CMS\Application\ApplicationHelper;
@@ -55,7 +57,7 @@ class THM_OrganizerTemplateDepartment_Statistics_XLS
         $this->roomTypeMap = $model->roomTypeMap;
         $this->startDate   = $model->startDate;
         $this->useData     = $model->useData;
-        unset ($model);
+        unset($model);
 
         $this->spreadSheet = new \PHPExcel();
 

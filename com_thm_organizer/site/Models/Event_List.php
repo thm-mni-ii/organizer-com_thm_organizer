@@ -111,7 +111,6 @@ class Event_List extends FormModel
             $this->state->set('startDate', $defaultDate);
             $this->state->set('dateRestriction', $defaultRestriction);
         } else {
-
             if (empty($formData['startDate']) or strtotime($formData['startDate']) === false) {
                 $this->state->set('startDate', $defaultDate);
             } else {
@@ -506,7 +505,6 @@ class Event_List extends FormModel
         $after = $endOuter < $startInner;
 
         if ($after) {
-
             $firstTime  = strtotime($endOuter);
             $secondTime = strtotime($startInner);
             $difference = ($secondTime - $firstTime) / 60;

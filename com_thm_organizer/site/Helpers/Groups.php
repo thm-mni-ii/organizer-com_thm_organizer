@@ -395,13 +395,18 @@ class Groups implements XMLValidator
         $degreeID = str_replace('DP_', '', trim((string)$node->class_department[0]['id']));
         if (empty($degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_MISSING_CATEGORY'), $full_name, $internalID
+                Languages::_('THM_ORGANIZER_GROUP_MISSING_CATEGORY'),
+                $full_name,
+                $internalID
             );
 
             return;
         } elseif (empty($scheduleModel->schedule->degrees->$degreeID)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_CATEGORY_LACKING'), $full_name, $internalID, $degreeID
+                Languages::_('THM_ORGANIZER_GROUP_CATEGORY_LACKING'),
+                $full_name,
+                $internalID,
+                $degreeID
             );
 
             return;
@@ -410,13 +415,18 @@ class Groups implements XMLValidator
         $grid = (string)$node->timegrid;
         if (empty($grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_MISSING_GRID'), $full_name, $internalID
+                Languages::_('THM_ORGANIZER_GROUP_MISSING_GRID'),
+                $full_name,
+                $internalID
             );
 
             return;
         } elseif (empty($scheduleModel->schedule->periods->$grid)) {
             $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_GRID_LACKING'), $full_name, $internalID, $grid
+                Languages::_('THM_ORGANIZER_GROUP_GRID_LACKING'),
+                $full_name,
+                $internalID,
+                $grid
             );
 
             return;

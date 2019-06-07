@@ -304,7 +304,6 @@ class OrganizerHelper
         // Forms
         $formData = OrganizerHelper::getFormInput();
         if (!empty($formData)) {
-
             // Merge Views
             if (isset($formData['ids'])) {
                 $selectedIDs = array_filter(ArrayHelper::toInteger(explode(',', $formData['ids'])));

@@ -49,10 +49,18 @@ class Groups extends ListView
 
         if (Access::isAdmin()) {
             $toolbar->appendButton(
-                'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'group.mergeView', true
+                'Standard',
+                'attachment',
+                Languages::_('THM_ORGANIZER_MERGE'),
+                'group.mergeView',
+                true
             );
             $toolbar->appendButton(
-                'Standard', 'eye-open', Languages::_('THM_ORGANIZER_PUBLISH_EXPIRED_TERMS'), 'group.publishPast', false
+                'Standard',
+                'eye-open',
+                Languages::_('THM_ORGANIZER_PUBLISH_EXPIRED_TERMS'),
+                'group.publishPast',
+                false
             );
             HTML::setPreferencesButton();
         }

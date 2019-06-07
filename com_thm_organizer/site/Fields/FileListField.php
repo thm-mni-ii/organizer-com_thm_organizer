@@ -200,8 +200,10 @@ class FileListField extends ListField
         }
 
         if (!$this->hideDefault) {
-            $options[] = HTML::_('select.option', '',
-                Languages::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
+            $options[] = HTML::_(
+                'select.option', '',
+                Languages::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname))
+            );
         }
 
         // Get a list of files in the search path with the given filter.

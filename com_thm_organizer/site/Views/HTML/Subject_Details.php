@@ -89,10 +89,10 @@ class Subject_Details extends BaseHTMLView
 
             OrganizerHelper::addMenuParameters($this);
 
-            $this->languageLinks  = new LayoutFile('language_links',
-                JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+            $layoutPath           = JPATH_ROOT . '/components/com_thm_organizer/Layouts';
+            $this->languageLinks  = new LayoutFile('language_links', $layoutPath);
             $this->languageParams = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
-            $this->disclaimer     = new LayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+            $this->disclaimer     = new LayoutFile('disclaimer', $layoutPath);
         }
 
         parent::display($tpl);

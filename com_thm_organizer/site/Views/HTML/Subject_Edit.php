@@ -39,7 +39,11 @@ class Subject_Edit extends EditView
         $toolbar->appendButton('Standard', 'apply', $applyText, 'subject.apply', false);
         $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'subject.save', false);
         $toolbar->appendButton(
-            'Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'subject.save2new', false
+            'Standard',
+            'save-new',
+            Languages::_('THM_ORGANIZER_SAVE2NEW'),
+            'subject.save2new',
+            false
         );
         $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
         $toolbar->appendButton('Standard', 'cancel', $cancelText, 'subject.cancel', false);

@@ -45,8 +45,12 @@ class Lessons extends ListView
         $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'course.add', false);
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'course.edit', true);
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'course.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'course.delete',
+            true
         );
         HTML::setPreferencesButton();
     }
@@ -95,7 +99,6 @@ class Lessons extends ListView
         $processedItems = [];
 
         foreach ($this->items as $item) {
-
             $name     = empty($item->subject) ? $item->name : $item->subject;
             $name     .= empty($item->method) ? '' : " - $item->method";
             $campusID = empty($item->campusID) ? $item->abstractCampusID : $item->campusID;

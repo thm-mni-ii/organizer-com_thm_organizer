@@ -47,7 +47,7 @@ $showFilters = !($noFilters or $onlySearch);
                         </div>
                     <?php endif; ?>
                     <?php echo LayoutHelper::render('joomla.searchtools.default.list', $data); ?>
-                    <?php foreach ($buttons as $button): ?>
+                    <?php foreach ($buttons as $button) : ?>
                         <?php echo $toolbar->renderButton($button); ?>
                     <?php endforeach; ?>
                 </div>
@@ -57,11 +57,11 @@ $showFilters = !($noFilters or $onlySearch);
         <table class="table table-striped" id="<?php echo $this->get('name'); ?>-list">
             <thead>
             <tr>';
-                <?php foreach ($this->headers as $header): ?>
+                <?php foreach ($this->headers as $header) : ?>
                     <th><?php echo $header; ?></th>
                 <?php endforeach; ?>
             </tr>
-            <?php if ($showFilters): ?>
+            <?php if ($showFilters) : ?>
                 <tr>
                     <?php foreach (array_keys($this->headers) as $name) : ?>
                         <th>

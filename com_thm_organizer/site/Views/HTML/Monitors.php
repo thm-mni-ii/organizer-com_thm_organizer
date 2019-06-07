@@ -55,8 +55,12 @@ class Monitors extends ListView
         $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'monitor.add', false);
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'monitor.edit', true);
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'monitor.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'monitor.delete',
+            true
         );
 
         if (Access::isAdmin()) {
@@ -126,8 +130,8 @@ class Monitors extends ListView
             $processedItems[$index]['ip']          = HTML::_('link', $item->link, $item->ip);
             $tip                                   = Languages::_('THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
             $processedItems[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
-            $processedItems[$index]['display']     = HTML::_('link', $item->link,
-                $this->displayBehaviour[$item->display]);
+            $display                               = $this->displayBehaviour[$item->display];
+            $processedItems[$index]['display']     = HTML::_('link', $item->link, $display);
             $processedItems[$index]['content']     = HTML::_('link', $item->link, $item->content);
             $index++;
         }

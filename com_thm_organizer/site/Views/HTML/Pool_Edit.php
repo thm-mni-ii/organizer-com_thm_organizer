@@ -39,7 +39,11 @@ class Pool_Edit extends EditView
         $toolbar->appendButton('Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'pool.save2new', false);
         if (!$new) {
             $toolbar->appendButton(
-                'Standard', 'save-copy', Languages::_('THM_ORGANIZER_SAVE2COPY'), 'pool.save2copy', false
+                'Standard',
+                'save-copy',
+                Languages::_('THM_ORGANIZER_SAVE2COPY'),
+                'pool.save2copy',
+                false
             );
 
             $baseURL = "index.php?option=com_thm_organizer&tmpl=component&type=pool&id={$this->item->id}&view=";

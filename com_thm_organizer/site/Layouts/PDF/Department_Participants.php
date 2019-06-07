@@ -8,12 +8,13 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once 'course_export.php';
+
+namespace Organizer\Layouts\PDF;
 
 /**
  * Class generates statistics of registered participants by department and degree program.
  */
-class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplateCourse_Export
+class Department_Participants extends Course_Export
 {
     /**
      * THM_OrganizerTemplatePrep_Course_Participant_List_Export_PDF constructor.
@@ -89,7 +90,8 @@ class THM_OrganizerTemplateDepartment_Participants extends THM_OrganizerTemplate
             array_map(
                 function ($item) {
                     return $item['1'];
-                }, $departmentData
+                },
+                $departmentData
             )
         );
 

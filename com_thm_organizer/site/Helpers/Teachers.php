@@ -74,7 +74,6 @@ class Teachers implements DepartmentAssociated, XMLValidator
         $dbo->setQuery($query);
 
         if ($multiple) {
-
             $teacherList = OrganizerHelper::executeQuery('loadAssocList');
             if (empty($teacherList)) {
                 return [];

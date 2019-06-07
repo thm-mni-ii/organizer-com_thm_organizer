@@ -164,24 +164,23 @@ class Categories implements DepartmentAssociated, XMLValidator
     private static function parsePlausibleProgramData($untisID)
     {
         $container       = [];
-        $programPieces   = explode('.', $untisID);
-        $plausibleNumber = count($programPieces) === 3;
+        $pieces          = explode('.', $untisID);
+        $plausibleNumber = count($pieces) === 3;
         if ($plausibleNumber) {
-            $plausibleCode    = preg_match('/^[A-Z]+[0-9]*$/', $programPieces[0]);
-            $plausibleVersion = (ctype_digit($programPieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/',
-                    $programPieces[2]));
-            $plausibleDegree  = (ctype_upper($programPieces[1])
-                and preg_match('/^[B|M]{1}[A-Z]{1,2}$/', $programPieces[1]));
+            $plausibleCode    = preg_match('/^[A-Z]+[0-9]*$/', $pieces[0]);
+            $plausibleVersion = (ctype_digit($pieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $pieces[2]));
+            $plausibleDegree  = (ctype_upper($pieces[1])
+                and preg_match('/^[B|M]{1}[A-Z]{1,2}$/', $pieces[1]));
             if ($plausibleDegree) {
                 $degreeTable    = OrganizerHelper::getTable('Degrees');
-                $degreePullData = ['code' => $programPieces[1]];
+                $degreePullData = ['code' => $pieces[1]];
                 $exists         = $degreeTable->load($degreePullData);
                 $degreeID       = $exists ? $degreeTable->id : null;
             }
             if ($plausibleCode and !empty($degreeID) and $plausibleVersion) {
-                $container['code']     = $programPieces[0];
+                $container['code']     = $pieces[0];
                 $container['degreeID'] = $degreeID;
-                $container['version']  = $programPieces[2];
+                $container['version']  = $pieces[2];
             }
         }
 

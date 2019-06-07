@@ -8,10 +8,12 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\HTML;
+
 /**
  * Displays a filtered set of subjects into the display context, grouped by associated teachers/coordinators.
  */
-class THM_OrganizerTemplateTeacherList
+class SubjectsByTeacher
 {
     const COORDINATES = 1;
 

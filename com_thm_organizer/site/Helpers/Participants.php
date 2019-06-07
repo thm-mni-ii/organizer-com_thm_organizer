@@ -132,7 +132,9 @@ class Participants
             $body .= sprintf(Languages::_('THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
         } else {
             $body .= sprintf(
-                Languages::_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n', $courseName, $dates[0],
+                Languages::_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n',
+                $courseName,
+                $dates[0],
                 $dates[1]
             );
         }

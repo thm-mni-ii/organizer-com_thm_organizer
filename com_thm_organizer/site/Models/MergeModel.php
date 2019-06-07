@@ -321,7 +321,6 @@ abstract class MergeModel extends BaseModel
         $success    = $table->save($this->data);
 
         if ($success) {
-
             // Set id for new rewrite for existing.
             $this->data['id'] = $table->id;
 
@@ -488,7 +487,6 @@ abstract class MergeModel extends BaseModel
         }
 
         foreach ($scheduleIDs as $scheduleID) {
-
             $scheduleObject = $this->getScheduleObject($scheduleID);
 
             if (empty($scheduleObject)) {

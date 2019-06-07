@@ -35,7 +35,6 @@ class HTML extends HTMLHelper
         $options = [];
 
         foreach ($element->xpath('option') as $option) {
-
             $value = (string)$option['value'];
             $text  = trim((string)$option) != '' ? trim((string)$option) : $value;
 

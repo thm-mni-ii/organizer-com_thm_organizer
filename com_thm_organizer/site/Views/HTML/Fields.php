@@ -34,8 +34,12 @@ class Fields extends ListView
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'field.edit', true);
         $toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'field.mergeView', true);
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'field.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'field.delete',
+            true
         );
         HTML::setPreferencesButton();
     }

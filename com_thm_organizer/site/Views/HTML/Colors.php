@@ -33,8 +33,12 @@ class Colors extends ListView
         $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'color.add', false);
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'color.edit', true);
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'color.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'color.delete',
+            true
         );
         HTML::setPreferencesButton();
     }

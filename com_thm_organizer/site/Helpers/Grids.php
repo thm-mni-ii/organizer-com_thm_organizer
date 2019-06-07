@@ -30,7 +30,7 @@ class Grids implements XMLValidator
         $data   = ['untisID' => $untisID];
         $exists = $table->load($data);
 
-        return empty ($exists) ? null : $table->id;
+        return empty($exists) ? null : $table->id;
     }
 
     /**
@@ -46,7 +46,7 @@ class Grids implements XMLValidator
         $exists = $table->load($gridID);
         $column = 'name_' . Languages::getShortTag();
 
-        return empty ($exists) ? '' : $table->$column;
+        return empty($exists) ? '' : $table->$column;
     }
 
     /**

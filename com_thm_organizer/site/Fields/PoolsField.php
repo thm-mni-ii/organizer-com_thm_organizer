@@ -16,7 +16,6 @@ use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
 
-
 /**
  * Class creates a select box for (subject) pools.
  */

@@ -49,7 +49,8 @@ abstract class BaseHTMLView extends BaseView
             Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TITLE')
         );
         $ambLink = HTML::link(
-            'http://www.thm.de/amb/pruefungsordnungen', Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE')
+            'http://www.thm.de/amb/pruefungsordnungen',
+            Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE')
         );
         $poLink  = HTML::link(
             'http://www.thm.de/site/studium/sie-studieren/pruefungsordnung.html',

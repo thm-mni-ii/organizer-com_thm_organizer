@@ -8,10 +8,12 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\PDF;
+
 /**
  * Base class for use in schedule export PDF files.
  */
-abstract class THM_OrganizerTemplateSchedule_Sequence_PDF
+abstract class Schedule_List
 {
     const FULL = 1;
     const SHORT = 2;

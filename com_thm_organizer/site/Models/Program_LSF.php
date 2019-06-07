@@ -74,7 +74,6 @@ class Program_LSF extends BaseModel
 
         $this->_db->transactionStart();
         foreach ($programIDs as $programID) {
-
             if (!Access::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
@@ -219,7 +218,6 @@ class Program_LSF extends BaseModel
         $subjectModel = new Subject_LSF;
 
         foreach ($programIDs as $programID) {
-
             if (!Access::allowDocumentAccess('program', $programID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);

@@ -51,12 +51,7 @@ class Subject_Edit extends EditModel
         $name = $this->get('name');
         $form = $this->loadForm("com_thm_organizer.$name", $name, ['control' => 'jform', 'load_data' => $loadData]);
 
-        if (empty($form)) {
-
-            return false;
-        }
-
-        return $form;
+        return empty($form) ? false : $form;
     }
 
     /**

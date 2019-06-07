@@ -38,9 +38,12 @@ class Access
             $allowedDepartments = self::getAccessibleDepartments('document', $userID);
             $canManage          = false;
             foreach ($allowedDepartments as $departmentID) {
-                $departmentManager = $user->authorise('organizer.document',
-                    "com_thm_organizer.department.$departmentID");
-                $canManage         = ($canManage or $departmentManager);
+                $departmentManager = $user->authorise(
+                    'organizer.document',
+                    "com_thm_organizer.department.$departmentID"
+                );
+
+                $canManage = ($canManage or $departmentManager);
             }
 
             return $canManage;

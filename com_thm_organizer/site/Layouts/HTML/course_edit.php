@@ -30,13 +30,13 @@ if (!empty($this->menu)) {
         <div class="left"><?php echo $this->course['dateText'] ?></div>
     </div>
     <div class="right">
-        <?php if (Access::allowSubjectAccess($this->course['subjectID'])): ?>
+        <?php if (Access::allowSubjectAccess($this->course['subjectID'])) : ?>
             <a href="<?php echo Route::_($editURL, false); ?>" class="btn btn-mini" type="button">
                 <span class="icon-edit"></span>
                 <?php echo Languages::_('THM_ORGANIZER_EDIT_COURSE_DESCRIPTION') ?>
             </a>
         <?php endif; ?>
-        <?php if (!empty($this->menu)): ?>
+        <?php if (!empty($this->menu)) : ?>
             <a href="<?php echo Route::_($this->menu['route'], false); ?>" class="btn btn-mini" type="button">
                 <span class="icon-list"></span>
                 <?php echo $menuText ?>

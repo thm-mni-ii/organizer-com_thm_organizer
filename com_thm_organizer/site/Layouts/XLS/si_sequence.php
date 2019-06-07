@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\XLS;
+
 jimport('phpexcel.library.PHPExcel');
 
 use Joomla\CMS\Factory;

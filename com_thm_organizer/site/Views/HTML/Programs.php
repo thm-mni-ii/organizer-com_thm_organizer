@@ -32,14 +32,26 @@ class Programs extends ListView
         $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'program.add', false);
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'program.edit', true);
         $toolbar->appendButton(
-            'Standard', 'upload', Languages::_('THM_ORGANIZER_IMPORT_LSF'), 'program.importLSFData', true
+            'Standard',
+            'upload',
+            Languages::_('THM_ORGANIZER_IMPORT_LSF'),
+            'program.importLSFData',
+            true
         );
         $toolbar->appendButton(
-            'Standard', 'loop', Languages::_('THM_ORGANIZER_UPDATE_SUBJECTS'), 'program.updateLSFData', true
+            'Standard',
+            'loop',
+            Languages::_('THM_ORGANIZER_UPDATE_SUBJECTS'),
+            'program.updateLSFData',
+            true
         );
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'program.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'program.delete',
+            true
         );
 
         if (Access::isAdmin()) {

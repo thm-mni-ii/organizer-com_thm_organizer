@@ -168,8 +168,7 @@ class Schedules
 
             $course['roomDeltas'] = $configuration['roomDeltas'];
 
-            $course['groups'][$lesson['groupID']]
-                = [
+            $course['groups'][$lesson['groupID']] = [
                 'untisID'  => $lesson['groupUntisID'],
                 'name'     => $lesson['grouoName'],
                 'fullName' => $lesson['groupFullName']

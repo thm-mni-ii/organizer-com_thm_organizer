@@ -414,7 +414,7 @@ class Deputat extends BaseModel
      */
     private function setObjectProperties()
     {
-        $this->params = OrganizerHelper::getParams();;
+        $this->params = OrganizerHelper::getParams();
         $departmentID = $this->params->get('departmentID', 0);
         if (!empty($departmentID)) {
             $this->setDepartmentName($departmentID);

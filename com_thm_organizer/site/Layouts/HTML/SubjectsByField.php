@@ -8,10 +8,12 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\HTML;
+
 /**
  * Displays a filtered set of subjects into the display context, grouped by their corresponding fields of expertise.
  */
-class THM_OrganizerTemplateFieldList
+class SubjectsByField
 {
     /**
      * Renders subject information

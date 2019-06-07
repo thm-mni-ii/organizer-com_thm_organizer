@@ -9,6 +9,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\PDF;
+
 define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 jimport('tcpdf.tcpdf');
@@ -20,7 +22,7 @@ use Organizer\Helpers\Terms;
 /**
  * Base PDF export class used for the generation of various course exports.
  */
-abstract class THM_OrganizerTemplateCourse_Export
+abstract class Course_Export
 {
     protected $course;
 

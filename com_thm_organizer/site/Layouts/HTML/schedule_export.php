@@ -133,7 +133,7 @@ $user          = Factory::getUser();
         <input type="hidden" name="view" value="schedule_export"/>
         <input type="hidden" name="format" value="pdf"/>
         <input type="hidden" name="documentFormat" value="a4"/>
-        <?php if ($user->id != 0): ?>
+        <?php if ($user->id != 0) : ?>
             <input type="hidden" name="myschedule" value="0"/>
         <?php endif; ?>
     </form>

@@ -131,7 +131,7 @@ class Department_Statistics extends BaseModel
             ksort($this->useData['total']);
             ksort($this->useData[$termName]);
         }
-        unset ($this->calendarData);
+        unset($this->calendarData);
     }
 
     /**

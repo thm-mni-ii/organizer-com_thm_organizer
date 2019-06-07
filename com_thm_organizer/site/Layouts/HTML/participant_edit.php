@@ -49,10 +49,10 @@ if (empty($this->course)) {
         <input type='hidden' name='lessonID' value='<?php echo $lessonID; ?>'>
         <input type="hidden">
         <div class="form-horizontal">
-            <?php foreach ($this->form->getFieldset() as $field): ?>
-                <?php if ($field->type == 'Hidden'): ?>
+            <?php foreach ($this->form->getFieldset() as $field) : ?>
+                <?php if ($field->type == 'Hidden') : ?>
                     <?php echo $field->input; ?>
-                <?php else: ?>
+                <?php else : ?>
                     <div class='control-group'>
                         <div class='control-label'><?php echo $field->label; ?></div>
                         <div class='controls'><?php echo $field->input; ?></div>

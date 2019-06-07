@@ -33,8 +33,12 @@ class Grids extends ListView
         $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'grid.add', false);
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'grid.edit', true);
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'grid.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'grid.delete',
+            true
         );
         HTML::setPreferencesButton();
     }

@@ -8,11 +8,12 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\HTML;
 
 /**
  * Class renders a single curriculum panel.
  */
-class THM_OrganizerTemplateCurriculumPanel
+class CurriculumPanel
 {
     /**
      * Generates the HTML output for a panel element
@@ -81,7 +82,6 @@ class THM_OrganizerTemplateCurriculumPanel
 
         echo '<div class="' . $type . '-panel-items ' . $displayBody . '" ' . $mainID . '>';
         foreach ($pool->children as $element) {
-
             if ($childIndex === 1) {
                 echo '<div class="panel-row">';
             }

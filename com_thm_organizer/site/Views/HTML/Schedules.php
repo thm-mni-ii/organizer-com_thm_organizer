@@ -32,14 +32,26 @@ class Schedules extends ListView
         $toolbar = Toolbar::getInstance();
         $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'schedule.add', false);
         $toolbar->appendButton(
-            'Standard', 'default', Languages::_('THM_ORGANIZER_ACTIVATE'), 'schedule.activate', true
+            'Standard',
+            'default',
+            Languages::_('THM_ORGANIZER_ACTIVATE'),
+            'schedule.activate',
+            true
         );
         $toolbar->appendButton(
-            'Standard', 'tree', Languages::_('THM_ORGANIZER_CALCULATE_DELTA'), 'schedule.setReference', true
+            'Standard',
+            'tree',
+            Languages::_('THM_ORGANIZER_CALCULATE_DELTA'),
+            'schedule.setReference',
+            true
         );
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'schedule.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'schedule.delete',
+            true
         );
 
         if (Access::isAdmin()) {

@@ -8,10 +8,12 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\HTML;
+
 /**
  * Displays a filtered set of subjects into the display context, grouped by their associated subject pools.
  */
-class THM_OrganizerTemplatePoolList
+class SubjectsByPool
 {
     /**
      * Renders subject information

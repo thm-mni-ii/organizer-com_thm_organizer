@@ -8,14 +8,14 @@
  * @link        www.thm.de
  */
 
-require_once 'pdf_schedule_sequence.php';
+namespace Organizer\Layouts\PDF;
 
 use Joomla\CMS\Factory;
 
 /**
  * Class generates a PDF file in A4 format.
  */
-class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSchedule_Sequence_PDF
+class Schedule_List_A4 extends Schedule_List
 {
     /**
      * THM_OrganizerTemplateSchedule_Export_PDF_A4 constructor.
@@ -442,7 +442,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
  */
 class THM_OrganizerTCPDFScheduleA4 extends TCPDF
 {
-
     /**
      * Constructs using the implementation of the parent class restricted to the relevant parameters.
      *

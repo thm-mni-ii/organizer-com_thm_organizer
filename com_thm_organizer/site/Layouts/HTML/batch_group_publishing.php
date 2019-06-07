@@ -18,7 +18,7 @@ use Organizer\Helpers\Languages;
         <h3><?php echo Languages::_('THM_ORGANIZER_BATCH_GROUPS'); ?></h3>
     </div>
     <div class="modal-body modal-batch form-horizontal">
-        <?php foreach ($this->filterForm->getGroup('batch') as $batchField): ?>
+        <?php foreach ($this->filterForm->getGroup('batch') as $batchField) : ?>
             <div class='control-group'>
                 <div class='control-label'>
                     <?php echo $batchField->label; ?>

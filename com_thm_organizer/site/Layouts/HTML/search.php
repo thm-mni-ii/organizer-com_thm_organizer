@@ -50,7 +50,6 @@ $attribs = ['target' => '_blank'];
                         }
 
                         if (!$headerShown) {
-
                             $strengthTitle       = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
                             $strengthDescription = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
                             echo '<h3>' . Languages::_($strengthTitle) . '</h3><hr><ul>';

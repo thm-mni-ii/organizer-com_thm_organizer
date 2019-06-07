@@ -35,7 +35,11 @@ class Monitor_Edit extends EditView
         $toolbar->appendButton('Standard', 'apply', $applyText, 'monitor.apply', false);
         $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'monitor.save', false);
         $toolbar->appendButton(
-            'Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'monitor.save2new', false
+            'Standard',
+            'save-new',
+            Languages::_('THM_ORGANIZER_SAVE2NEW'),
+            'monitor.save2new',
+            false
         );
         $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
         $toolbar->appendButton('Standard', 'cancel', $cancelText, 'monitor.cancel', false);

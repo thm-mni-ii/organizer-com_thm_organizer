@@ -8,14 +8,14 @@
  * @link        www.thm.de
  */
 
-require_once 'pdf_schedule_sequence.php';
+namespace Organizer\Layouts\PDF;
 
 use Joomla\CMS\Factory;
 
 /**
  * Class generates a PDF file in A3 format.
  */
-class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSchedule_Sequence_PDF
+class Schedule_List_A3 extends Schedule_List
 {
     private $resources;
 
@@ -626,7 +626,6 @@ class THM_OrganizerTemplateSchedule_Export_PDF extends THM_OrganizerTemplateSche
 
                 $resourceText = $outputResource ? $resourceName : '';
                 if ($resourceRowNumber == $maxResourceRows) {
-
                     $resourceBorder = $this->getLastRowHeadCellBorder();
                     $dataBorder     = $this->getLastCellBorder();
                 } else {

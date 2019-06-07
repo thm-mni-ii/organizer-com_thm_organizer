@@ -37,11 +37,19 @@ class Program_Edit extends EditView
         $toolbar->appendButton('Standard', 'apply', $applyText, 'program.apply', false);
         $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'program.save', false);
         $toolbar->appendButton(
-            'Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'program.save2new', false
+            'Standard',
+            'save-new',
+            Languages::_('THM_ORGANIZER_SAVE2NEW'),
+            'program.save2new',
+            false
         );
         if (!$new) {
             $toolbar->appendButton(
-                'Standard', 'save-copy', Languages::_('THM_ORGANIZER_SAVE2COPY'), 'program.save2copy', false
+                'Standard',
+                'save-copy',
+                Languages::_('THM_ORGANIZER_SAVE2COPY'),
+                'program.save2copy',
+                false
             );
 
             $poolLink = 'index.php?option=com_thm_organizer&view=pool_selection&tmpl=component';

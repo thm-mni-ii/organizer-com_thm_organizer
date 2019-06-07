@@ -9,12 +9,14 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\PDF;
+
 require_once 'course_export.php';
 
 /**
  * Class generates sheets of participant badges based on the registered participants.
  */
-class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
+class Badges extends Course_Export
 {
     private $rectangleStyle;
 
@@ -71,7 +73,6 @@ class THM_OrganizerTemplateBadges extends THM_OrganizerTemplateCourse_Export
         $yOffset = 0;
 
         for ($badgeNumber = 0; $badgeNumber < $badgeCount; $badgeNumber++) {
-
             $this->addBadge($badgeNumber, $xOffset, $yOffset);
 
             // Adds one for use in modulo calculations

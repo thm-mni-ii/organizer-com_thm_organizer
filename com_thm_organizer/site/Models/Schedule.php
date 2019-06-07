@@ -108,7 +108,6 @@ class Schedule extends BaseModel
         $this->_db->transactionStart();
         $scheduleIDs = OrganizerHelper::getSelectedIDs();
         foreach ($scheduleIDs as $scheduleID) {
-
             if (!Access::allowSchedulingAccess($scheduleID)) {
                 $this->_db->transactionRollback();
                 throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
@@ -160,7 +159,6 @@ class Schedule extends BaseModel
     private function getScheduleRow($departmentID = null, $termID = null)
     {
         if (empty($departmentID) or empty($termID)) {
-
             $selectedIDs = OrganizerHelper::getSelectedIDs();
 
             if (empty($selectedIDs)) {

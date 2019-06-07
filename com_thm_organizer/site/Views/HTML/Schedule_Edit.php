@@ -29,11 +29,18 @@ class Schedule_Edit extends EditView
         HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULE_EDIT'), 'calendars');
         $toolbar = Toolbar::getInstance();
         $toolbar->appendButton(
-            'Standard', 'upload', Languages::_('THM_ORGANIZER_UPLOAD'), 'schedule.upload', false
+            'Standard',
+            'upload',
+            Languages::_('THM_ORGANIZER_UPLOAD'),
+            'schedule.upload',
+            false
         );
 //        $toolbar->appendButton(
-//            'Standard', 'upload', Languages::_('THM_ORGANIZER_UPLOAD_NOTIFY'),
-//            'schedule.uploadAndNotify', false);
+//            'Standard',
+//            'upload',
+//            Languages::_('THM_ORGANIZER_UPLOAD_NOTIFY'),
+//            'schedule.uploadAndNotify',
+//            false);
         $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'schedule.cancel', false);
     }
 }

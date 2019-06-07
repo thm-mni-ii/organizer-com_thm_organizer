@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\XLS;
+
 jimport('phpexcel.library.PHPExcel');
 
 use Joomla\CMS\Application\ApplicationHelper;
@@ -64,7 +66,7 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
         $this->roomData    = $model->roomData;
         $this->startDate   = $model->startDate;
         $this->startDoW    = $model->startDoW;
-        unset ($model);
+        unset($model);
 
         $this->spreadSheet = new \PHPExcel();
 
@@ -382,9 +384,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
             ->setCellValue("{$currentColumn}3", Languages::_('THM_ORGANIZER_RAW_UTIL_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")
             ->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue(
-            "{$currentColumn}4", "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})"
-        );
+        $cellValue = "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})";
+        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}4", $cellValue);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")
             ->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet(1)
@@ -417,9 +418,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
             ->setCellValue("{$currentColumn}3", Languages::_('THM_ORGANIZER_WEIGHTED_UTIL_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}3")
             ->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet(1)
-            ->setCellValue("{$currentColumn}4",
-                "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})");
+        $cellValue = "=SUBTOTAL(109,{$currentColumn}{$firstRow}:{$currentColumn}{$lastRow})";
+        $this->spreadSheet->getActiveSheet(1)->setCellValue("{$currentColumn}4", $cellValue);
         $this->spreadSheet->getActiveSheet()->getStyle("{$currentColumn}4")
             ->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet(1)

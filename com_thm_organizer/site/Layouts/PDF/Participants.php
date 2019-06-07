@@ -8,12 +8,13 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-require_once 'course_export.php';
+
+namespace Organizer\Layouts\PDF;
 
 /**
  * Class generates a list of participants based on the registered participants.
  */
-class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Export
+class Participants extends Course_Export
 {
     private $columnHeaders;
 
@@ -79,7 +80,6 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
         $participants = $this->course['participants'];
 
         foreach ($participants as $participant) {
-
             // Get the starting coordinates for later use with borders
             $startX = $this->document->GetX();
             $startY = $this->document->GetY();
@@ -134,7 +134,6 @@ class THM_OrganizerTemplateParticipants extends THM_OrganizerTemplateCourse_Expo
         // Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
         $bufferSize = ceil(count($participants) * 1.25) + 1;
         for ($itemNo; $itemNo < $bufferSize; $itemNo++) {
-
             foreach (array_keys($this->columnHeaders) as $columnName) {
                 $value = $columnName == 'index' ? $itemNo : '';
                 $this->document->MultiCell($this->widths[$columnName], 5, $value, 'LRB', 'L', 0, 0);

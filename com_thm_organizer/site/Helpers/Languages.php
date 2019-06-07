@@ -221,8 +221,8 @@ class Languages extends Text
         if (is_array($args[$count - 1])) {
             $args[0] = $lang->_(
                 $string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
-                array_key_exists('interpretBackSlashes',
-                    $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
+                array_key_exists('interpretBackSlashes', $args[$count - 1]) ?
+                    $args[$count - 1]['interpretBackSlashes'] : true
             );
 
             if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {

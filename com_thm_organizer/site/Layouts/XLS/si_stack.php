@@ -8,6 +8,8 @@
  * @link        www.thm.de
  */
 
+namespace Organizer\Layouts\XLS;
+
 jimport('phpexcel.library.PHPExcel');
 
 use Joomla\CMS\Factory;
@@ -50,7 +52,6 @@ class THM_OrganizerTemplateExport_XLS
         $activeSheetNumber = 0;
 
         if (!array_key_exists('pastDate', $this->lessons) and !array_key_exists('futureDate', $this->lessons)) {
-
             $today       = date('Y-m-d');
             $sheetNumber = 0;
             $startDate   = key($this->lessons);
@@ -88,8 +89,7 @@ class THM_OrganizerTemplateExport_XLS
     private function addData($startDate, $breakDate)
     {
         $row = 3;
-        for ($currentDate = $startDate; $currentDate < $breakDate; $currentDate = date('Y-m-d',
-            strtotime('+1 day', strtotime($currentDate)))) {
+        for ($currentDate = $startDate; $currentDate < $breakDate;) {
             if (empty($this->lessons[$currentDate])) {
                 continue;
             }
@@ -102,6 +102,8 @@ class THM_OrganizerTemplateExport_XLS
                     $row++;
                 }
             }
+
+            $currentDate = date('Y-m-d', strtotime('+1 day', strtotime($currentDate)));
         }
     }
 

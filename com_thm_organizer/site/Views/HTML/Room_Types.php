@@ -32,13 +32,21 @@ class Room_Types extends ListView
         $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'room_type.add', false);
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'room_type.edit', true);
         $toolbar->appendButton(
-            'Confirm', Languages::_('THM_ORGANIZER_DELETE_CONFIRM'), 'delete',
-            Languages::_('THM_ORGANIZER_DELETE'), 'room_type.delete', true
+            'Confirm',
+            Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+            'delete',
+            Languages::_('THM_ORGANIZER_DELETE'),
+            'room_type.delete',
+            true
         );
 
         if (Access::isAdmin()) {
             $toolbar->appendButton(
-                'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'room_type.mergeView', true
+                'Standard',
+                'attachment',
+                Languages::_('THM_ORGANIZER_MERGE'),
+                'room_type.mergeView',
+                true
             );
             HTML::setPreferencesButton();
         }

@@ -30,13 +30,15 @@ $columnCount = count($this->headers);
             </tr>
             </thead>
             <tbody <?php echo $this->getAttributesOutput($items); ?>>
-            <?php foreach ($items as $row): ?>
+            <?php foreach ($items as $row) : ?>
                 <tr <?php echo $this->getAttributesOutput($row); ?>>
-                    <?php foreach ($row as $column) {
+                    <?php
+                    foreach ($row as $column) {
                         $colAttributes = $this->getAttributesOutput($column);
                         $colValue      = is_array($column) ? $column['value'] : $column;
                         echo "<td $colAttributes>$colValue</td>";
-                    } ?>
+                    }
+                    ?>
                 </tr>
             <?php endforeach; ?>
             <tfoot>

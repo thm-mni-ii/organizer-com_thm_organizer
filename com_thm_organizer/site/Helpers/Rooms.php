@@ -90,7 +90,6 @@ class Rooms implements XMLValidator
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
 
         foreach ($allRooms as $room) {
-
             $query->clear('where');
             // Negative lookaheads are not possible in MySQL and POSIX (e.g. [[:colon:]]) is not in MariaDB
             // This regex is compatible with both

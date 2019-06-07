@@ -33,7 +33,11 @@ class Categories extends ListView
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'category.edit', true);
         if (Access::isAdmin()) {
             $toolbar->appendButton(
-                'Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'category.mergeView', true
+                'Standard',
+                'attachment',
+                Languages::_('THM_ORGANIZER_MERGE'),
+                'category.mergeView',
+                true
             );
             HTML::setPreferencesButton();
         }
