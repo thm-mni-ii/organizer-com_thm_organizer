@@ -212,7 +212,7 @@ class Courses implements XMLValidator
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select('pp.name as termName, pp.id as termID')
+        $query->select('term.name as termName, term.id as termID')
             ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID')
             ->select('l.registration_type, l.deadline, l.fee')
             ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage")
