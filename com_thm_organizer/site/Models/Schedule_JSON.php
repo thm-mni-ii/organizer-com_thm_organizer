@@ -12,6 +12,8 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Organizer\Helpers\Courses;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -1249,7 +1251,7 @@ class Schedule_JSON extends BaseDatabaseModel
             if ($this->changedStatus[$i] == "removed") {
                 for ($j = 0; $j < count($this->changedStatus); $j++) {
                     $status       = 0;
-                    $participants = THM_OrganizerHelperCourses::getFullParticipantData($this->changedLessonID[$j]);
+                    $participants = Courses::getFullParticipantData($this->changedLessonID[$j]);
 
                     $newInstanceFound = $this->changedStatus[$j] == 'new';
                     $sameLessonID     = $this->changedLessonID[$i] == $this->changedLessonID[$j];
@@ -1276,23 +1278,23 @@ class Schedule_JSON extends BaseDatabaseModel
     {
         foreach ($participants as $participant) {
             $participantID = $participant['id'];
-            $mailer        = \JFactory::getMailer();
-            $input         = THM_OrganizerHelperComponent::getInput();
+            $mailer        = Factory::getMailer();
+            $input         = OrganizerHelper::getInput();
 
-            $user       = \JFactory::getUser($participantID);
+            $user       = Factory::getUser($participantID);
             $userParams = json_decode($user->params, true);
             $mailer->addRecipient($user->email);
 
             if (!empty($userParams['language'])) {
                 $input->set('languageTag', explode('-', $userParams['language'])[0]);
             } else {
-                $officialAbbreviation = THM_OrganizerHelperCourses::getCourse($courseID)['instructionLanguage'];
+                $officialAbbreviation = Courses::getCourse($courseID)['instructionLanguage'];
                 $tag                  = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
                 $input->set('languageTag', $tag);
             }
 
-            $params = THM_OrganizerHelperComponent::getParams();
-            $sender = \JFactory::getUser($params->get('mailSender'));
+            $params = OrganizerHelper::getParams();
+            $sender = Factory::getUser($params->get('mailSender'));
 
             if (empty($sender->id)) {
                 return;
@@ -1300,35 +1302,34 @@ class Schedule_JSON extends BaseDatabaseModel
 
             $mailer->setSender([$sender->email, $sender->name]);
 
-            $course = THM_OrganizerHelperCourses::getCourse($courseID);
+            $course = Courses::getCourse($courseID);
             if (empty($course)) {
                 return;
             }
 
-            $lang       = THM_OrganizerHelperLanguages::getLanguage();
-            $campus     = THM_OrganizerHelperCourses::getCampus($courseID);
+            $campus     = Courses::getCampus($courseID);
             $courseName = (empty($campus) or empty($campus['name'])) ?
                 $course['name'] : "{$course['name']} ({$campus['name']})";
             $mailer->setSubject($courseName);
-            $body = $lang->_('THM_ORGANIZER_GREETING') . ',\n\n';
+            $body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
 
             $statusText = '';
 
             switch ($state) {
                 case 0:
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED'),
+                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED'),
                         $courseName, $oldDate, $oldTime);
                     break;
                 case 1:
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_TIME_CHANGED'),
+                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_TIME_CHANGED'),
                         $courseName, $oldDate, $oldTime, $newTime);
                     break;
                 case 2:
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_DATE_CHANGED'),
+                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_DATE_CHANGED'),
                         $courseName, $oldDate, $newDate);
                     break;
                 case 3:
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_BOTH_CHANGED'),
+                    $statusText .= sprintf(Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_BOTH_CHANGED'),
                         $courseName, $oldDate, $newDate, $newTime);
                     break;
                 default:
@@ -1337,7 +1338,7 @@ class Schedule_JSON extends BaseDatabaseModel
 
             $body .= ' => ' . $statusText . '\n\n';
 
-            $body .= $lang->_('THM_ORGANIZER_CLOSING') . ',\n';
+            $body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
             $body .= $sender->name . '\n\n';
             $body .= $sender->email . '\n';
 
