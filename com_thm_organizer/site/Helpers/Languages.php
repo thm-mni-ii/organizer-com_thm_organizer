@@ -65,7 +65,7 @@ class Languages extends Text
      *
      * @return Language
      */
-    private static function getLanguage()
+    public static function getLanguage()
     {
         $shortTag = self::getShortTag();
         switch ($shortTag) {

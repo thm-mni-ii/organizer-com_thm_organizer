@@ -12,7 +12,9 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Factory;
 use Organizer\Helpers\Courses;
+use Organizer\Helpers\Rooms;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -42,10 +44,12 @@ class Schedule_JSON extends BaseDatabaseModel
      */
     private $shouldNotify = false;
 
-    private $changedStatus = array();
-    private $changedDate = array();
-    private $changedTime = array();
-    private $changedLessonID = array();
+    /**
+     * All changes to the schedule are saved in this array
+     *
+     * @var array
+     */
+    private $scheduleChanges = array();
 
     /**
      * JSONSchedule constructor.
@@ -929,7 +933,9 @@ class Schedule_JSON extends BaseDatabaseModel
                 foreach ($lessonIDs as $lessonID) {
                     $referenceInstance = $this->refSchedule->calendar->$date->$time->$lessonID;
                     $instance          = $this->schedule->calendar->$date->$time->$lessonID;
-                    $this->setConfigurationReferences($referenceInstance, $instance, $configurations);
+                    $changeAttributes = array('lessonID' => $lessonID, 'date' => $date, 'time' => $time);
+                    $this->setConfigurationReferences($referenceInstance, $instance,
+                        $configurations, $changeAttributes);
                     $this->schedule->calendar->$date->$time->$lessonID = $instance;
                 }
 
@@ -993,7 +999,7 @@ class Schedule_JSON extends BaseDatabaseModel
      *
      * @return void modifies $activeInstance and $configurations
      */
-    private function setConfigurationReferences($referenceInstance, &$activeInstance, &$configurations)
+    private function setConfigurationReferences($referenceInstance, &$activeInstance, &$configurations, $changeAttributes)
     {
         $referenceConfigs = [];
         foreach ($referenceInstance->configurations as $refConfigIndex) {
@@ -1055,16 +1061,21 @@ class Schedule_JSON extends BaseDatabaseModel
                 $oldRooms = array_keys((array)$oldConfigObject->rooms);
 
                 // Rooms which are not in either diff should have blank values
-
                 $removedRooms = array_diff($oldRooms, $rooms);
                 foreach ($removedRooms as $removedRoomID) {
+                    $this->addChangedRoom($removedRoomID,$changeAttributes['lessonID'],
+                        $changeAttributes['date'], $changeAttributes['time'], "removed");
                     $newConfigObject->rooms->$removedRoomID = 'removed';
                 }
 
                 $newRooms = array_diff($rooms, $oldRooms);
                 foreach ($newRooms as $newRoomID) {
+                    $this->addChangedRoom($newRoomID ,$changeAttributes['lessonID'],
+                        $changeAttributes['date'], $changeAttributes['time'], "new");
                     $newConfigObject->rooms->$newRoomID = 'new';
                 }
+
+
             }
 
             // Course was newly added to the lesson
@@ -1191,7 +1202,7 @@ class Schedule_JSON extends BaseDatabaseModel
 
             $this->setConfigurations($instance, $configurations, $source);
             $this->schedule->calendar->$date->$time->$lessonID = $instance;
-            $this->saveChangedLesson($status, $date, $time, $lessonID);
+            $this->addChange($lessonID, $status, $date, $time);
         }
     }
 
@@ -1224,22 +1235,6 @@ class Schedule_JSON extends BaseDatabaseModel
     }
 
     /**
-     * Saves all changes every time a change is detected
-     *
-     * @param string $status   the batch instance status [new|removed]
-     * @param string $date     the date when the times occure
-     * @param string $time     the time of the new/removed lesson
-     * @param string $lessonID the lesson which has changed
-     */
-    private function saveChangedLesson($status, $date, $time, $lessonID)
-    {
-        array_push($this->changedStatus, $status);
-        array_push($this->changedDate, $date);
-        array_push($this->changedTime, $time);
-        array_push($this->changedLessonID, $lessonID);
-    }
-
-    /**
      * Notifies all users which are subscribed to the changed lessons about the change via mail
      *
      *
@@ -1247,138 +1242,282 @@ class Schedule_JSON extends BaseDatabaseModel
      */
     private function notify()
     {
-        for ($i = 0; $i < count($this->changedStatus); $i++) {
-            if ($this->changedStatus[$i] == "removed") {
-                for ($j = 0; $j < count($this->changedStatus); $j++) {
-                    $status       = 0;
-                    $participants = Courses::getFullParticipantData($this->changedLessonID[$j]);
-
-                    $newInstanceFound = $this->changedStatus[$j] == 'new';
-                    $sameLessonID     = $this->changedLessonID[$i] == $this->changedLessonID[$j];
-                    if ($newInstanceFound and $sameLessonID) {
-                        if ($this->changedTime[$j] != $this->changedTime[$i]) {
-                            $status += 1;
+        foreach($this->scheduleChanges as $lessonID => $attributes) {
+            for ($i = 0; $i < count($attributes); $i++) {
+                if (count($attributes) > $i + 1) {
+                    for ($j = $i; $j < count($attributes); $j++) {
+                        if ($attributes[$i]['status'] != $attributes[$j]['status']) {
+                            if ($attributes[$i]['status'] == 'new') {
+                                $attributes[$i]['oldDate'] = $attributes[$j]['oldDate'];
+                                $attributes[$i]['oldTime'] = $attributes[$j]['oldTime'];
+                                $attributes[$i]['oldRooms'] = array_merge($attributes[$i]['oldRooms'], $attributes[$j]['oldRooms']);
+                            } else {
+                                $attributes[$i]['newDate'] = $attributes[$j]['newDate'];
+                                $attributes[$i]['newTime'] = $attributes[$j]['newTime'];
+                                $attributes[$i]['newRooms'] = array_merge($attributes[$i]['newRooms'], $attributes[$j]['newRooms']);
+                            }
+                            $attributes[$i]['status'] = "moved";
+                            array_splice($this->scheduleChanges[$lessonID], $j, 1);
+                            array_splice($attributes, $j, 1);
+                            break;
                         }
+                    }
+                    $this->scheduleChanges[$lessonID][$i] = $attributes[$i];
+                }
+            }
+        }
 
-                        if ($this->changedDate[$j] != $this->changedDate[$i]) {
-                            $status += 2;
-                        }
+        foreach($this->scheduleChanges as $lessonID => $attributes) {
+            $participants = Courses::getFullParticipantData($lessonID);
+            foreach($participants as $participant) {
+                $participantID = $participant['id'];
+                if (!$this->getNotify($participantID)) {
+                    continue;
+                }
 
-                        $this->notifyUsers(
-                            $participants,
-                            $this->changedLessonID[$i],
-                            $status,
-                            $this->changedDate[$i],
-                            $this->changedDate[$j],
-                            $this->changedTime[$i],
-                            $this->changedTime[$j]
-                        );
+                $mailer = Factory::getMailer();
+                $input = OrganizerHelper::getInput();
+
+                $user = Factory::getUser($participantID);
+                $userParams = json_decode($user->params, true);
+                $mailer->addRecipient($user->email);
+
+                if (!empty($userParams['language'])) {
+                    $input->set('languageTag', explode('-', $userParams['language'])[0]);
+                } else {
+                    $officialAbbreviation = Courses::getCourse($lessonID)['instructionLanguage'];
+                    $tag = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
+                    $input->set('languageTag', $tag);
+                }
+
+                $params = OrganizerHelper::getParams();
+                $sender = Factory::getUser($params->get('mailSender'));
+
+                if (empty($sender->id)) {
+                    return;
+                }
+
+                $mailer->setSender([$sender->email, $sender->name]);
+
+                $course = Courses::getCourse($lessonID);
+                if (empty($course)) {
+                    return;
+                }
+
+                $lang = Languages::getLanguage();
+                $campus = Courses::getCampus($lessonID);
+                $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
+                $mailer->setSubject($courseName);
+                $body = $lang->_('THM_ORGANIZER_GREETING') . ',\n\n';
+                $newLessons = array();
+                $removedLessons = array();
+                $movedLessons = array();
+                for ($i = 0; $i < count($attributes); $i++) {
+                    $oldDate = $attributes[$i]['oldDate'];
+                    if ($oldDate != "") {
+                        $strModArr = explode('-', $oldDate);
+                        $oldDate = $strModArr[2] . "." . $strModArr[1] . "." . $strModArr[0];
+                    }
+
+                    $newDate = $attributes[$i]['newDate'];
+                    if ($newDate != "") {
+                        $strModArr = explode('-', $newDate);
+                        $newDate = $strModArr[2] . "." . $strModArr[1] . "." . $strModArr[0];
+                    }
+
+                    $oldTime = $attributes[$i]['oldTime'];
+                    if ($oldTime != "") {
+                        $oldTime = substr($oldTime, 0, 2) . ":" . substr($oldTime, 2, 5) . ":" .
+                            substr($oldTime, 7, 2);
+                    }
+
+                    $newTime = $attributes[$i]['newTime'];
+                    if  ($newTime != "") {
+                        $newTime = substr($newTime, 0, 2) . ":" . substr($newTime, 2, 5) . ":" .
+                            substr($newTime, 7, 2);
+                    }
+                    $attributes[$i]['newDate'] = $newDate;
+                    $attributes[$i]['newTime'] = $newTime;
+                    $attributes[$i]['oldDate'] = $oldDate;
+                    $attributes[$i]['oldTime'] = $oldTime;
+
+                    switch ($attributes[$i]['status']) {
+                        case "new":
+                            array_push($newLessons, $attributes[$i]);
+                            break;
+                        case "removed":
+                            array_push($removedLessons, $attributes[$i]);
+                            break;
+                        case "moved":
+                            array_push($movedLessons, $attributes[$i]);
+                            break;
                     }
                 }
+                $statusText = '';
+
+                if (count($newLessons) == 1) {
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_NEW_SINGLE') . '\n',
+                                           $courseName, $newLessons[0]['newDate'], $newLessons[0]['newTime']);
+                } else {
+                    if (count($newLessons) > 0) {
+                        $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_NEW_MULTIPLE_HEADER') . '\n\n',
+                                                        $courseName);
+                        foreach ($newLessons as $attribute) {
+                            $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_NEW_MULTIPLE') . '\n',
+                                                            $attribute['newDate'],
+                                                            $attribute['newTime']);
+                        }
+                    }
+                }
+
+                if (count($removedLessons) == 1) {
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED_SINGLE') . '\n',
+                                                    $courseName,
+                                                    $removedLessons[0]['oldDate'],
+                                                    $removedLessons[0]['oldTime']);
+                } elseif (count($removedLessons) > 0) {
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED_MULTIPLE') . '\n',
+                                                    $courseName);
+                }
+
+                if (count($movedLessons) > 0) {
+                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_HEADER') . '\n\n',
+                                                    $courseName);
+                    if (count($movedLessons) < 10) {
+                        for ($i = 0; $i < count($movedLessons); $i++) {
+                            if ($movedLessons[$i]['oldTime'] != $movedLessons[$i]['newTime'] &&
+                                $movedLessons[$i]['oldDate'] == $movedLessons[$i]['newDate']) {
+                                $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_SINGLE_TIME') . '\n',
+                                    $movedLessons[$i]['oldDate'],
+                                    $movedLessons[$i]['oldTime'],
+                                    $movedLessons[$i]['newTime']);
+                            } elseif ($movedLessons[$i]['oldTime'] == $movedLessons[$i]['newTime'] &&
+                                $movedLessons[$i]['oldDate'] != $movedLessons[$i]['newDate']) {
+                                $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_SINGLE_DATE') . '\n',
+                                    $movedLessons[$i]['oldDate'],
+                                    $movedLessons[$i]['newDate'],
+                                    $movedLessons[$i]['oldTime']);
+                            } elseif (count($movedLessons[0]['oldRooms']) > 0) {
+                                for($j = 0; $j < count($movedLessons[$i]['oldRooms']); $j++) {
+                                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_ROOM_CHANGED') . '\n',
+                                        $movedLessons[$i]['oldDate'],
+                                        $movedLessons[$i]['oldTime'],
+                                        Rooms::getName($movedLessons[$i]['oldRooms'][$j]),
+                                        Rooms::getName($movedLessons[$i]['newRooms'][$j]));
+                                }
+                            } else {
+                                $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_SINGLE_BOTH') . '\n',
+                                    $movedLessons[0]['oldDate'],
+                                    $movedLessons[0]['newDate'],
+                                    $movedLessons[0]['oldTime'],
+                                    $movedLessons[0]['newTime']);
+                            }
+                        }
+                    } else {
+                        $weekdays = explode('-', $lang->_('THM_ORGANIZER_WEEKDAYS'));
+                        $oldWeekday = $weekdays[date('w', strtotime($movedLessons[0]['oldDate']))];
+                        $newWeekday = $weekdays[date('w', strtotime($movedLessons[0]['newDate']))];
+                        $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_MULTIPLE') . '\n',
+                                                        $oldWeekday,
+                                                        $newWeekday,
+                                                        $movedLessons[0]['newTime']);
+                    }
+                }
+                $body .= ' => ' . $statusText . '\n\n';
+                $body .= $lang->_('THM_ORGANIZER_CLOSING') . ',\n';
+                $body .= $sender->name . '\n\n';
+                $body .= $sender->email . '\n';
+
+                $addressParts = explode(' - ', $params->get('address'));
+
+                foreach ($addressParts as $aPart) {
+                    $body .= $aPart . '\n';
+                }
+
+                $contactParts = explode(' - ', $params->get('contact'));
+
+                foreach ($contactParts as $cPart) {
+                    $body .= $cPart . '\n';
+                }
+
+                $mailer->setBody($body);
+                $mailer->Send();
             }
         }
     }
 
-    private function notifyUsers($participants, $courseID, $state, $oldDate, $newDate, $oldTime, $newTime)
-    {
-        foreach ($participants as $participant) {
-            $participantID = $participant['id'];
-            $mailer        = Factory::getMailer();
-            $input         = OrganizerHelper::getInput();
-
-            $user       = Factory::getUser($participantID);
-            $userParams = json_decode($user->params, true);
-            $mailer->addRecipient($user->email);
-
-            if (!empty($userParams['language'])) {
-                $input->set('languageTag', explode('-', $userParams['language'])[0]);
-            } else {
-                $officialAbbreviation = Courses::getCourse($courseID)['instructionLanguage'];
-                $tag                  = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
-                $input->set('languageTag', $tag);
-            }
-
-            $params = OrganizerHelper::getParams();
-            $sender = Factory::getUser($params->get('mailSender'));
-
-            if (empty($sender->id)) {
-                return;
-            }
-
-            $mailer->setSender([$sender->email, $sender->name]);
-
-            $course = Courses::getCourse($courseID);
-            if (empty($course)) {
-                return;
-            }
-
-            $campus     = Courses::getCampus($courseID);
-            $courseName = (empty($campus) or empty($campus['name'])) ?
-                $course['name'] : "{$course['name']} ({$campus['name']})";
-            $mailer->setSubject($courseName);
-            $body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
-
-            $statusText = '';
-
-            switch ($state) {
-                case 0:
-                    $statusText .= sprintf(
-                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED'),
-                        $courseName,
-                        $oldDate,
-                        $oldTime
-                    );
-                    break;
-                case 1:
-                    $statusText .= sprintf(
-                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_TIME_CHANGED'),
-                        $courseName,
-                        $oldDate,
-                        $oldTime,
-                        $newTime
-                    );
-                    break;
-                case 2:
-                    $statusText .= sprintf(
-                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_DATE_CHANGED'),
-                        $courseName,
-                        $oldDate,
-                        $newDate
-                    );
-                    break;
-                case 3:
-                    $statusText .= sprintf(
-                        Languages::_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_BOTH_CHANGED'),
-                        $courseName,
-                        $oldDate,
-                        $newDate,
-                        $newTime
-                    );
-                    break;
-                default:
-                    return;
-            }
-
-            $body .= ' => ' . $statusText . '\n\n';
-
-            $body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
-            $body .= $sender->name . '\n\n';
-            $body .= $sender->email . '\n';
-
-            $addressParts = explode(' � ', $params->get('address'));
-
-            foreach ($addressParts as $aPart) {
-                $body .= $aPart . '\n';
-            }
-
-            $contactParts = explode(' � ', $params->get('contact'));
-
-            foreach ($contactParts as $cPart) {
-                $body .= $cPart . '\n';
-            }
-
-            $mailer->setBody($body);
-            $mailer->Send();
+    /**
+     * adds a change to the scheduleChanges array,
+     * @param $lessonID int ID of the lesson
+     * @param $status   string status of the change (new|removed)
+     * @param $date     string date of change
+     * @param $time     string time of the change
+     */
+    private function addChange($lessonID, $status, $date, $time) {
+        if (!array_key_exists($lessonID, $this->scheduleChanges))
+            $this->scheduleChanges[$lessonID] = array();
+        if ($status == 'new') {
+            $oldDate = "";
+            $newDate = $date;
+            $oldTime = "";
+            $newTime = $time;
         }
+        else {
+            $oldDate = $date;
+            $newDate = "";
+            $oldTime = $time;
+            $newTime = "";
+        }
+        array_push($this->scheduleChanges[$lessonID], array(
+            'oldDate' => $oldDate,
+            'newDate' => $newDate,
+            'oldTime' => $oldTime,
+            'newTime' => $newTime,
+            'status' => $status,
+            'oldRooms' => array(),
+            'newRooms' => array()
+        ));
+    }
+
+    /**
+     * adds a change to the scheduleChanges array, and additionally adds changed rooms
+     * @param $lessonID int ID of the lesson
+     * @param $status   string status of the change (new|removed)
+     * @param $date     string date of change
+     * @param $time     string time of the change
+     * @param $roomID   ID of the room which was changed
+     */
+    private function addChangedRoom($lessonID, $status, $date, $time, $roomID) {
+        $this->addChange($lessonID, $status, $date, $time);
+        if ($status == "new") {
+            $roomKey = 'newRooms';
+        }
+        else {
+            $roomKey = 'oldRooms';
+        }
+        $arrayIndex = count($this->scheduleChanges[$lessonID]) - 1;
+
+        if (!array_key_exists($roomKey, $this->scheduleChanges[$lessonID][$arrayIndex])) {
+            $this->scheduleChanges[$lessonID][$arrayIndex][$roomKey] = array();
+        }
+        array_push($this->scheduleChanges[$lessonID][$arrayIndex][$roomKey], $roomID);
+    }
+
+    /**
+     * gets notification value in user_profile table depending on user selection
+     * @param userID int ID of user
+     * @return bool if user should be notified
+     */
+    private function getNotify($userID)
+    {
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+
+        $query->select('COUNT(*)')
+              ->from('#__user_profiles')
+              ->where("profile_key = 'organizer_notify'")
+              ->where("user_id = '$userID'");
+        $dbo->setQuery($query);
+        return OrganizerHelper::executeQuery('loadResult');
     }
 }

@@ -35,12 +35,12 @@ class Schedule_Edit extends EditView
             'schedule.upload',
             false
         );
-//        $toolbar->appendButton(
-//            'Standard',
-//            'upload',
-//            Languages::_('THM_ORGANIZER_UPLOAD_NOTIFY'),
-//            'schedule.uploadAndNotify',
-//            false);
+        $toolbar->appendButton(
+            'Standard',
+            'upload',
+            Languages::_('THM_ORGANIZER_UPLOAD_NOTIFY'),
+            'schedule.uploadAndNotify',
+            false);
         $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'schedule.cancel', false);
     }
 }
