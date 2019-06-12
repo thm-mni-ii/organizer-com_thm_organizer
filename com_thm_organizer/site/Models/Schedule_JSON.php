@@ -49,7 +49,7 @@ class Schedule_JSON extends BaseDatabaseModel
      *
      * @var array
      */
-    private $scheduleChanges = array();
+    private $scheduleChanges = [];
 
     /**
      * JSONSchedule constructor.
@@ -933,9 +933,13 @@ class Schedule_JSON extends BaseDatabaseModel
                 foreach ($lessonIDs as $lessonID) {
                     $referenceInstance = $this->refSchedule->calendar->$date->$time->$lessonID;
                     $instance          = $this->schedule->calendar->$date->$time->$lessonID;
-                    $changeAttributes = array('lessonID' => $lessonID, 'date' => $date, 'time' => $time);
-                    $this->setConfigurationReferences($referenceInstance, $instance,
-                        $configurations, $changeAttributes);
+                    $changeAttributes  = ['lessonID' => $lessonID, 'date' => $date, 'time' => $time];
+                    $this->setConfigurationReferences(
+                        $referenceInstance,
+                        $instance,
+                        $configurations,
+                        $changeAttributes
+                    );
                     $this->schedule->calendar->$date->$time->$lessonID = $instance;
                 }
 
@@ -999,8 +1003,12 @@ class Schedule_JSON extends BaseDatabaseModel
      *
      * @return void modifies $activeInstance and $configurations
      */
-    private function setConfigurationReferences($referenceInstance, &$activeInstance, &$configurations, $changeAttributes)
-    {
+    private function setConfigurationReferences(
+        $referenceInstance,
+        &$activeInstance,
+        &$configurations,
+        $changeAttributes
+    ) {
         $referenceConfigs = [];
         foreach ($referenceInstance->configurations as $refConfigIndex) {
             if (!empty($this->refSchedule->configurations[$refConfigIndex])) {
@@ -1063,15 +1071,25 @@ class Schedule_JSON extends BaseDatabaseModel
                 // Rooms which are not in either diff should have blank values
                 $removedRooms = array_diff($oldRooms, $rooms);
                 foreach ($removedRooms as $removedRoomID) {
-                    $this->addChangedRoom($removedRoomID,$changeAttributes['lessonID'],
-                        $changeAttributes['date'], $changeAttributes['time'], "removed");
+                    $this->addChangedRoom(
+                        $removedRoomID,
+                        $changeAttributes['lessonID'],
+                        $changeAttributes['date'],
+                        $changeAttributes['time'],
+                        "removed"
+                    );
                     $newConfigObject->rooms->$removedRoomID = 'removed';
                 }
 
                 $newRooms = array_diff($rooms, $oldRooms);
                 foreach ($newRooms as $newRoomID) {
-                    $this->addChangedRoom($newRoomID ,$changeAttributes['lessonID'],
-                        $changeAttributes['date'], $changeAttributes['time'], "new");
+                    $this->addChangedRoom(
+                        $newRoomID,
+                        $changeAttributes['lessonID'],
+                        $changeAttributes['date'],
+                        $changeAttributes['time'],
+                        "new"
+                    );
                     $newConfigObject->rooms->$newRoomID = 'new';
                 }
 
@@ -1242,19 +1260,22 @@ class Schedule_JSON extends BaseDatabaseModel
      */
     private function notify()
     {
-        foreach($this->scheduleChanges as $lessonID => $attributes) {
+        return;
+        foreach ($this->scheduleChanges as $lessonID => $attributes) {
             for ($i = 0; $i < count($attributes); $i++) {
                 if (count($attributes) > $i + 1) {
                     for ($j = $i; $j < count($attributes); $j++) {
                         if ($attributes[$i]['status'] != $attributes[$j]['status']) {
                             if ($attributes[$i]['status'] == 'new') {
-                                $attributes[$i]['oldDate'] = $attributes[$j]['oldDate'];
-                                $attributes[$i]['oldTime'] = $attributes[$j]['oldTime'];
-                                $attributes[$i]['oldRooms'] = array_merge($attributes[$i]['oldRooms'], $attributes[$j]['oldRooms']);
+                                $attributes[$i]['oldDate']  = $attributes[$j]['oldDate'];
+                                $attributes[$i]['oldTime']  = $attributes[$j]['oldTime'];
+                                $attributes[$i]['oldRooms'] = array_merge($attributes[$i]['oldRooms'],
+                                    $attributes[$j]['oldRooms']);
                             } else {
-                                $attributes[$i]['newDate'] = $attributes[$j]['newDate'];
-                                $attributes[$i]['newTime'] = $attributes[$j]['newTime'];
-                                $attributes[$i]['newRooms'] = array_merge($attributes[$i]['newRooms'], $attributes[$j]['newRooms']);
+                                $attributes[$i]['newDate']  = $attributes[$j]['newDate'];
+                                $attributes[$i]['newTime']  = $attributes[$j]['newTime'];
+                                $attributes[$i]['newRooms'] = array_merge($attributes[$i]['newRooms'],
+                                    $attributes[$j]['newRooms']);
                             }
                             $attributes[$i]['status'] = "moved";
                             array_splice($this->scheduleChanges[$lessonID], $j, 1);
@@ -1267,18 +1288,18 @@ class Schedule_JSON extends BaseDatabaseModel
             }
         }
 
-        foreach($this->scheduleChanges as $lessonID => $attributes) {
+        foreach ($this->scheduleChanges as $lessonID => $attributes) {
             $participants = Courses::getFullParticipantData($lessonID);
-            foreach($participants as $participant) {
+            foreach ($participants as $participant) {
                 $participantID = $participant['id'];
                 if (!$this->getNotify($participantID)) {
                     continue;
                 }
 
                 $mailer = Factory::getMailer();
-                $input = OrganizerHelper::getInput();
+                $input  = OrganizerHelper::getInput();
 
-                $user = Factory::getUser($participantID);
+                $user       = Factory::getUser($participantID);
                 $userParams = json_decode($user->params, true);
                 $mailer->addRecipient($user->email);
 
@@ -1286,7 +1307,7 @@ class Schedule_JSON extends BaseDatabaseModel
                     $input->set('languageTag', explode('-', $userParams['language'])[0]);
                 } else {
                     $officialAbbreviation = Courses::getCourse($lessonID)['instructionLanguage'];
-                    $tag = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
+                    $tag                  = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
                     $input->set('languageTag', $tag);
                 }
 
@@ -1304,25 +1325,25 @@ class Schedule_JSON extends BaseDatabaseModel
                     return;
                 }
 
-                $lang = Languages::getLanguage();
-                $campus = Courses::getCampus($lessonID);
-                $courseName = (empty($campus) or empty($campus['name'])) ? $course['name'] : "{$course['name']} ({$campus['name']})";
+                $campus     = Courses::getCampus($lessonID);
+                $courseName = (empty($campus) or empty($campus['name'])) ?
+                    $course['name'] : "{$course['name']} ({$campus['name']})";
                 $mailer->setSubject($courseName);
-                $body = $lang->_('THM_ORGANIZER_GREETING') . ',\n\n';
-                $newLessons = array();
-                $removedLessons = array();
-                $movedLessons = array();
+                $body           = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
+                $newLessons     = [];
+                $removedLessons = [];
+                $movedLessons   = [];
                 for ($i = 0; $i < count($attributes); $i++) {
                     $oldDate = $attributes[$i]['oldDate'];
                     if ($oldDate != "") {
                         $strModArr = explode('-', $oldDate);
-                        $oldDate = $strModArr[2] . "." . $strModArr[1] . "." . $strModArr[0];
+                        $oldDate   = $strModArr[2] . "." . $strModArr[1] . "." . $strModArr[0];
                     }
 
                     $newDate = $attributes[$i]['newDate'];
                     if ($newDate != "") {
                         $strModArr = explode('-', $newDate);
-                        $newDate = $strModArr[2] . "." . $strModArr[1] . "." . $strModArr[0];
+                        $newDate   = $strModArr[2] . "." . $strModArr[1] . "." . $strModArr[0];
                     }
 
                     $oldTime = $attributes[$i]['oldTime'];
@@ -1332,7 +1353,7 @@ class Schedule_JSON extends BaseDatabaseModel
                     }
 
                     $newTime = $attributes[$i]['newTime'];
-                    if  ($newTime != "") {
+                    if ($newTime != "") {
                         $newTime = substr($newTime, 0, 2) . ":" . substr($newTime, 2, 5) . ":" .
                             substr($newTime, 7, 2);
                     }
@@ -1356,57 +1377,74 @@ class Schedule_JSON extends BaseDatabaseModel
                 $statusText = '';
 
                 if (count($newLessons) == 1) {
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_NEW_SINGLE') . '\n',
-                                           $courseName, $newLessons[0]['newDate'], $newLessons[0]['newTime']);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_NOTIFICATION_NEW_SINGLE') . '\n',
+                        $courseName,
+                        $newLessons[0]['newDate'],
+                        $newLessons[0]['newTime']
+                    );
                 } else {
                     if (count($newLessons) > 0) {
-                        $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_NEW_MULTIPLE_HEADER') . '\n\n',
-                                                        $courseName);
+                        $statusText .= sprintf(
+                            Languages::_('THM_ORGANIZER_NOTIFICATION_NEW_MULTIPLE_HEADER') . '\n\n',
+                            $courseName);
                         foreach ($newLessons as $attribute) {
-                            $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_NEW_MULTIPLE') . '\n',
-                                                            $attribute['newDate'],
-                                                            $attribute['newTime']);
+                            $statusText .= sprintf(
+                                Languages::_('THM_ORGANIZER_NOTIFICATION_NEW_MULTIPLE') . '\n',
+                                $attribute['newDate'],
+                                $attribute['newTime']);
                         }
                     }
                 }
 
                 if (count($removedLessons) == 1) {
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED_SINGLE') . '\n',
-                                                    $courseName,
-                                                    $removedLessons[0]['oldDate'],
-                                                    $removedLessons[0]['oldTime']);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_NOTIFICATION_REMOVED_SINGLE') . '\n',
+                        $courseName,
+                        $removedLessons[0]['oldDate'],
+                        $removedLessons[0]['oldTime']);
                 } elseif (count($removedLessons) > 0) {
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_REMOVED_MULTIPLE') . '\n',
-                                                    $courseName);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_NOTIFICATION_REMOVED_MULTIPLE') . '\n',
+                        $courseName);
                 }
 
                 if (count($movedLessons) > 0) {
-                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_HEADER') . '\n\n',
-                                                    $courseName);
+                    $statusText .= sprintf(
+                        Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_HEADER') . '\n\n',
+                        $courseName
+                    );
                     if (count($movedLessons) < 10) {
                         for ($i = 0; $i < count($movedLessons); $i++) {
                             if ($movedLessons[$i]['oldTime'] != $movedLessons[$i]['newTime'] &&
                                 $movedLessons[$i]['oldDate'] == $movedLessons[$i]['newDate']) {
-                                $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_SINGLE_TIME') . '\n',
+                                $statusText .= sprintf(
+                                    Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_SINGLE_TIME') . '\n',
                                     $movedLessons[$i]['oldDate'],
                                     $movedLessons[$i]['oldTime'],
-                                    $movedLessons[$i]['newTime']);
+                                    $movedLessons[$i]['newTime']
+                                );
                             } elseif ($movedLessons[$i]['oldTime'] == $movedLessons[$i]['newTime'] &&
                                 $movedLessons[$i]['oldDate'] != $movedLessons[$i]['newDate']) {
-                                $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_SINGLE_DATE') . '\n',
+                                $statusText .= sprintf(
+                                    Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_SINGLE_DATE') . '\n',
                                     $movedLessons[$i]['oldDate'],
                                     $movedLessons[$i]['newDate'],
-                                    $movedLessons[$i]['oldTime']);
+                                    $movedLessons[$i]['oldTime']
+                                );
                             } elseif (count($movedLessons[0]['oldRooms']) > 0) {
-                                for($j = 0; $j < count($movedLessons[$i]['oldRooms']); $j++) {
-                                    $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_ROOM_CHANGED') . '\n',
+                                for ($j = 0; $j < count($movedLessons[$i]['oldRooms']); $j++) {
+                                    $statusText .= sprintf(
+                                        Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_ROOM_CHANGED') . '\n',
                                         $movedLessons[$i]['oldDate'],
                                         $movedLessons[$i]['oldTime'],
                                         Rooms::getName($movedLessons[$i]['oldRooms'][$j]),
-                                        Rooms::getName($movedLessons[$i]['newRooms'][$j]));
+                                        Rooms::getName($movedLessons[$i]['newRooms'][$j])
+                                    );
                                 }
                             } else {
-                                $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_SINGLE_BOTH') . '\n',
+                                $statusText .= sprintf(
+                                    Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_SINGLE_BOTH') . '\n',
                                     $movedLessons[0]['oldDate'],
                                     $movedLessons[0]['newDate'],
                                     $movedLessons[0]['oldTime'],
@@ -1414,17 +1452,17 @@ class Schedule_JSON extends BaseDatabaseModel
                             }
                         }
                     } else {
-                        $weekdays = explode('-', $lang->_('THM_ORGANIZER_WEEKDAYS'));
+                        $weekdays   = explode('-', Languages::_('THM_ORGANIZER_WEEKDAYS'));
                         $oldWeekday = $weekdays[date('w', strtotime($movedLessons[0]['oldDate']))];
                         $newWeekday = $weekdays[date('w', strtotime($movedLessons[0]['newDate']))];
-                        $statusText .= sprintf($lang->_('THM_ORGANIZER_COURSE_MAIL_NOTIFY_MOVED_MULTIPLE') . '\n',
-                                                        $oldWeekday,
-                                                        $newWeekday,
-                                                        $movedLessons[0]['newTime']);
+                        $statusText .= sprintf(Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_MULTIPLE') . '\n',
+                            $oldWeekday,
+                            $newWeekday,
+                            $movedLessons[0]['newTime']);
                     }
                 }
                 $body .= ' => ' . $statusText . '\n\n';
-                $body .= $lang->_('THM_ORGANIZER_CLOSING') . ',\n';
+                $body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
                 $body .= $sender->name . '\n\n';
                 $body .= $sender->email . '\n';
 
@@ -1448,76 +1486,81 @@ class Schedule_JSON extends BaseDatabaseModel
 
     /**
      * adds a change to the scheduleChanges array,
+     *
      * @param $lessonID int ID of the lesson
      * @param $status   string status of the change (new|removed)
      * @param $date     string date of change
      * @param $time     string time of the change
      */
-    private function addChange($lessonID, $status, $date, $time) {
-        if (!array_key_exists($lessonID, $this->scheduleChanges))
-            $this->scheduleChanges[$lessonID] = array();
+    private function addChange($lessonID, $status, $date, $time)
+    {
+        if (!array_key_exists($lessonID, $this->scheduleChanges)) {
+            $this->scheduleChanges[$lessonID] = [];
+        }
         if ($status == 'new') {
             $oldDate = "";
             $newDate = $date;
             $oldTime = "";
             $newTime = $time;
-        }
-        else {
+        } else {
             $oldDate = $date;
             $newDate = "";
             $oldTime = $time;
             $newTime = "";
         }
-        array_push($this->scheduleChanges[$lessonID], array(
-            'oldDate' => $oldDate,
-            'newDate' => $newDate,
-            'oldTime' => $oldTime,
-            'newTime' => $newTime,
-            'status' => $status,
-            'oldRooms' => array(),
-            'newRooms' => array()
-        ));
+        $this->scheduleChanges[$lessonID][] = [
+            'oldDate'  => $oldDate,
+            'newDate'  => $newDate,
+            'oldTime'  => $oldTime,
+            'newTime'  => $newTime,
+            'status'   => $status,
+            'oldRooms' => [],
+            'newRooms' => []
+        ];
     }
 
     /**
      * adds a change to the scheduleChanges array, and additionally adds changed rooms
+     *
      * @param $lessonID int ID of the lesson
      * @param $status   string status of the change (new|removed)
      * @param $date     string date of change
      * @param $time     string time of the change
      * @param $roomID   ID of the room which was changed
      */
-    private function addChangedRoom($lessonID, $status, $date, $time, $roomID) {
+    private function addChangedRoom($lessonID, $status, $date, $time, $roomID)
+    {
         $this->addChange($lessonID, $status, $date, $time);
         if ($status == "new") {
             $roomKey = 'newRooms';
-        }
-        else {
+        } else {
             $roomKey = 'oldRooms';
         }
         $arrayIndex = count($this->scheduleChanges[$lessonID]) - 1;
 
         if (!array_key_exists($roomKey, $this->scheduleChanges[$lessonID][$arrayIndex])) {
-            $this->scheduleChanges[$lessonID][$arrayIndex][$roomKey] = array();
+            $this->scheduleChanges[$lessonID][$arrayIndex][$roomKey] = [];
         }
         array_push($this->scheduleChanges[$lessonID][$arrayIndex][$roomKey], $roomID);
     }
 
     /**
      * gets notification value in user_profile table depending on user selection
+     *
      * @param userID int ID of user
+     *
      * @return bool if user should be notified
      */
     private function getNotify($userID)
     {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
+        $query = $this->_db->getQuery(true);
 
         $query->select('COUNT(*)')
-              ->from('#__user_profiles')
-              ->where("profile_key = 'organizer_notify'")
-              ->where("user_id = '$userID'");
-        $dbo->setQuery($query);
+            ->from('#__user_profiles')
+            ->where("profile_key = 'organizer_notify'")
+            ->where("user_id = '$userID'");
+        $this->_db->setQuery($query);
+
         return OrganizerHelper::executeQuery('loadResult');
     }
 }
