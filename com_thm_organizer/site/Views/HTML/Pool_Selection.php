@@ -25,7 +25,7 @@ use Organizer\Helpers\Mappings;
  */
 class Pool_Selection extends ListView
 {
-    protected $_layout = 'pool_selection';
+    protected $_layout = 'list_modal';
 
     /**
      * Method to generate buttons for user interaction

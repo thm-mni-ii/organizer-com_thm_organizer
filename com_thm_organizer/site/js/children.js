@@ -144,8 +144,8 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
     orderingHTML += '<span class="icon-previous"></span>';
     orderingHTML += '</button>';
 
-    orderingHTML += '<input type="text" name="child' + nextRowNumber + 'order" ';
-    orderingHTML += 'id="child' + nextRowNumber + 'order" size="2" value="' + nextRowNumber + '" class="text-area-order" ';
+    orderingHTML += '<input type="text" name="child' + nextRowNumber + 'Order" ';
+    orderingHTML += 'id="child' + nextRowNumber + 'Order" size="2" value="' + nextRowNumber + '" class="text-area-order" ';
     orderingHTML += 'onchange="moveChildToIndex(' + nextRowNumber + ');">';
 
     orderingHTML += '<button class="btn btn-small" onclick="addBlankChild(' + nextRowNumber + ');" title="';

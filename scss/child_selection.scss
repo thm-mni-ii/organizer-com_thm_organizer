@@ -7,27 +7,6 @@
   width: 98%;
 }
 
-#adminForm {
-  width: 100%;
-
-  .js-stools-container-bar {
-    width: 100%;
-
-    .js-stools-field-list {
-      margin-bottom: 0;
-
-      .chzn-single {
-        padding: 1px;
-
-        & > span {
-          margin-left: 4px;
-          margin-right: 22px;
-        }
-      }
-    }
-  }
-}
-
 .btn-wrapper, .ordering-select {
   display: inline-block;
   float: left;
@@ -40,8 +19,4 @@
 
 .ordering-select select {
   margin-bottom: 0;
-}
-
-#toolbar-new {
-  float: right;
 }

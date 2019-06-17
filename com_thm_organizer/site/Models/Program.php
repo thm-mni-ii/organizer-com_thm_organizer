@@ -92,6 +92,7 @@ class Program extends BaseModel
         $this->_db->transactionStart();
         $table     = $this->getTable();
         $dpSuccess = $table->save($data);
+
         if ($dpSuccess) {
             $model = new Mapping;
 

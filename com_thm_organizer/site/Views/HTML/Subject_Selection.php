@@ -14,6 +14,8 @@ namespace Organizer\Views\HTML;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Access;
+use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 /**
@@ -21,6 +23,8 @@ use Organizer\Helpers\Languages;
  */
 class Subject_Selection extends ListView
 {
+    protected $_layout = 'list_modal';
+
     /**
      * Method to generate buttons for user interaction
      *
@@ -39,7 +43,7 @@ class Subject_Selection extends ListView
      */
     protected function allowAccess()
     {
-        // TODO: Implement allowAccess() method.
+        return Access::allowDocumentAccess();
     }
 
     /**

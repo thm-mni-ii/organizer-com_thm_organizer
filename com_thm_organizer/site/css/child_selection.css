@@ -4,27 +4,6 @@
     width: 98%;
 }
 
-#adminForm {
-    width: 100%;
-}
-
-#adminForm .js-stools-container-bar {
-    width: 100%;
-}
-
-#adminForm .js-stools-container-bar .js-stools-field-list {
-    margin-bottom: 0;
-}
-
-#adminForm .js-stools-container-bar .js-stools-field-list .chzn-single {
-    padding: 1px;
-}
-
-#adminForm .js-stools-container-bar .js-stools-field-list .chzn-single > span {
-    margin-left: 4px;
-    margin-right: 22px;
-}
-
 .btn-wrapper, .ordering-select {
     display: inline-block;
     float: left;
@@ -37,8 +16,4 @@
 
 .ordering-select select {
     margin-bottom: 0;
-}
-
-#toolbar-new {
-    float: right;
 }

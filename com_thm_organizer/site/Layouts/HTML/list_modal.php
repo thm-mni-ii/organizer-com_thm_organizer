@@ -10,8 +10,9 @@
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Organizer\Helpers\HTML;
 
-$buttons     = Toolbar::getInstance()->getItems();
+$toolbar     = Toolbar::getInstance();
 $columnCount = count($this->headers);
 $data        = ['view' => $this, 'options' => []];
 $showSearch  = !empty($filters['filter_search']);
@@ -24,63 +25,25 @@ $showFilters = !($noFilters or $onlySearch);
 ?>
 <div id="j-main-container">
     <form action="index.php?" id="adminForm" method="post" name="adminForm">
-        <div class="js-stools clearfix">
-            <div class="clearfix">
-                <div class="js-stools-container-bar">
-                    <?php if (!$showSearch) : ?>
-                        <label for="filter_search" class="element-invisible">
-                            <?php echo Languages::_('JSEARCH_FILTER'); ?>
-                        </label>
-                        <div class="btn-wrapper input-append">
-                            <?php echo $filters['filter_search']->input; ?>
-                            <button type="submit" class="btn hasTooltip"
-                                    title="<?php echo HTML::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-                                <i class="icon-search"></i>
-                            </button>
-                        </div>
-                        <div class="btn-wrapper">
-                            <button type="button" class="btn hasTooltip js-stools-btn-clear"
-                                    title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
-                                <i class="icon-refresh"></i>
-                                <?php echo Languages::_('JSEARCH_RESET'); ?>
-                            </button>
-                        </div>
-                    <?php endif; ?>
-                    <?php echo LayoutHelper::render('joomla.searchtools.default.list', $data); ?>
-                    <?php foreach ($buttons as $button) : ?>
-                        <?php echo $toolbar->renderButton($button); ?>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+        <div class="btn-toolbar">
+            <?php foreach ($toolbar->getItems() as $button) : ?>
+                <?php echo $toolbar->renderButton($button); ?>
+            <?php endforeach; ?>
+            <div class="clearfix"></div>
         </div>
-        <div class="clr"></div>
-        <table class="table table-striped" id="<?php echo $this->get('name'); ?>-list">
+        <div class="js-stools-container-bar">
+            <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        </div>
+        <table class="table table-striped" id="<?php echo $this->getName(); ?>-list">
             <thead>
-            <tr>';
+            <tr>
                 <?php foreach ($this->headers as $header) : ?>
                     <th><?php echo $header; ?></th>
                 <?php endforeach; ?>
             </tr>
-            <?php if ($showFilters) : ?>
-                <tr>
-                    <?php foreach (array_keys($this->headers) as $name) : ?>
-                        <th>
-                            <?php if ($name === 'checkbox') : ?>
-                                <div class="js-stools-field-filter">
-                                    <?php echo HTML::_('grid.checkall'); ?>
-                                </div>
-                            <?php elseif (isset($filters["filter_$name"])) : ?>
-                                <div class="js-stools-field-filter">
-                                    <?php echo $filters["filter_$name"]->input; ?>
-                                </div>
-                            <?php endif; ?>
-                        </th>
-                    <?php endforeach; ?>
-                </tr>
-            <?php endif; ?>
             </thead>
             <tbody>
-            <?php foreach ($items as $row) : ?>
+            <?php foreach ($this->items as $row) : ?>
                 <tr>
                     <?php foreach ($row as $column) : ?>
                         <td><?php echo $column; ?></td>
@@ -104,3 +67,10 @@ $showFilters = !($noFilters or $onlySearch);
         <?php echo HTML::_('form.token'); ?>
     </form>
 </div>
+<script>
+    jQuery(document).ready(function () {
+        jQuery('div#toolbar-new button').click(function () {
+            window.parent.closeIframeWindow('#<?php echo $this->getName(); ?>-list', 'p');
+        });
+    });
+</script>
