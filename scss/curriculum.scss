@@ -1,7 +1,6 @@
+@import 'legal_disclaimer';
 @import 'mixins';
 @import 'variables';
-@import '_language_switch';
-@import '_legal_disclaimer';
 
 .hidden {
   display: none;
@@ -31,7 +30,7 @@
 }
 
 .main-panel {
-  border: $border;
+  border: $border-dark;
   margin-bottom: 5px;
 }
 
@@ -90,7 +89,7 @@
 }
 
 .item-head {
-  border: $border;
+  border: $border-dark;
   padding: 3px 5px;
   background-color: #71A126;
   color: white;

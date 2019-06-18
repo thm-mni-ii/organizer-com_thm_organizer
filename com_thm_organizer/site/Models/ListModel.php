@@ -14,7 +14,6 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\ListModel as ParentModel;
-use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**

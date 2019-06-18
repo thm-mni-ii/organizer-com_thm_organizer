@@ -1,12 +1,5 @@
-/*  ------------------------------------
-**  Author:     Lavinia Popa-Roessel
-**  Author:     Franciska Perisa
-**  File:       schedule.css
-**  Styles for: Frontend
-**  Site:       www.thm.de
-**  ------------------------------------ */
-@import 'variables';
 @import 'tabs';
+@import 'variables';
 
 .tmpl-mobile .schedule .ym-cbox {
 
@@ -594,7 +587,7 @@ input[type=radio] {
     padding: 1rem;
     font-size: 80%;
     background-color: $foreground-color;
-    border: $border;
+    border: $border-dark;
 
     &:hover {
       // For browsers without 'grab'

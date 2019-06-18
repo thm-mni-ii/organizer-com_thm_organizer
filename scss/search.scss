@@ -1,5 +1,4 @@
 @import 'variables';
-@import '_language_switch';
 
 .organizer-search-container {
 
@@ -51,8 +50,8 @@
   }
 
   .results-container {
-    border-bottom: $border-thick;
-    border-top: $border-thick;
+    border-bottom: $border-darkest-thick;
+    border-top: $border-darkest-thick;
     margin-top: 1rem;
     max-height: 40rem;
     overflow-y: scroll;

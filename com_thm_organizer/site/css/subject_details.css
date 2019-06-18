@@ -1,12 +1,3 @@
-div.language-links a {
-    color: #394a59;
-}
-
-div.language-links a:hover {
-    color: #394a59;
-    cursor: pointer;
-}
-
 div.legal-disclaimer {
     margin-top: 2rem;
 }
@@ -73,26 +64,6 @@ div#main .uses-login #login-form ul.unstyled li {
         position: absolute;
         top: 0;
     }
-}
-
-a {
-    cursor: pointer;
-}
-
-a [class^='icon-'], a [class*=' icon-'] {
-    margin-right: .2rem;
-}
-
-.clear {
-    clear: both;
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
 }
 
 .toolbar {

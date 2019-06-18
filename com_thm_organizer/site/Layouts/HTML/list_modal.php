@@ -22,55 +22,55 @@ $noFilters   = count($filters) === 0;
 $onlySearch  = (count($filters) === 1 and !empty($filters['filter_search']));
 $showFilters = !($noFilters or $onlySearch);
 
+$viewName = $this->getName();
+$type     = $viewName === 'Subject_Selection' ? 's' : 'p';
 ?>
-<div id="j-main-container">
-    <form action="index.php?" id="adminForm" method="post" name="adminForm">
-        <div class="btn-toolbar">
-            <?php foreach ($toolbar->getItems() as $button) : ?>
-                <?php echo $toolbar->renderButton($button); ?>
+<form action="index.php?" id="adminForm" method="post" name="adminForm">
+    <div class="toolbar">
+        <?php foreach ($toolbar->getItems() as $button) : ?>
+            <?php echo $toolbar->renderButton($button); ?>
+        <?php endforeach; ?>
+        <div class="clear"></div>
+    </div>
+    <div class="js-stools-container-bar">
+        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+    </div>
+    <table class="table table-striped" id="<?php echo $viewName; ?>-list">
+        <thead>
+        <tr>
+            <?php foreach ($this->headers as $header) : ?>
+                <th><?php echo $header; ?></th>
             <?php endforeach; ?>
-            <div class="clearfix"></div>
-        </div>
-        <div class="js-stools-container-bar">
-            <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-        </div>
-        <table class="table table-striped" id="<?php echo $this->getName(); ?>-list">
-            <thead>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->items as $row) : ?>
             <tr>
-                <?php foreach ($this->headers as $header) : ?>
-                    <th><?php echo $header; ?></th>
+                <?php foreach ($row as $column) : ?>
+                    <td><?php echo $column; ?></td>
                 <?php endforeach; ?>
             </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($this->items as $row) : ?>
-                <tr>
-                    <?php foreach ($row as $column) : ?>
-                        <td><?php echo $column; ?></td>
-                    <?php endforeach; ?>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="<?php echo $columnCount; ?>">
-                    <?php echo $this->pagination->getListFooter(); ?>
-                </td>
-            </tr>
-            </tfoot>
-        </table>
-        <input type="hidden" name="task" value=""/>
-        <input type="hidden" name="boxchecked" value="0"/>
-        <input type="hidden" name="option" value="com_thm_organizer"/>
-        <input type="hidden" name="view" value="<?php echo $this->get('name'); ?>"/>
-        <input type="hidden" name="tmpl" value="component"/>
-        <?php echo HTML::_('form.token'); ?>
-    </form>
-</div>
+        <?php endforeach; ?>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="<?php echo $columnCount; ?>">
+                <?php echo $this->pagination->getListFooter(); ?>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="boxchecked" value="0"/>
+    <input type="hidden" name="option" value="com_thm_organizer"/>
+    <input type="hidden" name="view" value="<?php echo $viewName; ?>"/>
+    <input type="hidden" name="tmpl" value="component"/>
+    <?php echo HTML::_('form.token'); ?>
+</form>
 <script>
     jQuery(document).ready(function () {
         jQuery('div#toolbar-new button').click(function () {
-            window.parent.closeIframeWindow('#<?php echo $this->getName(); ?>-list', 'p');
+            window.parent.closeIframeWindow(<?php echo "'#$viewName-list', '$type'"; ?>);
         });
     });
 </script>

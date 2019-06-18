@@ -626,8 +626,6 @@ class Mapping extends BaseModel
         $poolData['subjectID']      = null;
         $poolData['description_de'] = $data['description_de'];
         $poolData['description_en'] = $data['description_en'];
-        $poolData['display_type']   = ($data['display_type'] == 0) ? (0) : (1);
-        $poolData['enable_desc']    = ($data['enable_desc'] == 0) ? (0) : (1);
         $poolData['children']       = $this->getChildrenFromForm();
 
         $parentIDs = $data['parentID'];

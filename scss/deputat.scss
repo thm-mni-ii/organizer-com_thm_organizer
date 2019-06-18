@@ -1,6 +1,4 @@
-@import 'mixins';
 @import 'variables';
-@import 'filters';
 
 .deputat {
 
@@ -45,7 +43,7 @@
 
   div.filter-bar {
     background-color: $background-color;
-    border: $border;
+    border: $border-dark;
     color: $font-color;
     font-size: $font-size;
     padding: 8px 4px 4px 4px;
@@ -132,7 +130,7 @@
 // Table element styles
 table.deputat-table {
   background-image: none;
-  border: $border-table;
+  border: $border-dark;
   color: $font-color;
   display: table;
   font-size: $font-size;
@@ -166,7 +164,7 @@ table.deputat-table {
     tr.sum-header th {
       border-top: none;
       border-right: none;
-      border-bottom: $border-table;
+      border-bottom: $border-dark;
       border-left: none;
     }
 

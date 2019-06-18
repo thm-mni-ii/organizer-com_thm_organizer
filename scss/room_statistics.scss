@@ -1,5 +1,5 @@
-@import 'variables';
 @import 'tabbed_navigation';
+@import 'variables';
 
 div#main div#j-main-container{
 
@@ -146,7 +146,7 @@ fieldset:nth-of-type(2) {
   & > .tooltip-inner {
     background-color: $background-color;
     color: $font-color;
-    border: $border;
+    border: $border-dark;
     border-radius: 0;
     padding: .2rem;
     font-size: .8rem;

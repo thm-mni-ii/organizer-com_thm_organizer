@@ -11,6 +11,7 @@
 namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
@@ -33,7 +34,7 @@ class PoolsField extends ListField
      */
     protected function getOptions()
     {
-        $programID = Factory::getSession()->get('programID');
+        $programID = $this->getProgramID();
         if (empty($programID)) {
             return parent::getOptions();
         }
@@ -71,5 +72,33 @@ class PoolsField extends ListField
         }
 
         return array_merge($defaultOptions, $options);
+    }
+
+    /**
+     * Gets the program id from the various forms of input if existent.
+     *
+     * @return int the programID
+     */
+    private function getProgramID() {
+        $input = OrganizerHelper::getInput();
+
+        if ($input->getInt('programID')) {
+            return $input->getInt('programID');
+        }
+
+        $app = OrganizerHelper::getApplication();
+        $context = 'com_thm_organizer.' . $input->getCmd('view');
+
+        $filters = $app->getUserStateFromRequest($context . '.filter', 'filter', [], 'array');
+        if (!empty($filters) and !empty($filters['programID'])) {
+            return (int)$filters['programID'];
+        }
+
+        $listFilters = $app->getUserStateFromRequest($context . '.list', 'list', [], 'array');
+        if (!empty($listFilters) and !empty($listFilters['programID'])) {
+            return (int)$listFilters['programID'];
+        }
+
+        return 0;
     }
 }

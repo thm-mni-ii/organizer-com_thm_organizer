@@ -1,5 +1,7 @@
+@import 'variables';
+
 .nav.nav-tabs {
-  border-bottom: $border-thick;
+  border-bottom: $border-darkest-thick;
   margin-top: 15px;
   margin-bottom: 0;
 
@@ -13,10 +15,10 @@
   }
 
   & > li > a, & > li.active > a {
-    border-top: $border-thick;
-    border-right: $border-thick;
+    border-top: $border-darkest-thick;
+    border-right: $border-darkest-thick;
     border-bottom: none;
-    border-left: $border-thick;
+    border-left: $border-darkest-thick;
     border-radius: 0;
     padding-left: 12px;
   }

@@ -1,6 +1,26 @@
-/**********************************************************************************************************************/
-/* icons **************************************************************************************************************/
-/**********************************************************************************************************************/
+/* utility classes ****************************************************************************************************/
+.clear {
+    clear: both;
+    width: 100%;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+a {
+    cursor: pointer;
+}
+
+a [class^='icon-'], a [class*=' icon-'] {
+    margin-right: .2rem;
+}
+
+/* component icon *****************************************************************************************************/
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before {
     font-family: icomoon;
@@ -11,6 +31,7 @@ a[href$="view=thm_organizer"]::before {
     margin-right: .2rem;
 }
 
+/* sidebar ************************************************************************************************************/
 .sidebar-nav {
     color: #394a59;
 }
@@ -29,30 +50,24 @@ a[href$="view=thm_organizer"]::before {
     margin-bottom: .6rem;
 }
 
-.searchArea a, thead a {
-    color: #4a5c66;
-}
-
-.searchArea a:hover, thead a:hover {
-    color: #80ba24;
-}
-
-.js-stools-container-bar {
-    margin-bottom: 0.3rem;
-}
-
-.js-stools-field-filter, .js-stools-field-list {
-    display: inline-block;
-}
-
-.js-stools-field-filter select, .js-stools-field-list select {
-    width: auto;
-}
-
-.js-stools-field-filter span, .js-stools-field-list span {
+/* modal toolbar adjustments to emulate joomla ************************************************************************/
+.modal-body {
     overflow: hidden !important;
 }
 
+.contentpane.component {
+    padding: 0 .5rem;
+}
+
+.contentpane.component .toolbar {
+    background-color: #f2f5f6;
+    border-bottom: 1px solid #a4adb2;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    width: calc(100% - 1rem);
+}
+
+/* chosen library overwrites ******************************************************************************************/
 .chzn-container {
     max-width: inherit;
 }
@@ -200,7 +215,7 @@ a[href$="view=thm_organizer"]::before {
     padding: 1rem 1rem 0 1rem;
 }
 
-/*Group Publishing Field Styles*/
+/*Plan Pool Period Publishing Field Styles*/
 .period-container {
     margin-bottom: .5rem;
 }

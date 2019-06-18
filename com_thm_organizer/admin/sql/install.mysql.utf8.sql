@@ -406,8 +406,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
     `maxCrP`          INT(3) UNSIGNED           DEFAULT '0',
     `fieldID`         INT(11) UNSIGNED          DEFAULT NULL,
     `distance`        INT(2) UNSIGNED           DEFAULT '10',
-    `display_type`    TINYINT(1)                DEFAULT '1',
-    `enable_desc`     TINYINT(1)                DEFAULT '1',
     PRIMARY KEY (`id`),
     INDEX `departmentID` (`departmentID`),
     INDEX `externalID` (`externalID`),

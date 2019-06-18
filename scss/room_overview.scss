@@ -1,6 +1,4 @@
 @import 'variables';
-@import '_language_switch';
-@import '_base';
 
 .toolbar {
   float: right;
@@ -267,7 +265,7 @@ div.tip-wrap {
 
   div.tip {
     background-color: $background-color;
-    border: $border;
+    border: $border-dark;
     font-size: 12px;
     font-weight: normal;
     padding: 10px;
@@ -275,7 +273,7 @@ div.tip-wrap {
     .tip-title {
 
       div {
-        border-bottom: $border;
+        border-bottom: $border-dark;
         font-weight: normal;
         padding: 1rem;
       }

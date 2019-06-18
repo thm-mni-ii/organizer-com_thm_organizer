@@ -87,7 +87,6 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
         icon = '',
         rawID,
         link,
-        nextRowClass,
         nextRowNumber,
         html,
         resourceHTML,
@@ -119,10 +118,9 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
         }
     }
 
-    nextRowClass = getNewChildClass(lastPosition);
     nextRowNumber = parseInt(lastPosition, 10) + 1;
 
-    html = '<tr id="childRow' + nextRowNumber + '" class="' + nextRowClass + '">';
+    html = '<tr id="childRow' + nextRowNumber + '">';
 
     resourceHTML = '<td class="child-name">';
     resourceHTML += '<a id="child' + nextRowNumber + 'Link" href="' + link + '">';
@@ -249,23 +247,6 @@ function getChildren()
         currentChildren[index].order = jQuery('#child' + order + 'Order').val();
     }
     return currentChildren;
-}
-
-/**
- * Gets the class name for the row to be added to the table
- *
- * @param {int} lastPosition the current index of the last table row
- */
-function getNewChildClass(lastPosition)
-{
-    const row = document.getElementById('childRow' + lastPosition);
-
-    if (row.length && (row.className === null || row.className === 'row0'))
-    {
-        return 'row1';
-    }
-
-    return 'row0';
 }
 
 /**

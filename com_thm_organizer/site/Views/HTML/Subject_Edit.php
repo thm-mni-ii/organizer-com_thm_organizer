@@ -59,7 +59,5 @@ class Subject_Edit extends EditView
         HTML::_('bootstrap.tooltip');
         HTML::_('behavior.framework', true);
         HTML::_('formbehavior.chosen', 'select');
-
-        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/subject_edit.css');
     }
 }

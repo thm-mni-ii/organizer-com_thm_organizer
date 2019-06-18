@@ -169,7 +169,7 @@
             <option value='3'>THREE_STARS</option>
         </field>
     </fieldset>
-    <fieldset name="mappings" label="ATTRIBUTES_MAPPINGS" displayinitial="0">
+    <fieldset name="mappings" label="ATTRIBUTES_STRUCTURE" displayinitial="0">
         <field name="programID" type="ProgramMappings" label="PROGRAMS"/>
         <field name="parentID" type="ParentPool" label="PARENT_POOLS"/>
     </fieldset>

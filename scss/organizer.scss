@@ -1,10 +1,29 @@
-//Here divided main sections: navigation, content, toolbar -> new/edit
-@import 'variables';
 @import 'mixins';
+@import 'variables';
 
-/**********************************************************************************************************************/
-/* icons **************************************************************************************************************/
-/**********************************************************************************************************************/
+/* utility classes ****************************************************************************************************/
+.clear {
+  clear: both;
+  width: 100%;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+a {
+  cursor: pointer;
+
+  [class^='icon-'], [class*=' icon-'] {
+    margin-right: .2rem;
+  }
+}
+
+/* component icon *****************************************************************************************************/
 
 .icon-organizer::before,
 a[href$="view=thm_organizer"]::before {
@@ -16,9 +35,7 @@ a[href$="view=thm_organizer"]::before {
   margin-right: .2rem;
 }
 
-//********************************************************************************************************************//
-// adjusting navigation
-//********************************************************************************************************************//
+/* sidebar ************************************************************************************************************/
 .sidebar-nav {
   color: $font-color;
 }
@@ -37,38 +54,24 @@ a[href$="view=thm_organizer"]::before {
   margin-bottom: .6rem;
 }
 
-//********************************************************************************************************************//
-// adjusting content
-//********************************************************************************************************************//
+/* modal toolbar adjustments to emulate joomla ************************************************************************/
+// Necessary to overwrite inline styling
+.modal-body {
+  overflow: hidden !important;
+}
+.contentpane.component {
+  padding: 0 .5rem;
 
-// adjusting filter-header in table head and filters in search-area
-//********************************************************************************************************************//
-.searchArea a, thead a {
-  color: $background-grey;
-
-  &:hover {
-    color: $thm;
+  .toolbar {
+    background-color: $background-color;
+    border-bottom: $border-middle;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    width: calc(100% - 1rem);
   }
 }
 
-.js-stools-container-bar {
-  margin-bottom: 0.3rem;
-}
-
-// adjusting width of filters, overwriting styles of chosen
-.js-stools-field-filter, .js-stools-field-list {
-  display: inline-block;
-
-  select {
-    width: auto;
-  }
-
-  span {
-    // needed to overwrite styles from jquery.searchtools.css
-    overflow: hidden !important;
-  }
-}
-
+/* chosen library overwrites ******************************************************************************************/
 .chzn-container {
   max-width: inherit;
 
@@ -81,10 +84,6 @@ a[href$="view=thm_organizer"]::before {
     }
   }
 }
-
-//********************************************************************************************************************//
-// toolbar -> new/edit
-//********************************************************************************************************************//
 
 // adjusting style for file upload. Just needed for Chrome (Comparing with Firefox,IE)
 // beispielsweise in Stundenpläne -> Neu

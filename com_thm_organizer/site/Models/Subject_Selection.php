@@ -11,19 +11,21 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Mappings;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Languages;
 
 /**
  * Class retrieves information for a filtered set of subjects. Modal view.
  */
 class Subject_Selection extends ListModel
 {
-    public $programs = null;
-
-    public $pools = null;
-
+    /**
+     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+     *
+     * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+     */
     protected function getListQuery()
     {
         $dbo      = Factory::getDbo();
@@ -53,56 +55,13 @@ class Subject_Selection extends ListModel
         $this->setSearchFilter($query, $searchFields);
         $this->setValueFilters($query, ['externalID', 'fieldID']);
 
-        $programID = $this->state->get('list.programID', '');
+        $programID = $this->state->get('filter.programID', '');
         Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
-        $poolID = $this->state->get('list.poolID', '');
+        $poolID = $this->state->get('filter.poolID', '');
         Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
 
         $this->setOrdering($query);
 
         return $query;
-    }
-
-    /**
-     * Function to feed the data in the table body correctly to the list view
-     *
-     * @return array consisting of items in the body
-     */
-    public function getItems()
-    {
-        $items  = parent::getItems();
-        $return = [];
-        if (empty($items)) {
-            return $return;
-        }
-
-        $index = 0;
-        foreach ($items as $item) {
-            $return[$index]               = [];
-            $return[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
-            $return[$index]['name']       = $item->name;
-            $return[$index]['externalID'] = $item->externalID;
-            $index++;
-        }
-
-        return $return;
-    }
-
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    public function getHeaders()
-    {
-        $ordering  = $this->state->get('list.ordering', $this->defaultOrdering);
-        $direction = $this->state->get('list.direction', $this->defaultDirection);
-        $headers   = [];
-
-        $headers['checkbox']   = '';
-        $headers['name']       = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['externalID'] = HTML::sort('EXTERNAL_ID', 'externalID', $direction, $ordering);
-
-        return $headers;
     }
 }

@@ -81,15 +81,16 @@ class Pool extends BaseModel
     }
 
     /**
-     * Saves the pool
+     * Attempts to save the resource.
      *
-     * @return mixed  integer on successful pool creation, otherwise boolean
-     *                 true/false on success/failure
+     * @param array $data form data which has been preprocessed by inheriting classes.
+     *
+     * @return mixed int id of the resource on success, otherwise boolean false
      * @throws Exception => unauthorized access
      */
-    public function save()
+    public function save($data = [])
     {
-        $data = OrganizerHelper::getFormInput();
+        $data    = empty($data) ? OrganizerHelper::getFormInput() : $data;
 
         if (empty($data['id'])) {
             if (!Access::allowDocumentAccess()) {
@@ -155,17 +156,5 @@ class Pool extends BaseModel
                 }
             }
         }
-    }
-
-    /**
-     * Saves
-     *
-     * @return mixed  integer on successful pool creation, otherwise boolean
-     *                 true/false on success/failure
-     * @throws Exception => unauthorized access
-     */
-    public function save2copy()
-    {
-        return $this->save(true);
     }
 }

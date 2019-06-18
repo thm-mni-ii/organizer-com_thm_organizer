@@ -116,7 +116,6 @@ class Course_Edit extends EditView
             "var chooseParticipants = '" . Languages::_('THM_ORGANIZER_CHOOSE_PARTICIPANTS') . "'"
         );
         $document->addScript(Uri::root() . 'components/com_thm_organizer/js/courses.js');
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/courses.css');
     }
 
     /**

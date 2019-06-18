@@ -1,32 +1,3 @@
-div.language-links a {
-    color: #394a59;
-}
-
-div.language-links a:hover {
-    color: #394a59;
-    cursor: pointer;
-}
-
-a {
-    cursor: pointer;
-}
-
-a [class^='icon-'], a [class*=' icon-'] {
-    margin-right: .2rem;
-}
-
-.clear {
-    clear: both;
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
-}
-
 .toolbar {
     float: right;
 }
@@ -162,7 +133,7 @@ a [class^='icon-'], a [class*=' icon-'] {
 }
 
 .room-overview-view .overview-container table {
-    border-bottom: 1px solid #f2f5f6;
+    border-bottom: 1px solid #d2d6d9;
     margin-bottom: 0;
     width: auto;
 }
@@ -220,8 +191,8 @@ a [class^='icon-'], a [class*=' icon-'] {
 }
 
 .room-overview-view .overview-container table td {
-    border-right: 1px solid #f2f5f6;
-    border-bottom: 1px solid #f2f5f6;
+    border-right: 1px solid #d2d6d9;
+    border-bottom: 1px solid #d2d6d9;
 }
 
 .room-overview-view .overview-container table th.block-column, .room-overview-view .overview-container table th.day-column, .room-overview-view .overview-container table td.block-column {

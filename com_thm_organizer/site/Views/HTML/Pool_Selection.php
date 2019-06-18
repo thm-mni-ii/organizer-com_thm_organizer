@@ -77,9 +77,6 @@ class Pool_Selection extends ListView
         parent::modifyDocument();
         HTML::_('jquery.framework');
         HTML::_('searchtools.form', '#adminForm', []);
-
-        $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/child_selection.css');
     }
 
     /**

@@ -53,7 +53,15 @@ class Subject_Selection extends ListView
      */
     protected function getHeaders()
     {
-        // TODO: Implement getHeaders() method.
+        $direction = $this->state->get('list.direction');
+        $ordering  = $this->state->get('list.ordering');
+        $headers   = [];
+
+        $headers['checkbox'] = '';
+        $headers['name'] = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['program'] = Languages::_('THM_ORGANIZER_PROGRAMS');
+
+        return $headers;
     }
 
     /**
@@ -67,9 +75,6 @@ class Subject_Selection extends ListView
 
         HTML::_('jquery.framework');
         HTML::_('searchtools.form', '#adminForm', []);
-
-        $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/child_selection.css');
     }
 
     /**
@@ -79,6 +84,29 @@ class Subject_Selection extends ListView
      */
     protected function preProcessItems()
     {
-        // TODO: Implement preProcessItems() method.
+        if (empty($this->items)) {
+            return;
+        }
+
+        $index          = 0;
+        $processedItems = [];
+
+        foreach ($this->items as $subject) {
+            if (!Access::allowSubjectAccess($subject->id)) {
+                continue;
+            }
+
+            $name = $subject->name;
+            $name .= empty($subject->externalID) ? '' : " - $subject->externalID";
+
+            $processedItems[$index] = [];
+            $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $subject->id);
+            $processedItems[$index]['name']     = $name;
+            $processedItems[$index]['programs']     = $name;
+
+            $index++;
+        }
+
+        $this->items = $processedItems;
     }
 }
