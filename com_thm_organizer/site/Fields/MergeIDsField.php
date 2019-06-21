@@ -10,14 +10,17 @@
 
 namespace Organizer\Fields;
 
+use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a two hidden fields for merging. One has the lowest selected id as its value, the other has all
  * other selected ids (comma separated) as its value.
  */
-class MergeIDsField extends BaseField
+class MergeIDsField extends FormField
 {
+    use Translated;
+
     protected $type = 'MergeIDs';
 
     /**

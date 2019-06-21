@@ -12,7 +12,7 @@
     </layout>
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="departmentID" type="GenericList" label="DEPARTMENT" required="true" valuecolumn="id"
+            <field name="departmentID" type="GenericOptions" label="DEPARTMENT" required="true" valuecolumn="id"
                    textcolumn="short_name" localized="true" table="thm_organizer_departments">
                 <option value="">THM_ORGANIZER_FILTER_DEPARTMENT</option>
             </field>

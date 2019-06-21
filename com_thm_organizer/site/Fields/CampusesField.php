@@ -17,7 +17,7 @@ use Organizer\Helpers\Languages;
 /**
  * Class creates a form field for campus selection.
  */
-class CampusesField extends ListField
+class CampusesField extends OptionsField
 {
     /**
      * @var  string

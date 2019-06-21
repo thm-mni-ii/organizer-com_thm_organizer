@@ -18,7 +18,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a form field for room type selection
  */
-class RoomTypesField extends ListField
+class RoomTypesField extends OptionsField
 {
     /**
      * @var  string

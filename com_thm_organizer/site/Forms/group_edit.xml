@@ -8,10 +8,10 @@
                description="THM_ORGANIZER_SHORT_NAME_DESC"/>
         <field name="untisID" type="text" size="40" readonly="true" label="THM_ORGANIZER_UNTIS_ID"
                description="THM_ORGANIZER_UNTIS_ID_DESC"/>
-        <field name="categoryID" type="GenericList" label="CATEGORY" required="true" valuecolumn="id" textcolumn="name"
-               table="thm_organizer_categories"/>
+        <field name="categoryID" type="GenericOptions" label="CATEGORY" required="true" valuecolumn="id"
+               textcolumn="name" table="thm_organizer_categories"/>
         <field name="publishing" type="TermPublishing" label="PUBLISHING"/>
-        <field name="gridID" type="GenericList" label="GRID" required="true" valuecolumn="id" textcolumn="name"
+        <field name="gridID" type="GenericOptions" label="GRID" required="true" valuecolumn="id" textcolumn="name"
                localized="true" table="thm_organizer_grids"/>
     </fieldset>
 </form>

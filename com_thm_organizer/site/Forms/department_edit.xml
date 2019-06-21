@@ -10,7 +10,7 @@
                label="THM_ORGANIZER_SHORT_NAME_EN" description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
         <field name="name_en" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="contact_type" type="List" label="THM_ORGANIZER_CONTACT_TYPE" required="true">
+        <field name="contact_type" type="Options" label="THM_ORGANIZER_CONTACT_TYPE" required="true">
             <option value="0">THM_ORGANIZER_CONTACT_PERSON</option>
             <option value="1">THM_ORGANIZER_CONTACT_EMAIL</option>
         </field>

@@ -12,17 +12,17 @@
         <field name="duration" type="Integer" label="DURATION" first="1" last="30" step="1" default="1">
             <option value="0">SELECT_DURATION</option>
         </field>
-        <field name="instructionLanguage" type="List" label="INSTRUCTION_LANGUAGE" default="D">
+        <field name="instructionLanguage" type="Options" label="INSTRUCTION_LANGUAGE" default="D">
             <option value="D">GERMAN</option>
             <option value="E">ENGLISH</option>
         </field>
-        <field name="is_prep_course" type="List" class="chzn-color-state" label="PREP_COURSES" default="0">
+        <field name="is_prep_course" type="Options" class="chzn-color-state" label="PREP_COURSES" default="0">
             <option value="1">YES</option>
             <option value="0">NO</option>
         </field>
         <field name="max_participants" type="Integer" label="MAX_PARTICIPANTS" default="300" first="20" last="1000"
                step="20"/>
-        <field name="frequencyID" type="List" label="AVAILABILITY">
+        <field name="frequencyID" type="Options" label="AVAILABILITY">
             <option value="">FILTER_AVAILABILITY</option>
             <option value="3">AVAILABILITY_SEMESTER</option>
             <option value="5">AVAILABILITY_YEAR</option>
@@ -31,7 +31,7 @@
             <option value="4">AVAILABILITY_AS_NEEDED</option>
             <option value="0">AVAILABILITY_APPT</option>
         </field>
-        <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
+        <field name="fieldID" type="GenericOptions" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields">
             <option value="">NO_FIELD</option>
         </field>
@@ -52,7 +52,7 @@
         <field name="independent" type="Integer" label="INDEPENDENT" first="0" last="900" step="30" default="">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="frequencyID" type="List" label="AVAILABILITY">
+        <field name="frequencyID" type="Options" label="AVAILABILITY">
             <option value="">FILTER_AVAILABILITY</option>
             <option value="3">AVAILABILITY_SEMESTER</option>
             <option value="5">AVAILABILITY_YEAR</option>
@@ -137,14 +137,14 @@
             <option value="">UNSPECIFIED_TEACHERS</option>
         </field>
         <field name="spacer4" type="spacer" hr="true"/>
-        <field name="expertise" type="List" label="EXPERTISE" description="THM_ORGANIZER_EXPERTISE_DESC" default="">
+        <field name="expertise" type="Options" label="EXPERTISE" description="THM_ORGANIZER_EXPERTISE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
             <option value='1'>ONE_STAR</option>
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="method_competence" type="List" label="METHOD_COMPETENCE"
+        <field name="method_competence" type="Options" label="METHOD_COMPETENCE"
                description="THM_ORGANIZER_METHOD_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
@@ -152,7 +152,7 @@
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="self_competence" type="List" label="SELF_COMPETENCE"
+        <field name="self_competence" type="Options" label="SELF_COMPETENCE"
                description="THM_ORGANIZER_SELF_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
@@ -160,7 +160,7 @@
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="social_competence" type="List" label="SOCIAL_COMPETENCE"
+        <field name="social_competence" type="Options" label="SOCIAL_COMPETENCE"
                description="THM_ORGANIZER_SOCIAL_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>

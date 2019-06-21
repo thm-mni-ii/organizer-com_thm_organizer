@@ -9,7 +9,7 @@
         <field name="parentID" type="Campuses" label="PARENT_CAMPUS">
             <option value="">NO_PARENT_CAMPUS</option>
         </field>
-        <field name="isCity" type="List" class="chzn-color-state" label="IS_CITY"
+        <field name="isCity" type="Options" class="chzn-color-state" label="IS_CITY"
                description="THM_ORGANIZER_IS_CITY_DESC" default="0">
             <option value="1">YES</option>
             <option value="0">NO</option>
@@ -22,7 +22,7 @@
                description="THM_ORGANIZER_CITY_DESC"/>
         <field name="zipCode" type="text" class="validate-alphanumeric" size="60" maxlength="60"
                label="THM_ORGANIZER_ZIP_CODE" description="THM_ORGANIZER_ZIP_CODE_DESC"/>
-        <field name="gridID" type="GenericList" label="GRID" valuecolumn="id" textcolumn="name" localized="true"
+        <field name="gridID" type="GenericOptions" label="GRID" valuecolumn="id" textcolumn="name" localized="true"
                table="thm_organizer_grids">
             <option value="">DEFAULT_GRID</option>
         </field>

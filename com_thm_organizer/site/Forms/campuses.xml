@@ -2,15 +2,15 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="city" type="GenericList" label="NAME" onchange="this.form.submit();" default="" valuecolumn="city"
-               textcolumn="city" table="thm_organizer_campuses">
-            <option value="">JALL</option>
-            <option value="-1">JNONE</option>
+        <field name="city" type="GenericOptions" label="NAME" onchange="this.form.submit();" default=""
+               valuecolumn="city" textcolumn="city" table="thm_organizer_campuses" conditions="city != ''">
+            <option value="">ALL_CITIES</option>
+            <option value="-1">NO_CITY</option>
         </field>
-        <field name="gridID" type="GenericList" label="GRID" required="true" onchange="this.form.submit();"
-               valuecolumn="id" textcolumn="name" localized="true" table="thm_organizer_grids">
-            <option value="">JALL</option>
-            <option value="-1">JNONE</option>
+        <field name="gridID" type="GenericOptions" label="GRID" onchange="this.form.submit();" valuecolumn="id"
+               textcolumn="name" table="thm_organizer_grids" localized="true">
+            <option value="">ALL_GRIDS</option>
+            <option value="-1">NO_GRID</option>
         </field>
     </fields>
     <fields name="list">

@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -22,6 +23,8 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class EditModel extends AdminModel
 {
+    use Named;
+
     /**
      * @var string provides a unique form context so that data does not overlap between extensions and views
      */
@@ -109,23 +112,6 @@ abstract class EditModel extends AdminModel
         }
 
         return $this->item;
-    }
-
-    /**
-     * Method to get the view name
-     *
-     * The model name by default parsed using the classname, or it can be set
-     * by passing a $config['name'] in the class constructor
-     *
-     * @return  string  The name of the model
-     */
-    public function getName()
-    {
-        if (empty($this->name)) {
-            $this->name = OrganizerHelper::getClass($this);
-        }
-
-        return $this->name;
     }
 
     /**

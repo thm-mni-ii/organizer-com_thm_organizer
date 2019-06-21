@@ -20,7 +20,7 @@ use Organizer\Tables\Participants;
 /**
  * Class creates a select box for (degree) programs.
  */
-class ProgramsField extends ListField
+class ProgramsField extends OptionsField
 {
     use DepartmentFilters;
 

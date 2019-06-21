@@ -16,7 +16,7 @@ use Organizer\Helpers\HTML;
  * Class creates a form field for template selection.
  * @todo rename this and make it generally accessible should this usage occur again.
  */
-class TemplatesField extends ListField
+class TemplatesField extends OptionsField
 {
     /**
      * @var  string

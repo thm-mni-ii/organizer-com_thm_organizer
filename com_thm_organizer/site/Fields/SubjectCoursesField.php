@@ -11,6 +11,7 @@
 namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -18,8 +19,10 @@ use Organizer\Helpers\OrganizerHelper;
  * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done
  * implicitly during the schedule import process according to degree programs and the subject's module number.
  */
-class SubjectCoursesField extends BaseField
+class SubjectCoursesField extends FormField
 {
+    use Translated;
+
     protected $type = 'SubjectCourses';
 
     /**

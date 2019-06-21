@@ -17,7 +17,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for module positions.
  */
-class ModulePositionsField extends ListField
+class ModulePositionsField extends OptionsField
 {
     protected $type = 'ModulePositions';
 

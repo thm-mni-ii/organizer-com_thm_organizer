@@ -18,7 +18,7 @@ use Organizer\Helpers\Subjects;
 /**
  * Class creates a select box for the association of teachers with subject documentation.
  */
-class SubjectTeachersField extends ListField
+class SubjectTeachersField extends OptionsField
 {
     protected $type = 'SubjectTeachers';
 

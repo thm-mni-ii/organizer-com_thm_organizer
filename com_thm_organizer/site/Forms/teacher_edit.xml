@@ -11,7 +11,7 @@
         <field name="title" type="text" size="40" maxlength="45" label="THM_ORGANIZER_TITLE"
                description="THM_ORGANIZER_TITLE_DESC"/>
         <field name="username" type="text" label="THM_ORGANIZER_USERNAME" description="THM_ORGANIZER_USERNAME_DESC"/>
-        <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
+        <field name="fieldID" type="GenericOptions" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields">
             <option value="">NO_FIELD</option>
         </field>

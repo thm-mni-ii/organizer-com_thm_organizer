@@ -2,12 +2,12 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="buildingID" type="GenericList" label="BUILDING" onchange="this.form.submit();" valuecolumn="id"
+        <field name="buildingID" type="GenericOptions" label="BUILDING" onchange="this.form.submit();" valuecolumn="id"
                textcolumn="name" table="thm_organizer_buildings">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>
         </field>
-        <field name="typeID" type="GenericList" label="TYPE" onchange="this.form.submit();" valuecolumn="t.id"
+        <field name="typeID" type="GenericOptions" label="TYPE" onchange="this.form.submit();" valuecolumn="t.id"
                textcolumn="name" localized="true"
                table="thm_organizer_rooms AS r,thm_organizer_room_types AS t ON r.typeID = t.id">
             <option value="">JALL</option>

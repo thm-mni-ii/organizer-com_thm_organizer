@@ -23,7 +23,7 @@ use Organizer\Helpers\Languages;
  *
  * @since  1.7.0
  */
-class FileListField extends ListField
+class FileOptionsField extends OptionsField
 {
     /**
      * The form field type.

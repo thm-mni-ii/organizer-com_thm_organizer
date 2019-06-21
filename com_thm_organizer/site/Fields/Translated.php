@@ -10,21 +10,10 @@
 
 namespace Organizer\Fields;
 
-use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\Languages;
 
-/**
- * Class creates select input.
- */
-class BaseField extends FormField
+trait Translated
 {
-    /**
-     * The form field type.
-     *
-     * @var    string
-     */
-    protected $type = 'Base';
-
     /**
      * Method to get the data to be passed to the layout for rendering.
      *

@@ -9,7 +9,7 @@
         <field name="lsfID" type="text" size="40" label="THM_ORGANIZER_LSF_ID" description="THM_ORGANIZER_LSF_ID_DESC"/>
         <field name="hisID" type="text" size="40" label="THM_ORGANIZER_HIS_ID" description="THM_ORGANIZER_HIS_ID_DESC"/>
         <field name="externalID" type="text" size="40" label="MODULE_ID" description="THM_ORGANIZER_MODULE_ID_DESC"/>
-        <field name="fieldID" type="GenericList" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
+        <field name="fieldID" type="GenericOptions" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields">
             <option value="">NO_FIELD</option>
         </field>

@@ -21,7 +21,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for departments.
  */
-class DepartmentsField extends ListField
+class DepartmentsField extends OptionsField
 {
     /**
      * @var  string

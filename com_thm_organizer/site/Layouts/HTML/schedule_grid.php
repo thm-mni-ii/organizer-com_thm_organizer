@@ -14,8 +14,7 @@ use Organizer\Helpers\Languages;
 
 $mobile      = $this->isMobile ? 'mobile' : '';
 $displayName = empty($this->model->displayName) ?
-    'THM Organizer  - ' . Languages::_('THM_ORGANIZER_SCHEDULES')
-    : $this->model->displayName;
+    'THM Organizer  - ' . Languages::_('THM_ORGANIZER_SCHEDULES') : $this->model->displayName;
 ?>
 
 <div class="organizer <?php echo $mobile; ?>">
@@ -120,12 +119,12 @@ $displayName = empty($this->model->displayName) ?
                     <span class="icon-arrow-right-22"></span>
                 </button>
             </li>
-            <li class="check-input">
+            <!--<li class="check-input">
                 <input type="checkbox" id="check-notify-box"
                        onclick="scheduleApp.toggleCheckbox();" <?php echo $this->model->setCheckboxChecked(); ?>/>
                 <span class="tab-text"
                       id="check-notify-text"><?php echo \JText::_('THM_ORGANIZER_CHECK_NOTIFY'); ?></span>
-            </li>
+            </li>-->
             <li class="tabs-tab" role="presentation">
                 <a href="#exports" class="tabs-toggle" id="tab-exports" data-toggle="tab"
                    data-id="exports" role="tab" aria-controls="exports" aria-selected="true">
@@ -137,7 +136,6 @@ $displayName = empty($this->model->displayName) ?
 
         <!-- Menu -->
         <div class="tab-content">
-
             <div class="tab-panel selection active" id="schedule-form" role="tabpanel"
                  aria-labelledby="tab-schedule-form" aria-hidden="false">
                 <?php
@@ -156,9 +154,9 @@ $displayName = empty($this->model->displayName) ?
                     <?php
                 }
                 ?>
-                <div id="category-input" class="input-wrapper">
-                    <select id="category" required data-input="static"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_CATEGORY'); ?>">
+                <div id="type-input" class="input-wrapper">
+                    <select id="type" required data-input="static"
+                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE'); ?>">
                         <?php
                         if (!empty($this->model->params['showCategories'])) {
                             echo '<option value="category" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS');

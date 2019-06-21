@@ -10,6 +10,7 @@
 
 namespace Organizer\Fields;
 
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
@@ -19,8 +20,10 @@ use Organizer\Helpers\Mappings;
 /**
  * Class creates a select box for (degree) program mappings.
  */
-class ProgramMappingsField extends BaseField
+class ProgramMappingsField extends FormField
 {
+    use Translated;
+
     /**
      * @var  string
      */

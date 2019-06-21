@@ -18,7 +18,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a generalized select box for selection of a single id column value among those already selected.
  */
-class MergeAssociationsField extends ListField
+class MergeAssociationsField extends OptionsField
 {
     /**
      * @var  string

@@ -19,7 +19,7 @@ use Organizer\Helpers\OrganizerHelper;
  * Class replaces form field type sql by using Joomla's database objects to avoid database language dependency. While
  * the display text can be localized, the value cannot be.
  */
-class GenericListField extends ListField
+class GenericOptionsField extends OptionsField
 {
     /**
      * Type

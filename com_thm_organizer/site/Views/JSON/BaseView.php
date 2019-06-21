@@ -10,6 +10,7 @@ namespace Organizer\Views\JSON;
 
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -19,19 +20,14 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class BaseView extends CMSObject
 {
+    use Named;
+
     /**
      * The base path of the view
      *
      * @var    string
      */
     protected $_basePath = null;
-
-    /**
-     * The name of the view
-     *
-     * @var    array
-     */
-    protected $_name = null;
 
     /**
      * The base path of the site itself
@@ -48,12 +44,8 @@ abstract class BaseView extends CMSObject
     public function __construct($config = array())
     {
         // Set the view name
-        if (empty($this->_name)) {
-            if (array_key_exists('name', $config)) {
-                $this->_name = $config['name'];
-            } else {
-                $this->_name = $this->getName();
-            }
+        if (empty($this->name)) {
+            $this->getName();
         }
 
         // Set a base path for use by the view
@@ -70,21 +62,4 @@ abstract class BaseView extends CMSObject
      * Display the view output
      */
     abstract public function display();
-
-    /**
-     * Method to get the view name
-     *
-     * The model name by default parsed using the classname, or it can be set
-     * by passing a $config['name'] in the class constructor
-     *
-     * @return  string  The name of the model
-     */
-    public function getName()
-    {
-        if (empty($this->_name)) {
-            $this->_name = OrganizerHelper::getClass($this);
-        }
-
-        return $this->_name;
-    }
 }

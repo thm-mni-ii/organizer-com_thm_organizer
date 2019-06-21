@@ -2,7 +2,7 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="active" type="List" label="STATE" onchange="this.form.submit();">
+        <field name="active" type="Options" label="STATE" onchange="this.form.submit();">
             <option value="">ALL_STATES</option>
             <option value="1">ACTIVE</option>
             <option value="0">INACTIVE</option>

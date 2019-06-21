@@ -17,7 +17,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for terms.
  */
-class TermsField extends ListField
+class TermsField extends OptionsField
 {
     /**
      * @var  string

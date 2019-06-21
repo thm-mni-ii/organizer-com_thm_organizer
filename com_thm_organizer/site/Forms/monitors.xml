@@ -2,23 +2,23 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="ip" type="GenericList" label="IP" onchange="this.form.submit();" valuecolumn="ip" textcolumn="ip"
-               table="thm_organizer_monitors">
+        <field name="ip" type="GenericOptions" label="IP" onchange="this.form.submit();" valuecolumn="ip"
+               textcolumn="ip" table="thm_organizer_monitors">
             <option value="">JALL</option>
         </field>
-        <field name="useDefaults" type="List" label="DEFAULT_SETTINGS" onchange="this.form.submit();">
+        <field name="useDefaults" type="Options" label="DEFAULT_SETTINGS" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="1">FILTER_DEFAULT_YES</option>
             <option value="0">FILTER_DEFAULT_NO</option>
         </field>
-        <field name="display" type="List" label="DISPLAY_BEHAVIOUR" onchange="this.form.submit();">
+        <field name="display" type="Options" label="DISPLAY_BEHAVIOUR" onchange="this.form.submit();">
             <option value="">JALL</option>
             <option value="1">DAILY_PLAN</option>
             <option value="2">MIXED_PLAN</option>
             <option value="3">CONTENT_DISPLAY</option>
             <option value="4">LESSON_LIST</option>
         </field>
-        <field name="content" type="GenericList" label="DISPLAY_CONTENT" onchange="this.form.submit();"
+        <field name="content" type="GenericOptions" label="DISPLAY_CONTENT" onchange="this.form.submit();"
                valuecolumn="content" textcolumn="content" table="thm_organizer_monitors" valueParameter="content">
             <option value="">JALL</option>
             <option value="-1">JNONE</option>

@@ -11,7 +11,7 @@
             <option value="">ALL_CATEGORIES</option>
             <option value="-1">NO_CATEGORY</option>
         </field>
-        <field name="gridID" type="GenericList" label="GRID" onchange="this.form.submit();" valuecolumn="gd.id"
+        <field name="gridID" type="GenericOptions" label="GRID" onchange="this.form.submit();" valuecolumn="gd.id"
                textcolumn="gd.name" localized="true"
                table="thm_organizer_grids AS gd,thm_organizer_groups AS gp ON gp.gridID = gd.id">
             <option value="">ALL_GRIDS</option>

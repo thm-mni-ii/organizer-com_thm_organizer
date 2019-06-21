@@ -11,7 +11,7 @@ namespace Organizer\Fields;
 /**
  * Field to load a list of possible item count limits
  */
-class LimitboxField extends ListField
+class LimitboxField extends OptionsField
 {
     /**
      * The form field type.

@@ -10,6 +10,7 @@
 
 namespace Organizer\Fields;
 
+use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
@@ -17,8 +18,10 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
  */
-class ParentPoolField extends BaseField
+class ParentPoolField extends FormField
 {
+    use Translated;
+
     /**
      * Type
      *

@@ -11,6 +11,7 @@
 namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Router\Route;
 use Organizer\Helpers\Languages;
@@ -19,8 +20,10 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a box for managing subordinated curriculum elements. Change order, remove, add empty element.
  */
-class ChildrenField extends BaseField
+class ChildrenField extends FormField
 {
+    use Translated;
+
     /**
      * Type
      *

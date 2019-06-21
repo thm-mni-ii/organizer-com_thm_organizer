@@ -14,6 +14,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\ListModel as ParentModel;
+use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -21,6 +22,8 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class ListModel extends ParentModel
 {
+    use Named;
+
     protected $defaultOrdering = 'name';
 
     protected $defaultDirection = 'ASC';
@@ -42,25 +45,6 @@ abstract class ListModel extends ParentModel
 
         $this->defaultLimit   = OrganizerHelper::getApplication()->get('list_limit', '20');
         $this->filterFormName = strtolower(OrganizerHelper::getClass($this));
-    }
-
-    /**
-     * Method to get the view name
-     *
-     * The model name by default parsed using the classname, or it can be set
-     * by passing a $config['name'] in the class constructor
-     *
-     * @return  string  The name of the model
-     *
-     * @throws  Exception
-     */
-    public function getName()
-    {
-        if (empty($this->name)) {
-            $this->name = OrganizerHelper::getClass($this);
-        }
-
-        return $this->name;
     }
 
     /**

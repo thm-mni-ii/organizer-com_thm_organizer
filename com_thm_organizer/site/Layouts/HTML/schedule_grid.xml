@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
-    <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
+<form>
+    <fields name="params" addfieldpath="/components/com_thm_organizer/Fields" addfieldprefix="Organizer\Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="departmentID" type="Departments" label="DEPARTMENT" class="departmentlist">
                 <option value="0">ALL_DEPARTMENTS</option>
             </field>
-            <field name="categoryIDs" type="GenericList" label="CATEGORIES" valuecolumn="id" textcolumn="name"
-                   multiple="true" table="thm_organizer_plan_programs" description="THM_ORGANIZER_CATEGORIES_DESC">
-                <option value="">JALL</option>
+            <field name="categoryIDs" type="GenericOptions" label="CATEGORIES" valuecolumn="id" textcolumn="name"
+                   multiple="true" table="thm_organizer_categories" description="THM_ORGANIZER_CATEGORIES_DESC">
+                <option value="">ALL_CATEGORIES</option>
             </field>
-            <field name="groupIDs" type="GenericList" label="GROUPS" multiple="true" valuecolumn="id" textcolumn="name"
-                   table="thm_organizer_groups">
-                <option value="">JALL</option>
+            <field name="groupIDs" type="GenericOptions" label="GROUPS" multiple="true" valuecolumn="id"
+                   textcolumn="name" table="thm_organizer_groups">
+                <option value="">ALL_GROUPS</option>
             </field>
-            <field name="roomIDs" type="GenericList" label="ROOMS" multiple="true" valuecolumn="id" textcolumn="name"
+            <field name="roomIDs" type="GenericOptions" label="ROOMS" multiple="true" valuecolumn="id" textcolumn="name"
                    table="thm_organizer_rooms">
-                <option value="">JALL</option>
+                <option value="">ALL_ROOMS</option>
             </field>
-            <field name="deltaDays" type="Integer" label="DELTA_DISPLAY_TITLE" first="0" last="100" step="1"
-                   default="5"/>
-            <field name="showDepartments" type="radio" label="THM_ORGANIZER_SHOW_DEPARTMENTS_TITLE"
-                   description="THM_ORGANIZER_SHOW_DEPARTMENTS_DESC" default="1">
+            <field name="deltaDays" type="Integer" label="SHOW_DELTA_DAYS" first="0" last="100" step="1" default="5"/>
+            <field name="showDepartments" type="Options" label="SHOW_DEPARTMENT_OPTIONS" default="1">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showPrograms" type="radio" label="THM_ORGANIZER_SHOW_PROGRAMS_TITLE"
-                   description="THM_ORGANIZER_SHOW_PROGRAMS_DESC" default="1">
+            <field name="showCategories" type="Options" label="SHOW_CATEGORY_OPTIONS" default="1">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showTeachers" type="radio" label="THM_ORGANIZER_SHOW_TEACHERS_TITLE"
-                   description="THM_ORGANIZER_SHOW_TEACHERS_DESC" default="1">
+            <field name="showTeachers" type="Options" label="SHOW_TEACHER_OPTIONS" default="1">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showRooms" type="radio" label="THM_ORGANIZER_SHOW_ROOMS_TITLE"
-                   description="THM_ORGANIZER_SHOW_ROOMS_DESC" default="1">
+            <field name="showRooms" type="Options" label="SHOW_ROOM_OPTIONS" default="1">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>

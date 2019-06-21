@@ -14,7 +14,7 @@ use Organizer\Helpers\HTML;
 /**
  * Provides a select list of integers with specified first, last and step values.
  */
-class IntegerField extends ListField
+class IntegerField extends OptionsField
 {
     /**
      * The form field type.

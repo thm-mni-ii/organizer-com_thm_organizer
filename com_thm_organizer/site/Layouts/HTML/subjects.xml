@@ -5,56 +5,46 @@
             <field name="programID" type="Programs" label="PROGRAM" required="true">
                 <option value="">SELECT_PROGRAM</option>
             </field>
-            <field name="initialLanguage" type="List" default="de" required="true" label="THM_ORGANIZER_LANGUAGE"
-                   description="THM_ORGANIZER_LANGUAGE_DESC">
+            <field name="initialLanguage" type="Options" default="de" required="true" label="LANGUAGE">
                 <option value="de">GERMAN</option>
                 <option value="en">ENGLISH</option>
             </field>
-            <field name="grouping" type="List" default="0" label="THM_ORGANIZER_ORGANIZE_BY"
-                   description="THM_ORGANIZER_ORGANIZE_BY_DESC">
+            <field name="grouping" type="Options" default="0" label="ORGANIZE_BY">
                 <option value="0">ALPHABETICAL</option>
                 <option value="1">BY_SUBJECTNO</option>
                 <option value="2">BY_GROUP</option>
                 <option value="3">BY_TEACHER</option>
             </field>
-            <field name="teacherResp" type="List" default="0" label="THM_ORGANIZER_SHOW_TEACHER_RESP"
-                   description="THM_ORGANIZER_SHOW_TEACHER_RESP_DESC">
+            <field name="teacherResp" type="Options" default="0" label="SHOW_TEACHER_RESP">
                 <option value="0">ALL_RESPONSIBILITIES</option>
                 <option value="2">TEACHER</option>
                 <option value="1">COORDINATOR</option>
             </field>
-            <field name="showTitle" type="List" default="1" label="THM_ORGANIZER_SHOW_TEACHER_TITLE"
-                   description="THM_ORGANIZER_SHOW_TEACHER_TITLE_DESC">
+            <field name="showTitle" type="Options" default="1" label="SHOW_TEACHER_TITLES">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="inlinePoolCrP" type="List" default="1" label="THM_ORGANIZER_SHOW_INLINE_CRP"
-                   description="THM_ORGANIZER_SHOW_INLINE_CRP_DESC">
+            <field name="inlinePoolCrP" type="Options" default="1" label="SHOW_INLINE_CRP">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showByName" type="List" default="1" label="THM_ORGANIZER_SHOW_BY_NAME"
-                   description="THM_ORGANIZER_SHOW_BY_NAME_DESC">
+            <field name="showByName" type="Options" default="1" label="SHOW_BY_NAME">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showByModuleNumber" type="List" default="1" label="THM_ORGANIZER_SHOW_BY_MODULE_NUMBER"
-                   description="THM_ORGANIZER_SHOW_BY_MODULE_NUMBER_DESC">
+            <field name="showByModuleNumber" type="Options" default="1" label="SHOW_BY_MODULE_NUMBER">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showByPool" type="List" default="1" label="THM_ORGANIZER_SHOW_BY_POOL"
-                   description="THM_ORGANIZER_SHOW_BY_POOL_DESC">
+            <field name="showByPool" type="Options" default="1" label="SHOW_BY_POOL">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showByTeacher" type="List" default="1" label="THM_ORGANIZER_SHOW_BY_TEACHER"
-                   description="THM_ORGANIZER_SHOW_BY_TEACHER_DESC">
+            <field name="showByTeacher" type="Options" default="1" label="SHOW_BY_TEACHER">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>
-            <field name="showByField" type="List" default="0" label="THM_ORGANIZER_SHOW_BY_FIELD"
-                   description="THM_ORGANIZER_SHOW_BY_FIELD_DESC">
+            <field name="showByField" type="Options" default="0" label="SHOW_BY_FIELD">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>

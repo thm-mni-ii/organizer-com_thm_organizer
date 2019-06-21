@@ -18,7 +18,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for plan programs.
  */
-class CategoriesField extends ListField
+class CategoriesField extends OptionsField
 {
     use DepartmentFilters;
 

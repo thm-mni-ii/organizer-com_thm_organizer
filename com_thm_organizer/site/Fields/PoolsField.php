@@ -20,7 +20,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class creates a select box for (subject) pools.
  */
-class PoolsField extends ListField
+class PoolsField extends OptionsField
 {
     /**
      * @var  string
@@ -79,14 +79,15 @@ class PoolsField extends ListField
      *
      * @return int the programID
      */
-    private function getProgramID() {
+    private function getProgramID()
+    {
         $input = OrganizerHelper::getInput();
 
         if ($input->getInt('programID')) {
             return $input->getInt('programID');
         }
 
-        $app = OrganizerHelper::getApplication();
+        $app     = OrganizerHelper::getApplication();
         $context = 'com_thm_organizer.' . $input->getCmd('view');
 
         $filters = $app->getUserStateFromRequest($context . '.filter', 'filter', [], 'array');

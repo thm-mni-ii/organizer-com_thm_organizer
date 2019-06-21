@@ -2,7 +2,7 @@
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="si" type="List" label="THM_ORGANIZER_SI_DISPLAY" default="0"
+            <field name="si" type="Options" label="THM_ORGANIZER_SI_DISPLAY" default="0"
                    description="THM_ORGANIZER_SI_DISPLAY_DESC" class="chzn-color-state">
                 <option value="0">NO</option>
                 <option value="1">YES</option>

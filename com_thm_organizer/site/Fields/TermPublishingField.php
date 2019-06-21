@@ -11,6 +11,7 @@
 namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -18,8 +19,10 @@ use Organizer\Helpers\OrganizerHelper;
  * Class creates a form field for enabling or disabling publishing for specific plan (subject) pools for specific
  * terms.
  */
-class TermPublishingField extends BaseField
+class TermPublishingField extends FormField
 {
+    use Translated;
+
     /**
      * @var  string
      */

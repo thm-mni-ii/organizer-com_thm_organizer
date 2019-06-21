@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\View\HtmlView;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -23,22 +24,7 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class BaseView extends HtmlView
 {
-    /**
-     * Method to get the view name
-     *
-     * The model name by default parsed using the classname, or it can be set
-     * by passing a $config['name'] in the class constructor
-     *
-     * @return  string  The name of the model
-     */
-    public function getName()
-    {
-        if (empty($this->_name)) {
-            $this->_name = OrganizerHelper::getClass($this);
-        }
-
-        return $this->_name;
-    }
+    use Named;
 
     /**
      * Sets the layout name to use

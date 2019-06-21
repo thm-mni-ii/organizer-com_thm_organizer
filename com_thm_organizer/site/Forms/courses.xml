@@ -2,7 +2,7 @@
 <form addfieldpath="/component/com_thm_organizer/Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="status" type="List" label="STATE" onchange="this.form.submit();">
+        <field name="status" type="Options" label="STATE" onchange="this.form.submit();">
             <option value="">ALL_COURSES</option>
             <option value="pending">PENDING_COURSES</option>
             <option value="current">CURRENT_COURSES</option>
@@ -24,12 +24,12 @@
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
         </field>
-        <field name="methodID" type="GenericList" onchange="this.form.submit();" valuecolumn="id" textcolumn="name"
+        <field name="methodID" type="GenericOptions" onchange="this.form.submit();" valuecolumn="id" textcolumn="name"
                table="thm_organizer_methods" localized="true">
             <option value="">JALL</option>
             <option value="-1">NONE</option>
         </field>
-        <field name="onlyPrepCourses" type="List" label="PREP_COURSES" default="0">
+        <field name="onlyPrepCourses" type="Options" label="PREP_COURSES" default="0">
             <option value="">ALL_COURSES</option>
             <option value="1">ONLY_PREP_COURSES</option>
             <option value="-1">NOT_PREP_COURSES</option>

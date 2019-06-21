@@ -19,7 +19,7 @@ use stdClass;
 /**
  * Class creates a select box for predefined colors.
  */
-class ColorsField extends ListField
+class ColorsField extends OptionsField
 {
     /**
      * Type

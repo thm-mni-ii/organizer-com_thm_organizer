@@ -17,7 +17,7 @@ use Organizer\Helpers\Rooms;
 /**
  * Class creates a form field for room selection.
  */
-class RoomsField extends ListField
+class RoomsField extends OptionsField
 {
     /**
      * @var  string

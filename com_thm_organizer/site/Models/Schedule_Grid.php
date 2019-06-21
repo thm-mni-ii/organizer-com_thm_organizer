@@ -110,7 +110,7 @@ class Schedule_Grid extends BaseModel
         $this->params['showGroups']     = $input->getInt('showGroups', (int)$params->get('showGroups', 1));
         $this->params['showRooms']      = $input->getInt('showRooms', (int)$params->get('showRooms', 1));
         $this->params['showRoomTypes']  = $input->getInt('showRoomTypes', (int)$params->get('showRoomTypes', 1));
-        $this->params['showSubjects']   = $input->getInt('showRoomTypes', (int)$params->get('showSubjects', 1));
+        $this->params['showSubjects']   = $input->getInt('showSubjects', (int)$params->get('showSubjects', 1));
 
         $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
         $privilegedAccess = Access::allowViewAccess($departmentID);

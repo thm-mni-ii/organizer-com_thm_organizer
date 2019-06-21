@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -22,8 +23,10 @@ use stdClass;
 /**
  * Class creates select input.
  */
-class ListField extends BaseField
+class OptionsField extends FormField
 {
+    use Translated;
+
     /**
      * The form field type.
      *
@@ -114,50 +117,6 @@ class ListField extends BaseField
             $options[] = (object)$tmp;
         }
 
-        if ($this->element['useglobal']) {
-            $input      = OrganizerHelper::getInput();
-            $tmp        = new stdClass;
-            $tmp->value = '';
-            $tmp->text  = Languages::_('JGLOBAL_USE_GLOBAL');
-            $component  = $input->getCmd('option');
-
-            // Get correct component for menu items
-            if ($component == 'com_menus') {
-                $link      = $this->form->getData()->get('link');
-                $uri       = new Uri($link);
-                $component = $uri->getVar('option', 'com_menus');
-            }
-
-            $params = OrganizerHelper::getParams();
-            $value  = $params->get($this->fieldname);
-
-            // Try with global configuration
-            if (is_null($value)) {
-                $value = Factory::getConfig()->get($this->fieldname);
-            }
-
-            // Try with menu configuration
-            if (is_null($value) && $input->getCmd('option') == 'com_menus') {
-                $value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
-            }
-
-            if (!is_null($value)) {
-                $value = (string)$value;
-
-                foreach ($options as $option) {
-                    if ($option->value === $value) {
-                        $value = $option->text;
-
-                        break;
-                    }
-                }
-
-                $tmp->text = Languages::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
-            }
-
-            array_unshift($options, $tmp);
-        }
-
         reset($options);
 
         return $options;
@@ -169,7 +128,7 @@ class ListField extends BaseField
      * @param string $text       Text/Language variable of the option.
      * @param array  $attributes Array of attributes ('name' => 'value' format)
      *
-     * @return  ListField  For chaining.
+     * @return  OptionsField  For chaining.
      */
     public function addOption($text, $attributes = array())
     {
