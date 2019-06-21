@@ -26,6 +26,10 @@ class Groups extends BaseView
     public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        echo json_encode(GroupsHelper::$function());
+        if (method_exists('Organizer\\Helpers\\Groups', $function)) {
+            echo json_encode(GroupsHelper::$function());
+        } else {
+            echo false;
+        }
     }
 }

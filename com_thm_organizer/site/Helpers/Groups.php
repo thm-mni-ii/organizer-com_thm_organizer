@@ -17,7 +17,7 @@ use stdClass;
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Groups implements XMLValidator
+class Groups implements Selectable, XMLValidator
 {
     /**
      * Checks whether the given group is associated with an allowed department
@@ -150,52 +150,58 @@ class Groups implements XMLValidator
     }
 
     /**
-     * Retrieves a list of resources in the form of name => id.
+     * Retrieves the selectable options for the resource.
      *
-     * @return array the resources, or empty
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available options
      */
-    public static function getOptions()
+    public static function getOptions($access = '')
     {
-        $selectedCategories = OrganizerHelper::getInput()->getString('categoryIDs');
-        $short              = count($selectedCategories) === 1;
-        $groups             = self::getGroups();
+        $categoryIDs = OrganizerHelper::getFilterIDs('category');
+        $short       = count($categoryIDs) === 1;
+        $groups      = self::getResources();
 
-        $results = [];
+        $options = [];
         foreach ($groups as $group) {
-            $name           = $short ? $group['name'] : $group['full_name'];
-            $results[$name] = $group['id'];
+            $name      = $short ? $group['name'] : $group['full_name'];
+            $options[] = HTML::_('select.option', $group['id'], $name);
         }
 
-        ksort($results);
+        uasort($options, function ($optionOne, $optionTwo) {
+            return $optionOne->text > $optionTwo->text;
+        });
 
-        return empty($results) ? [] : $results;
+        // Any out of sequence indexes cause JSON to treat this as an object
+        return array_values($options);
     }
 
     /**
-     * Gets the plan programs with corresponding documented program titles if associated.
+     * Retrieves the resource items.
      *
-     * @return mixed
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available resources
      */
-    public static function getGroups()
+    public static function getResources($access = '')
     {
         $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select('gr.id, gr.name, gr.full_name');
+        $query->select('gr.*');
         $query->from('#__thm_organizer_groups AS gr');
 
-        $input               = OrganizerHelper::getInput();
-        $selectedDepartments = $input->getString('departmentIDs');
-        $selectedCategories  = $input->getString('categoryIDs');
+        $selectedDepartments = OrganizerHelper::getFilterIDs('department');
+        $selectedCategories  = OrganizerHelper::getFilterIDs('category');
 
         if (!empty($selectedDepartments)) {
             $query->innerJoin('#__thm_organizer_department_resources AS dr ON gr.categoryID = dr.categoryID');
-            $departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
+            $departmentIDs = implode(',', $selectedDepartments);
             $query->where("dr.departmentID IN ($departmentIDs)");
         }
 
         if (!empty($selectedCategories)) {
-            $categoryIDs = "'" . str_replace(',', "', '", $selectedCategories) . "'";
+            $categoryIDs = implode(',', $selectedCategories);
             $query->where("gr.categoryID in ($categoryIDs)");
         }
 
