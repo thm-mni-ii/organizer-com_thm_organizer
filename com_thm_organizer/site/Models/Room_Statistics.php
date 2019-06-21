@@ -189,19 +189,6 @@ class Room_Statistics extends BaseModel
     }
 
     /**
-     * Retrieves category options
-     *
-     * @return array an array of category options
-     */
-    public function getCategoryOptions()
-    {
-        $options = Categories::getOptions();
-        $options = array_flip($options);
-
-        return $options;
-    }
-
-    /**
      * Determines the relevant grid blocks based upon the instance start and end times
      *
      * @param string $startTime the time the instance starts

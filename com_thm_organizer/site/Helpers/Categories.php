@@ -17,8 +17,10 @@ use stdClass;
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Categories implements DepartmentAssociated, XMLValidator
+class Categories implements DepartmentAssociated, Selectable, XMLValidator
 {
+    use DepartmentFiltered;
+
     /**
      * Checks whether the given plan program is associated with an allowed department
      *
@@ -55,36 +57,6 @@ class Categories implements DepartmentAssociated, XMLValidator
         $dbo->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('loadResult');
-    }
-
-    /**
-     * Gets the plan programs with corresponding documented program titles if associated.
-     *
-     * @return mixed
-     */
-    public static function getCategories()
-    {
-        $dbo           = Factory::getDbo();
-        $languageTag   = Languages::getShortTag();
-        $departmentIDs = OrganizerHelper::getInput()->get('departmentIDs', [], 'raw');
-
-        $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-        $query->select('DISTINCT cat.id, cat.name AS catName, ' . $query->concatenate($nameParts, "") . ' AS name');
-        $query->from('#__thm_organizer_categories AS cat');
-        $query->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id');
-        $query->leftJoin('#__thm_organizer_programs AS p ON p.id = cat.programID');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-
-        if (!empty($departmentIDs)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
-            $query->where("dr.departmentID IN ($departmentIDs)");
-        }
-
-        $query->order('catName');
-        $dbo->setQuery($query);
-
-        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -135,23 +107,95 @@ class Categories implements DepartmentAssociated, XMLValidator
     }
 
     /**
-     * Retrieves a list of resources in the form of name => id.
+     * Retrieves the selectable options for the resource.
      *
-     * @return array the resources, or empty
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available options
      */
-    public static function getOptions()
+    public static function getOptions($access = '')
     {
-        $programs = self::getCategories();
+        $categories = self::getResources($access);
 
-        $results = [];
-        foreach ($programs as $program) {
-            $name           = empty($program['name']) ? $program['catName'] : $program['name'];
-            $results[$name] = $program['id'];
+        $options = [];
+        foreach ($categories as $category) {
+            $name = empty($category['programName']) ? $category['name'] : $category['programName'];
+
+            $options[] = HTML::_('select.option', $category['id'], $name);
         }
 
-        ksort($results);
+        uasort($options, function ($optionOne, $optionTwo) {
+            return $optionOne->text > $optionTwo->text;
+        });
 
-        return empty($results) ? [] : $results;
+        // Any out of sequence indexes cause JSON to treat this as an object
+        return array_values($options);
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available resources
+     */
+    public static function getResources($access = '')
+    {
+        $dbo           = Factory::getDbo();
+        $languageTag   = Languages::getShortTag();
+        $departmentIDs = OrganizerHelper::getInput()->get('departmentIDs', [], 'raw');
+
+        $query     = $dbo->getQuery(true);
+        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $query->select('DISTINCT cat.*, ' . $query->concatenate($nameParts, "") . ' AS programName')
+            ->from('#__thm_organizer_categories AS cat')
+            ->leftJoin('#__thm_organizer_programs AS p ON p.id = cat.programID')
+            ->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
+            ->order('cat.name');
+
+        if (!empty($departmentIDs)) {
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id')
+                ->where("dr.departmentID IN ($departmentIDs)");
+        }
+
+        if (!empty($access)) {
+            self::addDeptAccessFilter($query, 'dr', $access);
+        }
+
+        self::addDeptSelectionFilter($query, 'dr');
+
+        $dbo->setQuery($query);
+
+        return OrganizerHelper::executeQuery('loadAssocList', []);
+    }
+
+    /**
+     * Retrieves subject entries from the database
+     *
+     * @return string  the subjects which fit the selected resource
+     */
+    public function byTeacher()
+    {
+        $dbo          = Factory::getDbo();
+        $language     = Languages::getShortTag();
+        $query        = $dbo->getQuery(true);
+        $concateQuery = ["dp.name_$language", "', ('", 'd.abbreviation', "' '", ' dp.version', "')'"];
+        $query->select('dp.id, ' . $query->concatenate($concateQuery, '') . ' AS name');
+        $query->from('#__thm_organizer_programs AS dp');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
+        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
+
+        $teacherClauses = Mappings::getTeacherMappingClauses();
+        if (!empty($teacherClauses)) {
+            $query->where('( ( ' . implode(') OR (', $teacherClauses) . ') )');
+        }
+
+        $query->order('name');
+        $dbo->setQuery($query);
+
+        $programs = OrganizerHelper::executeQuery('loadObjectList');
+
+        return empty($programs) ? '[]' : json_encode($programs);
     }
 
     /**

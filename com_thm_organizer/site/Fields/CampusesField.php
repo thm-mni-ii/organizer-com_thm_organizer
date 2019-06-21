@@ -34,14 +34,6 @@ class CampusesField extends OptionsField
         $options  = parent::getOptions();
         $campuses = Campuses::getOptions();
 
-        if (empty($campuses)) {
-            return $options;
-        }
-
-        foreach ($campuses as $campusID => $name) {
-            $options[$campusID] = HTML::_('select.option', $campusID, $name);
-        }
-
-        return $options;
+        return array_merge($options, $campuses);
     }
 }

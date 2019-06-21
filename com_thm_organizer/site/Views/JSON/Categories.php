@@ -26,6 +26,10 @@ class Categories extends BaseView
     public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        echo json_encode(CategoriesHelper::$function());
+        if (method_exists('Organizer\\Helpers\\Categories', $function)) {
+            echo json_encode(CategoriesHelper::$function());
+        } else {
+            echo false;
+        }
     }
 }

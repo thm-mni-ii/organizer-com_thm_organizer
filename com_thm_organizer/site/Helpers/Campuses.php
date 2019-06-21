@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Campuses
+class Campuses implements Selectable
 {
     /**
      * Creates a link to the campus' location
@@ -64,56 +64,60 @@ class Campuses
     }
 
     /**
-     * Retrieves an alphabetized list of campuses suitable for use in creating HTML options.
+     * Retrieves the selectable options for the resource.
      *
-     * @param bool $used whether or not only campuses associated with subjects or lessons should be returned.
-     *
-     * @return array campuses in the form of id => name
+     * @return array the available options
      */
-    public static function getOptions($used = false)
+    public static function getOptions()
     {
-        $selectedIDs = OrganizerHelper::getSelectedIDs();
-        $resource    = OrganizerHelper::getResource(OrganizerHelper::getInput()->get('view'));
-        $tag         = Languages::getShortTag();
-
-        $options = [];
-        $dbo     = Factory::getDbo();
-        $query   = $dbo->getQuery(true);
-        $query->select("c1.id, c1.name_$tag AS name")
-            ->from('#__thm_organizer_campuses as c1');
-
-        if ($resource === 'campus' and !empty($selectedIDs)) {
-            $query->where("c1.id != {$selectedIDs[0]}")
-                ->where("c1.parentID IS NULL");
-        } else {
-            $query->select("c2.name_$tag as parentName")
-                ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID');
+        $campuses = self::getResources();
+        if (empty($campuses)) {
+            return $campuses;
         }
 
-        if ($used) {
-            $query->leftJoin('#__thm_organizer_subjects as s on s.campusID = c1.id')
-                ->leftJoin('#__thm_organizer_lessons as l on l.campusID = c1.id')
-                ->where('(s.id IS NOT NULL or l.id IS NOT NULL)');
+        $options = [];
+        foreach ($campuses as $campus) {
+            $name = empty($campus['parentName']) ? $campus['name'] : "{$campus['parentName']} / {$campus['name']}";
+
+            $options[] = HTML::_('select.option', $campus['id'], $name);
+        }
+
+        return $options;
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @return array the available resources
+     */
+    public static function getResources()
+    {
+        $tag = Languages::getShortTag();
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("c1.id, c1.name_$tag AS name")
+            ->from('#__thm_organizer_campuses as c1')
+            ->select("c2.name_$tag as parentName")
+            ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID')
+            ->order('parentName, name');
+
+        $selectedIDs = OrganizerHelper::getSelectedIDs();
+        $view        = OrganizerHelper::getInput()->getCmd('view', '');
+
+        // Only parents
+        if (strtolower($view) === 'campus_edit') {
+            $query->where("c1.parentID IS NULL");
+
+            // Not self
+            if (!empty($selectedIDs)) {
+                $query->where("c1.id != {$selectedIDs[0]}");
+            }
         }
 
         $dbo->setQuery($query);
-        $campuses = OrganizerHelper::executeQuery('loadAssocList', []);
 
-        if (empty($campuses)) {
-            return $options;
-        }
-
-        foreach ($campuses as $campus) {
-            $name           = empty($campus['parentName']) ?
-                $campus['name'] : "{$campus['parentName']} / {$campus['name']}";
-            $options[$name] = $campus['id'];
-        }
-
-        // Sort alphabetically by full name
-        ksort($options);
-
-        // Normalize: id => name
-        return array_flip($options);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**

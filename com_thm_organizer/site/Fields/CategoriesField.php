@@ -10,17 +10,15 @@
 
 namespace Organizer\Fields;
 
-use Joomla\CMS\Factory;
-use Organizer\Helpers\Access;
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Categories;
+use Organizer\Helpers\DepartmentFiltered;
 
 /**
  * Class creates a select box for plan programs.
  */
 class CategoriesField extends OptionsField
 {
-    use DepartmentFilters;
+    use DepartmentFiltered;
 
     /**
      * @var  string
@@ -34,47 +32,9 @@ class CategoriesField extends OptionsField
      */
     protected function getOptions()
     {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT cat.id AS value, cat.name AS text')
-            ->from('#__thm_organizer_categories AS cat')
-            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id')
-            ->order('text ASC');
+        $options  = parent::getOptions();
+        $campuses = Categories::getOptions();
 
-        $access = $this->getAttribute('access');
-        if (!empty($access)) {
-            $this->addDeptAccessFilter($query, 'dr', $access);
-        }
-
-        $this->addDeptSelectionFilter($query, 'dr');
-
-        if ($this->getAttribute('participant') === '1') {
-            $query->innerJoin('#__thm_organizer_participants AS part ON part.categoryID = cat.id');
-        }
-
-        $dbo->setQuery($query);
-        $defaultOptions = parent::getOptions();
-
-        $values = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($values)) {
-            return $defaultOptions;
-        }
-
-        $options = [];
-
-        foreach ($values as $value) {
-            if (!empty($value['value'])) {
-                $options[] = HTML::_('select.option', $value['value'], $value['text']);
-            }
-        }
-
-        // An empty/default value should not be allowed in a merge view.
-        if (empty($selectedIDs)) {
-            $options = array_merge($defaultOptions, $options);
-
-            return $options;
-        }
-
-        return count($options) ? $options : $defaultOptions;
+        return array_merge($options, $campuses);
     }
 }

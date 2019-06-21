@@ -10,13 +10,9 @@
 
 namespace Organizer\Fields;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 use SimpleXMLElement;
 use stdClass;
 
@@ -83,38 +79,38 @@ class OptionsField extends FormField
      */
     protected function getOptions()
     {
-        $fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+        $fieldName = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
         $options   = array();
 
-        foreach ($this->element->xpath('option') as $option) {
-            $value = (string)$option['value'];
-            $text  = trim((string)$option) != '' ? trim((string)$option) : $value;
+        foreach ($this->element->xpath('option') as $optionTag) {
 
-            $disabled = (string)$option['disabled'];
-            $disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-            $disabled = $disabled || ($this->readonly && $value != $this->value);
+            $option        = new stdClass;
+            $option->value = (string)$optionTag['value'];
 
-            $checked = (string)$option['checked'];
-            $checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+            $text         = trim((string)$optionTag) != '' ? trim((string)$optionTag) : $option->value;
+            $option->text = Languages::alt('THM_ORGANIZER_' . $text, $fieldName);
 
-            $selected = (string)$option['selected'];
-            $selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
+            $option->class = (string)$optionTag['class'];
 
-            $tmp = array(
-                'value'    => $value,
-                'text'     => Languages::alt('THM_ORGANIZER_' . $text, $fieldname),
-                'disable'  => $disabled,
-                'class'    => (string)$option['class'],
-                'selected' => ($checked || $selected),
-                'checked'  => ($checked || $selected),
-            );
+            $disabled        = (string)$optionTag['disabled'];
+            $disabled        = ($disabled == 'true' OR $disabled == 'disabled' OR $disabled == '1');
+            $option->disable = ($disabled OR ($this->readonly && $option->value != $this->value));
+
+            $checked = (string)$optionTag['checked'];
+            $checked = ($checked == 'true' OR $checked == 'checked' OR $checked == '1');
+
+            $selected = (string)$optionTag['selected'];
+            $selected = ($selected == 'true' OR $selected == 'selected' OR $selected == '1');
+
+            $option->selected = ($checked OR $selected);
+            $option->checked  = ($checked OR $selected);
 
             // Set some event handler attributes. But really, should be using unobtrusive js.
-            $tmp['onclick']  = (string)$option['onclick'];
-            $tmp['onchange'] = (string)$option['onchange'];
+            $option->onclick  = (string)$optionTag['onclick'];
+            $option->onchange = (string)$optionTag['onchange'];
 
             // Add the option object to the result set.
-            $options[] = (object)$tmp;
+            $options[] = $option;
         }
 
         reset($options);

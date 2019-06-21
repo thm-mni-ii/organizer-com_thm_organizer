@@ -10,10 +10,8 @@
 
 namespace Organizer\Fields;
 
-use Joomla\CMS\Factory;
-use Organizer\Helpers\Campuses;
+use Organizer\Helpers\Buildings;
 use Organizer\Helpers\HTML;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a form field for building selection.
@@ -32,7 +30,7 @@ class BuildingsField extends OptionsField
      */
     protected function getOptions()
     {
-        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
+        $defaultOptions = parent::getOptions();
         $options        = Buildings::getOptions();
 
         return array_merge($defaultOptions, $options);

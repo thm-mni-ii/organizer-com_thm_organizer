@@ -10,13 +10,9 @@
 
 namespace Organizer\Fields;
 
-use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers\Access;
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Departments;
 
 /**
  * Class creates a select box for departments.
@@ -27,34 +23,6 @@ class DepartmentsField extends OptionsField
      * @var  string
      */
     protected $type = 'Departments';
-
-    /**
-     * Filters departments according to user access and relevant resource associations.
-     *
-     * @param JDatabaseQuery &$query the query to be modified.
-     */
-    private function addFilters(&$query)
-    {
-        $access = $this->getAttribute('access');
-        $view   = OrganizerHelper::getInput()->getCmd('view');
-        if (empty($access) or empty($view)) {
-            return;
-        }
-
-        $resource = OrganizerHelper::getResource($view);
-        if ($access === 'schedule') {
-            $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
-            if (in_array($resource, ['category', 'teacher'])) {
-                $query->where("dpr.{$resource}ID IS NOT NULL");
-            }
-        } elseif ($access === 'document') {
-            $table = OrganizerHelper::getPlural($resource);
-            $query->innerJoin("#__thm_organizer_$table AS res ON res.departmentID = depts.id");
-        }
-
-        $allowedIDs = Access::getAccessibleDepartments($access);
-        $query->where("depts.id IN ( '" . implode("', '", $allowedIDs) . "' )");
-    }
 
     /**
      * Method to get the field input markup for department selection.
@@ -79,29 +47,9 @@ class DepartmentsField extends OptionsField
      */
     protected function getOptions()
     {
-        $options = parent::getOptions();
+        $options     = parent::getOptions();
+        $departments = Departments::getOptions($this->getAttribute('access', ''));
 
-        // Edit views always require access.
-        $shortTag = Languages::getShortTag();
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
-        $query->select("DISTINCT depts.id AS value, depts.short_name_$shortTag AS text");
-        $query->from('#__thm_organizer_departments AS depts');
-
-        $this->addFilters($query);
-
-        $query->order('text ASC');
-        $dbo->setQuery($query);
-        $departments = OrganizerHelper::executeQuery('loadAssocList');
-
-        if (empty($departments)) {
-            return $options;
-        }
-
-        foreach ($departments as $department) {
-            $options[] = HTML::_('select.option', $department['value'], $department['text']);
-        }
-
-        return $options;
+        return array_merge($options, $departments);
     }
 }

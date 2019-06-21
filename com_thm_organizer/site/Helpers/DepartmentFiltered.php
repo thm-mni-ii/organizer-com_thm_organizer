@@ -8,16 +8,14 @@
  * @link        www.thm.de
  */
 
-namespace Organizer\Fields;
+namespace Organizer\Helpers;
 
 use JDatabaseQuery;
-use Organizer\Helpers\Access;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class contains functions for department filtering.
  */
-trait DepartmentFilters
+trait DepartmentFiltered
 {
     /**
      * Restricts the query by the departmentIDs for which the user has the given access right.
@@ -26,7 +24,7 @@ trait DepartmentFilters
      * @param string          $alias  the alias being used for the resource table
      * @param string          $action the access right to be filtered against
      */
-    public function addDeptAccessFilter(&$query, $alias, $action)
+    public static function addDeptAccessFilter(&$query, $alias, $action)
     {
         $allowedDepartments = implode(',', Access::getAccessibleDepartments($action));
         $query->where("$alias.departmentID IN ($allowedDepartments)");
@@ -40,12 +38,14 @@ trait DepartmentFilters
      *
      * @return void modifies the query
      */
-    public function addDeptSelectionFilter(&$query, $alias)
+    public static function addDeptSelectionFilter(&$query, $alias)
     {
-        $filters = OrganizerHelper::getInput()->get('filter', [], 'array');
-        if (!empty($filters['departmentID'])) {
-            $departmentID = (int)$filters['departmentID'];
-            $query->where("$alias.departmentID = $departmentID");
+        $departmentIDs = OrganizerHelper::getFilterIDs('department');
+        if (!empty($departmentIDs)) {
+            $departmentIDs = implode(',', $departmentIDs);
+            $query->where("$alias.departmentID IN ($departmentIDs)");
+
+            return;
         }
     }
 }

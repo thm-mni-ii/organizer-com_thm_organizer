@@ -172,6 +172,66 @@ class OrganizerHelper
     }
 
     /**
+     * Returns the application's input object.
+     *
+     * @param string $resource the name of the resource upon which the ids being sought reference
+     *
+     * @return array the filter ids
+     */
+    public static function getFilterIDs($resource)
+    {
+        $input         = self::getInput();
+        $pluralIndex   = "{$resource}IDs";
+        $singularIndex = "{$resource}ID";
+
+        $requestIDs = $input->get($pluralIndex, [], 'array');
+        $requestIDs = ArrayHelper::toInteger($requestIDs);
+
+        if (!empty($requestIDs)) {
+            return $requestIDs;
+        }
+
+        $requestID = $input->getInt($singularIndex);
+
+        if (!empty($requestID)) {
+            return [$requestID];
+        }
+
+        // Forms
+        $formData = OrganizerHelper::getFormInput();
+        $relevant = (!empty($formData) and (isset($formData[$pluralIndex]) or isset($formData[$singularIndex])));
+        if ($relevant) {
+            if (isset($formData[$pluralIndex])) {
+                return self::resolveListIDs($formData[$pluralIndex]);
+            }
+
+            return [(int)$formData[$singularIndex]];
+        }
+
+        $filters  = $input->get('filter', [], 'array');
+        $relevant = (!empty($filters) and (isset($filters[$pluralIndex]) or isset($filters[$singularIndex])));
+        if ($relevant) {
+            if (isset($filters[$pluralIndex])) {
+                return self::resolveListIDs($filters[$pluralIndex]);
+            }
+
+            return [(int)$filters[$singularIndex]];
+        }
+
+        $listFilters = $input->get('list', [], 'array');
+        $relevant    = (!empty($listFilters) and (isset($listFilters[$pluralIndex]) or isset($listFilters[$singularIndex])));
+        if ($relevant) {
+            if (isset($listFilters[$pluralIndex])) {
+                return self::resolveListIDs($listFilters[$pluralIndex]);
+            }
+
+            return [(int)$listFilters[$singularIndex]];
+        }
+
+        return [];
+    }
+
+    /**
      * Retrieves the request form.
      *
      * @return array with the request data if available
@@ -267,6 +327,7 @@ class OrganizerHelper
         $listViews = [
             'categories'   => 'category',
             'courses'      => 'course',
+            'departments'  => 'department',
             'groups'       => 'group',
             'equipment'    => 'equipment',
             'events'       => 'event',
@@ -306,7 +367,7 @@ class OrganizerHelper
         if (!empty($formData)) {
             // Merge Views
             if (isset($formData['ids'])) {
-                $selectedIDs = array_filter(ArrayHelper::toInteger(explode(',', $formData['ids'])));
+                $selectedIDs = self::resolveListIDs($formData['ids']);
                 if (!empty($selectedIDs)) {
                     asort($selectedIDs);
 
@@ -379,6 +440,22 @@ class OrganizerHelper
     {
         $message = Languages::_($message);
         self::getApplication()->enqueueMessage($message, $type);
+    }
+
+    /**
+     * Resolves a comma separated list of id values to an array of id values
+     *
+     * @param string $list the list to be resolved
+     *
+     * @return array
+     */
+    public static function resolveListIDs($list)
+    {
+        $idValues         = explode(',', $list);
+        $cleanedIDValues  = ArrayHelper::toInteger($idValues);
+        $filteredIDValues = array_filter($cleanedIDValues);
+
+        return $filteredIDValues;
     }
 
     /**

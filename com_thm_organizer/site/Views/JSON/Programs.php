@@ -10,12 +10,13 @@
 
 namespace Organizer\Views\JSON;
 
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Programs as ProgramsHelper;
 
 /**
  * Class answers dynamic (degree) program related queries
  */
-class Program extends BaseView
+class Programs extends BaseView
 {
     /**
      * loads model data into view context
@@ -25,6 +26,10 @@ class Program extends BaseView
     public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        echo json_encode(ProgramsHelper::$function());
+        if (method_exists('Organizer\\Helpers\\Programs', $function)) {
+            echo json_encode(ProgramsHelper::$function());
+        } else {
+            echo false;
+        }
     }
 }

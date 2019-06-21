@@ -13,12 +13,15 @@ namespace Organizer\Helpers;
 use Exception;
 use Joomla\CMS\Factory;
 use Organizer\Models\Program;
+use Organizer\Tables\Participants;
 
 /**
  * Provides general functions for program access checks, data retrieval and display.
  */
-class Programs
+class Programs implements Selectable
 {
+    use DepartmentFiltered;
+
     /**
      * Attempts to get the real program's id, creating the stub if non-existent.
      *
@@ -80,5 +83,90 @@ class Programs
         $names = OrganizerHelper::executeQuery('loadAssoc', []);
 
         return empty($names) ? '' : empty($names['name']) ? $names['catName'] : $names['name'];
+    }
+
+    /**
+     * Retrieves the selectable options for the resource.
+     *
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available options
+     */
+    public static function getOptions($access = '')
+    {
+        $programs = self::getResources($access);
+
+        $options = [];
+        foreach ($programs as $program) {
+            $text = "{$program['name']} ({$program['degree']},  {$program['version']})";
+
+            $options[] = HTML::_('select.option', $program['value'], $text);
+        }
+
+        return $options;
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available resources
+     */
+    public static function getResources($access = '')
+    {
+        $shortTag = Languages::getShortTag();
+        $dbo      = Factory::getDbo();
+        $query    = $dbo->getQuery(true);
+
+        $query->select("dp.id AS value, dp.name_$shortTag AS name, d.abbreviation AS degree, dp.version");
+        $query->from('#__thm_organizer_programs AS dp');
+        $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
+        $query->order('name ASC, degree ASC, version DESC');
+
+        if (!empty($access)) {
+            self::addDeptAccessFilter($query, 'dp', $access);
+        }
+        self::addDeptSelectionFilter($query, 'dp');
+
+        $useCurrent = self::useCurrent();
+        if ($useCurrent) {
+            $subQuery = $dbo->getQuery(true);
+            $subQuery->select("dp2.name_$shortTag, dp2.degreeID, MAX(dp2.version) AS version")
+                ->from('#__thm_organizer_programs AS dp2')
+                ->group("dp2.name_$shortTag, dp2.degreeID");
+            $conditions = "grouped.name_$shortTag = dp.name_$shortTag ";
+            $conditions .= "AND grouped.degreeID = dp.degreeID ";
+            $conditions .= "AND grouped.version = dp.version ";
+            $query->innerJoin("($subQuery) AS grouped ON $conditions");
+        }
+
+        $dbo->setQuery($query);
+
+        return OrganizerHelper::executeQuery('loadAssocList', []);
+    }
+
+    /**
+     * Determines whether only the latest version of a program should be displayed in the list.
+     *
+     * @return bool
+     */
+    private static function useCurrent()
+    {
+        $useCurrent = false;
+        $view       = OrganizerHelper::getInput()->getCmd('view');
+        $selected   = OrganizerHelper::getSelectedIDs();
+        if ($view === 'participant_edit') {
+            $participantID = empty($selected) ? Factory::getUser() : $selected[0];
+            $table         = new Participants;
+            $exists        = $table->load($participantID);
+
+            if (!$exists) {
+                $useCurrent = true;
+            }
+        }
+
+        return $useCurrent;
     }
 }

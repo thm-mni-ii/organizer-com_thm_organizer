@@ -10,14 +10,45 @@
 
 namespace Organizer\Helpers;
 
+use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * Provides general functions for department access checks, data retrieval and display.
  */
-class Departments
+class Departments implements Selectable
 {
+    /**
+     * Filters departments according to user access and relevant resource associations.
+     *
+     * @param JDatabaseQuery &$query  the query to be modified.
+     * @param string          $access any access restriction which should be performed
+     *
+     * @return void modifies the query
+     */
+    private static function addResourceFilters(&$query, $access)
+    {
+        $view = OrganizerHelper::getInput()->getCmd('view');
+        if (empty($access) or empty($view)) {
+            return;
+        }
+
+        $resource = OrganizerHelper::getResource($view);
+        if ($access === 'schedule') {
+            $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
+            if (in_array($resource, ['category', 'teacher'])) {
+                $query->where("dpr.{$resource}ID IS NOT NULL");
+            }
+        } elseif ($access === 'document') {
+            $table = OrganizerHelper::getPlural($resource);
+            $query->innerJoin("#__thm_organizer_$table AS res ON res.departmentID = depts.id");
+        }
+
+        $allowedIDs = Access::getAccessibleDepartments($access);
+        $query->where("depts.id IN ( '" . implode("', '", $allowedIDs) . "' )");
+    }
+
     /**
      * Retrieves the ids of the departments associated with the given resources.
      *
@@ -66,38 +97,53 @@ class Departments
     }
 
     /**
-     * Getter method for departments in database. Only retrieving the IDs here allows for formatting the names
-     * according to the needs of the calling views.
+     * Retrieves the selectable options for the resource.
      *
-     * @param bool $short whether or not abbreviated names should be returned
+     * @param bool   $short  whether or not abbreviated names should be returned
+     * @param string $access any access restriction which should be performed
      *
-     * @return array
+     * @return array the available options
      */
-    public static function getOptions($short = true)
+    public static function getOptions($short = true, $access = '')
+    {
+        $departments = self::getResources($access);
+
+        $options = [];
+        foreach ($departments as $department) {
+            $name = $short ? $department['shortName'] : $department['name'];
+
+            $options[] = HTML::_('select.option', $department['id'], $name);
+        }
+
+        uasort($options, function ($optionOne, $optionTwo) {
+            return $optionOne->text > $optionTwo->text;
+        });
+
+        // Any out of sequence indexes cause JSON to treat this as an object
+        return array_values($options);
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available resources
+     */
+    public static function getResources($access = '')
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $tag   = Languages::getShortTag();
 
-        $query->select("DISTINCT d.id, d.short_name_$tag AS shortName, d.name_$tag AS name");
-        $query->from('#__thm_organizer_departments AS d');
-        $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id');
+        $query->select("DISTINCT depts.id, depts.short_name_$tag AS shortName, depts.name_$tag AS name")
+            ->from('#__thm_organizer_departments AS depts');
+
+        self::addResourceFilters($query, $access);
 
         $dbo->setQuery($query);
 
-        $results = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($results)) {
-            return [];
-        }
-
-        $options = [];
-        foreach ($results as $department) {
-            $options[$department['id']] = $short ? $department['shortName'] : $department['name'];
-        }
-
-        asort($options);
-
-        return $options;
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**

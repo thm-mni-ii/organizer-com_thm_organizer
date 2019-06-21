@@ -661,9 +661,6 @@ class Mapping extends BaseModel
      *
      * @return boolean  true if the program root mapping exists/was created,
      *                   otherwise false
-     *
-     * @see Program
-     * @see Program_LSF
      */
     public function saveProgram($programID)
     {
