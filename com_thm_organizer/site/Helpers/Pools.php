@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for (subject) pool access checks, data retrieval and display.
  */
-class Pools
+class Pools implements Selectable
 {
     /**
      * Fills the options array with HTML pool options
@@ -126,6 +126,26 @@ class Pools
     }
 
     /**
+     * Retrieves the selectable options for the resource.
+     *
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available options
+     */
+    public static function getOptions($access = '')
+    {
+        $pools = self::getResources();
+        $options = [];
+        foreach ($pools as $pool) {
+            if (empty($access) or Access::allowDocumentAccess('pool', $pool['id'])) {
+                $options[] = HTML::_('select.option', $pool['id'], $pool['name']);
+            }
+        }
+
+        return $options;
+    }
+
+    /**
      * Retrieves pool options for a given curriculum element
      *
      * @return string
@@ -178,6 +198,37 @@ class Pools
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList');
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @return array the available resources
+     */
+    public static function getResources()
+    {
+        $programIDs = OrganizerHelper::getFilterIDs('program');
+        if (empty($programIDs)) {
+            return [];
+        }
+
+        $programRanges = Mappings::getResourceRanges('program', $programIDs[0]);
+        if (empty($programRanges) or count($programRanges) > 1) {
+            return [];
+        }
+
+        $shortTag = Languages::getShortTag();
+        $dbo      = Factory::getDbo();
+        $query    = $dbo->getQuery(true);
+        $query->select("DISTINCT p.*, p.name_$shortTag AS name")
+            ->from('#__thm_organizer_pools AS p')
+            ->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.poolID')
+            ->where("lft > '{$programRanges[0]['lft']}'")
+            ->where("rgt < '{$programRanges[0]['rgt']}'")
+            ->order('name ASC');
+        $dbo->setQuery($query);
+
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**

@@ -96,7 +96,7 @@ class Campuses implements Selectable
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("c1.id, c1.name_$tag AS name")
+        $query->select("c1.*, c1.name_$tag AS name")
             ->from('#__thm_organizer_campuses as c1')
             ->select("c2.name_$tag as parentName")
             ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID')

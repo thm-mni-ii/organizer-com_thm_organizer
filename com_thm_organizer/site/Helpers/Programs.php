@@ -98,9 +98,9 @@ class Programs implements Selectable
 
         $options = [];
         foreach ($programs as $program) {
-            $text = "{$program['name']} ({$program['degree']},  {$program['version']})";
+            $name = "{$program['name']} ({$program['degree']},  {$program['version']})";
 
-            $options[] = HTML::_('select.option', $program['value'], $text);
+            $options[] = HTML::_('select.option', $program['id'], $name);
         }
 
         return $options;
@@ -119,7 +119,7 @@ class Programs implements Selectable
         $dbo      = Factory::getDbo();
         $query    = $dbo->getQuery(true);
 
-        $query->select("dp.id AS value, dp.name_$shortTag AS name, d.abbreviation AS degree, dp.version");
+        $query->select("dp.*, dp.name_$shortTag AS name, d.abbreviation AS degree");
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');

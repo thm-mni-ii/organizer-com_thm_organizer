@@ -136,7 +136,7 @@ class Departments implements Selectable
         $query = $dbo->getQuery(true);
         $tag   = Languages::getShortTag();
 
-        $query->select("DISTINCT depts.id, depts.short_name_$tag AS shortName, depts.name_$tag AS name")
+        $query->select("DISTINCT depts.*, depts.short_name_$tag AS shortName, depts.name_$tag AS name")
             ->from('#__thm_organizer_departments AS depts');
 
         self::addResourceFilters($query, $access);

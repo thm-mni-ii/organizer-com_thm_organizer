@@ -33,8 +33,8 @@ class CategoriesField extends OptionsField
     protected function getOptions()
     {
         $options  = parent::getOptions();
-        $campuses = Categories::getOptions();
+        $categories = Categories::getOptions();
 
-        return array_merge($options, $campuses);
+        return array_merge($options, $categories);
     }
 }
