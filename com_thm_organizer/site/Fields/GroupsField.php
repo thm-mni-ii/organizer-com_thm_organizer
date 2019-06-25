@@ -10,7 +10,6 @@
 
 namespace Organizer\Fields;
 
-use Organizer\Helpers\DepartmentFiltered;
 use Organizer\Helpers\Groups;
 
 /**
@@ -18,7 +17,6 @@ use Organizer\Helpers\Groups;
  */
 class GroupsField extends OptionsField
 {
-    use DepartmentFiltered;
 
     /**
      * @var  string

@@ -190,6 +190,31 @@ class Languages extends Text
     }
 
     /**
+     * Translate a string into the current language and stores it in the JavaScript language store.
+     *
+     * @param string  $string               The Text key.
+     * @param boolean $jsSafe               Ensure the output is JavaScript safe.
+     * @param boolean $interpretBackSlashes Interpret \t and \n.
+     *
+     * @return  string
+     *
+     * @since   11.1
+     */
+    public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
+    {
+        // Normalize the key and translate the string.
+        static::$strings[strtoupper($string)] = self::_($string);
+
+        // Load core.js dependency
+        HTML::_('behavior.core');
+
+        // Update Joomla.JText script options
+        Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
+
+        return static::getScriptStrings();
+    }
+
+    /**
      * Passes a string thru a sprintf.
      *
      * Note that this method can take a mixed number of arguments as for the sprintf function.

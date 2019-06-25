@@ -10,7 +10,6 @@
 
 namespace Organizer\Fields;
 
-use Organizer\Helpers\DepartmentFiltered;
 use Organizer\Helpers\Programs;
 
 /**
@@ -18,7 +17,6 @@ use Organizer\Helpers\Programs;
  */
 class ProgramsField extends OptionsField
 {
-    use DepartmentFiltered;
 
     /**
      * @var  string

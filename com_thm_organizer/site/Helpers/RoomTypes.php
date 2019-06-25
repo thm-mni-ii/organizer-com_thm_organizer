@@ -16,8 +16,12 @@ use stdClass;
 /**
  * Provides general functions for room type access checks, data retrieval and display.
  */
-class Room_Types implements ResourceCategory
+class RoomTypes implements ResourceCategory, Selectable
 {
+    const ALL = null;
+    const NO = 0;
+    const YES = 1;
+
     /**
      * Checks for the room type name for a given room type id
      *
@@ -27,7 +31,7 @@ class Room_Types implements ResourceCategory
      */
     public static function getName($typeID)
     {
-        $roomTypesTable = OrganizerHelper::getTable('Room_Types');
+        $roomTypesTable = OrganizerHelper::getTable('RoomTypes');
 
         try {
             $success = $roomTypesTable->load($typeID);
@@ -50,32 +54,49 @@ class Room_Types implements ResourceCategory
      */
     public static function getOptions()
     {
-        $types   = self::getPlanRoomTypes();
-        $default = [Languages::_('THM_ORGANIZER_ALL_ROOM_TYPES') => '0'];
+        $types = self::getResources();
 
-        return array_merge($default, $types);
+        $options = [];
+        foreach ($types as $type) {
+            $options[] = HTML::_('select.option', $type['id'], $type['name']);
+        }
+
+        return $options;
     }
 
+
     /**
-     * Returns room types which are used by rooms.
-     * Optionally filterable by DepartmentIDs.
+     * Retrieves the resource items.
      *
-     * @return array
+     * @param bool $associated whether the type needs to be associated with a room
+     * @param bool $public
+     *
+     * @return array the available resources
      */
-    public static function getPlanRoomTypes()
+    public static function getResources($associated = self::YES, $public = self::YES)
     {
         $languageTag = Languages::getShortTag();
         $dbo         = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT t.id, t.name_' . $languageTag . ' AS name')
-            ->from('#__thm_organizer_room_types AS t')
-            ->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
+        $query->select("DISTINCT t.*, t.id AS id, t.name_$languageTag AS name")
+            ->from('#__thm_organizer_room_types AS t');
+
+        if ($public !== null) {
+            $query->where('t.public = ' . $public);
+        }
+
+        if ($associated === self::YES) {
+            $query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
+        } elseif ($associated === self::NO) {
+            $query->where('r.typeID IS NULL');
+        }
+
 
         $query->order('name');
         $dbo->setQuery($query);
 
-        return OrganizerHelper::executeQuery('loadAssocList', [], ['name', 'id']);
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -88,7 +109,7 @@ class Room_Types implements ResourceCategory
      */
     public static function setID(&$scheduleModel, $untisID)
     {
-        $table  = OrganizerHelper::getTable('Room_Types');
+        $table  = OrganizerHelper::getTable('RoomTypes');
         $data   = ['untisID' => $untisID];
         $exists = $table->load($data);
 

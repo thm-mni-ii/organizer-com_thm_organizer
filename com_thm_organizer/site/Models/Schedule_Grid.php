@@ -20,9 +20,7 @@ use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Groups;
-use Organizer\Helpers\Fields;
 use Organizer\Helpers\Rooms;
-use Organizer\Helpers\Subjects;
 use Organizer\Helpers\Teachers;
 
 /**
@@ -135,12 +133,12 @@ class Schedule_Grid extends BaseModel
         }
 
         if (!empty($this->params['groupIDs'])) {
-            $this->params['showDepartments'] = 0;
             $this->params['showCategories']  = 0;
+            $this->params['showDepartments'] = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
-            $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
+            $this->params['showTeachers']    = 0;
 
             if (count($this->params['groupIDs']) === 1 and $setTitle) {
                 $this->displayName           = Groups::getFullName($this->params['groupIDs'][0]);
@@ -155,9 +153,9 @@ class Schedule_Grid extends BaseModel
         }
 
         if (!empty($this->params['teacherIDs'])) {
+            $this->params['showCategories']  = 0;
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
-            $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showSubjects']    = 0;
@@ -175,11 +173,11 @@ class Schedule_Grid extends BaseModel
         }
 
         if (!empty($this->params['roomIDs'])) {
+            $this->params['showCategories']  = 0;
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
-            $this->params['showCategories']  = 0;
-            $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
+            $this->params['showTeachers']    = 0;
 
             if (count($this->params['roomIDs']) === 1 and $setTitle) {
                 $this->displayName           = Rooms::getName($this->params['roomIDs'][0]);
@@ -194,14 +192,14 @@ class Schedule_Grid extends BaseModel
         }
 
         if (!empty($this->params['roomTypeIDs'])) {
+            $this->params['showCategories']  = 0;
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
-            $this->params['showCategories']  = 0;
-            $this->params['showTeachers']    = 0;
             $this->params['showSubjects']    = 0;
+            $this->params['showTeachers']    = 0;;
 
             if (count($this->params['roomTypeIDs']) === 1 and $setTitle) {
-                $this->displayName           = Fields::getName($this->params['roomTypeIDs'][0]);
+                $this->displayName           = RoomTypes::getName($this->params['roomTypeIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 
@@ -213,12 +211,13 @@ class Schedule_Grid extends BaseModel
         }
 
         if (!empty($this->params['subjectIDs'])) {
+            $this->params['showCategories']  = 0;
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
-            $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomTypes']   = 0;
             $this->params['showTeachers']    = 0;
+            $this->params['showTypes']       = 0;
 
             // There can be only one.
             $singleValue                = array_shift($this->params['subjectIDs']);

@@ -166,30 +166,30 @@ class Schedule_Grid extends BaseHTMLView
 
         Languages::script('APRIL');
         Languages::script('AUGUST');
-        Languages::script('THM_ORGANIZER_GENERATE_LINK');
         Languages::script('DECEMBER');
         Languages::script('FEBRUARY');
         Languages::script('FRI');
         Languages::script('JANUARY');
         Languages::script('JULY');
         Languages::script('JUNE');
-        Languages::script('THM_ORGANIZER_LUNCHTIME');
         Languages::script('MARCH');
         Languages::script('MAY');
         Languages::script('MON');
-        Languages::script('THM_ORGANIZER_MY_SCHEDULE');
         Languages::script('NOVEMBER');
         Languages::script('OCTOBER');
-        Languages::script('THM_ORGANIZER_SELECT_GROUP');
-        Languages::script('THM_ORGANIZER_SELECT_CATEGORY');
-        Languages::script('THM_ORGANIZER_SELECT_ROOM');
-        Languages::script('THM_ORGANIZER_SELECT_ROOM_TYPE');
         Languages::script('SAT');
         Languages::script('SEPTEMBER');
         Languages::script('SUN');
+        Languages::script('THM_ORGANIZER_GENERATE_LINK');
+        Languages::script('THM_ORGANIZER_LUNCHTIME');
+        Languages::script('THM_ORGANIZER_MY_SCHEDULE');
+        Languages::script('THM_ORGANIZER_SELECT_CATEGORY');
+        Languages::script('THM_ORGANIZER_SELECT_GROUP');
+        Languages::script('THM_ORGANIZER_SELECT_ROOM');
+        Languages::script('THM_ORGANIZER_SELECT_ROOM_TYPE');
         Languages::script('THM_ORGANIZER_SELECT_TEACHER');
-        Languages::script('THU');
         Languages::script('THM_ORGANIZER_TIME');
+        Languages::script('THU');
         Languages::script('TUE');
         Languages::script('WED');
     }

@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the room_types table.
  */
-class Room_Types extends BaseTable
+class RoomTypes extends BaseTable
 {
     /**
      * Declares the associated table

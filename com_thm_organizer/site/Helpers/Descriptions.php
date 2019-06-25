@@ -116,7 +116,7 @@ class Descriptions implements XMLValidator
 
                 return;
             case 'r':
-                Room_Types::setID($scheduleModel, $untisID);
+                RoomTypes::setID($scheduleModel, $untisID);
 
                 return;
             case 'u':

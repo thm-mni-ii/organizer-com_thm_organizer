@@ -1719,14 +1719,14 @@ const ScheduleApp = function (variables) {
                 'category': document.getElementById('category'),
                 'department': document.getElementById('department'),
                 'group': document.getElementById('group'),
-                'program': document.getElementById('program'),
-                'roomType': document.getElementById('roomType'),
                 'room': document.getElementById('room'),
-                'teacher': document.getElementById('teacher')
+                'roomType': document.getElementById('roomType'),
+                'teacher': document.getElementById('teacher'),
+                'type': document.getElementById('type')
             },
             placeholder = {
                 'group': Joomla.JText._('THM_ORGANIZER_SELECT_GROUP'),
-                'program': Joomla.JText._('THM_ORGANIZER_SELECT_CATEGORY'),
+                'category': Joomla.JText._('THM_ORGANIZER_SELECT_CATEGORY'),
                 'roomType': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM_TYPE'),
                 'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
                 'teacher': Joomla.JText._('THM_ORGANIZER_SELECT_TEACHER')
@@ -1735,10 +1735,10 @@ const ScheduleApp = function (variables) {
                 'category': document.getElementById('category-input'),
                 'department': document.getElementById('department-input'),
                 'group': document.getElementById('group-input'),
-                'program': document.getElementById('program-input'),
-                'roomType': document.getElementById('roomType-input'),
                 'room': document.getElementById('room-input'),
-                'teacher': document.getElementById('teacher-input')
+                'roomType': document.getElementById('roomType-input'),
+                'teacher': document.getElementById('teacher-input'),
+                'type': document.getElementById('type-input')
             },
             sessionFields = JSON.parse(window.sessionStorage.getItem('scheduleForm')) || {},
             sessionDepartments = JSON.parse(window.sessionStorage.getItem('scheduleDepartment')) || {};
@@ -1756,7 +1756,7 @@ const ScheduleApp = function (variables) {
             resource = field.dataset.input === 'static' ? jQuery(field).val() : field.id;
             switch (resource)
             {
-                case 'program':
+                case 'category':
                     resource = 'categories';
                     break;
                 case 'roomType':
@@ -1934,7 +1934,7 @@ const ScheduleApp = function (variables) {
 
             ajax.open('GET', getFormTask(field, selectedValue), true);
             ajax.onreadystatechange = function () {
-                let option, optionCount, response, value;
+                let option, optionCount, response, key;
 
                 if (ajax.readyState === 4 && ajax.status === 200)
                 {
@@ -1942,13 +1942,13 @@ const ScheduleApp = function (variables) {
                     optionCount = onlyValues ? onlyValues.length : Object.keys(response).length;
                     setPlaceholder(field);
 
-                    for (value in response)
+                    for (key in response)
                     {
-                        if (response.hasOwnProperty(value) && (!onlyValues || onlyValues.includes(response[value])))
+                        if (response.hasOwnProperty(key) && (!onlyValues || onlyValues.includes(response[key])))
                         {
                             option = document.createElement('option');
-                            option.value = value.id ? value.id : response[value];
-                            option.innerHTML = value.name ? value.name : value;
+                            option.value = response[key].value;
+                            option.innerHTML = response[key].text;
                             option.selected = (optionCount === 1 || option.value === selectedValue);
                             field.appendChild(option);
                         }
@@ -2019,7 +2019,7 @@ const ScheduleApp = function (variables) {
             }
             else
             {
-                firstField = fields[config.name] || fields.category;
+                firstField = fields[config.name] || fields.type;
             }
 
             name = firstField.id;
@@ -2053,9 +2053,8 @@ const ScheduleApp = function (variables) {
             }
             else
             {
-                // First field is static (category)
+                // First field is static (type)
                 sendFormRequest(getSelectedValues(name));
-                showField(name);
                 disableTabs();
             }
         }
@@ -2107,8 +2106,8 @@ const ScheduleApp = function (variables) {
                     continue;
                 }
 
-                const idMatch = /^(\w+)*IDs$/.exec(variable),
-                    showMatch = /^show(\w+)s$/i.exec(variable);
+                const idMatch = /^(\w+)*IDs$/.exec(variable);
+                let fieldID, showMatch = /^show(\w+)s$/i.exec(variable);
 
                 if (idMatch)
                 {
@@ -2133,12 +2132,14 @@ const ScheduleApp = function (variables) {
 
                 if (showMatch)
                 {
-                    fieldsToShow[showMatch[1].toLowerCase()] = variables[variable];
+                    fieldID = showMatch[1].toLowerCase();
+                    fieldID = fieldID === 'categorie' ? 'category' : fieldID;
+                    fieldsToShow[fieldID] = variables[variable];
                 }
             }
 
-            // No configured field => category have to be visible
-            fieldsToShow.category = !config.name;
+            // No configured field => type has to be visible
+            fieldsToShow.type = !config.name;
         }
 
         /**
@@ -2152,7 +2153,7 @@ const ScheduleApp = function (variables) {
                 handleFirstField();
             }
 
-            jQuery('#category').chosen().change(function () {
+            jQuery('#type').chosen().change(function () {
                 sendFormRequest(getSelectedValues(this.id));
                 setSession(this);
             });
@@ -2667,19 +2668,19 @@ const ScheduleApp = function (variables) {
         if (variables.isMobile)
         {
             jQuery('.date-input').insertAfter('.menu-bar');
-            jQuery('.check-input').insertAfter('.date-input');
+            //jQuery('.check-input').insertAfter('.date-input');
         }
 
         mq.addListener(function () {
             if (mq.matches)
             {
                 jQuery('.date-input').insertAfter('.menu-bar');
-                jQuery('.check-input').insertAfter('.date-input');
+                //jQuery('.check-input').insertAfter('.date-input');
             }
             else
             {
                 jQuery('.date-input').insertAfter(jQuery('.tabs-tab').eq(-2));
-                jQuery('.check-input').insertAfter('.date-input');
+                //jQuery('.check-input').insertAfter('.date-input');
             }
         });
     }
@@ -2920,14 +2921,14 @@ const ScheduleApp = function (variables) {
     /**
      * Called when notification checkbox is clicked
      */
-    this.toggleCheckbox = function () {
+    /*this.toggleCheckbox = function () {
         const notifyChecked = document.getElementById('check-notify-box').checked;
         jQuery.ajax({
             type: 'GET',
             url: getAjaxUrl('setNotify'),
             data: {isChecked: notifyChecked}
         });
-    };
+    };*/
 
     /**
      * Get date string in the components specified format.

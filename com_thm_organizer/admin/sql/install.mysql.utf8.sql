@@ -132,15 +132,15 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
-    `id`                INT(11)     UNSIGNED   NOT NULL AUTO_INCREMENT,
-    `asset_id`          INT(11)                NOT NULL,
-    `short_name_de`     VARCHAR(50)            NOT NULL,
-    `name_de`           VARCHAR(150)           NOT NULL,
-    `short_name_en`     VARCHAR(50)            NOT NULL,
-    `name_en`           VARCHAR(150)           NOT NULL,
-    `contact_type`      TINYINT(1)             NOT NULL,
-    `contactID`         INT(11)                          DEFAULT NULL,
-    `contact_email`     VARCHAR(100)           NOT NULL,
+    `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `asset_id`      INT(11)          NOT NULL,
+    `short_name_de` VARCHAR(50)      NOT NULL,
+    `name_de`       VARCHAR(150)     NOT NULL,
+    `short_name_en` VARCHAR(50)      NOT NULL,
+    `name_en`       VARCHAR(150)     NOT NULL,
+    `contact_type`  TINYINT(1)       NOT NULL,
+    `contactID`     INT(11) DEFAULT NULL,
+    `contact_email` VARCHAR(100)     NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `short_name` (`short_name_de`),
     UNIQUE INDEX `name` (`name_de`),
@@ -462,6 +462,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_room_types` (
     `description_en` TEXT             NOT NULL,
     `min_capacity`   INT(4) UNSIGNED                                 DEFAULT NULL,
     `max_capacity`   INT(4) UNSIGNED                                 DEFAULT NULL,
+    `public`         TINYINT(1)       NOT NULL                       DEFAULT '1',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`)
 )

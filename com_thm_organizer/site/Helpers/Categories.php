@@ -11,7 +11,6 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use Organizer\Models\Program;
 use stdClass;
 
 /**

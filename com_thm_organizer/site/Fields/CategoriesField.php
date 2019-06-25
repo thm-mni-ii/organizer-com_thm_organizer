@@ -11,14 +11,12 @@
 namespace Organizer\Fields;
 
 use Organizer\Helpers\Categories;
-use Organizer\Helpers\DepartmentFiltered;
 
 /**
  * Class creates a select box for plan programs.
  */
 class CategoriesField extends OptionsField
 {
-    use DepartmentFiltered;
 
     /**
      * @var  string
@@ -32,7 +30,7 @@ class CategoriesField extends OptionsField
      */
     protected function getOptions()
     {
-        $options  = parent::getOptions();
+        $options    = parent::getOptions();
         $categories = Categories::getOptions();
 
         return array_merge($options, $categories);
