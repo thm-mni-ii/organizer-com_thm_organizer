@@ -288,24 +288,6 @@ class Schedule_Export extends BaseModel
     }
 
     /**
-     * Retrieves teacher options
-     *
-     * @return array an array of teacher options
-     */
-    public function getTeacherOptions()
-    {
-        $teachers = Teachers::getPlanTeachers();
-
-        $options = [];
-
-        foreach ($teachers as $teacherName => $teacherID) {
-            $options[$teacherID] = $teacherName;
-        }
-
-        return $options;
-    }
-
-    /**
      * Attempts to retrieve the titles for the document and page
      *
      * @return array the document and page names

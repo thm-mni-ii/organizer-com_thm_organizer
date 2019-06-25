@@ -308,7 +308,7 @@ class Schedule_Export extends BaseHTMLView
         if ($privilegedAccess or !empty($isTeacher)) {
             $teacherAttribs                     = $attribs;
             $teacherAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_TEACHERS');
-            $planTeacherOptions                 = $this->model->getTeacherOptions();
+            $planTeacherOptions                 = Teachers::getOptions();
             $teacherSelect                      = HTML::selectBox($planTeacherOptions, 'teacherIDs', $teacherAttribs);
 
             $this->fields['resourceFields']['teacherIDs'] = [

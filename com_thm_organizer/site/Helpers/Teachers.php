@@ -17,11 +17,70 @@ use stdClass;
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
  */
-class Teachers implements DepartmentAssociated, XMLValidator
+class Teachers implements DepartmentAssociated, Selectable, XMLValidator
 {
     const COORDINATES = 1;
 
+    const NO = 0;
+
     const TEACHER = 2;
+
+    const YES = 1;
+
+    /**
+     * Retrieves teacher entries from the database
+     *
+     * @return string  the teachers who hold courses for the selected program and pool
+     */
+    public static function byProgramOrPool()
+    {
+        $input     = OrganizerHelper::getInput();
+        $programID = $input->getString('programID');
+        $poolID    = $input->getString('poolID');
+
+        if (!empty($poolID) and $poolID != '-1' and $poolID != 'null') {
+            $resourceType = 'pool';
+            $resourceID   = $poolID;
+        } else {
+            $resourceType = 'program';
+            $resourceID   = $programID;
+        }
+
+        $boundarySet = Mappings::getBoundaries($resourceType, $resourceID);
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT t.id, t.forename, t.surname')->from('#__thm_organizer_teachers AS t');
+        $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id');
+        $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
+        if (!empty($boundarySet)) {
+            $where   = '';
+            $initial = true;
+            foreach ($boundarySet as $boundaries) {
+                $where   .= $initial ?
+                    "((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
+                    : " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
+                $initial = false;
+            }
+
+            $query->where($where . ')');
+        }
+
+        $query->order('t.surname');
+        $dbo->setQuery($query);
+
+        $teachers = OrganizerHelper::executeQuery('loadObjectList');
+        if (empty($teachers)) {
+            return '[]';
+        }
+
+        foreach ($teachers as $key => $value) {
+            $teachers[$key]->name = empty($value->forename) ?
+                $value->surname : $value->surname . ', ' . $value->forename;
+        }
+
+        return json_encode($teachers);
+    }
 
     /**
      * Checks for multiple teacher entries (responsibilities) for a subject and removes the lesser
@@ -212,7 +271,15 @@ class Teachers implements DepartmentAssociated, XMLValidator
      */
     public static function getOptions()
     {
-        return self::getPlanTeachers();
+        $teachers = self::getResources();
+
+        $options = [];
+        foreach ($teachers as $teacher) {
+            $name      = self::getLNFName($teacher['id']);
+            $options[] = HTML::_('select.option', $teacher['id'], $name);
+        }
+
+        return $options;
     }
 
     /**
@@ -221,21 +288,18 @@ class Teachers implements DepartmentAssociated, XMLValidator
      *
      * @return array  the scheduled teachers which the user has access to
      */
-    public static function getPlanTeachers()
+    public static function getResources()
     {
         $user = Factory::getUser();
         if (empty($user->id)) {
             return [];
         }
 
-        $input         = OrganizerHelper::getInput();
-        $departmentIDs = explode(',', $input->getString('departmentIDs'));
+        $departmentIDs = OrganizerHelper::getFilterIDs('department');
         $isTeacher     = self::getIDByUserID();
         if (empty($departmentIDs) and empty($isTeacher)) {
             return [];
         }
-
-        $departmentIDs = ArrayHelper::toInteger($departmentIDs);
 
         foreach ($departmentIDs as $key => $departmentID) {
             $departmentAccess = Access::allowViewAccess($departmentID);
@@ -247,27 +311,28 @@ class Teachers implements DepartmentAssociated, XMLValidator
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select('DISTINCT lt.teacherID')
-            ->from('#__thm_organizer_lesson_teachers AS lt')
-            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID');
+        $query->select('DISTINCT t.*')
+            ->from('#__thm_organizer_teachers AS t')
+            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.teacherID = t.id')
+            ->order('t.surname, t.forename');
 
         $wherray = [];
         if ($isTeacher) {
             $wherray[] = "t.username = '{$user->username}'";
         }
 
-        if (!empty($departmentIDs)) {
+        if (count($departmentIDs)) {
             $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = lt.teacherID');
 
             $where = 'dr.departmentID IN (' . implode(',', $departmentIDs) . ')';
 
-            $selectedPrograms = $input->getString('programIDs');
+            $selectedPrograms = OrganizerHelper::getFilterIDs('program');
 
             if (!empty($selectedPrograms)) {
                 $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-                $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lt.lessonCourseID = lcrs.id');
-                $query->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id');
-                $query->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');
+                $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.id = lt.lessonCourseID')
+                    ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
+                    ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');
 
                 $where .= " AND gr.programID in ($programIDs)";
                 $where = "($where)";
@@ -278,20 +343,8 @@ class Teachers implements DepartmentAssociated, XMLValidator
 
         $query->where(implode(' OR ', $wherray));
         $dbo->setQuery($query);
-        $teacherIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
-        if (empty($teacherIDs)) {
-            return [];
-        }
-
-        $teachers = [];
-        foreach ($teacherIDs as $teacherID) {
-            $teachers[self::getLNFName($teacherID)] = $teacherID;
-        }
-
-        ksort($teachers);
-
-        return $teachers;
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**

@@ -26,6 +26,10 @@ class Teachers extends BaseView
     public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        echo json_encode(TeachersHelper::$function());
+        if (method_exists('Organizer\\Helpers\\Teachers', $function)) {
+            echo json_encode(TeachersHelper::$function());
+        } else {
+            echo false;
+        }
     }
 }

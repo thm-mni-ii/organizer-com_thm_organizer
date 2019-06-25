@@ -18,8 +18,8 @@ use stdClass;
  */
 class RoomTypes implements ResourceCategory, Selectable
 {
-    const ALL = null;
     const NO = 0;
+
     const YES = 1;
 
     /**
@@ -63,7 +63,6 @@ class RoomTypes implements ResourceCategory, Selectable
 
         return $options;
     }
-
 
     /**
      * Retrieves the resource items.
