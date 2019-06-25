@@ -10,10 +10,7 @@
 
 namespace Organizer\Fields;
 
-use Joomla\CMS\Factory;
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\RoomTypes;
 
 /**
  * Class creates a form field for room type selection
@@ -26,59 +23,15 @@ class RoomTypesField extends OptionsField
     protected $type = 'RoomTypes';
 
     /**
-     * Returns a select box where stored degree programs can be chosen
+     * Method to get the field options.
      *
-     * @return array  the available degree programs
+     * @return  array  The field option objects.
      */
     protected function getOptions()
     {
-        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $input          = OrganizerHelper::getInput();
-        $formData       = OrganizerHelper::getFormInput();
-        $buildingID     = (empty($formData) or empty($formData['buildingID'])) ?
-            $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID       = (empty($formData) or empty($formData['campusID'])) ?
-            $input->getInt('campusID') : (int)$formData['campusID'];
+        $options   = parent::getOptions();
+        $roomTypes = RoomTypes::getOptions();
 
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
-        $shortTag = Languages::getShortTag();
-        $query->select("DISTINCT rt.id, rt.name_$shortTag AS name")
-            ->from('#__thm_organizer_room_types AS rt')
-            ->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = rt.id');
-
-        if (!empty($buildingID) or !empty($campusID)) {
-            $query->innerJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
-
-            if (!empty($buildingID)) {
-                $query->where("b.id = '$buildingID'");
-            }
-
-            if (!empty($campusID)) {
-                $query->innerJoin('#__thm_organizer_campuses AS c ON c.id = b.campusID')
-                    ->where("(c.id = '$campusID' OR c.parentID = '$campusID')");
-            }
-        }
-
-        $query->order('name');
-        $dbo->setQuery($query);
-
-        $types = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($types)) {
-            return $defaultOptions;
-        }
-
-        $options = [];
-        if (empty($types)) {
-            $options[] = HTML::_('select.option', '', Languages::_('JNONE'));
-
-            return $options;
-        } else {
-            foreach ($types as $type) {
-                $options[] = HTML::_('select.option', $type['id'], $type['name']);
-            }
-        }
-
-        return array_merge($defaultOptions, $options);
+        return array_merge($options, $roomTypes);
     }
 }

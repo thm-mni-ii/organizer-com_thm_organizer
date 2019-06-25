@@ -25,9 +25,9 @@ class TermsField extends OptionsField
     protected $type = 'Terms';
 
     /**
-     * Returns a select box where stored degree programs can be chosen
+     * Method to get the field options.
      *
-     * @return array  the available degree programs
+     * @return  array  The field option objects.
      */
     protected function getOptions()
     {

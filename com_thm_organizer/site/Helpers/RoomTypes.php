@@ -89,7 +89,23 @@ class RoomTypes implements ResourceCategory, Selectable
         if ($associated === self::YES) {
             $query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
         } elseif ($associated === self::NO) {
+            $query->leftJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
             $query->where('r.typeID IS NULL');
+        }
+
+        $buildingIDs = OrganizerHelper::getFilterIDs('building');
+        $campusIDs   = OrganizerHelper::getFilterIDs('campus');
+        if (count($buildingIDs) or count($campusIDs)) {
+            $query->innerJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
+
+            if (count($buildingIDs)) {
+                $query->where("b.id = '{$buildingIDs[0]}'");
+            }
+
+            if (count($campusIDs)) {
+                $query->innerJoin('#__thm_organizer_campuses AS c ON c.id = b.campusID')
+                    ->where("(c.id = '{$campusIDs[0]}' OR c.parentID = '{$campusIDs[0]}')");
+            }
         }
 
 
