@@ -70,13 +70,8 @@ class Campuses implements Selectable
      */
     public static function getOptions()
     {
-        $campuses = self::getResources();
-        if (empty($campuses)) {
-            return $campuses;
-        }
-
         $options = [];
-        foreach ($campuses as $campus) {
+        foreach (self::getResources() as $campus) {
             $name = empty($campus['parentName']) ? $campus['name'] : "{$campus['parentName']} / {$campus['name']}";
 
             $options[] = HTML::_('select.option', $campus['id'], $name);

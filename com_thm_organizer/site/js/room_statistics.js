@@ -105,25 +105,7 @@ function repopulateTerms()
 {
     'use strict';
 
-    var selectedDepartments = $('#departmentIDs').val(),
-        selectedCategories = $('#categoryIDs').val(),
-        validDepartments, validCategories,
-        componentParameters, selectionParameters = '';
-
-    validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
-    validCategories = selectedCategories != null && selectedCategories.length !== 0;
-
-    componentParameters = 'index.php?option=com_thm_organizer&view=terms&format=json&task=getOptions';
-
-    if (validDepartments)
-    {
-        componentParameters += '&departmentIDs=' + selectedDepartments;
-    }
-
-    if (validCategories)
-    {
-        componentParameters += '&categoryIDs=' + selectedCategories;
-    }
+    const componentParameters = 'index.php?option=com_thm_organizer&view=terms&format=json&task=getOptions';
 
     $.ajax({
         type: 'GET',

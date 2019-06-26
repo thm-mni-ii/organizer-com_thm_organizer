@@ -10,9 +10,7 @@
 
 namespace Organizer\Fields;
 
-use Joomla\CMS\Factory;
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Terms;
 
 /**
  * Class creates a select box for terms.
@@ -31,33 +29,9 @@ class TermsField extends OptionsField
      */
     protected function getOptions()
     {
-        $baseOptions = parent::getOptions();
-        $dbo         = Factory::getDbo();
-        $query       = $dbo->getQuery(true);
+        $options = parent::getOptions();
+        $terms   = Terms::getOptions((bool)$this->getAttribute('withDates'));
 
-        $query->select('DISTINCT term.id, term.name');
-        $query->from('#__thm_organizer_terms AS term');
-        $query->innerJoin('#__thm_organizer_schedules AS s ON s.termID = term.id');
-
-        $allowFuture = $this->getAttribute('allowFuture', 'true');
-
-        if ($allowFuture !== 'true') {
-            $query->where('term.startDate <= CURDATE()');
-        }
-
-        $query->order('term.startDate DESC');
-        $dbo->setQuery($query);
-
-        $terms = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($terms)) {
-            return $baseOptions;
-        }
-
-        $options = [];
-        foreach ($terms as $term) {
-            $options[] = HTML::_('select.option', $term['id'], $term['name']);
-        }
-
-        return array_merge($baseOptions, $options);
+        return array_merge($options, $terms);
     }
 }

@@ -114,10 +114,8 @@ class Categories implements DepartmentAssociated, Selectable, XMLValidator
      */
     public static function getOptions($access = '')
     {
-        $categories = self::getResources($access);
-
         $options = [];
-        foreach ($categories as $category) {
+        foreach (self::getResources($access) as $category) {
             $name = empty($category['programName']) ? $category['name'] : $category['programName'];
 
             $options[] = HTML::_('select.option', $category['id'], $name);

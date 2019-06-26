@@ -50,10 +50,8 @@ class Rooms implements XMLValidator
      */
     public static function getOptions()
     {
-        $rooms = self::getResources(true);
-
         $options = [];
-        foreach ($rooms as $room) {
+        foreach (self::getResources() as $room) {
             $options[] = HTML::_('select.option', $room['id'], $room['name']);
         }
 

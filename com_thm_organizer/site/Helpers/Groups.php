@@ -161,11 +161,10 @@ class Groups implements Selectable, XMLValidator
     public static function getOptions($access = '')
     {
         $categoryIDs = OrganizerHelper::getFilterIDs('category');
+        $options     = [];
         $short       = count($categoryIDs) === 1;
-        $groups      = self::getResources();
 
-        $options = [];
-        foreach ($groups as $group) {
+        foreach (self::getResources() as $group) {
             $name      = $short ? $group['name'] : $group['full_name'];
             $options[] = HTML::_('select.option', $group['id'], $name);
         }

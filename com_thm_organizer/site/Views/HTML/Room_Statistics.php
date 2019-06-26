@@ -100,7 +100,7 @@ class Room_Statistics extends BaseHTMLView
         ];
 
         $termAttribs = $attribs;
-        $termOptions = $this->model->getTermOptions();
+        $termOptions = Terms::getOptions(true);
         $defaultTerm = Terms::getCurrentID();
         $termSelect  = HTML::selectBox($termOptions, 'termIDs', $termAttribs, $defaultTerm);
 

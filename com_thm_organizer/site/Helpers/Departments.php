@@ -106,10 +106,8 @@ class Departments implements Selectable
      */
     public static function getOptions($short = true, $access = '')
     {
-        $departments = self::getResources($access);
-
         $options = [];
-        foreach ($departments as $department) {
+        foreach (self::getResources($access) as $department) {
             $name = $short ? $department['shortName'] : $department['name'];
 
             $options[] = HTML::_('select.option', $department['id'], $name);

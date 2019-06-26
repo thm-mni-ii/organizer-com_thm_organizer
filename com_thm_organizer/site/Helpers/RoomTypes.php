@@ -54,10 +54,8 @@ class RoomTypes implements ResourceCategory, Selectable
      */
     public static function getOptions()
     {
-        $types = self::getResources();
-
         $options = [];
-        foreach ($types as $type) {
+        foreach (self::getResources() as $type) {
             $options[] = HTML::_('select.option', $type['id'], $type['name']);
         }
 

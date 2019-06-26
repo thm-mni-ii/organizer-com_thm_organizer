@@ -271,10 +271,8 @@ class Teachers implements DepartmentAssociated, Selectable, XMLValidator
      */
     public static function getOptions()
     {
-        $teachers = self::getResources();
-
         $options = [];
-        foreach ($teachers as $teacher) {
+        foreach (self::getResources() as $teacher) {
             $name      = self::getLNFName($teacher['id']);
             $options[] = HTML::_('select.option', $teacher['id'], $name);
         }

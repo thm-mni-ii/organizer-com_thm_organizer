@@ -136,10 +136,8 @@ class Pools implements Selectable
      */
     public static function getOptions($access = '')
     {
-        $pools = self::getResources($access);
-
         $options = [];
-        foreach ($pools as $pool) {
+        foreach (self::getResources($access) as $pool) {
             $options[] = HTML::_('select.option', $pool['id'], $pool['name']);
         }
 

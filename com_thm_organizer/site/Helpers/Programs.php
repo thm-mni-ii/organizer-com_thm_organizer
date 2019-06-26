@@ -94,10 +94,8 @@ class Programs implements Selectable
      */
     public static function getOptions($access = '')
     {
-        $programs = self::getResources($access);
-
         $options = [];
-        foreach ($programs as $program) {
+        foreach (self::getResources($access) as $program) {
             $name = "{$program['name']} ({$program['degree']},  {$program['version']})";
 
             $options[] = HTML::_('select.option', $program['id'], $name);

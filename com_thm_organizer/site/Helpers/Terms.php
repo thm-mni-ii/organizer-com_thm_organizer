@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for term access checks, data retrieval and display.
  */
-class Terms
+class Terms implements Selectable
 {
     /**
      * Gets the id of the term whose dates encompass the current date
@@ -138,42 +138,41 @@ class Terms
     }
 
     /**
-     * Getter method for rooms in database. Only retrieving the IDs here allows for formatting the names according to
-     * the needs of the calling views.
+     * Retrieves the selectable options for the resource.
      *
-     * @return string  all pools in JSON format
+     * @param bool $withDates if true the start and end date will be displayed as part of the name
+     *
+     * @return array the available options
      */
-    public static function getTerms()
+    public static function getOptions($withDates = false)
     {
-        $dbo   = Factory::getDbo();
-        $input = OrganizerHelper::getInput();
-
-        $selectedDepartments = $input->getString('departmentIDs');
-        $selectedCategories  = $input->getString('categoryIDs');
-
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT term.id, term.name, term.startDate, term.endDate')
-            ->from('#__thm_organizer_terms AS term');
-
-        if (!empty($selectedDepartments) or !empty($selectedCategories)) {
-            $query->innerJoin('#__thm_organizer_lessons AS l on term.id = l.termID');
-
-            if (!empty($selectedDepartments)) {
-                $query->innerJoin('#__thm_organizer_departments AS dpt ON l.departmentID = dpt.id');
-                $departmentIDs = "'" . str_replace(',', "', '", $selectedDepartments) . "'";
-                $query->where("l.departmentID IN ($departmentIDs)");
+        $options = [];
+        foreach (Terms::getResources() as $term) {
+            $name = $term['name'];
+            if ($withDates) {
+                $shortSD = Dates::formatDate($term['startDate']);
+                $shortED = Dates::formatDate($term['endDate']);
+                $name    .= " ($shortSD - $shortED)";
             }
 
-            if (!empty($selectedCategories)) {
-                $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs on lcrs.lessonID = l.id');
-                $query->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lcrs.id');
-                $query->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');
-                $categoryIDs = "'" . str_replace(',', "', '", $selectedCategories) . "'";
-                $query->where("gr.categoryID in ($categoryIDs)");
-            }
+            $options[] = HTML::_('select.option', $term['id'], $name);
         }
 
-        $query->order('startDate');
+        return $options;
+
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @return array the available resources
+     */
+    public static function getResources()
+    {
+        $dbo = Factory::getDbo();
+
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT term.*')->from('#__thm_organizer_terms AS term')->order('startDate');
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList', []);

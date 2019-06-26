@@ -11,9 +11,9 @@
 namespace Organizer\Models;
 
 use Exception;
-use Joomla\Utilities\ArrayHelper;
 use Organizer\Helpers\Groups;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Terms;
 
 /**
  * Class which manages stored group data.
@@ -77,7 +77,7 @@ class Group extends MergeModel
      */
     public function publishPast()
     {
-        $terms = \Organizer\Helpers\Terms::getTerms();
+        $terms = Terms::getResources();
         $today = date('Y-m-d');
 
         $query = $this->_db->getQuery(true);

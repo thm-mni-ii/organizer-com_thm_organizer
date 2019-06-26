@@ -171,24 +171,6 @@ class Room_Statistics extends BaseModel
     }
 
     /**
-     * Creates term selection options
-     *
-     * @return array
-     */
-    public function getTermOptions()
-    {
-        $options = [];
-        foreach (Terms::getTerms() as $term) {
-            $shortSD = Dates::formatDate($term['startDate']);
-            $shortED = Dates::formatDate($term['endDate']);
-
-            $options[$term['id']] = "{$term['name']} ($shortSD - $shortED)";
-        }
-
-        return $options;
-    }
-
-    /**
      * Determines the relevant grid blocks based upon the instance start and end times
      *
      * @param string $startTime the time the instance starts
