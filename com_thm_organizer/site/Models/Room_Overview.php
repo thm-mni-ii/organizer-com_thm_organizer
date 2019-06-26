@@ -415,12 +415,10 @@ class Room_Overview extends FormModel
      */
     private function setRooms()
     {
-        $rooms = Rooms::getRooms();
+        $rooms = Rooms::getResources();
 
-        if (!empty($rooms)) {
-            foreach ($rooms as $room) {
-                $this->rooms[$room['id']] = $room;
-            }
+        foreach ($rooms as $room) {
+            $this->rooms[$room['id']] = $room;
         }
     }
 }

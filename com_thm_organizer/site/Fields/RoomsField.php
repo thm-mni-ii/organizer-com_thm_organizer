@@ -10,8 +10,6 @@
 
 namespace Organizer\Fields;
 
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\Languages;
 use Organizer\Helpers\Rooms;
 
 /**
@@ -31,20 +29,9 @@ class RoomsField extends OptionsField
      */
     protected function getOptions()
     {
-        $defaultOptions = HTML::getTranslatedOptions($this, $this->element);
-        $rooms          = Rooms::getRooms();
+        $options = parent::getOptions();
+        $rooms   = Rooms::getOptions();
 
-        $options = [];
-        if (empty($rooms)) {
-            $options[] = HTML::_('select.option', '', Languages::_('JNONE'));
-
-            return $options;
-        } else {
-            foreach ($rooms as $room) {
-                $options[] = HTML::_('select.option', $room['id'], $room['name']);
-            }
-        }
-
-        return array_merge($defaultOptions, $options);
+        return array_merge($options, $rooms);
     }
 }

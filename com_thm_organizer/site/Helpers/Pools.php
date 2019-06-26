@@ -17,6 +17,8 @@ use Joomla\CMS\Factory;
  */
 class Pools implements Selectable
 {
+    use Filtered;
+
     /**
      * Fills the options array with HTML pool options
      *
@@ -134,12 +136,11 @@ class Pools implements Selectable
      */
     public static function getOptions($access = '')
     {
-        $pools = self::getResources();
+        $pools = self::getResources($access);
+
         $options = [];
         foreach ($pools as $pool) {
-            if (empty($access) or Access::allowDocumentAccess('pool', $pool['id'])) {
-                $options[] = HTML::_('select.option', $pool['id'], $pool['name']);
-            }
+            $options[] = HTML::_('select.option', $pool['id'], $pool['name']);
         }
 
         return $options;
@@ -227,6 +228,10 @@ class Pools implements Selectable
             ->where("rgt < '{$programRanges[0]['rgt']}'")
             ->order('name ASC');
         $dbo->setQuery($query);
+
+        if (!empty($access)) {
+            self::addAccessFilter($query, 'p', $access);
+        }
 
         return OrganizerHelper::executeQuery('loadAssocList', []);
     }

@@ -19,6 +19,8 @@ use stdClass;
  */
 class Rooms implements XMLValidator
 {
+    use Filtered;
+
     /**
      * Checks for the room name for a given room id
      *
@@ -48,14 +50,14 @@ class Rooms implements XMLValidator
      */
     public static function getOptions()
     {
-        $rooms = self::getRooms(true);
+        $rooms = self::getResources(true);
 
-        $result = [];
+        $options = [];
         foreach ($rooms as $room) {
-            $result[$room['name']] = $room['id'];
+            $options[] = HTML::_('select.option', $room['id'], $room['name']);
         }
 
-        return $result;
+        return $options;
     }
 
     /**
@@ -65,7 +67,7 @@ class Rooms implements XMLValidator
      */
     public static function getPlannedRooms()
     {
-        $allRooms = self::getRooms();
+        $allRooms = self::getResources();
         $default  = [];
 
         if (empty($allRooms)) {
@@ -123,69 +125,22 @@ class Rooms implements XMLValidator
      *
      * @return array the rooms matching the filter criteria or empty if none were found
      */
-    public static function getRooms()
+    public static function getResources()
     {
-        $shortTag = Languages::getShortTag();
-        $app      = OrganizerHelper::getApplication();
-        $input    = $app->input;
-        $formData = OrganizerHelper::getFormInput();
-
-        $menuCampusID  = OrganizerHelper::getParams()->get('campusID', 0);
-        $defaultCampus = $input->getInt('campusID', $menuCampusID);
-
-        $buildingID = empty($formData['buildingID']) ? $input->getInt('buildingID') : (int)$formData['buildingID'];
-        $campusID   = empty($formData['campusID']) ? $defaultCampus : (int)$formData['campusID'];
-        $inputTypes = (array)$input->getInt('typeID', $input->getInt('typeIDs', $input->getInt('roomTypeIDs')));
-        $typeIDs    = empty($formData['types']) ? $inputTypes : $formData['types'];
-        $inputRooms = (array)$input->getInt('roomID', $input->getInt('roomIDs'));
-        $roomIDs    = empty($formData['rooms']) ? $inputRooms : $formData['rooms'];
-
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT r.id, r.*, rt.name_$shortTag AS typeName, rt.description_$shortTag AS typeDesc")
-            ->from('#__thm_organizer_rooms AS r')
-            ->innerJoin('#__thm_organizer_room_types AS rt ON rt.id = r.typeID');
+        $query->select("DISTINCT r.id, r.*")
+            ->from('#__thm_organizer_rooms AS r');
 
-        if (!empty($roomIDs)) {
-            $roomIDs   = ArrayHelper::toInteger($roomIDs);
-            $zeroIndex = array_search(0, $roomIDs);
-            if ($zeroIndex !== false) {
-                unset($roomIDs[$zeroIndex]);
-            }
+        // Type is the more common parameter, roomType is only used in the schedule_grid context.
+        self::addResourceFilter($query, 'type', 'rt', 'r', 'room_types');
+        self::addResourceFilter($query, 'type', 'rt', 'r', 'room_types', 'roomType');
 
-            // There were more types chosen than the zero index
-            if (!empty($roomIDs)) {
-                $roomString = "('" . implode("', '", $roomIDs) . "')";
-                $query->where("r.id IN $roomString");
-            }
-        }
+        self::addResourceFilter($query, 'building', 'b1', 'r');
 
-        if (!empty($typeIDs)) {
-            $typeIDs   = ArrayHelper::toInteger($typeIDs);
-            $zeroIndex = array_search(0, $typeIDs);
-            if ($zeroIndex !== false) {
-                unset($typeIDs[$zeroIndex]);
-            }
-
-            // There were more types chosen than the zero index
-            if (!empty($typeIDs)) {
-                $typeString = "('" . implode("', '", $typeIDs) . "')";
-                $query->where("rt.id IN $typeString");
-            }
-        }
-
-        if (!empty($buildingID) or !empty($campusID)) {
-            $query->innerJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
-
-            if (!empty($buildingID)) {
-                $query->where("b.id = '$buildingID'");
-            }
-
-            if (!empty($campusID)) {
-                $query->innerJoin('#__thm_organizer_campuses AS c ON c.id = b.campusID')
-                    ->where("(c.id = '$campusID' OR c.parentID = '$campusID')");
-            }
-        }
+        // This join is used specifically to filter campuses independent of buildings.
+        $query->leftJoin('#__thm_organizer_buildings AS b2 ON b2.id = r.buildingID');
+        self::addCampusFilter($query, 'b2');
 
         $query->order('name');
         $dbo->setQuery($query);

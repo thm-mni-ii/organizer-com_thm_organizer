@@ -20,7 +20,7 @@ use Organizer\Tables\Participants;
  */
 class Programs implements Selectable
 {
-    use DepartmentFiltered;
+    use Filtered;
 
     /**
      * Attempts to get the real program's id, creating the stub if non-existent.
@@ -126,9 +126,10 @@ class Programs implements Selectable
         $query->order('name ASC, degree ASC, version DESC');
 
         if (!empty($access)) {
-            self::addDeptAccessFilter($query, 'dp', $access);
+            self::addAccessFilter($query, 'dp', $access);
         }
-        self::addDeptSelectionFilter($query, 'dp');
+
+        self::addResourceFilter($query, 'department', 'dept', 'dp');
 
         $useCurrent = self::useCurrent();
         if ($useCurrent) {

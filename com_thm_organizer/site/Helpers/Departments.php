@@ -27,7 +27,7 @@ class Departments implements Selectable
      *
      * @return void modifies the query
      */
-    private static function addResourceFilters(&$query, $access)
+    private static function addAccessFilter(&$query, $access)
     {
         $view = OrganizerHelper::getInput()->getCmd('view');
         if (empty($access) or empty($view)) {
@@ -139,7 +139,7 @@ class Departments implements Selectable
         $query->select("DISTINCT depts.*, depts.short_name_$tag AS shortName, depts.name_$tag AS name")
             ->from('#__thm_organizer_departments AS depts');
 
-        self::addResourceFilters($query, $access);
+        self::addAccessFilter($query, $access);
 
         $dbo->setQuery($query);
 

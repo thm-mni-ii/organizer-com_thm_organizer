@@ -19,6 +19,8 @@ use stdClass;
  */
 class Groups implements Selectable, XMLValidator
 {
+    use Filtered;
+
     /**
      * Checks whether the given group is associated with an allowed department
      *
@@ -191,19 +193,13 @@ class Groups implements Selectable, XMLValidator
         $query->select('gr.*');
         $query->from('#__thm_organizer_groups AS gr');
 
-        $selectedDepartments = OrganizerHelper::getFilterIDs('department');
-        $selectedCategories  = OrganizerHelper::getFilterIDs('category');
-
-        if (!empty($selectedDepartments)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON gr.categoryID = dr.categoryID');
-            $departmentIDs = implode(',', $selectedDepartments);
-            $query->where("dr.departmentID IN ($departmentIDs)");
+        if (!empty($access)) {
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
+            self::addAccessFilter($query, 'dr', $access);
         }
 
-        if (!empty($selectedCategories)) {
-            $categoryIDs = implode(',', $selectedCategories);
-            $query->where("gr.categoryID in ($categoryIDs)");
-        }
+        self::addDeptSelectionFilter($query, 'category', 'gr', 'categoryID');
+        self::addResourceFilter($query, 'category', 'cat', 'gr');
 
         $dbo->setQuery($query);
 

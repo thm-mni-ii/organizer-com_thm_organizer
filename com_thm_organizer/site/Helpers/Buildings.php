@@ -17,6 +17,8 @@ use Joomla\CMS\Factory;
  */
 class Buildings implements Selectable
 {
+    use Filtered;
+
     /**
      * Checks for the building entry in the database, creating it as necessary. Adds the id to the building entry in the
      * schedule.
@@ -101,21 +103,13 @@ class Buildings implements Selectable
      */
     public static function getResources()
     {
-        $input    = OrganizerHelper::getInput();
-        $formData = OrganizerHelper::getFormInput();
-        $campusID = (empty($formData) or empty($formData['campusID'])) ?
-            $input->getInt('campusID') : (int)$formData['campusID'];
-
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT b.*, c.parentID');
-        $query->from('#__thm_organizer_buildings AS b')
-            ->leftJoin('#__thm_organizer_campuses AS c ON c.id = b.campusID');
+        $query->from('#__thm_organizer_buildings AS b');
 
-        if (!empty($campusID)) {
-            $query->where("(c.id = '$campusID' OR c.parentID = '$campusID')");
-        }
+        self::addCampusFilter($query, 'b');
 
         $query->order('name');
         $dbo->setQuery($query);

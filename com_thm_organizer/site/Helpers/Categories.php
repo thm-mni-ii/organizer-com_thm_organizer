@@ -18,7 +18,7 @@ use stdClass;
  */
 class Categories implements DepartmentAssociated, Selectable, XMLValidator
 {
-    use DepartmentFiltered;
+    use Filtered;
 
     /**
      * Checks whether the given plan program is associated with an allowed department
@@ -140,28 +140,23 @@ class Categories implements DepartmentAssociated, Selectable, XMLValidator
      */
     public static function getResources($access = '')
     {
-        $dbo           = Factory::getDbo();
-        $languageTag   = Languages::getShortTag();
-        $departmentIDs = OrganizerHelper::getInput()->get('departmentIDs', [], 'raw');
+        $dbo = Factory::getDbo();
+        $tag = Languages::getShortTag();
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('DISTINCT cat.*, ' . $query->concatenate($nameParts, "") . ' AS programName')
             ->from('#__thm_organizer_categories AS cat')
             ->leftJoin('#__thm_organizer_programs AS p ON p.id = cat.programID')
             ->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
             ->order('cat.name');
 
-        if (!empty($departmentIDs)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id')
-                ->where("dr.departmentID IN ($departmentIDs)");
-        }
-
         if (!empty($access)) {
-            self::addDeptAccessFilter($query, 'dr', $access);
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
+            self::addAccessFilter($query, 'dr', $access);
         }
 
-        self::addDeptSelectionFilter($query, 'dr');
+        self::addDeptSelectionFilter($query, 'category', 'cat');
 
         $dbo->setQuery($query);
 

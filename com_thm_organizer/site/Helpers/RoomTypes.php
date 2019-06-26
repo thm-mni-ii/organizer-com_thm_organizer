@@ -92,21 +92,11 @@ class RoomTypes implements ResourceCategory, Selectable
             $query->where('r.typeID IS NULL');
         }
 
-        $buildingIDs = OrganizerHelper::getFilterIDs('building');
-        $campusIDs   = OrganizerHelper::getFilterIDs('campus');
-        if (count($buildingIDs) or count($campusIDs)) {
-            $query->innerJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
+        self::addResourceFilter($query, 'building', 'b1', 'r');
 
-            if (count($buildingIDs)) {
-                $query->where("b.id = '{$buildingIDs[0]}'");
-            }
-
-            if (count($campusIDs)) {
-                $query->innerJoin('#__thm_organizer_campuses AS c ON c.id = b.campusID')
-                    ->where("(c.id = '{$campusIDs[0]}' OR c.parentID = '{$campusIDs[0]}')");
-            }
-        }
-
+        // This join is used specifically to filter campuses independent of buildings.
+        $query->leftJoin('#__thm_organizer_buildings AS b2 ON b2.id = r.buildingID');
+        self::addCampusFilter($query, 'b2');
 
         $query->order('name');
         $dbo->setQuery($query);

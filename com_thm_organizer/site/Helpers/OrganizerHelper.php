@@ -228,6 +228,17 @@ class OrganizerHelper
             return [(int)$listFilters[$singularIndex]];
         }
 
+        $params  = self::getParams();
+        $listIDs = $params->get($pluralIndex);
+        if (count($listIDs)) {
+            return $listIDs;
+        }
+
+        $itemID = $params->get($singularIndex, null);
+        if ($itemID !== null) {
+            return [(int)$itemID];
+        }
+
         return [];
     }
 
