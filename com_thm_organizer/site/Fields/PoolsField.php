@@ -30,7 +30,7 @@ class PoolsField extends OptionsField
     protected function getOptions()
     {
         $options = parent::getOptions();
-        $pools = Pools::getOptions($this->getAttribute('access', ''));
+        $pools   = Pools::getOptions($this->getAttribute('access', ''));
 
         return array_merge($options, $pools);
     }

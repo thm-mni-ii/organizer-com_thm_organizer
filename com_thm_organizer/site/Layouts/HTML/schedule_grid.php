@@ -180,7 +180,7 @@ $displayName = empty($this->model->displayName) ?
                     </select>
                 </div>
                 <div id="group-input" class="input-wrapper">
-                    <select id="group" data-next="lesson"
+                    <select id="group" data-next="event"
                             data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_GROUP'); ?>">
                         <!-- filled by ajax -->
                     </select>
@@ -192,13 +192,13 @@ $displayName = empty($this->model->displayName) ?
                     </select>
                 </div>
                 <div id="room-input" class="input-wrapper">
-                    <select id="room" data-next="lesson"
+                    <select id="room" data-next="event"
                             data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_ROOM'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>
                 <div id="teacher-input" class="input-wrapper">
-                    <select id="teacher" data-next="lesson"
+                    <select id="teacher" data-next="event"
                             data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_TEACHER'); ?>">
                         <!-- filled by ajax -->
                     </select>
@@ -320,9 +320,9 @@ $displayName = empty($this->model->displayName) ?
         ?>
     </div>
 
-    <div class="lesson-menu">
+    <div class="event-menu">
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
-        <div class="lesson-data">
+        <div class="event-data">
             <div class="subjectNameNr">
                 <span class="subject"></span>
                 <span class="module"></span>
@@ -334,24 +334,24 @@ $displayName = empty($this->model->displayName) ?
         </div>
         <div class="save">
             <button id="save-mode-semester">
-                <?php echo Languages::_('THM_ORGANIZER_SAVE_LESSON_SEMESTER') ?>
+                <?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_SEMESTER') ?>
             </button>
             <button id="save-mode-period">
-                <?php echo Languages::_('THM_ORGANIZER_SAVE_LESSON_PERIOD') ?>
+                <?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_PERIOD') ?>
             </button>
             <button id="save-mode-instance">
-                <?php echo Languages::_('THM_ORGANIZER_SAVE_LESSON_INSTANCE') ?>
+                <?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_INSTANCE') ?>
             </button>
         </div>
         <div class="delete">
             <button id="delete-mode-semester">
-                <?php echo Languages::_('THM_ORGANIZER_DELETE_LESSON_SEMESTER') ?>
+                <?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_SEMESTER') ?>
             </button>
             <button id="delete-mode-period">
-                <?php echo Languages::_('THM_ORGANIZER_DELETE_LESSON_PERIOD') ?>
+                <?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_PERIOD') ?>
             </button>
             <button id="delete-mode-instance">
-                <?php echo Languages::_('THM_ORGANIZER_DELETE_LESSON_INSTANCE') ?>
+                <?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_INSTANCE') ?>
             </button>
         </div>
     </div>
@@ -369,10 +369,10 @@ $displayName = empty($this->model->displayName) ?
         </button>
     </div>
 
-    <div id="no-lessons" class="message pop-up">
+    <div id="no-events" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo Languages::_('THM_ORGANIZER_NO_LESSONS_PLANNED'); ?></span>
+            <span><?php echo Languages::_('THM_ORGANIZER_NO_EVENTS_PLANNED'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>

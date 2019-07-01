@@ -322,7 +322,7 @@ abstract class Schedule_List
         $rowHeaders    = $this->getRowHeaders();
         $columnHeaders = $this->getColumnHeaders();
         $dimensions    = $this->document->getPageDimensions();
-        $timeConstant  = $this->parameters['dateRestriction'] == 'day' ?
+        $timeConstant  = $this->parameters['interval'] == 'day' ?
             '' : Languages::_('THM_ORGANIZER_WEEK') . ': ';
 
         $outputTimeGrid = !empty($rowHeaders);
@@ -383,7 +383,7 @@ abstract class Schedule_List
             $this->outputTable();
         } else {
             $this->document->AddPage();
-            $this->document->cell('', '', Languages::_('THM_ORGANIZER_NO_LESSONS_PLANNED'));
+            $this->document->cell('', '', Languages::_('THM_ORGANIZER_NO_EVENTS_PLANNED'));
         }
         $this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
         ob_flush();

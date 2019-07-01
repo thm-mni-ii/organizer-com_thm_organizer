@@ -76,9 +76,9 @@ function addRooms(rooms)
 /**
  * Changes the displayed form fields dependent on the date restriction
  */
-function handleDateRestriction()
+function handleInterval()
 {
-    var drValue = $('#dateRestriction').find(':selected').val(), dateContainer = $('#date-container'),
+    var drValue = $('#interval').find(':selected').val(), dateContainer = $('#date-container'),
         periodsContainer = $('#termIDs-container'), useInput = $('input[name=use]');
 
     switch (drValue)

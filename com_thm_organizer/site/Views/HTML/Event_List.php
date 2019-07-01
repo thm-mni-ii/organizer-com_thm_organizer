@@ -39,7 +39,7 @@ class Event_List extends BaseHTMLView
         $this->form  = $this->get('Form');
         $this->form->setValue('startDate', null, $this->state->get('startDate'));
 
-        $this->form->setValue('dateRestriction', null, $this->state->get('dateRestriction'));
+        $this->form->setValue('interval', null, $this->state->get('interval'));
 
         $this->modifyDocument();
         $this->setLayout($layout);

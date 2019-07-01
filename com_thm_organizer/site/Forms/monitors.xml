@@ -16,7 +16,7 @@
             <option value="1">DAILY_PLAN</option>
             <option value="2">MIXED_PLAN</option>
             <option value="3">CONTENT_DISPLAY</option>
-            <option value="4">LESSON_LIST</option>
+            <option value="4">EVENT_LIST</option>
         </field>
         <field name="content" type="GenericOptions" label="DISPLAY_CONTENT" onchange="this.form.submit();"
                valuecolumn="content" textcolumn="content" table="thm_organizer_monitors" valueParameter="content">

@@ -58,8 +58,8 @@ class Subject_Selection extends ListView
         $headers   = [];
 
         $headers['checkbox'] = '';
-        $headers['name'] = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['program'] = Languages::_('THM_ORGANIZER_PROGRAMS');
+        $headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['program']  = Languages::_('THM_ORGANIZER_PROGRAMS');
 
         return $headers;
     }
@@ -99,10 +99,10 @@ class Subject_Selection extends ListView
             $name = $subject->name;
             $name .= empty($subject->externalID) ? '' : " - $subject->externalID";
 
-            $processedItems[$index] = [];
+            $processedItems[$index]             = [];
             $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $subject->id);
             $processedItems[$index]['name']     = $name;
-            $processedItems[$index]['programs']     = $name;
+            $processedItems[$index]['programs'] = $name;
 
             $index++;
         }

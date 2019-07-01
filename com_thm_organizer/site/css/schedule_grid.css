@@ -143,17 +143,17 @@ input[type=radio] {
     font-size: 1rem;
 }
 
-.add-lesson .icon-plus::before {
+.add-event .icon-plus::before {
     color: #80ba24;
 }
 
 .icon-question::before,
-.add-lesson .icon-plus::before,
-.delete-lesson .icon-delete::before {
+.add-event .icon-plus::before,
+.delete-event .icon-delete::before {
     font-size: 1.1rem;
 }
 
-.delete-lesson .icon-delete::before {
+.delete-event .icon-delete::before {
     color: #b54e62;
 }
 
@@ -243,8 +243,8 @@ input[type=radio] {
 
 .selected-schedule {
     background-color: white;
-    border: 1px solid #4a5d66;
-    color: #394A59;
+    border: 1px solid #4a5c66;
+    color: #394a59;
     display: block;
     padding: 0.4rem;
     width: 276px;
@@ -291,13 +291,13 @@ input[type=radio] {
 
 .link-item:last-child a {
     padding-left: 0.5rem;
-    color: #394A59;
+    color: #394a59;
 }
 
 .link-item:nth-last-child(n+2) a {
     background-color: white;
-    color: #394A59;
-    border: 1px solid #4a5d66;
+    color: #394a59;
+    border: 1px solid #4a5c66;
     padding: 0.4rem;
     display: inline-block;
     width: 276px;
@@ -370,7 +370,7 @@ input[type=radio] {
 .date-input div {
     background-color: #f2f5f6;
     border: 1px solid #d2d6d9;
-    box-shadow: 0 0 5px #888;
+    box-shadow: 0 0 5px #77858c;
     padding: 0.3rem 1rem;
     position: absolute;
     visibility: hidden;
@@ -387,12 +387,12 @@ input[type=radio] {
 }
 
 .date-input div thead:last-of-type {
-    border: 1px solid #4a5d66;
+    border: 1px solid #4a5c66;
     border-bottom: none;
 }
 
 .date-input div tbody {
-    border: 1px solid #4a5d66;
+    border: 1px solid #4a5c66;
 }
 
 .date-input div tbody td:hover {
@@ -460,7 +460,7 @@ input[type=radio] {
 }
 
 .schedule-table table {
-    border-top: 0.15rem solid #394a59;
+    border-top: 0.15rem solid #4a5c66;
 }
 
 .schedule-table table.cell-border td {
@@ -500,14 +500,14 @@ input[type=radio] {
     background-color: #dfe5e6;
 }
 
-.lesson {
+.event {
     border: 0.1rem solid #4a5c66;
     background-color: #f2f5f6;
     margin: 0 auto 0.5rem;
     padding: 0 0.2rem;
 }
 
-.lesson a {
+.event a {
     cursor: pointer;
 }
 
@@ -550,21 +550,21 @@ input[type=radio] {
     content: ' / ';
 }
 
-.add-lesson, .delete-lesson {
+.add-event, .delete-event {
     text-align: right;
 }
 
-.add-lesson:focus, .delete-lesson:focus {
+.add-event:focus, .delete-event:focus {
     outline: none;
 }
 
-.add-lesson .icon-question, .delete-lesson .icon-question {
+.add-event .icon-question, .delete-event .icon-question {
     margin-left: 0.5rem;
     margin-right: 0.2rem;
 }
 
 .pop-up {
-    box-shadow: 0 0 5px #888;
+    box-shadow: 0 0 5px #77858c;
     color: #394a59;
     display: none;
     position: absolute;
@@ -650,15 +650,13 @@ input[type=radio] {
 }
 
 .pop-up.schedule-table:hover {
-    cursor: move;
-    cursor: -webkit-grab;
+    cursor: grab;
 }
 
 .pop-up.schedule-table a:hover {
     text-decoration: none;
     color: #394a59;
-    cursor: move;
-    cursor: -webkit-grab;
+    cursor: grab;
 }
 
 .pop-up.schedule-table .icon-cancel {
@@ -666,9 +664,9 @@ input[type=radio] {
     height: 2rem;
 }
 
-.lesson-menu {
+.event-menu {
     background-color: #dfeec8;
-    box-shadow: 0 0 5px #888;
+    box-shadow: 0 0 5px #77858c;
     color: #394a59;
     display: none;
     padding: 0.5rem;
@@ -676,47 +674,47 @@ input[type=radio] {
     z-index: 2;
 }
 
-.lesson-menu button {
+.event-menu button {
     color: #394a59;
     display: block;
     text-align: left;
 }
 
-.lesson-menu button:nth-last-of-type(n+2) {
+.event-menu button:nth-last-of-type(n+2) {
     margin-bottom: 0.3rem;
 }
 
-.lesson-menu button:hover {
+.event-menu button:hover {
     text-decoration: underline;
 }
 
-.lesson-menu .icon-cancel {
+.event-menu .icon-cancel {
     position: absolute;
     right: 0.5rem;
 }
 
-.lesson-menu .icon-cancel:hover {
+.event-menu .icon-cancel:hover {
     text-decoration: none;
 }
 
-.lesson-menu .persons, .lesson-menu .rooms {
+.event-menu .persons, .event-menu .rooms {
     display: inline-block;
 }
 
-.lesson-menu .rooms span::before,
-.lesson-menu .persons span:nth-of-type(n+2)::before {
+.event-menu .rooms span::before,
+.event-menu .persons span:nth-of-type(n+2)::before {
     content: ' / ';
 }
 
-.lesson-menu .pools {
+.event-menu .pools {
     padding: 0;
 }
 
-.lesson-menu .pools span:nth-of-type(n+2)::before {
+.event-menu .pools span:nth-of-type(n+2)::before {
     content: " , ";
 }
 
-.lesson-data {
+.event-data {
     color: #4a5c66;
     margin: 0.8rem 0.7rem 0.8rem 0;
 }
@@ -739,7 +737,7 @@ input[type=radio] {
     vertical-align: text-top;
 }
 
-.delete-lesson {
+.delete-event {
     display: none;
 }
 
@@ -747,15 +745,15 @@ input[type=radio] {
     display: none;
 }
 
-.added .add-lesson {
+.added .add-event {
     display: none;
 }
 
-.added .delete-lesson {
+.added .delete-event {
     display: block;
 }
 
-.no-saving .add-lesson {
+.no-saving .add-event {
     display: none;
 }
 
@@ -774,14 +772,14 @@ input[type=radio] {
     text-decoration: line-through;
 }
 
-.calendar-removed .add-lesson, .calendar-removed .delete-lesson {
+.calendar-removed .add-event, .calendar-removed .delete-event {
     display: none;
 }
 
 .calendar-new,
-.lesson .person.new a,
-.lesson .location.new a,
-.lesson .pool.new a {
+.event .person.new a,
+.event .location.new a,
+.event .pool.new a {
     border-color: #80ba24;
     color: #80ba24;
 }
@@ -857,11 +855,11 @@ input[type=radio] {
     width: 90%;
 }
 
-.organizer.mobile .lesson-menu {
+.organizer.mobile .event-menu {
     right: 0.5rem;
     left: 0.5rem;
 }
 
-.organizer.mobile .lesson-menu .pools span:first-child::before {
+.organizer.mobile .event-menu .pools span:first-child::before {
     content: " / ";
 }

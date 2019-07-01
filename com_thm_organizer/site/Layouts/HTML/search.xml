@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form addfieldpath="/components/com_thm_organizer/Fields">
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
-        <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-        </fieldset>
+        <fieldset name="basic" label="THM_ORGANIZER_SETTINGS"></fieldset>
     </fields>
 </form>

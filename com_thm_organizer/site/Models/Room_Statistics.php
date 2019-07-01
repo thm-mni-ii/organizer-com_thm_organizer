@@ -323,15 +323,15 @@ class Room_Statistics extends BaseModel
             }
         }
 
-        $dateFormat      = OrganizerHelper::getParams()->get('dateFormat');
-        $date            = $input->getString('date', date($dateFormat));
-        $startDoWNo      = empty($this->startDoW) ? 1 : $this->startDoW;
-        $startDayName    = date('l', strtotime("Sunday + $startDoWNo days"));
-        $endDoWNo        = empty($this->endDoW) ? 6 : $this->endDoW;
-        $endDayName      = date('l', strtotime("Sunday + $endDoWNo days"));
-        $dateRestriction = $input->getString('dateRestriction', 'week');
+        $dateFormat   = OrganizerHelper::getParams()->get('dateFormat');
+        $date         = $input->getString('date', date($dateFormat));
+        $startDoWNo   = empty($this->startDoW) ? 1 : $this->startDoW;
+        $startDayName = date('l', strtotime("Sunday + $startDoWNo days"));
+        $endDoWNo     = empty($this->endDoW) ? 6 : $this->endDoW;
+        $endDayName   = date('l', strtotime("Sunday + $endDoWNo days"));
+        $interval     = $input->getString('interval', 'week');
 
-        if ($dateRestriction == 'month') {
+        if ($interval == 'month') {
             $monthStart      = date('Y-m-d', strtotime('first day of this month', strtotime($date)));
             $this->startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
             $monthEnd        = date('Y-m-d', strtotime('last day of this month', strtotime($date)));

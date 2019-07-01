@@ -170,7 +170,7 @@ class Schedules
 
             $course['groups'][$lesson['groupID']] = [
                 'untisID'  => $lesson['groupUntisID'],
-                'name'     => $lesson['grouoName'],
+                'name'     => $lesson['groupName'],
                 'fullName' => $lesson['groupFullName']
             ];
 
@@ -407,8 +407,8 @@ class Schedules
         $select = "DISTINCT ccm.id AS ccmID, l.id AS lessonID, l.comment, m.abbreviation_$tag AS method, ";
         $select .= 'l.registration_type AS regType, l.max_participants AS maxParties, ';
         $select .= 'co.id AS coID, co.name AS courseName, co.subjectNo, co.untisID AS courseUntisID, ';
-        $select .= 'gr.id AS groupID, group.untisID AS groupUntisID, group.name AS groupName, ';
-        $select .= 'group.full_name AS groupFullName, group.gridID, ';
+        $select .= 'gr.id AS groupID, gr.untisID AS groupUntisID, gr.name AS groupName, ';
+        $select .= 'gr.full_name AS groupFullName, gr.gridID, ';
         $select .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
         $select .= 'conf.configuration, conf.modified AS configModified, cat.id AS categoryID';
 
@@ -560,7 +560,7 @@ class Schedules
     private static function getSubjectData($lesson)
     {
         $return = [
-            'courseID'  => $lesson['courseID'],
+            'courseID'  => $lesson['coID'],
             'subjectID' => null,
             'subjectNo' => $lesson['subjectNo'],
             'name'      => $lesson['courseName'],
@@ -579,7 +579,7 @@ class Schedules
             ->from('#__thm_organizer_subjects AS s')
             ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.subjectID = s.id')
             ->leftJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id')
-            ->where("sm.courseID ='{$lesson['courseID']}'");
+            ->where("sm.courseID ='{$lesson['coID']}'");
         $dbo->setQuery($subjectsQuery);
 
         $mappedSubjects = OrganizerHelper::executeQuery('loadAssocList');
@@ -798,7 +798,7 @@ class Schedules
         } else {
             $activeBase = "modified > '" . $parameters['delta'] . "'";
             $query->where("(lg.delta != 'removed' OR (lg.delta = 'removed' AND lg.$activeBase))");
-            $query->where("(lcrs.delta != 'removed' OR (lcrs.delta = 'removed' AND lcrs.m$activeBase))");
+            $query->where("(lcrs.delta != 'removed' OR (lcrs.delta = 'removed' AND lcrs.$activeBase))");
             $query->where("(l.delta != 'removed' OR (l.delta = 'removed' AND l.$activeBase))");
             $query->where("(c.delta != 'removed' OR (c.delta = 'removed' AND c.$activeBase))");
         }

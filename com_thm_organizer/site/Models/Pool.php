@@ -90,7 +90,7 @@ class Pool extends BaseModel
      */
     public function save($data = [])
     {
-        $data    = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
 
         if (empty($data['id'])) {
             if (!Access::allowDocumentAccess()) {

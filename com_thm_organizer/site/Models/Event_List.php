@@ -109,7 +109,7 @@ class Event_List extends FormModel
 
         if (empty($formData)) {
             $this->state->set('startDate', $defaultDate);
-            $this->state->set('dateRestriction', $defaultRestriction);
+            $this->state->set('interval', $defaultRestriction);
         } else {
             if (empty($formData['startDate']) or strtotime($formData['startDate']) === false) {
                 $this->state->set('startDate', $defaultDate);
@@ -118,14 +118,14 @@ class Event_List extends FormModel
             }
 
             $allowedLengths = ['day', 'week', 'month', 'semester', 'custom'];
-            if ((!empty($formData['dateRestriction']) and in_array($formData['dateRestriction'], $allowedLengths))) {
-                $this->state->set('dateRestriction', $formData['dateRestriction']);
+            if ((!empty($formData['interval']) and in_array($formData['interval'], $allowedLengths))) {
+                $this->state->set('interval', $formData['interval']);
             } else {
-                $this->state->set('dateRestriction', $defaultRestriction);
+                $this->state->set('interval', $defaultRestriction);
             }
         }
 
-        if (empty($this->state->get('dateRestriction'))) {
+        if (empty($this->state->get('interval'))) {
             $this->state->set('endDate', $menuEndDate);
         }
     }
@@ -541,7 +541,7 @@ class Event_List extends FormModel
         $startDT = strtotime($this->state->get('startDate'));
         $date    = date('Y-m-d', $startDT);
         $endDT   = $startDT;
-        switch ($this->state->get('dateRestriction')) {
+        switch ($this->state->get('interval')) {
             case 'day':
                 $endDT = $startDT;
                 break;
@@ -554,14 +554,14 @@ class Event_List extends FormModel
             case 'semester':
                 $dates = Dates::getSemester($date);
                 break;
-            case '':
+            default:
                 $endDT = strtotime($this->state->get('endDate'));
                 break;
         }
 
         if (!empty($dates)) {
-            $startDT = strtotime($dates['startDate']);
-            $endDT   = strtotime($dates['endDate']);
+            $startDT = strtotime($dates[0]);
+            $endDT   = strtotime($dates[1]);
         }
 
         for ($currentDT = $startDT; $currentDT <= $endDT; $currentDT = strtotime('+1 day', $currentDT)) {

@@ -24,7 +24,7 @@ class Monitors extends ListView
     const DAILY = 1;
     const MIXED = 2;
     const CONTENT = 3;
-    const LESSON_LIST = 4;
+    const EVENT_LIST = 4;
 
     public $displayBehaviour = [];
 
@@ -35,10 +35,10 @@ class Monitors extends ListView
      */
     public function __construct($config = array())
     {
-        $this->displayBehaviour[self::DAILY]       = Languages::_('THM_ORGANIZER_DAILY_PLAN');
-        $this->displayBehaviour[self::MIXED]       = Languages::_('THM_ORGANIZER_MIXED_PLAN');
-        $this->displayBehaviour[self::CONTENT]     = Languages::_('THM_ORGANIZER_CONTENT_DISPLAY');
-        $this->displayBehaviour[self::LESSON_LIST] = Languages::_('THM_ORGANIZER_LESSON_LIST');
+        $this->displayBehaviour[self::DAILY]      = Languages::_('THM_ORGANIZER_DAILY_PLAN');
+        $this->displayBehaviour[self::MIXED]      = Languages::_('THM_ORGANIZER_MIXED_PLAN');
+        $this->displayBehaviour[self::CONTENT]    = Languages::_('THM_ORGANIZER_CONTENT_DISPLAY');
+        $this->displayBehaviour[self::EVENT_LIST] = Languages::_('THM_ORGANIZER_EVENT_LIST');
 
         parent::__construct($config);
     }

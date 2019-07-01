@@ -132,7 +132,7 @@ function copyLink()
     }
 
     authDefined = username !== undefined && auth !== undefined;
-    url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics';
+    url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics&interval=ics';
     mySchedule = jQuery('#myschedule:checked').val();
 
     if (mySchedule === 'on' && authDefined)
@@ -318,7 +318,7 @@ function setFormat()
         formatValue = jQuery('#format').find(':selected').val(),
         formatArray = formatValue.split('.'),
         format = formatArray[0],
-        dateRestrictionContainer = jQuery('#dateRestriction-container'),
+        intervalContainer = jQuery('#interval-container'),
         /*displayFormatContainer = jQuery('#displayFormat-container'),*/
         documentFormatContainer = jQuery('input[name=documentFormat]'),
         formatInput = jQuery('input[name=format]'),
@@ -338,7 +338,7 @@ function setFormat()
             actionButton.text(generateText + ' ').append('<span class="icon-feed"></span>');
             //displayFormatContainer.hide();
             dateContainer.hide();
-            dateRestrictionContainer.hide();
+            intervalContainer.hide();
             groupingContainer.hide();
             //pdfFormatContainer.hide();
             titlesContainer.hide();
@@ -350,7 +350,7 @@ function setFormat()
             documentFormatContainer.val(documentFormat);
             actionButton.text(downloadText + ' ').append('<span class="icon-file-excel"></span>');
             dateContainer.show();
-            dateRestrictionContainer.show();
+            intervalContainer.show();
             //displayFormatContainer.hide();
             groupingContainer.hide();
             linkContainer.hide();
@@ -377,7 +377,7 @@ function setFormat()
             }
             //displayFormatContainer.hide();
             dateContainer.show();
-            dateRestrictionContainer.show();
+            intervalContainer.show();
             //pdfFormatContainer.hide();
             titlesContainer.show();
             xlsFormatContainer.hide();

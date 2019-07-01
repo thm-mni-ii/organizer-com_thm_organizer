@@ -65,7 +65,7 @@ class Schedule_List_A3 extends Schedule_List
         if ($resourceCount > 1) {
             $this->aggregateRequestedResources();
 
-            if ($this->parameters['dateRestriction'] == 'day') {
+            if ($this->parameters['interval'] == 'day') {
                 $this->parameters['dataWidth'] = empty($this->grid) ? 175 : 164;
             } else {
                 $this->parameters['dataWidth'] = empty($this->grid) ? 63.5 : 62;
@@ -74,7 +74,7 @@ class Schedule_List_A3 extends Schedule_List
             $this->parameters['cellLineHeight'] = 3.6;
         } else {
 
-            if ($this->parameters['dateRestriction'] == 'day') {
+            if ($this->parameters['interval'] == 'day') {
                 $this->parameters['dataWidth'] = empty($this->grid) ? 200 : 188;
             } else {
                 $this->parameters['dataWidth'] = empty($this->grid) ? 67.5 : 66;
@@ -111,7 +111,7 @@ class Schedule_List_A3 extends Schedule_List
      */
     protected function getDocument()
     {
-        $orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
+        $orientation = $this->parameters['interval'] == 'day' ? 'p' : 'l';
         $document    = new \THM_OrganizerTCPDFScheduleA3($orientation);
         $document->SetCreator('THM Organizer');
         $document->SetAuthor(Factory::getUser()->name);

@@ -30,7 +30,7 @@ class Schedule_List_A4 extends Schedule_List
 
         $this->parameters['cellLineHeight'] = 4.4;
 
-        if ($this->parameters['dateRestriction'] == 'day') {
+        if ($this->parameters['interval'] == 'day') {
             $this->parameters['dataWidth'] = empty($this->grid) ? 200 : 188;
         } else {
             $this->parameters['dataWidth'] = empty($this->grid) ? 46.5 : 45;
@@ -49,7 +49,7 @@ class Schedule_List_A4 extends Schedule_List
      */
     protected function getDocument()
     {
-        $orientation = $this->parameters['dateRestriction'] == 'day' ? 'p' : 'l';
+        $orientation = $this->parameters['interval'] == 'day' ? 'p' : 'l';
         $document    = new \THM_OrganizerTCPDFScheduleA4($orientation);
         $document->SetCreator('THM Organizer');
         $document->SetAuthor(Factory::getUser()->name);

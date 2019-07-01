@@ -15,7 +15,6 @@
                 description="THM_ORGANIZER_MANAGE_ACCESS_DESC"/>
         <action name="organizer.schedule" title="THM_ORGANIZER_SCHEDULE_ACCESS"
                 description="THM_ORGANIZER_SCHEDULE_ACCESS_DESC"/>
-        <action name="organizer.view" title="THM_ORGANIZER_VIEW_ACCESS"
-                description="THM_ORGANIZER_VIEW_ACCESS_DESC"/>
+        <action name="organizer.view" title="THM_ORGANIZER_VIEW_ACCESS" description="THM_ORGANIZER_VIEW_ACCESS_DESC"/>
     </section>
 </access>

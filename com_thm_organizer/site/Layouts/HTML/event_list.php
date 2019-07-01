@@ -32,10 +32,10 @@ if (!empty($showHeading)) {
             </div>
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo HTML::getLabel($this, 'dateRestriction'); ?>
+                    <?php echo HTML::getLabel($this, 'interval'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('dateRestriction')->input; ?>
+                    <?php echo $this->form->getField('interval')->input; ?>
                 </div>
             </div>
             <div class="control-group">

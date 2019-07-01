@@ -192,7 +192,7 @@ abstract class BaseHTMLView extends BaseView
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=courses',
                 'active' => $viewName == 'courses'
             ];
-            $courseItems[Languages::_('THM_ORGANIZER_LESSONS')]      = [
+            $courseItems[Languages::_('THM_ORGANIZER_EVENTS')]      = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=lessons',
                 'active' => $viewName == 'lessons'
             ];

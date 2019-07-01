@@ -3,9 +3,9 @@
     <fieldset name="fields">
         <field name="startDate" type="calendar" default="NOW" label="DATE" format="%d.%m.%Y" class="input-small"
                todaybutton="true" minyear="-3" maxyear="1" translateLabel="false"/>
-        <field name="dateRestriction" type="Options" label="DATE_RESTRICTION" class="date-restriction-list"
+        <field name="interval" type="Options" label="INTERVAL" class="date-restriction-list"
                translateLabel="false">
-            <option value="">DATE_RESTRICTION_HINT</option>
+            <option value="">INTERVAL_HINT</option>
             <option value="day">DAY</option>
             <option value="week">WEEK</option>
             <option value="month">MONTH</option>

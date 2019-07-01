@@ -46,7 +46,7 @@
             <option value='1'>THM_ORGANIZER_DAILY_PLAN</option>
             <option value='2'>THM_ORGANIZER_MIXED_PLAN</option>
             <option value='3'>THM_ORGANIZER_CONTENT_DISPLAY</option>
-            <option value='4'>THM_ORGANIZER_LESSON_LIST</option>
+            <option value='4'>THM_ORGANIZER_EVENT_LIST</option>
         </field>
         <field name="schedule_refresh" type="Integer" label="SCHEDULE_REFRESH_RATE" first="10" last="990" step="10"
                default="60"/>

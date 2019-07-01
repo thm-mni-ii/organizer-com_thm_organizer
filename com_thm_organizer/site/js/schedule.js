@@ -14,17 +14,17 @@ jQuery(document).ready(function () {
  * @param {string} variables.dateFormat - configured format of date for this website (e.g. d.m.Y)
  * @param {string} variables.defaultGrid - JSON which contains the default schedule grid
  * @param {number} variables.departmentID - ID of selected department
- * @param {string} variables.deltaDays - amount of days deleted/moved lessons should get displayed
+ * @param {string} variables.deltaDays - amount of days deleted/moved events should get displayed
  * @param {string} variables.displayName - indicates whether name of page should be displayed
  * @param {string} variables.exportBase - basic url for exporting schedules
  * @param {Object.<number, Object>} variables.grids - all schedule grids with days and times
- * @param {number} variables.INSTANCE_MODE - present selected mode of saving/deleting lessons
+ * @param {number} variables.INSTANCE_MODE - mode for saving/deleting single event instances
  * @param {boolean} variables.internalUser - true for users of this company
  * @param {boolean} variables.isMobile - checks type of device
  * @param {string} variables.menuID - active menu id (used as session key)
- * @param {number} variables.PERIOD_MODE - present selected mode of saving/deleting lessons
+ * @param {number} variables.PERIOD_MODE - mode for saving/deleting all event instances for a single dow/block
  * @param {boolean} variables.registered - indicates whether an user is logged in
- * @param {number} variables.SEMESTER_MODE - present selected mode of saving/deleting lessons
+ * @param {number} variables.SEMESTER_MODE - mode for saving/deleting all event instances
  * @param {number} variables.showGroups - whether groups are allowed to show
  * @param {string} variables.subjectDetailBase - basic url for subject details
  * @param {string} variables.username - name of currently logged in user
@@ -36,7 +36,7 @@ const ScheduleApp = function (variables) {
         ajaxSave = new XMLHttpRequest(),
         futureDateButton = document.getElementById('future-date'),
         nextDateSelection = document.getElementById('next-date-selection'),
-        noLessons = document.getElementById('no-lessons'),
+        noEvents = document.getElementById('no-events'),
         pastDateButton = document.getElementById('past-date'),
         regFifo = document.getElementById('reg-fifo'),
         regManual = document.getElementById('reg-manual'),
@@ -69,7 +69,7 @@ const ScheduleApp = function (variables) {
             return new RegExp(pattern);
         })();
     // Get initialised in constructor
-    let calendar, form, lessonMenu, scheduleObjects;
+    let calendar, form, eventMenu, scheduleObjects;
 
     /**
      * Calendar class for a date input field with HTMLTableElement as calendar.
@@ -316,21 +316,21 @@ const ScheduleApp = function (variables) {
             resource = source,
             resourceIDs = IDs ? IDs : source === 'user' ? null : getSelectedValues(source, '-'),
             that = this;
-        let lessons = [],
+        let events = [],
             /**
              * @var ScheduleTable
              */
             table,
 
             /**
-             * Sets Ajax url for updating lessons
+             * Sets Ajax url for updating events
              */
             ajaxUrl = (function () {
                 let url = getAjaxUrl();
 
                 url += '&view=schedules';
                 url += '&deltaDays=' + (resource === 'room' || resource === 'teacher' ? '0' : variables.deltaDays);
-                url += '&date=' + getDateFieldString() + (variables.isMobile ? '&oneDay=true' : '');
+                url += '&date=' + getDateFieldString() + (variables.isMobile ? '&interval=day' : '');
                 url += '&mySchedule=' + (resource === 'user' ? '1' : '0');
 
                 if (resource !== 'user')
@@ -346,7 +346,7 @@ const ScheduleApp = function (variables) {
              */
             title = (function () {
                 const resourceField = document.getElementById(resource),
-                    programField = document.getElementById('program'),
+                    categoryField = document.getElementById('category'),
                     selection = [];
 
                 if (optionalTitle)
@@ -360,10 +360,10 @@ const ScheduleApp = function (variables) {
                 }
 
                 // Get pre-selected value like 'Informatik Master'
-                if (resource === 'group' && programField.selectedIndex !== -1)
+                if (resource === 'group' && categoryField.selectedIndex !== -1)
                 {
                     (function () {
-                        const options = programField.options;
+                        const options = categoryField.options;
                         let index;
 
                         for (index = 0; index < options.length; ++index)
@@ -420,7 +420,7 @@ const ScheduleApp = function (variables) {
                      * @param {Date} response.futureDate
                      */
                     const response = JSON.parse(ajaxRequest.responseText);
-                    lessons = response;
+                    events = response;
                     table.update(response);
                     that.popUp();
 
@@ -432,11 +432,11 @@ const ScheduleApp = function (variables) {
                         }
                         else if (response.pastDate === null && response.futureDate === null)
                         {
-                            noLessons.style.display = 'block';
+                            noEvents.style.display = 'block';
                         }
                     }
 
-                    // Updates other schedule tables after this one, because of dependencies like 'occupied' lessons
+                    // Updates other schedule tables after this one, because of dependencies like 'occupied' events
                     if (updateOthers)
                     {
                         scheduleObjects.schedules.forEach(function (schedule) {
@@ -453,7 +453,7 @@ const ScheduleApp = function (variables) {
         };
 
         /**
-         * Updates table with already given lessons, e.g. for changing time grids
+         * Updates table with already given events, e.g. for changing time grids
          */
         this.updateTable = function () {
             table.update();
@@ -576,8 +576,8 @@ const ScheduleApp = function (variables) {
             isUserSchedule = schedule.getId() === 'user',
             weekend = 7;
         let defaultGrid = null,
-            lessonElements = [],
-            lessonData = {},
+            eventElements = [],
+            eventData = {},
             /**
              * @param {number} timeGrid.endDay - 1 for monday etc.
              * @param {number} timeGrid.startDay - 2 for tuesday etc.
@@ -730,31 +730,31 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Inserts lessons into a schedule
-         * @param {Object} lessons
+         * Inserts events into a schedule
+         * @param {Object} events
          */
-        function insertLessons(lessons)
+        function insertEvents(events)
         {
             const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
             let block, blockEnd, blockStart, blockTimes, cell,
                 colNumber = variables.isMobile ? visibleDay : 1,
-                date, elementIndex, lesson, lessonElements, nextBlock,
+                date, elementIndex, event, eventElements, nextBlock,
                 nextCell, nextRow, showOwnTime, tableStartTime, tableEndTime;
 
             if (timeGrid.periods)
             {
-                for (date in lessons)
+                for (date in events)
                 {
-                    if (!lessons.hasOwnProperty(date))
+                    if (!events.hasOwnProperty(date))
                     {
                         continue;
                     }
 
                     let gridIndex = 1, rowIndex = 0;
 
-                    for (block in lessons[date])
+                    for (block in events[date])
                     {
-                        if (!lessons[date].hasOwnProperty(block))
+                        if (!events[date].hasOwnProperty(block))
                         {
                             continue;
                         }
@@ -785,41 +785,41 @@ const ScheduleApp = function (variables) {
                         }
 
                         cell = rows[rowIndex].getElementsByTagName('td')[colNumber];
-                        if (variables.registered && !isUserSchedule && isOccupiedByUserLesson(rowIndex, colNumber))
+                        if (variables.registered && !isUserSchedule && isOccupiedByUserEvent(rowIndex, colNumber))
                         {
                             jQuery(cell).addClass('occupied');
                         }
 
-                        for (lesson in lessons[date][block])
+                        for (event in events[date][block])
                         {
-                            if (!lessons[date][block].hasOwnProperty(lesson))
+                            if (!events[date][block].hasOwnProperty(event))
                             {
                                 continue;
                             }
 
                             showOwnTime = tableStartTime !== blockStart || tableEndTime !== blockEnd;
-                            lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
+                            eventElements = createEvent(events[date][block][event], showOwnTime);
 
-                            for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+                            for (elementIndex = 0; elementIndex < eventElements.length; ++elementIndex)
                             {
-                                cell.appendChild(lessonElements[elementIndex]);
+                                cell.appendChild(eventElements[elementIndex]);
                             }
 
-                            jQuery(cell).addClass('lessons');
+                            jQuery(cell).addClass('events');
 
-                            // Lesson fits into next cell too? Add a copy to this
+                            // Event fits into next cell too? Add a copy to this
                             nextBlock = timeGrid.periods[gridIndex + 1];
                             nextRow = rows[rowIndex + 1];
 
                             if (nextRow && nextBlock && blockEnd > nextBlock.startTime)
                             {
                                 nextCell = nextRow.getElementsByTagName('td')[colNumber];
-                                jQuery(nextCell).addClass('lessons');
-                                lessonElements = createLesson(lessons[date][block][lesson], showOwnTime);
+                                jQuery(nextCell).addClass('events');
+                                eventElements = createEvent(events[date][block][event], showOwnTime);
 
-                                for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+                                for (elementIndex = 0; elementIndex < eventElements.length; ++elementIndex)
                                 {
-                                    nextCell.appendChild(lessonElements[elementIndex]);
+                                    nextCell.appendChild(eventElements[elementIndex]);
                                 }
                             }
                         }
@@ -827,7 +827,7 @@ const ScheduleApp = function (variables) {
                         ++gridIndex;
                         ++rowIndex;
 
-                        // For the case there are lessons that do not fit into grid
+                        // For the case there are events that do not fit into grid
                         if (!timeGrid.periods[gridIndex])
                         {
                             break;
@@ -839,47 +839,47 @@ const ScheduleApp = function (variables) {
             }
             else
             {
-                insertLessonsWithoutPeriod(lessons);
+                insertEventsWithoutPeriod(events);
             }
         }
 
         /**
-         * No times on the left side - every lesson appears in the first row
-         * @param {Object} lessons
+         * No times on the left side - every event appears in the first row
+         * @param {Object} events
          */
-        function insertLessonsWithoutPeriod(lessons)
+        function insertEventsWithoutPeriod(events)
         {
             const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            let colNumber = variables.isMobile ? visibleDay : 0, date, block, lesson, elementIndex;
+            let colNumber = variables.isMobile ? visibleDay : 0, date, block, event, elementIndex;
 
-            for (date in lessons)
+            for (date in events)
             {
-                if (!lessons.hasOwnProperty(date))
+                if (!events.hasOwnProperty(date))
                 {
                     continue;
                 }
 
-                for (block in lessons[date])
+                for (block in events[date])
                 {
-                    if (!lessons[date].hasOwnProperty(block))
+                    if (!events[date].hasOwnProperty(block))
                     {
                         continue;
                     }
 
-                    for (lesson in lessons[date][block])
+                    for (event in events[date][block])
                     {
-                        if (!lessons[date][block].hasOwnProperty(lesson))
+                        if (!events[date][block].hasOwnProperty(event))
                         {
                             continue;
                         }
 
-                        const lessonElements = createLesson(lessons[date][block][lesson], true);
+                        const eventElements = createEvent(events[date][block][event], true);
 
-                        for (elementIndex = 0; elementIndex < lessonElements.length; ++elementIndex)
+                        for (elementIndex = 0; elementIndex < eventElements.length; ++elementIndex)
                         {
                             const cell = rows[0].getElementsByTagName('td')[colNumber];
 
-                            cell.appendChild(lessonElements[elementIndex]);
+                            cell.appendChild(eventElements[elementIndex]);
                         }
                     }
                 }
@@ -888,23 +888,23 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Creates a lesson which means a div element filled by data
-         * @param {Object} data - lesson data
+         * Creates an event which means a div element filled by data
+         * @param {Object} data - event data
          * @param {string} data.ccmID - id of calendar configuration mapping
          * @param {string} data.calendarDelta - changes of calendar date/time
-         * @param {string} data.comment - some comment for the lesson
-         * @param {string} data.lessonDelta - changes of lessons
-         * @param {string} data.method - method (e.g. lecture) of a lesson
+         * @param {string} data.comment - some comment for the event
+         * @param {string} data.eventDelta - changes of events
+         * @param {string} data.method - method (e.g. lecture) of a event
          * @param {boolean} data.regType - 0 for fifo, 1 for manual
-         * @param {Object} data.subjects - subjects of a lesson
-         * @param {string} data.startTime - lessons start time
-         * @param {string} data.endTime - lessons end time
+         * @param {Object} data.subjects - subjects of a event
+         * @param {string} data.startTime - instance start time
+         * @param {string} data.endTime - instance end time
          * @param {boolean} [ownTime=false] - show own time
          * @returns {HTMLDivElement[]|boolean} HTMLDivElements in an array or false in case of wrong input
          */
-        function createLesson(data, ownTime)
+        function createEvent(data, ownTime)
         {
-            const lessons = [], scheduleID = schedule.getId(), scheduleResource = schedule.getResource();
+            const events = [], scheduleID = schedule.getId(), scheduleResource = schedule.getResource();
             let subject;
 
             ownTime = typeof ownTime === 'undefined' ? false : ownTime;
@@ -916,26 +916,26 @@ const ScheduleApp = function (variables) {
                     continue;
                 }
 
-                const lessonElement = document.createElement('div'),
+                const eventElement = document.createElement('div'),
                     subjectData = data.subjects[subject],
                     irrelevantGroup = (scheduleResource === 'group' &&
                         subjectData.groupDeltas[scheduleID.replace('group', '')] === 'removed');
 
-                // Data attributes instead of classes for finding the lesson later
-                lessonElement.dataset.ccmID = data.ccmID;
-                lessonElement.dataset.regType = data.regType;
-                lessonElement.classList.add('lesson');
+                // Data attributes instead of classes for finding the event later
+                eventElement.dataset.ccmID = data.ccmID;
+                eventElement.dataset.regType = data.regType;
+                eventElement.classList.add('event');
 
                 if (irrelevantGroup ||
-                    (data.lessonDelta && data.lessonDelta === 'removed') ||
+                    (data.eventDelta && data.eventDelta === 'removed') ||
                     (data.calendarDelta && data.calendarDelta === 'removed'))
                 {
-                    lessonElement.classList.add('calendar-removed');
+                    eventElement.classList.add('calendar-removed');
                 }
-                else if ((data.lessonDelta && data.lessonDelta === 'new') ||
+                else if ((data.eventDelta && data.eventDelta === 'new') ||
                     (data.calendarDelta && data.calendarDelta === 'new'))
                 {
-                    lessonElement.classList.add('calendar-new');
+                    eventElement.classList.add('calendar-new');
                 }
 
                 if (ownTime && data.startTime && data.endTime)
@@ -944,7 +944,7 @@ const ScheduleApp = function (variables) {
                     ownTimeSpan.className = 'own-time';
                     ownTimeSpan.innerHTML =
                         data.startTime.match(/^(\d{2}:\d{2})/)[1] + ' - ' + data.endTime.match(/^(\d{2}:\d{2})/)[1];
-                    lessonElement.appendChild(ownTimeSpan);
+                    eventElement.appendChild(ownTimeSpan);
                 }
 
                 if (subjectData.name || subjectData.subjectNo)
@@ -952,7 +952,7 @@ const ScheduleApp = function (variables) {
                     const subjectOuterDiv = document.createElement('div');
                     subjectData.method = data.method || '';
                     addSubjectElements(subjectOuterDiv, subjectData);
-                    lessonElement.appendChild(subjectOuterDiv);
+                    eventElement.appendChild(subjectOuterDiv);
                 }
 
                 if (data.comment)
@@ -960,7 +960,7 @@ const ScheduleApp = function (variables) {
                     const commentDiv = document.createElement('div');
                     commentDiv.innerHTML = data.comment;
                     commentDiv.className = 'comment-container';
-                    lessonElement.appendChild(commentDiv);
+                    eventElement.appendChild(commentDiv);
                 }
 
                 if (scheduleResource !== 'group' && subjectData.groups && !isUserSchedule)
@@ -968,7 +968,7 @@ const ScheduleApp = function (variables) {
                     const groupsOuterDiv = document.createElement('div');
                     groupsOuterDiv.className = 'groups';
                     addDataElements('group', groupsOuterDiv, subjectData.groups, subjectData.groupDeltas);
-                    lessonElement.appendChild(groupsOuterDiv);
+                    eventElement.appendChild(groupsOuterDiv);
                 }
 
                 if (scheduleResource !== 'teacher' && subjectData.teachers)
@@ -976,7 +976,7 @@ const ScheduleApp = function (variables) {
                     const teachersOuterDiv = document.createElement('div');
                     teachersOuterDiv.className = 'persons';
                     addDataElements('teacher', teachersOuterDiv, subjectData.teachers, subjectData.teacherDeltas, 'person');
-                    lessonElement.appendChild(teachersOuterDiv);
+                    eventElement.appendChild(teachersOuterDiv);
                 }
 
                 if (scheduleResource !== 'room' && subjectData.rooms)
@@ -984,66 +984,66 @@ const ScheduleApp = function (variables) {
                     const roomsOuterDiv = document.createElement('div');
                     roomsOuterDiv.className = 'locations';
                     addDataElements('room', roomsOuterDiv, subjectData.rooms, subjectData.roomDeltas, 'location');
-                    lessonElement.appendChild(roomsOuterDiv);
+                    eventElement.appendChild(roomsOuterDiv);
                 }
 
-                if (lessonData.full)
+                if (eventData.full)
                 {
-                    lessonElement.classList.add('full');
+                    eventElement.classList.add('full');
                 }
 
                 if (variables.registered && variables.internalUser)
                 {
-                    addContextMenu(lessonElement, subjectData);
-                    addActionButtons(lessonElement, subjectData);
+                    addContextMenu(eventElement, subjectData);
+                    addActionButtons(eventElement, subjectData);
 
                     // Makes delete button visible only
-                    if (isUserSchedule || isSavedByUser(lessonElement))
+                    if (isUserSchedule || isSavedByUser(eventElement))
                     {
-                        lessonElement.classList.add('added');
+                        eventElement.classList.add('added');
                     }
                 }
                 else
                 {
-                    lessonElement.classList.add('no-saving');
+                    eventElement.classList.add('no-saving');
                 }
 
-                lessonElements.push(lessonElement);
-                lessons.push(lessonElement);
+                eventElements.push(eventElement);
+                events.push(eventElement);
             }
 
-            return lessons;
+            return events;
         }
 
         /**
-         * Adds context menu to given lessonElement
-         * Right click on lesson show save/delete menu
-         * @param {HTMLElement} lesson - the html element which needs a context menu
-         * @param {Object} data - the lesson/subject data
+         * Adds context menu to given eventElement
+         * Right click on event show save/delete menu
+         * @param {HTMLElement} event - the html element which needs a context menu
+         * @param {Object} data - the event/subject data
          */
-        function addContextMenu(lesson, data)
+        function addContextMenu(event, data)
         {
-            lesson.addEventListener('contextmenu', function (event) {
-                if (!lesson.classList.contains('calendar-removed') && !lesson.classList.contains('lesson-removed'))
+            event.addEventListener('contextmenu', function (event) {
+                if (!event.classList.contains('calendar-removed') && !event.classList.contains('event-removed'))
                 {
                     event.preventDefault();
-                    lessonMenu.getSaveMenu(lesson, data);
+                    eventMenu.getSaveMenu(event, data);
                 }
 
-                if (lesson.classList.contains('added'))
+                if (event.classList.contains('added'))
                 {
                     event.preventDefault();
-                    lessonMenu.getDeleteMenu(lesson, data);
+                    eventMenu.getDeleteMenu(event, data);
                 }
             });
         }
 
         /**
-         * Adds buttons for saving and deleting a lesson
-         * @param {HTMLElement} lessonElement
+         * Adds buttons for saving and deleting a event
+         * @param {HTMLElement} eventElement
          * @param {Object} data
          */
-        function addActionButtons(lessonElement, data)
+        function addActionButtons(eventElement, data)
         {
             const saveDiv = document.createElement('div'),
                 saveActionButton = document.createElement('button'),
@@ -1053,43 +1053,43 @@ const ScheduleApp = function (variables) {
             // Let because used twice
             let questionActionButton;
 
-            // Saving a lesson
+            // Saving an event
             saveActionButton.className = 'icon-plus';
             saveActionButton.addEventListener('click', function () {
-                handleLesson(lessonElement.dataset.ccmID, variables.PERIOD_MODE, true);
+                handleEvent(eventElement.dataset.ccmID, variables.PERIOD_MODE, true);
             });
             questionActionButton = document.createElement('button');
             questionActionButton.className = 'icon-question';
             questionActionButton.addEventListener('click', function () {
-                lessonMenu.getSaveMenu(lessonElement, data);
+                eventMenu.getSaveMenu(eventElement, data);
             });
-            saveDiv.className = 'add-lesson';
+            saveDiv.className = 'add-event';
             saveDiv.appendChild(saveActionButton);
             saveDiv.appendChild(questionActionButton);
-            lessonElement.appendChild(saveDiv);
+            eventElement.appendChild(saveDiv);
 
-            // Deleting a lesson
+            // Deleting an event
             deleteActionButton.className = 'icon-delete';
             deleteActionButton.addEventListener('click', function () {
-                handleLesson(lessonElement.dataset.ccmID, variables.PERIOD_MODE, false);
+                handleEvent(eventElement.dataset.ccmID, variables.PERIOD_MODE, false);
             });
             questionActionButton = document.createElement('button');
             questionActionButton.className = 'icon-question';
             questionActionButton.addEventListener('click', function () {
-                lessonMenu.getDeleteMenu(lessonElement, data);
+                eventMenu.getDeleteMenu(eventElement, data);
             });
-            deleteDiv.className = 'delete-lesson';
+            deleteDiv.className = 'delete-event';
             deleteDiv.appendChild(deleteActionButton);
             deleteDiv.appendChild(questionActionButton);
-            lessonElement.appendChild(deleteDiv);
+            eventElement.appendChild(deleteDiv);
         }
 
         /**
          * Adds DOM-elements with subject name and eventListener directing to subject details
          * @param {HTMLElement} outerElement
-         * @param {Object} data - lesson data with subjects
+         * @param {Object} data - event data with subjects
          * @param {string} data.name - name of subject
-         * @param {string} data.method - method (e.g. lecture) of a lesson
+         * @param {string} data.method - method (e.g. lecture) of a event
          * @param {string} data.subjectDelta - changes of subject
          * @param {string} data.subjectID - ID of subject associated with course
          * @param {string} data.subjectNo - number of subject
@@ -1154,7 +1154,7 @@ const ScheduleApp = function (variables) {
          * Adds HTML elements containing the given data in relation to given resource.
          * @param {string} resource - resource to add e.g. 'room' or 'group'
          * @param {HTMLElement} outerElement - wrapper element
-         * @param {Object.<number, string>} data - lesson data
+         * @param {Object.<number, string>} data - event data
          * @param {string} data[].untisID - subject id in the untis scheduling program
          * @param {Object.<number, string>} [delta] - optional, delta like 'new' or 'remove' assigned to (resource) id
          * @param {string} [className] - optional, class to style the elements
@@ -1181,7 +1181,7 @@ const ScheduleApp = function (variables) {
                     if (linkElement)
                     {
                         // Outsourced to avoid closure in for-loop
-                        addLessonEvent(nameElement, resource, id, data[id].fullName ? data[id].fullName : data[id]);
+                        addEventEvent(nameElement, resource, id, data[id].fullName ? data[id].fullName : data[id]);
                     }
 
                     span.appendChild(nameElement);
@@ -1199,37 +1199,37 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Adds an eventListener to the given element, which triggers a lessonRequest with further params
+         * Adds an eventListener to the given element, which triggers a eventRequest with further params
          * @param {HTMLElement} element
          * @param {string} resource
          * @param {string|int} id
          * @param {string} title
          */
-        function addLessonEvent(element, resource, id, title)
+        function addEventEvent(element, resource, id, title)
         {
             element.addEventListener('click', function () {
-                sendLessonRequest(resource, id, title);
+                sendEventRequest(resource, id, title);
             });
         }
 
         /**
-         * Checks for a lesson if it is already saved in the users schedule
-         * @param {HTMLElement} lesson
+         * Checks for a event if it is already saved in the users schedule
+         * @param {HTMLElement} event
          * @return {boolean}
          */
-        function isSavedByUser(lesson)
+        function isSavedByUser(event)
         {
-            let lessonIndex, lessons;
+            let eventIndex, events;
 
-            if (!lesson || !scheduleObjects.userSchedule)
+            if (!event || !scheduleObjects.userSchedule)
             {
                 return false;
             }
 
-            lessons = scheduleObjects.userSchedule.getTable().getLessons();
-            for (lessonIndex = 0; lessonIndex < lessons.length; ++lessonIndex)
+            events = scheduleObjects.userSchedule.getTable().getEvents();
+            for (eventIndex = 0; eventIndex < events.length; ++eventIndex)
             {
-                if (lessons[lessonIndex].dataset.ccmID === lesson.dataset.ccmID)
+                if (events[eventIndex].dataset.ccmID === event.dataset.ccmID)
                 {
                     return true;
                 }
@@ -1239,23 +1239,23 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Checks for a block if the user has lessons in it already
+         * Checks for a block if the user has events in it already
          * @param {number} rowIndex
          * @param {number} colIndex
          * @return {boolean}
          */
-        function isOccupiedByUserLesson(rowIndex, colIndex)
+        function isOccupiedByUserEvent(rowIndex, colIndex)
         {
             const userScheduleTable = scheduleObjects.userSchedule.getTable().getTableElement(),
                 rows = userScheduleTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'),
                 row = rows[rowIndex],
                 cell = row ? row.getElementsByTagName('td')[colIndex] : false;
 
-            return cell && cell.classList.contains('lessons');
+            return cell && cell.classList.contains('events');
         }
 
         /**
-         * Removes all lessons and rebuild table structure on time grid
+         * Removes all events and rebuild table structure on time grid
          */
         function resetTable()
         {
@@ -1263,7 +1263,7 @@ const ScheduleApp = function (variables) {
                 columnCount = timeGrid.endDay, rowCount = timeGrid.periods ? Object.keys(timeGrid.periods).length : 1;
             let columnIndex, rowIndex;
 
-            lessonElements = [];
+            eventElements = [];
 
             // Build table on time grid filled with rows and cells (with -1 for last position)
             for (rowIndex = 0; rowIndex < rowCount; ++rowIndex)
@@ -1332,27 +1332,27 @@ const ScheduleApp = function (variables) {
             {
                 // Function returns first found gridID
                 const defaultGridID = (function () {
-                    let day, lesson, time;
+                    let day, event, time;
 
-                    for (day in lessonData)
+                    for (day in eventData)
                     {
-                        if (!lessonData.hasOwnProperty(day))
+                        if (!eventData.hasOwnProperty(day))
                         {
                             continue;
                         }
 
-                        for (time in lessonData[day])
+                        for (time in eventData[day])
                         {
-                            if (!lessonData[day].hasOwnProperty(time))
+                            if (!eventData[day].hasOwnProperty(time))
                             {
                                 continue;
                             }
 
-                            for (lesson in lessonData[day][time])
+                            for (event in eventData[day][time])
                             {
-                                if (lessonData[day][time].hasOwnProperty(lesson) && lessonData[day][time][lesson].gridID)
+                                if (eventData[day][time].hasOwnProperty(event) && eventData[day][time][event].gridID)
                                 {
-                                    return lessonData[day][time][lesson].gridID;
+                                    return eventData[day][time][event].gridID;
                                 }
                             }
                         }
@@ -1370,11 +1370,11 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Updates the table with the actual selected time grid and given lessons.
-         * @param {Object} [lessons] - all lessons of a schedule
+         * Updates the table with the actual selected time grid and given events.
+         * @param {Object} [events] - all events of a schedule
          */
-        this.update = function (lessons) {
-            lessonData = lessons || lessonData;
+        this.update = function (events) {
+            eventData = events || eventData;
             visibleDay = getDateFieldsDateObject().getDay();
 
             if (useDefaultGrid)
@@ -1386,9 +1386,9 @@ const ScheduleApp = function (variables) {
             setGridDays();
             setGridTime();
 
-            if (!(lessonData.pastDate || lessonData.futureDate))
+            if (!(eventData.pastDate || eventData.futureDate))
             {
-                insertLessons(lessonData);
+                insertEvents(eventData);
             }
 
             if (variables.isMobile)
@@ -1426,11 +1426,11 @@ const ScheduleApp = function (variables) {
         };
 
         /**
-         * Getter for HTMLDivElements which represents the lessons of this table
+         * Getter for HTMLDivElements which represents the events of this table
          * @returns {Array}
          */
-        this.getLessons = function () {
-            return lessonElements;
+        this.getEvents = function () {
+            return eventElements;
         };
 
         /**
@@ -1452,25 +1452,25 @@ const ScheduleApp = function (variables) {
     }
 
     /**
-     * Creates a lesson menu for saving and deleting a lesson, which opens by right clicking on it
+     * Creates an event menu for saving and deleting an event, which opens by right clicking on it
      */
-    function LessonMenu()
+    function EventMenu()
     {
-        const lessonMenuElement = document.getElementsByClassName('lesson-menu')[0],
+        const eventMenuElement = document.getElementsByClassName('event-menu')[0],
             deleteInstanceMode = document.getElementById('delete-mode-instance'),
-            deleteMenu = lessonMenuElement.getElementsByClassName('delete')[0],
+            deleteMenu = eventMenuElement.getElementsByClassName('delete')[0],
             deletePeriodMode = document.getElementById('delete-mode-period'),
             deleteSemesterMode = document.getElementById('delete-mode-semester'),
-            descriptionSpan = lessonMenuElement.getElementsByClassName('description')[0],
-            moduleSpan = lessonMenuElement.getElementsByClassName('module')[0],
-            personsDiv = lessonMenuElement.getElementsByClassName('persons')[0],
-            groupsDiv = lessonMenuElement.getElementsByClassName('groups')[0],
-            roomsDiv = lessonMenuElement.getElementsByClassName('rooms')[0],
+            descriptionSpan = eventMenuElement.getElementsByClassName('description')[0],
+            moduleSpan = eventMenuElement.getElementsByClassName('module')[0],
+            personsDiv = eventMenuElement.getElementsByClassName('persons')[0],
+            groupsDiv = eventMenuElement.getElementsByClassName('groups')[0],
+            roomsDiv = eventMenuElement.getElementsByClassName('rooms')[0],
             saveInstanceMode = document.getElementById('save-mode-instance'),
-            saveMenu = lessonMenuElement.getElementsByClassName('save')[0],
+            saveMenu = eventMenuElement.getElementsByClassName('save')[0],
             savePeriodMode = document.getElementById('save-mode-period'),
             saveSemesterMode = document.getElementById('save-mode-semester'),
-            subjectSpan = lessonMenuElement.getElementsByClassName('subject')[0];
+            subjectSpan = eventMenuElement.getElementsByClassName('subject')[0];
         let currentCcmID = '0';
 
         /**
@@ -1484,9 +1484,9 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Inserts data of active lesson
-         * @param {Object} data - lesson data like subject name, persons, locations...
-         * @param {string} data.name - name of lesson subject
+         * Inserts data of active event
+         * @param {Object} data - event data like subject name, persons, locations...
+         * @param {string} data.name - name of event subject
          * @param {string} data.subjectNo - number of subject
          * @param {Object} data.groups - all groups
          * @param {Object} data.groupDeltas - changed groups
@@ -1495,7 +1495,7 @@ const ScheduleApp = function (variables) {
          * @param {Object} data.teachers - all teachers
          * @param {Object} data.teacherDeltas - changed teachers
          */
-        function setLessonData(data)
+        function setEventData(data)
         {
             let groupID, roomID, teacherID;
 
@@ -1512,8 +1512,8 @@ const ScheduleApp = function (variables) {
                 moduleSpan.innerHTML = data.subjectNo;
             }
 
-            descriptionSpan.innerHTML = lessonMenuElement.parentNode.getElementsByClassName('comment-container')[0] ?
-                lessonMenuElement.parentNode.getElementsByClassName('comment-container')[0].innerText : '';
+            descriptionSpan.innerHTML = eventMenuElement.parentNode.getElementsByClassName('comment-container')[0] ?
+                eventMenuElement.parentNode.getElementsByClassName('comment-container')[0].innerText : '';
 
             for (teacherID in data.teachers)
             {
@@ -1551,57 +1551,57 @@ const ScheduleApp = function (variables) {
          */
         (function () {
             saveSemesterMode.addEventListener('click', function () {
-                handleLesson(currentCcmID, variables.SEMESTER_MODE, true);
+                handleEvent(currentCcmID, variables.SEMESTER_MODE, true);
                 saveMenu.parentNode.style.display = 'none';
             });
             savePeriodMode.addEventListener('click', function () {
-                handleLesson(currentCcmID, variables.PERIOD_MODE, true);
+                handleEvent(currentCcmID, variables.PERIOD_MODE, true);
                 saveMenu.parentNode.style.display = 'none';
             });
             saveInstanceMode.addEventListener('click', function () {
-                handleLesson(currentCcmID, variables.INSTANCE_MODE, true);
+                handleEvent(currentCcmID, variables.INSTANCE_MODE, true);
                 saveMenu.parentNode.style.display = 'none';
             });
             deleteSemesterMode.addEventListener('click', function () {
-                handleLesson(currentCcmID, variables.SEMESTER_MODE, false);
+                handleEvent(currentCcmID, variables.SEMESTER_MODE, false);
                 deleteMenu.parentNode.style.display = 'none';
             });
             deletePeriodMode.addEventListener('click', function () {
-                handleLesson(currentCcmID, variables.PERIOD_MODE, false);
+                handleEvent(currentCcmID, variables.PERIOD_MODE, false);
                 deleteMenu.parentNode.style.display = 'none';
             });
             deleteInstanceMode.addEventListener('click', function () {
-                handleLesson(currentCcmID, variables.INSTANCE_MODE, false);
+                handleEvent(currentCcmID, variables.INSTANCE_MODE, false);
                 deleteMenu.parentNode.style.display = 'none';
             });
         }());
 
         /**
-         * Pops up at clicked lesson and sends an ajaxRequest to save lessons ccmID
-         * @param {HTMLDivElement} lessonElement
-         * @param {Object} data - lesson data like subject name, persons, locations...
+         * Pops up at clicked event and sends an ajaxRequest to save events ccmID
+         * @param {HTMLDivElement} eventElement
+         * @param {Object} data - event data like subject name, persons, locations...
          */
-        this.getSaveMenu = function (lessonElement, data) {
-            currentCcmID = lessonElement.dataset.ccmID;
+        this.getSaveMenu = function (eventElement, data) {
+            currentCcmID = eventElement.dataset.ccmID;
             saveMenu.style.display = 'block';
             deleteMenu.style.display = 'none';
-            lessonMenuElement.style.display = 'block';
-            lessonElement.appendChild(lessonMenuElement);
-            setLessonData(data);
+            eventMenuElement.style.display = 'block';
+            eventElement.appendChild(eventMenuElement);
+            setEventData(data);
         };
 
         /**
-         * Pops up at clicked lesson and sends an ajaxRequest to delete lessons ccmID
-         * @param {HTMLDivElement} lessonElement
-         * @param {Object} data - lesson data like subject name, persons, locations...
+         * Pops up at clicked event and sends an ajaxRequest to delete events ccmID
+         * @param {HTMLDivElement} eventElement
+         * @param {Object} data - event data like subject name, persons, locations...
          */
-        this.getDeleteMenu = function (lessonElement, data) {
-            currentCcmID = lessonElement.dataset.ccmID;
+        this.getDeleteMenu = function (eventElement, data) {
+            currentCcmID = eventElement.dataset.ccmID;
             saveMenu.style.display = 'none';
             deleteMenu.style.display = 'block';
-            lessonMenuElement.style.display = 'block';
-            lessonElement.appendChild(lessonMenuElement);
-            setLessonData(data);
+            eventMenuElement.style.display = 'block';
+            eventElement.appendChild(eventMenuElement);
+            setEventData(data);
         };
     }
 
@@ -1856,12 +1856,12 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Set session data to save form state, provided that the field does not fire a new schedule (lessons)
+         * Set session data to save form state, provided that the field does not fire a new schedule (events)
          * @param {HTMLSelectElement} field - will be set into session storage
          */
         function setSession(field)
         {
-            if (field.dataset.next !== 'lesson')
+            if (field.dataset.next !== 'event')
             {
                 const session = {};
 
@@ -1956,9 +1956,9 @@ const ScheduleApp = function (variables) {
 
                     if (optionCount === 1 || selectedValue)
                     {
-                        if (field.dataset.next === 'lesson')
+                        if (field.dataset.next === 'event')
                         {
-                            sendLessonRequest(field.id);
+                            sendEventRequest(field.id);
                         }
                         else
                         {
@@ -1976,7 +1976,7 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Request for lessons or the next field will be send, depending on fields data-set
+         * Request for events or the next field will be send, depending on fields data-set
          * @param {Event|string} field - the triggered event or id of field
          */
         function handleField(field)
@@ -1986,9 +1986,9 @@ const ScheduleApp = function (variables) {
             // Do not target placeholder
             if (element.selectedIndex !== 0)
             {
-                if (element.dataset.next === 'lesson')
+                if (element.dataset.next === 'event')
                 {
-                    sendLessonRequest(element.id);
+                    sendEventRequest(element.id);
                     return;
                 }
 
@@ -2013,9 +2013,9 @@ const ScheduleApp = function (variables) {
             let firstField, name;
 
             // Subjects do not have a select field, so the necessary information is simulated here
-            if (config.name === 'subject' || config.name === 'lesson')
+            if (config.name === 'subject' || config.name === 'event')
             {
-                firstField = {'id': config.name, 'dataset': {'next': 'lesson'}};
+                firstField = {'id': config.name, 'dataset': {'next': 'event'}};
             }
             else
             {
@@ -2026,7 +2026,7 @@ const ScheduleApp = function (variables) {
 
             if (config.name)
             {
-                if (firstField.dataset.next === 'lesson')
+                if (firstField.dataset.next === 'event')
                 {
                     config.values.forEach(function (value) {
                         const ajaxRequest = new XMLHttpRequest(),
@@ -2037,7 +2037,7 @@ const ScheduleApp = function (variables) {
                         ajaxRequest.onreadystatechange = function () {
                             if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
                             {
-                                sendLessonRequest(name, value, ajaxRequest.responseText);
+                                sendEventRequest(name, value, ajaxRequest.responseText);
                             }
                         };
                         ajaxRequest.send();
@@ -2064,7 +2064,7 @@ const ScheduleApp = function (variables) {
          */
         function updateNextVisibleField()
         {
-            const toUpdate = {'next': '', 'lesson': ''};
+            const toUpdate = {'next': '', 'event': ''};
             let name;
 
             for (name in fields)
@@ -2076,9 +2076,9 @@ const ScheduleApp = function (variables) {
 
                     if (wrapper.css('display') !== 'none' && field.dataset.input !== 'static')
                     {
-                        if (field.dataset.next === 'lesson')
+                        if (field.dataset.next === 'event')
                         {
-                            toUpdate.lesson = field.id;
+                            toUpdate.event = field.id;
                         }
                         else
                         {
@@ -2088,8 +2088,8 @@ const ScheduleApp = function (variables) {
                 }
             }
 
-            // Non lesson-fields have priority, but in some cases there are only lesson-fields (teacher)
-            sendFormRequest(toUpdate.next || toUpdate.lesson);
+            // Non event-fields have priority, but in some cases there are only event-fields (teacher)
+            sendFormRequest(toUpdate.next || toUpdate.event);
         }
 
         /**
@@ -2217,12 +2217,12 @@ const ScheduleApp = function (variables) {
     }
 
     /**
-     * Starts an Ajax request to get lessons for the selected resource
+     * Starts an Ajax request to get events for the selected resource
      * @param {string} resource
      * @param {string} [id]
      * @param {string} [title]
      */
-    function sendLessonRequest(resource, id, title)
+    function sendEventRequest(resource, id, title)
     {
         const IDs = id || getSelectedValues(resource, '-');
         let schedule = scheduleObjects.getScheduleById(resource + IDs);
@@ -2242,7 +2242,7 @@ const ScheduleApp = function (variables) {
 
     /**
      * Opens div which asks user to jump to the last or next available date
-     * @param {Object} dates - dates to jump to next lesson in schedule
+     * @param {Object} dates - dates to jump to next event in schedule
      * @param {string} dates.futureDate - next date in the future
      * @param {string} dates.pastDate - next date in the past
      */
@@ -2277,15 +2277,15 @@ const ScheduleApp = function (variables) {
     }
 
     /**
-     * Save lesson in users personal schedule
-     * Choose between lessons of whole semester (1),
+     * Save event in users personal schedule
+     * Choose between events of whole semester (1),
      * just this daytime (2)
-     * or only the selected instance of a lesson (3).
+     * or only the selected instance of a event (3).
      * @param {string} ccmID - calendar_configuration_map ID
      * @param {number} [taskNumber=1]
-     * @param {boolean} [save=true] - indicate to save or to delete the lesson
+     * @param {boolean} [save=true] - indicate to save or to delete the event
      */
-    function handleLesson(ccmID, taskNumber, save)
+    function handleEvent(ccmID, taskNumber, save)
     {
         const saving = (typeof save === 'undefined') ? true : save;
         let task = getAjaxUrl(saving ? 'saveUserLesson' : 'deleteUserLesson');
@@ -2295,39 +2295,39 @@ const ScheduleApp = function (variables) {
         ajaxSave.onreadystatechange = function () {
             if (ajaxSave.readyState === 4 && ajaxSave.status === 200)
             {
-                const handledLessons = JSON.parse(ajaxSave.responseText);
+                const handledEvents = JSON.parse(ajaxSave.responseText);
 
                 scheduleObjects.schedules.forEach(function (schedule) {
-                    const lessonElements = schedule.getTable().getLessons();
-                    let fifo = false, lessonIndex, manual = false;
+                    const eventElements = schedule.getTable().getEvents();
+                    let fifo = false, eventIndex, manual = false;
 
-                    for (lessonIndex = 0; lessonIndex < lessonElements.length; ++lessonIndex)
+                    for (eventIndex = 0; eventIndex < eventElements.length; ++eventIndex)
                     {
-                        const lessonElement = lessonElements[lessonIndex];
+                        const eventElement = eventElements[eventIndex];
 
-                        if (handledLessons.includes(lessonElement.dataset.ccmID))
+                        if (handledEvents.includes(eventElement.dataset.ccmID))
                         {
                             if (saving)
                             {
-                                lessonElement.classList.add('added');
+                                eventElement.classList.add('added');
 
-                                if (lessonElement.dataset.regType === 0)
+                                if (eventElement.dataset.regType === 0)
                                 {
                                     fifo = true;
                                 }
-                                else if (lessonElement.dataset.regType === 1)
+                                else if (eventElement.dataset.regType === 1)
                                 {
                                     manual = true;
                                 }
                             }
                             else
                             {
-                                lessonElement.classList.remove('added');
+                                eventElement.classList.remove('added');
 
                                 // So the element is invisible immediately and not as late as updating this schedule
                                 if (schedule === scheduleObjects.userSchedule)
                                 {
-                                    jQuery(lessonElement).hide();
+                                    jQuery(eventElement).hide();
                                 }
                             }
                         }
@@ -2992,7 +2992,7 @@ const ScheduleApp = function (variables) {
 
         app.dateField.value = date.getPresentationFormat();
         calendar = new Calendar();
-        lessonMenu = new LessonMenu();
+        eventMenu = new EventMenu();
         scheduleObjects = new Schedules();
         form = new ScheduleForm();
 
@@ -3064,7 +3064,7 @@ const ScheduleApp = function (variables) {
     jQuery(document).mouseup(function (e) {
         const calendarPopup = jQuery('#calendar'),
             messagePopup = jQuery('.message.pop-up'),
-            popup = jQuery('.lesson-menu');
+            popup = jQuery('.event-menu');
 
         if (!popup.is(e.target) && popup.has(e.target).length === 0)
         {

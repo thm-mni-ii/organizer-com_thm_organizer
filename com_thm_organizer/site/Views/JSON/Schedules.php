@@ -29,11 +29,15 @@ class Schedules extends BaseView
     public function display()
     {
         $function = OrganizerHelper::getInput()->getString('task');
-        if ($function === 'getLessons') {
-            $parameters = $this->getLessonParameters();
-            echo json_encode(SchedulesHelper::getLessons($parameters));
+        if (method_exists('Organizer\\Helpers\\Schedules', $function)) {
+            if ($function === 'getLessons') {
+                $parameters = $this->getLessonParameters();
+                echo json_encode(SchedulesHelper::getLessons($parameters));
+            } else {
+                echo json_encode(SchedulesHelper::$function());
+            }
         } else {
-            echo json_encode(SchedulesHelper::$function());
+            echo false;
         }
     }
 

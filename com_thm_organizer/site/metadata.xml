@@ -7,10 +7,13 @@
             <option name="THM_ORGANIZER_DEPARTMENT_STATISTICS_TITLE" msg="THM_ORGANIZER_DEPARTMENT_STATISTICS_DESCRIPTION" value="department_statistics"/>
             <option name="THM_ORGANIZER_DEPUTAT" msg="THM_ORGANIZER_DEPUTAT_DESC" value="deputat"/>
             <option name="THM_ORGANIZER_EVENTS" msg="THM_ORGANIZER_EVENTS_DESC" value="event_list"/>
-            <option name="THM_ORGANIZER_LESSON_STATISTICS" msg="THM_ORGANIZER_LESSON_STATISTICS_DESC" value="lesson_statistics"/>
+            <option name="THM_ORGANIZER_EVENT_STATISTICS" msg="THM_ORGANIZER_EVENT_STATISTICS_DESC"
+                    value="lesson_statistics"/>
             <option name="THM_ORGANIZER_ROOM_OVERVIEW" msg="THM_ORGANIZER_ROOM_OVERVIEW_DESC" value="room_overview"/>
-            <option name="THM_ORGANIZER_ROOM_STATISTICS" msg="THM_ORGANIZER_ROOM_STATISTICS_DESC" value="room_statistics"/>
-            <option name="THM_ORGANIZER_SCHEDULE_EXPORT" msg="THM_ORGANIZER_SCHEDULE_EXPORT_DESC" value="schedule_export"/>
+            <option name="THM_ORGANIZER_ROOM_STATISTICS" msg="THM_ORGANIZER_ROOM_STATISTICS_DESC"
+                    value="room_statistics"/>
+            <option name="THM_ORGANIZER_SCHEDULE_EXPORT" msg="THM_ORGANIZER_SCHEDULE_EXPORT_DESC"
+                    value="schedule_export"/>
             <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_DESC" value="schedule_grid"/>
             <option name="THM_ORGANIZER_SEARCH" msg="THM_ORGANIZER_SEARCH_DESC" value="search"/>
             <option name="THM_ORGANIZER_SUBJECTS" msg="THM_ORGANIZER_SUBJECTS_DESC" value="subjects"/>

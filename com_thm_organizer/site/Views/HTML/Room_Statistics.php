@@ -76,15 +76,15 @@ class Room_Statistics extends BaseHTMLView
         $this->fields['baseSettings'] = [];
 
         $intervals             = [];
-        $intervalAttribs       = ['onChange' => 'handleDateRestriction();'];
+        $intervalAttribs       = ['onChange' => 'handleInterval();'];
         $intervals['week']     = Languages::_('THM_ORGANIZER_WEEK');
         $intervals['month']    = Languages::_('THM_ORGANIZER_MONTH');
         $intervals['semester'] = Languages::_('THM_ORGANIZER_SEMESTER');
-        $intervalSelect        = HTML::selectBox($intervals, 'dateRestriction', $intervalAttribs, 'semester');
+        $intervalSelect        = HTML::selectBox($intervals, 'interval', $intervalAttribs, 'semester');
 
-        $this->fields['baseSettings']['dateRestriction'] = [
-            'label'       => Languages::_('THM_ORGANIZER_DATE_RESTRICTION'),
-            'description' => Languages::_('THM_ORGANIZER_DATE_RESTRICTION_DESC'),
+        $this->fields['baseSettings']['interval'] = [
+            'label'       => Languages::_('THM_ORGANIZER_INTERVAL'),
+            'description' => Languages::_('THM_ORGANIZER_INTERVAL_DESC'),
             'input'       => $intervalSelect
         ];
 

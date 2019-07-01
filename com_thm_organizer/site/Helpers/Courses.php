@@ -470,7 +470,7 @@ class Courses implements XMLValidator
             $date = date('Y-m-d');
         }
 
-        $interval = $input->getString('dateRestriction');
+        $interval = $input->getString('interval');
         if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
             $interval = 'semester';
         }

@@ -235,11 +235,11 @@ class Schedule_Export extends BaseHTMLView
         $intervals['month']    = Languages::_('THM_ORGANIZER_MONTH');
         $intervals['semester'] = Languages::_('THM_ORGANIZER_SEMESTER');
         $defaultInterval       = 'week';
-        $intervalSelect        = HTML::selectBox($intervals, 'dateRestriction', $attribs, $defaultInterval);
+        $intervalSelect        = HTML::selectBox($intervals, 'interval', $attribs, $defaultInterval);
 
-        $this->fields['formatSettings']['dateRestriction'] = [
-            'label'       => Languages::_('THM_ORGANIZER_DATE_RESTRICTION'),
-            'description' => Languages::_('THM_ORGANIZER_DATE_RESTRICTION_DESC'),
+        $this->fields['formatSettings']['interval'] = [
+            'label'       => Languages::_('THM_ORGANIZER_INTERVAL'),
+            'description' => Languages::_('THM_ORGANIZER_INTERVAL_DESC'),
             'input'       => $intervalSelect
         ];
 

@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Schedules;
@@ -398,7 +399,7 @@ class Schedule_Export extends BaseModel
 
         $allowedLengths                = ['day', 'week', 'month', 'semester', 'custom'];
         $rawLength                     = $input->getString('dateRestriction', 'week');
-        $parameters['dateRestriction'] = in_array($rawLength, $allowedLengths) ? $rawLength : 'week';
+        $parameters['interval'] = in_array($rawLength, $allowedLengths) ? $rawLength : 'week';
 
         $rawDate = $input->getString('date');
         if (empty($rawDate)) {
