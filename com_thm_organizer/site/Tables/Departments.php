@@ -70,4 +70,18 @@ class Departments extends Assets
 
         return $asset->id;
     }
+
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @return boolean  true
+     */
+    public function check()
+    {
+        if (empty($this->contactID)) {
+            $this->contactID = null;
+        }
+
+        return true;
+    }
 }
