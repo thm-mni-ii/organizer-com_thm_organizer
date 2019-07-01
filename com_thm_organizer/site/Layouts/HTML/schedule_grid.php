@@ -29,7 +29,7 @@ $displayName = empty($this->model->displayName) ?
                 <a href="#schedule-form" class="tabs-toggle" id="tab-schedule-form"
                    data-toggle="tab" data-id="schedule-form" role="tab" aria-controls="schedule-form"
                    aria-selected="true">
-                    <span class="icon-schedules"></span>
+                    <span class="icon-calendars"></span>
                     <span class="tab-text"><?php echo Languages::_('THM_ORGANIZER_SCHEDULES'); ?></span>
                 </a>
             </li>

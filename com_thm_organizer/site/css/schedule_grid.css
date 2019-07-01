@@ -176,7 +176,7 @@ input[type=radio] {
 }
 
 .tabs-toggle .icon-grid-2::before,
-.tabs-toggle .icon-schedules::before {
+.tabs-toggle .icon-calendars::before {
     font-size: 1.1rem;
 }
 
