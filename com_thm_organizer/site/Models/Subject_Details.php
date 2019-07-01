@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Organizer\Helpers\Campuses;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
@@ -44,19 +45,19 @@ class Subject_Details extends BaseModel
             return [];
         }
 
-        $input   = OrganizerHelper::getInput();
-        $langTag = $input->getString('languageTag', Languages::getShortTag());
+        $input = OrganizerHelper::getInput();
+        $tag   = $input->getString('languageTag', Languages::getShortTag());
 
         $query = $this->_db->getQuery(true);
-        $query->select("aids_$langTag AS aids, frequency_$langTag AS availability, campusID AS campus")
-            ->select("content_$langTag AS content, creditpoints, departmentID, description_$langTag AS description")
-            ->select("duration, evaluation_$langTag AS evaluation, expenditure, expertise, instructionLanguage")
-            ->select("literature, method_$langTag AS method, method_competence AS methodCompetence")
-            ->select("externalID AS moduleCode, name_$langTag AS name, objective_$langTag AS objective")
-            ->select("preliminary_work_$langTag AS preliminaryWork, used_for_$langTag AS prerequisiteFor")
-            ->select("prerequisites_$langTag AS prerequisites, proof_$langTag AS proof")
-            ->select("recommended_prerequisites_$langTag as recommendedPrerequisites")
-            ->select("self_competence AS selfCompetence, short_name_$langTag AS shortName")
+        $query->select("aids_$tag AS aids, frequency_$tag AS availability, bonus_points_$tag as bonus")
+            ->select("campusID AS campus, content_$tag AS content, creditpoints, departmentID")
+            ->select("description_$tag AS description, duration, evaluation_$tag AS evaluation, expenditure, expertise")
+            ->select("instructionLanguage, literature, method_$tag AS method, method_competence AS methodCompetence")
+            ->select("externalID AS moduleCode, name_$tag AS name, objective_$tag AS objective")
+            ->select("preliminary_work_$tag AS preliminaryWork, used_for_$tag AS prerequisiteFor")
+            ->select("prerequisites_$tag AS prerequisites, proof_$tag AS proof")
+            ->select("recommended_prerequisites_$tag as recommendedPrerequisites")
+            ->select("self_competence AS selfCompetence, short_name_$tag AS shortName")
             ->select("social_competence AS socialCompetence, sws, present");
 
         $query->from('#__thm_organizer_subjects AS s');
@@ -122,6 +123,7 @@ class Subject_Details extends BaseModel
             'preliminaryWork'          => ['label' => Languages::_($option . 'PRELIMINARY_WORK')],
             'proof'                    => ['label' => Languages::_($option . 'PROOF')],
             'evaluation'               => ['label' => Languages::_($option . 'EVALUATION')],
+            'bonus'                    => ['label' => Languages::_($option . 'BONUS_POINTS')],
             'availability'             => ['label' => Languages::_($option . 'AVAILABILITY')],
             'literature'               => ['label' => Languages::_($option . 'LITERATURE')],
             'aids'                     => ['label' => Languages::_($option . 'STUDY_AIDS')],

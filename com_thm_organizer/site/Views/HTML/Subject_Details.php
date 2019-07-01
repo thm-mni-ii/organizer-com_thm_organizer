@@ -16,6 +16,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Courses;
+use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads the subject into the display context.
@@ -89,11 +93,12 @@ class Subject_Details extends BaseHTMLView
 
             OrganizerHelper::addMenuParameters($this);
 
-            $layoutPath           = JPATH_ROOT . '/components/com_thm_organizer/Layouts';
+            $layoutPath           = JPATH_ROOT . '/components/com_thm_organizer/Layouts/HTML';
             $this->languageLinks  = new LayoutFile('language_links', $layoutPath);
             $this->languageParams = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
-            $this->disclaimer     = new LayoutFile('disclaimer', $layoutPath);
         }
+
+        $this->addDisclaimer();
 
         parent::display($tpl);
     }

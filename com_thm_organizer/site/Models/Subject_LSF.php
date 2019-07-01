@@ -652,6 +652,11 @@ class Subject_LSF extends BaseModel
                 }
                 break;
 
+            case 'Bonuspunkte':
+                $this->setAttribute($subject, 'bonus_points_de', $germanText);
+                $this->setAttribute($subject, 'bonus_points_en', $englishText);
+                break;
+
             case 'Lehrformen':
                 $this->setAttribute($subject, 'method_de', $germanText);
                 $this->setAttribute($subject, 'method_en', $englishText);

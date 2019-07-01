@@ -10,6 +10,7 @@
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Organizer\Helpers\OrganizerHelper;
 
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $containerClass = $this->showRegistration ? ' uses-login' : '';
@@ -104,6 +105,6 @@ if (!empty($this->courses)) {
         }
     }
     $this->renderCollab();
-    echo $this->disclaimer->render([]);
+    echo $this->disclaimer;
 }
 echo '</div>';

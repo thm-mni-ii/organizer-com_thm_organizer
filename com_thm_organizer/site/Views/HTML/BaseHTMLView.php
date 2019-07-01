@@ -11,6 +11,7 @@ namespace Organizer\Views\HTML;
 use JHtmlSidebar;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Views\BaseView;

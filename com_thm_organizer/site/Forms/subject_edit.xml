@@ -95,6 +95,8 @@
                description="THM_ORGANIZER_USED_FOR_DE_DESC"/>
         <field name="aids_de" type="editor" size="6" label="THM_ORGANIZER_AIDS_DE"
                description="THM_ORGANIZER_AIDS_DE_DESC"/>
+        <field name="bonus_points_de" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTS_DE"
+               description="THM_ORGANIZER_BONUS_POINTS_DE_DESC"/>
     </fieldset>
     <fieldset name="en_texts" label="ATTRIBUTES_EN">
         <field name="name_en" type="text" size="70" label="THM_ORGANIZER_NAME_EN"
@@ -128,6 +130,8 @@
                description="THM_ORGANIZER_USED_FOR_EN_DESC"/>
         <field name="aids_en" type="editor" size="6" label="THM_ORGANIZER_AIDS_EN"
                description="THM_ORGANIZER_AIDS_EN_DESC"/>
+        <field name="bonus_points_en" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTSEN"
+               description="THM_ORGANIZER_BONUS_POINTS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
         <field name="coordinators" type="SubjectTeachers" label="COORDINATORS" responsibility="1" multiple="multiple">
