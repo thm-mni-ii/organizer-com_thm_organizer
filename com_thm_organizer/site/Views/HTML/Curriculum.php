@@ -52,7 +52,7 @@ class Curriculum extends BaseHTMLView
         $this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->languageParams = ['id' => $this->item->id, 'view' => 'curriculum'];
 
-        $this->disclaimer = new LayoutFile('disclaimer', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+        $this->addDisclaimer();
 
         parent::display($tpl);
     }

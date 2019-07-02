@@ -34,11 +34,11 @@ class Campuses extends ListModel
         $select .= "g2.id as parentGridID, g2.name_$shortTag as parentGridName, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=campus_edit&id='", 'c1.id'];
         $select .= $query->concatenate($parts, '') . ' AS link';
-        $query->select($select);
-        $query->from('#__thm_organizer_campuses as c1');
-        $query->leftJoin('#__thm_organizer_grids as g1 on c1.gridID = g1.id');
-        $query->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id');
-        $query->leftJoin('#__thm_organizer_grids as g2 on c2.gridID = g2.id');
+        $query->select($select)
+            ->from('#__thm_organizer_campuses as c1')
+            ->leftJoin('#__thm_organizer_grids as g1 on c1.gridID = g1.id')
+            ->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id')
+            ->leftJoin('#__thm_organizer_grids as g2 on c2.gridID = g2.id');
 
         $searchColumns = [
             'c1.name_de',

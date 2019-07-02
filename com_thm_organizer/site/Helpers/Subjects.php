@@ -123,9 +123,9 @@ class Subjects
 
         $dbo->setQuery($query);
 
-        $results = OrganizerHelper::executeQuery('loadAssocList');
+        $results = OrganizerHelper::executeQuery('loadAssocList', []);
         if (empty($results)) {
-            return [];
+            return $results;
         }
 
         foreach ($results as $result) {

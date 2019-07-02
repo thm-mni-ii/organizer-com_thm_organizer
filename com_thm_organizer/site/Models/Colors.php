@@ -30,8 +30,7 @@ class Colors extends ListModel
         $select = "id, name_$shortTag AS name, color, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=color_edit&id='", 'id'];
         $select .= $query->concatenate($parts, '') . ' AS link';
-        $query->select($select);
-        $query->from('#__thm_organizer_colors');
+        $query->select($select)->from('#__thm_organizer_colors');
 
         $this->setSearchFilter($query, ['name_de', 'name_en', 'color']);
         $this->setValueFilters($query, ['color']);

@@ -61,8 +61,7 @@ abstract class ListView extends BaseHTMLView
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 
-        $this->state = $this->get('State');
-
+        $this->state      = $this->get('State');
         $this->filterForm = $this->get('FilterForm');
         $this->headers    = $this->getHeaders();
         $this->items      = $this->get('Items');

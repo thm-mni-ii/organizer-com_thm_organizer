@@ -397,8 +397,8 @@ class Schedule_Export extends BaseModel
             $parameters['userID'] = Factory::getUser()->id;
         }
 
-        $allowedLengths                = ['day', 'week', 'month', 'semester', 'custom'];
-        $rawLength                     = $input->getString('dateRestriction', 'week');
+        $allowedLengths         = ['day', 'week', 'month', 'semester', 'custom'];
+        $rawLength              = $input->getString('dateRestriction', 'week');
         $parameters['interval'] = in_array($rawLength, $allowedLengths) ? $rawLength : 'week';
 
         $rawDate = $input->getString('date');

@@ -94,10 +94,10 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
     private function setChildren(&$element)
     {
         $query = $this->_db->getQuery(true);
-        $query->select('*');
-        $query->from('#__thm_organizer_mappings');
-        $query->where("parentID = '$element->mapping'");
-        $query->order('ordering ASC');
+        $query->select('*')
+            ->from('#__thm_organizer_mappings')
+            ->where("parentID = '$element->mapping'")
+            ->order('ordering ASC');
         $this->_db->setQuery($query);
 
         $children = OrganizerHelper::executeQuery('loadObjectList');
@@ -142,11 +142,11 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $query  = $this->_db->getQuery(true);
         $select = "p.id, p.name_$tag AS name, description_$tag AS description, minCrP, maxCrP, ";
         $select .= 'enable_desc, color AS bgColor';
-        $query->select($select);
-        $query->from('#__thm_organizer_pools AS p');
-        $query->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->where("p.id = '$poolID'");
+        $query->select($select)
+            ->from('#__thm_organizer_pools AS p')
+            ->leftJoin('#__thm_organizer_fields AS f ON f.id = p.fieldID')
+            ->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id')
+            ->where("p.id = '$poolID'");
         $this->_db->setQuery($query);
 
         $pool = OrganizerHelper::executeQuery('loadObject');
@@ -180,11 +180,11 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $parts       = [$subjectLink, 's.id'];
         $select      .= $query->concatenate($parts, '') . ' AS link';
 
-        $query->select($select);
-        $query->from('#__thm_organizer_subjects AS s');
-        $query->leftJoin('#__thm_organizer_fields AS f ON f.id = s.fieldID');
-        $query->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
-        $query->where("s.id = '$subjectID'");
+        $query->select($select)
+            ->from('#__thm_organizer_subjects AS s')
+            ->leftJoin('#__thm_organizer_fields AS f ON f.id = s.fieldID')
+            ->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id')
+            ->where("s.id = '$subjectID'");
         $this->_db->setQuery($query);
 
         $subject = OrganizerHelper::executeQuery('loadObject');

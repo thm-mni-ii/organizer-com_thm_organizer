@@ -299,7 +299,7 @@ class Department_Statistics extends BaseModel
 
         $regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $roomID . '":("new"|"")';
         $ringQuery->where("conf.configuration REGEXP '$regexp'");
-        $dbo->setQuery($ringQuery);
+        $this->_db->setQuery($ringQuery);
 
         $roomConfigurations = OrganizerHelper::executeQuery('loadAssocList');
         if (empty($roomConfigurations)) {

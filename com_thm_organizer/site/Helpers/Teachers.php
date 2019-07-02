@@ -11,13 +11,11 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
  */
-class Teachers implements DepartmentAssociated, Selectable, XMLValidator
+class Teachers implements DepartmentAssociated, Selectable
 {
     const COORDINATES = 1;
 

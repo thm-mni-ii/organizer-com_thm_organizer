@@ -90,8 +90,8 @@ class Languages extends Text
      */
     public static function getShortTag()
     {
-        $app          = OrganizerHelper::getApplication();
-        $requestedTag = $app->input->get('languageTag');
+        $input        = OrganizerHelper::getInput();
+        $requestedTag = $input->get('languageTag');
 
         if (!empty($requestedTag)) {
             return $requestedTag;
