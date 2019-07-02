@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Subjects;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -117,7 +117,7 @@ class Subject extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $subjectIDs = OrganizerHelper::getSelectedIDs();
+        $subjectIDs = Input::getSelectedIDs();
         if (!empty($subjectIDs)) {
             $this->_db->transactionStart();
             foreach ($subjectIDs as $subjectID) {
@@ -361,7 +361,7 @@ class Subject extends BaseModel
      */
     public function save($data = [])
     {
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? Input::getForm() : $data;
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
@@ -400,7 +400,7 @@ class Subject extends BaseModel
             return false;
         }
 
-        $lessonID = OrganizerHelper::getInput()->getInt('lessonID', 0);
+        $lessonID = Input::getInt('lessonID');
         if (!empty($lessonID)) {
             Courses::refreshWaitList($lessonID);
         }

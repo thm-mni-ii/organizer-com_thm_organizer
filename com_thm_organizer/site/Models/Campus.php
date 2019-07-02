@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 /**
  * Class which manages stored campus data.
@@ -36,7 +36,7 @@ class Campus extends BaseModel
     public function save()
     {
         // Ensure maximum depth of two campuses
-        $data = OrganizerHelper::getFormInput();
+        $data = Input::getForm();
         if (!empty($data['parentID'])) {
             $table = $this->getTable();
             $table->load($data['parentID']);

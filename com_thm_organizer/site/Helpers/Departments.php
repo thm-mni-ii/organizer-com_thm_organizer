@@ -29,7 +29,7 @@ class Departments implements Selectable
      */
     private static function addAccessFilter(&$query, $access)
     {
-        $view = OrganizerHelper::getInput()->getCmd('view');
+        $view = Input::getView();
         if (empty($access) or empty($view)) {
             return;
         }
@@ -165,7 +165,7 @@ class Departments implements Selectable
             return;
         }
 
-        $formData             = OrganizerHelper::getFormInput();
+        $formData             = Input::getForm();
         $data['departmentID'] = $formData['departmentID'];
 
         try {

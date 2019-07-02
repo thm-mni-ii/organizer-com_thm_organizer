@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
@@ -27,7 +28,7 @@ class Subject_Ajax extends BaseModel
      */
     public function getSubjects()
     {
-        $input     = OrganizerHelper::getInput();
+        $input     = Input::getInput();
         $programID = $input->getString('programID', '-1');
         $teacherID = $input->getString('teacherID', '-1');
         if ($programID == '-1' and $teacherID == '-1') {
@@ -85,7 +86,7 @@ class Subject_Ajax extends BaseModel
      */
     private function getBoundaries()
     {
-        $input             = OrganizerHelper::getInput();
+        $input             = Input::getInput();
         $programID         = $input->getString('programID');
         $programBoundaries = Mappings::getBoundaries('program', $programID);
 

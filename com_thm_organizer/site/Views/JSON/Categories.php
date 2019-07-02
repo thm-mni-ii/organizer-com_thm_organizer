@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Categories as CategoriesHelper;
 
 /**
@@ -25,7 +25,7 @@ class Categories extends BaseView
      */
     public function display()
     {
-        $function = OrganizerHelper::getInput()->getString('task');
+        $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Categories', $function)) {
             echo json_encode(CategoriesHelper::$function());
         } else {

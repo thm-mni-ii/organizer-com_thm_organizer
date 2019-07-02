@@ -11,9 +11,9 @@
 namespace Organizer\Fields;
 
 use Joomla\CMS\Form\FormField;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a select box for superordinate (subject) pool mappings.
@@ -51,7 +51,7 @@ class ParentPoolField extends FormField
     protected function getOptions()
     {
         // Get basic resource data
-        $resourceID   = OrganizerHelper::getInput()->getInt('id', 0);
+        $resourceID   = Input::getID();
         $contextParts = explode('.', $this->form->getName());
         $resourceType = str_replace('_Edit', '', $contextParts[1]);
 

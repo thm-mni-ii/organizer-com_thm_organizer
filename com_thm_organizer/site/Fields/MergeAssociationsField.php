@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -32,7 +33,7 @@ class MergeAssociationsField extends OptionsField
      */
     protected function getOptions()
     {
-        $selectedIDs = OrganizerHelper::getSelectedIDs();
+        $selectedIDs = Input::getSelectedIDs();
         $valueColumn = $this->getAttribute('name');
         if (empty($selectedIDs) or empty($valueColumn)) {
             return [];

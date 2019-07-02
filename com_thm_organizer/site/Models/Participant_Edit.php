@@ -12,8 +12,8 @@
 namespace Organizer\Models;
 
 use Exception;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads a form for editing participant data.
@@ -32,7 +32,7 @@ class Participant_Edit extends EditModel
     {
         $item           = parent::getItem($pk);
         $item->tag      = Languages::getTag();
-        $item->lessonID = OrganizerHelper::getInput()->getInt('lessonID');
+        $item->lessonID = Input::getInt('lessonID');
 
         return $item;
     }

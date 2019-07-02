@@ -32,7 +32,7 @@ class Teachers implements DepartmentAssociated, Selectable
      */
     public static function byProgramOrPool()
     {
-        $input     = OrganizerHelper::getInput();
+        $input     = Input::getInput();
         $programID = $input->getString('programID');
         $poolID    = $input->getString('poolID');
 
@@ -291,7 +291,7 @@ class Teachers implements DepartmentAssociated, Selectable
             return [];
         }
 
-        $departmentIDs = OrganizerHelper::getFilterIDs('department');
+        $departmentIDs = Input::getFilterIDs('department');
         $isTeacher     = self::getIDByUserID();
         if (empty($departmentIDs) and empty($isTeacher)) {
             return [];
@@ -322,7 +322,7 @@ class Teachers implements DepartmentAssociated, Selectable
 
             $where = 'dr.departmentID IN (' . implode(',', $departmentIDs) . ')';
 
-            $selectedPrograms = OrganizerHelper::getFilterIDs('program');
+            $selectedPrograms = Input::getFilterIDs('program');
 
             if (!empty($selectedPrograms)) {
                 $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";

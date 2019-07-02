@@ -12,6 +12,7 @@ use JHtmlSidebar;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Views\BaseView;
@@ -92,7 +93,7 @@ abstract class BaseHTMLView extends BaseView
 
         $links            = '<div class="tool-wrapper language-links">';
         $params['option'] = 'com_thm_organizer';
-        $menuID           = OrganizerHelper::getInput()->getInt('Itemid');
+        $menuID           = Input::getItemid();
         if (!empty($menuID)) {
             $params['Itemid'] = $menuID;
         }

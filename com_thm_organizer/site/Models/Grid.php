@@ -13,7 +13,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 /**
  * Class which manages stored grid data.
@@ -34,7 +34,7 @@ class Grid extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? Input::getForm() : $data;
 
         // Save grids in json by foreach because the index is not numeric
         $periods = [];

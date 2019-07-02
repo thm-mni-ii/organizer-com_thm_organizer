@@ -18,8 +18,8 @@ use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads the subject into the display context.
@@ -91,7 +91,7 @@ class Subject_Details extends BaseHTMLView
                 $this->courses = $courses;
             }
 
-            OrganizerHelper::addMenuParameters($this);
+            Input::addMenuParameters($this);
 
             $layoutPath           = JPATH_ROOT . '/components/com_thm_organizer/Layouts/HTML';
             $this->languageLinks  = new LayoutFile('language_links', $layoutPath);
@@ -163,7 +163,7 @@ class Subject_Details extends BaseHTMLView
             return;
         }
 
-        $params         = OrganizerHelper::getParams();
+        $params         = Input::getParams();
         $displayeCollab = $params->get('displayeCollabLink', false);
         $ecollabLink    = $params->get('eCollabLink', '');
 

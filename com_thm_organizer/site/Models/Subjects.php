@@ -14,9 +14,9 @@ use JDatabaseQuery;
 use Joomla\CMS\Form\Form;
 use Organizer\Helpers\Access;
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Subjects as SubjectsHelper;
 
 /**

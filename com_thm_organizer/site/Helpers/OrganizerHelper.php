@@ -29,56 +29,6 @@ use RuntimeException;
 class OrganizerHelper
 {
     /**
-     * Adds menu parameters to the object (id and route)
-     *
-     * @param object $object the object to add the parameters to, typically a view
-     *
-     * @return void modifies $object
-     */
-    public static function addMenuParameters(&$object)
-    {
-        $app    = self::getApplication();
-        $menuID = $app->input->getInt('Itemid');
-
-        if (!empty($menuID)) {
-            $menuItem = $app->getMenu()->getItem($menuID);
-            $menu     = ['id' => $menuID, 'route' => self::getRedirectBase()];
-
-            $query = explode('?', $menuItem->link)[1];
-            parse_str($query, $parameters);
-
-            if (empty($parameters['option']) or $parameters['option'] != 'com_thm_organizer') {
-                $menu['view'] = '';
-            } elseif (!empty($parameters['view'])) {
-                $menu['view'] = $parameters['view'];
-            }
-
-            $object->menu = $menu;
-        }
-    }
-
-    /**
-     * Attempts to delete entries from a standard table
-     *
-     * @param string $table the table name
-     *
-     * @return boolean  true on success, otherwise false
-     */
-    public static function delete($table)
-    {
-        $selectedIDs  = self::getSelectedIDs();
-        $formattedIDs = "'" . implode("', '", $selectedIDs) . "'";
-
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->delete("#__thm_organizer_$table");
-        $query->where("id IN ( $formattedIDs )");
-        $dbo->setQuery($query);
-
-        return (bool)self::executeQuery('execute');
-    }
-
-    /**
      * Determines whether the view was called from a dynamic context
      *
      * @return bool true if the view was called dynamically, otherwise false
@@ -172,109 +122,6 @@ class OrganizerHelper
     }
 
     /**
-     * Returns the application's input object.
-     *
-     * @param string $resource the name of the resource upon which the ids being sought reference
-     *
-     * @return array the filter ids
-     */
-    public static function getFilterIDs($resource)
-    {
-        $input         = self::getInput();
-        $pluralIndex   = "{$resource}IDs";
-        $singularIndex = "{$resource}ID";
-
-        $requestIDs = $input->get($pluralIndex, [], 'array');
-        $requestIDs = ArrayHelper::toInteger($requestIDs);
-
-        if (!empty($requestIDs)) {
-            return $requestIDs;
-        }
-
-        $requestID = $input->getInt($singularIndex);
-
-        if (!empty($requestID)) {
-            return [$requestID];
-        }
-
-        // Forms
-        $formData = OrganizerHelper::getFormInput();
-        $relevant = (!empty($formData) and (isset($formData[$pluralIndex]) or isset($formData[$singularIndex])));
-        if ($relevant) {
-            if (isset($formData[$pluralIndex])) {
-                return self::resolveListIDs($formData[$pluralIndex]);
-            }
-
-            return [(int)$formData[$singularIndex]];
-        }
-
-        $filters  = $input->get('filter', [], 'array');
-        $relevant = (!empty($filters) and (isset($filters[$pluralIndex]) or isset($filters[$singularIndex])));
-        if ($relevant) {
-            if (isset($filters[$pluralIndex])) {
-                return self::resolveListIDs($filters[$pluralIndex]);
-            }
-
-            return [(int)$filters[$singularIndex]];
-        }
-
-        $listFilters = $input->get('list', [], 'array');
-        $relevant    = (!empty($listFilters) and (isset($listFilters[$pluralIndex]) or isset($listFilters[$singularIndex])));
-        if ($relevant) {
-            if (isset($listFilters[$pluralIndex])) {
-                return self::resolveListIDs($listFilters[$pluralIndex]);
-            }
-
-            return [(int)$listFilters[$singularIndex]];
-        }
-
-        $params  = self::getParams();
-        $listIDs = $params->get($pluralIndex);
-        if (count($listIDs)) {
-            return $listIDs;
-        }
-
-        $itemID = $params->get($singularIndex, null);
-        if ($itemID !== null) {
-            return [(int)$itemID];
-        }
-
-        return [];
-    }
-
-    /**
-     * Retrieves the request form.
-     *
-     * @return array with the request data if available
-     */
-    public static function getFormInput()
-    {
-        return self::getInput()->get('jform', [], 'array');
-    }
-
-    /**
-     * Returns the application's input object.
-     *
-     * @return \JInput
-     */
-    public static function getInput()
-    {
-        return self::getApplication()->input;
-    }
-
-    /**
-     * Consolidates the application, component and menu parameters to a single registry with one call.
-     *
-     * @return Registry
-     */
-    public static function getParams()
-    {
-        $app = self::getApplication();
-
-        return method_exists($app, 'getParams') ? $app->getParams() : ComponentHelper::getParams('com_thm_organizer');
-    }
-
-    /**
      * Creates the plural of the given resource.
      *
      * @param string $resource the resource for which the plural is needed
@@ -294,30 +141,6 @@ class OrganizerHelper
             default:
                 return $resource . 's';
         }
-    }
-
-    /**
-     * Builds a the base url for redirection
-     *
-     * @return string the root url to redirect to
-     */
-    public static function getRedirectBase()
-    {
-        $url    = Uri::base();
-        $input  = self::getInput();
-        $menuID = $input->getInt('Itemid');
-
-        if (!empty($menuID)) {
-            $url .= self::getApplication()->getMenu()->getItem($menuID)->route . '?';
-        } else {
-            $url .= '?option=com_thm_organizer&';
-        }
-
-        if (!empty($input->getString('languageTag'))) {
-            $url .= '&languageTag=' . Languages::getTag();
-        }
-
-        return $url;
     }
 
     /**
@@ -354,48 +177,6 @@ class OrganizerHelper
         ];
 
         return $listViews[$initial];
-    }
-
-    /**
-     * Returns the application's input object.
-     *
-     * @return array the selected ids
-     */
-    public static function getSelectedIDs()
-    {
-        $input = self::getInput();
-
-        // List Views
-        $selectedIDs = $input->get('cid', [], 'array');
-        $selectedIDs = ArrayHelper::toInteger($selectedIDs);
-
-        if (!empty($selectedIDs)) {
-            return $selectedIDs;
-        }
-
-        // Forms
-        $formData = OrganizerHelper::getFormInput();
-        if (!empty($formData)) {
-            // Merge Views
-            if (isset($formData['ids'])) {
-                $selectedIDs = self::resolveListIDs($formData['ids']);
-                if (!empty($selectedIDs)) {
-                    asort($selectedIDs);
-
-                    return $selectedIDs;
-                }
-            }
-
-            // Edit Views
-            if (isset($formData['id'])) {
-                return [(int)$formData['id']];
-            }
-        }
-
-        // Default: explicit GET/POST parameter
-        $selectedID = $input->getInt('id', 0);
-
-        return empty($selectedID) ? [] : [$selectedID];
     }
 
     /**
@@ -476,7 +257,7 @@ class OrganizerHelper
      */
     public static function setUp()
     {
-        $handler = explode('.', self::getInput()->getCmd('task', ''));
+        $handler = explode('.', Input::getTask());
         if (count($handler) == 2) {
             $task = $handler[1];
         } else {

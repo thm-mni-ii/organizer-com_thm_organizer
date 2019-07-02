@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Buildings as BuildingsHelper;
 
 /**
@@ -25,7 +25,7 @@ class Buildings extends BaseView
      */
     public function display()
     {
-        $function = OrganizerHelper::getInput()->getString('task');
+        $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Buildings', $function)) {
             echo json_encode(BuildingsHelper::$function());
         } else {

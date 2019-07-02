@@ -13,6 +13,7 @@ namespace Organizer\Fields;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -33,7 +34,7 @@ class SubjectCoursesField extends FormField
     public function getInput()
     {
         $fieldName = $this->getAttribute('name');
-        $subjectID = OrganizerHelper::getInput()->getInt('id', 0);
+        $subjectID = Input::getID();
 
         $dbo          = Factory::getDbo();
         $subjectQuery = $dbo->getQuery(true);

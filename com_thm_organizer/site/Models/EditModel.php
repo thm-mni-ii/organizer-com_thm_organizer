@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -159,7 +160,7 @@ abstract class EditModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $resourceIDs = OrganizerHelper::getSelectedIDs();
+        $resourceIDs = Input::getSelectedIDs();
         $resourceID  = empty($resourceIDs) ? 0 : $resourceIDs[0];
 
         return $this->getItem($resourceID);

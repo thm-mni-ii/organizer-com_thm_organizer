@@ -28,7 +28,7 @@ class LSF
      */
     public function __construct()
     {
-        $params         = OrganizerHelper::getParams();
+        $params         = Input::getParams();
         $this->username = $params->get('wsUsername');
         $this->password = $params->get('wsPassword');
         $uri            = $params->get('wsURI');

@@ -63,7 +63,7 @@ class Colors
     public static function getDynamicTextColor($bgColor)
     {
         $color              = substr($bgColor, 1);
-        $params             = OrganizerHelper::getParams();
+        $params             = Input::getParams();
         $red                = hexdec(substr($color, 0, 2));
         $green              = hexdec(substr($color, 2, 2));
         $blue               = hexdec(substr($color, 4, 2));

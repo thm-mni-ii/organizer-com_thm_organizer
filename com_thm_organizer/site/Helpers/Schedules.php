@@ -193,7 +193,7 @@ class Schedules
      */
     public static function deleteUserLesson()
     {
-        $input = OrganizerHelper::getInput();
+        $input = Input::getInput();
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {
@@ -690,7 +690,7 @@ class Schedules
      */
     public static function saveUserLesson()
     {
-        $input = OrganizerHelper::getInput();
+        $input = Input::getInput();
 
         $ccmID = $input->getString('ccmID');
         if (empty($ccmID)) {

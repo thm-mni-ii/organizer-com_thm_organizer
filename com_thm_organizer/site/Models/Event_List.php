@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
@@ -62,8 +63,8 @@ class Event_List extends FormModel
      */
     private function setParams()
     {
-        $this->params = OrganizerHelper::getParams();
-        $input        = OrganizerHelper::getInput();
+        $this->params = Input::getParams();
+        $input        = Input::getInput();
 
         $this->params['layout'] = empty($this->isRegistered()) ? 'default' : 'registered';
 
@@ -100,7 +101,7 @@ class Event_List extends FormModel
     {
         parent::populateState($ordering, $direction);
 
-        $formData = OrganizerHelper::getFormInput();
+        $formData = Input::getForm();
 
         $menuStartDate      = $this->params->get('startDate');
         $menuEndDate        = $this->params->get('endDate');
@@ -444,7 +445,7 @@ class Event_List extends FormModel
      */
     private function isRegistered()
     {
-        $ipData       = ['ip' => OrganizerHelper::getInput()->server->getString('REMOTE_ADDR', '')];
+        $ipData       = ['ip' => Input::getInput()->server->getString('REMOTE_ADDR', '')];
         $monitorEntry = OrganizerHelper::getTable('Monitors');
         $registered   = $monitorEntry->load($ipData);
         if (!$registered) {

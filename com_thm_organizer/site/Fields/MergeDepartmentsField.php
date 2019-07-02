@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -32,8 +33,8 @@ class MergeDepartmentsField extends OptionsField
      */
     protected function getOptions()
     {
-        $selectedIDs    = OrganizerHelper::getSelectedIDs();
-        $resource       = str_replace('_merge', '', OrganizerHelper::getInput()->get('view'));
+        $selectedIDs    = Input::getSelectedIDs();
+        $resource       = str_replace('_merge', '', Input::getView());
         $validResources = ['category', 'teacher'];
         $invalid        = (empty($selectedIDs) or empty($resource) or !in_array($resource, $validResources));
         if ($invalid) {

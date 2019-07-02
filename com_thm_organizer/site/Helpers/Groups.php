@@ -65,7 +65,7 @@ class Groups implements Selectable
      */
     public static function getLessons()
     {
-        $input = OrganizerHelper::getInput();
+        $input = Input::getInput();
 
         $groupIDs = ArrayHelper::toInteger(explode(',', $input->getString('groupIDs', '')));
         if (empty($groupIDs[0])) {
@@ -159,7 +159,7 @@ class Groups implements Selectable
      */
     public static function getOptions($access = '')
     {
-        $categoryIDs = OrganizerHelper::getFilterIDs('category');
+        $categoryIDs = Input::getFilterIDs('category');
         $options     = [];
         $short       = count($categoryIDs) === 1;
 
@@ -211,7 +211,7 @@ class Groups implements Selectable
      */
     public static function getSubjects()
     {
-        $input = OrganizerHelper::getInput();
+        $input = Input::getInput();
 
         $groupIDs = ArrayHelper::toInteger(explode(',', $input->getString('groupIDs', '')));
         if (empty($groupIDs[0])) {

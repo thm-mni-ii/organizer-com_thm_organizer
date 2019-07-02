@@ -14,6 +14,7 @@ use Exception;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Courses;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -1297,7 +1298,7 @@ class Schedule_JSON extends BaseDatabaseModel
                 }
 
                 $mailer = Factory::getMailer();
-                $input  = OrganizerHelper::getInput();
+                $input  = Input::getInput();
 
                 $user       = Factory::getUser($participantID);
                 $userParams = json_decode($user->params, true);
@@ -1311,7 +1312,7 @@ class Schedule_JSON extends BaseDatabaseModel
                     $input->set('languageTag', $tag);
                 }
 
-                $params = OrganizerHelper::getParams();
+                $params = Input::getParams();
                 $sender = Factory::getUser($params->get('mailSender'));
 
                 if (empty($sender->id)) {

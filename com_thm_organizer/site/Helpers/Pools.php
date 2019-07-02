@@ -151,7 +151,7 @@ class Pools implements Selectable
      */
     public static function getParentOptions()
     {
-        $input          = OrganizerHelper::getInput();
+        $input          = Input::getInput();
         $resourceID     = $input->getInt('id', 0);
         $resourceType   = $input->getString('type', '');
         $programIDs     = explode(',', $input->getString('programIDs', ''));
@@ -206,7 +206,7 @@ class Pools implements Selectable
      */
     public static function getResources()
     {
-        $programIDs = OrganizerHelper::getFilterIDs('program');
+        $programIDs = Input::getFilterIDs('program');
         if (empty($programIDs)) {
             return [];
         }
@@ -263,7 +263,7 @@ class Pools implements Selectable
      */
     public static function poolsByProgramOrTeacher()
     {
-        $input           = OrganizerHelper::getInput();
+        $input           = Input::getInput();
         $selectedProgram = $input->getInt('programID', 0);
         if (empty($selectedProgram) or $selectedProgram == '-1') {
             return '[]';

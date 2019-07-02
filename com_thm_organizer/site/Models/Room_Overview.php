@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\Utilities\ArrayHelper;
 use Organizer\Helpers\Dates;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\Teachers;
@@ -82,9 +83,9 @@ class Room_Overview extends FormModel
      */
     protected function populateState()
     {
-        $params        = OrganizerHelper::getParams();
+        $params        = Input::getParams();
         $format        = $params->get('dateFormat', 'd.m.Y');
-        $formData      = OrganizerHelper::getFormInput();
+        $formData      = Input::getForm();
         $defaultDate   = date($format);
         $defaultCampus = $params->get('campusID', 0);
 

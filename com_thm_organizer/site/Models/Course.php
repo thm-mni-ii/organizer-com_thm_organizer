@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Courses;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -31,9 +32,9 @@ class Course extends BaseModel
      */
     public function changeParticipantState()
     {
-        $input    = OrganizerHelper::getInput();
+        $input    = Input::getInput();
         $data     = $input->getArray();
-        $formData = OrganizerHelper::getFormInput();
+        $formData = Input::getForm();
 
         if (!Access::allowCourseAccess($formData['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
@@ -74,7 +75,7 @@ class Course extends BaseModel
      */
     public function circular()
     {
-        $courseID = OrganizerHelper::getInput()->get('lessonID', 0);
+        $courseID = Input::getInt('lessonID');
 
         if (empty($courseID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_404'), 404);
@@ -84,13 +85,13 @@ class Course extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = OrganizerHelper::getFormInput();
+        $data = Input::getForm();
 
         if (empty($data['text'])) {
             return false;
         }
 
-        $sender = Factory::getUser(OrganizerHelper::getParams()->get('mailSender'));
+        $sender = Factory::getUser(Input::getParams()->get('mailSender'));
 
         if (empty($sender->id)) {
             return false;
@@ -143,7 +144,7 @@ class Course extends BaseModel
      */
     public function save()
     {
-        $data = OrganizerHelper::getFormInput();
+        $data = Input::getForm();
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);

@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -67,7 +68,7 @@ abstract class MergeModel extends BaseModel
      */
     public function autoMerge()
     {
-        $this->selected = OrganizerHelper::getSelectedIDs();
+        $this->selected = Input::getSelectedIDs();
         $entries        = $this->getEntries();
 
         $keyProperties = ['untisID'];
@@ -141,7 +142,7 @@ abstract class MergeModel extends BaseModel
      */
     public function delete()
     {
-        $this->selected = OrganizerHelper::getSelectedIDs();
+        $this->selected = Input::getSelectedIDs();
 
         if (empty($this->selected)) {
             return false;
@@ -240,7 +241,7 @@ abstract class MergeModel extends BaseModel
      */
     public function merge()
     {
-        $this->selected = OrganizerHelper::getSelectedIDs();
+        $this->selected = Input::getSelectedIDs();
 
         if (!$this->allowEdit()) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
@@ -258,7 +259,7 @@ abstract class MergeModel extends BaseModel
             return false;
         }
 
-        $data          = empty($this->data) ? OrganizerHelper::getFormInput() : $this->data;
+        $data          = empty($this->data) ? Input::getForm() : $this->data;
         $deprecatedIDs = $this->selected;
         $data['id']    = array_shift($deprecatedIDs);
         $table         = $this->getTable();
@@ -306,7 +307,7 @@ abstract class MergeModel extends BaseModel
      */
     public function save($data = [])
     {
-        if (empty(OrganizerHelper::getSelectedIDs())) {
+        if (empty(Input::getSelectedIDs())) {
             return false;
         }
 
@@ -316,7 +317,7 @@ abstract class MergeModel extends BaseModel
 
         $this->_db->transactionStart();
 
-        $this->data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $this->data = empty($data) ? Input::getForm() : $data;
         $table      = $this->getTable();
         $success    = $table->save($this->data);
 

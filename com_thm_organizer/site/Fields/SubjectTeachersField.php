@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Subjects;
 
@@ -50,7 +51,7 @@ class SubjectTeachersField extends OptionsField
      */
     protected function getOptions()
     {
-        $subjectIDs     = OrganizerHelper::getSelectedIDs();
+        $subjectIDs     = Input::getSelectedIDs();
         $responsibility = $this->getAttribute('responsibility');
         $invalid        = (empty($subjectIDs) or empty($subjectIDs[0]) or empty($responsibility));
 

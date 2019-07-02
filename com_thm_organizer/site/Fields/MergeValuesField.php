@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -31,8 +32,8 @@ class MergeValuesField extends OptionsField
      */
     protected function getOptions()
     {
-        $selectedIDs    = OrganizerHelper::getSelectedIDs();
-        $resource       = str_replace('_merge', '', OrganizerHelper::getInput()->get('view', ''));
+        $selectedIDs    = Input::getSelectedIDs();
+        $resource       = str_replace('_merge', '', Input::getView());
         $validResources = ['category', 'field', 'group', 'method', 'room', 'room_type', 'teacher'];
         $invalid        = (empty($selectedIDs) or empty($resource) or !in_array($resource, $validResources));
         if ($invalid) {

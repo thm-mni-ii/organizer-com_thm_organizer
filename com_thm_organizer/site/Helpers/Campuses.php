@@ -97,8 +97,8 @@ class Campuses implements Selectable
             ->leftJoin('#__thm_organizer_campuses as c2 on c2.id = c1.parentID')
             ->order('parentName, name');
 
-        $selectedIDs = OrganizerHelper::getSelectedIDs();
-        $view        = OrganizerHelper::getInput()->getCmd('view', '');
+        $selectedIDs = Input::getSelectedIDs();
+        $view        = Input::getView();
 
         // Only parents
         if (strtolower($view) === 'campus_edit') {

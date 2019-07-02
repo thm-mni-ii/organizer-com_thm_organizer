@@ -15,9 +15,9 @@ use Exception;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Courses;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Participants;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class which manages stored participant data.
@@ -75,7 +75,7 @@ class Participant extends BaseModel
      */
     public function save($data = [])
     {
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? Input::getForm() : $data;
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);

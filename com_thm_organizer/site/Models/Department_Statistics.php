@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\OrganizerHelper;
@@ -45,7 +46,7 @@ class Department_Statistics extends BaseModel
     {
         parent::__construct($config);
 
-        $input  = OrganizerHelper::getInput();
+        $input  = Input::getInput();
         $format = $input->getString('format');
 
         switch ($format) {

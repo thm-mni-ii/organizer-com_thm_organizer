@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Validators as Validators;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -94,7 +95,7 @@ class Schedule_XML extends BaseModel
      */
     public function validate()
     {
-        $input       = OrganizerHelper::getInput();
+        $input       = Input::getInput();
         $formFiles   = $input->files->get('jform', [], 'array');
         $file        = $formFiles['file'];
         $xmlSchedule = simplexml_load_file($file['tmp_name']);
@@ -122,7 +123,7 @@ class Schedule_XML extends BaseModel
         $validSemesterName
                       = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
-        $form = OrganizerHelper::getFormInput();
+        $form = Input::getForm();
 
         $this->schedule->departmentID = $form['departmentID'];
 

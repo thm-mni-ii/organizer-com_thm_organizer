@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Organizer\Helpers\Access;
 use Organizer\Helpers as Helpers;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -177,7 +178,7 @@ class Search extends BaseModel
         $this->results = ['exact' => [], 'strong' => [], 'good' => [], 'related' => [], 'mentioned' => []];
         $this->tag     = Languages::getTag();
 
-        $input     = OrganizerHelper::getInput();
+        $input     = Input::getInput();
         $rawSearch = trim($input->getString('search', ''));
 
         // New call or a hard reset

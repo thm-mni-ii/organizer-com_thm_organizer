@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Terms as TermsHelper;
 
 /**
@@ -25,7 +25,7 @@ class Terms extends BaseView
      */
     public function display()
     {
-        $function = OrganizerHelper::getInput()->getString('task');
+        $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Terms', $function)) {
             echo json_encode(TermsHelper::$function());
         } else {

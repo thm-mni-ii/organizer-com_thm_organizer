@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
@@ -26,8 +27,8 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     public function getItem()
     {
-        $input   = OrganizerHelper::getInput();
-        $params  = OrganizerHelper::getParams();
+        $input   = Input::getInput();
+        $params  = Input::getParams();
         $program = new \stdClass;
 
         $programIDs = $input->get('programIDs');
@@ -173,7 +174,7 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $query = $this->_db->getQuery(true);
 
         $select      = "s.id, externalID, s.name_$tag AS name, creditpoints AS CrP, color AS bgColor, ";
-        $menuID      = OrganizerHelper::getInput()->getInt('Itemid', 0);
+        $menuID      = Input::getItemid();
         $menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
         $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$tag$menuIDParam&id='";
         $parts       = [$subjectLink, 's.id'];

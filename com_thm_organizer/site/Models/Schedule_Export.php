@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Schedules;
 use Organizer\Helpers\Teachers;
@@ -44,7 +45,7 @@ class Schedule_Export extends BaseModel
     public function __construct(array $config)
     {
         parent::__construct($config);
-        $format        = OrganizerHelper::getInput()->getString('format');
+        $format        = Input::getCMD('format', 'html');
         $lessonFormats = ['pdf', 'ics', 'xls'];
 
         // Don't bother setting these variables for html and raw formats
@@ -159,7 +160,7 @@ class Schedule_Export extends BaseModel
      */
     private function setResourceArray($resourceName, &$parameters)
     {
-        $input          = OrganizerHelper::getInput();
+        $input          = Input::getInput();
         $rawResourceIDs = $input->get("{$resourceName}IDs", [], 'raw');
 
         if (!empty($rawResourceIDs)) {
@@ -373,7 +374,7 @@ class Schedule_Export extends BaseModel
      */
     private function setParameters()
     {
-        $input = OrganizerHelper::getInput();
+        $input = Input::getInput();
 
         $parameters                  = [];
         $parameters['departmentIDs'] = $input->get('departmentIDs', [], 'array');

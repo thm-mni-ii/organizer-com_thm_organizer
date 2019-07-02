@@ -510,7 +510,7 @@ class Mappings
      */
     public static function getTeacherMappingClauses()
     {
-        $teacherID = OrganizerHelper::getInput()->getInt('teacherID', 0);
+        $teacherID = Input::getInt('teacherID');
         if (empty($teacherID) or $teacherID == '-1' or $teacherID == 'null') {
             return null;
         }

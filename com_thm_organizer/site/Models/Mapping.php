@@ -10,7 +10,7 @@
 
 namespace Organizer\Models;
 
-use Joomla\CMS\Factory;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -525,7 +525,7 @@ class Mapping extends BaseModel
     {
         $index    = 1;
         $children = [];
-        $input    = OrganizerHelper::getInput();
+        $input    = Input::getInput();
         while (!empty($input->getInt("child{$index}Order"))) {
             $ordering      = $input->getInt("child{$index}Order");
             $aggregateInfo = $input->getString("child{$index}");

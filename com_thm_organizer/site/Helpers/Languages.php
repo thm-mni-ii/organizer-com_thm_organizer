@@ -90,7 +90,7 @@ class Languages extends Text
      */
     public static function getTag()
     {
-        $input        = OrganizerHelper::getInput();
+        $input        = Input::getInput();
         $requestedTag = $input->get('languageTag');
 
         if (!empty($requestedTag)) {
@@ -99,7 +99,7 @@ class Languages extends Text
 
         $fullTag    = Factory::getLanguage()->getTag();
         $defaultTag = explode('-', $fullTag)[0];
-        $params     = OrganizerHelper::getParams();
+        $params     = Input::getParams();
 
         return empty($params->get('initialLanguage')) ? $defaultTag : $params->get('initialLanguage');
     }

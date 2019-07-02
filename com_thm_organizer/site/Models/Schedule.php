@@ -13,14 +13,11 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Courses;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Pools;
-use Organizer\Helpers\Programs;
-use Organizer\Helpers\Fields;
 use Organizer\Helpers\Rooms;
-use Organizer\Helpers\Schedules;
 use Organizer\Helpers\Teachers;
 
 /**
@@ -80,7 +77,7 @@ class Schedule extends BaseModel
      */
     public function checkIfActive()
     {
-        $scheduleIDs = OrganizerHelper::getSelectedIDs();
+        $scheduleIDs = Input::getSelectedIDs();
         if (!empty($scheduleIDs)) {
             $scheduleID = $scheduleIDs[0];
             $schedule   = $this->getTable();
@@ -106,7 +103,7 @@ class Schedule extends BaseModel
         }
 
         $this->_db->transactionStart();
-        $scheduleIDs = OrganizerHelper::getSelectedIDs();
+        $scheduleIDs = Input::getSelectedIDs();
         foreach ($scheduleIDs as $scheduleID) {
             if (!Access::allowSchedulingAccess($scheduleID)) {
                 $this->_db->transactionRollback();
@@ -159,7 +156,7 @@ class Schedule extends BaseModel
     private function getScheduleRow($departmentID = null, $termID = null)
     {
         if (empty($departmentID) or empty($termID)) {
-            $selectedIDs = OrganizerHelper::getSelectedIDs();
+            $selectedIDs = Input::getSelectedIDs();
 
             if (empty($selectedIDs)) {
                 return null;
@@ -187,8 +184,8 @@ class Schedule extends BaseModel
      */
     public function getTitle()
     {
-        $resource = OrganizerHelper::getInput()->getString('resource');
-        $value    = OrganizerHelper::getInput()->getInt('value');
+        $resource = Input::getInput()->getString('resource');
+        $value    = Input::getInput()->getInt('value');
 
         switch ($resource) {
             case 'room':
@@ -213,7 +210,7 @@ class Schedule extends BaseModel
      */
     public function setNotify()
     {
-        $isChecked = OrganizerHelper::getInput()->get('isChecked') == 'false' ? 0 : 1;
+        $isChecked = Input::getInput()->get('isChecked') == 'false' ? 0 : 1;
         $userID    = Factory::getUser()->id;
         if ($userID == 0) {
             return;
@@ -290,7 +287,7 @@ class Schedule extends BaseModel
      */
     public function toggle()
     {
-        $input      = OrganizerHelper::getInput();
+        $input      = Input::getInput();
         $scheduleID = $input->getInt('id', 0);
 
         if (empty($scheduleID)) {
@@ -316,7 +313,7 @@ class Schedule extends BaseModel
      */
     public function upload($shouldNotify)
     {
-        $form        = OrganizerHelper::getFormInput();
+        $form        = Input::getForm();
         $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
 
         if ($invalidForm) {

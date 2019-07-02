@@ -17,8 +17,8 @@ use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads persistent information about a course into the display context.
@@ -58,7 +58,7 @@ class Course_Edit extends EditView
      */
     public function display($tpl = null)
     {
-        $lessonID = OrganizerHelper::getInput()->getInt('id', 0);
+        $lessonID = Input::getID();
 
         if (empty($lessonID) or !Access::allowCourseAccess($lessonID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
@@ -97,7 +97,7 @@ class Course_Edit extends EditView
         $this->languageParams = ['lessonID' => $courseID, 'view' => 'courses'];
         */
         $this->modifyDocument();
-        OrganizerHelper::addMenuParameters($this);
+        Input::addMenuParameters($this);
 
         parent::display($tpl);
     }

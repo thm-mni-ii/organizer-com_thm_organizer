@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
@@ -253,12 +254,12 @@ class Room_Display extends BaseModel
             $this->params['content_refresh']  = $monitorEntry->content_refresh;
             $this->params['content']          = $monitorEntry->content;
         } else {
-            $params                           = OrganizerHelper::getParams();
+            $params                           = Input::getParams();
             $this->params['display']          = $params->get('display', self::SCHEDULE);
             $this->params['schedule_refresh'] = $params->get('schedule_refresh', 60);
             $this->params['content_refresh']  = $params->get('content_refresh', 60);
 
-            $this->params['content'] = OrganizerHelper::getParams()->get('content');
+            $this->params['content'] = Input::getParams()->get('content');
         }
 
         // No need for special handling if no content has been set
@@ -304,7 +305,7 @@ class Room_Display extends BaseModel
      */
     private function setRoomData()
     {
-        $input        = OrganizerHelper::getInput();
+        $input        = Input::getInput();
         $ipData       = ['ip' => $input->server->getString('REMOTE_ADDR', '')];
         $monitorEntry = OrganizerHelper::getTable('Monitors');
         $roomEntry    = OrganizerHelper::getTable('Rooms');

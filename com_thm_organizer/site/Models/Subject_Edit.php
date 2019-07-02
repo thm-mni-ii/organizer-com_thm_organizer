@@ -13,7 +13,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 /**
  * Class loads a form for editing data.
@@ -87,7 +87,7 @@ class Subject_Edit extends EditModel
      */
     protected function loadFormData()
     {
-        $resourceIDs = OrganizerHelper::getSelectedIDs();
+        $resourceIDs = Input::getSelectedIDs();
         $resourceID  = empty($resourceIDs) ? 0 : $resourceIDs[0];
 
         return $this->getItem($resourceID);

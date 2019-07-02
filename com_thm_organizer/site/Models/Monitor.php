@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Exception;
-use Joomla\CMS\Factory;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -29,7 +29,7 @@ class Monitor extends BaseModel
      */
     public function save()
     {
-        $data = OrganizerHelper::getFormInput();
+        $data = Input::getForm();
 
         if (empty($data['roomID'])) {
             unset($data['roomID']);
@@ -52,7 +52,7 @@ class Monitor extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $input       = OrganizerHelper::getInput();
+        $input       = Input::getInput();
         $monitorID   = $input->getInt('id', 0);
         $plausibleID = ($monitorID > 0);
 
@@ -79,7 +79,7 @@ class Monitor extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $input     = OrganizerHelper::getInput();
+        $input     = Input::getInput();
         $monitorID = $input->getInt('id', 0);
         if (empty($monitorID)) {
             return false;

@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
@@ -34,7 +35,7 @@ class Curriculum_Ajax extends BaseModel
      */
     public function getCurriculum()
     {
-        $programID = OrganizerHelper::getInput()->getInt('programID');
+        $programID = Input::getInt('programID');
 
         if (empty($programID)) {
             return '';
@@ -106,7 +107,7 @@ class Curriculum_Ajax extends BaseModel
         }
 
         if (empty($poolData->color)) {
-            $poolData->color = OrganizerHelper::getParams()->get('backgroundColor', '#ffffff');
+            $poolData->color = Input::getParams()->get('backgroundColor', '#ffffff');
         }
 
         $poolData->children = [];
@@ -154,7 +155,7 @@ class Curriculum_Ajax extends BaseModel
      */
     private function getSubjectData($subjectID, $tag)
     {
-        $itemID        = OrganizerHelper::getInput()->get('Itemid');
+        $itemID        = Input::getItemid();
         $dbo           = Factory::getDbo();
         $query         = $dbo->getQuery(true);
         $select        = "s.id, lsfID, hisID, externalID, name_$tag AS name, creditpoints AS maxCrP, color, ";
@@ -181,7 +182,7 @@ class Curriculum_Ajax extends BaseModel
         }
 
         if (empty($subjectData->color)) {
-            $subjectData->color = OrganizerHelper::getParams()->get('backgroundColor', '#ffffff');
+            $subjectData->color = Input::getParams()->get('backgroundColor', '#ffffff');
         }
 
         $subjectData->link = Route::_($subjectData->link);

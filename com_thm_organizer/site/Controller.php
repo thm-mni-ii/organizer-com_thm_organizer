@@ -18,8 +18,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Router\Route;
 use Organizer\Helpers\Courses;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Routing;
 
 /**
  * Class receives user actions and performs access checks and redirection.
@@ -40,7 +42,7 @@ class Controller extends BaseController
         $config['base_path']    = JPATH_COMPONENT_SITE;
         $config['model_prefix'] = '';
         parent::__construct($config);
-        $task           = $this->input->get('task', '');
+        $task           = Input::getTask();
         $taskParts      = explode('.', $task);
         $this->resource = $taskParts[0];
         $this->listView = OrganizerHelper::getPlural($this->resource);
@@ -106,7 +108,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->resource}_edit&id=$resourceID";
         $this->setRedirect($url);
     }
@@ -126,7 +128,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
@@ -150,8 +152,8 @@ class Controller extends BaseController
      */
     public function changeParticipantState()
     {
-        $formData = OrganizerHelper::getFormInput();
-        $url      = OrganizerHelper::getRedirectBase();
+        $formData = Input::getForm();
+        $url      = Routing::getRedirectBase();
 
         if (empty($formData) or empty($formData['id'])) {
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
@@ -184,7 +186,7 @@ class Controller extends BaseController
         }
 
         $lessonID = $this->input->get('lessonID');
-        $redirect = OrganizerHelper::getRedirectBase() . "view=courses&lessonID=$lessonID";
+        $redirect = Routing::getRedirectBase() . "view=courses&lessonID=$lessonID";
         $this->setRedirect(Route::_($redirect, false));
     }
 
@@ -203,7 +205,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_DELETE_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
@@ -276,7 +278,7 @@ class Controller extends BaseController
      */
     public function edit()
     {
-        $cid        = OrganizerHelper::getSelectedIDs();
+        $cid        = Input::getSelectedIDs();
         $resourceID = count($cid) > 0 ? $cid[0] : 0;
 
         $this->input->set('view', "{$this->resource}_edit");
@@ -381,7 +383,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
@@ -401,7 +403,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_MERGE_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
@@ -416,7 +418,7 @@ class Controller extends BaseController
     {
         $url = "index.php?option=com_thm_organizer&view={$this->listView}";
 
-        $selected = OrganizerHelper::getSelectedIDs();
+        $selected = Input::getSelectedIDs();
         if (count($selected) == 1) {
             $msg = Languages::_('THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(Route::_($url, false), $msg, 'warning');
@@ -450,7 +452,7 @@ class Controller extends BaseController
     public function publishPast()
     {
         $success = $this->getModel('group')->publishPast();
-        $url     = OrganizerHelper::getRedirectBase() . '&view=groups';
+        $url     = Routing::getRedirectBase() . '&view=groups';
         if ($success) {
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
         } else {
@@ -469,14 +471,14 @@ class Controller extends BaseController
     public function register()
     {
         $courseID = $this->input->getInt('lessonID');
-        $url      = OrganizerHelper::getRedirectBase();
+        $url      = Routing::getRedirectBase();
 
         // No chosen lesson => should not occur
         if (empty($courseID) or !Courses::isRegistrationOpen()) {
             $this->setRedirect(Route::_($url, false));
         }
 
-        $formData           = OrganizerHelper::getFormInput();
+        $formData           = Input::getForm();
         $participantModel   = $this->getModel('participant');
         $participantEditURL = "{$url}&view=participant_edit&lessonID=$courseID";
 
@@ -551,10 +553,10 @@ class Controller extends BaseController
         $resourceID = $this->getModel($this->resource)->save();
 
         $isBackend = OrganizerHelper::getApplication()->isClient('administrator');
-        $data      = OrganizerHelper::getFormInput();
+        $data      = Input::getForm();
         $formID    = empty($data['id']) ? 0 : (int)$data['id'];
         $lessonID  = $this->resource == 'course' ? $formID : $this->input->getInt('lessonID', 0);
-        $url       = OrganizerHelper::getRedirectBase();
+        $url       = Routing::getRedirectBase();
         if (empty($resourceID)) {
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
@@ -610,7 +612,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
@@ -629,7 +631,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->resource}_edit&id=0";
         $this->setRedirect($url);
     }
@@ -664,7 +666,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view=schedules";
         $this->setRedirect($url);
     }
@@ -691,7 +693,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
@@ -712,7 +714,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_UPDATE_FAIL', 'error');
         }
 
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$this->listView}";
         $this->setRedirect($url);
     }
@@ -751,7 +753,7 @@ class Controller extends BaseController
             $view = 'Schedules';
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
-        $url = OrganizerHelper::getRedirectBase();
+        $url = Routing::getRedirectBase();
         $url .= "&view={$view}";
         $this->setRedirect($url);
     }

@@ -10,12 +10,9 @@
 
 namespace Organizer\Models;
 
-use Joomla\CMS\Factory;
-use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Categories;
-use Organizer\Helpers\Terms;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -64,7 +61,7 @@ class Room_Statistics extends BaseModel
     {
         parent::__construct($config);
 
-        $format = OrganizerHelper::getInput()->getString('format');
+        $format = Input::getCMD('format', 'html');
 
         switch ($format) {
             case 'xls':
@@ -306,7 +303,7 @@ class Room_Statistics extends BaseModel
      */
     private function setDates()
     {
-        $input       = OrganizerHelper::getInput();
+        $input       = Input::getInput();
         $use         = $input->getString('use');
         $termIDs     = $input->get('termIDs', [], 'array');
         $validTermID = (!empty($termIDs) and !empty($termIDs[0])) ? true : false;
@@ -323,7 +320,7 @@ class Room_Statistics extends BaseModel
             }
         }
 
-        $dateFormat   = OrganizerHelper::getParams()->get('dateFormat');
+        $dateFormat   = Input::getParams()->get('dateFormat');
         $date         = $input->getString('date', date($dateFormat));
         $startDoWNo   = empty($this->startDoW) ? 1 : $this->startDoW;
         $startDayName = date('l', strtotime("Sunday + $startDoWNo days"));

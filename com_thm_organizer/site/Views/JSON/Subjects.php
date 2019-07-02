@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Subjects as SubjectsHelper;
 
 /**
@@ -25,7 +25,7 @@ class Subjects extends BaseView
      */
     public function display()
     {
-        $function = OrganizerHelper::getInput()->getString('task');
+        $function = Input::getTask();
         echo json_encode(SubjectsHelper::$function());
     }
 }

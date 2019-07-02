@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
@@ -212,7 +213,7 @@ class Subject_LSF extends BaseModel
      */
     public function importBatch()
     {
-        $subjectIDs = OrganizerHelper::getSelectedIDs();
+        $subjectIDs = Input::getSelectedIDs();
         $this->_db->transactionStart();
 
         foreach ($subjectIDs as $subjectID) {

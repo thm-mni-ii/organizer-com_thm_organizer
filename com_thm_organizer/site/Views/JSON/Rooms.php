@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Rooms as RoomsHelper;
 
 /**
@@ -25,7 +25,7 @@ class Rooms extends BaseView
      */
     public function display()
     {
-        $function = OrganizerHelper::getInput()->getString('task');
+        $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Rooms', $function)) {
             echo json_encode(RoomsHelper::$function());
         } else {

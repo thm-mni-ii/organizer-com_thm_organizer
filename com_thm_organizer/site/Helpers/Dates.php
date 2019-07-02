@@ -50,7 +50,7 @@ class Dates
      */
     public static function formatTime($time)
     {
-        $timeFormat = OrganizerHelper::getParams()->get('timeFormat', 'H:i');
+        $timeFormat = Input::getParams()->get('timeFormat', 'H:i');
 
         return date($timeFormat, strtotime($time));
     }
@@ -62,7 +62,7 @@ class Dates
      */
     public static function getFormat()
     {
-        return OrganizerHelper::getParams()->get('dateFormat', 'd.m.Y');
+        return Input::getParams()->get('dateFormat', 'd.m.Y');
     }
 
     /**

@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Teachers;
@@ -73,7 +74,7 @@ class Schedule_Export extends BaseHTMLView
             return 0;
         }
 
-        return (int)OrganizerHelper::getParams()->get('si');
+        return (int)Input::getParams()->get('si');
     }
 
     /**
@@ -213,7 +214,7 @@ class Schedule_Export extends BaseHTMLView
 //        ];
 
         // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = OrganizerHelper::getParams()->get('dateFormat');
+        $rawDateFormat = Input::getParams()->get('dateFormat');
         $today         = date('Y-m-d');
 
         if ($seeingImpaired) {

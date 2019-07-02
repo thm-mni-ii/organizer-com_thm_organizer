@@ -168,11 +168,11 @@ class Categories implements DepartmentAssociated, Selectable
      */
     public function byTeacher()
     {
-        $dbo          = Factory::getDbo();
-        $language     = Languages::getShortTag();
-        $query        = $dbo->getQuery(true);
-        $concateQuery = ["dp.name_$language", "', ('", 'd.abbreviation', "' '", ' dp.version', "')'"];
-        $query->select('dp.id, ' . $query->concatenate($concateQuery, '') . ' AS name');
+        $dbo         = Factory::getDbo();
+        $tag         = Languages::getTag();
+        $query       = $dbo->getQuery(true);
+        $concatQuery = ["dp.name_$tag", "', ('", 'd.abbreviation', "' '", ' dp.version', "')'"];
+        $query->select('dp.id, ' . $query->concatenate($concatQuery, '') . ' AS name');
         $query->from('#__thm_organizer_programs AS dp');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');

@@ -10,8 +10,8 @@
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $containerClass = $this->showRegistration ? ' uses-login' : '';
@@ -21,7 +21,7 @@ if (!empty($this->menu)) {
     $menuText = Languages::_('THM_ORGANIZER_BACK');
 }
 
-$position = OrganizerHelper::getParams()->get('loginPosition');
+$position = Input::getParams()->get('loginPosition');
 echo '<div class="toolbar">';
 echo $this->languageLinks->render($this->languageParams);
 echo '</div>';

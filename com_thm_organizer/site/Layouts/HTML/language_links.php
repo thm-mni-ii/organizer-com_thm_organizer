@@ -9,8 +9,8 @@
  */
 
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 
 $current            = Languages::getTag();
 $supportedLanguages = ['en' => Languages::_('THM_ORGANIZER_ENGLISH'), 'de' => Languages::_('THM_ORGANIZER_GERMAN')];
@@ -28,7 +28,7 @@ if (empty($displayData['view'])) {
     $params           = $displayData;
     $params['option'] = 'com_thm_organizer';
     $params           = array_merge($displayData, $params);
-    $menuID           = OrganizerHelper::getInput()->getInt('Itemid');
+    $menuID           = Input::getItemid();
     if (!empty($menuID)) {
         $params['Itemid'] = $menuID;
     }

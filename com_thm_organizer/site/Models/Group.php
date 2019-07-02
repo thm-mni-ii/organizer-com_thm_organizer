@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Groups;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Terms;
 
@@ -42,7 +43,7 @@ class Group extends MergeModel
      */
     public function batch()
     {
-        $this->selected = OrganizerHelper::getSelectedIDs();
+        $this->selected = Input::getSelectedIDs();
         if (empty($this->selected)) {
             return false;
         }
@@ -111,7 +112,7 @@ class Group extends MergeModel
      */
     public function save($data = [])
     {
-        $this->selected = OrganizerHelper::getSelectedIDs();
+        $this->selected = Input::getSelectedIDs();
 
         if (empty(parent::save($data))) {
             return false;
@@ -131,7 +132,7 @@ class Group extends MergeModel
      */
     private function savePublishing()
     {
-        $formData = OrganizerHelper::getFormInput();
+        $formData = Input::getForm();
         if (empty($formData['publishing'])) {
             return true;
         }

@@ -16,7 +16,6 @@ use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
@@ -78,11 +77,11 @@ class Courses
         $authorized = self::authorized($courseID);
 
         $tag             = Languages::getTag();
-        $menuID          = OrganizerHelper::getInput()->getInt('Itemid');
+        $menuID          = Input::getItemid();
         $pathPrefix      = 'index.php?option=com_thm_organizer';
         $managerURL      = "{$pathPrefix}&view=courses&languageTag=$tag";
         $registrationURL = "$pathPrefix&task=$view.register&languageTag=$tag";
-        $registrationURL .= $view == 'subject' ? '&id=' . OrganizerHelper::getInput()->getInt('id', 0) : '';
+        $registrationURL .= $view == 'subject' ? '&id=' . Input::getID() : '';
 
         if (!empty($menuID)) {
             $managerURL      .= "&Itemid=$menuID";
@@ -201,7 +200,7 @@ class Courses
      */
     public static function getCourse($courseID = 0)
     {
-        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
+        $courseID = Input::getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return [];
@@ -233,7 +232,7 @@ class Courses
             return $courseData;
         }
 
-        $params = OrganizerHelper::getParams();
+        $params = Input::getParams();
         if (empty($courseData['deadline'])) {
             $courseData['deadline'] = $params->get('deadline', 5);
         }
@@ -254,12 +253,12 @@ class Courses
      */
     public static function getDateDisplay($courseID = 0)
     {
-        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
+        $courseID = Input::getInt('lessonID', $courseID);
 
         $dates = self::getDates($courseID);
 
         if (!empty($dates)) {
-            $dateFormat = OrganizerHelper::getParams()->get('dateFormat', 'd.m.Y');
+            $dateFormat = Input::getParams()->get('dateFormat', 'd.m.Y');
             $start      = HTML::_('date', $dates[0], $dateFormat);
             $end        = HTML::_('date', end($dates), $dateFormat);
 
@@ -278,7 +277,7 @@ class Courses
      */
     public static function getDates($courseID = 0)
     {
-        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
+        $courseID = Input::getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return [];
@@ -455,7 +454,7 @@ class Courses
      */
     public static function getLessons()
     {
-        $input = OrganizerHelper::getInput();
+        $input = Input::getInput();
 
         $courseIDs = ArrayHelper::toInteger(explode(',', $input->getString('courseIDs', '')));
         if (empty($courseIDs[0])) {
@@ -549,7 +548,7 @@ class Courses
      */
     public static function getNameByLessonID($courseID = 0)
     {
-        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
+        $courseID = Input::getInt('lessonID', $courseID);
 
         if (empty($courseID)) {
             return '';
@@ -666,7 +665,7 @@ class Courses
     public static function getParticipantState($courseID = 0)
     {
         $userID   = Factory::getUser()->id;
-        $courseID = OrganizerHelper::getInput()->getInt('lessonID', $courseID);
+        $courseID = Input::getInt('lessonID', $courseID);
 
         if (empty($courseID) || empty($userID)) {
             return [];

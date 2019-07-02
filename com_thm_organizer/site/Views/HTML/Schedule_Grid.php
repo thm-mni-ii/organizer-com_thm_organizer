@@ -14,6 +14,7 @@ namespace Organizer\Views\HTML;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -91,7 +92,7 @@ class Schedule_Grid extends BaseHTMLView
         $this->tag         = Languages::getTag();
         $this->model       = $this->getModel();
         $this->defaultGrid = $this->model->getDefaultGrid();
-        $compParams        = OrganizerHelper::getParams();
+        $compParams        = Input::getParams();
         $this->dateFormat  = $compParams->get('dateFormat', 'd.m.Y');
         $this->emailFilter = $compParams->get('emailFilter', '');
         $this->modifyDocument();
@@ -135,7 +136,7 @@ class Schedule_Grid extends BaseHTMLView
             'defaultGrid'       => $this->defaultGrid->grid,
             'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
             'isMobile'          => $this->isMobile,
-            'menuID'            => OrganizerHelper::getInput()->get('Itemid', 0),
+            'menuID'            => Input::getItemid(),
             'registered'        => !empty($user->id),
             'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
             'username'          => !empty($user->id) ? $user->username : ''

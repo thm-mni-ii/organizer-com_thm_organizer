@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Organizer\Helpers\Campuses;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Teachers;
@@ -143,7 +144,7 @@ class Subject_Details extends BaseModel
      */
     private function resolveID()
     {
-        $input     = OrganizerHelper::getInput();
+        $input     = Input::getInput();
         $requestID = $input->getInt('id', 0);
 
         if (!empty($requestID)) {

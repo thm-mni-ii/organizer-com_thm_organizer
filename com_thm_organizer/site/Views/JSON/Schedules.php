@@ -12,7 +12,7 @@ namespace Organizer\Views\JSON;
 
 use Exception;
 use Joomla\CMS\Factory;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Schedules as SchedulesHelper;
 
 /**
@@ -28,7 +28,7 @@ class Schedules extends BaseView
      */
     public function display()
     {
-        $function = OrganizerHelper::getInput()->getString('task');
+        $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Schedules', $function)) {
             if ($function === 'getLessons') {
                 $parameters = $this->getLessonParameters();
@@ -48,7 +48,7 @@ class Schedules extends BaseView
      */
     private function getLessonParameters()
     {
-        $input       = OrganizerHelper::getInput();
+        $input       = Input::getInput();
         $inputParams = $input->getArray();
         $inputKeys   = array_keys($inputParams);
         $parameters  = [];

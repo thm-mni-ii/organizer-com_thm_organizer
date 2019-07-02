@@ -38,7 +38,7 @@ trait Filtered
      */
     public static function addCampusFilter(&$query, $alias)
     {
-        $campusIDs = OrganizerHelper::getFilterIDs('campus');
+        $campusIDs = Input::getFilterIDs('campus');
         if (empty($campusIDs)) {
             return;
         }
@@ -66,7 +66,7 @@ trait Filtered
      */
     public static function addDeptSelectionFilter(&$query, $resource, $alias, $keyColumn = 'id')
     {
-        $departmentIDs = OrganizerHelper::getFilterIDs('department');
+        $departmentIDs = Input::getFilterIDs('department');
         if (empty($departmentIDs)) {
             return;
         }
@@ -100,7 +100,7 @@ trait Filtered
         $reqResource = ''
     ) {
         $reqResource = empty($reqResource) ? $resource : $reqResource;
-        $resourceIDs = OrganizerHelper::getFilterIDs($reqResource);
+        $resourceIDs = Input::getFilterIDs($reqResource);
         if (empty($resourceIDs)) {
             return;
         }

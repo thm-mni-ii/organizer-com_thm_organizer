@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Colors;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use stdClass;
@@ -68,7 +69,7 @@ class ColorsField extends OptionsField
             ->order('text');
 
         // Filter irrelevant filter colors out.
-        $view = OrganizerHelper::getInput()->getCmd('view');
+        $view = Input::getView();
         if ($view !== 'field_edit') {
             $query->innerJoin('#__thm_organizer_fields AS f on f.colorID = c.id');
         }

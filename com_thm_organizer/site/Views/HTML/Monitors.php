@@ -13,8 +13,8 @@ namespace Organizer\Views\HTML;
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads persistent information a filtered set of monitors into the display context.
@@ -113,7 +113,7 @@ class Monitors extends ListView
         $index          = 0;
         $processedItems = [];
 
-        $params       = OrganizerHelper::getParams();
+        $params       = Input::getParams();
         $displayParam = $params->get('display');
         $contentParam = $params->get('content');
 

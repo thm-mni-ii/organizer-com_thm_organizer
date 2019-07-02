@@ -43,7 +43,7 @@ class Programs implements Selectable
             return null;
         }
 
-        $formData                    = OrganizerHelper::getFormInput();
+        $formData                    = Input::getForm();
         $programData['departmentID'] = $formData['departmentID'];
         $programData['name_de']      = $initialName;
         $programData['name_en']      = $initialName;
@@ -154,8 +154,8 @@ class Programs implements Selectable
     private static function useCurrent()
     {
         $useCurrent = false;
-        $view       = OrganizerHelper::getInput()->getCmd('view');
-        $selected   = OrganizerHelper::getSelectedIDs();
+        $view       = Input::getView();
+        $selected   = Input::getSelectedIDs();
         if ($view === 'participant_edit') {
             $participantID = empty($selected) ? Factory::getUser() : $selected[0];
             $table         = new Participants;

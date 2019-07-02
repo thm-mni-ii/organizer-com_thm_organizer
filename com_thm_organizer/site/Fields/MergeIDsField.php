@@ -11,7 +11,7 @@
 namespace Organizer\Fields;
 
 use Joomla\CMS\Form\FormField;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 /**
  * Class creates a two hidden fields for merging. One has the lowest selected id as its value, the other has all
@@ -30,7 +30,7 @@ class MergeIDsField extends FormField
      */
     protected function getInput()
     {
-        $selectedIDs = OrganizerHelper::getSelectedIDs();
+        $selectedIDs = Input::getSelectedIDs();
         asort($selectedIDs);
         $values = implode(',', $selectedIDs);
 

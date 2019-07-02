@@ -17,6 +17,7 @@ use Organizer\Helpers\Access;
 use Organizer\Helpers\Categories;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Departments;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Groups;
@@ -90,8 +91,8 @@ class Schedule_Grid extends BaseModel
      */
     private function setParams()
     {
-        $input  = OrganizerHelper::getInput();
-        $params = OrganizerHelper::getParams();
+        $input  = Input::getInput();
+        $params = Input::getParams();
 
         $reqDepartmentID = $input->getInt('departmentID', 0);
         $rawDeptIDs      = $input->getString('departmentIDs');
@@ -280,10 +281,10 @@ class Schedule_Grid extends BaseModel
      */
     private function setResourceArray($resourceName)
     {
-        $rawResourceIDs = OrganizerHelper::getInput()->get("{$resourceName}IDs", [], 'raw');
+        $rawResourceIDs = Input::getInput()->get("{$resourceName}IDs", [], 'raw');
 
         if (empty($rawResourceIDs)) {
-            $rawResourceIDs = OrganizerHelper::getParams()->get("{$resourceName}IDs");
+            $rawResourceIDs = Input::getParams()->get("{$resourceName}IDs");
         }
 
         if (!empty($rawResourceIDs)) {

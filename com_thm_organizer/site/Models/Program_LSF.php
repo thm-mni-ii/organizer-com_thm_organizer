@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
@@ -70,7 +71,7 @@ class Program_LSF extends BaseModel
      */
     public function importBatch()
     {
-        $programIDs = OrganizerHelper::getSelectedIDs();
+        $programIDs = Input::getSelectedIDs();
 
         $this->_db->transactionStart();
         foreach ($programIDs as $programID) {
@@ -208,7 +209,7 @@ class Program_LSF extends BaseModel
      */
     public function updateBatch()
     {
-        $programIDs = OrganizerHelper::getSelectedIDs();
+        $programIDs = Input::getSelectedIDs();
 
         if (empty($programIDs)) {
             return false;

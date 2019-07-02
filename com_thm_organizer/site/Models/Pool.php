@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 /**
  * Class which manages stored (subject) pool data.
@@ -31,7 +31,7 @@ class Pool extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $poolIDs = OrganizerHelper::getSelectedIDs();
+        $poolIDs = Input::getSelectedIDs();
         if (!empty($poolIDs)) {
             $this->_db->transactionStart();
             foreach ($poolIDs as $poolID) {
@@ -90,7 +90,7 @@ class Pool extends BaseModel
      */
     public function save($data = [])
     {
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? Input::getForm() : $data;
 
         if (empty($data['id'])) {
             if (!Access::allowDocumentAccess()) {

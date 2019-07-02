@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 /**
  * Class which manages stored (degree) program data.
@@ -31,7 +31,7 @@ class Program extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $programIDs = OrganizerHelper::getSelectedIDs();
+        $programIDs = Input::getSelectedIDs();
         if (!empty($programIDs)) {
             $this->_db->transactionStart();
             $table = $this->getTable();
@@ -71,7 +71,7 @@ class Program extends BaseModel
      */
     public function save($data = [])
     {
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? Input::getForm() : $data;
 
         if (empty($data['id'])) {
             $documentationAccess = Access::allowDocumentAccess();
@@ -122,7 +122,7 @@ class Program extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? Input::getForm() : $data;
         if (isset($data['id'])) {
             unset($data['id']);
         }

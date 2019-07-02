@@ -11,7 +11,7 @@
 namespace Organizer\Views\JSON;
 
 use Organizer\Helpers\Departments as DepartmentsHelper;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 /**
  * Class answers dynamic organizational related queries
@@ -25,7 +25,7 @@ class Departments extends BaseView
      */
     public function display()
     {
-        $function = OrganizerHelper::getInput()->getString('task');
+        $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Departments', $function)) {
             echo json_encode(DepartmentsHelper::$function());
         } else {

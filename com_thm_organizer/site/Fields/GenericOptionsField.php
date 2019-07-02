@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -220,7 +221,7 @@ class GenericOptionsField extends OptionsField
             return;
         }
         $valueParameters     = explode(',', $valueParameter);
-        $componentParameters = OrganizerHelper::getParams();
+        $componentParameters = Input::getParams();
         foreach ($valueParameters as $parameter) {
             $componentParameter = $componentParameters->get($parameter);
             if (empty($componentParameter)) {

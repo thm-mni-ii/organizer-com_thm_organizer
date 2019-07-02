@@ -11,6 +11,7 @@
 namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Buildings;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use stdClass;
@@ -138,7 +139,7 @@ class Rooms implements UntisXMLValidator
 
         $capacity      = (int)$roomNode->capacity;
         $buildingID    = null;
-        $buildingREGEX = OrganizerHelper::getParams()->get('buildingRegex');
+        $buildingREGEX = Input::getParams()->get('buildingRegex');
 
         if (!empty($buildingREGEX)) {
             $matchFound = preg_match("/$buildingREGEX/", $untisID, $matches);

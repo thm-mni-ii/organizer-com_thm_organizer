@@ -10,7 +10,7 @@
 
 namespace Organizer\Fields;
 
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Input;
 
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/Helpers/modules.php');
 
@@ -28,7 +28,7 @@ class ModulePositionsField extends OptionsField
      */
     protected function getOptions()
     {
-        $clientId = OrganizerHelper::getInput()->get('client_id', 0, 'int');
+        $clientId = Input::getInt('client_id');
         $options  = ModulesHelper::getPositions($clientId);
 
         return array_merge(parent::getOptions(), $options);

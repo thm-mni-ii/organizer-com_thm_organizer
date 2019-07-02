@@ -13,6 +13,7 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -59,7 +60,7 @@ abstract class BaseModel extends BaseDatabaseModel
             throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $selectedIDs = OrganizerHelper::getSelectedIDs();
+        $selectedIDs = Input::getSelectedIDs();
         $success     = true;
         foreach ($selectedIDs as $selectedID) {
             $table             = $this->getTable();
@@ -104,7 +105,7 @@ abstract class BaseModel extends BaseDatabaseModel
             throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data    = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data    = empty($data) ? Input::getForm() : $data;
         $table   = $this->getTable();
         $success = $table->save($data);
 
@@ -121,7 +122,7 @@ abstract class BaseModel extends BaseDatabaseModel
      */
     public function save2copy($data = [])
     {
-        $data = empty($data) ? OrganizerHelper::getFormInput() : $data;
+        $data = empty($data) ? Input::getForm() : $data;
         unset($data['id']);
 
         return $this->save($data);

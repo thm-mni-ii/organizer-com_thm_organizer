@@ -12,6 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -49,7 +50,7 @@ class TermPublishingField extends FormField
             return '';
         }
 
-        $groupID   = OrganizerHelper::getInput()->getInt('id');
+        $groupID   = Input::getID();
         $poolQuery = $dbo->getQuery(true);
         $poolQuery->select('termID, published')
             ->from('#__thm_organizer_group_publishing')

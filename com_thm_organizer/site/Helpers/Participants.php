@@ -90,7 +90,7 @@ class Participants
     private static function notify($participantID, $courseID, $state)
     {
         $mailer = Factory::getMailer();
-        $input  = OrganizerHelper::getInput();
+        $input  = Input::getInput();
 
         $user       = Factory::getUser($participantID);
         $userParams = json_decode($user->params, true);
@@ -104,7 +104,7 @@ class Participants
             $input->set('languageTag', $tag);
         }
 
-        $params = OrganizerHelper::getParams();
+        $params = Input::getParams();
         $sender = Factory::getUser($params->get('mailSender'));
 
         if (empty($sender->id)) {

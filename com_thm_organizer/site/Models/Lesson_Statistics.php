@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Terms;
@@ -281,7 +282,7 @@ class Lesson_Statistics extends FormModel
     {
         parent::populateState();
         $defaultTerm = Terms::getCurrentID();
-        $formData    = OrganizerHelper::getFormInput();
+        $formData    = Input::getForm();
 
         $categoryID   = '';
         $departmentID = '';

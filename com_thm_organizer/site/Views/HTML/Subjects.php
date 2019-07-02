@@ -13,6 +13,7 @@ namespace Organizer\Views\HTML;
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -47,7 +48,7 @@ class Subjects extends ListView
     public function __construct($config = array())
     {
         parent::__construct($config);
-        $this->params = OrganizerHelper::getParams();
+        $this->params = Input::getParams();
     }
 
     /**

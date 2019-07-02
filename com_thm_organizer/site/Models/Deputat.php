@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
@@ -254,7 +255,7 @@ class Deputat extends BaseModel
      */
     private function getRate($subjectName)
     {
-        $params = OrganizerHelper::getParams();
+        $params = Input::getParams();
         if ($subjectName == 'Betreuung von Bachelorarbeiten') {
             return floatval('0.' . $params->get('bachelor_value', 25));
         }
@@ -415,13 +416,13 @@ class Deputat extends BaseModel
      */
     private function setObjectProperties()
     {
-        $this->params = OrganizerHelper::getParams();
+        $this->params = Input::getParams();
         $departmentID = $this->params->get('departmentID', 0);
         if (!empty($departmentID)) {
             $this->setDepartmentName($departmentID);
         }
 
-        $input                        = OrganizerHelper::getInput();
+        $input                        = Input::getInput();
         $this->reset                  = $input->getBool('reset', false);
         $this->selected               = [];
         $this->teachers               = [];
@@ -598,7 +599,7 @@ class Deputat extends BaseModel
      */
     public function setSchedule()
     {
-        $this->scheduleID = OrganizerHelper::getInput()->getInt('scheduleID', 0);
+        $this->scheduleID = Input::getInt('scheduleID');
         $query            = $this->_db->getQuery(true);
         $query->select('schedule');
         $query->from('#__thm_organizer_schedules');
@@ -845,7 +846,7 @@ class Deputat extends BaseModel
     private function setSelected()
     {
         $default  = ['*'];
-        $selected = OrganizerHelper::getInput()->get('teachers', $default, 'array');
+        $selected = Input::getInput()->get('teachers', $default, 'array');
 
         // Returns a hard false if value is not in array
         $allSelected = array_search('*', $selected);
