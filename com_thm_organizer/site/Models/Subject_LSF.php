@@ -562,10 +562,6 @@ class Subject_LSF extends BaseModel
      */
     private function saveDependencies($programs, $subjectID, $dependencies, $type)
     {
-        if (empty($dependencies)) {
-            return true;
-        }
-
         foreach ($programs as $program) {
             $subjectMappings = $this->getProgramMappings($program, $subjectID);
 
@@ -578,17 +574,13 @@ class Subject_LSF extends BaseModel
                 }
             }
 
-            if (empty($dependencyMappings)) {
-                continue;
-            }
-
             if ($type == 'pre') {
                 $success = $this->savePrerequisites($dependencyMappings, $subjectMappings);
             } else {
                 $success = $this->savePrerequisites($subjectMappings, $dependencyMappings);
             }
 
-            if ($success == false) {
+            if (empty($success)) {
                 return false;
             }
         }
@@ -877,6 +869,15 @@ class Subject_LSF extends BaseModel
      */
     private function savePrerequisites($prerequisiteMappings, $subjectMappings)
     {
+        // Delete any and all old prerequisites in case there are now fewer.
+        if (!empty($subjectMappings)) {
+            $subjectMappingIDs = implode(',', $subjectMappings);
+            $deleteQuery       = $this->_db->getQuery(true);
+            $deleteQuery->delete('#__thm_organizer_prerequisites')->where("subjectID IN ($subjectMappingIDs)");
+            $this->_db->setQuery($deleteQuery);
+            OrganizerHelper::executeQuery('execute');
+        }
+
         foreach ($prerequisiteMappings as $prerequisiteID) {
             foreach ($subjectMappings as $subjectID) {
                 $checkQuery = $this->_db->getQuery(true);
