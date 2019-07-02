@@ -523,34 +523,6 @@ class Schedules
     }
 
     /**
-     * Saves the term to the corresponding table if not already existent.
-     *
-     * @param string $termName  the abbreviation for the term
-     * @param int    $startDate the integer value of the start date
-     * @param int    $endDate   the integer value of the end date
-     *
-     * @return int id of database entry
-     */
-    public static function getTermID($termName, $startDate, $endDate)
-    {
-        $data              = [];
-        $data['startDate'] = date('Y-m-d', $startDate);
-        $data['endDate']   = date('Y-m-d', $endDate);
-
-        $table  = OrganizerHelper::getTable('Terms');
-        $exists = $table->load($data);
-        if ($exists) {
-            return $table->id;
-        }
-
-        $shortYear    = date('y', $endDate);
-        $data['name'] = $termName . $shortYear;
-        $table->save($data);
-
-        return $table->id;
-    }
-
-    /**
      * Retrieves the subject data as appropriate
      *
      * @param array $lesson the lesson information

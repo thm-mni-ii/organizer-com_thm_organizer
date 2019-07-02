@@ -11,12 +11,11 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use stdClass;
 
 /**
  * Provides general functions for room type access checks, data retrieval and display.
  */
-class RoomTypes implements ResourceCategory, Selectable
+class RoomTypes implements Selectable
 {
     const NO = 0;
 
@@ -100,25 +99,5 @@ class RoomTypes implements ResourceCategory, Selectable
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
-
-    /**
-     * Sets indexes for previously defined resource category types. Does not create them.
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $untisID       the id of the resource in Untis
-     *
-     * @return void modifies the scheduleModel, setting the id property of the resource
-     */
-    public static function setID(&$scheduleModel, $untisID)
-    {
-        $table  = OrganizerHelper::getTable('RoomTypes');
-        $data   = ['untisID' => $untisID];
-        $exists = $table->load($data);
-
-        if ($exists) {
-            $scheduleModel->schedule->room_types->$untisID     = new stdClass;
-            $scheduleModel->schedule->room_types->$untisID->id = $table->id;
-        }
     }
 }

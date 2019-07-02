@@ -8,12 +8,12 @@
  * @link        www.thm.de
  */
 
-namespace Organizer\Helpers;
+namespace Organizer\Helpers\Validators;
 
 /**
  * Ensures that Helpers which validate Schedule XML Export files have standardized functions.
  */
-interface XMLValidator
+interface UntisXMLValidator
 {
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.

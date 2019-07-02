@@ -8,14 +8,15 @@
  * @link        www.thm.de
  */
 
-namespace Organizer\Helpers;
+namespace Organizer\Helpers\Validators;
 
+use Organizer\Helpers\Languages;
 use stdClass;
 
 /**
  * Provides functions for XML lesson validation and modeling.
  */
-class Lessons implements XMLValidator
+class Events implements UntisXMLValidator
 {
     /**
      * Processes instance information for the new schedule format
@@ -753,7 +754,7 @@ class Lessons implements XMLValidator
         }
 
         $currentDate = date('Y-m-d', $currentDT);
-        $period      = $scheduleModel->schedule->periods->$grid->$periodNo;
+        $period      = $scheduleModel->schedule->periods->$grid->periods->$periodNo;
         self::processInstance($scheduleModel, $lessonID, $courseID, $teacherID, $currentDate, $period, $roomIDs);
 
         return true;

@@ -8,25 +8,54 @@
  * @link        www.thm.de
  */
 
-namespace Organizer\Helpers;
+namespace Organizer\Helpers\Validators;
 
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 use stdClass;
 
 /**
  * Provides functions for XML description validation and modeling.
  */
-class Descriptions implements XMLValidator
+class Descriptions implements UntisXMLValidator
 {
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
      * @param object &$scheduleModel the validating schedule model
      * @param string  $untisID       the id of the resource in Untis
+     * @param string  $typeFlag      the flag identifying the categorization resource
      *
      * @return void modifies the scheduleModel, setting the id property of the resource
      */
-    public static function setID(&$scheduleModel, $untisID)
+    public static function setID(&$scheduleModel, $untisID, $typeFlag = '')
     {
+        $resource = '';
+        switch ($typeFlag) {
+            case 'f':
+                $resource = 'Fields';
+
+                break;
+            case 'r':
+                $resource = 'RoomTypes';
+
+                break;
+            case 'u':
+                $resource = 'Methods';
+
+                break;
+        }
+
+        $table  = OrganizerHelper::getTable($resource);
+        $data   = ['untisID' => $untisID];
+        $exists = $table->load($data);
+
+        if ($exists) {
+            $property                                         = strtolower($resource);
+            $scheduleModel->schedule->$property->$untisID     = new stdClass;
+            $scheduleModel->schedule->$property->$untisID->id = $table->id;
+        }
+
         return;
     }
 
@@ -46,9 +75,9 @@ class Descriptions implements XMLValidator
             return;
         }
 
-        $scheduleModel->schedule->fields     = new stdClass;
-        $scheduleModel->schedule->methods    = new stdClass;
-        $scheduleModel->schedule->room_types = new stdClass;
+        $scheduleModel->schedule->fields    = new stdClass;
+        $scheduleModel->schedule->methods   = new stdClass;
+        $scheduleModel->schedule->roomtypes = new stdClass;
 
         foreach ($xmlObject->descriptions->children() as $node) {
             self::validateIndividual($scheduleModel, $node);
@@ -110,19 +139,6 @@ class Descriptions implements XMLValidator
             return;
         }
 
-        switch ($typeFlag) {
-            case 'f':
-                Fields::setID($scheduleModel, $untisID);
-
-                return;
-            case 'r':
-                RoomTypes::setID($scheduleModel, $untisID);
-
-                return;
-            case 'u':
-                Methods::setID($scheduleModel, $untisID);
-
-                return;
-        }
+        self::setID($scheduleModel, $untisID, $typeFlag);
     }
 }

@@ -1,30 +1,62 @@
 {
   "periods": {
     "1": {
-      "start_time": "0800",
-      "end_time": "0930"
+      "startTime": "0800",
+      "endTime": "0930",
+      "label_de": "",
+      "label_en": "",
+      "type": ""
     },
     "2": {
-      "start_time": "0950",
-      "end_time": "1120"
+      "startTime": "0945",
+      "endTime": "1115",
+      "label_de": "",
+      "label_en": "",
+      "type": ""
     },
     "3": {
-      "start_time": "1130",
-      "end_time": "1300"
+      "startTime": "1130",
+      "endTime": "1300",
+      "label_de": "",
+      "label_en": "",
+      "type": ""
     },
     "4": {
-      "start_time": "1400",
-      "end_time": "1530"
+      "startTime": "1301",
+      "endTime": "1359",
+      "label_de": "Mittag",
+      "label_en": "Mittag",
+      "type": "break"
     },
     "5": {
-      "start_time": "1545",
-      "end_time": "1715"
+      "startTime": "1400",
+      "endTime": "1530",
+      "label_de": "",
+      "label_en": "",
+      "type": ""
     },
     "6": {
-      "start_time": "1730",
-      "end_time": "1900"
+      "startTime": "1540",
+      "endTime": "1710",
+      "label_de": "",
+      "label_en": "",
+      "type": ""
+    },
+    "7": {
+      "startTime": "1720",
+      "endTime": "1850",
+      "label_de": "",
+      "label_en": "",
+      "type": ""
+    },
+    "8": {
+      "startTime": "1900",
+      "endTime": "2030",
+      "label_de": "",
+      "label_en": "",
+      "type": ""
     }
   },
-  "start_day": 1,
-  "end_day": 6
+  "startDay": "1",
+  "endDay": "6"
 }

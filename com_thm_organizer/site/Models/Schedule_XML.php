@@ -10,16 +10,8 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Categories;
-use Organizer\Helpers\Courses;
-use Organizer\Helpers\Descriptions;
-use Organizer\Helpers\Grids;
-use Organizer\Helpers\Groups;
+use Organizer\Helpers\Validators as Validators;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Lessons;
-use Organizer\Helpers\Rooms;
-use Organizer\Helpers\Schedules;
-use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -64,6 +56,34 @@ class Schedule_XML extends BaseModel
         if (count($this->scheduleWarnings)) {
             OrganizerHelper::message(implode('<br />', $this->scheduleWarnings), 'warning');
         }
+    }
+
+    /**
+     * Saves the term to the corresponding table if not already existent.
+     *
+     * @param string $termName  the abbreviation for the term
+     * @param int    $startDate the integer value of the start date
+     * @param int    $endDate   the integer value of the end date
+     *
+     * @return int id of database entry
+     */
+    public function setTermID($termName, $startDate, $endDate)
+    {
+        $data              = [];
+        $data['startDate'] = date('Y-m-d', $startDate);
+        $data['endDate']   = date('Y-m-d', $endDate);
+
+        $table  = OrganizerHelper::getTable('Terms');
+        $exists = $table->load($data);
+        if ($exists) {
+            return $table->id;
+        }
+
+        $shortYear    = date('y', $endDate);
+        $data['name'] = $termName . $shortYear;
+        $table->save($data);
+
+        return $table->id;
     }
 
     /**
@@ -123,22 +143,22 @@ class Schedule_XML extends BaseModel
         if ($invalid) {
             $this->scheduleErrors[] = Languages::_('THM_ORGANIZER_INVALID_TERM');
         } elseif ($validSemesterName) {
-            $termID = Schedules::getTermID($semesterName, $startTimeStamp, $endTimeStamp);
+            $termID = $this->setTermID($semesterName, $startTimeStamp, $endTimeStamp);
 
             $this->schedule->termID = $termID;
         }
 
-        Grids::validateCollection($this, $xmlSchedule);
-        Descriptions::validateCollection($this, $xmlSchedule);
-        Categories::validateCollection($this, $xmlSchedule);
-        Groups::validateCollection($this, $xmlSchedule);
-        Rooms::validateCollection($this, $xmlSchedule);
-        Courses::validateCollection($this, $xmlSchedule);
-        Teachers::validateCollection($this, $xmlSchedule);
+        Validators\Grids::validateCollection($this, $xmlSchedule);
+        Validators\Descriptions::validateCollection($this, $xmlSchedule);
+        Validators\Categories::validateCollection($this, $xmlSchedule);
+        Validators\Groups::validateCollection($this, $xmlSchedule);
+        Validators\Rooms::validateCollection($this, $xmlSchedule);
+        Validators\Courses::validateCollection($this, $xmlSchedule);
+        Validators\Teachers::validateCollection($this, $xmlSchedule);
 
         $this->schedule->calendar = new \stdClass;
 
-        Lessons::validateCollection($this, $xmlSchedule);
+        Validators\Events::validateCollection($this, $xmlSchedule);
         $this->printStatusReport();
 
         if (count($this->scheduleErrors)) {
@@ -159,7 +179,7 @@ class Schedule_XML extends BaseModel
             $this->schedule->methods,
             $this->schedule->periods,
             $this->schedule->programs,
-            $this->schedule->room_types,
+            $this->schedule->roomtypes,
             $this->schedule->rooms,
             $this->schedule->semestername,
             $this->schedule->startDate,

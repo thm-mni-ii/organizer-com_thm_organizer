@@ -10,12 +10,10 @@
 
 namespace Organizer\Helpers;
 
-use stdClass;
-
 /**
  * Provides general functions for room type access checks, data retrieval and display.
  */
-class Fields implements ResourceCategory
+class Fields
 {
     /**
      * Creates the display for a field item as used in a list view.
@@ -37,25 +35,5 @@ class Fields implements ResourceCategory
         }
 
         return Colors::getListDisplay($text, $colorID);
-    }
-
-    /**
-     * Sets indexes for previously defined resource category types. Does not create them.
-     *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $untisID       the id of the resource in Untis
-     *
-     * @return void modifies the scheduleModel, setting the id property of the resource
-     */
-    public static function setID(&$scheduleModel, $untisID)
-    {
-        $table  = OrganizerHelper::getTable('Fields');
-        $data   = ['untisID' => $untisID];
-        $exists = $table->load($data);
-
-        if ($exists) {
-            $scheduleModel->schedule->fields->$untisID     = new stdClass;
-            $scheduleModel->schedule->fields->$untisID->id = $table->id;
-        }
     }
 }
