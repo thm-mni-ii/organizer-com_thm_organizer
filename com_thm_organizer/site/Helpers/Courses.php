@@ -77,11 +77,11 @@ class Courses
         $expired    = !self::isRegistrationOpen($courseID);
         $authorized = self::authorized($courseID);
 
-        $shortTag        = Languages::getShortTag();
+        $tag             = Languages::getTag();
         $menuID          = OrganizerHelper::getInput()->getInt('Itemid');
         $pathPrefix      = 'index.php?option=com_thm_organizer';
-        $managerURL      = "{$pathPrefix}&view=courses&languageTag=$shortTag";
-        $registrationURL = "$pathPrefix&task=$view.register&languageTag=$shortTag";
+        $managerURL      = "{$pathPrefix}&view=courses&languageTag=$tag";
+        $registrationURL = "$pathPrefix&task=$view.register&languageTag=$tag";
         $registrationURL .= $view == 'subject' ? '&id=' . OrganizerHelper::getInput()->getInt('id', 0) : '';
 
         if (!empty($menuID)) {
@@ -162,12 +162,12 @@ class Courses
      */
     public static function getCategories($courseID)
     {
-        $names       = [];
-        $dbo         = Factory::getDbo();
-        $languageTag = Languages::getShortTag();
+        $names = [];
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('cat.name AS categoryName, ' . $query->concatenate($nameParts, "") . ' AS name')
             ->select('cat.id')
             ->from('#__thm_organizer_categories AS cat')
@@ -207,15 +207,14 @@ class Courses
             return [];
         }
 
-        $shortTag = Languages::getShortTag();
-
         $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
 
         $query->select('term.name as termName, term.id as termID')
             ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID')
             ->select('l.registration_type, l.deadline, l.fee')
-            ->select("s.id as subjectID, s.name_$shortTag as name, s.instructionLanguage")
+            ->select("s.id as subjectID, s.name_$tag as name, s.instructionLanguage")
             ->select('s.campusID AS abstractCampusID, s.is_prep_course, s.max_participants as subjectP');
 
         $query->from('#__thm_organizer_lessons AS l');
@@ -314,18 +313,18 @@ class Courses
             return [];
         }
 
-        $shortTag = Languages::getShortTag();
 
         $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
 
         $nameParts    = ['pt.surname', "', '", 'pt.forename'];
-        $programParts = ["pr.name_$shortTag", "' ('", 'dg.abbreviation', "' '", 'pr.version', "')'"];
+        $programParts = ["pr.name_$tag", "' ('", 'dg.abbreviation', "' '", 'pr.version', "')'"];
 
         $query->select($query->concatenate($nameParts, '') . ' AS userName, pt.address, pt.zip_code, pt.city')
             ->select('u.id, u.email')
             ->select($query->concatenate($programParts, '') . ' AS programName, pr.id AS programID')
-            ->select("dp.short_name_$shortTag AS departmentName, dp.id AS departmentID");
+            ->select("dp.short_name_$tag AS departmentName, dp.id AS departmentID");
 
         $query->from('#__thm_organizer_user_lessons AS ul');
         $query->innerJoin('#__users AS u ON u.id = ul.userID');
@@ -398,16 +397,15 @@ class Courses
             return [];
         }
 
-        $shortTag = Languages::getShortTag();
-
         $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT l.id, l.max_participants as lessonP, l.campusID AS campusID')
             ->from('#__thm_organizer_lessons AS l')
             ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.lessonID = l.id')
             ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = lc.courseID')
-            ->select("s.id as subjectID, s.name_$shortTag as name, s.campusID AS abstractCampusID")
+            ->select("s.id as subjectID, s.name_$tag as name, s.campusID AS abstractCampusID")
             ->select('s.instructionLanguage, s.max_participants as subjectP')
             ->innerJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
             ->innerJoin('#__thm_organizer_calendar AS ca ON ca.lessonID = l.id')
@@ -475,12 +473,12 @@ class Courses
             $interval = 'semester';
         }
 
-        $languageTag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
         $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$languageTag AS method")
+        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$tag AS method")
             ->from('#__thm_organizer_lessons AS l')
             ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
             ->innerJoin('#__thm_organizer_lesson_courses AS lc on lc.lessonID = l.id')
@@ -557,10 +555,10 @@ class Courses
             return '';
         }
 
-        $lang  = Languages::getShortTag();
+        $tag   = Languages::getTag();
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("name_$lang")
+        $query->select("name_$tag")
             ->from('#__thm_organizer_lesson_courses AS lc')
             ->innerJoin('#__thm_organizer_subject_mappings AS map ON map.courseID = lc.courseID')
             ->innerJoin('#__thm_organizer_subjects AS s ON s.id = map.subjectID')
@@ -580,12 +578,12 @@ class Courses
      */
     public static function getName($courseID, $withNumber = false)
     {
-        $dbo         = Factory::getDbo();
-        $languageTag = Languages::getShortTag();
+        $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
 
         $query = $dbo->getQuery(true);
-        $query->select("co.name as courseName, s.name_$languageTag as name")
-            ->select("s.short_name_$languageTag as shortName, s.abbreviation_$languageTag as abbreviation")
+        $query->select("co.name as courseName, s.name_$tag as name")
+            ->select("s.short_name_$tag as shortName, s.abbreviation_$tag as abbreviation")
             ->select('co.subjectNo as courseSubjectNo, s.externalID as subjectNo')
             ->from('#__thm_organizer_courses AS co')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')
@@ -634,15 +632,12 @@ class Courses
             return [];
         }
 
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
-        $shortTag = Languages::getShortTag();
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
 
-        $select = 'CONCAT(pt.surname, ", ", pt.forename) as name, ul.*, pt.*';
-        $select .= ',u.email, u.username, u.id as cid';
-        $select .= ",p.name_$shortTag as program";
-
-        $query->select($select)
+        $query->select("l.*, pt.*, u.email, u.username, u.id as cid, p.name_$tag as program")
+            ->select('CONCAT(pt.surname, ", ", pt.forename) as name')
             ->from('#__thm_organizer_user_lessons as ul')
             ->innerJoin('#__users as u on u.id = ul.userID')
             ->leftJoin('#__thm_organizer_participants as pt on pt.id = ul.userID')
@@ -791,12 +786,11 @@ class Courses
      */
     public static function prepCourseList()
     {
-        $shortTag = Languages::getShortTag();
-
         $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
 
-        $query->select("id, name_$shortTag AS name")
+        $query->select("id, name_$tag AS name")
             ->from('#__thm_organizer_subjects')
             ->where("is_prep_course = '1'")
             ->order('name ASC');

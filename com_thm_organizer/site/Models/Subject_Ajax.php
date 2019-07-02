@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -36,8 +37,8 @@ class Subject_Ajax extends BaseModel
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $lang   = OrganizerHelper::getInput()->getString('languageTag', 'de');
-        $select = "DISTINCT s.id, s.name_{$lang} AS name, s.externalID, s.creditpoints, ";
+        $tag    = Languages::getTag();
+        $select = "DISTINCT s.id, s.name_$tag AS name, s.externalID, s.creditpoints, ";
         $select .= 't.surname, t.forename, t.title, t.username ';
         $query->select($select);
 

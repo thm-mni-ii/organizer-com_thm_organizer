@@ -57,12 +57,12 @@ class Subjects
      */
     public static function getName($subjectID, $withNumber = false)
     {
-        $dbo         = Factory::getDbo();
-        $languageTag = Languages::getShortTag();
+        $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
 
         $query = $dbo->getQuery(true);
-        $query->select("co.name as courseName, s.name_$languageTag as name")
-            ->select("s.short_name_$languageTag as shortName, s.abbreviation_$languageTag as abbreviation")
+        $query->select("co.name as courseName, s.name_$tag as name")
+            ->select("s.short_name_$tag as shortName, s.abbreviation_$tag as abbreviation")
             ->select('co.subjectNo as courseSubjectNo, s.externalID as subjectNo')
             ->from('#__thm_organizer_subjects AS s')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm ON s.id = sm.subjectID')
@@ -106,12 +106,12 @@ class Subjects
      */
     public static function getPrograms($subjectID)
     {
-        $names       = [];
-        $dbo         = Factory::getDbo();
-        $languageTag = Languages::getShortTag();
+        $dbo   = Factory::getDbo();
+        $names = [];
+        $tag   = Languages::getTag();
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('cat.name AS categoryName, ' . $query->concatenate($nameParts, "") . ' AS name')
             ->select('p.id')
             ->from('#__thm_organizer_programs AS p')

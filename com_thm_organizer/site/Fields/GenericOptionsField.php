@@ -169,7 +169,7 @@ class GenericOptionsField extends OptionsField
 
         $localized = $this->getAttribute('localized', false);
         if ($localized) {
-            $tag = Languages::getShortTag();
+            $tag = Languages::getTag();
             foreach ($textColumns as $key => $value) {
                 $textColumns[$key] = $value . '_' . $tag;
             }

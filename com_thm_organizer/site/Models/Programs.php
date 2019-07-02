@@ -26,15 +26,15 @@ class Programs extends ListModel
     protected function getListQuery()
     {
         $allowedDepartments = Access::getAccessibleDepartments('document');
-        $shortTag           = Languages::getShortTag();
+        $tag                = Languages::getTag();
 
         $query = $this->_db->getQuery(true);
-        $query->select("DISTINCT dp.id AS id, dp.name_$shortTag AS name, version")
+        $query->select("DISTINCT dp.id AS id, dp.name_$tag AS name, version")
             ->from('#__thm_organizer_programs AS dp')
             ->select('d.abbreviation AS abbreviation')
             ->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID')
             ->leftJoin('#__thm_organizer_fields AS f ON f.id = dp.fieldID')
-            ->select("dpt.short_name_$shortTag AS department")
+            ->select("dpt.short_name_$tag AS department")
             ->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id')
             ->where('(dp.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dp.departmentID IS NULL)');
 

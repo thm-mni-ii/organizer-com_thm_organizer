@@ -198,11 +198,11 @@ class Teachers implements DepartmentAssociated, Selectable
      */
     public static function getDepartmentNames($teacherID)
     {
-        $shortTag = Languages::getShortTag();
-
         $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
-        $query->select("d.short_name_$shortTag AS name")
+
+        $query->select("d.short_name_$tag AS name")
             ->from('#__thm_organizer_departments AS d')
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id')
             ->where("teacherID = $teacherID");

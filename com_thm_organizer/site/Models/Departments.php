@@ -28,11 +28,11 @@ class Departments extends ListModel
     protected function getListQuery()
     {
         $allowedDepartments = Access::getAccessibleDepartments();
-        $shortTag           = Languages::getShortTag();
+        $tag                = Languages::getTag();
 
         // Create the query
         $query  = $this->_db->getQuery(true);
-        $select = "d.id, d.short_name_$shortTag AS short_name, d.name_$shortTag AS name, a.rules, ";
+        $select = "d.id, d.short_name_$tag AS short_name, d.name_$tag AS name, a.rules, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=department_edit&id='", 'd.id'];
         $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);

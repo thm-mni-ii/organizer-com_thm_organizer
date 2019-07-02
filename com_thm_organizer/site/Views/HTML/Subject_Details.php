@@ -39,7 +39,7 @@ class Subject_Details extends BaseHTMLView
 
     public $languageParams;
 
-    public $langTag = 'de';
+    public $tag = 'de';
 
     public $menu;
 
@@ -192,7 +192,7 @@ class Subject_Details extends BaseHTMLView
     private function renderListValue($attribute, $value)
     {
         $linkAttribs = ['target' => '_blank'];
-        $subjectHref = "index.php?view=subject_details&languageTag={$this->langTag}&id=";
+        $subjectHref = "index.php?view=subject_details&languageTag={$this->tag}&id=";
         echo '<ul>';
         foreach ($value as $id => $data) {
             echo '<li>';

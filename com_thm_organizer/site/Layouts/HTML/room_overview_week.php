@@ -14,7 +14,7 @@ $dates       = $this->model->data;
 $dayCount    = count($dates);
 $blockCount  = count($this->model->grid['periods']);
 $totalBlocks = 'columns-' . ($dayCount * $blockCount);
-$labelIndex  = 'label_' . Languages::getShortTag();
+$labelIndex  = 'label_' . Languages::getTag();
 $dayCount    = count($dates);
 ?>
 <table>

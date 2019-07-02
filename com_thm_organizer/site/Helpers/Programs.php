@@ -67,11 +67,11 @@ class Programs implements Selectable
             return Languages::_('THM_ORGANIZER_NO_PROGRAM');
         }
 
-        $dbo         = Factory::getDbo();
-        $languageTag = Languages::getShortTag();
+        $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('cat.name AS catName, ' . $query->concatenate($nameParts, "") . ' AS name');
 
         $query->from('#__thm_organizer_programs AS p');
@@ -113,15 +113,15 @@ class Programs implements Selectable
      */
     public static function getResources($access = '')
     {
-        $shortTag = Languages::getShortTag();
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
 
-        $query->select("dp.*, dp.name_$shortTag AS name, d.abbreviation AS degree");
-        $query->from('#__thm_organizer_programs AS dp');
-        $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
-        $query->order('name ASC, degree ASC, version DESC');
+        $query->select("dp.*, dp.name_$tag AS name, d.abbreviation AS degree")
+            ->from('#__thm_organizer_programs AS dp')
+            ->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id')
+            ->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID')
+            ->order('name ASC, degree ASC, version DESC');
 
         if (!empty($access)) {
             self::addAccessFilter($query, 'dp', $access);
@@ -132,10 +132,10 @@ class Programs implements Selectable
         $useCurrent = self::useCurrent();
         if ($useCurrent) {
             $subQuery = $dbo->getQuery(true);
-            $subQuery->select("dp2.name_$shortTag, dp2.degreeID, MAX(dp2.version) AS version")
+            $subQuery->select("dp2.name_$tag, dp2.degreeID, MAX(dp2.version) AS version")
                 ->from('#__thm_organizer_programs AS dp2')
-                ->group("dp2.name_$shortTag, dp2.degreeID");
-            $conditions = "grouped.name_$shortTag = dp.name_$shortTag ";
+                ->group("dp2.name_$tag, dp2.degreeID");
+            $conditions = "grouped.name_$tag = dp.name_$tag ";
             $conditions .= "AND grouped.degreeID = dp.degreeID ";
             $conditions .= "AND grouped.version = dp.version ";
             $query->innerJoin("($subQuery) AS grouped ON $conditions");

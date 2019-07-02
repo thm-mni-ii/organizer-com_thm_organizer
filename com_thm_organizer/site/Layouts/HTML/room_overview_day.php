@@ -12,7 +12,7 @@ use Organizer\Helpers\Dates;
 use Organizer\Helpers\Languages;
 
 $colNo      = count($this->model->grid['periods']);
-$labelIndex = 'label_' . Languages::getShortTag();
+$labelIndex = 'label_' . Languages::getTag();
 $startDate  = $this->model->startDate;
 $blocks     = $this->model->data[$startDate];
 ?>

@@ -24,14 +24,14 @@ class Campuses extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->_db->getQuery(true);
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
 
-        $select = "c1.id, c1.name_$shortTag as name, c2.id as parentID, c2.name_$shortTag as parentName, ";
+        $select = "c1.id, c1.name_$tag as name, c2.id as parentID, c2.name_$tag as parentName, ";
         $select .= 'c1.address, c1.city, c1.zipCode, c1.location, ';
         $select .= 'c2.address as parentAddress, c2.city as parentCity, c2.zipCode as parentZIPCode, ';
-        $select .= "g1.id as gridID, g1.name_$shortTag as gridName, ";
-        $select .= "g2.id as parentGridID, g2.name_$shortTag as parentGridName, ";
+        $select .= "g1.id as gridID, g1.name_$tag as gridName, ";
+        $select .= "g2.id as parentGridID, g2.name_$tag as parentGridName, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=campus_edit&id='", 'c1.id'];
         $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select)

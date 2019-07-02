@@ -16,7 +16,7 @@ $current = Languages::_('THM_ORGANIZER_CURRENT');
 $expired = Languages::_('THM_ORGANIZER_EXPIRED');
 
 $pathPrefix = 'index.php?option=com_thm_organizer';
-$subjectURL = "{$pathPrefix}&view=subject_details&languageTag={$this->shortTag}";
+$subjectURL = "{$pathPrefix}&view=subject_details&languageTag={$this->tag}";
 $subjectURL .= empty($menuID) ? '' : "&Itemid=$menuID";
 
 foreach ($this->items as $item) {

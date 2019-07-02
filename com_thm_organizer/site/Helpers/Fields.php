@@ -29,7 +29,7 @@ class Fields
         $text    = '';
         $colorID = 0;
         if ($table->load($fieldID)) {
-            $textColumn = 'field_' . Languages::getShortTag();
+            $textColumn = 'field_' . Languages::getTag();
             $text       = $table->$textColumn;
             $colorID    = $table->colorID;
         }

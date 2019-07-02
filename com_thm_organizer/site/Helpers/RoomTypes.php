@@ -40,8 +40,7 @@ class RoomTypes implements Selectable
             return '';
         }
 
-        $languageTag = Languages::getShortTag();
-        $attribute   = "name_$languageTag";
+        $attribute = 'name_' . Languages::getTag();
 
         return $success ? $roomTypesTable->$attribute : '';
     }
@@ -71,12 +70,11 @@ class RoomTypes implements Selectable
      */
     public static function getResources($associated = self::YES, $public = self::YES)
     {
-        $languageTag = Languages::getShortTag();
-        $dbo         = Factory::getDbo();
+        $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
 
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT t.*, t.id AS id, t.name_$languageTag AS name")
-            ->from('#__thm_organizer_room_types AS t');
+        $query->select("DISTINCT t.*, t.id AS id, t.name_$tag AS name")->from('#__thm_organizer_room_types AS t');
 
         if ($public !== null) {
             $query->where('t.public = ' . $public);

@@ -40,7 +40,7 @@ class MergeDepartmentsField extends OptionsField
             return [];
         }
 
-        $textColumn = 'short_name_' . Languages::getShortTag();
+        $textColumn = 'short_name_' . Languages::getTag();
         $table      = $resource === 'category' ? 'categories' : 'teachers';
 
         $dbo   = Factory::getDbo();

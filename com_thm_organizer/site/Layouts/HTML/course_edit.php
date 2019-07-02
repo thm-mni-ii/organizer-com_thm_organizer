@@ -11,10 +11,11 @@
 
 use Joomla\CMS\Router\Route;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Languages;
 
-$shortTag = Languages::getShortTag();
-$editURL  = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&languageTag=$shortTag";
-$editURL  .= "&view=subject_edit&id={$this->course['subjectID']}";
+$tag     = Languages::getTag();
+$editURL = "index.php?option=com_thm_organizer&lessonID={$this->course['id']}&language=$tag";
+$editURL .= "&view=subject_edit&id={$this->course['subjectID']}";
 
 if (!empty($this->menu)) {
     $menuText = Languages::_('THM_ORGANIZER_BACK');

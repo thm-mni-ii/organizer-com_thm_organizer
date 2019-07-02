@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -39,12 +40,12 @@ class Curriculum_Ajax extends BaseModel
             return '';
         }
 
-        $languageTag = OrganizerHelper::getInput()->getString('languageTag', 'de');
+        $tag = Languages::getTag();
 
         // Get the major in order to build the complete label of a given major/curriculum
         $program = $this->getProgramData($programID);
         $this->setScheduleData($program->name);
-        $program->children = $this->getChildren($program->lft, $program->rgt, $languageTag);
+        $program->children = $this->getChildren($program->lft, $program->rgt, $tag);
         $program->fields   = $this->getFieldColors($program->lft, $program->rgt);
 
         if (empty($program->children)) {
@@ -81,17 +82,17 @@ class Curriculum_Ajax extends BaseModel
     /**
      * Retrieves pool specific information.
      *
-     * @param int    $poolID  the id of the pool being sought
-     * @param string $langTag the current display language
+     * @param int    $poolID the id of the pool being sought
+     * @param string $tag    the current display language
      *
      * @return mixed  The return value or null if the query failed.
      * @throws  exception
      */
-    private function getPoolData($poolID, $langTag)
+    private function getPoolData($poolID, $tag)
     {
         $dbo    = Factory::getDbo();
         $query  = $dbo->getQuery(true);
-        $select = "p.id, lsfID, hisID, externalID, name_$langTag AS name, minCrP, maxCrP, color";
+        $select = "p.id, lsfID, hisID, externalID, name_$tag AS name, minCrP, maxCrP, color";
         $query->select($select);
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
@@ -124,17 +125,18 @@ class Curriculum_Ajax extends BaseModel
      */
     private function getProgramData($programID)
     {
-        $languageTag = OrganizerHelper::getInput()->getString('languageTag', 'de');
-        $dbo         = Factory::getDbo();
-        $query       = $dbo->getQuery(true);
-        $parts       = ["p.name_{$languageTag}", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-        $select      = $query->concatenate($parts, '') . ' AS name, ';
-        $select      .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$languageTag} AS description";
-        $query->select($select);
-        $query->from('#__thm_organizer_programs AS p');
-        $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.programID');
-        $query->where("p.id = '$programID'");
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
+
+        $parts  = ["p.name_{$tag}", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $select = $query->concatenate($parts, '') . ' AS name, ';
+        $select .= "m.id AS mappingID, m.lft, m.rgt, p.description_{$tag} AS description";
+        $query->select($select)
+            ->from('#__thm_organizer_programs AS p')
+            ->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
+            ->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.programID')
+            ->where("p.id = '$programID'");
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadObject');
@@ -144,21 +146,21 @@ class Curriculum_Ajax extends BaseModel
      * Retrieves subject specific information
      *
      * @param int    $subjectID the id of the subject being sought
-     * @param string $langTag   the current display language
+     * @param string $tag       the current display language
      *
      * @return mixed  The return value or null if the query failed.
      *
      * @throws  exception
      */
-    private function getSubjectData($subjectID, $langTag)
+    private function getSubjectData($subjectID, $tag)
     {
         $itemID        = OrganizerHelper::getInput()->get('Itemid');
         $dbo           = Factory::getDbo();
         $query         = $dbo->getQuery(true);
-        $select        = "s.id, lsfID, hisID, externalID, name_$langTag AS name, creditpoints AS maxCrP, color, ";
+        $select        = "s.id, lsfID, hisID, externalID, name_$tag AS name, creditpoints AS maxCrP, color, ";
         $concateSelect = [
-            "'index.php?option=com_thm_organizer&view=subject_details&languageTag='",
-            "'$langTag'",
+            "'index.php?option=com_thm_organizer&view=subject_details&language='",
+            "'$tag'",
             "'&id='",
             's.id',
             "'&Itemid='",
@@ -200,15 +202,15 @@ class Curriculum_Ajax extends BaseModel
     /**
      * Retrieves program children recursively
      *
-     * @param int    $lft     the left boundary of the program in the nested table
-     * @param int    $rgt     the right boundary of the program in the nested table
-     * @param string $langTag the current display language
+     * @param int    $lft the left boundary of the program in the nested table
+     * @param int    $rgt the right boundary of the program in the nested table
+     * @param string $tag the current display language
      *
      * @return array  empty if no child data exists
      *
      * @throws  exception
      */
-    public function getChildren($lft, $rgt, $langTag = 'de')
+    public function getChildren($lft, $rgt, $tag = 'de')
     {
         $dbo      = Factory::getDbo();
         $children = [];
@@ -236,12 +238,12 @@ class Curriculum_Ajax extends BaseModel
 
             if (isset($mapping['poolID'])) {
                 $nodes[(int)$mapping['level']]     = (int)$mapping['ordering'];
-                $poolData                          = $this->getPoolData($mapping['poolID'], $langTag);
+                $poolData                          = $this->getPoolData($mapping['poolID'], $tag);
                 $poolData->mappingID               = $mapping['id'];
                 $poolData->lastChildOrder          = $this->lastChildOrder($poolData->mappingID);
                 $parent[(int)$mapping['ordering']] = $poolData;
             } elseif (isset($mapping['subjectID'])) {
-                $subjectData                       = $this->getSubjectData($mapping['subjectID'], $langTag);
+                $subjectData                       = $this->getSubjectData($mapping['subjectID'], $tag);
                 $subjectData->mappingID            = $mapping['id'];
                 $parent[(int)$mapping['ordering']] = $subjectData;
             }

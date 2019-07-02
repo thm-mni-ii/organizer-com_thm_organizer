@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -440,11 +441,11 @@ class Deputat extends BaseModel
      */
     private function setDepartmentName($departmentID)
     {
-        $shortTag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("short_name_$shortTag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
+        $query->select("short_name_$tag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery($query);
 
         $departmentName = OrganizerHelper::executeQuery('loadResult');

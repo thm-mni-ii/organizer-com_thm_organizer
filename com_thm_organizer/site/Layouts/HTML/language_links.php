@@ -12,7 +12,7 @@ use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
-$current            = Languages::getShortTag();
+$current            = Languages::getTag();
 $supportedLanguages = ['en' => Languages::_('THM_ORGANIZER_ENGLISH'), 'de' => Languages::_('THM_ORGANIZER_GERMAN')];
 unset($supportedLanguages[$current]);
 
@@ -20,8 +20,8 @@ echo '<div class="tool-wrapper language-links">';
 if (empty($displayData['view'])) {
     $js = 'document.getElementById(\'languageTag\').value=\'XXX\';document.getElementById(\'adminForm\').submit();';
 
-    foreach ($supportedLanguages as $languageTag => $text) {
-        $onClick = str_replace('XXX', $languageTag, $js);
+    foreach ($supportedLanguages as $tag => $text) {
+        $onClick = str_replace('XXX', $tag, $js);
         echo '<a onclick="' . $onClick . '"><span class="icon-world"></span>' . $text . '</a>';
     }
 } else {
@@ -33,8 +33,8 @@ if (empty($displayData['view'])) {
         $params['Itemid'] = $menuID;
     }
 
-    foreach ($supportedLanguages as $languageTag => $text) {
-        $params['languageTag'] = $languageTag;
+    foreach ($supportedLanguages as $tag => $text) {
+        $params['languageTag'] = $tag;
         $href                  = Uri::buildQuery($params);
         echo '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
     }

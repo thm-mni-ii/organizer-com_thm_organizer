@@ -26,12 +26,12 @@ class Fields extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->_db->getQuery(true);
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
 
-        $query->select("f.id, untisID, f.field_$shortTag AS field, f.colorID")
+        $query->select("f.id, untisID, f.field_$tag AS field, f.colorID")
             ->from('#__thm_organizer_fields AS f')
-            ->select("c.name_$shortTag AS color")
+            ->select("c.name_$tag AS color")
             ->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
         $this->setSearchFilter($query, ['field_de', 'field_en', 'untisID', 'color']);

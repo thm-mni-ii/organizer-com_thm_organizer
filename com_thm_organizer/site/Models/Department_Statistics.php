@@ -274,7 +274,7 @@ class Department_Statistics extends BaseModel
      */
     private function setData($roomID)
     {
-        $tag     = Languages::getShortTag();
+        $tag     = Languages::getTag();
         $cSelect = "c.schedule_date AS date, TIME_FORMAT(c.startTime, '%H:%i') AS startTime, ";
         $cSelect .= "TIME_FORMAT(c.endTime, '%H:%i') AS endTime";
 
@@ -338,7 +338,7 @@ class Department_Statistics extends BaseModel
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $tag   = Languages::getShortTag();
+        $tag   = Languages::getTag();
 
         $query->select("id, name_$tag AS name, description_$tag AS description");
         $query->from('#__thm_organizer_room_types');

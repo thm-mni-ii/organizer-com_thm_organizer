@@ -24,10 +24,10 @@ class Room_Types extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
         $query = $this->_db->getQuery(true);
-        $query->select("DISTINCT t.id, t.name_$shortTag AS name, t.min_capacity, t.max_capacity, t.untisID")
+        $query->select("DISTINCT t.id, t.name_$tag AS name, t.min_capacity, t.max_capacity, t.untisID")
             ->select('count(r.typeID) AS roomCount')
             ->from('#__thm_organizer_room_types AS t')
             ->leftJoin('#__thm_organizer_rooms AS r on r.typeID = t.id')

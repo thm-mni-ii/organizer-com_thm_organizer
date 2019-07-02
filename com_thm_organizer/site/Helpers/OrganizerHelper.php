@@ -314,7 +314,7 @@ class OrganizerHelper
         }
 
         if (!empty($input->getString('languageTag'))) {
-            $url .= '&languageTag=' . Languages::getShortTag();
+            $url .= '&languageTag=' . Languages::getTag();
         }
 
         return $url;

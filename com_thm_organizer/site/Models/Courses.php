@@ -37,7 +37,7 @@ class Courses extends ListModelMenu
      */
     protected function getListQuery()
     {
-        $tag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
         $courseQuery = $this->_db->getQuery(true);
         $subQuery    = $this->_db->getQuery(true);

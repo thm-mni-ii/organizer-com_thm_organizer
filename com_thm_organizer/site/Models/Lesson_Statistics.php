@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Terms;
 
@@ -20,7 +21,7 @@ class Lesson_Statistics extends FormModel
 {
     public $columns = [];
 
-    private $langTag = 'de';
+    private $tag = 'de';
 
     public $lessons = [];
 
@@ -34,7 +35,7 @@ class Lesson_Statistics extends FormModel
     {
         parent::__construct($config);
 
-        $this->langTag = Languages::getShortTag();
+        $this->tag = Languages::getTag();
 
         $this->populateState();
         $categoryID   = $this->state->get('categoryID');
@@ -137,9 +138,9 @@ class Lesson_Statistics extends FormModel
     private function getDepartments()
     {
         $this->resetAdaptiveClauses();
-        $this->query->select("DISTINCT dpt.id, dpt.short_name_$this->langTag AS name")
+        $this->query->select("DISTINCT dpt.id, dpt.short_name_$this->tag AS name")
             ->where("l.delta != 'removed'")
-            ->order("dpt.short_name_$this->langTag");
+            ->order("dpt.short_name_$this->tag");
 
         $this->addPeriodRestriction();
 
@@ -216,7 +217,7 @@ class Lesson_Statistics extends FormModel
     private function getMethods()
     {
         $this->resetAdaptiveClauses();
-        $this->query->select("DISTINCT m.id, m.name_$this->langTag AS name")
+        $this->query->select("DISTINCT m.id, m.name_$this->tag AS name")
             ->where("l.delta != 'removed'")
             ->order('name');
 

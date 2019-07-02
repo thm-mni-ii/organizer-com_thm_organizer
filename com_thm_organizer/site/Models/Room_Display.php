@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -96,13 +97,12 @@ class Room_Display extends BaseModel
      */
     protected function getEvents($date)
     {
-        $shortTag = Languages::getShortTag();
-
+        $tag   = Languages::getTag();
         $query = $this->_db->getQuery(true);
 
         $select = "DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ";
-        $select .= "l.id as lessonID, m.abbreviation_$shortTag AS method, ";
-        $select .= "co.name AS courseName, s.name_$shortTag AS sName";
+        $select .= "l.id as lessonID, m.abbreviation_$tag AS method, ";
+        $select .= "co.name AS courseName, s.name_$tag AS sName";
         $query->select($select)
             ->from('#__thm_organizer_calendar AS cal')
             ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')

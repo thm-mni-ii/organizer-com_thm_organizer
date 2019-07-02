@@ -45,8 +45,7 @@ class Subject_Details extends BaseModel
             return [];
         }
 
-        $input = OrganizerHelper::getInput();
-        $tag   = $input->getString('languageTag', Languages::getShortTag());
+        $tag = Languages::getTag();
 
         $query = $this->_db->getQuery(true);
         $query->select("aids_$tag AS aids, frequency_$tag AS availability, bonus_points_$tag as bonus")
@@ -190,13 +189,13 @@ class Subject_Details extends BaseModel
     private function setDependencies(&$subject)
     {
         $subjectID = $subject['subjectID'];
-        $langTag   = Languages::getShortTag();
+        $tag       = Languages::getTag();
         $programs  = Mappings::getSubjectPrograms($subjectID);
 
         $query  = $this->_db->getQuery(true);
         $select = 'DISTINCT pr.id AS id, ';
-        $select .= "s1.id AS preID, s1.name_$langTag AS preName, s1.externalID AS preModuleNumber, ";
-        $select .= "s2.id AS postID, s2.name_$langTag AS postName, s2.externalID AS postModuleNumber";
+        $select .= "s1.id AS preID, s1.name_$tag AS preName, s1.externalID AS preModuleNumber, ";
+        $select .= "s2.id AS postID, s2.name_$tag AS postName, s2.externalID AS postModuleNumber";
         $query->select($select);
         $query->from('#__thm_organizer_prerequisites AS pr');
         $query->innerJoin('#__thm_organizer_mappings AS m1 ON pr.prerequisiteID = m1.id');

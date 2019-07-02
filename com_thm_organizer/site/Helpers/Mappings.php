@@ -146,7 +146,7 @@ class Mappings
      */
     public static function getPoolOption(&$mapping, &$selectedParents)
     {
-        $shortTag   = Languages::getShortTag();
+        $tag        = Languages::getTag();
         $poolsTable = OrganizerHelper::getTable('Pools');
 
         try {
@@ -157,7 +157,7 @@ class Mappings
             return '';
         }
 
-        $nameColumn   = "name_$shortTag";
+        $nameColumn   = "name_$tag";
         $indentedName = self::getIndentedPoolName($poolsTable->$nameColumn, $mapping['level']);
 
         $selected = in_array($mapping['id'], $selectedParents) ? 'selected' : '';
@@ -268,15 +268,15 @@ class Mappings
      */
     public static function getProgramOption(&$mapping, &$selectedParents, $resourceType)
     {
-        $shortTag = Languages::getShortTag();
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
-        $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
-        $text     = $query->concatenate($parts, '') . ' AS text';
-        $query->select($text);
-        $query->from('#__thm_organizer_programs AS dp');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-        $query->where("dp.id = '{$mapping['programID']}'");
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
+
+        $parts = ["dp.name_$tag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
+        $query->select($query->concatenate($parts, '') . ' AS text')
+            ->from('#__thm_organizer_programs AS dp')
+            ->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID')
+            ->where("dp.id = '{$mapping['programID']}'");
         $dbo->setQuery($query);
 
         $name = OrganizerHelper::executeQuery('loadResult');
@@ -303,16 +303,17 @@ class Mappings
      */
     public static function getProgramOptions()
     {
-        $shortTag = Languages::getShortTag();
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
-        $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
-        $text     = $query->concatenate($parts, '') . ' AS name';
-        $query->select("DISTINCT dp.id AS id, $text");
-        $query->from('#__thm_organizer_programs AS dp');
-        $query->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID');
-        $query->order('name ASC');
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
+
+        $parts = ["dp.name_$tag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
+        $text  = $query->concatenate($parts, '') . ' AS name';
+        $query->select("DISTINCT dp.id AS id, $text")
+            ->from('#__thm_organizer_programs AS dp')
+            ->innerJoin('#__thm_organizer_degrees AS d ON dp.degreeID = d.id')
+            ->innerJoin('#__thm_organizer_mappings AS m ON dp.id = m.programID')
+            ->order('name ASC');
         $dbo->setQuery($query);
 
         $programs = OrganizerHelper::executeQuery('loadAssocList');
@@ -343,17 +344,18 @@ class Mappings
             $rangeClauses[] = "( lft < '{$borders['lft']}' AND rgt > '{$borders['rgt']}')";
         }
 
-        $dbo      = Factory::getDbo();
-        $shortTag = Languages::getShortTag();
-        $query    = $dbo->getQuery(true);
-        $parts    = ["dp.name_$shortTag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
-        $select   = 'DISTINCT ' . $query->concatenate($parts, '') . ' AS name, dp.id AS id';
-        $query->select($select);
-        $query->from('#__thm_organizer_programs AS dp');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
-        $query->where($rangeClauses, 'OR');
-        $query->order('name');
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
+
+        $parts  = ["dp.name_$tag", "' ('", 'd.abbreviation', "' '", 'dp.version', "')'"];
+        $select = 'DISTINCT ' . $query->concatenate($parts, '') . ' AS name, dp.id AS id';
+        $query->select($select)
+            ->from('#__thm_organizer_programs AS dp')
+            ->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id')
+            ->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID')
+            ->where($rangeClauses, 'OR')
+            ->order('name');
         $dbo->setQuery($query);
 
         if ($getIDs) {
@@ -443,9 +445,9 @@ class Mappings
         $lftQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
         $lftQuery->order('lft DESC');
 
-        $shortTag  = Languages::getShortTag();
+        $tag       = Languages::getTag();
         $nameQuery = $dbo->getQuery(true);
-        $nameQuery->select("DISTINCT p.name_$shortTag AS name");
+        $nameQuery->select("DISTINCT p.name_$tag AS name");
         $nameQuery->from('#__thm_organizer_pools AS p');
         $nameQuery->innerJoin('#__thm_organizer_mappings AS m ON m.poolID = p.id');
         $pools = [];

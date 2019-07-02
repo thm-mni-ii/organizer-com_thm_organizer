@@ -85,9 +85,9 @@ class Schedule_Export extends BaseModel
      */
     public function getGridOptions()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->_db->getQuery(true);
-        $query->select("id, name_$shortTag AS name, defaultGrid")->from('#__thm_organizer_grids');
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
+        $query->select("id, name_$tag AS name, defaultGrid")->from('#__thm_organizer_grids');
         $this->_db->setQuery($query);
 
         $options = [];
@@ -245,7 +245,7 @@ class Schedule_Export extends BaseModel
         }
 
         $oneResource = count($courseIDs) === 1;
-        $tag         = Languages::getShortTag();
+        $tag         = Languages::getTag();
 
         $query = $this->_db->getQuery(true);
         $query->select('co.name AS courseName, co.untisID AS untisID')

@@ -26,12 +26,12 @@ class Rooms extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->_db->getQuery(true);
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
 
         $linkParts = ["'index.php?option=com_thm_organizer&view=room_edit&id='", 'r.id'];
         $query->select('r.id, r.untisID, r.name')
-            ->select("t.id AS typeID, t.name_$shortTag AS type")
+            ->select("t.id AS typeID, t.name_$tag AS type")
             ->select('b.id AS buildingID, b.name AS buildingName')
             ->select($query->concatenate($linkParts, '') . ' AS link')
             ->from('#__thm_organizer_rooms AS r')

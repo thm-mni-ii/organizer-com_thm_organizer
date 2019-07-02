@@ -84,12 +84,11 @@ class Departments implements Selectable
      */
     public static function getName($departmentID)
     {
-        $languageTag = Languages::getShortTag();
-        $dbo         = Factory::getDbo();
+        $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
 
         $query = $dbo->getQuery(true);
-        $query->select("name_$languageTag as name")->from('#__thm_organizer_departments')
-            ->where("id = '$departmentID'");
+        $query->select("name_$tag as name")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
 
         $dbo->setQuery($query);
 
@@ -131,8 +130,8 @@ class Departments implements Selectable
     public static function getResources($access = '')
     {
         $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
-        $tag   = Languages::getShortTag();
 
         $query->select("DISTINCT depts.*, depts.short_name_$tag AS shortName, depts.name_$tag AS name")
             ->from('#__thm_organizer_departments AS depts');

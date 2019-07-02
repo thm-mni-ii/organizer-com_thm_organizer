@@ -87,11 +87,11 @@ class Categories implements DepartmentAssociated, Selectable
      */
     public static function getName($categoryID)
     {
-        $dbo         = Factory::getDbo();
-        $languageTag = Languages::getShortTag();
+        $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
 
         $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$languageTag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+        $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
         $query->select('cat.name AS catName, ' . $query->concatenate($nameParts, "") . ' AS name');
 
         $query->from('#__thm_organizer_categories AS cat');
@@ -139,7 +139,7 @@ class Categories implements DepartmentAssociated, Selectable
     public static function getResources($access = '')
     {
         $dbo = Factory::getDbo();
-        $tag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
         $query     = $dbo->getQuery(true);
         $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];

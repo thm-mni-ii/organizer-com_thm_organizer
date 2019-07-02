@@ -27,7 +27,7 @@ $action .= empty(OrganizerHelper::getApplication()->getMenu()->getActive()) ?
 $casURL        = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
 $loginRoute    = Route::_('index.php?option=com_users&view=login&tmpl=component', false, 1);
 $registerRoute = Route::_('index.php?option=com_users&view=registration&tmpl=component', false, 1);
-$profileRoute  = Route::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->shortTag}");
+$profileRoute  = Route::_("index.php?option=com_thm_organizer&view=participant_edit&languageTag={$this->tag}");
 
 $position = OrganizerHelper::getParams()->get('loginPosition');
 
@@ -88,7 +88,7 @@ if (!empty($menuID)) :
                     <?php echo $this->filters['status']; ?>
                 </div>
             <?php endif; ?>
-            <input type="hidden" name="languageTag" value="<?php echo $this->shortTag; ?>"/>
+            <input type="hidden" name="languageTag" value="<?php echo $this->tag; ?>"/>
         </form>
     </div>
     <table class="table table-striped">

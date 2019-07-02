@@ -28,14 +28,11 @@ class Subject_Selection extends ListModel
      */
     protected function getListQuery()
     {
-        $dbo      = Factory::getDbo();
-        $shortTag = Languages::getShortTag();
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
 
-        // Create the sql query
-        $query  = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, externalID, name_$shortTag AS name ";
-        $query->select($select);
-        $query->from('#__thm_organizer_subjects AS s');
+        $query->select("DISTINCT s.id, externalID, name_$tag AS name")->from('#__thm_organizer_subjects AS s');
 
         $searchFields = [
             'name_de',

@@ -127,13 +127,11 @@ class ChildrenField extends FormField
      */
     private function getResourceName($resourceID, $resourceType)
     {
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
-        $shortTag = Languages::getShortTag();
+        $dbo   = Factory::getDbo();
+        $tag   = Languages::getTag();
+        $query = $dbo->getQuery(true);
 
-        $query->select("name_$shortTag");
-        $query->from("#__thm_organizer_{$resourceType}s");
-        $query->where("id = '$resourceID'");
+        $query->select("name_$tag")->from("#__thm_organizer_{$resourceType}s")->where("id = '$resourceID'");
         $dbo->setQuery($query);
 
         return (string)OrganizerHelper::executeQuery('loadResult');

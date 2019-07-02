@@ -26,10 +26,10 @@ class Methods extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->_db->getQuery(true);
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
 
-        $select = "id, abbreviation_$shortTag AS abbreviation, name_$shortTag AS name, ";
+        $select = "id, abbreviation_$tag AS abbreviation, name_$tag AS name, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=method_edit&id='", 'id'];
         $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select);

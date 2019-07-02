@@ -18,7 +18,7 @@ $backURL = empty($this->menu) ? Uri::base() . '?option=com_thm_organizer&' : $th
 $backURL .= empty($this->lessonID) ?
     "&view=subject_details&id={$this->subjectID}" : "&view=courses&lessonID={$this->lessonID}";
 
-$nameProperty = 'name_' . $this->languageTag;
+$nameProperty = 'name_' . $this->tag;
 ?>
 <div class="toolbar">
     <?php echo $this->languageLinks->render($this->languageParams); ?>
@@ -57,6 +57,6 @@ $nameProperty = 'name_' . $this->languageTag;
         <?php echo HTML::_('form.token'); ?>
         <input type="hidden" name="task" value=""/>
         <input type="hidden" name="lessonID" value="<?php echo $this->lessonID; ?>"/>
-        <input type="hidden" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
+        <input type="hidden" name="languageTag" value="<?php echo $this->tag; ?>"/>
     </form>
 </div>

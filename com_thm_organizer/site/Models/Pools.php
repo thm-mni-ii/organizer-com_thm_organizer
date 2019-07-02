@@ -26,10 +26,10 @@ class Pools extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->_db->getQuery(true);
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
 
-        $query->select("DISTINCT p.id, p.name_$shortTag AS name, p.fieldID")
+        $query->select("DISTINCT p.id, p.name_$tag AS name, p.fieldID")
             ->from('#__thm_organizer_pools AS p');
 
         $allowedDepartments = Access::getAccessibleDepartments('document');

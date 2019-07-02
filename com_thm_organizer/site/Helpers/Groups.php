@@ -83,12 +83,11 @@ class Groups implements Selectable
             $interval = 'semester';
         }
 
-        $languageTag = Languages::getShortTag();
-
         $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
 
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$languageTag AS method")
+        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$tag AS method")
             ->from('#__thm_organizer_lessons AS l')
             ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
             ->innerJoin('#__thm_organizer_lesson_courses AS lc on lc.lessonID = l.id')

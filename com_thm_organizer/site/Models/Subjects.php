@@ -76,12 +76,13 @@ class Subjects extends ListModelMenu
      */
     protected function getListQuery()
     {
-        $dbo      = Factory::getDbo();
-        $shortTag = Languages::getShortTag();
+        $dbo = Factory::getDbo();
+        $tag = Languages::getTag();
+        echo "<pre>" . print_r($tag, true) . "</pre>";
 
         // Create the sql query
         $query  = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, s.externalID, s.name_$shortTag AS name, s.fieldID, s.creditpoints, ";
+        $select = "DISTINCT s.id, s.externalID, s.name_$tag AS name, s.fieldID, s.creditpoints, ";
         $parts  = ["'index.php?option=com_thm_organizer&id='", 's.id'];
         $select .= $query->concatenate($parts, '') . ' AS url ';
         $query->select($select);

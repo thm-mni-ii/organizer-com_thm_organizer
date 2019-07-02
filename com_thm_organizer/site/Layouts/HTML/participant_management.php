@@ -10,12 +10,13 @@
  */
 
 use Joomla\CMS\Router\Route;
+use Organizer\Helpers\Languages;
 
 $fieldset = $this->form->getFieldset('participant_management');
 
-$shortTag = Languages::getShortTag();
-$baseURL  = '?option=com_thm_organizer&view=courses&format=pdf';
-$baseURL  .= "&lessonID={$this->course['id']}&languageTag=$shortTag&type=";
+$tag     = Languages::getTag();
+$baseURL = '?option=com_thm_organizer&view=courses&format=pdf';
+$baseURL .= "&lessonID={$this->course['id']}&languageTag=$tag&type=";
 
 $participantListRoute = Route::_($baseURL . 0, false);
 $departmentListRoute  = Route::_($baseURL . 1, false);

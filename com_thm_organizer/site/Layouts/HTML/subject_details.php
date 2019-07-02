@@ -10,6 +10,7 @@
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 $casURL         = "document.location.href='index.php?option=com_externallogin&view=server&server=1';return false;";
@@ -41,7 +42,7 @@ if ($this->showRegistration) {
                 let queryParams = '&redirect=subject_details';
                 queryParams += '&id=<?php echo $this->item['subjectID']; ?>';
                 queryParams += '&Itemid=<?php echo $menuID; ?>';
-                queryParams += '&languageTag=<?php echo $this->langTag; ?>';
+                queryParams += '&languageTag=<?php echo $this->tag; ?>';
 
                 registrationLink.attr('href', oldURL + queryParams);
             });

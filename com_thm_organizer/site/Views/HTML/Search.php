@@ -20,7 +20,7 @@ class Search extends BaseHTMLView
 {
     public $languageLinks;
 
-    public $languageTag;
+    public $tag;
 
     public $query;
 
@@ -35,7 +35,7 @@ class Search extends BaseHTMLView
      */
     public function display($tpl = null)
     {
-        $this->languageTag   = Languages::getShortTag();
+        $this->tag           = Languages::getTag();
         $this->languageLinks = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
         $this->query         = OrganizerHelper::getInput()->getString('search', '');
         $this->results       = $this->getModel()->getResults();

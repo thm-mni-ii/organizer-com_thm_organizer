@@ -41,7 +41,7 @@ class Campuses implements Selectable
      */
     public static function getName($campusID = null)
     {
-        $languageTag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
         if (empty($campusID)) {
             return Languages::_('THM_ORGANIZER_CAMPUS_UNKNOWN');
@@ -49,7 +49,7 @@ class Campuses implements Selectable
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("c1.name_$languageTag as name, c2.name_$languageTag as parentName")
+        $query->select("c1.name_$tag as name, c2.name_$tag as parentName")
             ->from('#__thm_organizer_campuses as c1')
             ->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id')
             ->where("c1.id = '$campusID'");
@@ -87,7 +87,7 @@ class Campuses implements Selectable
      */
     public static function getResources()
     {
-        $tag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);

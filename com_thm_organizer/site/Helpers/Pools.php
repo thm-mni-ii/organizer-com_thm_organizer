@@ -116,15 +116,15 @@ class Pools implements Selectable
             return '';
         }
 
-        $languageTag = Languages::getShortTag();
+        $tag = Languages::getTag();
 
-        if (!empty($table->{'name_' . $languageTag})) {
-            return $table->{'name_' . $languageTag};
-        } elseif (!empty($table->{'short_name_' . $languageTag})) {
-            return $table->{'short_name_' . $languageTag};
+        if (!empty($table->{'name_' . $tag})) {
+            return $table->{'name_' . $tag};
+        } elseif (!empty($table->{'short_name_' . $tag})) {
+            return $table->{'short_name_' . $tag};
         }
 
-        return !empty($table->{'abbreviation_' . $languageTag}) ? $table->{'abbreviation_' . $languageTag} : '';
+        return !empty($table->{'abbreviation_' . $tag}) ? $table->{'abbreviation_' . $tag} : '';
     }
 
     /**
@@ -216,10 +216,10 @@ class Pools implements Selectable
             return [];
         }
 
-        $shortTag = Languages::getShortTag();
-        $dbo      = Factory::getDbo();
-        $query    = $dbo->getQuery(true);
-        $query->select("DISTINCT p.*, p.name_$shortTag AS name")
+        $tag   = Languages::getTag();
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT p.*, p.name_$tag AS name")
             ->from('#__thm_organizer_pools AS p')
             ->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.poolID')
             ->where("lft > '{$programRanges[0]['lft']}'")
@@ -277,7 +277,7 @@ class Pools implements Selectable
         }
 
         $dbo   = Factory::getDbo();
-        $tag   = Languages::getShortTag();
+        $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
         $query->select("p.id, p.name_{$tag} AS name, m.level");
         $query->from('#__thm_organizer_pools AS p');

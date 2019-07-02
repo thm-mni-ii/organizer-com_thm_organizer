@@ -100,7 +100,7 @@ class MergeAssociationsField extends OptionsField
         $localized   = $this->getAttribute('localized', false);
 
         if ($localized) {
-            $textColumns[0] = $textColumns[0] . '_' . Languages::getShortTag();
+            $textColumns[0] = $textColumns[0] . '_' . Languages::getTag();
         }
 
         $glue = $this->getAttribute('glue');

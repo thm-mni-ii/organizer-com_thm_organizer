@@ -59,7 +59,7 @@ class ColorsField extends OptionsField
     {
         $options = parent::getOptions();
 
-        $tag = Languages::getShortTag();
+        $tag = Languages::getTag();
         $dbo = Factory::getDbo();
 
         $query = $dbo->getQuery(true);

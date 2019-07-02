@@ -25,10 +25,10 @@ class Grids extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->getDbo()->getQuery(true);
+        $tag   = Languages::getTag();
+        $query = $this->getDbo()->getQuery(true);
 
-        $select = "id, name_$shortTag AS name, grid, defaultGrid, ";
+        $select = "id, name_$tag AS name, grid, defaultGrid, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", 'id'];
         $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select);

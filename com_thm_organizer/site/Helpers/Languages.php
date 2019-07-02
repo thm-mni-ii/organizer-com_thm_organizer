@@ -49,15 +49,15 @@ class Languages extends Text
             return $string;
         }
 
-        $lang = self::getLanguage();
+        $language = self::getLanguage();
 
         if ($script) {
-            static::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
+            static::$strings[$string] = $language->_($string, $jsSafe, $interpretBackSlashes);
 
             return $string;
         }
 
-        return $lang->_($string, $jsSafe, $interpretBackSlashes);
+        return $language->_($string, $jsSafe, $interpretBackSlashes);
     }
 
     /**
@@ -67,8 +67,8 @@ class Languages extends Text
      */
     private static function getLanguage()
     {
-        $shortTag = self::getShortTag();
-        switch ($shortTag) {
+        $tag = self::getTag();
+        switch ($tag) {
             case 'en':
                 $language = Language::getInstance('en-GB');
                 break;
@@ -88,7 +88,7 @@ class Languages extends Text
      *
      * @return string
      */
-    public static function getShortTag()
+    public static function getTag()
     {
         $input        = OrganizerHelper::getInput();
         $requestedTag = $input->get('languageTag');
@@ -121,12 +121,12 @@ class Languages extends Text
             return false;
         }
 
-        $lang         = self::getLanguage();
+        $language     = self::getLanguage();
         $string_parts = explode(',', $string);
 
         // Pass all parts through the Text translator
         foreach ($string_parts as $i => $str) {
-            $string_parts[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
+            $string_parts[$i] = $language->_($str, $jsSafe, $interpretBackSlashes);
         }
 
         $first_part = array_shift($string_parts);
@@ -168,22 +168,22 @@ class Languages extends Text
      */
     public static function printf($string)
     {
-        $lang  = self::getLanguage();
-        $args  = func_get_args();
-        $count = count($args);
+        $language = self::getLanguage();
+        $args     = func_get_args();
+        $count    = count($args);
 
         if ($count < 1) {
             return '';
         }
 
         if (is_array($args[$count - 1])) {
-            $args[0] = $lang->_(
+            $args[0] = $language->_(
                 $string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
                 array_key_exists('interpretBackSlashes',
                     $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
             );
         } else {
-            $args[0] = $lang->_($string);
+            $args[0] = $language->_($string);
         }
 
         return call_user_func_array('printf', $args);
@@ -235,16 +235,16 @@ class Languages extends Text
      */
     public static function sprintf($string)
     {
-        $lang  = self::getLanguage();
-        $args  = func_get_args();
-        $count = count($args);
+        $language = self::getLanguage();
+        $args     = func_get_args();
+        $count    = count($args);
 
         if ($count < 1) {
             return '';
         }
 
         if (is_array($args[$count - 1])) {
-            $args[0] = $lang->_(
+            $args[0] = $language->_(
                 $string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
                 array_key_exists('interpretBackSlashes', $args[$count - 1]) ?
                     $args[$count - 1]['interpretBackSlashes'] : true
@@ -256,7 +256,7 @@ class Languages extends Text
                 return $string;
             }
         } else {
-            $args[0] = $lang->_($string);
+            $args[0] = $language->_($string);
         }
 
         // Replace custom named placeholders with sprintf style placeholders

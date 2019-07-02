@@ -353,14 +353,13 @@ class Event_List extends FormModel
      */
     private function getEvents()
     {
-        $shortTag = Languages::getShortTag();
-
+        $tag   = Languages::getTag();
         $query = $this->_db->getQuery(true);
 
         $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, cal.schedule_date, ';
-        $select .= "d.short_name_$shortTag AS department, d.id AS departmentID, ";
-        $select .= "l.id as lessonID, l.comment, m.abbreviation_$shortTag AS method, ";
-        $select .= "co.name AS courseName, s.name_$shortTag AS sName";
+        $select .= "d.short_name_$tag AS department, d.id AS departmentID, ";
+        $select .= "l.id as lessonID, l.comment, m.abbreviation_$tag AS method, ";
+        $select .= "co.name AS courseName, s.name_$tag AS sName";
         $query->select($select)
             ->from('#__thm_organizer_calendar AS cal')
             ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')

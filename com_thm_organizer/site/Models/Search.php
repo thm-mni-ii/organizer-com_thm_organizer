@@ -10,13 +10,9 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Categories;
-use Organizer\Helpers\Courses;
-use Organizer\Helpers\Departments;
-use Organizer\Helpers\Pools;
-use Organizer\Helpers\Programs;
-use Organizer\Helpers\Subjects;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Access;
+use Organizer\Helpers as Helpers;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -26,7 +22,7 @@ class Search extends BaseModel
 {
     private $schedDepts;
 
-    public $languageTag;
+    public $tag;
 
     private $programResults;
 
@@ -168,7 +164,7 @@ class Search extends BaseModel
      */
     public function getResults()
     {
-        $this->teacherID  = Teachers::getIDByUserID();
+        $this->teacherID  = Helpers\Teachers::getIDByUserID();
         $this->schedDepts = Access::getAccessibleDepartments('schedule');
 
         /**
@@ -178,8 +174,8 @@ class Search extends BaseModel
          * Related   => matches via a relation with an exact/partial/strong match
          * Mentioned => one or more of the terms is a part of the extended text for the resource
          */
-        $this->results     = ['exact' => [], 'strong' => [], 'good' => [], 'related' => [], 'mentioned' => []];
-        $this->languageTag = Languages::getShortTag();
+        $this->results = ['exact' => [], 'strong' => [], 'good' => [], 'related' => [], 'mentioned' => []];
+        $this->tag     = Languages::getTag();
 
         $input     = OrganizerHelper::getInput();
         $rawSearch = trim($input->getString('search', ''));
@@ -280,7 +276,7 @@ class Search extends BaseModel
 
         if (!empty($results)) {
             foreach ($results as $departmentID) {
-                $departmentName = Departments::getName($departmentID);
+                $departmentName = Helpers\Departments::getName($departmentID);
 
                 $departments[$departmentID]         = [];
                 $departments[$departmentID]['text'] = Languages::_('THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
@@ -309,11 +305,11 @@ class Search extends BaseModel
         foreach ($results as $result) {
             if ($type == 'real') {
                 $index = "d{$result['id']}";
-                $text  = Pools::getName($result['id'], 'real');
+                $text  = Helpers\Pools::getName($result['id'], 'real');
                 $links = ['subjects' => "?option=com_thm_organizer&view=subjects&poolIDs={$result['id']}"];
             } else {
                 $index               = "p{$result['id']}";
-                $text                = Pools::getName($result['id'], 'plan');
+                $text                = Helpers\Pools::getName($result['id'], 'plan');
                 $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&poolIDs={$result['id']}";
                 $links['event_list'] = "?option=com_thm_organizer&view=event_list&groupIDs={$result['id']}";
             }
@@ -360,7 +356,7 @@ class Search extends BaseModel
                 $results[$pIndex]['lft']        = $category['lft'];
                 $results[$pIndex]['rgt']        = $category['rgt'];
 
-                $text                     = Programs::getName($programID);
+                $text                     = Helpers\Programs::getName($programID);
                 $results[$pIndex]['name'] = $text;
                 $results[$pIndex]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
@@ -408,7 +404,7 @@ class Search extends BaseModel
 
                 $results[$cIndex]               = [];
                 $results[$cIndex]['categoryID'] = $categoryID;
-                $text                           = Categories::getName($categoryID);
+                $text                           = Helpers\Categories::getName($categoryID);
                 $results[$cIndex]['name']       = $text;
                 $results[$cIndex]['text']       = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
 
@@ -487,7 +483,7 @@ class Search extends BaseModel
 
                 $subjects[$subjectID] = [];
 
-                $text = Subjects::getName($sID, true);
+                $text = Helpers\Subjects::getName($sID, true);
 
                 $subjects[$subjectID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
 
@@ -501,7 +497,7 @@ class Search extends BaseModel
                 }
 
                 $subjects[$subjectID]['links']       = $links;
-                $subjects[$subjectID]['description'] = Subjects::getPrograms($sID);
+                $subjects[$subjectID]['description'] = Helpers\Subjects::getPrograms($sID);
             }
         }
 
@@ -528,7 +524,7 @@ class Search extends BaseModel
 
                 $subjects[$courseID] = [];
 
-                $text = Courses::getName($courseID, true);
+                $text = Helpers\Courses::getName($courseID, true);
 
                 $subjects[$courseID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
 
@@ -541,7 +537,7 @@ class Search extends BaseModel
                 $links['schedule']                  = $scheduleLink;
                 $links['event_list']                = $scheduleListLink;
                 $subjects[$courseID]['links']       = $links;
-                $subjects[$courseID]['description'] = Courses::getCategories($courseID);
+                $subjects[$courseID]['description'] = Helpers\Courses::getCategories($courseID);
             }
         }
 
@@ -561,15 +557,15 @@ class Search extends BaseModel
 
         if (!empty($results)) {
             foreach ($results as $teacher) {
-                $documented = Teachers::teaches('subject', $teacher['id']);
-                $teaches    = Teachers::teaches('lesson', $teacher['id']);
+                $documented = Helpers\Teachers::teaches('subject', $teacher['id']);
+                $teaches    = Helpers\Teachers::teaches('lesson', $teacher['id']);
 
                 // Nothing to link
                 if (!$documented and !$teaches) {
                     continue;
                 }
 
-                $teacherName = Teachers::getDefaultName($teacher['id']);
+                $teacherName = Helpers\Teachers::getDefaultName($teacher['id']);
 
                 $teachers[$teacher['id']]         = [];
                 $teachers[$teacher['id']]['text'] = Languages::_('THM_ORGANIZER_TEACHER') . ": {$teacherName}";
@@ -582,7 +578,7 @@ class Search extends BaseModel
 
                 $overlap = array_intersect(
                     $this->schedDepts,
-                    Teachers::getDepartmentIDs($teacher['id'])
+                    Helpers\Teachers::getDepartmentIDs($teacher['id'])
                 );
 
                 $isTeacher = $this->teacherID == $teacher['id'];
@@ -776,7 +772,7 @@ class Search extends BaseModel
     private function searchRooms()
     {
         $select = 'r.id , r.name, r.capacity, ';
-        $select .= "rt.name_{$this->languageTag} as type, rt.description_{$this->languageTag} as description";
+        $select .= "rt.name_{$this->tag} as type, rt.description_{$this->tag} as description";
         $query  = $this->_db->getQuery(true);
         $query->select($select)
             ->from('#__thm_organizer_rooms AS r')
@@ -1271,14 +1267,14 @@ class Search extends BaseModel
         }
 
         $programQuery = $this->_db->getQuery(true);
-        $programQuery->select("p.id, name_{$this->languageTag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
+        $programQuery->select("p.id, name_{$this->tag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
             ->from('#__thm_organizer_programs AS p')
             ->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.ID')
             ->leftJoin('#__thm_organizer_categories AS cat ON cat.programID = p.ID');
 
         // Plan programs have to be found in strings => standardized name as extra temp variable for comparison
         $categoryQuery = $this->_db->getQuery(true);
-        $categoryQuery->select("p.id, name_{$this->languageTag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
+        $categoryQuery->select("p.id, name_{$this->tag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
             ->from('#__thm_organizer_categories AS cat')
             ->leftJoin('#__thm_organizer_programs AS p ON cat.programID = p.ID')
             ->leftJoin('#__thm_organizer_mappings AS m ON m.programID = p.ID');

@@ -56,11 +56,9 @@ class Schedule_Grid extends BaseModel
      */
     public function getGrids()
     {
-        $languageTag = Languages::getShortTag();
-        $query       = $this->_db->getQuery(true);
-        $query->select("id, name_$languageTag AS name, grid, defaultGrid")
-            ->from('#__thm_organizer_grids')
-            ->order('name');
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
+        $query->select("id, name_$tag AS name, grid, defaultGrid")->from('#__thm_organizer_grids')->order('name');
         $this->_db->setQuery($query);
 
         $grids = OrganizerHelper::executeQuery('loadObjectList');

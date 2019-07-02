@@ -263,7 +263,7 @@ class Room_Statistics extends BaseModel
      */
     private function setData($roomID)
     {
-        $tag       = Languages::getShortTag();
+        $tag       = Languages::getTag();
         $ringQuery = $this->_db->getQuery(true);
         $ringQuery->select('DISTINCT ccm.id AS ccmID')
             ->from('#__thm_organizer_calendar_configuration_map AS ccm')
@@ -394,7 +394,7 @@ class Room_Statistics extends BaseModel
      */
     private function setLSData($lcrsIDs)
     {
-        $tag   = Languages::getShortTag();
+        $tag   = Languages::getTag();
         $query = $this->_db->getQuery(true);
 
         $select = 'DISTINCT lcrs.id AS lcrsID, ';
@@ -466,7 +466,7 @@ class Room_Statistics extends BaseModel
      */
     private function setRoomTypes()
     {
-        $tag   = Languages::getShortTag();
+        $tag   = Languages::getTag();
         $query = $this->_db->getQuery(true);
 
         $query->select("id, name_$tag AS name, description_$tag AS description")

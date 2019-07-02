@@ -83,7 +83,7 @@ abstract class BaseHTMLView extends BaseView
             return;
         }
 
-        $current            = Languages::getShortTag();
+        $current            = Languages::getTag();
         $supportedLanguages = [
             'de' => Languages::_('THM_ORGANIZER_GERMAN'),
             'en' => Languages::_('THM_ORGANIZER_ENGLISH')
@@ -97,8 +97,8 @@ abstract class BaseHTMLView extends BaseView
             $params['Itemid'] = $menuID;
         }
 
-        foreach ($supportedLanguages as $languageTag => $text) {
-            $params['languageTag'] = $languageTag;
+        foreach ($supportedLanguages as $tag => $text) {
+            $params['language'] = $tag;
 
             $href  = Uri::buildQuery($params);
             $links .= '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';

@@ -17,7 +17,7 @@ use Organizer\Helpers\Languages;
 <div class="clear"></div>
 <div class="room-overview-view">
     <form action="" method="post" name="adminForm" id="adminForm">
-        <input type="hidden" name="languageTag" id="languageTag" value=""/>
+        <input type="hidden" name="languageTag" value=""/>
         <div id="form-container" class="form-container">
             <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_ROOM_OVERVIEW_TITLE'); ?></h1>
             <div class="right">

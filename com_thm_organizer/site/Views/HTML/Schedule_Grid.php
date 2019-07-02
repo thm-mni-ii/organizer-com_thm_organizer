@@ -65,11 +65,11 @@ class Schedule_Grid extends BaseHTMLView
     protected $isMobile = false;
 
     /**
-     * Contains the current languageTag
+     * Contains the current language tag
      *
      * @var string
      */
-    protected $languageTag = 'de-DE';
+    protected $tag = 'de';
 
     /**
      * Model to this view
@@ -88,7 +88,7 @@ class Schedule_Grid extends BaseHTMLView
     public function display($tpl = null)
     {
         $this->isMobile    = OrganizerHelper::isSmartphone();
-        $this->languageTag = Languages::getShortTag();
+        $this->tag         = Languages::getTag();
         $this->model       = $this->getModel();
         $this->defaultGrid = $this->model->getDefaultGrid();
         $compParams        = OrganizerHelper::getParams();

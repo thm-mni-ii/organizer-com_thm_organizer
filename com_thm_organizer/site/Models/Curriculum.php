@@ -19,8 +19,6 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
 {
-    private $langTag;
-
     /**
      * Method to get an array of data items.
      *
@@ -67,12 +65,13 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     private function setProgramInformation(&$program)
     {
+        $tag   = Languages::getTag();
         $query = $this->_db->getQuery(true);
-        $query->select("p.name_$this->langTag AS name, d.abbreviation, p.version, m.id AS mapping");
-        $query->from('#__thm_organizer_programs AS p');
-        $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-        $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id');
-        $query->where("p.id = '$program->id'");
+        $query->select("p.name_$tag AS name, d.abbreviation, p.version, m.id AS mapping")
+            ->from('#__thm_organizer_programs AS p')
+            ->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
+            ->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.id')
+            ->where("p.id = '$program->id'");
         $this->_db->setQuery($query);
         $programData = OrganizerHelper::executeQuery('loadAssoc', []);
         if (empty($programData)) {
@@ -138,7 +137,7 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     private function getPool($poolID, $mappingID)
     {
-        $tag    = Languages::getShortTag();
+        $tag    = Languages::getTag();
         $query  = $this->_db->getQuery(true);
         $select = "p.id, p.name_$tag AS name, description_$tag AS description, minCrP, maxCrP, ";
         $select .= 'enable_desc, color AS bgColor';
@@ -170,7 +169,7 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     private function getSubject($subjectID, $mappingID)
     {
-        $tag   = Languages::getShortTag();
+        $tag   = Languages::getTag();
         $query = $this->_db->getQuery(true);
 
         $select      = "s.id, externalID, s.name_$tag AS name, creditpoints AS CrP, color AS bgColor, ";

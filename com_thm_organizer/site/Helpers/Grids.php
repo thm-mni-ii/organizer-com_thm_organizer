@@ -27,7 +27,7 @@ class Grids
     {
         $table  = OrganizerHelper::getTable('Grids');
         $exists = $table->load($gridID);
-        $column = 'name_' . Languages::getShortTag();
+        $column = 'name_' . Languages::getTag();
 
         return empty($exists) ? '' : $table->$column;
     }

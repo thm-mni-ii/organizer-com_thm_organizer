@@ -30,9 +30,9 @@ class Participant_Edit extends EditModel
      */
     public function getItem($pk = null)
     {
-        $item              = parent::getItem($pk);
-        $item->languageTag = Languages::getShortTag();
-        $item->lessonID    = OrganizerHelper::getInput()->getInt('lessonID');
+        $item           = parent::getItem($pk);
+        $item->tag      = Languages::getTag();
+        $item->lessonID = OrganizerHelper::getInput()->getInt('lessonID');
 
         return $item;
     }

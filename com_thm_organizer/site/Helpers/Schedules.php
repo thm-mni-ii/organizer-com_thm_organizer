@@ -400,7 +400,7 @@ class Schedules
             }
         }
 
-        $tag   = Languages::getShortTag();
+        $tag   = Languages::getTag();
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
@@ -540,7 +540,7 @@ class Schedules
             'abbr'      => $lesson['courseUntisID']
         ];
 
-        $tag           = Languages::getShortTag();
+        $tag           = Languages::getTag();
         $dbo           = Factory::getDbo();
         $subjectsQuery = $dbo->getQuery(true);
 

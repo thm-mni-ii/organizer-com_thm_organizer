@@ -24,10 +24,10 @@ class Colors extends ListModel
      */
     protected function getListQuery()
     {
-        $shortTag = Languages::getShortTag();
-        $query    = $this->_db->getQuery(true);
+        $tag   = Languages::getTag();
+        $query = $this->_db->getQuery(true);
 
-        $select = "id, name_$shortTag AS name, color, ";
+        $select = "id, name_$tag AS name, color, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=color_edit&id='", 'id'];
         $select .= $query->concatenate($parts, '') . ' AS link';
         $query->select($select)->from('#__thm_organizer_colors');

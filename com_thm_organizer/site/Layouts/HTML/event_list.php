@@ -19,7 +19,7 @@ if (!empty($showHeading)) {
 
 ?>
     <form action="" method="post" name="adminForm" id="adminForm">
-        <input type="hidden" name="languageTag" id="languageTag" value=""/>
+        <input type="hidden" name="languageTag" value=""/>
         <div id="form-container" class="form-container">
             <div class="clear"></div>
             <div class='control-group'>

@@ -32,9 +32,9 @@ $attribs = ['target' => '_blank'];
                 </button>
             </div>
         </div>
-        <input type="hidden" id="languageTag" name="languageTag" value="<?php echo $this->languageTag; ?>"/>
-        <input type="hidden" id="option" name="option" value="com_thm_organizer"/>
-        <input type="hidden" id="view" name="view" value="search"/>
+        <input type="hidden" name="languageTag" value="<?php echo $this->tag; ?>"/>
+        <input type="hidden" name="option" value="com_thm_organizer"/>
+        <input type="hidden" name="view" value="search"/>
         <?php
         $containerOpened = false;
 
