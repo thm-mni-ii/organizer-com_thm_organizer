@@ -30,7 +30,7 @@ class Input
      */
     public static function addMenuParameters(&$object)
     {
-        $app    = self::getApplication();
+        $app    = OrganizerHelper::getApplication();
         $menuID = $app->input->getInt('Itemid');
 
         if (!empty($menuID)) {
@@ -198,7 +198,7 @@ class Input
      */
     public static function getParams()
     {
-        $app = self::getApplication();
+        $app = OrganizerHelper::getApplication();
 
         return method_exists($app, 'getParams') ? $app->getParams() : ComponentHelper::getParams('com_thm_organizer');
     }
@@ -215,7 +215,7 @@ class Input
         $menuID = $input->getInt('Itemid');
 
         if (!empty($menuID)) {
-            $url .= self::getApplication()->getMenu()->getItem($menuID)->route . '?';
+            $url .= OrganizerHelper::getApplication()->getMenu()->getItem($menuID)->route . '?';
         } else {
             $url .= '?option=com_thm_organizer&';
         }
