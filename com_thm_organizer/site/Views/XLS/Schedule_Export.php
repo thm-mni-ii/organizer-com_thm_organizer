@@ -10,11 +10,15 @@
 
 namespace Organizer\Views\XLS;
 
+use Organizer\Views\BaseView;
+
 /**
  * Class creates a XLS file for the display of the filtered schedule information.
  */
-class Schedule_Export extends BaseXMLView
+class Schedule_Export extends BaseView
 {
+    use PHPExcelDependent;
+
     /**
      * Sets context variables and renders the view.
      *

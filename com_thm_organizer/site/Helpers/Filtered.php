@@ -71,11 +71,12 @@ trait Filtered
             return;
         }
 
+        $tableWithAlias = '"#__thm_organizer_department_resources AS drAlias';
         if (in_array('-1', $departmentIDs)) {
-            $query->leftJoin("#__thm_organizer_department_resources AS drAlias ON drAlias.{$resource}ID = $alias.$keyColumn")
+            $query->leftJoin("$tableWithAlias ON drAlias.{$resource}ID = $alias.$keyColumn")
                 ->where("drAlias.id IS NULL");
         } else {
-            $query->innerJoin("#__thm_organizer_department_resources AS drAlias ON drAlias.{$resource}ID = $alias.$keyColumn")
+            $query->innerJoin("$tableWithAlias ON drAlias.{$resource}ID = $alias.$keyColumn")
                 ->where("drAlias.departmentID IN (" . implode(',', $departmentIDs) . ")");
 
         }

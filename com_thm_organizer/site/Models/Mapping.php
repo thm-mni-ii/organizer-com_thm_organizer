@@ -381,7 +381,9 @@ class Mapping extends BaseModel
     {
         // Retrieves information about the current mapping including its total width
         $mappingQuery = $this->_db->getQuery(true);
-        $mappingQuery->select('*, (rgt - lft + 1) AS width')->from('#__thm_organizer_mappings')->where("id = '$entryID'");
+        $mappingQuery->select('*, (rgt - lft + 1) AS width')
+            ->from('#__thm_organizer_mappings')
+            ->where("id = '$entryID'");
         $this->_db->setQuery($mappingQuery);
         $mapping = OrganizerHelper::executeQuery('loadAssoc', []);
         if (empty($mapping)) {

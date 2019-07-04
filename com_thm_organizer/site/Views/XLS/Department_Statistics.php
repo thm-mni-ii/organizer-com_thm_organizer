@@ -10,11 +10,15 @@
 
 namespace Organizer\Views\XLS;
 
+use Organizer\Views\BaseView;
+
 /**
  * Class instantiates and renders an XLS File with the department statistics.
  */
-class Department_Statistics extends BaseXMLView
+class Department_Statistics extends BaseView
 {
+    use PHPExcelDependent;
+
     /**
      * Sets context variables and renders the view.
      *

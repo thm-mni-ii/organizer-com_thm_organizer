@@ -17,7 +17,6 @@ use Organizer\Helpers\Programs;
  */
 class ProgramsField extends OptionsField
 {
-
     /**
      * @var  string
      */
@@ -35,5 +34,4 @@ class ProgramsField extends OptionsField
 
         return array_merge($options, $programs);
     }
-
 }

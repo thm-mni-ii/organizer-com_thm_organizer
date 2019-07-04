@@ -512,7 +512,7 @@ class Event_List extends FormModel
     /**
      * Sets the dates used
      *
-     * @return void  sets object variables $_startDate and $_endDate
+     * @return void
      */
     private function setDates()
     {

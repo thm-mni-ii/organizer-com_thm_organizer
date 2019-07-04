@@ -128,11 +128,11 @@ class Schedules
                 $lessonReference['startTime'] = $lesson['startTime'];
                 $lessonReference['subjects']  = [];
 
-                $lessonReference['lessonDelta']
-                    = (empty($lesson['lessonDelta']) or $lesson['lessonModified'] < $delta) ? '' : $lesson['lessonDelta'];
+                $irrelevant                     = (empty($lesson['lessonDelta']) or $lesson['lessonModified'] < $delta);
+                $lessonReference['lessonDelta'] = $irrelevant ? '' : $lesson['lessonDelta'];
 
-                $lessonReference['calendarDelta']
-                    = (empty($lesson['calendarDelta']) or $lesson['calendarModified'] < $delta) ? '' : $lesson['calendarDelta'];
+                $irrelevant                       = (empty($lesson['calendarDelta']) or $lesson['calendarModified'] < $delta);
+                $lessonReference['calendarDelta'] = $irrelevant ? '' : $lesson['calendarDelta'];
             }
 
             $subjectData = self::getSubjectData($lesson);
@@ -743,11 +743,12 @@ class Schedules
      */
     private static function setLessonQuery($parameters, &$query)
     {
+        $conditions = 'ccm.calendarID = c.id AND ccm.configurationID = conf.id';
         $query->from('#__thm_organizer_lessons AS l');
         $query->innerJoin('#__thm_organizer_calendar AS c ON l.id = c.lessonID');
         $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
         $query->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.lessonCourseID = lcrs.id');
-        $query->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = c.id AND ccm.configurationID = conf.id');
+        $query->innerJoin("#__thm_organizer_calendar_configuration_map AS ccm ON $conditions");
         $query->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id');
         $query->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID');
         $query->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');

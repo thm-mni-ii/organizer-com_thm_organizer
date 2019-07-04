@@ -93,17 +93,17 @@ class OptionsField extends FormField
             $option->class = (string)$optionTag['class'];
 
             $disabled        = (string)$optionTag['disabled'];
-            $disabled        = ($disabled == 'true' OR $disabled == 'disabled' OR $disabled == '1');
-            $option->disable = ($disabled OR ($this->readonly && $option->value != $this->value));
+            $disabled        = ($disabled == 'true' or $disabled == 'disabled' or $disabled == '1');
+            $option->disable = ($disabled or ($this->readonly && $option->value != $this->value));
 
             $checked = (string)$optionTag['checked'];
-            $checked = ($checked == 'true' OR $checked == 'checked' OR $checked == '1');
+            $checked = ($checked == 'true' or $checked == 'checked' or $checked == '1');
 
             $selected = (string)$optionTag['selected'];
-            $selected = ($selected == 'true' OR $selected == 'selected' OR $selected == '1');
+            $selected = ($selected == 'true' or $selected == 'selected' or $selected == '1');
 
-            $option->selected = ($checked OR $selected);
-            $option->checked  = ($checked OR $selected);
+            $option->selected = ($checked or $selected);
+            $option->checked  = ($checked or $selected);
 
             // Set some event handler attributes. But really, should be using unobtrusive js.
             $option->onclick  = (string)$optionTag['onclick'];

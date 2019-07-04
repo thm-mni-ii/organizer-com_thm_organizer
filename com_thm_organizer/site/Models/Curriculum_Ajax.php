@@ -22,11 +22,11 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Curriculum_Ajax extends BaseModel
 {
-    private $_scheduleID;
+    private $scheduleID;
 
-    private $_scheduleLink;
+    private $scheduleLink;
 
-    private $_schedule;
+    private $schedule;
 
     /**
      * Method to select the Tree of the current major
@@ -186,10 +186,10 @@ class Curriculum_Ajax extends BaseModel
         }
 
         $subjectData->link = Route::_($subjectData->link);
-        if (!empty($subjectData->externalID) and !empty($this->_schedule)) {
-            foreach ($this->_schedule->subjects as $subjectID => $subject) {
+        if (!empty($subjectData->externalID) and !empty($this->schedule)) {
+            foreach ($this->schedule->subjects as $subjectID => $subject) {
                 if ($subject->subjectNo == $subjectData->externalID) {
-                    $subjectData->scheduleLink = $this->_scheduleLink . "&subjectID=$subjectID";
+                    $subjectData->scheduleLink = $this->scheduleLink . "&subjectID=$subjectID";
                     break;
                 }
             }
@@ -299,10 +299,10 @@ class Curriculum_Ajax extends BaseModel
             $schedule = json_decode($currentSchedule['schedule']);
             foreach ((array)$schedule->degrees as $program) {
                 if ($program->name == $programName) {
-                    $this->_scheduleID   = $currentSchedule['id'];
-                    $this->_scheduleLink = 'index.php?option=com_thm_organizer&view=schedule_grid';
-                    $this->_scheduleLink .= "&scheduleID={$currentSchedule['id']}";
-                    $this->_schedule     = $schedule;
+                    $this->scheduleID   = $currentSchedule['id'];
+                    $this->scheduleLink = 'index.php?option=com_thm_organizer&view=schedule_grid';
+                    $this->scheduleLink .= "&scheduleID={$currentSchedule['id']}";
+                    $this->schedule     = $schedule;
 
                     return;
                 }
@@ -338,9 +338,9 @@ class Curriculum_Ajax extends BaseModel
             $subjectData->teacherName = $defaultName;
         }
 
-        if (!empty($teacherData['untisID']) and !empty($this->_scheduleLink)) {
+        if (!empty($teacherData['untisID']) and !empty($this->scheduleLink)) {
             $subjectData->teacherScheduleLink
-                = $this->_scheduleLink . "&teacherID={$teacherData['untisID']}";
+                = $this->scheduleLink . "&teacherID={$teacherData['untisID']}";
         }
     }
 }

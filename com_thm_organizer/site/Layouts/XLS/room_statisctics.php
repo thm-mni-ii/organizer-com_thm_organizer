@@ -352,7 +352,8 @@ class THM_OrganizerTemplateRoom_Statistics_XLS
                 ->applyFromArray(['borders' => $this->lightBorder]);
 
             ++$column;
-            $adjustedValue = empty($weekData['adjustedTotal']) ? 0 : $weekData['adjustedUse'] / $weekData['adjustedTotal'];
+            $adjustedValue = empty($weekData['adjustedTotal']) ?
+                0 : $weekData['adjustedUse'] / $weekData['adjustedTotal'];
             $this->spreadSheet->getActiveSheet()->setCellValue("{$column}{$rowNo}", $adjustedValue);
             $this->spreadSheet->getActiveSheet()->getStyle("{$column}{$rowNo}")
                 ->applyFromArray(['borders' => $this->rightBorder]);

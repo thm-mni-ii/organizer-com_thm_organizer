@@ -268,17 +268,17 @@ class Room_Overview extends FormModel
 
         $query = $this->_db->getQuery(true);
 
-        $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, ';
-        $select .= "d.short_name_$tag AS department, d.id AS departmentID, ";
-        $select .= "l.id as lessonID, l.comment, m.abbreviation_$tag AS method, ";
-        $select .= "co.name AS courseName, s.name_$tag AS sName";
-        $query->select($select)
+        $conditions = 'lcrs.lessonID = l.id AND lcrs.id = conf.lessonCourseID';
+        $query->select('DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime')
+            ->select("l.id as lessonID, l.comment, m.abbreviation_$tag AS method")
+            ->select("d.short_name_$tag AS department, d.id AS departmentID")
+            ->select("co.name AS courseName, s.name_$tag AS sName")
             ->from('#__thm_organizer_calendar AS cal')
             ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')
             ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON ccm.configurationID = conf.id')
             ->innerJoin('#__thm_organizer_lessons AS l ON cal.lessonID = l.id')
             ->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
-            ->innerJoin('#__thm_organizer_lesson_courses AS ls ON lcrs.lessonID = l.id AND lcrs.id = conf.lessonCourseID')
+            ->innerJoin("#__thm_organizer_lesson_courses AS ls ON $conditions")
             ->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID')
             ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
             ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID')

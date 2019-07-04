@@ -10,11 +10,15 @@
 
 namespace Organizer\Views\XLS;
 
+use Organizer\Views\BaseView;
+
 /**
  * Class creates a XLS file for the display of the filtered schedule information.
  */
-class Deputat extends BaseXMLView
+class Deputat extends BaseView
 {
+    use PHPExcelDependent;
+
     /**
      * Sets context variables and renders the view.
      *

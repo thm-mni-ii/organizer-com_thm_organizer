@@ -10,11 +10,15 @@
 
 namespace Organizer\Views\XLS;
 
+use Organizer\Views\BaseView;
+
 /**
  * Class instantiates and renders an XLS File with the room statistics.
  */
-class Room_Statistics extends BaseXMLView
+class Room_Statistics extends BaseView
 {
+    use PHPExcelDependent;
+
     /**
      * Sets context variables and renders the view.
      *

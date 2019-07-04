@@ -169,12 +169,13 @@ class Schedule_List_A4 extends Schedule_List
 
             $cellHeight = $row['lineCount'] * $this->parameters['cellLineHeight'];
 
-            for ($currentDate = $startDate; $currentDate != $breakDate; $currentDate = date('Y-m-d',
-                strtotime("+1 day", strtotime($currentDate)))) {
+            for ($currentDate = $startDate; $currentDate != $breakDate;) {
                 $dow        = date('w', strtotime($currentDate));
-                $validIndex = (!empty($columnHeaders[$currentDate])
+                $validIndex = (
+                    !empty($columnHeaders[$currentDate])
                     and $dow >= (int)$this->parameters['startDay']
-                    and $dow <= (int)$this->parameters['endDay']);
+                    and $dow <= (int)$this->parameters['endDay']
+                );
                 if ($validIndex) {
                     // Small horizontal spacer
                     $this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
@@ -206,6 +207,8 @@ class Schedule_List_A4 extends Schedule_List
                         'M'
                     );
                 }
+
+                $currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
             }
 
             $this->document->Ln();

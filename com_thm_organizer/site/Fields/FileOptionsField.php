@@ -195,13 +195,17 @@ class FileOptionsField extends OptionsField
 
         // Prepend some default options based on field attributes.
         if (!$this->hideNone) {
-            $options[] = HTML::_('select.option', '-1',
-                Languages::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
+            $options[] = HTML::_(
+                'select.option',
+                '-1',
+                Languages::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname))
+            );
         }
 
         if (!$this->hideDefault) {
             $options[] = HTML::_(
-                'select.option', '',
+                'select.option',
+                '',
                 Languages::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname))
             );
         }

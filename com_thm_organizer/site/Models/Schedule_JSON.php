@@ -1270,13 +1270,17 @@ class Schedule_JSON extends BaseDatabaseModel
                             if ($attributes[$i]['status'] == 'new') {
                                 $attributes[$i]['oldDate']  = $attributes[$j]['oldDate'];
                                 $attributes[$i]['oldTime']  = $attributes[$j]['oldTime'];
-                                $attributes[$i]['oldRooms'] = array_merge($attributes[$i]['oldRooms'],
-                                    $attributes[$j]['oldRooms']);
+                                $attributes[$i]['oldRooms'] = array_merge(
+                                    $attributes[$i]['oldRooms'],
+                                    $attributes[$j]['oldRooms']
+                                );
                             } else {
                                 $attributes[$i]['newDate']  = $attributes[$j]['newDate'];
                                 $attributes[$i]['newTime']  = $attributes[$j]['newTime'];
-                                $attributes[$i]['newRooms'] = array_merge($attributes[$i]['newRooms'],
-                                    $attributes[$j]['newRooms']);
+                                $attributes[$i]['newRooms'] = array_merge(
+                                    $attributes[$i]['newRooms'],
+                                    $attributes[$j]['newRooms']
+                                );
                             }
                             $attributes[$i]['status'] = "moved";
                             array_splice($this->scheduleChanges[$lessonID], $j, 1);
@@ -1383,12 +1387,14 @@ class Schedule_JSON extends BaseDatabaseModel
                     if (count($newLessons) > 0) {
                         $statusText .= sprintf(
                             Languages::_('THM_ORGANIZER_NOTIFICATION_NEW_MULTIPLE_HEADER') . '\n\n',
-                            $courseName);
+                            $courseName
+                        );
                         foreach ($newLessons as $attribute) {
                             $statusText .= sprintf(
                                 Languages::_('THM_ORGANIZER_NOTIFICATION_NEW_MULTIPLE') . '\n',
                                 $attribute['newDate'],
-                                $attribute['newTime']);
+                                $attribute['newTime']
+                            );
                         }
                     }
                 }
@@ -1398,11 +1404,13 @@ class Schedule_JSON extends BaseDatabaseModel
                         Languages::_('THM_ORGANIZER_NOTIFICATION_REMOVED_SINGLE') . '\n',
                         $courseName,
                         $removedLessons[0]['oldDate'],
-                        $removedLessons[0]['oldTime']);
+                        $removedLessons[0]['oldTime']
+                    );
                 } elseif (count($removedLessons) > 0) {
                     $statusText .= sprintf(
                         Languages::_('THM_ORGANIZER_NOTIFICATION_REMOVED_MULTIPLE') . '\n',
-                        $courseName);
+                        $courseName
+                    );
                 }
 
                 if (count($movedLessons) > 0) {
@@ -1444,17 +1452,20 @@ class Schedule_JSON extends BaseDatabaseModel
                                     $movedLessons[0]['oldDate'],
                                     $movedLessons[0]['newDate'],
                                     $movedLessons[0]['oldTime'],
-                                    $movedLessons[0]['newTime']);
+                                    $movedLessons[0]['newTime']
+                                );
                             }
                         }
                     } else {
                         $weekdays   = explode('-', Languages::_('THM_ORGANIZER_WEEKDAYS'));
                         $oldWeekday = $weekdays[date('w', strtotime($movedLessons[0]['oldDate']))];
                         $newWeekday = $weekdays[date('w', strtotime($movedLessons[0]['newDate']))];
-                        $statusText .= sprintf(Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_MULTIPLE') . '\n',
+                        $statusText .= sprintf(
+                            Languages::_('THM_ORGANIZER_NOTIFICATION_MOVED_MULTIPLE') . '\n',
                             $oldWeekday,
                             $newWeekday,
-                            $movedLessons[0]['newTime']);
+                            $movedLessons[0]['newTime']
+                        );
                     }
                 }
                 $body .= ' => ' . $statusText . '\n\n';
