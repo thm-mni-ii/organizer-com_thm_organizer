@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
@@ -303,14 +304,11 @@ class Room_Statistics extends BaseModel
      */
     private function setDates()
     {
-        $input       = Input::getInput();
-        $use         = $input->getString('use');
-        $termIDs     = $input->get('termIDs', [], 'array');
-        $validTermID = (!empty($termIDs) and !empty($termIDs[0])) ? true : false;
+        $termID = Input::getFilterID('term');
 
-        if ($use == 'termIDs' and $validTermID) {
+        if ($termID) {
             $table   = OrganizerHelper::getTable('Terms');
-            $success = $table->load($termIDs[0]);
+            $success = $table->load($termID);
 
             if ($success) {
                 $this->startDate = $table->startDate;
@@ -320,26 +318,25 @@ class Room_Statistics extends BaseModel
             }
         }
 
-        $dateFormat   = Input::getParams()->get('dateFormat');
-        $date         = $input->getString('date', date($dateFormat));
-        $startDoWNo   = empty($this->startDoW) ? 1 : $this->startDoW;
-        $startDayName = date('l', strtotime("Sunday + $startDoWNo days"));
-        $endDoWNo     = empty($this->endDoW) ? 6 : $this->endDoW;
-        $endDayName   = date('l', strtotime("Sunday + $endDoWNo days"));
-        $interval     = $input->getString('interval', 'week');
+        $dateFormat = Input::getParams()->get('dateFormat');
+        $date       = Input::getCMD('date', date($dateFormat));
+        $startDoWNo = empty($this->startDoW) ? 1 : $this->startDoW;
+        $endDoWNo   = empty($this->endDoW) ? 6 : $this->endDoW;
+        $interval   = Input::getCMD('interval', 'week');
 
-        if ($interval == 'month') {
-            $monthStart      = date('Y-m-d', strtotime('first day of this month', strtotime($date)));
-            $this->startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($monthStart)));
-            $monthEnd        = date('Y-m-d', strtotime('last day of this month', strtotime($date)));
-            $this->endDate   = date('Y-m-d', strtotime("$endDayName this week", strtotime($monthEnd)));
+        switch ($interval) {
+            case 'month':
+                $dates = Dates::getMonth($date, $startDoWNo, $endDoWNo);
+                break;
+            case 'week':
+            default:
+                $dates = Dates::getWeek($date, $startDoWNo, $endDoWNo);
+                break;
 
-            return;
         }
 
-        // Should only be week, but not asking gives a default behavior.
-        $this->startDate = date('Y-m-d', strtotime("$startDayName this week", strtotime($date)));
-        $this->endDate   = date('Y-m-d', strtotime("$endDayName this week", strtotime($date)));
+        $this->startDate = $dates['startDate'];
+        $this->endDate   = $dates['endDate'];
 
         return;
     }

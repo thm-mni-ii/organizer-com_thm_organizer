@@ -14,6 +14,7 @@ use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
+use stdClass;
 
 /**
  * Class loads curriculum information into the view context.
@@ -27,20 +28,10 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
      */
     public function getItem()
     {
-        $input   = Input::getInput();
-        $params  = Input::getParams();
-        $program = new \stdClass;
+        $program = new stdClass;
 
-        $programIDs = $input->get('programIDs');
-        $poolIDs    = $input->get('poolIDs');
-
-        if (!empty($programIDs)) {
-            $programID = explode(',', $programIDs)[0];
-        } elseif (!empty($poolIDs)) {
-            $poolID = explode(',', $poolIDs)[0];
-        } else {
-            $programID = $params->get('programID', 0);
-        }
+        $programID = Input::getFilterID('program');
+        $poolID    = Input::getFilterID('pool');
 
         if (empty($programID) and empty($poolID)) {
             return $program;

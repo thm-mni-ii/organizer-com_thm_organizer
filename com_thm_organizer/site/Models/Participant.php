@@ -75,7 +75,7 @@ class Participant extends BaseModel
      */
     public function save($data = [])
     {
-        $data = empty($data) ? Input::getForm() : $data;
+        $data = empty($data) ? Input::getFormItems()->toArray() : $data;
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);

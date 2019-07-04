@@ -22,19 +22,6 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Subject_Details extends BaseModel
 {
-    public $subjectID;
-
-    /**
-     * Constructor
-     *
-     * @param array $config An array of configuration options (name, state, dbo, table_path, ignore_request).
-     */
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-        $this->subjectID = $this->resolveID();
-    }
-
     /**
      * Loads subject information from the database
      *
@@ -42,7 +29,8 @@ class Subject_Details extends BaseModel
      */
     public function getItem()
     {
-        if (empty($this->subjectID)) {
+        $subjectID = Input::getID();
+        if (empty($subjectID)) {
             return [];
         }
 
@@ -58,11 +46,11 @@ class Subject_Details extends BaseModel
             ->select("prerequisites_$tag AS prerequisites, proof_$tag AS proof")
             ->select("recommended_prerequisites_$tag as recommendedPrerequisites")
             ->select("self_competence AS selfCompetence, short_name_$tag AS shortName")
-            ->select("social_competence AS socialCompetence, sws, present");
+            ->select("social_competence AS socialCompetence, sws, present")
+            ->from('#__thm_organizer_subjects AS s')
+            ->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id')
+            ->where("s.id = '$subjectID'");
 
-        $query->from('#__thm_organizer_subjects AS s');
-        $query->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id');
-        $query->where("s.id = '$this->subjectID'");
         $this->_db->setQuery($query);
 
         $result = OrganizerHelper::executeQuery('loadAssoc');
@@ -100,7 +88,7 @@ class Subject_Details extends BaseModel
         $option = 'THM_ORGANIZER_';
 
         $template = [
-            'subjectID'                => $this->subjectID,
+            'subjectID'                => Input::getID(),
             'name'                     => ['label' => Languages::_($option . 'NAME')],
             'departmentID'             => [],
             'shortName'                => ['label' => Languages::_($option . 'SHORT_NAME')],
@@ -135,37 +123,6 @@ class Subject_Details extends BaseModel
         ];
 
         return $template;
-    }
-
-    /**
-     * Attempts to determine the desired subject id
-     *
-     * @return mixed  int on success, otherwise null
-     */
-    private function resolveID()
-    {
-        $input     = Input::getInput();
-        $requestID = $input->getInt('id', 0);
-
-        if (!empty($requestID)) {
-            // Ensure that the requested ID is existent in the table
-            $query = $this->_db->getQuery(true);
-            $query->select('id')->from('#__thm_organizer_subjects')->where("id = '$requestID'");
-            $this->_db->setQuery($query);
-
-            return OrganizerHelper::executeQuery('loadResult');
-        }
-
-        $externalID = $input->getString('nrmni', '');
-        if (empty($externalID)) {
-            return null;
-        }
-
-        $query = $this->_db->getQuery(true);
-        $query->select('id')->from('#__thm_organizer_subjects')->where("externalID = '$externalID'");
-        $this->_db->setQuery($query);
-
-        return OrganizerHelper::executeQuery('loadResult');
     }
 
     private function setCampus(&$subject)

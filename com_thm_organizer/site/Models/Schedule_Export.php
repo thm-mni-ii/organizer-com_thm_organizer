@@ -19,6 +19,7 @@ use Organizer\Helpers\Languages;
 use Organizer\Helpers\Schedules;
 use Organizer\Helpers\Teachers;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Users;
 
 /**
  * Class retrieves information for the creation of a schedule export form.
@@ -148,43 +149,6 @@ class Schedule_Export extends BaseModel
         }
 
         return $titles;
-    }
-
-    /**
-     * Checks for ids for a given resource type and sets them in the parameters
-     *
-     * @param string  $resourceName the name of the resource type
-     * @param array  &$parameters   the parameters array for the model
-     *
-     * @return void sets indexes in $parameters
-     */
-    private function setResourceArray($resourceName, &$parameters)
-    {
-        $input          = Input::getInput();
-        $rawResourceIDs = $input->get("{$resourceName}IDs", [], 'raw');
-
-        if (!empty($rawResourceIDs)) {
-            if (is_array($rawResourceIDs)) {
-                $filteredArray = array_filter($rawResourceIDs);
-                if (!empty($filteredArray)) {
-                    $parameters["{$resourceName}IDs"] = $filteredArray;
-                }
-
-                return;
-            }
-
-            if (is_int($rawResourceIDs)) {
-                $parameters["{$resourceName}IDs"] = [$rawResourceIDs];
-
-                return;
-            }
-
-            if (is_string($rawResourceIDs)) {
-                $parameters["{$resourceName}IDs"] = explode(',', $rawResourceIDs);
-
-                return;
-            }
-        }
     }
 
     /**
@@ -374,56 +338,47 @@ class Schedule_Export extends BaseModel
      */
     private function setParameters()
     {
-        $input = Input::getInput();
-
         $parameters                  = [];
-        $parameters['departmentIDs'] = $input->get('departmentIDs', [], 'array');
-        $parameters['format']        = $input->getString('format', 'pdf');
-        $parameters['mySchedule']    = $input->getBool('myschedule', false);
+        $parameters['departmentIDs'] = Input::getFilterIDs('department');
+        $parameters['format']        = Input::getCMD('format', 'pdf');
+        $parameters['mySchedule']    = Input::getBool('myschedule', false);
 
         if (empty($parameters['mySchedule'])) {
-            $this->setResourceArray('pool', $parameters);
-            $this->setResourceArray('teacher', $parameters);
-            $this->setResourceArray('room', $parameters);
+            if (count($poolIDs = Input::getFilterIDs('pool'))) {
+                $parameters["poolIDs"] = [$poolIDs];
+            }
+            if (count($teacherIDs = Input::getFilterIDs('teacher'))) {
+                $parameters["teacherIDs"] = [$teacherIDs];
+            }
+            if (count($roomIDs = Input::getFilterIDs('room'))) {
+                $parameters["roomIDs"] = [$roomIDs];
+            }
         }
 
-        $userName       = $input->getString('username', '');
-        $authentication = urldecode($input->getString('auth', ''));
+        $parameters['userID'] = Users::getUser()->id;
 
-        if (!empty($userName) and !empty($authentication)) {
-            $user                 = Factory::getUser($userName);
-            $authenticates        = password_verify($user->email . $user->registerDate, $authentication);
-            $parameters['userID'] = $authenticates ? $user->id : Factory::getUser()->id;
-        } elseif (Factory::getUser()->id != 0) {
-            $parameters['userID'] = Factory::getUser()->id;
-        }
+        $allowedIntervals       = ['day', 'week', 'month', 'semester', 'custom'];
+        $reqInterval            = Input::getCMD('interval');
+        $parameters['interval'] = in_array($reqInterval, $allowedIntervals) ? $reqInterval : 'week';
 
-        $allowedLengths         = ['day', 'week', 'month', 'semester', 'custom'];
-        $rawLength              = $input->getString('dateRestriction', 'week');
-        $parameters['interval'] = in_array($rawLength, $allowedLengths) ? $rawLength : 'week';
-
-        $rawDate = $input->getString('date');
-        if (empty($rawDate)) {
-            $parameters['date'] = date('Y-m-d');
-        } else {
-            $parameters['date'] = Dates::standardizeDate($rawDate);
-        }
+        $parameters['date'] = Dates::standardizeDate(Input::getCMD('date'));
 
         switch ($parameters['format']) {
             case 'pdf':
-                $parameters['documentFormat'] = $input->getString('documentFormat', 'a4');
-                $parameters['displayFormat']  = $input->getString('displayFormat', 'schedule');
-                $parameters['gridID']         = $input->getInt('gridID', 0);
-                $parameters['grouping']       = $input->getInt('grouping', 1);
-                $parameters['pdfWeekFormat']  = $input->getString('pdfWeekFormat', 'sequence');
-                $parameters['titles']         = $input->getInt('titles', 1);
+                $parameters['documentFormat'] = Input::getCMD('documentFormat', 'a4');
+                $parameters['displayFormat']  = Input::getCMD('displayFormat', 'schedule');
+                $parameters['gridID']         = Input::getInt('gridID');
+                $parameters['grouping']       = Input::getInt('grouping', 1);
+                $parameters['pdfWeekFormat']  = Input::getCMD('pdfWeekFormat', 'sequence');
+                $parameters['titles']         = Input::getInt('titles', 1);
                 break;
             case 'xls':
-                $parameters['documentFormat'] = $input->getString('documentFormat', 'si');
-                $parameters['xlsWeekFormat']  = $input->getString('xlsWeekFormat', 'sequence');
+                $parameters['documentFormat'] = Input::getCMD('documentFormat', 'si');
+                $parameters['xlsWeekFormat']  = Input::getCMD('xlsWeekFormat', 'sequence');
                 break;
         }
-        $parameters['delta'] = 0;
+
+        $parameters['delta'] = false;
 
         $this->parameters = $parameters;
     }

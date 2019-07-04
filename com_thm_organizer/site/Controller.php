@@ -152,10 +152,10 @@ class Controller extends BaseController
      */
     public function changeParticipantState()
     {
-        $formData = Input::getForm();
+        $lessonID = Input::getID();
         $url      = Routing::getRedirectBase();
 
-        if (empty($formData) or empty($formData['id'])) {
+        if (empty($lessonID)) {
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
             $this->setRedirect(Route::_($url, false));
         }
@@ -168,7 +168,7 @@ class Controller extends BaseController
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
         }
 
-        $url .= "&view=courses&lessonID={$formData['id']}";
+        $url .= "&view=courses&lessonID=$lessonID";
         $this->setRedirect(Route::_($url, false));
     }
 
@@ -278,8 +278,8 @@ class Controller extends BaseController
      */
     public function edit()
     {
-        $cid        = Input::getSelectedIDs();
-        $resourceID = count($cid) > 0 ? $cid[0] : 0;
+        $selectedIDs = Input::getSelectedIDs();
+        $resourceID  = count($selectedIDs) > 0 ? $selectedIDs[0] : 0;
 
         $this->input->set('view', "{$this->resource}_edit");
         $this->input->set('id', $resourceID);
@@ -418,8 +418,8 @@ class Controller extends BaseController
     {
         $url = "index.php?option=com_thm_organizer&view={$this->listView}";
 
-        $selected = Input::getSelectedIDs();
-        if (count($selected) == 1) {
+        $selectedIDs = Input::getSelectedIDs();
+        if (count($selectedIDs) == 1) {
             $msg = Languages::_('THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
             $this->setRedirect(Route::_($url, false), $msg, 'warning');
 
@@ -478,12 +478,12 @@ class Controller extends BaseController
             $this->setRedirect(Route::_($url, false));
         }
 
-        $formData           = Input::getForm();
+        $formItems          = Input::getFormItems();
         $participantModel   = $this->getModel('participant');
         $participantEditURL = "{$url}&view=participant_edit&lessonID=$courseID";
 
         // Called from participant profile form
-        if (!empty($formData)) {
+        if (!empty($formItems->count())) {
             $participantSaved = $participantModel->save();
 
             if (empty($participantSaved)) {
@@ -553,9 +553,8 @@ class Controller extends BaseController
         $resourceID = $this->getModel($this->resource)->save();
 
         $isBackend = OrganizerHelper::getApplication()->isClient('administrator');
-        $data      = Input::getForm();
-        $formID    = empty($data['id']) ? 0 : (int)$data['id'];
-        $lessonID  = $this->resource == 'course' ? $formID : $this->input->getInt('lessonID', 0);
+        $requestID = Input::getID();
+        $lessonID  = $this->resource == 'course' ? $requestID : Input::getInt('lessonID');
         $url       = Routing::getRedirectBase();
         if (empty($resourceID)) {
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
@@ -568,7 +567,7 @@ class Controller extends BaseController
                         $url .= '&view=participant_edit';
                         break;
                     case 'subject':
-                        $url .= "&view=subject_edit&id={$formID}";
+                        $url .= "&view=subject_edit&id={$requestID}";
                         $url .= empty($lessonID) ? '' : "&lessonID=$lessonID";
                         break;
                     default:

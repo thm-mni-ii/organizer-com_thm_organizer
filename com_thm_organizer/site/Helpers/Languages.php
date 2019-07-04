@@ -90,18 +90,15 @@ class Languages extends Text
      */
     public static function getTag()
     {
-        $input        = Input::getInput();
-        $requestedTag = $input->get('languageTag');
+        $requestedTag = Input::getCMD('languageTag');
 
         if (!empty($requestedTag)) {
             return $requestedTag;
         }
 
-        $fullTag    = Factory::getLanguage()->getTag();
-        $defaultTag = explode('-', $fullTag)[0];
-        $params     = Input::getParams();
+        $default = explode('-', Factory::getLanguage()->getTag())[0];
 
-        return empty($params->get('initialLanguage')) ? $defaultTag : $params->get('initialLanguage');
+        return Input::getParams()->get('initialLanguage', $default);
     }
 
     /**

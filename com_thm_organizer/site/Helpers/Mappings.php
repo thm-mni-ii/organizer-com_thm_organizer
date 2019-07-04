@@ -24,13 +24,13 @@ class Mappings
      * @param int     $resourceID        the id of the selected resource
      * @param boolean $excludeChildPools whether the return values should have child pools filtered out
      *
-     * @return mixed  array with boundary values on success, otherwise false
+     * @return array with boundary values on success, otherwise empty
      */
     public static function getBoundaries($resourceType, $resourceID, $excludeChildPools = true)
     {
-        $invalidID = (empty($resourceID) or $resourceID == 'null' or $resourceID == '-1');
+        $invalidID = (empty($resourceID) or $resourceID < 1);
         if ($invalidID) {
-            return false;
+            return [];
         }
 
         $dbo   = Factory::getDbo();
@@ -45,11 +45,9 @@ class Mappings
             return $ufBoundarySet;
         }
 
-        $filteredBoundarySet = [];
-
+        $filteredBoundaries = [];
         foreach ($ufBoundarySet as $ufBoundaries) {
-            $filteredBoundaries  = self::removeExclusions($ufBoundaries);
-            $filteredBoundarySet = array_merge($filteredBoundarySet);
+            $filteredBoundaries = self::removeExclusions($ufBoundaries);
         }
 
         return $filteredBoundaries;

@@ -43,8 +43,7 @@ class Programs implements Selectable
             return null;
         }
 
-        $formData                    = Input::getForm();
-        $programData['departmentID'] = $formData['departmentID'];
+        $programData['departmentID'] = Input::getInt('departmentID');
         $programData['name_de']      = $initialName;
         $programData['name_en']      = $initialName;
 
@@ -153,11 +152,11 @@ class Programs implements Selectable
      */
     private static function useCurrent()
     {
-        $useCurrent = false;
-        $view       = Input::getView();
-        $selected   = Input::getSelectedIDs();
+        $useCurrent  = false;
+        $view        = Input::getView();
+        $selectedIDs = Input::getSelectedIDs();
         if ($view === 'participant_edit') {
-            $participantID = empty($selected) ? Factory::getUser() : $selected[0];
+            $participantID = empty($selectedIDs) ? Factory::getUser() : $selectedIDs[0];
             $table         = new Participants;
             $exists        = $table->load($participantID);
 

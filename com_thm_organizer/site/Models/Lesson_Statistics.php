@@ -281,20 +281,15 @@ class Lesson_Statistics extends FormModel
     protected function populateState()
     {
         parent::populateState();
-        $defaultTerm = Terms::getCurrentID();
-        $formData    = Input::getForm();
 
-        $categoryID   = '';
-        $departmentID = '';
-        $termID       = $defaultTerm;
-        if (!empty($formData)) {
-            $termID = empty($formData['termID']) ? $defaultTerm : (int)$formData['termID'];
+        $categoryID   = 0;
+        $departmentID = 0;
+        $termID       = Terms::getCurrentID();
 
-            $departmentSelected = !empty($formData['departmentID']);
-            $departmentID       = $departmentSelected ? (int)$formData['departmentID'] : '';
-
-            $categorySelected = !empty($formData['categoryID']);
-            $categoryID       = $categorySelected ? (int)$formData['categoryID'] : '';
+        if (Input::getFormItems()->count()) {
+            $categoryID   = Input::getInt('categoryID');
+            $departmentID = Input::getInt('departmentID');
+            $termID       = Input::getInt('termID', $termID);
         }
 
         $this->setState('categoryID', $categoryID);

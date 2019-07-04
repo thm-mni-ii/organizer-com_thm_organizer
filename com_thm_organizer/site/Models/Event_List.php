@@ -63,9 +63,7 @@ class Event_List extends FormModel
      */
     private function setParams()
     {
-        $this->params = Input::getParams();
-        $input        = Input::getInput();
-
+        $this->params           = Input::getParams();
         $this->params['layout'] = empty($this->isRegistered()) ? 'default' : 'registered';
 
         if (!isset($this->params['show_page_heading'])) {
@@ -74,14 +72,10 @@ class Event_List extends FormModel
 
         $resources = array();
         foreach (array_keys($this->columnMap) as $resource) {
-            $rawIDs = $input->getString("{$resource}IDs");
-            if (!empty($rawIDs)) {
-                $ids = ArrayHelper::toInteger(explode(',', $rawIDs));
-                // Parse could have failed, or the entries might not have been able to be int cast.
-                if (!empty($ids) and !empty($ids[0])) {
-                    foreach ($ids as $id) {
-                        $resources[$resource] = $id;
-                    }
+            $resourceIDs = Input::getFilterIDs($resource);
+            if (count($resourceIDs)) {
+                foreach ($resourceIDs as $resourceID) {
+                    $resources[$resource] = $resourceID;
                 }
             }
         }
@@ -101,29 +95,31 @@ class Event_List extends FormModel
     {
         parent::populateState($ordering, $direction);
 
-        $formData = Input::getForm();
+        $formData = Input::getFormItems();
 
         $menuStartDate      = $this->params->get('startDate');
         $menuEndDate        = $this->params->get('endDate');
         $defaultDate        = empty($menuStartDate) ? date('Y-m-d', getdate(time())[0]) : $menuStartDate;
         $defaultRestriction = empty($menuEndDate) ? 'month' : '';
 
-        if (empty($formData)) {
-            $this->state->set('startDate', $defaultDate);
-            $this->state->set('interval', $defaultRestriction);
-        } else {
-            if (empty($formData['startDate']) or strtotime($formData['startDate']) === false) {
+        if ($formData->count()) {
+            $startDate = $formData->get('startDate');
+            if (empty($startDate) or strtotime($startDate) === false) {
                 $this->state->set('startDate', $defaultDate);
             } else {
-                $this->state->set('startDate', $formData['startDate']);
+                $this->state->set('startDate', $startDate);
             }
 
-            $allowedLengths = ['day', 'week', 'month', 'semester', 'custom'];
-            if ((!empty($formData['interval']) and in_array($formData['interval'], $allowedLengths))) {
-                $this->state->set('interval', $formData['interval']);
-            } else {
+            $intervals = ['day', 'week', 'month', 'semester', 'custom'];
+            $interval  = $formData->get('interval');
+            if (empty($interval) or !in_array($interval, $intervals)) {
                 $this->state->set('interval', $defaultRestriction);
+            } else {
+                $this->state->set('interval', $interval);
             }
+        } else {
+            $this->state->set('startDate', $defaultDate);
+            $this->state->set('interval', $defaultRestriction);
         }
 
         if (empty($this->state->get('interval'))) {
@@ -445,27 +441,20 @@ class Event_List extends FormModel
      */
     private function isRegistered()
     {
-        $ipData       = ['ip' => Input::getInput()->server->getString('REMOTE_ADDR', '')];
-        $monitorEntry = OrganizerHelper::getTable('Monitors');
-        $registered   = $monitorEntry->load($ipData);
-        if (!$registered) {
+        $remoteAddress = Input::getInput()->server->getString('REMOTE_ADDR', '');
+        $monitorEntry  = OrganizerHelper::getTable('Monitors');
+        if (!$monitorEntry->load(['ip' => $remoteAddress]) or !$roomID = $monitorEntry->roomID) {
             return false;
         }
 
-        $roomID = $monitorEntry->roomID;
-        if (empty($roomID)) {
-            return false;
-        }
-
-        $app         = OrganizerHelper::getApplication();
-        $templateSet = $app->input->getString('tmpl', '') == 'component';
+        $templateSet = Input::getCMD('tmpl') == 'component';
         if (!$templateSet) {
             $base  = Uri::root() . 'index.php?';
-            $query = $app->input->server->get('QUERY_STRING', '', 'raw');
+            $query = Input::getInput()->server->get('QUERY_STRING', '', 'raw');
             $query .= (strpos($query, 'com_thm_organizer') !== false) ? '' : '&option=com_thm_organizer';
             $query .= (strpos($query, 'event_list') !== false) ? '' : '&view=event_list';
             $query .= '&tmpl=component';
-            $app->redirect($base . $query);
+            OrganizerHelper::getApplication()->redirect($base . $query);
         }
 
         $this->rooms = [$roomID];

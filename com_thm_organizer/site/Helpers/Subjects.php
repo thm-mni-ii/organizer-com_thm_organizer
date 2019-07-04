@@ -17,7 +17,7 @@ use stdClass;
 /**
  * Provides general functions for subject access checks, data retrieval and display.
  */
-class Subjects
+class Subjects implements Selectable
 {
     /**
      * Check if user is registered as a subject's coordinator.
@@ -44,6 +44,29 @@ class Subjects
         $dbo->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('loadResult');
+    }
+
+    /**
+     * Retrieves the left and right boundaries of the nested program or pool
+     *
+     * @return array
+     */
+    private static function getBoundaries()
+    {
+        $programBoundaries = Mappings::getBoundaries('program', Input::getInt('programID'));
+
+        if (empty($programBoundaries)) {
+            return [];
+        }
+
+        $poolBoundaries = Mappings::getBoundaries('pool', Input::getInt('poolID'));
+
+        $validBoundaries = (!empty($poolBoundaries) and self::poolInProgram($poolBoundaries, $programBoundaries));
+        if ($validBoundaries) {
+            return $poolBoundaries;
+        }
+
+        return $programBoundaries;
     }
 
     /**
@@ -98,6 +121,21 @@ class Subjects
     }
 
     /**
+     * Retrieves the selectable options for the resource.
+     *
+     * @return array the available options
+     */
+    public static function getOptions()
+    {
+        $options = [];
+        foreach (self::getResources() as $subject) {
+            $options[] = HTML::_('select.option', $subject['id'], $subject['name']);
+        }
+
+        return $options;
+    }
+
+    /**
      * Looks up the names of the programs associated with the subject
      *
      * @param int $subjectID the id of the (plan) subject
@@ -133,6 +171,59 @@ class Subjects
         }
 
         return $names;
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @return array the available resources
+     */
+    public static function getResources()
+    {
+        $programID = Input::getInt('programID', -1);
+        $teacherID = Input::getInt('teacherID', -1);
+        if ($programID === -1 and $teacherID === -1) {
+            return [];
+        }
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+
+        $tag = Languages::getTag();
+        $query->select("DISTINCT s.id, s.name_$tag AS name, s.externalID, s.creditpoints")
+            ->select('t.surname, t.forename, t.title, t.username')
+            ->from('#__thm_organizer_subjects AS s')
+            ->order('name')
+            ->group('s.id');
+
+        $boundarySet = self::getBoundaries();
+        if (!empty($boundarySet)) {
+            $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
+            $where   = '';
+            $initial = true;
+            foreach ($boundarySet as $boundaries) {
+                $where   .= $initial ?
+                    "((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
+                    : " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
+                $initial = false;
+            }
+
+            $query->where($where . ')');
+        }
+
+        if ($teacherID !== -1) {
+            $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id');
+            $query->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
+            $query->where("st.teacherID = '$teacherID'");
+        } else {
+            $query->leftJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id');
+            $query->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
+            $query->where("st.teacherResp = '1'");
+        }
+
+        $dbo->setQuery($query);
+
+        return OrganizerHelper::executeQuery('loadAssocList', []);
     }
 
     /**
@@ -183,5 +274,28 @@ class Subjects
         Teachers::respSort($teachers);
 
         return $teachers;
+    }
+
+    /**
+     * Checks whether the pool is subordinate to the selected program
+     *
+     * @param array $poolBoundaries    the pool's left and right values
+     * @param array $programBoundaries the program's left and right values
+     *
+     * @return boolean  true if the pool is subordinate to the program,
+     *                   otherwise false
+     */
+    private static function poolInProgram($poolBoundaries, $programBoundaries)
+    {
+        $first = $poolBoundaries[0];
+        $last  = end($poolBoundaries);
+
+        $leftValid  = $first['lft'] > $programBoundaries[0]['lft'];
+        $rightValid = $last['rgt'] < $programBoundaries[0]['rgt'];
+        if ($leftValid and $rightValid) {
+            return true;
+        }
+
+        return false;
     }
 }

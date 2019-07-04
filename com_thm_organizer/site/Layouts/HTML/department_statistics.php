@@ -75,6 +75,5 @@ $initialHidden = ['date'];
             }
             ?>
         </fieldset>
-        <input name="use" type="hidden" value="termIDs"/>
     </form>
 </div>

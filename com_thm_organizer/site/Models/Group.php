@@ -132,13 +132,13 @@ class Group extends MergeModel
      */
     private function savePublishing()
     {
-        $formData = Input::getForm();
-        if (empty($formData['publishing'])) {
+        $publishing = Input::getFormItems()->get('publishing');
+        if (empty($publishing)) {
             return true;
         }
 
         foreach ($this->selected as $groupID) {
-            foreach ($formData['publishing'] as $termID => $publish) {
+            foreach ($publishing as $termID => $publish) {
                 $table = OrganizerHelper::getTable('Group_Publishing');
                 $data  = ['groupID' => $groupID, 'termID' => $termID];
                 $table->load($data);

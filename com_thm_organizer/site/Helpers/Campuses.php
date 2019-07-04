@@ -105,7 +105,7 @@ class Campuses implements Selectable
             $query->where("c1.parentID IS NULL");
 
             // Not self
-            if (!empty($selectedIDs)) {
+            if (count($selectedIDs)) {
                 $query->where("c1.id != {$selectedIDs[0]}");
             }
         }

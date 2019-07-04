@@ -105,7 +105,7 @@ abstract class BaseModel extends BaseDatabaseModel
             throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
         }
 
-        $data    = empty($data) ? Input::getForm() : $data;
+        $data    = empty($data) ? Input::getFormItems()->toArray() : $data;
         $table   = $this->getTable();
         $success = $table->save($data);
 
@@ -122,7 +122,7 @@ abstract class BaseModel extends BaseDatabaseModel
      */
     public function save2copy($data = [])
     {
-        $data = empty($data) ? Input::getForm() : $data;
+        $data = empty($data) ? Input::getFormItems()->toArray() : $data;
         unset($data['id']);
 
         return $this->save($data);

@@ -151,10 +151,9 @@ class Pools implements Selectable
      */
     public static function getParentOptions()
     {
-        $input          = Input::getInput();
-        $resourceID     = $input->getInt('id', 0);
-        $resourceType   = $input->getString('type', '');
-        $programIDs     = explode(',', $input->getString('programIDs', ''));
+        $resourceID     = Input::getID();
+        $resourceType   = Input::getCMD('type');
+        $programIDs     = Input::getFilterIDs('program');
         $programEntries = self::getProgramEntries($programIDs);
         $options        = [];
         $options[]      = '<option value="-1">' . Languages::_('JNONE') . '</option>';
@@ -206,12 +205,12 @@ class Pools implements Selectable
      */
     public static function getResources()
     {
-        $programIDs = Input::getFilterIDs('program');
-        if (empty($programIDs)) {
+        $programID = Input::getFilterID('program');
+        if (empty($programID)) {
             return [];
         }
 
-        $programRanges = Mappings::getResourceRanges('program', $programIDs[0]);
+        $programRanges = Mappings::getResourceRanges('program', $programID);
         if (empty($programRanges) or count($programRanges) > 1) {
             return [];
         }
@@ -263,8 +262,7 @@ class Pools implements Selectable
      */
     public static function poolsByProgramOrTeacher()
     {
-        $input           = Input::getInput();
-        $selectedProgram = $input->getInt('programID', 0);
+        $selectedProgram = Input::getInt('programID');
         if (empty($selectedProgram) or $selectedProgram == '-1') {
             return '[]';
         }

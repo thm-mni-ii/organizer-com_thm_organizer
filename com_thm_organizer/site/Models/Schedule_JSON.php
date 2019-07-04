@@ -1298,18 +1298,13 @@ class Schedule_JSON extends BaseDatabaseModel
                 }
 
                 $mailer = Factory::getMailer();
-                $input  = Input::getInput();
 
                 $user       = Factory::getUser($participantID);
                 $userParams = json_decode($user->params, true);
                 $mailer->addRecipient($user->email);
 
                 if (!empty($userParams['language'])) {
-                    $input->set('languageTag', explode('-', $userParams['language'])[0]);
-                } else {
-                    $officialAbbreviation = Courses::getCourse($lessonID)['instructionLanguage'];
-                    $tag                  = strtoupper($officialAbbreviation) === 'E' ? 'en' : 'de';
-                    $input->set('languageTag', $tag);
+                    Input::getInput()->set('languageTag', explode('-', $userParams['language'])[0]);
                 }
 
                 $params = Input::getParams();

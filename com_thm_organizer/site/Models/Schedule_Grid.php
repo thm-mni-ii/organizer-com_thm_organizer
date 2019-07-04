@@ -91,33 +91,29 @@ class Schedule_Grid extends BaseModel
      */
     private function setParams()
     {
-        $input  = Input::getInput();
         $params = Input::getParams();
 
-        $reqDepartmentID = $input->getInt('departmentID', 0);
-        $rawDeptIDs      = $input->getString('departmentIDs');
-        if (empty($departmentID) and !empty($rawDeptIDs)) {
-            $reqDepartmentID = (int)ArrayHelper::toInteger(explode(',', $rawDeptIDs))[0];
-        }
-        $departmentID = empty($reqDepartmentID) ? (int)$params->get('departmentID', 0) : $reqDepartmentID;
+        $departmentID = Input::getFilterID('department');
 
         $this->params                   = [];
         $this->params['departmentID']   = $departmentID;
-        $this->params['showCategories'] = $input->getInt('showCategories', (int)$params->get('showCategories', 1));
-        $this->params['showGroups']     = $input->getInt('showGroups', (int)$params->get('showGroups', 1));
-        $this->params['showRooms']      = $input->getInt('showRooms', (int)$params->get('showRooms', 1));
-        $this->params['showRoomTypes']  = $input->getInt('showRoomTypes', (int)$params->get('showRoomTypes', 1));
-        $this->params['showSubjects']   = $input->getInt('showSubjects', (int)$params->get('showSubjects', 1));
+        $this->params['showCategories'] = Input::getInt('showCategories', $params->get('showCategories', 1));
+        $this->params['showGroups']     = Input::getInt('showGroups', $params->get('showGroups', 1));
+        $this->params['showRooms']      = Input::getInt('showRooms', $params->get('showRooms', 1));
+        $this->params['showRoomTypes']  = Input::getInt('showRoomTypes', $params->get('showRoomTypes', 1));
+        $this->params['showSubjects']   = Input::getInt('showSubjects', $params->get('showSubjects', 1));
 
-        $stMenuParam      = $input->getInt('showTeachers', (int)$params->get('showTeachers', 1));
-        $privilegedAccess = Access::allowViewAccess($departmentID);
-        $isTeacher        = Teachers::getIDByUserID();
-        $showTeachers     = (($privilegedAccess or !empty($isTeacher)) and $stMenuParam);
+        $stMenuParam                  = Input::getInt('showTeachers', $params->get('showTeachers', 1));
+        $privilegedAccess             = Access::allowViewAccess($departmentID);
+        $teacherID                    = Teachers::getIDByUserID();
+        $showTeachers                 = (($privilegedAccess or !empty($teacherID)) and $stMenuParam);
+        $this->params['showTeachers'] = $showTeachers;
 
-        $this->params['showTeachers']    = $showTeachers;
-        $this->params['deltaDays']       = $input->getInt('deltaDays', (int)$params->get('deltaDays', 5));
-        $this->params['showDepartments'] = empty($this->params['departmentID']) ?
-            $input->getInt('showDepartments', (int)$params->get('showDepartments', 1)) : 0;
+        $deltaDays             = Input::getInt('deltaDays', $params->get('deltaDays', 5));
+        $this->params['delta'] = empty($deltaDays) ? false : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
+
+        $defaultEnabled                  = Input::getInt('showDepartments', $params->get('showDepartments', 1));
+        $this->params['showDepartments'] = empty($this->params['departmentID']) ? $defaultEnabled : 0;
 
         // Menu title requested
         if (!empty($params->get('show_page_heading'))) {
@@ -281,28 +277,10 @@ class Schedule_Grid extends BaseModel
      */
     private function setResourceArray($resourceName)
     {
-        $rawResourceIDs = Input::getInput()->get("{$resourceName}IDs", [], 'raw');
+        $resourceIDs = Input::getFilterIDs($resourceName);
 
-        if (empty($rawResourceIDs)) {
-            $rawResourceIDs = Input::getParams()->get("{$resourceName}IDs");
-        }
-
-        if (!empty($rawResourceIDs)) {
-            if (is_array($rawResourceIDs)) {
-                $filteredArray = ArrayHelper::toInteger(array_filter($rawResourceIDs));
-
-                if (!empty($filteredArray)) {
-                    $this->params["{$resourceName}IDs"] = $filteredArray;
-                }
-            } elseif (is_int($rawResourceIDs)) {
-                $this->params["{$resourceName}IDs"] = ArrayHelper::toInteger([$rawResourceIDs]);
-            } elseif (is_string($rawResourceIDs)) {
-                $this->params["{$resourceName}IDs"] = ArrayHelper::toInteger(explode(
-                    ',',
-                    $rawResourceIDs
-                ));
-            }
-
+        if (!empty($resourceIDs)) {
+            $this->params["{$resourceName}IDs"] = $resourceIDs;
             $this->params['resourcesRequested'] = $resourceName;
         }
     }

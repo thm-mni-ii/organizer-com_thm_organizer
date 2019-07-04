@@ -165,8 +165,7 @@ class Departments implements Selectable
             return;
         }
 
-        $formData             = Input::getForm();
-        $data['departmentID'] = $formData['departmentID'];
+        $data['departmentID'] = Input::getInt('departmentID');
 
         try {
             $deptResourceTable->save($data);

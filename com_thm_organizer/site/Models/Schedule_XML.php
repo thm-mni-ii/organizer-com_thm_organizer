@@ -14,6 +14,7 @@ use Organizer\Helpers\Input;
 use Organizer\Helpers\Validators as Validators;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use stdClass;
 
 /**
  * Class which models, validates and compares schedule data to and from Untis XML exports.
@@ -95,12 +96,10 @@ class Schedule_XML extends BaseModel
      */
     public function validate()
     {
-        $input       = Input::getInput();
-        $formFiles   = $input->files->get('jform', [], 'array');
-        $file        = $formFiles['file'];
-        $xmlSchedule = simplexml_load_file($file['tmp_name']);
+        $formFiles   = Input::getInput()->files->get('jform', [], 'array');
+        $xmlSchedule = simplexml_load_file($formFiles['file']['tmp_name']);
 
-        $this->schedule         = new \stdClass;
+        $this->schedule         = new stdClass;
         $this->scheduleErrors   = [];
         $this->scheduleWarnings = [];
 
@@ -123,9 +122,7 @@ class Schedule_XML extends BaseModel
         $validSemesterName
                       = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
 
-        $form = Input::getForm();
-
-        $this->schedule->departmentID = $form['departmentID'];
+        $this->schedule->departmentID = Input::getInt('departmentID');
 
         // Term start & end dates
         $startDate = trim((string)$xmlSchedule->general->termbegindate);
@@ -157,7 +154,7 @@ class Schedule_XML extends BaseModel
         Validators\Courses::validateCollection($this, $xmlSchedule);
         Validators\Teachers::validateCollection($this, $xmlSchedule);
 
-        $this->schedule->calendar = new \stdClass;
+        $this->schedule->calendar = new stdClass;
 
         Validators\Events::validateCollection($this, $xmlSchedule);
         $this->printStatusReport();

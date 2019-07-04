@@ -26,6 +26,10 @@ class Subjects extends BaseView
     public function display()
     {
         $function = Input::getTask();
-        echo json_encode(SubjectsHelper::$function());
+        if (method_exists('Organizer\\Helpers\\Subjects', $function)) {
+            echo json_encode(SubjectsHelper::$function());
+        } else {
+            echo false;
+        }
     }
 }

@@ -525,10 +525,9 @@ class Mapping extends BaseModel
     {
         $index    = 1;
         $children = [];
-        $input    = Input::getInput();
-        while (!empty($input->getInt("child{$index}Order"))) {
-            $ordering      = $input->getInt("child{$index}Order");
-            $aggregateInfo = $input->getString("child{$index}");
+        while (Input::getInt("child{$index}Order")) {
+            $ordering      = Input::getInt("child{$index}Order");
+            $aggregateInfo = Input::getCMD("child{$index}");
 
             if (!empty($aggregateInfo)) {
                 $resourceID   = substr($aggregateInfo, 0, strlen($aggregateInfo) - 1);

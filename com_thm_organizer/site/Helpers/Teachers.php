@@ -32,11 +32,10 @@ class Teachers implements DepartmentAssociated, Selectable
      */
     public static function byProgramOrPool()
     {
-        $input     = Input::getInput();
-        $programID = $input->getString('programID');
-        $poolID    = $input->getString('poolID');
+        $programID = Input::getInt('programID', -1);
+        $poolID    = Input::getInt('poolID', -1);
 
-        if (!empty($poolID) and $poolID != '-1' and $poolID != 'null') {
+        if ($poolID > 0) {
             $resourceType = 'pool';
             $resourceID   = $poolID;
         } else {

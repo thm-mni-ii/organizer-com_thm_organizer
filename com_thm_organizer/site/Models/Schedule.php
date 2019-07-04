@@ -184,8 +184,8 @@ class Schedule extends BaseModel
      */
     public function getTitle()
     {
-        $resource = Input::getInput()->getString('resource');
-        $value    = Input::getInput()->getInt('value');
+        $resource = Input::getCMD('resource');
+        $value    = Input::getInt('value');
 
         switch ($resource) {
             case 'room':
@@ -210,7 +210,7 @@ class Schedule extends BaseModel
      */
     public function setNotify()
     {
-        $isChecked = Input::getInput()->get('isChecked') == 'false' ? 0 : 1;
+        $isChecked = Input::getBool('isChecked');
         $userID    = Factory::getUser()->id;
         if ($userID == 0) {
             return;
@@ -287,14 +287,13 @@ class Schedule extends BaseModel
      */
     public function toggle()
     {
-        $input      = Input::getInput();
-        $scheduleID = $input->getInt('id', 0);
+        $scheduleID = Input::getInt('id');
 
         if (empty($scheduleID)) {
             return false;
         }
 
-        $active = $input->getBool('value', 1);
+        $active = Input::getBool('value', true);
 
         if ($active) {
             return true;
@@ -313,14 +312,14 @@ class Schedule extends BaseModel
      */
     public function upload($shouldNotify)
     {
-        $form        = Input::getForm();
-        $invalidForm = (empty($form) or empty($form['departmentID']) or !is_numeric($form['departmentID']));
+        $departmentID = Input::getInt('departmentID');
+        $invalidForm  = (empty($departmentID));
 
         if ($invalidForm) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
-        if (!Access::allowSchedulingAccess(null, $form['departmentID'])) {
+        if (!Access::allowSchedulingAccess(null, $departmentID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 

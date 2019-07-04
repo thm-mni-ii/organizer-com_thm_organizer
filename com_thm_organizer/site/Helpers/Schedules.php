@@ -193,9 +193,7 @@ class Schedules
      */
     public static function deleteUserLesson()
     {
-        $input = Input::getInput();
-
-        $ccmID = $input->getString('ccmID');
+        $ccmID = Input::getInt('ccmID');
         if (empty($ccmID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
@@ -205,7 +203,7 @@ class Schedules
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $mode     = $input->getInt('mode', self::PERIOD_MODE);
+        $mode     = Input::getInt('mode', self::PERIOD_MODE);
         $mappings = self::getMatchingLessons($mode, $ccmID);
 
         $deletedCcmIDs = [];
@@ -320,18 +318,14 @@ class Schedules
      */
     public static function getDates($parameters)
     {
-        $startDayNo = empty($parameters['startDay']) ? 1 : $parameters['startDay'];
-        $endDayNo   = empty($parameters['endDay']) ? 6 : $parameters['endDay'];
-        $type       = $parameters['format'] == 'ics' ? 'ics' : $parameters['dateRestriction'];
-
         $date     = $parameters['date'];
         $dateTime = strtotime($date);
+        $reqDoW   = date('w', $dateTime);
 
-        $reqDoW = date('w', $dateTime);
-
-        // Single day is not requested, or the day does not fall within the configured range
-        $notInRange = ($type !== 'day' and !($reqDoW >= $startDayNo and $reqDoW <= $endDayNo));
-        if ($notInRange) {
+        $startDayNo   = empty($parameters['startDay']) ? 1 : $parameters['startDay'];
+        $endDayNo     = empty($parameters['endDay']) ? 6 : $parameters['endDay'];
+        $displayedDay = ($reqDoW >= $startDayNo and $reqDoW <= $endDayNo);
+        if (!$displayedDay) {
             if ($reqDoW === 6) {
                 $dateTime = strtotime('-1 day', $dateTime);
             } else {
@@ -340,13 +334,11 @@ class Schedules
             $date = date('Y-m-d', strtotime($dateTime));
         }
 
-        switch ($type) {
+        $parameters['date'] = $date;
+
+        switch ($parameters['interval']) {
             case 'day':
                 $dates = ['startDate' => $date, 'endDate' => $date];
-                break;
-
-            case 'week':
-                $dates = Dates::getWeek($date, $startDayNo, $endDayNo);
                 break;
 
             case 'month':
@@ -360,6 +352,11 @@ class Schedules
             case 'ics':
                 // ICS calendars get the next 6 months of data
                 $dates = Dates::getICSDates($date, $startDayNo, $endDayNo);
+                break;
+
+            case 'week':
+            default:
+                $dates = Dates::getWeek($date, $startDayNo, $endDayNo);
                 break;
         }
 
@@ -412,7 +409,7 @@ class Schedules
         $select .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
         $select .= 'conf.configuration, conf.modified AS configModified, cat.id AS categoryID';
 
-        if (!empty($parameters['delta'])) {
+        if ($parameters['delta']) {
             $select .= ', lg.delta AS groupDelta, lg.modified AS groupModified';
             $select .= ', lcrs.delta AS subjectsDelta, lcrs.modified AS subjectsModified';
             $select .= ', l.delta AS lessonDelta, l.modified AS lessonModified';
@@ -429,11 +426,11 @@ class Schedules
 
         $query->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
 
-        if (empty($parameters['delta'])) {
-            $query->where("lt.delta != 'removed'");
-        } else {
+        if ($parameters['delta']) {
             $activeBase = "modified > '" . $parameters['delta'] . "'";
             $query->where("(lt.delta != 'removed' OR (lt.delta = 'removed' AND lt.$activeBase))");
+        } else {
+            $query->where("lt.delta != 'removed'");
         }
 
         self::addDateClauses($parameters, $query);
@@ -504,7 +501,7 @@ class Schedules
 
         $query->select('MIN(c.schedule_date) AS minDate');
         // Do not show dates from removed lessons
-        $parameters['delta'] = null;
+        $parameters['delta'] = false;
         self::setLessonQuery($parameters, $query);
         $query->where("c.schedule_date > '" . $parameters['date'] . "'");
         $dbo->setQuery($query);
@@ -690,9 +687,7 @@ class Schedules
      */
     public static function saveUserLesson()
     {
-        $input = Input::getInput();
-
-        $ccmID = $input->getString('ccmID');
+        $ccmID = Input::getInt('ccmID');
         if (empty($ccmID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
@@ -703,7 +698,7 @@ class Schedules
         }
 
         $savedCcmIDs = [];
-        $mode        = $input->getInt('mode', self::PERIOD_MODE);
+        $mode        = Input::getInt('mode', self::PERIOD_MODE);
         $mappings    = self::getMatchingLessons($mode, $ccmID);
 
         foreach ($mappings as $lessonID => $ccmIDs) {
@@ -762,17 +757,17 @@ class Schedules
             $query->where("(grp.published IS NULL OR grp.published = '1')");
         }
 
-        if (empty($parameters['delta'])) {
-            $query->where("lg.delta != 'removed'");
-            $query->where("lcrs.delta != 'removed'");
-            $query->where("l.delta != 'removed'");
-            $query->where("c.delta != 'removed'");
-        } else {
+        if ($parameters['delta']) {
             $activeBase = "modified > '" . $parameters['delta'] . "'";
             $query->where("(lg.delta != 'removed' OR (lg.delta = 'removed' AND lg.$activeBase))");
             $query->where("(lcrs.delta != 'removed' OR (lcrs.delta = 'removed' AND lcrs.$activeBase))");
             $query->where("(l.delta != 'removed' OR (l.delta = 'removed' AND l.$activeBase))");
             $query->where("(c.delta != 'removed' OR (c.delta = 'removed' AND c.$activeBase))");
+        } else {
+            $query->where("lg.delta != 'removed'");
+            $query->where("lcrs.delta != 'removed'");
+            $query->where("l.delta != 'removed'");
+            $query->where("c.delta != 'removed'");
         }
 
         if (!empty($parameters['mySchedule']) and !empty($parameters['userID'])) {

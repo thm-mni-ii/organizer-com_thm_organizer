@@ -454,20 +454,18 @@ class Courses
      */
     public static function getLessons()
     {
-        $input = Input::getInput();
-
-        $courseIDs = ArrayHelper::toInteger(explode(',', $input->getString('courseIDs', '')));
+        $courseIDs = Input::getFilterIDs('course');
         if (empty($courseIDs[0])) {
             return [];
         }
         $courseIDs = implode(',', $courseIDs);
 
-        $date = $input->getString('date');
+        $date = Input::getCMD('date');
         if (!Dates::isStandardized($date)) {
             $date = date('Y-m-d');
         }
 
-        $interval = $input->getString('interval');
+        $interval = Input::getCMD('interval');
         if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
             $interval = 'semester';
         }

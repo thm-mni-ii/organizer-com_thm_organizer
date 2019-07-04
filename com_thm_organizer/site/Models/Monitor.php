@@ -29,7 +29,7 @@ class Monitor extends BaseModel
      */
     public function save()
     {
-        $data = Input::getForm();
+        $data = Input::getFormItems()->toArray();
 
         if (empty($data['roomID'])) {
             unset($data['roomID']);
@@ -52,14 +52,13 @@ class Monitor extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $input       = Input::getInput();
-        $monitorID   = $input->getInt('id', 0);
+        $monitorID   = Input::getID();
         $plausibleID = ($monitorID > 0);
 
         if ($plausibleID) {
             $table = $this->getTable();
             $table->load($monitorID);
-            $table->set('useDefaults', $input->getInt('useDefaults', 0));
+            $table->set('useDefaults', Input::getInt('useDefaults'));
 
             return $table->store();
         }
@@ -79,13 +78,13 @@ class Monitor extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $input     = Input::getInput();
-        $monitorID = $input->getInt('id', 0);
+        $monitorID = Input::getID();
         if (empty($monitorID)) {
             return false;
         }
 
-        $value = $input->getInt('value', 1) ? 0 : 1;
+        // Set to the opposite of current
+        $value = Input::getInt('value', 1) ? 0 : 1;
 
         $query = $this->_db->getQuery(true);
         $query->update('#__thm_organizer_monitors');

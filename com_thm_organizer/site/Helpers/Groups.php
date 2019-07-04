@@ -65,20 +65,19 @@ class Groups implements Selectable
      */
     public static function getLessons()
     {
-        $input = Input::getInput();
-
-        $groupIDs = ArrayHelper::toInteger(explode(',', $input->getString('groupIDs', '')));
-        if (empty($groupIDs[0])) {
-            return [];
+        $groupIDs = Input::getFilterIDs('group');
+        if (empty($groupIDs)) {
+            return $groupIDs;
         }
+
         $groupIDs = implode(',', $groupIDs);
 
-        $date = $input->getString('date');
+        $date = Input::getCMD('date');
         if (!Dates::isStandardized($date)) {
             $date = date('Y-m-d');
         }
 
-        $interval = $input->getString('interval');
+        $interval = Input::getCMD('interval');
         if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
             $interval = 'semester';
         }
@@ -211,20 +210,19 @@ class Groups implements Selectable
      */
     public static function getSubjects()
     {
-        $input = Input::getInput();
-
-        $groupIDs = ArrayHelper::toInteger(explode(',', $input->getString('groupIDs', '')));
-        if (empty($groupIDs[0])) {
-            return [];
+        $groupIDs = Input::getFilterIDs('group');
+        if (empty($groupIDs)) {
+            return $groupIDs;
         }
+
         $groupIDs = implode(',', $groupIDs);
 
-        $date = $input->getString('date');
+        $date = Input::getCMD('date');
         if (!Dates::isStandardized($date)) {
             $date = date('Y-m-d');
         }
 
-        $interval = $input->getString('interval');
+        $interval = Input::getCMD('interval');
         if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
             $interval = 'semester';
         }

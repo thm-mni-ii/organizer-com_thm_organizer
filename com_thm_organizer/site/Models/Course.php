@@ -32,11 +32,10 @@ class Course extends BaseModel
      */
     public function changeParticipantState()
     {
-        $input    = Input::getInput();
-        $data     = $input->getArray();
-        $formData = Input::getForm();
+        $data     = Input::getInput()->getArray();
+        $courseID = Input::getID();
 
-        if (!Access::allowCourseAccess($formData['id'])) {
+        if (!Access::allowCourseAccess($courseID)) {
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
@@ -44,21 +43,21 @@ class Course extends BaseModel
         $state          = (int)$data['participantState'];
         $invalidState   = ($state < 0 or $state > 2);
 
-        if (empty($participantIDs) or empty($formData['id']) or $invalidState) {
+        if (empty($participantIDs) or empty($courseID) or $invalidState) {
             return false;
         }
 
         $return = true;
 
         foreach ($data['checked'] as $participantID) {
-            $success = Participants::changeState($participantID, $formData['id'], $state);
+            $success = Participants::changeState($participantID, $courseID, $state);
 
             if (empty($success)) {
                 return false;
             }
 
             if ($state === 0) {
-                Courses::refreshWaitList($formData['id']);
+                Courses::refreshWaitList($courseID);
             }
 
             $return = ($return and $success);
@@ -85,7 +84,7 @@ class Course extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $data = Input::getForm();
+        $data = Input::getFormItems()->toArray();
 
         if (empty($data['text'])) {
             return false;
@@ -144,7 +143,7 @@ class Course extends BaseModel
      */
     public function save()
     {
-        $data = Input::getForm();
+        $data = Input::getFormItems()->toArray();
 
         if (!isset($data['id'])) {
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);

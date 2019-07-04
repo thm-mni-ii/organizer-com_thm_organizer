@@ -422,8 +422,7 @@ class Deputat extends BaseModel
             $this->setDepartmentName($departmentID);
         }
 
-        $input                        = Input::getInput();
-        $this->reset                  = $input->getBool('reset', false);
+        $this->reset                  = Input::getBool('reset', false);
         $this->selected               = [];
         $this->teachers               = [];
         $this->irrelevant['methods']  = ['KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG'];
@@ -845,11 +844,12 @@ class Deputat extends BaseModel
      */
     private function setSelected()
     {
-        $default  = ['*'];
-        $selected = Input::getInput()->get('teachers', $default, 'array');
+        $default = ['*'];
+        // no idea what this value is
+        $selected = Input::getFilterIDs('teacher');
 
         // Returns a hard false if value is not in array
-        $allSelected = array_search('*', $selected);
+        $allSelected = array_search('', $selected);
 
         // Normal indexes and the default (all) were selected
         $unsetDefault = (count($selected) > 1 and $allSelected !== false);

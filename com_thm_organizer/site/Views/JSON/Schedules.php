@@ -12,6 +12,7 @@ namespace Organizer\Views\JSON;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Organizer\Helpers\Dates;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Schedules as SchedulesHelper;
 
@@ -48,8 +49,7 @@ class Schedules extends BaseView
      */
     private function getLessonParameters()
     {
-        $input       = Input::getInput();
-        $inputParams = $input->getArray();
+        $inputParams = Input::getInput()->getArray();
         $inputKeys   = array_keys($inputParams);
         $parameters  = [];
         foreach ($inputKeys as $key) {
@@ -58,19 +58,14 @@ class Schedules extends BaseView
             }
         }
 
-        $parameters['userID']          = Factory::getUser()->id;
-        $parameters['mySchedule']      = $input->getBool('mySchedule', false);
-        $parameters['date']            = $input->getString('date', date('Y-m-d', time()));
-        $parameters['dateRestriction'] = $input->getString('dateRestriction');
-
-        if (empty($parameters['dateRestriction'])) {
-            $oneDay                        = $input->getBool('oneDay', false);
-            $parameters['dateRestriction'] = $oneDay ? 'day' : 'week';
-        }
+        $parameters['userID']     = Factory::getUser()->id;
+        $parameters['mySchedule'] = Input::getBool('mySchedule', false);
+        $parameters['date']       = Dates::standardizeDate(Input::getCMD('date'));
+        $parameters['interval']   = Input::getCMD('interval');
 
         $parameters['format'] = '';
-        $deltaDays            = $input->getString('deltaDays', '14');
-        $parameters['delta']  = empty($deltaDays) ? '' : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
+        $deltaDays            = Input::getInt('deltaDays', 14);
+        $parameters['delta']  = empty($deltaDays) ? false : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
 
         return $parameters;
     }

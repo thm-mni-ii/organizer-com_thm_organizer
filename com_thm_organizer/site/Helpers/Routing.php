@@ -11,17 +11,7 @@
 
 namespace Organizer\Helpers;
 
-use Exception;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
-use Organizer\Controller;
-use ReflectionMethod;
-use RuntimeException;
 
 /**
  * Class provides generalized functions useful for several component files.
@@ -35,18 +25,15 @@ class Routing
      */
     public static function getRedirectBase()
     {
-        $url    = Uri::base();
-        $input  = self::getInput();
-        $menuID = $input->getInt('Itemid');
-
-        if (!empty($menuID)) {
-            $url .= self::getApplication()->getMenu()->getItem($menuID)->route . '?';
+        $url = Uri::base();
+        if ($menuID = Input::getItemid()) {
+            $url .= OrganizerHelper::getApplication()->getMenu()->getItem($menuID)->route . '?';
         } else {
-            $url .= '?option=com_thm_organizer&';
+            $url .= '?option=com_thm_organizer';
         }
 
-        if (!empty($input->getString('languageTag'))) {
-            $url .= '&languageTag=' . Languages::getTag();
+        if ($tag = Input::getCMD('languageTag')) {
+            $url .= "&languageTag=$tag";
         }
 
         return $url;

@@ -46,15 +46,14 @@ class Department_Statistics extends BaseModel
     {
         parent::__construct($config);
 
-        $input  = Input::getInput();
-        $format = $input->getString('format');
+        $format = Input::getCMD('format', 'html');
 
         switch ($format) {
             case 'xls':
                 $this->setRoomTypes();
                 $this->setRooms();
 
-                $year            = $input->getString('year', date('Y'));
+                $year            = Input::getCMD('year', date('Y'));
                 $this->startDate = "$year-01-01";
                 $this->endDate   = "$year-12-31";
 

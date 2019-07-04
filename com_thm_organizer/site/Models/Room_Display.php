@@ -38,6 +38,8 @@ class Room_Display extends BaseModel
 
     public $roomID = null;
 
+    public $roomName = '';
+
     /**
      * Constructor
      */
@@ -305,35 +307,26 @@ class Room_Display extends BaseModel
      */
     private function setRoomData()
     {
-        $input        = Input::getInput();
-        $ipData       = ['ip' => $input->server->getString('REMOTE_ADDR', '')];
-        $monitorEntry = OrganizerHelper::getTable('Monitors');
-        $roomEntry    = OrganizerHelper::getTable('Rooms');
-        $registered   = $monitorEntry->load($ipData);
+        $roomEntry = OrganizerHelper::getTable('Rooms');
 
-        if ($registered and !empty($monitorEntry->roomID)) {
-            $this->monitorID = $monitorEntry->id;
-            $exists          = $roomEntry->load($monitorEntry->roomID);
+        if ($remoteAddress = Input::getInput()->server->getString('REMOTE_ADDR', '')) {
+            $monitorTable = OrganizerHelper::getTable('Monitors');
+            $registered   = $monitorTable->load(['ip' => $remoteAddress]);
 
-            if ($exists) {
-                $this->roomID   = $roomEntry->id;
-                $this->roomName = $roomEntry->name;
+            if ($registered and $monitorTable->roomID and $roomEntry->load($monitorTable->roomID)) {
+                $this->monitorID = $monitorTable->id;
+                $this->roomID    = $roomEntry->id;
+                $this->roomName  = $roomEntry->name;
 
                 return;
             }
         }
 
-        $name = $input->getString('name');
+        if ($name = Input::getString('name') and $roomEntry->load(['name' => $name])) {
+            $this->roomID   = $roomEntry->id;
+            $this->roomName = $name;
 
-        if (!empty($name)) {
-            $roomData = ['name' => $name];
-            $exists   = $roomEntry->load($roomData);
-            if ($exists) {
-                $this->roomID   = $roomEntry->id;
-                $this->roomName = $name;
-
-                return;
-            }
+            return;
         }
 
         // Room could not be resolved => redirect to home

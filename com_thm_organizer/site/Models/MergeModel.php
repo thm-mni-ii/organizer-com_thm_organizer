@@ -259,7 +259,7 @@ abstract class MergeModel extends BaseModel
             return false;
         }
 
-        $data          = empty($this->data) ? Input::getForm() : $this->data;
+        $data          = empty($this->data) ? Input::getFormItems()->toArray() : $this->data;
         $deprecatedIDs = $this->selected;
         $data['id']    = array_shift($deprecatedIDs);
         $table         = $this->getTable();
@@ -317,7 +317,7 @@ abstract class MergeModel extends BaseModel
 
         $this->_db->transactionStart();
 
-        $this->data = empty($data) ? Input::getForm() : $data;
+        $this->data = empty($data) ? Input::getFormItems()->toArray() : $data;
         $table      = $this->getTable();
         $success    = $table->save($this->data);
 

@@ -35,11 +35,9 @@ class Campus extends BaseModel
      */
     public function save()
     {
-        // Ensure maximum depth of two campuses
-        $data = Input::getForm();
-        if (!empty($data['parentID'])) {
+        if ($parentID = Input::getInt('parentID')) {
             $table = $this->getTable();
-            $table->load($data['parentID']);
+            $table->load($parentID);
             if (!empty($table->parentID)) {
                 // TODO: add a message saying that it failed because the maximum depth was reached.
                 return false;

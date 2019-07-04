@@ -178,8 +178,7 @@ class Search extends BaseModel
         $this->results = ['exact' => [], 'strong' => [], 'good' => [], 'related' => [], 'mentioned' => []];
         $this->tag     = Languages::getTag();
 
-        $input     = Input::getInput();
-        $rawSearch = trim($input->getString('search', ''));
+        $rawSearch = trim(Input::getString('search'));
 
         // New call or a hard reset
         if ($rawSearch === '') {
