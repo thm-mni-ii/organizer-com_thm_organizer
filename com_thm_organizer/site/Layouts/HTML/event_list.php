@@ -20,8 +20,7 @@ if (!empty($showHeading)) {
 ?>
     <form action="" method="post" name="adminForm" id="adminForm">
         <input type="hidden" name="languageTag" value=""/>
-        <div id="form-container" class="form-container">
-            <div class="clear"></div>
+        <div id="form-container" class="form-container clearfix">
             <div class='control-group'>
                 <div class='control-label'>
                     <?php echo HTML::getLabel($this, 'startDate'); ?>
@@ -44,7 +43,6 @@ if (!empty($showHeading)) {
                     <span class="icon-loop"></span>
                 </button>
             </div>
-            <div class="clear"></div>
         </div>
     </form>
 <?php

@@ -24,14 +24,6 @@ use Organizer\Helpers\Subjects as SubjectsHelper;
  */
 class Subjects extends ListModelMenu
 {
-    const ALPHA = 0;
-
-    const NUMBER = 1;
-
-    const POOL = 2;
-
-    const TEACHER = 3;
-
     private $admin = true;
 
     /**
@@ -78,7 +70,6 @@ class Subjects extends ListModelMenu
     {
         $dbo = Factory::getDbo();
         $tag = Languages::getTag();
-        echo "<pre>" . print_r($tag, true) . "</pre>";
 
         // Create the sql query
         $query  = $dbo->getQuery(true);

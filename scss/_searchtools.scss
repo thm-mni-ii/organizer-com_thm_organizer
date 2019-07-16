@@ -1,0 +1,40 @@
+@import "variables";
+
+.main .js-stools .js-stools-container-bar {
+  display: flex;
+
+  .js-stools-btn-filter {
+    .caret {
+      border-bottom-color: initial;
+    }
+
+    &:hover .caret {
+      border-top-color: $font-color-light;
+    }
+  }
+
+  .input-append input {
+    height: 1.4rem;
+  }
+
+  .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem;
+  }
+}
+
+/* chosen library overwrites ******************************************************************************************/
+.chzn-container {
+  max-width: inherit;
+
+  .contentpane .js-stools-container-bar & {
+    // !important needed for overwriting inline-style, sometimes too small
+    width: auto !important;
+
+    .chzn-single span {
+      padding: 0 10px 0 0;
+    }
+  }
+}
+

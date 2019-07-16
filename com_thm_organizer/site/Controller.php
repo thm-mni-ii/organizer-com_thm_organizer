@@ -336,7 +336,7 @@ class Controller extends BaseController
      *
      * @throws  Exception
      */
-    public function getView($name = '', $type = '', $prefix = '', $config = array())
+    public function getView($name = '', $type = '', $prefix = 'x', $config = array())
     {
         // @note We use self so we only access stuff in this class rather than in all classes.
         if (!isset(self::$views)) {
@@ -360,7 +360,7 @@ class Controller extends BaseController
             if ($view = new $name($config)) {
                 self::$views[$key][$type][$prefix] = &$view;
             } else {
-                $message = Languages::sprintf('THM_ORGANIZER_VIEW_NOT_FOUND', $name, $type, $prefix);
+                $message = sprintf(Languages::_('THM_ORGANIZER_VIEW_NOT_FOUND'), $name, $type, $prefix);
                 throw new Exception($message, 404);
             }
         }
@@ -418,6 +418,13 @@ class Controller extends BaseController
     {
         $url = "index.php?option=com_thm_organizer&view={$this->listView}";
 
+        if (JDEBUG)
+        {
+            OrganizerHelper::message('THM_ORGANIZER_DEBUG_ON', 'error');
+            $this->setRedirect($url);
+            return;
+        }
+
         $selectedIDs = Input::getSelectedIDs();
         if (count($selectedIDs) == 1) {
             $msg = Languages::_('THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
@@ -426,9 +433,8 @@ class Controller extends BaseController
             return;
         }
 
-        $model             = $this->getModel($this->resource);
-        $functionAvailable = method_exists($model, 'autoMerge');
-        if ($functionAvailable) {
+        $model = $this->getModel($this->resource);
+        if (method_exists($model, 'autoMerge')) {
             $autoMerged = $model->autoMerge();
             if ($autoMerged) {
                 $msg = Languages::_('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
@@ -678,10 +684,7 @@ class Controller extends BaseController
     public function toggle()
     {
         $model = $this->getModel($this->resource);
-
-        $functionAvailable = method_exists($model, 'toggle');
-
-        if ($functionAvailable) {
+        if (method_exists($model, 'toggle')) {
             $success = $model->toggle();
             if ($success) {
                 OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'error');
@@ -728,10 +731,18 @@ class Controller extends BaseController
      */
     public function upload($shouldNotify = false)
     {
-        $model             = $this->getModel($this->resource);
-        $functionAvailable = method_exists($model, 'upload');
+        $url = Routing::getRedirectBase();
+        if (JDEBUG)
+        {
+            OrganizerHelper::message('THM_ORGANIZER_DEBUG_ON', 'error');
+            $url .= "&view=Schedules";
+            $this->setRedirect($url);
+            return;
+        }
 
-        if ($functionAvailable) {
+        $model = $this->getModel($this->resource);
+
+        if (method_exists($model, 'upload')) {
             $form      = $this->input->files->get('jform', [], '[]');
             $file      = $form['file'];
             $validType = (!empty($file['type']) and $file['type'] == 'text/xml');
@@ -752,7 +763,6 @@ class Controller extends BaseController
             $view = 'Schedules';
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
         }
-        $url = Routing::getRedirectBase();
         $url .= "&view={$view}";
         $this->setRedirect($url);
     }

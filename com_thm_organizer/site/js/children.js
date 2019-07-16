@@ -138,7 +138,7 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
     orderingHTML += '</button>';
 
     orderingHTML += '<button class="btn btn-small" onclick="moveChildUp(' + nextRowNumber + ');" title="';
-    orderingHTML += Joomla.JText._('JLIB_HTML_MOVE_UP') + '">';
+    orderingHTML += Joomla.JText._('THM_ORGANIZER_MOVE_UP') + '">';
     orderingHTML += '<span class="icon-previous"></span>';
     orderingHTML += '</button>';
 
@@ -157,7 +157,7 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
     orderingHTML += '</button>';
 
     orderingHTML += '<button class="btn btn-small" onclick="moveChildDown(' + nextRowNumber + ');" title="';
-    orderingHTML += Joomla.JText._('JLIB_HTML_MOVE_DOWN') + '">';
+    orderingHTML += Joomla.JText._('THM_ORGANIZER_MOVE_DOWN') + '">';
     orderingHTML += '<span class="icon-next"></span>';
     orderingHTML += '</button>';
 

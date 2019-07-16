@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -22,6 +23,8 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class BaseModel extends BaseDatabaseModel
 {
+    use Named;
+
     protected $option = 'com_thm_organizer';
 
     /**

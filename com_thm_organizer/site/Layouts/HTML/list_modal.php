@@ -26,11 +26,10 @@ $viewName = $this->getName();
 $type     = $viewName === 'Subject_Selection' ? 's' : 'p';
 ?>
 <form action="index.php?" id="adminForm" method="post" name="adminForm">
-    <div class="toolbar">
+    <div class="toolbar clearfix">
         <?php foreach ($toolbar->getItems() as $button) : ?>
             <?php echo $toolbar->renderButton($button); ?>
         <?php endforeach; ?>
-        <div class="clear"></div>
     </div>
     <div class="js-stools-container-bar">
         <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>

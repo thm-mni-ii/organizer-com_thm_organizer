@@ -159,10 +159,10 @@ class ChildrenField extends FormField
         Languages::script('THM_ORGANIZER_MAKE_FIRST');
         $makeLast = Languages::_('THM_ORGANIZER_MAKE_LAST');
         Languages::script('THM_ORGANIZER_MAKE_LAST');
-        $moveChildUp = Languages::_('JLIB_HTML_MOVE_UP');
-        Languages::script('JLIB_HTML_MOVE_UP');
-        $moveChildDown = Languages::_('JLIB_HTML_MOVE_DOWN');
-        Languages::script('JLIB_HTML_MOVE_DOWN');
+        $moveChildUp = Languages::_('THM_ORGANIZER_MOVE_UP');
+        Languages::script('THM_ORGANIZER_MOVE_UP');
+        $moveChildDown = Languages::_('THM_ORGANIZER_MOVE_DOWN');
+        Languages::script('THM_ORGANIZER_MOVE_DOWN');
         Languages::script('THM_ORGANIZER_DELETE');
 
         $rowClass = 'row0';

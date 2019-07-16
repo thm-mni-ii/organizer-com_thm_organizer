@@ -170,14 +170,17 @@ class Input
     {
         $pluralIndex = "{$resource}IDs";
         if ($values = self::find($pluralIndex)) {
-            return self::formatIDValues($values);
+            self::formatIDValues($values);
+
+            return $values;
         }
 
         $singularIndex = "{$resource}ID";
         if ($value = self::find($singularIndex)) {
             $values = [$value];
+            self::formatIDValues($values);
 
-            return self::formatIDValues($values);
+            return $values;
         }
 
         return [];

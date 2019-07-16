@@ -1,9 +1,54 @@
-/* utility classes ****************************************************************************************************/
-.clear {
-    clear: both;
-    width: 100%;
+.main .js-stools .js-stools-container-bar {
+    display: flex;
 }
 
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+    border-bottom-color: initial;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+    border-top-color: #ffffff;
+}
+
+.main .js-stools .js-stools-container-bar .input-append input {
+    height: 1.4rem;
+}
+
+.main .js-stools .js-stools-container-bar .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem;
+}
+
+/* chosen library overwrites ******************************************************************************************/
+.chzn-container {
+    max-width: inherit;
+}
+
+.contentpane .js-stools-container-bar .chzn-container {
+    width: auto !important;
+}
+
+.contentpane .js-stools-container-bar .chzn-container .chzn-single span {
+    padding: 0 10px 0 0;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* utility classes ****************************************************************************************************/
 .left {
     float: left;
 }
@@ -65,19 +110,6 @@ a[href$="view=thm_organizer"]::before {
     margin-bottom: .5rem;
     padding: .5rem;
     width: calc(100% - 1rem);
-}
-
-/* chosen library overwrites ******************************************************************************************/
-.chzn-container {
-    max-width: inherit;
-}
-
-.contentpane .js-stools-container-bar .chzn-container {
-    width: auto !important;
-}
-
-.contentpane .js-stools-container-bar .chzn-container .chzn-single span {
-    padding: 0 10px 0 0;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {

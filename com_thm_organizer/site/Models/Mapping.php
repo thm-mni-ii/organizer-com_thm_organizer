@@ -27,8 +27,6 @@ class Mapping extends BaseModel
      * @param SimpleXMLObject &$lsfData   the data recieved from the LSF system
      *
      * @return boolean  true if the data was mapped, otherwise false
-     *
-     * @see Program_LSF
      */
     public function addLSFMappings($programID, &$lsfData)
     {
@@ -289,8 +287,6 @@ class Mapping extends BaseModel
      * @param string $resourceType the type of the resource
      *
      * @return bool true if the resource has an existing mapping, otherwise false
-     *
-     * @see Program_LSF
      */
     public function checkForMapping($resourceID, $resourceType)
     {

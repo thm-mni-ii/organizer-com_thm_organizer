@@ -16,21 +16,14 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Programs;
 
 /**
  * Class loads persistent information a filtered set of subjects into the display context.
  */
 class Subjects extends ListView
 {
-    const ALPHA = 0;
-
     const COORDINATES = 1;
-
-    const NUMBER = 1;
-
-    const POOL = 2;
-
-    const TEACHER = 3;
 
     const TEACHES = 2;
 
@@ -117,11 +110,7 @@ class Subjects extends ListView
             $headers['name'] = Languages::_('THM_ORGANIZER_NAME');
         }
 
-        if ($grouping == self::TEACHER) {
-            $headers['responsibility'] = Languages::_('THM_ORGANIZER_RESPONSIBILITY');
-        } else {
-            $headers['teachers'] = Languages::_('THM_ORGANIZER_TEACHERS');
-        }
+        $headers['teachers']     = Languages::_('THM_ORGANIZER_TEACHERS');
         $headers['creditpoints'] = Languages::_('THM_ORGANIZER_CREDIT_POINTS');
 
         return $headers;
@@ -217,11 +206,7 @@ class Subjects extends ListView
                 $processedItems[$index]['name']     = $itemLink;
             }
 
-            if ($grouping == self::TEACHER) {
-                $processedItems[$index]['responsibility'] = 'responsibility display';
-            } else {
-                $processedItems[$index]['teachers'] = $this->getTeacherDisplay($subject);
-            }
+            $processedItems[$index]['teachers']     = $this->getTeacherDisplay($subject);
             $processedItems[$index]['creditpoints'] = empty($subject->creditpoints) ? '' : $subject->creditpoints;
 
             $index++;

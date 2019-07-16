@@ -145,8 +145,8 @@ $displayName = empty($this->model->displayName) ?
                         <select id="department" multiple data-input="static"
                                 data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT'); ?>">
                             <?php
-                            foreach ($this->getModel()->departments as $id => $department) {
-                                echo "<option value='" . $id . "'>$department</option>";
+                            foreach ($this->getModel()->departments as $department) {
+                                echo "<option value='" . $department->value . "'>$department->text</option>";
                             }
                             ?>
                         </select>

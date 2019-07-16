@@ -51,7 +51,7 @@ if (!empty($menuID)) :
     <h1><?php echo $header; ?></h1>
 
     <?php if (empty(Factory::getUser()->id)) : ?>
-        <div class="tbox-yellow">
+        <div class="tbox-yellow clearfix">
             <p><?php echo Languages::_('THM_ORGANIZER_COURSE_LOGIN_WARNING'); ?></p>
             <?php echo HTML::_('content.prepare', '{loadposition ' . $position . '}'); ?>
             <div class="right">
@@ -60,7 +60,6 @@ if (!empty($menuID)) :
                     <?php echo Languages::_('THM_ORGANIZER_COURSE_ADMINISTRATOR_LOGIN'); ?>
                 </a>
             </div>
-            <div class="clear"></div>
         </div>
     <?php else : ?>
         <div class="toolbar">

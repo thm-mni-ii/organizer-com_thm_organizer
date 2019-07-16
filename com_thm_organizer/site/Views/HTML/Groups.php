@@ -35,7 +35,7 @@ class Groups extends ListView
         $toolbar = Toolbar::getInstance();
         $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'group.edit', true);
 
-        $if          = "alert('" . Languages::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') . "');";
+        $if          = "alert('" . Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING') . "');";
         $else        = "jQuery('#modal-publishing').modal('show'); return true;";
         $script      = 'onclick="if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}"';
         $batchButton = '<button id="group-publishing" data-toggle="modal" class="btn btn-small" ' . $script . '>';

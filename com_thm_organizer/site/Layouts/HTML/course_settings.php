@@ -16,11 +16,10 @@
     <input type="hidden" name="subjectID" value="<?php echo $this->course['subjectID']; ?>"/>
     <input type="hidden" name="task" value="course.save"/>
     <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
-    <div class="section">
-        <div class="left form-header">
+    <div class="section clearfix">
+        <div class="left form-header clearfix">
             <h4><?php echo Languages::_('THM_ORGANIZER_COURSE_SETTINGS'); ?></h4>
         </div>
-        <div class="clear"></div>
         <?php foreach ($this->form->getFieldset('course_settings') as $field) : ?>
             <div class='control-group'>
                 <div class='control-label'><?php echo $field->label; ?></div>
@@ -30,6 +29,5 @@
         <button type="submit" class="btn">
             <span class="icon-forward-2"></span> <?php echo Languages::_('THM_ORGANIZER_SAVE'); ?>
         </button>
-        <div class="clear"></div>
     </div>
 </form>

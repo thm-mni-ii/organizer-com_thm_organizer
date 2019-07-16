@@ -44,7 +44,7 @@ if (!empty($this->menu)) {
             </a>
         <?php endif; ?>
     </div>
-    <div class="clear"></div>
+    <div class="clearfix"></div>
     <hr>
     <?php echo $this->loadTemplate('course_settings'); ?>
     <hr>

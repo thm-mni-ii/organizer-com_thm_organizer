@@ -15,7 +15,7 @@ $initialHidden = ['date'];
 ?>
 <script type="text/javascript">
     var rootURI = '<?php echo Uri::root(); ?>', allText = '<?php echo Languages::_('JALL');?>',
-        selectionWarning = '<?php echo Languages::_('THM_ORGANIZER_EXPORT_SELECTION_WARNING');?>',
+        selectionWarning = '<?php echo Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING');?>',
         downloadText = '<?php echo Languages::_('THM_ORGANIZER_DOWNLOAD');?>',
         generateText = '<?php echo Languages::_('THM_ORGANIZER_GENERATE_LINK');?>',
         copyText = '<?php echo Languages::_('THM_ORGANIZER_COPY_SUBSCRIPTION');?>';

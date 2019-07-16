@@ -39,9 +39,11 @@ class Grid extends BaseModel
         // Save grids in json by foreach because the index is not numeric
         $periods = [];
         $index   = 1;
-        foreach ($data['grid'] as $row) {
-            $periods[$index] = $row;
-            ++$index;
+        if (!empty($data['grid'])){
+            foreach ($data['grid'] as $row) {
+                $periods[$index] = $row;
+                ++$index;
+            }
         }
 
         $grid         = ['periods' => $periods, 'startDay' => $data['startDay'], 'endDay' => $data['endDay']];

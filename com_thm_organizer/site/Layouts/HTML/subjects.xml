@@ -9,42 +9,12 @@
                 <option value="de">GERMAN</option>
                 <option value="en">ENGLISH</option>
             </field>
-            <field name="grouping" type="Options" default="0" label="ORGANIZE_BY">
-                <option value="0">ALPHABETICAL</option>
-                <option value="1">BY_SUBJECTNO</option>
-                <option value="2">BY_GROUP</option>
-                <option value="3">BY_TEACHER</option>
-            </field>
             <field name="teacherResp" type="Options" default="0" label="SHOW_TEACHER_RESP">
                 <option value="0">ALL_RESPONSIBILITIES</option>
                 <option value="2">TEACHER</option>
                 <option value="1">COORDINATOR</option>
             </field>
             <field name="showTitle" type="Options" default="1" label="SHOW_TEACHER_TITLES">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
-            <field name="inlinePoolCrP" type="Options" default="1" label="SHOW_INLINE_CRP">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
-            <field name="showByName" type="Options" default="1" label="SHOW_BY_NAME">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
-            <field name="showByModuleNumber" type="Options" default="1" label="SHOW_BY_MODULE_NUMBER">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
-            <field name="showByPool" type="Options" default="1" label="SHOW_BY_POOL">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
-            <field name="showByTeacher" type="Options" default="1" label="SHOW_BY_TEACHER">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
-            <field name="showByField" type="Options" default="0" label="SHOW_BY_FIELD">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>

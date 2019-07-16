@@ -13,11 +13,8 @@ namespace Organizer\Helpers;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Organizer\Controller;
 use ReflectionMethod;
