@@ -50,7 +50,6 @@ trait Filtered
             $campusIDs = implode(',', $campusIDs);
             $query->innerJoin("#__thm_organizer_campuses AS campusAlias ON campusAlias.id = $alias.campusID")
                 ->where("(campusAlias.id IN ($campusIDs) OR campusAlias.parentID IN ($campusIDs))");
-
         }
     }
 
@@ -112,7 +111,6 @@ trait Filtered
         } else {
             $query->innerJoin("#__thm_organizer_$table AS $newAlias ON $newAlias.id = $existingAlias.{$resource}ID")
                 ->where("$newAlias.id IN (" . implode(',', $resourceIDs) . ")");
-
         }
     }
 }

@@ -159,7 +159,6 @@ class Terms implements Selectable
         }
 
         return $options;
-
     }
 
     /**

@@ -128,10 +128,12 @@ class Schedules
                 $lessonReference['startTime'] = $lesson['startTime'];
                 $lessonReference['subjects']  = [];
 
-                $irrelevant                     = (empty($lesson['lessonDelta']) or $lesson['lessonModified'] < $delta);
+                $irrelevant = (empty($lesson['lessonDelta']) or $lesson['lessonModified'] < $delta);
+
                 $lessonReference['lessonDelta'] = $irrelevant ? '' : $lesson['lessonDelta'];
 
-                $irrelevant                       = (empty($lesson['calendarDelta']) or $lesson['calendarModified'] < $delta);
+                $irrelevant = (empty($lesson['calendarDelta']) or $lesson['calendarModified'] < $delta);
+
                 $lessonReference['calendarDelta'] = $irrelevant ? '' : $lesson['calendarDelta'];
             }
 
@@ -477,8 +479,7 @@ class Schedules
 
         if (!$calReference) {
             return [];
-        } // Only the instance selected
-        elseif ($mode == self::INSTANCE_MODE) {
+        } elseif ($mode == self::INSTANCE_MODE) {
             return [$calReference->lessonID => [$ccmID]];
         }
 

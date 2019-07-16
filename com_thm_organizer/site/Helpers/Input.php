@@ -21,17 +21,17 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Input
 {
-    static $filter = null;
+    private static $filter = null;
 
-    static $filterItems = false;
+    private static $filterItems = false;
 
-    static $formItems = false;
+    private static $formItems = false;
 
-    static $input = null;
+    private static $input = null;
 
-    static $listItems = false;
+    private static $listItems = false;
 
-    static $params = false;
+    private static $params = false;
 
     /**
      * Adds menu parameters to the object (id and route)
