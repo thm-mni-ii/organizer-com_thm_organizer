@@ -16,7 +16,7 @@ require_once 'course_export.php';
 /**
  * Class generates sheets of participant badges based on the registered participants.
  */
-class Badges extends Course_Export
+class Badges extends CourseExport
 {
     private $rectangleStyle;
 

@@ -112,7 +112,7 @@ class OrganizerHelper
         if (empty($lastItem)) {
             return 'Organizer';
         } elseif (strpos($lastItem, '_') !== false) {
-            return ucwords($lastItem, "_");
+            return str_replace('_', '', ucwords($lastItem, "_"));
         } else {
             return ucfirst($lastItem);
         }

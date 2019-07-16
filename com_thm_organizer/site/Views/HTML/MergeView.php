@@ -28,8 +28,8 @@ abstract class MergeView extends FormView
     protected function addToolBar()
     {
         $name = OrganizerHelper::getClass($this);
-        HTML::setTitle(Languages::_('THM_ORGANIZER_' . strtoupper($name)));
-        $dataModel = str_replace('_merge', '', strtolower($name));
+        HTML::setTitle(Languages::_(Languages::getConstant($name)));
+        $dataModel = str_replace('merge', '', strtolower($name));
         $toolbar   = Toolbar::getInstance();
         $toolbar->appendButton(
             'Standard',

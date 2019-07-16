@@ -54,7 +54,7 @@ class Schedule extends BaseModel
             return true;
         }
 
-        $jsonModel = new Schedule_JSON;
+        $jsonModel = new ScheduleJSON;
 
         // No access checks for the reference schedule, because access rights are inherited through the department.
         $reference = $this->getScheduleRow($active->departmentID, $active->termID);
@@ -273,7 +273,7 @@ class Schedule extends BaseModel
 
         // No access checks for the active schedule, they share the same department from which they inherit access.
 
-        $jsonModel  = new Schedule_JSON;
+        $jsonModel  = new ScheduleJSON;
         $refSuccess = $jsonModel->setReference($reference, $active);
 
         return $refSuccess;
@@ -323,7 +323,7 @@ class Schedule extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $xmlModel = new Schedule_XML;
+        $xmlModel = new ScheduleXML;
         $valid    = $xmlModel->validate();
 
         if (!$valid) {
@@ -341,7 +341,7 @@ class Schedule extends BaseModel
         $new->set('userID', Factory::getUser()->id);
 
         $reference = $this->getScheduleRow($new->departmentID, $new->termID);
-        $jsonModel = new Schedule_JSON;
+        $jsonModel = new ScheduleJSON;
 
         if (empty($reference) or empty($reference->id)) {
             $new->set('active', 1);

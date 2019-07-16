@@ -14,7 +14,7 @@ namespace Organizer\Layouts\PDF;
 /**
  * Class generates a list of participants based on the registered participants.
  */
-class Participants extends Course_Export
+class Participants extends CourseExport
 {
     private $columnHeaders;
 
