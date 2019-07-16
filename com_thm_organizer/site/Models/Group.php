@@ -139,7 +139,7 @@ class Group extends MergeModel
 
         foreach ($this->selected as $groupID) {
             foreach ($publishing as $termID => $publish) {
-                $table = OrganizerHelper::getTable('Group_Publishing');
+                $table = OrganizerHelper::getTable('GroupPublishing');
                 $data  = ['groupID' => $groupID, 'termID' => $termID];
                 $table->load($data);
                 $data['published'] = $publish;

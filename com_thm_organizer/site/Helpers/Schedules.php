@@ -208,7 +208,7 @@ class Schedules
 
         $deletedCcmIDs = [];
         foreach ($mappings as $lessonID => $ccmIDs) {
-            $userLessonTable = OrganizerHelper::getTable('User_Lessons');
+            $userLessonTable = OrganizerHelper::getTable('UserLessons');
 
             if (!$userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID])) {
                 continue;
@@ -703,7 +703,7 @@ class Schedules
 
         foreach ($mappings as $lessonID => $ccmIDs) {
             try {
-                $userLessonTable = OrganizerHelper::getTable('User_Lessons');
+                $userLessonTable = OrganizerHelper::getTable('UserLessons');
                 $hasUserLesson   = $userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]);
             } catch (Exception $e) {
                 return '[]';

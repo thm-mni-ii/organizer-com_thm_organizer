@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the lesson_teachers table.
  */
-class Lesson_Teachers extends Nullable
+class LessonTeachers extends Nullable
 {
     /**
      * Declares the associated table

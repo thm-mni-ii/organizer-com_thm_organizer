@@ -11,9 +11,9 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the department_resources table.
+ * Class instantiates a Table Object associated with the subject_mappings table.
  */
-class Department_Resources extends BaseTable
+class SubjectMappings extends BaseTable
 {
     /**
      * Declares the associated table
@@ -22,6 +22,6 @@ class Department_Resources extends BaseTable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_department_resources', 'id', $dbo);
+        parent::__construct('#__thm_organizer_subject_mappings', 'id', $dbo);
     }
 }

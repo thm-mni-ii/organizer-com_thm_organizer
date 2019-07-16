@@ -160,7 +160,7 @@ class ScheduleJSON extends BaseDatabaseModel
             unset($pullConfig->lessonID, $pullConfig->courseID);
             $pullConfig   = json_encode($pullConfig);
             $configData   = ['lessonCourseID' => $lessonCourseID, 'configuration' => $pullConfig];
-            $configsTable = OrganizerHelper::getTable('Lesson_Configurations');
+            $configsTable = OrganizerHelper::getTable('LessonConfigurations');
             $exists       = $configsTable->load($configData);
 
             if ($exists) {
@@ -228,7 +228,7 @@ class ScheduleJSON extends BaseDatabaseModel
 
                 foreach ($instanceConfigs as $configID) {
                     $mapData  = ['calendarID' => $calendarID, 'configurationID' => $configID];
-                    $mapTable = OrganizerHelper::getTable('Calendar_Configuration_Map');
+                    $mapTable = OrganizerHelper::getTable('CalendarConfigurationMap');
                     $mapTable->load($mapData);
                     $success = $mapTable->save($mapData);
 
@@ -568,7 +568,7 @@ class ScheduleJSON extends BaseDatabaseModel
             $lCourseData['lessonID'] = $lessonsTable->id;
             $lCourseData['courseID'] = $config->courseID;
 
-            $lCoursesTable = OrganizerHelper::getTable('Lesson_Courses');
+            $lCoursesTable = OrganizerHelper::getTable('LessonCourses');
             $lCoursesTable->load($lCourseData);
 
             if (empty($lCoursesTable->id)) {
@@ -579,7 +579,7 @@ class ScheduleJSON extends BaseDatabaseModel
             unset($config->lessonID, $config->courseID);
 
             $configData    = ['lessonCourseID' => $lCoursesTable->id, 'configuration' => json_encode($config)];
-            $lConfigsTable = OrganizerHelper::getTable('Lesson_Configurations');
+            $lConfigsTable = OrganizerHelper::getTable('LessonConfigurations');
             $lConfigsTable->load($configData);
             $success = $lConfigsTable->save($configData);
             if (!$success) {
@@ -659,7 +659,7 @@ class ScheduleJSON extends BaseDatabaseModel
 
         foreach ($groups as $groupID => $delta) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = OrganizerHelper::getTable('Lesson_Groups');
+            $table = OrganizerHelper::getTable('LessonGroups');
 
             $data                   = [];
             $data['lessonCourseID'] = $lessonCourseID;
@@ -708,7 +708,7 @@ class ScheduleJSON extends BaseDatabaseModel
 
         foreach ($courses as $courseID => $courseData) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = OrganizerHelper::getTable('Lesson_Courses');
+            $table = OrganizerHelper::getTable('LessonCourses');
 
             $data             = [];
             $data['lessonID'] = $lessonID;
@@ -767,7 +767,7 @@ class ScheduleJSON extends BaseDatabaseModel
 
         foreach (array_keys((array)$teachers) as $teacherID) {
             // If this isn't in the foreach it uses the same entry repeatedly irregardless of the data used for the load
-            $table = OrganizerHelper::getTable('Lesson_Teachers');
+            $table = OrganizerHelper::getTable('LessonTeachers');
 
             $data                   = [];
             $data['lessonCourseID'] = $lessonCourseID;
@@ -840,7 +840,7 @@ class ScheduleJSON extends BaseDatabaseModel
         }
 
         $data  = ['subjectID' => $subjectID, 'courseID' => $courseID];
-        $table = OrganizerHelper::getTable('Subject_Mappings');
+        $table = OrganizerHelper::getTable('SubjectMappings');
         $table->load($data);
         $table->save($data);
     }

@@ -35,7 +35,7 @@ class Participants
         switch ($state) {
             case self::WAIT_LIST:
             case self::REGISTERED:
-                $table = OrganizerHelper::getTable('User_Lessons');
+                $table = OrganizerHelper::getTable('UserLessons');
 
                 $data = [
                     'lessonID' => $courseID,

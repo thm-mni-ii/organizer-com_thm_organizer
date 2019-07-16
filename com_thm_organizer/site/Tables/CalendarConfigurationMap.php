@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the calendar_configuration_map table.
  */
-class Calendar_Configuration_Map extends BaseTable
+class CalendarConfigurationMap extends BaseTable
 {
     /**
      * Declares the associated table

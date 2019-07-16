@@ -154,7 +154,7 @@ class Departments implements Selectable
      */
     public static function setDepartmentResource($resourceID, $column)
     {
-        $deptResourceTable = OrganizerHelper::getTable('Department_Resources');
+        $deptResourceTable = OrganizerHelper::getTable('DepartmentResources');
 
         /**
          * If associations already exist for the resource, further associations should be made explicitly using the
