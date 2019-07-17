@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Organizer\Fields">
+    <fieldset name="details">
+        <field name="id" type="hidden"/>
+        <field name="name_de" type="text" label="THM_ORGANIZER_NAME_DE"
+               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
+        <field name="name_en" type="text" label="THM_ORGANIZER_NAME_EN"
+               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
+        <field name="startDate" type="calendar" default="today" label="THM_ORGANIZER_START_DATE"
+               class="input-small" required="true" showtime="false" />
+        <field name="endDate" type="calendar" default="today" label="THM_ORGANIZER_END_DATE"
+               class="input-small" required="true" showtime="false" />
+        <field name="type" type="Options" label="HOLIDAY_TYPE" required="true">
+            <option value="1">PLANNING_OPTIONAL</option>
+            <option value="2">PLANNING_MANUAL</option>
+            <option value="3">PLANNING_BLOCKED</option>
+        </field>
+    </fieldset>
+</form>

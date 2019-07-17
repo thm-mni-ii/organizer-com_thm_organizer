@@ -191,6 +191,20 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_grids` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_holidays` (
+    `id`          INT(11)     UNSIGNED  NOT NULL     AUTO_INCREMENT,
+    `name_de`     VARCHAR(50)           NOT NULL,
+    `name_en`     VARCHAR(50)           NOT NULL,
+    `startDate`   DATE                  NOT NULL,
+    `endDate`     DATE                  NOT NULL,
+    `type`        TINYINT(1)            NOT NULL
+        COMMENT 'Type of Holiday in deciding the Planning Schedule. Possible values: 1 - Automatic, 2 - Manual, 3 - Unplannable.',
+     PRIMARY KEY (`id`)
+)
+    ENGINE  =  InnoDB
+    DEFAULT CHARSET  =  utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_group_publishing` (
     `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `groupID`   INT(11) UNSIGNED NOT NULL,

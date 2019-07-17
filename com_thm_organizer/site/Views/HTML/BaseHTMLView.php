@@ -277,6 +277,10 @@ abstract class BaseHTMLView extends BaseView
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=grids',
                 'active' => $viewName == 'grids'
             ];
+            $adminEntries[Languages::_('THM_ORGANIZER_HOLIDAYS')]    = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=holidays',
+                'active' => $viewName == 'holidays'
+            ];
             $adminEntries[Languages::_('THM_ORGANIZER_METHODS')]     = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=methods',
                 'active' => $viewName == 'methods'

@@ -132,7 +132,7 @@ class OrganizerHelper
                 return 'equipment';
             case mb_substr($resource, -1) == 's':
                 return $resource . 'es';
-            case mb_substr($resource, -1) == 'y':
+            case mb_substr($resource, -2) == 'ry':
                 return mb_substr($resource, 0, mb_strlen($resource) - 1) . 'ies';
                 break;
             default:

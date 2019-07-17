@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_frequencies`;
 DROP TABLE IF EXISTS `#__thm_organizer_grids`;
 DROP TABLE IF EXISTS `#__thm_organizer_group_publishing`;
 DROP TABLE IF EXISTS `#__thm_organizer_groups`;
+DROP TABLE IF EXISTS `#__thm_organizer_holidays`;
 DROP TABLE IF EXISTS `#__thm_organizer_lessons`;
 DROP TABLE IF EXISTS `#__thm_organizer_lesson_configurations`;
 DROP TABLE IF EXISTS `#__thm_organizer_lesson_courses`;
