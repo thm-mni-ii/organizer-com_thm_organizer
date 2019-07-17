@@ -38,7 +38,7 @@ class ProgramMappingsField extends FormField
     {
         $resourceID   = $this->form->getValue('id');
         $contextParts = explode('.', $this->form->getName());
-        $resourceType = str_replace('_Edit', '', $contextParts[1]);
+        $resourceType = str_replace('Edit', '', $contextParts[1]);
         $this->addScript($resourceID, $resourceType);
 
         $ranges           = Mappings::getResourceRanges($resourceType, $resourceID);

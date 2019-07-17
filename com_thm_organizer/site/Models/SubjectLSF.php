@@ -220,7 +220,6 @@ class SubjectLSF extends BaseModel
         return parent::getTable('Subjects', $prefix, $options);
     }
 
-
     /**
      * Method to import data associated with subjects from LSF
      *

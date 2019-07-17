@@ -67,6 +67,7 @@ class Languages extends Text
     {
         $parts          = preg_split('/([A-Z][a-z]+)/', $className, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
         $delimitedParts = implode('_', $parts);
+
         return 'THM_ORGANIZER_' . strtoupper($delimitedParts);
     }
 
@@ -134,5 +135,45 @@ class Languages extends Text
         Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
 
         return static::getScriptStrings();
+    }
+
+    /**
+     * Converts a double colon separated string or 2 separate strings to a string ready for bootstrap tooltips
+     *
+     * @param string  $title     The title of the tooltip (or combined '::' separated string).
+     * @param string  $content   The content to tooltip.
+     * @param boolean $escape    If true will pass texts through htmlspecialchars.
+     *
+     * @return  string  The tooltip string
+     *
+     * @since   3.1.2
+     */
+    public static function tooltip($title = '', $content = '', $escape = true)
+    {
+        // Initialise return value.
+        $result = '';
+
+        // Don't process empty strings
+        if ($content !== '' or $title !== '') {
+            $title   = self::_($title);
+            $content = self::_($content);
+
+            if ($title === '') {
+                $result = $content;
+            } elseif ($title === $content) {
+                $result = '<strong>' . $title . '</strong>';
+            } elseif ($content !== '') {
+                $result = '<strong>' . $title . '</strong><br />' . $content;
+            } else {
+                $result = $title;
+            }
+
+            // Escape everything, if required.
+            if ($escape) {
+                $result = htmlspecialchars($result);
+            }
+        }
+
+        return $result;
     }
 }

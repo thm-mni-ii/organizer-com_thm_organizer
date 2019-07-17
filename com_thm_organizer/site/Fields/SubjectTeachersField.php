@@ -24,27 +24,6 @@ class SubjectTeachersField extends OptionsField
     protected $type = 'SubjectTeachers';
 
     /**
-     * Returns a select box which contains the colors
-     *
-     * @return string  the HTML for the color select box
-     */
-    public function getInput()
-    {
-        $html    = '<select name="' . $this->name . '" multiple>';
-        $options = $this->getOptions();
-        if (empty($this->value)) {
-            $this->value = [0 => ''];
-        }
-        foreach ($options as $option) {
-            $selected = in_array($option->value, $this->value) ? ' selected="selected"' : '';
-            $html     .= '<option value="' . $option->value . '"' . $selected . '>' . $option->text . '</option>';
-        }
-        $html .= '</select>';
-
-        return $html;
-    }
-
-    /**
      * Method to get the field options.
      *
      * @return  array  The field option objects.

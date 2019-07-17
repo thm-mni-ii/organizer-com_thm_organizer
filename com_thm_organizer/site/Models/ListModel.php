@@ -10,7 +10,6 @@
 
 namespace Organizer\Models;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\ListModel as ParentModel;
@@ -98,8 +97,13 @@ abstract class ListModel extends ParentModel
     {
         Form::addFormPath(JPATH_COMPONENT_SITE . '/Forms');
         Form::addFieldPath(JPATH_COMPONENT_SITE . '/Fields');
+        $form = parent::loadForm($name, $source, $options, $clear, $xpath);
 
-        return parent::loadForm($name, $source, $options, $clear, $xpath);
+        if ($this instanceof FiltersFormFilters) {
+            $this->filterFilterForm($form);
+        }
+
+        return $form;
     }
 
     /**

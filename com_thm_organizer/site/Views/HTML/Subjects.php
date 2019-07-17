@@ -27,7 +27,7 @@ class Subjects extends ListView
 
     const TEACHES = 2;
 
-    private $administration = true;
+    protected $administration = false;
 
     private $documentAccess = false;
 
@@ -51,9 +51,12 @@ class Subjects extends ListView
      */
     protected function addToolBar()
     {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_SUBJECTS_TITLE'), 'book');
+        $programID   = Input::getParams()->get('programID');
+        $programName = empty($programID) ? '' : Programs::getName($programID);
+
+        HTML::setMenuTitle(Languages::_('THM_ORGANIZER_SUBJECTS_TITLE'), $programName, 'book');
+        $toolbar = Toolbar::getInstance();
         if ($this->documentAccess) {
-            $toolbar = Toolbar::getInstance();
             $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'subject.add', false);
             $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'subject.edit', true);
             $toolbar->appendButton(
@@ -85,7 +88,6 @@ class Subjects extends ListView
      */
     protected function allowAccess()
     {
-        $this->administration = OrganizerHelper::getApplication()->isClient('administrator');
         $this->documentAccess = Access::allowDocumentAccess();
 
         return $this->administration ? $this->documentAccess : true;
@@ -100,16 +102,11 @@ class Subjects extends ListView
     {
         $direction = $this->state->get('list.direction');
         $ordering  = $this->state->get('list.ordering');
-        $grouping  = $this->state->get('list.grouping');
         $headers   = [];
 
-        $headers['checkbox'] = '';
-        if ($this->administration) {
-            $headers['name'] = HTML::sort('NAME', 'name', $direction, $ordering);
-        } else {
-            $headers['name'] = Languages::_('THM_ORGANIZER_NAME');
-        }
-
+        $headers['checkbox']     = '';
+        $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['externalID']   = HTML::sort('MODULE_CODE', 'externalID', $direction, $ordering);
         $headers['teachers']     = Languages::_('THM_ORGANIZER_TEACHERS');
         $headers['creditpoints'] = Languages::_('THM_ORGANIZER_CREDIT_POINTS');
 
@@ -179,33 +176,20 @@ class Subjects extends ListView
             return;
         }
 
-        $editIcon       = '<span class="icon-edit"></span>';
-        $grouping       = $this->administration ? '0' : $this->state->get('list.grouping');
         $index          = 0;
+        $detailsLink    = 'index.php?option=com_thm_organizer&view=subject_details&id=';
+        $editLink       = 'index.php?option=com_thm_organizer&view=subject_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $subject) {
             $access   = Access::allowSubjectAccess($subject->id);
-            $editLink = $subject->url . '&view=subject_edit';
-            if ($grouping == '1') {
-                $name = empty($subject->externalID) ? '' : "$subject->externalID - ";
-                $name .= $subject->name;
-            } else {
-                $name = $subject->name;
-                $name .= empty($subject->externalID) ? '' : " ($subject->externalID)";
-            }
-            $itemLink               = HTML::_('link', $subject->url . '&view=subject_details', $name);
-            $processedItems[$index] = [];
+            $checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
+            $thisLink = ($this->administration and $access) ? $editLink . $subject->id : $detailsLink . $subject->id;
 
-            if ($access) {
-                $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $subject->id);
-                $processedItems[$index]['name']     = $this->administration ?
-                    HTML::_('link', $editLink, $name) : $itemLink . HTML::_('link', $editLink, $editIcon);
-            } else {
-                $processedItems[$index]['checkbox'] = '';
-                $processedItems[$index]['name']     = $itemLink;
-            }
-
+            $processedItems[$index]                 = [];
+            $processedItems[$index]['checkbox']     = $checkbox;
+            $processedItems[$index]['name']         = HTML::_('link', $thisLink, $subject->name);
+            $processedItems[$index]['externalID']   = HTML::_('link', $thisLink, $subject->externalID);
             $processedItems[$index]['teachers']     = $this->getTeacherDisplay($subject);
             $processedItems[$index]['creditpoints'] = empty($subject->creditpoints) ? '' : $subject->creditpoints;
 

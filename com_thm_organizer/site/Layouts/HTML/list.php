@@ -7,20 +7,26 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
-
-use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\OrganizerHelper;
 
-if (!empty($this->submenu)) {
-    echo '<div id="j-sidebar-container" class="span2">' . $this->submenu . '</div>';
-}
 $items       = $this->items;
 $iteration   = 0;
 $columnCount = count($this->headers);
-?>
+
+if (!$this->administration) {
+    echo OrganizerHelper::getApplication()->JComponentTitle;
+}
+if (!empty($this->submenu)) {
+    echo '<div id="j-sidebar-container" class="span2">' . $this->submenu . '</div>';
+} ?>
 <div id="j-main-container" class="span10">
     <form action="?" id="adminForm" method="post" name="adminForm">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php if (!$this->administration) : ?>
+            <?php echo Toolbar::getInstance()->render(); ?>
+        <?php endif; ?>
+        <?php require_once 'filters.php'; ?>
         <table class="table table-striped" id="<?php echo $this->get('name'); ?>-list">
             <thead>
             <tr>
@@ -41,12 +47,14 @@ $columnCount = count($this->headers);
                     ?>
                 </tr>
             <?php endforeach; ?>
+            <?php if ($this->administration) : ?>
             <tfoot>
             <tr>
                 <td colspan="<?php echo $columnCount; ?>">
                     <?php echo $this->pagination->getListFooter(); ?>
             </tr>
             </tfoot>
+            <?php endif; ?>
             <?php
             if (isset($this->batch) && !empty($this->batch)) {
                 foreach ($this->batch as $filename) {

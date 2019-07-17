@@ -15,8 +15,16 @@
             <option value="">ALL_POOLS</option>
             <option value="-1">NO_POOLS</option>
         </field>
+        <field name="teacherID" type="ProgramTeachers" label="TEACHERS" onchange="this.form.submit();">
+            <option value="">ALL_TEACHERS</option>
+            <option value="-1">NO_TEACHERS</option>
+        </field>
     </fields>
     <fields name="list">
+        <field name="languageTag" type="Options" label="Language" onchange="this.form.submit();" default="de">
+            <option value="de">GERMAN</option>
+            <option value="en">ENGLISH</option>
+        </field>
         <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

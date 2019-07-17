@@ -8,6 +8,8 @@
 
 namespace Organizer\Fields;
 
+use Organizer\Helpers\Languages;
+
 /**
  * Field to load a list of possible item count limits
  */
@@ -79,7 +81,7 @@ class LimitboxField extends OptionsField
                 foreach ($limits as $value) {
                     $options[] = (object)array(
                         'value' => $value,
-                        'text'  => ($value != 0) ? \JText::_('J' . $value) : \JText::_('JALL'),
+                        'text'  => ($value != 0) ? Languages::_('J' . $value) : Languages::_('JALL'),
                     );
                 }
 

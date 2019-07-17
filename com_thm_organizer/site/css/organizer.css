@@ -1,3 +1,20 @@
+.main h1.page-title span[class^="icon-"] {
+    display: none;
+}
+
+.main .btn-toolbar {
+    display: flex;
+    flex-direction: row;
+}
+
+.main .btn-toolbar .btn-wrapper {
+    margin-right: 5px;
+}
+
+.main .btn-toolbar button {
+    font-size: .9rem;
+}
+
 .main .js-stools .js-stools-container-bar {
     display: flex;
 }

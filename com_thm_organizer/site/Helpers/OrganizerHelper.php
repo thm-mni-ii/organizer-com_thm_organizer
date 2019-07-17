@@ -150,7 +150,7 @@ class OrganizerHelper
     public static function getResource($view)
     {
         $initial       = strtolower($view);
-        $withoutSuffix = str_replace(['_edit', '_lsf', '_merge', '_xml'], '', $initial);
+        $withoutSuffix = str_replace(['edit', 'lsf', 'merge', 'xml'], '', $initial);
         if ($withoutSuffix !== $initial) {
             return $withoutSuffix;
         }

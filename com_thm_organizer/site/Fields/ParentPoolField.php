@@ -53,7 +53,7 @@ class ParentPoolField extends FormField
         // Get basic resource data
         $resourceID   = Input::getID();
         $contextParts = explode('.', $this->form->getName());
-        $resourceType = str_replace('_Edit', '', $contextParts[1]);
+        $resourceType = str_replace('Edit', '', $contextParts[1]);
 
         $mappings   = [];
         $mappingIDs = [];

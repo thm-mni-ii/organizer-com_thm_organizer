@@ -16,20 +16,8 @@ use Organizer\Helpers\Languages;
 /**
  * Class retrieves the data regarding a filtered set of courses.
  */
-class Courses extends ListModelMenu
+class Courses extends ListModel
 {
-    /**
-     * Filters out form inputs which should not be displayed due to menu settings.
-     *
-     * @param Form $form the form to be filtered
-     *
-     * @return void modifies $form
-     */
-    protected function filterFilterForm(&$form)
-    {
-        // TODO: Implement filterFilterForm(&$form) method.
-    }
-
     /**
      * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
      *
@@ -106,15 +94,5 @@ class Courses extends ListModelMenu
 //        }
 
         return $courseQuery;
-    }
-
-    /**
-     * Overrides state properties with menu settings values.
-     *
-     * @return void sets state properties
-     */
-    protected function populateStateFromMenu()
-    {
-        // TODO: Implement populateStateFromMenu() method.
     }
 }

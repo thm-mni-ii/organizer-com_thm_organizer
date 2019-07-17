@@ -58,7 +58,7 @@ class ChildrenField extends FormField
         $contextParts = explode('.', $this->form->getName());
 
         // Option.View
-        $resourceType = strtolower(str_replace('_Edit', '', $contextParts[1]));
+        $resourceType = strtolower(str_replace('Edit', '', $contextParts[1]));
 
         $dbo     = Factory::getDbo();
         $idQuery = $dbo->getQuery(true);

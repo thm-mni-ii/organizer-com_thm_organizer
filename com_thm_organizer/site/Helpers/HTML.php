@@ -138,6 +138,32 @@ class HTML extends HTMLHelper
         return self::_('select.genericlist', $options, $name, $attributes, 'value', 'text', $selected);
     }
 
+    /**
+     * Sets the title for the view and the document.
+     *
+     * @param string $default      the default value if a specific resource could not be resolved.
+     * @param string $resourceName the name of the specific resource
+     * @param string $icon         The hyphen-separated names of the icon class
+     *
+     * @return  void
+     */
+    public static function setMenuTitle($default, $resourceName = '', $icon = 'generic.png')
+    {
+        $app    = OrganizerHelper::getApplication();
+        $layout = new FileLayout('joomla.toolbar.title');
+        $params = Input::getParams();
+
+        if ($params->get('show_page_heading') and $title = $params->get('page_title')) {
+            $html = $layout->render(array('title' => $title, 'icon' => $icon));
+        } else {
+            $title = empty($resourceName) ? $default : $resourceName;
+            $html  = $layout->render(array('title' => $title, 'icon' => $icon));
+        }
+
+        $app->JComponentTitle = $html;
+        Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename'));
+    }
+
     public static function setPreferencesButton()
     {
         $uri    = (string)Uri::getInstance();

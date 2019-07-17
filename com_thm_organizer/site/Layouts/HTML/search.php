@@ -22,11 +22,11 @@ $attribs = ['target' => '_blank'];
                        value="<?php echo addslashes($this->query); ?>"
                        size="25"/>
                 <button type="submit" class="btn-search hasTooltip"
-                        title="<?php echo HTML::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+                        title="<?php echo Languages::tooltip('THM_ORGANIZER_SEARCH'); ?>">
                     <i class="icon-search"></i>
                 </button>
                 <button type="reset" class="btn-reset hasTooltip"
-                        title="<?php echo HTML::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
+                        title="<?php echo THM_ORGANIZER_SEARCH('THM_ORGANIZER_RESET'); ?>"
                         onclick="document.getElementById('search-input').value='';form.submit();">
                     <i class="icon-delete"></i>
                 </button>

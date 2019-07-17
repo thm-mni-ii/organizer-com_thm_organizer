@@ -10,6 +10,8 @@
 
 namespace Organizer\Layouts\HTML;
 
+use Organizer\Helpers\Languages;
+
 /**
  * Class renders curriculum item panel information.
  */
@@ -52,14 +54,14 @@ class CurriculumItem
                 <?php
                 if (!empty($element->teacherName)) {
                     ?>
-                    <a class="btn hasTooltip" href="#" title="<?php echo $element->teacherName; ?>">
+                    <a class="btn hasTooltip" href="#" title="<?php echo Languages::tooltip($element->teacherName); ?>">
                         <icon class="icon-user"></icon>
                     </a>
                     <?php
                 }
                 if (!empty($element->children)) {
                     $script = 'onclick="toggleGroupDisplay(\'#panel-' . $element->mapping . '\')"';
-                    $title  = 'title="' . Languages::_('THM_ORGANIZER_SHOW_SUBJECTS');
+                    $title  = 'title="' . Languages::tooltip('THM_ORGANIZER_SHOW_SUBJECTS');
                     echo '<a class="btn hasTooltip" ' . $script . ' ' . $title . '">';
                     echo '<icon class="icon-grid-view-2"></icon></a>';
                     THM_OrganizerTemplateCurriculumPanel::render($element);

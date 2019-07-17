@@ -17,12 +17,13 @@ use Joomla\CMS\Factory;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Subjects as SubjectsHelper;
 
 /**
  * Class retrieves information for a filtered set of subjects.
  */
-class Subjects extends ListModelMenu
+class Subjects extends ListModel implements FiltersFormFilters
 {
     private $admin = true;
 
@@ -33,10 +34,23 @@ class Subjects extends ListModelMenu
      *
      * @return void modifies $form
      */
-    protected function filterFilterForm(&$form)
+    public function filterFilterForm(&$form)
     {
-        $form->removeField('filter.isPrepCourse');
-        $form->removeField('programID');
+        $params = Input::getParams();
+        if (!empty($params->get('programID'))) {
+            $form->removeField('departmentID', 'filter');
+            $form->removeField('limit', 'list');
+            $form->removeField('programID', 'filter');
+        } else {
+            $form->removeField('languageTag', 'list');
+
+            if ($this->admin) {
+                $allowedDepartments = Access::getAccessibleDepartments('documentation');
+                if (count($allowedDepartments) === 1) {
+                    $form->removeField('departmentID', 'filter');
+                }
+            }
+        }
 
         return;
     }
@@ -72,12 +86,9 @@ class Subjects extends ListModelMenu
         $tag = Languages::getTag();
 
         // Create the sql query
-        $query  = $dbo->getQuery(true);
-        $select = "DISTINCT s.id, s.externalID, s.name_$tag AS name, s.fieldID, s.creditpoints, ";
-        $parts  = ["'index.php?option=com_thm_organizer&id='", 's.id'];
-        $select .= $query->concatenate($parts, '') . ' AS url ';
-        $query->select($select);
-        $query->from('#__thm_organizer_subjects AS s');
+        $query = $dbo->getQuery(true);
+        $query->select("DISTINCT s.id, s.externalID, s.name_$tag AS name, s.fieldID, s.creditpoints")
+            ->from('#__thm_organizer_subjects AS s');
 
         $searchFields = [
             's.name_de',
@@ -103,9 +114,15 @@ class Subjects extends ListModelMenu
         Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
         $poolID = $this->state->get('filter.poolID', '');
         Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
-        $isPrepCourse = $this->state->get('list.is_prep_course', '');
-        if ($isPrepCourse !== "") {
-            $query->where("is_prep_course = $isPrepCourse");
+        $teacherID = $this->state->get('filter.teacherID', '');
+        if (!empty($teacherID)) {
+            if ($teacherID === '-1') {
+                $query->leftJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
+                    ->where('st.subjectID IS NULL');
+            } else {
+                $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
+                    ->where("st.teacherID = $teacherID");
+            }
         }
 
         $this->setOrdering($query);
@@ -135,20 +152,29 @@ class Subjects extends ListModelMenu
     }
 
     /**
-     * Overrides state properties with menu settings values.
+     * Method to auto-populate the model state.
      *
-     * @return void sets state properties
+     * @param string $ordering  An optional ordering field.
+     * @param string $direction An optional direction (asc|desc).
+     *
+     * @return void
      */
-    protected function populateStateFromMenu()
+    protected function populateState($ordering = null, $direction = null)
     {
-        $this->admin = false;
-        $params      = OrganizerHelper::getParams();
-        if (empty($params->get('programID'))) {
-            return;
-        }
-        $this->state->set('filter.programID', $params->get('programID'));
-        if ($this->state->get('list.grouping') === null) {
-            $this->state->set('list.grouping', $params->get('groupBy', '0'));
+        parent::populateState($ordering, $direction);
+
+        $this->admin = OrganizerHelper::getApplication()->isClient('administrator') ? true : false;
+        if ($this->admin) {
+            $allowedDepartments = Access::getAccessibleDepartments('documentation');
+            if (count($allowedDepartments) === 1) {
+                $this->state->set('filter.departmentID', $allowedDepartments[0]);
+            }
+        } else {
+            $params = Input::getParams();
+            if (!empty($params->get('programID'))) {
+                $this->state->set('filter.programID', $params->get('programID'));
+                $this->state->set('list.limit', 0);
+            }
         }
 
         return;

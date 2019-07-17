@@ -328,6 +328,33 @@ class Mappings
     }
 
     /**
+     * Retrieves the set of subjects associated with the given program
+     *
+     * @param int $programID the id of the program
+     *
+     * @return array the program boundaries
+     */
+    public static function getProgramSubjects($programID)
+    {
+        $programBoundaries = self::getBoundaries('program', $programID);
+
+        // Subject does not yet have any mappings. Improbable, but possible
+        if (empty($programBoundaries)) {
+            return [];
+        }
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT subjectID')
+            ->from('#__thm_organizer_mappings')
+            ->where("lft > {$programBoundaries[0]['lft']}")
+            ->where("rgt < {$programBoundaries[0]['rgt']}");
+        $dbo->setQuery($query);
+
+        return OrganizerHelper::executeQuery('loadColumn', []);
+    }
+
+    /**
      * Retrieves the names of the programs to which a resource is ordered. Used in self.
      *
      * @param array $resourceRanges the left and right values of the resource's mappings
