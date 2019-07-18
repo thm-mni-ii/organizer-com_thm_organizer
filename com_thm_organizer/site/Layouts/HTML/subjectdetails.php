@@ -104,7 +104,6 @@ if (!empty($this->courses)) {
             $this->renderAttribute($key, $data);
         }
     }
-    $this->renderCollab();
     echo $this->disclaimer;
 }
 echo '</div>';

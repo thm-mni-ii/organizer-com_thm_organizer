@@ -9,11 +9,6 @@
                 <option value="de">GERMAN</option>
                 <option value="en">ENGLISH</option>
             </field>
-            <field name="displayECollabLink" type="Options" default="0" class="chzn-color-state" required="true"
-                   label="THM_ORGANIZER_DISPLAY_ECOLLAB" description="THM_ORGANIZER_DISPLAY_ECOLLAB_DESC">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
         </fieldset>
     </fields>
 </form>

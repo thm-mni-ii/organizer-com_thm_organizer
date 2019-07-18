@@ -418,10 +418,10 @@ class Controller extends BaseController
     {
         $url = "index.php?option=com_thm_organizer&view={$this->listView}";
 
-        if (JDEBUG)
-        {
+        if (JDEBUG) {
             OrganizerHelper::message('THM_ORGANIZER_DEBUG_ON', 'error');
             $this->setRedirect($url);
+
             return;
         }
 
@@ -732,11 +732,11 @@ class Controller extends BaseController
     public function upload($shouldNotify = false)
     {
         $url = Routing::getRedirectBase();
-        if (JDEBUG)
-        {
+        if (JDEBUG) {
             OrganizerHelper::message('THM_ORGANIZER_DEBUG_ON', 'error');
             $url .= "&view=Schedules";
             $this->setRedirect($url);
+
             return;
         }
 

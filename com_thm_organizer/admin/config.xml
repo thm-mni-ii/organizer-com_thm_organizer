@@ -20,16 +20,6 @@
         <field name="darkTextColor" type="color" label="THM_ORGANIZER_TEXT_DARK_COLOR"
                description="THM_ORGANIZER_TEXT_DARK_COLOR_DESC" size="10" required="true" default="#4a5c66"/>
     </fieldset>
-    <fieldset name="eCollab" label="THM_ORGANIZER_ECOLLAB_SETTINGS_TITLE"
-              description="THM_ORGANIZER_ECOLLAB_SETTINGS_DESCRIPTION">
-        <field name="eCollabLink" type="text" size="60" label="THM_ORGANIZER_URL"
-               description="THM_ORGANIZER_ECOLLAB_DESC"/>
-        <field name="displayeCollabLink" type="List" default="0" label="THM_ORGANIZER_ECOLLAB_DISPLAY"
-               description="THM_ORGANIZER_ECOLLAB_DISPLAY_DESC">
-            <option value='1'>JYES</option>
-            <option value='0'>JNO</option>
-        </field>
-    </fieldset>
     <fieldset name="LSF-Service" label="THM_ORGANIZER_LSF_SETTINGS_TITLE"
               description="THM_ORGANIZER_LSF_SETTINGS_DESCRIPTION">
         <field name="wsURI" type="text" size="100" label="THM_ORGANIZER_LSF_URI"

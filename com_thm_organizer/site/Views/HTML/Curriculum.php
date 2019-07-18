@@ -20,8 +20,6 @@ class Curriculum extends BaseHTMLView
 {
     public $disclaimer;
 
-    public $ecollabLink;
-
     public $item;
 
     public $languageLinks;
@@ -38,14 +36,6 @@ class Curriculum extends BaseHTMLView
     public function display($tpl = null)
     {
         $this->modifyDocument();
-
-        $menu = OrganizerHelper::getApplication()->getMenu()->getActive();
-
-        if (!is_object($menu)) {
-            $this->ecollabLink = '';
-        } else {
-            $this->ecollabLink = $menu->params->get('eCollabLink', '');
-        }
 
         $this->item = $this->get('Item');
 

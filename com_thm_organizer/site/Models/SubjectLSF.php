@@ -65,7 +65,7 @@ class SubjectLSF extends BaseModel
      * @param array $possibleModNos the possible module numbers used in the attribute text
      * @param array $programs       the programs to which the subject is mapped [id, name, lft, rgt)
      *
-     * @return array the subject details for subjects with dependencies
+     * @return array the subject information for subjects with dependencies
      */
     private function checkForMappedSubjects($possibleModNos, $programs)
     {
