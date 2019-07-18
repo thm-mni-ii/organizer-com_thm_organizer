@@ -18,10 +18,6 @@ use Joomla\CMS\Uri\Uri;
  */
 class Search extends BaseHTMLView
 {
-    public $languageLinks;
-
-    public $tag;
-
     public $query;
 
     public $results;

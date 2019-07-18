@@ -489,7 +489,7 @@ class Search extends BaseModel
 
                 $links = [];
 
-                $links['subject_details'] = "?option=com_thm_organizer&view=subject_details&id=$sID";
+                $links['subject_item'] = "?option=com_thm_organizer&view=subject_item&id=$sID";
 
                 if (!empty($subject['courseID'])) {
                     $links['schedule'] =
@@ -531,7 +531,7 @@ class Search extends BaseModel
                 $links = [];
 
                 if (!empty($course['sID'])) {
-                    $links['subject_details'] = "?option=com_thm_organizer&view=subject_details&id={$course['sID']}";
+                    $links['subject_item'] = "?option=com_thm_organizer&view=subject_item&id={$course['sID']}";
                 }
 
                 $links['schedule']                  = $scheduleLink;

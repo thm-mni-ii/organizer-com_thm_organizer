@@ -26,8 +26,6 @@ abstract class BaseHTMLView extends BaseView
 {
     public $disclaimer = '';
 
-    public $languageLinks = '';
-
     public $submenu = '';
 
     /**
@@ -41,7 +39,7 @@ abstract class BaseHTMLView extends BaseView
             return;
         }
 
-        $documentationViews = ['Curriculum', 'Subject_Details', 'Subjects'];
+        $documentationViews = ['Curriculum', 'SubjectItem', 'Subjects'];
         if (!in_array(OrganizerHelper::getClass($this), $documentationViews)) {
             return;
         }
@@ -69,44 +67,6 @@ abstract class BaseHTMLView extends BaseView
         $disclaimer .= '</div>';
 
         $this->disclaimer = $disclaimer;
-    }
-
-    /**
-     * Adds a language links to the view.
-     *
-     * @param array $params the parameters used to call the current view.
-     *
-     * @return void modifies the class property languageLinks
-     */
-    protected function addLanguageLinks($params)
-    {
-        if (OrganizerHelper::getApplication()->isClient('administrator')) {
-            return;
-        }
-
-        $current            = Languages::getTag();
-        $supportedLanguages = [
-            'de' => Languages::_('THM_ORGANIZER_GERMAN'),
-            'en' => Languages::_('THM_ORGANIZER_ENGLISH')
-        ];
-        unset($supportedLanguages[$current]);
-
-        $links            = '<div class="tool-wrapper language-links">';
-        $params['option'] = 'com_thm_organizer';
-        $menuID           = Input::getItemid();
-        if (!empty($menuID)) {
-            $params['Itemid'] = $menuID;
-        }
-
-        foreach ($supportedLanguages as $tag => $text) {
-            $params['language'] = $tag;
-
-            $href  = Uri::buildQuery($params);
-            $links .= '<a href="index.php?' . $href . '"><span class="icon-world"></span>' . $text . '</a>';
-        }
-
-        $links               .= '</div>';
-        $this->languageLinks = $links;
     }
 
     /**

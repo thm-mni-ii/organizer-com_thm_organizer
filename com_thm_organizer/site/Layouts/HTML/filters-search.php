@@ -14,15 +14,15 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 // Receive overridable options
-$data['options'] = !empty($data['options']) ? $data['options'] : array();
+$options = empty($options) ? [] : $options;
 
-if (is_array($data['options'])) {
-    $data['options'] = new Registry($data['options']);
+if (is_array($options)) {
+    $options = new Registry($options);
 }
 
 // Options
-$filterButton = $data['options']->get('filterButton', true);
-$searchButton = $data['options']->get('searchButton', true);
+$filterButton = $options->get('filterButton', true);
+$searchButton = $options->get('searchButton', true);
 
 $filters = $this->filterForm->getGroup('filter');
 ?>

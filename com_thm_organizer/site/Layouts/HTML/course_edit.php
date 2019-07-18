@@ -22,9 +22,7 @@ if (!empty($this->menu)) {
 }
 
 ?>
-<div class="toolbar">
-    <?php echo $this->languageLinks->render($this->languageParams); ?>
-</div>
+<!-- use language_selection layout -->
 <div class="course-manager-view">
     <h1><?php echo Languages::_('THM_ORGANIZER_COURSES') . ": {$this->course['name']}"; ?></h1>
     <div class="course-descriptors">

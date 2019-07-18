@@ -540,7 +540,7 @@ class Controller extends BaseController
 
         if ($this->resource == 'subject') {
             $subjectID = $this->input->getInt('id', 0);
-            $url       .= "&view=subject_details&id=$subjectID";
+            $url       .= "&view=subject_item&id=$subjectID";
         } else {
             $url .= '&view=course_list';
         }

@@ -126,20 +126,20 @@ class ScheduleGrid extends BaseHTMLView
         $root = Uri::root();
 
         $variables = [
-            'SEMESTER_MODE'     => 1,
-            'PERIOD_MODE'       => 2,
-            'INSTANCE_MODE'     => 3,
-            'ajaxBase'          => $root . 'index.php?option=com_thm_organizer&format=json',
-            'auth'              => !empty($user->id) ?
+            'SEMESTER_MODE'   => 1,
+            'PERIOD_MODE'     => 2,
+            'INSTANCE_MODE'   => 3,
+            'ajaxBase'        => $root . 'index.php?option=com_thm_organizer&format=json',
+            'auth'            => !empty($user->id) ?
                 urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT)) : '',
-            'dateFormat'        => $this->dateFormat,
-            'defaultGrid'       => $this->defaultGrid->grid,
-            'exportBase'        => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
-            'isMobile'          => $this->isMobile,
-            'menuID'            => Input::getItemid(),
-            'registered'        => !empty($user->id),
-            'subjectDetailBase' => $root . 'index.php?option=com_thm_organizer&view=subject_details&id=1',
-            'username'          => !empty($user->id) ? $user->username : ''
+            'dateFormat'      => $this->dateFormat,
+            'defaultGrid'     => $this->defaultGrid->grid,
+            'exportBase'      => $root . 'index.php?option=com_thm_organizer&view=schedule_export',
+            'isMobile'        => $this->isMobile,
+            'menuID'          => Input::getItemid(),
+            'registered'      => !empty($user->id),
+            'subjectItemBase' => $root . 'index.php?option=com_thm_organizer&view=subject_item&id=1',
+            'username'        => !empty($user->id) ? $user->username : ''
         ];
 
         $grids = [];

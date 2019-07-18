@@ -20,7 +20,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class which retrieves subject information for a detailed display of subject attributes.
  */
-class SubjectDetails extends BaseModel
+class SubjectItem extends ItemModel
 {
     /**
      * Loads subject information from the database

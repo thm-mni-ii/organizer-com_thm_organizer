@@ -14,7 +14,7 @@ $attribs = ['target' => '_blank'];
 ?>
 <div id="j-main-container" class="organizer-search-container">
     <form action="<?php Uri::current(); ?>" id="adminForm" method="get" name="adminForm">
-        <?php echo $this->languageLinks->render(); ?>
+        <!-- use language_selection layout -->
         <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_SEARCH'); ?></h1>
         <div class="toolbar">
             <div class="tool-wrapper search">
@@ -78,7 +78,7 @@ $attribs = ['target' => '_blank'];
                                 echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }
 
-                            if ($type == 'subject_details') {
+                            if ($type == 'subject_item') {
                                 $icon = '<span class="icon-book"></span>';
                                 echo HTML::link($link, $icon . Languages::_($constant), $attribs);
                             }

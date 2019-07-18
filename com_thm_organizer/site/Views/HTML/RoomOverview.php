@@ -26,8 +26,6 @@ class RoomOverview extends BaseHTMLView
 
     public $form = null;
 
-    public $languageLinks;
-
     public $model = null;
 
     public $state = null;

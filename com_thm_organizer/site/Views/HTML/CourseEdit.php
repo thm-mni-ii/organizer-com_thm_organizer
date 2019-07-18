@@ -31,10 +31,6 @@ class CourseEdit extends EditView
 
     public $form;
 
-    public $languageLinks;
-
-    public $languageParams;
-
     public $menu;
 
     /**

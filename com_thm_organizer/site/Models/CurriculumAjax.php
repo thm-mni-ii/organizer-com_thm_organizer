@@ -160,7 +160,7 @@ class CurriculumAjax extends BaseModel
         $query         = $dbo->getQuery(true);
         $select        = "s.id, lsfID, hisID, externalID, name_$tag AS name, creditpoints AS maxCrP, color, ";
         $concateSelect = [
-            "'index.php?option=com_thm_organizer&view=subject_details&language='",
+            "'index.php?option=com_thm_organizer&view=subject_item&language='",
             "'$tag'",
             "'&id='",
             's.id',

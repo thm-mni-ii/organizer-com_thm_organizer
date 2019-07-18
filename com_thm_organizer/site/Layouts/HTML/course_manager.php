@@ -44,9 +44,7 @@ if (!empty($menuID)) :
         });
     </script>
 <?php endif; ?>
-<div class="toolbar">
-    <?php echo $this->languageLinks->render($this->languageParams); ?>
-</div>
+<!-- use language_selection layout -->
 <div class="course-list-view uses-login">
     <h1><?php echo $header; ?></h1>
 

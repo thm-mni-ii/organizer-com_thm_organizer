@@ -11,9 +11,7 @@
 use Organizer\Helpers\Languages;
 
 ?>
-<div class="toolbar">
-    <?php echo $this->languageLinks->render(); ?>
-</div>
+<!-- use language_selection layout -->
 <div class="clear"></div>
 <div class="room-overview-view">
     <form action="" method="post" name="adminForm" id="adminForm">

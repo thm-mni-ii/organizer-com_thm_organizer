@@ -10,12 +10,12 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Models\SubjectDetails as Subject_DetailsModel;
+use Organizer\Models\SubjectItem as SubjectItemModel;
 
 /**
  * Class loads the subject into the display context.
  */
-class SubjectDetails extends BaseView
+class SubjectItem extends BaseView
 {
     /**
      * loads model data into view context
@@ -24,7 +24,7 @@ class SubjectDetails extends BaseView
      */
     public function display()
     {
-        $model = new Subject_DetailsModel;
+        $model = new SubjectItemModel;
         echo json_encode($model->get('Item'));
     }
 }

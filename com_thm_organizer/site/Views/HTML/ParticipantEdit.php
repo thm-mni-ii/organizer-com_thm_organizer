@@ -22,9 +22,6 @@ use Organizer\Helpers\Languages;
  */
 class ParticipantEdit extends EditView
 {
-    public $languageLinks;
-
-    public $languageParams;
 
     public $item;
 

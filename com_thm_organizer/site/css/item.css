@@ -66,11 +66,6 @@ div#main .uses-login #login-form ul.unstyled li {
     }
 }
 
-.toolbar {
-    position: relative;
-    float: right;
-}
-
 .subject-list button, .subject-list .btn {
     background-color: white;
 }

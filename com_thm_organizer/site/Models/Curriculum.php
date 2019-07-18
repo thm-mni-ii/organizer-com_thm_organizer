@@ -167,7 +167,7 @@ class Curriculum extends \Joomla\CMS\MVC\Model\ItemModel
         $select      = "s.id, externalID, s.name_$tag AS name, creditpoints AS CrP, color AS bgColor, ";
         $menuID      = Input::getItemid();
         $menuIDParam = empty($menuID) ? '' : "&Itemid=$menuID";
-        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_details&languageTag=$tag$menuIDParam&id='";
+        $subjectLink = "'index.php?option=com_thm_organizer&view=subject_item&languageTag=$tag$menuIDParam&id='";
         $parts       = [$subjectLink, 's.id'];
         $select      .= $query->concatenate($parts, '') . ' AS link';
 

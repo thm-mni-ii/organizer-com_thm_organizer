@@ -23,10 +23,6 @@ class Lessons extends ListView
 {
     public $filters = [];
 
-    public $languageLinks;
-
-    public $languageParams;
-
     public $model = null;
 
     public $showFilters;

@@ -35,9 +35,7 @@ if (empty($this->course)) {
 }
 
 ?>
-<div class="toolbar">
-    <?php echo $this->languageLinks->render($this->languageParams); ?>
-</div>
+<!-- use language_selection layout -->
 <div class="participant-edit">
     <h1><?php echo $headerText; ?></h1>
     <?php echo $message; ?>

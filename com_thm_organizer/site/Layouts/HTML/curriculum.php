@@ -15,9 +15,8 @@ require_once 'item.php';
     <h1 class="componentheading">
         <?php echo $this->item->name; ?>
     </h1>
-
-    <?php echo $this->languageLinks->render($this->languageParams); ?>
 </div>
+<!-- use language_selection layout -->
 <div class="curriculum">
     <?php
     foreach ($this->item->children as $pool) {

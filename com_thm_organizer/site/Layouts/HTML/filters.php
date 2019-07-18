@@ -10,16 +10,13 @@
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
 
-defined('JPATH_BASE') or die;
-
 // Receive overridable options
-$data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-$noResultsText     = '';
 $hideActiveFilters = false;
+$noResultsText     = '';
+$options           = [];
 $showFilterButton  = false;
 $showSelector      = false;
-$selectorFieldName = isset($data['options']['selectorFieldName']) ? $data['options']['selectorFieldName'] : 'client_id';
 
 // If a filter form exists.
 if (isset($this->filterForm) && !empty($this->filterForm)) {
@@ -32,25 +29,18 @@ if (isset($this->filterForm) && !empty($this->filterForm)) {
 }
 
 // Set some basic options.
-$customOptions = [
-    'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
-    'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
-    'defaultLimit'        => isset($data['options']['defaultLimit']) ?
-        $data['options']['defaultLimit'] : OrganizerHelper::getApplication()->get('list_limit', 50),
-    'searchFieldSelector' => '#filter_search',
-    'selectorFieldName'   => $selectorFieldName,
-    'orderFieldSelector'  => '#list_fullordering',
-    'formSelector'        => '#adminForm'
-];
-
-// Merge custom options in the options array.
-$data['options'] = array_merge($customOptions, $data['options']);
+$options['filtersHidden']       = empty($options['filtersHidden']) ? $hideActiveFilters : $options['filtersHidden'];
+$options['filterButton']        = empty($options['filterButton']) ? $showFilterButton : $options['filterButton'];
+$options['defaultLimit']        = isset($options['defaultLimit']) ?
+    $options['defaultLimit'] : OrganizerHelper::getApplication()->get('list_limit', 50);
+$options['searchFieldSelector'] = '#filter_search';
+$options['orderFieldSelector']  = '#list_fullordering';
 
 // Add class to hide the active filters if needed.
 $filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-visible';
 
 // Load search tools
-HTML::_('searchtools.form', $data['options']['formSelector'], $data['options']);
+HTML::_('searchtools.form', '#adminForm', $options);
 ?>
 <div class="js-stools clearfix">
     <div class="clearfix">
@@ -62,7 +52,7 @@ HTML::_('searchtools.form', $data['options']['formSelector'], $data['options']);
         </div>
     </div>
     <!-- Filters div -->
-    <?php if ($data['options']['filterButton']) : ?>
+    <?php if ($options['filterButton']) : ?>
         <div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
             <?php require_once 'filters-filter.php'; ?>
         </div>

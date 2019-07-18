@@ -177,7 +177,7 @@ class Subjects extends ListView
         }
 
         $index          = 0;
-        $detailsLink    = 'index.php?option=com_thm_organizer&view=subject_details&id=';
+        $itemLink       = 'index.php?option=com_thm_organizer&view=subject_item&id=';
         $editLink       = 'index.php?option=com_thm_organizer&view=subject_edit&id=';
         $processedItems = [];
 

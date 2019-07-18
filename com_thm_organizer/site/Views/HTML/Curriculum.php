@@ -18,13 +18,7 @@ use Joomla\CMS\Uri\Uri;
  */
 class Curriculum extends BaseHTMLView
 {
-    public $disclaimer;
-
     public $item;
-
-    public $languageLinks;
-
-    public $languageParams;
 
     /**
      * Method to get display

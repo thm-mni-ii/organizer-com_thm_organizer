@@ -22,10 +22,6 @@ class LessonStatistics extends BaseHTMLView
 
     public $form = null;
 
-    public $languageLinks;
-
-    public $languageParams;
-
     public $lessons = [];
 
     public $rows = [];
@@ -42,9 +38,8 @@ class LessonStatistics extends BaseHTMLView
     public function display($tpl = null)
     {
         // Use language_selection layout
-        $this->languageParams = ['view' => 'lesson_statistics'];
-        $this->state          = $this->get('State');
-        $this->form           = $this->get('Form');
+        $this->state = $this->get('State');
+        $this->form  = $this->get('Form');
         $this->form->setValue('termID', null, $this->state->get('termID'));
         $this->form->setValue('departmentID', null, $this->state->get('departmentID'));
         $this->form->setValue('categoryID', null, $this->state->get('categoryID'));

@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
  * @param {boolean} variables.registered - indicates whether an user is logged in
  * @param {number} variables.SEMESTER_MODE - mode for saving/deleting all event instances
  * @param {number} variables.showGroups - whether groups are allowed to show
- * @param {string} variables.subjectDetailBase - basic url for subject details
+ * @param {string} variables.subjectDetailBase - basic url for subject item
  * @param {string} variables.username - name of currently logged in user
  */
 const ScheduleApp = function (variables) {
@@ -1085,7 +1085,7 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Adds DOM-elements with subject name and eventListener directing to subject details
+         * Adds DOM-elements with subject name and eventListener directing to subject item
          * @param {HTMLElement} outerElement
          * @param {Object} data - event data with subjects
          * @param {string} data.name - name of subject
@@ -1097,7 +1097,7 @@ const ScheduleApp = function (variables) {
          */
         function addSubjectElements(outerElement, data)
         {
-            const openSubjectDetailsLink = function () {
+            const openSubjectItemLink = function () {
                 window.open(variables.subjectDetailBase.replace(/&id=\d+/, '&id=' + data.subjectID), '_blank');
             };
             let numIndex;
@@ -1109,7 +1109,7 @@ const ScheduleApp = function (variables) {
                 if (data.subjectID && variables.showGroups)
                 {
                     subjectNameElement = document.createElement('a');
-                    subjectNameElement.addEventListener('click', openSubjectDetailsLink);
+                    subjectNameElement.addEventListener('click', openSubjectItemLink);
                 }
                 else
                 {
@@ -1136,7 +1136,7 @@ const ScheduleApp = function (variables) {
                     if (data.subjectID)
                     {
                         subjectNumberElement = document.createElement('a');
-                        subjectNumberElement.addEventListener('click', openSubjectDetailsLink);
+                        subjectNumberElement.addEventListener('click', openSubjectItemLink);
                     }
                     else
                     {

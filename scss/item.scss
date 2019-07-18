@@ -2,13 +2,7 @@
 @import 'login';
 @import 'variables';
 
-.toolbar {
-  position: relative;
-  float: right;
-}
-
-.subject-list
-{
+.subject-list {
   button, .btn {
     background-color: $foreground-color;
 
