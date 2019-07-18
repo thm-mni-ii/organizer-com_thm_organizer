@@ -52,7 +52,7 @@ class RoomOverview extends BaseHTMLView
         $this->form->setValue('types', null, $this->state->get('types'));
         $this->form->setValue('rooms', null, $this->state->get('rooms'));
 
-        $this->languageLinks = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+        // Use language_selection layout
 
         $this->modifyDocument();
         parent::display($tpl);

@@ -41,7 +41,7 @@ class LessonStatistics extends BaseHTMLView
      */
     public function display($tpl = null)
     {
-        $this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
+        // Use language_selection layout
         $this->languageParams = ['view' => 'lesson_statistics'];
         $this->state          = $this->get('State');
         $this->form           = $this->get('Form');

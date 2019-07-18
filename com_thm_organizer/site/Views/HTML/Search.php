@@ -35,10 +35,10 @@ class Search extends BaseHTMLView
      */
     public function display($tpl = null)
     {
-        $this->tag           = Languages::getTag();
-        $this->languageLinks = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $this->query         = OrganizerHelper::getInput()->getString('search', '');
-        $this->results       = $this->getModel()->getResults();
+        $this->tag = Languages::getTag();
+        // Use language_selection layout
+        $this->query   = OrganizerHelper::getInput()->getString('search', '');
+        $this->results = $this->getModel()->getResults();
 
         $this->modifyDocument();
         parent::display($tpl);

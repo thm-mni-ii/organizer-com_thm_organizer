@@ -49,8 +49,7 @@ class Curriculum extends BaseHTMLView
 
         $this->item = $this->get('Item');
 
-        $this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $this->languageParams = ['id' => $this->item->id, 'view' => 'curriculum'];
+        // Use language_selection layout
 
         $this->addDisclaimer();
 
