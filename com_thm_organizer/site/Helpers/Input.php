@@ -34,35 +34,6 @@ class Input
     private static $params = false;
 
     /**
-     * Adds menu parameters to the object (id and route)
-     *
-     * @param object $object the object to add the parameters to, typically a view
-     *
-     * @return void modifies $object
-     */
-    public static function addMenuParameters(&$object)
-    {
-        $app    = OrganizerHelper::getApplication();
-        $menuID = $app->input->getInt('Itemid');
-
-        if (!empty($menuID)) {
-            $menuItem = $app->getMenu()->getItem($menuID);
-            $menu     = ['id' => $menuID, 'route' => self::getRedirectBase()];
-
-            $query = explode('?', $menuItem->link)[1];
-            parse_str($query, $parameters);
-
-            if (empty($parameters['option']) or $parameters['option'] != 'com_thm_organizer') {
-                $menu['view'] = '';
-            } elseif (!empty($parameters['view'])) {
-                $menu['view'] = $parameters['view'];
-            }
-
-            $object->menu = $menu;
-        }
-    }
-
-    /**
      * Filters the given source data according to the type parameter.
      *
      * @param mixed  $source the data to be filtered

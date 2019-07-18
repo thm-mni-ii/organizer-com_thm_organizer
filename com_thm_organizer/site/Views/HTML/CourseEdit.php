@@ -92,12 +92,7 @@ class CourseEdit extends EditView
         $this->prepareLabel('subject');
         $this->prepareLabel('text');
 
-        /*
-        $this->languageLinks  = new LayoutFile('language_links', JPATH_ROOT . '/components/com_thm_organizer/Layouts');
-        $this->languageParams = ['lessonID' => $courseID, 'view' => 'courses'];
-        */
         $this->modifyDocument();
-        Input::addMenuParameters($this);
 
         parent::display($tpl);
     }

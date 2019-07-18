@@ -90,12 +90,6 @@ class SubjectDetails extends BaseHTMLView
 
                 $this->courses = $courses;
             }
-
-            Input::addMenuParameters($this);
-
-            $layoutPath           = JPATH_ROOT . '/components/com_thm_organizer/Layouts/HTML';
-            $this->languageLinks  = new LayoutFile('language_links', $layoutPath);
-            $this->languageParams = ['id' => $this->item['subjectID'], 'view' => 'subject_details'];
         }
 
         $this->addDisclaimer();

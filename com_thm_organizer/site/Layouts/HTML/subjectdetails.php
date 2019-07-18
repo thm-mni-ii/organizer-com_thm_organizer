@@ -23,7 +23,6 @@ if (!empty($this->menu)) {
 
 $position = Input::getParams()->get('loginPosition');
 echo '<div class="toolbar">';
-echo $this->languageLinks->render($this->languageParams);
 echo '</div>';
 echo '<div class="subject-list ' . $containerClass . '">';
 if (!empty($this->item['name']['value'])) {
