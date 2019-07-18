@@ -16,6 +16,11 @@ namespace Organizer\Helpers;
 trait Named
 {
     /**
+     * @var string the textual context in which form information will be saved as necessary
+     */
+    protected $context;
+
+    /**
      * The name of the object
      */
     protected $name = null;
@@ -35,5 +40,18 @@ trait Named
         }
 
         return $this->name;
+    }
+
+    /**
+     * Sets context variables as requested.
+     *
+     * @return void modifies object properties
+     */
+    public function setContext() {
+        if (property_exists($this, 'option')) {
+            $this->option = 'com_thm_organizer';
+        }
+
+        $this->context = strtolower('com_thm_organizer.' . $this->getName());
     }
 }

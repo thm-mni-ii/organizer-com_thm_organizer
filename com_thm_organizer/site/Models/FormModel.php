@@ -15,7 +15,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\FormModel as ParentModel;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Named;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads non-item-specific form data.
@@ -24,14 +23,7 @@ class FormModel extends ParentModel
 {
     use Named;
 
-    /**
-     * @var string provides a unique form context so that data does not overlap between extensions and views
-     */
-    protected $context = '';
-
     protected $deptResource;
-
-    protected $option = 'com_thm_organizer';
 
     /**
      * Constructor.
@@ -42,8 +34,7 @@ class FormModel extends ParentModel
     {
         parent::__construct($config);
 
-        $this->option  = 'com_thm_organizer';
-        $this->context = strtolower($this->option . '.' . $this->getName());
+        $this->setContext();
     }
 
     /**
@@ -75,7 +66,7 @@ class FormModel extends ParentModel
         }
 
         $name = $this->get('name');
-        $form = $this->loadForm("com_thm_organizer.$name", $name, ['control' => 'jform', 'load_data' => $loadData]);
+        $form = $this->loadForm($this->context, $name, ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;

@@ -25,8 +25,6 @@ abstract class BaseModel extends BaseDatabaseModel
 {
     use Named;
 
-    protected $option = 'com_thm_organizer';
-
     /**
      * BaseModel constructor.
      *
@@ -41,6 +39,8 @@ abstract class BaseModel extends BaseDatabaseModel
 
             return;
         }
+
+        $this->setContext();
     }
 
     /**
