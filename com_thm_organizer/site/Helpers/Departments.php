@@ -17,7 +17,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Provides general functions for department access checks, data retrieval and display.
  */
-class Departments implements Selectable
+class Departments extends ResourceHelper implements Selectable
 {
     /**
      * Filters departments according to user access and relevant resource associations.
@@ -73,26 +73,6 @@ class Departments implements Selectable
         $departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
         return empty($departmentIDs) ? [] : $departmentIDs;
-    }
-
-    /**
-     * Retrieves the department name from the database
-     *
-     * @param int $departmentID the
-     *
-     * @return string  the name of the department in the active language
-     */
-    public static function getName($departmentID)
-    {
-        $dbo = Factory::getDbo();
-        $tag = Languages::getTag();
-
-        $query = $dbo->getQuery(true);
-        $query->select("name_$tag as name")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
-
-        $dbo->setQuery($query);
-
-        return (string)OrganizerHelper::executeQuery('loadResult');
     }
 
     /**

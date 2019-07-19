@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
  */
-class Teachers implements DepartmentAssociated, Selectable
+class Teachers extends ResourceHelper implements DepartmentAssociated, Selectable
 {
     const COORDINATES = 1;
 
@@ -154,7 +154,7 @@ class Teachers implements DepartmentAssociated, Selectable
      */
     public static function getDefaultName($teacherID)
     {
-        $teacher = OrganizerHelper::getTable('Teachers');
+        $teacher = self::getTable();
         $teacher->load($teacherID);
 
         $return = '';
@@ -221,7 +221,7 @@ class Teachers implements DepartmentAssociated, Selectable
      */
     public static function getLNFName($teacherID, $short = false)
     {
-        $teacher = OrganizerHelper::getTable('Teachers');
+        $teacher = self::getTable();
         $teacher->load($teacherID);
 
         $return = '';

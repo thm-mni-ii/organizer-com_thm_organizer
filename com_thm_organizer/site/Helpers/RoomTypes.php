@@ -15,35 +15,11 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for room type access checks, data retrieval and display.
  */
-class RoomTypes implements Selectable
+class RoomTypes extends ResourceHelper implements Selectable
 {
     const NO = 0;
 
     const YES = 1;
-
-    /**
-     * Checks for the room type name for a given room type id
-     *
-     * @param string $typeID the room type's id
-     *
-     * @return string the name if the room type could be resolved, otherwise empty
-     */
-    public static function getName($typeID)
-    {
-        $roomTypesTable = OrganizerHelper::getTable('RoomTypes');
-
-        try {
-            $success = $roomTypesTable->load($typeID);
-        } catch (Exception $exc) {
-            OrganizerHelper::message($exc->getMessage(), 'error');
-
-            return '';
-        }
-
-        $attribute = 'name_' . Languages::getTag();
-
-        return $success ? $roomTypesTable->$attribute : '';
-    }
 
     /**
      * Retrieves a list of resources in the form of name => id.

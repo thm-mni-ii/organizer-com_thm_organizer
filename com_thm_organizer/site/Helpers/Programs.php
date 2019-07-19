@@ -18,7 +18,7 @@ use Organizer\Tables\Participants;
 /**
  * Provides general functions for program access checks, data retrieval and display.
  */
-class Programs implements Selectable
+class Programs extends ResourceHelper implements Selectable
 {
     use Filtered;
 
@@ -33,7 +33,7 @@ class Programs implements Selectable
      */
     public static function getID($programData, $initialName)
     {
-        $programTable = OrganizerHelper::getTable('Programs');
+        $programTable = self::getTable();
         $exists       = $programTable->load($programData);
         if ($exists) {
             return $programTable->id;

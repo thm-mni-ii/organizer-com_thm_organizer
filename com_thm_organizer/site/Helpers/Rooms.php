@@ -12,36 +12,13 @@ namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 /**
  * Class provides general functions for retrieving room data.
  */
-class Rooms implements Selectable
+class Rooms extends ResourceHelper implements Selectable
 {
     use Filtered;
-
-    /**
-     * Checks for the room name for a given room id
-     *
-     * @param string $roomID the room's id
-     *
-     * @return string the name if the room could be resolved, otherwise empty
-     */
-    public static function getName($roomID)
-    {
-        $roomTable = OrganizerHelper::getTable('Rooms');
-
-        try {
-            $success = $roomTable->load($roomID);
-        } catch (Exception $exc) {
-            OrganizerHelper::message($exc->getMessage(), 'error');
-
-            return '';
-        }
-
-        return $success ? $roomTable->name : '';
-    }
 
     /**
      * Retrieves a list of resources in the form of name => id.

@@ -39,7 +39,8 @@ abstract class ItemView extends BaseHTMLView
         $this->item = $this->get('Item');
         $this->addDisclaimer();
         $this->modifyDocument();
-        HTML::setMenuTitle('THM_ORGANIZER_SUBJECT', $this->item['name']['value']);
+        $defaultConstant = 'THM_ORGANIZER_' . strtoupper(str_replace('Item', '', $this->getName()));
+        HTML::setMenuTitle($defaultConstant, $this->item['name']['value']);
         unset($this->item['name']);
 
         // This has to be after the title has been set so that it isn't prematurely removed.

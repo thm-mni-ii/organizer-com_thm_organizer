@@ -12,13 +12,13 @@ namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\ResourceHelper;
 use stdClass;
 
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
  */
-class Teachers implements UntisXMLValidator
+class Teachers extends ResourceHelper implements UntisXMLValidator
 {
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
@@ -31,7 +31,7 @@ class Teachers implements UntisXMLValidator
     public static function setID(&$scheduleModel, $untisID)
     {
         $teacher      = $scheduleModel->schedule->teachers->$untisID;
-        $table        = OrganizerHelper::getTable('Teachers');
+        $table        = self::getTable();
         $loadCriteria = [];
 
         if (!empty($teacher->username)) {

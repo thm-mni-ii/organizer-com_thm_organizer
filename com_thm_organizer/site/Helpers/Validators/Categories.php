@@ -18,7 +18,7 @@ use stdClass;
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Categories implements UntisXMLValidator
+class Categories extends Helpers\ResourceHelper implements UntisXMLValidator
 {
     /**
      * Determines whether the data conveyed in the untisID is plausible for finding a real program.
@@ -64,7 +64,7 @@ class Categories implements UntisXMLValidator
     public static function setID(&$scheduleModel, $untisID)
     {
         $program        = $scheduleModel->schedule->degrees->$untisID;
-        $table          = OrganizerHelper::getTable('Categories');
+        $table          = self::getTable();
         $loadCriteria   = [];
         $loadCriteria[] = ['untisID' => $untisID];
         $loadCriteria[] = ['name' => $program->name];

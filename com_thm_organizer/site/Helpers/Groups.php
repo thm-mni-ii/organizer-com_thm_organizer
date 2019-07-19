@@ -11,13 +11,11 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Groups implements Selectable
+class Groups extends ResourceHelper implements Selectable
 {
     use Filtered;
 

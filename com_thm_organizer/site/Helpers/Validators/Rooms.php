@@ -13,13 +13,13 @@ namespace Organizer\Helpers\Validators;
 use Organizer\Helpers\Buildings;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\ResourceHelper;
 use stdClass;
 
 /**
  * Class provides general functions for retrieving room data.
  */
-class Rooms implements UntisXMLValidator
+class Rooms extends ResourceHelper implements UntisXMLValidator
 {
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
@@ -32,7 +32,7 @@ class Rooms implements UntisXMLValidator
     public static function setID(&$scheduleModel, $untisID)
     {
         $room         = $scheduleModel->schedule->rooms->$untisID;
-        $table        = OrganizerHelper::getTable('Rooms');
+        $table        = self::getTable();
         $loadCriteria = ['untisID' => $room->untisID];
         $exists       = $table->load($loadCriteria);
 

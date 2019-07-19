@@ -13,7 +13,7 @@ namespace Organizer\Helpers;
 /**
  * Provides general functions for room type access checks, data retrieval and display.
  */
-class Fields
+class Fields extends ResourceHelper
 {
     /**
      * Creates the display for a field item as used in a list view.
@@ -24,7 +24,7 @@ class Fields
      */
     public static function getListDisplay($fieldID)
     {
-        $table = OrganizerHelper::getTable('Fields');
+        $table = self::getTable();
 
         $text    = '';
         $colorID = 0;

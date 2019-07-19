@@ -13,22 +13,7 @@ namespace Organizer\Helpers;
 /**
  * Class provides general functions for retrieving building data.
  */
-class Grids
+class Grids extends ResourceHelper
 {
 
-    /**
-     * Retrieves the grid name.
-     *
-     * @param int $gridID the grid id
-     *
-     * @return string the localized name of the grid if found, otherwise an empty string
-     */
-    public static function getName($gridID)
-    {
-        $table  = OrganizerHelper::getTable('Grids');
-        $exists = $table->load($gridID);
-        $column = 'name_' . Languages::getTag();
-
-        return empty($exists) ? '' : $table->$column;
-    }
 }

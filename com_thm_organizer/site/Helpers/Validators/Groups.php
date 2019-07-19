@@ -12,12 +12,13 @@ namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\ResourceHelper;
 use stdClass;
 
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Groups implements UntisXMLValidator
+class Groups extends ResourceHelper implements UntisXMLValidator
 {
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
@@ -31,7 +32,7 @@ class Groups implements UntisXMLValidator
     {
         $group = $scheduleModel->schedule->groups->$untisID;
 
-        $table  = OrganizerHelper::getTable('Groups');
+        $table  = self::getTable();
         $data   = ['untisID' => $group->untisID];
         $exists = $table->load($data);
 

@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for (subject) pool access checks, data retrieval and display.
  */
-class Pools implements Selectable
+class Pools extends ResourceHelper implements Selectable
 {
     use Filtered;
 
@@ -86,45 +86,10 @@ class Pools implements Selectable
      */
     public static function getFullName($poolID)
     {
-        $table  = OrganizerHelper::getTable('Groups');
+        $table  = self::getTable();
         $exists = $table->load($poolID);
 
         return $exists ? $table->full_name : '';
-    }
-
-    /**
-     * Retrieves the pool's full name if existent.
-     *
-     * @param int    $poolID the table's pool id
-     * @param string $type   the pool's type (real|plan)
-     *
-     * @return string the full name, otherwise an empty string
-     */
-    public static function getName($poolID, $type = 'plan')
-    {
-        if ($type == 'plan') {
-            $table  = OrganizerHelper::getTable('Groups');
-            $exists = $table->load($poolID);
-
-            return $exists ? $table->name : '';
-        }
-
-        $table  = OrganizerHelper::getTable('Pools');
-        $exists = $table->load($poolID);
-
-        if (!$exists) {
-            return '';
-        }
-
-        $tag = Languages::getTag();
-
-        if (!empty($table->{'name_' . $tag})) {
-            return $table->{'name_' . $tag};
-        } elseif (!empty($table->{'short_name_' . $tag})) {
-            return $table->{'short_name_' . $tag};
-        }
-
-        return !empty($table->{'abbreviation_' . $tag}) ? $table->{'abbreviation_' . $tag} : '';
     }
 
     /**

@@ -305,11 +305,11 @@ class Search extends BaseModel
         foreach ($results as $result) {
             if ($type == 'real') {
                 $index = "d{$result['id']}";
-                $text  = Helpers\Pools::getName($result['id'], 'real');
+                $text  = Helpers\Pools::getName($result['id']);
                 $links = ['subjects' => "?option=com_thm_organizer&view=subjects&poolIDs={$result['id']}"];
             } else {
                 $index               = "p{$result['id']}";
-                $text                = Helpers\Pools::getName($result['id'], 'plan');
+                $text                = Helpers\Groups::getName($result['id']);
                 $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&poolIDs={$result['id']}";
                 $links['event_list'] = "?option=com_thm_organizer&view=event_list&groupIDs={$result['id']}";
             }

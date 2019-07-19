@@ -11,13 +11,13 @@
 namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\ResourceHelper;
 use stdClass;
 
 /**
  * Class provides general functions for retrieving building data.
  */
-class Grids implements UntisXMLValidator
+class Grids extends ResourceHelper implements UntisXMLValidator
 {
     /**
      * Retrieves the table id if existent.
@@ -28,7 +28,7 @@ class Grids implements UntisXMLValidator
      */
     public static function getID($untisID)
     {
-        $table  = OrganizerHelper::getTable('Grids');
+        $table  = self::getTable();
         $data   = ['untisID' => $untisID];
         $exists = $table->load($data);
 
@@ -49,10 +49,10 @@ class Grids implements UntisXMLValidator
             return;
         }
 
-        $grid = $scheduleModel->schedule->periods->$untisID;
+        $grid       = $scheduleModel->schedule->periods->$untisID;
         $grid->grid = json_encode($grid);
 
-        $table = OrganizerHelper::getTable('Grids');
+        $table = self::getTable();
         if ($table->load(['untisID' => $untisID])) {
             $altered = false;
 

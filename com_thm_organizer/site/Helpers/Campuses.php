@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for campus access checks, data retrieval and display.
  */
-class Campuses implements Selectable
+class Campuses extends ResourceHelper implements Selectable
 {
     /**
      * Creates a link to the campus' location
@@ -26,7 +26,7 @@ class Campuses implements Selectable
      */
     public static function getLocation($campusID)
     {
-        $table = OrganizerHelper::getTable('Campuses');
+        $table = self::getTable();
         $table->load($campusID);
 
         return empty($table->location) ? '' : str_replace(' ', '', $table->location);

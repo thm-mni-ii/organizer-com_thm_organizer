@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for term access checks, data retrieval and display.
  */
-class Terms implements Selectable
+class Terms extends ResourceHelper implements Selectable
 {
     /**
      * Gets the id of the term whose dates encompass the current date
@@ -44,7 +44,7 @@ class Terms implements Selectable
      */
     public static function getEndDate($termID)
     {
-        $table = OrganizerHelper::getTable('Terms');
+        $table = self::getTable();
 
         try {
             $success = $table->load($termID);
@@ -66,7 +66,7 @@ class Terms implements Selectable
      */
     public static function getID($data)
     {
-        $table        = OrganizerHelper::getTable('Terms');
+        $table        = self::getTable();
         $loadCriteria = ['startDate' => $data['startDate'], 'endDate' => $data['endDate']];
 
         try {
@@ -87,28 +87,6 @@ class Terms implements Selectable
         $success = $table->save($data);
 
         return $success ? $table->id : null;
-    }
-
-    /**
-     * Checks for the term name for a given term id
-     *
-     * @param string $termID the term's id
-     *
-     * @return mixed  string the name if the term could be resolved, otherwise null
-     */
-    public static function getName($termID)
-    {
-        $table = OrganizerHelper::getTable('Terms');
-
-        try {
-            $success = $table->load($termID);
-        } catch (Exception $exc) {
-            OrganizerHelper::message($exc->getMessage(), 'error');
-
-            return null;
-        }
-
-        return $success ? $table->name : null;
     }
 
     /**

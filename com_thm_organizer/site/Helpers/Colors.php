@@ -10,13 +10,10 @@
 
 namespace Organizer\Helpers;
 
-use DateTime;
-use Joomla\CMS\Factory;
-
 /**
  * Class provides generalized functions regarding dates and times.
  */
-class Colors
+class Colors extends ResourceHelper
 {
     /**
      * Returns the color value for a given colorID.
@@ -27,7 +24,7 @@ class Colors
      */
     public static function getColor($colorID)
     {
-        $table = OrganizerHelper::getTable('Colors');
+        $table = self::getTable();
 
         return $table->load($colorID) ? $table->color : '';
     }

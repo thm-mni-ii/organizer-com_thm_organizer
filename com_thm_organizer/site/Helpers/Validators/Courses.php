@@ -12,13 +12,13 @@
 namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\ResourceHelper;
 use stdClass;
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
  */
-class Courses implements UntisXMLValidator
+class Courses extends ResourceHelper implements UntisXMLValidator
 {
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
@@ -32,7 +32,7 @@ class Courses implements UntisXMLValidator
     {
         $subject = $scheduleModel->schedule->courses->$index;
 
-        $table        = OrganizerHelper::getTable('Courses');
+        $table        = self::getTable();
         $loadCriteria = ['subjectIndex' => $index];
         $exists       = $table->load($loadCriteria);
 

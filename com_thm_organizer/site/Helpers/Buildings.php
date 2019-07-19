@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Class provides general functions for retrieving building data.
  */
-class Buildings implements Selectable
+class Buildings extends ResourceHelper implements Selectable
 {
     use Filtered;
 
@@ -29,7 +29,7 @@ class Buildings implements Selectable
      */
     public static function getID($name)
     {
-        $table   = OrganizerHelper::getTable('Buildings');
+        $table   = self::getTable();
         $data    = ['name' => $name];
         $success = $table->load($data);
 
