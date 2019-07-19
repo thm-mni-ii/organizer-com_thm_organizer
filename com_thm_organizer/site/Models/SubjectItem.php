@@ -23,6 +23,16 @@ use Organizer\Helpers\OrganizerHelper;
 class SubjectItem extends ItemModel
 {
     /**
+     * Provides a strict access check which can be overwritten by extending classes.
+     *
+     * @return bool  true if the user can access the view, otherwise false
+     */
+    protected function allowView()
+    {
+        return true;
+    }
+
+    /**
      * Loads subject information from the database
      *
      * @return array  subject data on success, otherwise empty
@@ -85,46 +95,64 @@ class SubjectItem extends ItemModel
      */
     private function getTemplate()
     {
-        $option = 'THM_ORGANIZER_';
-
+        $option   = 'THM_ORGANIZER_';
+        $url      = '?option=com_thm_organizer&view=subject_item&languageTag=' . Languages::getTag() . '&id=';
         $template = [
             'subjectID'                => Input::getID(),
-            'name'                     => ['label' => Languages::_($option . 'NAME')],
+            'name'                     => ['label' => Languages::_($option . 'NAME'), 'type' => 'text'],
             'departmentID'             => [],
-            'shortName'                => ['label' => Languages::_($option . 'SHORT_NAME')],
-            'campus'                   => ['label' => Languages::_($option . 'CAMPUS')],
-            'moduleCode'               => ['label' => Languages::_($option . 'MODULE_CODE')],
-            'executors'                => ['label' => Languages::_($option . 'COORDINATOR')],
-            'teachers'                 => ['label' => Languages::_($option . 'TEACHER')],
-            'description'              => ['label' => Languages::_($option . 'SHORT_DESCRIPTION')],
-            'objective'                => ['label' => Languages::_($option . 'OBJECTIVES')],
-            'content'                  => ['label' => Languages::_($option . 'CONTENT')],
-            'expertise'                => ['label' => Languages::_($option . 'EXPERTISE')],
-            'methodCompetence'         => ['label' => Languages::_($option . 'METHOD_COMPETENCE')],
-            'socialCompetence'         => ['label' => Languages::_($option . 'SOCIAL_COMPETENCE')],
-            'selfCompetence'           => ['label' => Languages::_($option . 'SELF_COMPETENCE')],
-            'duration'                 => ['label' => Languages::_($option . 'DURATION')],
-            'instructionLanguage'      => ['label' => Languages::_($option . 'INSTRUCTION_LANGUAGE')],
-            'expenditure'              => ['label' => Languages::_($option . 'EXPENDITURE')],
-            'sws'                      => ['label' => Languages::_($option . 'SWS')],
-            'method'                   => ['label' => Languages::_($option . 'METHOD')],
-            'preliminaryWork'          => ['label' => Languages::_($option . 'PRELIMINARY_WORK')],
-            'proof'                    => ['label' => Languages::_($option . 'PROOF')],
-            'evaluation'               => ['label' => Languages::_($option . 'EVALUATION')],
-            'bonus'                    => ['label' => Languages::_($option . 'BONUS_POINTS')],
-            'availability'             => ['label' => Languages::_($option . 'AVAILABILITY')],
-            'literature'               => ['label' => Languages::_($option . 'LITERATURE')],
-            'aids'                     => ['label' => Languages::_($option . 'STUDY_AIDS')],
-            'prerequisites'            => ['label' => Languages::_($option . 'PREREQUISITES')],
-            'preRequisiteModules'      => ['label' => Languages::_($option . 'PREREQUISITE_MODULES')],
-            'recommendedPrerequisites' => ['label' => Languages::_($option . 'RECOMMENDED_PREREQUISITES')],
-            'prerequisiteFor'          => ['label' => Languages::_($option . 'PREREQUISITE_FOR')],
-            'postRequisiteModules'     => ['label' => Languages::_($option . 'POSTREQUISITE_MODULES')],
+            'shortName'                => ['label' => Languages::_($option . 'SHORT_NAME'), 'type' => 'text'],
+            'campus'                   => ['label' => Languages::_($option . 'CAMPUS'), 'type' => 'location'],
+            'moduleCode'               => ['label' => Languages::_($option . 'MODULE_CODE'), 'type' => 'text'],
+            'executors'                => ['label' => Languages::_($option . 'COORDINATOR'), 'type' => 'list'],
+            'teachers'                 => ['label' => Languages::_($option . 'TEACHERS'), 'type' => 'list'],
+            'description'              => ['label' => Languages::_($option . 'SHORT_DESCRIPTION'), 'type' => 'text'],
+            'objective'                => ['label' => Languages::_($option . 'OBJECTIVES'), 'type' => 'text'],
+            'content'                  => ['label' => Languages::_($option . 'CONTENT'), 'type' => 'text'],
+            'expertise'                => ['label' => Languages::_($option . 'EXPERTISE'), 'type' => 'star'],
+            'methodCompetence'         => ['label' => Languages::_($option . 'METHOD_COMPETENCE'), 'type' => 'star'],
+            'socialCompetence'         => ['label' => Languages::_($option . 'SOCIAL_COMPETENCE'), 'type' => 'star'],
+            'selfCompetence'           => ['label' => Languages::_($option . 'SELF_COMPETENCE'), 'type' => 'star'],
+            'duration'                 => ['label' => Languages::_($option . 'DURATION'), 'type' => 'text'],
+            'instructionLanguage'      => ['label' => Languages::_($option . 'INSTRUCTION_LANGUAGE'), 'type' => 'text'],
+            'expenditure'              => ['label' => Languages::_($option . 'EXPENDITURE'), 'type' => 'text'],
+            'sws'                      => ['label' => Languages::_($option . 'SWS'), 'type' => 'text'],
+            'method'                   => ['label' => Languages::_($option . 'METHOD'), 'type' => 'text'],
+            'preliminaryWork'          => ['label' => Languages::_($option . 'PRELIMINARY_WORK'), 'type' => 'text'],
+            'proof'                    => ['label' => Languages::_($option . 'PROOF'), 'type' => 'text'],
+            'evaluation'               => ['label' => Languages::_($option . 'EVALUATION'), 'type' => 'text'],
+            'bonus'                    => ['label' => Languages::_($option . 'BONUS_POINTS'), 'type' => 'text'],
+            'availability'             => ['label' => Languages::_($option . 'AVAILABILITY'), 'type' => 'text'],
+            'literature'               => ['label' => Languages::_($option . 'LITERATURE'), 'type' => 'text'],
+            'aids'                     => ['label' => Languages::_($option . 'STUDY_AIDS'), 'type' => 'text'],
+            'prerequisites'            => ['label' => Languages::_($option . 'PREREQUISITES'), 'type' => 'text'],
+            'preRequisiteModules'      => [
+                'label' => Languages::_($option . 'PREREQUISITE_MODULES'),
+                'type'  => 'list',
+                'url'   => $url
+            ],
+            'recommendedPrerequisites' => [
+                'label' => Languages::_($option . 'RECOMMENDED_PREREQUISITES'),
+                'type'  => 'text'
+            ],
+            'prerequisiteFor'          => ['label' => Languages::_($option . 'PREREQUISITE_FOR'), 'type' => 'text'],
+            'postRequisiteModules'     => [
+                'label' => Languages::_($option . 'POSTREQUISITE_MODULES'),
+                'type'  => 'list',
+                'url'   => $url
+            ],
         ];
 
         return $template;
     }
 
+    /**
+     * Sets campus information in a form that can be processed by external systems.
+     *
+     * @param array $subject the subject being processed.
+     *
+     * @return void modifies the subject array
+     */
     private function setCampus(&$subject)
     {
         if (!empty($subject['campus']['value'])) {

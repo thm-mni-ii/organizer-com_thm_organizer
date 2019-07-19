@@ -43,7 +43,7 @@ class ItemModel extends FormModel
      *
      * @return bool  true if the user can access the view, otherwise false
      */
-    protected function allowEdit()
+    protected function allowView()
     {
         return Access::isAdmin();
     }
@@ -61,8 +61,8 @@ class ItemModel extends FormModel
      */
     public function getForm($data = [], $loadData = false)
     {
-        $allowEdit = $this->allowEdit();
-        if (!$allowEdit) {
+        $allowView = $this->allowView();
+        if (!$allowView) {
             throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
         }
 

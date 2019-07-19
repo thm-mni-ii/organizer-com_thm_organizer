@@ -184,7 +184,7 @@ class Subjects extends ListView
         foreach ($this->items as $subject) {
             $access   = Access::allowSubjectAccess($subject->id);
             $checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
-            $thisLink = ($this->administration and $access) ? $editLink . $subject->id : $detailsLink . $subject->id;
+            $thisLink = ($this->administration and $access) ? $editLink . $subject->id : $itemLink . $subject->id;
 
             $processedItems[$index]                 = [];
             $processedItems[$index]['checkbox']     = $checkbox;

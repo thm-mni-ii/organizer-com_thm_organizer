@@ -1,3 +1,55 @@
+.main h1.page-title span[class^="icon-"] {
+    display: none;
+}
+
+.main .btn-toolbar {
+    display: flex;
+    flex-direction: row;
+}
+
+.main .btn-toolbar .btn-wrapper {
+    margin-right: 5px;
+}
+
+.main .btn-toolbar button {
+    font-size: .9rem;
+}
+
+.main .js-stools .js-stools-container-bar {
+    display: flex;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+    border-bottom-color: initial;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+    border-top-color: #ffffff;
+}
+
+.main .js-stools .js-stools-container-bar .input-append input {
+    height: 1.4rem;
+}
+
+.main .js-stools .js-stools-container-bar .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem;
+}
+
+/* chosen library overwrites ******************************************************************************************/
+.chzn-container {
+    max-width: inherit;
+}
+
+.contentpane .js-stools-container-bar .chzn-container {
+    width: auto !important;
+}
+
+.contentpane .js-stools-container-bar .chzn-container .chzn-single span {
+    padding: 0 10px 0 0;
+}
+
 div.legal-disclaimer {
     margin-top: 2rem;
 }
@@ -7,97 +59,22 @@ div.legal-disclaimer li {
     font-style: italic;
 }
 
-div div.externallogin {
-    display: none;
+.clearfix {
+    *zoom: 1;
 }
 
-div#main .uses-login .moduletable {
-    display: inline-block;
-    margin-bottom: 0;
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+    line-height: 0;
 }
 
-div#main .uses-login .moduletable form {
-    margin-bottom: 0;
+.clearfix:after {
+    clear: both;
 }
 
-div#main .uses-login .moduletable button, div#main .uses-login .moduletable .btn {
-    background-color: white;
-}
-
-div#main .uses-login .moduletable button:hover, div#main .uses-login .moduletable .btn:hover {
-    background-color: #4a5c66;
-}
-
-div#main .uses-login .logout-button {
-    margin-top: 0;
-}
-
-div#main .uses-login .userdata {
-    position: relative;
-}
-
-div#main .uses-login .control-group {
-    clear: left;
-    display: inline-block;
-    float: left;
-}
-
-div#main .uses-login .input-prepend input {
-    width: 12rem;
-}
-
-div#main .uses-login #login-form ul.unstyled {
-    clear: left;
-    display: block;
-    margin-top: 0;
-    min-width: 15rem;
-    float: left;
-}
-
-div#main .uses-login #login-form ul.unstyled li {
-    list-style: none;
-}
-
-@media (min-width: 768px) {
-    div#main .uses-login .unstyled {
-        left: 15rem;
-        position: absolute;
-        top: 0;
-    }
-}
-
-.subject-list button, .subject-list .btn {
-    background-color: white;
-}
-
-.subject-list button:hover, .subject-list .btn:hover {
-    background-color: #4a5c66;
-}
-
-.subject-list button:hover span:before, .subject-list .btn:hover span:before {
-    color: white;
-}
-
-.subject-list .course-item {
-    margin-bottom: .6rem;
-}
-
-.subject-list .course-item > span {
-    display: inline-block;
-    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
-    font-size: .9rem;
-}
-
-.subject-list .course-item > span.campus {
-    width: 10rem;
-}
-
-.subject-list .course-item > span, .subject-list .course-item .status {
-    margin-right: .4rem;
-    padding-top: .7rem;
-}
-
-.subject-list .subject-item {
+.attribute-item {
     clear: both;
     overflow: auto;
     padding: 10px 10px;
@@ -105,7 +82,7 @@ div#main .uses-login #login-form ul.unstyled li {
     border-bottom: 1px solid rgba(164, 176, 187, 0.5);
 }
 
-.subject-list .subject-label {
+.attribute-label {
     color: #3d494f;
     float: left;
     font-weight: bold;
@@ -113,43 +90,47 @@ div#main .uses-login #login-form ul.unstyled li {
     width: 18%;
 }
 
-.subject-list .subject-content {
+.attribute-content {
     margin-left: 10px;
     float: left;
     width: 79%;
 }
 
-.subject-list .subject-content [class^='icon-'], .subject-list .subject-content [class*=' icon-'] {
+.attribute-content [class^='icon-'], .attribute-content [class*=' icon-'] {
     margin-right: .2rem;
 }
 
-.subject-list .subject-content ul ul {
+.attribute-content ul:last-child {
     margin-bottom: 0;
 }
 
-.subject-list .subject-content ul ul li:before {
+.attribute-content ul li:last-child {
+    padding-bottom: 0;
+}
+
+.attribute-content ul ul li:before {
     content: '-';
     display: block;
     float: left;
     margin-left: -.4rem;
 }
 
-.subject-list .subject-content ul ul li {
+.attribute-content ul ul li {
     padding-bottom: .4rem;
 }
 
-.subject-list .subject-content ul ul li:first-child {
+.attribute-content ul ul li:first-child {
     padding-top: .4rem;
 }
 
-.subject-list .subject-content ul ul li:last-child {
+.attribute-content ul ul li:last-child {
     padding-bottom: 0;
 }
 
-.subject-list .subject-content li {
+.attribute-content li {
     padding-bottom: .8rem;
 }
 
-.subject-list .disabled {
+.disabled {
     opacity: .6;
 }

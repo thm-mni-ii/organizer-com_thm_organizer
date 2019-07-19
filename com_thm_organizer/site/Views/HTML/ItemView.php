@@ -11,6 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
 
@@ -41,7 +42,29 @@ abstract class ItemView extends BaseHTMLView
         HTML::setMenuTitle('THM_ORGANIZER_SUBJECT', $this->item['name']['value']);
         unset($this->item['name']);
 
+        // This has to be after the title has been set so that it isn't prematurely removed.
+        $this->filterAttributes();
         parent::display($tpl);
+    }
+
+    /**
+     * Filters out invalid and true empty values. (0 is allowed.)
+     *
+     * @return void modifies the item
+     */
+    protected function filterAttributes()
+    {
+        foreach ($this->item as $key => $attribute) {
+            // Invalid for HTML Output
+            if (!is_array($attribute)
+                or !array_key_exists('value', $attribute)
+                or !array_key_exists('label', $attribute)
+                or $attribute['value'] === null
+                or $attribute['value'] === ''
+            ) {
+                unset($this->item[$key]);
+            }
+        }
     }
 
     /**
@@ -60,12 +83,25 @@ abstract class ItemView extends BaseHTMLView
     }
 
     /**
-     * Creates a basic output for processed values
+     * Recursively outputs an array of items as a list.
      *
-     * @param string $attribute the attribute name
-     * @param mixed  $data      the data to be displayed array|string
+     * @param array $items the items to be displayed.
      *
-     * @return void outputs HTML
+     * @return void outputs the items as an html list
      */
-    abstract protected function renderAttribute($attribute, $data);
+    public function renderListValue($items, $url, $urlAttribs)
+    {
+        echo '<ul>';
+        foreach ($items as $index => $item) {
+            echo '<li>';
+            if (is_array($item)) {
+                echo $index;
+                $this->renderListValue($item, $url, $urlAttribs);
+            } else {
+                echo empty($url) ? $item : HTML::link(Route::_($url . $index), $item, $urlAttribs);
+            }
+            echo '</li>';
+        }
+        echo '</ul>';
+    }
 }

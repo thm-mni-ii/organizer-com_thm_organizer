@@ -14,19 +14,38 @@ use Organizer\Helpers\OrganizerHelper;
 $resourceID = Input::getID();
 $view       = Input::getView();
 
-$action = "?view=$view&id=$resourceID";
-
-echo OrganizerHelper::getApplication()->JComponentTitle;
-?>
+$action = "?option=com_thm_organizer&view=$view&id=$resourceID"; ?>
+<form id="adminForm" name="adminForm" method="post" action="<?php echo $action; ?>"
+      class="form-horizontal form-validate">
+    <?php require_once 'language_selection.php'; ?>
+</form>
+<?php echo OrganizerHelper::getApplication()->JComponentTitle; ?>
 <div id="j-main-container" class="span10">
-    <form id="adminForm" name="adminForm" method="post" action="<?php echo $action; ?>"
-          class="form-horizontal form-validate">
-        <?php require_once 'language_selection.php'; ?>
-    </form>
-    <?php foreach ($this->item as $key => $data) : ?>
-        <?php if (is_array($data)) : ?>
-            <?php $this->renderAttribute($key, $data); ?>
-        <?php endif; ?>
-    <?php endforeach; ?>
-    <?php echo $this->disclaimer; ?>
+    <?php
+    foreach ($this->item as $key => $attribute) {
+        echo '<div class="attribute-item">';
+        echo '<div class="attribute-label">' . $attribute['label'] . '</div>';
+        echo '<div class="attribute-content">';
+        switch ($attribute['type']) {
+            case 'list':
+                $urlAttribs = ['target' => '_blank'];
+                $url        = empty($attribute['url']) ? '' : $attribute['url'];
+                $this->renderListValue($attribute['value'], $url, $urlAttribs);
+                break;
+            case 'location':
+                $pin = Campuses::getPin($attribute['location']);
+                echo "$pin {$attribute['value']}";
+                break;
+            case 'star':
+                $this->renderStarValue($attribute['value']);
+                break;
+            case 'text':
+            default:
+                echo $attribute['value'];
+                break;
+        }
+        echo '</div></div>';
+    }
+    echo $this->disclaimer;
+    ?>
 </div>

@@ -12,8 +12,6 @@
 
 namespace Organizer\Views\HTML;
 
-use Joomla\CMS\Router\Route;
-use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 /**
@@ -21,70 +19,6 @@ use Organizer\Helpers\Languages;
  */
 class SubjectItem extends ItemView
 {
-    /**
-     * Creates a basic output for processed values
-     *
-     * @param string $attribute the attribute name
-     * @param mixed  $data      the data to be displayed array|string
-     *
-     * @return void outputs HTML
-     */
-    public function renderAttribute($attribute, $data)
-    {
-        if (empty($data['label']) or empty($data['value'])) {
-            return;
-        }
-
-        $starAttributes = ['expertise', 'methodCompetence', 'selfCompetence', 'socialCompetence'];
-        echo '<div class="subject-item">';
-        echo '<div class="subject-label">' . $data['label'] . '</div>';
-        echo '<div class="subject-content attribute-' . $attribute . '">';
-        if (is_array($data['value'])) {
-            $this->renderListValue($attribute, $data['value']);
-        } elseif (in_array($attribute, $starAttributes)) {
-            $this->renderStarValue($data['value']);
-        } elseif ($attribute == 'campus') {
-            if (!empty($data['location'])) {
-                $pin = Campuses::getPin($data['location']);
-                echo "$pin {$data['value']}";
-            } else {
-                echo $data['value'];
-            }
-        } else {
-            echo $data['value'];
-        }
-        echo '</div></div>';
-    }
-
-    /**
-     * Renders array values as lists
-     *
-     * @param array $value the array value to render
-     *
-     * @return void outputs html directly
-     */
-    private function renderListValue($attribute, $value)
-    {
-        $linkAttribs = ['target' => '_blank'];
-        $subjectHref = "index.php?view=subject_item&languageTag={$this->tag}&id=";
-        echo '<ul>';
-        foreach ($value as $id => $data) {
-            echo '<li>';
-            if (is_array($data)) {
-                echo $id;
-                $this->renderListValue($attribute, $data);
-            } else {
-                if ($attribute == 'preRequisiteModules' or $attribute == 'postRequisiteModules') {
-                    echo HTML::link(Route::_($subjectHref . $id), $data, $linkAttribs);
-                } else {
-                    echo $data;
-                }
-            }
-            echo '</li>';
-        }
-        echo '</ul>';
-    }
-
     /**
      * Renders a number of stars appropriate to the value
      *

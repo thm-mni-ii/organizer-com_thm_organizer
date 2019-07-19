@@ -1,68 +1,43 @@
-@import 'legal_disclaimer';
-@import 'login';
-@import 'variables';
+@import "bars";
+@import "legal_disclaimer";
+@import "utilities";
+@import "variables";
 
-.subject-list {
-  button, .btn {
-    background-color: $foreground-color;
+.attribute-item {
+  clear: both;
+  overflow: auto; //to set height like the largest child
+  padding: 10px 10px;
+  margin: 2px 0;
+  border-bottom: 1px solid rgba(164, 176, 187, 0.5);
+}
 
-    &:hover {
-      background-color: $background-foot;
+.attribute-label {
+  color: #3d494f;
+  float: left;
+  font-weight: bold;
+  padding-right: 20px;
+  width: 18%;
+}
 
-      span:before {
-        color: $foreground-color;
-      }
-    }
+.attribute-content {
+  margin-left: 10px;
+  float: left;
+  width: 79%;
+
+  [class^='icon-'], [class*=' icon-'] {
+    margin-right: .2rem;
   }
 
-  .course-item {
-
-    margin-bottom: .6rem;
-
-    & > span {
-      display: inline-block;
-      font-family: $font-family-header;
-      font-size: .9rem;
-
-      &.campus {
-        width: 10rem;
-      }
-    }
-
-    & > span, .status {
-      margin-right: .4rem;
-      padding-top: .7rem;
-    }
-  }
-
-
-  .subject-item {
-    clear: both;
-    overflow: auto; //to set height like the largest child
-    padding: 10px 10px;
-    margin: 2px 0;
-    border-bottom: 1px solid rgba(164, 176, 187, 0.5);
-  }
-
-  .subject-label {
-    color: #3d494f;
-    float: left;
-    font-weight: bold;
-    padding-right: 20px;
-    width: 18%;
-  }
-
-  .subject-content {
-    margin-left: 10px;
-    float: left;
-    width: 79%;
-
-    [class^='icon-'], [class*=' icon-'] {
-      margin-right: .2rem;
-    }
-
-    ul ul {
+  ul {
+    &:last-child {
       margin-bottom: 0;
+    }
+
+    li:last-child {
+      padding-bottom: 0;
+    }
+
+    ul {
 
       li:before {
         content: '-';
@@ -83,13 +58,13 @@
         padding-bottom: 0;
       }
     }
-
-    li {
-      padding-bottom: .8rem;
-    }
   }
 
-  .disabled {
-    opacity: .6;
+  li {
+    padding-bottom: .8rem;
   }
+}
+
+.disabled {
+  opacity: .6;
 }

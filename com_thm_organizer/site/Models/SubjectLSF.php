@@ -375,7 +375,7 @@ class SubjectLSF extends BaseModel
             return;
         }
 
-        $crp = (int)$dataObject->lp;
+        $crp = (float)$dataObject->lp;
 
         $this->setAttribute($subject, 'creditpoints', $crp);
         $this->crp = $crp;
