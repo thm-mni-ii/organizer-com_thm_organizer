@@ -77,8 +77,10 @@ class Subjects extends ResourceHelper implements Selectable
      *
      * @return string the subject name
      */
-    public static function getName($subjectID, $withNumber = false)
+    public static function getName($subjectID = 0, $withNumber = false)
     {
+        $subjectID = $subjectID ? $subjectID : Input::getID();
+
         $dbo = Factory::getDbo();
         $tag = Languages::getTag();
 

@@ -2024,9 +2024,12 @@ const ScheduleApp = function (variables) {
                         // Gets title per Ajax for each schedule before it gets created
                         ajaxRequest.open('GET', titleURL, true);
                         ajaxRequest.onreadystatechange = function () {
+                            let title;
+
                             if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
                             {
-                                sendEventRequest(name, value, ajaxRequest.responseText);
+                                title = ajaxRequest.responseText.replace(/"+/g, '');
+                                sendEventRequest(name, value, title);
                             }
                         };
                         ajaxRequest.send();

@@ -66,15 +66,15 @@ class Schedules
 
         if (!empty($parameters['roomIDs'])) {
             foreach ($parameters['roomIDs'] as $roomID) {
-                $regexp = '"rooms":\\{[^\}]*"' . $roomID . '"';
-                $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
-
+                $regexp    = '"rooms":\\{[^\}]*"' . $roomID . '"';
+                $regexp    .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
                 $wherray[] = "conf.configuration REGEXP '$regexp'";
             }
         }
 
         if (!empty($parameters['subjectIDs'])) {
-            $wherray[] = "co.id IN ('" . implode("', '", $parameters['subjectIDs']) . "')";
+            $query->innerJoin('#__thm_organizer_subject_mappings AS sm on sm.courseID = co.id');
+            $wherray[] = "sm.subjectID IN ('" . implode("', '", $parameters['subjectIDs']) . "')";
         }
 
         if (!empty($parameters['lessonIDs'])) {
