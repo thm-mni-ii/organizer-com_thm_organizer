@@ -129,7 +129,7 @@ class ScheduleGrid extends BaseHTMLView
             'SEMESTER_MODE'   => 1,
             'PERIOD_MODE'     => 2,
             'INSTANCE_MODE'   => 3,
-            'ajaxBase'        => $root . 'index.php?option=com_thm_organizer&format=json',
+            'ajaxBase'        => $root . 'index.php?option=com_thm_organizer&format=json&departmentIDs=',
             'auth'            => !empty($user->id) ?
                 urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT)) : '',
             'dateFormat'      => $this->dateFormat,

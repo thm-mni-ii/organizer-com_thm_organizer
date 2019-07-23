@@ -12,7 +12,6 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Categories;
 use Organizer\Helpers\Courses;
@@ -22,6 +21,7 @@ use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Groups;
 use Organizer\Helpers\Rooms;
+use Organizer\Helpers\Subjects;
 use Organizer\Helpers\Teachers;
 
 /**
@@ -218,7 +218,7 @@ class ScheduleGrid extends BaseModel
             $singleValue                = array_shift($this->params['subjectIDs']);
             $this->params['subjectIDs'] = [$singleValue];
 
-            $this->displayName           = Courses::getName($this->params['subjectIDs'][0]);
+            $this->displayName           = Subjects::getName($this->params['subjectIDs'][0]);
             $this->params['displayName'] = $this->displayName;
 
             return;

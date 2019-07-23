@@ -39,7 +39,7 @@ function repopulateRooms()
 
     validTypes = selectedTypes != null && selectedTypes.length !== 0;
 
-    componentParameters = 'index.php?option=com_thm_organizer&view=room_ajax&format=raw&task=getOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&view=room_options&format=json';
 
     if (validTypes)
     {

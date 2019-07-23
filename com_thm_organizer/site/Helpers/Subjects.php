@@ -70,13 +70,12 @@ class Subjects extends ResourceHelper implements Selectable
     }
 
     /**
-     * Retrieves the (plan) subject name
+     * Retrieves the subject name
      *
      * @param int     $subjectID the table id for the subject
-     * @param string  $type      the type of the id (real or plan)
      * @param boolean $withNumber
      *
-     * @return string the (plan) subject name
+     * @return string the subject name
      */
     public static function getName($subjectID, $withNumber = false)
     {

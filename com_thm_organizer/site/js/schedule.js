@@ -328,7 +328,7 @@ const ScheduleApp = function (variables) {
             ajaxUrl = (function () {
                 let url = getAjaxUrl();
 
-                url += '&view=schedules';
+                url += '&view=schedules&task=getLessons';
                 url += '&deltaDays=' + (resource === 'room' || resource === 'teacher' ? '0' : variables.deltaDays);
                 url += '&date=' + getDateFieldString() + (variables.isMobile ? '&interval=day' : '');
                 url += '&mySchedule=' + (resource === 'user' ? '1' : '0');
@@ -1098,7 +1098,7 @@ const ScheduleApp = function (variables) {
         function addSubjectElements(outerElement, data)
         {
             const openSubjectItemLink = function () {
-                window.open(variables.subjectDetailBase.replace(/&id=\d+/, '&id=' + data.subjectID), '_blank');
+                window.open(variables.subjectItemBase.replace(/&id=\d+/, '&id=' + data.subjectID), '_blank');
             };
             let numIndex;
 
@@ -1748,31 +1748,20 @@ const ScheduleApp = function (variables) {
          * @param {HTMLSelectElement} field - selected field
          * @param {string} [values] - optional values to specify task
          */
-        function getFormTask(field, values)
+        function getOptionsUrl(field, values)
         {
             const previousField = document.querySelector('[data-next=' + field.id + ']');
-            let resource, task = getAjaxUrl('getOptions');
+            let resource, url = getAjaxUrl();
 
             resource = field.dataset.input === 'static' ? jQuery(field).val() : field.id;
-            switch (resource)
-            {
-                case 'category':
-                    resource = 'categories';
-                    break;
-                case 'roomType':
-                    resource = 'room_types';
-                    break;
-                default:
-                    resource = resource + 's';
-            }
-            task += '&view=' + resource;
+            url += '&view=' + resource.replace(/([A-Z])/g, '_$&').toLowerCase() + '_options';
 
             if (previousField)
             {
-                task += '&' + previousField.id + 'IDs=' + (values ? values : getSelectedValues(previousField.id));
+                url += '&' + previousField.id + 'IDs=' + (values ? values : getSelectedValues(previousField.id));
             }
 
-            return task;
+            return url;
         }
 
         /**
@@ -1932,7 +1921,7 @@ const ScheduleApp = function (variables) {
         {
             const ajax = new XMLHttpRequest(), field = fields[name];
 
-            ajax.open('GET', getFormTask(field, selectedValue), true);
+            ajax.open('GET', getOptionsUrl(field, selectedValue), true);
             ajax.onreadystatechange = function () {
                 let option, optionCount, response, key;
 
@@ -2030,10 +2019,10 @@ const ScheduleApp = function (variables) {
                 {
                     config.values.forEach(function (value) {
                         const ajaxRequest = new XMLHttpRequest(),
-                            titleTask = getAjaxUrl('getTitle') + '&resource=' + name + '&value=' + value;
+                            titleURL = getAjaxUrl() + '&view=' + name + 's&task=getName&id=' + value;
 
                         // Gets title per Ajax for each schedule before it gets created
-                        ajaxRequest.open('GET', titleTask, true);
+                        ajaxRequest.open('GET', titleURL, true);
                         ajaxRequest.onreadystatechange = function () {
                             if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200)
                             {
@@ -2166,17 +2155,11 @@ const ScheduleApp = function (variables) {
 
     /**
      * Get the general ajax url
-     * @param {string} [task = "getLessons"]
      * @returns {string}
      */
-    function getAjaxUrl(task)
+    function getAjaxUrl()
     {
-        let url = '&departmentIDs=';
-
-        url += variables.departmentID || getSelectedValues('department') || 0;
-        url += '&task=' + (task ? task : 'getLessons');
-
-        return variables.ajaxBase + url;
+        return variables.ajaxBase + variables.departmentID || getSelectedValues('department') || 0;
     }
 
     /**
@@ -2288,10 +2271,11 @@ const ScheduleApp = function (variables) {
     function handleEvent(ccmID, taskNumber, save)
     {
         const saving = (typeof save === 'undefined') ? true : save;
-        let task = getAjaxUrl(saving ? 'saveUserLesson' : 'deleteUserLesson');
+        let actionURL = getAjaxUrl();
 
-        task += '&view=schedules&mode=' + (taskNumber || '1') + '&ccmID=' + ccmID;
-        ajaxSave.open('GET', task, true);
+        actionURL += '&view=schedules&mode=' + (taskNumber || '1') + '&ccmID=' + ccmID + '&task=';
+        actionURL += saving ? 'saveUserLesson' : 'deleteUserLesson'
+        ajaxSave.open('GET', actionURL, true);
         ajaxSave.onreadystatechange = function () {
             if (ajaxSave.readyState === 4 && ajaxSave.status === 200)
             {

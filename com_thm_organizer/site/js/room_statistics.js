@@ -105,7 +105,7 @@ function repopulateTerms()
 {
     'use strict';
 
-    const componentParameters = 'index.php?option=com_thm_organizer&view=terms&format=json&task=getOptions';
+    const componentParameters = 'index.php?option=com_thm_organizer&view=term_options&format=json';
 
     $.ajax({
         type: 'GET',
@@ -140,7 +140,7 @@ function repopulateRooms()
     validCategories = selectedCategories != null && selectedCategories.length !== 0;
     validTypes = selectedTypes != null && selectedTypes.length !== 0;
 
-    componentParameters = 'index.php?option=com_thm_organizer&view=room_ajax&format=raw&task=getOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&view=room_options&format=raw';
 
     if (validDepartments)
     {
@@ -181,7 +181,7 @@ function repopulateCategories()
     'use strict';
 
     var componentParameters, selectedDepartments = $('#departmentIDs').val(), allIndex, selectionParameters;
-    componentParameters = '/index.php?option=com_thm_organizer&view=categories&format=json&task=getOptions';
+    componentParameters = '/index.php?option=com_thm_organizer&view=category_options&format=json';
 
     if (selectedDepartments == null)
     {

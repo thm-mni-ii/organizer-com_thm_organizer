@@ -17,6 +17,8 @@ use Joomla\CMS\Factory;
  */
 class RoomTypes extends ResourceHelper implements Selectable
 {
+    use Filtered;
+
     const NO = 0;
 
     const YES = 1;

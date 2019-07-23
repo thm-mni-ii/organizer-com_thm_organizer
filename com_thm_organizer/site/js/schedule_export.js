@@ -219,7 +219,7 @@ function repopulateResources()
         return;
     }
 
-    componentParameters = 'index.php?option=com_thm_organizer&format=raw&task=getOptions';
+    componentParameters = 'index.php?option=com_thm_organizer&format=json';
 
     if (!invalidDepartments)
     {
@@ -233,7 +233,7 @@ function repopulateResources()
 
     jQuery.ajax({
         type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=groups',
+        url: rootURI + componentParameters + selectionParameters + '&view=group_options',
         dataType: 'json',
         success: function (data) {
             addPools(data);
@@ -248,7 +248,7 @@ function repopulateResources()
 
     jQuery.ajax({
         type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=teachers',
+        url: rootURI + componentParameters + selectionParameters + '&view=teacher_options',
         dataType: 'json',
         success: function (data) {
             addTeachers(data);
@@ -263,7 +263,7 @@ function repopulateResources()
 
     jQuery.ajax({
         type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=rooms',
+        url: rootURI + componentParameters + selectionParameters + '&view=room_options',
         dataType: 'json',
         success: function (data) {
             addRooms(data);
@@ -284,7 +284,7 @@ function repopulateCategories()
 {
     'use strict';
 
-    const componentParameters = '/index.php?option=com_thm_organizer&view=categories&format=json&task=getOptions',
+    const componentParameters = '/index.php?option=com_thm_organizer&view=category_options&format=json',
         selectedDepartments = jQuery('#departmentIDs').val();
     let selectionParameters;
 

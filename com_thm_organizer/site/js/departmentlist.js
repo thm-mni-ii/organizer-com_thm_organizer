@@ -32,18 +32,18 @@ jQuery(document).ready(function () {
         // Update programs, when it is not its own trigger
         if (!event || (event && event.target.id !== category.attr('id')))
         {
-            jQuery.ajax(ajaxBaseUrl + '&view=categories&task=getOptions' + ajaxParams)
+            jQuery.ajax(ajaxBaseUrl + '&view=category_options' + ajaxParams)
                 .done(function (request) {
                     insertOptions(category, request, keepValue);
                 });
         }
         // Update pools
-        jQuery.ajax(ajaxBaseUrl + '&view=groups&task=getOptions' + ajaxParams)
+        jQuery.ajax(ajaxBaseUrl + '&view=group_options' + ajaxParams)
             .done(function (request) {
                 insertOptions(group, request, keepValue);
             });
         // Update rooms
-        jQuery.ajax(ajaxBaseUrl + '&view=rooms&task=getOptions&roomtypeIDs=-1' + ajaxParams)
+        jQuery.ajax(ajaxBaseUrl + '&view=room_options&roomtypeIDs=-1' + ajaxParams)
             .done(function (request) {
                 insertOptions(room, request, keepValue);
             });
