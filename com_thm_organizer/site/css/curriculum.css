@@ -41,7 +41,7 @@ div.legal-disclaimer li {
     justify-content: center;
 }
 
-.curriculum .item-title, .curriculum .item-crp {
+.curriculum .item-title, .curriculum .item-crp, .curriculum .item-tools {
     padding-left: .4rem;
     word-break: break-word;
 }
@@ -75,5 +75,5 @@ div.legal-disclaimer li {
 .curriculum .panel-row {
     justify-content: space-between;
     margin-bottom: .4rem;
-    min-height: 5rem;
+    min-height: 6rem;
 }

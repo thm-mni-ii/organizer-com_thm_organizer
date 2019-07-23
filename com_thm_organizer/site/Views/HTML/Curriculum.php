@@ -13,6 +13,7 @@ namespace Organizer\Views\HTML;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Pools;
 
 /**
@@ -68,22 +69,36 @@ class Curriculum extends ItemView
             $itemContent .= '<div class="item-color" style="background-color: ' . $bgColor . '"></div>';
             $itemContent .= '<div class="item-body">';
 
+            $additionalLinks = '';
+            $linkAttributes  = ['target' => '_blank'];
             if ($item['subjectID']) {
-                $crp  = empty($item['creditpoints']) ? '' : "{$item['creditpoints']} CrP";
-                $link = "?option=com_thm_organizer&view=subject_item&id={$item['subjectID']}";
+                $crp = empty($item['creditpoints']) ? '' : "{$item['creditpoints']} CrP";
+                $url = "?option=com_thm_organizer&view=subject_item&id={$item['subjectID']}";
+
+                $documentLinkAttributes = $linkAttributes + ['title' => Languages::_('THM_ORGANIZER_SUBJECT_ITEM')];
+                $scheduleLinkAttributes = $linkAttributes + ['title' => Languages::_('THM_ORGANIZER_SCHEDULE')];
+
+                $documentLink = HTML::link($url, '<span class="icon-file-2"></span>', $documentLinkAttributes);
+
+                $scheduleUrl = "?option=com_thm_organizer&view=schedule_grid&subjectIDs={$item['subjectID']}";
+
+                $scheduleLink    =
+                    HTML::link($scheduleUrl, '<span class="icon-info-calender"></span>', $scheduleLinkAttributes);
+                $additionalLinks .= $documentLink . $scheduleLink;
 
                 $itemClass = 'item-subject';
             } else {
-                $crp  = Pools::getCrPText($item);
-                $link = '?option=com_thm_organizer&view=subjects';
-                $link .= "&programID={$this->item['programID']}&poolID={$item['poolID']}";
+                $crp = Pools::getCrPText($item);
+                $url = '?option=com_thm_organizer&view=subjects';
+                $url .= "&programID={$this->item['programID']}&poolID={$item['poolID']}";
 
                 $itemClass = 'item-pool';
             }
 
-            $title       = HTML::link($link, $item['name'], ['target' => '_blank']);
+            $title       = HTML::link($url, $item['name'], $linkAttributes);
             $itemContent .= '<div class="item-title">' . $title . '</div>';
             $itemContent .= $crp ? '<div class="item-crp">' . $crp . '</div>' : '';
+            $itemContent .= $additionalLinks ? '<div class="item-tools">' . $additionalLinks . '</div>' : '';
 
             $itemContent .= '</div>';
         }
