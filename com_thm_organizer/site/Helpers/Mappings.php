@@ -18,52 +18,15 @@ use Joomla\CMS\Factory;
 class Mappings
 {
     /**
-     * Retrieves the mapping boundaries of the selected resource
-     *
-     * @param string  $resourceType      the type of the selected resource
-     * @param int     $resourceID        the id of the selected resource
-     * @param boolean $excludeChildPools whether the return values should have child pools filtered out
-     *
-     * @return array with boundary values on success, otherwise empty
-     */
-    public static function getBoundaries($resourceType, $resourceID, $excludeChildPools = true)
-    {
-        $invalidID = (empty($resourceID) or $resourceID < 1);
-        if ($invalidID) {
-            return [];
-        }
-
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("{$resourceType}ID, lft, rgt")->from('#__thm_organizer_mappings');
-        $query->where("{$resourceType}ID = '$resourceID'");
-        $dbo->setQuery($query);
-
-        $ufBoundarySet = OrganizerHelper::executeQuery('loadAssocList', []);
-
-        if ($resourceType == 'program' or $resourceType == 'subject' or !$excludeChildPools) {
-            return $ufBoundarySet;
-        }
-
-        $filteredBoundaries = [];
-        foreach ($ufBoundarySet as $ufBoundaries) {
-            $filteredBoundaries = self::removeExclusions($ufBoundaries);
-        }
-
-        return $filteredBoundaries;
-    }
-
-    /**
      * Retrieves the ids of both direct and indirect pool children
      *
      * @param array &$mappings the current mappings of the pool
      *
      * @return array  the ids of the children of a pool
      */
-    public static function getChildren(&$mappings)
+    public static function getChildMappingIDs(&$mappings)
     {
-        $dbo      = Factory::getDbo();
-        $children = [];
+        $dbo = Factory::getDbo();
 
         // The children should be the same regardless of which mapping is used, so we just take the last one
         $mapping = array_pop($mappings);
@@ -79,7 +42,58 @@ class Mappings
         $childrenQuery->where("rgt < '{$mapping['rgt']}'");
         $dbo->setQuery($childrenQuery);
 
-        return array_merge($children, OrganizerHelper::executeQuery('loadColumn', []));
+        return OrganizerHelper::executeQuery('loadColumn', []);
+    }
+
+    /**
+     * Retrieves the ids of both direct and indirect pool children
+     *
+     * @param array &$resource the current mappings of the pool
+     *
+     * @return void  modifies the resource
+     */
+    public static function getChildren(&$resource)
+    {
+        $invalidMapping = (empty($resource['lft']) or empty($resource['rgt']));
+        $isSubject      = !empty($resource['subjectID']);
+        if ($invalidMapping or $isSubject) {
+            return;
+        }
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('*')
+            ->from('#__thm_organizer_mappings')
+            ->where("lft > '{$resource['lft']}'")
+            ->where("rgt < '{$resource['rgt']}'")
+            ->where("level = {$resource['level']} + 1")
+            ->order('lft');
+
+        if (!empty($resource['programID'])) {
+            $query->where("poolID IS NOT NULL");
+        }
+
+        $dbo->setQuery($query);
+
+        $mappings = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+
+        if (empty($mappings)) {
+            return;
+        }
+
+        foreach ($mappings as $id => &$mapping) {
+            $attributes = $mapping['poolID'] ?
+                Pools::getResource($mapping['poolID']) : Subjects::getResource($mapping['subjectID']);
+            unset($attributes['id']);
+            $mapping = array_merge($mapping, $attributes);
+            if ($mapping['poolID']) {
+                self::getChildren($mapping);
+            }
+        }
+
+        $resource['children'] = $mappings;
+
+        return;
     }
 
     /**
@@ -105,6 +119,42 @@ class Mappings
         }
 
         return $indent . '|_' . $name;
+    }
+
+    /**
+     * Retrieves the mapping boundaries of the selected resource
+     *
+     * @param string  $resourceType      the type of the selected resource
+     * @param int     $resourceID        the id of the selected resource
+     * @param boolean $excludeChildPools whether the return values should have child pools filtered out
+     *
+     * @return array with boundary values on success, otherwise empty
+     */
+    public static function getMappings($resourceType, $resourceID, $excludeChildPools = true)
+    {
+        $invalidID = (empty($resourceID) or $resourceID < 1);
+        if ($invalidID) {
+            return [];
+        }
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("id, {$resourceType}ID, level, lft, rgt")->from('#__thm_organizer_mappings');
+        $query->where("{$resourceType}ID = '$resourceID'");
+        $dbo->setQuery($query);
+
+        $ufBoundarySet = OrganizerHelper::executeQuery('loadAssocList', []);
+
+        if ($resourceType == 'program' or $resourceType == 'subject' or !$excludeChildPools) {
+            return $ufBoundarySet;
+        }
+
+        $filteredBoundaries = [];
+        foreach ($ufBoundarySet as $ufBoundaries) {
+            $filteredBoundaries = self::removeExclusions($ufBoundaries);
+        }
+
+        return $filteredBoundaries;
     }
 
     /**
@@ -161,6 +211,25 @@ class Mappings
         $selected = in_array($mapping['id'], $selectedParents) ? 'selected' : '';
 
         return "<option value='{$mapping['id']}' $selected>$indentedName</option>";
+    }
+
+    /**
+     * Retrieves the set of subjects associated with the given pool
+     *
+     * @param int $poolID the id of the pool
+     *
+     * @return array the pool subjects
+     */
+    public static function getPoolSubjects($poolID)
+    {
+        $poolBoundaries = self::getMappings('pool', $poolID, false);
+
+        // Subject does not yet have any mappings. Improbable, but possible
+        if (empty($poolBoundaries)) {
+            return [];
+        }
+
+        return self::getResourceSubjects($poolBoundaries);
     }
 
     /**
@@ -332,26 +401,18 @@ class Mappings
      *
      * @param int $programID the id of the program
      *
-     * @return array the program boundaries
+     * @return array the program subjects
      */
     public static function getProgramSubjects($programID)
     {
-        $programBoundaries = self::getBoundaries('program', $programID);
+        $programBoundaries = self::getMappings('program', $programID);
 
         // Subject does not yet have any mappings. Improbable, but possible
         if (empty($programBoundaries)) {
             return [];
         }
 
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT subjectID')
-            ->from('#__thm_organizer_mappings')
-            ->where("lft > {$programBoundaries[0]['lft']}")
-            ->where("rgt < {$programBoundaries[0]['rgt']}");
-        $dbo->setQuery($query);
-
-        return OrganizerHelper::executeQuery('loadColumn', []);
+        return self::getResourceSubjects($programBoundaries);
     }
 
     /**
@@ -421,45 +482,31 @@ class Mappings
     }
 
     /**
-     * Retrieves the set of program boundaries for the programs to which this subject is associated.
+     * Retrieves the names of the programs to which a resource is ordered. Used in self.
      *
-     * @param int $subjectID the id of the subject
+     * @param array $resourceRanges the left and right values of the resource's mappings
      *
-     * @return array the program boundaries
+     * @return array the ids of the subjects with which the resource is associated, otherwise empty
      */
-    public static function getSubjectPrograms($subjectID)
+    private static function getResourceSubjects($resourceRanges)
     {
-        $subjectBoundaries = self::getBoundaries('subject', $subjectID);
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('DISTINCT subjectID')
+            ->from('#__thm_organizer_mappings')
+            ->where("lft > {$resourceRanges[0]['lft']}")
+            ->where("rgt < {$resourceRanges[0]['rgt']}");
+        $dbo->setQuery($query);
 
-        // Subject does not yet have any mappings. Improbable, but possible
-        if (empty($subjectBoundaries)) {
-            return [];
-        }
-
-        $programs = self::getResourcePrograms($subjectBoundaries, true);
-
-        if (empty($programs)) {
-            return [];
-        }
-
-        foreach (array_keys($programs) as $programID) {
-            $programBoundaries = self::getBoundaries('program', $programID);
-
-            if (!empty($programBoundaries)) {
-                $programs[$programID]['lft'] = $programBoundaries[0]['lft'];
-                $programs[$programID]['rgt'] = $programBoundaries[0]['rgt'];
-            }
-        }
-
-        return $programs;
+        return OrganizerHelper::executeQuery('loadColumn', []);
     }
 
     /**
-     * Retrieves the names of the programs to which a resource is ordered
+     * Retrieves the names of the pools to which a resource is ordered
      *
      * @param array $ranges the left and right values of the resource's mappings
      *
-     * @return array  the names of the programs to which the pool is ordered
+     * @return array  the names of the pools to which the subject is ordered
      */
     public static function getSubjectPools($ranges)
     {
@@ -497,6 +544,40 @@ class Mappings
         }
 
         return $pools;
+    }
+
+    /**
+     * Retrieves the set of program boundaries for the programs to which this subject is associated.
+     *
+     * @param int $subjectID the id of the subject
+     *
+     * @return array the program boundaries
+     */
+    public static function getSubjectPrograms($subjectID)
+    {
+        $subjectBoundaries = self::getMappings('subject', $subjectID);
+
+        // Subject does not yet have any mappings. Improbable, but possible
+        if (empty($subjectBoundaries)) {
+            return [];
+        }
+
+        $programs = self::getResourcePrograms($subjectBoundaries, true);
+
+        if (empty($programs)) {
+            return [];
+        }
+
+        foreach (array_keys($programs) as $programID) {
+            $programBoundaries = self::getMappings('program', $programID);
+
+            if (!empty($programBoundaries)) {
+                $programs[$programID]['lft'] = $programBoundaries[0]['lft'];
+                $programs[$programID]['rgt'] = $programBoundaries[0]['rgt'];
+            }
+        }
+
+        return $programs;
     }
 
     /**

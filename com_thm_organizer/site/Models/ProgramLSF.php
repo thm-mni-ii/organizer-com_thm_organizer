@@ -51,7 +51,7 @@ class ProgramLSF extends BaseModel
      */
     private function getSubjectIDs($programID)
     {
-        $borders = Mappings::getBoundaries('program', $programID);
+        $borders = Mappings::getMappings('program', $programID);
 
         $query = $this->_db->getQuery(true);
         $query->select('DISTINCT subjectID')

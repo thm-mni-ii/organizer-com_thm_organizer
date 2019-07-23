@@ -43,7 +43,7 @@ class Teachers extends ResourceHelper implements DepartmentAssociated, Selectabl
             $resourceID   = $programID;
         }
 
-        $boundarySet = Mappings::getBoundaries($resourceType, $resourceID);
+        $boundarySet = Mappings::getMappings($resourceType, $resourceID);
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);

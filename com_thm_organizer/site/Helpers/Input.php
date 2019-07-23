@@ -59,10 +59,6 @@ class Input
      */
     private static function find($property)
     {
-        if ($value = self::getInput()->get($property, false, 'raw')) {
-            return $value;
-        }
-
         if ($value = self::getFilterItems()->get($property, false)) {
             return $value;
         }
@@ -76,6 +72,10 @@ class Input
         }
 
         if ($value = self::getParams()->get($property, false)) {
+            return $value;
+        }
+
+        if ($value = self::getInput()->get($property, false, 'raw')) {
             return $value;
         }
 
@@ -120,14 +120,15 @@ class Input
      * Returns the application's input object.
      *
      * @param string $resource the name of the resource upon which the ids being sought reference
+     * @param int    $default  the default value
      *
      * @return array the filter ids
      */
-    public static function getFilterID($resource)
+    public static function getFilterID($resource, $default = 0)
     {
         $filterIDs = self::getFilterIDs($resource);
 
-        return empty($filterIDs) ? 0 : $filterIDs[0];
+        return empty($filterIDs) ? $default : $filterIDs[0];
     }
 
     /**

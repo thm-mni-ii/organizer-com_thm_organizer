@@ -14,9 +14,9 @@
         <field name="emailFilter" type="text" label="THM_ORGANIZER_EMAIL_FILTER"
                description="THM_ORGANIZER_EMAIL_FILTER_DESC" size="40" required="false"/>
         <field name="backgroundColor" type="color" label="THM_ORGANIZER_BACKGROUND_COLOR"
-               description="THM_ORGANIZER_BACKGROUND_COLOR_DESC" size="10" required="true" default="#eeeeee"/>
+               description="THM_ORGANIZER_BACKGROUND_COLOR_DESC" size="10" required="true" default="#f2f5f6"/>
         <field name="lightTextColor" type="color" label="THM_ORGANIZER_TEXT_LIGHT_COLOR"
-               description="THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC" size="10" required="true" default="#eeeeee"/>
+               description="THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC" size="10" required="true" default="#ffffff"/>
         <field name="darkTextColor" type="color" label="THM_ORGANIZER_TEXT_DARK_COLOR"
                description="THM_ORGANIZER_TEXT_DARK_COLOR_DESC" size="10" required="true" default="#4a5c66"/>
     </fieldset>

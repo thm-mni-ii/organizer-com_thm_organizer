@@ -17,7 +17,7 @@ use stdClass;
 /**
  * Provides general functions for subject access checks, data retrieval and display.
  */
-class Subjects implements Selectable
+class Subjects extends ResourceHelper implements Selectable
 {
     /**
      * Check if user is registered as a subject's coordinator.
@@ -53,13 +53,13 @@ class Subjects implements Selectable
      */
     private static function getBoundaries()
     {
-        $programBoundaries = Mappings::getBoundaries('program', Input::getInt('programID'));
+        $programBoundaries = Mappings::getMappings('program', Input::getInt('programID'));
 
         if (empty($programBoundaries)) {
             return [];
         }
 
-        $poolBoundaries = Mappings::getBoundaries('pool', Input::getInt('poolID'));
+        $poolBoundaries = Mappings::getMappings('pool', Input::getInt('poolID'));
 
         $validBoundaries = (!empty($poolBoundaries) and self::poolInProgram($poolBoundaries, $programBoundaries));
         if ($validBoundaries) {
@@ -171,6 +171,38 @@ class Subjects implements Selectable
         }
 
         return $names;
+    }
+
+    /**
+     * Gets an array modelling the attributes of the resource.
+     *
+     * @param $resourceID
+     *
+     * @return array
+     */
+    public static function getResource($resourceID)
+    {
+        $table  = self::getTable();
+        $exists = $table->load($resourceID);
+
+        if (!$exists) {
+            return [];
+        }
+
+        $tag     = Languages::getTag();
+        $subject = [
+            'abbreviation' => $table->{"abbreviation_$tag"},
+            'bgColor'      => Fields::getColor($table->fieldID),
+            'creditpoints' => $table->creditpoints,
+            'field'        => Fields::getName($table->fieldID, 'field'),
+            'fieldID'      => $table->fieldID,
+            'id'           => $table->id,
+            'moduleNo'     => $table->externalID,
+            'name'         => $table->{"name_$tag"},
+            'shortName'    => $table->{"short_name_$tag"},
+        ];
+
+        return $subject;
     }
 
     /**

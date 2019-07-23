@@ -20,9 +20,9 @@ use Organizer\Helpers\Subjects;
 /**
  * Class creates a select box for the association of teachers with subject documentation.
  */
-class ProgramTeachersField extends OptionsField
+class DocumentedTeachersField extends OptionsField
 {
-    protected $type = 'ProgramTeachers';
+    protected $type = 'DocumentedTeachers';
 
     /**
      * Method to get the field input markup for a generic list.
@@ -45,9 +45,11 @@ class ProgramTeachersField extends OptionsField
      */
     protected function getOptions()
     {
-        $options    = parent::getOptions();
-        $programID  = Input::getInt('programID');
-        $subjectIDs = Mappings::getProgramSubjects($programID);
+        $options      = parent::getOptions();
+        $calledPoolID = Input::getInput()->get->getInt('poolID', 0);
+        $poolID       = Input::getFilterID('pool', $calledPoolID);
+        $programID    = Input::getInt('programID');
+        $subjectIDs   = $poolID ? Mappings::getPoolSubjects($poolID) : Mappings::getProgramSubjects($programID);
 
         if (empty($subjectIDs)) {
             return $options;

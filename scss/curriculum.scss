@@ -2,201 +2,76 @@
 @import 'mixins';
 @import 'variables';
 
-.hidden {
-  display: none;
-}
-
-//********************************************************************************************************************//
-//Header
-//********************************************************************************************************************//
-.componentheader {
-  height: 50px;
-}
-
-.componentheading {
-  float: left;
-  width: 89%;
-}
-
-.language-links {
-  float: right;
-}
-
-//********************************************************************************************************************//
-//content
-//********************************************************************************************************************//
 .curriculum {
-  position: relative; //necessary for popup modal-panel-items shown
-}
 
-.main-panel {
-  border: $border-dark;
-  margin-bottom: 5px;
-}
-
-.main-panel-head, .modal-panel-head {
-  background-color: $background-grey; //wenn keine Farbe dynamisch zugewiesen wird
-  color: white; //wenn keine Farbe dynamisch zugewiesen wird
-  margin-top: -1px;
-  margin-left: -1px;
-  margin-right: -1px;
-}
-
-.main-panel-head {
-  // cursor: pointer;  //nur main-panel-head kann auf- und zugeklappt werden
-  padding: 12px 20px 10px 15px;
-
-  // Icon "+" / "-"
-  a {
-    float: right;
-    cursor: pointer;
-
-    i::before {
-      color: $background-grey;
-      font-size: 17px;
-    }
+  .item, .legend-item, .resource-item, .panel-head, .panel-row {
+    display: flex;
+    flex-direction: row;
   }
-}
 
-.panel-title {
-  font-family: $font-family-header;
-  font-size: 130%;
-  cursor: pointer;
-
-  .main-panel-crp, .modal-panel-crp {
-    padding-left: 5px;
+  .legend {
+    padding-left: .8rem;
+    width: 25%;
   }
-}
 
-.main-panel-items {
-  margin: 2px 1px 3px 2px;
-}
-
-.main-panel-items .item, .modal-panel-items .item {
-  outline: 1px outset white;
-  margin: 3px;
-  background-image: -webkit-linear-gradient(-33deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
-  background-image: -moz-linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
-  background-image: linear-gradient(123deg, lighten(#eeeeee, 4%) 0, #eeeeee 100%);
-  background-position: 50% 50%;
-  display: inline-table;
-  position: relative;
-  font-size: 11px;
-  background-color: $background-color;
-  vertical-align: top;
-  width: 133px;
-  height: 135px;
-}
-
-.item-head {
-  border: $border-dark;
-  padding: 3px 5px;
-  background-color: #71A126;
-  color: white;
-  height: 18px;
-  margin-top: -1px;
-  margin-left: -1px;
-  margin-right: -1px;
-  font-size: 110%;
-
-  .item-crp {
-    float: right;
-    padding-left: 5px;
+  .legend-item {
+    padding: .4rem 0;
   }
-}
 
-.item-name {
-  // hyphens aren't supported in Chrome ...
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
+  .item {
+    border: $border-middle;
+    width: 19%;
+  }
 
-  //... so word-wrap is needed for Chrome
-  -ms-word-wrap: break-word;
-  word-wrap: break-word;
-  padding: 5px;
-  overflow: hidden;
-}
-
-.item-tools {
-  position: absolute;
-  bottom: 3px;
-  left: 0;
-  right: 0;
-  text-align: center;
-
-  .btn {
-    padding: 2px 10px;
+  .item.item-blank {
     border: none;
   }
-}
 
-.icon-grid-view-2 {
-  padding-top: 5px;
-
-  &:before {
-    content: '\59';
-    margin-left: -1px;
-    font-size: 17px;
+  .item-color {
+    min-width: 1rem;
+    width: 1rem;
   }
-}
 
-.icon-user {
-  padding-top: 5px;
-
-  &:before {
-    font-size: 17px;
-    margin-left: -2px;
+  .item-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-}
 
-.modal-panel {
-  @extend .main-panel;
-  position: absolute;
-  background-color: white;
-  z-index: 5;
-  width: 750px;
-  top: -4px;
-  margin-left: 15%;
-}
-
-.modal-panel-head {
-  padding: 10px;
-
-  //icon to close popup
-  a {
-    float: right;
-    cursor: pointer;
-
-    i::before {
-      color: $background-grey;
-      font-size: 17px;
-    }
+  .item-title, .item-crp {
+    padding-left: .4rem;
+    word-break: break-word;
   }
-}
 
-//panel-title
-.modal {
-  position: inherit !important;
-  margin-left: 0 !important;
-  margin-top: 0 !important;
-  width: inherit !important;
-  border: none !important;
-  background-color: inherit !important;
-}
-
-.modal-panel-items {
-  max-height: 423px;
-  overflow: auto;
-  margin: 3px;
-
-  .item-name {
-    word-break: break-all;
+  .panel {
+    margin-top: .8rem;
   }
-}
 
-//if popup is shown, rest is more transparent
-.modal-panel.shown ~ div {
-  opacity: 0.3;
+  .panel:first-child {
+    margin-top: 0;
+  }
+
+  .panel-crp {
+    margin-left: auto;
+    padding: .8rem .4rem .4rem 0;
+    text-align: right;
+    width: 6rem;
+  }
+
+  .panel-head {
+    border-bottom: $border-dark;
+    font-size: 1.5rem;
+    margin-bottom: .8rem;
+    position: relative;
+  }
+
+  .panel-title {
+    padding: .8rem 0 .4rem 0;
+  }
+
+  .panel-row {
+    justify-content: space-between;
+    margin-bottom: .4rem;
+    min-height: 5rem;
+  }
 }

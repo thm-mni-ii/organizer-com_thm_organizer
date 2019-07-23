@@ -16,6 +16,25 @@ namespace Organizer\Helpers;
 class Fields extends ResourceHelper
 {
     /**
+     * Returns the color value associated with the field.
+     *
+     * @param int $fieldID the id of the field
+     *
+     * @return string the hexadecimal color value associated with the field
+     */
+    public static function getColor($fieldID)
+    {
+        $default = Input::getParams()->get('backgroundColor', '#f2f5f6');
+        $table   = self::getTable();
+        $exists  = $table->load($fieldID);
+        if (!$exists or empty($table->colorID)) {
+            return $default;
+        }
+
+        return Colors::getColor($table->colorID);
+    }
+
+    /**
      * Creates the display for a field item as used in a list view.
      *
      * @param int $fieldID the field id
@@ -35,5 +54,25 @@ class Fields extends ResourceHelper
         }
 
         return Colors::getListDisplay($text, $colorID);
+    }
+
+    /**
+     * Attempts to retrieve the name of the resource.
+     *
+     * @param int $resourceID the id of the resource
+     *
+     * @return string
+     */
+    public static function getName($resourceID)
+    {
+        $table  = self::getTable();
+        $exists = $table->load($resourceID);
+        if (empty($exists)) {
+            return '';
+        }
+
+        $localizedName = 'field_' . Languages::getTag();
+
+        return $table->$localizedName;
     }
 }

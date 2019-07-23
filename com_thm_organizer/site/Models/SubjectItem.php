@@ -254,7 +254,7 @@ class SubjectItem extends ItemModel
             if (empty($subject['expenditure']['value'])) {
                 $subject['expenditure']['value'] = sprintf(
                     Languages::_('THM_ORGANIZER_EXPENDITURE_SHORT'),
-                    $subject['creditpoints']
+                    $subject['creditpoints']['value']
                 );
             } elseif (empty($subject['present']['value'])) {
                 $subject['expenditure']['value'] = sprintf(

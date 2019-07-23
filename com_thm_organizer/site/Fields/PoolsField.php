@@ -10,6 +10,7 @@
 
 namespace Organizer\Fields;
 
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Pools;
 
 /**
@@ -30,7 +31,8 @@ class PoolsField extends OptionsField
     protected function getOptions()
     {
         $options = parent::getOptions();
-        $pools   = Pools::getOptions($this->getAttribute('access', ''));
+        $access  = OrganizerHelper::getApplication()->isClient('administrator') ? 'document' : '';
+        $pools   = Pools::getOptions($access);
 
         return array_merge($options, $pools);
     }

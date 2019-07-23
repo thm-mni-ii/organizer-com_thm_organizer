@@ -8,20 +8,36 @@
  * @link        www.thm.de
  */
 
-require_once 'panel.php';
-require_once 'item.php';
-?>
-<div class="componentheader">
-    <h1 class="componentheading">
-        <?php echo $this->item->name; ?>
-    </h1>
-</div>
-<!-- use language_selection layout -->
-<div class="curriculum">
-    <?php
-    foreach ($this->item->children as $pool) {
-        THM_OrganizerTemplateCurriculumPanel::render($pool, 'main');
-    }
-    ?>
-    <?php echo $this->disclaimer->render([]); ?>
+use Organizer\Helpers\Input;
+use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
+
+$resourceID = Input::getID();
+$view       = Input::getView();
+
+$action = '?';
+$action .= OrganizerHelper::dynamic() ? "option=com_thm_organizer&view=$view&id=$resourceID" : ''; ?>
+<form id="adminForm" name="adminForm" method="post" action="<?php echo $action; ?>"
+      class="form-horizontal form-validate">
+    <?php require_once 'language_selection.php'; ?>
+</form>
+<?php echo OrganizerHelper::getApplication()->JComponentTitle; ?>
+<div class="resource-item">
+    <div class="curriculum">
+        <?php foreach ($this->item['children'] as $pool) : ?>
+            <?php $this->renderPanel($pool); ?>
+        <?php endforeach; ?>
+        <?php echo $this->disclaimer; ?>
+    </div>
+    <div class="legend">
+        <div class="panel-head">
+            <div class="panel-title"><?php echo Languages::_('THM_ORGANIZER_LEGEND'); ?></div>
+        </div>
+        <?php foreach ($this->fields as $hex => $field) : ?>
+            <div class="legend-item">
+                <div class="item-color" style="background-color: <?php echo $hex; ?>;"></div>
+                <div class="item-title"><?php echo $field; ?></div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>

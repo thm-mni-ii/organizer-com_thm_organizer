@@ -37,7 +37,7 @@ class Subjects extends ListModel implements FiltersFormFilters
     public function filterFilterForm(&$form)
     {
         $params = Input::getParams();
-        if (!empty($params->get('programID'))) {
+        if (!empty($params->get('programID')) or !empty($this->state->get('calledPoolID'))) {
             $form->removeField('departmentID', 'filter');
             $form->removeField('limit', 'list');
             $form->removeField('programID', 'filter');
@@ -112,8 +112,14 @@ class Subjects extends ListModel implements FiltersFormFilters
 
         $programID = $this->state->get('filter.programID', '');
         Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
-        $poolID = $this->state->get('filter.poolID', '');
-        Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
+
+        // The selected pool supercedes any original called pool
+        if ($poolID = $this->state->get('filter.poolID', '')) {
+            Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
+        } elseif ($calledPoolID = $this->state->get('calledPoolID', '')) {
+            Mappings::setResourceIDFilter($query, $calledPoolID, 'pool', 'subject');
+        }
+
         $teacherID = $this->state->get('filter.teacherID', '');
         if (!empty($teacherID)) {
             if ($teacherID === '-1') {
@@ -171,8 +177,12 @@ class Subjects extends ListModel implements FiltersFormFilters
             }
         } else {
             $params = Input::getParams();
-            if (!empty($params->get('programID'))) {
-                $this->state->set('filter.programID', $params->get('programID'));
+            if ($poolID = Input::getInput()->get->getInt('poolID', 0) or $programID = $params->get('programID')) {
+                if ($poolID) {
+                    $this->state->set('calledPoolID', $poolID);
+                } else {
+                    $this->state->set('filter.programID', $params->get('programID'));
+                }
                 $this->state->set('list.limit', 0);
             }
         }

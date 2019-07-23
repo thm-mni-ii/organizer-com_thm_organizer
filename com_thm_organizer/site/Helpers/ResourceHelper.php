@@ -13,14 +13,14 @@ namespace Organizer\Helpers;
 
 use Joomla\CMS\Table\Table;
 
-class ResourceHelper
+abstract class ResourceHelper
 {
     /**
      * Returns the corresponding resource table.
      *
      * @return Table
      */
-    protected static function getTable()
+    public static function getTable()
     {
         return OrganizerHelper::getTable(OrganizerHelper::getClass(get_called_class()));
     }
@@ -28,21 +28,16 @@ class ResourceHelper
     /**
      * Attempts to retrieve the name of the resource.
      *
-     * @param int    $resourceID
-     * @param string $fieldName
+     * @param int $resourceID the id of the resource
      *
      * @return string
      */
-    public static function getName($resourceID, $fieldName = '')
+    public static function getName($resourceID)
     {
         $table  = self::getTable();
         $exists = $table->load($resourceID);
         if (empty($exists)) {
             return '';
-        }
-
-        if ($fieldName) {
-            return empty($table->$fieldName) ? '' : $table->$fieldName;
         }
 
         $tableFields = $table->getFields();

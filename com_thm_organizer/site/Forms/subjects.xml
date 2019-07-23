@@ -11,11 +11,11 @@
             <option value="">ALL_PROGRAMS</option>
             <option value="-1">NO_PROGRAMS</option>
         </field>
-        <field name="poolID" type="Pools" label="POOL" access="document" onchange="this.form.submit();">
+        <field name="poolID" type="Pools" label="POOL" onchange="this.form.submit();">
             <option value="">ALL_POOLS</option>
             <option value="-1">NO_POOLS</option>
         </field>
-        <field name="teacherID" type="ProgramTeachers" label="TEACHERS" onchange="this.form.submit();">
+        <field name="teacherID" type="DocumentedTeachers" label="TEACHERS" onchange="this.form.submit();">
             <option value="">ALL_TEACHERS</option>
             <option value="-1">NO_TEACHERS</option>
         </field>

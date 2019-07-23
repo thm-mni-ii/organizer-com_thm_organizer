@@ -56,22 +56,17 @@ class Pools extends ResourceHelper implements Selectable
      */
     public static function getCrPText($pool)
     {
-        $minCrPExists = !empty($pool->minCrP);
-        $maxCrPExists = !empty($pool->maxCrP);
-        if ($maxCrPExists) {
-            if ($minCrPExists) {
-                if ($pool->minCrP == $pool->maxCrP) {
-                    return "$pool->maxCrP CrP";
-                }
-
-                return "$pool->minCrP - $pool->maxCrP CrP";
+        $minCrPExists = !empty($pool['minCrP']);
+        $maxCrPExists = !empty($pool['maxCrP']);
+        if ($maxCrPExists and $minCrPExists) {
+            return $pool['maxCrP'] === $pool['minCrP'] ?
+                "{$pool['maxCrP']} CrP" : "{$pool['minCrP']} - {$pool['maxCrP']} CrP";
+        } else {
+            if ($maxCrPExists) {
+                return "max. {$pool['maxCrP']} CrP";
+            } elseif ($minCrPExists) {
+                return "min. {$pool['minCrP']} CrP";
             }
-
-            return "max. $pool->maxCrP CrP";
-        }
-
-        if ($minCrPExists) {
-            return "min. $pool->minCrP CrP";
         }
 
         return '';
@@ -164,19 +159,56 @@ class Pools extends ResourceHelper implements Selectable
     }
 
     /**
-     * Retrieves the resource items.
+     * Gets an array modelling the attributes of the resource.
      *
-     * @return array the available resources
+     * @param $resourceID
+     *
+     * @return array
      */
-    public static function getResources()
+    public static function getResource($resourceID)
     {
-        $programID = Input::getFilterID('program');
-        if (empty($programID)) {
+        $table  = self::getTable();
+        $exists = $table->load($resourceID);
+
+        if (!$exists) {
             return [];
         }
 
-        $programRanges = Mappings::getResourceRanges('program', $programID);
-        if (empty($programRanges) or count($programRanges) > 1) {
+        $tag  = Languages::getTag();
+        $pool = [
+            'abbreviation' => $table->{"abbreviation_$tag"},
+            'bgColor'      => Fields::getColor($table->fieldID),
+            'description'  => $table->{"description_$tag"},
+            'field'        => Fields::getName($table->fieldID),
+            'fieldID'      => $table->fieldID,
+            'id'           => $table->id,
+            'maxCrP'       => $table->maxCrP,
+            'minCrP'       => $table->minCrP,
+            'name'         => $table->{"name_$tag"},
+            'shortName'    => $table->{"short_name_$tag"},
+        ];
+
+        return $pool;
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @param string $access any access restriction which should be performed
+     *
+     * @return array the available resources
+     */
+    public static function getResources($access = '')
+    {
+        $programID = Input::getFilterID('program');
+        $poolID    = Input::getInput()->get->getInt('poolID');
+        if (empty($programID) and empty($poolID)) {
+            return [];
+        }
+
+        $ranges = $poolID ?
+            Mappings::getResourceRanges('pool', $poolID) : Mappings::getResourceRanges('program', $programID);
+        if (empty($ranges)) {
             return [];
         }
 
@@ -186,14 +218,15 @@ class Pools extends ResourceHelper implements Selectable
         $query->select("DISTINCT p.*, p.name_$tag AS name")
             ->from('#__thm_organizer_pools AS p')
             ->innerJoin('#__thm_organizer_mappings AS m ON p.id = m.poolID')
-            ->where("lft > '{$programRanges[0]['lft']}'")
-            ->where("rgt < '{$programRanges[0]['rgt']}'")
+            ->where("lft > '{$ranges[0]['lft']}'")
+            ->where("rgt < '{$ranges[0]['rgt']}'")
             ->order('name ASC');
-        $dbo->setQuery($query);
 
         if (!empty($access)) {
             self::addAccessFilter($query, 'p', $access);
         }
+
+        $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList', []);
     }
@@ -214,7 +247,7 @@ class Pools extends ResourceHelper implements Selectable
             return [];
         }
 
-        $children = Mappings::getChildren($mappings);
+        $children = Mappings::getChildMappingIDs($mappings);
 
         return array_merge($mappingIDs, $children);
     }
@@ -232,7 +265,7 @@ class Pools extends ResourceHelper implements Selectable
             return '[]';
         }
 
-        $programBounds  = Mappings::getBoundaries('program', $selectedProgram);
+        $programBounds  = Mappings::getMappings('program', $selectedProgram);
         $teacherClauses = Mappings::getTeacherMappingClauses();
 
         if (empty($programBounds)) {

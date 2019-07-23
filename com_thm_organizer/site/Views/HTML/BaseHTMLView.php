@@ -44,17 +44,22 @@ abstract class BaseHTMLView extends BaseView
             return;
         }
 
+        $attributes = ['target' => '_blank'];
+
         $lsfLink = HTML::link(
             'https://studien-sb-service.th-mittelhessen.de/docu/online.html',
-            Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TITLE')
+            Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TITLE'),
+            $attributes
         );
         $ambLink = HTML::link(
             'http://www.thm.de/amb/pruefungsordnungen',
-            Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE')
+            Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE'),
+            $attributes
         );
         $poLink  = HTML::link(
             'http://www.thm.de/site/studium/sie-studieren/pruefungsordnung.html',
-            Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TITLE')
+            Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TITLE'),
+            $attributes
         );
 
         $disclaimer = '<div class="legal-disclaimer">';

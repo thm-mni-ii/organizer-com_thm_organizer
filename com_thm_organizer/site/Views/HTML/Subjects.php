@@ -16,6 +16,7 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Pools;
 use Organizer\Helpers\Programs;
 
 /**
@@ -51,10 +52,18 @@ class Subjects extends ListView
      */
     protected function addToolBar()
     {
-        $programID   = Input::getParams()->get('programID');
-        $programName = empty($programID) ? '' : Programs::getName($programID);
+        $resourceName = '';
+        if (!OrganizerHelper::getApplication()->isClient('administrator')) {
+            if ($programID = Input::getInt('programID')) {
+                $resourceName = Programs::getName($programID);
+            }
+            if ($poolID = $this->state->get('calledPoolID', 0)) {
+                $poolName     = Pools::getName($poolID);
+                $resourceName .= empty($resourceName) ? $poolName : ", $poolName";
+            }
+        }
 
-        HTML::setMenuTitle(Languages::_('THM_ORGANIZER_SUBJECTS_TITLE'), $programName, 'book');
+        HTML::setMenuTitle(Languages::_('THM_ORGANIZER_SUBJECTS_TITLE'), $resourceName, 'book');
         $toolbar = Toolbar::getInstance();
         if ($this->documentAccess) {
             $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'subject.add', false);

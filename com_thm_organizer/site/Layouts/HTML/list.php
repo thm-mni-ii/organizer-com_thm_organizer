@@ -7,9 +7,13 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
+
+$query = Uri::getInstance()->getQuery();
 
 $items       = $this->items;
 $iteration   = 0;
@@ -22,7 +26,7 @@ if (!empty($this->submenu)) {
     echo '<div id="j-sidebar-container" class="span2">' . $this->submenu . '</div>';
 } ?>
 <div id="j-main-container" class="span10">
-    <form action="?" id="adminForm" method="post" name="adminForm">
+    <form action="?<?php echo $query; ?>" id="adminForm" method="post" name="adminForm">
         <?php if (!$this->administration) : ?>
             <?php echo Toolbar::getInstance()->render(); ?>
         <?php endif; ?>

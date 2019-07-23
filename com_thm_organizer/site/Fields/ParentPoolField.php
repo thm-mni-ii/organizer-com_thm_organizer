@@ -53,7 +53,7 @@ class ParentPoolField extends FormField
         // Get basic resource data
         $resourceID   = Input::getID();
         $contextParts = explode('.', $this->form->getName());
-        $resourceType = str_replace('Edit', '', $contextParts[1]);
+        $resourceType = str_replace('edit', '', $contextParts[1]);
 
         $mappings   = [];
         $mappingIDs = [];
@@ -70,7 +70,7 @@ class ParentPoolField extends FormField
 
             // Pools should not be allowed to be placed anywhere where recursion could occur
             if ($resourceType == 'pool') {
-                $children         = Mappings::getChildren($mappings);
+                $children         = Mappings::getChildMappingIDs($mappings);
                 $unwantedMappings = array_merge($unwantedMappings, $mappingIDs, $children);
             }
 
