@@ -734,21 +734,32 @@ class Mapping extends BaseModel
         $subjectTemplate['poolID']    = null;
         $subjectTemplate['subjectID'] = $data['id'];
 
-        $selectedParents  = $data['parentID'];
+        $selectedParents = $data['parentID'];
         $existingMappings = $this->getExistingMappings($data['id']);
-        if (!empty($existingMappings)) {
-            $success = $this->processExistingSubjects($selectedParents, $existingMappings);
-            if (!$success) {
-                return false;
+        if (count($existingMappings)) {
+            foreach ($existingMappings as $existingMapping) {
+                $deleted = $this->deleteEntry($existingMapping['id']);
+                if (!$deleted) {
+                    return false;
+                }
             }
         }
 
         foreach ($selectedParents as $newParentID) {
-            $subjectTemplate['ordering'] = $this->getOrdering($newParentID, $data['id'], 'subject');
-            $subjectTemplate['parentID'] = $newParentID;
-            $subjectAdded                = $this->addSubject($subjectTemplate);
-            if (!$subjectAdded) {
+            $parent = $this->getTable();
+
+            if (!$exists = $parent->load($newParentID) or empty($parent->poolID)) {
                 return false;
+            }
+
+            $subjectTemplate['ordering'] = $this->getOrdering($newParentID, $data['id'], 'subject');
+            $parentMappings              = $this->getExistingMappings($parent->poolID, 'pool');
+            foreach ($parentMappings as $parentMapping) {
+                $subjectTemplate['parentID'] = $parentMapping['id'];
+                $subjectAdded                = $this->addSubject($subjectTemplate);
+                if (!$subjectAdded) {
+                    return false;
+                }
             }
         }
 
@@ -770,35 +781,6 @@ class Mapping extends BaseModel
         $this->_db->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList');
-    }
-
-    /**
-     * Processes existing subject entries against the selected parents, deleting
-     * existing entries with parents no longer selected from the database, and
-     * deleting selected parent entries which already exist from the selection.
-     *
-     * @param array &$selectedParents  the parent pools selected by the user
-     * @param array  $existingMappings the existing mappings for the subject
-     *
-     * @return boolean  true on success, otherwise false
-     */
-    private function processExistingSubjects(&$selectedParents, $existingMappings)
-    {
-        foreach ($existingMappings as $existingMapping) {
-            $index = array_search($existingMapping['parentID'], $selectedParents);
-            if ($index === false) {
-                $deprecatedDeleted = $this->deleteEntry($existingMapping['id']);
-                if (!$deprecatedDeleted) {
-                    return false;
-                }
-
-                continue;
-            }
-
-            unset($selectedParents[$index]);
-        }
-
-        return true;
     }
 
     /**
