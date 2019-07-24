@@ -75,7 +75,7 @@ class PoolSelection extends ListView
     protected function modifyDocument()
     {
         parent::modifyDocument();
-        HTML::_('jquery.framework');
+        HTML::_('bootstrap.framework');
         HTML::_('searchtools.form', '#adminForm', []);
     }
 

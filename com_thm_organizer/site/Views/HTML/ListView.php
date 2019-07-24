@@ -162,7 +162,7 @@ abstract class ListView extends BaseHTMLView
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
         $document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
 
-        HTML::_('bootstrap.tooltip');
+        HTML::_('bootstrap.framework');
         HTML::_('searchtools.form', '#adminForm', []);
     }
 

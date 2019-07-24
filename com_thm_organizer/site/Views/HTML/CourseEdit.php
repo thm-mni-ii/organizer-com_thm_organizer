@@ -100,7 +100,7 @@ class CourseEdit extends EditView
      */
     protected function modifyDocument()
     {
-        HTML::_('bootstrap.tooltip');
+        parent::modifyDocument();
 
         $document = Factory::getDocument();
         $document->addScriptDeclaration(

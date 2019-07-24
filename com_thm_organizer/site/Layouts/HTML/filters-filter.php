@@ -19,7 +19,7 @@ $filters = $this->filterForm->getGroup('filter');
         <?php if ($fieldName !== 'filter_search') : ?>
             <?php $dataShowOn = ''; ?>
             <?php if ($field->showon) : ?>
-                <?php HTML::_('jquery.framework'); ?>
+                <?php HTML::_('bootstrap.framework'); ?>
                 <?php HTML::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
                 <?php $dataShowOn = " data-showon='" . json_encode(JFormHelper::parseShowOnConditions($field->showon,
                         $field->formControl, $field->group)) . "'"; ?>

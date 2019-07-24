@@ -63,21 +63,6 @@ class ScheduleExport extends BaseHTMLView
     }
 
     /**
-     * Checks whether the view has been set for seeing impaired users.
-     *
-     * @return bool true if the view has been configured for seeing impaired users, otherwise false
-     */
-    public function isSeeingImpaired()
-    {
-        $app = OrganizerHelper::getApplication();
-        if (empty($app->getMenu()) or empty($app->getMenu()->getActive())) {
-            return 0;
-        }
-
-        return (int)Input::getParams()->get('si');
-    }
-
-    /**
      * Modifies document variables and adds links to external files
      *
      * @return void
@@ -88,7 +73,6 @@ class ScheduleExport extends BaseHTMLView
 
         if (empty($seeingImpaired)) {
             HTML::_('bootstrap.framework');
-            HTML::_('bootstrap.tooltip');
             HTML::_('jquery.ui');
             HTML::_('behavior.calendar');
             HTML::_('formbehavior.chosen', 'select');

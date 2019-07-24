@@ -20,11 +20,11 @@ use Organizer\Helpers\HTML;
  */
 abstract class ItemView extends BaseHTMLView
 {
+    protected $_layout = 'item';
+
     public $form = null;
 
     public $item = null;
-
-    protected $_layout = 'item';
 
     /**
      * Method to get display
@@ -76,8 +76,7 @@ abstract class ItemView extends BaseHTMLView
      */
     protected function modifyDocument()
     {
-        HTML::_('bootstrap.tooltip');
-        HTML::_('behavior.framework', true);
+        HTML::_('bootstrap.framework');
 
         $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/item.css');

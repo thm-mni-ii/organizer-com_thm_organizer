@@ -73,7 +73,7 @@ class SubjectSelection extends ListView
     {
         parent::modifyDocument();
 
-        HTML::_('jquery.framework');
+        HTML::_('bootstrap.framework');
         HTML::_('searchtools.form', '#adminForm', []);
     }
 

@@ -11,7 +11,6 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Organizer\Helpers\Dates;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Input;

@@ -21,9 +21,9 @@ use Organizer\Helpers\Pools;
  */
 class Curriculum extends ItemView
 {
-    public $fields = [];
-
     protected $_layout = 'curriculum';
+
+    public $fields = [];
 
     /**
      * Filters out invalid and true empty values. (0 is allowed.)

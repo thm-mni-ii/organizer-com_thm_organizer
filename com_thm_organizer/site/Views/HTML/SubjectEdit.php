@@ -56,8 +56,7 @@ class SubjectEdit extends EditView
      */
     protected function modifyDocument()
     {
-        HTML::_('bootstrap.tooltip');
-        HTML::_('behavior.framework', true);
+        HTML::_('bootstrap.framework');
         HTML::_('formbehavior.chosen', 'select');
     }
 }

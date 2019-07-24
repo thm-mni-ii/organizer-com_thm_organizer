@@ -60,7 +60,6 @@ abstract class FormView extends BaseHTMLView
     protected function modifyDocument()
     {
         HTML::_('bootstrap.framework');
-        HTML::_('bootstrap.tooltip');
         HTML::_('behavior.formvalidator');
         HTML::_('formbehavior.chosen', 'select');
 

@@ -48,7 +48,6 @@ class Search extends BaseHTMLView
     private function modifyDocument()
     {
         HTML::_('bootstrap.framework');
-        HTML::_('bootstrap.tooltip');
         HTML::_('jquery.ui');
 
         $document = Factory::getDocument();
