@@ -72,8 +72,6 @@ class ScheduleExport extends BaseHTMLView
         $seeingImpaired = $this->isSeeingImpaired();
 
         if (empty($seeingImpaired)) {
-            HTML::_('bootstrap.framework');
-            HTML::_('jquery.ui');
             HTML::_('behavior.calendar');
             HTML::_('formbehavior.chosen', 'select');
         } else {

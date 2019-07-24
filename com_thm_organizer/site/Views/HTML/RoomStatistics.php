@@ -60,7 +60,6 @@ class RoomStatistics extends BaseHTMLView
     private function modifyDocument()
     {
         HTML::_('bootstrap.framework');
-        HTML::_('jquery.ui');
         HTML::_('behavior.calendar');
         HTML::_('formbehavior.chosen', 'select');
 

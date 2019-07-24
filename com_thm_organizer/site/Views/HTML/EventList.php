@@ -53,8 +53,7 @@ class EventList extends BaseHTMLView
      */
     private function modifyDocument()
     {
-        HTML::_('jquery.ui');
-        HTML::_('behavior.tooltip');
+        HTML::_('bootstrap.framework');
         $document = Factory::getDocument();
         $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/event_list.css');
     }

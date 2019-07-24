@@ -53,7 +53,6 @@ class DepartmentStatistics extends BaseHTMLView
     private function modifyDocument()
     {
         HTML::_('bootstrap.framework');
-        HTML::_('jquery.ui');
         HTML::_('formbehavior.chosen', 'select');
 
         $document = Factory::getDocument();

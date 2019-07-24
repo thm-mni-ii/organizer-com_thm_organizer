@@ -63,8 +63,7 @@ class RoomOverview extends BaseHTMLView
      */
     private function modifyDocument()
     {
-        HTML::_('jquery.ui');
-        HTML::_('behavior.tooltip');
+        HTML::_('bootstrap.framework');
         HTML::_('formbehavior.chosen', 'select');
         $document = Factory::getDocument();
         $document->setCharset('utf-8');

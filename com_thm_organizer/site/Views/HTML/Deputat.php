@@ -74,7 +74,6 @@ class Deputat extends BaseHTMLView
      */
     private function modifyDocument()
     {
-        HTML::_('jquery.ui');
         HTML::_('behavior.calendar');
         HTML::_('formbehavior.chosen', 'select');
         $document = Factory::getDocument();
