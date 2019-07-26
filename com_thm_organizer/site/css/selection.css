@@ -1,0 +1,49 @@
+.main h1.page-title span[class^="icon-"] {
+  display: none; }
+.main .btn-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .main .btn-toolbar .btn-wrapper {
+    margin-right: 5px; }
+  .main .btn-toolbar button {
+    font-size: .9rem; }
+.main .js-stools .js-stools-container-bar {
+  display: flex; }
+  .main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+    border-bottom-color: initial; }
+  .main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+    border-top-color: #ffffff; }
+  .main .js-stools .js-stools-container-bar .input-append input {
+    height: 1.4rem; }
+  .main .js-stools .js-stools-container-bar .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem; }
+
+/* chosen library overwrites ******************************************************************************************/
+.chzn-container {
+  max-width: inherit; }
+  .contentpane .js-stools-container-bar .chzn-container {
+    width: auto !important; }
+    .contentpane .js-stools-container-bar .chzn-container .chzn-single span {
+      padding: 0 10px 0 0; }
+
+.main .control-group, .main .panel-head {
+  display: flex;
+  flex-direction: row; }
+.main .control-label {
+  min-width: 10rem;
+  width: 20%; }
+  .main .control-label .icon-info {
+    margin-left: .4rem; }
+.main .panel {
+  margin-top: .8rem; }
+.main .panel:first-child {
+  margin-top: 0; }
+.main .panel-head {
+  border-bottom: 1px solid #77858c;
+  font-size: 1.5rem;
+  margin-bottom: .8rem;
+  position: relative; }
+.main .panel-title {
+  padding: .8rem 0 .4rem 0; }

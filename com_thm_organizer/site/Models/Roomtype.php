@@ -15,7 +15,7 @@ use Organizer\Helpers\Access;
 /**
  * Class which manages stored room type data.
  */
-class RoomType extends MergeModel
+class Roomtype extends MergeModel
 {
     protected $fkColumn = 'typeID';
 

@@ -20,7 +20,7 @@ use Organizer\Helpers\Named;
 /**
  * Class loads non-item-specific form data.
  */
-class ItemModel extends FormModel
+class ItemModel extends BaseModel
 {
     use Named;
 
@@ -46,53 +46,5 @@ class ItemModel extends FormModel
     protected function allowView()
     {
         return Access::isAdmin();
-    }
-
-    /**
-     * Method to get the form
-     *
-     * @param array $data     Data         (default: array)
-     * @param bool  $loadData Load data  (default: true)
-     *
-     * @return mixed Form object on success, False on error.
-     * @throws Exception => unauthorized access
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function getForm($data = [], $loadData = false)
-    {
-        $allowView = $this->allowView();
-        if (!$allowView) {
-            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
-        }
-
-        $form = $this->loadForm($this->context, 'language_selection', ['control' => 'jform', 'load_data' => $loadData]);
-
-        if (empty($form)) {
-            return false;
-        }
-
-        $form->setValue('languageTag', null, Languages::getTag());
-
-        return $form;
-    }
-
-    /**
-     * Method to get a form object.
-     *
-     * @param string  $name    The name of the form.
-     * @param string  $source  The form source. Can be XML string if file flag is set to false.
-     * @param array   $options Optional array of options for the form creation.
-     * @param boolean $clear   Optional argument to force load a new form.
-     * @param string  $xpath   An optional xpath to search for the fields.
-     *
-     * @return  Form|boolean  \JForm object on success, false on error.
-     */
-    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
-    {
-        Form::addFormPath(JPATH_COMPONENT_SITE . '/Forms');
-        Form::addFieldPath(JPATH_COMPONENT_SITE . '/Fields');
-
-        return parent::loadForm($name, $source, $options, $clear, $xpath);
     }
 }

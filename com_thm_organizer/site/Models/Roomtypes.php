@@ -15,7 +15,7 @@ use Organizer\Helpers\Languages;
 /**
  * Class retrieves information for a filtered set of room types.
  */
-class RoomTypes extends ListModel
+class Roomtypes extends ListModel
 {
     /**
      * Method to get all room types from the database

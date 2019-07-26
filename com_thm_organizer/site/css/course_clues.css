@@ -1,0 +1,194 @@
+div.legal-disclaimer {
+  margin-top: 2rem; }
+  div.legal-disclaimer li {
+    font-size: .8rem;
+    font-style: italic; }
+
+div div.externallogin {
+  display: none; }
+
+div#main .uses-login .moduletable {
+  display: inline-block;
+  margin-bottom: 0; }
+  div#main .uses-login .moduletable form {
+    margin-bottom: 0; }
+  div#main .uses-login .moduletable button, div#main .uses-login .moduletable .btn {
+    background-color: white; }
+    div#main .uses-login .moduletable button:hover, div#main .uses-login .moduletable .btn:hover {
+      background-color: #4a5c66; }
+div#main .uses-login .logout-button {
+  margin-top: 0; }
+div#main .uses-login .userdata {
+  position: relative; }
+div#main .uses-login .control-group {
+  clear: left;
+  display: inline-block;
+  float: left; }
+div#main .uses-login .input-prepend input {
+  width: 12rem; }
+div#main .uses-login #login-form ul.unstyled {
+  clear: left;
+  display: block;
+  margin-top: 0;
+  min-width: 15rem;
+  float: left; }
+  div#main .uses-login #login-form ul.unstyled li {
+    list-style: none; }
+
+@media (min-width: 768px) {
+  div#main .uses-login .unstyled {
+    left: 15rem;
+    position: absolute;
+    top: 0; } }
+.subject-list button, .subject-list .btn {
+  background-color: white; }
+  .subject-list button:hover, .subject-list .btn:hover {
+    background-color: #4a5c66; }
+    .subject-list button:hover span:before, .subject-list .btn:hover span:before {
+      color: white; }
+.subject-list .course-item {
+  margin-bottom: .6rem; }
+  .subject-list .course-item > span {
+    display: inline-block;
+    font-family: "THM-Medium", Arial, Helvetica, sans-serif;
+    font-size: .9rem; }
+    .subject-list .course-item > span.campus {
+      width: 10rem; }
+  .subject-list .course-item > span, .subject-list .course-item .status {
+    margin-right: .4rem;
+    padding-top: .7rem; }
+.subject-list .subject-item {
+  clear: both;
+  overflow: auto;
+  padding: 10px 10px;
+  margin: 2px 0;
+  border-bottom: 1px solid rgba(164, 176, 187, 0.5); }
+.subject-list .subject-label {
+  color: #3d494f;
+  float: left;
+  font-weight: bold;
+  padding-right: 20px;
+  width: 18%; }
+.subject-list .subject-content {
+  margin-left: 10px;
+  float: left;
+  width: 79%; }
+  .subject-list .subject-content [class^='icon-'], .subject-list .subject-content [class*=' icon-'] {
+    margin-right: .2rem; }
+  .subject-list .subject-content ul ul {
+    margin-bottom: 0; }
+    .subject-list .subject-content ul ul li:before {
+      content: '-';
+      display: block;
+      float: left;
+      margin-left: -.4rem; }
+    .subject-list .subject-content ul ul li {
+      padding-bottom: .4rem; }
+    .subject-list .subject-content ul ul li:first-child {
+      padding-top: .4rem; }
+    .subject-list .subject-content ul ul li:last-child {
+      padding-bottom: 0; }
+  .subject-list .subject-content li {
+    padding-bottom: .8rem; }
+.subject-list .disabled {
+  opacity: .6; }
+
+div#main div#j-main-container .chzn-container {
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  height: auto;
+  min-height: 1.8rem; }
+  div#main div#j-main-container .chzn-container .chzn-choices, div#main div#j-main-container .chzn-container .chzn-choices input {
+    cursor: pointer; }
+  div#main div#j-main-container .chzn-container.chzn-container-single .chzn-single div {
+    width: 2rem; }
+div#main div#j-main-container fieldset {
+  background-color: white;
+  position: relative; }
+  div#main div#j-main-container fieldset legend {
+    border: none;
+    font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 0;
+    padding: 1rem;
+    position: absolute;
+    text-transform: uppercase; }
+    div#main div#j-main-container fieldset legend .disclaimer {
+      font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+      font-size: .7rem;
+      font-style: italic;
+      text-transform: none; }
+  div#main div#j-main-container fieldset select {
+    min-width: 6rem;
+    width: auto; }
+
+div#main div#j-main-container.export-si fieldset:first-of-type {
+  background-color: white; }
+div#main div#j-main-container.export-si fieldset:nth-of-type(2) {
+  background-color: #f2f5f6; }
+
+[class^="icon-"],
+[class*=" icon-"],
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  color: inherit !important; }
+
+div.header-container {
+  padding-bottom: 1rem; }
+  div.header-container div.header-title {
+    font-family: THM-Medium, 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 1.8rem; }
+  div.header-container .toolbar {
+    float: right; }
+  div.header-container .tool-wrapper {
+    display: inline-block; }
+    div.header-container .tool-wrapper a, div.header-container .tool-wrapper button {
+      cursor: pointer; }
+
+button {
+  border: none; }
+
+.btn-reset, .btn-reset:hover {
+  background-color: white;
+  color: #394a59;
+  margin-left: 8px; }
+
+.control-item {
+  width: 100%;
+  padding: .5rem 1rem; }
+  .control-item:first-of-type {
+    margin-top: 2.5rem; }
+
+.control-label {
+  float: left;
+  width: 12rem; }
+  .control-label .label-text {
+    font-size: .9rem; }
+  .control-label .icon-info {
+    font-size: .7rem; }
+
+.controls {
+  float: left; }
+  .controls .input-append {
+    font-size: 1.3rem; }
+    .controls .input-append > button.btn {
+      margin-top: .2rem;
+      margin-left: -2.25rem;
+      overflow: visible; }
+      .controls .input-append > button.btn:hover {
+        color: #394a59; }
+      .controls .input-append > button.btn:focus, .controls .input-append > button.btn:active {
+        outline: none; }
+
+.clear {
+  clear: both; }
+
+.tooltip.right {
+  margin-left: -1rem; }
+.tooltip > .tooltip-inner {
+  background-color: #f2f5f6;
+  color: #394a59;
+  border: 1px solid #77858c;
+  border-radius: 0;
+  padding: .2rem;
+  font-size: .8rem; }

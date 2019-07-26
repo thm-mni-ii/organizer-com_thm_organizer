@@ -15,7 +15,7 @@ use Organizer\Helpers\Access;
 /**
  * Class loads a form for merging room type data.
  */
-class RoomTypeMerge extends FormModel
+class RoomtypeMerge extends FormModel
 {
     /**
      * Checks for user authorization to access the view

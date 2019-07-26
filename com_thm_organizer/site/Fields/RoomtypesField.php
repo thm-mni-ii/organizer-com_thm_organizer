@@ -10,17 +10,17 @@
 
 namespace Organizer\Fields;
 
-use Organizer\Helpers\RoomTypes;
+use Organizer\Helpers\Roomtypes;
 
 /**
  * Class creates a form field for room type selection
  */
-class RoomTypesField extends OptionsField
+class RoomtypesField extends OptionsField
 {
     /**
      * @var  string
      */
-    protected $type = 'RoomTypes';
+    protected $type = 'Roomtypes';
 
     /**
      * Method to get the field options.
@@ -30,8 +30,8 @@ class RoomTypesField extends OptionsField
     protected function getOptions()
     {
         $options   = parent::getOptions();
-        $roomTypes = RoomTypes::getOptions();
+        $roomtypes = Roomtypes::getOptions();
 
-        return array_merge($options, $roomTypes);
+        return array_merge($options, $roomtypes);
     }
 }

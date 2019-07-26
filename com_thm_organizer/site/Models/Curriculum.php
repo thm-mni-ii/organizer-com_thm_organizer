@@ -10,7 +10,9 @@
 
 namespace Organizer\Models;
 
+use Exception;
 use Organizer\Helpers\Input;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Pools;
 use Organizer\Helpers\Programs;
@@ -34,9 +36,15 @@ class Curriculum extends ItemModel
      * Method to get an array of data items.
      *
      * @return mixed  An array of data items on success, false on failure.
+     * @throws Exception
      */
     public function getItem()
     {
+        $allowView = $this->allowView();
+        if (!$allowView) {
+            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+        }
+
         $resource = [];
         if ($poolID = Input::getFilterID('pool')) {
             $mappings         = Mappings::getMappings('pool', $poolID);

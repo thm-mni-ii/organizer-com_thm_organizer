@@ -14,14 +14,9 @@ use Organizer\Helpers\OrganizerHelper;
 
 $resourceID = Input::getID();
 $view       = Input::getView();
-
-$action = '?';
-$action .= OrganizerHelper::dynamic() ? "option=com_thm_organizer&view=$view&id=$resourceID" : ''; ?>
-<form id="adminForm" name="adminForm" method="post" action="<?php echo $action; ?>"
-      class="form-horizontal form-validate">
-    <?php require_once 'language_selection.php'; ?>
-</form>
-<?php echo OrganizerHelper::getApplication()->JComponentTitle; ?>
+$action = OrganizerHelper::dynamic() ? "?option=com_thm_organizer&view=$view&id=$resourceID" : '?';
+require_once 'language_selection.php';
+echo OrganizerHelper::getApplication()->JComponentTitle; ?>
 <div class="resource-item">
     <div class="curriculum">
         <?php foreach ($this->item['children'] as $pool) : ?>

@@ -29,9 +29,9 @@ class DepartmentStatistics extends BaseModel
 
     public $rooms;
 
-    public $roomTypes;
+    public $roomtypes;
 
-    public $roomTypeMap;
+    public $roomtypeMap;
 
     public $startDate;
 
@@ -50,7 +50,7 @@ class DepartmentStatistics extends BaseModel
 
         switch ($format) {
             case 'xls':
-                $this->setRoomTypes();
+                $this->setRoomtypes();
                 $this->setRooms();
 
                 $year            = Input::getCMD('year', date('Y'));
@@ -69,13 +69,13 @@ class DepartmentStatistics extends BaseModel
                     if ($booked) {
                         $this->rooms[$roomData['id']] = $roomName;
                     } else {
-                        unset($this->roomTypeMap[$roomData['id']]);
+                        unset($this->roomtypeMap[$roomData['id']]);
                     }
                 }
 
-                foreach (array_keys($this->roomTypes) as $rtID) {
-                    if (!in_array($rtID, $this->roomTypeMap)) {
-                        unset($this->roomTypes[$rtID]);
+                foreach (array_keys($this->roomtypes) as $rtID) {
+                    if (!in_array($rtID, $this->roomtypeMap)) {
+                        unset($this->roomtypes[$rtID]);
                     }
                 }
 
@@ -86,7 +86,7 @@ class DepartmentStatistics extends BaseModel
             case 'html':
             default:
                 $this->setRooms();
-                $this->setRoomTypes();
+                $this->setRoomtypes();
 
                 break;
         }
@@ -155,7 +155,7 @@ class DepartmentStatistics extends BaseModel
             $times = "{$rawInstance['startTime']}-{$rawInstance['endTime']}";
 
             foreach ($rawConfig['rooms'] as $roomID => $delta) {
-                if (!in_array($roomID, array_keys($this->roomTypeMap)) or $delta == 'removed') {
+                if (!in_array($roomID, array_keys($this->roomtypeMap)) or $delta == 'removed') {
                     continue;
                 }
 
@@ -231,10 +231,10 @@ class DepartmentStatistics extends BaseModel
      *
      * @return array an array of teacher options
      */
-    public function getRoomTypeOptions()
+    public function getRoomtypeOptions()
     {
         $options = [];
-        foreach ($this->roomTypes as $typeID => $typeData) {
+        foreach ($this->roomtypes as $typeID => $typeData) {
             $options[$typeID] = $typeData['name'];
         }
 
@@ -319,14 +319,14 @@ class DepartmentStatistics extends BaseModel
     private function setRooms()
     {
         $rooms       = Rooms::getPlannedRooms();
-        $roomTypeMap = [];
+        $roomtypeMap = [];
 
         foreach ($rooms as $room) {
-            $roomTypeMap[$room['id']] = $room['typeID'];
+            $roomtypeMap[$room['id']] = $room['typeID'];
         }
 
         $this->rooms       = $rooms;
-        $this->roomTypeMap = $roomTypeMap;
+        $this->roomtypeMap = $roomtypeMap;
     }
 
     /**
@@ -334,7 +334,7 @@ class DepartmentStatistics extends BaseModel
      *
      * @return void sets the room types object variable
      */
-    private function setRoomTypes()
+    private function setRoomtypes()
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
@@ -345,7 +345,7 @@ class DepartmentStatistics extends BaseModel
         $query->order('name');
         $dbo->setQuery($query);
 
-        $this->roomTypes = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+        $this->roomtypes = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
     }
 
     /**

@@ -35,9 +35,9 @@ class RoomStatistics
 
     public $rooms;
 
-    public $roomTypes;
+    public $roomtypes;
 
-    public $roomTypeMap;
+    public $roomtypeMap;
 
     public $roomData;
 
@@ -61,8 +61,8 @@ class RoomStatistics
             $this->rooms[$roomData['id']] = $roomName;
         }
 
-        $this->roomTypes   = $model->roomTypes;
-        $this->roomTypeMap = $model->roomTypeMap;
+        $this->roomtypes   = $model->roomtypes;
+        $this->roomtypeMap = $model->roomtypeMap;
         $this->roomData    = $model->roomData;
         $this->startDate   = $model->startDate;
         $this->startDoW    = $model->startDoW;
@@ -157,11 +157,11 @@ class RoomStatistics
         $this->spreadSheet->getActiveSheet()->setCellValue('B7', Languages::_('THM_ORGANIZER_WEIGHTED_PERCENT_TIP'));
 
         $this->spreadSheet->getActiveSheet()->mergeCells('A9:B9');
-        $this->spreadSheet->getActiveSheet()->setCellValue('A9', Languages::_('THM_ORGANIZER_ROOM_TYPES'));
+        $this->spreadSheet->getActiveSheet()->setCellValue('A9', Languages::_('THM_ORGANIZER_ROOMTYPES'));
         $this->spreadSheet->getActiveSheet()->getStyle('A9')->getFont()->setSize(14);
         $rowNumber = 9;
 
-        foreach ($this->roomTypes as $typeData) {
+        foreach ($this->roomtypes as $typeData) {
             $rowNumber++;
             $this->spreadSheet->getActiveSheet()->setCellValue("A$rowNumber", $typeData['name']);
             $this->spreadSheet->getActiveSheet()->setCellValue("B$rowNumber", $typeData['description']);
@@ -184,9 +184,9 @@ class RoomStatistics
     {
         $this->spreadSheet->getActiveSheet()->setCellValue("A{$rowNo}", $this->rooms[$roomID]);
         $this->spreadSheet->getActiveSheet()->getStyle("A{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
-        $roomType = (empty($this->roomTypeMap[$roomID]) or empty($this->roomTypes[$this->roomTypeMap[$roomID]])) ?
-            '' : $this->roomTypes[$this->roomTypeMap[$roomID]]['name'];
-        $this->spreadSheet->getActiveSheet()->setCellValue("B{$rowNo}", $roomType);
+        $roomtype = (empty($this->roomtypeMap[$roomID]) or empty($this->roomtypes[$this->roomtypeMap[$roomID]])) ?
+            '' : $this->roomtypes[$this->roomtypeMap[$roomID]]['name'];
+        $this->spreadSheet->getActiveSheet()->setCellValue("B{$rowNo}", $roomtype);
         $this->spreadSheet->getActiveSheet()->getStyle("B{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
 
         $total         = 0;
@@ -260,7 +260,7 @@ class RoomStatistics
 
         $this->spreadSheet->getActiveSheet()->setCellValue('A6', Languages::_('THM_ORGANIZER_NAME'));
         $this->spreadSheet->getActiveSheet()->getStyle('A6')->applyFromArray(['fill' => $this->headerFill]);
-        $this->spreadSheet->getActiveSheet()->setCellValue('B6', Languages::_('THM_ORGANIZER_ROOM_TYPE'));
+        $this->spreadSheet->getActiveSheet()->setCellValue('B6', Languages::_('THM_ORGANIZER_ROOMTYPE'));
         $this->spreadSheet->getActiveSheet()->getStyle('B6')->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->setCellValue('C6', Languages::_('THM_ORGANIZER_RAW_UTIL_TEXT'));
         $this->spreadSheet->getActiveSheet()->getStyle('C6')->applyFromArray(['fill' => $this->headerFill]);
@@ -318,7 +318,7 @@ class RoomStatistics
         $this->spreadSheet->getActiveSheet(1)->setCellValue("A{$rowNo}", $this->rooms[$roomID]);
         $this->spreadSheet->getActiveSheet()->getStyle("A{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
         $this->spreadSheet->getActiveSheet(1)
-            ->setCellValue("B{$rowNo}", $this->roomTypes[$this->roomTypeMap[$roomID]]['name']);
+            ->setCellValue("B{$rowNo}", $this->roomtypes[$this->roomtypeMap[$roomID]]['name']);
         $this->spreadSheet->getActiveSheet()->getStyle("B{$rowNo}")->applyFromArray(['borders' => $this->rightBorder]);
 
         $total         = 0;
@@ -508,7 +508,7 @@ class RoomStatistics
         $this->spreadSheet->getActiveSheet(1)->setCellValue('A7', Languages::_('THM_ORGANIZER_NAME'));
         $this->spreadSheet->getActiveSheet()->getStyle('A7')->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getStyle('B6')->applyFromArray(['borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet(1)->setCellValue('B7', Languages::_('THM_ORGANIZER_ROOM_TYPE'));
+        $this->spreadSheet->getActiveSheet(1)->setCellValue('B7', Languages::_('THM_ORGANIZER_ROOMTYPE'));
         $this->spreadSheet->getActiveSheet()->getStyle('B7')
             ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet(1)->setAutoFilter("A7:{$lastColumn}{$lastRow}");

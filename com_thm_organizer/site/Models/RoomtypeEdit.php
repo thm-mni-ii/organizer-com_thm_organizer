@@ -15,7 +15,7 @@ use Organizer\Helpers\Access;
 /**
  * Class loads a form for editing room type data.
  */
-class RoomTypeEdit extends EditModel
+class RoomtypeEdit extends EditModel
 {
     /**
      * Checks for user authorization to access the view.

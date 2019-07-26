@@ -11,12 +11,12 @@
 namespace Organizer\Views\JSON;
 
 use Organizer\Helpers\Input;
-use Organizer\Helpers\RoomTypes as RoomTypesHelper;
+use Organizer\Helpers\Roomtypes as RoomtypesHelper;
 
 /**
  * Class answers dynamic (degree) program related queries
  */
-class RoomTypes extends BaseView
+class Roomtypes extends BaseView
 {
     /**
      * loads model data into view context
@@ -26,8 +26,8 @@ class RoomTypes extends BaseView
     public function display()
     {
         $function = Input::getTask();
-        if (method_exists('Organizer\\Helpers\\RoomTypes', $function)) {
-            echo json_encode(RoomTypesHelper::$function());
+        if (method_exists('Organizer\\Helpers\\Roomtypes', $function)) {
+            echo json_encode(RoomtypesHelper::$function());
         } else {
             echo false;
         }

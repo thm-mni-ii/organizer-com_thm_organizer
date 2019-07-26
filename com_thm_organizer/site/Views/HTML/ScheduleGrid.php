@@ -187,7 +187,7 @@ class ScheduleGrid extends BaseHTMLView
         Languages::script('THM_ORGANIZER_SELECT_CATEGORY');
         Languages::script('THM_ORGANIZER_SELECT_GROUP');
         Languages::script('THM_ORGANIZER_SELECT_ROOM');
-        Languages::script('THM_ORGANIZER_SELECT_ROOM_TYPE');
+        Languages::script('THM_ORGANIZER_SELECT_ROOMTYPE');
         Languages::script('THM_ORGANIZER_SELECT_TEACHER');
         Languages::script('THM_ORGANIZER_TIME');
         Languages::script('THU');

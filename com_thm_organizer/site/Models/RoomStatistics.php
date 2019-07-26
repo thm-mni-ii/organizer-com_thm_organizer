@@ -41,9 +41,9 @@ class RoomStatistics extends BaseModel
 
     public $rooms;
 
-    public $roomTypes;
+    public $roomtypes;
 
-    public $roomTypeMap;
+    public $roomtypeMap;
 
     public $roomData;
 
@@ -66,7 +66,7 @@ class RoomStatistics extends BaseModel
 
         switch ($format) {
             case 'xls':
-                $this->setRoomTypes();
+                $this->setRoomtypes();
                 $this->setRooms();
                 $this->setGrid();
                 $this->setDates();
@@ -77,13 +77,13 @@ class RoomStatistics extends BaseModel
 
                     if (!$booked) {
                         unset($this->rooms[$roomName]);
-                        unset($this->roomTypeMap[$roomData['id']]);
+                        unset($this->roomtypeMap[$roomData['id']]);
                     }
                 }
 
-                foreach (array_keys($this->roomTypes) as $rtID) {
-                    if (!in_array($rtID, $this->roomTypeMap)) {
-                        unset($this->roomTypes[$rtID]);
+                foreach (array_keys($this->roomtypes) as $rtID) {
+                    if (!in_array($rtID, $this->roomtypeMap)) {
+                        unset($this->roomtypes[$rtID]);
                     }
                 }
 
@@ -95,7 +95,7 @@ class RoomStatistics extends BaseModel
             case 'html':
             default:
                 $this->setRooms();
-                $this->setRoomTypes();
+                $this->setRoomtypes();
 
                 break;
         }
@@ -124,7 +124,7 @@ class RoomStatistics extends BaseModel
             $lcrsIDs  = [$instance['lcrsID'] => $instance['lcrsID']];
 
             foreach ($rawConfig['rooms'] as $roomID => $delta) {
-                if (!in_array($roomID, array_keys($this->roomTypeMap)) or $delta == 'removed') {
+                if (!in_array($roomID, array_keys($this->roomtypeMap)) or $delta == 'removed') {
                     continue;
                 }
 
@@ -214,10 +214,10 @@ class RoomStatistics extends BaseModel
      *
      * @return array an array of teacher options
      */
-    public function getRoomTypeOptions()
+    public function getRoomtypeOptions()
     {
         $options = [];
-        foreach ($this->roomTypes as $typeID => $typeData) {
+        foreach ($this->roomtypes as $typeID => $typeData) {
             $options[$typeID] = $typeData['name'];
         }
 
@@ -443,14 +443,14 @@ class RoomStatistics extends BaseModel
     private function setRooms()
     {
         $rooms       = Rooms::getPlannedRooms();
-        $roomTypeMap = [];
+        $roomtypeMap = [];
 
         foreach ($rooms as $room) {
-            $roomTypeMap[$room['id']] = $room['typeID'];
+            $roomtypeMap[$room['id']] = $room['typeID'];
         }
 
         $this->rooms       = $rooms;
-        $this->roomTypeMap = $roomTypeMap;
+        $this->roomtypeMap = $roomtypeMap;
     }
 
     /**
@@ -458,7 +458,7 @@ class RoomStatistics extends BaseModel
      *
      * @return void sets the room types object variable
      */
-    private function setRoomTypes()
+    private function setRoomtypes()
     {
         $tag   = Languages::getTag();
         $query = $this->_db->getQuery(true);
@@ -469,7 +469,7 @@ class RoomStatistics extends BaseModel
 
         $this->_db->setQuery($query);
 
-        $this->roomTypes = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+        $this->roomtypes = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
     }
 
     /**

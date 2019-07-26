@@ -173,7 +173,7 @@ function copyLink()
         url += '&username=' + username + '&auth=' + auth;
     }
 
-    window.prompt(copyText, url);
+    window.prompt(Joomla.JText._('THM_ORGANIZER_COPY_SUBSCRIPTION'), url);
 
     return false;
 }
@@ -335,12 +335,11 @@ function setFormat()
     {
         case 'ics':
             formatInput.val(format);
-            actionButton.text(generateText + ' ').append('<span class="icon-feed"></span>');
-            //displayFormatContainer.hide();
+            actionButton.text(Joomla.JText._('THM_ORGANIZER_GENERATE_LINK') + ' ');
+            actionButton.append('<span class="icon-feed"></span>');
             dateContainer.hide();
             intervalContainer.hide();
             groupingContainer.hide();
-            //pdfFormatContainer.hide();
             titlesContainer.hide();
             xlsFormatContainer.hide();
             break;
@@ -348,14 +347,12 @@ function setFormat()
             formatInput.val(format);
             documentFormat = documentFormat === undefined ? 'si' : documentFormat;
             documentFormatContainer.val(documentFormat);
-            actionButton.text(downloadText + ' ').append('<span class="icon-file-excel"></span>');
+            actionButton.text(Joomla.JText._('THM_ORGANIZER_DOWNLOAD') + ' ').append('<span class="icon-file-excel"></span>');
             dateContainer.show();
             intervalContainer.show();
-            //displayFormatContainer.hide();
             groupingContainer.hide();
             linkContainer.hide();
             linkTarget.text('');
-            //pdfFormatContainer.hide();
             titlesContainer.hide();
             xlsFormatContainer.show();
             break;
@@ -364,7 +361,7 @@ function setFormat()
             formatInput.val(format);
             documentFormat = documentFormat === undefined ? 'a4' : documentFormat;
             documentFormatContainer.val(documentFormat);
-            actionButton.text(downloadText + ' ').append('<span class="icon-file-pdf"></span>');
+            actionButton.text(Joomla.JText._('THM_ORGANIZER_DOWNLOAD') + ' ').append('<span class="icon-file-pdf"></span>');
             linkContainer.hide();
             linkTarget.text('');
             if (documentFormat === 'a4')
@@ -375,10 +372,8 @@ function setFormat()
             {
                 groupingContainer.show();
             }
-            //displayFormatContainer.hide();
             dateContainer.show();
             intervalContainer.show();
-            //pdfFormatContainer.hide();
             titlesContainer.show();
             xlsFormatContainer.hide();
             break;
@@ -430,7 +425,7 @@ function validateSelection()
 
     if (emptyPools && emptyRooms && emptyTeachers)
     {
-        alert(selectionWarning);
+        alert(Joomla.JText._('THM_ORGANIZER_LIST_SELECTION_WARNING'),);
         return false;
     }
 

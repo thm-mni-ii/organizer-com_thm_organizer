@@ -1720,14 +1720,14 @@ const ScheduleApp = function (variables) {
                 'department': document.getElementById('department'),
                 'group': document.getElementById('group'),
                 'room': document.getElementById('room'),
-                'roomType': document.getElementById('roomType'),
+                'roomtype': document.getElementById('roomtype'),
                 'teacher': document.getElementById('teacher'),
                 'type': document.getElementById('type')
             },
             placeholder = {
                 'group': Joomla.JText._('THM_ORGANIZER_SELECT_GROUP'),
                 'category': Joomla.JText._('THM_ORGANIZER_SELECT_CATEGORY'),
-                'roomType': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM_TYPE'),
+                'roomtype': Joomla.JText._('THM_ORGANIZER_SELECT_ROOMTYPE'),
                 'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
                 'teacher': Joomla.JText._('THM_ORGANIZER_SELECT_TEACHER')
             },
@@ -1736,7 +1736,7 @@ const ScheduleApp = function (variables) {
                 'department': document.getElementById('department-input'),
                 'group': document.getElementById('group-input'),
                 'room': document.getElementById('room-input'),
-                'roomType': document.getElementById('roomType-input'),
+                'roomtype': document.getElementById('roomtype-input'),
                 'teacher': document.getElementById('teacher-input'),
                 'type': document.getElementById('type-input')
             },
@@ -2104,9 +2104,7 @@ const ScheduleApp = function (variables) {
                 if (idMatch)
                 {
                     const values = variables[variable];
-
-                    // Turn only first letter into lower case (for roomType)
-                    config.name = idMatch[1].substring(0, 1).toLowerCase().concat(idMatch[1].substring(1));
+                    config.name = idMatch[1].toLowerCase();
 
                     // Convert values to strings, to compare them later with Ajax response
                     if (jQuery.isArray(values))

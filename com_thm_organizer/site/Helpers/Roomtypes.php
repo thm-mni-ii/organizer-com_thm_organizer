@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for room type access checks, data retrieval and display.
  */
-class RoomTypes extends ResourceHelper implements Selectable
+class Roomtypes extends ResourceHelper implements Selectable
 {
     use Filtered;
 

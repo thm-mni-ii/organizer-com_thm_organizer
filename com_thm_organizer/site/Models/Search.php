@@ -211,7 +211,7 @@ class Search extends BaseModel
      *
      * @return array the room type ids which matched the criteria
      */
-    private function getRoomTypes(&$misc, $capacity = 0)
+    private function getRoomtypes(&$misc, $capacity = 0)
     {
         if (empty($misc) and empty($capacity)) {
             return [];
@@ -837,7 +837,7 @@ class Search extends BaseModel
             $misc[] = $term;
         }
 
-        $typeIDs    = $this->getRoomTypes($misc, $capacity);
+        $typeIDs    = $this->getRoomtypes($misc, $capacity);
         $typeString = empty($typeIDs) ? '' : "'" . implode("', '", $typeIDs) . "'";
 
         if (!empty($misc)) {

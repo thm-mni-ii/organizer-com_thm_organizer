@@ -63,7 +63,7 @@ class Rooms extends ResourceHelper implements Selectable
             ->from('#__thm_organizer_lesson_configurations AS lcnf')
             ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.id = lcnf.lessonCourseID')
             ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
-            ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lp.groupID')
+            ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID')
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
 
         foreach ($allRooms as $room) {
@@ -107,9 +107,9 @@ class Rooms extends ResourceHelper implements Selectable
         $query->select("DISTINCT r.id, r.*")
             ->from('#__thm_organizer_rooms AS r');
 
-        // Type is the more common parameter, roomType is only used in the schedule_grid context.
+        // Type is the more common parameter, roomtype is only used in the schedule_grid context.
         self::addResourceFilter($query, 'type', 'rt', 'r', 'room_types');
-        self::addResourceFilter($query, 'type', 'rt', 'r', 'room_types', 'roomType');
+        self::addResourceFilter($query, 'type', 'rt', 'r', 'room_types', 'roomtype');
 
         self::addResourceFilter($query, 'building', 'b1', 'r');
 

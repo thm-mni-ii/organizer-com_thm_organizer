@@ -33,9 +33,9 @@ class DepartmentStatistics
 
     private $rooms;
 
-    private $roomTypes;
+    private $roomtypes;
 
-    private $roomTypeMap;
+    private $roomtypeMap;
 
     private $sHoursColumns;
 
@@ -53,8 +53,8 @@ class DepartmentStatistics
         $this->endDate     = $model->endDate;
         $this->terms       = $model->terms;
         $this->rooms       = $model->rooms;
-        $this->roomTypes   = $model->roomTypes;
-        $this->roomTypeMap = $model->roomTypeMap;
+        $this->roomtypes   = $model->roomtypes;
+        $this->roomtypeMap = $model->roomtypeMap;
         $this->startDate   = $model->startDate;
         $this->useData     = $model->useData;
         unset($model);
@@ -147,7 +147,7 @@ class DepartmentStatistics
      */
     private function addDataRow($sheetNo, $rowNo, $termIndex, $roomID)
     {
-        $typeName = empty($this->roomTypeMap[$roomID]) ? 'X' : $this->roomTypes[$this->roomTypeMap[$roomID]]['name'];
+        $typeName = empty($this->roomtypeMap[$roomID]) ? 'X' : $this->roomtypes[$this->roomtypeMap[$roomID]]['name'];
 
         $this->spreadSheet->getActiveSheet($sheetNo)->setCellValue("A{$rowNo}", $this->rooms[$roomID]);
         $this->spreadSheet->getActiveSheet()->getStyle("A{$rowNo}")->applyFromArray(['borders' => $this->lightBorder]);
@@ -329,7 +329,7 @@ class DepartmentStatistics
         $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('A7', Languages::_('THM_ORGANIZER_NAME'));
         $this->spreadSheet->getActiveSheet()->getStyle('A7')->applyFromArray(['fill' => $this->headerFill]);
         $this->spreadSheet->getActiveSheet()->getStyle('B6')->applyFromArray(['borders' => $this->rightBorder]);
-        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('B7', Languages::_('THM_ORGANIZER_ROOM_TYPE'));
+        $this->spreadSheet->getActiveSheet($sheetNumber)->setCellValue('B7', Languages::_('THM_ORGANIZER_ROOMTYPE'));
         $this->spreadSheet->getActiveSheet()->getStyle('D6')->applyFromArray(['borders' => $this->rightBorder]);
         $this->spreadSheet->getActiveSheet()->getStyle('B7')
             ->applyFromArray(['fill' => $this->headerFill, 'borders' => $this->rightBorder]);

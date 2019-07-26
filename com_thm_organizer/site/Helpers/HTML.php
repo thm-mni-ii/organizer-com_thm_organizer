@@ -156,7 +156,7 @@ class HTML extends HTMLHelper
         if ($params->get('show_page_heading') and $title = $params->get('page_title')) {
             $html = $layout->render(array('title' => $title, 'icon' => $icon));
         } else {
-            $title = empty($resourceName) ? $default : $resourceName;
+            $title = empty($resourceName) ? Languages::_($default) : $resourceName;
             $html  = $layout->render(array('title' => $title, 'icon' => $icon));
         }
 

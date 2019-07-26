@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<form addfieldprefix="Organizer\Fields">
-    <field name="languageTag" type="Options" label="Language" onchange="this.form.submit();" default="de">
-        <option value="de">GERMAN</option>
-        <option value="en">ENGLISH</option>
-    </field>
-</form>

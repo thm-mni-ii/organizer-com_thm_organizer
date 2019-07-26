@@ -34,7 +34,7 @@ class MergeValuesField extends OptionsField
     {
         $selectedIDs    = Input::getSelectedIDs();
         $resource       = str_replace('_merge', '', Input::getView());
-        $validResources = ['category', 'field', 'group', 'method', 'room', 'room_type', 'teacher'];
+        $validResources = ['category', 'field', 'group', 'method', 'room', 'roomtype', 'teacher'];
         $invalid        = (empty($selectedIDs) or empty($resource) or !in_array($resource, $validResources));
         if ($invalid) {
             return [];

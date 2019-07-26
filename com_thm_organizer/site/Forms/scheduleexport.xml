@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Organizer\Fields">
+    <fieldset name="details" label="FILTERS">
+        <field name="departmentIDs" type="Departments" label="DEPARTMENT" required="true" multiple="true"
+               onChange="repopulateCategories();repopulateResources();" data-placeholder="SELECT_DEPARTMENTS"/>
+        <field name="categoryIDs" type="Categories" label="CATEGORY" required="true" multiple="true"
+               onChange="repopulateResources();" data-placeholder="SELECT_CATEGORIES"/>
+    </fieldset>
+    <fieldset name="details" label="RESOURCES">
+        <field name="myschedule" type="checkbox" label="MY_SCHEDULE" checked="0"/>
+        <field name="poolIDs" type="Pools" label="POOLS" multiple="true"/>
+        <field name="teacherIDs" type="Teachers" label="TEACHERS" multiple="true"/>
+        <field name="roomIDs" type="Rooms" label="ROOMS" multiple="true"/>
+    </fieldset>
+    <fieldset name="formatting" label="FORMAT">
+        <field name="format" type="Options" label="FILE_FORMAT" default="pdf">
+            <option value="xls">THM_ORGANIZER_XLS_CALENDAR</option>
+            <option value="ics">THM_ORGANIZER_ICS_CALENDAR</option>
+            <option value="pdf">THM_ORGANIZER_PDF_DOCUMENT</option>
+        </field>
+        <field name="display" type="Options" label="DISPLAY_FORMAT" default="schedule" showon="format:pdf">
+            <option value="schedule">SCHEDULE_DISPLAY</option>
+            <option value="list">LIST_DISPLAY</option>
+        </field>
+        <field name="weekDisplay" type="Options" label="WEEK_FORMAT" default="schedule" showon="format:pdf">
+            <option value="aggregate">ONE_WORKSHEET_PER_FILE</option>
+            <option value="seperate">ONE_WORKSHEET_PER_WEEK</option>
+        </field>
+        <field name="grouping" type="Options" label="SCHEDULE_GROUPING" default="1" showon="documentSize:a3">
+            <option value="none">NONE</option>
+            <option value="resource">BY_RESOURCE</option>
+        </field>
+        <field name="listGrouping" type="Options" label="LIST_GROUPING" default="1" showon="display:list">
+            <option value="none">CHRONOLOGICAL_SORTING</option>
+            <option value="subject">BY_SUBJECT</option>
+            <option value="teacher">BY_TEACHER</option>
+        </field>
+        <field name="titles" type="Options" label="TITLES" default="1">
+            <option value="full">FULL_NAMES</option>
+            <option value="short">SHORT_NAMES</option>
+            <option value="abbreviations">ABBREVIATIONS</option>
+        </field>
+        <field name="gridID" type="Grids" label="GRIDS"/>
+        <field name="seeingImpaired" type="hidden" value="0"/>
+        <field name="date" type="calendar" default="NOW" label="DATE" format="%d.%m.%Y" class="input-small"
+               todaybutton="true" minyear="-2" maxyear="1" translateLabel="false" showon="seeingImpaired:0"/>
+        <field name="date" type="date" label="DATE"  showon="seeingImpaired:1"/>
+        <field name="interval" type="Options" label="INTERVAL" default="month" showon="format!:ics">
+            <option value="day">DAY</option>
+            <option value="week">WEEK</option>
+            <option value="month">MONTH</option>
+            <option value="semester">SEMESTER</option>
+        </field>
+    </fieldset>
+</form>

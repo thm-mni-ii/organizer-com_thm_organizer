@@ -37,7 +37,7 @@ class Descriptions implements UntisXMLValidator
 
                 break;
             case 'r':
-                $resource = 'RoomTypes';
+                $resource = 'Roomtypes';
 
                 break;
             case 'u':

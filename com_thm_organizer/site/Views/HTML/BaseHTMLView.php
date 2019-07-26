@@ -206,9 +206,9 @@ abstract class BaseHTMLView extends BaseView
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=rooms',
                 'active' => $viewName == 'rooms'
             ];
-            $fmEntries[Languages::_('THM_ORGANIZER_ROOM_TYPES')] = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=room_types',
-                'active' => $viewName == 'room_types'
+            $fmEntries[Languages::_('THM_ORGANIZER_ROOMTYPES')] = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=roomtypes',
+                'active' => $viewName == 'roomtypes'
             ];
             ksort($fmEntries);
             foreach ($fmEntries as $key => $value) {

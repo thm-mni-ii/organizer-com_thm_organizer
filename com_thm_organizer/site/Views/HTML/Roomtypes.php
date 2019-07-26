@@ -18,7 +18,7 @@ use Organizer\Helpers\Languages;
 /**
  * Class loads persistent information a filtered set of room types into the display context.
  */
-class RoomTypes extends ListView
+class Roomtypes extends ListView
 {
     /**
      * Method to generate buttons for user interaction
@@ -27,16 +27,16 @@ class RoomTypes extends ListView
      */
     protected function addToolBar()
     {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_ROOM_TYPES_TITLE'), 'cog');
+        HTML::setTitle(Languages::_('THM_ORGANIZER_ROOMTYPES_TITLE'), 'cog');
         $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'room_type.add', false);
-        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'room_type.edit', true);
+        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'roomtype.add', false);
+        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'roomtype.edit', true);
         $toolbar->appendButton(
             'Confirm',
             Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
             'delete',
             Languages::_('THM_ORGANIZER_DELETE'),
-            'room_type.delete',
+            'roomtype.delete',
             true
         );
 
@@ -45,7 +45,7 @@ class RoomTypes extends ListView
                 'Standard',
                 'attachment',
                 Languages::_('THM_ORGANIZER_MERGE'),
-                'room_type.mergeView',
+                'roomtype.mergeView',
                 true
             );
             HTML::setPreferencesButton();
@@ -95,7 +95,7 @@ class RoomTypes extends ListView
         }
 
         $index          = 0;
-        $link           = 'index.php?option=com_thm_organizer&view=room_type_edit&id=';
+        $link           = 'index.php?option=com_thm_organizer&view=roomtype_edit&id=';
         $processedItems = [];
 
         foreach ($this->items as $item) {

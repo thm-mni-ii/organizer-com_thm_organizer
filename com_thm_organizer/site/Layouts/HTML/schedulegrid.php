@@ -164,7 +164,7 @@ $displayName = empty($this->model->displayName) ?
                         }
 
                         if (!empty($this->model->params['showRooms'])) {
-                            echo '<option value="roomType">' . Languages::_('THM_ORGANIZER_ROOM_PLANS') . '</option>';
+                            echo '<option value="roomtype">' . Languages::_('THM_ORGANIZER_ROOM_PLANS') . '</option>';
                         }
 
                         if (!empty($this->model->params['showTeachers'])) {
@@ -185,9 +185,9 @@ $displayName = empty($this->model->displayName) ?
                         <!-- filled by ajax -->
                     </select>
                 </div>
-                <div id="roomType-input" class="input-wrapper">
-                    <select id="roomType" data-next="room"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_ROOM_TYPE'); ?>">
+                <div id="roomtype-input" class="input-wrapper">
+                    <select id="roomtype" data-next="room"
+                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_ROOMTYPE'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>

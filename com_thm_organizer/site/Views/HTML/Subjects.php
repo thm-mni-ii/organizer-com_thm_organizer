@@ -63,7 +63,7 @@ class Subjects extends ListView
             }
         }
 
-        HTML::setMenuTitle(Languages::_('THM_ORGANIZER_SUBJECTS_TITLE'), $resourceName, 'book');
+        HTML::setMenuTitle('THM_ORGANIZER_SUBJECTS_TITLE', $resourceName, 'book');
         $toolbar = Toolbar::getInstance();
         if ($this->documentAccess) {
             $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'subject.add', false);

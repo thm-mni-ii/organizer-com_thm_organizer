@@ -13,8 +13,8 @@
         <field name="buildingID" type="Buildings" label="BUILDING" translateLabel="false">
             <option value="">ALL_BUILDINGS</option>
         </field>
-        <field name="types" type="RoomTypes" label="ROOM_TYPES" multiple="true" translateLabel="false">
-            <option value="">ALL_ROOM_TYPES</option>
+        <field name="types" type="Roomtypes" label="ROOMTYPES" multiple="true" translateLabel="false">
+            <option value="">ALL_ROOMTYPES</option>
         </field>
         <field name="rooms" type="Rooms" label="ROOMS" multiple="true" translateLabel="false">
             <option value="">ALL_ROOMS</option>

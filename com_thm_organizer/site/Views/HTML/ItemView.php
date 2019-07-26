@@ -35,11 +35,10 @@ abstract class ItemView extends BaseHTMLView
      */
     public function display($tpl = null)
     {
-        $this->form = $this->get('Form');
         $this->item = $this->get('Item');
         $this->addDisclaimer();
         $this->modifyDocument();
-        $defaultConstant = 'THM_ORGANIZER_' . strtoupper(str_replace('Item', '', $this->getName()));
+        $defaultConstant = 'THM_ORGANIZER_' . strtoupper(str_replace('Item', '', $this->getName())) . '_TITLE';
         $itemName        = is_array($this->item['name']) ? $this->item['name']['value'] : $this->item['name'];
         HTML::setMenuTitle($defaultConstant, $itemName);
         unset($this->item['name']);

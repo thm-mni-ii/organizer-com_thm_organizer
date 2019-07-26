@@ -12,7 +12,7 @@
         </field>
         <field name="typeID" type="GenericOptions" label="TYPE" required="true" valuecolumn="id" textcolumn="name"
                localized="true" table="thm_organizer_room_types">
-            <option value="">SELECT_ROOM_TYPE</option>
+            <option value="">SELECT_ROOMTYPE</option>
         </field>
         <field name="capacity" type="Integer" label="CAPACITY" last="500" step="1"/>
     </fieldset>

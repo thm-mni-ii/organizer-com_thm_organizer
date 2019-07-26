@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use Exception;
 use Organizer\Helpers\Campuses;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
@@ -36,9 +37,15 @@ class SubjectItem extends ItemModel
      * Loads subject information from the database
      *
      * @return array  subject data on success, otherwise empty
+     * @throws Exception
      */
     public function getItem()
     {
+        $allowView = $this->allowView();
+        if (!$allowView) {
+            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+        }
+
         $subjectID = Input::getID();
         if (empty($subjectID)) {
             return [];
