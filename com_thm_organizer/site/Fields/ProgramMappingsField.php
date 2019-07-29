@@ -45,13 +45,13 @@ class ProgramMappingsField extends FormField
         $selectedPrograms = empty($ranges) ? [] : Mappings::getSelectedPrograms($ranges);
         $options          = Mappings::getProgramOptions();
 
-        foreach (array_keys($options) as $optionID) {
-            if (!Access::allowDocumentAccess('program', $optionID)) {
-                unset($options[$optionID]);
+        foreach ($options as $key => $option) {
+            if (!Access::allowDocumentAccess('program', $option->value)) {
+                unset($options[$key]);
             }
         }
 
-        $defaultOptions = ['-1' => Languages::_('JNONE')];
+        $defaultOptions = [HTML::_('select.option', '-1', Languages::_('THM_ORGANIZER_NONE'))];
         $programs       = $defaultOptions + $options;
         $attributes     = ['multiple' => 'multiple', 'size' => '10'];
 

@@ -10,10 +10,65 @@
 
 namespace Organizer\Helpers;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class provides general functions for retrieving building data.
  */
 class Grids extends ResourceHelper
 {
+
+    /**
+     * Retrieves the selectable options for the resource.
+     *
+     * @return array the available options
+     */
+    public static function getOptions()
+    {
+        $options = [];
+        foreach (self::getResources() as $grid) {
+            $options[] = HTML::_('select.option', $grid['id'], $grid['name']);
+        }
+
+        return $options;
+    }
+
+    /**
+     * Retrieves the default grid.
+     *
+     * @param bool $onlyID whether or not only the id will be returned, defaults to true
+     *
+     * @return mixed
+     */
+    public static function getDefault($onlyID = true)
+    {
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("*")->from('#__thm_organizer_grids')->where('defaultGrid = 1');
+
+        $dbo->setQuery($query);
+
+        return $onlyID ?
+            OrganizerHelper::executeQuery('loadResult', []) : OrganizerHelper::executeQuery('loadAssoc',[]);
+    }
+
+    /**
+     * Retrieves the resource items.
+     *
+     * @return array the available resources
+     */
+    public static function getResources()
+    {
+        $tag = Languages::getTag();
+
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select("*, name_$tag as name")->from('#__thm_organizer_grids')->order('name');
+
+        $dbo->setQuery($query);
+
+        return OrganizerHelper::executeQuery('loadAssocList', []);
+    }
 
 }

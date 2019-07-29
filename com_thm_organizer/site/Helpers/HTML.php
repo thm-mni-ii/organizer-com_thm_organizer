@@ -23,6 +23,58 @@ use Joomla\CMS\Uri\Uri;
 class HTML extends HTMLHelper
 {
     /**
+     * Creates a dynamically translated label.
+     *
+     * @param mixed  $view      the view this method is applied to
+     * @param string $inputName the name of the form field whose label should be generated
+     *
+     * @return string the HMTL for the field label
+     */
+    public static function getLabel($view, $inputName)
+    {
+        $title  = Languages::_($view->form->getField($inputName)->title);
+        $tip    = Languages::_($view->form->getField($inputName)->description);
+        $return = '<label id="jform_' . $inputName . '-lbl" for="jform_' . $inputName . '" class="hasPopover"';
+        $return .= 'data-content="' . $tip . '" data-original-title="' . $title . '">' . $title . '</label>';
+
+        return $return;
+    }
+
+    /**
+     * Creates an array of option objects from an array.
+     *
+     * @param $array
+     *
+     * @return array the HMTL for the field label
+     */
+    public static function getOptions(array $array)
+    {
+        $options = [];
+        foreach ($array as $key => $item) {
+            if (is_object($item)) {
+                $item = (array)$item;
+            }
+
+            if (is_array($item)) {
+                if (array_key_exists('text', $item) and array_key_exists('value', $item)) {
+                    $text  = $item['text'];
+                    $value = $item['value'];
+                } else {
+                    $text  = reset($item);
+                    $value = end($item);
+                }
+            } else {
+                $text  = (string)$item;
+                $value = $key;
+            }
+
+            $options[] = HTML::_('select.option', $value, $text);
+        }
+
+        return $options;
+    }
+
+    /**
      * Gets an array of dynamically translated default options.
      *
      * @param object $field   the field object.
@@ -64,6 +116,22 @@ class HTML extends HTMLHelper
     }
 
     /**
+     * Translates an associative array of attributes into a string suitable for use in HTML.
+     *
+     * @param array $array the element attributes
+     *
+     * @return string the HTML string containing the attributes
+     */
+    public static function implodeAttributes(array $array)
+    {
+        $attributes = [];
+        foreach ($array as $key => $value) {
+            $attributes[] = "$key=\"$value\"";
+        }
+        return implode(' ', $attributes);
+    }
+
+    /**
      * Creates a select box
      *
      * @param mixed  $entries    a set of keys and values
@@ -74,62 +142,8 @@ class HTML extends HTMLHelper
      *
      * @return string  the html output for the select box
      */
-    public static function selectBox($entries, $name, $attributes = null, $selected = null, $jform = false)
+    public static function selectBox($options, $name, array $attributes = [], $selected = null, $jform = false)
     {
-        $options = [];
-
-        $entriesValid = (is_array($entries) or is_object($entries));
-        if ($entriesValid) {
-            foreach ($entries as $key => $value) {
-                $textValid = (is_string($value) or is_numeric($value));
-                if (!$textValid) {
-                    continue;
-                }
-
-                $options[] = self::_('select.option', $key, $value);
-            }
-        }
-
-        $attribsInvalid = (empty($attributes)
-            or (!is_object($attributes) and !is_array($attributes) and !is_string($attributes)));
-        if ($attribsInvalid) {
-            $attributes = [];
-        } elseif (is_object($attributes)) {
-            $attributes = (array)$attributes;
-        } elseif (is_string($attributes)) {
-            $validString = preg_match("/^((\'[\w]+\'|\"[\w]+\") => (\'[\w]+\'|\"[\w]+\")[,]?)+$/", $attributes);
-            if ($validString) {
-                $singleAttribs = explode(',', $attributes);
-                $attributes    = [];
-                array_walk($singleAttribs, 'parseAttribute', $attributes);
-
-                /**
-                 * Parses the attribute array entries into text/value pairs for use as options
-                 *
-                 * @param string $attribute  the attribute being iterated
-                 * @param int    $key        the array key from the array being iterated (unused)
-                 * @param array  $attributes the array where parsed attributes are stored
-                 *
-                 * @return void modifies the $attributes array
-                 *
-                 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-                 */
-                function parseAttribute($attribute, $key, &$attributes)
-                {
-                    list($property, $value) = explode(' => ', $attribute);
-                    $attributes[$property] = $value;
-                }
-            } else {
-                $attributes = [];
-            }
-        }
-
-        if (empty($attributes['class'])) {
-            $attributes['class'] = 'organizer-select-box';
-        } elseif (strpos('organizer-select-box', $attributes['class']) === false) {
-            $attributes['class'] .= ' organizer-select-box';
-        }
-
         $isMultiple = (!empty($attributes['multiple']) and $attributes['multiple'] == 'multiple');
         $multiple   = $isMultiple ? '[]' : '';
 
@@ -206,23 +220,5 @@ class HTML extends HTMLHelper
         $constant = "THM_ORGANIZER_$constant";
 
         return self::_('searchtools.sort', $constant, $column, $direction, $ordering);
-    }
-
-    /**
-     * Creates a dynamically translated label.
-     *
-     * @param mixed  $view      the view this method is applied to
-     * @param string $inputName the name of the form field whose label should be generated
-     *
-     * @return string the HMTL for the field label
-     */
-    public static function getLabel($view, $inputName)
-    {
-        $title  = Languages::_($view->form->getField($inputName)->title);
-        $tip    = Languages::_($view->form->getField($inputName)->description);
-        $return = '<label id="jform_' . $inputName . '-lbl" for="jform_' . $inputName . '" class="hasPopover"';
-        $return .= 'data-content="' . $tip . '" data-original-title="' . $title . '">' . $title . '</label>';
-
-        return $return;
     }
 }

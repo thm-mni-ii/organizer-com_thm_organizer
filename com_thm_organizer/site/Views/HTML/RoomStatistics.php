@@ -12,158 +12,74 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers\Terms;
 
 /**
  * Class loads room statistic information into the display context.
  */
-class RoomStatistics extends BaseHTMLView
+class RoomStatistics extends SelectionView
 {
-    public $fields = [];
-
-    public $date;
-
-    public $timePeriods;
-
-    public $terms;
-
-    public $departments;
-
-    public $programs;
-
-    public $roomIDs;
-
-    /**
-     * Sets context variables and renders the view.
-     *
-     * @param string $tpl template
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->modifyDocument();
-
-        $this->model = $this->getModel();
-
-        $this->setBaseFields();
-        $this->setFilterFields();
-
-        parent::display($tpl);
-    }
-
     /**
      * Modifies document variables and adds links to external files
      *
      * @return void
      */
-    private function modifyDocument()
+    protected function modifyDocument()
     {
-        HTML::_('bootstrap.framework');
-        HTML::_('behavior.calendar');
-        HTML::_('formbehavior.chosen', 'select');
+        parent::modifyDocument();
 
-        $document = Factory::getDocument();
-        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/room_statistics.js');
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_statistics.css');
+        //$this->hiddenFields = ['date'];
+
+        Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/room_statistics.js');
     }
 
     private function setBaseFields()
     {
-        $attribs                      = [];
-        $this->fields['baseSettings'] = [];
+        $this->sets['basic'] = ['label' => 'THM_ORGANIZER_BASIC_SETTINGS'];
 
-        $intervals             = [];
-        $intervalAttribs       = ['onChange' => 'handleInterval();'];
-        $intervals['week']     = Languages::_('THM_ORGANIZER_WEEK');
-        $intervals['month']    = Languages::_('THM_ORGANIZER_MONTH');
-        $intervals['semester'] = Languages::_('THM_ORGANIZER_SEMESTER');
-        $intervalSelect        = HTML::selectBox($intervals, 'interval', $intervalAttribs, 'semester');
-
-        $this->fields['baseSettings']['interval'] = [
-            'label'       => Languages::_('THM_ORGANIZER_INTERVAL'),
-            'description' => Languages::_('THM_ORGANIZER_INTERVAL_DESC'),
-            'input'       => $intervalSelect
+        $intervals       = [
+            'week'     => 'THM_ORGANIZER_WEEK',
+            'month'    => 'THM_ORGANIZER_MONTH',
+            'semester' => 'THM_ORGANIZER_SEMESTER'
         ];
+        $this->setListField('interval', 'basic', $intervals, ['onChange' => 'handleInterval();'], 'week');
 
-        // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = OrganizerHelper::getParams()->get('dateFormat');
-        $dateFormat    = preg_replace('/([a-zA-Z])/', "%$1", $rawDateFormat);
-        $dateSelect    = HTML::_('calendar', date('Y-m-d'), 'date', 'date', $dateFormat, $attribs);
-
-        $this->fields['baseSettings']['date'] = [
-            'label'       => Languages::_('JDATE'),
-            'description' => Languages::_('THM_ORGANIZER_DATE_DESC'),
-            'input'       => $dateSelect
-        ];
-
-        $termAttribs = $attribs;
-        $termOptions = Terms::getOptions(true);
-        $defaultTerm = Terms::getCurrentID();
-        $termSelect  = HTML::selectBox($termOptions, 'termIDs', $termAttribs, $defaultTerm);
-
-        $this->fields['baseSettings']['termIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_TERM'),
-            'description' => Languages::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
-            'input'       => $termSelect
-        ];
+        $date = '<input name="date" type="date" value="' . date('Y-m-d') . '">';
+        $this->setField('date', 'basic', 'THM_ORGANIZER_DATE', $date);
     }
 
     /**
-     * Creates resource selection fields for the form
+     * Sets form fields used to filter the resources available for selection.
      *
-     * @return void sets indexes in $this->fields['resouceSettings'] with html content
+     * @return void modifies the sets property
      */
     private function setFilterFields()
     {
-        $this->fields['filterFields'] = [];
-        $attribs                      = ['multiple' => 'multiple'];
+        $this->sets['filters'] = ['label' => 'THM_ORGANIZER_FILTERS'];
 
-        $roomAttribs                     = $attribs;
-        $roomAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_ROOMS');
-        $planRoomOptions                 = $this->model->getRoomOptions();
-        $roomSelect                      = HTML::selectBox($planRoomOptions, 'roomIDs', $roomAttribs);
-
-        $this->fields['filterFields']['roomIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_ROOMS'),
-            'description' => Languages::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
-            'input'       => $roomSelect
+        $deptAttribs = [
+            'multiple' => 'multiple',
+            'onChange' => 'repopulateTerms();repopulateCategories();repopulateRooms();'
         ];
+        $this->setResourceField('department', 'filters', $deptAttribs, true);
 
-        $roomTypeAttribs                     = $attribs;
-        $roomTypeAttribs['onChange']         = 'repopulateRooms();';
-        $roomTypeAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_ROOM_TYPES');
-        $typeOptions                         = $this->model->getRoomTypeOptions();
-        $roomTypeSelect                      = HTML::selectBox($typeOptions, 'typeIDs', $roomTypeAttribs);
+        $categoryAttribs = ['multiple' => 'multiple', 'onChange' => 'repopulateRooms();'];
+        $this->setResourceField('category', 'filters', $categoryAttribs);
 
-        $this->fields['filterFields']['typeIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_ROOM_TYPES'),
-            'description' => Languages::_('THM_ORGANIZER_ROOM_TYPES_EXPORT_DESC'),
-            'input'       => $roomTypeSelect
-        ];
+        $roomtypeAttribs = ['multiple' => 'multiple', 'onChange' => 'repopulateRooms();'];
+        $this->setResourceField('roomtype', 'content', $roomtypeAttribs);
 
-        $deptAttribs                     = $attribs;
-        $deptAttribs['onChange']         = 'repopulateTerms();repopulateCategories();repopulateRooms();';
-        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
-        $departmentOptions               = $this->model->getDepartmentOptions();
-        $departmentSelect                = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
+        $roomAttribs = ['multiple' => 'multiple'];
+        $this->setResourceField('room', 'content', $roomAttribs);
+    }
 
-        $this->fields['filterFields']['departmetIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_DEPARTMENTS'),
-            'description' => Languages::_('THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
-            'input'       => $departmentSelect
-        ];
-
-        $categoryAttribs                     = $attribs;
-        $categoryAttribs['onChange']         = 'repopulateTerms();repopulateRooms();';
-        $categoryAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_CATEGORY');
-        $categoryOptions                     = $this->model->getCategoryOptions();
-        $categorySelect                      = HTML::selectBox($categoryOptions, 'categoryIDs', $categoryAttribs);
-
-        $this->fields['filterFields']['categoryIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_CATEGORIES'),
-            'description' => Languages::_('THM_ORGANIZER_CATEGORIES_TITLE'),
-            'input'       => $categorySelect
-        ];
+    /**
+     * Function to define field sets and fill sets with fields
+     *
+     * @return void sets the fields property
+     */
+    protected function setSets()
+    {
+        $this->setBaseFields();
+        $this->setFilterFields();
     }
 }

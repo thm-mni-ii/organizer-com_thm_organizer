@@ -19,7 +19,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class which calculates department statistic data.
  */
-class DepartmentStatistics extends BaseModel
+class DepartmentOccupancy extends BaseModel
 {
     private $calendarData;
 

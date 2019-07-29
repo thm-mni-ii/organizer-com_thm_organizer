@@ -390,7 +390,7 @@ class Mappings
 
         $options = [];
         foreach ($programs as $program) {
-            $options["{$program['id']}"] = $program['name'];
+            $options[] = HTML::_('select.option', $program['id'], $program['name']);
         }
 
         return $options;

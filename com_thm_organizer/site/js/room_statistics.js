@@ -99,31 +99,6 @@ function handleInterval()
 }
 
 /**
- * Load terms dependent on the selected departments and categories
- */
-function repopulateTerms()
-{
-    'use strict';
-
-    const componentParameters = 'index.php?option=com_thm_organizer&view=term_options&format=json';
-
-    $.ajax({
-        type: 'GET',
-        url: rootURI + componentParameters,
-        dataType: 'json',
-        success: function (data) {
-            addTerms(data);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            if (xhr.status === 404 || xhr.status === 500)
-            {
-                $.ajax(repopulateTerms());
-            }
-        }
-    });
-}
-
-/**
  * Load rooms dependent on the selected departments and categories
  */
 function repopulateRooms()

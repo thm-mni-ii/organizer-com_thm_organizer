@@ -57,7 +57,7 @@ class SubjectCoursesField extends FormField
 
         $options = [];
         foreach ($courses as $course) {
-            $options[$course['value']] = $course['name'];
+            $options[] = HTML::_('select.option', $course['value'], $course['name']);
         }
 
         $attributes       = ['multiple' => 'multiple', 'size' => '10'];

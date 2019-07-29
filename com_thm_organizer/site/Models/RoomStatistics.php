@@ -94,9 +94,6 @@ class RoomStatistics extends BaseModel
 
             case 'html':
             default:
-                $this->setRooms();
-                $this->setRoomtypes();
-
                 break;
         }
     }

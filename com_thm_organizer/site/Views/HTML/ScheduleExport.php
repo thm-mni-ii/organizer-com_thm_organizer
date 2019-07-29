@@ -12,304 +12,186 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers\Access;
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\Input;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers as Helpers;
 
 /**
  * Class loads the schedule export filter form into the display context.
  */
-class ScheduleExport extends BaseHTMLView
+class ScheduleExport extends SelectionView
 {
-    public $date;
-
-    public $departments;
-
-    public $fields = [];
-
-    public $terms;
-
-    public $pools;
-
-    public $programs;
-
-    public $rooms;
-
-    public $teachers;
-
-    public $timePeriods;
-
-    /**
-     * Sets context variables and displays the schedule
-     *
-     * @param string $tpl template
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->modifyDocument();
-
-        $this->model = $this->getModel();
-
-        $this->setFilterFields();
-        $this->setFormatFields();
-        $this->setResourceFields();
-
-        parent::display($tpl);
-    }
-
     /**
      * Modifies document variables and adds links to external files
      *
      * @return void
      */
-    private function modifyDocument()
+    protected function modifyDocument()
     {
-        $seeingImpaired = $this->isSeeingImpaired();
-
-        if (empty($seeingImpaired)) {
-            HTML::_('behavior.calendar');
-            HTML::_('formbehavior.chosen', 'select');
-        } else {
-            $this->setLayout('schedule_export_si');
-        }
+        parent::modifyDocument();
 
         $document = Factory::getDocument();
-        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/schedule_export.js');
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/schedule_export.css');
-    }
+        $user     = Factory::getUser();
 
-    /**
-     * Creates resource selection fields for the form
-     *
-     * @return void sets indexes in $this->fields['resouceSettings'] with html content
-     */
-    private function setFilterFields()
-    {
-        $this->fields['filterFields'] = [];
-
-        // Departments
-        $deptAttribs                     = [];
-        $deptAttribs['onChange']         = 'repopulateCategories();repopulateResources();';
-        $deptAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
-
-        $departmentOptions = $this->model->getDepartmentOptions();
-        $departmentSelect  = HTML::selectBox($departmentOptions, 'departmentIDs', $deptAttribs);
-
-        $this->fields['filterFields']['departmentIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_DEPARTMENT'),
-            'description' => Languages::_('THM_ORGANIZER_DEPARTMENTS_EXPORT_DESC'),
-            'input'       => $departmentSelect
-        ];
-
-        $categoryAttribs = [
-            'multiple'         => 'multiple',
-            'onChange'         => 'repopulateResources();',
-            'data-placeholder' => Languages::_('THM_ORGANIZER_SELECT_CATEGORIES')
-        ];
-        $categorySelect  = HTML::selectBox([], 'categoryIDs', $categoryAttribs);
-
-        $this->fields['filterFields']['categoryIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_CATEGORIES'),
-            'description' => Languages::_('THM_ORGANIZER_CATEGORIES_TITLE'),
-            'input'       => $categorySelect
-        ];
-    }
-
-    /**
-     * Creates format settings fields for the form
-     *
-     * @return void sets indexes in $this->fields['formatSettings'] with html content
-     */
-    private function setFormatFields()
-    {
-        $this->fields['formatSettings'] = [];
-        $attribs                        = [];
-
-        $seeingImpaired = $this->isSeeingImpaired();
-
-        $formatAttribs             = $attribs;
-        $formatAttribs['onChange'] = 'setFormat();';
-        $fileFormats               = [];
-        $fileFormats['xls.si']     = Languages::_('THM_ORGANIZER_XLS_CALENDAR_BLIND');
-        $fileFormats['ics']        = Languages::_('THM_ORGANIZER_ICS_CALENDAR');
-        $fileFormats['pdf.a3']     = Languages::_('THM_ORGANIZER_PDF_A3_DOCUMENT');
-        $fileFormats['pdf.a4']     = Languages::_('THM_ORGANIZER_PDF_A4_DOCUMENT');
-
-        $defaultFileFormat = $seeingImpaired ? 'xls.si' : 'pdf.a4';
-        $fileFormatSelect  = HTML::selectBox($fileFormats, 'format', $formatAttribs, $defaultFileFormat);
-
-        $this->fields['formatSettings']['format'] = [
-            'label'       => Languages::_('THM_ORGANIZER_FILE_FORMAT'),
-            'description' => Languages::_('THM_ORGANIZER_FILE_FORMAT_DESC'),
-            'input'       => $fileFormatSelect
-        ];
-
-        $titlesOptions      = [];
-        $titlesOptions['1'] = Languages::_('THM_ORGANIZER_FULL_NAMES');
-        $titlesOptions['2'] = Languages::_('THM_ORGANIZER_SHORT_TITLE');
-        $titlesOptions['3'] = Languages::_('THM_ORGANIZER_ABBREVIATION');
-        $titlesSelect       = HTML::selectBox($titlesOptions, 'titles', $attribs, '1');
-
-        $this->fields['formatSettings']['titles'] = [
-            'label'       => Languages::_('THM_ORGANIZER_TITLES'),
-            'description' => Languages::_('THM_ORGANIZER_TITLES_FORMAT_DESC'),
-            'input'       => $titlesSelect
-        ];
-
-        $groupingOptions      = [];
-        $groupingOptions['0'] = Languages::_('JNONE');
-        $groupingOptions['1'] = Languages::_('THM_ORGANIZER_BY_RESOURCE');
-        $groupingSelect       = HTML::selectBox($groupingOptions, 'grouping', $attribs, '1');
-
-        $this->fields['formatSettings']['grouping'] = [
-            'label'       => Languages::_('THM_ORGANIZER_GROUPING'),
-            'description' => Languages::_('THM_ORGANIZER_GROUPING_DESC'),
-            'input'       => $groupingSelect
-        ];
-
-        $grids       = $this->model->getGridOptions();
-        $defaultGrid = $this->model->defaultGrid;
-        $gridSelect  = HTML::selectBox($grids, 'gridID', $attribs, $defaultGrid);
-
-        $this->fields['formatSettings']['gridID'] = [
-            'label'       => Languages::_('THM_ORGANIZER_GRID'),
-            'description' => Languages::_('THM_ORGANIZER_GRID_EXPORT_DESC'),
-            'input'       => $gridSelect
-        ];
-
-//        $displayFormats             = [];
-//        $displayFormats['list']     = Languages::_('THM_ORGANIZER_LIST');
-//        $displayFormats['schedule'] = Languages::_('THM_ORGANIZER_SCHEDULE');
-//        $defaultDisplayFormat       = 'schedule';
-//        $displayFormatSelect        = HTML::selectBox($displayFormats, 'displayFormat', $attribs,
-//            $defaultDisplayFormat);
-//
-//        $this->fields['formatSettings']['displayFormat'] = [
-//            'label'       => Languages::_('THM_ORGANIZER_DISPLAY_FORMAT'),
-//            'description' => Languages::_('THM_ORGANIZER_DISPLAY_FORMAT_DESC'),
-//            'input'       => $displayFormatSelect
-//        ];
-
-        // The Joomla calendar form field demands the % character before the real date format instruction values.
-        $rawDateFormat = Input::getParams()->get('dateFormat');
-        $today         = date('Y-m-d');
-
-        if ($seeingImpaired) {
-            $dateSelect = '<input name="date" type="date" value="' . $today . '">';
-        } else {
-            $dateFormat = preg_replace('/([a-zA-Z])/', "%$1", $rawDateFormat);
-            $dateSelect = HTML::_('calendar', $today, 'date', 'date', $dateFormat, $attribs);
+        if ($user->id) {
+            $auth = urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT));
+            $document->addScriptDeclaration("const username = '$user->username', auth = '$auth';");
         }
 
-        $this->fields['formatSettings']['date'] = [
-            'label'       => Languages::_('JDATE'),
-            'description' => Languages::_('THM_ORGANIZER_DATE_DESC'),
-            'input'       => $dateSelect
-        ];
+        // ToDo: make this default/chosen format dependent, not seeing impaired
+        if ($this->isSeeingImpaired()) {
+            //$this->hiddenFields = ['format', 'pdfWeekFormat', 'displayFormat'];
+        } else {
+            //$this->hiddenFields = ['xlsWeekFormat', 'grouping'];
+        }
 
-        $intervals             = [];
-        $intervals['day']      = Languages::_('THM_ORGANIZER_DAY');
-        $intervals['week']     = Languages::_('THM_ORGANIZER_WEEK');
-        $intervals['month']    = Languages::_('THM_ORGANIZER_MONTH');
-        $intervals['semester'] = Languages::_('THM_ORGANIZER_SEMESTER');
-        $defaultInterval       = 'week';
-        $intervalSelect        = HTML::selectBox($intervals, 'interval', $attribs, $defaultInterval);
-
-        $this->fields['formatSettings']['interval'] = [
-            'label'       => Languages::_('THM_ORGANIZER_INTERVAL'),
-            'description' => Languages::_('THM_ORGANIZER_INTERVAL_DESC'),
-            'input'       => $intervalSelect
-        ];
-
-//        $pdfWeekFormats          = [];
-//        $pdfWeekFormats['stack'] = Languages::_('THM_ORGANIZER_STACKED_PLANS'),;
-//        $pdfWeekFormats['sequence'] = Languages::_('THM_ORGANIZER_SEQUENCED_PLANS');
-//        $defaultPDFWeekFormat       = 'sequence';
-//
-//        $pdfWeekFormatSelect = HTML::selectBox($pdfWeekFormats, 'pdfWeekFormat', $attribs, $defaultPDFWeekFormat);
-//
-//        $this->fields['formatSettings']['pdfWeekFormat'] = [
-//            'label'       => Languages::_('THM_ORGANIZER_WEEK_FORMAT'),
-//            'description' => Languages::_('THM_ORGANIZER_WEEK_FORMAT_PDF_DESC'),
-//            'input'       => $pdfWeekFormatSelect
-//        ];
-
-        $xlsWeekFormats       = [];
-        $xlsWeekFormats[]     = ['text' => Languages::_('THM_ORGANIZER_ONE_WORKSHEET'), 'value' => 'sequence'];
-        $xlsWeekFormats[]     = ['text' => Languages::_('THM_ORGANIZER_MULTIPLE_WORKSHEETS'), 'value' => 'stack'];
-        $defaultXLSWeekFormat = 'sequence';
-
-        $xlsWeekFormatSelect = HTML::selectBox($xlsWeekFormats, 'xlsWeekFormat', $attribs, $defaultXLSWeekFormat);
-
-        $this->fields['formatSettings']['xlsWeekFormat'] = [
-            'label'       => Languages::_('THM_ORGANIZER_WEEK_FORMAT'),
-            'description' => Languages::_('THM_ORGANIZER_WEEK_FORMAT_XLS_DESC'),
-            'input'       => $xlsWeekFormatSelect
-        ];
+        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/schedule_export.js');
     }
 
     /**
-     * Creates resource selection fields for the form
+     * Sets form fields used to define the content of the exported schedule.
      *
-     * @return void sets indexes in $this->fields['resouceSettings'] with html content
+     * @return void modifies the sets property
      */
-    private function setResourceFields()
+    private function setContentFields()
     {
-        $this->fields['resourceFields'] = [];
+        $this->sets['content'] = ['label' => 'THM_ORGANIZER_CONTENT_SETTINGS'];
 
         $attribs = ['multiple' => 'multiple'];
 
+        $this->setResourceField('group', 'content', $attribs, false);
+
+        $user = Factory::getUser();
+        $showTeachers = ($user->id and (Helpers\Access::allowViewAccess() or Helpers\Teachers::getIDByUserID()));
+        if ($showTeachers) {
+            $this->setResourceField('teacher', 'content', $attribs, false);
+        }
+
+        $this->setResourceField('room', 'content', $attribs, false);
+
+    }
+
+    /**
+     * Sets form fields used to define the way in which the schedule is displayed.
+     *
+     * @return void modifies the sets property
+     */
+    private function setDisplayFields()
+    {
+        $this->sets['display'] = ['label' => 'THM_ORGANIZER_DISPLAY_SETTINGS'];
+
+        $formatAttributes = ['onChange' => 'setFormat();'];
+
+        $titlesFormats = [
+            'full'        => 'THM_ORGANIZER_FULL_NAMES',
+            'short'       => 'THM_ORGANIZER_SHORT_NAMES',
+            'abbreviated' => 'THM_ORGANIZER_ABBREVIATIONS'
+        ];
+
+        $this->setListField('titles', 'display', $titlesFormats, [], 'full');
+        $this->setResourceField('grid', 'display', [], true);
+
+        $date = '<input name="date" type="date" value="' . date('Y-m-d') . '">';
+        $this->setField('date', 'display', 'THM_ORGANIZER_DATE', $date);
+
+        $intervals = [
+            'day'      => 'THM_ORGANIZER_DAY',
+            'week'     => 'THM_ORGANIZER_WEEK',
+            'month'    => 'THM_ORGANIZER_MONTH',
+            'semester' => 'THM_ORGANIZER_SEMESTER'
+        ];
+
+        $this->setListField('interval', 'display', $intervals, $formatAttributes, 'week');
+    }
+
+    /**
+     * Sets form fields used to filter the resources available for selection.
+     *
+     * @return void modifies the sets property
+     */
+    private function setFilterFields()
+    {
+        $this->sets['filters'] = ['label' => 'THM_ORGANIZER_FILTERS'];
+
+        $deptAttribs = ['onChange' => 'repopulateCategories();repopulateResources();'];
+        $this->setResourceField('department', 'filters', $deptAttribs, true);
+
+        $categoryAttribs = ['multiple' => 'multiple', 'onChange' => 'repopulateResources();'];
+        $this->setResourceField('category', 'filters', $categoryAttribs);
+    }
+
+    /**
+     * Sets form fields used to define the format used for the export.
+     *
+     * @return void modifies the sets property
+     */
+    private function setFormatFields()
+    {
+        $this->sets['format'] = ['label' => 'THM_ORGANIZER_FORMAT_SETTINGS'];
+        $formatAttributes     = ['onChange' => 'setFormat();'];
+
+        $fileTypes   = [
+            'ics' => 'THM_ORGANIZER_ICS_CALENDAR',
+            'pdf' => 'THM_ORGANIZER_PDF_DOCUMENT',
+            'xls' => 'THM_ORGANIZER_XLS_WORKBOOK'
+        ];
+        $defaultType = $this->isSeeingImpaired() ? 'xls' : 'pdf';
+
+        $this->setListField('format', 'format', $fileTypes, $formatAttributes, $defaultType);
+
+        $pdfFormats = [
+            'a3' => 'THM_ORGANIZER_ICS_CALENDAR',
+            'a4' => 'THM_ORGANIZER_PDF_DOCUMENT'
+        ];
+
+        $this->setListField('pdfFormat', 'format', $pdfFormats, $formatAttributes, 'a4');
+
+        $grouping = [
+            'none'       => 'THM_ORGANIZER_NO_GROUPING',
+            'byresource' => 'THM_ORGANIZER_GROUPED_BY_RESOURCE'
+        ];
+
+        $this->setListField('grouping', 'format', $grouping, [], 'none');
+
+        $sheets = [
+            'collected'  => 'THM_ORGANIZER_ON_ONE_WORKSHEET',
+            'individual' => 'THM_ORGANIZER_ON_INDIVIDUAL_WORKSHEETS'
+        ];
+
+        $this->setListField('xlsFormat', 'format', $sheets, [], 'collected');
+    }
+
+    /**
+     * Sets form fields used to define the content of the exported schedule.
+     *
+     * @return void modifies the sets property
+     */
+    private function setPersonalFields()
+    {
+        $this->sets['personal'] = ['label' => 'THM_ORGANIZER_MY_PLANS'];
+
+        $myScheduleField = '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">';
+        $this->setField('myschedule', 'personal', 'MY_SCHEDULE', $myScheduleField);
+
+        if (Helpers\Teachers::getIDByUserID()) {
+            $teacherField = '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">';
+            $this->setField('myteachingschedule', 'personal', 'MY_TEACHING_SCHEDULE', $teacherField);
+        }
+    }
+
+    /**
+     * Function to define field sets and fill sets with fields
+     *
+     * @return void sets the fields property
+     */
+    protected function setSets()
+    {
         $user = Factory::getUser();
 
         if (!empty($user->id)) {
-            $this->fields['resourceFields']['myschedule'] = [
-                'label'       => Languages::_('THM_ORGANIZER_MY_SCHEDULE'),
-                'description' => Languages::_('THM_ORGANIZER_MY_SCHEDULE_EXPORT_DESC'),
-                'input'       => '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">'
-            ];
+            $this->setPersonalFields();
         }
-
-        // Pools
-        $poolAttribs                     = $attribs;
-        $poolAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_GROUPS');
-        $poolSelect                      = HTML::selectBox([], 'poolIDs', $poolAttribs);
-
-        $this->fields['resourceFields']['poolIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_POOLS'),
-            'description' => Languages::_('THM_ORGANIZER_POOLS_EXPORT_DESC'),
-            'input'       => $poolSelect
-        ];
-
-        $privilegedAccess = Access::allowViewAccess();
-        $isTeacher        = Teachers::getIDByUserID();
-
-        if ($privilegedAccess or !empty($isTeacher)) {
-            $teacherAttribs                     = $attribs;
-            $teacherAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_TEACHERS');
-            $planTeacherOptions                 = Teachers::getOptions();
-            $teacherSelect                      = HTML::selectBox($planTeacherOptions, 'teacherIDs', $teacherAttribs);
-
-            $this->fields['resourceFields']['teacherIDs'] = [
-                'label'       => Languages::_('THM_ORGANIZER_TEACHERS'),
-                'description' => Languages::_('THM_ORGANIZER_TEACHERS_EXPORT_DESC'),
-                'input'       => $teacherSelect
-            ];
-        }
-
-        // Rooms
-        $roomAttribs                     = $attribs;
-        $roomAttribs['data-placeholder'] = Languages::_('THM_ORGANIZER_SELECT_ROOMS');
-        $roomSelect                      = HTML::selectBox([], 'roomIDs', $roomAttribs);
-
-        $this->fields['resourceFields']['roomIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_ROOMS'),
-            'description' => Languages::_('THM_ORGANIZER_ROOMS_EXPORT_DESC'),
-            'input'       => $roomSelect
-        ];
+        $this->setFilterFields();
+        $this->setContentFields();
+        $this->setDisplayFields();
+        $this->setFormatFields();
     }
 }

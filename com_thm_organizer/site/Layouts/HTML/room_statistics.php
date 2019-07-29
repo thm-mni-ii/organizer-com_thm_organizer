@@ -8,18 +8,9 @@
  * @link        www.thm.de
  */
 
-use Joomla\CMS\Uri\Uri;
-
 $infoSpan      = '&nbsp;<span class="icon-info"></span>';
 $initialHidden = ['date'];
 ?>
-<script type="text/javascript">
-    var rootURI = '<?php echo Uri::root(); ?>', allText = '<?php echo Languages::_('JALL');?>',
-        selectionWarning = '<?php echo Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING');?>',
-        downloadText = '<?php echo Languages::_('THM_ORGANIZER_DOWNLOAD');?>',
-        generateText = '<?php echo Languages::_('THM_ORGANIZER_GENERATE_LINK');?>',
-        copyText = '<?php echo Languages::_('THM_ORGANIZER_COPY_SUBSCRIPTION');?>';
-</script>
 <div id="j-main-container">
     <form action="index.php?option=com_thm_organizer&view=room_statistics&format=xls"
           method="post" name="adminForm" id="adminForm" target="_blank">

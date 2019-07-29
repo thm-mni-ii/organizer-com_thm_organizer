@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 /**
  * Class generates the department statistics XLS file.
  */
-class DepartmentStatistics
+class DepartmentOccupancy
 {
 
     private $endDate;
@@ -44,7 +44,7 @@ class DepartmentStatistics
     private $useData;
 
     /**
-     * THM_OrganizerTemplateDepartment_Statistics_XLS constructor.
+     * DepartmentOccupancy_XLS constructor.
      *
      * @param object &$model the model containing the data for the room statistics
      */
@@ -66,10 +66,10 @@ class DepartmentStatistics
         $endDate   = Dates::formatDate($this->endDate);
 
         $description
-            = sprintf(Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_DESCRIPTION'), $startDate, $endDate);
+            = sprintf(Languages::_('THM_ORGANIZER_DEPARTMENT_OCCUPANCY_DESC'), $startDate, $endDate);
         $this->spreadSheet->getProperties()->setCreator('THM Organizer')
             ->setLastModifiedBy($userName)
-            ->setTitle(Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE'))
+            ->setTitle(Languages::_('THM_ORGANIZER_DEPARTMENT_OCCUPANCY_TITLE'))
             ->setDescription($description);
 
         $this->headerFill = [
@@ -386,7 +386,7 @@ class DepartmentStatistics
         $objWriter = PHPExcel_IOFactory::createWriter($this->spreadSheet, 'Excel2007');
         ob_end_clean();
         header('Content-type: application/vnd.ms-excel');
-        $rawTitle = Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS_EXPORT_TITLE') . '_' . date('Ymd');
+        $rawTitle = Languages::_('THM_ORGANIZER_DEPARTMENT_OCCUPANCY_TITLE') . '_' . date('Ymd');
         $docTitle = ApplicationHelper::stringURLSafe($rawTitle);
         header("Content-Disposition: attachment;filename=$docTitle.xlsx");
         $objWriter->save('php://output');
