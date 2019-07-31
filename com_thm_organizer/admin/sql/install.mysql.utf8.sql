@@ -500,6 +500,20 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_runs` (
+    `id`        INT(11)     UNSIGNED  NOT NULL  AUTO_INCREMENT,
+    `name_de`   VARCHAR(50)           NOT NULL,
+    `name_en`   VARCHAR(50)           NOT NULL,
+    `termID`    INT(11)     UNSIGNED            DEFAULT NULL,
+    `period`    TEXT                  NOT NULL
+        COMMENT 'Period contains the start date and end date of lessons which are saved in JSON string',
+    PRIMARY KEY (`id`),
+    INDEX `termID` (`termID`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
     `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `asset_id`     INT(11)          NOT NULL DEFAULT '0',
@@ -847,6 +861,11 @@ ALTER TABLE `#__thm_organizer_rooms`
         ON DELETE SET NULL
         ON UPDATE CASCADE,
     ADD CONSTRAINT `rooms_typeID_fk` FOREIGN KEY (`typeID`) REFERENCES `#__thm_organizer_room_types` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_runs`
+    ADD CONSTRAINT `runs_termID_fk` FOREIGN KEY (`termID`) REFERENCES `#__thm_organizer_terms` (`id`)
         ON DELETE SET NULL
         ON UPDATE CASCADE;
 

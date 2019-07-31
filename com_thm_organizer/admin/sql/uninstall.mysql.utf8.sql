@@ -31,6 +31,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_prerequisites`;
 DROP TABLE IF EXISTS `#__thm_organizer_programs`;
 DROP TABLE IF EXISTS `#__thm_organizer_rooms`;
 DROP TABLE IF EXISTS `#__thm_organizer_room_types`;
+DROP TABLE IF EXISTS `#__thm_organizer_runs`;
 DROP TABLE IF EXISTS `#__thm_organizer_schedules`;
 DROP TABLE IF EXISTS `#__thm_organizer_subject_mappings`;
 DROP TABLE IF EXISTS `#__thm_organizer_subject_teachers`;

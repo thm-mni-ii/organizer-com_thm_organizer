@@ -250,6 +250,10 @@ abstract class BaseHTMLView extends BaseView
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=methods',
                 'active' => $viewName == 'methods'
             ];
+            $adminEntries[Languages::_('THM_ORGANIZER_RUNS')]        = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=runs',
+                'active' => $viewName == 'runs'
+            ];
             ksort($adminEntries);
             foreach ($adminEntries as $key => $value) {
                 JHtmlSidebar::addEntry($key, $value['url'], $value['active']);

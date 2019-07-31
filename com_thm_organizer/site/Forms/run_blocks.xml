@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Organizer\Fields">
+    <fieldset name="dates">
+        <field name="startDate" type="calendar" default="today" label="THM_ORGANIZER_START_DATE"
+               class="input-small" required="true"/>
+        <field name="endDate" type="calendar" default="today" label="THM_ORGANIZER_END_DATE"
+               class="input-small" required="true"/>
+    </fieldset>
+</form>
