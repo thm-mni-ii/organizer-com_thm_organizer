@@ -17,3 +17,4 @@ Thumbs.db
 # Specific Local Files #
 ########################
 cas_dif
+/com_thm_organizer/admin/sql/updates/mysql/organizer*
