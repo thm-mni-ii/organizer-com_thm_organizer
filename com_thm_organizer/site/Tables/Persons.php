@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the teachers table.
  */
-class Teachers extends Nullable
+class Persons extends Nullable
 {
     /**
      * Declares the associated table
@@ -22,7 +22,7 @@ class Teachers extends Nullable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_teachers', 'id', $dbo);
+        parent::__construct('#__thm_organizer_persons', 'id', $dbo);
     }
 
     /**
