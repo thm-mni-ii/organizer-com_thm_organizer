@@ -1,4 +1,73 @@
-# region blocks 2
+# region assets
+# there is an unused duplicate entry for the health department
+UPDATE `v7ocf_assets` AS a1
+SET a1.`lft` = a1.`lft` - 2, a1.`rgt` = a1.`rgt` - 2
+WHERE a1.`lft` > (SELECT a2.`lft`
+                  FROM (SELECT *
+                        FROM `v7ocf_assets`) AS a2
+                  WHERE a2.`id` = 102);
+
+DELETE
+FROM `v7ocf_assets`
+WHERE `id` = 102;
+
+# GES - using the number normally associated with department mni
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.5'
+WHERE `name` = 'com_thm_organizer.department.6';
+
+# MNI - using the number normally associated with department wi
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.6'
+WHERE `name` = 'com_thm_organizer.department.14';
+
+# MuK
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.21'
+WHERE `name` = 'com_thm_organizer.department.8';
+
+# Friedberg - no real number just adding space for any future developments
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.50'
+WHERE `name` = 'com_thm_organizer.department.19';
+
+# Gießen - no real number, using the number normally associated with department m
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.51'
+WHERE `name` = 'com_thm_organizer.department.12';
+
+# STK - no real number, using the number normally associated with department iem
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.52'
+WHERE `name` = 'com_thm_organizer.department.11';
+
+# ZDH - no real number, using the number normally associated with department mnd
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.22'
+WHERE `name` = 'com_thm_organizer.department.13';
+
+# IEM
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.11'
+WHERE `name` = 'com_thm_organizer.department.15';
+
+# M
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.12'
+WHERE `name` = 'com_thm_organizer.department.16';
+
+# MND
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.13'
+WHERE `name` = 'com_thm_organizer.department.17';
+
+# WI
+UPDATE `v7ocf_assets`
+SET `name`= 'com_thm_organizer.department.14'
+WHERE `name` = 'com_thm_organizer.department.18';
+# endregion
+
+# region blocks
 CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_blocks` (
     `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `date`      DATE DEFAULT NULL,
@@ -18,7 +87,7 @@ SELECT DISTINCT `schedule_date`, `startTime`, `endTime`
 FROM `v7ocf_thm_organizer_calendar`;
 # endregion
 
-# region buildings 4
+# region buildings
 # fk name missing 's'
 ALTER TABLE `v7ocf_thm_organizer_buildings` DROP FOREIGN KEY `building_campusID_fk`;
 
@@ -28,7 +97,7 @@ ALTER TABLE `v7ocf_thm_organizer_buildings`
         ON UPDATE CASCADE;
 # endregion
 
-# region campuses 7
+# region campuses
 # no explicit index had been set
 ALTER TABLE `v7ocf_thm_organizer_campuses`
     DROP FOREIGN KEY `campus_gridID_fk`,
@@ -44,7 +113,7 @@ ALTER TABLE `v7ocf_thm_organizer_campuses`
         ON UPDATE CASCADE;
 #endregion
 
-# region plan programs => categories 11
+# region plan programs => categories
 # index not explicitly set, table name changed, indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_plan_programs`
     DROP FOREIGN KEY `plan_programs_programid_fk`,
@@ -64,7 +133,7 @@ ALTER TABLE `v7ocf_thm_organizer_categories`
         ON UPDATE CASCADE;
 # endregion
 
-# region departments 13
+# region departments
 # primary key was missing?
 ALTER TABLE `v7ocf_thm_organizer_departments`
     ADD PRIMARY KEY (`id`),
@@ -137,7 +206,7 @@ WHERE `id` = 18;
 ALTER TABLE `v7ocf_thm_organizer_departments` AUTO_INCREMENT = 53;
 # endregion
 
-# region plan subjects => events 40
+# region plan subjects => events
 # table name changed, index not explicitly set, indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_plan_subjects`
     DROP FOREIGN KEY `plan_subjects_fieldid_fk`,
@@ -290,7 +359,7 @@ ALTER TABLE `v7ocf_thm_organizer_events`
         ON UPDATE CASCADE;
 # endregion
 
-#region fields 43
+#region fields
 # non-standard fk syntax, indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_fields`
     DROP FOREIGN KEY `fields_colorid_fk`,
@@ -306,7 +375,7 @@ ALTER TABLE `v7ocf_thm_organizer_fields`
         ON UPDATE CASCADE;
 #endregion
 
-#region grids 45
+#region grids
 # indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_grids` DROP INDEX `gpuntisID`;
 
@@ -316,7 +385,7 @@ ALTER TABLE `v7ocf_thm_organizer_grids`
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`);
 #endregion
 
-# region plan pools => groups 49
+# region plan pools => groups
 # index not explicitly set, non-standard fk syntax, table name changed, indexed column changed, table name changed
 ALTER TABLE `v7ocf_thm_organizer_plan_pools`
     DROP FOREIGN KEY `plan_pools_fieldid_fk`,
@@ -353,7 +422,7 @@ ALTER TABLE `v7ocf_thm_organizer_groups`
         ON UPDATE CASCADE;
 # endregion
 
-# region holidays 51
+# region holidays
 CREATE TABLE `v7ocf_thm_organizer_holidays` (
     `id`        INT(11)             NOT NULL AUTO_INCREMENT,
     `name_de`   VARCHAR(50)         NOT NULL,
@@ -425,7 +494,7 @@ VALUES (1, 'Christi Himmelfahrt', 'Ascension Day', '2019-05-30', '2019-05-30', 3
        (54, 'Weihnachten', 'Christmas Day', '2024-12-25', '2024-12-26', 3);
 # endregion
 
-# region mappings 53
+# region mappings
 ALTER TABLE `v7ocf_thm_organizer_mappings`
     DROP FOREIGN KEY `mappings_parentid_fk`,
     DROP FOREIGN KEY `mappings_poolid_fk`,
@@ -889,21 +958,32 @@ ALTER TABLE `v7ocf_thm_organizer_schedules`
         ON DELETE SET NULL
         ON UPDATE CASCADE;
 
-# the names of resources referenced in the schedule entries has changed
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'subjectID', 'eventID');
-
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'subjects', 'events');
-
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'pools', 'groups');
-
 UPDATE `v7ocf_thm_organizer_schedules`
 SET `schedule` = replace(`schedule`, 'planningPeriodID', 'termID');
 
+# GES - using the number normally associated with department mni
 UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'lessons', 'units');
+SET `schedule` = replace(`schedule`, 'departmentID":"6"', 'departmentID":"5"');
+
+# MNI - using the number normally associated with department wi
+UPDATE `v7ocf_thm_organizer_schedules`
+SET `schedule` = replace(`schedule`, 'departmentID":"14"', 'departmentID":"6"');
+
+# MuK
+UPDATE `v7ocf_thm_organizer_schedules`
+SET `schedule` = replace(`schedule`, 'departmentID":"8"', 'departmentID":"21"');
+
+# Friedberg - no real number just adding space for any future developments
+UPDATE `v7ocf_thm_organizer_schedules`
+SET `schedule` = replace(`schedule`, 'departmentID":"19"', 'departmentID":"50"');
+
+# STK - no real number, using the number normally associated with department iem
+UPDATE `v7ocf_thm_organizer_schedules`
+SET `schedule` = replace(`schedule`, 'departmentID":"11"', 'departmentID":"52"');
+
+# ZDH - no real number, using the number normally associated with department mnd
+UPDATE `v7ocf_thm_organizer_schedules`
+SET `schedule` = replace(`schedule`, 'departmentID":"13"', 'departmentID":"22"');
 #endregion
 
 # region runs

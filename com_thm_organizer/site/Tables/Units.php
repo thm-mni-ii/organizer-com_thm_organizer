@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the lessons table.
  */
-class Lessons extends Nullable
+class Units extends Nullable
 {
     /**
      * Declares the associated table
@@ -22,7 +22,7 @@ class Lessons extends Nullable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_lessons', 'id', $dbo);
+        parent::__construct('#__thm_organizer_units', 'id', $dbo);
     }
 
     /**
@@ -33,10 +33,6 @@ class Lessons extends Nullable
     public function check()
     {
         $this->modified = null;
-
-        if (!strlen($this->campusID)) {
-            $this->campusID = null;
-        }
 
         return true;
     }

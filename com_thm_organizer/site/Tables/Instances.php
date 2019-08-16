@@ -11,9 +11,9 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the calendar table.
+ * Class instantiates a Table Object associated with the lesson_courses table.
  */
-class Calendar extends Nullable
+class Instances extends Nullable
 {
     /**
      * Declares the associated table
@@ -22,7 +22,7 @@ class Calendar extends Nullable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_calendar', 'id', $dbo);
+        parent::__construct('#__thm_organizer_instances', 'id', $dbo);
     }
 
     /**

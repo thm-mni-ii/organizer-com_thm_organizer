@@ -11,9 +11,9 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the lesson_courses table.
+ * Class instantiates a Table Object associated with the calendar table.
  */
-class LessonCourses extends Nullable
+class Blocks extends BaseTable
 {
     /**
      * Declares the associated table
@@ -22,18 +22,6 @@ class LessonCourses extends Nullable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_lesson_courses', 'id', $dbo);
-    }
-
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $this->modified = null;
-
-        return true;
+        parent::__construct('#__thm_organizer_blocks', 'id', $dbo);
     }
 }

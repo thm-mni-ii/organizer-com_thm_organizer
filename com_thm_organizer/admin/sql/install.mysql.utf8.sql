@@ -641,7 +641,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_persons` (
     `subjectID`      INT(11) UNSIGNED    NOT NULL,
     `personID`       INT(11)             NOT NULL,
     `responsibility` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
-        COMMENT 'The person\'s responsibility for the given subject. Responsibilities are not mutually exclusive. Possible values: 1 - coordinates, 2 - teaches.',
+        COMMENT 'The person''s responsibility for the given subject. Responsibilities are not mutually exclusive. Possible values: 1 - coordinates, 2 - teaches.',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `entry` (`personID`, `subjectID`, `responsibility`),
     INDEX `subjectID` (`subjectID`),
