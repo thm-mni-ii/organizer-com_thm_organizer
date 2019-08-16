@@ -960,30 +960,6 @@ ALTER TABLE `v7ocf_thm_organizer_schedules`
 
 UPDATE `v7ocf_thm_organizer_schedules`
 SET `schedule` = replace(`schedule`, 'planningPeriodID', 'termID');
-
-# GES - using the number normally associated with department mni
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'departmentID":"6"', 'departmentID":"5"');
-
-# MNI - using the number normally associated with department wi
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'departmentID":"14"', 'departmentID":"6"');
-
-# MuK
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'departmentID":"8"', 'departmentID":"21"');
-
-# Friedberg - no real number just adding space for any future developments
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'departmentID":"19"', 'departmentID":"50"');
-
-# STK - no real number, using the number normally associated with department iem
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'departmentID":"11"', 'departmentID":"52"');
-
-# ZDH - no real number, using the number normally associated with department mnd
-UPDATE `v7ocf_thm_organizer_schedules`
-SET `schedule` = replace(`schedule`, 'departmentID":"13"', 'departmentID":"22"');
 #endregion
 
 # region runs

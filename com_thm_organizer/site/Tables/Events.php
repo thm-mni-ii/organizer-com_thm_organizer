@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the events table.
  */
-class Courses extends BaseTable
+class Events extends BaseTable
 {
     /**
      * Declares the associated table
@@ -22,6 +22,6 @@ class Courses extends BaseTable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_courses', 'id', $dbo);
+        parent::__construct('#__thm_organizer_events', 'id', $dbo);
     }
 }
