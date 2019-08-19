@@ -413,13 +413,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_participant_instances` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_participants` (
-    `id`        INT(11)          NOT NULL,
-    `forename`  VARCHAR(255)     NOT NULL DEFAULT '',
-    `surname`   VARCHAR(255)     NOT NULL DEFAULT '',
-    `city`      VARCHAR(60)      NOT NULL DEFAULT '',
-    `address`   VARCHAR(60)      NOT NULL DEFAULT '',
-    `zip_code`  INT(11)          NOT NULL DEFAULT 0,
-    `programID` INT(11) UNSIGNED NOT NULL,
+    `id`        INT(11)             NOT NULL,
+    `forename`  VARCHAR(255)        NOT NULL DEFAULT '',
+    `surname`   VARCHAR(255)        NOT NULL DEFAULT '',
+    `city`      VARCHAR(60)         NOT NULL DEFAULT '',
+    `address`   VARCHAR(60)         NOT NULL DEFAULT '',
+    `zip_code`  INT(11)             NOT NULL DEFAULT 0,
+    `programID` INT(11) UNSIGNED             DEFAULT NULL,
+    `notify`    TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     INDEX `programID` (`programID`)
 )

@@ -594,11 +594,13 @@ ALTER TABLE `v7ocf_thm_organizer_participants`
     DROP INDEX `participants_programid_fk`;
 
 ALTER TABLE `v7ocf_thm_organizer_participants`
+    MODIFY `programID` INT(11) UNSIGNED DEFAULT NULL,
+    ADD COLUMN `notify` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     ADD INDEX `programID` (`programID`);
 
 ALTER TABLE `v7ocf_thm_organizer_participants`
     ADD CONSTRAINT `participants_programID_fk` FOREIGN KEY (`programID`) REFERENCES `v7ocf_thm_organizer_programs` (`id`)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     ADD CONSTRAINT `participants_userID_fk` FOREIGN KEY (`id`) REFERENCES `v7ocf_users` (`id`)
         ON DELETE CASCADE
@@ -941,9 +943,11 @@ ALTER TABLE `v7ocf_thm_organizer_schedules`
     DROP INDEX `schedules_departmentid_fk`,
     DROP INDEX `schedules_planningperiodid_fk`;
 
+# column migrated will be dropped in the migration process
 ALTER TABLE `v7ocf_thm_organizer_schedules`
     MODIFY `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED DEFAULT NULL,
+    ADD COLUMN `migrated` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     ADD INDEX `departmentID` (`departmentID`),
     ADD INDEX `termID` (`termID`);
 
@@ -1344,11 +1348,13 @@ DROP TABLE `v7ocf_thm_organizer_lesson_pools`;
 
 DROP TABLE `v7ocf_thm_organizer_lesson_teachers`;
 
-# ensure pool lsfID is set to NULL on 0
 # participant courses coupon?
 
-# in postflight
-# - migrate data in schedules
-# - migrate data in lesson_configurations
+# preflight - set site to offline
+
+# - migrate data in schedules - check
 # - migrate data in user_lessons
+# - migrate data in lesson_configurations
 # - drop calendar, calendar_configuration_map, lesson_configuration, lesson_subjects & user_lessons
+
+# enable site

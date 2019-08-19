@@ -16,7 +16,7 @@ use Organizer\Helpers\OrganizerHelper;
 /**
  * Class instantiates a Table Object associated with the pools table.
  */
-class Pools extends BaseTable
+class Pools extends Nullable
 {
     /**
      * Declares the associated table
@@ -26,25 +26,6 @@ class Pools extends BaseTable
     public function __construct(&$dbo = null)
     {
         parent::__construct('#__thm_organizer_pools', 'id', $dbo);
-    }
-
-    /**
-     * Overridden bind function
-     *
-     * @param array $array  named array
-     * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
-     *
-     * @return mixed  Null if operation was satisfactory, otherwise returns an error string
-     */
-    public function bind($array, $ignore = '')
-    {
-        if (isset($array['rules']) && is_array($array['rules'])) {
-            OrganizerHelper::cleanRules($array['rules']);
-            $rules = new AccessRules($array['rules']);
-            $this->setRules($rules);
-        }
-
-        return parent::bind($array, $ignore);
     }
 
     /**
@@ -73,5 +54,42 @@ class Pools extends BaseTable
         $asset->loadByName("com_thm_organizer.department.$this->departmentID");
 
         return $asset->id;
+    }
+
+    /**
+     * Overridden bind function
+     *
+     * @param array $array  named array
+     * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
+     *
+     * @return mixed  Null if operation was satisfactory, otherwise returns an error string
+     */
+    public function bind($array, $ignore = '')
+    {
+        if (isset($array['rules']) && is_array($array['rules'])) {
+            OrganizerHelper::cleanRules($array['rules']);
+            $rules = new AccessRules($array['rules']);
+            $this->setRules($rules);
+        }
+
+        return parent::bind($array, $ignore);
+    }
+
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @return boolean  true
+     */
+    public function check()
+    {
+        if (empty($this->hisID)) {
+            $this->hisID = null;
+        }
+
+        if (empty($this->lsfID)) {
+            $this->lsfID = null;
+        }
+
+        return true;
     }
 }

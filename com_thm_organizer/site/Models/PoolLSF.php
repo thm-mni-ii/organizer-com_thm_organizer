@@ -51,8 +51,8 @@ class PoolLSF extends BaseModel
         $invalidTitle = LSF::invalidTitle($stub);
         $blocked = !empty($stub->sperrmh) and strtolower((string)$stub->sperrmh) == 'x';
 
-        $lsfID = empty($stub->pordid) ? (string)$stub->modulid : (string)$stub->pordid;
-        $hisID = empty($stub->nrhis) ? (string)$stub->modulnrhis : (string)$stub->nrhis;
+        $lsfID = empty($stub->pordid) ? (int)$stub->modulid : (int)$stub->pordid;
+        $hisID = empty($stub->nrhis) ? (int)$stub->modulnrhis : (int)$stub->nrhis;
 
         $pool = $this->getTable();
         $pool->load(['lsfID' => $lsfID, 'hisID' => $hisID]);
