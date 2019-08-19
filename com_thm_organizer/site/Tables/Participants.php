@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the participants table.
  */
-class Participants extends BaseTable
+class Participants extends Nullable
 {
     /**
      * Declares the associated table
@@ -23,5 +23,19 @@ class Participants extends BaseTable
     public function __construct(&$dbo = null)
     {
         parent::__construct('#__thm_organizer_participants', 'id', $dbo);
+    }
+
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @return boolean  true
+     */
+    public function check()
+    {
+        if (empty($this->programID)) {
+            $this->programID = null;
+        }
+
+        return true;
     }
 }

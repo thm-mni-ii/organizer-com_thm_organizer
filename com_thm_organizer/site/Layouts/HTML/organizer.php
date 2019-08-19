@@ -8,6 +8,7 @@
  * @link        www.thm.de
  */
 
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -18,9 +19,14 @@ $logo    = HTML::_('image', $logoURL, Languages::_('THM_ORGANIZER'), ['class' =>
     <?php echo $this->submenu; ?>
 </div>
 <div id="j-main-container" class="span10">
-    <div class="organizer-header">
-        <div class="organizer-logo">
-            <?php echo $logo; ?>
+    <form action="?<?php echo $query = Uri::getInstance()->getQuery();; ?>" id="adminForm" method="post" name="adminForm">
+        <div class="organizer-header">
+            <div class="organizer-logo">
+                <?php echo $logo; ?>
+            </div>
         </div>
-    </div>
+        <input type="hidden" name="task" value=""/>
+        <input type="hidden" name="option" value="com_thm_organizer"/>
+        <input type="hidden" name="view" value="organizer"/>
+    </form>
 </div>

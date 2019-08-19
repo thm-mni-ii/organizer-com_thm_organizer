@@ -594,6 +594,7 @@ ALTER TABLE `v7ocf_thm_organizer_participants`
     DROP INDEX `participants_programid_fk`;
 
 ALTER TABLE `v7ocf_thm_organizer_participants`
+    CHANGE `zip_code` `zipCode` INT(11) NOT NULL DEFAULT 0,
     MODIFY `programID` INT(11) UNSIGNED DEFAULT NULL,
     ADD COLUMN `notify` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     ADD INDEX `programID` (`programID`);
@@ -1195,6 +1196,58 @@ ALTER TABLE `v7ocf_thm_organizer_course_instances`
         ON UPDATE CASCADE;
 # endregion
 
+# region course participants
+CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_course_participants` (
+    `id`              INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `courseID`        INT(11) UNSIGNED NOT NULL,
+    `participantID`   INT(11)          NOT NULL,
+    `participantDate` DATETIME        DEFAULT NULL COMMENT 'The last date of participant action.',
+    `status`          INT(1) UNSIGNED DEFAULT 0
+        COMMENT 'The participant''s course status. Possible values: 0 - pending, 1 - registered',
+    `statusDate`      DATETIME        DEFAULT NULL COMMENT 'The last date of status action.',
+    PRIMARY KEY (`id`),
+    INDEX `courseID` (`courseID`),
+    INDEX `participantID` (`participantID`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+ALTER TABLE `v7ocf_thm_organizer_course_participants`
+    ADD CONSTRAINT `course_participants_courseID_fk` FOREIGN KEY (`courseID`) REFERENCES `v7ocf_thm_organizer_courses` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `course_participants_participantID_fk` FOREIGN KEY (`participantID`) REFERENCES `v7ocf_thm_organizer_participants` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
+# endregion
+
+# region instance participants
+CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instance_participants` (
+    `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `instanceID`    INT(20) UNSIGNED NOT NULL,
+    `participantID` INT(11)          NOT NULL,
+    `delta`         VARCHAR(10)      NOT NULL DEFAULT ''
+        COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
+    `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX `instanceID` (`instanceID`),
+    INDEX `participantID` (`participantID`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+ALTER TABLE `v7ocf_thm_organizer_instance_participants`
+    ADD CONSTRAINT `instance_participants_instanceID_fk` FOREIGN KEY (`instanceID`) REFERENCES `v7ocf_thm_organizer_instances` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `instance_participants_participantID_fk` FOREIGN KEY (`participantID`) REFERENCES `v7ocf_thm_organizer_participants` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
+# endregion
+
 # region instance persons
 CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instance_persons` (
     `id`             INT(20) UNSIGNED    NOT NULL AUTO_INCREMENT,
@@ -1225,58 +1278,6 @@ ALTER TABLE `v7ocf_thm_organizer_instance_persons`
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `instance_persons_personID_fk` FOREIGN KEY (`personID`) REFERENCES `v7ocf_thm_organizer_persons` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE;
-#endregion
-
-#region participant courses
-CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_participant_courses` (
-    `id`              INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `courseID`        INT(11) UNSIGNED NOT NULL,
-    `participantID`   INT(11)          NOT NULL,
-    `participantDate` DATETIME        DEFAULT NULL COMMENT 'The last date of participant action.',
-    `status`          INT(1) UNSIGNED DEFAULT 0
-        COMMENT 'The participant''s course status. Possible values: 0 - pending, 1 - registered',
-    `statusDate`      DATETIME        DEFAULT NULL COMMENT 'The last date of status action.',
-    PRIMARY KEY (`id`),
-    INDEX `courseID` (`courseID`),
-    INDEX `participantID` (`participantID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
-ALTER TABLE `v7ocf_thm_organizer_participant_courses`
-    ADD CONSTRAINT `participant_courses_courseID_fk` FOREIGN KEY (`courseID`) REFERENCES `v7ocf_thm_organizer_courses` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    ADD CONSTRAINT `participant_courses_participantID_fk` FOREIGN KEY (`participantID`) REFERENCES `v7ocf_thm_organizer_participants` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE;
-#endregion
-
-#region participant instances
-CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_participant_instances` (
-    `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `instanceID`    INT(20) UNSIGNED NOT NULL,
-    `participantID` INT(11)          NOT NULL,
-    `delta`         VARCHAR(10)      NOT NULL DEFAULT ''
-        COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
-    `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    INDEX `instanceID` (`instanceID`),
-    INDEX `participantID` (`participantID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
-ALTER TABLE `v7ocf_thm_organizer_participant_instances`
-    ADD CONSTRAINT `participant_instances_instanceID_fk` FOREIGN KEY (`instanceID`) REFERENCES `v7ocf_thm_organizer_instances` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    ADD CONSTRAINT `participant_instances_participantID_fk` FOREIGN KEY (`participantID`) REFERENCES `v7ocf_thm_organizer_participants` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 #endregion

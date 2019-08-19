@@ -86,8 +86,8 @@ class Participant extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $numericFields  = ['id', 'programID', 'zip_code'];
-        $requiredFields = ['address', 'city', 'forename', 'id', 'programID', 'surname', 'zip_code'];
+        $numericFields  = ['id', 'programID', 'zipCode'];
+        $requiredFields = ['address', 'city', 'forename', 'id', 'programID', 'surname', 'zipCode'];
 
         foreach ($data as $index => $value) {
             if (in_array($index, $requiredFields)) {

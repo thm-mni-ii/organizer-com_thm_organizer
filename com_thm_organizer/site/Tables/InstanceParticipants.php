@@ -11,9 +11,9 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the calendar_configuration_map table.
+ * Class instantiates a Table Object associated with the subject_mappings table.
  */
-class CalendarConfigurationMap extends BaseTable
+class InstanceParticipants extends BaseTable
 {
     /**
      * Declares the associated table
@@ -22,6 +22,6 @@ class CalendarConfigurationMap extends BaseTable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_calendar_configuration_map', 'id', $dbo);
+        parent::__construct('#__thm_organizer_instance_participants', 'id', $dbo);
     }
 }

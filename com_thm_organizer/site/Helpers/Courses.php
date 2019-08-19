@@ -320,7 +320,7 @@ class Courses
         $nameParts    = ['pt.surname', "', '", 'pt.forename'];
         $programParts = ["pr.name_$tag", "' ('", 'dg.abbreviation', "' '", 'pr.version', "')'"];
 
-        $query->select($query->concatenate($nameParts, '') . ' AS userName, pt.address, pt.zip_code, pt.city')
+        $query->select($query->concatenate($nameParts, '') . ' AS userName, pt.address, pt.zipCode, pt.city')
             ->select('u.id, u.email')
             ->select($query->concatenate($programParts, '') . ' AS programName, pr.id AS programID')
             ->select("dp.short_name_$tag AS departmentName, dp.id AS departmentID");

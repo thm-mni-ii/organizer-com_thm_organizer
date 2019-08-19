@@ -119,7 +119,7 @@ class Badges extends CourseExport
         $this->document->Cell(10, 5, $participantIndex + 1, 1, 0, 'C');
 
         if ($participantIndex >= count($this->course['participants'])) {
-            $participant = ['userName' => '', 'zip_code' => '', 'city' => '', 'address' => ''];
+            $participant = ['userName' => '', 'zipCode' => '', 'city' => '', 'address' => ''];
         } else {
             $participant = $this->course['participants'][$participantIndex];
         }
@@ -170,7 +170,7 @@ class Badges extends CourseExport
         $this->document->Ln();
         $this->document->SETXY($center, $yOffset + 73);
         $this->document->Cell(20, 5, Languages::_('THM_ORGANIZER_RESIDENCE') . ': ', 0, 0, 'L');
-        $this->document->Cell(65, 5, "{$participant['zip_code']} {$participant['city']}", 0, 0, 'L');
+        $this->document->Cell(65, 5, "{$participant['zipCode']} {$participant['city']}", 0, 0, 'L');
     }
 
     /**
