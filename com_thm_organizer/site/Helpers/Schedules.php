@@ -386,7 +386,7 @@ class Schedules
         if (!isset($parameters['departmentIDs'])) {
             $parameters['showUnpublished'] = Access::isAdmin();
         } else {
-            $allowedIDs   = Access::getAccessibleDepartments('schedule');
+            $allowedIDs   = Access::getAccessibleDepartments('view');
             $overlap      = array_intersect($parameters['departmentIDs'], $allowedIDs);
             $overlapCount = count($overlap);
 

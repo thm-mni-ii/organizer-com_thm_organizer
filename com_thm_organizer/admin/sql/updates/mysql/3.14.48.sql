@@ -220,7 +220,7 @@ RENAME TABLE `v7ocf_thm_organizer_plan_subjects` TO `v7ocf_thm_organizer_events`
 # this untis id is only unique in a department context
 ALTER TABLE `v7ocf_thm_organizer_events`
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL AFTER `id`,
-    ADD COLUMN `departmentID` INT(11) UNSIGNED DEFAULT NULL AFTER `untisID`,
+    ADD COLUMN `departmentID` INT(11) UNSIGNED NOT NULL AFTER `untisID`,
     MODIFY `fieldID` INT(11) UNSIGNED DEFAULT NULL AFTER `departmentID`,
     CHANGE `name` `name_de` VARCHAR(100) NOT NULL AFTER `fieldID`,
     ADD COLUMN `name_en` VARCHAR(100) NOT NULL AFTER `name_de`,
@@ -345,7 +345,6 @@ SET `registrationType` = (SELECT MAX(DISTINCT `registration_type`)
                           FROM `v7ocf_thm_organizer_subjects` AS s
                                    INNER JOIN `v7ocf_thm_organizer_subject_mappings` AS sm ON sm.`subjectID` = s.`id`
                           WHERE s.`is_prep_course` = 1 AND sm.`plan_subjectID` = e.`id`);
-
 
 ALTER TABLE `v7ocf_thm_organizer_events`
     ADD CONSTRAINT `events_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `v7ocf_thm_organizer_campuses` (`id`)
@@ -947,17 +946,18 @@ ALTER TABLE `v7ocf_thm_organizer_schedules`
 # column migrated will be dropped in the migration process
 ALTER TABLE `v7ocf_thm_organizer_schedules`
     MODIFY `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-    CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED DEFAULT NULL,
+    MODIFY `departmentID` INT(11) UNSIGNED NOT NULL,
+    CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED NOT NULL,
     ADD COLUMN `migrated` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     ADD INDEX `departmentID` (`departmentID`),
     ADD INDEX `termID` (`termID`);
 
 ALTER TABLE `v7ocf_thm_organizer_schedules`
     ADD CONSTRAINT `schedules_departmentID_fk` FOREIGN KEY (`departmentID`) REFERENCES `v7ocf_thm_organizer_departments` (`id`)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `schedules_termID_fk` FOREIGN KEY (`termID`) REFERENCES `v7ocf_thm_organizer_terms` (`id`)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `schedules_userID_fk` FOREIGN KEY (`userID`) REFERENCES `v7ocf_users` (`id`)
         ON DELETE SET NULL

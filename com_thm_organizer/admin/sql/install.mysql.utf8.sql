@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_coordinators` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
     `id`               INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
     `untisID`          VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    `departmentID`     INT(11) UNSIGNED                                DEFAULT NULL,
+    `departmentID`     INT(11) UNSIGNED    NOT NULL,
     `fieldID`          INT(11) UNSIGNED                                DEFAULT NULL,
     `name_de`          VARCHAR(100)        NOT NULL,
     `name_en`          VARCHAR(100)        NOT NULL,
@@ -608,8 +608,8 @@ CREATE TABLE `#__thm_organizer_runs` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
     `id`           INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
     `asset_id`     INT(11)             NOT NULL DEFAULT 0,
-    `departmentID` INT(11) UNSIGNED             DEFAULT NULL,
-    `termID`       INT(11) UNSIGNED             DEFAULT NULL,
+    `departmentID` INT(11) UNSIGNED    NOT NULL,
+    `termID`       INT(11) UNSIGNED    NOT NULL,
     `userID`       INT(11)                      DEFAULT NULL,
     `creationDate` DATE                         DEFAULT NULL,
     `creationTime` TIME                         DEFAULT NULL,
@@ -967,10 +967,10 @@ ALTER TABLE `#__thm_organizer_runs`
 
 ALTER TABLE `#__thm_organizer_schedules`
     ADD CONSTRAINT `schedules_departmentID_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `schedules_termID_fk` FOREIGN KEY (`termID`) REFERENCES `#__thm_organizer_terms` (`id`)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `schedules_userID_fk` FOREIGN KEY (`userID`) REFERENCES `#__users` (`id`)
         ON DELETE SET NULL
