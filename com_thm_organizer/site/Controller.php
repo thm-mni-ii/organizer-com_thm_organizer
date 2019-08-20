@@ -450,6 +450,66 @@ class Controller extends BaseController
     }
 
     /**
+     * Makes call to migrate the data
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function migrateConfigurations()
+    {
+        $success = $this->getModel($this->resource)->migrateConfigurations();
+
+        if (!empty($success)) {
+            OrganizerHelper::message('Configurations have been migrated');
+        } else {
+            OrganizerHelper::message('Configurations have not been migrated', 'error');
+        }
+
+        $url = Routing::getRedirectBase() . "&view={$this->resource}";
+        $this->setRedirect($url);
+    }
+
+    /**
+     * Makes call to migrate the data
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function migrateSchedules()
+    {
+        $success = $this->getModel($this->resource)->migrateSchedules();
+
+        if (!empty($success)) {
+            OrganizerHelper::message('Schedules have been migrated');
+        } else {
+            OrganizerHelper::message('Schedules have not been migrated', 'error');
+        }
+
+        $url = Routing::getRedirectBase() . "&view={$this->resource}";
+        $this->setRedirect($url);
+    }
+
+    /**
+     * Makes call to migrate the data
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function migrateUserLessons()
+    {
+        $success = $this->getModel($this->resource)->migrateUserLessons();
+
+        if (!empty($success)) {
+            OrganizerHelper::message('User lessons have been migrated');
+        } else {
+            OrganizerHelper::message('User lessons have not been migrated', 'error');
+        }
+
+        $url = Routing::getRedirectBase() . "&view={$this->resource}";
+        $this->setRedirect($url);
+    }
+
+    /**
      * Sets the publication status for any group / complete term pairing to true
      *
      * @return void
@@ -505,7 +565,7 @@ class Controller extends BaseController
 
         // Ensure participant data is complete
         $invalidParticipant = (empty($participant->address)
-            or empty($participant->zip_code)
+            or empty($participant->zipCode)
             or empty($participant->city)
             or empty($participant->programID)
             or empty($participant->forename)

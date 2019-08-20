@@ -10,6 +10,7 @@
 
 namespace Organizer\Views\HTML;
 
+use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Joomla\CMS\Factory;
@@ -49,6 +50,9 @@ class Organizer extends BaseHTMLView
         HTML::setTitle(Languages::_('THM_ORGANIZER_MAIN'), 'organizer');
 
         if (Access::isAdmin()) {
+            $toolbar = Toolbar::getInstance();
+            $this->getModel()->showConfigurationMigrationButtons($toolbar);
+            $this->getModel()->showScheduleMigrationButton($toolbar);
             HTML::setPreferencesButton();
         }
     }
