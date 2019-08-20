@@ -6,7 +6,7 @@
         <field name="buildingID" type="MergeAssociations" label="BUILDING" textcolumn="b.name" from="rooms AS rm"
                innerJoins="buildings AS b ON b.id = rm.buildingID"/>
         <field name="typeID" type="MergeAssociations" label="TYPE" textcolumn="name" localized="true" from="rooms AS rm"
-               innerJoins="room_types AS rt ON rt.id = rm.typeID"/>
+               innerJoins="roomtypes AS rt ON rt.id = rm.typeID"/>
         <field name="capacity" type="MergeValues" label="CAPACITY"/>
         <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>

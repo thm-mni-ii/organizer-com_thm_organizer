@@ -7,7 +7,7 @@
             <option value="">ALL_BUILDINGS</option>
             <option value="-1">NO_BUILDING</option>
         </field>
-        <field name="typeID" type="Roomtypes" label="TYPE" onchange="this.form.submit();">
+        <field name="roomtypeID" type="Roomtypes" label="TYPE" onchange="this.form.submit();">
             <option value="">ALL_ROOMTYPES</option>
             <option value="-1">NO_ROOMTYPE</option>
         </field>

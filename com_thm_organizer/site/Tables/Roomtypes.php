@@ -11,7 +11,7 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the room_types table.
+ * Class instantiates a Table Object associated with the roomtypes table.
  */
 class Roomtypes extends BaseTable
 {
@@ -22,6 +22,6 @@ class Roomtypes extends BaseTable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_room_types', 'id', $dbo);
+        parent::__construct('#__thm_organizer_roomtypes', 'id', $dbo);
     }
 }

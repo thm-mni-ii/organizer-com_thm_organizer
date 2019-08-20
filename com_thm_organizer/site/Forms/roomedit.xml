@@ -11,7 +11,7 @@
             <option value="">NO_INPUT</option>
         </field>
         <field name="typeID" type="GenericOptions" label="TYPE" required="true" valuecolumn="id" textcolumn="name"
-               localized="true" table="thm_organizer_room_types">
+               localized="true" table="thm_organizer_roomtypes">
             <option value="">SELECT_ROOMTYPE</option>
         </field>
         <field name="capacity" type="Integer" label="CAPACITY" last="500" step="1"/>
