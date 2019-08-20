@@ -624,7 +624,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_schedules` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_mappings` (
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_events` (
     `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `eventID`   INT(11) UNSIGNED NOT NULL,
     `subjectID` INT(11) UNSIGNED NOT NULL,
@@ -976,11 +976,11 @@ ALTER TABLE `#__thm_organizer_schedules`
         ON DELETE SET NULL
         ON UPDATE CASCADE;
 
-ALTER TABLE `#__thm_organizer_subject_mappings`
-    ADD CONSTRAINT `subject_mappings_eventID_fk` FOREIGN KEY (`eventID`) REFERENCES `#__thm_organizer_events` (`id`)
+ALTER TABLE `#__thm_organizer_subject_events`
+    ADD CONSTRAINT `subject_events_eventID_fk` FOREIGN KEY (`eventID`) REFERENCES `#__thm_organizer_events` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    ADD CONSTRAINT `subject_mappings_subjectID_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
+    ADD CONSTRAINT `subject_events_subjectID_fk` FOREIGN KEY (`subjectID`) REFERENCES `#__thm_organizer_subjects` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 

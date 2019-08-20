@@ -13,7 +13,7 @@ namespace Organizer\Tables;
 /**
  * Class instantiates a Table Object associated with the subject_mappings table.
  */
-class InstanceParticipants extends Nullable
+class SubjectPersons extends BaseTable
 {
     /**
      * Declares the associated table
@@ -22,18 +22,6 @@ class InstanceParticipants extends Nullable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_instance_participants', 'id', $dbo);
-    }
-
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $this->modified = null;
-
-        return true;
+        parent::__construct('#__thm_organizer_subject_persons', 'id', $dbo);
     }
 }

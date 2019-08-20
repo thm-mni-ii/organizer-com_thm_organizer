@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_rooms`;
 DROP TABLE IF EXISTS `#__thm_organizer_roomtypes`;
 DROP TABLE IF EXISTS `#__thm_organizer_runs`;
 DROP TABLE IF EXISTS `#__thm_organizer_schedules`;
-DROP TABLE IF EXISTS `#__thm_organizer_subject_mappings`;
+DROP TABLE IF EXISTS `#__thm_organizer_subject_events`;
 DROP TABLE IF EXISTS `#__thm_organizer_subject_persons`;
 DROP TABLE IF EXISTS `#__thm_organizer_subjects`;
 DROP TABLE IF EXISTS `#__thm_organizer_terms`;

@@ -814,7 +814,7 @@ ALTER TABLE `v7ocf_thm_organizer_rooms`
         ON UPDATE CASCADE;
 # endregion
 
-# region subject mappings
+# region subject mappings => subject events
 # no index explicitly set, non-standard fk syntax
 ALTER TABLE `v7ocf_thm_organizer_subject_mappings`
     DROP FOREIGN KEY `subject_mappings_plan_subjectID_fk`,
@@ -822,17 +822,19 @@ ALTER TABLE `v7ocf_thm_organizer_subject_mappings`
     DROP INDEX `entry`,
     DROP INDEX `subject_mappings_plan_subjectID_fk`;
 
-ALTER TABLE `v7ocf_thm_organizer_subject_mappings`
+RENAME TABLE `v7ocf_thm_organizer_subject_mappings` TO `v7ocf_thm_organizer_subject_events`;
+
+ALTER TABLE `v7ocf_thm_organizer_subject_events`
     CHANGE `plan_subjectID` `eventID` INT(11) UNSIGNED NOT NULL,
     ADD CONSTRAINT `entry` UNIQUE (`subjectID`, `eventID`),
     ADD INDEX `subjectID` (`subjectID`),
     ADD INDEX `eventID` (`eventID`);
 
-ALTER TABLE `v7ocf_thm_organizer_subject_mappings`
-    ADD CONSTRAINT `subject_mappings_eventID_fk` FOREIGN KEY (`eventID`) REFERENCES `v7ocf_thm_organizer_events` (`id`)
+ALTER TABLE `v7ocf_thm_organizer_subject_events`
+    ADD CONSTRAINT `subject_events_eventID_fk` FOREIGN KEY (`eventID`) REFERENCES `v7ocf_thm_organizer_events` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    ADD CONSTRAINT `subject_mappings_subjectID_fk` FOREIGN KEY (`subjectID`) REFERENCES `v7ocf_thm_organizer_subjects` (`id`)
+    ADD CONSTRAINT `subject_events_subjectID_fk` FOREIGN KEY (`subjectID`) REFERENCES `v7ocf_thm_organizer_subjects` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 # endregion

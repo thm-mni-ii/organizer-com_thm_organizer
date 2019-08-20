@@ -11,9 +11,9 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the subject_mappings table.
+ * Class instantiates a Table Object associated with the lesson_groups table.
  */
-class SubjectMappings extends BaseTable
+class PersonGroups extends Nullable
 {
     /**
      * Declares the associated table
@@ -22,6 +22,18 @@ class SubjectMappings extends BaseTable
      */
     public function __construct(&$dbo = null)
     {
-        parent::__construct('#__thm_organizer_subject_mappings', 'id', $dbo);
+        parent::__construct('#__thm_organizer_person_groups', 'id', $dbo);
+    }
+
+    /**
+     * Set the table column names which are allowed to be null
+     *
+     * @return boolean  true
+     */
+    public function check()
+    {
+        $this->modified = null;
+
+        return true;
     }
 }
