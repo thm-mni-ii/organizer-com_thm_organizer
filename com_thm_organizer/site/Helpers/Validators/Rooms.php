@@ -126,15 +126,15 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
 
         $untisID = empty($externalID) ? $internalID : $externalID;
 
-        $typeID      = str_replace('DS_', '', trim((string)$roomNode->room_description[0]['id']));
-        $invalidType = (empty($typeID) or empty($scheduleModel->schedule->roomtypes->$typeID));
+        $roomTypeID  = str_replace('DS_', '', trim((string)$roomNode->room_description[0]['id']));
+        $invalidType = (empty($roomTypeID) or empty($scheduleModel->schedule->roomtypes->$roomTypeID));
         if ($invalidType) {
             $scheduleModel->scheduleWarnings['ROOM-TYPE'] = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
                 1 : $scheduleModel->scheduleWarnings['ROOM-TYPE']++;
 
-            $typeID = null;
+            $roomTypeID = null;
         } else {
-            $typeID = $scheduleModel->schedule->roomtypes->$typeID->id;
+            $roomTypeID = $scheduleModel->schedule->roomtypes->$roomTypeID->id;
         }
 
         $capacity      = (int)$roomNode->capacity;
@@ -153,7 +153,7 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
         $room->capacity   = $capacity;
         $room->untisID    = $untisID;
         $room->name       = $untisID;
-        $room->typeID     = $typeID;
+        $room->roomtypeID = $roomTypeID;
 
         $scheduleModel->schedule->rooms->$internalID = $room;
         self::setID($scheduleModel, $internalID);

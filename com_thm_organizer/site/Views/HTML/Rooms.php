@@ -68,7 +68,7 @@ class Rooms extends ListView
         $headers['checkbox']   = '';
         $headers['name']       = HTML::sort('NAME', 'r.name', $direction, $ordering);
         $headers['buildingID'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
-        $headers['typeID']     = HTML::sort('TYPE', 'type', $direction, $ordering);
+        $headers['roomtypeID']     = HTML::sort('TYPE', 'roomtype', $direction, $ordering);
 
         return $headers;
     }
@@ -92,7 +92,7 @@ class Rooms extends ListView
             $processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['name']       = HTML::_('link', $item->link, $item->name);
             $processedItems[$index]['buildingID'] = HTML::_('link', $item->link, $item->buildingName);
-            $processedItems[$index]['typeID']     = HTML::_('link', $item->link, $item->type);
+            $processedItems[$index]['roomtypeID'] = HTML::_('link', $item->link, $item->roomtype);
             $index++;
         }
 

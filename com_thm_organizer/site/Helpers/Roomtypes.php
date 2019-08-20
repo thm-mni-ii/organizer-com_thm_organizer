@@ -52,17 +52,17 @@ class Roomtypes extends ResourceHelper implements Selectable
         $tag = Languages::getTag();
 
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT t.*, t.id AS id, t.name_$tag AS name")->from('#__thm_organizer_room_types AS t');
+        $query->select("DISTINCT t.*, t.id AS id, t.name_$tag AS name")->from('#__thm_organizer_roomtypes AS t');
 
         if ($public !== null) {
             $query->where('t.public = ' . $public);
         }
 
         if ($associated === self::YES) {
-            $query->innerJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
+            $query->innerJoin('#__thm_organizer_rooms AS r ON r.roomtypeID = t.id');
         } elseif ($associated === self::NO) {
-            $query->leftJoin('#__thm_organizer_rooms AS r ON r.typeID = t.id');
-            $query->where('r.typeID IS NULL');
+            $query->leftJoin('#__thm_organizer_rooms AS r ON r.roomtypeID = t.id');
+            $query->where('r.roomtypeID IS NULL');
         }
 
         self::addResourceFilter($query, 'building', 'b1', 'r');

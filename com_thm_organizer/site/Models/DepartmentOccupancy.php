@@ -234,8 +234,8 @@ class DepartmentOccupancy extends BaseModel
     public function getRoomtypeOptions()
     {
         $options = [];
-        foreach ($this->roomtypes as $typeID => $typeData) {
-            $options[$typeID] = $typeData['name'];
+        foreach ($this->roomtypes as $roomTypeID => $roomtypeData) {
+            $options[$roomTypeID] = $roomtypeData['name'];
         }
 
         return $options;
@@ -322,7 +322,7 @@ class DepartmentOccupancy extends BaseModel
         $roomtypeMap = [];
 
         foreach ($rooms as $room) {
-            $roomtypeMap[$room['id']] = $room['typeID'];
+            $roomtypeMap[$room['id']] = $room['roomtypeID'];
         }
 
         $this->rooms       = $rooms;
@@ -341,7 +341,7 @@ class DepartmentOccupancy extends BaseModel
         $tag   = Languages::getTag();
 
         $query->select("id, name_$tag AS name, description_$tag AS description");
-        $query->from('#__thm_organizer_room_types');
+        $query->from('#__thm_organizer_roomtypes');
         $query->order('name');
         $dbo->setQuery($query);
 

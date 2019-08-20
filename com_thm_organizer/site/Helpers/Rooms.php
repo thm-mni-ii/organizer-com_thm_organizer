@@ -86,7 +86,7 @@ class Rooms extends ResourceHelper implements Selectable
             $count = OrganizerHelper::executeQuery('loadResult');
 
             if (!empty($count)) {
-                $relevantRooms[$room['name']] = ['id' => $room['id'], 'typeID' => $room['typeID']];
+                $relevantRooms[$room['name']] = ['id' => $room['id'], 'roomtypeID' => $room['roomtypeID']];
             }
         }
 

@@ -17,9 +17,9 @@ use Organizer\Helpers\Access;
  */
 class Roomtype extends MergeModel
 {
-    protected $fkColumn = 'typeID';
+    protected $fkColumn = 'roomtypeID';
 
-    protected $tableName = 'room_types';
+    protected $tableName = 'roomtypes';
 
     /**
      * Provides room type specific user access checks

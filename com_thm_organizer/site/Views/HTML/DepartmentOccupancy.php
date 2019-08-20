@@ -88,9 +88,9 @@ class DepartmentOccupancy extends SelectionView
         $roomtypeAttribs                     = $attribs;
         $roomtypeAttribs['onChange']         = 'repopulateRooms();';
         $typeOptions                         = $this->model->getRoomtypeOptions();
-        $roomtypeSelect                      = HTML::selectBox($typeOptions, 'typeIDs', $roomtypeAttribs);
+        $roomtypeSelect                      = HTML::selectBox($typeOptions, 'roomtypeIDs', $roomtypeAttribs);
 
-        $this->sets['filterFields']['typeIDs'] = [
+        $this->sets['filterFields']['roomtypeIDs'] = [
             'label'       => Languages::_('THM_ORGANIZER_ROOMTYPES'),
             'description' => Languages::_('THM_ORGANIZER_ROOMS_TYPES_DESC'),
             'input'       => $roomtypeSelect

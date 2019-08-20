@@ -214,8 +214,8 @@ class RoomStatistics extends BaseModel
     public function getRoomtypeOptions()
     {
         $options = [];
-        foreach ($this->roomtypes as $typeID => $typeData) {
-            $options[$typeID] = $typeData['name'];
+        foreach ($this->roomtypes as $roomtypeID => $roomTypeData) {
+            $options[$roomtypeID] = $roomTypeData['name'];
         }
 
         return $options;
@@ -443,7 +443,7 @@ class RoomStatistics extends BaseModel
         $roomtypeMap = [];
 
         foreach ($rooms as $room) {
-            $roomtypeMap[$room['id']] = $room['typeID'];
+            $roomtypeMap[$room['id']] = $room['roomtypeID'];
         }
 
         $this->rooms       = $rooms;
@@ -461,7 +461,7 @@ class RoomStatistics extends BaseModel
         $query = $this->_db->getQuery(true);
 
         $query->select("id, name_$tag AS name, description_$tag AS description")
-            ->from('#__thm_organizer_room_types')
+            ->from('#__thm_organizer_roomtypes')
             ->order('name');
 
         $this->_db->setQuery($query);

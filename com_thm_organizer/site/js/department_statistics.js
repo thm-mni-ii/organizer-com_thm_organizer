@@ -35,15 +35,15 @@ function repopulateRooms()
 {
     'use strict';
 
-    var selectedTypes = $('#typeIDs').val(), validTypes, componentParameters;
+    var selectedRoomTypes = $('#roomtypeIDs').val(), validRoomTypes, componentParameters;
 
-    validTypes = selectedTypes != null && selectedTypes.length !== 0;
+    validRoomTypes = selectedRoomTypes != null && selectedRoomTypes.length !== 0;
 
     componentParameters = 'index.php?option=com_thm_organizer&view=room_options&format=json';
 
-    if (validTypes)
+    if (validRoomTypes)
     {
-        componentParameters += '&typeIDs=' + selectedTypes;
+        componentParameters += '&roomtypeIDs=' + selectedRoomTypes;
     }
 
     $.ajax({

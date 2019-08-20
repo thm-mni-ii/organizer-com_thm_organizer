@@ -107,13 +107,13 @@ function repopulateRooms()
 
     var selectedDepartments = $('#departmentIDs').val(),
         selectedCategories = $('#categoryIDs').val(),
-        selectedTypes = $('#typeIDs').val(),
-        validDepartments, validCategories, validTypes,
+        selectedRoomTypes = $('#roomtypeIDs').val(),
+        validDepartments, validCategories, validRoomTypes,
         componentParameters;
 
     validDepartments = selectedDepartments != null && selectedDepartments.length !== 0;
     validCategories = selectedCategories != null && selectedCategories.length !== 0;
-    validTypes = selectedTypes != null && selectedTypes.length !== 0;
+    validRoomTypes = selectedRoomTypes != null && selectedRoomTypes.length !== 0;
 
     componentParameters = 'index.php?option=com_thm_organizer&view=room_options&format=raw';
 
@@ -127,9 +127,9 @@ function repopulateRooms()
         componentParameters += '&categoryIDs=' + selectedCategories;
     }
 
-    if (validTypes)
+    if (validRoomTypes)
     {
-        componentParameters += '&typeIDs=' + selectedTypes;
+        componentParameters += '&roomtypeIDs=' + selectedRoomTypes;
     }
 
     $.ajax({

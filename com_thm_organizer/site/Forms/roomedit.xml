@@ -10,7 +10,7 @@
                table="thm_organizer_buildings">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="typeID" type="GenericOptions" label="TYPE" required="true" valuecolumn="id" textcolumn="name"
+        <field name="roomtypeID" type="GenericOptions" label="ROOMTYPE" required="true" valuecolumn="id" textcolumn="name"
                localized="true" table="thm_organizer_roomtypes">
             <option value="">SELECT_ROOMTYPE</option>
         </field>

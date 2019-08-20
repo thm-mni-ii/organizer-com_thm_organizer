@@ -32,7 +32,7 @@ class Rooms extends Nullable
      */
     public function check()
     {
-        $nullColumns = ['typeID', 'buildingID'];
+        $nullColumns = ['roomtypeID', 'buildingID'];
         foreach ($nullColumns as $nullColumn) {
             if (!strlen($this->$nullColumn)) {
                 $this->$nullColumn = null;

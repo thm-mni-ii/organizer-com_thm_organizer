@@ -31,15 +31,15 @@ class Rooms extends ListModel
 
         $linkParts = ["'index.php?option=com_thm_organizer&view=room_edit&id='", 'r.id'];
         $query->select('r.id, r.untisID, r.name')
-            ->select("t.id AS typeID, t.name_$tag AS type")
+            ->select("t.id AS roomtypeID, t.name_$tag AS roomtype")
             ->select('b.id AS buildingID, b.name AS buildingName')
             ->select($query->concatenate($linkParts, '') . ' AS link')
             ->from('#__thm_organizer_rooms AS r')
-            ->leftJoin('#__thm_organizer_room_types AS t ON r.typeID = t.id')
+            ->leftJoin('#__thm_organizer_roomtypes AS t ON r.roomtypeID = t.id')
             ->leftJoin('#__thm_organizer_buildings AS b ON b.id = r.buildingID');
 
         $this->setSearchFilter($query, ['r.name', 'b.name', 't.name_de', 't.name_en']);
-        $this->setValueFilters($query, ['name', 'buildingID', 'typeID']);
+        $this->setValueFilters($query, ['name', 'buildingID', 'roomtypeID']);
 
         $this->setOrdering($query);
 

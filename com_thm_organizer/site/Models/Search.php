@@ -218,9 +218,9 @@ class Search extends BaseModel
         }
 
         $query = $this->_db->getQuery(true);
-        $query->select('id')->from('#__thm_organizer_room_types');
+        $query->select('id')->from('#__thm_organizer_roomtypes');
 
-        $typeIDs        = [];
+        $roomTypeIDs    = [];
         $standardClause = "(name_de LIKE '%XXX%' OR name_en LIKE '%XXX%' ";
         $standardClause .= "OR description_de LIKE '%XXX%' OR description_en LIKE '%XXX%')";
 
@@ -240,7 +240,7 @@ class Search extends BaseModel
 
                 if (!empty($typeResults)) {
                     unset($misc[$key]);
-                    $typeIDs = array_merge($typeIDs, $typeResults);
+                    $roomTypeIDs = array_merge($roomTypeIDs, $typeResults);
                 }
             }
         } elseif (!empty($capacity)) {
@@ -256,11 +256,11 @@ class Search extends BaseModel
             $typeResults = OrganizerHelper::executeQuery('loadColumn', []);
 
             if (!empty($typeResults)) {
-                $typeIDs = array_merge($typeIDs, $typeResults);
+                $roomTypeIDs = array_merge($roomTypeIDs, $typeResults);
             }
         }
 
-        return array_unique($typeIDs);
+        return array_unique($roomTypeIDs);
     }
 
     /**
@@ -776,7 +776,7 @@ class Search extends BaseModel
         $query  = $this->_db->getQuery(true);
         $query->select($select)
             ->from('#__thm_organizer_rooms AS r')
-            ->leftJoin('#__thm_organizer_room_types AS rt ON r.typeID = rt.id')
+            ->leftJoin('#__thm_organizer_roomtypes AS rt ON r.roomtypeID = rt.id')
             ->order('r.name ASC');
 
         // EXACT
@@ -837,8 +837,8 @@ class Search extends BaseModel
             $misc[] = $term;
         }
 
-        $typeIDs    = $this->getRoomtypes($misc, $capacity);
-        $typeString = empty($typeIDs) ? '' : "'" . implode("', '", $typeIDs) . "'";
+        $roomTypeIDs = $this->getRoomtypes($misc, $capacity);
+        $typeString  = empty($roomTypeIDs) ? '' : "'" . implode("', '", $roomTypeIDs) . "'";
 
         if (!empty($misc)) {
             foreach ($misc as $term) {
