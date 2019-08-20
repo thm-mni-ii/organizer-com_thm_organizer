@@ -1069,7 +1069,6 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instances` (
     `unitID`        INT(11) UNSIGNED NOT NULL,
     `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
     `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `configuration` TEXT             NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `entry` UNIQUE (`eventID`, `blockID`, `unitID`),
     INDEX `blockID` (`blockID`),
@@ -1081,22 +1080,18 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instances` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-INSERT INTO `v7ocf_thm_organizer_instances`(`eventID`, `blockID`, `unitID`, `methodID`, `delta`, `modified`, `configuration`)
+INSERT INTO `v7ocf_thm_organizer_instances`(`eventID`, `blockID`, `unitID`, `methodID`, `delta`, `modified`)
 SELECT ls.`subjectID` AS eventID,
        b.`id`         AS blockID,
        u.`id`         AS unitID,
        u.`methodID`,
        c.`delta`,
-       c.`modified`,
-       lc.`configuration`
+       c.`modified`
 FROM `v7ocf_thm_organizer_lesson_subjects` AS ls
          INNER JOIN `v7ocf_thm_organizer_units` AS u ON u.`id` = ls.`lessonID`
          INNER JOIN `v7ocf_thm_organizer_calendar` AS c ON c.`lessonID` = ls.`lessonID`
          INNER JOIN `v7ocf_thm_organizer_blocks` AS b
                     ON b.`date` = c.`schedule_date` AND b.`startTime` = c.`startTime` AND b.`endTime` = c.`endTime`
-         INNER JOIN `v7ocf_thm_organizer_calendar_configuration_map` AS ccm ON ccm.`calendarID` = c.`id`
-         INNER JOIN `v7ocf_thm_organizer_lesson_configurations` AS lc
-                    ON lc.`lessonID` = ls.`id` AND lc.`id` = ccm.`configurationID`
 GROUP BY eventID, blockID, unitID;
 
 ALTER TABLE `v7ocf_thm_organizer_instances`
@@ -1354,10 +1349,5 @@ DROP TABLE `v7ocf_thm_organizer_lesson_teachers`;
 # participant courses coupon?
 
 # preflight - set site to offline
-
-# - migrate data in schedules - check
-# - migrate data in user_lessons
-# - migrate data in lesson_configurations
-# - drop calendar, calendar_configuration_map, lesson_configuration, lesson_subjects & user_lessons
 
 # enable site

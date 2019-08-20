@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Organizer\Helpers\Access;
 use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 
 /**
  * Class which manages stored teacher data.
@@ -39,7 +39,7 @@ class Teacher extends MergeModel
         $plannerFor = Access::getAccessibleDepartments('schedule');
 
         foreach ($this->selected as $selected) {
-            $teacherDepartments = Teachers:: getDepartmentIDs($selected);
+            $teacherDepartments = Persons:: getDepartmentIDs($selected);
             foreach ($teacherDepartments as $teacherDepartment) {
                 if (in_array($teacherDepartment, $plannerFor)) {
                     return true;

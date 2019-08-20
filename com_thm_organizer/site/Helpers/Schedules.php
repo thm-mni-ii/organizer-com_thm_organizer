@@ -268,14 +268,14 @@ class Schedules
             return;
         }
 
-        $userTeacherID     = Teachers::getIDByUserID($userID);
+        $userTeacherID     = Persons::getIDByUserID($userID);
         $accessibleDeptIDs = Access::getAccessibleDepartments('view', $userID);
 
         foreach ($teacherIDs as $key => $teacherID) {
             if (!empty($userTeacherID) and $userTeacherID == $teacherID) {
                 continue;
             }
-            $teacherDepartments = Teachers::getDepartmentIDs($teacherID);
+            $teacherDepartments = Persons::getDepartmentIDs($teacherID);
             $overlap            = array_intersect($accessibleDeptIDs, $teacherDepartments);
 
             if (empty($overlap)) {
@@ -664,7 +664,7 @@ class Schedules
             }
 
             $configuration['teacherDeltas'][$teacherID] = $teacherDelta;
-            $configuration['teachers'][$teacherID]      = Teachers::getLNFName($teacherID, true);
+            $configuration['teachers'][$teacherID]      = Persons::getLNFName($teacherID, true);
         }
 
         $configuration['roomDeltas'] = [];

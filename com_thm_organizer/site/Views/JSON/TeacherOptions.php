@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 
 /**
  * Class answers dynamic teacher related queries
@@ -24,6 +24,6 @@ class TeacherOptions extends BaseView
      */
     public function display()
     {
-        echo json_encode(Teachers::getOptions());
+        echo json_encode(Persons::getOptions());
     }
 }

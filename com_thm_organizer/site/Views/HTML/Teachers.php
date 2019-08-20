@@ -14,7 +14,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Teachers as TeachersHelper;
+use Organizer\Helpers\Persons as TeachersHelper;
 
 /**
  * Class loads persistent information a filtered set of teachers into the display context.

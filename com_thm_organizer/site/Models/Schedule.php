@@ -18,7 +18,7 @@ use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Pools;
 use Organizer\Helpers\Rooms;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 
 /**
  * Class which manages stored schedule data.
@@ -195,7 +195,7 @@ class Schedule extends BaseModel
                 $title = Pools::getFullName($value);
                 break;
             case 'teacher':
-                $title = Teachers::getDefaultName($value);
+                $title = Persons::getDefaultName($value);
                 break;
             default:
                 $title = '';

@@ -343,7 +343,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instances` (
     `unitID`        INT(11) UNSIGNED NOT NULL,
     `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
     `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `configuration` TEXT             NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `entry` UNIQUE (`eventID`, `blockID`, `unitID`),
     INDEX `blockID` (`blockID`),

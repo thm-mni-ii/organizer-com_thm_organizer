@@ -303,8 +303,8 @@ class Subjects extends ResourceHelper implements Selectable
             $teachers[$teacher['id']]['teacherResp'] = [$teacher['teacherResp'] => $teacher['teacherResp']];
         }
 
-        Teachers::nameSort($teachers);
-        Teachers::respSort($teachers);
+        Persons::nameSort($teachers);
+        Persons::respSort($teachers);
 
         return $teachers;
     }

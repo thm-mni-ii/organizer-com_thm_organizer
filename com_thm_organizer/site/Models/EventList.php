@@ -14,10 +14,9 @@ use Organizer\Helpers\Dates;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Utilities\ArrayHelper;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -329,7 +328,7 @@ class EventList extends FormModel
         if (!empty($this->params['mySchedule']) && (boolean)$this->params['mySchedule']) {
             $userID       = Factory::getUser()->id;
             $teacherQuery = "";
-            $teacherID    = Teachers::getIDByUserID($userID);
+            $teacherID    = Persons::getIDByUserID($userID);
 
             if ($teacherID !== 0) {
                 $query->leftJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
@@ -426,7 +425,7 @@ class EventList extends FormModel
                 continue;
             }
 
-            $teachers[$teacherID] = Teachers::getDefaultName($teacherID);
+            $teachers[$teacherID] = Persons::getDefaultName($teacherID);
         }
 
         asort($teachers);

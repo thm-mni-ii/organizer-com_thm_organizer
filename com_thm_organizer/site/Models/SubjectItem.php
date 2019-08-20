@@ -15,7 +15,7 @@ use Organizer\Helpers\Campuses;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -313,7 +313,7 @@ class SubjectItem extends ItemModel
      */
     private function setTeachers(&$subject)
     {
-        $teacherData = Teachers::getDataBySubject($subject['subjectID'], null, true, false);
+        $teacherData = Persons::getDataBySubject($subject['subjectID'], null, true, false);
 
         if (empty($teacherData)) {
             return;

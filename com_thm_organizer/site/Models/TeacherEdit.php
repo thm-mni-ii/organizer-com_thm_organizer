@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 
 /**
  * Class loads a form for editing teacher data.
@@ -42,7 +42,7 @@ class TeacherEdit extends EditModel
     public function getItem($pk = null)
     {
         $this->item               = parent::getItem($pk);
-        $this->item->departmentID = Teachers::getDepartmentIDs($this->item->id);
+        $this->item->departmentID = Persons::getDepartmentIDs($this->item->id);
 
         return $this->item;
     }

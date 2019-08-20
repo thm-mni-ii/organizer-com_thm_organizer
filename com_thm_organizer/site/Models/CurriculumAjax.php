@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -319,13 +319,13 @@ class CurriculumAjax extends BaseModel
      */
     private function setTeacherProperties(&$subjectData)
     {
-        $teacherData = Teachers::getDataBySubject($subjectData->id, 1);
+        $teacherData = Persons::getDataBySubject($subjectData->id, 1);
 
         if (empty($teacherData)) {
             return;
         }
 
-        $defaultName = Teachers::getDefaultName($teacherData['id']);
+        $defaultName = Persons::getDefaultName($teacherData['id']);
 
         if (!empty($teacherData['userID'])) {
             $subjectData->teacherID   = $teacherData['userID'];

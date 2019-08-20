@@ -11,7 +11,7 @@
 namespace Organizer\Views\JSON;
 
 use Organizer\Helpers\Input;
-use Organizer\Helpers\Teachers as TeachersHelper;
+use Organizer\Helpers\Persons as TeachersHelper;
 
 /**
  * Class answers dynamic teacher related queries
@@ -26,7 +26,7 @@ class Teachers extends BaseView
     public function display()
     {
         $function = Input::getTask();
-        if (method_exists('Organizer\\Helpers\\Teachers', $function)) {
+        if (method_exists('Organizer\\Helpers\\Persons', $function)) {
             echo json_encode(TeachersHelper::$function());
         } else {
             echo false;

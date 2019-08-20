@@ -16,7 +16,7 @@ use Organizer\Helpers\Departments;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Schedules;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Users;
 
@@ -280,14 +280,14 @@ class ScheduleExport extends BaseModel
 
             if ($success) {
                 if ($oneResource) {
-                    $displayName         = Teachers::getDefaultName($teacherID);
+                    $displayName         = Persons::getDefaultName($teacherID);
                     $titles['docTitle']  = ApplicationHelper::stringURLSafe($displayName) . '_';
                     $titles['pageTitle'] = $displayName;
 
                     return $titles;
                 }
 
-                $displayName         = Teachers::getLNFName($teacherID, true);
+                $displayName         = Persons::getLNFName($teacherID, true);
                 $untisID             = ApplicationHelper::stringURLSafe($table->untisID);
                 $titles['docTitle']  .= $untisID . '_';
                 $titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";

@@ -13,7 +13,7 @@ namespace Organizer\Models;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -584,7 +584,7 @@ class Deputat extends BaseModel
         if (empty($this->lessonValues[$lessonID][$teacherID])) {
             $this->lessonValues[$lessonID][$teacherID] = [];
             $this->lessonValues[$lessonID][$teacherID]['teacherName']
-                                                       = Teachers::getLNFName($schedule->teachers->$teacherID);
+                                                       = Persons::getLNFName($schedule->teachers->$teacherID);
 
             $this->lessonValues[$lessonID][$teacherID]['subjectName']
                 = $this->getSubjectName($schedule, $lessonID);

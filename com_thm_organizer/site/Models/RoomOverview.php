@@ -15,7 +15,7 @@ use Organizer\Helpers\Dates;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Rooms;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -336,7 +336,7 @@ class RoomOverview extends FormModel
                 $addSpeaker = ($delta != 'removed' and empty($events[$times][$lessonID]['teachers'][$teacherID]));
 
                 if ($addSpeaker) {
-                    $events[$times][$lessonID]['teachers'][$teacherID] = Teachers::getLNFName($teacherID);
+                    $events[$times][$lessonID]['teachers'][$teacherID] = Persons::getLNFName($teacherID);
                 }
             }
 

@@ -22,7 +22,7 @@ use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Groups;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\Subjects;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 
 /**
  * Class retrieves information for use in a schedule display form.
@@ -105,7 +105,7 @@ class ScheduleGrid extends BaseModel
 
         $stMenuParam                  = Input::getInt('showTeachers', $params->get('showTeachers', 1));
         $privilegedAccess             = Access::allowViewAccess($departmentID);
-        $teacherID                    = Teachers::getIDByUserID();
+        $teacherID                    = Persons::getIDByUserID();
         $showTeachers                 = (($privilegedAccess or !empty($teacherID)) and $stMenuParam);
         $this->params['showTeachers'] = $showTeachers;
 
@@ -156,7 +156,7 @@ class ScheduleGrid extends BaseModel
             $this->params['showSubjects']    = 0;
 
             if (count($this->params['teacherIDs']) === 1 and $setTitle) {
-                $this->displayName           = Teachers::getDefaultName($this->params['teacherIDs'][0]);
+                $this->displayName           = Persons::getDefaultName($this->params['teacherIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 

@@ -165,7 +165,7 @@ class Search extends BaseModel
      */
     public function getResults()
     {
-        $this->teacherID  = Helpers\Teachers::getIDByUserID();
+        $this->teacherID  = Helpers\Persons::getIDByUserID();
         $this->schedDepts = Access::getAccessibleDepartments('schedule');
 
         /**
@@ -557,15 +557,15 @@ class Search extends BaseModel
 
         if (!empty($results)) {
             foreach ($results as $teacher) {
-                $documented = Helpers\Teachers::teaches('subject', $teacher['id']);
-                $teaches    = Helpers\Teachers::teaches('lesson', $teacher['id']);
+                $documented = Helpers\Persons::teaches('subject', $teacher['id']);
+                $teaches    = Helpers\Persons::teaches('lesson', $teacher['id']);
 
                 // Nothing to link
                 if (!$documented and !$teaches) {
                     continue;
                 }
 
-                $teacherName = Helpers\Teachers::getDefaultName($teacher['id']);
+                $teacherName = Helpers\Persons::getDefaultName($teacher['id']);
 
                 $teachers[$teacher['id']]         = [];
                 $teachers[$teacher['id']]['text'] = Languages::_('THM_ORGANIZER_TEACHER') . ": {$teacherName}";
@@ -578,7 +578,7 @@ class Search extends BaseModel
 
                 $overlap = array_intersect(
                     $this->schedDepts,
-                    Helpers\Teachers::getDepartmentIDs($teacher['id'])
+                    Helpers\Persons::getDepartmentIDs($teacher['id'])
                 );
 
                 $isTeacher = $this->teacherID == $teacher['id'];

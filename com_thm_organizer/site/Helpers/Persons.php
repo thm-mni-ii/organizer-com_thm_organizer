@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for teacher access checks, data retrieval and display.
  */
-class Teachers extends ResourceHelper implements DepartmentAssociated, Selectable
+class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 {
     const COORDINATES = 1;
 

@@ -244,21 +244,24 @@ class Organizer extends BaseModel
 
         $schedule = json_decode($schedules->schedule, true);
 
+        unset($schedule['creationDate']);
+        unset($schedule['creationTime']);
+        unset($schedule['departmentID']);
         unset($schedule['departmentname']);
         unset($schedule['endDate']);
+        unset($schedule['referenceID']);
         unset($schedule['semestername']);
         unset($schedule['startDate']);
+        unset($schedule['termID']);
 
-        $term = $this->getTerm($schedule['termID']);
+        $term = $this->getTerm($schedules->termID);
         if (!$termID = $term['id']) {
             return false;
         }
 
-        $departmentID             = $schedules->departmentID;
-        $schedule['departmentID'] = $departmentID;
         $termStart                = $term['startDate'];
         $termEnd                  = $term['endDate'];
-        $unit                     = ['departmentID' => $departmentID, 'termID' => $termID];
+        $unit                     = ['departmentID' => $schedules->departmentID, 'termID' => $termID];
 
         foreach ($schedule['calendar'] as $date => $times) {
 
@@ -335,6 +338,8 @@ class Organizer extends BaseModel
                         }
 
                         unset($instance['blockID']);
+                        unset($instance['eventID']);
+                        unset($instance['unitID']);
                         $instance['persons']    = $persons;
                         $instances[$instanceID] = $instance;
                     }

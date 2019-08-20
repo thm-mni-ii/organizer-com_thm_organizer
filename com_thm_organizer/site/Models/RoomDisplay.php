@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Teachers;
+use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -189,7 +189,7 @@ class RoomDisplay extends BaseModel
                 continue;
             }
 
-            $teachers[$teacherID] = Teachers::getLNFName($teacherID);
+            $teachers[$teacherID] = Persons::getLNFName($teacherID);
         }
 
         asort($teachers);
