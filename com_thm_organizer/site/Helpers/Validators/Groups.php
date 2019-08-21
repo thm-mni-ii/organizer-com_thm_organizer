@@ -23,18 +23,17 @@ class Groups extends ResourceHelper implements UntisXMLValidator
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $untisID       the id of the resource in Untis
+     * @param object &$model   the validating schedule model
+     * @param string  $untisID the id of the resource in Untis
      *
-     * @return void modifies the scheduleModel, setting the id property of the resource
+     * @return void modifies the model, setting the id property of the resource
      */
-    public static function setID(&$scheduleModel, $untisID)
+    public static function setID(&$model, $untisID)
     {
-        $group = $scheduleModel->schedule->groups->$untisID;
+        $group = $model->schedule->groups->$untisID;
 
         $table  = self::getTable();
-        $data   = ['untisID' => $group->untisID];
-        $exists = $table->load($data);
+        $exists = $table->load(['untisID' => $group->untisID]);
 
         if ($exists) {
             $altered = false;
@@ -48,13 +47,11 @@ class Groups extends ResourceHelper implements UntisXMLValidator
             if ($altered) {
                 $table->store();
             }
-
-            $scheduleModel->schedule->groups->$untisID->id = $table->id;
-
-            return;
+        } else {
+            $table->save($group);
         }
-        $table->save($data);
-        $scheduleModel->schedule->groups->$untisID->id = $table->id;
+
+        $model->schedule->groups->$untisID->id = $table->id;
 
         return;
     }
@@ -62,23 +59,17 @@ class Groups extends ResourceHelper implements UntisXMLValidator
     /**
      * Checks whether nodes have the expected structure and required information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$xmlObject     the object being validated
+     * @param object &$model     the validating schedule model
+     * @param object &$xmlObject the object being validated
      *
-     * @return void modifies &$scheduleModel
+     * @return void modifies &$model
      */
-    public static function validateCollection(&$scheduleModel, &$xmlObject)
+    public static function validateCollection(&$model, &$xmlObject)
     {
-        if (empty($xmlObject->classes)) {
-            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_GROUPS_MISSING');
+        $model->schedule->groups = new stdClass;
 
-            return;
-        }
-
-        $scheduleModel->schedule->groups = new stdClass;
-
-        foreach ($xmlObject->classes->children() as $groupNode) {
-            self::validateIndividual($scheduleModel, $groupNode);
+        foreach ($xmlObject->classes->children() as $node) {
+            self::validateIndividual($model, $node);
         }
     }
 
@@ -86,96 +77,73 @@ class Groups extends ResourceHelper implements UntisXMLValidator
      * Checks whether XML node has the expected structure and required
      * information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$node          the node to be validated
+     * @param object &$model the validating schedule model
+     * @param object &$node  the node to be validated
      *
      * @return void
      */
-    public static function validateIndividual(&$scheduleModel, &$node)
+    public static function validateIndividual(&$model, &$node)
     {
-        $internalID = trim((string)$node[0]['id']);
-        if (empty($internalID)) {
-            if (!in_array(Languages::_('THM_ORGANIZER_GROUP_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_GROUP_ID_MISSING');
-            }
-
-            return;
-        }
-
-        $internalID = str_replace('CL_', '', $internalID);
-        $externalID = trim((string)$node->external_name);
-        $untisID    = empty($externalID) ? $internalID : str_replace('CL_', '', $externalID);
-
-        $full_name = trim((string)$node->longname);
-        if (empty($full_name)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_LONGNAME_MISSING'),
-                $internalID
-            );
+        $untisID = str_replace('CL_', '', trim((string)$node[0]['id']));
+        $fullName = trim((string)$node->longname);
+        if (empty($fullName)) {
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_FULLNAME_MISSING'), $untisID);
 
             return;
         }
 
         $name = trim((string)$node->classlevel);
         if (empty($name)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_ERROR_NODE_NAME'),
-                $full_name,
-                $internalID
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_NAME_MISSING'), $fullName, $untisID);
+
+            return;
+        }
+
+        $categoryID = str_replace('DP_', '', trim((string)$node->class_department[0]['id']));
+        if (empty($categoryID)) {
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_CATEGORY_MISSING'), $fullName, $untisID);
+
+            return;
+        } elseif (empty($model->schedule->categories->$categoryID)) {
+            $model->errors[] = sprintf(
+                Languages::_('THM_ORGANIZER_GROUP_CATEGORY_INCOMPLETE'),
+                $fullName,
+                $untisID,
+                $categoryID
             );
 
             return;
         }
 
-        $degreeID = str_replace('DP_', '', trim((string)$node->class_department[0]['id']));
-        if (empty($degreeID)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_MISSING_CATEGORY'),
-                $full_name,
-                $internalID
-            );
+        $gridName = (string)$node->timegrid;
+        if (empty($gridName)) {
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_GRID_MISSING'), $fullName, $untisID);
 
             return;
-        } elseif (empty($scheduleModel->schedule->degrees->$degreeID)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_CATEGORY_LACKING'),
-                $full_name,
-                $internalID,
-                $degreeID
+        } elseif (empty($model->schedule->periods->$gridName)) {
+            $model->errors[] = sprintf(
+                Languages::_('THM_ORGANIZER_GROUP_GRID_INCOMPLETE'),
+                $fullName,
+                $untisID,
+                $gridName
             );
 
             return;
         }
 
-        $grid = (string)$node->timegrid;
-        if (empty($grid)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_MISSING_GRID'),
-                $full_name,
-                $internalID
-            );
+        $fieldID      = str_replace('DS_', '', trim($node->class_description[0]['id']));
+        $fields       = $model->schedule->fields;
+        $invalidField = (empty($fieldID) or empty($fields->$fieldID));
 
-            return;
-        } elseif (empty($scheduleModel->schedule->periods->$grid)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_GROUP_GRID_LACKING'),
-                $full_name,
-                $internalID,
-                $grid
-            );
+        $group             = new stdClass;
+        $group->categoryID = $categoryID;
+        $group->untisID    = $untisID;
+        $group->fieldID    = $invalidField ? null : $fields->$fieldID->id;
+        $group->fullName   = $fullName;
+        $group->name       = $name;
+        $group->gridID     = Grids::getID($gridName);
 
-            return;
-        }
-
-        $group            = new stdClass;
-        $group->degree    = $degreeID;
-        $group->untisID   = $untisID;
-        $group->full_name = $full_name;
-        $group->name      = $name;
-        $group->grid      = $grid;
-        $group->gridID    = Grids::getID($grid);
-
-        $scheduleModel->schedule->groups->$internalID = $group;
-        self::setID($scheduleModel, $internalID);
+        $model->schedule->groups->$untisID = $group;
+        self::setID($model, $untisID);
     }
 }

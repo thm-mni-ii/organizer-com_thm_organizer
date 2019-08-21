@@ -24,19 +24,17 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $untisID       the id of the resource in Untis
+     * @param object &$model   the validating schedule model
+     * @param string  $untisID the id of the resource in Untis
      *
-     * @return void modifies the scheduleModel, setting the id property of the resource
+     * @return void modifies the model, setting the id property of the resource
      */
-    public static function setID(&$scheduleModel, $untisID)
+    public static function setID(&$model, $untisID)
     {
-        $room         = $scheduleModel->schedule->rooms->$untisID;
-        $table        = self::getTable();
-        $loadCriteria = ['untisID' => $room->untisID];
-        $exists       = $table->load($loadCriteria);
+        $room  = $model->schedule->rooms->$untisID;
+        $table = self::getTable();
 
-        if ($exists) {
+        if ($table->load(['untisID' => $room->untisID])) {
             $altered = false;
             foreach ($room as $key => $value) {
                 if (property_exists($table, $key) and empty($table->$key) and !empty($value)) {
@@ -51,7 +49,7 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
         } else {
             $table->save($room);
         }
-        $scheduleModel->schedule->rooms->$untisID->id = $table->id;
+        $model->schedule->rooms->$untisID->id = $table->id;
 
         return;
     }
@@ -59,37 +57,35 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
     /**
      * Checks whether nodes have the expected structure and required information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$xmlObject     the object being validated
+     * @param object &$model     the validating schedule model
+     * @param object &$xmlObject the object being validated
      *
-     * @return void modifies &$scheduleModel
+     * @return void modifies &$model
      */
-    public static function validateCollection(&$scheduleModel, &$xmlObject)
+    public static function validateCollection(&$model, &$xmlObject)
     {
         if (empty($xmlObject->rooms)) {
-            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_ROOMS_MISSING');
+            $model->errors[] = Languages::_('THM_ORGANIZER_ROOMS_MISSING');
 
             return;
         }
 
-        $scheduleModel->schedule->rooms = new stdClass;
+        $model->schedule->rooms = new stdClass;
 
         foreach ($xmlObject->rooms->children() as $node) {
-            self::validateIndividual($scheduleModel, $node);
+            self::validateIndividual($model, $node);
         }
 
-        if (!empty($scheduleModel->scheduleWarnings['ROOM-EXTERNALID'])) {
-            $warningCount = $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'];
-            unset($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']);
-            $scheduleModel->scheduleWarnings[]
-                = sprintf(Languages::_('THM_ORGANIZER_WARNING_ROOM_EXTID_MISSING'), $warningCount);
+        if (!empty($model->warnings['REX'])) {
+            $warningCount = $model->warnings['REX'];
+            unset($model->warnings['REX']);
+            $model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_ROOM_EXTERNAL_IDS_MISSING'), $warningCount);
         }
 
-        if (!empty($scheduleModel->scheduleWarnings['ROOM-TYPE'])) {
-            $warningCount = $scheduleModel->scheduleWarnings['ROOM-TYPE'];
-            unset($scheduleModel->scheduleWarnings['ROOM-TYPE']);
-            $scheduleModel->scheduleWarnings[]
-                = sprintf(Languages::_('THM_ORGANIZER_WARNING_TYPE_MISSING'), $warningCount);
+        if (!empty($model->warnings['RT'])) {
+            $warningCount = $model->warnings['RT'];
+            unset($model->warnings['RT']);
+            $model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_ROOMTYPES_MISSING'), $warningCount);
         }
     }
 
@@ -97,65 +93,56 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
      * Checks whether room nodes have the expected structure and required
      * information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$roomNode      the room node to be validated
+     * @param object &$model    the validating schedule model
+     * @param object &$roomNode the room node to be validated
      *
      * @return void
      */
-    public static function validateIndividual(&$scheduleModel, &$roomNode)
+    public static function validateIndividual(&$model, &$roomNode)
     {
         $internalID = trim((string)$roomNode[0]['id']);
         if (empty($internalID)) {
-            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_ROOM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_ROOM_ID_MISSING');
+            if (!in_array(Languages::_('THM_ORGANIZER_ROOM_IDS_MISSING'), $model->errors)) {
+                $model->errors[] = Languages::_('THM_ORGANIZER_ROOM_IDS_MISSING');
             }
 
             return;
         }
 
         $internalID = strtoupper(str_replace('RM_', '', $internalID));
-        $externalID = trim((string)$roomNode->external_name);
 
-        if (empty($externalID)) {
-            $scheduleModel->scheduleWarnings['ROOM-EXTERNALID'] =
-                empty($scheduleModel->scheduleWarnings['ROOM-EXTERNALID']) ?
-                    1 : $scheduleModel->scheduleWarnings['ROOM-EXTERNALID']++;
+        if ($externalID = strtoupper(trim((string)$roomNode->external_name))) {
+            $untisID = $externalID;
         } else {
-            $externalID = strtoupper(str_replace('RM_', '', $externalID));
+            $model->warnings['REX'] = empty($model->warnings['REX']) ? 1 : $model->warnings['REX']++;
+            $untisID                = $internalID;
         }
 
-        $untisID = empty($externalID) ? $internalID : $externalID;
-
         $roomTypeID  = str_replace('DS_', '', trim((string)$roomNode->room_description[0]['id']));
-        $invalidType = (empty($roomTypeID) or empty($scheduleModel->schedule->roomtypes->$roomTypeID));
+        $invalidType = (empty($roomTypeID) or empty($model->schedule->roomtypes->$roomTypeID));
         if ($invalidType) {
-            $scheduleModel->scheduleWarnings['ROOM-TYPE'] = empty($scheduleModel->scheduleWarnings['ROOM-TYPE']) ?
-                1 : $scheduleModel->scheduleWarnings['ROOM-TYPE']++;
-
-            $roomTypeID = null;
+            $model->warnings['RT'] = empty($model->warnings['RT']) ? 1 : $model->warnings['RT']++;
+            $roomTypeID            = null;
         } else {
-            $roomTypeID = $scheduleModel->schedule->roomtypes->$roomTypeID->id;
+            $roomTypeID = $model->schedule->roomtypes->$roomTypeID->id;
         }
 
         $capacity      = (int)$roomNode->capacity;
         $buildingID    = null;
         $buildingREGEX = Input::getParams()->get('buildingRegex');
 
-        if (!empty($buildingREGEX)) {
-            $matchFound = preg_match("/$buildingREGEX/", $untisID, $matches);
-            if ($matchFound) {
-                $buildingID = Buildings::getID($matches[1]);
-            }
+        if (!empty($buildingREGEX) and preg_match("/$buildingREGEX/", $untisID, $matches)) {
+            $buildingID = Buildings::getID($matches[1]);
         }
 
         $room             = new stdClass;
         $room->buildingID = $buildingID;
         $room->capacity   = $capacity;
-        $room->untisID    = $untisID;
         $room->name       = $untisID;
         $room->roomtypeID = $roomTypeID;
+        $room->untisID    = $untisID;
 
-        $scheduleModel->schedule->rooms->$internalID = $room;
-        self::setID($scheduleModel, $internalID);
+        $model->schedule->rooms->$internalID = $room;
+        self::setID($model, $internalID);
     }
 }

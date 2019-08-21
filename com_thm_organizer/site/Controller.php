@@ -65,7 +65,7 @@ class Controller extends BaseController
             if ($count === 1) {
                 $active = $model->checkIfActive();
                 if ($active) {
-                    OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'warning');
+                    OrganizerHelper::message('THM_ORGANIZER_SCHEDULE_IS_ACTIVE', 'warning');
                 } else {
                     $success = $model->activate();
                     if ($success) {
@@ -75,7 +75,7 @@ class Controller extends BaseController
                     }
                 }
             } else {
-                OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
+                OrganizerHelper::message('THM_ORGANIZER_ONLY_ONE_ALLOWED', 'error');
             }
         }
 
@@ -427,7 +427,7 @@ class Controller extends BaseController
 
         $selectedIDs = Input::getSelectedIDs();
         if (count($selectedIDs) == 1) {
-            $msg = Languages::_('THM_ORGANIZER_MESSAGE_ERROR_TOOFEW');
+            $msg = Languages::_('THM_ORGANIZER_TOO_FEW');
             $this->setRedirect(Route::_($url, false), $msg, 'warning');
 
             return;
@@ -718,7 +718,7 @@ class Controller extends BaseController
             $model  = $this->getModel('schedule');
             $active = $model->checkIfActive();
             if ($active) {
-                OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_ACTIVE_YES', 'error');
+                OrganizerHelper::message('THM_ORGANIZER_SCHEDULE_IS_ACTIVE', 'error');
             } else {
                 $success = $model->setReference();
                 if ($success) {
@@ -728,7 +728,7 @@ class Controller extends BaseController
                 }
             }
         } else {
-            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_ONE_ALLOWED', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_ONLY_ONE_ALLOWED', 'error');
         }
 
         $url = Routing::getRedirectBase();
@@ -813,11 +813,11 @@ class Controller extends BaseController
                     $view    = $success ? 'Schedules' : 'Schedule_Edit';
                 } else {
                     $view = 'Schedule_Edit';
-                    OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_ENCODING', 'error');
+                    OrganizerHelper::message('THM_ORGANIZER_FILE_ENCODING_INVALID', 'error');
                 }
             } else {
                 $view = 'Schedule_Edit';
-                OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ERROR_FILE_TYPE', 'error');
+                OrganizerHelper::message('THM_ORGANIZER_FILE_TYPE_NOT_ALLOWED', 'error');
             }
         } else {
             $view = 'Schedules';

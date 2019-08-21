@@ -66,13 +66,13 @@ class LSF
         $result = $this->client->__soapCall('getDataXML', ['xmlParams' => $query]);
 
         if (!$result) {
-            OrganizerHelper::message('THM_ORGANIZER_ERROR_SOAP_FAIL', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_SOAP_FAIL', 'error');
 
             return false;
         }
 
         if ($result == 'error in soap-request') {
-            OrganizerHelper::message('THM_ORGANIZER_ERROR_SOAP_INVALID', 'error');
+            OrganizerHelper::message('THM_ORGANIZER_SOAP_INVALID', 'error');
 
             return false;
         }

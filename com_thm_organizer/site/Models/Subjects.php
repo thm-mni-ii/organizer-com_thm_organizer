@@ -69,7 +69,7 @@ class Subjects extends ListModel implements FiltersFormFilters
         }
 
         foreach ($items as $item) {
-            $item->teachers = SubjectsHelper::getTeachers($item->id);
+            $item->persons = SubjectsHelper::getTeachers($item->id);
         }
 
         return $items;

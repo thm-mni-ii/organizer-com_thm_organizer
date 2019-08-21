@@ -223,13 +223,13 @@ class Group extends MergeModel
 
         $lessons = (array)$schedule->lessons;
         foreach ($lessons as $lessonIndex => $lesson) {
-            $courses = (array)$lesson->courses;
+            $courses = (array)$lesson->events;
             foreach ($courses as $courseID => $courseConfig) {
                 $groups = (array)$courseConfig->groups;
                 foreach ($groups as $groupID => $delta) {
                     if (in_array($groupID, $updateIDs)) {
-                        unset($schedule->lessons->$lessonIndex->courses->$courseID->groups->$groupID);
-                        $schedule->lessons->$lessonIndex->courses->$courseID->groups->$mergeID = $delta;
+                        unset($schedule->lessons->$lessonIndex->events->$courseID->groups->$groupID);
+                        $schedule->lessons->$lessonIndex->events->$courseID->groups->$mergeID = $delta;
                     }
                 }
             }

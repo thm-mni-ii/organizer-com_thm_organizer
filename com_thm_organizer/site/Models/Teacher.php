@@ -138,11 +138,11 @@ class Teacher extends MergeModel
         $mergeID   = array_shift($updateIDs);
 
         foreach ($schedule->lessons as $lessonIndex => $lesson) {
-            foreach ($lesson->courses as $subjectID => $subjectConfig) {
-                foreach ($subjectConfig->teachers as $teacherID => $delta) {
+            foreach ($lesson->events as $subjectID => $subjectConfig) {
+                foreach ($subjectConfig->persons as $teacherID => $delta) {
                     if (in_array($teacherID, $updateIDs)) {
-                        unset($schedule->lessons->$lessonIndex->courses->$subjectID->teachers->$teacherID);
-                        $schedule->lessons->$lessonIndex->courses->$subjectID->teachers->$mergeID = $delta;
+                        unset($schedule->lessons->$lessonIndex->events->$subjectID->persons->$teacherID);
+                        $schedule->lessons->$lessonIndex->events->$subjectID->persons->$mergeID = $delta;
                     }
                 }
             }
@@ -152,11 +152,11 @@ class Teacher extends MergeModel
             $inConfig      = false;
             $configuration = json_decode($configuration);
 
-            foreach ($configuration->teachers as $teacherID => $delta) {
+            foreach ($configuration->persons as $teacherID => $delta) {
                 if (in_array($teacherID, $updateIDs)) {
                     $inConfig = true;
-                    unset($configuration->teachers->$teacherID);
-                    $configuration->teachers->$mergeID = $delta;
+                    unset($configuration->persons->$teacherID);
+                    $configuration->persons->$mergeID = $delta;
                 }
             }
 

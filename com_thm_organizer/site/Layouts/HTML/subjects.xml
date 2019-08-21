@@ -9,12 +9,12 @@
                 <option value="de">GERMAN</option>
                 <option value="en">ENGLISH</option>
             </field>
-            <field name="teacherResp" type="Options" default="0" label="SHOW_TEACHER_RESP">
+            <field name="teacherResp" type="Options" default="0" label="SHOW_PERSON_RESP">
                 <option value="0">ALL_RESPONSIBILITIES</option>
                 <option value="2">TEACHER</option>
                 <option value="1">COORDINATOR</option>
             </field>
-            <field name="showTitle" type="Options" default="1" label="SHOW_TEACHER_TITLES">
+            <field name="showTitle" type="Options" default="1" label="SHOW_PERSON_TITLES">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>

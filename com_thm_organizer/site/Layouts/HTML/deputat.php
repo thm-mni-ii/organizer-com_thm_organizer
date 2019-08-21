@@ -81,7 +81,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                                 </label>
                             </div>
                             <div class="controls">
-                                <?php echo $this->teachers; ?>
+                                <?php echo $this->persons; ?>
                             </div>
                         </div>
                         <div class="button-group">

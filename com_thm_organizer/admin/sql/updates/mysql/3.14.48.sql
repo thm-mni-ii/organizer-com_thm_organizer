@@ -399,6 +399,7 @@ ALTER TABLE `v7ocf_thm_organizer_plan_pools`
 RENAME TABLE `v7ocf_thm_organizer_plan_pools` TO `v7ocf_thm_organizer_groups`;
 
 ALTER TABLE `v7ocf_thm_organizer_groups`
+    CHANGE `full_name` `fullName` VARCHAR(100) NOT NULL,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
     CHANGE `programID` `categoryID` INT(11) UNSIGNED NOT NULL,
     ADD CONSTRAINT `entry` UNIQUE (`untisID`, `categoryID`),
@@ -1062,13 +1063,13 @@ ALTER TABLE `v7ocf_thm_organizer_units`
 # region instances (data from units)
 # configuration will be dropped after data migration
 CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instances` (
-    `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `blockID`       INT(11) UNSIGNED NOT NULL,
-    `eventID`       INT(11) UNSIGNED NOT NULL,
-    `methodID`      INT(11) UNSIGNED          DEFAULT NULL,
-    `unitID`        INT(11) UNSIGNED NOT NULL,
-    `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
-    `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `blockID`  INT(11) UNSIGNED NOT NULL,
+    `eventID`  INT(11) UNSIGNED NOT NULL,
+    `methodID` INT(11) UNSIGNED          DEFAULT NULL,
+    `unitID`   INT(11) UNSIGNED NOT NULL,
+    `delta`    VARCHAR(10)      NOT NULL DEFAULT '',
+    `modified` TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     CONSTRAINT `entry` UNIQUE (`eventID`, `blockID`, `unitID`),
     INDEX `blockID` (`blockID`),

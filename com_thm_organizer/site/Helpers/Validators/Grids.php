@@ -28,32 +28,30 @@ class Grids extends ResourceHelper implements UntisXMLValidator
      */
     public static function getID($untisID)
     {
-        $table  = self::getTable();
-        $data   = ['untisID' => $untisID];
-        $exists = $table->load($data);
+        $table = self::getTable();
 
-        return empty($exists) ? null : $table->id;
+        return $table->load(['untisID' => $untisID]) ? null : $table->id;
     }
 
     /**
-     * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
+     * Retrieves the grid id using the grid name. Creates the grid id if unavailable.
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $untisID       the id of the resource in Untis
+     * @param object &$model    the validating schedule model
+     * @param string  $gridName the name of the grid
      *
-     * @return void modifies the scheduleModel, setting the id property of the resource
+     * @return void modifies the model, setting the id property of the resource
      */
-    public static function setID(&$scheduleModel, $untisID)
+    public static function setID(&$model, $gridName)
     {
-        if (empty($scheduleModel->schedule->periods->$untisID)) {
+        if (empty($model->schedule->periods->$gridName)) {
             return;
         }
 
-        $grid       = $scheduleModel->schedule->periods->$untisID;
+        $grid       = $model->schedule->periods->$gridName;
         $grid->grid = json_encode($grid);
+        $table      = self::getTable();
 
-        $table = self::getTable();
-        if ($table->load(['untisID' => $untisID])) {
+        if ($table->load(['untisID' => $gridName])) {
             $altered = false;
 
             foreach ($grid as $key => $value) {
@@ -66,14 +64,11 @@ class Grids extends ResourceHelper implements UntisXMLValidator
             if ($altered) {
                 $table->store();
             }
-
-            $scheduleModel->schedule->periods->$untisID->id = $table->id;
-
-            return;
+        } else {
+            $table->save($grid);
         }
 
-        $table->save($grid);
-        $scheduleModel->schedule->periods->$untisID->id = $table->id;
+        $grid->id = $table->id;
 
         return;
     }
@@ -81,27 +76,21 @@ class Grids extends ResourceHelper implements UntisXMLValidator
     /**
      * Checks whether nodes have the expected structure and required information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$xmlObject     the object being validated
+     * @param object &$model     the validating schedule model
+     * @param object &$xmlObject the object being validated
      *
-     * @return void modifies &$scheduleModel
+     * @return void modifies &$model
      */
-    public static function validateCollection(&$scheduleModel, &$xmlObject)
+    public static function validateCollection(&$model, &$xmlObject)
     {
-        if (empty($xmlObject->timeperiods)) {
-            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PERIODS_MISSING');
+        $model->schedule->periods = new stdClass;
 
-            return;
+        foreach ($xmlObject->timeperiods->children() as $node) {
+            self::validateIndividual($model, $node);
         }
 
-        $scheduleModel->schedule->periods = new stdClass;
-
-        foreach ($xmlObject->timeperiods->children() as $timePeriodNode) {
-            self::validateIndividual($scheduleModel, $timePeriodNode);
-        }
-
-        foreach (array_keys((array)$scheduleModel->schedule->periods) as $gridName) {
-            self::setID($scheduleModel, $gridName);
+        foreach (array_keys((array)$model->schedule->periods) as $gridName) {
+            self::setID($model, $gridName);
         }
     }
 
@@ -109,40 +98,42 @@ class Grids extends ResourceHelper implements UntisXMLValidator
      * Checks whether pool nodes have the expected structure and required
      * information
      *
-     * @param object &$scheduleModel  the validating schedule model
-     * @param object &$timePeriodNode the time period node to be validated
+     * @param object &$model the validating schedule model
+     * @param object &$node  the time period node to be validated
      *
      * @return void
      */
-    public static function validateIndividual(&$scheduleModel, &$timePeriodNode)
+    public static function validateIndividual(&$model, &$node)
     {
         // Not actually referenced but evinces data inconsistencies in Untis
-        $exportKey = trim((string)$timePeriodNode[0]['id']);
-        $gridName  = (string)$timePeriodNode->timegrid;
-        $day       = (int)$timePeriodNode->day;
-        $periodNo  = (int)$timePeriodNode->period;
-        $startTime = trim((string)$timePeriodNode->starttime);
-        $endTime   = trim((string)$timePeriodNode->endtime);
+        $exportKey = trim((string)$node[0]['id']);
+        $gridName  = (string)$node->timegrid;
+        $day       = (int)$node->day;
+        $periodNo  = (int)$node->period;
+        $startTime = trim((string)$node->starttime);
+        $endTime   = trim((string)$node->endtime);
 
         $invalidKeys   = (empty($exportKey) or empty($gridName) or empty($periodNo));
         $invalidTimes  = (empty($day) or empty($startTime) or empty($endTime));
         $invalidPeriod = ($invalidKeys or $invalidTimes);
 
         if ($invalidPeriod) {
-            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PERIODS_INCONSISTENT');
+            if (!in_array(Languages::_('THM_ORGANIZER_PERIODS_INCONSISTENT'), $model->errors)) {
+                $model->errors[] = Languages::_('THM_ORGANIZER_PERIODS_INCONSISTENT');
             }
 
             return;
         }
 
+        $collection = $model->schedule->periods;
+
         // Set the grid if not already existent
-        if (empty($scheduleModel->schedule->periods->$gridName)) {
-            $scheduleModel->schedule->periods->$gridName          = new stdClass;
-            $scheduleModel->schedule->periods->$gridName->periods = new stdClass;
+        if (empty($collection->$gridName)) {
+            $collection->$gridName          = new stdClass;
+            $collection->$gridName->periods = new stdClass;
         }
 
-        $grid = $scheduleModel->schedule->periods->$gridName;
+        $grid = $collection->$gridName;
 
         if (!isset($grid->startDay) or $grid->startDay > $day) {
             $grid->startDay = $day;
@@ -158,17 +149,13 @@ class Grids extends ResourceHelper implements UntisXMLValidator
         $periods->$periodNo->startTime = $startTime;
         $periods->$periodNo->endTime   = $endTime;
 
-        $label = (string)$timePeriodNode->label;
-        if (!empty($label)) {
-            $textual = preg_match("/[a-zA-ZäÄöÖüÜß]+/", $label);
+        $label = (string)$node->label;
+        if ($label and preg_match("/[a-zA-ZäÄöÖüÜß]+/", $label)) {
+            $periods->$periodNo->label_de = $label;
+            $periods->$periodNo->label_en = $label;
 
-            if ($textual) {
-                $periods->$periodNo->label_de = $label;
-                $periods->$periodNo->label_en = $label;
-
-                // This is an assumption, which can later be rectified as necessary.
-                $periods->$periodNo->type = 'break';
-            }
+            // This is an assumption, which can later be rectified as necessary.
+            $periods->$periodNo->type = 'break';
         }
     }
 }

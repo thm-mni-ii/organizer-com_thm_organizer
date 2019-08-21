@@ -305,12 +305,12 @@ class Schedule extends BaseModel
     /**
      * Saves a schedule in the database for later use
      *
-     * @param boolean $shouldNotify if the user should get notified
+     * @param boolean $notify if the user should get notified
      *
      * @return  boolean true on success, otherwise false
      * @throws Exception => invalid request / unauthorized access
      */
-    public function upload($shouldNotify)
+    public function upload($notify)
     {
         $departmentID = Input::getInt('departmentID');
         $invalidForm  = (empty($departmentID));
@@ -350,6 +350,6 @@ class Schedule extends BaseModel
             return $jsonModel->save($this->schedule);
         }
 
-        return $jsonModel->setReference($reference, $new, $shouldNotify);
+        return $jsonModel->setReference($reference, $new, $notify);
     }
 }

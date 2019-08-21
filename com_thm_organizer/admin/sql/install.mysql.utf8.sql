@@ -275,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_groups` (
     `fieldID`    INT(11) UNSIGNED                                DEFAULT NULL,
     `gridID`     INT(11) UNSIGNED                                DEFAULT 1,
     `name`       VARCHAR(100)     NOT NULL,
-    `full_name`  VARCHAR(100)     NOT NULL
+    `fullName`   VARCHAR(100)     NOT NULL
         COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `entry` (`untisID`, `categoryID`),
@@ -336,13 +336,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_persons` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_instances` (
-    `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `blockID`       INT(11) UNSIGNED NOT NULL,
-    `eventID`       INT(11) UNSIGNED NOT NULL,
-    `methodID`      INT(11) UNSIGNED          DEFAULT NULL,
-    `unitID`        INT(11) UNSIGNED NOT NULL,
-    `delta`         VARCHAR(10)      NOT NULL DEFAULT '',
-    `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `blockID`  INT(11) UNSIGNED NOT NULL,
+    `eventID`  INT(11) UNSIGNED NOT NULL,
+    `methodID` INT(11) UNSIGNED          DEFAULT NULL,
+    `unitID`   INT(11) UNSIGNED NOT NULL,
+    `delta`    VARCHAR(10)      NOT NULL DEFAULT '',
+    `modified` TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     CONSTRAINT `entry` UNIQUE (`eventID`, `blockID`, `unitID`),
     INDEX `blockID` (`blockID`),

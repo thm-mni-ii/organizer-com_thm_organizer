@@ -132,7 +132,7 @@ class Subjects extends ListView
     private function getTeacherDisplay($subject)
     {
         $names = [];
-        foreach ($subject->teachers as $teacherID => $teacher) {
+        foreach ($subject->persons as $teacherID => $teacher) {
             $name = $this->getTeacherText($teacher);
 
             $responsibilities = [];

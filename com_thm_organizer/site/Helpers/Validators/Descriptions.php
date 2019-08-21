@@ -22,38 +22,42 @@ class Descriptions implements UntisXMLValidator
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $untisID       the id of the resource in Untis
-     * @param string  $typeFlag      the flag identifying the categorization resource
+     * @param object &$model    the validating schedule model
+     * @param string  $untisID  the id of the resource in Untis
+     * @param string  $typeFlag the flag identifying the categorization resource
      *
-     * @return void modifies the scheduleModel, setting the id property of the resource
+     * @return void modifies the model, setting the id property of the resource
      */
-    public static function setID(&$scheduleModel, $untisID, $typeFlag = '')
+    public static function setID(&$model, $untisID, $typeFlag = '')
     {
+        $error    = 'THM_ORGANIZER_';
         $resource = '';
         switch ($typeFlag) {
             case 'f':
+                $error    .= 'FIELD_INVALID';
                 $resource = 'Fields';
 
                 break;
             case 'r':
+                $error    .= 'ROOMTYPE_INVALID';
                 $resource = 'Roomtypes';
 
                 break;
             case 'u':
+                $error    .= 'METHOD_INVALID';
                 $resource = 'Methods';
 
                 break;
         }
 
-        $table  = OrganizerHelper::getTable($resource);
-        $data   = ['untisID' => $untisID];
-        $exists = $table->load($data);
-
-        if ($exists) {
-            $property                                         = strtolower($resource);
-            $scheduleModel->schedule->$property->$untisID     = new stdClass;
-            $scheduleModel->schedule->$property->$untisID->id = $table->id;
+        $table = OrganizerHelper::getTable($resource);
+        if ($table->load(['untisID' => $untisID])) {
+            $property                 = strtolower($resource);
+            $collection               = $model->schedule->$property;
+            $collection->$untisID     = new stdClass;
+            $collection->$untisID->id = $table->id;
+        } else {
+            $model->errors[] = sprintf(Languages::_($error), $untisID);
         }
 
         return;
@@ -62,25 +66,19 @@ class Descriptions implements UntisXMLValidator
     /**
      * Checks whether nodes have the expected structure and required information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$xmlObject     the object being validated
+     * @param object &$model     the validating schedule model
+     * @param object &$xmlObject the object being validated
      *
-     * @return void modifies &$scheduleModel
+     * @return void modifies &$model
      */
-    public static function validateCollection(&$scheduleModel, &$xmlObject)
+    public static function validateCollection(&$model, &$xmlObject)
     {
-        if (empty($xmlObject->descriptions)) {
-            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_DESCRIPTIONS_MISSING');
-
-            return;
-        }
-
-        $scheduleModel->schedule->fields    = new stdClass;
-        $scheduleModel->schedule->methods   = new stdClass;
-        $scheduleModel->schedule->roomtypes = new stdClass;
+        $model->schedule->fields    = new stdClass;
+        $model->schedule->methods   = new stdClass;
+        $model->schedule->roomtypes = new stdClass;
 
         foreach ($xmlObject->descriptions->children() as $node) {
-            self::validateIndividual($scheduleModel, $node);
+            self::validateIndividual($model, $node);
         }
     }
 
@@ -88,32 +86,18 @@ class Descriptions implements UntisXMLValidator
      * Checks whether XML node has the expected structure and required
      * information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$node          the node to be validated
+     * @param object &$model the validating schedule model
+     * @param object &$node  the node to be validated
      *
      * @return void
      */
-    public static function validateIndividual(&$scheduleModel, &$node)
+    public static function validateIndividual(&$model, &$node)
     {
-        $untisID = trim((string)$node[0]['id']);
-
-        if (empty($untisID)) {
-            $missingText = Languages::_('THM_ORGANIZER_DESCRIPTION_ID_MISSING');
-            if (!in_array($missingText, $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = $missingText;
-            }
-
-            return;
-        }
-
-        $untisID = str_replace('DS_', '', $untisID);
+        $untisID = str_replace('DS_', '', trim((string)$node[0]['id']));
         $name    = trim((string)$node->longname);
 
         if (empty($name)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_DESCRIPTION_NAME_MISSING'),
-                $untisID
-            );
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_DESCRIPTION_NAME_MISSING'), $untisID);
 
             return;
         }
@@ -122,23 +106,17 @@ class Descriptions implements UntisXMLValidator
         $validFlags = ['f', 'r', 'u'];
 
         if (empty($typeFlag)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_MISSING'),
-                $name,
-                $untisID
-            );
-
-            return;
-        } elseif (!in_array($typeFlag, $validFlags)) {
-            $scheduleModel->scheduleErrors[] = sprintf(
-                Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_INVALID'),
-                $name,
-                $untisID
-            );
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_MISSING'), $name, $untisID);
 
             return;
         }
 
-        self::setID($scheduleModel, $untisID, $typeFlag);
+        if (!in_array($typeFlag, $validFlags)) {
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_INVALID'), $name, $untisID);
+
+            return;
+        }
+
+        self::setID($model, $untisID, $typeFlag);
     }
 }

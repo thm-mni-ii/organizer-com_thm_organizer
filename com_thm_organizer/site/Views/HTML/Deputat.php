@@ -111,7 +111,7 @@ class Deputat extends BaseHTMLView
      */
     private function makeTeacherSelectBox()
     {
-        $teachers = $this->model->teachers;
+        $teachers = $this->model->persons;
 
         $options      = [];
         $options['*'] = Languages::_('JALL');
@@ -121,7 +121,7 @@ class Deputat extends BaseHTMLView
 
         $attribs          = ['multiple' => 'multiple', 'size' => '10'];
         $selectedTeachers = $this->model->selected;
-        $this->teachers   = HTML::selectBox($options, 'teachers', $attribs, $selectedTeachers);
+        $this->persons    = HTML::selectBox($options, 'teachers', $attribs, $selectedTeachers);
     }
 
     /**

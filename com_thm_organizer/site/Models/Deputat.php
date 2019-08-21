@@ -51,7 +51,7 @@ class Deputat extends BaseModel
 
         if (!empty($this->schedule)) {
             $this->calculateDeputat();
-            $this->teachers = $this->getTeacherNames();
+            $this->persons = $this->getTeacherNames();
             $this->setSelected();
             $this->restrictDeputat();
         }
@@ -77,7 +77,7 @@ class Deputat extends BaseModel
             $this->resolveTime($this->schedule, $day, $blocks);
         }
 
-        $teacherIDs = array_keys((array)$this->schedule->teachers);
+        $teacherIDs = array_keys((array)$this->schedule->persons);
         $this->checkOtherSchedules($teacherIDs, $startDate, $endDate);
         $this->convertLessonValues();
     }
@@ -281,7 +281,7 @@ class Deputat extends BaseModel
      */
     private function getSubjectName(&$schedule, $lessonID)
     {
-        $courses = (array)$schedule->lessons->$lessonID->courses;
+        $courses = (array)$schedule->lessons->$lessonID->events;
         foreach ($courses as $course => $delta) {
             if ($delta == 'removed') {
                 unset($courses[$course]);
@@ -300,7 +300,7 @@ class Deputat extends BaseModel
                 return 'Betreuung von Masterarbeiten';
             }
 
-            $courses[$course] = $schedule->courses->$course->name;
+            $courses[$course] = $schedule->events->$course->name;
         }
 
         return implode('/', $courses);
@@ -340,7 +340,7 @@ class Deputat extends BaseModel
      */
     private function isSubjectRelevant(&$schedule, $lessonID)
     {
-        $courses = (array)$schedule->lessons->$lessonID->courses;
+        $courses = (array)$schedule->lessons->$lessonID->events;
         foreach ($courses as $course => $delta) {
             if ($delta == 'removed') {
                 continue;
@@ -366,7 +366,7 @@ class Deputat extends BaseModel
      */
     private function isTallied(&$schedule, $lessonID)
     {
-        $courses = $schedule->lessons->$lessonID->courses;
+        $courses = $schedule->lessons->$lessonID->events;
         foreach ($courses as $courseID => $delta) {
             if ($delta != 'removed' and strpos($courseID, 'KOL.') !== false) {
                 return true;
@@ -424,7 +424,7 @@ class Deputat extends BaseModel
 
         $this->reset                  = Input::getBool('reset', false);
         $this->selected               = [];
-        $this->teachers               = [];
+        $this->persons                = [];
         $this->irrelevant['methods']  = ['KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG'];
         $this->irrelevant['teachers'] = ['NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW'];
         $this->irrelevant['pools']    = ['TERMINE.'];
@@ -541,7 +541,7 @@ class Deputat extends BaseModel
      */
     private function setDeputatByInstance(&$schedule, $day, $blockNumber, $lessonID, $hours, &$teachers = null)
     {
-        $scheduleTeachers = $schedule->lessons->$lessonID->teachers;
+        $scheduleTeachers = $schedule->lessons->$lessonID->persons;
         foreach ($scheduleTeachers as $teacherID => $teacherDelta) {
             if ($teacherDelta == 'removed') {
                 continue;
@@ -584,7 +584,7 @@ class Deputat extends BaseModel
         if (empty($this->lessonValues[$lessonID][$teacherID])) {
             $this->lessonValues[$lessonID][$teacherID] = [];
             $this->lessonValues[$lessonID][$teacherID]['teacherName']
-                                                       = Persons::getLNFName($schedule->teachers->$teacherID);
+                                                       = Persons::getLNFName($schedule->persons->$teacherID);
 
             $this->lessonValues[$lessonID][$teacherID]['subjectName']
                 = $this->getSubjectName($schedule, $lessonID);

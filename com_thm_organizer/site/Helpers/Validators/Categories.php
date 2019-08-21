@@ -10,6 +10,7 @@
 
 namespace Organizer\Helpers\Validators;
 
+use Exception;
 use Organizer\Helpers as Helpers;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -27,53 +28,53 @@ class Categories extends Helpers\ResourceHelper implements UntisXMLValidator
      *
      * @return array empty if the id is implausible
      */
-    private static function parsePlausibleProgramData($untisID)
+    private static function parseProgramData($untisID)
     {
-        $container       = [];
-        $pieces          = explode('.', $untisID);
-        $plausibleNumber = count($pieces) === 3;
-        if ($plausibleNumber) {
-            $plausibleCode    = preg_match('/^[A-Z]+[0-9]*$/', $pieces[0]);
-            $plausibleVersion = (ctype_digit($pieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $pieces[2]));
-            $plausibleDegree  = (ctype_upper($pieces[1])
-                and preg_match('/^[B|M]{1}[A-Z]{1,2}$/', $pieces[1]));
-            if ($plausibleDegree) {
-                $degreeTable    = OrganizerHelper::getTable('Degrees');
-                $degreePullData = ['code' => $pieces[1]];
-                $exists         = $degreeTable->load($degreePullData);
-                $degreeID       = $exists ? $degreeTable->id : null;
-            }
-            if ($plausibleCode and !empty($degreeID) and $plausibleVersion) {
-                $container['code']     = $pieces[0];
-                $container['degreeID'] = $degreeID;
-                $container['version']  = $pieces[2];
-            }
+        $pieces = explode('.', $untisID);
+        if (count($pieces) !== 3) {
+            return [];
         }
 
-        return $container;
+        // Two uppercase letter code for the degree. First letter is B (Bachelor) or M (Master)
+        $implausibleDegree = (!ctype_upper($pieces[1]) or !preg_match('/^[B|M]{1}[A-Z]{1,2}$/', $pieces[1]));
+        if ($implausibleDegree) {
+            return [];
+        }
+
+        // Some degree program 'subject' identifiers have a number
+        $plausibleCode = preg_match('/^[A-Z]+[0-9]*$/', $pieces[0]);
+
+        // Degrees are their own managed resource
+        $degrees  = OrganizerHelper::getTable('Degrees');
+        $degreeID = $degrees->load(['code' => $pieces[1]]) ? $degrees->id : null;
+
+        // Should be year of accreditation, but ITS likes to pick random years
+        $plausibleVersion = (ctype_digit($pieces[2]) and preg_match('/^[2]{1}[0-9]{3}$/', $pieces[2]));
+
+        return ($plausibleCode and $degreeID and $plausibleVersion) ?
+            ['code' => $pieces[0], 'degreeID' => $degreeID, 'version' => $pieces[2]] : [];
     }
 
     /**
      * Retrieves the resource id using the Untis ID. Creates the resource id if unavailable.
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param string  $untisID       the id of the resource in Untis
+     * @param object &$model   the validating schedule model
+     * @param string  $untisID the id of the resource in Untis
      *
-     * @return void modifies the scheduleModel, setting the id property of the resource
+     * @return void modifies the model, setting the id property of the resource
      */
-    public static function setID(&$scheduleModel, $untisID)
+    public static function setID(&$model, $untisID)
     {
-        $program        = $scheduleModel->schedule->degrees->$untisID;
-        $table          = self::getTable();
-        $loadCriteria   = [];
-        $loadCriteria[] = ['untisID' => $untisID];
-        $loadCriteria[] = ['name' => $program->name];
+        $category     = $model->schedule->categories->$untisID;
+        $exists       = false;
+        $loadCriteria = ['untisID' => $untisID, 'name' => $category->name];
+        $table        = self::getTable();
 
         foreach ($loadCriteria as $criterion) {
-            $exists = $table->load($criterion);
-            if ($exists) {
+            if ($exists = $table->load($criterion)) {
                 $altered = false;
-                foreach ($program as $key => $value) {
+
+                foreach ($category as $key => $value) {
                     if (property_exists($table, $key) and empty($table->$key) and !empty($value)) {
                         $table->set($key, $value);
                         $altered = true;
@@ -84,14 +85,15 @@ class Categories extends Helpers\ResourceHelper implements UntisXMLValidator
                     $table->store();
                 }
 
-                $scheduleModel->schedule->degrees->$untisID->id = $table->id;
-
-                return;
+                break;
             }
         }
 
-        $table->save($program);
-        $scheduleModel->schedule->degrees->$untisID->id = $table->id;
+        if (!$exists) {
+            $table->save($category);
+        }
+
+        $category->id = $table->id;
 
         return;
     }
@@ -99,69 +101,52 @@ class Categories extends Helpers\ResourceHelper implements UntisXMLValidator
     /**
      * Checks whether nodes have the expected structure and required information
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$xmlObject     the object being validated
+     * @param object &$model     the validating schedule model
+     * @param object &$xmlObject the object being validated
      *
-     * @return void modifies &$scheduleModel
+     * @return void modifies &$model
+     * @throws Exception
      */
-    public static function validateCollection(&$scheduleModel, &$xmlObject)
+    public static function validateCollection(&$model, &$xmlObject)
     {
-        if (empty($xmlObject->departments)) {
-            $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PROGRAMS_MISSING');
-
-            return;
-        }
-
-        $scheduleModel->schedule->degrees = new stdClass;
+        $model->schedule->categories = new stdClass;
 
         foreach ($xmlObject->departments->children() as $node) {
-            self::validateIndividual($scheduleModel, $node);
+            self::validateIndividual($model, $node);
         }
     }
 
     /**
-     * Checks whether XML node has the expected structure and required
-     * information
+     * Checks whether XML node has the expected structure and required information.
      *
-     * @param object &$scheduleModel the validating schedule model
-     * @param object &$node          the node to be validated
+     * @param object &$model the validating schedule model
+     * @param object &$node  the node to be validated
      *
      * @return void
+     * @throws Exception
      */
-    public static function validateIndividual(&$scheduleModel, &$node)
+    public static function validateIndividual(&$model, &$node)
     {
-        $untisID = trim((string)$node[0]['id']);
-        if (empty($untisID)) {
-            if (!in_array(Languages::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING'), $scheduleModel->scheduleErrors)) {
-                $scheduleModel->scheduleErrors[] = Languages::_('THM_ORGANIZER_ERROR_PROGRAM_ID_MISSING');
-            }
-
-            return;
-        }
-
-        $untisID = str_replace('DP_', '', $untisID);
+        $untisID = str_replace('DP_', '', trim((string)$node[0]['id']));
 
         $name = (string)$node->longname;
         if (!isset($name)) {
-            $scheduleModel->scheduleErrors[]
-                = sprintf(Languages::_('THM_ORGANIZER_ERROR_PROGRAM_NAME_MISSING'), $untisID);
+            $model->errors[] = sprintf(Languages::_('THM_ORGANIZER_CATEGORY_NAME_MISSING'), $untisID);
 
             return;
         }
 
-        $plausibleData = self::parsePlausibleProgramData($untisID);
-        $tempArray     = explode('(', $name);
-        $tempName      = trim($tempArray[0]);
-        $programID     = empty($plausibleData) ? null : Helpers\Programs::getID($plausibleData, $tempName);
+        $category          = new stdClass;
+        $category->name    = $name;
+        $category->untisID = $untisID;
 
-        $category            = new stdClass;
-        $category->untisID   = $untisID;
-        $category->name      = $name;
-        $category->programID = $programID;
+        $programData         = self::parseProgramData($untisID);
+        $filteredName        = trim(substr($name, 0, strpos($name, '(')));
+        $category->programID = empty($programData) ? null : Helpers\Programs::getID($programData, $filteredName);
 
-        $scheduleModel->schedule->degrees->$untisID = $category;
+        $model->schedule->categories->$untisID = $category;
 
-        self::setID($scheduleModel, $untisID);
+        self::setID($model, $untisID);
         Helpers\Departments::setDepartmentResource($category->id, 'categoryID');
     }
 }

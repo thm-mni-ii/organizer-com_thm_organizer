@@ -355,8 +355,8 @@ class ScheduleJSON extends BaseDatabaseModel
             // Decodes and converts to assoc arrays
             $configuration = json_decode($rawConfiguration);
 
-            $this->sanitizeNumericCollection($configuration->teachers);
-            $noInstanceTeachers = empty($configuration->teachers);
+            $this->sanitizeNumericCollection($configuration->persons);
+            $noInstanceTeachers = empty($configuration->persons);
             if ($noInstanceTeachers) {
                 unset($configurations[$index]);
                 continue;
@@ -390,9 +390,9 @@ class ScheduleJSON extends BaseDatabaseModel
             }
 
             // If subordinate nodes/collections are empty after sanitization => remove.
-            if (isset($object->courses)) {
-                $this->sanitizeObjectNodes($object->courses);
-                $empty = empty((array)$object->courses);
+            if (isset($object->events)) {
+                $this->sanitizeObjectNodes($object->events);
+                $empty = empty((array)$object->events);
                 if ($empty) {
                     unset($objectNodes->$objectID);
                     continue;
@@ -408,9 +408,9 @@ class ScheduleJSON extends BaseDatabaseModel
                 }
             }
 
-            if (isset($object->teachers)) {
-                $this->sanitizeNumericCollection($object->teachers);
-                $empty = empty($object->teachers);
+            if (isset($object->persons)) {
+                $this->sanitizeNumericCollection($object->persons);
+                $empty = empty($object->persons);
                 if ($empty) {
                     unset($objectNodes->$objectID);
                     continue;
@@ -623,7 +623,7 @@ class ScheduleJSON extends BaseDatabaseModel
                 return false;
             }
 
-            $coursesSaved = $this->saveLessonCourses($table->id, $lesson->courses);
+            $coursesSaved = $this->saveLessonCourses($table->id, $lesson->events);
 
             if (!$coursesSaved) {
                 return false;
@@ -734,7 +734,7 @@ class ScheduleJSON extends BaseDatabaseModel
                 return false;
             }
 
-            $teachersSaved = $this->saveLessonTeachers($table->id, $courseData->teachers);
+            $teachersSaved = $this->saveLessonTeachers($table->id, $courseData->persons);
 
             if (!$teachersSaved) {
                 return false;
@@ -1036,7 +1036,7 @@ class ScheduleJSON extends BaseDatabaseModel
 
         foreach ($newConfigurations as $newConfiguration) {
             $newConfigObject = json_decode($newConfiguration);
-            $teachers        = array_keys((array)$newConfigObject->teachers);
+            $teachers        = array_keys((array)$newConfigObject->persons);
             $rooms           = array_keys((array)$newConfigObject->rooms);
             $comparisonFound = false;
 
@@ -1053,18 +1053,18 @@ class ScheduleJSON extends BaseDatabaseModel
 
                 $comparisonFound = true;
 
-                $oldTeachers = array_keys((array)$oldConfigObject->teachers);
+                $oldTeachers = array_keys((array)$oldConfigObject->persons);
 
                 // Teachers which are not in either diff should have blank values
 
                 $removedTeachers = array_diff($oldTeachers, $teachers);
                 foreach ($removedTeachers as $removedTeacherID) {
-                    $newConfigObject->teachers->$removedTeacherID = 'removed';
+                    $newConfigObject->persons->$removedTeacherID = 'removed';
                 }
 
                 $newTeachers = array_diff($teachers, $oldTeachers);
                 foreach ($newTeachers as $newTeacherID) {
-                    $newConfigObject->teachers->$newTeacherID = 'new';
+                    $newConfigObject->persons->$newTeacherID = 'new';
                 }
 
                 $oldRooms = array_keys((array)$oldConfigObject->rooms);
@@ -1100,7 +1100,7 @@ class ScheduleJSON extends BaseDatabaseModel
             // Course was newly added to the lesson
             if (!$comparisonFound) {
                 foreach ($teachers as $teacherID) {
-                    $newConfigObject->teachers->$teacherID = 'new';
+                    $newConfigObject->persons->$teacherID = 'new';
                 }
 
                 foreach ($rooms as $roomID) {
@@ -1127,9 +1127,9 @@ class ScheduleJSON extends BaseDatabaseModel
         $carriedLessons = array_intersect($referenceLessonIDs, $activeLessonIDs);
 
         foreach ($carriedLessons as $carriedLessonID) {
-            $activeCourses      = $this->schedule->lessons->$carriedLessonID->courses;
+            $activeCourses      = $this->schedule->lessons->$carriedLessonID->events;
             $activeCourseIDs    = array_keys((array)$activeCourses);
-            $refCourses         = $this->refSchedule->lessons->$carriedLessonID->courses;
+            $refCourses         = $this->refSchedule->lessons->$carriedLessonID->events;
             $referenceCourseIDs = array_keys((array)$refCourses);
 
             $carriedCourseIDs = array_intersect($referenceCourseIDs, $activeCourseIDs);
@@ -1153,19 +1153,19 @@ class ScheduleJSON extends BaseDatabaseModel
                     $refCourse->groups->$newGroupID = 'new';
                 }
 
-                $referenceTeacherIDs = array_keys((array)$refCourse->teachers);
-                $activeTeacherIDs    = array_keys((array)$activeCourse->teachers);
+                $referenceTeacherIDs = array_keys((array)$refCourse->persons);
+                $activeTeacherIDs    = array_keys((array)$activeCourse->persons);
 
                 $removedTeacherIDs = array_diff($referenceTeacherIDs, $activeTeacherIDs);
 
                 foreach ($removedTeacherIDs as $removedTeacherID) {
-                    $refCourse->teachers->$removedTeacherID = 'removed';
+                    $refCourse->persons->$removedTeacherID = 'removed';
                 }
 
                 $newTeacherIDs = array_diff($activeTeacherIDs, $referenceTeacherIDs);
 
                 foreach ($newTeacherIDs as $newTeacherID) {
-                    $refCourse->teachers->$newTeacherID = 'new';
+                    $refCourse->persons->$newTeacherID = 'new';
                 }
             }
 
