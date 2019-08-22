@@ -37,6 +37,8 @@
         </field>
         <field name="planSubjectIDs" type="SubjectCourses" responsibility="1" label="EVENT"/>
         <field name="spacer1" type="spacer" hr="true"/>
+        <field name="creditpoints" type="text" class="inputbox" size="70" label="THM_ORGANIZER_CREDIT_POINTS"
+               description="THM_ORGANIZER_CREDIT_POINTS_DESC" hint="3"/>
         <field name="creditpoints" type="Integer" label="CREDIT_POINTS" first="1" last="30" step="1" default="0">
             <option value="0">SELECT_CREDIT_POINTS</option>
         </field>

@@ -725,13 +725,16 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_terms` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_units` (
     `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `untisID`      INT(11) UNSIGNED NOT NULL,
     `departmentID` INT(11) UNSIGNED          DEFAULT NULL,
     `termID`       INT(11) UNSIGNED          DEFAULT NULL,
+    `untisID`      INT(11) UNSIGNED NOT NULL,
+    `gridID`       INT(11) UNSIGNED          DEFAULT NULL,
+    `runID`        INT(11) UNSIGNED          DEFAULT NULL,
+    `endDate`      DATE                      DEFAULT NULL,
+    `startDate`    DATE                      DEFAULT NULL,
     `comment`      VARCHAR(200)              DEFAULT NULL,
-    `delta`        VARCHAR(10)      NOT NULL DEFAULT '' COMMENT 'The lesson''s delta status. Possible values: empty, new, removed.',
-    `modified`     TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
+    `delta`        VARCHAR(10)      NOT NULL DEFAULT '' COMMENT 'The unit''s delta status. Possible values: empty, new, removed.',
+    `modified`     TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `entry` (`departmentID`, `termID`, `untisID`),
     INDEX `departmentID` (`departmentID`),
@@ -1005,6 +1008,12 @@ ALTER TABLE `#__thm_organizer_subjects`
 ALTER TABLE `#__thm_organizer_units`
     ADD CONSTRAINT `untis_departmentID_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `units_gridID_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `units_runID_fk` FOREIGN KEY (`runID`) REFERENCES `#__thm_organizer_runs` (`id`)
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     ADD CONSTRAINT `units_termID_fk` FOREIGN KEY (`termID`) REFERENCES `#__thm_organizer_terms` (`id`)
         ON DELETE CASCADE

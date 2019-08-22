@@ -52,10 +52,9 @@ class Descriptions implements UntisXMLValidator
 
         $table = OrganizerHelper::getTable($resource);
         if ($table->load(['untisID' => $untisID])) {
-            $property                 = strtolower($resource);
-            $collection               = $model->schedule->$property;
-            $collection->$untisID     = new stdClass;
-            $collection->$untisID->id = $table->id;
+            $property             = strtolower($resource);
+            $collection           = $model->schedule->$property;
+            $collection->$untisID = $table->id;
         } else {
             $model->errors[] = sprintf(Languages::_($error), $untisID);
         }

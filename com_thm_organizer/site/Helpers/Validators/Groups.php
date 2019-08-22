@@ -138,7 +138,7 @@ class Groups extends ResourceHelper implements UntisXMLValidator
         $group             = new stdClass;
         $group->categoryID = $categoryID;
         $group->untisID    = $untisID;
-        $group->fieldID    = $invalidField ? null : $fields->$fieldID->id;
+        $group->fieldID    = $invalidField ? null : $fields->$fieldID;
         $group->fullName   = $fullName;
         $group->name       = $name;
         $group->gridID     = Grids::getID($gridName);

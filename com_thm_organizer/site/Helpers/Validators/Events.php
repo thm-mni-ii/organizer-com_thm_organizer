@@ -117,7 +117,7 @@ class Events extends ResourceHelper implements UntisXMLValidator
         $fieldID      = str_replace('DS_', '', trim($node->subject_description[0]['id']));
         $fields       = $model->schedule->fields;
         $invalidField = (empty($fieldID) or empty($fields->$fieldID));
-        $fieldID      = $invalidField ? null : $fields->$fieldID->id;
+        $fieldID      = $invalidField ? null : $fields->$fieldID;
 
         $event               = new stdClass;
         $event->departmentID = $model->schedule->departmentID;

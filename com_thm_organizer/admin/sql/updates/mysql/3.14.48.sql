@@ -1041,19 +1041,37 @@ RENAME TABLE `v7ocf_thm_organizer_lessons` TO `v7ocf_thm_organizer_units`;
 # columns with course information will be dropped after migration
 # this untis id is a non-unique integer value
 ALTER TABLE `v7ocf_thm_organizer_units`
-    CHANGE `gpuntisID` `untisID` INT(11) UNSIGNED NOT NULL,
-    MODIFY `departmentID` INT(11) UNSIGNED DEFAULT NULL AFTER `untisID`,
+    MODIFY `departmentID` INT(11) UNSIGNED DEFAULT NULL AFTER `id`,
     CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED DEFAULT NULL AFTER `departmentID`,
+    CHANGE `gpuntisID` `untisID` INT(11) UNSIGNED NOT NULL AFTER `termID`,
+    ADD `gridID` INT(11) UNSIGNED DEFAULT NULL AFTER `untisID`,
+    ADD `runID` INT(11) UNSIGNED DEFAULT NULL AFTER `gridID`,
+    ADD `startDate` DATE DEFAULT NULL AFTER `runID`,
+    ADD `endDate` DATE DEFAULT NULL AFTER `startDate`,
     MODIFY `comment` VARCHAR(200) DEFAULT NULL AFTER `termID`,
     ADD CONSTRAINT `entry` UNIQUE (`departmentID`, `termID`, `untisID`),
     ADD INDEX `departmentID` (`departmentID`),
+    ADD INDEX `gridID` (`gridID`),
+    ADD INDEX `runID` (`runID`),
     ADD INDEX `termID` (`termID`),
     ADD INDEX `untisID` (`untisID`);
+
+UPDATE `v7ocf_thm_organizer_units` AS u
+INNER JOIN `v7ocf_thm_organizer_lesson_subjects` AS ls on ls.`lessonID` = u.`id`
+    INNER JOIN `v7ocf_thm_organizer_lesson_pools` AS lp ON lp.`subjectID` = ls.`id`
+    INNER JOIN `v7ocf_thm_organizer_groups` AS g ON g.`id` = lp.`poolID`
+SET u.`gridID` = g.`gridID`;
 
 # columns referencing campuses and methods will be dropped after migration
 ALTER TABLE `v7ocf_thm_organizer_units`
     ADD CONSTRAINT `untis_departmentID_fk` FOREIGN KEY (`departmentID`) REFERENCES `v7ocf_thm_organizer_departments` (`id`)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `units_gridID_fk` FOREIGN KEY (`gridID`) REFERENCES `v7ocf_thm_organizer_grids` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `units_runID_fk` FOREIGN KEY (`runID`) REFERENCES `v7ocf_thm_organizer_runs` (`id`)
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     ADD CONSTRAINT `units_termID_fk` FOREIGN KEY (`termID`) REFERENCES `v7ocf_thm_organizer_terms` (`id`)
         ON DELETE CASCADE

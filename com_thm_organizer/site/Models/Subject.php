@@ -369,6 +369,8 @@ class Subject extends BaseModel
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
+        $data['creditpoints'] = (float)$data['creditpoints'];
+
         $starProperties = ['expertise', 'self_competence', 'method_competence', 'social_competence'];
         foreach ($starProperties as $property) {
             $this->cleanStarProperty($data, $property);

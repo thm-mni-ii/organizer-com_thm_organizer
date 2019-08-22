@@ -150,7 +150,7 @@ class Persons extends ResourceHelper implements UntisXMLValidator
 
         $fieldID          = str_replace('DS_', '', trim($node->teacher_description[0]['id']));
         $fields           = $model->schedule->fields;
-        $person->fieldID  = (empty($fieldID) or empty($fields->$fieldID)) ? null : $fields->$fieldID->id;
+        $person->fieldID  = (empty($fieldID) or empty($fields->$fieldID)) ? null : $fields->$fieldID;
         $person->forename = trim((string)$node->forename);
 
         if (empty($person->forename)) {

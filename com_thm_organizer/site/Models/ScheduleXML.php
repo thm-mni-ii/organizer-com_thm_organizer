@@ -26,14 +26,14 @@ class ScheduleXML extends BaseModel
      *
      * @var array
      */
-    public $scheduleErrors = null;
+    public $errors = null;
 
     /**
      * array to hold warning strings relating to minor data inconsistencies
      *
      * @var array
      */
-    public $scheduleWarnings = null;
+    public $warnings = null;
 
     /**
      * Object containing information from the actual schedule
@@ -41,24 +41,6 @@ class ScheduleXML extends BaseModel
      * @var object
      */
     public $schedule = null;
-
-    /**
-     * Creates a status report based upon object error and warning messages
-     *
-     * @return void  outputs errors to the application
-     */
-    private function printStatusReport()
-    {
-        if (count($this->scheduleErrors)) {
-            $errorMessage = Languages::_('THM_ORGANIZER_ERROR_HEADER') . '<br />';
-            $errorMessage .= implode('<br />', $this->scheduleErrors);
-            OrganizerHelper::message($errorMessage, 'error');
-        }
-
-        if (count($this->scheduleWarnings)) {
-            OrganizerHelper::message(implode('<br />', $this->scheduleWarnings), 'warning');
-        }
-    }
 
     /**
      * Saves the term to the corresponding table if not already existent.
@@ -69,15 +51,15 @@ class ScheduleXML extends BaseModel
      *
      * @return int id of database entry
      */
-    public function setTermID($termName, $startDate, $endDate)
+    public function getTermID($termName, $startDate, $endDate)
     {
-        $data              = [];
-        $data['startDate'] = date('Y-m-d', $startDate);
-        $data['endDate']   = date('Y-m-d', $endDate);
+        $data = [
+            'startDate' => date('Y-m-d', $startDate),
+            'endDate'   => date('Y-m-d', $endDate)
+        ];
 
-        $table  = OrganizerHelper::getTable('Terms');
-        $exists = $table->load($data);
-        if ($exists) {
+        $table = OrganizerHelper::getTable('Terms');
+        if ($table->load($data)) {
             return $table->id;
         }
 
@@ -86,6 +68,24 @@ class ScheduleXML extends BaseModel
         $table->save($data);
 
         return $table->id;
+    }
+
+    /**
+     * Creates a status report based upon object error and warning messages
+     *
+     * @return void  outputs errors to the application
+     */
+    private function printStatusReport()
+    {
+        if (count($this->errors)) {
+            $errorMessage = Languages::_('THM_ORGANIZER_STATUS_REPORT_HEADER') . '<br />';
+            $errorMessage .= implode('<br />', $this->errors);
+            OrganizerHelper::message($errorMessage, 'error');
+        }
+
+        if (count($this->warnings)) {
+            OrganizerHelper::message(implode('<br />', $this->warnings), 'warning');
+        }
     }
 
     /**
@@ -99,67 +99,56 @@ class ScheduleXML extends BaseModel
         $formFiles   = Input::getInput()->files->get('jform', [], 'array');
         $xmlSchedule = simplexml_load_file($formFiles['file']['tmp_name']);
 
-        $this->schedule         = new stdClass;
-        $this->scheduleErrors   = [];
-        $this->scheduleWarnings = [];
+        $this->schedule = new stdClass;
+        $this->errors   = [];
+        $this->warnings = [];
 
         // Creation Date & Time
         $creationDate = trim((string)$xmlSchedule[0]['date']);
-        $this->validateDateAttribute('creationDate', $creationDate, 'CREATION_DATE', 'error');
+        $this->validateDate('creationDate', $creationDate, 'CREATION_DATE');
         $creationTime = trim((string)$xmlSchedule[0]['time']);
-        $this->validateTextAttribute('creationTime', $creationTime, 'CREATION_TIME', 'error');
+        $this->validateText('creationTime', $creationTime, 'CREATION_TIME');
 
         // School year dates
         $syStartDate = trim((string)$xmlSchedule->general->schoolyearbegindate);
-        $this->validateDateAttribute('syStartDate', $syStartDate, 'SCHOOL_YEAR_START_DATE', 'error');
+        $this->validateDate('syStartDate', $syStartDate, 'SCHOOL_YEAR_START_DATE');
         $syEndDate = trim((string)$xmlSchedule->general->schoolyearenddate);
-        $this->validateDateAttribute('syEndDate', $syEndDate, 'SCHOOL_YEAR_END_DATE', 'error');
+        $this->validateDate('syEndDate', $syEndDate, 'SCHOOL_YEAR_END_DATE');
 
         // Organizational Data
-        $departmentName = trim((string)$xmlSchedule->general->header1);
-        $this->validateTextAttribute('departmentname', $departmentName, 'ORGANIZATION', 'error', '/[\#\;]/');
-        $semesterName = trim((string)$xmlSchedule->general->footer);
-        $validSemesterName
-                      = $this->validateTextAttribute('semestername', $semesterName, 'TERM_NAME', 'error', '/[\#\;]/');
+        $termName = trim((string)$xmlSchedule->general->footer);
+        $termName = $this->validateText('Term', $termName, 'TERM_NAME', '/[\#\;]/');
 
         $this->schedule->departmentID = Input::getInt('departmentID');
 
         // Term start & end dates
         $startDate = trim((string)$xmlSchedule->general->termbegindate);
-        $this->validateDateAttribute('startDate', $startDate, 'TERM_START_DATE');
+        $this->validateDate('startDate', $startDate, 'TERM_START_DATE');
         $endDate = trim((string)$xmlSchedule->general->termenddate);
-        $this->validateDateAttribute('endDate', $endDate, 'TERM_END_DATE');
+        $this->validateDate('endDate', $endDate, 'TERM_END_DATE');
 
         // Checks if term and school year dates are consistent
-        $startTimeStamp = strtotime($startDate);
-        $endTimeStamp   = strtotime($endDate);
-        $invalidStart   = $startTimeStamp < strtotime($syStartDate);
-        $invalidEnd     = $endTimeStamp > strtotime($syEndDate);
-        $invalidPeriod  = $startTimeStamp >= $endTimeStamp;
-        $invalid        = ($invalidStart or $invalidEnd or $invalidPeriod);
+        $this->validateTerm($startDate, $endDate, $syStartDate, $syEndDate, $termName);
+        unset($this->schedule->syEndDate, $this->schedule->syStartDate);
 
-        if ($invalid) {
-            $this->scheduleErrors[] = Languages::_('THM_ORGANIZER_INVALID_TERM');
-        } elseif ($validSemesterName) {
-            $termID = $this->setTermID($semesterName, $startTimeStamp, $endTimeStamp);
-
-            $this->schedule->termID = $termID;
-        }
-
-        Validators\Grids::validateCollection($this, $xmlSchedule);
-        Validators\Descriptions::validateCollection($this, $xmlSchedule);
         Validators\Categories::validateCollection($this, $xmlSchedule);
+        Validators\Descriptions::validateCollection($this, $xmlSchedule);
+        Validators\Grids::validateCollection($this, $xmlSchedule);
+
+        Validators\Events::validateCollection($this, $xmlSchedule);
         Validators\Groups::validateCollection($this, $xmlSchedule);
+        Validators\Persons::validateCollection($this, $xmlSchedule);
+        unset($this->schedule->categories, $this->schedule->fields);
+
         Validators\Rooms::validateCollection($this, $xmlSchedule);
-        Validators\Courses::validateCollection($this, $xmlSchedule);
-        Validators\Teachers::validateCollection($this, $xmlSchedule);
+        unset($this->schedule->roomtypes);
 
         $this->schedule->calendar = new stdClass;
 
         Validators\Events::validateCollection($this, $xmlSchedule);
         $this->printStatusReport();
 
-        if (count($this->scheduleErrors)) {
+        if (count($this->errors)) {
             // Don't need the bloat if this won't be used.
             unset($this->schedule);
 
@@ -190,27 +179,20 @@ class ScheduleXML extends BaseModel
     }
 
     /**
-     * Validates a date attribute
+     * Validates a date attribute. Setting it to a schedule property if valid.
      *
      * @param string $name     the attribute name
      * @param string $value    the attribute value
      * @param string $constant the unique text constant fragment
-     * @param string $severity the severity of the item being inspected
      *
      * @return void
      */
-    public function validateDateAttribute($name, $value, $constant, $severity = 'error')
+    private function validateDate($name, $value, $constant)
     {
         if (empty($value)) {
-            if ($severity == 'error') {
-                $this->scheduleErrors[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
+            $this->errors[] = Languages::_("THM_ORGANIZER_{$constant}_MISSING");
 
-                return;
-            }
-
-            if ($severity == 'warning') {
-                $this->scheduleWarnings[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
-            }
+            return;
         }
 
         $this->schedule->$name = date('Y-m-d', strtotime($value));
@@ -219,44 +201,64 @@ class ScheduleXML extends BaseModel
     }
 
     /**
-     * Validates a text attribute
+     * Validates a text attribute. Sets the attribute if valid.
      *
      * @param string $name     the attribute name
      * @param string $value    the attribute value
      * @param string $constant the unique text constant fragment
-     * @param string $severity the severity of the item being inspected
      * @param string $regex    the regex to check the text against
      *
-     * @return bool false if blocking errors were found, otherwise true
+     * @return mixed string the text if valid, otherwise bool false
      */
-    private function validateTextAttribute($name, $value, $constant, $severity = 'error', $regex = '')
+    private function validateText($name, $value, $constant, $regex = '')
     {
         if (empty($value)) {
-            if ($severity == 'error') {
-                $this->scheduleErrors[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
+            $this->errors[] = Languages::_("THM_ORGANIZER_{$constant}_MISSING");
 
-                return false;
-            }
-
-            if ($severity == 'warning') {
-                $this->scheduleWarnings[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_MISSING");
-            }
+            return false;
         }
 
         if (!empty($regex) and preg_match($regex, $value)) {
-            if ($severity == 'error') {
-                $this->scheduleErrors[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
+            $this->errors[] = Languages::_("THM_ORGANIZER_{$constant}_INVALID");
 
-                return false;
-            }
-
-            if ($severity == 'warning') {
-                $this->scheduleWarnings[] = Languages::_("THM_ORGANIZER_ERROR_{$constant}_INVALID");
-            }
+            return false;
         }
 
         $this->schedule->$name = $value;
 
-        return true;
+        return $value;
+    }
+
+    /**
+     * Validates the dates given to ensure term consistency. Sets the term ID if valid.
+     *
+     * @param string $startDate   the start date of the term in the format YMD
+     * @param string $endDate     the end date of the term in the format YMD
+     * @param string $syStartDate the start date of the school year in the format YMD
+     * @param string $syEndDate   the end date of the school year in the format YMD
+     * @param mixed  $termName    the abbreviated term name as a string if valid, otherwise false
+     *
+     * @return void set the schedule's term id as appropriate
+     */
+    private function validateTerm($startDate, $endDate, $syStartDate, $syEndDate, $termName)
+    {
+        $startTimeStamp = strtotime($startDate);
+        $endTimeStamp   = strtotime($endDate);
+        $invalidStart   = $startTimeStamp < strtotime($syStartDate);
+        $invalidEnd     = $endTimeStamp > strtotime($syEndDate);
+        $invalidPeriod  = $startTimeStamp >= $endTimeStamp;
+        $invalid        = ($invalidStart or $invalidEnd or $invalidPeriod);
+
+        if ($invalid) {
+            $this->errors[] = Languages::_('THM_ORGANIZER_TERM_INVALID');
+
+            return;
+        }
+
+        if ($termName) {
+            $termID = $this->getTermID($termName, $startTimeStamp, $endTimeStamp);
+
+            $this->schedule->termID = $termID;
+        }
     }
 }

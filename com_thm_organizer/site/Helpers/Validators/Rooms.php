@@ -124,7 +124,7 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
             $model->warnings['RT'] = empty($model->warnings['RT']) ? 1 : $model->warnings['RT']++;
             $roomTypeID            = null;
         } else {
-            $roomTypeID = $model->schedule->roomtypes->$roomTypeID->id;
+            $roomTypeID = $model->schedule->roomtypes->$roomTypeID;
         }
 
         $capacity      = (int)$roomNode->capacity;

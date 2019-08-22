@@ -30,7 +30,7 @@ class Grids extends ResourceHelper implements UntisXMLValidator
     {
         $table = self::getTable();
 
-        return $table->load(['untisID' => $untisID]) ? null : $table->id;
+        return $table->load(['untisID' => $untisID]) ? $table->id : null;
     }
 
     /**
