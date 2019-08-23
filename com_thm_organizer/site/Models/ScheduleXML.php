@@ -129,7 +129,6 @@ class ScheduleXML extends BaseModel
 
         // Checks if term and school year dates are consistent
         $this->validateTerm($startDate, $endDate, $syStartDate, $syEndDate, $termName);
-        unset($this->schedule->syEndDate, $this->schedule->syStartDate);
 
         Validators\Categories::validateCollection($this, $xmlSchedule);
         Validators\Descriptions::validateCollection($this, $xmlSchedule);
@@ -161,18 +160,16 @@ class ScheduleXML extends BaseModel
             $this->schedule->departmentname,
             $this->schedule->degrees,
             $this->schedule->endDate,
-            $this->schedule->fields,
             $this->schedule->groups,
             $this->schedule->methods,
             $this->schedule->periods,
-            $this->schedule->programs,
-            $this->schedule->roomtypes,
+            $this->schedule->persons,
             $this->schedule->rooms,
-            $this->schedule->semestername,
+            $this->schedule->roomtypes,
             $this->schedule->startDate,
             $this->schedule->syEndDate,
             $this->schedule->syStartDate,
-            $this->schedule->teachers
+            $this->schedule->term
         );
 
         return true;

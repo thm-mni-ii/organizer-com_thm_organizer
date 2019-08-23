@@ -36,7 +36,9 @@ class Events extends ResourceHelper implements UntisXMLValidator
         if ($table->load(['departmentID' => $event->departmentID, 'untisID' => $untisID])) {
             $altered = false;
             foreach ($event as $key => $value) {
-                if (property_exists($table, $key) and empty($table->$key) and !empty($value)) {
+
+                // Context based changes need no protection.
+                if (property_exists($table, $key)) {
                     $table->set($key, $value);
                     $altered = true;
                 }

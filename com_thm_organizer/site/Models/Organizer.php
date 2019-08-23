@@ -277,8 +277,6 @@ class Organizer extends BaseModel
                     continue;
                 }
 
-                $instances = [];
-
                 foreach ($units as $untisID => $unitData) {
                     $unit['untisID'] = $untisID;
                     if (!$unitID = $this->getUnitID($unit)) {
@@ -294,7 +292,7 @@ class Organizer extends BaseModel
                         }
 
                         $instanceConfiguration = json_decode($schedule['configurations'][$configurationIndex], true);
-                        $rooms                 = $instanceConfiguration['rooms'];
+                        $rooms                 = array_keys($instanceConfiguration['rooms']);
 
                         // The event (plan subject) no longer exists or is no longer associated with the unit
                         if (!$eventID = $this->checkResourceID('Events', $instanceConfiguration['subjectID'])
@@ -307,6 +305,8 @@ class Organizer extends BaseModel
                             unset($unitConfiguration['subjects'][$eventID]);
                             continue;
                         }
+
+                        $groups = array_keys($groups);
 
                         $instance = ['blockID' => $blockID, 'unitID' => $unitID, 'eventID' => $eventID];
 
@@ -329,26 +329,15 @@ class Organizer extends BaseModel
                                 unset($instanceConfiguration['teachers'][$personID]);
                                 continue;
                             }
-                            $persons[$personID] =
-                                ['delta' => $instancePersonDelta, 'groups' => $groups, 'rooms' => $rooms];
+                            $persons[$personID] = ['groups' => $groups, 'rooms' => $rooms];
                         }
 
                         if (empty($persons)) {
                             continue;
                         }
 
-                        unset($instance['blockID']);
-                        unset($instance['eventID']);
-                        unset($instance['unitID']);
-                        $instance['persons']    = $persons;
-                        $instances[$instanceID] = $instance;
+                        $schedule[$instanceID] = $persons;
                     }
-                }
-
-
-                // If valid instances exist create the block index and add them to it
-                if (count($instances)) {
-                    $schedule[$blockID] = $instances;
                 }
             }
         }

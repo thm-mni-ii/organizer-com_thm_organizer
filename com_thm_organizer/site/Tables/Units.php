@@ -32,6 +32,10 @@ class Units extends Nullable
      */
     public function check()
     {
+        if (empty($this->gridID)) {
+            $this->gridID = null;
+        }
+
         $this->modified = null;
 
         return true;

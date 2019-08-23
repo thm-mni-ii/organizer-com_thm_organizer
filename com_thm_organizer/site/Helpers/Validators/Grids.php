@@ -51,20 +51,8 @@ class Grids extends ResourceHelper implements UntisXMLValidator
         $grid->grid = json_encode($grid);
         $table      = self::getTable();
 
-        if ($table->load(['untisID' => $gridName])) {
-            $altered = false;
-
-            foreach ($grid as $key => $value) {
-                if (property_exists($table, $key) and empty($table->$key) and !empty($value)) {
-                    $table->set($key, $value);
-                    $altered = true;
-                }
-            }
-
-            if ($altered) {
-                $table->store();
-            }
-        } else {
+        // No overwrites for global resources
+        if (!$table->load(['untisID' => $gridName])) {
             $table->save($grid);
         }
 
