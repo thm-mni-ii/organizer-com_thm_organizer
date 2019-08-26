@@ -20,7 +20,7 @@ $metric = 0;
     }
 
     window.onload = function () {
-        timer = setTimeout('auto_reload()', <?php echo $params['schedule_refresh']; ?>000);
+        timer = setTimeout('auto_reload()', <?php echo $params['scheduleRefresh']; ?>000);
     }
 </script>
 <div class='display-events'>

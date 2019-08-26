@@ -286,7 +286,7 @@ class DepartmentOccupancy extends BaseModel
             ->select('conf.configuration')
             ->innerJoin('#__thm_organizer_lesson_configurations AS conf ON conf.id = ccm.configurationID')
             ->innerJoin('#__thm_organizer_lessons AS l ON l.id = c.lessonID')
-            ->select("d.id AS departmentID, d.short_name_$tag AS department")
+            ->select("d.id AS departmentID, d.shortName_$tag AS department")
             ->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
             ->select('lcrs.id as lcrsID')
             ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');

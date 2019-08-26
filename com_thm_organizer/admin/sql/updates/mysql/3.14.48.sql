@@ -1,5 +1,4 @@
 # region assets
-# there is an unused duplicate entry for the health department
 UPDATE `v7ocf_assets` AS a1
 SET a1.`lft` = a1.`lft` - 2, a1.`rgt` = a1.`rgt` - 2
 WHERE a1.`lft` > (SELECT a2.`lft`
@@ -11,57 +10,46 @@ DELETE
 FROM `v7ocf_assets`
 WHERE `id` = 102;
 
-# GES - using the number normally associated with department mni
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.5'
 WHERE `name` = 'com_thm_organizer.department.6';
 
-# MNI - using the number normally associated with department wi
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.6'
 WHERE `name` = 'com_thm_organizer.department.14';
 
-# MuK
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.21'
 WHERE `name` = 'com_thm_organizer.department.8';
 
-# Friedberg - no real number just adding space for any future developments
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.50'
 WHERE `name` = 'com_thm_organizer.department.19';
 
-# Gießen - no real number, using the number normally associated with department m
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.51'
 WHERE `name` = 'com_thm_organizer.department.12';
 
-# STK - no real number, using the number normally associated with department iem
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.52'
 WHERE `name` = 'com_thm_organizer.department.11';
 
-# ZDH - no real number, using the number normally associated with department mnd
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.22'
 WHERE `name` = 'com_thm_organizer.department.13';
 
-# IEM
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.11'
 WHERE `name` = 'com_thm_organizer.department.15';
 
-# M
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.12'
 WHERE `name` = 'com_thm_organizer.department.16';
 
-# MND
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.13'
 WHERE `name` = 'com_thm_organizer.department.17';
 
-# WI
 UPDATE `v7ocf_assets`
 SET `name`= 'com_thm_organizer.department.14'
 WHERE `name` = 'com_thm_organizer.department.18';
@@ -88,7 +76,6 @@ FROM `v7ocf_thm_organizer_calendar`;
 # endregion
 
 # region buildings
-# fk name missing 's'
 ALTER TABLE `v7ocf_thm_organizer_buildings` DROP FOREIGN KEY `building_campusID_fk`;
 
 ALTER TABLE `v7ocf_thm_organizer_buildings`
@@ -98,7 +85,6 @@ ALTER TABLE `v7ocf_thm_organizer_buildings`
 # endregion
 
 # region campuses
-# no explicit index had been set
 ALTER TABLE `v7ocf_thm_organizer_campuses`
     DROP FOREIGN KEY `campus_gridID_fk`,
     DROP INDEX `campus_gridID_fk`;
@@ -114,7 +100,6 @@ ALTER TABLE `v7ocf_thm_organizer_campuses`
 #endregion
 
 # region plan programs => categories
-# index not explicitly set, table name changed, indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_plan_programs`
     DROP FOREIGN KEY `plan_programs_programid_fk`,
     DROP INDEX `gpuntisID`,
@@ -133,72 +118,74 @@ ALTER TABLE `v7ocf_thm_organizer_categories`
         ON UPDATE CASCADE;
 # endregion
 
+# region colors
+ALTER TABLE `v7ocf_thm_organizer_colors`
+    MODIFY `name_en` VARCHAR(60) NOT NULL AFTER `name_de`;
+# endregion
+
 # region departments
-# primary key was missing?
 ALTER TABLE `v7ocf_thm_organizer_departments`
+    DROP INDEX `short_name`,
+    DROP INDEX `name`,
+    DROP INDEX `short_name_en`;
+
+ALTER TABLE `v7ocf_thm_organizer_departments`
+    CHANGE `short_name_de` `shortName_de` VARCHAR(50) NOT NULL,
+    CHANGE `short_name_en` `shortName_en` VARCHAR(50) NOT NULL AFTER `shortName_de`,
     ADD PRIMARY KEY (`id`),
     ADD COLUMN contactType TINYINT(1) UNSIGNED DEFAULT 0,
     ADD COLUMN contactID INT(11) DEFAULT NULL,
     ADD COLUMN contactEmail VARCHAR(100) DEFAULT NULL,
-    ADD INDEX `contactID` (`contactID`);
+    ADD INDEX `contactID` (`contactID`),
+    ADD CONSTRAINT `shortName_de` UNIQUE (`shortName_de`),
+    ADD CONSTRAINT `shortName_en` UNIQUE (`shortName_en`),
+    ADD CONSTRAINT `name_de` UNIQUE (`name_de`);
 
 ALTER TABLE `v7ocf_thm_organizer_departments`
     ADD CONSTRAINT `departments_contactID_fk` FOREIGN KEY (`contactID`) REFERENCES `v7ocf_users` (`id`)
         ON DELETE SET NULL
         ON UPDATE CASCADE;
 
-# change the ids to match the real numbering of the departments if existent
-# GES - using the number normally associated with department mni
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 5
 WHERE `id` = 6;
 
-# MNI - using the number normally associated with department wi
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 6
 WHERE `id` = 14;
 
-# MuK
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 21
 WHERE `id` = 8;
 
-# Friedberg - no real number just adding space for any future developments
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 50
 WHERE `id` = 19;
 
-# Gießen - no real number, using the number normally associated with department m
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 51
 WHERE `id` = 12;
 
-# STK - no real number, using the number normally associated with department iem
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 52
 WHERE `id` = 11;
 
-# ZDH - no real number, using the number normally associated with department mnd
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 22
 WHERE `id` = 13;
 
-# IEM
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 11
 WHERE `id` = 15;
 
-# M
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 12
 WHERE `id` = 16;
 
-# MND
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 13
 WHERE `id` = 17;
 
-# WI
 UPDATE `v7ocf_thm_organizer_departments`
 SET `id`= 14
 WHERE `id` = 18;
@@ -207,7 +194,6 @@ ALTER TABLE `v7ocf_thm_organizer_departments` AUTO_INCREMENT = 53;
 # endregion
 
 # region plan subjects => events
-# table name changed, index not explicitly set, indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_plan_subjects`
     DROP FOREIGN KEY `plan_subjects_fieldid_fk`,
     DROP INDEX `gpuntisID`,
@@ -216,8 +202,6 @@ ALTER TABLE `v7ocf_thm_organizer_plan_subjects`
 
 RENAME TABLE `v7ocf_thm_organizer_plan_subjects` TO `v7ocf_thm_organizer_events`;
 
-# adds language support, adds event declaration / documentation support
-# this untis id is only unique in a department context
 ALTER TABLE `v7ocf_thm_organizer_events`
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL AFTER `id`,
     ADD COLUMN `departmentID` INT(11) UNSIGNED NOT NULL AFTER `untisID`,
@@ -239,11 +223,9 @@ ALTER TABLE `v7ocf_thm_organizer_events`
     ADD INDEX `fieldID` (`fieldID`),
     ADD INDEX `untisID` (`untisID`);
 
-# set default values
 UPDATE `v7ocf_thm_organizer_events`
 SET `name_en` = `name_de`;
 
-# set explicit department ids
 UPDATE `v7ocf_thm_organizer_events`
 SET `departmentID` = 1
 WHERE `subjectIndex` LIKE 'BAU_%';
@@ -296,7 +278,6 @@ UPDATE `v7ocf_thm_organizer_events`
 SET `departmentID` = 52
 WHERE `subjectIndex` LIKE 'STK_%';
 
-# indexing through aggregation changed to multiple columns
 ALTER TABLE `v7ocf_thm_organizer_events`
     DROP COLUMN `subjectIndex`,
     ADD CONSTRAINT `entry` UNIQUE (`untisID`, `departmentID`);
@@ -358,24 +339,40 @@ ALTER TABLE `v7ocf_thm_organizer_events`
         ON UPDATE CASCADE;
 # endregion
 
-#region fields
-# non-standard fk syntax, indexed column changed
+# region extensions
+UPDATE `v7ocf_extensions`
+SET `params` = replace(`params`, '_refresh', 'Refresh')
+WHERE `name` = 'THM_ORGANIZER';
+# endregion
+
+# region fields
 ALTER TABLE `v7ocf_thm_organizer_fields`
     DROP FOREIGN KEY `fields_colorid_fk`,
     DROP INDEX `gpuntisID`;
 
 ALTER TABLE `v7ocf_thm_organizer_fields`
+    CHANGE `field_de` `name_de` VARCHAR(60) NOT NULL AFTER `colorID`,
+    CHANGE `field_en` `name_en` VARCHAR(60) NOT NULL AFTER `name_de`,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    ADD CONSTRAINT `untisID` UNIQUE (`untisID`);
+    ADD CONSTRAINT `untisID` UNIQUE (`untisID`),
+    ADD CONSTRAINT `name_de` UNIQUE (`name_de`),
+    ADD CONSTRAINT `name_en` UNIQUE (`name_en`);
 
 ALTER TABLE `v7ocf_thm_organizer_fields`
     ADD CONSTRAINT `fields_colorID_fk` FOREIGN KEY (`colorID`) REFERENCES `v7ocf_thm_organizer_colors` (`id`)
         ON DELETE SET NULL
         ON UPDATE CASCADE;
-#endregion
+# endregion
+
+# region frequencies
+ALTER TABLE `v7ocf_thm_organizer_frequencies`
+    CHANGE `frequency_de` `name_de` VARCHAR(45) NOT NULL,
+    CHANGE `frequency_en` `name_en` VARCHAR(45) NOT NULL,
+    ADD CONSTRAINT `name_de` UNIQUE (`name_de`),
+    ADD CONSTRAINT `name_en` UNIQUE (`name_en`);
+# endregion
 
 #region grids
-# indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_grids` DROP INDEX `gpuntisID`;
 
 ALTER TABLE `v7ocf_thm_organizer_grids`
@@ -385,7 +382,6 @@ ALTER TABLE `v7ocf_thm_organizer_grids`
 #endregion
 
 # region plan pools => groups
-# index not explicitly set, non-standard fk syntax, table name changed, indexed column changed, table name changed
 ALTER TABLE `v7ocf_thm_organizer_plan_pools`
     DROP FOREIGN KEY `plan_pools_fieldid_fk`,
     DROP FOREIGN KEY `plan_pools_gridid_fk`,
@@ -574,11 +570,14 @@ ALTER TABLE `v7ocf_thm_organizer_methods`
 #endregion
 
 #region monitors
-# non-standard fk syntax
 ALTER TABLE `v7ocf_thm_organizer_monitors` DROP FOREIGN KEY `monitors_roomid_fk`;
 
 ALTER TABLE `v7ocf_thm_organizer_monitors`
-    MODIFY `useDefaults` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0;
+    MODIFY `useDefaults` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    CHANGE `schedule_refresh` `scheduleRefresh` INT(3) UNSIGNED NOT NULL DEFAULT 60
+        COMMENT 'the amount of seconds before the schedule refreshes',
+    CHANGE `content_refresh` `contentRefresh` INT(3) UNSIGNED NOT NULL DEFAULT 60
+        COMMENT 'the amount of time in seconds before the content refreshes';
 
 ALTER TABLE `v7ocf_thm_organizer_monitors`
     ADD CONSTRAINT `monitors_roomID_fk` FOREIGN KEY (`roomID`) REFERENCES `v7ocf_thm_organizer_rooms` (`id`)
@@ -587,7 +586,6 @@ ALTER TABLE `v7ocf_thm_organizer_monitors`
 #endregion
 
 #region participants
-# no index explicitly set, non-standard fk syntax
 ALTER TABLE `v7ocf_thm_organizer_participants`
     DROP FOREIGN KEY `participants_programid_fk`,
     DROP FOREIGN KEY `participants_userid_fk`,
@@ -609,12 +607,10 @@ ALTER TABLE `v7ocf_thm_organizer_participants`
 #endregion
 
 # region teachers => persons
-# avoid conflicts by dropping fks in advance
 ALTER TABLE `v7ocf_thm_organizer_department_resources` DROP FOREIGN KEY `department_resources_teacherid_fk`;
 ALTER TABLE `v7ocf_thm_organizer_lesson_teachers` DROP FOREIGN KEY `lesson_teachers_teacherid_fk`;
 ALTER TABLE `v7ocf_thm_organizer_subject_teachers` DROP FOREIGN KEY `subject_teachers_teacherid_fk`;
 
-# non-standard fk syntax, indexed column changed, table name changed
 ALTER TABLE `v7ocf_thm_organizer_teachers`
     DROP FOREIGN KEY `teachers_fieldid_fk`,
     DROP INDEX `gpuntisID`;
@@ -633,7 +629,6 @@ ALTER TABLE `v7ocf_thm_organizer_persons`
 # endregion
 
 # region department resources (fk: persons)
-# non-standard fk syntax, referenced table names have changed
 ALTER TABLE `v7ocf_thm_organizer_department_resources`
     DROP FOREIGN KEY `department_resources_departmentid_fk`,
     DROP FOREIGN KEY `department_resources_programid_fk`,
@@ -688,20 +683,23 @@ ALTER TABLE `v7ocf_thm_organizer_event_coordinators`
 # endregion
 
 # region pools
-# no index explicitly set, non-standard fk syntax, lsfID should be unique
 ALTER TABLE `v7ocf_thm_organizer_pools`
     DROP FOREIGN KEY `pools_departmentid_fk`,
     DROP FOREIGN KEY `pools_fieldid_fk`,
     DROP INDEX `lsfID`,
     DROP INDEX `pools_departmentid_fk`;
 
-# 0 is not a valid value and causes the unique constraint to fail
 UPDATE `v7ocf_thm_organizer_pools`
 SET `lsfID` = NULL
 WHERE `lsfID` = 0;
 
-# unused columns
 ALTER TABLE `v7ocf_thm_organizer_pools`
+    MODIFY `abbreviation_de` VARCHAR(45) DEFAULT '' AFTER `externalID`,
+    MODIFY `abbreviation_en` VARCHAR(45) DEFAULT '' AFTER `abbreviation_de`,
+    CHANGE `short_name_de` `shortName_de` VARCHAR(45) DEFAULT '' AFTER `abbreviation_en`,
+    CHANGE `short_name_en` `shortName_en` VARCHAR(45) DEFAULT '' AFTER `shortName_de`,
+    MODIFY `name_de` VARCHAR(255) DEFAULT NULL AFTER `shortName_en`,
+    MODIFY `name_en` VARCHAR(255) DEFAULT NULL AFTER `name_de`,
     DROP COLUMN `display_type`,
     DROP COLUMN `enable_desc`,
     ADD INDEX `departmentID` (`departmentID`),
@@ -717,14 +715,12 @@ ALTER TABLE `v7ocf_thm_organizer_pools`
 # endregion
 
 #region prerequisites
-# no index explicitly set, non-standard fk syntax
 ALTER TABLE `v7ocf_thm_organizer_prerequisites`
     DROP FOREIGN KEY `prerequisites_prerequisites_fk`,
     DROP FOREIGN KEY `prerequisites_subjectid_fk`,
     DROP INDEX `entry`,
     DROP INDEX `prerequisites_prerequisites_fk`;
 
-# non-standard fk column name syntax
 ALTER TABLE `v7ocf_thm_organizer_prerequisites`
     CHANGE `prerequisite` `prerequisiteID` INT(11) UNSIGNED NOT NULL,
     ADD CONSTRAINT `entry` UNIQUE (`prerequisiteID`, `subjectID`),
@@ -741,7 +737,6 @@ ALTER TABLE `v7ocf_thm_organizer_prerequisites`
 #endregion
 
 #region programs
-# no index explicitly set, non-standard fk syntax
 ALTER TABLE `v7ocf_thm_organizer_programs`
     DROP FOREIGN KEY `programs_degreeid_fk`,
     DROP FOREIGN KEY `programs_departmentid_fk`,
@@ -750,9 +745,8 @@ ALTER TABLE `v7ocf_thm_organizer_programs`
     DROP INDEX `programs_departmentid_fk`,
     DROP INDEX `programs_frequencyid_fk`;
 
-# deprecated programs will context-dependent not be displayed
 ALTER TABLE `v7ocf_thm_organizer_programs`
-    ADD COLUMN `deprecated` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD INDEX `departmentID` (`departmentID`),
     ADD INDEX `frequencyID` (`frequencyID`);
 
@@ -771,15 +765,39 @@ ALTER TABLE `v7ocf_thm_organizer_programs`
         ON UPDATE CASCADE;
 #endregion
 
+# region roles
+CREATE TABLE `v7ocf_thm_organizer_roles` (
+    `id`              TINYINT(2) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `abbreviation_de` VARCHAR(10)         NOT NULL,
+    `abbreviation_en` VARCHAR(10)         NOT NULL,
+    `name_de`         VARCHAR(50)         NOT NULL,
+    `name_en`         VARCHAR(50)         NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `name_de` (`name_de`),
+    UNIQUE INDEX `name_en` (`name_en`),
+    UNIQUE INDEX `abbreviation_de` (`abbreviation_de`),
+    UNIQUE INDEX `abbreviation_en` (`abbreviation_en`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+INSERT INTO `v7ocf_thm_organizer_roles` (`id`, `name_de`, `name_en`, `abbreviation_de`, `abbreviation_en`)
+VALUES (1, 'Dozent', 'Teacher', 'DOZ', 'TCH'),
+       (2, 'Tutor', 'Tutor', 'TUT', 'TUT'),
+       (3, 'Aufsicht', 'Supervisor', 'AFS', 'SPR');
+
+# endregion
+
 # region room types => roomtypes
-# indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_room_types` DROP INDEX `gpuntisID`;
 
 RENAME TABLE `v7ocf_thm_organizer_room_types` TO `v7ocf_thm_organizer_roomtypes`;
 
-# rooms referencing non-public room types will, context dependent, not be displayed
 ALTER TABLE `v7ocf_thm_organizer_roomtypes`
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    CHANGE `min_capacity` `minCapacity` INT(4) UNSIGNED DEFAULT NULL,
+    CHANGE `max_capacity` `maxCapacity` INT(4) UNSIGNED DEFAULT NULL,
     ADD COLUMN `public` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`);
 
@@ -789,7 +807,6 @@ WHERE `untisID` = 'BR';
 # endregion
 
 # region rooms
-# no index explicitly set, non-standard fk syntax, indexed column changed
 ALTER TABLE `v7ocf_thm_organizer_rooms`
     DROP FOREIGN KEY `room_buildingID_fk`,
     DROP FOREIGN KEY `rooms_typeid_fk`,
@@ -797,7 +814,6 @@ ALTER TABLE `v7ocf_thm_organizer_rooms`
     DROP INDEX `room_buildingID_fk`,
     DROP INDEX `typeID`;
 
-# longname is no longer used, non-standard fk column name
 ALTER TABLE `v7ocf_thm_organizer_rooms`
     DROP COLUMN `longname`,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -816,7 +832,6 @@ ALTER TABLE `v7ocf_thm_organizer_rooms`
 # endregion
 
 # region subject mappings => subject events
-# no index explicitly set, non-standard fk syntax
 ALTER TABLE `v7ocf_thm_organizer_subject_mappings`
     DROP FOREIGN KEY `subject_mappings_plan_subjectID_fk`,
     DROP FOREIGN KEY `subject_mappings_subjectID_fk`,
@@ -841,7 +856,6 @@ ALTER TABLE `v7ocf_thm_organizer_subject_events`
 # endregion
 
 # region subject teachers => subject persons
-# change primary key to auto-increment column, non-standard fk syntax, referenced table name changed, table name changed
 ALTER TABLE `v7ocf_thm_organizer_subject_teachers`
     DROP PRIMARY KEY,
     ADD PRIMARY KEY (`id`),
@@ -853,9 +867,9 @@ RENAME TABLE `v7ocf_thm_organizer_subject_teachers` TO `v7ocf_thm_organizer_subj
 
 ALTER TABLE `v7ocf_thm_organizer_subject_persons`
     CHANGE `teacherID` `personID` INT(11) NOT NULL,
-    CHANGE `teacherResp` `responsibility` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
-        COMMENT 'The person\'s responsibility for the given subject. Responsibilities are not mutually exclusive. Possible values: 1 - coordinates, 2 - teaches.',
-    ADD UNIQUE INDEX `entry` (`personID`, `subjectID`, `responsibility`),
+    CHANGE `teacherResp` `role` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+        COMMENT 'The person\'s role for the given subject. Roles are not mutually exclusive. Possible values: 1 - coordinator, 2 - teacher.',
+    ADD UNIQUE INDEX `entry` (`personID`, `subjectID`, `role`),
     ADD INDEX `personID` (`personID`);
 
 ALTER TABLE `v7ocf_thm_organizer_subject_persons`
@@ -868,7 +882,6 @@ ALTER TABLE `v7ocf_thm_organizer_subject_persons`
 # endregion
 
 # region subjects
-# index not explicitly set, non-standard fk syntax
 ALTER TABLE `v7ocf_thm_organizer_subjects`
     DROP FOREIGN KEY `subject_campusID_fk`,
     DROP FOREIGN KEY `subjects_departmentid_fk`,
@@ -877,13 +890,25 @@ ALTER TABLE `v7ocf_thm_organizer_subjects`
     DROP INDEX `subject_campusID_fk`,
     DROP INDEX `subjects_departmentid_fk`;
 
-# prep course information has already been moved to events
 DELETE
 FROM `v7ocf_thm_organizer_subjects`
 WHERE `is_prep_course` = 1;
 
-# remove course relevant columns
 ALTER TABLE `v7ocf_thm_organizer_subjects`
+    CHANGE `short_name_de` `shortName_de` VARCHAR(45) NOT NULL DEFAULT '',
+    CHANGE `short_name_en` `shortName_en` VARCHAR(45) NOT NULL DEFAULT '',
+    CHANGE `preliminary_work_de` `preliminaryWork_de` TEXT,
+    CHANGE `preliminary_work_en` `preliminaryWork_en` TEXT,
+    MODIFY `expertise` TINYINT(1) UNSIGNED DEFAULT NULL,
+    CHANGE `self_competence` `selfCompetence` TINYINT(1) UNSIGNED DEFAULT NULL,
+    CHANGE `method_competence` `methodCompetence` TINYINT(1) UNSIGNED DEFAULT NULL,
+    CHANGE `social_competence` `socialCompetence` TINYINT(1) UNSIGNED DEFAULT NULL,
+    CHANGE `recommended_prerequisites_de` `recommendedPrerequisites_de` TEXT,
+    CHANGE `recommended_prerequisites_en` `recommendedPrerequisites_en` TEXT,
+    CHANGE `used_for_de` `usedFor_de` TEXT,
+    CHANGE `used_for_en` `usedFor_en` TEXT,
+    CHANGE `bonus_points_de` `bonusPoints_de` TEXT,
+    CHANGE `bonus_points_en` `bonusPoints_en` TEXT,
     DROP COLUMN `campusID`,
     DROP COLUMN `is_prep_course`,
     DROP COLUMN `max_participants`,
@@ -911,7 +936,6 @@ ALTER TABLE `v7ocf_thm_organizer_terms` ADD UNIQUE INDEX `entry` (`name`, `start
 # endregion
 
 # region plan pool publishing => group publishing (fk: terms)
-# index not explicitly set, non-standard fk syntax, table name changed
 ALTER TABLE `v7ocf_thm_organizer_plan_pool_publishing`
     DROP FOREIGN KEY `plan_pool_publishing_planningperiodid_fk`,
     DROP FOREIGN KEY `plan_pool_publishing_planpoolid_fk`,
@@ -938,7 +962,6 @@ ALTER TABLE `v7ocf_thm_organizer_group_publishing`
 # endregion
 
 #region schedules (fk: terms)
-# non-standard fk syntax, referenced table name changed
 ALTER TABLE `v7ocf_thm_organizer_schedules`
     DROP FOREIGN KEY `schedules_departmentid_fk`,
     DROP FOREIGN KEY `schedules_planningperiodid_fk`,
@@ -1025,7 +1048,6 @@ VALUES (1, 'Sommersemester', 'Summer Semester', 11, '{\"dates\":{\"1\":{\"startD
 # endregion
 
 #region lessons => units
-# table name changed, index not explicitly set, non-standard fk syntax, referenced table name changed
 ALTER TABLE `v7ocf_thm_organizer_lessons`
     DROP FOREIGN KEY `lessons_campusID_fk`,
     DROP FOREIGN KEY `lessons_departmentid_fk`,
@@ -1037,9 +1059,6 @@ ALTER TABLE `v7ocf_thm_organizer_lessons`
 
 RENAME TABLE `v7ocf_thm_organizer_lessons` TO `v7ocf_thm_organizer_units`;
 
-# columns referencing campuses and methods will be dropped after migration
-# columns with course information will be dropped after migration
-# this untis id is a non-unique integer value
 ALTER TABLE `v7ocf_thm_organizer_units`
     MODIFY `departmentID` INT(11) UNSIGNED DEFAULT NULL AFTER `id`,
     CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED DEFAULT NULL AFTER `departmentID`,
@@ -1057,12 +1076,11 @@ ALTER TABLE `v7ocf_thm_organizer_units`
     ADD INDEX `untisID` (`untisID`);
 
 UPDATE `v7ocf_thm_organizer_units` AS u
-INNER JOIN `v7ocf_thm_organizer_lesson_subjects` AS ls on ls.`lessonID` = u.`id`
+    INNER JOIN `v7ocf_thm_organizer_lesson_subjects` AS ls ON ls.`lessonID` = u.`id`
     INNER JOIN `v7ocf_thm_organizer_lesson_pools` AS lp ON lp.`subjectID` = ls.`id`
     INNER JOIN `v7ocf_thm_organizer_groups` AS g ON g.`id` = lp.`poolID`
 SET u.`gridID` = g.`gridID`;
 
-# columns referencing campuses and methods will be dropped after migration
 ALTER TABLE `v7ocf_thm_organizer_units`
     ADD CONSTRAINT `untis_departmentID_fk` FOREIGN KEY (`departmentID`) REFERENCES `v7ocf_thm_organizer_departments` (`id`)
         ON DELETE CASCADE
@@ -1079,7 +1097,6 @@ ALTER TABLE `v7ocf_thm_organizer_units`
 #endregion
 
 # region instances (data from units)
-# configuration will be dropped after data migration
 CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instances` (
     `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `blockID`  INT(11) UNSIGNED NOT NULL,
@@ -1127,7 +1144,6 @@ ALTER TABLE `v7ocf_thm_organizer_instances`
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 
-# data has been migrated
 ALTER TABLE `v7ocf_thm_organizer_units`
     DROP INDEX `methodID`,
     DROP COLUMN `methodID`;
@@ -1155,7 +1171,6 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_courses` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-# create initial courses from the existing instances
 INSERT INTO `v7ocf_thm_organizer_courses`(`campusID`, `eventID`, `termID`, `deadline`, `fee`, `maxParticipants`, `registrationType`)
 SELECT u.`campusID`, i.`eventID`, u.`termID`, u.`deadline`, u.`fee`, u.`max_participants`, u.`registration_type`
 FROM `v7ocf_thm_organizer_units` AS u
@@ -1170,7 +1185,6 @@ ALTER TABLE `v7ocf_thm_organizer_courses`
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 
-# data has been migrated
 ALTER TABLE `v7ocf_thm_organizer_units`
     DROP INDEX `lessons_campusID_fk`,
     DROP COLUMN `campusID`,
@@ -1194,7 +1208,6 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_course_instances` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-# map courses to instances
 INSERT INTO `v7ocf_thm_organizer_course_instances`(`courseID`, `instanceID`)
 SELECT c.`id`, i.`id`
 FROM `v7ocf_thm_organizer_instances` AS i
@@ -1266,17 +1279,18 @@ ALTER TABLE `v7ocf_thm_organizer_instance_participants`
 
 # region instance persons
 CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instance_persons` (
-    `id`             INT(20) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `instanceID`     INT(20) UNSIGNED    NOT NULL,
-    `personID`       INT(11)             NOT NULL,
-    `responsibility` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT 'Responsibilities are not mutually exclusive. Possible values: 1 - Teacher, 2 - Tutor, 3 - Supervisor, 4 - Speaker, 5 - Moderator.',
-    `delta`          VARCHAR(10)         NOT NULL DEFAULT ''
+    `id`         INT(20) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `instanceID` INT(20) UNSIGNED    NOT NULL,
+    `personID`   INT(11)             NOT NULL,
+    `roleID`     TINYINT(2) UNSIGNED NOT NULL DEFAULT 1,
+    `delta`      VARCHAR(10)         NOT NULL DEFAULT ''
         COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
-    `modified`       TIMESTAMP                    DEFAULT CURRENT_TIMESTAMP
+    `modified`   TIMESTAMP                    DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX `instanceID` (`instanceID`),
-    INDEX `personID` (`personID`)
+    INDEX `personID` (`personID`),
+    INDEX `roleID` (`roleID`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -1294,6 +1308,9 @@ ALTER TABLE `v7ocf_thm_organizer_instance_persons`
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `instance_persons_personID_fk` FOREIGN KEY (`personID`) REFERENCES `v7ocf_thm_organizer_persons` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `instance_persons_roleID_fk` FOREIGN KEY (`roleID`) REFERENCES `v7ocf_thm_organizer_roles` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 #endregion
@@ -1364,9 +1381,3 @@ ALTER TABLE `v7ocf_thm_organizer_person_rooms`
 DROP TABLE `v7ocf_thm_organizer_lesson_pools`;
 
 DROP TABLE `v7ocf_thm_organizer_lesson_teachers`;
-
-# participant courses coupon?
-
-# preflight - set site to offline
-
-# enable site

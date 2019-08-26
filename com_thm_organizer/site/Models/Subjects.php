@@ -92,10 +92,10 @@ class Subjects extends ListModel implements FiltersFormFilters
 
         $searchFields = [
             's.name_de',
-            'short_name_de',
+            'shortName_de',
             'abbreviation_de',
             's.name_en',
-            'short_name_en',
+            'shortName_en',
             'abbreviation_en',
             'externalID',
             'description_de',

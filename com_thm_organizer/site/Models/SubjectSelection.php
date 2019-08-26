@@ -36,10 +36,10 @@ class SubjectSelection extends ListModel
 
         $searchFields = [
             'name_de',
-            'short_name_de',
+            'shortName_de',
             'abbreviation_de',
             'name_en',
-            'short_name_en',
+            'shortName_en',
             'abbreviation_en',
             'externalID',
             'description_de',

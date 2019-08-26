@@ -201,7 +201,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
 
-        $query->select("d.short_name_$tag AS name")
+        $query->select("d.shortName_$tag AS name")
             ->from('#__thm_organizer_departments AS d')
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id')
             ->where("teacherID = $teacherID");

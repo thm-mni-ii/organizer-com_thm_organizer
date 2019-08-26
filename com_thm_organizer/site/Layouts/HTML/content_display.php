@@ -18,7 +18,7 @@
     }
 
     window.onload = function () {
-        timer = setTimeout('auto_reload()', <?php echo $this->model->params['content_refresh']; ?>000);
+        timer = setTimeout('auto_reload()', <?php echo $this->model->params['contentRefresh']; ?>000);
     }
 </script>
 <img class="room-display-content" src="images/thm_organizer/<?php echo $this->model->params['content']; ?>">

@@ -42,7 +42,7 @@ class Lessons extends ListModel
             ->select("co.id as courseID, co.name AS name")
             ->select('l.id AS lessonID, l.campusID AS campusID')
             ->select("m.id AS methodID, m.abbreviation_$tag AS method")
-            ->select("d.id AS departmentID, d.short_name_$tag AS department")
+            ->select("d.id AS departmentID, d.shortName_$tag AS department")
             ->select('term.id AS termID, term.name AS term')
             ->select('sq.start, sq.end, sq.expired')
             ->select("s.id as subjectID, s.name_$tag as subject, s.campusID AS abstractCampusID");

@@ -42,9 +42,9 @@ class Subjects extends Assets
             'hisID',
             'instructionLanguage',
             'lsfID',
-            'method_competence',
-            'self_competence',
-            'social_competence'
+            'methodCompetence',
+            'selfCompetence',
+            'socialCompetence'
         ];
 
         foreach ($nullColumns as $nullColumn) {

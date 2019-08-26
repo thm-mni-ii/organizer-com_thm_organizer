@@ -2,9 +2,9 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="field_de" type="text" size="60" maxlength="60" required="true" label="THM_ORGANIZER_NAME_DE"
+        <field name="name_de" type="text" size="60" maxlength="60" required="true" label="THM_ORGANIZER_NAME_DE"
                description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="field_en" type="text" size="100" maxlength="100" required="true" label="THM_ORGANIZER_NAME_EN"
+        <field name="name_en" type="text" size="100" maxlength="100" required="true" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC"/>
         <field name="untisID" type="text" size="60" maxlength="60" label="THM_ORGANIZER_UNTIS_ID"
                description="THM_ORGANIZER_UNTIS_ID_DESC"/>

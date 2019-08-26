@@ -69,8 +69,8 @@ class PoolLSF extends BaseModel
         $this->setAttribute($pool, 'externalID', (string)$stub->alphaid);
         $this->setAttribute($pool, 'abbreviation_de', (string)$stub->kuerzel);
         $this->setAttribute($pool, 'abbreviation_en', (string)$stub->kuerzelen, $pool->abbreviation_de);
-        $this->setAttribute($pool, 'short_name_de', (string)$stub->kurzname);
-        $this->setAttribute($pool, 'short_name_en', (string)$stub->kurznameen, $pool->short_name_de);
+        $this->setAttribute($pool, 'shortName_de', (string)$stub->kurzname);
+        $this->setAttribute($pool, 'shortName_en', (string)$stub->kurznameen, $pool->shortName_de);
         $this->setAttribute($pool, 'name_de', (string)$stub->titelde);
         $this->setAttribute($pool, 'name_en', (string)$stub->titelen, $pool->name_de);
 

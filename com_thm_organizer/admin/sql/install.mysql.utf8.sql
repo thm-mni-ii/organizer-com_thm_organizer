@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_campuses` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
     `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `untisID`   VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    `programID` INT(11) UNSIGNED                                DEFAULT NULL,
+    `untisID`   VARCHAR(60)      DEFAULT NULL,
+    `programID` INT(11) UNSIGNED DEFAULT NULL,
     `name`      VARCHAR(100)     NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `programID` (`programID`),
@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
     `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `name_de` VARCHAR(60)      NOT NULL,
-    `color`   VARCHAR(7)       NOT NULL,
     `name_en` VARCHAR(60)      NOT NULL,
+    `color`   VARCHAR(7)       NOT NULL,
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
@@ -152,19 +152,19 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_department_resources` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_departments` (
-    `id`            INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `asset_id`      INT(11)          NOT NULL,
-    `short_name_de` VARCHAR(50)      NOT NULL,
-    `name_de`       VARCHAR(150)     NOT NULL,
-    `short_name_en` VARCHAR(50)      NOT NULL,
-    `name_en`       VARCHAR(150)     NOT NULL,
-    `contactType`   TINYINT(1) UNSIGNED DEFAULT 0,
-    `contactID`     INT(11)             DEFAULT NULL,
-    `contactEmail`  VARCHAR(100)        DEFAULT NULL,
+    `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `asset_id`     INT(11)          NOT NULL,
+    `shortName_de` VARCHAR(50)      NOT NULL,
+    `shortName_en` VARCHAR(50)      NOT NULL,
+    `name_de`      VARCHAR(150)     NOT NULL,
+    `name_en`      VARCHAR(150)     NOT NULL,
+    `contactType`  TINYINT(1) UNSIGNED DEFAULT 0,
+    `contactID`    INT(11)             DEFAULT NULL,
+    `contactEmail` VARCHAR(100)        DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `short_name` (`short_name_de`),
-    UNIQUE INDEX `name` (`name_de`),
-    UNIQUE INDEX `short_name_en` (`short_name_en`),
+    UNIQUE INDEX `shortName_de` (`shortName_de`),
+    UNIQUE INDEX `shortName_en` (`shortName_en`),
+    UNIQUE INDEX `name_de` (`name_de`),
     UNIQUE INDEX `name_en` (`name_en`),
     INDEX `contactID` (`contactID`)
 )
@@ -187,21 +187,21 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_event_coordinators` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
     `id`               INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `untisID`          VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    `untisID`          VARCHAR(60)                  DEFAULT NULL,
     `departmentID`     INT(11) UNSIGNED    NOT NULL,
-    `fieldID`          INT(11) UNSIGNED                                DEFAULT NULL,
+    `fieldID`          INT(11) UNSIGNED             DEFAULT NULL,
     `name_de`          VARCHAR(100)        NOT NULL,
     `name_en`          VARCHAR(100)        NOT NULL,
-    `subjectNo`        VARCHAR(45)         NOT NULL                    DEFAULT '',
+    `subjectNo`        VARCHAR(45)         NOT NULL DEFAULT '',
     `description_de`   TEXT,
     `description_en`   TEXT,
-    `preparatory`      TINYINT(1) UNSIGNED NOT NULL                    DEFAULT 0,
-    `campusID`         INT(11) UNSIGNED                                DEFAULT NULL,
-    `deadline`         INT(2) UNSIGNED                                 DEFAULT 0
+    `preparatory`      TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    `campusID`         INT(11) UNSIGNED             DEFAULT NULL,
+    `deadline`         INT(2) UNSIGNED              DEFAULT 0
         COMMENT 'The deadline in days for registration before the course starts.',
-    `fee`              INT(3) UNSIGNED                                 DEFAULT 0,
-    `maxParticipants`  INT(4) UNSIGNED                                 DEFAULT 1000,
-    `registrationType` INT(1) UNSIGNED                                 DEFAULT NULL
+    `fee`              INT(3) UNSIGNED              DEFAULT 0,
+    `maxParticipants`  INT(4) UNSIGNED              DEFAULT 1000,
+    `registrationType` INT(1) UNSIGNED              DEFAULT NULL
         COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `entry` (`untisID`, `departmentID`),
@@ -215,11 +215,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_events` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
-    `id`       INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `untisID`  VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    `field_de` VARCHAR(60)      NOT NULL                       DEFAULT '',
-    `colorID`  INT(11) UNSIGNED                                DEFAULT NULL,
-    `field_en` VARCHAR(100)     NOT NULL                       DEFAULT '',
+    `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `untisID` VARCHAR(60)      DEFAULT NULL,
+    `colorID` INT(11) UNSIGNED DEFAULT NULL,
+    `name_de` VARCHAR(60)      NOT NULL,
+    `name_en` VARCHAR(100)     NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `colorID` (`colorID`),
     UNIQUE INDEX `untisID` (`untisID`)
@@ -229,10 +229,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
-    `id`           INT(1) UNSIGNED NOT NULL,
-    `frequency_de` VARCHAR(45)     NOT NULL,
-    `frequency_en` VARCHAR(45)     NOT NULL,
-    PRIMARY KEY (`id`)
+    `id`      INT(1) UNSIGNED NOT NULL,
+    `name_de` VARCHAR(45)     NOT NULL,
+    `name_en` VARCHAR(45)     NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE `name_de` (`name_de`),
+    UNIQUE `name_en` (`name_en`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -240,12 +242,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_frequencies` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_grids` (
     `id`          INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `name_de`     VARCHAR(255)                                    DEFAULT NULL,
-    `name_en`     VARCHAR(255)                                    DEFAULT NULL,
+    `name_de`     VARCHAR(255)                 DEFAULT NULL,
+    `name_en`     VARCHAR(255)                 DEFAULT NULL,
     `grid`        TEXT                NOT NULL
         COMMENT 'A grid object modeled by a JSON string, containing the respective start and end times of the grid blocks.',
-    `defaultGrid` TINYINT(1) UNSIGNED NOT NULL                    DEFAULT 0,
-    `untisID`     VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    `defaultGrid` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    `untisID`     VARCHAR(60)                  DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`)
 )
@@ -269,11 +271,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_group_publishing` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_groups` (
     `id`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `untisID`    VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    `poolID`     INT(11) UNSIGNED                                DEFAULT NULL,
-    `categoryID` INT(11) UNSIGNED                                DEFAULT NULL,
-    `fieldID`    INT(11) UNSIGNED                                DEFAULT NULL,
-    `gridID`     INT(11) UNSIGNED                                DEFAULT 1,
+    `untisID`    VARCHAR(60)      DEFAULT NULL,
+    `poolID`     INT(11) UNSIGNED DEFAULT NULL,
+    `categoryID` INT(11) UNSIGNED DEFAULT NULL,
+    `fieldID`    INT(11) UNSIGNED DEFAULT NULL,
+    `gridID`     INT(11) UNSIGNED DEFAULT 1,
     `name`       VARCHAR(100)     NOT NULL,
     `fullName`   VARCHAR(100)     NOT NULL
         COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
@@ -319,17 +321,18 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_participants` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_persons` (
-    `id`             INT(20) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `instanceID`     INT(20) UNSIGNED    NOT NULL,
-    `personID`       INT(11)             NOT NULL,
-    `responsibility` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT 'Responsibilities are not mutually exclusive. Possible values: 1 - Teacher, 2 - Tutor, 3 - Supervisor, 4 - Speaker, 5 - Moderator.',
-    `delta`          VARCHAR(10)         NOT NULL DEFAULT ''
+    `id`         INT(20) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `instanceID` INT(20) UNSIGNED    NOT NULL,
+    `personID`   INT(11)             NOT NULL,
+    `roleID`     TINYINT(2) UNSIGNED NOT NULL DEFAULT 1,
+    `delta`      VARCHAR(10)         NOT NULL DEFAULT ''
         COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
-    `modified`       TIMESTAMP                    DEFAULT CURRENT_TIMESTAMP
+    `modified`   TIMESTAMP                    DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX `instanceID` (`instanceID`),
-    INDEX `personID` (`personID`)
+    INDEX `personID` (`personID`),
+    INDEX `roleID` (`roleID`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -376,11 +379,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_mappings` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_methods` (
     `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `untisID`         VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    `abbreviation_de` VARCHAR(45)                                     DEFAULT '',
-    `abbreviation_en` VARCHAR(45)                                     DEFAULT '',
-    `name_de`         VARCHAR(255)                                    DEFAULT NULL,
-    `name_en`         VARCHAR(255)                                    DEFAULT NULL,
+    `untisID`         VARCHAR(60)  DEFAULT NULL,
+    `abbreviation_de` VARCHAR(45)  DEFAULT '',
+    `abbreviation_en` VARCHAR(45)  DEFAULT '',
+    `name_de`         VARCHAR(255) DEFAULT NULL,
+    `name_en`         VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE `untisID` (`untisID`)
 )
@@ -389,19 +392,19 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_methods` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_monitors` (
-    `id`               INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `roomID`           INT(11) UNSIGNED             DEFAULT NULL,
-    `ip`               VARCHAR(15)         NOT NULL,
-    `useDefaults`      TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-    `display`          INT(1) UNSIGNED     NOT NULL DEFAULT 1
+    `id`              INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `roomID`          INT(11) UNSIGNED             DEFAULT NULL,
+    `ip`              VARCHAR(15)         NOT NULL,
+    `useDefaults`     TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    `display`         INT(1) UNSIGNED     NOT NULL DEFAULT 1
         COMMENT 'the display behaviour of the monitor',
-    `schedule_refresh` INT(3) UNSIGNED     NOT NULL DEFAULT 60
+    `scheduleRefresh` INT(3) UNSIGNED     NOT NULL DEFAULT 60
         COMMENT 'the amount of seconds before the schedule refreshes',
-    `content_refresh`  INT(3) UNSIGNED     NOT NULL DEFAULT 60
+    `contentRefresh`  INT(3) UNSIGNED     NOT NULL DEFAULT 60
         COMMENT 'the amount of time in seconds before the content refreshes',
-    `interval`         INT(1) UNSIGNED     NOT NULL DEFAULT 1
+    `interval`        INT(1) UNSIGNED     NOT NULL DEFAULT 1
         COMMENT 'the time interval in minutes between context switches',
-    `content`          VARCHAR(256)                 DEFAULT ''
+    `content`         VARCHAR(256)                 DEFAULT ''
         COMMENT 'the filename of the resource to the optional resource to be displayed',
     PRIMARY KEY (`id`),
     INDEX `roomID` (`roomID`),
@@ -462,12 +465,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_person_rooms` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_persons` (
     `id`       INT(11)      NOT NULL AUTO_INCREMENT,
-    `untisID`  VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    `untisID`  VARCHAR(60)           DEFAULT NULL,
     `surname`  VARCHAR(255) NOT NULL,
-    `forename` VARCHAR(255) NOT NULL                           DEFAULT '',
-    `username` VARCHAR(150)                                    DEFAULT NULL,
-    `fieldID`  INT(11) UNSIGNED                                DEFAULT NULL,
-    `title`    VARCHAR(45)  NOT NULL                           DEFAULT '',
+    `forename` VARCHAR(255) NOT NULL DEFAULT '',
+    `username` VARCHAR(150)          DEFAULT NULL,
+    `fieldID`  INT(11) UNSIGNED      DEFAULT NULL,
+    `title`    VARCHAR(45)  NOT NULL DEFAULT '',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`),
     INDEX `username` (`username`),
@@ -497,14 +500,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
     `lsfID`           INT(11) UNSIGNED          DEFAULT NULL,
     `hisID`           INT(11) UNSIGNED          DEFAULT NULL,
     `externalID`      VARCHAR(45)               DEFAULT '',
-    `description_de`  TEXT,
-    `description_en`  TEXT,
     `abbreviation_de` VARCHAR(45)               DEFAULT '',
     `abbreviation_en` VARCHAR(45)               DEFAULT '',
-    `short_name_de`   VARCHAR(45)               DEFAULT '',
-    `short_name_en`   VARCHAR(45)               DEFAULT '',
+    `shortName_de`    VARCHAR(45)               DEFAULT '',
+    `shortName_en`    VARCHAR(45)               DEFAULT '',
     `name_de`         VARCHAR(255)              DEFAULT NULL,
     `name_en`         VARCHAR(255)              DEFAULT NULL,
+    `description_de`  TEXT,
+    `description_en`  TEXT,
     `minCrP`          INT(3) UNSIGNED           DEFAULT 0,
     `maxCrP`          INT(3) UNSIGNED           DEFAULT 0,
     `fieldID`         INT(11) UNSIGNED          DEFAULT NULL,
@@ -545,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
     `description_de` TEXT,
     `description_en` TEXT,
     `frequencyID`    INT(1) UNSIGNED              DEFAULT NULL,
-    `deprecated`     TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    `active`         TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `lsfData` (`version`, `code`, `degreeID`),
     INDEX `degreeID` (`degreeID`),
@@ -557,16 +560,32 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE `#__thm_organizer_roles` (
+    `id`              TINYINT(2) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `abbreviation_de` VARCHAR(10)         NOT NULL,
+    `abbreviation_en` VARCHAR(10)         NOT NULL,
+    `name_de`         VARCHAR(50)         NOT NULL,
+    `name_en`         VARCHAR(50)         NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `name_de` (`name_de`),
+    UNIQUE INDEX `name_en` (`name_en`),
+    UNIQUE INDEX `abbreviation_de` (`abbreviation_de`),
+    UNIQUE INDEX `abbreviation_en` (`abbreviation_en`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_roomtypes` (
     `id`             INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `untisID`        VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    `untisID`        VARCHAR(60)                  DEFAULT NULL,
     `name_de`        VARCHAR(50)         NOT NULL,
     `name_en`        VARCHAR(50)         NOT NULL,
     `description_de` TEXT                NOT NULL,
     `description_en` TEXT                NOT NULL,
-    `min_capacity`   INT(4) UNSIGNED                                 DEFAULT NULL,
-    `max_capacity`   INT(4) UNSIGNED                                 DEFAULT NULL,
-    `public`         TINYINT(1) UNSIGNED NOT NULL                    DEFAULT 1,
+    `minCapacity`    INT(4) UNSIGNED              DEFAULT NULL,
+    `maxCapacity`    INT(4) UNSIGNED              DEFAULT NULL,
+    `public`         TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`)
 )
@@ -576,11 +595,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_roomtypes` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
     `id`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `buildingID` INT(11) UNSIGNED                                DEFAULT NULL,
-    `untisID`    VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    `buildingID` INT(11) UNSIGNED DEFAULT NULL,
+    `untisID`    VARCHAR(60)      DEFAULT NULL,
     `name`       VARCHAR(10)      NOT NULL,
-    `roomtypeID` INT(11) UNSIGNED                                DEFAULT NULL,
-    `capacity`   INT(4) UNSIGNED                                 DEFAULT NULL,
+    `roomtypeID` INT(11) UNSIGNED DEFAULT NULL,
+    `capacity`   INT(4) UNSIGNED  DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`),
     INDEX `buildingID` (`buildingID`),
@@ -637,13 +656,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_events` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_persons` (
-    `id`             INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `subjectID`      INT(11) UNSIGNED    NOT NULL,
-    `personID`       INT(11)             NOT NULL,
-    `responsibility` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
-        COMMENT 'The person''s responsibility for the given subject. Responsibilities are not mutually exclusive. Possible values: 1 - coordinates, 2 - teaches.',
+    `id`        INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `subjectID` INT(11) UNSIGNED    NOT NULL,
+    `personID`  INT(11)             NOT NULL,
+    `role`      TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+        COMMENT 'The person''s role for the given subject. Roles are not mutually exclusive. Possible values: 1 - coordinates, 2 - teaches.',
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `entry` (`personID`, `subjectID`, `responsibility`),
+    UNIQUE INDEX `entry` (`personID`, `subjectID`, `role`),
     INDEX `subjectID` (`subjectID`),
     INDEX `personID` (`personID`)
 )
@@ -652,56 +671,56 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subject_persons` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
-    `id`                           INT(11) UNSIGNED      NOT NULL AUTO_INCREMENT,
-    `asset_id`                     INT(11)               NOT NULL DEFAULT 0,
-    `departmentID`                 INT(11) UNSIGNED               DEFAULT NULL,
-    `lsfID`                        INT(11) UNSIGNED               DEFAULT NULL,
-    `hisID`                        INT(11) UNSIGNED               DEFAULT NULL,
-    `externalID`                   VARCHAR(45)           NOT NULL DEFAULT '',
-    `abbreviation_de`              VARCHAR(45)           NOT NULL DEFAULT '',
-    `abbreviation_en`              VARCHAR(45)           NOT NULL DEFAULT '',
-    `short_name_de`                VARCHAR(45)           NOT NULL DEFAULT '',
-    `short_name_en`                VARCHAR(45)           NOT NULL DEFAULT '',
-    `name_de`                      VARCHAR(255)          NOT NULL,
-    `name_en`                      VARCHAR(255)          NOT NULL,
-    `description_de`               TEXT                  NOT NULL,
-    `description_en`               TEXT                  NOT NULL,
-    `objective_de`                 TEXT                  NOT NULL,
-    `objective_en`                 TEXT                  NOT NULL,
-    `content_de`                   TEXT                  NOT NULL,
-    `content_en`                   TEXT                  NOT NULL,
-    `prerequisites_de`             TEXT                  NOT NULL,
-    `prerequisites_en`             TEXT                  NOT NULL,
-    `preliminary_work_de`          TEXT                  NOT NULL,
-    `preliminary_work_en`          TEXT                  NOT NULL,
-    `instructionLanguage`          VARCHAR(2)            NOT NULL DEFAULT 'D',
-    `literature`                   TEXT                  NOT NULL,
-    `creditpoints`                 DOUBLE(4, 1) UNSIGNED NOT NULL DEFAULT 0,
-    `expenditure`                  INT(4) UNSIGNED       NOT NULL DEFAULT 0,
-    `present`                      INT(4) UNSIGNED       NOT NULL DEFAULT 0,
-    `independent`                  INT(4) UNSIGNED       NOT NULL DEFAULT 0,
-    `proof_de`                     TEXT                  NOT NULL,
-    `proof_en`                     TEXT                  NOT NULL,
-    `frequencyID`                  INT(1) UNSIGNED                DEFAULT NULL,
-    `method_de`                    TEXT,
-    `method_en`                    TEXT,
-    `fieldID`                      INT(11) UNSIGNED               DEFAULT NULL,
-    `sws`                          INT(2) UNSIGNED       NOT NULL DEFAULT 0,
-    `aids_de`                      TEXT,
-    `aids_en`                      TEXT,
-    `evaluation_de`                TEXT,
-    `evaluation_en`                TEXT,
-    `expertise`                    INT(1) UNSIGNED                DEFAULT NULL,
-    `self_competence`              INT(1) UNSIGNED                DEFAULT NULL,
-    `method_competence`            INT(1) UNSIGNED                DEFAULT NULL,
-    `social_competence`            INT(1) UNSIGNED                DEFAULT NULL,
-    `recommended_prerequisites_de` TEXT,
-    `recommended_prerequisites_en` TEXT,
-    `used_for_de`                  TEXT,
-    `used_for_en`                  TEXT                  NOT NULL,
-    `duration`                     INT(2) UNSIGNED                DEFAULT 1,
-    `bonus_points_de`              TEXT                  NOT NULL,
-    `bonus_points_en`              TEXT                  NOT NULL,
+    `id`                          INT(11) UNSIGNED      NOT NULL AUTO_INCREMENT,
+    `asset_id`                    INT(11)               NOT NULL DEFAULT 0,
+    `departmentID`                INT(11) UNSIGNED               DEFAULT NULL,
+    `lsfID`                       INT(11) UNSIGNED               DEFAULT NULL,
+    `hisID`                       INT(11) UNSIGNED               DEFAULT NULL,
+    `externalID`                  VARCHAR(45)           NOT NULL DEFAULT '',
+    `abbreviation_de`             VARCHAR(45)           NOT NULL DEFAULT '',
+    `abbreviation_en`             VARCHAR(45)           NOT NULL DEFAULT '',
+    `shortName_de`                VARCHAR(45)           NOT NULL DEFAULT '',
+    `shortName_en`                VARCHAR(45)           NOT NULL DEFAULT '',
+    `name_de`                     VARCHAR(255)          NOT NULL,
+    `name_en`                     VARCHAR(255)          NOT NULL,
+    `description_de`              TEXT                  NOT NULL,
+    `description_en`              TEXT                  NOT NULL,
+    `objective_de`                TEXT                  NOT NULL,
+    `objective_en`                TEXT                  NOT NULL,
+    `content_de`                  TEXT                  NOT NULL,
+    `content_en`                  TEXT                  NOT NULL,
+    `prerequisites_de`            TEXT                  NOT NULL,
+    `prerequisites_en`            TEXT                  NOT NULL,
+    `preliminaryWork_de`          TEXT,
+    `preliminaryWork_en`          TEXT,
+    `instructionLanguage`         VARCHAR(2)            NOT NULL DEFAULT 'D',
+    `literature`                  TEXT                  NOT NULL,
+    `creditpoints`                DOUBLE(4, 1) UNSIGNED NOT NULL DEFAULT 0,
+    `expenditure`                 INT(4) UNSIGNED       NOT NULL DEFAULT 0,
+    `present`                     INT(4) UNSIGNED       NOT NULL DEFAULT 0,
+    `independent`                 INT(4) UNSIGNED       NOT NULL DEFAULT 0,
+    `proof_de`                    TEXT                  NOT NULL,
+    `proof_en`                    TEXT                  NOT NULL,
+    `frequencyID`                 INT(1) UNSIGNED                DEFAULT NULL,
+    `method_de`                   TEXT,
+    `method_en`                   TEXT,
+    `fieldID`                     INT(11) UNSIGNED               DEFAULT NULL,
+    `sws`                         INT(2) UNSIGNED       NOT NULL DEFAULT 0,
+    `aids_de`                     TEXT,
+    `aids_en`                     TEXT,
+    `evaluation_de`               TEXT,
+    `evaluation_en`               TEXT,
+    `expertise`                   TINYINT(1) UNSIGNED            DEFAULT NULL,
+    `selfCompetence`              TINYINT(1) UNSIGNED            DEFAULT NULL,
+    `methodCompetence`            TINYINT(1) UNSIGNED            DEFAULT NULL,
+    `socialCompetence`            TINYINT(1) UNSIGNED            DEFAULT NULL,
+    `recommendedPrerequisites_de` TEXT,
+    `recommendedPrerequisites_en` TEXT,
+    `usedFor_de`                  TEXT,
+    `usedFor_en`                  TEXT,
+    `duration`                    INT(2) UNSIGNED                DEFAULT 1,
+    `bonusPoints_de`              TEXT,
+    `bonusPoints_en`              TEXT,
     PRIMARY KEY (`id`),
     INDEX `departmentID` (`departmentID`),
     INDEX `fieldID` (`fieldID`),
@@ -859,6 +878,9 @@ ALTER TABLE `#__thm_organizer_instance_persons`
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `instance_persons_personID_fk` FOREIGN KEY (`personID`) REFERENCES `#__thm_organizer_persons` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `instance_persons_roleID_fk` FOREIGN KEY (`roleID`) REFERENCES `#__thm_organizer_roles` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 

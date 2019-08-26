@@ -19,7 +19,7 @@
     <fieldset name="de" label="ATTRIBUTES_DE">
         <field name="name_de" type="text" class="required" size="40" label="THM_ORGANIZER_NAME_DE"
                description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
-        <field name="short_name_de" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_DE"
+        <field name="shortName_de" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_DE"
                description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
         <field name="abbreviation_de" type="text" size="40" label="THM_ORGANIZER_ABBREVIATION_DE"
                description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
@@ -29,7 +29,7 @@
     <fieldset name="en" label="ATTRIBUTES_EN">
         <field name="name_en" type="text" class="required" size="40" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="short_name_en" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_EN"
+        <field name="shortName_en" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_EN"
                description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
         <field name="abbreviation_en" type="text" size="40" label="THM_ORGANIZER_ABBREVIATION_EN"
                description="THM_ORGANIZER_ABBREVIATION_EN_DESC"/>

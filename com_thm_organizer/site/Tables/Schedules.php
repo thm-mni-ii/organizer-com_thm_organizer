@@ -39,7 +39,7 @@ class Schedules extends BaseTable
     {
         $dbo       = Factory::getDbo();
         $deptQuery = $dbo->getQuery(true);
-        $deptQuery->select('short_name_en')
+        $deptQuery->select('shortName_en')
             ->from('#__thm_organizer_departments')
             ->where("id = '{$this->departmentID}'");
 

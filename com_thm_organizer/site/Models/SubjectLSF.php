@@ -70,7 +70,7 @@ class SubjectLSF extends BaseModel
     private function checkForMappedSubjects($possibleModNos, $programs)
     {
         $select = 's.id AS subjectID, externalID, ';
-        $select .= 'abbreviation_de, short_name_de, name_de, abbreviation_en, short_name_en, name_en, ';
+        $select .= 'abbreviation_de, shortName_de, name_de, abbreviation_en, shortName_en, name_en, ';
         $select .= 'm.id AS mappingID, m.lft, m.rgt, ';
 
         $query = $this->_db->getQuery(true);
@@ -321,8 +321,8 @@ class SubjectLSF extends BaseModel
         $this->setAttribute($subject, 'externalID', (string)$dataObject->modulecode);
         $this->setAttribute($subject, 'abbreviation_de', (string)$dataObject->kuerzel);
         $this->setAttribute($subject, 'abbreviation_en', (string)$dataObject->kuerzelen, $subject->abbreviation_de);
-        $this->setAttribute($subject, 'short_name_de', (string)$dataObject->kurzname);
-        $this->setAttribute($subject, 'short_name_en', (string)$dataObject->kurznameen, $subject->short_name_de);
+        $this->setAttribute($subject, 'shortName_de', (string)$dataObject->kurzname);
+        $this->setAttribute($subject, 'shortName_en', (string)$dataObject->kurznameen, $subject->shortName_de);
         $this->setAttribute($subject, 'name_de', (string)$dataObject->titelde);
         $this->setAttribute($subject, 'name_en', (string)$dataObject->titelen, $subject->name_de);
         $this->setAttribute($subject, 'instructionLanguage', (string)$dataObject->sprache);
@@ -496,10 +496,10 @@ class SubjectLSF extends BaseModel
         $checkedAttributes = [
             'externalID',
             'name_de',
-            'short_name_de',
+            'shortName_de',
             'abbreviation_de',
             'name_en',
-            'short_name_en',
+            'shortName_en',
             'abbreviation_en'
         ];
 
@@ -533,7 +533,7 @@ class SubjectLSF extends BaseModel
             return false;
         }
 
-        $postReqAttribs = ['used_for_de', 'used_for_en'];
+        $postReqAttribs = ['usedFor_de', 'usedFor_en'];
         $postrequisites = [];
 
         foreach ($postReqAttribs as $attribute) {
@@ -661,8 +661,8 @@ class SubjectLSF extends BaseModel
                 break;
 
             case 'Bonuspunkte':
-                $this->setAttribute($subject, 'bonus_points_de', $germanText);
-                $this->setAttribute($subject, 'bonus_points_en', $englishText);
+                $this->setAttribute($subject, 'bonusPoints_de', $germanText);
+                $this->setAttribute($subject, 'bonusPoints_en', $englishText);
                 break;
 
             case 'Lehrformen':
@@ -703,20 +703,20 @@ class SubjectLSF extends BaseModel
                 break;
 
             case 'Empfohlene Voraussetzungen':
-                $this->setAttribute($subject, 'recommended_prerequisites_de', $germanText);
-                $this->setAttribute($subject, 'recommended_prerequisites_en', $englishText);
+                $this->setAttribute($subject, 'recommendedPrerequisites_de', $germanText);
+                $this->setAttribute($subject, 'recommendedPrerequisites_en', $englishText);
 
                 break;
 
             case 'Verwendbarkeit des Moduls':
-                $this->setAttribute($subject, 'used_for_de', $germanText);
-                $this->setAttribute($subject, 'used_for_en', $englishText);
+                $this->setAttribute($subject, 'usedFor_de', $germanText);
+                $this->setAttribute($subject, 'usedFor_en', $englishText);
 
                 break;
 
             case 'Prüfungsvorleistungen':
-                $this->setAttribute($subject, 'preliminary_work_de', $germanText);
-                $this->setAttribute($subject, 'preliminary_work_en', $englishText);
+                $this->setAttribute($subject, 'preliminaryWork_de', $germanText);
+                $this->setAttribute($subject, 'preliminaryWork_en', $englishText);
                 break;
 
             case 'Studienhilfsmittel':
@@ -958,13 +958,13 @@ class SubjectLSF extends BaseModel
                 $attributeName = 'expertise';
                 break;
             case 'Methodenkompetenz':
-                $attributeName = 'method_competence';
+                $attributeName = 'methodCompetence';
                 break;
             case 'Sozialkompetenz':
-                $attributeName = 'social_competence';
+                $attributeName = 'socialCompetence';
                 break;
             case 'Selbstkompetenz':
-                $attributeName = 'self_competence';
+                $attributeName = 'selfCompetence';
                 break;
         }
 

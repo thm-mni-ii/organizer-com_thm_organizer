@@ -48,31 +48,11 @@ class Fields extends ResourceHelper
         $text    = '';
         $colorID = 0;
         if ($table->load($fieldID)) {
-            $textColumn = 'field_' . Languages::getTag();
+            $textColumn = 'name_' . Languages::getTag();
             $text       = $table->$textColumn;
             $colorID    = $table->colorID;
         }
 
         return Colors::getListDisplay($text, $colorID);
-    }
-
-    /**
-     * Attempts to retrieve the name of the resource.
-     *
-     * @param int $resourceID the id of the resource
-     *
-     * @return string
-     */
-    public static function getName($resourceID)
-    {
-        $table  = self::getTable();
-        $exists = $table->load($resourceID);
-        if (empty($exists)) {
-            return '';
-        }
-
-        $localizedName = 'field_' . Languages::getTag();
-
-        return $table->$localizedName;
     }
 }

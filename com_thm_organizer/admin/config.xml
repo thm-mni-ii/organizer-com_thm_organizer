@@ -38,9 +38,9 @@
             <option value='3'>THM_ORGANIZER_CONTENT_DISPLAY</option>
             <option value='4'>THM_ORGANIZER_EVENT_LIST</option>
         </field>
-        <field name="schedule_refresh" type="Integer" label="SCHEDULE_REFRESH_RATE" first="10" last="990" step="10"
+        <field name="scheduleRefresh" type="Integer" label="SCHEDULE_REFRESH_RATE" first="10" last="990" step="10"
                default="60"/>
-        <field name="content_refresh" type="Integer" label="CONTENT_REFRESH" first="10" last="990" step="10"
+        <field name="contentRefresh" type="Integer" label="CONTENT_REFRESH" first="10" last="990" step="10"
                default="60"/>
         <field name="content" type="FileList" label="DISPLAY_CONTENT" directory="images/thm_organizer/" exclude=""/>
     </fieldset>

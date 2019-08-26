@@ -76,8 +76,8 @@ class Roomtypes extends ListView
         $headers['checkbox']     = '';
         $headers['untisID']      = HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering);
         $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['min_capacity'] = HTML::sort('MIN_CAPACITY', 'min_capacity', $direction, $ordering);
-        $headers['max_capacity'] = HTML::sort('MAX_CAPACITY', 'max_capacity', $direction, $ordering);
+        $headers['minCapacity'] = HTML::sort('MIN_CAPACITY', 'minCapacity', $direction, $ordering);
+        $headers['maxCapacity'] = HTML::sort('MAX_CAPACITY', 'maxCapacity', $direction, $ordering);
         $headers['roomCount']    = HTML::sort('ROOM_COUNT', 'roomCount', $direction, $ordering);
 
         return $headers;
@@ -104,8 +104,8 @@ class Roomtypes extends ListView
             $processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['untisID']      = HTML::_('link', $thisLink, $item->untisID);
             $processedItems[$index]['name']         = HTML::_('link', $thisLink, $item->name);
-            $processedItems[$index]['min_capacity'] = $item->min_capacity;
-            $processedItems[$index]['max_capacity'] = $item->max_capacity;
+            $processedItems[$index]['minCapacity'] = $item->minCapacity;
+            $processedItems[$index]['maxCapacity'] = $item->maxCapacity;
             $processedItems[$index]['roomCount']    = $item->roomCount;
             $index++;
         }

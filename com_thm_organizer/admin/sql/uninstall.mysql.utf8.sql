@@ -39,6 +39,7 @@ DROP TABLE IF EXISTS `#__thm_organizer_persons`;
 DROP TABLE IF EXISTS `#__thm_organizer_pools`;
 DROP TABLE IF EXISTS `#__thm_organizer_prerequisites`;
 DROP TABLE IF EXISTS `#__thm_organizer_programs`;
+DROP TABLE IF EXISTS `#__thm_organizer_roles`;
 DROP TABLE IF EXISTS `#__thm_organizer_rooms`;
 DROP TABLE IF EXISTS `#__thm_organizer_roomtypes`;
 DROP TABLE IF EXISTS `#__thm_organizer_runs`;

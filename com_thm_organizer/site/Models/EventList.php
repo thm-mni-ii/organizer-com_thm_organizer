@@ -353,7 +353,7 @@ class EventList extends FormModel
         $query = $this->_db->getQuery(true);
 
         $select = 'DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime, cal.schedule_date, ';
-        $select .= "d.short_name_$tag AS department, d.id AS departmentID, ";
+        $select .= "d.shortName_$tag AS department, d.id AS departmentID, ";
         $select .= "l.id as lessonID, l.comment, m.abbreviation_$tag AS method, ";
         $select .= "co.name AS courseName, s.name_$tag AS sName";
         $query->select($select)

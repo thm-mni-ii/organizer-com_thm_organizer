@@ -37,11 +37,11 @@ class Pools extends ListModel
 
         $searchColumns = [
             'p.name_de',
-            'p.short_name_de',
+            'p.shortName_de',
             'p.abbreviation_de',
             'p.description_de',
             'p.name_en',
-            'p.short_name_en',
+            'p.shortName_en',
             'p.abbreviation_en',
             'p.description_en'
         ];

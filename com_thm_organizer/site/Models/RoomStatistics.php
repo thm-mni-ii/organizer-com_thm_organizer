@@ -393,7 +393,7 @@ class RoomStatistics extends BaseModel
 
         // Subject Data
         $select .= 'co.id AS courseID, co.name AS courseName, co.subjectNo, co.untisID AS courseUntisID, ';
-        $select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.short_name_$tag AS subjectShortName, ";
+        $select .= "s.id AS subjectID, s.name_$tag AS subjectName, s.shortName_$tag AS subjectShortName, ";
         $select .= "s.abbreviation_$tag AS subjectAbbr, ";
         $query->innerJoin('#__thm_organizer_courses AS co ON co.id = lcrs.courseID');
         $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id');
@@ -413,7 +413,7 @@ class RoomStatistics extends BaseModel
         $query->leftJoin('#__thm_organizer_degrees AS dg ON prog.degreeID = dg.id');
 
         // Department Data
-        $select .= "d.id AS departmentID, d.short_name_$tag AS department, d.name_$tag AS departmentName";
+        $select .= "d.id AS departmentID, d.shortName_$tag AS department, d.name_$tag AS departmentName";
         $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
         $query->innerJoin('#__thm_organizer_departments AS d ON dr.departmentID = d.id');
 

@@ -6,8 +6,8 @@
         <field name="description_de" type="MergeValues" label="DESC_DE"/>
         <field name="name_en" type="MergeValues" label="NAME_EN"/>
         <field name="description_en" type="MergeValues" label="DESC_EN"/>
-        <field name="min_capacity" type="MergeValues" label="MIN_CAPACITY"/>
-        <field name="max_capacity" type="MergeValues" label="MAX_CAPACITY"/>
+        <field name="minCapacity" type="MergeValues" label="MIN_CAPACITY"/>
+        <field name="maxCapacity" type="MergeValues" label="MAX_CAPACITY"/>
         <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>
 </form>

@@ -70,13 +70,13 @@
     <fieldset name="de_texts" label="ATTRIBUTES_DE">
         <field name="name_de" type="text" label="THM_ORGANIZER_NAME_DE" size="70" hint="Grundlagen der Informatik"
                description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="short_name_de" type="text" label="THM_ORGANIZER_SHORT_NAME_DE" size="70" hint="Grundl. d. Inf."
+        <field name="shortName_de" type="text" label="THM_ORGANIZER_SHORT_NAME_DE" size="70" hint="Grundl. d. Inf."
                description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
         <field name="abbreviation_de" type="text" label="THM_ORGANIZER_ABBREVIATION_DE" size="70" hint="GDI"
                description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
         <field name="method_de" type="text" size="70" label="THM_ORGANIZER_METHOD_DE"
                description="THM_ORGANIZER_METHOD_DE_DESC" hint="2 SWS Vorlesung, 2 SWS Übung"/>
-        <field name="preliminary_work_de" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_DE"
+        <field name="preliminaryWork_de" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_DE"
                description="THM_ORGANIZER_PRELIMINARY_WORK_DE_DESC" hint="Erfolgreicher Abgabe von 6 Hausübungen."/>
         <field name="proof_de" type="text" size="70" label="THM_ORGANIZER_PROOF_DE"
                description="THM_ORGANIZER_PROOF_DE_DESC" hint="schriftliche Klausur"/>
@@ -90,26 +90,26 @@
                description="THM_ORGANIZER_CONTENT_DE_DESC"/>
         <field name="prerequisites_de" type="editor" size="6" label="THM_ORGANIZER_PREREQUISITES_DE"
                description="THM_ORGANIZER_PREREQUISITES_DE_DESC"/>
-        <field name="recommended_prerequisites_de" type="editor" size="6"
+        <field name="recommendedPrerequisites_de" type="editor" size="6"
                label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
                description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC"/>
-        <field name="used_for_de" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
+        <field name="usedFor_de" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
                description="THM_ORGANIZER_USED_FOR_DE_DESC"/>
         <field name="aids_de" type="editor" size="6" label="THM_ORGANIZER_AIDS_DE"
                description="THM_ORGANIZER_AIDS_DE_DESC"/>
-        <field name="bonus_points_de" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTS_DE"
+        <field name="bonusPoints_de" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTS_DE"
                description="THM_ORGANIZER_BONUS_POINTS_DE_DESC"/>
     </fieldset>
     <fieldset name="en_texts" label="ATTRIBUTES_EN">
         <field name="name_en" type="text" size="70" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC" hint="Fundamentals of Computer Science"/>
-        <field name="short_name_en" type="text" size="70" label="THM_ORGANIZER_SHORT_NAME_EN"
+        <field name="shortName_en" type="text" size="70" label="THM_ORGANIZER_SHORT_NAME_EN"
                description="THM_ORGANIZER_SHORT_NAME_EN_DESC" hint="Fund. Comp. Sci."/>
         <field name="abbreviation_en" type="text" size="70" label="THM_ORGANIZER_ABBREVIATION_EN"
                description="THM_ORGANIZER_ABBREVIATION_DE_DESC" hint="FCS"/>
         <field name="method_en" type="text" size="70" label="THM_ORGANIZER_METHOD_EN"
                description="THM_ORGANIZER_METHOD_EN_DESC" hint="2 SWS Lecture, 2 SWS Practice"/>
-        <field name="preliminary_work_en" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_EN"
+        <field name="preliminaryWork_en" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_EN"
                description="THM_ORGANIZER_PRELIMINARY_WORK_EN_DESC"
                hint="Successful completion of six homework assignments."/>
         <field name="proof_en" type="text" size="70" label="THM_ORGANIZER_PROOF_EN"
@@ -125,14 +125,14 @@
                description="THM_ORGANIZER_CONTENT_EN_DESC"/>
         <field name="prerequisites_en" type="editor" size="6" label="THM_ORGANIZER_PREREQUISITES_EN"
                description="THM_ORGANIZER_PREREQUISITES_EN_DESC"/>
-        <field name="recommended_prerequisites_en" type="editor" size="6"
+        <field name="recommendedPrerequisites_en" type="editor" size="6"
                label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
                description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC"/>
-        <field name="used_for_en" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
+        <field name="usedFor_en" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
                description="THM_ORGANIZER_USED_FOR_EN_DESC"/>
         <field name="aids_en" type="editor" size="6" label="THM_ORGANIZER_AIDS_EN"
                description="THM_ORGANIZER_AIDS_EN_DESC"/>
-        <field name="bonus_points_en" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTSEN"
+        <field name="bonusPoints_en" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTS_EN"
                description="THM_ORGANIZER_BONUS_POINTS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
@@ -150,7 +150,7 @@
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="method_competence" type="Options" label="METHOD_COMPETENCE"
+        <field name="methodCompetence" type="Options" label="METHOD_COMPETENCE"
                description="THM_ORGANIZER_METHOD_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
@@ -158,7 +158,7 @@
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="self_competence" type="Options" label="SELF_COMPETENCE"
+        <field name="selfCompetence" type="Options" label="SELF_COMPETENCE"
                description="THM_ORGANIZER_SELF_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
@@ -166,7 +166,7 @@
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="social_competence" type="Options" label="SOCIAL_COMPETENCE"
+        <field name="socialCompetence" type="Options" label="SOCIAL_COMPETENCE"
                description="THM_ORGANIZER_SOCIAL_COMPETENCE_DESC" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>

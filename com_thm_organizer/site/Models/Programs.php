@@ -34,7 +34,7 @@ class Programs extends ListModel
             ->select('d.abbreviation AS abbreviation')
             ->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID')
             ->leftJoin('#__thm_organizer_fields AS f ON f.id = dp.fieldID')
-            ->select("dpt.short_name_$tag AS department")
+            ->select("dpt.shortName_$tag AS department")
             ->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id')
             ->where('(dp.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dp.departmentID IS NULL)');
 

@@ -542,7 +542,7 @@ class Schedules
         $dbo           = Factory::getDbo();
         $subjectsQuery = $dbo->getQuery(true);
 
-        $select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.short_name_$tag AS shortName, ";
+        $select = "DISTINCT m.rgt, m.lft, s.id AS subjectID, s.name_$tag AS name, s.shortName_$tag AS shortName, ";
         $select .= "s.abbreviation_$tag AS abbr";
 
         $subjectsQuery->select($select)

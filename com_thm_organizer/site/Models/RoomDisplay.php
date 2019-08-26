@@ -252,14 +252,14 @@ class RoomDisplay extends BaseModel
 
         if (isset($monitorEntry) and !$monitorEntry->useDefaults) {
             $this->params['display']          = empty($monitorEntry->display) ? self::SCHEDULE : $monitorEntry->display;
-            $this->params['schedule_refresh'] = $monitorEntry->schedule_refresh;
-            $this->params['content_refresh']  = $monitorEntry->content_refresh;
+            $this->params['scheduleRefresh'] = $monitorEntry->scheduleRefresh;
+            $this->params['contentRefresh']  = $monitorEntry->contentRefresh;
             $this->params['content']          = $monitorEntry->content;
         } else {
             $params                           = Input::getParams();
             $this->params['display']          = $params->get('display', self::SCHEDULE);
-            $this->params['schedule_refresh'] = $params->get('schedule_refresh', 60);
-            $this->params['content_refresh']  = $params->get('content_refresh', 60);
+            $this->params['scheduleRefresh'] = $params->get('scheduleRefresh', 60);
+            $this->params['contentRefresh']  = $params->get('contentRefresh', 60);
 
             $this->params['content'] = Input::getParams()->get('content');
         }

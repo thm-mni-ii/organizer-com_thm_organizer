@@ -247,10 +247,7 @@ class Organizer extends BaseModel
         unset($schedule['creationDate']);
         unset($schedule['creationTime']);
         unset($schedule['departmentID']);
-        unset($schedule['departmentname']);
         unset($schedule['endDate']);
-        unset($schedule['referenceID']);
-        unset($schedule['semestername']);
         unset($schedule['startDate']);
         unset($schedule['termID']);
 

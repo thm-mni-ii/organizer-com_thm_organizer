@@ -23,7 +23,7 @@ $blockNo = 0;
         var scheduleBlockElement = document.getElementsByClassName('schedule-block'),
             activeExists = checkIfActiveExists(scheduleBlockElement);
 
-        timer = setTimeout('auto_reload()', <?php echo $this->model->params['schedule_refresh']; ?>000);
+        timer = setTimeout('auto_reload()', <?php echo $this->model->params['scheduleRefresh']; ?>000);
 
         /**
          * Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,

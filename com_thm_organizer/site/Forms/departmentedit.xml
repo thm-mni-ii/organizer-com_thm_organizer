@@ -2,11 +2,11 @@
 <form>
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="short_name_de" type="text" size="10" maxlength="50" required="true"
+        <field name="shortName_de" type="text" size="10" maxlength="50" required="true"
                label="THM_ORGANIZER_SHORT_NAME_DE" description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
         <field name="name_de" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_DE"
                description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="short_name_en" type="text" size="10" maxlength="50" required="true"
+        <field name="shortName_en" type="text" size="10" maxlength="50" required="true"
                label="THM_ORGANIZER_SHORT_NAME_EN" description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
         <field name="name_en" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC"/>

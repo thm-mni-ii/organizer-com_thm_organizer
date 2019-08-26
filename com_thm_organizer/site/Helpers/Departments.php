@@ -113,7 +113,7 @@ class Departments extends ResourceHelper implements Selectable
         $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
 
-        $query->select("DISTINCT depts.*, depts.short_name_$tag AS shortName, depts.name_$tag AS name")
+        $query->select("DISTINCT depts.*, depts.shortName_$tag AS shortName, depts.name_$tag AS name")
             ->from('#__thm_organizer_departments AS depts');
 
         self::addAccessFilter($query, $access);

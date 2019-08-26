@@ -36,7 +36,7 @@ class Departments extends Assets
      */
     protected function _getAssetTitle()
     {
-        $shortNameColumn = 'short_name_' . Languages::getTag();
+        $shortNameColumn = 'shortName_' . Languages::getTag();
 
         return $this->$shortNameColumn;
     }

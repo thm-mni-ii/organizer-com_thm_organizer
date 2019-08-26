@@ -13,7 +13,7 @@
     <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="departmentID" type="GenericOptions" label="DEPARTMENT" required="true" valuecolumn="id"
-                   textcolumn="short_name" localized="true" table="thm_organizer_departments">
+                   textcolumn="shortName" localized="true" table="thm_organizer_departments">
                 <option value="">THM_ORGANIZER_FILTER_DEPARTMENT</option>
             </field>
             <field name="deputat_weeks" type="Integer" label="DEPUTAT_WEEKS" first="1" last="52" step="1" default="13"/>

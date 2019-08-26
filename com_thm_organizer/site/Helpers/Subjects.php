@@ -86,7 +86,7 @@ class Subjects extends ResourceHelper implements Selectable
 
         $query = $dbo->getQuery(true);
         $query->select("co.name as courseName, s.name_$tag as name")
-            ->select("s.short_name_$tag as shortName, s.abbreviation_$tag as abbreviation")
+            ->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
             ->select('co.subjectNo as courseSubjectNo, s.externalID as subjectNo')
             ->from('#__thm_organizer_subjects AS s')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm ON s.id = sm.subjectID')
@@ -200,7 +200,7 @@ class Subjects extends ResourceHelper implements Selectable
             'id'           => $table->id,
             'moduleNo'     => $table->externalID,
             'name'         => $table->{"name_$tag"},
-            'shortName'    => $table->{"short_name_$tag"},
+            'shortName'    => $table->{"shortName_$tag"},
         ];
 
         return $subject;

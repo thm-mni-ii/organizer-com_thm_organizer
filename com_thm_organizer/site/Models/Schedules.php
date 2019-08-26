@@ -36,7 +36,7 @@ class Schedules extends ListModel
         $createdParts = ['s.creationDate', 's.creationTime'];
         $query->select('s.id, s.active, s.creationDate, s.creationTime')
             ->select($query->concatenate($createdParts, ' ') . ' AS created ')
-            ->select("d.id AS departmentID, d.short_name_$tag AS departmentName")
+            ->select("d.id AS departmentID, d.shortName_$tag AS departmentName")
             ->select('term.id AS termID, term.name AS termName')
             ->select('u.name AS userName')
             ->from('#__thm_organizer_schedules AS s')

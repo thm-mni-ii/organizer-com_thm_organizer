@@ -371,7 +371,7 @@ class Subject extends BaseModel
 
         $data['creditpoints'] = (float)$data['creditpoints'];
 
-        $starProperties = ['expertise', 'self_competence', 'method_competence', 'social_competence'];
+        $starProperties = ['expertise', 'selfCompetence', 'methodCompetence', 'socialCompetence'];
         foreach ($starProperties as $property) {
             $this->cleanStarProperty($data, $property);
         }

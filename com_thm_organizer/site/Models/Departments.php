@@ -18,7 +18,7 @@ use Organizer\Helpers\Languages;
  */
 class Departments extends ListModel
 {
-    protected $defaultOrdering = 'short_name';
+    protected $defaultOrdering = 'shortName';
 
     /**
      * Method to get all colors from the database
@@ -32,7 +32,7 @@ class Departments extends ListModel
 
         // Create the query
         $query  = $this->_db->getQuery(true);
-        $select = "d.id, d.short_name_$tag AS short_name, d.name_$tag AS name, a.rules, ";
+        $select = "d.id, d.shortName_$tag AS shortName, d.name_$tag AS name, a.rules, ";
         $parts  = ["'index.php?option=com_thm_organizer&view=department_edit&id='", 'd.id'];
         $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
@@ -40,7 +40,7 @@ class Departments extends ListModel
         $query->innerJoin('#__assets AS a ON d.asset_id = a.id');
         $query->where('d.id IN (' . implode(',', $allowedDepartments) . ')');
 
-        $this->setSearchFilter($query, ['short_name_de', 'name_de', 'short_name_en', 'name_en']);
+        $this->setSearchFilter($query, ['shortName_de', 'name_de', 'shortName_en', 'name_en']);
 
         $this->setOrdering($query);
 

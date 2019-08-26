@@ -54,16 +54,15 @@ class SubjectItem extends ItemModel
         $tag = Languages::getTag();
 
         $query = $this->_db->getQuery(true);
-        $query->select("aids_$tag AS aids, frequency_$tag AS availability, bonus_points_$tag as bonus")
+        $query->select("aids_$tag AS aids, f.name_$tag AS availability, bonusPoints_$tag as bonus")
             ->select("campusID AS campus, content_$tag AS content, creditpoints, departmentID")
             ->select("description_$tag AS description, duration, evaluation_$tag AS evaluation, expenditure, expertise")
-            ->select("instructionLanguage, literature, method_$tag AS method, method_competence AS methodCompetence")
+            ->select("instructionLanguage, literature, method_$tag AS method, methodCompetence")
             ->select("externalID AS moduleCode, name_$tag AS name, objective_$tag AS objective")
-            ->select("preliminary_work_$tag AS preliminaryWork, used_for_$tag AS prerequisiteFor")
+            ->select("preliminaryWork_$tag AS preliminaryWork, usedFor_$tag AS prerequisiteFor")
             ->select("prerequisites_$tag AS prerequisites, proof_$tag AS proof")
-            ->select("recommended_prerequisites_$tag as recommendedPrerequisites")
-            ->select("self_competence AS selfCompetence, short_name_$tag AS shortName")
-            ->select("social_competence AS socialCompetence, sws, present")
+            ->select("recommendedPrerequisites_$tag as recommendedPrerequisites, selfCompetence")
+            ->select("shortName_$tag AS shortName, socialCompetence, sws, present")
             ->from('#__thm_organizer_subjects AS s')
             ->leftJoin('#__thm_organizer_frequencies AS f ON s.frequencyID = f.id')
             ->where("s.id = '$subjectID'");

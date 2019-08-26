@@ -139,9 +139,9 @@ class LessonStatistics extends FormModel
     private function getDepartments()
     {
         $this->resetAdaptiveClauses();
-        $this->query->select("DISTINCT dpt.id, dpt.short_name_$this->tag AS name")
+        $this->query->select("DISTINCT dpt.id, dpt.shortName_$this->tag AS name")
             ->where("l.delta != 'removed'")
-            ->order("dpt.short_name_$this->tag");
+            ->order("dpt.shortName_$this->tag");
 
         $this->addPeriodRestriction();
 

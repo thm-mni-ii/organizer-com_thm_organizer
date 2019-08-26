@@ -271,7 +271,7 @@ class RoomOverview extends FormModel
         $conditions = 'lcrs.lessonID = l.id AND lcrs.id = conf.lessonCourseID';
         $query->select('DISTINCT conf.id, conf.configuration, cal.startTime, cal.endTime')
             ->select("l.id as lessonID, l.comment, m.abbreviation_$tag AS method")
-            ->select("d.short_name_$tag AS department, d.id AS departmentID")
+            ->select("d.shortName_$tag AS department, d.id AS departmentID")
             ->select("co.name AS courseName, s.name_$tag AS sName")
             ->from('#__thm_organizer_calendar AS cal')
             ->innerJoin('#__thm_organizer_calendar_configuration_map AS ccm ON ccm.calendarID = cal.id')

@@ -229,8 +229,8 @@ class Search extends BaseModel
                 $query->clear('where');
                 if (!empty($capacity)) {
                     // Opens conjunctive clause and cap from type
-                    $query->where("(min_capacity IS NULL OR min_capacity = '0' OR min_capacity <= '$capacity')");
-                    $query->where("(max_capacity IS NULL OR max_capacity = '0' OR max_capacity >= '$capacity')");
+                    $query->where("(minCapacity IS NULL OR minCapacity = '0' OR minCapacity <= '$capacity')");
+                    $query->where("(maxCapacity IS NULL OR maxCapacity = '0' OR maxCapacity >= '$capacity')");
                 }
 
                 $tempClause = str_replace('XXX', $term, $standardClause);
@@ -244,11 +244,11 @@ class Search extends BaseModel
                 }
             }
         } elseif (!empty($capacity)) {
-            $query->where("(min_capacity IS NULL OR min_capacity = '0' OR min_capacity <= '$capacity')");
-            $query->where("(max_capacity IS NULL OR max_capacity = '0' OR max_capacity >= '$capacity')");
+            $query->where("(minCapacity IS NULL OR minCapacity = '0' OR minCapacity <= '$capacity')");
+            $query->where("(maxCapacity IS NULL OR maxCapacity = '0' OR maxCapacity >= '$capacity')");
 
-            $maxCapacityValid = "(max_capacity IS NOT NULL AND max_capacity > '0')";
-            $minCapacityValid = "(min_capacity IS NOT NULL AND min_capacity > '0')";
+            $maxCapacityValid = "(maxCapacity IS NOT NULL AND maxCapacity > '0')";
+            $minCapacityValid = "(minCapacity IS NOT NULL AND minCapacity > '0')";
             $query->where("($maxCapacityValid OR $minCapacityValid)");
 
             $this->_db->setQuery($query);
@@ -606,20 +606,20 @@ class Search extends BaseModel
         foreach ($this->terms as $term) {
             if (is_numeric($term)) {
                 $clause     = "name_de LIKE '$term %' OR name_en LIKE '$term %' ";
-                $clause     .= "OR short_name_de LIKE '$term %' OR short_name_en LIKE '$term %'";
+                $clause     .= "OR shortName_de LIKE '$term %' OR shortName_en LIKE '$term %'";
                 $eWherray[] = $clause;
                 $sWherray[] = $clause;
             } elseif (strlen($term) < 4) {
-                $eClause    = "short_name_de LIKE '%$term' OR short_name_en LIKE '%$term'";
+                $eClause    = "shortName_de LIKE '%$term' OR shortName_en LIKE '%$term'";
                 $eWherray[] = $eClause;
-                $sClause    = "short_name_de LIKE '%$term%' OR short_name_en LIKE '%$term%'";
+                $sClause    = "shortName_de LIKE '%$term%' OR shortName_en LIKE '%$term%'";
                 $sWherray[] = $sClause;
             } else {
-                $eClause    = "short_name_de LIKE '%$term' OR short_name_en LIKE '%$term'";
-                $eClause    .= " OR name_de LIKE '%$term' OR short_name_en LIKE '%$term'";
+                $eClause    = "shortName_de LIKE '%$term' OR shortName_en LIKE '%$term'";
+                $eClause    .= " OR name_de LIKE '%$term' OR name_en LIKE '%$term'";
                 $eWherray[] = $eClause;
-                $sClause    = "short_name_de LIKE '%$term%' OR short_name_en LIKE '%$term%'";
-                $sClause    .= " OR name_de LIKE '%$term%' OR short_name_en LIKE '%$term%'";
+                $sClause    = "shortName_de LIKE '%$term%' OR shortName_en LIKE '%$term%'";
+                $sClause    .= " OR name_de LIKE '%$term%' OR name_en LIKE '%$term%'";
                 $sWherray[] = $sClause;
             }
         }
@@ -682,16 +682,16 @@ class Search extends BaseModel
 
             $eClause    = "REPLACE(LCASE(pl.name_de), '.', '') LIKE '$term' ";
             $eClause    .= "OR REPLACE(LCASE(pl.name_en), '.', '') LIKE '$term' ";
-            $eClause    .= "OR REPLACE(LCASE(pl.short_name_de), '.', '') LIKE '$term' ";
-            $eClause    .= "OR REPLACE(LCASE(pl.short_name_en), '.', '') LIKE '$term' ";
+            $eClause    .= "OR REPLACE(LCASE(pl.shortName_de), '.', '') LIKE '$term' ";
+            $eClause    .= "OR REPLACE(LCASE(pl.shortName_en), '.', '') LIKE '$term' ";
             $eClause    .= "OR REPLACE(LCASE(pl.abbreviation_de), '.', '') LIKE '$term' ";
             $eClause    .= "OR REPLACE(LCASE(pl.abbreviation_en), '.', '') LIKE '$term'";
             $eWherray[] = $eClause;*/
 
             $clause    = "REPLACE(LCASE(pl.name_de), '.', '') LIKE '%$term%' ";
             $clause    .= "OR REPLACE(LCASE(pl.name_en), '.', '') LIKE '%$term%' ";
-            $clause    .= "OR REPLACE(LCASE(pl.short_name_de), '.', '') LIKE '%$term%' ";
-            $clause    .= "OR REPLACE(LCASE(pl.short_name_en), '.', '') LIKE '%$term%' ";
+            $clause    .= "OR REPLACE(LCASE(pl.shortName_de), '.', '') LIKE '%$term%' ";
+            $clause    .= "OR REPLACE(LCASE(pl.shortName_en), '.', '') LIKE '%$term%' ";
             $clause    .= "OR REPLACE(LCASE(pl.abbreviation_de), '.', '') LIKE '%$term%' ";
             $clause    .= "OR REPLACE(LCASE(pl.abbreviation_en), '.', '') LIKE '%$term%'";
             $wherray[] = $clause;
@@ -941,8 +941,8 @@ class Search extends BaseModel
         $courseClause = "(co.name LIKE '$initialTerm' OR co.subjectNo LIKE '$initialTerm'";
 
         $sClause = "(s.externalID LIKE '$initialTerm' OR s.name_de LIKE '$initialTerm' OR ";
-        $sClause .= "s.name_en LIKE '$initialTerm' OR s.short_name_de LIKE '$initialTerm' OR ";
-        $sClause .= "s.short_name_en LIKE '$initialTerm' OR s.abbreviation_de LIKE '$initialTerm' OR ";
+        $sClause .= "s.name_en LIKE '$initialTerm' OR s.shortName_de LIKE '$initialTerm' OR ";
+        $sClause .= "s.shortName_en LIKE '$initialTerm' OR s.abbreviation_de LIKE '$initialTerm' OR ";
         $sClause .= "s.abbreviation_en LIKE '$initialTerm'";
 
         foreach ($terms as $term) {
@@ -1031,13 +1031,13 @@ class Search extends BaseModel
             // Direct comparison delivers false positives because of how like evaluates integers. Space necessary.
             if ($asNumber) {
                 $sClause     = "s.name_de LIKE '% $term' OR s.name_en LIKE '% $term' OR ";
-                $sClause     .= "s.short_name_de REGEXP '%$term' OR s.short_name_en REGEXP '%$term' OR ";
+                $sClause     .= "s.shortName_de REGEXP '%$term' OR s.shortName_en REGEXP '%$term' OR ";
                 $sClause     .= "s.abbreviation_de REGEXP '%$term' OR s.abbreviation_en REGEXP '%$term'";
                 $sWherray[]  = $sClause;
                 $coWherray[] = "co.name LIKE '% $term' OR co.subjectNo REGEXP '%$term%'";
             } else {
                 $sClause     = "s.name_de LIKE '%$term%' OR s.name_en LIKE '%$term%' OR ";
-                $sClause     .= "s.short_name_de LIKE '%$term%' OR s.short_name_en LIKE '%$term%' OR ";
+                $sClause     .= "s.shortName_de LIKE '%$term%' OR s.shortName_en LIKE '%$term%' OR ";
                 $sClause     .= "s.abbreviation_de LIKE '%$term%' OR s.abbreviation_en LIKE '%$term%'";
                 $sWherray[]  = $sClause;
                 $coWherray[] = "co.name REGEXP '%$term%' OR co.subjectNo REGEXP '%$term%'";

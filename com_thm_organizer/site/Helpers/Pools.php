@@ -185,7 +185,7 @@ class Pools extends ResourceHelper implements Selectable
             'maxCrP'       => $table->maxCrP,
             'minCrP'       => $table->minCrP,
             'name'         => $table->{"name_$tag"},
-            'shortName'    => $table->{"short_name_$tag"},
+            'shortName'    => $table->{"shortName_$tag"},
         ];
 
         return $pool;

@@ -323,7 +323,7 @@ class Courses
         $query->select($query->concatenate($nameParts, '') . ' AS userName, pt.address, pt.zipCode, pt.city')
             ->select('u.id, u.email')
             ->select($query->concatenate($programParts, '') . ' AS programName, pr.id AS programID')
-            ->select("dp.short_name_$tag AS departmentName, dp.id AS departmentID");
+            ->select("dp.shortName_$tag AS departmentName, dp.id AS departmentID");
 
         $query->from('#__thm_organizer_user_lessons AS ul');
         $query->innerJoin('#__users AS u ON u.id = ul.userID');
@@ -580,7 +580,7 @@ class Courses
 
         $query = $dbo->getQuery(true);
         $query->select("co.name as courseName, s.name_$tag as name")
-            ->select("s.short_name_$tag as shortName, s.abbreviation_$tag as abbreviation")
+            ->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
             ->select('co.subjectNo as courseSubjectNo, s.externalID as subjectNo')
             ->from('#__thm_organizer_courses AS co')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')

@@ -445,7 +445,7 @@ class Deputat extends BaseModel
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select("short_name_$tag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
+        $query->select("shortName_$tag")->from('#__thm_organizer_departments')->where("id = '$departmentID'");
         $dbo->setQuery($query);
 
         $departmentName = OrganizerHelper::executeQuery('loadResult');
