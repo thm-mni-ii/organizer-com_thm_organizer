@@ -95,7 +95,7 @@
         -moz-appearance: none;
     }
 
-    .deputat div.filter-bar .filter-header .control-group .controls div#teachers_chzn {
+    .deputat div.filter-bar .filter-header .control-group .controls div#persons_chzn {
         height: auto;
         border: 2px solid #4a5d66;
         width: 276px !important;
@@ -138,7 +138,7 @@ table.deputat-table th {
     text-align: center;
 }
 
-table.deputat-table thead tr.teacher-header th {
+table.deputat-table thead tr.person-header th {
     font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
     font-size: large;
     border-bottom: none;

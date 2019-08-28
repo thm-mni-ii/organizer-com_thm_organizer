@@ -35,14 +35,14 @@ class MergeDepartmentsField extends OptionsField
     {
         $selectedIDs    = Input::getSelectedIDs();
         $resource       = str_replace('_merge', '', Input::getView());
-        $validResources = ['category', 'teacher'];
+        $validResources = ['category', 'person'];
         $invalid        = (empty($selectedIDs) or empty($resource) or !in_array($resource, $validResources));
         if ($invalid) {
             return [];
         }
 
         $textColumn = 'shortName_' . Languages::getTag();
-        $table      = $resource === 'category' ? 'categories' : 'teachers';
+        $table      = $resource === 'category' ? 'categories' : 'persons';
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);

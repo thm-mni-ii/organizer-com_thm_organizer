@@ -103,11 +103,11 @@ class ScheduleGrid extends BaseModel
         $this->params['showRoomtypes']  = Input::getInt('showRoomtypes', $params->get('showRoomtypes', 1));
         $this->params['showSubjects']   = Input::getInt('showSubjects', $params->get('showSubjects', 1));
 
-        $stMenuParam                  = Input::getInt('showTeachers', $params->get('showTeachers', 1));
+        $stMenuParam                  = Input::getInt('showPersons', $params->get('showPersons', 1));
         $privilegedAccess             = Access::allowViewAccess($departmentID);
-        $teacherID                    = Persons::getIDByUserID();
-        $showTeachers                 = (($privilegedAccess or !empty($teacherID)) and $stMenuParam);
-        $this->params['showTeachers'] = $showTeachers;
+        $personID                     = Persons::getIDByUserID();
+        $showPersons                 = (($privilegedAccess or !empty($personID)) and $stMenuParam);
+        $this->params['showPersons'] = $showPersons;
 
         $deltaDays             = Input::getInt('deltaDays', $params->get('deltaDays', 5));
         $this->params['delta'] = empty($deltaDays) ? false : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
@@ -133,7 +133,7 @@ class ScheduleGrid extends BaseModel
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
             $this->params['showSubjects']    = 0;
-            $this->params['showTeachers']    = 0;
+            $this->params['showPersons']    = 0;
 
             if (count($this->params['groupIDs']) === 1 and $setTitle) {
                 $this->displayName           = Groups::getFullName($this->params['groupIDs'][0]);
@@ -143,11 +143,11 @@ class ScheduleGrid extends BaseModel
             return;
         }
 
-        if ($this->params['showTeachers']) {
-            $this->setResourceArray('teacher');
+        if ($this->params['showPersons']) {
+            $this->setResourceArray('person');
         }
 
-        if (!empty($this->params['teacherIDs'])) {
+        if (!empty($this->params['personIDs'])) {
             $this->params['showCategories']  = 0;
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
@@ -155,8 +155,8 @@ class ScheduleGrid extends BaseModel
             $this->params['showRoomtypes']   = 0;
             $this->params['showSubjects']    = 0;
 
-            if (count($this->params['teacherIDs']) === 1 and $setTitle) {
-                $this->displayName           = Persons::getDefaultName($this->params['teacherIDs'][0]);
+            if (count($this->params['personIDs']) === 1 and $setTitle) {
+                $this->displayName           = Persons::getDefaultName($this->params['personIDs'][0]);
                 $this->params['displayName'] = $this->displayName;
             }
 
@@ -172,7 +172,7 @@ class ScheduleGrid extends BaseModel
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
             $this->params['showSubjects']    = 0;
-            $this->params['showTeachers']    = 0;
+            $this->params['showPersons']    = 0;
 
             if (count($this->params['roomIDs']) === 1 and $setTitle) {
                 $this->displayName           = Rooms::getName($this->params['roomIDs'][0]);
@@ -191,7 +191,7 @@ class ScheduleGrid extends BaseModel
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
             $this->params['showSubjects']    = 0;
-            $this->params['showTeachers']    = 0;;
+            $this->params['showPersons']    = 0;;
 
             if (count($this->params['roomtypeIDs']) === 1 and $setTitle) {
                 $this->displayName           = Roomtypes::getName($this->params['roomtypeIDs'][0]);
@@ -211,7 +211,7 @@ class ScheduleGrid extends BaseModel
             $this->params['showGroups']      = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
-            $this->params['showTeachers']    = 0;
+            $this->params['showPersons']    = 0;
             $this->params['showTypes']       = 0;
 
             // There can be only one.
@@ -232,7 +232,7 @@ class ScheduleGrid extends BaseModel
             $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
-            $this->params['showTeachers']    = 0;
+            $this->params['showPersons']    = 0;
 
             $this->displayName           = Courses::getNameByLessonID($this->params['lessonIDs'][0]);
             $this->params['displayName'] = $this->displayName;
@@ -249,7 +249,7 @@ class ScheduleGrid extends BaseModel
             $this->params['showDepartments'] = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
-            $this->params['showTeachers']    = 0;
+            $this->params['showPersons']    = 0;
 
             if (count($this->params['categoryIDs']) === 1 and $setTitle) {
                 $this->displayName           = Categories::getName(

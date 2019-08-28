@@ -10,12 +10,13 @@
 
 namespace Organizer\Views\JSON;
 
-use Organizer\Helpers\Persons;
+use Organizer\Helpers\Input;
+use Organizer\Helpers\Persons as PersonsHelper;
 
 /**
- * Class answers dynamic teacher related queries
+ * Class answers dynamic person related queries
  */
-class TeacherOptions extends BaseView
+class Persons extends BaseView
 {
     /**
      * loads model data into view context
@@ -24,6 +25,11 @@ class TeacherOptions extends BaseView
      */
     public function display()
     {
-        echo json_encode(Persons::getOptions());
+        $function = Input::getTask();
+        if (method_exists('Organizer\\Helpers\\Persons', $function)) {
+            echo json_encode(PersonsHelper::$function());
+        } else {
+            echo false;
+        }
     }
 }

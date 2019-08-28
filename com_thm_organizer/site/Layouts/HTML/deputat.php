@@ -76,7 +76,7 @@ $weeks = $this->params->get('deputat_weeks', 13);
                         ?>
                         <div class="control-group">
                             <div class="control-label">
-                                <label for="teachers">
+                                <label for="persons">
                                     <?php echo Languages::_('THM_ORGANIZER_TEACHERS') ?>
                                 </label>
                             </div>

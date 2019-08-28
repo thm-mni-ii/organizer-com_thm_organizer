@@ -97,25 +97,25 @@ class ScheduleSequence
         $name .= empty($lessonInstance['method']) ? '' : " - {$lessonInstance['method']}";
         $this->spreadSheet->getActiveSheet()->setCellValue("D$row", $name);
 
-        $pools    = [];
-        $rooms    = [];
-        $teachers = [];
+        $pools   = [];
+        $rooms   = [];
+        $persons = [];
 
         foreach ($lessonInstance['subjects'] as $subjectConfig) {
             foreach ($subjectConfig['pools'] as $poolID => $poolData) {
                 $pools[$poolID] = $poolData['fullName'];
             }
 
-            $rooms    = $rooms + $subjectConfig['rooms'];
-            $teachers = $teachers + $subjectConfig['teachers'];
+            $rooms   = $rooms + $subjectConfig['rooms'];
+            $persons = $persons + $subjectConfig['persons'];
         }
 
         $letter = 'D';
-        if ($this->parameters['showTeachers']) {
-            $column       = ++$letter;
-            $cell         = "$column$row";
-            $teachersText = implode(' / ', $teachers);
-            $this->spreadSheet->getActiveSheet()->setCellValue($cell, $teachersText);
+        if ($this->parameters['showPersons']) {
+            $column      = ++$letter;
+            $cell        = "$column$row";
+            $personsText = implode(' / ', $persons);
+            $this->spreadSheet->getActiveSheet()->setCellValue($cell, $personsText);
         }
 
         if ($this->parameters['showRooms']) {
@@ -147,7 +147,7 @@ class ScheduleSequence
         $this->spreadSheet->getActiveSheet()->setCellValue('D1', Languages::_('THM_ORGANIZER_SUBJECTS'));
 
         $letter = 'D';
-        if ($this->parameters['showTeachers']) {
+        if ($this->parameters['showPersons']) {
             $column = ++$letter;
             $cell   = "{$column}1";
             $this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('THM_ORGANIZER_TEACHERS'));
@@ -207,17 +207,17 @@ class ScheduleSequence
         $this->parameters['showPools'] = (
             (empty($this->parameters['poolIDs']) or count($this->parameters['poolIDs']) !== 1)
             or !empty($this->parameters['roomIDs'])
-            or !empty($this->parameters['teacherIDs'])
+            or !empty($this->parameters['personIDs'])
         );
 
         $this->parameters['showRooms'] = (
             (empty($this->parameters['roomIDs']) or count($this->parameters['roomIDs']) !== 1)
             or !empty($this->parameters['poolIDs'])
-            or !empty($this->parameters['teacherIDs'])
+            or !empty($this->parameters['personIDs'])
         );
 
-        $this->parameters['showTeachers'] = (
-            (empty($this->parameters['teacherIDs']) or count($this->parameters['teacherIDs']) !== 1)
+        $this->parameters['showPersons'] = (
+            (empty($this->parameters['personIDs']) or count($this->parameters['personIDs']) !== 1)
             or !empty($this->parameters['poolIDs'])
             or !empty($this->parameters['roomIDs'])
         );

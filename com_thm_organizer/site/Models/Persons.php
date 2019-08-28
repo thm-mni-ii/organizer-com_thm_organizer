@@ -11,31 +11,31 @@
 namespace Organizer\Models;
 
 /**
- * Class retrieves information for a filtered set of teachers.
+ * Class retrieves information for a filtered set of persons.
  */
-class Teachers extends ListModel
+class Persons extends ListModel
 {
-    protected $defaultOrdering = 't.surname, t.forename';
+    protected $defaultOrdering = 'p.surname, p.forename';
 
     /**
-     * Method to get all teachers from the database
+     * Method to get all persons from the database
      *
      * @return \JDatabaseQuery
      */
     protected function getListQuery()
     {
         $query  = $this->_db->getQuery(true);
-        $select = 'DISTINCT t.id, t.surname, t.forename, t.username, t.untisID, d.id AS departmentID, ';
-        $parts  = ["'index.php?option=com_thm_organizer&view=teacher_edit&id='", 't.id'];
+        $select = 'DISTINCT p.id, p.surname, p.forename, p.username, p.untisID, d.id AS departmentID, ';
+        $parts  = ["'index.php?option=com_thm_organizer&view=person_edit&id='", 'p.id'];
         $select .= $query->concatenate($parts, '') . ' AS link ';
         $query->select($select);
-        $query->from('#__thm_organizer_teachers AS t')
-            ->leftJoin('#__thm_organizer_department_resources AS dr on dr.teacherID = t.id')
+        $query->from('#__thm_organizer_persons AS p')
+            ->leftJoin('#__thm_organizer_department_resources AS dr on dr.personID = p.id')
             ->leftJoin('#__thm_organizer_departments AS d on d.id = dr.id');
 
-        $this->setSearchFilter($query, ['surname', 'forename', 'username', 't.untisID']);
+        $this->setSearchFilter($query, ['surname', 'forename', 'username', 'p.untisID']);
         $this->setIDFilter($query, 'departmentID', 'list.departmentID');
-        $this->setValueFilters($query, ['forename', 'username', 't.untisID']);
+        $this->setValueFilters($query, ['forename', 'username', 'p.untisID']);
 
         $this->setOrdering($query);
 

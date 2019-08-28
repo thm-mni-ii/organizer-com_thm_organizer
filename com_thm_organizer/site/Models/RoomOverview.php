@@ -314,7 +314,7 @@ class RoomOverview extends FormModel
                 $events[$times][$lessonID]                = [];
                 $events[$times][$lessonID]['departments'] = [];
                 $events[$times][$lessonID]['titles']      = [];
-                $events[$times][$lessonID]['teachers']    = [];
+                $events[$times][$lessonID]['persons']     = [];
                 $events[$times][$lessonID]['rooms']       = [];
                 $events[$times][$lessonID]['method']      = empty($result['method']) ? '' : " - {$result['method']}";
                 $events[$times][$lessonID]['startTime']   = $startTime;
@@ -332,11 +332,11 @@ class RoomOverview extends FormModel
 
             $configuration = json_decode($result['configuration'], true);
 
-            foreach ($configuration['teachers'] as $teacherID => $delta) {
-                $addSpeaker = ($delta != 'removed' and empty($events[$times][$lessonID]['teachers'][$teacherID]));
+            foreach ($configuration['persons'] as $personID => $delta) {
+                $addSpeaker = ($delta != 'removed' and empty($events[$times][$lessonID]['persons'][$personID]));
 
                 if ($addSpeaker) {
-                    $events[$times][$lessonID]['teachers'][$teacherID] = Persons::getLNFName($teacherID);
+                    $events[$times][$lessonID]['persons'][$personID] = Persons::getLNFName($personID);
                 }
             }
 
@@ -393,7 +393,7 @@ class RoomOverview extends FormModel
                 foreach ($eventInstances as $eventID => $eventInstance) {
                     $instance               = [];
                     $instance['department'] = implode(' / ', $eventInstance['departments']);
-                    $instance['teachers']   = implode(' / ', $eventInstance['teachers']);
+                    $instance['persons']    = implode(' / ', $eventInstance['persons']);
                     $instance['title']      = implode(' / ', $eventInstance['titles']);
                     $instance['title']      .= $eventInstance['method'];
                     $instance['comment']    = $eventInstance['comment'];

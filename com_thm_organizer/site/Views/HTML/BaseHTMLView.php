@@ -179,8 +179,8 @@ abstract class BaseHTMLView extends BaseView
             JHtmlSidebar::addEntry($spanText, '', false);
             JHtmlSidebar::addEntry(
                 Languages::_('THM_ORGANIZER_TEACHERS'),
-                'index.php?option=com_thm_organizer&amp;view=teachers',
-                $viewName == 'teachers'
+                'index.php?option=com_thm_organizer&amp;view=persons',
+                $viewName == 'persons'
             );
         }
 
@@ -190,19 +190,19 @@ abstract class BaseHTMLView extends BaseView
 
             $fmEntries = [];
 
-            $fmEntries[Languages::_('THM_ORGANIZER_BUILDINGS')]  = [
+            $fmEntries[Languages::_('THM_ORGANIZER_BUILDINGS')] = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=buildings',
                 'active' => $viewName == 'buildings'
             ];
-            $fmEntries[Languages::_('THM_ORGANIZER_CAMPUSES')]   = [
+            $fmEntries[Languages::_('THM_ORGANIZER_CAMPUSES')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=campuses',
                 'active' => $viewName == 'campuses'
             ];
-            $fmEntries[Languages::_('THM_ORGANIZER_MONITORS')]   = [
+            $fmEntries[Languages::_('THM_ORGANIZER_MONITORS')]  = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=monitors',
                 'active' => $viewName == 'monitors'
             ];
-            $fmEntries[Languages::_('THM_ORGANIZER_ROOMS')]      = [
+            $fmEntries[Languages::_('THM_ORGANIZER_ROOMS')]     = [
                 'url'    => 'index.php?option=com_thm_organizer&amp;view=rooms',
                 'active' => $viewName == 'rooms'
             ];

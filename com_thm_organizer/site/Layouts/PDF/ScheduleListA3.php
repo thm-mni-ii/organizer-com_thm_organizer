@@ -34,9 +34,9 @@ class ScheduleListA3 extends ScheduleList
             }
         }
 
-        if (!empty($this->parameters['teacherIDs'])) {
-            foreach ($this->parameters['teacherIDs'] as $teacherID) {
-                $resources[] = ['id' => $teacherID, 'index' => 'teachers'];
+        if (!empty($this->parameters['personIDs'])) {
+            foreach ($this->parameters['personIDs'] as $personID) {
+                $resources[] = ['id' => $personID, 'index' => 'persons'];
             }
         }
 
@@ -171,7 +171,7 @@ class ScheduleListA3 extends ScheduleList
         $subjectNames = [];
         $subjectNos   = [];
         $pools        = [];
-        $teachers     = [];
+        $persons      = [];
         $rooms        = [];
         $method       = empty($instance['method']) ? '' : $instance['method'];
         $comment      = empty($instance['comment']) ? '' : $instance['comment'];
@@ -200,11 +200,11 @@ class ScheduleListA3 extends ScheduleList
                 }
             }
 
-            if ($resourceIndex == 'teachers') {
+            if ($resourceIndex == 'persons') {
                 $return['resourceName'] = $subject[$resourceIndex][$resourceID];
             } else {
-                foreach ($subject['teachers'] as $teacherID => $teacherName) {
-                    $teachers[$teacherID] = $teacherName;
+                foreach ($subject['persons'] as $personID => $personName) {
+                    $persons[$personID] = $personName;
                 }
             }
 
@@ -237,8 +237,8 @@ class ScheduleListA3 extends ScheduleList
             $output[] = implode(' / ', $pools);
         }
 
-        if (!empty($teachers)) {
-            $output[] = implode(' / ', $teachers);
+        if (!empty($persons)) {
+            $output[] = implode(' / ', $persons);
         }
 
         if (!empty($rooms)) {
@@ -403,10 +403,10 @@ class ScheduleListA3 extends ScheduleList
         }
 
         $countPools    = empty($this->parameters['poolIDs']) ? 0 : count($this->parameters['poolIDs']);
-        $countTeachers = empty($this->parameters['teacherIDs']) ? 0 : count($this->parameters['teacherIDs']);
+        $countPersons = empty($this->parameters['personIDs']) ? 0 : count($this->parameters['personIDs']);
         $countRooms    = empty($this->parameters['roomIDs']) ? 0 : count($this->parameters['roomIDs']);
 
-        return $countPools + $countTeachers + $countRooms;
+        return $countPools + $countPersons + $countRooms;
     }
 
     /**

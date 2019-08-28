@@ -35,7 +35,7 @@
                table="thm_organizer_fields">
             <option value="">NO_FIELD</option>
         </field>
-        <field name="planSubjectIDs" type="SubjectCourses" responsibility="1" label="EVENT"/>
+        <field name="planSubjectIDs" type="SubjectCourses" role="1" label="EVENT"/>
         <field name="spacer1" type="spacer" hr="true"/>
         <field name="creditpoints" type="text" class="inputbox" size="70" label="THM_ORGANIZER_CREDIT_POINTS"
                description="THM_ORGANIZER_CREDIT_POINTS_DESC" hint="3"/>
@@ -136,10 +136,10 @@
                description="THM_ORGANIZER_BONUS_POINTS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
-        <field name="coordinators" type="SubjectTeachers" label="COORDINATORS" responsibility="1" multiple="multiple">
+        <field name="coordinators" type="SubjectPersons" label="COORDINATORS" role="1" multiple="multiple">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="teachers" type="SubjectTeachers" label="TEACHERS" responsibility="2" multiple="multiple">
+        <field name="persons" type="SubjectPersons" label="TEACHERS" role="2" multiple="multiple">
             <option value="">UNSPECIFIED_TEACHERS</option>
         </field>
         <field name="spacer4" type="spacer" hr="true"/>

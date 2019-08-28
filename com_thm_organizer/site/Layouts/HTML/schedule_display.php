@@ -92,7 +92,7 @@ $blockNo = 0;
                             echo '</div>';
                             echo '<div class="block-extra">';
                             foreach ($block['lessons'] as $lesson) {
-                                echo '<span class="lesson-teacher">' . implode('/', $lesson['teachers']) . '</span>';
+                                echo '<span class="lesson-person">' . implode('/', $lesson['persons']) . '</span>';
                                 echo '<br/>';
                             }
                             echo '</div>';

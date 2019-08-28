@@ -89,29 +89,29 @@ function addRooms(rooms)
 }
 
 /**
- * Clear the current list and add new teachers to it
+ * Clear the current list and add new persons to it
  *
- * @param  {object}  teachers   the teachers received
+ * @param  {object}  persons   the persons received
  */
-function addTeachers(teachers)
+function addPersons(persons)
 {
     'use strict';
 
-    const teacherSelection = jQuery('#teacherIDs'),
-        selectedTeachers = teacherSelection.val();
+    const personSelection = jQuery('#personIDs'),
+        selectedPersons = personSelection.val();
     let selected;
 
-    teacherSelection.children().remove();
+    personSelection.children().remove();
 
-    jQuery.each(teachers, function (name, id) {
-        selected = jQuery.inArray(id, selectedTeachers) > -1 ? 'selected' : '';
-        teacherSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
+    jQuery.each(persons, function (name, id) {
+        selected = jQuery.inArray(id, selectedPersons) > -1 ? 'selected' : '';
+        personSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
     if (si !== true)
     {
-        teacherSelection.chosen('destroy');
-        teacherSelection.chosen();
+        personSelection.chosen('destroy');
+        personSelection.chosen();
     }
 }
 
@@ -123,8 +123,8 @@ function addTeachers(teachers)
 function copyLink()
 {
     const format = jQuery('input[name=format]').val();
-    let addAuth = false, authDefined = false, emptyPools, emptyRooms, emptyTeachers,
-        mySchedule, selectedPools, selectedRooms, selectedTeachers, url;
+    let addAuth = false, authDefined = false, emptyPools, emptyRooms, emptyPersons,
+        mySchedule, selectedPools, selectedRooms, selectedPersons, url;
 
     if (format !== 'ics')
     {
@@ -158,13 +158,13 @@ function copyLink()
             url += '&roomIDs=' + selectedRooms;
         }
 
-        selectedTeachers = jQuery('#teacherIDs').val();
-        emptyTeachers = selectedTeachers === undefined || selectedTeachers == null || selectedTeachers.length === 0;
+        selectedPersons = jQuery('#personIDs').val();
+        emptyPersons = selectedPersons === undefined || selectedPersons == null || selectedPersons.length === 0;
 
-        if (!emptyTeachers && authDefined)
+        if (!emptyPersons && authDefined)
         {
             addAuth = true;
-            url += '&teacherIDs=' + selectedTeachers;
+            url += '&personIDs=' + selectedPersons;
         }
     }
 
@@ -248,10 +248,10 @@ function repopulateResources()
 
     jQuery.ajax({
         type: 'GET',
-        url: rootURI + componentParameters + selectionParameters + '&view=teacher_options',
+        url: rootURI + componentParameters + selectionParameters + '&view=person_options',
         dataType: 'json',
         success: function (data) {
-            addTeachers(data);
+            addPersons(data);
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.status === 404 || xhr.status === 500)
@@ -392,7 +392,7 @@ function toggleMySchedule()
         jQuery('#filterFields').hide();
         jQuery('#poolIDs-container').hide();
         jQuery('#roomIDs-container').hide();
-        jQuery('#teacherIDs-container').hide();
+        jQuery('#personIDs-container').hide();
         jQuery('input[name=myschedule]').val(1);
     }
     else
@@ -400,7 +400,7 @@ function toggleMySchedule()
         jQuery('#filterFields').show();
         jQuery('#poolIDs-container').show();
         jQuery('#roomIDs-container').show();
-        jQuery('#teacherIDs-container').show();
+        jQuery('#personIDs-container').show();
         jQuery('input[name=myschedule]').val(0);
     }
 
@@ -411,8 +411,8 @@ function validateSelection()
     const mySchedule = jQuery('#myschedule:checked').val(),
         selectedPools = jQuery('#poolIDs').val(),
         selectedRooms = jQuery('#roomIDs').val(),
-        selectedTeachers = jQuery('#teacherIDs').val();
-    let emptyPools, emptyRooms, emptyTeachers;
+        selectedPersons = jQuery('#personIDs').val();
+    let emptyPools, emptyRooms, emptyPersons;
 
     if (mySchedule === 'on')
     {
@@ -421,9 +421,9 @@ function validateSelection()
 
     emptyPools = selectedPools == null || selectedPools.length === 0;
     emptyRooms = selectedRooms == null || selectedRooms.length === 0;
-    emptyTeachers = selectedTeachers == null || selectedTeachers.length === 0;
+    emptyPersons = selectedPersons == null || selectedPersons.length === 0;
 
-    if (emptyPools && emptyRooms && emptyTeachers)
+    if (emptyPools && emptyRooms && emptyPersons)
     {
         alert(Joomla.JText._('THM_ORGANIZER_LIST_SELECTION_WARNING'),);
         return false;

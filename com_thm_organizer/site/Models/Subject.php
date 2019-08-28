@@ -66,21 +66,20 @@ class Subject extends BaseModel
     }
 
     /**
-     * Adds a teacher association. No access checks => this is not directly accessible and requires differing checks
+     * Adds a person association. No access checks => this is not directly accessible and requires differing checks
      * according to its calling context.
      *
-     * @param int   $subjectID      the id of the subject
-     * @param array $teacherID      the id of the teacher
-     * @param int   $responsibility the teacher's responsibility for the
-     *                              subject
+     * @param int   $subjectID the id of the subject
+     * @param array $personID  the id of the person
+     * @param int   $role      the person's role for the subject
      *
      * @return bool  true on success, otherwise false
      */
-    public function addTeacher($subjectID, $teacherID, $responsibility)
+    public function addPerson($subjectID, $personID, $role)
     {
         $query = $this->_db->getQuery(true);
-        $query->insert('#__thm_organizer_subject_teachers')->columns('subjectID, teacherID, teacherResp');
-        $query->values("'$subjectID', '$teacherID', '$responsibility'");
+        $query->insert('#__thm_organizer_subject_persons')->columns('subjectID, personID, role');
+        $query->values("$subjectID, $personID, $role");
         $this->_db->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('execute');
@@ -242,8 +241,8 @@ class Subject extends BaseModel
             return false;
         }
         if (!empty($data['planSubjectIDs'])) {
-            $respAdded = $this->addSubjectMappings($subjectID, $data['courseIDs']);
-            if (!$respAdded) {
+            $roleAdded = $this->addSubjectMappings($subjectID, $data['courseIDs']);
+            if (!$roleAdded) {
                 return false;
             }
         }
@@ -252,39 +251,39 @@ class Subject extends BaseModel
     }
 
     /**
-     * Processes the teachers selected for the subject
+     * Processes the persons selected for the subject
      *
      * @param array &$data the post data
      *
      * @return bool  true on success, otherwise false
      */
-    private function processFormTeachers(&$data)
+    private function processFormPersons(&$data)
     {
-        if (!isset($data['coordinators']) and !isset($data['teachers'])) {
+        if (!isset($data['coordinators']) and !isset($data['persons'])) {
             return true;
         }
 
         $subjectID = $data['id'];
 
-        if (!$this->removeTeachers($subjectID)) {
+        if (!$this->removePersons($subjectID)) {
             return false;
         }
 
         $coordinators = array_filter($data['coordinators']);
         if (!empty($coordinators)) {
             foreach ($coordinators as $coordinatorID) {
-                $respAdded = $this->addTeacher($subjectID, $coordinatorID, self::COORDINATES);
-                if (!$respAdded) {
+                $roleAdded = $this->addPerson($subjectID, $coordinatorID, self::COORDINATES);
+                if (!$roleAdded) {
                     return false;
                 }
             }
         }
 
-        $teachers = array_filter($data['teachers']);
-        if (!empty($teachers)) {
-            foreach ($teachers as $teacherID) {
-                $teacherAdded = $this->addTeacher($subjectID, $teacherID, self::TEACHES);
-                if (!$teacherAdded) {
+        $persons = array_filter($data['persons']);
+        if (!empty($persons)) {
+            foreach ($persons as $personID) {
+                $personAdded = $this->addPerson($subjectID, $personID, self::TEACHES);
+                if (!$personAdded) {
                     return false;
                 }
             }
@@ -329,21 +328,20 @@ class Subject extends BaseModel
     }
 
     /**
-     * Removes teacher associations for the given subject and level of
-     * responsibility. No access checks => this is not directly accessible and requires differing checks according to
-     * its calling context.
+     * Removes person associations for the given subject and role. No access checks => this is not directly
+     * accessible and requires differing checks according to its calling context.
      *
-     * @param int $subjectID      the subject id
-     * @param int $responsibility the teacher responsibility level (1|2)
+     * @param int $subjectID the subject id
+     * @param int $role      the person role
      *
      * @return boolean
      */
-    public function removeTeachers($subjectID, $responsibility = null)
+    public function removePersons($subjectID, $role = null)
     {
         $query = $this->_db->getQuery(true);
-        $query->delete('#__thm_organizer_subject_teachers')->where("subjectID = '$subjectID'");
-        if (!empty($responsibility)) {
-            $query->where("teacherResp = '$responsibility'");
+        $query->delete('#__thm_organizer_subject_persons')->where("subjectID = '$subjectID'");
+        if (!empty($role)) {
+            $query->where("role = $role");
         }
 
         $this->_db->setQuery($query);
@@ -386,7 +384,7 @@ class Subject extends BaseModel
         $processMappings = (!empty($data['id']) and isset($data['parentID']));
         $data['id']      = $table->id;
 
-        if (!$this->processFormTeachers($data)) {
+        if (!$this->processFormPersons($data)) {
             return false;
         }
 

@@ -126,7 +126,7 @@ abstract class ScheduleList
         $subjectNames = [];
         $subjectNos   = [];
         $pools        = [];
-        $teachers     = [];
+        $persons      = [];
         $rooms        = [];
         $method       = empty($instance['method']) ? '' : $instance['method'];
         $comment      = empty($instance['comment']) ? '' : $instance['comment'];
@@ -149,10 +149,10 @@ abstract class ScheduleList
                 }
             }
 
-            // Only if no specific teacher was requested individually
-            if (empty($this->parameters['teacherIDs']) or count($this->parameters['teacherIDs']) > 1) {
-                foreach ($subject['teachers'] as $teacherID => $teacherName) {
-                    $teachers[$teacherID] = $teacherName;
+            // Only if no specific person was requested individually
+            if (empty($this->parameters['personIDs']) or count($this->parameters['personIDs']) > 1) {
+                foreach ($subject['persons'] as $personID => $personName) {
+                    $persons[$personID] = $personName;
                 }
             }
 
@@ -179,8 +179,8 @@ abstract class ScheduleList
             $output[] = implode('/', $pools);
         }
 
-        if (!empty($teachers)) {
-            $output[] = implode('/', $teachers);
+        if (!empty($persons)) {
+            $output[] = implode('/', $persons);
         }
 
         if (!empty($rooms)) {

@@ -148,7 +148,7 @@ class RoomDisplay extends BaseModel
             if (empty($events[$startTime][$lessonID])) {
                 $events[$times][$lessonID]              = [];
                 $events[$times][$lessonID]['titles']    = [];
-                $events[$times][$lessonID]['teachers']  = [];
+                $events[$times][$lessonID]['persons']   = [];
                 $events[$times][$lessonID]['method']    = empty($result['method']) ? '' : " - {$result['method']}";
                 $events[$times][$lessonID]['startTime'] = $startTime;
                 $events[$times][$lessonID]['endTime']   = $endTime;
@@ -160,12 +160,12 @@ class RoomDisplay extends BaseModel
                 $events[$times][$lessonID]['titles'][] = $title;
             }
 
-            if (empty($events[$times][$lessonID]['teachers'])) {
-                $events[$times][$lessonID]['teachers'] = $this->getEventTeachers($configuration['teachers']);
+            if (empty($events[$times][$lessonID]['persons'])) {
+                $events[$times][$lessonID]['persons'] = $this->getEventPersons($configuration['persons']);
             } else {
-                $existingTeachers                      = $events[$times][$lessonID]['teachers'];
-                $newTeachers                           = $this->getEventTeachers($configuration['teachers']);
-                $events[$times][$lessonID]['teachers'] = array_merge($existingTeachers, $newTeachers);
+                $existingPersons                     = $events[$times][$lessonID]['persons'];
+                $newPersons                          = $this->getEventPersons($configuration['persons']);
+                $events[$times][$lessonID]['persons'] = array_merge($existingPersons, $newPersons);
             }
         }
 
@@ -173,28 +173,28 @@ class RoomDisplay extends BaseModel
     }
 
     /**
-     * Adds the teacher names to the teacher instances index.
+     * Adds the person names to the person instances index.
      *
-     * @param array $instanceTeachers the teachers associated with the instance
+     * @param array $instancePersons the persons associated with the instance
      *
-     * @return array an array of teachers in the form id => 'surname(s), forename(s)'
+     * @return array an array of persons in the form id => 'surname(s), forename(s)'
      */
-    private function getEventTeachers(&$instanceTeachers)
+    private function getEventPersons(&$instancePersons)
     {
-        $teachers = [];
+        $persons = [];
 
-        foreach ($instanceTeachers as $teacherID => $delta) {
+        foreach ($instancePersons as $personID => $delta) {
             if ($delta == 'removed') {
-                unset($instanceTeachers[$teacherID]);
+                unset($instancePersons[$personID]);
                 continue;
             }
 
-            $teachers[$teacherID] = Persons::getLNFName($teacherID);
+            $persons[$personID] = Persons::getLNFName($personID);
         }
 
-        asort($teachers);
+        asort($persons);
 
-        return $teachers;
+        return $persons;
     }
 
     /**
@@ -251,13 +251,13 @@ class RoomDisplay extends BaseModel
         }
 
         if (isset($monitorEntry) and !$monitorEntry->useDefaults) {
-            $this->params['display']          = empty($monitorEntry->display) ? self::SCHEDULE : $monitorEntry->display;
+            $this->params['display']         = empty($monitorEntry->display) ? self::SCHEDULE : $monitorEntry->display;
             $this->params['scheduleRefresh'] = $monitorEntry->scheduleRefresh;
             $this->params['contentRefresh']  = $monitorEntry->contentRefresh;
-            $this->params['content']          = $monitorEntry->content;
+            $this->params['content']         = $monitorEntry->content;
         } else {
-            $params                           = Input::getParams();
-            $this->params['display']          = $params->get('display', self::SCHEDULE);
+            $params                          = Input::getParams();
+            $this->params['display']         = $params->get('display', self::SCHEDULE);
             $this->params['scheduleRefresh'] = $params->get('scheduleRefresh', 60);
             $this->params['contentRefresh']  = $params->get('contentRefresh', 60);
 
@@ -373,20 +373,20 @@ class RoomDisplay extends BaseModel
                 }
 
                 foreach ($eventInstances as $lessonID => $eventInstance) {
-                    $instanceTeachers = $eventInstance['teachers'];
+                    $instancePersons = $eventInstance['persons'];
                     if (empty($blocks[$blockNo]['lessons'][$lessonID])) {
-                        $blocks[$blockNo]['lessons'][$lessonID]             = [];
-                        $blocks[$blockNo]['lessons'][$lessonID]['teachers'] = $instanceTeachers;
-                        $blocks[$blockNo]['lessons'][$lessonID]['titles']   = $eventInstance['titles'];
-                        $blocks[$blockNo]['lessons'][$lessonID]['method']   = $eventInstance['method'];
-                        $blocks[$blockNo]['lessons'][$lessonID]['divTime']  = $divTime;
+                        $blocks[$blockNo]['lessons'][$lessonID]            = [];
+                        $blocks[$blockNo]['lessons'][$lessonID]['persons'] = $instancePersons;
+                        $blocks[$blockNo]['lessons'][$lessonID]['titles']  = $eventInstance['titles'];
+                        $blocks[$blockNo]['lessons'][$lessonID]['method']  = $eventInstance['method'];
+                        $blocks[$blockNo]['lessons'][$lessonID]['divTime'] = $divTime;
                         continue;
                     }
 
-                    $existingTeachers = $blocks[$blockNo]['lessons'][$lessonID]['teachers'];
+                    $existingPersons = $blocks[$blockNo]['lessons'][$lessonID]['persons'];
 
-                    $blocks[$blockNo]['lessons'][$lessonID]['teachers']
-                        = array_unique(array_merge($instanceTeachers, $existingTeachers));
+                    $blocks[$blockNo]['lessons'][$lessonID]['persons']
+                        = array_unique(array_merge($instancePersons, $existingPersons));
 
                     $blocks[$blockNo]['lessons'][$lessonID]['titles'] = array_unique(array_merge(
                         $blocks[$blockNo]['lessons'][$lessonID]['titles'],

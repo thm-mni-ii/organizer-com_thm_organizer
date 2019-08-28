@@ -11,9 +11,9 @@
 namespace Organizer\Views\HTML;
 
 /**
- * Class loads the teacher merge form into display context.
+ * Class loads the person merge form into display context.
  */
-class TeacherMerge extends MergeView
+class PersonMerge extends MergeView
 {
     // Everything is taken care of in the inheritance hierarchy.
 }

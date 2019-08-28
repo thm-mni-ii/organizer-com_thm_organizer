@@ -15,9 +15,9 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 /**
- * Class loads the teacher form into display context.
+ * Class loads the person form into display context.
  */
-class TeacherEdit extends EditView
+class PersonEdit extends EditView
 {
     /**
      * Method to generate buttons for user interaction
@@ -32,9 +32,9 @@ class TeacherEdit extends EditView
         HTML::setTitle($title, 'users');
         $toolbar   = Toolbar::getInstance();
         $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-        $toolbar->appendButton('Standard', 'apply', $applyText, 'teacher.apply', false);
-        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'teacher.save', false);
+        $toolbar->appendButton('Standard', 'apply', $applyText, 'person.apply', false);
+        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'person.save', false);
         $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'teacher.cancel', false);
+        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'person.cancel', false);
     }
 }

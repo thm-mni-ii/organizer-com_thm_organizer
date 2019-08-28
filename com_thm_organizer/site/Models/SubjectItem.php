@@ -85,7 +85,7 @@ class SubjectItem extends ItemModel
         $this->setDependencies($subject);
         $this->setExpenditureText($subject);
         $this->setInstructionLanguage($subject);
-        $this->setTeachers($subject);
+        $this->setPersons($subject);
 
         if ($subject['shortName']['value'] == $subject['name']['value']) {
             unset($subject['shortName']);
@@ -111,7 +111,7 @@ class SubjectItem extends ItemModel
             'campus'                   => ['label' => Languages::_($option . 'CAMPUS'), 'type' => 'location'],
             'moduleCode'               => ['label' => Languages::_($option . 'MODULE_CODE'), 'type' => 'text'],
             'executors'                => ['label' => Languages::_($option . 'COORDINATOR'), 'type' => 'list'],
-            'teachers'                 => ['label' => Languages::_($option . 'TEACHERS'), 'type' => 'list'],
+            'persons'                  => ['label' => Languages::_($option . 'TEACHERS'), 'type' => 'list'],
             'description'              => ['label' => Languages::_($option . 'SHORT_DESCRIPTION'), 'type' => 'text'],
             'objective'                => ['label' => Languages::_($option . 'OBJECTIVES'), 'type' => 'text'],
             'content'                  => ['label' => Languages::_($option . 'CONTENT'), 'type' => 'text'],
@@ -310,27 +310,27 @@ class SubjectItem extends ItemModel
      *
      * @return void
      */
-    private function setTeachers(&$subject)
+    private function setPersons(&$subject)
     {
-        $teacherData = Persons::getDataBySubject($subject['subjectID'], null, true, false);
+        $personData = Persons::getDataBySubject($subject['subjectID'], null, true, false);
 
-        if (empty($teacherData)) {
+        if (empty($personData)) {
             return;
         }
 
         $executors = [];
-        $teachers  = [];
+        $persons   = [];
 
-        foreach ($teacherData as $teacher) {
-            $title    = empty($teacher['title']) ? '' : "{$teacher['title']} ";
-            $forename = empty($teacher['forename']) ? '' : "{$teacher['forename']} ";
-            $surname  = $teacher['surname'];
+        foreach ($personData as $person) {
+            $title    = empty($person['title']) ? '' : "{$person['title']} ";
+            $forename = empty($person['forename']) ? '' : "{$person['forename']} ";
+            $surname  = $person['surname'];
             $name     = $title . $forename . $surname;
 
-            if ($teacher['teacherResp'] == '1') {
-                $executors[$teacher['id']] = $name;
+            if ($person['role'] == '1') {
+                $executors[$person['id']] = $name;
             } else {
-                $teachers[$teacher['id']] = $name;
+                $persons[$person['id']] = $name;
             }
         }
 
@@ -338,8 +338,8 @@ class SubjectItem extends ItemModel
             $subject['executors']['value'] = $executors;
         }
 
-        if (count($teachers)) {
-            $subject['teachers']['value'] = $teachers;
+        if (count($persons)) {
+            $subject['persons']['value'] = $persons;
         }
     }
 }

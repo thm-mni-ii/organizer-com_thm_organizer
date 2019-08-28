@@ -194,7 +194,7 @@ class Schedule extends BaseModel
             case 'pool':
                 $title = Pools::getFullName($value);
                 break;
-            case 'teacher':
+            case 'person':
                 $title = Persons::getDefaultName($value);
                 break;
             default:

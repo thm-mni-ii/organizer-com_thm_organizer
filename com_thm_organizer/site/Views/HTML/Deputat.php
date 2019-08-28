@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
- * Class loads teacher workload statistics into the display context.
+ * Class loads person workload statistics into the display context.
  */
 class Deputat extends BaseHTMLView
 {
@@ -33,7 +33,7 @@ class Deputat extends BaseHTMLView
 
     public $table = '';
 
-    public $teachers;
+    public $persons;
 
     public $typeSelectBox = '';
 
@@ -61,7 +61,7 @@ class Deputat extends BaseHTMLView
         $this->makeScheduleSelectBox();
 
         if (!empty($this->model->schedule)) {
-            $this->makeTeacherSelectBox();
+            $this->makePersonSelectBox();
             $this->tables = $this->getDeputatTables();
         }
         parent::display($tpl);
@@ -105,23 +105,23 @@ class Deputat extends BaseHTMLView
     }
 
     /**
-     * Creates a select box for teachers
+     * Creates a select box for persons
      *
      * @return void
      */
-    private function makeTeacherSelectBox()
+    private function makePersonSelectBox()
     {
-        $teachers = $this->model->persons;
+        $persons = $this->model->persons;
 
         $options      = [];
         $options['*'] = Languages::_('JALL');
-        foreach ($teachers as $teacherID => $teacherName) {
-            $options[$teacherID] = $teacherName;
+        foreach ($persons as $personID => $personName) {
+            $options[$personID] = $personName;
         }
 
         $attribs          = ['multiple' => 'multiple', 'size' => '10'];
-        $selectedTeachers = $this->model->selected;
-        $this->persons    = HTML::selectBox($options, 'teachers', $attribs, $selectedTeachers);
+        $selectedPersons = $this->model->selected;
+        $this->persons    = HTML::selectBox($options, 'persons', $attribs, $selectedPersons);
     }
 
     /**
@@ -132,15 +132,15 @@ class Deputat extends BaseHTMLView
     public function getDeputatTables()
     {
         $tables = [];
-        foreach ($this->model->deputat as $teacherID => $deputat) {
+        foreach ($this->model->deputat as $personID => $deputat) {
             $displaySummary = !empty($deputat['summary']);
             $displayTally   = !empty($deputat['tally']);
 
-            $table = '<table class="deputat-table" id="deputat-table-' . $teacherID . '">';
-            $table .= '<thead class="deputat-table-head-' . $teacherID . '">';
-            $table .= '<tr class="teacher-header"><th colspan="5">' . $deputat['name'] . '</th></tr></thead>';
+            $table = '<table class="deputat-table" id="deputat-table-' . $personID . '">';
+            $table .= '<thead class="deputat-table-head-' . $personID . '">';
+            $table .= '<tr class="person-header"><th colspan="5">' . $deputat['name'] . '</th></tr></thead>';
             if ($displaySummary) {
-                $table .= '<tbody class="deputat-table-body" id="deputat-table-body-sum-' . $teacherID . '">';
+                $table .= '<tbody class="deputat-table-body" id="deputat-table-body-sum-' . $personID . '">';
                 $table .= '<tr class="sum-header">';
                 $table .= '<th>Lehrveranstaltung</th>';
                 $table .= '<th>Art<br/>(Kürzel)</th>';
@@ -148,11 +148,11 @@ class Deputat extends BaseHTMLView
                 $table .= '<th>Wochentag u. Stunde<br/>(bei Blockveranstalt. Datum)</th>';
                 $table .= '<th>Gemeldetes Deputat (SWS)<br/> und Summe</th>';
                 $table .= '</tr>';
-                $table .= $this->getSummaryRows($teacherID, $deputat);
+                $table .= $this->getSummaryRows($personID, $deputat);
                 $table .= '</tbody>';
             }
             if ($displayTally) {
-                $table      .= '<tbody class="deputat-table-body" id="deputat-table-body-tally-' . $teacherID . '">';
+                $table      .= '<tbody class="deputat-table-body" id="deputat-table-body-tally-' . $personID . '">';
                 $extraClass = $displaySummary ? 'second-group' : '';
                 $table      .= '<tr class="tally-header ' . $extraClass . '">';
                 $table      .= '<th>Rechtsgrundlage<br/>gemäß LVVO</th>';
@@ -161,7 +161,7 @@ class Deputat extends BaseHTMLView
                 $table      .= '<th>Anzahl der Arbeiten</th>';
                 $table      .= '<th>Gemeldetes Deputat (SWS)</th>';
                 $table      .= '</tr>';
-                $table      .= $this->getTallyRows($teacherID, $deputat);
+                $table      .= $this->getTallyRows($personID, $deputat);
                 $table      .= '</tbody>';
             }
             $table    .= '</table>';
@@ -174,12 +174,12 @@ class Deputat extends BaseHTMLView
     /**
      * Retrieves a rows containing information about
      *
-     * @param int    $teacherID the teacherID
-     * @param array &$deputat   the table columns
+     * @param int    $personID the personID
+     * @param array &$deputat  the table columns
      *
      * @return string  HTML string for the summary row
      */
-    private function getSummaryRows($teacherID, &$deputat)
+    private function getSummaryRows($personID, &$deputat)
     {
         $rows      = [];
         $swsSum    = 0;
@@ -187,7 +187,7 @@ class Deputat extends BaseHTMLView
         $weeks     = $this->params->get('deputat_weeks', 13);
         $rowNumber = 0;
         foreach ($deputat['summary'] as $summary) {
-            $rowID       = $teacherID . '-' . $rowNumber;
+            $rowID       = $personID . '-' . $rowNumber;
             $remove      = '<a id="remove-data-row-' . $rowID . '" onclick="removeRow(this)">';
             $remove      .= '<i class="icon-remove"></i>';
             $remove      .= '</a>';
@@ -209,14 +209,14 @@ class Deputat extends BaseHTMLView
             $rows[]      = $row;
             $rowNumber++;
         }
-        $sumRow = '<tr class="sum-row-' . $teacherID . '">';
+        $sumRow = '<tr class="sum-row-' . $personID . '">';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td>Summe</td>';
         $sumRow .= '<td>';
-        $sumRow .= '<span class="sum-sws" id="sum-sws-' . $teacherID . '">' . $swsSum . '</span>';
-        $sumRow .= ' (<span class="sum-total" id="sum-total-' . $teacherID . '">' . $realSum . '</span>)';
+        $sumRow .= '<span class="sum-sws" id="sum-sws-' . $personID . '">' . $swsSum . '</span>';
+        $sumRow .= ' (<span class="sum-total" id="sum-total-' . $personID . '">' . $realSum . '</span>)';
         $sumRow .= '</td>';
         $sumRow .= '</tr>';
         $rows[] = $sumRow;
@@ -228,19 +228,19 @@ class Deputat extends BaseHTMLView
      * Retrieves a row containing a summary of the column values in all the other rows. In the process it removes
      * columns without values.
      *
-     * @param int    $teacherID the teacherID
-     * @param array &$deputat   the table columns
+     * @param int    $personID the personID
+     * @param array &$deputat  the table columns
      *
      * @return string  HTML string for the summary row
      */
-    private function getTallyRows($teacherID, &$deputat)
+    private function getTallyRows($personID, &$deputat)
     {
         $rows   = [];
         $swsSum = 0;
         foreach ($deputat['tally'] as $name => $data) {
             $sws    = $data['rate'] * $data['count'];
             $swsSum += $sws;
-            $row    = '<tr class="data-row-' . $teacherID . '">';
+            $row    = '<tr class="data-row-' . $personID . '">';
             $row    .= '<td>LVVO § 2 (5)</td>';
             $row    .= '<td>' . $name . '</td>';
             $row    .= '<td>' . $data['rate'] . '</td>';
@@ -249,7 +249,7 @@ class Deputat extends BaseHTMLView
             $row    .= '</tr>';
             $rows[] = $row;
         }
-        $sumRow = '<tr class="sum-row-' . $teacherID . '">';
+        $sumRow = '<tr class="sum-row-' . $personID . '">';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';
         $sumRow .= '<td class="empty-cell"></td>';

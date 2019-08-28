@@ -15,12 +15,12 @@ use Organizer\Helpers\Persons;
 /**
  * Class creates a form field for room type selection
  */
-class TeachersField extends OptionsField
+class PersonsField extends OptionsField
 {
     /**
      * @var  string
      */
-    protected $type = 'Teachers';
+    protected $type = 'Persons';
 
     /**
      * Method to get the field options.
@@ -29,9 +29,9 @@ class TeachersField extends OptionsField
      */
     protected function getOptions()
     {
-        $options  = parent::getOptions();
-        $teachers = Persons::getOptions();
+        $options = parent::getOptions();
+        $persons = Persons::getOptions();
 
-        return array_merge($options, $teachers);
+        return array_merge($options, $persons);
     }
 }

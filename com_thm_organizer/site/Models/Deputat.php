@@ -17,7 +17,7 @@ use Organizer\Helpers\Persons;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
- * Class which calculates the number of hours teachers taught individual lessons.
+ * Class which calculates the number of hours persons taught individual lessons.
  */
 class Deputat extends BaseModel
 {
@@ -33,7 +33,7 @@ class Deputat extends BaseModel
 
     public $selected = [];
 
-    public $teachers = [];
+    public $persons = [];
 
     public $irrelevant = [];
 
@@ -51,7 +51,7 @@ class Deputat extends BaseModel
 
         if (!empty($this->schedule)) {
             $this->calculateDeputat();
-            $this->persons = $this->getTeacherNames();
+            $this->persons = $this->getPersonNames();
             $this->setSelected();
             $this->restrictDeputat();
         }
@@ -77,21 +77,21 @@ class Deputat extends BaseModel
             $this->resolveTime($this->schedule, $day, $blocks);
         }
 
-        $teacherIDs = array_keys((array)$this->schedule->persons);
-        $this->checkOtherSchedules($teacherIDs, $startDate, $endDate);
+        $personIDs = array_keys((array)$this->schedule->persons);
+        $this->checkOtherSchedules($personIDs, $startDate, $endDate);
         $this->convertLessonValues();
     }
 
     /**
-     * Checks for the cross department deputat of teachers belonging to the department
+     * Checks for the cross department deputat of persons belonging to the department
      *
-     * @param array  $teachers  the teachers listed in the original schedule
+     * @param array  $persons   the persons listed in the original schedule
      * @param string $startDate the start date of the original schedule
      * @param string $endDate   the end date of the original schedule
      *
      * @return void  adds deputat to the lesson values array
      */
-    private function checkOtherSchedules($teachers, $startDate, $endDate)
+    private function checkOtherSchedules($persons, $startDate, $endDate)
     {
         $schedulesIDs = $this->getPlausibleScheduleIDs($startDate, $endDate);
         if (empty($schedulesIDs)) {
@@ -105,7 +105,7 @@ class Deputat extends BaseModel
                     continue;
                 }
 
-                $this->resolveTime($schedule, $day, $blocks, $teachers);
+                $this->resolveTime($schedule, $day, $blocks, $persons);
             }
 
             unset($schedule);
@@ -125,19 +125,19 @@ class Deputat extends BaseModel
         $blockCounter = 1;
         $skipValues   = [];
 
-        foreach ($this->lessonValues as $lessonID => $teacherIDs) {
-            foreach ($teacherIDs as $teacherID => $lessonValues) {
+        foreach ($this->lessonValues as $lessonID => $personIDs) {
+            foreach ($personIDs as $personID => $lessonValues) {
                 if (in_array($lessonID, $skipValues)) {
                     continue;
                 }
 
-                if (empty($this->deputat[$teacherID])) {
-                    $this->deputat[$teacherID]         = [];
-                    $this->deputat[$teacherID]['name'] = $lessonValues['teacherName'];
+                if (empty($this->deputat[$personID])) {
+                    $this->deputat[$personID]         = [];
+                    $this->deputat[$personID]['name'] = $lessonValues['personName'];
                 }
 
                 if ($lessonValues['type'] == 'tally') {
-                    $this->setTallyDeputat($teacherID, $lessonValues);
+                    $this->setTallyDeputat($personID, $lessonValues);
                     unset($this->lessonValues[$lessonID]);
                     continue;
                 }
@@ -147,7 +147,7 @@ class Deputat extends BaseModel
                 // Current threshhold for a block lesson is 20 scholastic hours per week (10 periods)
                 if (count($lessonValues['periods']) > 20) {
                     $blockIndex = "$subjectIndex-$blockCounter";
-                    $this->setSummaryDeputat($teacherID, $lessonValues, $blockIndex);
+                    $this->setSummaryDeputat($personID, $lessonValues, $blockIndex);
 
                     // Block lessons are listed individually => no need to compare
                     unset($this->lessonValues[$lessonID]);
@@ -155,20 +155,20 @@ class Deputat extends BaseModel
                 }
 
                 // The initial summary deputat
-                $this->setSummaryDeputat($teacherID, $lessonValues, $subjectIndex);
+                $this->setSummaryDeputat($personID, $lessonValues, $subjectIndex);
 
-                foreach ($this->lessonValues as $comparisonID => $compTeacherIDs) {
+                foreach ($this->lessonValues as $comparisonID => $compPersonIDs) {
                     // The lesson should not be compared to itself
                     if ($lessonID == $comparisonID) {
                         continue;
                     }
 
-                    $teacherTeaches = array_key_exists($teacherID, $compTeacherIDs);
-                    $plausible      = $teacherTeaches ?
-                        $this->isAggregationPlausible($lessonValues, $compTeacherIDs[$teacherID])
+                    $personTeaches = array_key_exists($personID, $compPersonIDs);
+                    $plausible     = $personTeaches ?
+                        $this->isAggregationPlausible($lessonValues, $compPersonIDs[$personID])
                         : false;
                     if ($plausible) {
-                        $this->aggregate($teacherID, $subjectIndex, $compTeacherIDs[$teacherID]);
+                        $this->aggregate($personID, $subjectIndex, $compPersonIDs[$personID]);
 
                         // Aggregated lessons should not be reiterated
                         $skipValues[] = $comparisonID;
@@ -216,16 +216,16 @@ class Deputat extends BaseModel
     /**
      * Retrieves the unique pool ids associated
      *
-     * @param object &$schedule  the schedule being processed
-     * @param string  $lessonID  the id of the lesson
-     * @param string  $teacherID the id of the teacher
+     * @param object &$schedule the schedule being processed
+     * @param string  $lessonID the id of the lesson
+     * @param string  $personID the id of the person
      *
      * @return array the associated pool ids
      */
-    private function getPools(&$schedule, $lessonID, $teacherID)
+    private function getPools(&$schedule, $lessonID, $personID)
     {
-        $previousPoolIDs = empty($this->lessonValues[$lessonID][$teacherID]['pools']) ?
-            [] : $this->lessonValues[$lessonID][$teacherID]['pools'];
+        $previousPoolIDs = empty($this->lessonValues[$lessonID][$personID]['pools']) ?
+            [] : $this->lessonValues[$lessonID][$personID]['pools'];
 
         $newPools = (array)$schedule->lessons->$lessonID->groups;
         foreach ($newPools as $pool => $delta) {
@@ -382,11 +382,11 @@ class Deputat extends BaseModel
      * @param object &$schedule the schedule being processed
      * @param string  $day      the day being iterated
      * @param object &$blocks   the blocks of the date being iterated
-     * @param array  &$teachers teachers to compare against if the schedule is not the original
+     * @param array  &$persons  persons to compare against if the schedule is not the original
      *
      * @return void
      */
-    private function resolveTime(&$schedule, $day, &$blocks, &$teachers = null)
+    private function resolveTime(&$schedule, $day, &$blocks, &$persons = null)
     {
         $seconds = 2700;
         foreach ($blocks as $blockNumber => $blockLessons) {
@@ -404,7 +404,7 @@ class Deputat extends BaseModel
                 $endDT     = strtotime(substr($endTime, 0, 2) . ':' . substr($endTime, 2, 2) . ':00');
                 $hours     = ($endDT - $startDT) / $seconds;
 
-                $this->setDeputatByInstance($schedule, $day, $blockNumber, $lessonID, $hours, $teachers);
+                $this->setDeputatByInstance($schedule, $day, $blockNumber, $lessonID, $hours, $persons);
             }
         }
     }
@@ -426,7 +426,7 @@ class Deputat extends BaseModel
         $this->selected               = [];
         $this->persons                = [];
         $this->irrelevant['methods']  = ['KLA', 'SIT', 'PRÜ', 'SHU', 'VER', 'IVR', 'VRT', 'VSM', 'TAG'];
-        $this->irrelevant['teachers'] = ['NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW'];
+        $this->irrelevant['persons']  = ['NN.', 'DIV.', 'FS.', 'TUTOR.', 'SW'];
         $this->irrelevant['pools']    = ['TERMINE.'];
         $this->irrelevant['subjects'] = ['NN.'];
         $this->setSchedule();
@@ -464,12 +464,12 @@ class Deputat extends BaseModel
      * @param string  $day         the day being iterated
      * @param int     $blockNumber the block number being iterated
      * @param string  $lessonID    the lesson being iterated
-     * @param string  $teacherID   the teacher being iterated
+     * @param string  $personID    the person being iterated
      * @param int     $hours       the number of school hours for the lesson
      *
      * @return void  sets object values
      */
-    private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $teacherID, $hours = 0)
+    private function setDeputat(&$schedule, $day, $blockNumber, $lessonID, $personID, $hours = 0)
     {
         $subjectIsRelevant = $this->isSubjectRelevant($schedule, $lessonID);
         $lessonType        = $this->getType($schedule, $lessonID);
@@ -483,110 +483,110 @@ class Deputat extends BaseModel
             $this->lessonValues[$lessonID] = [];
         }
 
-        $this->setLessonTeacher($schedule, $lessonID, $teacherID);
+        $this->setLessonPerson($schedule, $lessonID, $personID);
 
         // Tallied items have flat payment values and are correspondingly not tracked as accurately.
         $isTallied = $this->isTallied($schedule, $lessonID);
         if ($isTallied) {
-            $this->lessonValues[$lessonID][$teacherID]['type'] = 'tally';
+            $this->lessonValues[$lessonID][$personID]['type'] = 'tally';
 
             return;
         }
 
-        $pools = $this->getPools($schedule, $lessonID, $teacherID);
+        $pools = $this->getPools($schedule, $lessonID, $personID);
         if (empty($pools)) {
             unset($this->lessonValues[$lessonID]);
 
             return;
         }
 
-        $this->lessonValues[$lessonID][$teacherID]['type']       = 'summary';
-        $this->lessonValues[$lessonID][$teacherID]['lessonType'] = $lessonType;
-        $this->lessonValues[$lessonID][$teacherID]['pools']      = $pools;
-        if (!isset($this->lessonValues[$lessonID][$teacherID]['periods'])) {
-            $this->lessonValues[$lessonID][$teacherID]['periods'] = [];
+        $this->lessonValues[$lessonID][$personID]['type']       = 'summary';
+        $this->lessonValues[$lessonID][$personID]['lessonType'] = $lessonType;
+        $this->lessonValues[$lessonID][$personID]['pools']      = $pools;
+        if (!isset($this->lessonValues[$lessonID][$personID]['periods'])) {
+            $this->lessonValues[$lessonID][$personID]['periods'] = [];
         }
 
-        if (!isset($this->lessonValues[$lessonID][$teacherID]['startDate'])) {
-            $this->lessonValues[$lessonID][$teacherID]['startDate'] = Dates::formatDate($day);
+        if (!isset($this->lessonValues[$lessonID][$personID]['startDate'])) {
+            $this->lessonValues[$lessonID][$personID]['startDate'] = Dates::formatDate($day);
         }
 
         $DOWConstant  = strtoupper(date('l', strtotime($day)));
         $weekday      = Languages::_($DOWConstant);
         $plannedBlock = "$weekday-$blockNumber";
-        if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID][$teacherID]['periods'])) {
-            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock] = [];
+        if (!array_key_exists($plannedBlock, $this->lessonValues[$lessonID][$personID]['periods'])) {
+            $this->lessonValues[$lessonID][$personID]['periods'][$plannedBlock] = [];
         }
 
-        if (!array_key_exists($day, $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock])) {
-            $this->lessonValues[$lessonID][$teacherID]['periods'][$plannedBlock][$day] = $hours;
+        if (!array_key_exists($day, $this->lessonValues[$lessonID][$personID]['periods'][$plannedBlock])) {
+            $this->lessonValues[$lessonID][$personID]['periods'][$plannedBlock][$day] = $hours;
         }
 
-        $this->lessonValues[$lessonID][$teacherID]['endDate'] = Dates::formatDate($day);
+        $this->lessonValues[$lessonID][$personID]['endDate'] = Dates::formatDate($day);
 
         return;
     }
 
     /**
-     * Iterates the lesson associated pools for the purpose of teacher consumption
+     * Iterates the lesson associated pools for the purpose of person consumption
      *
      * @param object &$schedule    the schedule being processed
      * @param string  $day         the day being iterated
      * @param int     $blockNumber the block number being iterated
      * @param string  $lessonID    the lesson ID
      * @param int     $hours       the number of school hours for the lesson
-     * @param array  &$teachers    teachers to compare against if the schedule is not the original
+     * @param array  &$persons     persons to compare against if the schedule is not the original
      *
      * @return void
      */
-    private function setDeputatByInstance(&$schedule, $day, $blockNumber, $lessonID, $hours, &$teachers = null)
+    private function setDeputatByInstance(&$schedule, $day, $blockNumber, $lessonID, $hours, &$persons = null)
     {
-        $scheduleTeachers = $schedule->lessons->$lessonID->persons;
-        foreach ($scheduleTeachers as $teacherID => $teacherDelta) {
-            if ($teacherDelta == 'removed') {
+        $schedulePersons = $schedule->lessons->$lessonID->persons;
+        foreach ($schedulePersons as $personID => $personDelta) {
+            if ($personDelta == 'removed') {
                 continue;
             }
 
             /**
-             * The function was called during the iteration of the schedule of another department. Only the teachers
+             * The function was called during the iteration of the schedule of another department. Only the persons
              * from the original are relevant.
              */
-            if (!empty($teachers) and !in_array($teacherID, $teachers)) {
+            if (!empty($persons) and !in_array($personID, $persons)) {
                 continue;
             }
 
             $irrelevant = false;
-            foreach ($this->irrelevant['teachers'] as $prefix) {
-                if (strpos($teacherID, $prefix) === 0) {
+            foreach ($this->irrelevant['persons'] as $prefix) {
+                if (strpos($personID, $prefix) === 0) {
                     $irrelevant = true;
                     break;
                 }
             }
 
             if (!$irrelevant) {
-                $this->setDeputat($schedule, $day, $blockNumber, $lessonID, $teacherID, $hours);
+                $this->setDeputat($schedule, $day, $blockNumber, $lessonID, $personID, $hours);
             }
         }
     }
 
     /**
-     * Associates a teacher with a given lesson
+     * Associates a person with a given lesson
      *
-     * @param object &$schedule  the schedule being processed
-     * @param string  $lessonID  the id of the lesson
-     * @param string  $teacherID the id of the teacher
+     * @param object &$schedule the schedule being processed
+     * @param string  $lessonID the id of the lesson
+     * @param string  $personID the id of the person
      *
      * @return void  sets object variables
      */
-    private function setLessonTeacher(&$schedule, $lessonID, $teacherID)
+    private function setLessonPerson(&$schedule, $lessonID, $personID)
     {
         // Check for existing association
-        if (empty($this->lessonValues[$lessonID][$teacherID])) {
-            $this->lessonValues[$lessonID][$teacherID] = [];
-            $this->lessonValues[$lessonID][$teacherID]['teacherName']
-                                                       = Persons::getLNFName($schedule->persons->$teacherID);
+        if (empty($this->lessonValues[$lessonID][$personID])) {
+            $this->lessonValues[$lessonID][$personID] = [];
+            $this->lessonValues[$lessonID][$personID]['personName']
+                                                      = Persons::getLNFName($schedule->persons->$personID);
 
-            $this->lessonValues[$lessonID][$teacherID]['subjectName']
+            $this->lessonValues[$lessonID][$personID]['subjectName']
                 = $this->getSubjectName($schedule, $lessonID);
         }
     }
@@ -616,30 +616,30 @@ class Deputat extends BaseModel
     /**
      * Sets the values for tallied lessons
      *
-     * @param string  $teacherID    the teacher's id
+     * @param string  $personID     the person's id
      * @param array  &$lessonValues the values for the lesson being iterated
      *
      * @return void  sets values in the object variable $deputat
      */
-    private function setTallyDeputat($teacherID, &$lessonValues)
+    private function setTallyDeputat($personID, &$lessonValues)
     {
-        if (empty($this->deputat[$teacherID]['tally'])) {
-            $this->deputat[$teacherID]['tally'] = [];
+        if (empty($this->deputat[$personID]['tally'])) {
+            $this->deputat[$personID]['tally'] = [];
         }
 
         $subjectName = $lessonValues['subjectName'];
-        if (empty($this->deputat[$teacherID]['tally'][$subjectName])) {
-            $this->deputat[$teacherID]['tally'][$subjectName] = [];
+        if (empty($this->deputat[$personID]['tally'][$subjectName])) {
+            $this->deputat[$personID]['tally'][$subjectName] = [];
         }
 
-        $this->deputat[$teacherID]['tally'][$subjectName]['rate'] = $this->getRate($subjectName);
-        if (empty($this->deputat[$teacherID]['tally'][$subjectName]['count'])) {
-            $this->deputat[$teacherID]['tally'][$subjectName]['count'] = 1;
+        $this->deputat[$personID]['tally'][$subjectName]['rate'] = $this->getRate($subjectName);
+        if (empty($this->deputat[$personID]['tally'][$subjectName]['count'])) {
+            $this->deputat[$personID]['tally'][$subjectName]['count'] = 1;
 
             return;
         }
 
-        $this->deputat[$teacherID]['tally'][$subjectName]['count']++;
+        $this->deputat[$personID]['tally'][$subjectName]['count']++;
 
         return;
     }
@@ -647,28 +647,28 @@ class Deputat extends BaseModel
     /**
      * Sets the values for summarized lessons
      *
-     * @param string  $teacherID    the teacher's id
+     * @param string  $personID     the person's id
      * @param array  &$lessonValues the values for the lesson being iterated
      * @param string  $index        the index to be used for the lesson
      *
      * @return void  sets values in the object variable $deputat
      */
-    private function setSummaryDeputat($teacherID, &$lessonValues, $index)
+    private function setSummaryDeputat($personID, &$lessonValues, $index)
     {
-        if (empty($this->deputat[$teacherID]['summary'])) {
-            $this->deputat[$teacherID]['summary'] = [];
+        if (empty($this->deputat[$personID]['summary'])) {
+            $this->deputat[$personID]['summary'] = [];
         }
 
-        $this->deputat[$teacherID]['summary'][$index]              = [];
-        $this->deputat[$teacherID]['summary'][$index]['name']      = $lessonValues['subjectName'];
-        $this->deputat[$teacherID]['summary'][$index]['type']      = $lessonValues['lessonType'];
-        $this->deputat[$teacherID]['summary'][$index]['pools']     = $lessonValues['pools'];
-        $this->deputat[$teacherID]['summary'][$index]['periods']   = $lessonValues['periods'];
-        $this->deputat[$teacherID]['summary'][$index]['hours']     = $this->getSummaryHours($lessonValues['periods']);
-        $this->deputat[$teacherID]['summary'][$index]['startDate'] = $lessonValues['startDate'];
-        $this->deputat[$teacherID]['summary'][$index]['endDate']   = $lessonValues['endDate'];
-        uksort($this->deputat[$teacherID]['summary'][$index]['periods'], 'self::periodSort');
-        ksort($this->deputat[$teacherID]['summary']);
+        $this->deputat[$personID]['summary'][$index]              = [];
+        $this->deputat[$personID]['summary'][$index]['name']      = $lessonValues['subjectName'];
+        $this->deputat[$personID]['summary'][$index]['type']      = $lessonValues['lessonType'];
+        $this->deputat[$personID]['summary'][$index]['pools']     = $lessonValues['pools'];
+        $this->deputat[$personID]['summary'][$index]['periods']   = $lessonValues['periods'];
+        $this->deputat[$personID]['summary'][$index]['hours']     = $this->getSummaryHours($lessonValues['periods']);
+        $this->deputat[$personID]['summary'][$index]['startDate'] = $lessonValues['startDate'];
+        $this->deputat[$personID]['summary'][$index]['endDate']   = $lessonValues['endDate'];
+        uksort($this->deputat[$personID]['summary'][$index]['periods'], 'self::periodSort');
+        ksort($this->deputat[$personID]['summary']);
 
         return;
     }
@@ -787,58 +787,58 @@ class Deputat extends BaseModel
     /**
      * Aggregates similar lessons to a single output
      *
-     * @param string $teacherID    the id of the teacher
+     * @param string $personID     the id of the person
      * @param string $subjectIndex the index of this group of lessons in the array
      * @param array  $aggValues    the values to be aggregated
      *
      * @return void  alters object variables
      */
-    private function aggregate($teacherID, $subjectIndex, $aggValues)
+    private function aggregate($personID, $subjectIndex, $aggValues)
     {
         $aggregatedPools = array_unique(array_merge(
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'],
+            $this->deputat[$personID]['summary'][$subjectIndex]['pools'],
             $aggValues['pools']
         ));
 
-        $this->deputat[$teacherID]['summary'][$subjectIndex]['pools'] = $aggregatedPools;
+        $this->deputat[$personID]['summary'][$subjectIndex]['pools'] = $aggregatedPools;
 
         $aggregatedPeriods = array_merge_recursive(
-            $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'],
+            $this->deputat[$personID]['summary'][$subjectIndex]['periods'],
             $aggValues['periods']
         );
 
         uksort($aggregatedPeriods, 'self::periodSort');
-        $this->deputat[$teacherID]['summary'][$subjectIndex]['periods'] = $aggregatedPeriods;
-        $this->deputat[$teacherID]['summary'][$subjectIndex]['hours']   = $this->getSummaryHours($aggregatedPeriods);
+        $this->deputat[$personID]['summary'][$subjectIndex]['periods'] = $aggregatedPeriods;
+        $this->deputat[$personID]['summary'][$subjectIndex]['hours']   = $this->getSummaryHours($aggregatedPeriods);
     }
 
     /**
-     * Gets a list of teacher names
+     * Gets a list of person names
      *
      * @return array  a list of resource names
      */
-    public function getTeacherNames()
+    public function getPersonNames()
     {
-        $teachers = [];
-        foreach ($this->deputat as $teacherID => $deputat) {
+        $persons = [];
+        foreach ($this->deputat as $personID => $deputat) {
             $displaySummary = !empty($deputat['summary']);
             $displayTally   = !empty($deputat['tally']);
             $display        = ($displaySummary or $displayTally);
             if (!$display) {
-                unset($this->deputat[$teacherID]);
+                unset($this->deputat[$personID]);
                 continue;
             }
 
-            $teachers[$teacherID] = $deputat['name'];
+            $persons[$personID] = $deputat['name'];
         }
 
-        asort($teachers);
+        asort($persons);
 
-        return $teachers;
+        return $persons;
     }
 
     /**
-     * Gets the list of selected teachers
+     * Gets the list of selected persons
      *
      * @return void
      */
@@ -846,7 +846,7 @@ class Deputat extends BaseModel
     {
         $default = ['*'];
         // no idea what this value is
-        $selected = Input::getFilterIDs('teacher');
+        $selected = Input::getFilterIDs('person');
 
         // Returns a hard false if value is not in array
         $allSelected = array_search('', $selected);
@@ -861,7 +861,7 @@ class Deputat extends BaseModel
     }
 
     /**
-     * Restricts the displayed deputat to the selected teachers
+     * Restricts the displayed deputat to the selected persons
      *
      * @return void  unsets deputat indexes
      */

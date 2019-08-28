@@ -307,7 +307,7 @@ const ScheduleApp = function (variables) {
      * Schedule 'class' for saving params and update the scheduleTable
      * @param {string} source - name of source (e.g. form-input)
      * @param {string} [IDs] - makes together with source the schedule ID and defines the task
-     * @param {string} [optionalTitle] - optional title for directly linked schedules (e.g. teacher or room)
+     * @param {string} [optionalTitle] - optional title for directly linked schedules (e.g. person or room)
      */
     function Schedule(source, IDs, optionalTitle)
     {
@@ -329,7 +329,7 @@ const ScheduleApp = function (variables) {
                 let url = getAjaxUrl();
 
                 url += '&view=schedules&task=getLessons';
-                url += '&deltaDays=' + (resource === 'room' || resource === 'teacher' ? '0' : variables.deltaDays);
+                url += '&deltaDays=' + (resource === 'room' || resource === 'person' ? '0' : variables.deltaDays);
                 url += '&date=' + getDateFieldString() + (variables.isMobile ? '&interval=day' : '');
                 url += '&mySchedule=' + (resource === 'user' ? '1' : '0');
 
@@ -971,12 +971,12 @@ const ScheduleApp = function (variables) {
                     eventElement.appendChild(groupsOuterDiv);
                 }
 
-                if (scheduleResource !== 'teacher' && subjectData.teachers)
+                if (scheduleResource !== 'person' && subjectData.persons)
                 {
-                    const teachersOuterDiv = document.createElement('div');
-                    teachersOuterDiv.className = 'persons';
-                    addDataElements('teacher', teachersOuterDiv, subjectData.teachers, subjectData.teacherDeltas, 'person');
-                    eventElement.appendChild(teachersOuterDiv);
+                    const personsOuterDiv = document.createElement('div');
+                    personsOuterDiv.className = 'persons';
+                    addDataElements('person', personsOuterDiv, subjectData.persons, subjectData.personDeltas, 'person');
+                    eventElement.appendChild(personsOuterDiv);
                 }
 
                 if (scheduleResource !== 'room' && subjectData.rooms)
@@ -1171,7 +1171,7 @@ const ScheduleApp = function (variables) {
                 {
                     const span = document.createElement('span'),
                         deltaClass = delta[id] || '',
-                        linkElement = showX !== 'showTeachers' && variables[showX],
+                        linkElement = showX !== 'showPersons' && variables[showX],
                         nameElement = linkElement ? document.createElement('a') : document.createElement('span');
 
                     span.className = (className ? className : resource) + ' ' + deltaClass;
@@ -1492,12 +1492,12 @@ const ScheduleApp = function (variables) {
          * @param {Object} data.groupDeltas - changed groups
          * @param {Object} data.rooms - all rooms
          * @param {Object} data.roomDeltas - changed rooms
-         * @param {Object} data.teachers - all teachers
-         * @param {Object} data.teacherDeltas - changed teachers
+         * @param {Object} data.persons - all persons
+         * @param {Object} data.personDeltas - changed persons
          */
         function setEventData(data)
         {
-            let groupID, roomID, teacherID;
+            let groupID, roomID, personID;
 
             resetElements();
             subjectSpan.innerHTML = data.name;
@@ -1515,12 +1515,12 @@ const ScheduleApp = function (variables) {
             descriptionSpan.innerHTML = eventMenuElement.parentNode.getElementsByClassName('comment-container')[0] ?
                 eventMenuElement.parentNode.getElementsByClassName('comment-container')[0].innerText : '';
 
-            for (teacherID in data.teachers)
+            for (personID in data.persons)
             {
-                if (data.teachers.hasOwnProperty(teacherID) && data.teacherDeltas[teacherID] !== 'removed')
+                if (data.persons.hasOwnProperty(personID) && data.personDeltas[personID] !== 'removed')
                 {
                     const personSpan = document.createElement('span');
-                    personSpan.innerHTML = data.teachers[teacherID];
+                    personSpan.innerHTML = data.persons[personID];
                     personsDiv.appendChild(personSpan);
                 }
             }
@@ -1721,7 +1721,7 @@ const ScheduleApp = function (variables) {
                 'group': document.getElementById('group'),
                 'room': document.getElementById('room'),
                 'roomtype': document.getElementById('roomtype'),
-                'teacher': document.getElementById('teacher'),
+                'person': document.getElementById('person'),
                 'type': document.getElementById('type')
             },
             placeholder = {
@@ -1729,7 +1729,7 @@ const ScheduleApp = function (variables) {
                 'category': Joomla.JText._('THM_ORGANIZER_SELECT_CATEGORY'),
                 'roomtype': Joomla.JText._('THM_ORGANIZER_SELECT_ROOMTYPE'),
                 'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
-                'teacher': Joomla.JText._('THM_ORGANIZER_SELECT_TEACHER')
+                'person': Joomla.JText._('THM_ORGANIZER_SELECT_TEACHER')
             },
             wrappers = {
                 'category': document.getElementById('category-input'),
@@ -1737,7 +1737,7 @@ const ScheduleApp = function (variables) {
                 'group': document.getElementById('group-input'),
                 'room': document.getElementById('room-input'),
                 'roomtype': document.getElementById('roomtype-input'),
-                'teacher': document.getElementById('teacher-input'),
+                'person': document.getElementById('person-input'),
                 'type': document.getElementById('type-input')
             },
             sessionFields = JSON.parse(window.sessionStorage.getItem('scheduleForm')) || {},
@@ -2080,7 +2080,7 @@ const ScheduleApp = function (variables) {
                 }
             }
 
-            // Non event-fields have priority, but in some cases there are only event-fields (teacher)
+            // Non event-fields have priority, but in some cases there are only event-fields (person)
             sendFormRequest(toUpdate.next || toUpdate.event);
         }
 
@@ -2870,9 +2870,9 @@ const ScheduleApp = function (variables) {
             {
                 url += '&roomIDs=' + resourceID;
             }
-            else if (schedule.search(/teacher/) === 0)
+            else if (schedule.search(/person/) === 0)
             {
-                url += '&teacherIDs=' + resourceID;
+                url += '&personIDs=' + resourceID;
             }
             else
             {

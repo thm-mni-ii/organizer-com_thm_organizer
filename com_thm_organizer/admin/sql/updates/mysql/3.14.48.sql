@@ -530,6 +530,9 @@ SET `link` = 'index.php?option=com_thm_organizer&view=subjects'
 WHERE `link` = 'index.php?option=com_thm_organizer&view=subject_list';
 
 UPDATE `v7ocf_menu`
+SET `params` = replace(`params`, 'showTeachers', 'showPersons');
+
+UPDATE `v7ocf_menu`
 SET `params` = replace(`params`, '"departmentID":"6"', '"departmentID":"5"');
 
 UPDATE `v7ocf_menu`

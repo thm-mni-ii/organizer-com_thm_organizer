@@ -11,7 +11,7 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the teachers table.
+ * Class instantiates a Table Object associated with the persons table.
  */
 class Persons extends Nullable
 {

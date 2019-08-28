@@ -12,6 +12,7 @@
     font-size: 228.57143%;
     margin-bottom: 10px;
   }
+
   // Groups buttons on the right
   div.button-panel {
     float: right;
@@ -97,7 +98,7 @@
               -moz-appearance: none;
             }
 
-            div#teachers_chzn {
+            div#persons_chzn {
               height: auto;
               border: 2px solid #4a5d66;
               width: 276px !important;
@@ -146,7 +147,7 @@ table.deputat-table {
   }
 
   thead {
-    tr.teacher-header th {
+    tr.person-header th {
       font-family: 'THM-Medium', Arial, Helvetica, sans-serif;
       font-size: large;
       border-bottom: none;
@@ -176,6 +177,7 @@ table.deputat-table {
         display: block;
         float: right;
         margin-right: 10px;
+
         i {
           color: $grey-100;
           font-size: smaller;

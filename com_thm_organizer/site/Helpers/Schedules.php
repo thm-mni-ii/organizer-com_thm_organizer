@@ -55,9 +55,9 @@ class Schedules
             $wherray[] = "gr.id IN ('" . implode("', '", $parameters['groupIDs']) . "')";
         }
 
-        if (!empty($parameters['teacherIDs'])) {
-            foreach ($parameters['teacherIDs'] as $teacherID) {
-                $regexp = '"teachers":\\{[^\}]*"' . $teacherID . '"';
+        if (!empty($parameters['personIDs'])) {
+            foreach ($parameters['personIDs'] as $personID) {
+                $regexp = '"persons":\\{[^\}]*"' . $personID . '"';
                 $regexp .= (empty($parameters['delta'])) ? ':("new"|"")' : '';
 
                 $wherray[] = "conf.configuration REGEXP '$regexp'";
@@ -147,16 +147,16 @@ class Schedules
             $course =& $lessonReference['subjects'][$subjectName];
             if (empty($course)) {
                 $course                = $subjectData;
-                $course['teachers']    = $configuration['teachers'];
+                $course['persons']     = $configuration['persons'];
                 $course['rooms']       = $configuration['rooms'];
                 $course['programs']    = [];
                 $course['groupDeltas'] = [];
             } else {
-                $previousTeachers = $course['teachers'];
+                $previousPersons = $course['persons'];
                 $previousRooms    = $course['rooms'];
 
-                $course['teachers']
-                    = $previousTeachers + $configuration['teachers'];
+                $course['persons']
+                    = $previousPersons + $configuration['persons'];
 
                 $course['rooms'] = $previousRooms + $configuration['rooms'];
 
@@ -166,7 +166,7 @@ class Schedules
             $course['groupDeltas'][$lesson['groupID']]
                 = (empty($lesson['groupDelta']) or $lesson['groupModified'] < $delta) ? '' : $lesson['groupDelta'];
 
-            $course['teacherDeltas'] = $configuration['teacherDeltas'];
+            $course['personDeltas'] = $configuration['personDeltas'];
 
             $course['roomDeltas'] = $configuration['roomDeltas'];
 
@@ -249,17 +249,17 @@ class Schedules
     }
 
     /**
-     * Filters the teacher ids to view access
+     * Filters the person ids to view access
      *
-     * @param array &$teacherIDs the teacher ids.
-     * @param int    $userID     the id of the user whose authorizations will be checked
+     * @param array &$personIDs the person ids.
+     * @param int    $userID    the id of the user whose authorizations will be checked
      *
      * @return void removes unauthorized entries from the array
      */
-    private static function filterTeacherIDs(&$teacherIDs, $userID)
+    private static function filterPersonIDs(&$personIDs, $userID)
     {
         if (empty($userID)) {
-            $teacherIDs = [];
+            $personIDs = [];
 
             return;
         }
@@ -268,18 +268,18 @@ class Schedules
             return;
         }
 
-        $userTeacherID     = Persons::getIDByUserID($userID);
+        $thisPersonID     = Persons::getIDByUserID($userID);
         $accessibleDeptIDs = Access::getAccessibleDepartments('view', $userID);
 
-        foreach ($teacherIDs as $key => $teacherID) {
-            if (!empty($userTeacherID) and $userTeacherID == $teacherID) {
+        foreach ($personIDs as $key => $personID) {
+            if (!empty($thisPersonID) and $thisPersonID == $personID) {
                 continue;
             }
-            $teacherDepartments = Persons::getDepartmentIDs($teacherID);
-            $overlap            = array_intersect($accessibleDeptIDs, $teacherDepartments);
+            $personDepartments = Persons::getDepartmentIDs($personID);
+            $overlap           = array_intersect($accessibleDeptIDs, $personDepartments);
 
             if (empty($overlap)) {
-                unset($teacherIDs[$key]);
+                unset($personIDs[$key]);
             }
         }
     }
@@ -371,14 +371,14 @@ class Schedules
      * @param array $parameters array of group ids or a single group id
      *
      * @return array
-     * @throws Exception => unauthorized access to teacher lessons
+     * @throws Exception => unauthorized access to person lessons
      */
     public static function getLessons($parameters)
     {
-        if (!empty($parameters['teacherIDs'])) {
-            self::filterTeacherIDs($parameters['teacherIDs'], $parameters['userID']);
+        if (!empty($parameters['personIDs'])) {
+            self::filterPersonIDs($parameters['personIDs'], $parameters['userID']);
 
-            if (empty($parameters['teacherIDs'])) {
+            if (empty($parameters['personIDs'])) {
                 throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
             }
         }
@@ -416,15 +416,15 @@ class Schedules
             $select .= ', lcrs.delta AS subjectsDelta, lcrs.modified AS subjectsModified';
             $select .= ', l.delta AS lessonDelta, l.modified AS lessonModified';
             $select .= ', c.delta AS calendarDelta, c.modified AS calendarModified';
-            $select .= ', lt.delta AS teacherDelta, lt.modified AS teacherModified';
+            $select .= ', lt.delta AS personDelta, lt.modified AS personModified';
         }
 
         $query->select($select);
         self::setLessonQuery($parameters, $query);
 
         $query->innerJoin('#__thm_organizer_categories AS cat ON gr.categoryID = cat.id');
-        $query->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.lessonCourseID = lcrs.id');
-        $query->innerJoin('#__thm_organizer_teachers AS teacher ON lt.teacherID = teacher.id');
+        $query->innerJoin('#__thm_organizer_lesson_persons AS lt ON lt.lessonCourseID = lcrs.id');
+        $query->innerJoin('#__thm_organizer_persons AS person ON lt.personID = person.id');
 
         $query->leftJoin('#__thm_organizer_methods AS m ON l.methodID = m.id');
 
@@ -646,7 +646,7 @@ class Schedules
     }
 
     /**
-     * Removes deprecated room and teacher indexes and resolves the remaining indexes to the names to be displayed
+     * Removes deprecated room and person indexes and resolves the remaining indexes to the names to be displayed
      *
      * @param mixed  &$configuration the lesson instance configuration
      * @param string  $delta         max date in which the delta gets accepted
@@ -655,16 +655,16 @@ class Schedules
      */
     private static function resolveConfiguration(&$configuration, $delta)
     {
-        $configuration['teacherDeltas'] = [];
+        $configuration['personDeltas'] = [];
 
-        foreach ($configuration['teachers'] as $teacherID => $teacherDelta) {
-            if ($teacherDelta == 'removed' and $configuration['modified'] < $delta) {
-                unset($configuration['teachers'][$teacherID]);
+        foreach ($configuration['persons'] as $personID => $personDelta) {
+            if ($personDelta == 'removed' and $configuration['modified'] < $delta) {
+                unset($configuration['persons'][$personID]);
                 continue;
             }
 
-            $configuration['teacherDeltas'][$teacherID] = $teacherDelta;
-            $configuration['teachers'][$teacherID]      = Persons::getLNFName($teacherID, true);
+            $configuration['personDeltas'][$personID] = $personDelta;
+            $configuration['persons'][$personID]      = Persons::getLNFName($personID, true);
         }
 
         $configuration['roomDeltas'] = [];

@@ -15,18 +15,18 @@ use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Persons;
 
 /**
- * Class which manages stored teacher data.
+ * Class which manages stored person data.
  */
-class Teacher extends MergeModel
+class Person extends MergeModel
 {
-    protected $deptResource = 'teacherID';
+    protected $deptResource = 'personID';
 
-    protected $fkColumn = 'teacherID';
+    protected $fkColumn = 'personID';
 
-    protected $tableName = 'teachers';
+    protected $tableName = 'persons';
 
     /**
-     * Provides user access checks to teachers
+     * Provides user access checks to persons
      *
      * @return boolean  true if the user may edit the given resource, otherwise false
      */
@@ -39,9 +39,9 @@ class Teacher extends MergeModel
         $plannerFor = Access::getAccessibleDepartments('schedule');
 
         foreach ($this->selected as $selected) {
-            $teacherDepartments = Persons:: getDepartmentIDs($selected);
-            foreach ($teacherDepartments as $teacherDepartment) {
-                if (in_array($teacherDepartment, $plannerFor)) {
+            $personDepartments = Persons:: getDepartmentIDs($selected);
+            foreach ($personDepartments as $personDepartment) {
+                if (in_array($personDepartment, $plannerFor)) {
                     return true;
                 }
             }
@@ -51,35 +51,35 @@ class Teacher extends MergeModel
     }
 
     /**
-     * Removes potential duplicates before the subject teacher associations are updated.
+     * Removes potential duplicates before the subject person associations are updated.
      *
      * @return bool true if no error occurred, otherwise false
      */
-    private function removeDuplicateResponsibilities()
+    private function removeDuplicateRoles()
     {
         $updateIDs = $this->selected;
         $mergeID   = array_shift($updateIDs);
         $updateIDs = "'" . implode("', '", $updateIDs) . "'";
-        $table     = '#__thm_organizer_subject_teachers';
+        $table     = '#__thm_organizer_subject_persons';
 
         $selectQuery = $this->_db->getQuery(true);
-        $selectQuery->select('DISTINCT subjectID, teacherResp')
+        $selectQuery->select('DISTINCT subjectID, role')
             ->from($table)
-            ->where("teacherID = $mergeID");
+            ->where("personID = $mergeID");
         $this->_db->setQuery($selectQuery);
 
-        $existingResps = OrganizerHelper::executeQuery('loadAssocList');
+        $existingRoles = OrganizerHelper::executeQuery('loadAssocList');
 
-        if (!empty($existingResps)) {
+        if (!empty($existingRoles)) {
             $potentialDuplicates = [];
-            foreach ($existingResps as $resp) {
+            foreach ($existingRoles as $role) {
                 $potentialDuplicates[]
-                    = "(subjectID = '{$resp['subjectID']}' AND teacherResp = '{$resp['teacherResp']}')";
+                    = "(subjectID = '{$role['subjectID']}' AND role = '{$role['role']}')";
             }
             $potentialDuplicates = '(' . implode(' OR ', $potentialDuplicates) . ')';
 
             $deleteQuery = $this->_db->getQuery(true);
-            $deleteQuery->delete($table)->where("teacherID IN ( $updateIDs )")->where($potentialDuplicates);
+            $deleteQuery->delete($table)->where("personID IN ( $updateIDs )")->where($potentialDuplicates);
             $this->_db->setQuery($deleteQuery);
             $success = (bool)OrganizerHelper::executeQuery('execute');
             if (!$success) {
@@ -102,18 +102,18 @@ class Teacher extends MergeModel
             return false;
         }
 
-        $ltUpdated = $this->updateAssociation('lesson_teachers');
-        if (!$ltUpdated) {
+        $ipUpdated = $this->updateAssociation('instance_persons');
+        if (!$ipUpdated) {
             return false;
         }
 
-        $duplicatesRemoved = $this->removeDuplicateResponsibilities();
+        $duplicatesRemoved = $this->removeDuplicateRoles();
         if (!$duplicatesRemoved) {
             return false;
         }
 
-        $stUpdated = $this->updateAssociation('subject_teachers');
-        if (!$stUpdated) {
+        $spUpdated = $this->updateAssociation('subject_persons');
+        if (!$spUpdated) {
             return false;
         }
 
@@ -139,9 +139,9 @@ class Teacher extends MergeModel
 
         foreach ($schedule->lessons as $lessonIndex => $lesson) {
             foreach ($lesson->events as $subjectID => $subjectConfig) {
-                foreach ($subjectConfig->persons as $teacherID => $delta) {
-                    if (in_array($teacherID, $updateIDs)) {
-                        unset($schedule->lessons->$lessonIndex->events->$subjectID->persons->$teacherID);
+                foreach ($subjectConfig->persons as $personID => $delta) {
+                    if (in_array($personID, $updateIDs)) {
+                        unset($schedule->lessons->$lessonIndex->events->$subjectID->persons->$personID);
                         $schedule->lessons->$lessonIndex->events->$subjectID->persons->$mergeID = $delta;
                     }
                 }
@@ -152,10 +152,10 @@ class Teacher extends MergeModel
             $inConfig      = false;
             $configuration = json_decode($configuration);
 
-            foreach ($configuration->persons as $teacherID => $delta) {
-                if (in_array($teacherID, $updateIDs)) {
+            foreach ($configuration->persons as $personID => $delta) {
+                if (in_array($personID, $updateIDs)) {
                     $inConfig = true;
-                    unset($configuration->persons->$teacherID);
+                    unset($configuration->persons->$personID);
                     $configuration->persons->$mergeID = $delta;
                 }
             }
@@ -167,7 +167,7 @@ class Teacher extends MergeModel
     }
 
     /**
-     * Updates the lesson configurations table with the teacher id changes.
+     * Updates the lesson configurations table with the person id changes.
      *
      * @return bool
      */
@@ -186,7 +186,7 @@ class Teacher extends MergeModel
 
         foreach ($updateIDs as $updateID) {
             $selectQuery->clear('where');
-            $regexp = '"teachers":\\{("[0-9]+":"[\w]*",)*"' . $updateID . '"';
+            $regexp = '"persons":\\{("[0-9]+":"[\w]*",)*"' . $updateID . '"';
             $selectQuery->where("configuration REGEXP '$regexp'");
             $this->_db->setQuery($selectQuery);
 
@@ -198,13 +198,13 @@ class Teacher extends MergeModel
             foreach ($storedConfigurations as $storedConfiguration) {
                 $configuration = json_decode($storedConfiguration['configuration'], true);
 
-                $oldDelta = $configuration['teachers'][$updateID];
-                unset($configuration['teachers'][$updateID]);
+                $oldDelta = $configuration['persons'][$updateID];
+                unset($configuration['persons'][$updateID]);
 
                 // The new id is not yet an index, or it is, but has no delta value and the old id did
-                if (!isset($configuration['teachers'][$mergeID])
-                    or (empty($configuration['teachers'][$mergeID]) and !empty($oldDelta))) {
-                    $configuration['teachers'][$mergeID] = $oldDelta;
+                if (!isset($configuration['persons'][$mergeID])
+                    or (empty($configuration['persons'][$mergeID]) and !empty($oldDelta))) {
+                    $configuration['persons'][$mergeID] = $oldDelta;
                 }
 
                 $configuration = json_encode($configuration);

@@ -72,7 +72,7 @@ abstract class MergeModel extends BaseModel
         $entries        = $this->getEntries();
 
         $keyProperties = ['untisID'];
-        if ($this->fkColumn == 'teacherID') {
+        if ($this->fkColumn == 'personID') {
             $keyProperties[] = 'username';
         }
 

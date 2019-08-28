@@ -229,7 +229,7 @@ class DepartmentOccupancy extends BaseModel
     /**
      * Retrieves room type options
      *
-     * @return array an array of teacher options
+     * @return array an array of person options
      */
     public function getRoomtypeOptions()
     {

@@ -16,7 +16,7 @@ use Organizer\Helpers\ResourceHelper;
 use stdClass;
 
 /**
- * Provides general functions for teacher access checks, data retrieval and display.
+ * Provides general functions for person access checks, data retrieval and display.
  */
 class Persons extends ResourceHelper implements UntisXMLValidator
 {
@@ -116,7 +116,7 @@ class Persons extends ResourceHelper implements UntisXMLValidator
     }
 
     /**
-     * Checks whether teacher nodes have the expected structure and required
+     * Checks whether person nodes have the expected structure and required
      * information
      *
      * @param object &$model the validating schedule model

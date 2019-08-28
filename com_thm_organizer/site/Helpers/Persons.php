@@ -13,7 +13,7 @@ namespace Organizer\Helpers;
 use Joomla\CMS\Factory;
 
 /**
- * Provides general functions for teacher access checks, data retrieval and display.
+ * Provides general functions for person access checks, data retrieval and display.
  */
 class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 {
@@ -26,9 +26,9 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     const YES = 1;
 
     /**
-     * Retrieves teacher entries from the database
+     * Retrieves person entries from the database
      *
-     * @return string  the teachers who hold courses for the selected program and pool
+     * @return string  the persons who hold courses for the selected program and pool
      */
     public static function byProgramOrPool()
     {
@@ -47,8 +47,8 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('DISTINCT t.id, t.forename, t.surname')->from('#__thm_organizer_teachers AS t');
-        $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id');
+        $query->select('DISTINCT t.id, t.forename, t.surname')->from('#__thm_organizer_persons AS t');
+        $query->innerJoin('#__thm_organizer_subject_persons AS st ON st.personID = t.id');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
         if (!empty($boundarySet)) {
             $where   = '';
@@ -66,25 +66,25 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         $query->order('t.surname');
         $dbo->setQuery($query);
 
-        $teachers = OrganizerHelper::executeQuery('loadObjectList');
-        if (empty($teachers)) {
+        $persons = OrganizerHelper::executeQuery('loadObjectList');
+        if (empty($persons)) {
             return '[]';
         }
 
-        foreach ($teachers as $key => $value) {
-            $teachers[$key]->name = empty($value->forename) ?
+        foreach ($persons as $key => $value) {
+            $persons[$key]->name = empty($value->forename) ?
                 $value->surname : $value->surname . ', ' . $value->forename;
         }
 
-        return json_encode($teachers);
+        return json_encode($persons);
     }
 
     /**
-     * Checks for multiple teacher entries (responsibilities) for a subject and removes the lesser
+     * Checks for multiple person entries (roles) for a subject and removes the lesser
      *
-     * @param array &$list the list of teachers responsilbe for a subject
+     * @param array &$list the list of persons with a role for the subject
      *
-     * @return void  removes duplicate list entries dependent on responsibility
+     * @return void  removes duplicate list entries dependent on role
      */
     private static function ensureUnique(&$list)
     {
@@ -95,7 +95,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 
         $valueCount = array_count_values($keysToIds);
         foreach ($list as $key => $item) {
-            $unset = ($valueCount[$item['id']] > 1 and $item['teacherResp'] > 1);
+            $unset = ($valueCount[$item['id']] > 1 and $item['role'] > 1);
             if ($unset) {
                 unset($list[$key]);
             }
@@ -103,65 +103,65 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     }
 
     /**
-     * Retrieves the teacher responsible for the subject's development
+     * Retrieves the persons associated with a given subject, optionally filtered by role.
      *
-     * @param int  $subjectID      the subject's id
-     * @param int  $responsibility represents the teacher's level of responsibility for the subject
-     * @param bool $multiple       whether or not multiple results are desired
-     * @param bool $unique         whether or not unique results are desired
+     * @param int  $subjectID the subject's id
+     * @param int  $role      represents the person's role for the subject
+     * @param bool $multiple  whether or not multiple results are desired
+     * @param bool $unique    whether or not unique results are desired
      *
-     * @return array  an array of teacher data
+     * @return array  an array of person data
      */
-    public static function getDataBySubject($subjectID, $responsibility = null, $multiple = false, $unique = true)
+    public static function getDataBySubject($subjectID, $role = null, $multiple = false, $unique = true)
     {
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, teacherResp, untisID');
-        $query->from('#__thm_organizer_teachers AS t');
-        $query->innerJoin('#__thm_organizer_subject_teachers AS st ON t.id = st.teacherID ');
+        $query->select('t.id, t.surname, t.forename, t.title, t.username, u.id AS userID, role, untisID');
+        $query->from('#__thm_organizer_persons AS t');
+        $query->innerJoin('#__thm_organizer_subject_persons AS st ON t.id = st.personID ');
         $query->leftJoin('#__users AS u ON t.username = u.username');
         $query->where("st.subjectID = '$subjectID' ");
 
-        if (!empty($responsibility)) {
-            $query->where("st.teacherResp = '$responsibility'");
+        if (!empty($role)) {
+            $query->where("st.role = '$role'");
         }
 
         $query->order('surname ASC');
         $dbo->setQuery($query);
 
         if ($multiple) {
-            $teacherList = OrganizerHelper::executeQuery('loadAssocList');
-            if (empty($teacherList)) {
+            $personList = OrganizerHelper::executeQuery('loadAssocList');
+            if (empty($personList)) {
                 return [];
             }
 
             if ($unique) {
-                self::ensureUnique($teacherList);
+                self::ensureUnique($personList);
             }
 
-            return $teacherList;
+            return $personList;
         }
 
         return OrganizerHelper::executeQuery('loadAssoc', []);
     }
 
     /**
-     * Generates a default teacher text based upon organizer's internal data
+     * Generates a default person text based upon organizer's internal data
      *
-     * @param int $teacherID the teacher's id
+     * @param int $personID the person's id
      *
-     * @return string  the default name of the teacher
+     * @return string  the default name of the person
      */
-    public static function getDefaultName($teacherID)
+    public static function getDefaultName($personID)
     {
-        $teacher = self::getTable();
-        $teacher->load($teacherID);
+        $person = self::getTable();
+        $person->load($personID);
 
         $return = '';
-        if (!empty($teacher->id)) {
-            $title    = empty($teacher->title) ? '' : "{$teacher->title} ";
-            $forename = empty($teacher->forename) ? '' : "{$teacher->forename} ";
-            $surname  = $teacher->surname;
+        if (!empty($person->id)) {
+            $title    = empty($person->title) ? '' : "{$person->title} ";
+            $forename = empty($person->forename) ? '' : "{$person->forename} ";
+            $surname  = $person->surname;
             $return   .= $title . $forename . $surname;
         }
 
@@ -181,7 +181,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         $query = $dbo->getQuery(true);
         $query->select('departmentID')
             ->from('#__thm_organizer_department_resources')
-            ->where("teacherID = $resourceID");
+            ->where("personID = $resourceID");
         $dbo->setQuery($query);
         $departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
@@ -189,13 +189,13 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     }
 
     /**
-     * Gets the departments with which the teacher is associated
+     * Gets the departments with which the person is associated
      *
-     * @param int $teacherID the teacher's id
+     * @param int $personID the person's id
      *
-     * @return array the departments with which the teacher is associated id => name
+     * @return array the departments with which the person is associated id => name
      */
-    public static function getDepartmentNames($teacherID)
+    public static function getDepartmentNames($personID)
     {
         $dbo   = Factory::getDbo();
         $tag   = Languages::getTag();
@@ -204,7 +204,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         $query->select("d.shortName_$tag AS name")
             ->from('#__thm_organizer_departments AS d')
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.departmentID = d.id')
-            ->where("teacherID = $teacherID");
+            ->where("personID = $personID");
         $dbo->setQuery($query);
         $departments = OrganizerHelper::executeQuery('loadColumn', []);
 
@@ -212,25 +212,25 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     }
 
     /**
-     * Generates a preformatted teacher text based upon organizer's internal data
+     * Generates a preformatted person text based upon organizer's internal data
      *
-     * @param int  $teacherID the teacher's id
-     * @param bool $short     Whether or not the teacher's forename should be abbrevieated
+     * @param int  $personID the person's id
+     * @param bool $short    Whether or not the person's forename should be abbrevieated
      *
-     * @return string  the default name of the teacher
+     * @return string  the default name of the person
      */
-    public static function getLNFName($teacherID, $short = false)
+    public static function getLNFName($personID, $short = false)
     {
-        $teacher = self::getTable();
-        $teacher->load($teacherID);
+        $person = self::getTable();
+        $person->load($personID);
 
         $return = '';
-        if (!empty($teacher->id)) {
-            if (!empty($teacher->forename)) {
+        if (!empty($person->id)) {
+            if (!empty($person->forename)) {
                 // Getting the first letter by other means can cause encoding problems with 'interesting' first names.
-                $forename = $short ? mb_substr($teacher->forename, 0, 1) . '.' : $teacher->forename;
+                $forename = $short ? mb_substr($person->forename, 0, 1) . '.' : $person->forename;
             }
-            $return = $teacher->surname;
+            $return = $person->surname;
             $return .= empty($forename) ? '' : ", $forename";
         }
 
@@ -238,11 +238,11 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     }
 
     /**
-     * Checks whether the user is a registered teacher returning their internal teacher id if existent.
+     * Checks whether the user is a registered person returning their internal person id if existent.
      *
      * @param int $userID the user id if empty the current user is used
      *
-     * @return int the teacher id if the user is a teacher, otherwise 0
+     * @return int the person id if the user is a person, otherwise 0
      */
     public static function getIDByUserID($userID = null)
     {
@@ -254,7 +254,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
         $query->select('id')
-            ->from('#__thm_organizer_teachers')
+            ->from('#__thm_organizer_persons')
             ->where("username = '{$user->username}'");
         $dbo->setQuery($query);
 
@@ -269,19 +269,19 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     public static function getOptions()
     {
         $options = [];
-        foreach (self::getResources() as $teacher) {
-            $name      = self::getLNFName($teacher['id']);
-            $options[] = HTML::_('select.option', $teacher['id'], $name);
+        foreach (self::getResources() as $person) {
+            $name      = self::getLNFName($person['id']);
+            $options[] = HTML::_('select.option', $person['id'], $name);
         }
 
         return $options;
     }
 
     /**
-     * Getter method for teachers in database. Only retrieving the IDs here allows for formatting the names according to
+     * Getter method for persons in database. Only retrieving the IDs here allows for formatting the names according to
      * the needs of the calling views.
      *
-     * @return array  the scheduled teachers which the user has access to
+     * @return array  the scheduled persons which the user has access to
      */
     public static function getResources()
     {
@@ -291,8 +291,8 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         }
 
         $departmentIDs = Input::getFilterIDs('department');
-        $isTeacher     = self::getIDByUserID();
-        if (empty($departmentIDs) and empty($isTeacher)) {
+        $thisPersonID  = self::getIDByUserID();
+        if (empty($departmentIDs) and empty($thisPersonID)) {
             return [];
         }
 
@@ -307,17 +307,17 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         $query = $dbo->getQuery(true);
 
         $query->select('DISTINCT t.*')
-            ->from('#__thm_organizer_teachers AS t')
-            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.teacherID = t.id')
+            ->from('#__thm_organizer_persons AS t')
+            ->innerJoin('#__thm_organizer_lesson_persons AS lt ON lt.personID = t.id')
             ->order('t.surname, t.forename');
 
         $wherray = [];
-        if ($isTeacher) {
+        if ($thisPersonID) {
             $wherray[] = "t.username = '{$user->username}'";
         }
 
         if (count($departmentIDs)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.teacherID = lt.teacherID');
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.personID = lt.personID');
 
             $where = 'dr.departmentID IN (' . implode(',', $departmentIDs) . ')';
 
@@ -343,16 +343,32 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     }
 
     /**
-     * Function to sort teachers by their surnames and forenames.
+     * Function to sort persons by their surnames and forenames.
      *
-     * @param array &$teachers the teachers array to sort.
+     * @param array &$persons the persons array to sort.
      */
-    public static function nameSort(&$teachers)
+    public static function nameSort(&$persons)
     {
-        uasort($teachers, function ($teacherOne, $teacherTwo) {
-            $oneResp = isset($teacherOne['teacherResp'][self::COORDINATES]);
-            $twoResp = isset($teacherTwo['teacherResp'][self::COORDINATES]);
-            if ($oneResp or !$twoResp) {
+        uasort($persons, function ($personOne, $personTwo) {
+            if ($personOne['surname'] == $personTwo['surname']) {
+                return $personOne['forename'] > $personTwo['forename'];
+            }
+
+            return $personOne['surname'] > $personTwo['surname'];
+        });
+    }
+
+    /**
+     * Function to sort persons by their roles.
+     *
+     * @param array &$persons the persons array to sort.
+     */
+    public static function roleSort(&$persons)
+    {
+        uasort($persons, function ($personOne, $personTwo) {
+            $roleOne = isset($personOne['role'][self::COORDINATES]);
+            $roleTwo = isset($personTwo['role'][self::COORDINATES]);
+            if ($roleOne or !$roleTwo) {
                 return 1;
             }
 
@@ -361,30 +377,14 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
     }
 
     /**
-     * Function to sort teachers by their surnames and forenames.
+     * Checks whether the person is associated with lessons
      *
-     * @param array &$teachers the teachers array to sort.
+     * @param string $table    the dynamic part of the table name
+     * @param int    $personID the id of the person being checked
+     *
+     * @return bool true if the person is assigned to a lesson
      */
-    public static function respSort(&$teachers)
-    {
-        uasort($teachers, function ($teacherOne, $teacherTwo) {
-            if ($teacherOne['surname'] == $teacherTwo['surname']) {
-                return $teacherOne['forename'] > $teacherTwo['forename'];
-            }
-
-            return $teacherOne['surname'] > $teacherTwo['surname'];
-        });
-    }
-
-    /**
-     * Checks whether the teacher is associated with lessons
-     *
-     * @param string $table     the dynamic part of the table name
-     * @param int    $teacherID the id of the teacher being checked
-     *
-     * @return bool true if the teacher is assigned to a lesson
-     */
-    public static function teaches($table, $teacherID)
+    public static function teaches($table, $personID)
     {
         if (empty($table)) {
             return false;
@@ -392,7 +392,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
-        $query->select('COUNT(*)')->from("#__thm_organizer_{$table}_teachers")->where("teacherID = '$teacherID'");
+        $query->select('COUNT(*)')->from("#__thm_organizer_{$table}_persons")->where("personID = '$personID'");
         $dbo->setQuery($query);
 
         return (bool)OrganizerHelper::executeQuery('loadResult');

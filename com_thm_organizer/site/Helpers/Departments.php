@@ -37,7 +37,7 @@ class Departments extends ResourceHelper implements Selectable
         $resource = OrganizerHelper::getResource($view);
         if ($access === 'schedule') {
             $query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
-            if (in_array($resource, ['category', 'teacher'])) {
+            if (in_array($resource, ['category', 'person'])) {
                 $query->where("dpr.{$resource}ID IS NOT NULL");
             }
         } elseif ($access === 'document') {

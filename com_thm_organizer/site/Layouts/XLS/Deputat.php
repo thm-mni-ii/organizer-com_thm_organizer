@@ -325,13 +325,13 @@ class Deputat
     }
 
     /**
-     * Creates and formats a row to be used for a deputat relevant responsibility listing.
+     * Creates and formats a row to be used for a deputat relevant role listing.
      *
      * @param int $row the row to add
      *
      * @return void
      */
-    private function addResponsibilityRow($row)
+    private function addRoleRow($row)
     {
         $activeSheet = $this->spreadSheet->getActiveSheet();
 
@@ -473,7 +473,7 @@ class Deputat
     }
 
     /**
-     * Adds the section which lists responsibilities for which deputat is calculated
+     * Adds the section which lists roles for which deputat is calculated
      *
      * @param int &$row the current row number
      *
@@ -502,7 +502,7 @@ class Deputat
 
         $activeSheet = $this->spreadSheet->getActiveSheet();
 
-        $this->addResponsibilityRow($row);
+        $this->addRoleRow($row);
 
         $activeSheet->setCellValue("B$row", "LVVO § 5 (1)");
         $title = "LVVO § 5 (1):";
@@ -515,7 +515,7 @@ class Deputat
         $activeSheet->setCellValue("D$row", 'Dekanatsamt (Dekan, Studiendekan, Prodekan)');
         $row++;
 
-        $this->addResponsibilityRow($row);
+        $this->addRoleRow($row);
 
         $activeSheet->setCellValue("B$row", "LVVO § 5 (2, 4 und 5)");
         $title = "LVVO vom 10.9.2013, § 5 (2):";
@@ -556,7 +556,7 @@ class Deputat
         $row++;
         $endRow = $row;
 
-        $this->addResponsibilityRow($row);
+        $this->addRoleRow($row);
 
         $activeSheet->setCellValue("B$row", "LVVO § 6");
         $title = "LVVO vom 10.9.2013, § 6:";

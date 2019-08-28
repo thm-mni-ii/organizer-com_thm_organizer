@@ -15,11 +15,11 @@ use Organizer\Helpers\Access;
 use Organizer\Helpers\Persons;
 
 /**
- * Class loads a form for editing teacher data.
+ * Class loads a form for editing person data.
  */
-class TeacherEdit extends EditModel
+class PersonEdit extends EditModel
 {
-    protected $deptResource = 'teacher';
+    protected $deptResource = 'person';
 
     /**
      * Checks for user authorization to access the view.

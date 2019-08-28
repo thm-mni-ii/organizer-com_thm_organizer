@@ -15,7 +15,7 @@
             <option value="">ALL_POOLS</option>
             <option value="-1">NO_POOLS</option>
         </field>
-        <field name="teacherID" type="DocumentedTeachers" label="TEACHERS" onchange="this.form.submit();">
+        <field name="personID" type="DocumentedPersons" label="TEACHERS" onchange="this.form.submit();">
             <option value="">ALL_TEACHERS</option>
             <option value="-1">NO_TEACHERS</option>
         </field>

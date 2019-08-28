@@ -115,7 +115,7 @@ class RoomOverview extends BaseHTMLView
             $eventTip[] = '<div>';
             $eventTip[] = Languages::_('THM_ORGANIZER_DEPT_ORG') . ": {$event['department']}<br/>";
             $eventTip[] = Languages::_('THM_ORGANIZER_EVENT') . ": {$event['title']}<br/>";
-            $eventTip[] = Languages::_('THM_ORGANIZER_TEACHERS') . ": {$event['teachers']}";
+            $eventTip[] = Languages::_('THM_ORGANIZER_TEACHERS') . ": {$event['persons']}";
             if (!empty($event['comment'])) {
                 $eventTip[] = '<br />';
                 $eventTip[] = Languages::_('THM_ORGANIZER_EXTRA_INFORMATION') . ": {$event['comment']}";

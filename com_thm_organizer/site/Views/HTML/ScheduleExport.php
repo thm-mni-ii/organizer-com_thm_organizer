@@ -59,10 +59,10 @@ class ScheduleExport extends SelectionView
 
         $this->setResourceField('group', 'content', $attribs, false);
 
-        $user = Factory::getUser();
-        $showTeachers = ($user->id and (Helpers\Access::allowViewAccess() or Helpers\Persons::getIDByUserID()));
-        if ($showTeachers) {
-            $this->setResourceField('teacher', 'content', $attribs, false);
+        $user         = Factory::getUser();
+        $showPersons = ($user->id and (Helpers\Access::allowViewAccess() or Helpers\Persons::getIDByUserID()));
+        if ($showPersons) {
+            $this->setResourceField('person', 'content', $attribs, false);
         }
 
         $this->setResourceField('room', 'content', $attribs, false);
@@ -172,8 +172,8 @@ class ScheduleExport extends SelectionView
         $this->setField('myschedule', 'personal', 'MY_SCHEDULE', $myScheduleField);
 
         if (Helpers\Persons::getIDByUserID()) {
-            $teacherField = '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">';
-            $this->setField('myteachingschedule', 'personal', 'MY_TEACHING_SCHEDULE', $teacherField);
+            $personField = '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">';
+            $this->setField('myteachingschedule', 'personal', 'MY_TEACHING_SCHEDULE', $personField);
         }
     }
 

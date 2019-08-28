@@ -75,7 +75,7 @@ $metric = 0;
                                     }
                                     ?>
                                 </div>
-                                <div class="event-teachers"><?php echo implode(' / ', $lesson['teachers']); ?></div>
+                                <div class="event-persons"><?php echo implode(' / ', $lesson['persons']); ?></div>
                                 <?php
                                 if (!empty($lesson['comment'])) {
                                     ?>

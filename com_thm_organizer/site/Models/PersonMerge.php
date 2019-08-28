@@ -13,9 +13,9 @@ namespace Organizer\Models;
 use Organizer\Helpers\Access;
 
 /**
- * Class loads a form for merging teacher data.
+ * Class loads a form for merging person data.
  */
-class TeacherMerge extends FormModel
+class PersonMerge extends FormModel
 {
     /**
      * Checks for user authorization to access the view

@@ -116,34 +116,34 @@ class Subjects extends ListView
         $headers['checkbox']     = '';
         $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
         $headers['externalID']   = HTML::sort('MODULE_CODE', 'externalID', $direction, $ordering);
-        $headers['teachers']     = Languages::_('THM_ORGANIZER_TEACHERS');
+        $headers['persons']      = Languages::_('THM_ORGANIZER_TEACHERS');
         $headers['creditpoints'] = Languages::_('THM_ORGANIZER_CREDIT_POINTS');
 
         return $headers;
     }
 
     /**
-     * Retrieves the teacher texts and formats them according to their responisibilites for the subject being iterated
+     * Retrieves the person texts and formats them according to their roles for the subject being iterated
      *
      * @param object $subject the subject being iterated
      *
      * @return string
      */
-    private function getTeacherDisplay($subject)
+    private function getPersonDisplay($subject)
     {
         $names = [];
-        foreach ($subject->persons as $teacherID => $teacher) {
-            $name = $this->getTeacherText($teacher);
+        foreach ($subject->persons as $personID => $person) {
+            $name = $this->getPersonText($person);
 
-            $responsibilities = [];
-            if (isset($teacher['teacherResp'][self::COORDINATES])) {
-                $responsibilities[] = Languages::_('THM_ORGANIZER_COORDINATOR_ABBR');
+            $roles = [];
+            if (isset($person['role'][self::COORDINATES])) {
+                $roles[] = Languages::_('THM_ORGANIZER_COORDINATOR_ABBR');
             }
-            if (isset($teacher['teacherResp'][self::TEACHES])) {
-                $responsibilities[] = Languages::_('THM_ORGANIZER_TEACHER_ABBR');
+            if (isset($person['role'][self::TEACHES])) {
+                $roles[] = Languages::_('THM_ORGANIZER_TEACHER_ABBR');
             }
 
-            $name    .= ' (' . implode(', ', $responsibilities) . ')';
+            $name    .= ' (' . implode(', ', $roles) . ')';
             $names[] = $name;
         }
 
@@ -151,24 +151,24 @@ class Subjects extends ListView
     }
 
     /**
-     * Generates the teacher text (surname(, forename)?( title)?) for the given teacher
+     * Generates the person text (surname(, forename)?( title)?) for the given person
      *
-     * @param array $teacher the subject teacher
+     * @param array $person the subject person
      *
      * @return string
      */
-    public function getTeacherText($teacher)
+    public function getPersonText($person)
     {
         $showTitle = (bool)$this->params->get('showTitle');
 
-        $text = $teacher['surname'];
+        $text = $person['surname'];
 
-        if (!empty($teacher['forename'])) {
-            $text .= ", {$teacher['forename']}";
+        if (!empty($person['forename'])) {
+            $text .= ", {$person['forename']}";
         }
 
-        if ($showTitle and !empty($teacher['title'])) {
-            $text .= " {$teacher['title']}";
+        if ($showTitle and !empty($person['title'])) {
+            $text .= " {$person['title']}";
         }
 
         return $text;
@@ -199,7 +199,7 @@ class Subjects extends ListView
             $processedItems[$index]['checkbox']     = $checkbox;
             $processedItems[$index]['name']         = HTML::_('link', $thisLink, $subject->name);
             $processedItems[$index]['externalID']   = HTML::_('link', $thisLink, $subject->externalID);
-            $processedItems[$index]['teachers']     = $this->getTeacherDisplay($subject);
+            $processedItems[$index]['persons']      = $this->getPersonDisplay($subject);
             $processedItems[$index]['creditpoints'] = empty($subject->creditpoints) ? '' : $subject->creditpoints;
 
             $index++;

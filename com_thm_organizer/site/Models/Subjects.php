@@ -69,7 +69,7 @@ class Subjects extends ListModel implements FiltersFormFilters
         }
 
         foreach ($items as $item) {
-            $item->persons = SubjectsHelper::getTeachers($item->id);
+            $item->persons = SubjectsHelper::getPersons($item->id);
         }
 
         return $items;
@@ -120,14 +120,14 @@ class Subjects extends ListModel implements FiltersFormFilters
             Mappings::setResourceIDFilter($query, $calledPoolID, 'pool', 'subject');
         }
 
-        $teacherID = $this->state->get('filter.teacherID', '');
-        if (!empty($teacherID)) {
-            if ($teacherID === '-1') {
-                $query->leftJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
+        $personID = $this->state->get('filter.personID', '');
+        if (!empty($personID)) {
+            if ($personID === '-1') {
+                $query->leftJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id')
                     ->where('st.subjectID IS NULL');
             } else {
-                $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
-                    ->where("st.teacherID = $teacherID");
+                $query->innerJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id')
+                    ->where("st.personID = $personID");
             }
         }
 

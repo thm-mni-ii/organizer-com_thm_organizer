@@ -166,10 +166,10 @@ class OrganizerHelper
             'pools'        => 'pool',
             'programs'     => 'program',
             'rooms'        => 'room',
-            'roomtypes'   => 'roomtype',
+            'roomtypes'    => 'roomtype',
             'schedules'    => 'schedule',
             'subjects'     => 'subject',
-            'teachers'     => 'teacher',
+            'persons'      => 'person',
             'topics'       => 'topic'
         ];
 

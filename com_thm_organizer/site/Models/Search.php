@@ -29,7 +29,7 @@ class Search extends BaseModel
 
     public $results;
 
-    private $teacherID;
+    private $personID;
 
     private $terms;
 
@@ -165,7 +165,7 @@ class Search extends BaseModel
      */
     public function getResults()
     {
-        $this->teacherID  = Helpers\Persons::getIDByUserID();
+        $this->personID   = Helpers\Persons::getIDByUserID();
         $this->schedDepts = Access::getAccessibleDepartments('schedule');
 
         /**
@@ -194,7 +194,7 @@ class Search extends BaseModel
         $this->searchSubjects();
         $this->searchPools();
         $this->searchPrograms();
-        $this->searchTeachers();
+        $this->searchPersons();
         $this->searchRooms();
         $this->searchDepartments();
 
@@ -545,52 +545,52 @@ class Search extends BaseModel
     }
 
     /**
-     * Processes teacher results into a standardized array for output
+     * Processes person results into a standardized array for output
      *
-     * @param array $results the teacher results
+     * @param array $results the person results
      *
-     * @return array $teachers
+     * @return array $persons
      */
-    private function processTeachers($results)
+    private function processPersons($results)
     {
-        $teachers = [];
+        $persons = [];
 
         if (!empty($results)) {
-            foreach ($results as $teacher) {
-                $documented = Helpers\Persons::teaches('subject', $teacher['id']);
-                $teaches    = Helpers\Persons::teaches('lesson', $teacher['id']);
+            foreach ($results as $person) {
+                $documented = Helpers\Persons::teaches('subject', $person['id']);
+                $teaches    = Helpers\Persons::teaches('lesson', $person['id']);
 
                 // Nothing to link
                 if (!$documented and !$teaches) {
                     continue;
                 }
 
-                $teacherName = Helpers\Persons::getDefaultName($teacher['id']);
+                $personName = Helpers\Persons::getDefaultName($person['id']);
 
-                $teachers[$teacher['id']]         = [];
-                $teachers[$teacher['id']]['text'] = Languages::_('THM_ORGANIZER_TEACHER') . ": {$teacherName}";
+                $persons[$person['id']]         = [];
+                $persons[$person['id']]['text'] = Languages::_('THM_ORGANIZER_TEACHER') . ": {$personName}";
 
                 $links = [];
 
                 if ($documented) {
-                    $links['subjects'] = "?option=com_thm_organizer&view=subjects&teacherIDs={$teacher['id']}";
+                    $links['subjects'] = "?option=com_thm_organizer&view=subjects&personIDs={$person['id']}";
                 }
 
                 $overlap = array_intersect(
                     $this->schedDepts,
-                    Helpers\Persons::getDepartmentIDs($teacher['id'])
+                    Helpers\Persons::getDepartmentIDs($person['id'])
                 );
 
-                $isTeacher = $this->teacherID == $teacher['id'];
-                if ($teaches and (count($overlap) or $isTeacher)) {
-                    $links['schedule'] = "?option=com_thm_organizer&view=schedule_grid&teacherIDs={$teacher['id']}";
+                $isPerson = $this->personID == $person['id'];
+                if ($teaches and (count($overlap) or $isPerson)) {
+                    $links['schedule'] = "?option=com_thm_organizer&view=schedule_grid&personIDs={$person['id']}";
                 }
 
-                $teachers[$teacher['id']]['links'] = $links;
+                $persons[$person['id']]['links'] = $links;
             }
         }
 
-        return $teachers;
+        return $persons;
     }
 
     /**
@@ -1107,11 +1107,11 @@ class Search extends BaseModel
         $courseQuery->clear('where');
         $subjectQuery->clear('where');
 
-        $courseQuery->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.lessonCourseID = lcrs.id')
-            ->innerJoin('#__thm_organizer_teachers AS t on lt.teacherID = t.id');
+        $courseQuery->innerJoin('#__thm_organizer_lesson_persons AS lt ON lt.lessonCourseID = lcrs.id')
+            ->innerJoin('#__thm_organizer_persons AS t on lt.personID = t.id');
 
-        $subjectQuery->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id')
-            ->innerJoin('#__thm_organizer_teachers AS t on st.teacherID = t.id');
+        $subjectQuery->innerJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id')
+            ->innerJoin('#__thm_organizer_persons AS t on st.personID = t.id');
 
         if ($termCount == 1) {
             $courseQuery->where("t.surname LIKE '%$initialTerm%'");
@@ -1146,11 +1146,11 @@ class Search extends BaseModel
     }
 
     /**
-     * Retrieves prioritized teacher search results
+     * Retrieves prioritized person search results
      *
      * @return void adds to the results property
      */
-    private function searchTeachers()
+    private function searchPersons()
     {
         $terms = $this->terms;
 
@@ -1168,7 +1168,7 @@ class Search extends BaseModel
 
         $query = $this->_db->getQuery(true);
         $query->select('id , surname, forename, title')
-            ->from('#__thm_organizer_teachers')
+            ->from('#__thm_organizer_persons')
             ->order('forename, surname ASC');
 
         // EXACT => requires a forename and surname match
@@ -1193,9 +1193,9 @@ class Search extends BaseModel
             $this->addInclusiveConditions($query, $wherray);
             $this->_db->setQuery($query);
 
-            $eTeachers = OrganizerHelper::executeQuery('loadAssocList');
+            $ePersons = OrganizerHelper::executeQuery('loadAssocList');
 
-            $this->results['exact']['teachers'] = $this->processTeachers($eTeachers);
+            $this->results['exact']['persons'] = $this->processPersons($ePersons);
         }
 
         // Strong
@@ -1211,9 +1211,9 @@ class Search extends BaseModel
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        $sTeachers = OrganizerHelper::executeQuery('loadAssocList');
+        $sPersons = OrganizerHelper::executeQuery('loadAssocList');
 
-        $this->results['strong']['teachers'] = $this->processTeachers($sTeachers);
+        $this->results['strong']['persons'] = $this->processPersons($sPersons);
 
         // Good
 
@@ -1228,9 +1228,9 @@ class Search extends BaseModel
         $this->addInclusiveConditions($query, $wherray);
         $this->_db->setQuery($query);
 
-        $gTeachers = OrganizerHelper::executeQuery('loadAssocList');
+        $gPersons = OrganizerHelper::executeQuery('loadAssocList');
 
-        $this->results['good']['teachers'] = $this->processTeachers($gTeachers);
+        $this->results['good']['persons'] = $this->processPersons($gPersons);
     }
 
     /**

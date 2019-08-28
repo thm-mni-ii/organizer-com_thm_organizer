@@ -257,21 +257,21 @@ class ScheduleExport extends BaseModel
      *
      * @return array the document and page names
      */
-    private function getTeacherTitles()
+    private function getPersonTitles()
     {
-        $titles     = ['docTitle' => '', 'pageTitle' => ''];
-        $teacherIDs = array_values($this->parameters['teacherIDs']);
+        $titles    = ['docTitle' => '', 'pageTitle' => ''];
+        $personIDs = array_values($this->parameters['personIDs']);
 
-        if (empty($teacherIDs)) {
+        if (empty($personIDs)) {
             return $titles;
         }
 
-        $table       = OrganizerHelper::getTable('Teachers');
-        $oneResource = count($teacherIDs) === 1;
+        $table       = OrganizerHelper::getTable('Persons');
+        $oneResource = count($personIDs) === 1;
 
-        foreach ($teacherIDs as $teacherID) {
+        foreach ($personIDs as $personID) {
             try {
-                $success = $table->load($teacherID);
+                $success = $table->load($personID);
             } catch (Exception $exc) {
                 OrganizerHelper::message($exc->getMessage(), 'error');
 
@@ -280,14 +280,14 @@ class ScheduleExport extends BaseModel
 
             if ($success) {
                 if ($oneResource) {
-                    $displayName         = Persons::getDefaultName($teacherID);
+                    $displayName         = Persons::getDefaultName($personID);
                     $titles['docTitle']  = ApplicationHelper::stringURLSafe($displayName) . '_';
                     $titles['pageTitle'] = $displayName;
 
                     return $titles;
                 }
 
-                $displayName         = Persons::getLNFName($teacherID, true);
+                $displayName         = Persons::getLNFName($personID, true);
                 $untisID             = ApplicationHelper::stringURLSafe($table->untisID);
                 $titles['docTitle']  .= $untisID . '_';
                 $titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
@@ -346,8 +346,8 @@ class ScheduleExport extends BaseModel
             if (count($poolIDs = Input::getFilterIDs('pool'))) {
                 $parameters["poolIDs"] = [$poolIDs];
             }
-            if (count($teacherIDs = Input::getFilterIDs('teacher'))) {
-                $parameters["teacherIDs"] = [$teacherIDs];
+            if (count($personIDs = Input::getFilterIDs('person'))) {
+                $parameters["personIDs"] = [$personIDs];
             }
             if (count($roomIDs = Input::getFilterIDs('room'))) {
                 $parameters["roomIDs"] = [$roomIDs];
@@ -395,22 +395,22 @@ class ScheduleExport extends BaseModel
         $useLessons    = !empty($this->parameters['lessonIDs']);
         $useInstances  = !empty($this->parameters['instanceIDs']);
         $usePools      = !empty($this->parameters['poolIDs']);
-        $useTeachers   = !empty($this->parameters['teacherIDs']);
+        $usePersons   = !empty($this->parameters['personIDs']);
         $useRooms      = !empty($this->parameters['roomIDs']);
         $useSubjects   = !empty($this->parameters['subjectIDs']);
 
         if ($useMySchedule) {
             $docTitle  = 'mySchedule_';
             $pageTitle = Languages::_('THM_ORGANIZER_MY_SCHEDULE');
-        } elseif ((!$useLessons and !$useInstances) and ($usePools xor $useTeachers xor $useRooms xor $useSubjects)) {
+        } elseif ((!$useLessons and !$useInstances) and ($usePools xor $usePersons xor $useRooms xor $useSubjects)) {
             if ($usePools) {
                 $titles    = $this->getPoolTitles();
                 $docTitle  .= $titles['docTitle'];
                 $pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
             }
 
-            if ($useTeachers) {
-                $titles    = $this->getTeacherTitles();
+            if ($usePersons) {
+                $titles    = $this->getPersonTitles();
                 $docTitle  .= $titles['docTitle'];
                 $pageTitle .= empty($pageTitle) ? $titles['pageTitle'] : ", {$titles['pageTitle']}";
             }

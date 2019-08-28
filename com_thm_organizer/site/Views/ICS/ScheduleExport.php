@@ -143,15 +143,15 @@ class ScheduleExport extends BaseView
 
         $subjectNames = array_keys($lessonInstance['subjects']);
         $subjectNos   = [];
-        $teachers     = [];
+        $persons      = [];
         $rooms        = [];
         foreach ($lessonInstance['subjects'] as $subjectConfiguration) {
             if (!empty($subjectConfiguration['subjectNo'])) {
                 $subjectNos[$subjectConfiguration['subjectNo']] = $subjectConfiguration['subjectNo'];
             }
 
-            $teachers = $teachers + $subjectConfiguration['teachers'];
-            $rooms    = $rooms + $subjectConfiguration['rooms'];
+            $persons = $persons + $subjectConfiguration['persons'];
+            $rooms   = $rooms + $subjectConfiguration['rooms'];
         }
 
         $comment = empty($lessonInstance['comment']) ? '' : $lessonInstance['comment'];
@@ -161,12 +161,12 @@ class ScheduleExport extends BaseView
         $title .= empty($lessonInstance['method']) ? '' : " - {$lessonInstance['method']}";
         $title .= empty($subjectNos) ? '' : ' (' . implode('/', $subjectNos) . ')';
 
-        $teachersText = implode('/', $teachers);
-        $roomsText    = implode('/', $rooms);
+        $personsText = implode('/', $persons);
+        $roomsText   = implode('/', $rooms);
 
-        $summary = sprintf(Languages::_('THM_ORGANIZER_ICS_SUMMARY'), $title, $teachersText);
+        $summary = sprintf(Languages::_('THM_ORGANIZER_ICS_SUMMARY'), $title, $personsText);
 
-        $organizer = empty($this->parameters['mailto']) ? $teachersText : $this->parameters['mailto'];
+        $organizer = empty($this->parameters['mailto']) ? $personsText : $this->parameters['mailto'];
         $vEvent->setProperty('ORGANIZER', $organizer);
         $vEvent->setProperty('LOCATION', $roomsText);
         $vEvent->setProperty('SUMMARY', $summary);

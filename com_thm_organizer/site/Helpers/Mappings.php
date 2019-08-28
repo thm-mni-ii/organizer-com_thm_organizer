@@ -610,14 +610,14 @@ class Mappings
 
     /**
      * Retrieves the nested slice values for subjects associated with the
-     * selected teacher
+     * selected person
      *
      * @return mixed  array on success, otherwise null
      */
-    public static function getTeacherMappingClauses()
+    public static function getPersonMappingClauses()
     {
-        $teacherID = Input::getInt('teacherID');
-        if (empty($teacherID) or $teacherID == '-1' or $teacherID == 'null') {
+        $personID = Input::getInt('personID');
+        if (empty($personID) or $personID == '-1' or $personID == 'null') {
             return null;
         }
 
@@ -626,9 +626,9 @@ class Mappings
         $concateMappingClause = ["'m.lft <= '", 'm.lft', "' AND m.rgt >= '", 'm.rgt'];
         $mappingClause        = $query->concatenate($concateMappingClause);
         $query->select("DISTINCT $mappingClause");
-        $query->from('#__thm_organizer_subject_teachers AS st');
+        $query->from('#__thm_organizer_subject_persons AS st');
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = st.subjectID');
-        $query->where("st.teacherID = '$teacherID'");
+        $query->where("st.personID = '$personID'");
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadColumn', []);

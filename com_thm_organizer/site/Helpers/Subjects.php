@@ -30,16 +30,16 @@ class Subjects extends ResourceHelper implements Selectable
     {
         $user = Factory::getUser();
 
-        // Teacher coordinator responsibility association from the documentation system
+        // Person / role association from the documentation system
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
         $query->select('COUNT(*)')
-            ->from('#__thm_organizer_subject_teachers AS st')
-            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = st.teacherID')
+            ->from('#__thm_organizer_subject_persons AS st')
+            ->innerJoin('#__thm_organizer_persons AS t ON t.id = st.personID')
             ->where("t.username = '{$user->username}'")
             ->where("st.subjectID = '$subjectID'")
-            ->where("teacherResp = '1'");
+            ->where("role = '1'");
 
         $dbo->setQuery($query);
 
@@ -137,6 +137,55 @@ class Subjects extends ResourceHelper implements Selectable
     }
 
     /**
+     * Retrieves the persons associated with a given subject and their respective roles for it.
+     *
+     * @param int $subjectID the id of the subject with which the persons must be associated
+     * @param int $role      the role to be filtered against default none
+     *
+     * @return array the persons associated with the subject, empty if none were found.
+     */
+    public static function getPersons($subjectID, $role = null)
+    {
+        $dbo   = Factory::getDbo();
+        $query = $dbo->getQuery(true);
+        $query->select('t.id, t.surname, t.forename, t.fieldID, t.title, st.role')
+            ->from('#__thm_organizer_persons AS t')
+            ->innerJoin('#__thm_organizer_subject_persons AS st ON st.personID = t.id')
+            ->where("st.subjectID = '$subjectID'");
+
+        if (!empty($role) and is_numeric($role)) {
+            $query->where("st.role = $role");
+        }
+        $dbo->setQuery($query);
+
+        $results = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($results)) {
+            return [];
+        }
+
+        $persons = [];
+        foreach ($results as $person) {
+            $forename = empty($person['forename']) ? '' : $person['forename'];
+            $fullName = $person['surname'];
+            $fullName .= empty($forename) ? '' : ", {$person['forename']}";
+            if (empty($persons[$person['id']])) {
+                $person['forename'] = $forename;
+                $person['title']    = empty($person['title']) ? '' : $person['title'];
+                $person['role']     = [$person['role'] => $person['role']];
+                $persons[$fullName] = $person;
+                continue;
+            }
+
+            $persons[$person['id']]['role'] = [$person['role'] => $person['role']];
+        }
+
+        Persons::roleSort($persons);
+        Persons::nameSort($persons);
+
+        return $persons;
+    }
+
+    /**
      * Looks up the names of the programs associated with the subject
      *
      * @param int $subjectID the id of the (plan) subject
@@ -214,8 +263,8 @@ class Subjects extends ResourceHelper implements Selectable
     public static function getResources()
     {
         $programID = Input::getInt('programID', -1);
-        $teacherID = Input::getInt('teacherID', -1);
-        if ($programID === -1 and $teacherID === -1) {
+        $personID  = Input::getInt('personID', -1);
+        if ($programID === -1 and $personID === -1) {
             return [];
         }
 
@@ -244,69 +293,19 @@ class Subjects extends ResourceHelper implements Selectable
             $query->where($where . ')');
         }
 
-        if ($teacherID !== -1) {
-            $query->innerJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id');
-            $query->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
-            $query->where("st.teacherID = '$teacherID'");
+        if ($personID !== -1) {
+            $query->innerJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id');
+            $query->innerJoin('#__thm_organizer_persons AS t ON st.personID = t.id');
+            $query->where("st.personID = '$personID'");
         } else {
-            $query->leftJoin('#__thm_organizer_subject_teachers AS st ON st.subjectID = s.id');
-            $query->innerJoin('#__thm_organizer_teachers AS t ON st.teacherID = t.id');
-            $query->where("st.teacherResp = '1'");
+            $query->leftJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id');
+            $query->innerJoin('#__thm_organizer_persons AS t ON st.personID = t.id');
+            $query->where("st.role = '1'");
         }
 
         $dbo->setQuery($query);
 
         return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
-
-    /**
-     * Retrieves the teachers associated with a given subject and their respective responsibilities for it.
-     *
-     * @param int  $subjectID the id of the subject with which the teachers must be associated
-     *
-     * @param null $responsibility
-     *
-     * @return array the teachers associated with the subject, empty if none were found.
-     */
-    public static function getTeachers($subjectID, $responsibility = null)
-    {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('t.id, t.surname, t.forename, t.fieldID, t.title, st.teacherResp')
-            ->from('#__thm_organizer_teachers AS t')
-            ->innerJoin('#__thm_organizer_subject_teachers AS st ON st.teacherID = t.id')
-            ->where("st.subjectID = '$subjectID'");
-
-        if (!empty($responsibility) and is_numeric($responsibility)) {
-            $query->where("st.teacherResp = $responsibility");
-        }
-        $dbo->setQuery($query);
-
-        $results = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($results)) {
-            return [];
-        }
-
-        $teachers = [];
-        foreach ($results as $teacher) {
-            $forename = empty($teacher['forename']) ? '' : $teacher['forename'];
-            $fullName = $teacher['surname'];
-            $fullName .= empty($forename) ? '' : ", {$teacher['forename']}";
-            if (empty($teachers[$teacher['id']])) {
-                $teacher['forename']    = $forename;
-                $teacher['title']       = empty($teacher['title']) ? '' : $teacher['title'];
-                $teacher['teacherResp'] = [$teacher['teacherResp'] => $teacher['teacherResp']];
-                $teachers[$fullName]    = $teacher;
-                continue;
-            }
-
-            $teachers[$teacher['id']]['teacherResp'] = [$teacher['teacherResp'] => $teacher['teacherResp']];
-        }
-
-        Persons::nameSort($teachers);
-        Persons::respSort($teachers);
-
-        return $teachers;
     }
 
     /**

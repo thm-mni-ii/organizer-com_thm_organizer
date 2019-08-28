@@ -57,7 +57,7 @@ foreach ($this->model->events as $date => $times) {
     echo '<table><thead><tr class="list-head">';
     echo '<th class="time-column">' . Languages::_('THM_ORGANIZER_TIMES') . '</th>';
     echo '<th class="name-column">' . Languages::_('THM_ORGANIZER_EVENT') . '</th>';
-    echo '<th class="teachers-column">' . Languages::_('THM_ORGANIZER_TEACHERS') . '</th>';
+    echo '<th class="persons-column">' . Languages::_('THM_ORGANIZER_TEACHERS') . '</th>';
     echo '<th class="rooms-column">' . Languages::_('THM_ORGANIZER_ROOMS') . '</th>';
     echo '<th class="org-column">' . Languages::_('THM_ORGANIZER_ORGANIZATION') . '</th>';
     echo '</tr></thead>';
@@ -81,7 +81,7 @@ foreach ($this->model->events as $date => $times) {
                 echo '<br />(' . $lesson['comment'] . ')';
             }
             echo '</td>';
-            echo '<td class="teachers-column">' . implode(' / ', $lesson['teachers']) . '</td>';
+            echo '<td class="persons-column">' . implode(' / ', $lesson['persons']) . '</td>';
             echo '<td class="rooms-column">' . implode(', ', $lesson['rooms']) . '</td>';
             echo '<td class="org-column">' . implode(', ', $lesson['departments']) . '</td>';
             echo '</tr>';

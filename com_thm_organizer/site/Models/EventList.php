@@ -168,7 +168,7 @@ class EventList extends FormModel
                 $aggregatedEvents[$times][$lessonID]['method']    = empty($event['method']) ? '' : $event['method'];
                 $aggregatedEvents[$times][$lessonID]['comment']   = empty($event['comment']) ? '' : $event['comment'];
                 $aggregatedEvents[$times][$lessonID]['rooms']     = $event['rooms'];
-                $aggregatedEvents[$times][$lessonID]['teachers']  = $event['teachers'];
+                $aggregatedEvents[$times][$lessonID]['persons']   = $event['persons'];
                 $aggregatedEvents[$times][$lessonID]['startTime'] = $event['startTime'];
                 $aggregatedEvents[$times][$lessonID]['endTime']   = $event['endTime'];
             } else {
@@ -177,8 +177,8 @@ class EventList extends FormModel
                 }
                 $aggregatedEvents[$times][$lessonID]['rooms']
                     = array_unique(array_merge($aggregatedEvents[$times][$lessonID]['rooms'], $event['rooms']));
-                $aggregatedEvents[$times][$lessonID]['teachers']
-                    = array_unique(array_merge($aggregatedEvents[$times][$lessonID]['teachers'], $event['teachers']));
+                $aggregatedEvents[$times][$lessonID]['persons']
+                    = array_unique(array_merge($aggregatedEvents[$times][$lessonID]['persons'], $event['persons']));
             }
             $aggregatedEvents[$times][$lessonID]['departments'][$event['departmentID']] = $event['department'];
         }
@@ -210,8 +210,8 @@ class EventList extends FormModel
 
                     $innerLesson  = $innerEvents[$lessonID];
                     $sameRooms    = $innerLesson['rooms'] == $outerLesson['rooms'];
-                    $sameTeachers = $innerLesson['teachers'] == $outerLesson['teachers'];
-                    $divergent    = (!$sameRooms or !$sameTeachers);
+                    $samePersons = $innerLesson['persons'] == $outerLesson['persons'];
+                    $divergent    = (!$sameRooms or !$samePersons);
 
                     if ($divergent) {
                         continue;
@@ -326,19 +326,19 @@ class EventList extends FormModel
         }
 
         if (!empty($this->params['mySchedule']) && (boolean)$this->params['mySchedule']) {
-            $userID       = Factory::getUser()->id;
-            $teacherQuery = "";
-            $teacherID    = Persons::getIDByUserID($userID);
+            $userID      = Factory::getUser()->id;
+            $personQuery = "";
+            $personID    = Persons::getIDByUserID($userID);
 
-            if ($teacherID !== 0) {
+            if ($personID !== 0) {
                 $query->leftJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
-                $regexp       = '"teachers":\\{[^\}]*"' . $teacherID . '"';
-                $teacherQuery = " OR conf.configuration REGEXP '$regexp'";
+                $regexp      = '"persons":\\{[^\}]*"' . $personID . '"';
+                $personQuery = " OR conf.configuration REGEXP '$regexp'";
             } else {
                 $query->innerJoin('#__thm_organizer_user_lessons AS ul ON l.id = ul.lessonID');
             }
 
-            $query->where("(ul.userID = {$userID}" . $teacherQuery . ')');
+            $query->where("(ul.userID = {$userID}" . $personQuery . ')');
         }
     }
 
@@ -389,8 +389,8 @@ class EventList extends FormModel
                 $rooms         = $this->getEventRooms($configuration['rooms']);
 
                 if (count($rooms)) {
-                    $events[$index]['rooms']    = $rooms;
-                    $events[$index]['teachers'] = $this->getEventTeachers($configuration['teachers']);
+                    $events[$index]['rooms']   = $rooms;
+                    $events[$index]['persons'] = $this->getEventPersons($configuration['persons']);
                     unset($events[$index]['configuration']);
                 } else {
                     unset($events[$index]);
@@ -409,28 +409,28 @@ class EventList extends FormModel
     }
 
     /**
-     * Adds the teacher names to the teacher instances index.
+     * Adds the person names to the person instances index.
      *
-     * @param array $instanceTeachers the teachers associated with the instance
+     * @param array $instancePersons the persons associated with the instance
      *
-     * @return array an array of teachers in the form id => 'forename(s) surname(s)'
+     * @return array an array of persons in the form id => 'forename(s) surname(s)'
      */
-    private function getEventTeachers(&$instanceTeachers)
+    private function getEventPersons(&$instancePersons)
     {
-        $teachers = [];
+        $persons = [];
 
-        foreach ($instanceTeachers as $teacherID => $delta) {
+        foreach ($instancePersons as $personID => $delta) {
             if ($delta == 'removed') {
-                unset($instanceTeachers[$teacherID]);
+                unset($instancePersons[$personID]);
                 continue;
             }
 
-            $teachers[$teacherID] = Persons::getDefaultName($teacherID);
+            $persons[$personID] = Persons::getDefaultName($personID);
         }
 
-        asort($teachers);
+        asort($persons);
 
-        return $teachers;
+        return $persons;
     }
 
     /**

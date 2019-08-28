@@ -15,7 +15,7 @@
         padding: 2px;
       }
 
-      th.teachers-column, td.teachers-column,
+      th.persons-column, td.persons-column,
       th.name-column, td.name-column {
         display: none;
       }
@@ -129,7 +129,7 @@
   width: 5rem;
 }
 
-.rooms-column, .teachers-column, .name-column {
+.rooms-column, .persons-column, .name-column {
   min-width: 15rem;
 }
 
@@ -232,7 +232,7 @@
       width: calc(100% - 7rem);
     }
 
-    .event-names, .event-teachers, .event-comment {
+    .event-names, .event-persons, .event-comment {
       padding-top: .5rem;
     }
 
@@ -245,7 +245,7 @@
       }
     }
 
-    .event-teachers {
+    .event-persons {
       font-size: 2.1rem;
     }
 

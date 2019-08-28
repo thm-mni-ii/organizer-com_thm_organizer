@@ -18,11 +18,11 @@ use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Subjects;
 
 /**
- * Class creates a select box for the association of teachers with subject documentation.
+ * Class creates a select box for the association of persons with subject documentation.
  */
-class DocumentedTeachersField extends OptionsField
+class DocumentedPersonsField extends OptionsField
 {
-    protected $type = 'DocumentedTeachers';
+    protected $type = 'DocumentedPersons';
 
     /**
      * Method to get the field input markup for a generic list.
@@ -55,20 +55,20 @@ class DocumentedTeachersField extends OptionsField
             return $options;
         }
 
-        $aggregatedTeachers = [];
+        $aggregatedPersons = [];
         foreach ($subjectIDs as $subjectID) {
-            $subjectTeachers = Subjects::getTeachers($subjectID);
-            if (empty($subjectTeachers)) {
+            $subjectPersons = Subjects::getPersons($subjectID);
+            if (empty($subjectPersons)) {
                 continue;
             }
 
-            $aggregatedTeachers = array_merge($aggregatedTeachers, $subjectTeachers);
+            $aggregatedPersons = array_merge($aggregatedPersons, $subjectPersons);
         }
 
-        ksort($aggregatedTeachers);
+        ksort($aggregatedPersons);
 
-        foreach ($aggregatedTeachers as $name => $teacher) {
-            $options[] = HTML::_('select.option', $teacher['id'], $name);
+        foreach ($aggregatedPersons as $name => $person) {
+            $options[] = HTML::_('select.option', $person['id'], $name);
         }
 
         return $options;

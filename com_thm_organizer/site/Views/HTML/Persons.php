@@ -14,12 +14,12 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Persons as TeachersHelper;
+use Organizer\Helpers\Persons as PersonsHelper;
 
 /**
- * Class loads persistent information a filtered set of teachers into the display context.
+ * Class loads persistent information a filtered set of persons into the display context.
  */
-class Teachers extends ListView
+class Persons extends ListView
 {
     public $items;
 
@@ -36,14 +36,14 @@ class Teachers extends ListView
     {
         HTML::setTitle(Languages::_('THM_ORGANIZER_TEACHERS_TITLE'), 'users');
         $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'teacher.add', false);
-        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'teacher.edit', true);
+        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'person.add', false);
+        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'person.edit', true);
         if (Access::isAdmin()) {
             $toolbar->appendButton(
                 'Standard',
                 'attachment',
                 Languages::_('THM_ORGANIZER_MERGE'),
-                'teacher.mergeView',
+                'person.mergeView',
                 true
             );
             HTML::setPreferencesButton();
@@ -104,7 +104,7 @@ class Teachers extends ListView
             $processedItems[$index]['username']  = HTML::_('link', $item->link, $itemUsername);
             $processedItems[$index]['t.untisID'] = HTML::_('link', $item->link, $itemUntisID);
 
-            $departments = TeachersHelper::getDepartmentNames($item->id);
+            $departments = PersonsHelper::getDepartmentNames($item->id);
 
             if (empty($departments)) {
                 $processedItems[$index]['departmentID'] = Languages::_('JNONE');

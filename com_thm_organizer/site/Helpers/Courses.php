@@ -838,7 +838,7 @@ class Courses
     }
 
     /**
-     * Check if user is registered as a teacher, optionally for a specific course
+     * Check if user is registered as a person, optionally for a specific course
      *
      * @param int $lessonID id of the lesson resource
      *
@@ -859,8 +859,8 @@ class Courses
 
         $query->select('COUNT(*)')
             ->from('#__thm_organizer_lesson_courses AS lc')
-            ->innerJoin('#__thm_organizer_lesson_teachers AS lt ON lt.lessonCourseID = lc.id')
-            ->innerJoin('#__thm_organizer_teachers AS t ON t.id = lt.teacherID')
+            ->innerJoin('#__thm_organizer_lesson_persons AS lt ON lt.lessonCourseID = lc.id')
+            ->innerJoin('#__thm_organizer_persons AS t ON t.id = lt.personID')
             ->where("t.username = '{$user->username}'");
 
         if (!empty($lessonID)) {

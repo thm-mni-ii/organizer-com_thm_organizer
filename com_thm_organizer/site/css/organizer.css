@@ -223,19 +223,19 @@ a[href$="view=thm_organizer"]::before {
         padding-right: 20px;
     }
 
-    #teachers-list thead th, #teachers-list tbody td {
+    #persons-list thead th, #persons-list tbody td {
         display: none;
     }
 
-    #teachers-list thead th:nth-child(2), #teachers-list tbody td:nth-child(2) {
+    #persons-list thead th:nth-child(2), #persons-list tbody td:nth-child(2) {
         display: table-cell;
     }
 
-    #teachers-list thead th:nth-child(3), #teachers-list tbody td:nth-child(3) {
+    #persons-list thead th:nth-child(3), #persons-list tbody td:nth-child(3) {
         display: table-cell;
     }
 
-    #teachers-list thead th:nth-child(2), #teachers-list tbody td:nth-child(2) {
+    #persons-list thead th:nth-child(2), #persons-list tbody td:nth-child(2) {
         padding-left: 8px;
     }
 

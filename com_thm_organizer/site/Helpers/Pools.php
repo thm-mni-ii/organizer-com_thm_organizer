@@ -254,19 +254,19 @@ class Pools extends ResourceHelper implements Selectable
 
     /**
      * Retrieves pool entries from the database based upon selected program and
-     * teacher
+     * person
      *
      * @return string  the subjects which fit the selected resource
      */
-    public static function poolsByProgramOrTeacher()
+    public static function poolsByProgramOrPerson()
     {
         $selectedProgram = Input::getInt('programID');
         if (empty($selectedProgram) or $selectedProgram == '-1') {
             return '[]';
         }
 
-        $programBounds  = Mappings::getMappings('program', $selectedProgram);
-        $teacherClauses = Mappings::getTeacherMappingClauses();
+        $programBounds = Mappings::getMappings('program', $selectedProgram);
+        $personClauses = Mappings::getPersonMappingClauses();
 
         if (empty($programBounds)) {
             return '[]';
@@ -283,8 +283,8 @@ class Pools extends ResourceHelper implements Selectable
             $query->where("m.rgt <= '{$programBounds[0]['rgt']}'");
         }
 
-        if (!empty($teacherClauses)) {
-            $query->where('( ( ' . implode(') OR (', $teacherClauses) . ') )');
+        if (!empty($personClauses)) {
+            $query->where('( ( ' . implode(') OR (', $personClauses) . ') )');
         }
 
         $query->order('lft');

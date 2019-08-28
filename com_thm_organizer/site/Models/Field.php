@@ -51,7 +51,7 @@ class Field extends MergeModel
             return false;
         }
 
-        return $this->updateAssociation('teachers');
+        return $this->updateAssociation('persons');
     }
 
     /**

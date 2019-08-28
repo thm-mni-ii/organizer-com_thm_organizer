@@ -163,7 +163,7 @@ a[href$="view=thm_organizer"]::before {
     @include displayAndHideColumns(3);
   }
   // specific . Display the second and the third column.
-  #teachers-list {
+  #persons-list {
     @include displayAndHideColumns(2, 3);
   }
   // specific . Display the second and the fourth column.

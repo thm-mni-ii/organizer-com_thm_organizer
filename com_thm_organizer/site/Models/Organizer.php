@@ -113,7 +113,7 @@ class Organizer extends BaseModel
         if ($keys = OrganizerHelper::executeQuery('loadAssoc', [])) {
             $configuration = json_decode($keys['configuration'], true);
 
-            foreach ($configuration['teachers'] as $personID => $personDelta) {
+            foreach ($configuration['persons'] as $personID => $personDelta) {
                 if ($personDelta === 'removed') {
                     continue;
                 }
@@ -256,9 +256,9 @@ class Organizer extends BaseModel
             return false;
         }
 
-        $termStart                = $term['startDate'];
-        $termEnd                  = $term['endDate'];
-        $unit                     = ['departmentID' => $schedules->departmentID, 'termID' => $termID];
+        $termStart = $term['startDate'];
+        $termEnd   = $term['endDate'];
+        $unit      = ['departmentID' => $schedules->departmentID, 'termID' => $termID];
 
         foreach ($schedule['calendar'] as $date => $times) {
 
@@ -320,10 +320,10 @@ class Organizer extends BaseModel
                         }
 
                         $persons = [];
-                        foreach ($instanceConfiguration['teachers'] as $personID => $instancePersonDelta) {
+                        foreach ($instanceConfiguration['persons'] as $personID => $instancePersonDelta) {
                             if (!$this->checkResourceID('Persons', $personID)
-                                or !array_key_exists($personID, $eventConfiguration['teachers'])) {
-                                unset($instanceConfiguration['teachers'][$personID]);
+                                or !array_key_exists($personID, $eventConfiguration['persons'])) {
+                                unset($instanceConfiguration['persons'][$personID]);
                                 continue;
                             }
                             $persons[$personID] = ['groups' => $groups, 'rooms' => $rooms];

@@ -166,7 +166,7 @@ class Categories implements DepartmentAssociated, Selectable
      *
      * @return string  the subjects which fit the selected resource
      */
-    public function byTeacher()
+    public function byPerson()
     {
         $dbo         = Factory::getDbo();
         $tag         = Languages::getTag();
@@ -177,9 +177,9 @@ class Categories implements DepartmentAssociated, Selectable
         $query->innerJoin('#__thm_organizer_mappings AS m ON m.programID = dp.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID');
 
-        $teacherClauses = Mappings::getTeacherMappingClauses();
-        if (!empty($teacherClauses)) {
-            $query->where('( ( ' . implode(') OR (', $teacherClauses) . ') )');
+        $personClauses = Mappings::getPersonMappingClauses();
+        if (!empty($personClauses)) {
+            $query->where('( ( ' . implode(') OR (', $personClauses) . ') )');
         }
 
         $query->order('name');

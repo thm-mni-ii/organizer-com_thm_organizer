@@ -195,7 +195,7 @@ class CurriculumAjax extends BaseModel
             }
         }
 
-        $this->setTeacherProperties($subjectData);
+        $this->setPersonProperties($subjectData);
 
         return $subjectData;
     }
@@ -311,36 +311,36 @@ class CurriculumAjax extends BaseModel
     }
 
     /**
-     * Sets subject properties relating to the responsible teacher
+     * Sets subject properties relating to associated persons.
      *
      * @param object &$subjectData an object containing subject data
      *
      * @return void
      */
-    private function setTeacherProperties(&$subjectData)
+    private function setPersonProperties(&$subjectData)
     {
-        $teacherData = Persons::getDataBySubject($subjectData->id, 1);
+        $personData = Persons::getDataBySubject($subjectData->id, 1);
 
-        if (empty($teacherData)) {
+        if (empty($personData)) {
             return;
         }
 
-        $defaultName = Persons::getDefaultName($teacherData['id']);
+        $defaultName = Persons::getDefaultName($personData['id']);
 
-        if (!empty($teacherData['userID'])) {
-            $subjectData->teacherID   = $teacherData['userID'];
-            $subjectData->teacherName = $defaultName;
+        if (!empty($personData['userID'])) {
+            $subjectData->personID   = $personData['userID'];
+            $subjectData->personName = $defaultName;
 
             // TODO: Retrieve this information from a Joomla! instance with THm Groups.
 
             return;
         } else {
-            $subjectData->teacherName = $defaultName;
+            $subjectData->personName = $defaultName;
         }
 
-        if (!empty($teacherData['untisID']) and !empty($this->scheduleLink)) {
+        if (!empty($personData['untisID']) and !empty($this->scheduleLink)) {
             $subjectData->personscheduleLink
-                = $this->scheduleLink . "&teacherID={$teacherData['untisID']}";
+                = $this->scheduleLink . "&personID={$personData['untisID']}";
         }
     }
 }

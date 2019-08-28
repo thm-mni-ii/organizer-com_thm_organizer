@@ -9,7 +9,7 @@
     <fieldset name="details" label="RESOURCES">
         <field name="myschedule" type="checkbox" label="MY_SCHEDULE" checked="0"/>
         <field name="poolIDs" type="Pools" label="POOLS" multiple="true"/>
-        <field name="teacherIDs" type="Teachers" label="TEACHERS" multiple="true"/>
+        <field name="personIDs" type="Persons" label="TEACHERS" multiple="true"/>
         <field name="roomIDs" type="Rooms" label="ROOMS" multiple="true"/>
     </fieldset>
     <fieldset name="formatting" label="FORMAT">
@@ -33,7 +33,7 @@
         <field name="listGrouping" type="Options" label="LIST_GROUPING" default="1" showon="display:list">
             <option value="none">CHRONOLOGICAL_SORTING</option>
             <option value="subject">BY_SUBJECT</option>
-            <option value="teacher">BY_TEACHER</option>
+            <option value="person">BY_TEACHER</option>
         </field>
         <field name="titles" type="Options" label="TITLES" default="1">
             <option value="full">FULL_NAMES</option>
@@ -44,7 +44,7 @@
         <field name="seeingImpaired" type="hidden" value="0"/>
         <field name="date" type="calendar" default="NOW" label="DATE" format="%d.%m.%Y" class="input-small"
                todaybutton="true" minyear="-2" maxyear="1" translateLabel="false" showon="seeingImpaired:0"/>
-        <field name="date" type="date" label="DATE"  showon="seeingImpaired:1"/>
+        <field name="date" type="date" label="DATE" showon="seeingImpaired:1"/>
         <field name="interval" type="Options" label="INTERVAL" default="month" showon="format!:ics">
             <option value="day">DAY</option>
             <option value="week">WEEK</option>

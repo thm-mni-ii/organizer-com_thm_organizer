@@ -309,9 +309,9 @@ class SubjectLSF extends BaseModel
      */
     private function parseAttributes(&$subject, &$dataObject)
     {
-        $teachersSet = $this->setTeachers($subject->id, $dataObject);
+        $personsSet = $this->setPersons($subject->id, $dataObject);
 
-        if (!$teachersSet) {
+        if (!$personsSet) {
             OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 
             return false;
@@ -769,28 +769,28 @@ class SubjectLSF extends BaseModel
     }
 
     /**
-     * Creates an association between teachers, subjects and their responsibilites for that subject.
+     * Creates an association between persons, subjects and their roles for that subject.
      *
      * @param int     $subjectID  the id of the subject
      * @param object &$dataObject an object containing the lsf response
      *
      * @return bool  true on success, otherwise false
      */
-    private function setTeachers($subjectID, &$dataObject)
+    private function setPersons($subjectID, &$dataObject)
     {
         $coordinators = $dataObject->xpath('//verantwortliche');
-        $teachers     = $dataObject->xpath('//dozent');
+        $persons      = $dataObject->xpath('//dozent');
 
-        if (empty($coordinators) and empty($teachers)) {
+        if (empty($coordinators) and empty($persons)) {
             return true;
         }
 
-        $responsibleSet = $this->setTeachersByResponsibility($subjectID, $coordinators, self::COORDINATES);
-        if (!$responsibleSet) {
+        $roleSet = $this->setPersonsByRoles($subjectID, $coordinators, self::COORDINATES);
+        if (!$roleSet) {
             return false;
         }
 
-        $teachingSet = $this->setTeachersByResponsibility($subjectID, $teachers, self::TEACHES);
+        $teachingSet = $this->setPersonsByRoles($subjectID, $persons, self::TEACHES);
         if (!$teachingSet) {
             return false;
         }
@@ -799,54 +799,53 @@ class SubjectLSF extends BaseModel
     }
 
     /**
-     * Sets subject teachers by their responsibility to the subject
+     * Sets subject persons by their role for the subject
      *
-     * @param int    $subjectID      the subject's id
-     * @param array &$teachers       an array containing information about the
-     *                               subject's teachers
-     * @param int    $responsibility the teacher's responsibility level
+     * @param int    $subjectID the subject's id
+     * @param array &$persons   an array containing information about the subject's persons
+     * @param int    $role      the person's role
      *
      * @return boolean  true on success, otherwise false
      */
-    private function setTeachersByResponsibility($subjectID, &$teachers, $responsibility)
+    private function setPersonsByRoles($subjectID, &$persons, $role)
     {
         $subjectModel = new Subject;
-        $removed      = $subjectModel->removeTeachers($subjectID, $responsibility);
+        $removed      = $subjectModel->removePersons($subjectID, $role);
 
         if (!$removed) {
             return false;
         }
 
-        if (empty($teachers)) {
+        if (empty($persons)) {
             return true;
         }
 
-        $surnameAttribute  = $responsibility == self::COORDINATES ? 'nachname' : 'personal.nachname';
-        $forenameAttribute = $responsibility == self::COORDINATES ? 'vorname' : 'personal.vorname';
+        $surnameAttribute  = $role == self::COORDINATES ? 'nachname' : 'personal.nachname';
+        $forenameAttribute = $role == self::COORDINATES ? 'vorname' : 'personal.vorname';
 
-        foreach ($teachers as $teacher) {
-            $teacherData             = [];
-            $teacherData['surname']  = trim((string)$teacher->personinfo->$surnameAttribute);
-            $teacherData['username'] = trim((string)$teacher->hgnr);
+        foreach ($persons as $person) {
+            $personData             = [];
+            $personData['surname']  = trim((string)$person->personinfo->$surnameAttribute);
+            $personData['username'] = trim((string)$person->hgnr);
 
-            if (empty($teacherData['surname']) or empty($teacherData['username'])) {
+            if (empty($personData['surname']) or empty($personData['username'])) {
                 continue;
             }
 
-            $loadCriteria            = [];
-            $loadCriteria[]          = ['username' => $teacherData['username']];
-            $teacherData['forename'] = (string)$teacher->personinfo->$forenameAttribute;
+            $loadCriteria           = [];
+            $loadCriteria[]         = ['username' => $personData['username']];
+            $personData['forename'] = (string)$person->personinfo->$forenameAttribute;
 
-            if (!empty($teacherData['forename'])) {
-                $loadCriteria[] = ['surname' => $teacherData['surname'], 'forename' => $teacherData['forename']];
+            if (!empty($personData['forename'])) {
+                $loadCriteria[] = ['surname' => $personData['surname'], 'forename' => $personData['forename']];
             }
 
-            $teacherTable = OrganizerHelper::getTable('Teachers');
-            $loaded       = false;
+            $personTable = OrganizerHelper::getTable('Persons');
+            $loaded      = false;
 
             foreach ($loadCriteria as $criteria) {
                 try {
-                    $success = $teacherTable->load($criteria);
+                    $success = $personTable->load($criteria);
                 } catch (Exception $exc) {
                     OrganizerHelper::message($exc->getMessage(), 'error');
 
@@ -860,13 +859,13 @@ class SubjectLSF extends BaseModel
             }
 
             if (!$loaded) {
-                $teacherSaved = $teacherTable->save($teacherData);
-                if (!$teacherSaved) {
+                $personSaved = $personTable->save($personData);
+                if (!$personSaved) {
                     return false;
                 }
             }
 
-            $added = $subjectModel->addTeacher($subjectID, $teacherTable->id, $responsibility);
+            $added = $subjectModel->addPerson($subjectID, $personTable->id, $role);
             if (!$added) {
                 return false;
             }
