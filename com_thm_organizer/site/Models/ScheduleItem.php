@@ -27,7 +27,7 @@ use Organizer\Helpers\Persons;
 /**
  * Class retrieves information for use in a schedule display form.
  */
-class ScheduleGrid extends BaseModel
+class ScheduleItem extends BaseModel
 {
     public $grids;
 
