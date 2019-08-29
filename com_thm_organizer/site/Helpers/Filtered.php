@@ -87,24 +87,15 @@ trait Filtered
      * @param string          $resource      the name of the resource associated
      * @param string          $newAlias      the alias for any linked table
      * @param string          $existingAlias the alias for the linking table
-     * @param string          $table         the name of the associated table
-     * @param string          $reqResource   a name used for the request resource that deviates from the resource name
      */
-    public static function addResourceFilter(
-        &$query,
-        $resource,
-        $newAlias,
-        $existingAlias,
-        $table = '',
-        $reqResource = ''
-    ) {
-        $reqResource = empty($reqResource) ? $resource : $reqResource;
-        $resourceIDs = Input::getFilterIDs($reqResource);
+    public static function addResourceFilter(&$query, $resource, $newAlias, $existingAlias)
+    {
+        $resourceIDs = Input::getFilterIDs($resource);
         if (empty($resourceIDs)) {
             return;
         }
 
-        $table = empty($table) ? OrganizerHelper::getPlural($resource) : $table;
+        $table = OrganizerHelper::getPlural($resource);
         if (in_array('-1', $resourceIDs)) {
             $query->leftJoin("#__thm_organizer_$table AS $newAlias ON $newAlias.id = $existingAlias.{$resource}ID")
                 ->where("$newAlias.id IS NULL");

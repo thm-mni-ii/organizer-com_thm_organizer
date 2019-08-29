@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
     `untisID`   VARCHAR(60)      DEFAULT NULL,
     `programID` INT(11) UNSIGNED DEFAULT NULL,
     `name`      VARCHAR(100)     NOT NULL,
+    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     INDEX `programID` (`programID`),
     UNIQUE INDEX `untisID` (`untisID`)
@@ -279,6 +280,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_groups` (
     `name`       VARCHAR(100)     NOT NULL,
     `fullName`   VARCHAR(100)     NOT NULL
         COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
+    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `entry` (`untisID`, `categoryID`),
     INDEX `categoryID` (`categoryID`),
@@ -471,6 +473,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_persons` (
     `username` VARCHAR(150)          DEFAULT NULL,
     `fieldID`  INT(11) UNSIGNED      DEFAULT NULL,
     `title`    VARCHAR(45)  NOT NULL DEFAULT '',
+    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`),
     INDEX `username` (`username`),
@@ -600,6 +603,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
     `name`       VARCHAR(10)      NOT NULL,
     `roomtypeID` INT(11) UNSIGNED DEFAULT NULL,
     `capacity`   INT(4) UNSIGNED  DEFAULT NULL,
+    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`),
     INDEX `buildingID` (`buildingID`),

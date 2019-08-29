@@ -109,6 +109,7 @@ RENAME TABLE `v7ocf_thm_organizer_plan_programs` TO `v7ocf_thm_organizer_categor
 
 ALTER TABLE `v7ocf_thm_organizer_categories`
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`),
     ADD INDEX `programID` (`programID`);
 
@@ -398,6 +399,7 @@ ALTER TABLE `v7ocf_thm_organizer_groups`
     CHANGE `full_name` `fullName` VARCHAR(100) NOT NULL,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
     CHANGE `programID` `categoryID` INT(11) UNSIGNED NOT NULL,
+    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `entry` UNIQUE (`untisID`, `categoryID`),
     ADD INDEX `categoryID` (`categoryID`),
     ADD INDEX `gridID` (`gridID`),
@@ -533,6 +535,9 @@ UPDATE `v7ocf_menu`
 SET `params` = replace(`params`, 'showTeachers', 'showPersons');
 
 UPDATE `v7ocf_menu`
+SET `params` = replace(`params`, 'deltaDays', 'delta');
+
+UPDATE `v7ocf_menu`
 SET `params` = replace(`params`, '"departmentID":"6"', '"departmentID":"5"');
 
 UPDATE `v7ocf_menu`
@@ -623,6 +628,7 @@ RENAME TABLE `v7ocf_thm_organizer_teachers` TO `v7ocf_thm_organizer_persons`;
 ALTER TABLE `v7ocf_thm_organizer_persons`
     MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`);
 
 ALTER TABLE `v7ocf_thm_organizer_persons`
@@ -788,7 +794,8 @@ CREATE TABLE `v7ocf_thm_organizer_roles` (
 INSERT INTO `v7ocf_thm_organizer_roles` (`id`, `name_de`, `name_en`, `abbreviation_de`, `abbreviation_en`)
 VALUES (1, 'Dozent', 'Teacher', 'DOZ', 'TCH'),
        (2, 'Tutor', 'Tutor', 'TUT', 'TUT'),
-       (3, 'Aufsicht', 'Supervisor', 'AFS', 'SPR');
+       (3, 'Aufsicht', 'Supervisor', 'AFS', 'SPR'),
+       (4, 'Referent', 'Speaker', 'REF', 'SPK');
 
 # endregion
 
@@ -821,6 +828,7 @@ ALTER TABLE `v7ocf_thm_organizer_rooms`
     DROP COLUMN `longname`,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
     CHANGE `typeID` `roomtypeID` INT(11) UNSIGNED DEFAULT NULL,
+    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`),
     ADD INDEX `buildingID` (`buildingID`),
     ADD INDEX `roomtypeID` (`roomtypeID`);

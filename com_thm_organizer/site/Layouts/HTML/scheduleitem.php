@@ -168,7 +168,7 @@ $displayName = empty($this->model->displayName) ?
                         }
 
                         if (!empty($this->model->params['showPersons'])) {
-                            echo '<option value="person">' . Languages::_('THM_ORGANIZER_TEACHER_PLANS') . '</option>';
+                            echo '<option value="person">' . Languages::_('THM_ORGANIZER_PERSON_PLANS') . '</option>';
                         }
                         ?>
                     </select>
@@ -199,7 +199,7 @@ $displayName = empty($this->model->displayName) ?
                 </div>
                 <div id="person-input" class="input-wrapper">
                     <select id="person" data-next="event"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_TEACHER'); ?>">
+                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_PERSON'); ?>">
                         <!-- filled by ajax -->
                     </select>
                 </div>

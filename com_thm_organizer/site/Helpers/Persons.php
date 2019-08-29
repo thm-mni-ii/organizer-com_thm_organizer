@@ -306,30 +306,30 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
         $dbo   = Factory::getDbo();
         $query = $dbo->getQuery(true);
 
-        $query->select('DISTINCT t.*')
-            ->from('#__thm_organizer_persons AS t')
-            ->innerJoin('#__thm_organizer_lesson_persons AS lt ON lt.personID = t.id')
-            ->order('t.surname, t.forename');
+        $query->select('DISTINCT p.*')
+            ->from('#__thm_organizer_persons AS p')
+            ->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.personID = p.id')
+            ->where('p.active = 1')
+            ->order('p.surname, p.forename');
 
         $wherray = [];
         if ($thisPersonID) {
-            $wherray[] = "t.username = '{$user->username}'";
+            $wherray[] = "p.username = '{$user->username}'";
         }
 
         if (count($departmentIDs)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.personID = lt.personID');
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.personID = p.id');
 
             $where = 'dr.departmentID IN (' . implode(',', $departmentIDs) . ')';
 
-            $selectedPrograms = Input::getFilterIDs('program');
+            $selectedCategories = Input::getFilterIDs('category');
 
             if (!empty($selectedPrograms)) {
-                $programIDs = "'" . str_replace(',', "', '", $selectedPrograms) . "'";
-                $query->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.id = lt.lessonCourseID')
-                    ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
-                    ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID');
+                $categoryIDs = "'" . str_replace(',', "', '", $selectedCategories) . "'";
+                $query->innerJoin('#__thm_organizer_person_groups AS pg ON pg.personID = ip.id')
+                    ->innerJoin('#__thm_organizer_groups AS g ON g.id = pg.groupID');
 
-                $where .= " AND gr.programID in ($programIDs)";
+                $where .= " AND g.categoryID in ($categoryIDs)";
                 $where = "($where)";
             }
 

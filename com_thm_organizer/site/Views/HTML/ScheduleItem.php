@@ -49,7 +49,7 @@ class ScheduleItem extends BaseHTMLView
      *
      * @var string
      */
-    protected $deltaDays;
+    protected $delta;
 
     /**
      * Filter to indicate intern emails
@@ -188,7 +188,7 @@ class ScheduleItem extends BaseHTMLView
         Languages::script('THM_ORGANIZER_SELECT_GROUP');
         Languages::script('THM_ORGANIZER_SELECT_ROOM');
         Languages::script('THM_ORGANIZER_SELECT_ROOMTYPE');
-        Languages::script('THM_ORGANIZER_SELECT_TEACHER');
+        Languages::script('THM_ORGANIZER_SELECT_PERSON');
         Languages::script('THM_ORGANIZER_TIME');
         Languages::script('THU');
         Languages::script('TUE');

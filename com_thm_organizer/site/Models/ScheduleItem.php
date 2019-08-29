@@ -103,14 +103,13 @@ class ScheduleItem extends BaseModel
         $this->params['showRoomtypes']  = Input::getInt('showRoomtypes', $params->get('showRoomtypes', 1));
         $this->params['showSubjects']   = Input::getInt('showSubjects', $params->get('showSubjects', 1));
 
-        $stMenuParam                  = Input::getInt('showPersons', $params->get('showPersons', 1));
-        $privilegedAccess             = Access::allowViewAccess($departmentID);
-        $personID                     = Persons::getIDByUserID();
+        $stMenuParam                 = Input::getInt('showPersons', $params->get('showPersons', 1));
+        $privilegedAccess            = Access::allowViewAccess($departmentID);
+        $personID                    = Persons::getIDByUserID();
         $showPersons                 = (($privilegedAccess or !empty($personID)) and $stMenuParam);
         $this->params['showPersons'] = $showPersons;
 
-        $deltaDays             = Input::getInt('deltaDays', $params->get('deltaDays', 5));
-        $this->params['delta'] = empty($deltaDays) ? false : date('Y-m-d', strtotime('-' . $deltaDays . ' days'));
+        $this->params['delta'] = Input::getInt('deltaDays', $params->get('deltaDays', 5));
 
         $defaultEnabled                  = Input::getInt('showDepartments', $params->get('showDepartments', 1));
         $this->params['showDepartments'] = empty($departmentID) ? $defaultEnabled : 0;
@@ -133,7 +132,7 @@ class ScheduleItem extends BaseModel
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
             $this->params['showSubjects']    = 0;
-            $this->params['showPersons']    = 0;
+            $this->params['showPersons']     = 0;
 
             if (count($this->params['groupIDs']) === 1 and $setTitle) {
                 $this->displayName           = Groups::getFullName($this->params['groupIDs'][0]);
@@ -172,7 +171,7 @@ class ScheduleItem extends BaseModel
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
             $this->params['showSubjects']    = 0;
-            $this->params['showPersons']    = 0;
+            $this->params['showPersons']     = 0;
 
             if (count($this->params['roomIDs']) === 1 and $setTitle) {
                 $this->displayName           = Rooms::getName($this->params['roomIDs'][0]);
@@ -191,7 +190,7 @@ class ScheduleItem extends BaseModel
             $this->params['showDepartments'] = 0;
             $this->params['showGroups']      = 0;
             $this->params['showSubjects']    = 0;
-            $this->params['showPersons']    = 0;;
+            $this->params['showPersons']     = 0;;
 
             if (count($this->params['roomtypeIDs']) === 1 and $setTitle) {
                 $this->displayName           = Roomtypes::getName($this->params['roomtypeIDs'][0]);
@@ -211,7 +210,7 @@ class ScheduleItem extends BaseModel
             $this->params['showGroups']      = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
-            $this->params['showPersons']    = 0;
+            $this->params['showPersons']     = 0;
             $this->params['showTypes']       = 0;
 
             // There can be only one.
@@ -232,7 +231,7 @@ class ScheduleItem extends BaseModel
             $this->params['showCategories']  = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
-            $this->params['showPersons']    = 0;
+            $this->params['showPersons']     = 0;
 
             $this->displayName           = Courses::getNameByLessonID($this->params['lessonIDs'][0]);
             $this->params['displayName'] = $this->displayName;
@@ -249,7 +248,7 @@ class ScheduleItem extends BaseModel
             $this->params['showDepartments'] = 0;
             $this->params['showRooms']       = 0;
             $this->params['showRoomtypes']   = 0;
-            $this->params['showPersons']    = 0;
+            $this->params['showPersons']     = 0;
 
             if (count($this->params['categoryIDs']) === 1 and $setTitle) {
                 $this->displayName           = Categories::getName(
