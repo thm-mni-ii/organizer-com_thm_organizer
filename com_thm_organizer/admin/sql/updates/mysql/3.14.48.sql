@@ -905,6 +905,22 @@ DELETE
 FROM `v7ocf_thm_organizer_subjects`
 WHERE `is_prep_course` = 1;
 
+UPDATE `v7ocf_thm_organizer_subjects`
+SET `expertise` = NULL
+WHERE `expertise` > 3;
+
+UPDATE `v7ocf_thm_organizer_subjects`
+SET `method_competence` = NULL
+WHERE `method_competence` > 3;
+
+UPDATE `v7ocf_thm_organizer_subjects`
+SET `self_competence` = NULL
+WHERE `self_competence` > 3;
+
+UPDATE `v7ocf_thm_organizer_subjects`
+SET `social_competence` = NULL
+WHERE `social_competence` > 3;
+
 ALTER TABLE `v7ocf_thm_organizer_subjects`
     CHANGE `short_name_de` `shortName_de` VARCHAR(45) NOT NULL DEFAULT '',
     CHANGE `short_name_en` `shortName_en` VARCHAR(45) NOT NULL DEFAULT '',
@@ -1036,17 +1052,17 @@ VALUES (1, 'Sommersemester', 'Summer Semester', 11, '{\"dates\":{\"1\":{\"startD
        (9, 'Klausurwoche 3', 'Examination Week 3', 11, '{\"dates\":{\"1\":{\"startDate\":\"2020-09-14\",\"endDate\":\"2020-09-19\"}}}'),
        (10, 'Klausurwoche 4', 'Examination Week 4', 11, '{\"dates\":{\"1\":{\"startDate\":\"2020-09-21\",\"endDate\":\"2020-09-26\"}}}'),
        (11, 'Projektwoche', 'Project Week', 11, '{\"dates\":{\"1\":{\"startDate\":\"2020-06-02\",\"endDate\":\"2020-06-06\"},\"2\":{\"startDate\":\"2020-06-12\",\"endDate\":\"2020-06-12\"}}}'),
-       (12, 'Sommersemester', 'Summer Semester', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-04-12\",\"endDate\":\"2021-04-16\"},\"2\":{\"startDate\":\"2021-04-19\",\"endDate\":\"2021-04-23\"},\"3\":{\"startDate\":\"2021-04-26\",\"endDate\":\"2021-04-30\"},\"4\":{\"startDate\":\"2021-05-03\",\"endDate\":\"2021-05-07\"},\"5\":{\"startDate\":\"2021-05-10\",\"endDate\":\"2021-05-12\"},\"6\":{\"startDate\":\"2021-05-17\",\"endDate\":\"2021-05-21\"},\"7\":{\"startDate\":\"2021-05-25\",\"endDate\":\"2021-05-28\"},\"8\":{\"startDate\":\"2021-06-07\",\"endDate\":\"2021-06-11\"},\"9\":{\"startDate\":\"2021-06-14\",\"endDate\":\"2021-06-18\"},\"10\":{\"startDate\":\"2021-06-21\",\"endDate\":\"2021-06-25\"},\"11\":{\"startDate\":\"2021-06-28\",\"endDate\":\"2021-07-02\"},\"12\":{\"startDate\":\"2021-07-05\",\"endDate\":\"2021-07-09\"},\"13\":{\"startDate\":\"2021-07-12\",\"endDate\":\"2021-07-16\"}}}'),
-       (13, 'Blockveranstaltungen 1', 'Block Event 1', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-08-02\",\"endDate\":\"2021-08-07\"},\"2\":{\"startDate\":\"2021-08-09\",\"endDate\":\"2021-08-14\"}}}'),
-       (14, 'Blockveranstaltungen 2', 'Block Event 2', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-08-16\",\"endDate\":\"2021-08-21\"},\"2\":{\"startDate\":\"2021-08-23\",\"endDate\":\"2021-08-28\"}}}'),
-       (15, 'Blockveranstaltungen 3', 'Block Event 3', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-08-30\",\"endDate\":\"2021-09-04\"},\"2\":{\"startDate\":\"2021-09-06\",\"endDate\":\"2021-09-11\"}}}'),
-       (16, 'Blockveranstaltungen 4', 'Block Event 4', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-09-13\",\"endDate\":\"2021-09-18\"}}}'),
-       (17, 'Klausurwoche 1', 'Examination Week 1', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-07-19\",\"endDate\":\"2021-07-24\"}}}'),
-       (18, 'Klausurwoche 2', 'Examination Week 2', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-07-26\",\"endDate\":\"2021-07-31\"}}}'),
-       (19, 'Klausurwoche 3', 'Examination Week 3', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-09-20\",\"endDate\":\"2021-09-25\"}}}'),
-       (20, 'Klausurwoche 4', 'Examination Week 4', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-09-27\",\"endDate\":\"2021-09-30\"}}}'),
-       (21, 'Projektwoche', 'Project Week', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-05-31\",\"endDate\":\"2021-06-02\"},\"2\":{\"startDate\":\"2021-06-04\",\"endDate\":\"2021-06-04\"}}}'),
-       (22, 'Einführungswoche', 'Introduction Week', 12, '{\"dates\":{\"1\":{\"startDate\":\"2021-04-06\",\"endDate\":\"2021-04-09\"}}}'),
+       (12, 'Sommersemester', 'Summer Semester', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-04-12\",\"endDate\":\"2021-04-16\"},\"2\":{\"startDate\":\"2021-04-19\",\"endDate\":\"2021-04-23\"},\"3\":{\"startDate\":\"2021-04-26\",\"endDate\":\"2021-04-30\"},\"4\":{\"startDate\":\"2021-05-03\",\"endDate\":\"2021-05-07\"},\"5\":{\"startDate\":\"2021-05-10\",\"endDate\":\"2021-05-12\"},\"6\":{\"startDate\":\"2021-05-17\",\"endDate\":\"2021-05-21\"},\"7\":{\"startDate\":\"2021-05-25\",\"endDate\":\"2021-05-28\"},\"8\":{\"startDate\":\"2021-06-07\",\"endDate\":\"2021-06-11\"},\"9\":{\"startDate\":\"2021-06-14\",\"endDate\":\"2021-06-18\"},\"10\":{\"startDate\":\"2021-06-21\",\"endDate\":\"2021-06-25\"},\"11\":{\"startDate\":\"2021-06-28\",\"endDate\":\"2021-07-02\"},\"12\":{\"startDate\":\"2021-07-05\",\"endDate\":\"2021-07-09\"},\"13\":{\"startDate\":\"2021-07-12\",\"endDate\":\"2021-07-16\"}}}'),
+       (13, 'Blockveranstaltungen 1', 'Block Event 1', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-08-02\",\"endDate\":\"2021-08-07\"},\"2\":{\"startDate\":\"2021-08-09\",\"endDate\":\"2021-08-14\"}}}'),
+       (14, 'Blockveranstaltungen 2', 'Block Event 2', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-08-16\",\"endDate\":\"2021-08-21\"},\"2\":{\"startDate\":\"2021-08-23\",\"endDate\":\"2021-08-28\"}}}'),
+       (15, 'Blockveranstaltungen 3', 'Block Event 3', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-08-30\",\"endDate\":\"2021-09-04\"},\"2\":{\"startDate\":\"2021-09-06\",\"endDate\":\"2021-09-11\"}}}'),
+       (16, 'Blockveranstaltungen 4', 'Block Event 4', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-09-13\",\"endDate\":\"2021-09-18\"}}}'),
+       (17, 'Klausurwoche 1', 'Examination Week 1', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-07-19\",\"endDate\":\"2021-07-24\"}}}'),
+       (18, 'Klausurwoche 2', 'Examination Week 2', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-07-26\",\"endDate\":\"2021-07-31\"}}}'),
+       (19, 'Klausurwoche 3', 'Examination Week 3', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-09-20\",\"endDate\":\"2021-09-25\"}}}'),
+       (20, 'Klausurwoche 4', 'Examination Week 4', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-09-27\",\"endDate\":\"2021-09-30\"}}}'),
+       (21, 'Projektwoche', 'Project Week', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-05-31\",\"endDate\":\"2021-06-02\"},\"2\":{\"startDate\":\"2021-06-04\",\"endDate\":\"2021-06-04\"}}}'),
+       (22, 'Einführungswoche', 'Introduction Week', 13, '{\"dates\":{\"1\":{\"startDate\":\"2021-04-06\",\"endDate\":\"2021-04-09\"}}}'),
        (23, 'Wintersemester', 'Winter Semester', 10, '{\"dates\":{\"1\":{\"startDate\":\"2019-10-07\",\"endDate\":\"2019-10-11\"},\"2\":{\"startDate\":\"2019-10-14\",\"endDate\":\"2019-10-18\"},\"3\":{\"startDate\":\"2019-10-21\",\"endDate\":\"2019-10-25\"},\"4\":{\"startDate\":\"2019-10-28\",\"endDate\":\"2019-11-01\"},\"5\":{\"startDate\":\"2019-11-04\",\"endDate\":\"2019-11-08\"},\"6\":{\"startDate\":\"2019-11-11\",\"endDate\":\"2019-11-15\"},\"7\":{\"startDate\":\"2019-11-18\",\"endDate\":\"2019-11-22\"},\"8\":{\"startDate\":\"2019-11-25\",\"endDate\":\"2019-11-29\"},\"9\":{\"startDate\":\"2019-12-02\",\"endDate\":\"2019-12-06\"},\"10\":{\"startDate\":\"2019-12-09\",\"endDate\":\"2019-12-13\"},\"11\":{\"startDate\":\"2019-12-16\",\"endDate\":\"2019-12-20\"},\"12\":{\"startDate\":\"2020-01-13\",\"endDate\":\"2020-01-17\"},\"13\":{\"startDate\":\"2020-01-20\",\"endDate\":\"2020-01-24\"}}}'),
        (24, 'Blockveranstaltungen 1', 'Block Event 1', 10, '{\"dates\":{\"1\":{\"startDate\":\"2020-02-10\",\"endDate\":\"2020-02-15\"},\"2\":{\"startDate\":\"2020-02-17\",\"endDate\":\"2020-02-22\"}}}'),
        (25, 'Blockveranstaltungen 2', 'Block Event 2', 10, '{\"dates\":{\"1\":{\"startDate\":\"2020-02-24\",\"endDate\":\"2020-02-29\"},\"2\":{\"startDate\":\"2020-03-02\",\"endDate\":\"2020-03-07\"}}}'),
@@ -1299,6 +1315,7 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instance_persons` (
     `modified`   TIMESTAMP                    DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
+    CONSTRAINT `entry` UNIQUE (`instanceID`, `personID`),
     INDEX `instanceID` (`instanceID`),
     INDEX `personID` (`personID`),
     INDEX `roleID` (`roleID`)
@@ -1351,7 +1368,7 @@ FROM `v7ocf_thm_organizer_lesson_pools` AS lp
          INNER JOIN `v7ocf_thm_organizer_lesson_subjects` AS ls ON ls.`id` = lp.`subjectID`
          INNER JOIN `v7ocf_thm_organizer_instances` AS i ON i.`eventID` = ls.`subjectID` AND i.`unitID` = ls.`lessonID`
          INNER JOIN `v7ocf_thm_organizer_instance_persons` AS ip ON ip.`instanceID` = i.`id`
-GROUP BY i.`id`, lp.`poolID`;
+GROUP BY ip.`id`, lp.`poolID`;
 
 #169 - 10s
 ALTER TABLE `v7ocf_thm_organizer_person_groups`

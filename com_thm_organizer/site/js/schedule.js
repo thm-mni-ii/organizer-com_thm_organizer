@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
  * @param {string} variables.dateFormat - configured format of date for this website (e.g. d.m.Y)
  * @param {string} variables.defaultGrid - JSON which contains the default schedule grid
  * @param {number} variables.departmentID - ID of selected department
- * @param {string} variables.deltaDays - amount of days deleted/moved events should get displayed
+ * @param {string} variables.delta - amount of days deleted/moved events should get displayed
  * @param {string} variables.displayName - indicates whether name of page should be displayed
  * @param {string} variables.exportBase - basic url for exporting schedules
  * @param {Object.<number, Object>} variables.grids - all schedule grids with days and times
@@ -1719,25 +1719,25 @@ const ScheduleApp = function (variables) {
                 'category': document.getElementById('category'),
                 'department': document.getElementById('department'),
                 'group': document.getElementById('group'),
+                'person': document.getElementById('person'),
                 'room': document.getElementById('room'),
                 'roomtype': document.getElementById('roomtype'),
-                'person': document.getElementById('person'),
                 'type': document.getElementById('type')
             },
             placeholder = {
-                'group': Joomla.JText._('THM_ORGANIZER_SELECT_GROUP'),
                 'category': Joomla.JText._('THM_ORGANIZER_SELECT_CATEGORY'),
-                'roomtype': Joomla.JText._('THM_ORGANIZER_SELECT_ROOMTYPE'),
+                'group': Joomla.JText._('THM_ORGANIZER_SELECT_GROUP'),
+                'person': Joomla.JText._('THM_ORGANIZER_SELECT_PERSON'),
                 'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
-                'person': Joomla.JText._('THM_ORGANIZER_SELECT_TEACHER')
+                'roomtype': Joomla.JText._('THM_ORGANIZER_SELECT_ROOMTYPE')
             },
             wrappers = {
                 'category': document.getElementById('category-input'),
                 'department': document.getElementById('department-input'),
                 'group': document.getElementById('group-input'),
+                'person': document.getElementById('person-input'),
                 'room': document.getElementById('room-input'),
                 'roomtype': document.getElementById('roomtype-input'),
-                'person': document.getElementById('person-input'),
                 'type': document.getElementById('type-input')
             },
             sessionFields = JSON.parse(window.sessionStorage.getItem('scheduleForm')) || {},

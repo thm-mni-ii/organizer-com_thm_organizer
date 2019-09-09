@@ -106,20 +106,18 @@ class Organizer extends BaseModel
             ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.id = lc.lessonID AND ls.lessonID = u.id')
             ->innerJoin('#__thm_organizer_events AS e ON e.id = ls.subjectID')
             ->innerJoin('#__thm_organizer_instances AS i ON i.blockID = b.id AND i.eventID = e.id AND i.unitID = u.id')
-            ->where("lc.id = $configurationID");
+            ->where("ccm.id = $configurationID");
 
         $this->_db->setQuery($configQuery);
 
-        if ($keys = OrganizerHelper::executeQuery('loadAssoc', [])) {
-            $configuration = json_decode($keys['configuration'], true);
+        if ($key = OrganizerHelper::executeQuery('loadAssoc', [])) {
 
-            foreach ($configuration['persons'] as $personID => $personDelta) {
-                if ($personDelta === 'removed') {
-                    continue;
-                }
+            $configuration = json_decode($key['configuration'], true);
+
+            foreach ($configuration['teachers'] as $personID => $personDelta) {
 
                 $instancePersons = OrganizerHelper::getTable('InstancePersons');
-                $instancePersons->load(['instanceID' => $keys['instanceID'], 'personID' => $personID]);
+                $instancePersons->load(['instanceID' => $key['instanceID'], 'personID' => $personID]);
 
                 if ($ipAssocID = $instancePersons->id) {
                     foreach ($configuration['rooms'] as $roomID => $roomDelta) {
@@ -128,8 +126,12 @@ class Organizer extends BaseModel
                         $personRooms->load($data);
 
                         if (empty($personRooms->id)) {
-                            $data['delta'] = $roomDelta;
-                            $personRooms->save($data);
+                            $prQuery = $this->_db->getQuery(true);
+                            $prQuery->insert('#__thm_organizer_person_rooms')
+                                ->columns('personID, roomID, delta, modified')
+                                ->values("$ipAssocID, $roomID, '$roomDelta', '{$key['modified']}'");
+                            $this->_db->setQuery($prQuery);
+                            OrganizerHelper::executeQuery('execute');
                         }
                     }
                 }
@@ -137,7 +139,7 @@ class Organizer extends BaseModel
         }
 
         $deleteQuery = $this->_db->getQuery(true);
-        $deleteQuery->delete('#__thm_organizer_lesson_configurations')->where("id = $configurationID");
+        $deleteQuery->delete('#__thm_organizer_calendar_configuration_map')->where("id = $configurationID");
 
         $this->_db->setQuery($deleteQuery);
         OrganizerHelper::executeQuery('execute');
@@ -153,12 +155,12 @@ class Organizer extends BaseModel
     public function migrateConfigurations()
     {
         $selectQuery = $this->_db->getQuery(true);
-        $selectQuery->select('DISTINCT id')->from('#__thm_organizer_lesson_configurations');
+        $selectQuery->select('DISTINCT id')->from('#__thm_organizer_calendar_configuration_map');
         $this->_db->setQuery($selectQuery);
 
-        $configurationIDs = OrganizerHelper::executeQuery('loadColumn', []);
-        foreach ($configurationIDs as $configurationID) {
-            $this->migrateConfiguration($configurationID);
+        $mapIDs = OrganizerHelper::executeQuery('loadColumn', []);
+        foreach ($mapIDs as $mapID) {
+            $this->migrateConfiguration($mapID);
         }
 
         return true;
@@ -248,6 +250,7 @@ class Organizer extends BaseModel
         unset($schedule['creationTime']);
         unset($schedule['departmentID']);
         unset($schedule['endDate']);
+        unset($schedule['referenceID']);
         unset($schedule['startDate']);
         unset($schedule['termID']);
 
@@ -320,10 +323,10 @@ class Organizer extends BaseModel
                         }
 
                         $persons = [];
-                        foreach ($instanceConfiguration['persons'] as $personID => $instancePersonDelta) {
+                        foreach ($instanceConfiguration['teachers'] as $personID => $instancePersonDelta) {
                             if (!$this->checkResourceID('Persons', $personID)
-                                or !array_key_exists($personID, $eventConfiguration['persons'])) {
-                                unset($instanceConfiguration['persons'][$personID]);
+                                or !array_key_exists($personID, $eventConfiguration['teachers'])) {
+                                unset($instanceConfiguration['teachers'][$personID]);
                                 continue;
                             }
                             $persons[$personID] = ['groups' => $groups, 'rooms' => $rooms];
@@ -479,19 +482,21 @@ class Organizer extends BaseModel
                     'organizer.migrateUserLessons',
                     false
                 );
+
+                return;
             } else {
                 $this->_db->setQuery('DROP TABLE `#__thm_organizer_user_lessons`');
                 OrganizerHelper::executeQuery('execute');
-                $userLessonsMigrated = true;
             }
 
         }
 
-        $configsTable          = $prefix . 'thm_organizer_lesson_configurations';
-        $lessonConfigsMigrated = !in_array($configsTable, $tables);
-        if (!$lessonConfigsMigrated) {
+
+        $mapTable         = $prefix . 'thm_organizer_calendar_configuration_map';
+        $mappingsMigrated = !in_array($mapTable, $tables);
+        if (!$mappingsMigrated) {
             $configCountQuery = $this->_db->getQuery(true);
-            $configCountQuery->select('COUNT(*)')->from('#__thm_organizer_lesson_configurations');
+            $configCountQuery->select('COUNT(*)')->from('#__thm_organizer_calendar_configuration_map');
             $this->_db->setQuery($configCountQuery);
 
             if (OrganizerHelper::executeQuery('loadResult', 0)) {
@@ -504,7 +509,7 @@ class Organizer extends BaseModel
                 );
 
                 return;
-            } elseif ($userLessonsMigrated) {
+            } else {
                 $this->_db->setQuery('DROP TABLE `#__thm_organizer_calendar_configuration_map`');
                 OrganizerHelper::executeQuery('execute');
 

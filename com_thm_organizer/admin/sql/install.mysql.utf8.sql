@@ -332,6 +332,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_persons` (
     `modified`   TIMESTAMP                    DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
+    CONSTRAINT `entry` UNIQUE (`instanceID`, `personID`),
     INDEX `instanceID` (`instanceID`),
     INDEX `personID` (`personID`),
     INDEX `roleID` (`roleID`)
