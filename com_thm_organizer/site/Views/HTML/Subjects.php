@@ -115,7 +115,7 @@ class Subjects extends ListView
 
         $headers['checkbox']     = '';
         $headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['externalID']   = HTML::sort('MODULE_CODE', 'externalID', $direction, $ordering);
+        $headers['code']   = HTML::sort('MODULE_CODE', 'code', $direction, $ordering);
         $headers['persons']      = Languages::_('THM_ORGANIZER_TEACHERS');
         $headers['creditpoints'] = Languages::_('THM_ORGANIZER_CREDIT_POINTS');
 
@@ -198,7 +198,7 @@ class Subjects extends ListView
             $processedItems[$index]                 = [];
             $processedItems[$index]['checkbox']     = $checkbox;
             $processedItems[$index]['name']         = HTML::_('link', $thisLink, $subject->name);
-            $processedItems[$index]['externalID']   = HTML::_('link', $thisLink, $subject->externalID);
+            $processedItems[$index]['code']   = HTML::_('link', $thisLink, $subject->code);
             $processedItems[$index]['persons']      = $this->getPersonDisplay($subject);
             $processedItems[$index]['creditpoints'] = empty($subject->creditpoints) ? '' : $subject->creditpoints;
 

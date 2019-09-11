@@ -82,10 +82,6 @@ class Pools extends Nullable
      */
     public function check()
     {
-        if (empty($this->hisID)) {
-            $this->hisID = null;
-        }
-
         if (empty($this->lsfID)) {
             $this->lsfID = null;
         }

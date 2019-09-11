@@ -32,7 +32,7 @@ class SubjectSelection extends ListModel
         $tag   = Languages::getTag();
         $query = $dbo->getQuery(true);
 
-        $query->select("DISTINCT s.id, externalID, name_$tag AS name")->from('#__thm_organizer_subjects AS s');
+        $query->select("DISTINCT s.id, code, name_$tag AS name")->from('#__thm_organizer_subjects AS s');
 
         $searchFields = [
             'name_de',
@@ -41,7 +41,7 @@ class SubjectSelection extends ListModel
             'name_en',
             'shortName_en',
             'abbreviation_en',
-            'externalID',
+            'code',
             'description_de',
             'objective_de',
             'content_de',
@@ -50,7 +50,7 @@ class SubjectSelection extends ListModel
             'content_en'
         ];
         $this->setSearchFilter($query, $searchFields);
-        $this->setValueFilters($query, ['externalID', 'fieldID']);
+        $this->setValueFilters($query, ['code', 'fieldID']);
 
         $programID = $this->state->get('filter.programID', '');
         Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');

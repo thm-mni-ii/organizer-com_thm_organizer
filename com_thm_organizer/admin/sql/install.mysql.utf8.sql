@@ -75,19 +75,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_colors` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_course_instances` (
-    `id`         INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `courseID`   INT(11) UNSIGNED NOT NULL,
-    `instanceID` INT(20) UNSIGNED NOT NULL,
-    PRIMARY KEY (`id`),
-    CONSTRAINT `entry` UNIQUE (`courseID`, `instanceID`),
-    INDEX `courseID` (`courseID`),
-    INDEX `instanceID` (`instanceID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_course_participants` (
     `id`              INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `courseID`        INT(11) UNSIGNED NOT NULL,
@@ -107,9 +94,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_course_participants` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_courses` (
     `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `campusID`         INT(11) UNSIGNED          DEFAULT NULL,
-    `eventID`          INT(11) UNSIGNED NOT NULL,
     `termID`           INT(11) UNSIGNED NOT NULL,
     `groups`           VARCHAR(100)     NOT NULL DEFAULT '',
+    `name_de`          VARCHAR(100)              DEFAULT NULL,
+    `name_en`          VARCHAR(100)              DEFAULT NULL,
+    `description_de`   TEXT,
+    `description_en`   TEXT,
     `deadline`         INT(2) UNSIGNED           DEFAULT 0
         COMMENT 'The deadline in days for registration before the course starts.',
     `fee`              INT(3) UNSIGNED           DEFAULT 0,
@@ -118,7 +108,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_courses` (
         COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
     PRIMARY KEY (`id`),
     INDEX `campusID` (`campusID`),
-    INDEX `eventID` (`eventID`),
     INDEX `termID` (`termID`)
 )
     ENGINE = InnoDB
@@ -319,6 +308,21 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_participants` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_groups` (
+    `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `assocID`  INT(20) UNSIGNED NOT NULL COMMENT 'The instance to person association id.',
+    `groupID`  INT(11) UNSIGNED NOT NULL,
+    `delta`    VARCHAR(10)      NOT NULL DEFAULT '' COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
+    `modified` TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX `assocID` (`assocID`),
+    INDEX `groupID` (`groupID`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_persons` (
     `id`         INT(20) UNSIGNED    NOT NULL AUTO_INCREMENT,
     `instanceID` INT(20) UNSIGNED    NOT NULL,
@@ -333,6 +337,22 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_persons` (
     INDEX `instanceID` (`instanceID`),
     INDEX `personID` (`personID`),
     INDEX `roleID` (`roleID`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_rooms` (
+    `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `assocID`  INT(20) UNSIGNED NOT NULL COMMENT 'The instance to person association id.',
+    `roomID`   INT(11) UNSIGNED NOT NULL,
+    `delta`    VARCHAR(10)      NOT NULL DEFAULT ''
+        COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
+    `modified` TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX `assocID` (`assocID`),
+    INDEX `roomID` (`roomID`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -430,39 +450,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_participants` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_person_groups` (
-    `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `groupID`  INT(11) UNSIGNED NOT NULL,
-    `personID` INT(20) UNSIGNED NOT NULL
-        COMMENT 'The instance to person association id.',
-    `delta`    VARCHAR(10)      NOT NULL DEFAULT ''
-        COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
-    `modified` TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    INDEX `groupID` (`groupID`),
-    INDEX `personID` (`personID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_person_rooms` (
-    `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `personID` INT(20) UNSIGNED NOT NULL COMMENT 'The instance to person association id.',
-    `roomID`   INT(11) UNSIGNED NOT NULL,
-    `delta`    VARCHAR(10)      NOT NULL DEFAULT ''
-        COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
-    `modified` TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    INDEX `personID` (`personID`),
-    INDEX `roomID` (`roomID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_persons` (
     `id`       INT(11)             NOT NULL AUTO_INCREMENT,
     `untisID`  VARCHAR(60)                  DEFAULT NULL,
@@ -499,7 +486,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
     `asset_id`        INT(11)          NOT NULL DEFAULT 0,
     `departmentID`    INT(11) UNSIGNED          DEFAULT NULL,
     `fieldID`         INT(11) UNSIGNED          DEFAULT NULL,
-    `groupID`          INT(11) UNSIGNED          DEFAULT NULL,
+    `groupID`         INT(11) UNSIGNED          DEFAULT NULL,
     `lsfID`           INT(11) UNSIGNED          DEFAULT NULL,
     `code`            VARCHAR(45)               DEFAULT '',
     `abbreviation_de` VARCHAR(45)               DEFAULT '',
@@ -680,8 +667,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
     `asset_id`                    INT(11)               NOT NULL DEFAULT 0,
     `departmentID`                INT(11) UNSIGNED               DEFAULT NULL,
     `lsfID`                       INT(11) UNSIGNED               DEFAULT NULL,
-    `hisID`                       INT(11) UNSIGNED               DEFAULT NULL,
-    `externalID`                  VARCHAR(45)           NOT NULL DEFAULT '',
+    `code`                        VARCHAR(45)           NOT NULL DEFAULT '',
     `abbreviation_de`             VARCHAR(45)           NOT NULL DEFAULT '',
     `abbreviation_en`             VARCHAR(45)           NOT NULL DEFAULT '',
     `shortName_de`                VARCHAR(45)           NOT NULL DEFAULT '',
@@ -749,6 +735,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_terms` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_units` (
     `id`           INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `courseID`     INT(11) UNSIGNED          DEFAULT NULL,
     `departmentID` INT(11) UNSIGNED          DEFAULT NULL,
     `termID`       INT(11) UNSIGNED          DEFAULT NULL,
     `untisID`      INT(11) UNSIGNED NOT NULL,
@@ -782,14 +769,6 @@ ALTER TABLE `#__thm_organizer_campuses`
         ON DELETE SET NULL
         ON UPDATE CASCADE;
 
-ALTER TABLE `#__thm_organizer_course_instances`
-    ADD CONSTRAINT `course_instances_courseID_fk` FOREIGN KEY (`courseID`) REFERENCES `#__thm_organizer_courses` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    ADD CONSTRAINT `course_instances_instanceID_fk` FOREIGN KEY (`instanceID`) REFERENCES `#__thm_organizer_instances` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE;
-
 ALTER TABLE `#__thm_organizer_course_participants`
     ADD CONSTRAINT `course_participants_courseID_fk` FOREIGN KEY (`courseID`) REFERENCES `#__thm_organizer_courses` (`id`)
         ON DELETE CASCADE
@@ -799,7 +778,7 @@ ALTER TABLE `#__thm_organizer_course_participants`
         ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_courses`
-    ADD CONSTRAINT `courses_eventID_fk` FOREIGN KEY (`eventID`) REFERENCES `#__thm_organizer_events` (`id`)
+    ADD CONSTRAINT `courses_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `courses_termID_fk` FOREIGN KEY (`termID`) REFERENCES `#__thm_organizer_terms` (`id`)
@@ -873,6 +852,14 @@ ALTER TABLE `#__thm_organizer_instance_participants`
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 
+ALTER TABLE `#__thm_organizer_instance_groups`
+    ADD CONSTRAINT `instance_groups_assocID_fk` FOREIGN KEY (`assocID`) REFERENCES `#__thm_organizer_instance_persons` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `instance_groups_groupID_fk` FOREIGN KEY (`groupID`) REFERENCES `#__thm_organizer_groups` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
+
 ALTER TABLE `#__thm_organizer_instance_persons`
     ADD CONSTRAINT `instance_persons_instanceID_fk` FOREIGN KEY (`instanceID`) REFERENCES `#__thm_organizer_instances` (`id`)
         ON DELETE CASCADE
@@ -881,6 +868,14 @@ ALTER TABLE `#__thm_organizer_instance_persons`
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `instance_persons_roleID_fk` FOREIGN KEY (`roleID`) REFERENCES `#__thm_organizer_roles` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
+
+ALTER TABLE `#__thm_organizer_instance_rooms`
+    ADD CONSTRAINT `instance_rooms_assocID_fk` FOREIGN KEY (`assocID`) REFERENCES `#__thm_organizer_instance_persons` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `instance_rooms_roomID_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 
@@ -922,22 +917,6 @@ ALTER TABLE `#__thm_organizer_participants`
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `participants_userID_fk` FOREIGN KEY (`id`) REFERENCES `#__users` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_person_groups`
-    ADD CONSTRAINT `person_groups_groupID_fk` FOREIGN KEY (`groupID`) REFERENCES `#__thm_organizer_groups` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    ADD CONSTRAINT `person_groups_personID_fk` FOREIGN KEY (`personID`) REFERENCES `#__thm_organizer_instance_persons` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE;
-
-ALTER TABLE `#__thm_organizer_person_rooms`
-    ADD CONSTRAINT `person_rooms_personID_fk` FOREIGN KEY (`personID`) REFERENCES `#__thm_organizer_instance_persons` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    ADD CONSTRAINT `person_rooms_roomID_fk` FOREIGN KEY (`roomID`) REFERENCES `#__thm_organizer_rooms` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE;
 
@@ -1034,7 +1013,10 @@ ALTER TABLE `#__thm_organizer_subjects`
         ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_units`
-    ADD CONSTRAINT `untis_departmentID_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
+    ADD CONSTRAINT `units_courseID_fk` FOREIGN KEY (`courseID`) REFERENCES `#__thm_organizer_courses` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `units_departmentID_fk` FOREIGN KEY (`departmentID`) REFERENCES `#__thm_organizer_departments` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     ADD CONSTRAINT `units_gridID_fk` FOREIGN KEY (`gridID`) REFERENCES `#__thm_organizer_grids` (`id`)

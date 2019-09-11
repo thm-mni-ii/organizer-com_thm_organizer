@@ -581,7 +581,7 @@ class Courses
         $query = $dbo->getQuery(true);
         $query->select("co.name as courseName, s.name_$tag as name")
             ->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
-            ->select('co.subjectNo as courseSubjectNo, s.externalID as subjectNo')
+            ->select('co.subjectNo as courseSubjectNo, s.code as subjectNo')
             ->from('#__thm_organizer_courses AS co')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')
             ->leftJoin('#__thm_organizer_subjects AS s ON s.id = sm.subjectID')

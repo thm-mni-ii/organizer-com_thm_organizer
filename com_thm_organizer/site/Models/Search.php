@@ -940,14 +940,14 @@ class Search extends BaseModel
 
         $courseClause = "(co.name LIKE '$initialTerm' OR co.subjectNo LIKE '$initialTerm'";
 
-        $sClause = "(s.externalID LIKE '$initialTerm' OR s.name_de LIKE '$initialTerm' OR ";
+        $sClause = "(s.code LIKE '$initialTerm' OR s.name_de LIKE '$initialTerm' OR ";
         $sClause .= "s.name_en LIKE '$initialTerm' OR s.shortName_de LIKE '$initialTerm' OR ";
         $sClause .= "s.shortName_en LIKE '$initialTerm' OR s.abbreviation_de LIKE '$initialTerm' OR ";
         $sClause .= "s.abbreviation_en LIKE '$initialTerm'";
 
         foreach ($terms as $term) {
             $courseClause .= " OR co.subjectNo LIKE '$term'";
-            $sClause      .= "OR s.externalID LIKE '$term'";
+            $sClause      .= "OR s.code LIKE '$term'";
         }
 
         $courseClause .= ')';

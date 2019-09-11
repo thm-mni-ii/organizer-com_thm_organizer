@@ -93,7 +93,7 @@ class CurriculumAjax extends BaseModel
     {
         $dbo    = Factory::getDbo();
         $query  = $dbo->getQuery(true);
-        $select = "p.id, lsfID, hisID, externalID, name_$tag AS name, minCrP, maxCrP, color";
+        $select = "p.id, lsfID, name_$tag AS name, minCrP, maxCrP, color";
         $query->select($select);
         $query->from('#__thm_organizer_pools AS p');
         $query->leftJoin('#__thm_organizer_fields AS f ON p.fieldID = f.id');
@@ -158,7 +158,7 @@ class CurriculumAjax extends BaseModel
         $itemID        = Input::getItemid();
         $dbo           = Factory::getDbo();
         $query         = $dbo->getQuery(true);
-        $select        = "s.id, lsfID, hisID, externalID, name_$tag AS name, creditpoints AS maxCrP, color, ";
+        $select        = "s.id, lsfID, code, name_$tag AS name, creditpoints AS maxCrP, color, ";
         $concateSelect = [
             "'index.php?option=com_thm_organizer&view=subject_item&language='",
             "'$tag'",
@@ -186,9 +186,9 @@ class CurriculumAjax extends BaseModel
         }
 
         $subjectData->link = Route::_($subjectData->link);
-        if (!empty($subjectData->externalID) and !empty($this->schedule)) {
+        if (!empty($subjectData->code) and !empty($this->schedule)) {
             foreach ($this->schedule->subjects as $subjectID => $subject) {
-                if ($subject->subjectNo == $subjectData->externalID) {
+                if ($subject->subjectNo == $subjectData->code) {
                     $subjectData->scheduleLink = $this->scheduleLink . "&subjectID=$subjectID";
                     break;
                 }

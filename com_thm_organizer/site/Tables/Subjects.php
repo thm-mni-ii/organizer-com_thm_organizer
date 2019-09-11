@@ -39,7 +39,6 @@ class Subjects extends Assets
             'expertise',
             'fieldID',
             'frequencyID',
-            'hisID',
             'instructionLanguage',
             'lsfID',
             'methodCompetence',

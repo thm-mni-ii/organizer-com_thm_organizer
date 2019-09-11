@@ -87,7 +87,7 @@ class Subjects extends ListModel implements FiltersFormFilters
 
         // Create the sql query
         $query = $dbo->getQuery(true);
-        $query->select("DISTINCT s.id, s.externalID, s.name_$tag AS name, s.fieldID, s.creditpoints")
+        $query->select("DISTINCT s.id, s.code, s.name_$tag AS name, s.fieldID, s.creditpoints")
             ->from('#__thm_organizer_subjects AS s');
 
         $searchFields = [
@@ -97,7 +97,7 @@ class Subjects extends ListModel implements FiltersFormFilters
             's.name_en',
             'shortName_en',
             'abbreviation_en',
-            'externalID',
+            'code',
             'description_de',
             'objective_de',
             'content_de',

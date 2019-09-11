@@ -87,7 +87,7 @@ class Subjects extends ResourceHelper implements Selectable
         $query = $dbo->getQuery(true);
         $query->select("co.name as courseName, s.name_$tag as name")
             ->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
-            ->select('co.subjectNo as courseSubjectNo, s.externalID as subjectNo')
+            ->select('co.subjectNo as courseSubjectNo, s.code as subjectNo')
             ->from('#__thm_organizer_subjects AS s')
             ->leftJoin('#__thm_organizer_subject_mappings AS sm ON s.id = sm.subjectID')
             ->leftJoin('#__thm_organizer_courses AS co ON co.id = sm.courseID')
@@ -247,7 +247,7 @@ class Subjects extends ResourceHelper implements Selectable
             'field'        => Fields::getName($table->fieldID, 'field'),
             'fieldID'      => $table->fieldID,
             'id'           => $table->id,
-            'moduleNo'     => $table->externalID,
+            'moduleNo'     => $table->code,
             'name'         => $table->{"name_$tag"},
             'shortName'    => $table->{"shortName_$tag"},
         ];
@@ -272,7 +272,7 @@ class Subjects extends ResourceHelper implements Selectable
         $query = $dbo->getQuery(true);
 
         $tag = Languages::getTag();
-        $query->select("DISTINCT s.id, s.name_$tag AS name, s.externalID, s.creditpoints")
+        $query->select("DISTINCT s.id, s.name_$tag AS name, s.code, s.creditpoints")
             ->select('t.surname, t.forename, t.title, t.username')
             ->from('#__thm_organizer_subjects AS s')
             ->order('name')

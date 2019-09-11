@@ -58,7 +58,7 @@ class SubjectItem extends ItemModel
             ->select("campusID AS campus, content_$tag AS content, creditpoints, departmentID")
             ->select("description_$tag AS description, duration, evaluation_$tag AS evaluation, expenditure, expertise")
             ->select("instructionLanguage, literature, method_$tag AS method, methodCompetence")
-            ->select("externalID AS moduleCode, name_$tag AS name, objective_$tag AS objective")
+            ->select("code AS moduleCode, name_$tag AS name, objective_$tag AS objective")
             ->select("preliminaryWork_$tag AS preliminaryWork, usedFor_$tag AS prerequisiteFor")
             ->select("prerequisites_$tag AS prerequisites, proof_$tag AS proof")
             ->select("recommendedPrerequisites_$tag as recommendedPrerequisites, selfCompetence")
@@ -186,8 +186,8 @@ class SubjectItem extends ItemModel
 
         $query  = $this->_db->getQuery(true);
         $select = 'DISTINCT pr.id AS id, ';
-        $select .= "s1.id AS preID, s1.name_$tag AS preName, s1.externalID AS preModuleNumber, ";
-        $select .= "s2.id AS postID, s2.name_$tag AS postName, s2.externalID AS postModuleNumber";
+        $select .= "s1.id AS preID, s1.name_$tag AS preName, s1.code AS preModuleNumber, ";
+        $select .= "s2.id AS postID, s2.name_$tag AS postName, s2.code AS postModuleNumber";
         $query->select($select);
         $query->from('#__thm_organizer_prerequisites AS pr');
         $query->innerJoin('#__thm_organizer_mappings AS m1 ON pr.prerequisiteID = m1.id');

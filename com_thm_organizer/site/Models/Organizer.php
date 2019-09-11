@@ -119,17 +119,17 @@ class Organizer extends BaseModel
                 $instancePersons = OrganizerHelper::getTable('InstancePersons');
                 $instancePersons->load(['instanceID' => $key['instanceID'], 'personID' => $personID]);
 
-                if ($ipAssocID = $instancePersons->id) {
+                if ($assocID = $instancePersons->id) {
                     foreach ($configuration['rooms'] as $roomID => $roomDelta) {
-                        $personRooms = OrganizerHelper::getTable('PersonRooms');
-                        $data        = ['personID' => $ipAssocID, 'roomID' => $roomID];
-                        $personRooms->load($data);
+                        $instanceRooms = OrganizerHelper::getTable('InstanceRooms');
+                        $data          = ['assocID' => $assocID, 'roomID' => $roomID];
+                        $instanceRooms->load($data);
 
-                        if (empty($personRooms->id)) {
+                        if (empty($instanceRooms->id)) {
                             $prQuery = $this->_db->getQuery(true);
-                            $prQuery->insert('#__thm_organizer_person_rooms')
-                                ->columns('personID, roomID, delta, modified')
-                                ->values("$ipAssocID, $roomID, '$roomDelta', '{$key['modified']}'");
+                            $prQuery->insert('#__thm_organizer_instance_rooms')
+                                ->columns('assocID, roomID, delta, modified')
+                                ->values("$assocID, $roomID, '$roomDelta', '{$key['modified']}'");
                             $this->_db->setQuery($prQuery);
                             OrganizerHelper::executeQuery('execute');
                         }

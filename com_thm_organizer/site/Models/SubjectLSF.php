@@ -43,7 +43,7 @@ class SubjectLSF extends BaseModel
         foreach ($checkedAttributes as $checkedAttribute) {
             foreach ($modules as $mappedSubjects) {
                 foreach ($mappedSubjects as $mappedSubject) {
-                    if ($checkedAttribute == 'externalID') {
+                    if ($checkedAttribute == 'code') {
                         $text = str_replace(strtolower($mappedSubject[$checkedAttribute]), '', $text);
                         $text = str_replace(strtoupper($mappedSubject[$checkedAttribute]), '', $text);
                     } else {
@@ -69,7 +69,7 @@ class SubjectLSF extends BaseModel
      */
     private function checkForMappedSubjects($possibleModNos, $programs)
     {
-        $select = 's.id AS subjectID, externalID, ';
+        $select = 's.id AS subjectID, code, ';
         $select .= 'abbreviation_de, shortName_de, name_de, abbreviation_en, shortName_en, name_en, ';
         $select .= 'm.id AS mappingID, m.lft, m.rgt, ';
 
@@ -90,7 +90,7 @@ class SubjectLSF extends BaseModel
 
                 $query->clear('where');
                 $query->where("lft > '{$program['lft']}' AND rgt < '{$program['rgt']}'");
-                $query->where("s.externalID = '$possibleModuleNumber'");
+                $query->where("s.code = '$possibleModuleNumber'");
                 $this->_db->setQuery($query);
 
                 $mappedSubjects = OrganizerHelper::executeQuery('loadAssocList', [], 'mappingID');
@@ -317,8 +317,7 @@ class SubjectLSF extends BaseModel
             return false;
         }
 
-        $this->setAttribute($subject, 'hisID', (int)$dataObject->nrhis);
-        $this->setAttribute($subject, 'externalID', (string)$dataObject->modulecode);
+        $this->setAttribute($subject, 'code', (string)$dataObject->modulecode);
         $this->setAttribute($subject, 'abbreviation_de', (string)$dataObject->kuerzel);
         $this->setAttribute($subject, 'abbreviation_en', (string)$dataObject->kuerzelen, $subject->abbreviation_de);
         $this->setAttribute($subject, 'shortName_de', (string)$dataObject->kurzname);
@@ -494,7 +493,7 @@ class SubjectLSF extends BaseModel
 
         // Ordered by length for faster in case short is a subset of long.
         $checkedAttributes = [
-            'externalID',
+            'code',
             'name_de',
             'shortName_de',
             'abbreviation_de',

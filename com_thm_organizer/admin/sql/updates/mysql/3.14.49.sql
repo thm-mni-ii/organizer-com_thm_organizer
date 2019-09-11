@@ -114,7 +114,7 @@ ALTER TABLE `v7ocf_thm_organizer_pools`
     MODIFY `fieldID` INT(11) UNSIGNED DEFAULT NULL AFTER `departmentID`,
     ADD COLUMN `groupID` INT(11) UNSIGNED DEFAULT NULL AFTER `fieldID`,
     DROP COLUMN `hisID`,
-    CHANGE `externalID` `code` VARCHAR(45) DEFAULT '',
+    DROP COLUMN `externalID`,
     MODIFY `abbreviation_de` VARCHAR(45) DEFAULT '' AFTER `code`,
     MODIFY `abbreviation_en` VARCHAR(45) DEFAULT '' AFTER `abbreviation_de`,
     CHANGE `short_name_de` `shortName_de` VARCHAR(45) DEFAULT '' AFTER `abbreviation_en`,

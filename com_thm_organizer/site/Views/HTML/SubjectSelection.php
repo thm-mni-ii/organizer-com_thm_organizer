@@ -97,7 +97,7 @@ class SubjectSelection extends ListView
             }
 
             $name = $subject->name;
-            $name .= empty($subject->externalID) ? '' : " - $subject->externalID";
+            $name .= empty($subject->code) ? '' : " - $subject->code";
 
             $processedItems[$index]             = [];
             $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $subject->id);

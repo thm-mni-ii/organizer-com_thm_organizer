@@ -52,10 +52,9 @@ class PoolLSF extends BaseModel
         $blocked = !empty($stub->sperrmh) and strtolower((string)$stub->sperrmh) == 'x';
 
         $lsfID = empty($stub->pordid) ? (int)$stub->modulid : (int)$stub->pordid;
-        $hisID = empty($stub->nrhis) ? (int)$stub->modulnrhis : (int)$stub->nrhis;
 
         $pool = $this->getTable();
-        $pool->load(['lsfID' => $lsfID, 'hisID' => $hisID]);
+        $pool->load(['lsfID' => $lsfID]);
 
         if (!empty($pool->id) and ($blocked or $invalidTitle)) {
             $poolModel = new Pool;
@@ -65,8 +64,6 @@ class PoolLSF extends BaseModel
 
         $pool->departmentID = $departmentID;
         $pool->lsfID        = $lsfID;
-        $pool->hisID        = $hisID;
-        $this->setAttribute($pool, 'externalID', (string)$stub->alphaid);
         $this->setAttribute($pool, 'abbreviation_de', (string)$stub->kuerzel);
         $this->setAttribute($pool, 'abbreviation_en', (string)$stub->kuerzelen, $pool->abbreviation_de);
         $this->setAttribute($pool, 'shortName_de', (string)$stub->kurzname);

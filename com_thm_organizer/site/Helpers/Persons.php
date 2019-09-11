@@ -326,8 +326,8 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 
             if (!empty($selectedPrograms)) {
                 $categoryIDs = "'" . str_replace(',', "', '", $selectedCategories) . "'";
-                $query->innerJoin('#__thm_organizer_person_groups AS pg ON pg.personID = ip.id')
-                    ->innerJoin('#__thm_organizer_groups AS g ON g.id = pg.groupID');
+                $query->innerJoin('#__thm_organizer_instance_groups AS ig ON ig.accocID = ip.id')
+                    ->innerJoin('#__thm_organizer_groups AS g ON g.id = ig.groupID');
 
                 $where .= " AND g.categoryID in ($categoryIDs)";
                 $where = "($where)";
