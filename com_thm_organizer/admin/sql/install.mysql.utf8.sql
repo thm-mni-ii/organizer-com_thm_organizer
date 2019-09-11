@@ -53,13 +53,11 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_campuses` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_categories` (
-    `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `untisID`   VARCHAR(60)      DEFAULT NULL,
-    `programID` INT(11) UNSIGNED DEFAULT NULL,
-    `name`      VARCHAR(100)     NOT NULL,
-    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    `id`      INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `untisID` VARCHAR(60)                  DEFAULT NULL,
+    `name`    VARCHAR(100)        NOT NULL,
+    `active`  TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
-    INDEX `programID` (`programID`),
     UNIQUE INDEX `untisID` (`untisID`)
 )
     ENGINE = InnoDB
@@ -271,16 +269,15 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_group_publishing` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_groups` (
-    `id`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `untisID`    VARCHAR(60)      DEFAULT NULL,
-    `poolID`     INT(11) UNSIGNED DEFAULT NULL,
-    `categoryID` INT(11) UNSIGNED DEFAULT NULL,
-    `fieldID`    INT(11) UNSIGNED DEFAULT NULL,
-    `gridID`     INT(11) UNSIGNED DEFAULT 1,
-    `name`       VARCHAR(100)     NOT NULL,
-    `fullName`   VARCHAR(100)     NOT NULL
+    `id`         INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `untisID`    VARCHAR(60)                  DEFAULT NULL,
+    `categoryID` INT(11) UNSIGNED             DEFAULT NULL,
+    `fieldID`    INT(11) UNSIGNED             DEFAULT NULL,
+    `gridID`     INT(11) UNSIGNED             DEFAULT 1,
+    `name`       VARCHAR(100)        NOT NULL,
+    `fullName`   VARCHAR(100)        NOT NULL
         COMMENT 'The fully qualified name of the pool including the degree program to which it is associated.',
-    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    `active`     TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `entry` (`untisID`, `categoryID`),
     INDEX `categoryID` (`categoryID`),
@@ -467,14 +464,14 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_person_rooms` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_persons` (
-    `id`       INT(11)      NOT NULL AUTO_INCREMENT,
-    `untisID`  VARCHAR(60)           DEFAULT NULL,
-    `surname`  VARCHAR(255) NOT NULL,
-    `forename` VARCHAR(255) NOT NULL DEFAULT '',
-    `username` VARCHAR(150)          DEFAULT NULL,
-    `fieldID`  INT(11) UNSIGNED      DEFAULT NULL,
-    `title`    VARCHAR(45)  NOT NULL DEFAULT '',
-    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    `id`       INT(11)             NOT NULL AUTO_INCREMENT,
+    `untisID`  VARCHAR(60)                  DEFAULT NULL,
+    `surname`  VARCHAR(255)        NOT NULL,
+    `forename` VARCHAR(255)        NOT NULL DEFAULT '',
+    `username` VARCHAR(150)                 DEFAULT NULL,
+    `fieldID`  INT(11) UNSIGNED             DEFAULT NULL,
+    `title`    VARCHAR(45)         NOT NULL DEFAULT '',
+    `active`   TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`),
     INDEX `username` (`username`),
@@ -501,9 +498,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
     `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `asset_id`        INT(11)          NOT NULL DEFAULT 0,
     `departmentID`    INT(11) UNSIGNED          DEFAULT NULL,
+    `fieldID`         INT(11) UNSIGNED          DEFAULT NULL,
+    `groupID`          INT(11) UNSIGNED          DEFAULT NULL,
     `lsfID`           INT(11) UNSIGNED          DEFAULT NULL,
-    `hisID`           INT(11) UNSIGNED          DEFAULT NULL,
-    `externalID`      VARCHAR(45)               DEFAULT '',
+    `code`            VARCHAR(45)               DEFAULT '',
     `abbreviation_de` VARCHAR(45)               DEFAULT '',
     `abbreviation_en` VARCHAR(45)               DEFAULT '',
     `shortName_de`    VARCHAR(45)               DEFAULT '',
@@ -514,12 +512,12 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
     `description_en`  TEXT,
     `minCrP`          INT(3) UNSIGNED           DEFAULT 0,
     `maxCrP`          INT(3) UNSIGNED           DEFAULT 0,
-    `fieldID`         INT(11) UNSIGNED          DEFAULT NULL,
     `distance`        INT(2) UNSIGNED           DEFAULT 10,
     PRIMARY KEY (`id`),
+    INDEX `code` (`code`),
     INDEX `departmentID` (`departmentID`),
-    INDEX `externalID` (`externalID`),
     INDEX `fieldID` (`fieldID`),
+    INDEX `groupID` (`groupID`),
     UNIQUE `lsfID` (`lsfID`)
 )
     ENGINE = InnoDB
@@ -542,19 +540,21 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_prerequisites` (
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_programs` (
     `id`             INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
     `asset_id`       INT(11)             NOT NULL DEFAULT 0,
+    `categoryID`     INT(11) UNSIGNED             DEFAULT NULL,
+    `degreeID`       INT(11) UNSIGNED             DEFAULT NULL,
     `departmentID`   INT(11) UNSIGNED             DEFAULT NULL,
+    `fieldID`        INT(11) UNSIGNED             DEFAULT NULL,
+    `frequencyID`    INT(1) UNSIGNED              DEFAULT NULL,
+    `code`           VARCHAR(20)                  DEFAULT '',
+    `version`        YEAR(4)                      DEFAULT NULL,
     `name_de`        VARCHAR(60)         NOT NULL,
     `name_en`        VARCHAR(60)         NOT NULL,
-    `version`        YEAR(4)                      DEFAULT NULL,
-    `code`           VARCHAR(20)                  DEFAULT '',
-    `degreeID`       INT(11) UNSIGNED             DEFAULT NULL,
-    `fieldID`        INT(11) UNSIGNED             DEFAULT NULL,
     `description_de` TEXT,
     `description_en` TEXT,
-    `frequencyID`    INT(1) UNSIGNED              DEFAULT NULL,
     `active`         TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `lsfData` (`version`, `code`, `degreeID`),
+    UNIQUE INDEX `entry` (`code`, `degreeID`, `version`),
+    INDEX `categoryID` (`categoryID`),
     INDEX `degreeID` (`degreeID`),
     INDEX `departmentID` (`departmentID`),
     INDEX `fieldID` (`fieldID`),
@@ -598,13 +598,13 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_roomtypes` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
-    `id`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `buildingID` INT(11) UNSIGNED DEFAULT NULL,
-    `untisID`    VARCHAR(60)      DEFAULT NULL,
-    `name`       VARCHAR(10)      NOT NULL,
-    `roomtypeID` INT(11) UNSIGNED DEFAULT NULL,
-    `capacity`   INT(4) UNSIGNED  DEFAULT NULL,
-    `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    `id`         INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `buildingID` INT(11) UNSIGNED             DEFAULT NULL,
+    `untisID`    VARCHAR(60)                  DEFAULT NULL,
+    `name`       VARCHAR(10)         NOT NULL,
+    `roomtypeID` INT(11) UNSIGNED             DEFAULT NULL,
+    `capacity`   INT(4) UNSIGNED              DEFAULT NULL,
+    `active`     TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `untisID` (`untisID`),
     INDEX `buildingID` (`buildingID`),
@@ -782,11 +782,6 @@ ALTER TABLE `#__thm_organizer_campuses`
         ON DELETE SET NULL
         ON UPDATE CASCADE;
 
-ALTER TABLE `#__thm_organizer_categories`
-    ADD CONSTRAINT `categories_programID_fk` FOREIGN KEY (`programID`) REFERENCES `#__thm_organizer_programs` (`id`)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE;
-
 ALTER TABLE `#__thm_organizer_course_instances`
     ADD CONSTRAINT `course_instances_courseID_fk` FOREIGN KEY (`courseID`) REFERENCES `#__thm_organizer_courses` (`id`)
         ON DELETE CASCADE
@@ -957,6 +952,9 @@ ALTER TABLE `#__thm_organizer_pools`
         ON UPDATE CASCADE,
     ADD CONSTRAINT `pools_fieldID_fk` FOREIGN KEY (`fieldID`) REFERENCES `#__thm_organizer_fields` (`id`)
         ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    ADD CONSTRAINT `pools_groupID_fk` FOREIGN KEY (`groupID`) REFERENCES `#__thm_organizer_groups` (`id`)
+        ON DELETE SET NULL
         ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_prerequisites`
@@ -968,6 +966,9 @@ ALTER TABLE `#__thm_organizer_prerequisites`
         ON UPDATE CASCADE;
 
 ALTER TABLE `#__thm_organizer_programs`
+    ADD CONSTRAINT `programs_categoryID_fk` FOREIGN KEY (`categoryID`) REFERENCES `#__thm_organizer_categories` (`id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
     ADD CONSTRAINT `programs_degreeID_fk` FOREIGN KEY (`degreeID`) REFERENCES `#__thm_organizer_degrees` (`id`)
         ON DELETE SET NULL
         ON UPDATE CASCADE,
