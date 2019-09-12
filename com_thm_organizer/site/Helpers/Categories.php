@@ -143,18 +143,18 @@ class Categories implements DepartmentAssociated, Selectable
 
         $query     = $dbo->getQuery(true);
         $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-        $query->select('DISTINCT cat.*, ' . $query->concatenate($nameParts, "") . ' AS programName')
-            ->from('#__thm_organizer_categories AS cat')
-            ->leftJoin('#__thm_organizer_programs AS p ON p.id = cat.programID')
+        $query->select('DISTINCT c.*, ' . $query->concatenate($nameParts, "") . ' AS programName')
+            ->from('#__thm_organizer_categories AS c')
+            ->leftJoin('#__thm_organizer_programs AS p ON p.categoryID = c.id')
             ->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
-            ->order('cat.name');
+            ->order('c.name');
 
         if (!empty($access)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
+            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = c.id');
             self::addAccessFilter($query, 'dr', $access);
         }
 
-        self::addDeptSelectionFilter($query, 'category', 'cat');
+        self::addDeptSelectionFilter($query, 'category', 'c');
 
         $dbo->setQuery($query);
 

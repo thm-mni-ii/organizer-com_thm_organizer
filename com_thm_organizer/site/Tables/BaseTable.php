@@ -39,6 +39,24 @@ abstract class BaseTable extends Table
     }
 
     /**
+     * Gets a given property from a table, loading the table as necessary.
+     *
+     * @param string $property the name of the property to retrieve
+     * @param mixed  $keys     an optional primary key value to load the row by, or an array of fields to match
+     *
+     * @return mixed the property value on success, otherwise null
+     */
+    public function getProperty($property, $keys = null)
+    {
+        $loaded = !empty($this->id);
+        if (!$loaded and !$this->load($keys)) {
+            return null;
+        }
+
+        return $this->$property;
+    }
+
+    /**
      * Method to load a row from the database by primary key and bind the fields to the Table instance properties.
      *
      * @param mixed   $keys      An optional primary key value to load the row by, or an array of fields to match.
@@ -64,5 +82,25 @@ abstract class BaseTable extends Table
 
             return false;
         }
+    }
+
+    /**
+     * Sets a given property from a table, loading the table as necessary.
+     *
+     * @param string $property the name of the property to set
+     * @param mixed  $value    the value to set the property to
+     * @param mixed  $keys     an optional primary key value to load the row by, or an array of fields to match
+     *
+     * @return bool true on success, otherwise false
+     */
+    public function setProperty($property, $value, $keys = null)
+    {
+        $loaded = !empty($this->id);
+        if (!$loaded and !$this->load($keys)) {
+            return false;
+        }
+
+        $this->$property = $value;
+        return $this->store();
     }
 }

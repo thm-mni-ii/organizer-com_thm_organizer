@@ -128,11 +128,9 @@ SET `maxParticipants` = (SELECT MAX(DISTINCT `max_participants`)
                                   INNER JOIN `v7ocf_thm_organizer_subject_mappings` AS sm ON sm.`subjectID` = s.`id`
                          WHERE s.`is_prep_course` = 1 AND sm.`plan_subjectID` = e.`id`);
 
-UPDATE `v7ocf_thm_organizer_events` AS e
-SET `registrationType` = (SELECT MAX(DISTINCT `registration_type`)
-                          FROM `v7ocf_thm_organizer_subjects` AS s
-                                   INNER JOIN `v7ocf_thm_organizer_subject_mappings` AS sm ON sm.`subjectID` = s.`id`
-                          WHERE s.`is_prep_course` = 1 AND sm.`plan_subjectID` = e.`id`);
+UPDATE `v7ocf_thm_organizer_events`
+SET `registrationType` = 1
+WHERE `maxParticipants` IS NOT NULL;
 
 ALTER TABLE `v7ocf_thm_organizer_events`
     ADD CONSTRAINT `events_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `v7ocf_thm_organizer_campuses` (`id`)
@@ -378,10 +376,14 @@ ALTER TABLE `v7ocf_thm_organizer_units`
     ADD INDEX `termID` (`termID`),
     ADD INDEX `untisID` (`untisID`);
 
-INSERT INTO `v7ocf_thm_organizer_courses`(`campusID`, `termID`, `deadline`, `fee`, `maxParticipants`, `registrationType`, `unitID`)
-SELECT u.`campusID`, u.`termID`, u.`deadline`, u.`fee`, u.`max_participants`, u.`registration_type`, u.`id`
+INSERT INTO `v7ocf_thm_organizer_courses`(`campusID`, `termID`, `deadline`, `fee`, `maxParticipants`, `unitID`)
+SELECT u.`campusID`, u.`termID`, u.`deadline`, u.`fee`, u.`max_participants`, u.`id`
 FROM `v7ocf_thm_organizer_units` AS u
 WHERE `max_participants` IS NOT NULL;
+
+UPDATE `v7ocf_thm_organizer_courses`
+SET `registrationType` = 1
+WHERE `maxParticipants` IS NOT NULL;
 
 UPDATE `v7ocf_thm_organizer_units` AS u
     INNER JOIN `v7ocf_thm_organizer_courses` AS c ON c.`unitID` = u.`id`
@@ -479,10 +481,6 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_instance_participants` (
     `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `instanceID`    INT(20) UNSIGNED NOT NULL,
     `participantID` INT(11)          NOT NULL,
-    `delta`         VARCHAR(10)      NOT NULL DEFAULT ''
-        COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
-    `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX `instanceID` (`instanceID`),
     INDEX `participantID` (`participantID`)

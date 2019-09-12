@@ -296,10 +296,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_participants` (
     `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `instanceID`    INT(20) UNSIGNED NOT NULL,
     `participantID` INT(11)          NOT NULL,
-    `delta`         VARCHAR(10)      NOT NULL DEFAULT ''
-        COMMENT 'The association''s delta status. Possible values: empty, new, removed.',
-    `modified`      TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX `instanceID` (`instanceID`),
     INDEX `participantID` (`participantID`)

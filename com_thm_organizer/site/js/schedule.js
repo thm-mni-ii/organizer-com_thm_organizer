@@ -328,12 +328,15 @@ const ScheduleApp = function (variables) {
             ajaxUrl = (function () {
                 let url = getAjaxUrl();
 
-                url += '&view=schedules&task=getLessons';
-                url += '&deltaDays=' + (resource === 'room' || resource === 'person' ? '0' : variables.deltaDays);
+                url += '&view=instances';
                 url += '&date=' + getDateFieldString() + (variables.isMobile ? '&interval=day' : '');
-                url += '&mySchedule=' + (resource === 'user' ? '1' : '0');
+                url += '&delta=' + variables.delta;
 
-                if (resource !== 'user')
+                if (resource === 'user')
+                {
+                    url += '&mySchedule=' + (resource === 'user' ? '1' : '0');
+                }
+                else
                 {
                     url += '&' + resource + 'IDs=' + resourceIDs;
                 }

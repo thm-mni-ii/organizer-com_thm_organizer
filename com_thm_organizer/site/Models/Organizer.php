@@ -193,8 +193,8 @@ class Organizer extends BaseModel
             ->innerJoin('#__thm_organizer_lesson_configurations AS lc ON lc.id = ccm.configurationID')
             ->innerJoin('#__thm_organizer_lesson_subjects AS ls ON ls.id = lc.lessonID AND ls.lessonID = u.id')
             ->innerJoin('#__thm_organizer_events AS e ON e.id = ls.subjectID')
-            ->innerJoin('#__thm_organizer_courses AS cor ON cor.eventID = e.id AND cor.termID = u.termID')
-            ->innerJoin('#__thm_organizer_instances AS i ON i.blockID = b.id AND i.eventID = e.id AND i.unitID = u.id');
+            ->innerJoin('#__thm_organizer_instances AS i ON i.blockID = b.id AND i.eventID = e.id AND i.unitID = u.id')
+            ->leftJoin('#__thm_organizer_courses AS cor ON cor.id = u.courseID');
 
         $deleteQuery = $this->_db->getQuery(true);
         $deleteQuery->delete('#__thm_organizer_user_lessons');
@@ -209,7 +209,12 @@ class Organizer extends BaseModel
             $this->_db->setQuery($dataQuery);
 
             if ($results = OrganizerHelper::executeQuery('loadAssocList', [])) {
-                $this->saveCourseParticipant($results[0]['courseID'], $participantID, $userLesson);
+
+                // The courseID is the same for every result.
+                if ($results[0]['courseID']) {
+                    $this->saveCourseParticipant($results[0]['courseID'], $participantID, $userLesson);
+                }
+
                 foreach ($results as $result) {
                     $this->saveInstanceParticipant($result['instanceID'], $participantID, $userLesson);
                 }
@@ -442,12 +447,7 @@ class Organizer extends BaseModel
         $iParticipant  = ['instanceID' => $instanceID, 'participantID' => $participantID];
         $iParticipants->load($iParticipant);
         if (empty($iParticipants->id)) {
-            $iParticipant['delta']    = '';
-            $iParticipant['modified'] = $userLesson['user_date'];
             $iParticipants->save($iParticipant);
-        } elseif ($iParticipants->modified < $userLesson['user_date']) {
-            $iParticipants->modified = $userLesson['user_date'];
-            $iParticipants->store();
         }
     }
 
