@@ -5,7 +5,7 @@
         <field name="name" type="MergeValues" label="NAME"/>
         <field name="programID" type="MergeAssociations" label="PROGRAM"
                textcolumn="prg.name,prg.version,dgr.abbreviation" localized="true" glue=", " from="categories AS cat"
-               innerJoins="programs AS prg ON prg.id = cat.programID,degrees AS dgr ON dgr.id = prg.degreeID"/>
+               innerJoins="programs AS prg ON prg.categoryID = cat.id,degrees AS dgr ON dgr.id = prg.degreeID"/>
         <field name="departmentID" type="MergeDepartments" label="DEPARTMENTS" resource="category" multiple="multiple"/>
         <field name="ids" type="MergeIDs" hidden="true"/>
     </fieldset>

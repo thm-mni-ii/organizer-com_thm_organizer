@@ -1270,13 +1270,13 @@ class Search extends BaseModel
         $programQuery->select("p.id, name_{$this->tag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
             ->from('#__thm_organizer_programs AS p')
             ->innerJoin('#__thm_organizer_mappings AS m ON m.programID = p.ID')
-            ->leftJoin('#__thm_organizer_categories AS cat ON cat.programID = p.ID');
+            ->leftJoin('#__thm_organizer_categories AS cat ON cat.id = p.categoryID');
 
         // Plan programs have to be found in strings => standardized name as extra temp variable for comparison
         $categoryQuery = $this->_db->getQuery(true);
         $categoryQuery->select("p.id, name_{$this->tag} AS name, degreeID, cat.id AS categoryID, lft, rgt")
             ->from('#__thm_organizer_categories AS cat')
-            ->leftJoin('#__thm_organizer_programs AS p ON cat.programID = p.ID')
+            ->leftJoin('#__thm_organizer_programs AS p ON p.categoryID = cat.ID')
             ->leftJoin('#__thm_organizer_mappings AS m ON m.programID = p.ID');
 
         // Exact => program name and degree

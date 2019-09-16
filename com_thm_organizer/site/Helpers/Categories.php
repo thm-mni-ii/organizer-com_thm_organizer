@@ -95,7 +95,7 @@ class Categories implements DepartmentAssociated, Selectable
         $query->select('cat.name AS catName, ' . $query->concatenate($nameParts, "") . ' AS name');
 
         $query->from('#__thm_organizer_categories AS cat');
-        $query->leftJoin('#__thm_organizer_programs AS p ON cat.programID = p.id');
+        $query->leftJoin('#__thm_organizer_programs AS p ON p.categoryID = cat.id');
         $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
         $query->where("cat.id = '$categoryID'");
 

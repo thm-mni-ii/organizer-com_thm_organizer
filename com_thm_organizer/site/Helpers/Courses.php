@@ -193,7 +193,7 @@ class Courses extends ResourceHelper
 //            ->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id')
 //            ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.groupID = gr.id')
 //            ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.id = lg.lessonCourseID')
-//            ->leftJoin('#__thm_organizer_programs AS p ON cat.programID = p.id')
+//            ->leftJoin('#__thm_organizer_programs AS p ON p.categoryID = cat.id')
 //            ->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
 //            ->where("lc.courseID = '$courseID'");
 //

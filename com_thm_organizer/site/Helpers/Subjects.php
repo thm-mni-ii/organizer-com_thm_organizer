@@ -206,7 +206,7 @@ class Subjects extends ResourceHelper implements Selectable
             ->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
             ->innerJoin('#__thm_organizer_mappings AS m1 ON m1.programID = p.id')
             ->innerJoin('#__thm_organizer_mappings AS m2 ON m1.lft < m2.lft AND m1.rgt > m2.rgt')
-            ->leftJoin('#__thm_organizer_categories AS cat ON cat.programID = p.id')
+            ->leftJoin('#__thm_organizer_categories AS cat ON cat.id = p.categoryID')
             ->where("m2.subjectID = '$subjectID'");
 
         $dbo->setQuery($query);

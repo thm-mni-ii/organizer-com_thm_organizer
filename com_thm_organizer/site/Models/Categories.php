@@ -28,7 +28,7 @@ class Categories extends ListModel
     protected function getListQuery()
     {
         $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT cat.id, cat.untisID, cat.name, cat.programID')
+        $query->select('DISTINCT cat.id, cat.untisID, cat.name')
             ->from('#__thm_organizer_categories AS cat')
             ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
 

@@ -574,7 +574,7 @@ class Schedules
         $programQuery->select($select)
             ->from('#__thm_organizer_mappings AS m')
             ->innerJoin('#__thm_organizer_programs AS p ON p.id = m.programID')
-            ->innerJoin('#__thm_organizer_categories AS cat ON cat.programID = p.id')
+            ->innerJoin('#__thm_organizer_categories AS cat ON cat.id = p.categoryID')
             ->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id')
             ->where("gr.id ='{$lesson['groupID']}'");
         $dbo->setQuery($programQuery);
