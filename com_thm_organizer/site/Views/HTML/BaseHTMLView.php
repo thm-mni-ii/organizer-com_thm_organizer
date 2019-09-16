@@ -39,10 +39,41 @@ abstract class BaseHTMLView extends BaseView
             return;
         }
 
-        $documentationViews = ['Curriculum', 'SubjectItem', 'Subjects'];
-        if (!in_array(OrganizerHelper::getClass($this), $documentationViews)) {
-            return;
+        $thisClass = OrganizerHelper::getClass($this);
+        if (in_array($thisClass, ['Courses', 'CourseItem', 'ParticipantEdit'])) {
+            $this->addDataDisclaimer();
         }
+
+        if (in_array($thisClass, ['Curriculum', 'SubjectItem', 'Subjects'])) {
+            $this->addDocumentDisclaimer();
+        }
+    }
+
+    /**
+     * Creates a disclaimer for use in documentation views.
+     *
+     * @return void sets the disclaimer property
+     */
+    private function addDataDisclaimer()
+    {
+        $disclaimer = '<div class="disclaimer">';
+        $disclaimer .= '<h4>' . Languages::_('THM_ORGANIZER_DISCLAIMER_DATA') . '</h4>';
+        $disclaimer .= '<p>' . Languages::_('THM_ORGANIZER_DISCLAIMER_DATA_TEXT') . '</p>';
+        $disclaimer .= '</div>';
+        /*<h4>Datenschutzhinweise</h4>
+<p></p>*/
+
+
+    $this->disclaimer = $disclaimer;
+    }
+
+    /**
+     * Creates a disclaimer for use in documentation views.
+     *
+     * @return void sets the disclaimer property
+     */
+    private function addDocumentDisclaimer()
+    {
 
         $attributes = ['target' => '_blank'];
 
@@ -62,8 +93,8 @@ abstract class BaseHTMLView extends BaseView
             $attributes
         );
 
-        $disclaimer = '<div class="legal-disclaimer">';
-        $disclaimer .= '<h4>' . Languages::_('THM_ORGANIZER_DISCLAIMER_HEADER') . '</h4>';
+        $disclaimer = '<div class="disclaimer">';
+        $disclaimer .= '<h4>' . Languages::_('THM_ORGANIZER_DISCLAIMER_LEGAL') . '</h4>';
         $disclaimer .= '<ul>';
         $disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TEXT'), $lsfLink) . '</li>';
         $disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TEXT'), $ambLink) . '</li>';

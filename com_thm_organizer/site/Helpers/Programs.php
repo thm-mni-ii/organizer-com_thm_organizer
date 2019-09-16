@@ -75,7 +75,7 @@ class Programs extends ResourceHelper implements Selectable
 
         $query->from('#__thm_organizer_programs AS p');
         $query->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-        $query->leftJoin('#__thm_organizer_categories AS cat ON c.id = p.categoryID');
+        $query->leftJoin('#__thm_organizer_categories AS cat ON cat.id = p.categoryID');
         $query->where("p.id = '$programID'");
 
         $dbo->setQuery($query);

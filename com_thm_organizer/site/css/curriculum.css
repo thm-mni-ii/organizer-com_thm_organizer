@@ -1,8 +1,8 @@
-div.legal-disclaimer {
+div.disclaimer {
     margin-top: 2rem;
 }
 
-div.legal-disclaimer li {
+div.disclaimer li {
     font-size: .8rem;
     font-style: italic;
 }

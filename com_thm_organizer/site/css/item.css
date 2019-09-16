@@ -50,11 +50,11 @@
     padding: 0 10px 0 0;
 }
 
-div.legal-disclaimer {
+div.disclaimer {
     margin-top: 2rem;
 }
 
-div.legal-disclaimer li {
+div.disclaimer li {
     font-size: .8rem;
     font-style: italic;
 }
