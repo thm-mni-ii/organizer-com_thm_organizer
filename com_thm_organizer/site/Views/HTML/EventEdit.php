@@ -21,6 +21,7 @@ use Organizer\Helpers\Languages;
  */
 class EventEdit extends EditView
 {
+    protected $_layout = 'tabs';
     /**
      * Method to generate buttons for user interaction
      *

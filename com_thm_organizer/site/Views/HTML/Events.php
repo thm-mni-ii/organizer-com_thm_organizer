@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Campuses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -93,13 +94,16 @@ class Events extends ListView
 
         foreach ($this->items as $item) {
 
+            $campus = Campuses::getName($item->campusID);
+            $maxParticipants = empty($item->maxParticipants) ? 1000  : $item->maxParticipants;
+
             $thisLink                                  = $link . $item->id;
             $processedItems[$index]                    = [];
             $processedItems[$index]['checkbox']        = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['name']            = HTML::_('link', $thisLink, $item->name);
             $processedItems[$index]['department']      = HTML::_('link', $thisLink, $item->department);
-            $processedItems[$index]['campus']          = HTML::_('link', $thisLink, $item->campus);
-            $processedItems[$index]['maxParticipants'] = HTML::_('link', $thisLink, $item->maxParticipants);
+            $processedItems[$index]['campus']          = HTML::_('link', $thisLink, $campus);
+            $processedItems[$index]['maxParticipants'] = HTML::_('link', $thisLink, $maxParticipants);
 
             $index++;
         }
