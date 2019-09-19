@@ -54,7 +54,7 @@ div.disclaimer {
     margin-top: 2rem;
 }
 
-div.disclaimer li {
+div.disclaimer li, div.disclaimer p {
     font-size: .8rem;
     font-style: italic;
 }
@@ -84,6 +84,11 @@ div.disclaimer li {
     padding: 10px 10px;
     margin: 2px 0;
     border-bottom: 1px solid rgba(164, 176, 187, 0.5);
+}
+
+.span10 div:last-child {
+    border-bottom: none;
+    margin-bottom: 1rem;
 }
 
 .attribute-label {

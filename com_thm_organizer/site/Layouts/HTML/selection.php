@@ -15,17 +15,16 @@ use Organizer\Helpers\OrganizerHelper;
 
 $user = Factory::getUser();
 $view = Input::getCMD('view');
-$action = OrganizerHelper::dynamic() ? "?option=com_thm_organizer&view=$view" : '?';
 require_once 'language_selection.php';
 echo OrganizerHelper::getApplication()->JComponentTitle; ?>
 <div id="j-main-container">
     <form action="index.php?" method="post" name="adminForm" id="adminForm" target="_blank">
-        <?php foreach ($this->sets as $set) : ?>
-            <?php $this->renderSet($set); ?>
-        <?php endforeach; ?>
+		<?php foreach ($this->sets as $set) : ?>
+			<?php $this->renderSet($set); ?>
+		<?php endforeach; ?>
         <div class="toolbar">
             <a id="action-btn" class="btn" onclick="handleSubmit();">
-                <?php echo Languages::_('THM_ORGANIZER_DOWNLOAD') ?>
+				<?php echo Languages::_('THM_ORGANIZER_DOWNLOAD') ?>
                 <span class="icon-file-pdf"></span>
             </a>
         </div>

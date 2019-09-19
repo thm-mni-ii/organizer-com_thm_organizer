@@ -2,7 +2,6 @@
 <config>
     <fieldset name="general" label="THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
               description="THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
-        <field name="loginPosition" type="modulesposition" label="LOGIN_POSITION" maxlength="50" default=""/>
         <field name="dateFormat" type="text" label="THM_ORGANIZER_DATE_FORMAT"
                description="THM_ORGANIZER_DATE_FORMAT_DESC" size="40" required="true" default="d.m.Y"/>
         <field name="dateFormatShort" type="text" label="THM_ORGANIZER_DATE_FORMAT_SHORT"

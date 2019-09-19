@@ -18,33 +18,259 @@ use Joomla\CMS\Factory;
  */
 class Courses extends ResourceHelper
 {
-    const MANUAL_ACCEPTANCE = 1;
-    const PERIOD_MODE = 2;
-    const INSTANCE_MODE = 3;
+	const MANUAL_ACCEPTANCE = 1;
+	const PERIOD_MODE = 2;
+	const INSTANCE_MODE = 3;
+	const TEACHER = 1;
+	const TUTOR = 2;
+	const SPEAKER = 4;
 
-    /**
-     * Checks if the number of active participants is less than the number of max participants
-     *
-     * @param int $courseID the id of the course
-     *
-     * @return bool true if the course is full, otherwise false
-     */
-    public static function isFull($courseID) {
-        $table = self::getTable();
-        if (!$maxParticipants = $table->getProperty('maxParticipants', $courseID)) {
-            return false;
-        }
+	/**
+	 * Gets the course start and end dates.
+	 *
+	 * @param   int  $courseID  id of course to be loaded
+	 *
+	 * @return array  the start and end date for the given course
+	 */
+	public static function getDates($courseID = 0)
+	{
+		if (empty($courseID))
+		{
+			return [];
+		}
 
-        $dbo = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('COUNT(*)')
-            ->from('#__thm_organizer_course_participants')
-            ->where("courseID = $courseID")
-            ->where('status = 1');
-        $dbo->setQuery($query);
-        $count = OrganizerHelper::executeQuery('loadResult', 0);
-        return $count >= $maxParticipants;
-    }
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('DISTINCT MIN(date) AS startDate, MAX(date) AS endDate')
+			->from('#__thm_organizer_blocks AS b')
+			->innerJoin('#__thm_organizer_instances AS i ON i.blockID = b.id')
+			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
+			->where("u.courseID = $courseID");
+
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadAssoc', []);
+	}
+
+	/**
+	 * Retrieves events associated with the given course.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return array the events associated with the course
+	 */
+	public static function getEvents($courseID)
+	{
+		$dbo = Factory::getDbo();
+		$tag = Languages::getTag();
+
+		$query = $dbo->getQuery('true');
+		$query->select("DISTINCT e.id, e.name_$tag AS name, contact_$tag AS contact")
+			->select("courseContact_$tag AS courseContact, content_$tag AS content, e.description_$tag AS description")
+			->select("organization_$tag AS organization, pretests_$tag AS pretests, preparatory")
+			->from('#__thm_organizer_events AS e')
+			->innerJoin('#__thm_organizer_instances AS i on i.eventID = e.id')
+			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
+			->where("u.courseID = $courseID");
+
+		$dbo->setQuery($query);
+		if (!$events = OrganizerHelper::executeQuery('loadAssocList', []))
+		{
+			return [];
+		}
+
+		foreach ($events as &$event)
+		{
+			$event['speakers'] = self::getPersons($courseID, $event['id'], self::SPEAKER);
+			$event['teachers'] = self::getPersons($courseID, $event['id'], self::TEACHER);
+			$event['tutors']   = self::getPersons($courseID, $event['id'], self::TUTOR);
+		}
+
+		return $events;
+	}
+
+	/**
+	 * Get list of registered participants in specific course
+	 *
+	 * @param   int  $courseID  identifier of course
+	 * @param   int  $status    status of participants (1 registered, 0 waiting)
+	 *
+	 * @return array list of participants in course
+	 */
+	public static function getParticipants($courseID, $status = null)
+	{
+		if (empty($courseID))
+		{
+			return [];
+		}
+
+		$dbo   = Factory::getDbo();
+		$tag   = Languages::getTag();
+		$query = $dbo->getQuery(true);
+
+		$query->select("pt.*, us.name AS usersName, us.email, us.username, pr.name_$tag as program")
+			->select('CONCAT(pt.surname, ", ", pt.forename) AS name')
+			->from('#__thm_organizer_course_participants AS cp')
+			->innerJoin('#__thm_organizer_participants as pt on pt.id = cp.participantID')
+			->innerJoin('#__users as us on us.id = pt.id')
+			->leftJoin('#__thm_organizer_programs as pr on pr.id = pt.programID')
+			->where("cp.courseID = '$courseID'")
+			->order('name ASC');
+
+		if ($status !== null and is_numeric($status))
+		{
+			$query->where("cp.status = '$status'");
+		}
+
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadAssocList', []);
+	}
+
+	/**
+	 * Gets persons associated with the given course, optionally filtered by event and role.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 * @param   int  $eventID   the id of the event
+	 * @param   int  $roleID    the id of the role
+	 *
+	 * @return array the persons matching the search criteria
+	 */
+	public static function getPersons($courseID, $eventID = 0, $roleID = 0)
+	{
+		$dbo = Factory::getDbo();
+
+		$query = $dbo->getQuery('true');
+		$query->select("DISTINCT ip.personID")
+			->from('#__thm_organizer_instance_persons AS ip')
+			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
+			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
+			->where("u.courseID = $courseID");
+
+		if ($eventID)
+		{
+			$query->where("i.eventID = $eventID");
+		}
+
+		if ($roleID)
+		{
+			$query->where("ip.roleID = $roleID");
+		}
+
+		$dbo->setQuery($query);
+		if (!$personIDs = OrganizerHelper::executeQuery('loadColumn', []))
+		{
+			return [];
+		}
+
+		$persons = [];
+		foreach ($personIDs as $personID)
+		{
+			$persons[$personID] = Persons::getLNFName($personID);
+		}
+
+		return $persons;
+	}
+
+	/**
+	 * Retrieves the participant state for the given course
+	 *
+	 * @param   int  $courseID  the course id
+	 * @param   int  $eventID   the id of an event associated with the given course
+	 *
+	 * @return  mixed int (0 - pending or 1- accepted) if the user has registered for the course, otherwise null
+	 */
+	public static function getParticipantState($courseID, $eventID = 0)
+	{
+		$participantID = Factory::getUser()->id;
+
+		if (empty($courseID) or empty($participantID))
+		{
+			return null;
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('status')
+			->from('#__thm_organizer_course_participants AS cp')
+			->where("courseID = $courseID")
+			->where("participantID = $participantID");
+
+		if ($eventID)
+		{
+			$query->innerJoin('#__thm_organizer_units AS u ON u.courseID = cp.courseID')
+				->innerJoin('#__thm_organizer_instances AS i ON i.unitID = u.id')
+				->where("i.eventID = $eventID");
+		}
+
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadResult', null);
+	}
+
+	/**
+	 * Checks if the course is expired
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return bool true if the course is expired, otherwise false
+	 */
+	public static function isExpired($courseID)
+	{
+		if ($dates = self::getDates($courseID))
+		{
+			return date('Y-m-d') > $dates['endDate'];
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the number of active participants is less than the number of max participants
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return bool true if the course is full, otherwise false
+	 */
+	public static function isFull($courseID)
+	{
+		$table = self::getTable();
+		if (!$maxParticipants = $table->getProperty('maxParticipants', $courseID))
+		{
+			return false;
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_course_participants')
+			->where("courseID = $courseID")
+			->where('status = 1');
+		$dbo->setQuery($query);
+		$count = OrganizerHelper::executeQuery('loadResult', 0);
+
+		return $count >= $maxParticipants;
+	}
+
+	/**
+	 * Checks if the course is ongoing
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return bool true if the course is expired, otherwise false
+	 */
+	public static function isOngoing($courseID)
+	{
+		if ($dates = self::getDates($courseID))
+		{
+			$today = date('Y-m-d');
+
+			return ($today >= $dates['startDate'] and $today <= $dates['endDate']);
+		}
+
+		return false;
+	}
 
 //    /**
 //     * Check if course with specific id is full
@@ -128,7 +354,7 @@ class Courses extends ResourceHelper
 //                        $registerText .= Languages::_('THM_ORGANIZER_COURSE_DEREGISTER');
 //                    } else {
 //                        $registerText = '<span class="icon-apply"></span>';
-//                        $registerText .= Languages::_('THM_ORGANIZER_COURSE_REGISTER');
+//                        $registerText .= Languages::_('THM_ORGANIZER_REGISTER');
 //                    }
 //
 //                    $register = "<a class='btn' href='$registerRoute' type='button'>$registerText</a>";
@@ -139,37 +365,6 @@ class Courses extends ResourceHelper
 //        }
 //
 //        return $register;
-//    }
-//
-//    /**
-//     * Sets campus information (id and name) for a given course
-//     *
-//     * @param mixed $course    the course information (array|int|object)
-//     * @param bool  $redundant whether redundant names should be set
-//     *
-//     * @return array an array with the actionable campus id and name
-//     */
-//    public static function getCampus($course, $redundant = false)
-//    {
-//        if (is_object($course)) {
-//            $course = (array)$course;
-//        } elseif (is_int($course)) {
-//            $course = self::getCourse($course);
-//        }
-//
-//        if (empty($course['abstractCampusID']) and empty($course['campusID'])) {
-//            $campus = ['id' => '', 'name' => Campuses::getName()];
-//        } elseif (empty($course['campusID']) or $course['abstractCampusID'] == $course['campusID']) {
-//            $campus         = ['id' => $course['abstractCampusID']];
-//            $campus['name'] = $redundant ? Campuses::getName($course['abstractCampusID']) : null;
-//        } else {
-//            $campus = [
-//                'id'   => $course['campusID'],
-//                'name' => Campuses::getName($course['campusID'])
-//            ];
-//        }
-//
-//        return $campus;
 //    }
 //
 //    /**
@@ -212,59 +407,6 @@ class Courses extends ResourceHelper
 //    }
 //
 //    /**
-//     * Loads course information from the database
-//     *
-//     * @param int $courseID int id of requested lesson
-//     *
-//     * @return array  with course data on success, otherwise empty
-//     */
-//    public static function getCourse($courseID = 0)
-//    {
-//        $courseID = Input::getInt('lessonID', $courseID);
-//
-//        if (empty($courseID)) {
-//            return [];
-//        }
-//
-//        $dbo   = Factory::getDbo();
-//        $tag   = Languages::getTag();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select('term.name as termName, term.id as termID')
-//            ->select('l.id, l.max_participants as lessonP, l.campusID AS campusID')
-//            ->select('l.registration_type, l.deadline, l.fee')
-//            ->select("s.id as subjectID, s.name_$tag as name, s.instructionLanguage")
-//            ->select('s.campusID AS abstractCampusID, s.is_prep_course, s.max_participants as subjectP');
-//
-//        $query->from('#__thm_organizer_lessons AS l');
-//        $query->leftJoin('#__thm_organizer_lesson_courses AS lc ON lc.lessonID = l.id');
-//        $query->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = lc.courseID');
-//        $query->leftJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id');
-//        $query->leftJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id');
-//        $query->leftJoin('#__thm_organizer_terms AS term ON l.termID = term.id');
-//        $query->where("l.id = '$courseID'");
-//
-//        $dbo->setQuery($query);
-//        $courseData = OrganizerHelper::executeQuery('loadAssoc', []);
-//
-//        // If empty it should stay empty
-//        if (empty($courseData)) {
-//            return $courseData;
-//        }
-//
-//        $params = Input::getParams();
-//        if (empty($courseData['deadline'])) {
-//            $courseData['deadline'] = $params->get('deadline', 5);
-//        }
-//
-//        if ($courseData['fee'] === null) {
-//            $courseData['fee'] = $params->get('fee', 50);
-//        }
-//
-//        return $courseData;
-//    }
-//
-//    /**
 //     * Creates a display of formatted dates for a course
 //     *
 //     * @param int $courseID the id of the course to be loaded
@@ -286,36 +428,6 @@ class Courses extends ResourceHelper
 //        }
 //
 //        return '';
-//    }
-//
-//    /**
-//     * Loads all calendar information for specific course  from the database
-//     *
-//     * @param int $courseID id of course to be loaded
-//     *
-//     * @return array  array with calendar registration data on success, otherwise empty
-//     */
-//    public static function getDates($courseID = 0)
-//    {
-//        $courseID = Input::getInt('lessonID', $courseID);
-//
-//        if (empty($courseID)) {
-//            return [];
-//        }
-//
-//        $dbo   = Factory::getDbo();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select('DISTINCT schedule_date');
-//        $query->from('#__thm_organizer_lessons AS l');
-//        $query->leftJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id');
-//        $query->where("l.id = '$courseID'");
-//        $query->where("c.delta != 'removed'");
-//        $query->order('c.schedule_date');
-//
-//        $dbo->setQuery($query);
-//
-//        return OrganizerHelper::executeQuery('loadColumn', []);
 //    }
 //
 //    /**
@@ -636,70 +748,6 @@ class Courses extends ResourceHelper
 //    }
 //
 //    /**
-//     * Get list of registered students in specific course
-//     *
-//     * @param int $courseID identifier of course
-//     * @param int $status   status of participants (1 registered, 0 waiting)
-//     *
-//     * @return mixed list of students in course with $id, false on error
-//     */
-//    public static function getParticipants($courseID, $status = null)
-//    {
-//        if (empty($courseID)) {
-//            return [];
-//        }
-//
-//        $dbo   = Factory::getDbo();
-//        $tag   = Languages::getTag();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select("l.*, pt.*, u.email, u.username, u.id as cid, p.name_$tag as program")
-//            ->select('CONCAT(pt.surname, ", ", pt.forename) as name')
-//            ->from('#__thm_organizer_user_lessons as ul')
-//            ->innerJoin('#__users as u on u.id = ul.userID')
-//            ->leftJoin('#__thm_organizer_participants as pt on pt.id = ul.userID')
-//            ->leftJoin('#__thm_organizer_programs as p on p.id = pt.programID')
-//            ->where("ul.lessonID = '$courseID'")
-//            ->order('name ASC');
-//
-//        if ($status === 1) {
-//            $query->where("ul.status = '1'");
-//        } elseif ($status === 0) {
-//            $query->where("ul.status = '0'");
-//        }
-//
-//        $dbo->setQuery($query);
-//
-//        return OrganizerHelper::executeQuery('loadAssocList', []);
-//    }
-//
-//    /**
-//     * Figure out if student is signed into course
-//     *
-//     * @param int $courseID of lesson
-//     *
-//     * @return array containing the user specific information or empty on error
-//     */
-//    public static function getParticipantState($courseID = 0)
-//    {
-//        $userID   = Factory::getUser()->id;
-//        $courseID = Input::getInt('lessonID', $courseID);
-//
-//        if (empty($courseID) || empty($userID)) {
-//            return [];
-//        }
-//
-//        $dbo   = Factory::getDbo();
-//        $query = $dbo->getQuery(true);
-//        $query->select('*');
-//        $query->from('#__thm_organizer_user_lessons');
-//        $query->where("userID = '$userID' AND lessonID = '$courseID'");
-//        $dbo->setQuery($query);
-//
-//        return OrganizerHelper::executeQuery('loadAssoc', []);
-//    }
-//
-//    /**
 //     * Creates a status display for the user's relation to the respective course.
 //     *
 //     * @param int $courseID the id of the course
@@ -716,7 +764,7 @@ class Courses extends ResourceHelper
 //            Languages::_('THM_ORGANIZER_EXPIRED') : Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
 //        $notLoggedIn = '<span class="icon-warning"></span>' . Languages::_('THM_ORGANIZER_NOT_LOGGED_IN');
 //        $waitList    = '<span class="icon-checkbox-partial"></span>' . Languages::_('THM_ORGANIZER_WAIT_LIST');
-//        $registered  = '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_COURSE_REGISTERED');
+//        $registered  = '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_REGISTERED');
 //
 //        if (!empty(Factory::getUser()->id)) {
 //            if ($authorized) {

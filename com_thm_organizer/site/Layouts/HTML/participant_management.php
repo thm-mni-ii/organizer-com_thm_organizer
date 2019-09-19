@@ -22,7 +22,7 @@ $participantListRoute = Route::_($baseURL . 0, false);
 $departmentListRoute  = Route::_($baseURL . 1, false);
 $badgesRoute          = Route::_($baseURL . 2, false);
 
-$registeredText = Languages::_('THM_ORGANIZER_COURSE_REGISTERED');
+$registeredText = Languages::_('THM_ORGANIZER_REGISTERED');
 $waitListText   = Languages::_('THM_ORGANIZER_WAIT_LIST');
 
 $params     = OrganizerHelper::getParams();
@@ -32,7 +32,7 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
 <form action="?" method="post" id="adminForm" name="adminForm" onsubmit="listItemChecked();">
     <input type="hidden" name="option" value="com_thm_organizer"/>
     <input type="hidden" name="task" value="course.changeParticipantState"/>
-    <?php echo $this->form->getField('id')->input; ?>
+	<?php echo $this->form->getField('id')->input; ?>
     <input type="hidden" name="subjectID" value="<?php echo $this->course['subjectID']; ?>"/>
     <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
     <input type="hidden" name="participantState" id="participantState" value=""/>
@@ -41,7 +41,7 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
             <h4><?php echo Languages::_('THM_ORGANIZER_PARTICIPANTS'); ?></h4>
         </div>
         <div class="right">
-            <?php echo $this->course['capacityText']; ?>
+			<?php echo $this->course['capacityText']; ?>
         </div>
         <div class="clear"></div>
         <div class="left">
@@ -62,26 +62,26 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
             <div class="print-container">
                 <a class="dropdown-toggle print btn" data-toggle="dropdown" href="#">
                     <span class="icon-print"></span>
-                    <?php echo Languages::_('THM_ORGANIZER_PRINT_OPTIONS'); ?>
+					<?php echo Languages::_('THM_ORGANIZER_PRINT_OPTIONS'); ?>
                     <span class="icon-arrow-down-3"></span>
                 </a>
                 <ul id="print" class="dropdown-menu">
                     <li>
                         <a href="<?php echo $participantListRoute; ?>" target="_blank">
                             <span class="icon-file-pdf"></span>
-                            <?php echo Languages::_('THM_ORGANIZER_PARTICIPANTS'); ?>
+							<?php echo Languages::_('THM_ORGANIZER_PARTICIPANTS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $departmentListRoute; ?>" target="_blank">
                             <span class="icon-file-pdf"></span>
-                            <?php echo Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
+							<?php echo Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $badgesRoute; ?>" target="_blank">
                             <span class="icon-file-pdf"></span>
-                            <?php echo Languages::_('THM_ORGANIZER_BADGE_SHEETS'); ?>
+							<?php echo Languages::_('THM_ORGANIZER_BADGE_SHEETS'); ?>
                         </a>
                     </li>
                 </ul>
@@ -101,7 +101,7 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($this->course['participants'] as $participant): ?>
+		<?php foreach ($this->course['participants'] as $participant): ?>
             <tr>
                 <td>
                     <input type='checkbox' name='checked[]' value='<?php echo $participant['cid']; ?>'
@@ -113,7 +113,7 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
                 <td><?php echo $participant['status'] ? $registeredText : $waitListText; ?></td>
                 <td><?php echo HTML::_('date', $participant['status_date'], $dateFormat); ?></td>
             </tr>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
         </tbody>
     </table>
 </form>

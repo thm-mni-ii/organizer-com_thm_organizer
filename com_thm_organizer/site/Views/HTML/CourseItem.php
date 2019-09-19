@@ -12,10 +12,85 @@
 
 namespace Organizer\Views\HTML;
 
+use Organizer\Helpers\Courses;
+use Organizer\Helpers\Dates;
+use Organizer\Helpers\Terms;
+
 /**
  * Class loads the subject into the display context.
  */
 class CourseItem extends ItemView
 {
-    // Everything is taken care of in the inheritance hierarchy.
+	const ACCEPTED = 1;
+	const EXPIRED = -1;
+	const ONGOING = 1;
+	const PENDING = 0;
+	const UNREGISTERED = null;
+
+	protected function addSupplement()
+	{
+		$course = $this->item;
+		if ($course['courseStatus'] === self::EXPIRED)
+		{
+			$color = '';
+		}
+		elseif ($course['registrationStatus'] === self::ACCEPTED)
+		{
+			$color = 'green';
+		}
+		elseif ($course['courseStatus'] === self::ONGOING)
+		{
+			$color = 'red';
+		}
+		elseif ($course['registrationStatus'] === self::PENDING)
+		{
+			$color = 'blue';
+		}
+		else
+		{
+			$color = 'yellow';
+		}
+
+		$text = '<div class="tbox-' . $color . '">';
+
+		$texts = [];
+		if ($course['courseStatus'] === self::EXPIRED or $course['courseStatus'] === self::ONGOING)
+		{
+			$texts[] = $course['courseText'];
+		}
+		elseif ($course['courseStatus'] !== self::EXPIRED)
+		{
+			$texts[] = $course['registrationText'];
+			if (!$course['courseStatus'] === self::ONGOING)
+			{
+				$texts[] = $course['registrationAllowed'];
+			}
+			if ($course['registrationStatus'] === self::UNREGISTERED)
+			{
+				$texts[] = $course['registrationType'];
+			}
+		}
+
+		$text .= implode(' ', $texts);
+		$text .= '</div>';
+
+		$this->supplement = $text;
+	}
+
+	/**
+	 * Creates a subtitle element from the term name and the start and end dates of the course.
+	 *
+	 * @return void modifies the course
+	 */
+	protected function setSubtitle()
+	{
+		$termID = $this->item['preparatory'] ? Terms::getNextID($this->item['termID']) : $this->item['termID'];
+		$term   = Terms::getName($termID);
+
+		$dates     = Courses::getDates($this->item['id']);
+		$endDate   = Dates::formatDate($dates['endDate']);
+		$startDate = Dates::formatDate($dates['startDate']);
+
+		$this->subtitle = "<h6 class=\"sub-title\">$term $startDate - $endDate</h6>";
+	}
 }

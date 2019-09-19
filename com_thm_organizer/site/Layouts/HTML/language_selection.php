@@ -10,27 +10,30 @@
 
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
+use Organizer\Helpers\OrganizerHelper;
 
 HTML::_('searchtools.form', '#languageForm', []);
-$selectedTag = Languages::getTag();
-$languages   = [Languages::_('THM_ORGANIZER_ENGLISH') => 'en', Languages::_('THM_ORGANIZER_GERMAN') => 'de'];
+$languageAction = OrganizerHelper::dynamic() ? "?option=com_thm_organizer&view=$view&id=$resourceID" : '?';
+$selectedTag    = Languages::getTag();
+$languages      = [Languages::_('THM_ORGANIZER_ENGLISH') => 'en', Languages::_('THM_ORGANIZER_GERMAN') => 'de'];
 ksort($languages);
 $options = [];
-foreach ($languages as $language => $tag) {
-    $selected  = $selectedTag === $tag ? ' selected="selected"' : '';
-    $options[] = "<option value=\"$tag\"$selected>$language</option>";
+foreach ($languages as $language => $tag)
+{
+	$selected  = $selectedTag === $tag ? ' selected="selected"' : '';
+	$options[] = "<option value=\"$tag\"$selected>$language</option>";
 }
 $options = implode('', $options);
 ?>
-<form id="languageForm" name="languageForm" method="post" action="<?php echo $action; ?>"
-      class="form-horizontal form-validate">
+<form id="languageForm" name="languageForm" method="post" action="<?php echo $languageAction; ?>"
+      class="form-horizontal">
     <div class="js-stools clearfix">
         <div class="clearfix">
             <div class="js-stools-container-list">
                 <div class="ordering-select">
                     <div class="js-stools-field-list">
                         <select id="languageTag" name="languageTag" onchange="this.form.submit();">
-                            <?php echo $options ?>
+							<?php echo $options ?>
                         </select>
                     </div>
                 </div>

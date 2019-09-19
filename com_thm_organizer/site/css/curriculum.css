@@ -2,7 +2,7 @@ div.disclaimer {
     margin-top: 2rem;
 }
 
-div.disclaimer li {
+div.disclaimer li, div.disclaimer p {
     font-size: .8rem;
     font-style: italic;
 }
