@@ -1800,6 +1800,11 @@ const ScheduleApp = function (variables) {
             }
             else
             {
+                jQuery('#' + field.id).chosen().change(
+                    function () {
+                        handleField(field.id);
+                    }
+                );
                 // Chosen.js events fires multiple times, so we use native EventListener
                 wrappers[field.id].querySelector('.chzn-results').addEventListener('click',
                     function () {
