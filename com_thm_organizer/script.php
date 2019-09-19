@@ -127,6 +127,34 @@ class Com_THM_OrganizerInstallerScript
         <?php
     }
 
+	/**
+	 * Removes folder contents before update to ensure removal of deprecated files
+	 *
+	 * @param string $type   the type of action being performed with the component.
+	 * @param object $parent the 'parent' running this script
+	 *
+	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function preflight($type, $parent)
+	{
+		$languageFiles = [
+			'/language/de-DE/de-DE.com_thm_organizer.ini',
+			'/language/de-DE/de-DE.com_thm_organizer.sys.ini',
+			'/language/en-GB/en-GB.com_thm_organizer.ini',
+			'/language/de-DE/en-GB.com_thm_organizer.sys.ini'
+		];
+		foreach ($languageFiles as $languageFile) {
+		    if (file_exists(JPATH_ADMINISTRATOR . $languageFile)) {
+		        unlink(JPATH_ADMINISTRATOR . $languageFile);
+            }
+			if (file_exists(JPATH_SITE . $languageFile)) {
+				unlink(JPATH_SITE . $languageFile);
+			}
+        }
+	}
+
     /**
      * Method to uninstall the component
      *
