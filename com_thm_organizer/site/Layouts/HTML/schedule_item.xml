@@ -18,10 +18,6 @@
                 <option value="">ALL_ROOMS</option>
             </field>
             <field name="delta" type="Integer" label="SHOW_DELTA_DAYS" first="0" last="100" step="1" default="5"/>
-            <field name="showDepartments" type="Options" label="SHOW_DEPARTMENT_OPTIONS" default="1">
-                <option value="1">YES</option>
-                <option value="0">NO</option>
-            </field>
             <field name="showCategories" type="Options" label="SHOW_CATEGORY_OPTIONS" default="1">
                 <option value="1">YES</option>
                 <option value="0">NO</option>

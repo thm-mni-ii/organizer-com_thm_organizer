@@ -18,57 +18,70 @@ use Joomla\CMS\Factory;
 class Grids extends ResourceHelper
 {
 
-    /**
-     * Retrieves the selectable options for the resource.
-     *
-     * @return array the available options
-     */
-    public static function getOptions()
-    {
-        $options = [];
-        foreach (self::getResources() as $grid) {
-            $options[] = HTML::_('select.option', $grid['id'], $grid['name']);
-        }
+	/**
+	 * Retrieves the selectable options for the resource.
+	 *
+	 * @return array the available options
+	 */
+	public static function getOptions()
+	{
+		$options = [];
+		foreach (self::getResources() as $grid)
+		{
+			$options[] = HTML::_('select.option', $grid['id'], $grid['name']);
+		}
 
-        return $options;
-    }
+		return $options;
+	}
 
-    /**
-     * Retrieves the default grid.
-     *
-     * @param bool $onlyID whether or not only the id will be returned, defaults to true
-     *
-     * @return mixed
-     */
-    public static function getDefault($onlyID = true)
-    {
+	/**
+	 * Retrieves the default grid.
+	 *
+	 * @param   bool  $onlyID  whether or not only the id will be returned, defaults to true
+	 *
+	 * @return mixed
+	 */
+	public static function getDefault($onlyID = true)
+	{
 
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("*")->from('#__thm_organizer_grids')->where('defaultGrid = 1');
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("*")->from('#__thm_organizer_grids')->where('defaultGrid = 1');
 
-        $dbo->setQuery($query);
+		$dbo->setQuery($query);
 
-        return $onlyID ?
-            OrganizerHelper::executeQuery('loadResult', []) : OrganizerHelper::executeQuery('loadAssoc',[]);
-    }
+		return $onlyID ?
+			OrganizerHelper::executeQuery('loadResult', []) : OrganizerHelper::executeQuery('loadAssoc', []);
+	}
 
-    /**
-     * Retrieves the resource items.
-     *
-     * @return array the available resources
-     */
-    public static function getResources()
-    {
-        $tag = Languages::getTag();
+	/**
+	 * Retrieves the grid property for the given grid.
+	 *
+	 * @param   int  $gridID  the grid id
+	 *
+	 * @return mixed string the grid json string on success, otherwise null
+	 */
+	public static function getGrid($gridID)
+	{
+		return self::getTable()->getProperty('grid', $gridID, '');
+	}
 
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("*, name_$tag as name")->from('#__thm_organizer_grids')->order('name');
+	/**
+	 * Retrieves the resource items.
+	 *
+	 * @return array the available resources
+	 */
+	public static function getResources()
+	{
+		$tag = Languages::getTag();
 
-        $dbo->setQuery($query);
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("*, name_$tag as name, defaultGrid")->from('#__thm_organizer_grids')->order('name');
 
-        return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadAssocList', []);
+	}
 
 }

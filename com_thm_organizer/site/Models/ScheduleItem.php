@@ -11,304 +11,176 @@
 
 namespace Organizer\Models;
 
-use Joomla\CMS\Factory;
-use Organizer\Helpers\Access;
-use Organizer\Helpers\Categories;
-use Organizer\Helpers\Courses;
-use Organizer\Helpers\Departments;
+use Organizer\Helpers as Helpers;
 use Organizer\Helpers\Input;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Groups;
-use Organizer\Helpers\Rooms;
-use Organizer\Helpers\Subjects;
-use Organizer\Helpers\Persons;
 
 /**
  * Class retrieves information for use in a schedule display form.
  */
 class ScheduleItem extends BaseModel
 {
-    public $grids;
+	public $grids = [];
 
-    public $departments;
+	public $departments;
 
-    public $displayName;
+	public $displayName;
 
-    public $params;
+	public $params;
 
-    /**
-     * Schedule constructor.
-     *
-     * @param array $config options
-     */
-    public function __construct(array $config)
-    {
-        parent::__construct($config);
-        $this->setParams();
-        $this->grids       = $this->getGrids();
-        $this->departments = Departments::getOptions();
-    }
+	/**
+	 * Schedule constructor.
+	 *
+	 * @param   array  $config  options
+	 */
+	public function __construct(array $config)
+	{
+		parent::__construct($config);
 
-    /**
-     * Getter method for all grids in database
-     *
-     * @return array
-     */
-    public function getGrids()
-    {
-        $tag   = Languages::getTag();
-        $query = $this->_db->getQuery(true);
-        $query->select("id, name_$tag AS name, grid, defaultGrid")->from('#__thm_organizer_grids')->order('name');
-        $this->_db->setQuery($query);
+		$params       = Input::getParams();
+		$departmentID = Input::getFilterID('department');
 
-        $grids = OrganizerHelper::executeQuery('loadObjectList');
+		$this->params                   = [];
+		$this->params['departmentID']   = $departmentID;
+		$this->params['showCategories'] = Input::getInt('showCategories', $params->get('showCategories', 1));
+		$this->params['showGroups']     = Input::getInt('showGroups', $params->get('showGroups', 1));
+		$this->params['showRooms']      = Input::getInt('showRooms', $params->get('showRooms', 1));
+		$this->params['showRoomtypes']  = Input::getInt('showRoomtypes', $params->get('showRoomtypes', 1));
 
-        return empty($grids) ? [] : $grids;
-    }
+		$showPersonsParam            = Input::getInt('showPersons', $params->get('showPersons', 1));
+		$privilegedAccess            = Helpers\Access::allowViewAccess($departmentID);
+		$personEntryExists           = Helpers\Persons::getIDByUserID();
+		$showPersons                 = (($privilegedAccess or $personEntryExists) and $showPersonsParam);
+		$this->params['showPersons'] = $showPersons;
 
-    /**
-     * gets the first default grid from all grid objects in database
-     *
-     * @return object JSON grid
-     */
-    public function getDefaultGrid()
-    {
-        $defaultGrids = array_filter(
-            $this->grids,
-            function ($var) {
-                return $var->defaultGrid;
-            }
-        );
+		$this->params['delta'] = Input::getInt('delta', $params->get('delta', 5));
 
-        return current($defaultGrids);
-    }
+		$defaultEnabled                  = Input::getInt('showDepartments', $params->get('showDepartments', 1));
+		$this->params['showDepartments'] = $departmentID ? 0 : $defaultEnabled;
 
-    /**
-     * Sets the parameters used to configure the display
-     *
-     * @return void
-     */
-    private function setParams()
-    {
-        $params = Input::getParams();
+		// Default title: menu > department
+		$displayName                 = ($params->get('show_page_heading') and $params->get('page_heading')) ?
+			$params->get('page_heading') : Helpers\Departments::getName($this->params['departmentID']);
+		$this->displayName           = $displayName;
+		$this->params['displayName'] = $displayName;
 
-        $departmentID = Input::getFilterID('department');
+		// Planned resources
+		if ($this->setResourceArray('course'))
+		{
+			$this->displayName           = Helpers\Courses::getName($this->params['courseIDs']);
+			$this->params['displayName'] = $this->displayName;
 
-        $this->params                   = [];
-        $this->params['departmentID']   = $departmentID;
-        $this->params['showCategories'] = Input::getInt('showCategories', $params->get('showCategories', 1));
-        $this->params['showGroups']     = Input::getInt('showGroups', $params->get('showGroups', 1));
-        $this->params['showRooms']      = Input::getInt('showRooms', $params->get('showRooms', 1));
-        $this->params['showRoomtypes']  = Input::getInt('showRoomtypes', $params->get('showRoomtypes', 1));
-        $this->params['showSubjects']   = Input::getInt('showSubjects', $params->get('showSubjects', 1));
+			return;
+		}
 
-        $stMenuParam                 = Input::getInt('showPersons', $params->get('showPersons', 1));
-        $privilegedAccess            = Access::allowViewAccess($departmentID);
-        $personID                    = Persons::getIDByUserID();
-        $showPersons                 = (($privilegedAccess or !empty($personID)) and $stMenuParam);
-        $this->params['showPersons'] = $showPersons;
+		if ($this->setResourceArray('event'))
+		{
+			$this->displayName           = Helpers\Events::getName($this->params['eventIDs']);
+			$this->params['displayName'] = $this->displayName;
 
-        $this->params['delta'] = Input::getInt('deltaDays', $params->get('deltaDays', 5));
+			return;
+		}
 
-        $defaultEnabled                  = Input::getInt('showDepartments', $params->get('showDepartments', 1));
-        $this->params['showDepartments'] = empty($departmentID) ? $defaultEnabled : 0;
+		if ($this->params['showGroups'] and $this->setResourceArray('group', false))
+		{
+			if (count($this->params['groupIDs']) === 1)
+			{
+				$this->displayName           = Helpers\Groups::getFullName($this->params['groupIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
+			}
+			else
+			{
+				$this->params['showGroups'] = 1;
+			}
 
-        // Menu title requested
-        if (!empty($params->get('show_page_heading'))) {
-            $this->displayName = $params->get('page_heading');
-        }
+			return;
+		}
 
-        $setTitle = empty($this->displayName);
+		if ($this->params['showPersons'] and $this->setResourceArray('person'))
+		{
+			$this->displayName           = Helpers\Persons::getDefaultName($this->params['personIDs']);
+			$this->params['displayName'] = $this->displayName;
 
-        // Explicit setting of resources is done in the priority of resource type and is mutually exclusive
-        if ($this->params['showGroups']) {
-            $this->setResourceArray('group');
-        }
+			return;
+		}
 
-        if (!empty($this->params['groupIDs'])) {
-            $this->params['showCategories']  = 0;
-            $this->params['showDepartments'] = 0;
-            $this->params['showRooms']       = 0;
-            $this->params['showRoomtypes']   = 0;
-            $this->params['showSubjects']    = 0;
-            $this->params['showPersons']     = 0;
+		if ($this->params['showRooms'] and $this->setResourceArray('room', false))
+		{
+			if (count($this->params['roomIDs']) === 1)
+			{
+				$this->displayName           = Helpers\Rooms::getName($this->params['roomIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
+			}
+			else
+			{
+				$this->params['showRooms'] = 1;
+			}
 
-            if (count($this->params['groupIDs']) === 1 and $setTitle) {
-                $this->displayName           = Groups::getFullName($this->params['groupIDs'][0]);
-                $this->params['displayName'] = $this->displayName;
-            }
+			return;
+		}
 
-            return;
-        }
+		if ($this->setResourceArray('subject'))
+		{
+			$this->displayName           = Helpers\Subjects::getName($this->params['subjectIDs']);
+			$this->params['displayName'] = $this->displayName;
 
-        if ($this->params['showPersons']) {
-            $this->setResourceArray('person');
-        }
+			return;
+		}
 
-        if (!empty($this->params['personIDs'])) {
-            $this->params['showCategories']  = 0;
-            $this->params['showDepartments'] = 0;
-            $this->params['showGroups']      = 0;
-            $this->params['showRooms']       = 0;
-            $this->params['showRoomtypes']   = 0;
-            $this->params['showSubjects']    = 0;
+		// Planned resource categorizations
+		if ($this->params['showCategories'] and $this->setResourceArray('category', false))
+		{
+			if (count($this->params['categoryIDs']) === 1)
+			{
+				$this->displayName           = Helpers\Categories::getName($this->params['categoryIDs'][0]);
+				$this->params['displayName'] = $this->displayName;
+			}
+			else
+			{
+				$this->params['showCategories'] = 1;
+			}
 
-            if (count($this->params['personIDs']) === 1 and $setTitle) {
-                $this->displayName           = Persons::getDefaultName($this->params['personIDs'][0]);
-                $this->params['displayName'] = $this->displayName;
-            }
+			$this->params['showGroups'] = 1;
 
-            return;
-        }
+			return;
+		}
 
-        if ($this->params['showRooms']) {
-            $this->setResourceArray('room');
-        }
+		if ($this->params['showRoomtypes'] and $this->setResourceArray('roomtype'))
+		{
+			$this->displayName           = Helpers\Roomtypes::getName($this->params['roomtypeIDs']);
+			$this->params['displayName'] = $this->displayName;
 
-        if (!empty($this->params['roomIDs'])) {
-            $this->params['showCategories']  = 0;
-            $this->params['showDepartments'] = 0;
-            $this->params['showGroups']      = 0;
-            $this->params['showSubjects']    = 0;
-            $this->params['showPersons']     = 0;
+			$this->params['showRooms'] = 1;
 
-            if (count($this->params['roomIDs']) === 1 and $setTitle) {
-                $this->displayName           = Rooms::getName($this->params['roomIDs'][0]);
-                $this->params['displayName'] = $this->displayName;
-            }
+			return;
+		}
+	}
 
-            return;
-        }
+	/**
+	 * Checks for ids for a given resource type and sets them in the parameters
+	 *
+	 * @param   string  $resourceName  the name of the resource type
+	 * @param   bool    $singular      true if only one resource is allowed
+	 *
+	 * @return bool true if resources were set, otherwise false
+	 */
+	private function setResourceArray($resourceName, $singular = true)
+	{
+		$resourceIDs = $singular ? Input::getFilterID($resourceName) : Input::getFilterIDs($resourceName);
+		if ($resourceIDs)
+		{
+			$this->params["{$resourceName}IDs"] = $resourceIDs;
 
-        if ($this->params['showRoomtypes']) {
-            $this->setResourceArray('roomtype');
-        }
+			// Disable all, reenable relevant on return
+			$this->params['showCategories']  = 0;
+			$this->params['showDepartments'] = 0;
+			$this->params['showGroups']      = 0;
+			$this->params['showPersons']     = 0;
+			$this->params['showRooms']       = 0;
+			$this->params['showRoomtypes']   = 0;
 
-        if (!empty($this->params['roomtypeIDs'])) {
-            $this->params['showCategories']  = 0;
-            $this->params['showDepartments'] = 0;
-            $this->params['showGroups']      = 0;
-            $this->params['showSubjects']    = 0;
-            $this->params['showPersons']     = 0;;
+			return true;
+		}
 
-            if (count($this->params['roomtypeIDs']) === 1 and $setTitle) {
-                $this->displayName           = Roomtypes::getName($this->params['roomtypeIDs'][0]);
-                $this->params['displayName'] = $this->displayName;
-            }
-
-            return;
-        }
-
-        if ($this->params['showSubjects']) {
-            $this->setResourceArray('subject');
-        }
-
-        if (!empty($this->params['subjectIDs'])) {
-            $this->params['showCategories']  = 0;
-            $this->params['showDepartments'] = 0;
-            $this->params['showGroups']      = 0;
-            $this->params['showRooms']       = 0;
-            $this->params['showRoomtypes']   = 0;
-            $this->params['showPersons']     = 0;
-            $this->params['showTypes']       = 0;
-
-            // There can be only one.
-            $singleValue                = array_shift($this->params['subjectIDs']);
-            $this->params['subjectIDs'] = [$singleValue];
-
-            $this->displayName           = Subjects::getName($this->params['subjectIDs'][0]);
-            $this->params['displayName'] = $this->displayName;
-
-            return;
-        }
-
-        // Lessons are always visible, so only check input params
-        $this->setResourceArray('lesson');
-        if (!empty($this->params['lessonIDs'])) {
-            $this->params['showDepartments'] = 0;
-            $this->params['showGroups']      = 0;
-            $this->params['showCategories']  = 0;
-            $this->params['showRooms']       = 0;
-            $this->params['showRoomtypes']   = 0;
-            $this->params['showPersons']     = 0;
-
-            $this->displayName           = Courses::getNameByLessonID($this->params['lessonIDs'][0]);
-            $this->params['displayName'] = $this->displayName;
-
-            return;
-        }
-
-        // Program as the last setting, because the others lead directly to a schedule and category is just a form value
-        if ($this->params['showCategories']) {
-            $this->setResourceArray('category');
-        }
-
-        if (!empty($this->params['categoryIDs'])) {
-            $this->params['showDepartments'] = 0;
-            $this->params['showRooms']       = 0;
-            $this->params['showRoomtypes']   = 0;
-            $this->params['showPersons']     = 0;
-
-            if (count($this->params['categoryIDs']) === 1 and $setTitle) {
-                $this->displayName           = Categories::getName(
-                    $this->params['categoryIDs'][0],
-                    'plan'
-                );
-                $this->params['displayName'] = $this->displayName;
-            }
-
-            return;
-        }
-
-        // In the last instance the department name is used if nothing else was requested
-        if ($setTitle) {
-            $this->displayName = Departments::getName($this->params['departmentID']);
-        }
-    }
-
-    /**
-     * Checks for ids for a given resource type and sets them in the parameters
-     *
-     * @param string $resourceName the name of the resource type
-     *
-     * @return void sets object variable indexes
-     */
-    private function setResourceArray($resourceName)
-    {
-        $resourceIDs = Input::getFilterIDs($resourceName);
-
-        if (!empty($resourceIDs)) {
-            $this->params["{$resourceName}IDs"] = $resourceIDs;
-            $this->params['resourcesRequested'] = $resourceName;
-        }
-    }
-
-    /**
-     * sets notification value in user_profile table depending on user selection
-     * @return string value of previous selection
-     */
-    public function setCheckboxChecked()
-    {
-        $userID = Factory::getUser()->id;
-        if ($userID == 0) {
-            return '';
-        }
-
-        $table       = '#__user_profiles';
-        $profile_key = 'organizer_notify';
-        $query       = $this->_db->getQuery(true);
-
-        $query->select('profile_value')
-            ->from($table)
-            ->where("profile_key = '$profile_key'")
-            ->where("user_id = $userID");
-        $this->_db->setQuery($query);
-
-        if (OrganizerHelper::executeQuery('loadResult') == 1) {
-            return 'checked';
-        } else {
-            return '';
-        }
-    }
+		return false;
+	}
 }

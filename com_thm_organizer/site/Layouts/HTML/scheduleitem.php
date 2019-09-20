@@ -8,21 +8,67 @@
  * @link        www.thm.de
  */
 
-use Joomla\CMS\Factory;
 use Organizer\Helpers\Dates;
+use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
 
+$activeDay      = date('w');
+$categoryPH     = Languages::_('THM_ORGANIZER_SELECT_CATEGORY');
+$datesOfTheWeek = [
+	Dates::formatDate('monday this week'),
+	Dates::formatDate('tuesday this week'),
+	Dates::formatDate('wednesday this week'),
+	Dates::formatDate('thursday this week'),
+	Dates::formatDate('friday this week'),
+	Dates::formatDate('saturday this week'),
+	Dates::formatDate('sunday this week')
+];
+$daysOfTheWeek  = [
+	Languages::_('MON'),
+	Languages::_('TUE'),
+	Languages::_('WED'),
+	Languages::_('THU'),
+	Languages::_('FRI'),
+	Languages::_('SAT'),
+	Languages::_('SUN')
+];
+$departmentPH   = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
+$displayName    = empty($this->model->displayName) ?
+	'THM Organizer  - ' . Languages::_('THM_ORGANIZER_SCHEDULES') : $this->model->displayName;
+$grid           = json_decode($this->params['defaultGrid'], true);
+$gridOptions    = '';
+foreach ($this->grids as $gridOption)
+{
+	$selected    = $gridOption['defaultGrid'] ? 'selected' : '';
+	$gridOptions .= "<option value=\"{$gridOption['id']}\" $selected>{$gridOption['name']}</option>";
+}
+$groupPH     = Languages::_('THM_ORGANIZER_SELECT_GROUP');
 $mobile      = $this->isMobile ? 'mobile' : '';
-$displayName = empty($this->model->displayName) ?
-    'THM Organizer  - ' . Languages::_('THM_ORGANIZER_SCHEDULES') : $this->model->displayName;
+$periods     = $grid['periods'];
+$personPH    = Languages::_('THM_ORGANIZER_SELECT_PERSON');
+$roomPH      = Languages::_('THM_ORGANIZER_SELECT_ROOM');
+$roomTypePH  = Languages::_('THM_ORGANIZER_SELECT_ROOMTYPE');
+$typeOptions = '';
+if ($this->params['showCategories'])
+{
+	$typeOptions .= '<option value="category" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS') . '</option>';
+}
+if ($this->params['showRooms'])
+{
+	$typeOptions .= '<option value="roomtype">' . Languages::_('THM_ORGANIZER_ROOM_PLANS') . '</option>';
+}
+
+if ($this->params['showPersons'])
+{
+	$typeOptions .= '<option value="person">' . Languages::_('THM_ORGANIZER_PERSON_PLANS') . '</option>';
+}
+
+$typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
 ?>
-
 <div class="organizer <?php echo $mobile; ?>">
-
     <div class="page-header">
         <h2><?php echo $displayName; ?></h2>
     </div>
-
     <div class="menu-bar">
         <ul class="tabs" role="tablist">
             <li class="tabs-tab active" role="presentation">
@@ -103,7 +149,7 @@ $displayName = empty($this->model->displayName) ?
                             <td colspan="7">
                                 <button id="today" type="button" class="today"
                                         onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
-                                    <?php echo Languages::_('THM_ORGANIZER_TODAY'); ?>
+									<?php echo Languages::_('THM_ORGANIZER_TODAY'); ?>
                                 </button>
                             </td>
                         </tr>
@@ -127,90 +173,45 @@ $displayName = empty($this->model->displayName) ?
                 </a>
             </li>
         </ul>
-
-        <!-- Menu -->
         <div class="tab-content">
             <div class="tab-panel selection active" id="schedule-form" role="tabpanel"
                  aria-labelledby="tab-schedule-form" aria-hidden="false">
-                <?php
-                if (!empty($this->model->params['showDepartments'])) {
-                    ?>
-                    <div id="department-input" class="input-wrapper">
-                        <select id="department" multiple data-input="static"
-                                data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT'); ?>">
-                            <?php
-                            foreach ($this->getModel()->departments as $department) {
-                                echo "<option value='" . $department->value . "'>$department->text</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <?php
-                }
-                ?>
+                <div id="department-input" class="input-wrapper">
+                    <select id="department" data-input="static" data-placeholder="<?php echo $departmentPH; ?>">
+						<?php foreach (Departments::getOptions() as $department) : ?>
+                            <option value="<?php echo $department->value; ?>">
+								<?php echo $department->text; ?>
+                            </option>
+						<?php endforeach; ?>
+                    </select>
+                </div>
                 <div id="type-input" class="input-wrapper">
-                    <select id="type" required data-input="static"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE'); ?>">
-                        <?php
-                        if (!empty($this->model->params['showCategories'])) {
-                            echo '<option value="category" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS');
-                            echo '</option>';
-                        }
-
-                        if (!empty($this->model->params['showRooms'])) {
-                            echo '<option value="roomtype">' . Languages::_('THM_ORGANIZER_ROOM_PLANS') . '</option>';
-                        }
-
-                        if (!empty($this->model->params['showPersons'])) {
-                            echo '<option value="person">' . Languages::_('THM_ORGANIZER_PERSON_PLANS') . '</option>';
-                        }
-                        ?>
+                    <select id="type" required data-input="static" data-placeholder="<?php echo $typePH; ?>">
+						<?php echo $typeOptions ?>
                     </select>
                 </div>
                 <div id="category-input" class="input-wrapper">
-                    <select id="category" data-next="group"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_CATEGORY'); ?>">
-                        <!-- filled by ajax -->
-                    </select>
+                    <select id="category" data-next="group" data-placeholder="<?php echo $categoryPH; ?>"></select>
                 </div>
                 <div id="group-input" class="input-wrapper">
-                    <select id="group" data-next="event"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_GROUP'); ?>">
-                        <!-- filled by ajax -->
-                    </select>
+                    <select id="group" data-next="event" data-placeholder="<?php echo $groupPH; ?>"></select>
                 </div>
                 <div id="roomtype-input" class="input-wrapper">
-                    <select id="roomtype" data-next="room"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_ROOMTYPE'); ?>">
-                        <!-- filled by ajax -->
-                    </select>
+                    <select id="roomtype" data-next="room" data-placeholder="<?php echo $roomTypePH; ?>"></select>
                 </div>
                 <div id="room-input" class="input-wrapper">
-                    <select id="room" data-next="event"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_ROOM'); ?>">
-                        <!-- filled by ajax -->
-                    </select>
+                    <select id="room" data-next="event" data-placeholder="<?php echo $roomPH; ?>"></select>
                 </div>
                 <div id="person-input" class="input-wrapper">
-                    <select id="person" data-next="event"
-                            data-placeholder="<?php echo Languages::_('THM_ORGANIZER_SELECT_PERSON'); ?>">
-                        <!-- filled by ajax -->
-                    </select>
+                    <select id="person" data-next="event" data-placeholder="<?php echo $personPH; ?>"></select>
                 </div>
             </div>
-
             <div class="tab-panel" id="selected-schedules" role="tabpanel"
                  aria-labelledby="tab-selected-schedules" aria-hidden="false">
             </div>
-
             <div class="tab-panel" id="time-selection" role="tabpanel" aria-labelledby="tab-time" aria-hidden="false">
                 <select id="grid" required onchange="scheduleApp.changeGrid();">
-                    <?php
-                    foreach ($this->getModel()->grids as $grid) {
-                        $selected = ($grid->name == $this->defaultGrid->name) ? 'selected' : '';
-                        echo "<option value='" . $grid->id . "' $selected >$grid->name</option>";
-                    }
-                    ?>
+					<?php echo $gridOptions; ?>
                 </select>
             </div>
 
@@ -218,102 +219,61 @@ $displayName = empty($this->model->displayName) ?
                 <div class="link-item">
                     <a onclick="scheduleApp.handleExport('pdf.a4');">
                         <span class="icon-file-pdf"></span>
-                        <?php echo Languages::_('THM_ORGANIZER_PDF_DOCUMENT'); ?>
+						<?php echo Languages::_('THM_ORGANIZER_PDF_DOCUMENT'); ?>
                     </a>
                 </div>
                 <div class="link-item">
                     <a onclick="scheduleApp.handleExport('xls.si');">
                         <span class="icon-file-excel"></span>
-                        <?php echo Languages::_('THM_ORGANIZER_XLS_SPREADSHEET'); ?>
+						<?php echo Languages::_('THM_ORGANIZER_XLS_SPREADSHEET'); ?>
                     </a>
                 </div>
                 <div class="link-item">
                     <a onclick="scheduleApp.handleExport('ics');">
                         <span class="icon-info-calender"></span>
-                        <?php echo Languages::_('THM_ORGANIZER_ICS_CALENDAR'); ?>
+						<?php echo Languages::_('THM_ORGANIZER_ICS_CALENDAR'); ?>
                     </a>
                 </div>
                 <div class="link-item">
                     <a href="?option=com_thm_organizer&view=schedule_export" target="_blank">
                         <span class="icon-plus"></span>
-                        <?php echo Languages::_('THM_ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
+						<?php echo Languages::_('THM_ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-
-    <?php
-    $daysOfTheWeek  = [
-        Languages::_('MON'),
-        Languages::_('TUE'),
-        Languages::_('WED'),
-        Languages::_('THU'),
-        Languages::_('FRI'),
-        Languages::_('SAT'),
-        Languages::_('SUN')
-    ];
-    $datesOfTheWeek = [
-        Dates::formatDate('monday this week'),
-        Dates::formatDate('tuesday this week'),
-        Dates::formatDate('wednesday this week'),
-        Dates::formatDate('thursday this week'),
-        Dates::formatDate('friday this week'),
-        Dates::formatDate('saturday this week'),
-        Dates::formatDate('sunday this week')
-    ];
-    $grid           = json_decode($this->defaultGrid->grid);
-    $periods        = get_object_vars($grid->periods);
-    $activeDay      = date('w');
-    ?>
-
     <div id="scheduleWrapper" class="scheduleWrapper">
-        <?php
-        if (Factory::getUser()->guest) {
-            ?>
-            <input id="default-input" class="schedule-input" checked="checked" type="radio" name="schedules">
-            <div id="default-schedule" class="schedule-table">
-                <table>
-                    <thead>
+        <input id="default-input" class="schedule-input" checked="checked" type="radio" name="schedules">
+        <div id="default-schedule" class="schedule-table">
+            <table>
+                <thead>
+                <tr>
+                    <th><?php echo Languages::_('THM_ORGANIZER_TIME'); ?></th>
+					<?php for ($weekday = $grid['startDay'] - 1; $weekday < $grid['endDay']; ++$weekday) : ?>
+                        <th <?php echo ($activeDay == $weekday + 1) ? 'class="activeColumn"' : ''; ?>>
+							<?php echo $daysOfTheWeek[$weekday]; ?>
+                        </th>
+					<?php endfor; ?>
+                </tr>
+                </thead>
+                <tbody>
+				<?php for ($period = 1; $period <= count($periods); ++$period) : ?>
                     <tr>
-                        <th><?php echo Languages::_('THM_ORGANIZER_TIME'); ?></th>
-                        <?php
-                        for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday) {
-                            if ($activeDay == $weekday + 1) {
-                                echo "<th class='activeColumn'>$daysOfTheWeek[$weekday]</th>";
-                            } else {
-                                echo "<th>$daysOfTheWeek[$weekday]</th>";
-                            }
-                        }
-                        ?>
+                        <td>
+							<?php echo Dates::formatTime($periods[$period]['startTime']); ?>
+                            <br> - <br>
+							<?php echo Dates::formatTime($periods[$period]['endTime']); ?>
+                        </td>
+						<?php for ($weekday = $grid['startDay'] - 1; $weekday < $grid['endDay']; ++$weekday) : ?>
+                            <td <?php echo ($activeDay == $weekday + 1) ? ' class="activeColumn"' : ''; ?>></td>
+						<?php endfor; ?>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    for ($period = 1; $period <= count($periods); ++$period) {
-                        echo '<tr>';
-                        echo '<td>';
-                        echo Dates::formatTime($periods[$period]->startTime);
-                        echo '<br> - <br>';
-                        echo Dates::formatTime($periods[$period]->endTime);
-                        echo '</td>';
-
-                        for ($weekday = $grid->startDay - 1; $weekday < $grid->endDay; ++$weekday) {
-                            $class = ($activeDay == $weekday + 1) ? ' class="activeColumn"' : '';
-                            echo '<td' . $class . '></td>';
-                        }
-
-                        echo '</tr>';
-                    } // Periods
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-            <?php
-        } // Guest table
-        ?>
+				<?php endfor; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-
     <div class="event-menu">
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
         <div class="event-data">
@@ -328,24 +288,24 @@ $displayName = empty($this->model->displayName) ?
         </div>
         <div class="save">
             <button id="save-mode-semester">
-                <?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_SEMESTER') ?>
+				<?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_SEMESTER') ?>
             </button>
             <button id="save-mode-period">
-                <?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_PERIOD') ?>
+				<?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_PERIOD') ?>
             </button>
             <button id="save-mode-instance">
-                <?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_INSTANCE') ?>
+				<?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_INSTANCE') ?>
             </button>
         </div>
         <div class="delete">
             <button id="delete-mode-semester">
-                <?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_SEMESTER') ?>
+				<?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_SEMESTER') ?>
             </button>
             <button id="delete-mode-period">
-                <?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_PERIOD') ?>
+				<?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_PERIOD') ?>
             </button>
             <button id="delete-mode-instance">
-                <?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_INSTANCE') ?>
+				<?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_INSTANCE') ?>
             </button>
         </div>
     </div>
@@ -355,11 +315,11 @@ $displayName = empty($this->model->displayName) ?
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
         <button id="past-date" onclick="scheduleApp.nextDateEventHandler(event);">
             <span class="icon-arrow-left-2"></span>
-            <?php echo sprintf(Languages::_('THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
+			<?php echo sprintf(Languages::_('THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
         </button>
         <button id="future-date" onclick="scheduleApp.nextDateEventHandler(event);">
             <span class="icon-arrow-right-2"></span>
-            <?php echo sprintf(Languages::_('THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
+			<?php echo sprintf(Languages::_('THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
         </button>
     </div>
 
