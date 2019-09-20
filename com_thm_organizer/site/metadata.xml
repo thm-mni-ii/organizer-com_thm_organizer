@@ -15,7 +15,7 @@
                     value="room_statistics"/>
             <option name="THM_ORGANIZER_SCHEDULE_EXPORT" msg="THM_ORGANIZER_SCHEDULE_EXPORT_DESC"
                     value="schedule_export"/>
-            <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_DESC" value="schedule_grid"/>
+            <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_DESC" value="schedule_item"/>
             <option name="THM_ORGANIZER_SEARCH" msg="THM_ORGANIZER_SEARCH_DESC" value="search"/>
             <option name="THM_ORGANIZER_SUBJECTS" msg="THM_ORGANIZER_SUBJECTS_DESC" value="subjects"/>
         </options>
