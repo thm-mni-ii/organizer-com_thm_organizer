@@ -401,7 +401,7 @@ class RoomStatistics extends BaseModel
 
         // Group Data
         $select .= 'group.id AS groupID, group.untisID AS groupUntisID, ';
-        $select .= 'group.name AS groupName, group.full_name AS groupFullName, ';
+        $select .= 'group.name AS groupName, group.fullName AS groupFullName, ';
         $query->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id');
         $query->innerJoin('#__thm_organizer_groups AS group ON group.id = lg.groupID');
 

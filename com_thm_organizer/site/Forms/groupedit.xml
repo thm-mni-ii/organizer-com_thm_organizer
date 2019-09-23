@@ -2,7 +2,7 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="full_name" type="text" size="40" required="true" label="THM_ORGANIZER_NAME"
+        <field name="fullName" type="text" size="40" required="true" label="THM_ORGANIZER_NAME"
                description="THM_ORGANIZER_NAME_DESC"/>
         <field name="name" type="text" size="40" required="true" label="THM_ORGANIZER_SHORT_NAME"
                description="THM_ORGANIZER_SHORT_NAME_DESC"/>

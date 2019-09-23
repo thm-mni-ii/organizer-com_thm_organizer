@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
-        <field name="full_name" type="MergeValues" label="NAME"/>
+        <field name="fullName" type="MergeValues" label="NAME"/>
         <field name="name" type="MergeValues" label="SHORT_NAME"/>
         <field name="untisID" type="MergeValues" label="UNTIS_ID"/>
         <field name="categoryID" type="MergeAssociations" label="CATEGORY" textcolumn="c.name" from="groups AS g"

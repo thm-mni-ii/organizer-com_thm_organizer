@@ -407,7 +407,7 @@ class Schedules
         $select .= 'l.registration_type AS regType, l.max_participants AS maxParties, ';
         $select .= 'co.id AS coID, co.name AS courseName, co.subjectNo, co.untisID AS courseUntisID, ';
         $select .= 'gr.id AS groupID, gr.untisID AS groupUntisID, gr.name AS groupName, ';
-        $select .= 'gr.full_name AS groupFullName, gr.gridID, ';
+        $select .= 'gr.fullName AS groupFullName, gr.gridID, ';
         $select .= 'c.schedule_date AS date, c.startTime, c.endTime, ';
         $select .= 'conf.configuration, conf.modified AS configModified, cat.id AS categoryID';
 

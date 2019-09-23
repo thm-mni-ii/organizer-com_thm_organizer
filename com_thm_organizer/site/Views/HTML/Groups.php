@@ -103,10 +103,10 @@ class Groups extends ListView
         $direction            = $this->state->get('list.direction');
         $headers              = [];
         $headers['checkbox']  = '';
-        $headers['full_name'] = HTML::sort('FULL_NAME', 'ppl.full_name', $direction, $ordering);
-        $headers['name']      = HTML::sort('SELECT_BOX_DISPLAY', 'ppl.name', $direction, $ordering);
+        $headers['full_name'] = HTML::sort('FULL_NAME', 'gr.fullName', $direction, $ordering);
+        $headers['name']      = HTML::sort('SELECT_BOX_DISPLAY', 'gr.name', $direction, $ordering);
         $headers['grid']      = Languages::_('THM_ORGANIZER_GRID');
-        $headers['untisID']   = HTML::sort('UNTIS_ID', 'ppl.untisID', $direction, $ordering);
+        $headers['untisID']   = HTML::sort('UNTIS_ID', 'gr.untisID', $direction, $ordering);
 
         return $headers;
     }
@@ -130,7 +130,7 @@ class Groups extends ListView
             $thisLink                            = $link . $item->id;
             $processedItems[$index]              = [];
             $processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['full_name'] = HTML::_('link', $thisLink, $item->full_name);
+            $processedItems[$index]['fullName'] = HTML::_('link', $thisLink, $item->fullName);
             $processedItems[$index]['name']      = HTML::_('link', $thisLink, $item->name);
             $gridName                            = empty($item->gridID) ? '' : Grids::getName($item->gridID);
             $processedItems[$index]['grid']      = HTML::_('link', $thisLink, $gridName);

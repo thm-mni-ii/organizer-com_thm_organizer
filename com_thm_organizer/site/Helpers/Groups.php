@@ -161,7 +161,7 @@ class Groups extends ResourceHelper implements Selectable
         $short       = count($categoryIDs) === 1;
 
         foreach (self::getResources() as $group) {
-            $name      = $short ? $group['name'] : $group['full_name'];
+            $name      = $short ? $group['name'] : $group['fullName'];
             $options[] = HTML::_('select.option', $group['id'], $name);
         }
 

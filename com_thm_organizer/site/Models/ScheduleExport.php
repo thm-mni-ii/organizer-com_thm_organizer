@@ -137,7 +137,7 @@ class ScheduleExport extends BaseModel
 
                 if ($oneResource) {
                     $titles['docTitle']  = $untisID . '_';
-                    $titles['pageTitle'] = $table->full_name;
+                    $titles['pageTitle'] = $table->fullName;
 
                     return $titles;
                 }

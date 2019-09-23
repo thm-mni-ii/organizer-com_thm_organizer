@@ -84,7 +84,7 @@ class Pools extends ResourceHelper implements Selectable
         $table  = self::getTable();
         $exists = $table->load($poolID);
 
-        return $exists ? $table->full_name : '';
+        return $exists ? $table->fullName : '';
     }
 
     /**
