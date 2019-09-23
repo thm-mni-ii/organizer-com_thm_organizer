@@ -27,7 +27,7 @@ class Pools extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Pools', $function)) {
-            echo json_encode(PoolsHelper::$function());
+            echo json_encode(PoolsHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

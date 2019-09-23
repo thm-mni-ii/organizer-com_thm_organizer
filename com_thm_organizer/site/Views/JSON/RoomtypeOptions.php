@@ -24,6 +24,6 @@ class RoomtypeOptions extends BaseView
      */
     public function display()
     {
-        echo json_encode(Roomtypes::getOptions());
+        echo json_encode(Roomtypes::getOptions(), JSON_UNESCAPED_UNICODE);
     }
 }

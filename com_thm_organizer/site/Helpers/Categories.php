@@ -187,6 +187,6 @@ class Categories implements DepartmentAssociated, Selectable
 
         $programs = OrganizerHelper::executeQuery('loadObjectList');
 
-        return empty($programs) ? '[]' : json_encode($programs);
+        return empty($programs) ? '[]' : json_encode($programs, JSON_UNESCAPED_UNICODE);
     }
 }

@@ -24,6 +24,6 @@ class CategoryOptions extends BaseView
      */
     public function display()
     {
-        echo json_encode(Categories::getOptions());
+        echo json_encode(Categories::getOptions(), JSON_UNESCAPED_UNICODE);
     }
 }

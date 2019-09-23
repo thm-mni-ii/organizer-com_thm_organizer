@@ -351,7 +351,7 @@ class Organizer extends BaseModel
         unset($schedule['configurations']);
         unset($schedule['lessons']);
 
-        $schedules->schedule = json_encode($schedule);
+        $schedules->schedule = json_encode($schedule, JSON_UNESCAPED_UNICODE);
         $schedules->migrated = 1;
 
         return $schedules->store();

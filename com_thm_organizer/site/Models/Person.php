@@ -161,7 +161,7 @@ class Person extends MergeModel
             }
 
             if ($inConfig) {
-                $schedule->configurations[$index] = json_encode($configuration);
+                $schedule->configurations[$index] = json_encode($configuration, JSON_UNESCAPED_UNICODE);
             }
         }
     }
@@ -207,7 +207,7 @@ class Person extends MergeModel
                     $configuration['persons'][$mergeID] = $oldDelta;
                 }
 
-                $configuration = json_encode($configuration);
+                $configuration = json_encode($configuration, JSON_UNESCAPED_UNICODE);
                 $updateQuery->clear('set');
                 $updateQuery->set("configuration = '$configuration'");
                 $updateQuery->clear('where');

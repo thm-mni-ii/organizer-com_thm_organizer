@@ -27,7 +27,7 @@ class Terms extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Terms', $function)) {
-            echo json_encode(TermsHelper::$function());
+            echo json_encode(TermsHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

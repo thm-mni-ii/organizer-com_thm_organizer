@@ -27,7 +27,7 @@ class Programs extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Programs', $function)) {
-            echo json_encode(ProgramsHelper::$function());
+            echo json_encode(ProgramsHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

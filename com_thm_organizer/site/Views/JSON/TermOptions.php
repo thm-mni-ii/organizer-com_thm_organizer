@@ -24,6 +24,6 @@ class TermOptions extends BaseView
      */
     public function display()
     {
-        echo json_encode(Terms::getOptions());
+        echo json_encode(Terms::getOptions(), JSON_UNESCAPED_UNICODE);
     }
 }

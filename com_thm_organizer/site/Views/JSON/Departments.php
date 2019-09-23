@@ -27,7 +27,7 @@ class Departments extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Departments', $function)) {
-            echo json_encode(DepartmentsHelper::$function());
+            echo json_encode(DepartmentsHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

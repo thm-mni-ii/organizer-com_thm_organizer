@@ -48,7 +48,7 @@ class Grids extends ResourceHelper implements UntisXMLValidator
         }
 
         $grid       = $model->schedule->periods->$gridName;
-        $grid->grid = json_encode($grid);
+        $grid->grid = json_encode($grid, JSON_UNESCAPED_UNICODE);
         $table      = self::getTable();
 
         // No overwrites for global resources

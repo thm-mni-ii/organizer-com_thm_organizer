@@ -369,7 +369,7 @@ class ScheduleJSON extends BaseDatabaseModel
                 continue;
             }
 
-            $configurations[$index] = json_encode($configuration);
+            $configurations[$index] = json_encode($configuration, JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -867,7 +867,7 @@ class ScheduleJSON extends BaseDatabaseModel
         $this->_db->transactionStart();
 
         $this->schedule->referenceID = $reference->id;
-        $reference->set('schedule', json_encode($this->refSchedule));
+        $reference->set('schedule', json_encode($this->refSchedule, JSON_UNESCAPED_UNICODE));
         $reference->set('active', 0);
         $refSuccess = $reference->store();
 
@@ -880,7 +880,7 @@ class ScheduleJSON extends BaseDatabaseModel
         $this->setLessonReference();
         $this->setCalendarReference();
 
-        $active->set('schedule', json_encode($this->schedule));
+        $active->set('schedule', json_encode($this->schedule, JSON_UNESCAPED_UNICODE));
         $active->set('active', 1);
         $activeSuccess = $active->store();
 
@@ -1108,7 +1108,7 @@ class ScheduleJSON extends BaseDatabaseModel
                 }
             }
 
-            $diffConfig = json_encode($newConfigObject);
+            $diffConfig = json_encode($newConfigObject, JSON_UNESCAPED_UNICODE);
 
             $this->addConfiguration($diffConfig, $configurations, $activeInstance);
         }

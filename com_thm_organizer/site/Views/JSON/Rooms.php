@@ -27,7 +27,7 @@ class Rooms extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Rooms', $function)) {
-            echo json_encode(RoomsHelper::$function());
+            echo json_encode(RoomsHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

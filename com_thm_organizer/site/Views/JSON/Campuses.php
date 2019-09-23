@@ -27,7 +27,7 @@ class Campuses extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Campuses', $function)) {
-            echo json_encode(CampusesHelper::$function());
+            echo json_encode(CampusesHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

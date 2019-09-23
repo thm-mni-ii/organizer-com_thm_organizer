@@ -27,7 +27,7 @@ class Categories extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Categories', $function)) {
-            echo json_encode(CategoriesHelper::$function());
+            echo json_encode(CategoriesHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

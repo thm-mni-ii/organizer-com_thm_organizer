@@ -27,7 +27,7 @@ class Buildings extends BaseView
     {
         $function = Input::getTask();
         if (method_exists('Organizer\\Helpers\\Buildings', $function)) {
-            echo json_encode(BuildingsHelper::$function());
+            echo json_encode(BuildingsHelper::$function(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }

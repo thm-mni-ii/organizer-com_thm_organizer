@@ -499,7 +499,7 @@ abstract class MergeModel extends BaseModel
 
             $scheduleTable = OrganizerHelper::getTable('Schedules');
             $scheduleTable->load($scheduleID);
-            $scheduleTable->schedule = json_encode($scheduleObject);
+            $scheduleTable->schedule = json_encode($scheduleObject, JSON_UNESCAPED_UNICODE);
             $success                 = $scheduleTable->store();
             if (!$success) {
                 return false;

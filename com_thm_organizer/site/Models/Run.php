@@ -45,7 +45,7 @@ class Run extends BaseModel
         }
 
         $period = ['dates' => $dates];
-        $data['period'] = json_encode($period);
+        $data['period'] = json_encode($period, JSON_UNESCAPED_UNICODE);
 
         $table = $this->getTable();
         $success = $table->save($data);

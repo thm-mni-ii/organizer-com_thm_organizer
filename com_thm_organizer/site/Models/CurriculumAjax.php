@@ -52,7 +52,7 @@ class CurriculumAjax extends BaseModel
         if (empty($program->children)) {
             return '';
         } else {
-            return json_encode($program);
+            return json_encode($program, JSON_UNESCAPED_UNICODE);
         }
     }
 

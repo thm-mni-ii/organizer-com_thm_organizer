@@ -25,6 +25,7 @@ class Instances extends BaseView
     public function display()
     {
         $conditions = InstancesHelper::getConditions();
-        echo json_encode(InstancesHelper::getItems($conditions));
+        $items = InstancesHelper::getItems($conditions);
+        echo json_encode($items, JSON_UNESCAPED_UNICODE);
     }
 }
