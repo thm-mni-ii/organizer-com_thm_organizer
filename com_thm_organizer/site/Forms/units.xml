@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Organizer\Fields">
+    <fields name="filter">
+        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="departmentID" type="Departments" label="DEPARTMENT" onchange="this.form.submit();">
+            <option value="">ALL_DEPARTMENTS</option>
+            <option value="-1">NO_DEPARTMENT</option>
+        </field>
+        <field name="termID" type="GenericOptions" label="TERM" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_terms" onchange="this.form.submit();">
+            <option value="">ALL_TERMS</option>
+            <option value="-1">NO_TERM</option>
+        </field>
+        <field name="gridID" type="GenericOptions" label="GRIDS" valuecolumn="id" textcolumn="name" localized="true"
+               table="thm_organizer_grids" onchange="this.form.submit();">
+            <option value="">ALL_GRIDS</option>
+            <option value="-1">NO_GRID</option>
+        </field>
+        <field name="runID" type="GenericOptions" label="RUNS" valuecolumn="id" textcolumn="name" localized="true"
+               table="thm_organizer_runs" onchange="this.form.submit();">
+            <option value="">ALL_RUNS</option>
+            <option value="-1">NO_RUN</option>
+        </field>
+        <field name="status" type="Options" label="STATE" onchange="this.form.submit();">
+            <option value="">ALL_STATES</option>
+            <option value="1">EXPIRED</option>
+            <option value="2">PENDING</option>
+            <option value="3">CURRENT</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
+    </fields>
+</form>

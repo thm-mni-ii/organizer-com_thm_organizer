@@ -175,6 +175,10 @@ abstract class BaseHTMLView extends BaseView
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=participants',
 				'active' => $viewName == 'participants'
 			];
+            $courseItems[Languages::_('THM_ORGANIZER_UNITS')]        = [
+                'url'    => 'index.php?option=com_thm_organizer&amp;view=units',
+                'active' => $viewName == 'units'
+            ];
 			ksort($courseItems);
 
 			foreach ($courseItems as $key => $value)

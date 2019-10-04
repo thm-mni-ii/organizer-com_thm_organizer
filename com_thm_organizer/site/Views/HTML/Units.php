@@ -12,22 +12,14 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Campuses;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 /**
  * Class which loads data into the view output context
  */
-class Lessons extends ListView
+class Units extends ListView
 {
-    public $filters = [];
-
-    public $model = null;
-
-    public $showFilters;
-
-    public $state = null;
 
     /**
      * Method to generate buttons for user interaction
@@ -36,19 +28,22 @@ class Lessons extends ListView
      */
     protected function addToolBar()
     {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_COURSES_TITLE'), 'contract-2');
+        HTML::setTitle(Languages::_('THM_ORGANIZER_UNITS_TITLE'), 'contract-2');
         $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'course.add', false);
-        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'course.edit', true);
+        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'unit.add', false);
+        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'unit.edit', true);
         $toolbar->appendButton(
             'Confirm',
             Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
             'delete',
             Languages::_('THM_ORGANIZER_DELETE'),
-            'course.delete',
+            'unit.delete',
             true
         );
+        $url = 'index.php?option=com_thm_organizer&view=instances';
+        $toolbar->appendButton('Link', 'Instances', 'Instances', $url);
         HTML::setPreferencesButton();
+
     }
 
     /**
@@ -68,14 +63,14 @@ class Lessons extends ListView
      */
     public function getHeaders()
     {
-        $direction             = $this->state->get('list.direction');
-        $headers               = [];
+        $ordering  = $this->state->get('list.ordering');
+        $direction = $this->state->get('list.direction');
+        $headers   = [];
         $headers['checkbox']   = '';
-        $headers['name']       = HTML::sort('NAME', 'name', $direction, 'name');
-        $headers['department'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
-        $headers['term']       = Languages::_('THM_ORGANIZER_TERM');
+        $headers['name']       = HTML::sort('NAME', 'name', $direction, $ordering);
+        $headers['grid']       = Languages::_('THM_ORGANIZER_GRID');
+        $headers['run']        = Languages::_('THM_ORGANIZER_RUN');
         $headers['status']     = Languages::_('THM_ORGANIZER_STATE');
-        $headers['campus']     = Languages::_('THM_ORGANIZER_CAMPUS');
 
         return $headers;
     }
@@ -92,18 +87,14 @@ class Lessons extends ListView
         }
 
         $index          = 0;
+        $link           = "index.php?option=com_thm_organizer&view=unit_edit&id=";
+
         $processedItems = [];
 
         foreach ($this->items as $item) {
-            $name     = empty($item->subject) ? $item->name : $item->subject;
-            $name     .= empty($item->method) ? '' : " - $item->method";
-            $campusID = empty($item->campusID) ? $item->abstractCampusID : $item->campusID;
-            $campus   = Campuses::getName($campusID);
 
             $today = date('Y-m-d');
-            if (empty($item->start) and empty($item->end)) {
-                $status = Languages::_('THM_ORGANIZER_UNPLANNED');
-            } elseif ($item->end < $today) {
+            if ($item->end < $today) {
                 $status = Languages::_('THM_ORGANIZER_EXPIRED');
             } elseif ($item->start > $today) {
                 $status = Languages::_('THM_ORGANIZER_PENDING');
@@ -111,13 +102,13 @@ class Lessons extends ListView
                 $status = Languages::_('THM_ORGANIZER_CURRENT');
             }
 
+            $thisLink                             = $link . $item->id;
             $processedItems[$index]               = [];
             $processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']       = HTML::_('link', $item->link, $name);
-            $processedItems[$index]['department'] = HTML::_('link', $item->link, $item->department);
-            $processedItems[$index]['term']       = HTML::_('link', $item->link, $item->term);
-            $processedItems[$index]['status']     = HTML::_('link', $item->link, $status);
-            $processedItems[$index]['campus']     = HTML::_('link', $item->link, $campus);
+            $processedItems[$index]['name']       = HTML::_('link', $thisLink, $item->name);
+            $processedItems[$index]['grid']       = HTML::_('link', $thisLink, $item->grid);
+            $processedItems[$index]['run']        = HTML::_('link', $thisLink, $item->run);
+            $processedItems[$index]['status']     = HTML::_('link', $thisLink, $status);
 
             $index++;
         }

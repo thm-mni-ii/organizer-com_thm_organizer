@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Organizer\Fields">
+    <fieldset name="details">
+        <field name="id" type="hidden"/>
+        <field name="untisID" type="text" required="true" disabled="true" label="THM_ORGANIZER_UNTIS_ID"
+               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
+        <field name="eventID" type="GenericOptions" required="true" label="NAME" valuecolumn="id" textcolumn="name"
+               localized="true" table="thm_organizer_events"/>
+        <field name="departmentID" type="Departments" label="DEPARTMENT" required="true"/>
+        <field name="termID" type="Terms" label="TERM" required="true"/>
+        <field name="gridID" type="GenericOptions" required="true" label="GRID" valuecolumn="id" textcolumn="name"
+               localized="true" table= "thm_organizer_grids"/>
+        <field name="runID" type="GenericOptions" required="true" label="RUN" valuecolumn="id" textcolumn="name"
+               localized="true" table= "thm_organizer_runs"/>
+    </fieldset>
+</form>
