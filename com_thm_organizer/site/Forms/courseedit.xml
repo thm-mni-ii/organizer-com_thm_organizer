@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
-    <field name="id" type="hidden"/>
-    <fieldset name="course_settings">
-        <field name="campusID" type="Campuses" label="CAMPUS" description="THM_ORGANIZER_COURSE_CAMPUS">
-            <option value="">NO_CAMPUS</option>
+    <fieldset name="details">
+        <field name="id" type="hidden"/>
+        <field name="eventID" type="GenericOptions" required="true" label="NAME" valuecolumn="id" textcolumn="name"
+               localized="true" table="thm_organizer_events"/>
+        <field name="termID" type="Terms" label="TERM" required="true"/>
+        <field name="campusID" type="campuses" label="CAMPUS">
+            <option value="">NO_CAMPUSES</option>
         </field>
-        <field name="max_participants" type="Integer" label="MAX_PARTICIPANTS" first="20" last="1000" step="20"
-               default="300"/>
-        <field name="deadline" type="Integer" label="DEADLINE" first="1" last="30" step="1" default="5"/>
-        <field name="fee" type="Integer" label="COURSE_FEE" first="0" last="500" step="5" default="50"/>
-    </fieldset>
-    <fieldset name="circular">
-        <field name="includeWaitList" type="Options" class="chzn-color-state" label="" default="0">
-            <option value="1">FILTER_WAIT_LIST_NO</option>
-            <option value="0">FILTER_WAIT_LIST_YES</option>
+        <field name="groupID" type="GenericOptions" required="true" label="GROUP" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_groups"/>
+        <field name="deadline" type="integer" label="DEADLINE" description="DEADLINE_DESC"
+               first="0" last="30" step="1" default="0"/>
+        <field name="fee" type="Integer" label="COURSE_FEE" first="0" last="500" step="5" default="0"/>
+        <field name="maxParticipants" type="integer" label="MAX_PARTICIPANTS"
+               first="20" last="1000" step="20" default="1000"/>
+        <field name="registrationType" type="Options" label="REGISTRATION_TYPE"
+               description="THM_ORGANIZER_REGISTRATION_TYPE_DESC">
+            <option value="">NO_REGISTRATION</option>
+            <option value="0">FIFO</option>
+            <option value="1">MANUAL</option>
         </field>
-        <field name="subject" type="text" size="60" required="true" label="THM_ORGANIZER_MAIL_SUBJECT"/>
-        <field name="text" type="textarea" label="TEXT" required="true"/>
     </fieldset>
 </form>

@@ -1,38 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/component/com_thm_organizer/Fields">
+<form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="status" type="Options" label="STATE" onchange="this.form.submit();">
-            <option value="">ALL_COURSES</option>
-            <option value="pending">PENDING_COURSES</option>
-            <option value="current">CURRENT_COURSES</option>
-            <option value="expired">EXPIRED_COURSES</option>
-        </field>
-        <field name="departmentID" type="Departments" label="Department" access="manage" onchange="this.form.submit();">
-            <option value="">ALL_DEPARTMENTS</option>
-            <option value="-1">NO_DEPARTMENT</option>
-        </field>
-        <field name="categoryID" type="Categories" label="CATEGORY" access="manage" onchange="this.form.submit();">
-            <option value="">ALL_CATEGORIES</option>
-            <option value="-1">NO_CATEGORIES</option>
-        </field>
-        <field name="groupID" type="Groups" label="GROUP" access="manage" onchange="this.form.submit();">
-            <option value="">ALL_GROUPS</option>
-            <option value="-1">NO_GROUP</option>
+        <field name="termID" type="GenericOptions" label="TERM" valuecolumn="id" textcolumn="name"
+               table="thm_organizer_terms" onchange="this.form.submit();">
+            <option value="">ALL_TERMS</option>
+            <option value="-1">NO_TERM</option>
         </field>
         <field name="campusID" type="Campuses" label="CAMPUS" onchange="this.form.submit();">
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
         </field>
-        <field name="methodID" type="GenericOptions" onchange="this.form.submit();" valuecolumn="id" textcolumn="name"
-               table="thm_organizer_methods" localized="true">
-            <option value="">JALL</option>
-            <option value="-1">NONE</option>
-        </field>
-        <field name="onlyPrepCourses" type="Options" label="PREP_COURSES" default="0">
-            <option value="">ALL_COURSES</option>
-            <option value="1">ONLY_PREP_COURSES</option>
-            <option value="-1">NOT_PREP_COURSES</option>
+        <field name="status" type="Options" label="STATE" onchange="this.form.submit();">
+            <option value="">ALL_STATES</option>
+            <option value="1">EXPIRED</option>
+            <option value="2">PENDING</option>
+            <option value="3">CURRENT</option>
         </field>
     </fields>
     <fields name="list">
