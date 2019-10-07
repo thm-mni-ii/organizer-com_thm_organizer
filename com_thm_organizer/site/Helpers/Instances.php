@@ -114,7 +114,7 @@ class Instances extends ResourceHelper
 				$conditions['subjectIDs'] = $subjectIDs;
 			}
 
-			if (count($conditions['departmentIDs']))
+			if (!empty($conditions['departmentIDs']))
 			{
 				$allowedIDs   = Access::getAccessibleDepartments('schedule');
 				$overlap      = array_intersect($conditions['departmentIDs'], $allowedIDs);
@@ -301,7 +301,7 @@ class Instances extends ResourceHelper
 	 *
 	 * @return JDatabaseQuery the query object
 	 */
-	private static function getInstanceQuery($conditions)
+    public static function getInstanceQuery($conditions)
 	{
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
@@ -370,7 +370,7 @@ class Instances extends ResourceHelper
 			self::addDeltaClause($query, 'ir', $conditions['delta']);
 		}
 
-		if (!empty($conditions['eventIDs']) or !empty($conditions['subjectIDs']))
+        if (!empty($conditions['eventIDs']) or !empty($conditions['subjectIDs']) or !empty($conditions['isEventsRequired']))
 		{
 			$query->innerJoin('#__thm_organizer_events AS e ON i.eventID = e.id');
 
@@ -564,7 +564,7 @@ class Instances extends ResourceHelper
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$query->select('ig.groupID, ig.delta, g.untisID AS code, g.name, g.fullName, g.gridID')
+		$query->select('ig.groupID, ig.delta, ig.id as instanceGroupID, g.untisID AS code, g.name, g.fullName, g.gridID')
 			->from('#__thm_organizer_instance_groups AS ig')
 			->innerJoin('#__thm_organizer_groups AS g ON g.id = ig.groupID')
 			->where("ig.assocID = {$person['assocID']}");
@@ -581,10 +581,12 @@ class Instances extends ResourceHelper
 		{
 			$groupID = $groupAssoc['groupID'];
 			$group   = [
-				'code'     => $groupAssoc['code'],
-				'fullName' => $groupAssoc['fullName'],
-				'group'    => $groupAssoc['name'],
-				'status'   => $groupAssoc['delta']
+				'code'            => $groupAssoc['code'],
+				'fullName'        => $groupAssoc['fullName'],
+				'group'           => $groupAssoc['name'],
+                'groupID'         => $groupID,
+                'instanceGroupID' => $groupAssoc['instanceGroupID'],
+				'status'          => $groupAssoc['delta']
 			];
 
 			$groups[$groupID] = $group;
@@ -601,7 +603,7 @@ class Instances extends ResourceHelper
 	 *
 	 * @return void modifies the instance array
 	 */
-	private static function setPersons(&$instance, $conditions)
+    public static function setPersons(&$instance, $conditions)
 	{
 		$tag   = Languages::getTag();
 		$dbo   = Factory::getDbo();
@@ -626,12 +628,13 @@ class Instances extends ResourceHelper
 			$assocID  = $personAssoc['assocID'];
 			$personID = $personAssoc['personID'];
 			$person   = [
-				'assocID' => $assocID,
-				'code'    => $personAssoc['roleCode'],
-				'person'  => Persons::getLNFName($personID, true),
-				'role'    => $personAssoc['role'],
-				'roleID'    => $personAssoc['roleID'],
-				'status'  => $personAssoc['status']
+				'assocID'  => $assocID,
+				'code'     => $personAssoc['roleCode'],
+				'person'   => Persons::getLNFName($personID, true),
+                'personID' => $personID,
+				'role'     => $personAssoc['role'],
+                'roleID'   => $personAssoc['roleID'],
+				'status'   => $personAssoc['status']
 			];
 
 			self::setGroups($person, $conditions);
@@ -656,7 +659,7 @@ class Instances extends ResourceHelper
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$query->select('ir.roomID, ir.delta, r.name')
+		$query->select('ir.roomID, ir.delta, r.name, ir.id as instanceRoomID')
 			->from('#__thm_organizer_instance_rooms AS ir')
 			->innerJoin('#__thm_organizer_rooms AS r ON r.id = ir.roomID')
 			->where("ir.assocID = {$person['assocID']}");
@@ -673,8 +676,10 @@ class Instances extends ResourceHelper
 		{
 			$roomID = $room['roomID'];
 			$room   = [
-				'room'   => $room['name'],
-				'status' => $room['delta']
+                'instanceRoomID' => $room['instanceRoomID'],
+				'room'           => $room['name'],
+                'roomID'         => $roomID,
+				'status'         => $room['delta']
 			];
 
 			$rooms[$roomID] = $room;

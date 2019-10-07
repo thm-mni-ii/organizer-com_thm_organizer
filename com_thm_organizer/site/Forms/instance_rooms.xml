@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Organizer\Fields">
+    <fieldset name="instanceRoom">
+        <field name="instanceRoomID" type="hidden"/>
+        <field name="roomID" type="GenericOptions" label="ROOM"
+               valuecolumn="id" textcolumn="name" table= "thm_organizer_rooms"/>
+    </fieldset>
+</form>
