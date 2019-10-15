@@ -143,17 +143,17 @@ input[type=radio] {
     font-size: 1rem;
 }
 
-.add-event .icon-plus::before {
+.add-instance .icon-plus::before {
     color: #80ba24;
 }
 
 .icon-question::before,
-.add-event .icon-plus::before,
-.delete-event .icon-delete::before {
+.add-instance .icon-plus::before,
+.delete-instance .icon-delete::before {
     font-size: 1.1rem;
 }
 
-.delete-event .icon-delete::before {
+.delete-instance .icon-delete::before {
     color: #b54e62;
 }
 
@@ -500,14 +500,14 @@ input[type=radio] {
     background-color: #dfe5e6;
 }
 
-.event {
+.instance {
     border: 0.1rem solid #4a5c66;
     background-color: #f2f5f6;
     margin: 0 auto 0.5rem;
     padding: 0 0.2rem;
 }
 
-.event a {
+.instance a {
     cursor: pointer;
 }
 
@@ -550,15 +550,15 @@ input[type=radio] {
     content: ' / ';
 }
 
-.add-event, .delete-event {
+.add-instance, .delete-instance {
     text-align: right;
 }
 
-.add-event:focus, .delete-event:focus {
+.add-instance:focus, .delete-instance:focus {
     outline: none;
 }
 
-.add-event .icon-question, .delete-event .icon-question {
+.add-instance .icon-question, .delete-instance .icon-question {
     margin-left: 0.5rem;
     margin-right: 0.2rem;
 }
@@ -664,7 +664,7 @@ input[type=radio] {
     height: 2rem;
 }
 
-.event-menu {
+.instance-menu {
     background-color: #dfeec8;
     box-shadow: 0 0 5px #77858c;
     color: #394a59;
@@ -674,47 +674,47 @@ input[type=radio] {
     z-index: 2;
 }
 
-.event-menu button {
+.instance-menu button {
     color: #394a59;
     display: block;
     text-align: left;
 }
 
-.event-menu button:nth-last-of-type(n+2) {
+.instance-menu button:nth-last-of-type(n+2) {
     margin-bottom: 0.3rem;
 }
 
-.event-menu button:hover {
+.instance-menu button:hover {
     text-decoration: underline;
 }
 
-.event-menu .icon-cancel {
+.instance-menu .icon-cancel {
     position: absolute;
     right: 0.5rem;
 }
 
-.event-menu .icon-cancel:hover {
+.instance-menu .icon-cancel:hover {
     text-decoration: none;
 }
 
-.event-menu .persons, .event-menu .rooms {
+.instance-menu .persons, .instance-menu .rooms {
     display: inline-block;
 }
 
-.event-menu .rooms span::before,
-.event-menu .persons span:nth-of-type(n+2)::before {
+.instance-menu .rooms span::before,
+.instance-menu .persons span:nth-of-type(n+2)::before {
     content: ' / ';
 }
 
-.event-menu .pools {
+.instance-menu .pools {
     padding: 0;
 }
 
-.event-menu .pools span:nth-of-type(n+2)::before {
+.instance-menu .pools span:nth-of-type(n+2)::before {
     content: " , ";
 }
 
-.event-data {
+.instance-data {
     color: #4a5c66;
     margin: 0.8rem 0.7rem 0.8rem 0;
 }
@@ -737,7 +737,7 @@ input[type=radio] {
     vertical-align: text-top;
 }
 
-.delete-event {
+.delete-instance {
     display: none;
 }
 
@@ -745,15 +745,15 @@ input[type=radio] {
     display: none;
 }
 
-.added .add-event {
+.added .add-instance {
     display: none;
 }
 
-.added .delete-event {
+.added .delete-instance {
     display: block;
 }
 
-.no-saving .add-event {
+.no-saving .add-instance {
     display: none;
 }
 
@@ -772,14 +772,14 @@ input[type=radio] {
     text-decoration: line-through;
 }
 
-.calendar-removed .add-event, .calendar-removed .delete-event {
+.calendar-removed .add-instance, .calendar-removed .delete-instance {
     display: none;
 }
 
 .calendar-new,
-.event .person.new a,
-.event .location.new a,
-.event .pool.new a {
+.instance .person.new a,
+.instance .room.new a,
+.instance .group.new a {
     border-color: #80ba24;
     color: #80ba24;
 }
@@ -855,11 +855,11 @@ input[type=radio] {
     width: 90%;
 }
 
-.organizer.mobile .event-menu {
+.organizer.mobile .instance-menu {
     right: 0.5rem;
     left: 0.5rem;
 }
 
-.organizer.mobile .event-menu .pools span:first-child::before {
+.organizer.mobile .instance-menu .pools span:first-child::before {
     content: " / ";
 }

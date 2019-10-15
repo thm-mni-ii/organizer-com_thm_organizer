@@ -300,7 +300,7 @@ class CurriculumAjax extends BaseModel
             foreach ((array)$schedule->degrees as $program) {
                 if ($program->name == $programName) {
                     $this->scheduleID   = $currentSchedule['id'];
-                    $this->scheduleLink = 'index.php?option=com_thm_organizer&view=schedule_grid';
+                    $this->scheduleLink = 'index.php?option=com_thm_organizer&view=schedule_item';
                     $this->scheduleLink .= "&scheduleID={$currentSchedule['id']}";
                     $this->schedule     = $schedule;
 

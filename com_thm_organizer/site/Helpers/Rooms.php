@@ -107,7 +107,6 @@ class Rooms extends ResourceHelper implements Selectable
         $query->select("DISTINCT r.id, r.*")
             ->from('#__thm_organizer_rooms AS r');
 
-        // Type is the more common parameter, roomtype is only used in the schedule_grid context.
         self::addResourceFilter($query, 'roomtype', 'rt', 'r');
         self::addResourceFilter($query, 'building', 'b1', 'r');
 

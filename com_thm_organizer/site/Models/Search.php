@@ -281,7 +281,7 @@ class Search extends BaseModel
                 $departments[$departmentID]         = [];
                 $departments[$departmentID]['text'] = Languages::_('THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
 
-                $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&departmentIDs=$departmentID";
+                $links['schedule']   = "?option=com_thm_organizer&view=schedule_item&departmentIDs=$departmentID";
                 $links['event_list'] = "?option=com_thm_organizer&view=event_list&departmentIDs=$departmentID";
 
                 $departments[$departmentID]['links'] = $links;
@@ -310,7 +310,7 @@ class Search extends BaseModel
             } else {
                 $index               = "p{$result['id']}";
                 $text                = Helpers\Groups::getName($result['id']);
-                $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&poolIDs={$result['id']}";
+                $links['schedule']   = "?option=com_thm_organizer&view=schedule_item&poolIDs={$result['id']}";
                 $links['event_list'] = "?option=com_thm_organizer&view=event_list&groupIDs={$result['id']}";
             }
 
@@ -372,7 +372,7 @@ class Search extends BaseModel
                 }
 
                 if (!$noPlan) {
-                    $links['schedule']   = "?option=com_thm_organizer&view=schedule_grid&programIDs=$categoryID";
+                    $links['schedule']   = "?option=com_thm_organizer&view=schedule_item&programIDs=$categoryID";
                     $links['event_list'] = "?option=com_thm_organizer&view=event_list&categoryIDs=$categoryID";
                 }
 
@@ -386,7 +386,7 @@ class Search extends BaseModel
                 $programID  = $category['id'];
                 $categoryID = $category['categoryID'];
 
-                $scheduleLink  = "?option=com_thm_organizer&view=schedule_grid&programIDs=$categoryID";
+                $scheduleLink  = "?option=com_thm_organizer&view=schedule_item&programIDs=$categoryID";
                 $eventListLink = "?option=com_thm_organizer&view=event_list&categoryIDs=$categoryID";
 
                 // Subject was found
@@ -458,7 +458,7 @@ class Search extends BaseModel
                 $rooms[$roomID]['description'] = "$description$capacity";
 
                 $rooms[$roomID]['links'] =
-                    ['schedule' => "?option=com_thm_organizer&view=schedule_grid&roomIDs={$room['id']}"];
+                    ['schedule' => "?option=com_thm_organizer&view=schedule_item&roomIDs={$room['id']}"];
             }
         }
 
@@ -493,7 +493,7 @@ class Search extends BaseModel
 
                 if (!empty($subject['courseID'])) {
                     $links['schedule'] =
-                        "?option=com_thm_organizer&view=schedule_grid&subjectIDs={$subject['courseID']}";
+                        "?option=com_thm_organizer&view=schedule_item&subjectIDs={$subject['courseID']}";
                 }
 
                 $subjects[$subjectID]['links']       = $links;
@@ -504,7 +504,7 @@ class Search extends BaseModel
         if (!empty($coResults)) {
             foreach ($coResults as $courseID => $course) {
                 $courseID         = "p$courseID";
-                $scheduleLink     = "?option=com_thm_organizer&view=schedule_grid&subjectIDs=$courseID";
+                $scheduleLink     = "?option=com_thm_organizer&view=schedule_item&subjectIDs=$courseID";
                 $scheduleListLink = "?option=com_thm_organizer&view=event_list&subjectIDs=$courseID";
 
                 // Subject was found
@@ -583,7 +583,7 @@ class Search extends BaseModel
 
                 $isPerson = $this->personID == $person['id'];
                 if ($teaches and (count($overlap) or $isPerson)) {
-                    $links['schedule'] = "?option=com_thm_organizer&view=schedule_grid&personIDs={$person['id']}";
+                    $links['schedule'] = "?option=com_thm_organizer&view=schedule_item&personIDs={$person['id']}";
                 }
 
                 $persons[$person['id']]['links'] = $links;

@@ -96,16 +96,12 @@ class Instances extends ResourceHelper
 			if ($personIDs = Input::getFilterIDs('person'))
 			{
 				self::filterPersonIDs($personIDs, $conditions['userID']);
-				if ($personIDs)
-				{
-					$conditions['personIDs'] = $personIDs;
-				}
-				else
+				if (empty($personIDs))
 				{
 					throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
 				}
+				$conditions['personIDs'] = $personIDs;
 			}
-
 
 			if ($roomIDs = Input::getFilterIDs('room'))
 			{
@@ -301,7 +297,7 @@ class Instances extends ResourceHelper
 	/**
 	 * Builds a general query to find instances matching the given conditions.
 	 *
-	 * @param array $conditions the conditions for filtering the query
+	 * @param   array  $conditions  the conditions for filtering the query
 	 *
 	 * @return JDatabaseQuery the query object
 	 */
@@ -326,7 +322,7 @@ class Instances extends ResourceHelper
 		{
 			$gpConditions = "gp.groupID = ig.groupID AND gp.termID = u.termID";
 			$query->innerJoin("#__thm_organizer_group_publishing AS gp ON $gpConditions")
-				->where('gp.published = 1');
+				->where('(gp.published = 1 OR gp.published IS NULL)');
 		}
 
 		if ($conditions['mySchedule'] AND !empty($conditions['userID']))
@@ -634,6 +630,7 @@ class Instances extends ResourceHelper
 				'code'    => $personAssoc['roleCode'],
 				'person'  => Persons::getLNFName($personID, true),
 				'role'    => $personAssoc['role'],
+				'roleID'    => $personAssoc['roleID'],
 				'status'  => $personAssoc['status']
 			];
 
@@ -696,49 +693,54 @@ class Instances extends ResourceHelper
 	 */
 	private static function setSubject(&$instance, $conditions)
 	{
-		$dbo           = Factory::getDbo();
-		$tag           = Languages::getTag();
-		$subjectsQuery = $dbo->getQuery(true);
-		$subjectsQuery->select("s.id, s.abbreviation_$tag AS code, s.name_$tag AS fullName, s.shortName_$tag AS name")
+		$dbo   = Factory::getDbo();
+		$tag   = Languages::getTag();
+		$query = $dbo->getQuery(true);
+		$query->select("s.id, s.abbreviation_$tag AS code, s.name_$tag AS fullName, s.shortName_$tag AS name")
 			->select("s.description_$tag AS description, s.departmentID")
 			->from('#__thm_organizer_subjects AS s')
 			->innerJoin('#__thm_organizer_subject_events AS se ON se.subjectID = s.id')
 			->where("se.eventID = {$instance['eventID']}");
 
-		$dbo->setQuery($subjectsQuery);
+		$dbo->setQuery($query);
 
-		if ($subjects = OrganizerHelper::executeQuery('loadAssocList', []))
+		if (!$subjects = OrganizerHelper::executeQuery('loadAssocList', []))
 		{
-			$subject = [];
+			$instance['subjectID'] = null;
+			$instance['code']      = '';
+			$instance['fullName']  = '';
+			return;
+		}
 
-			// In the event of multiple results take the first one to fulfill the department condition
-			if (!empty($conditions['departmentIDs']) and count($subjects) > 1)
+		$subject = [];
+
+		// In the event of multiple results take the first one to fulfill the department condition
+		if (!empty($conditions['departmentIDs']) and count($subjects) > 1)
+		{
+			foreach ($subjects as $subjectItem)
 			{
-				foreach ($subjects as $subjectItem)
+				if (in_array($subjectItem['departmentID'], $conditions['departmentIDs']))
 				{
-					if (in_array($subjectItem['departmentID'], $conditions['departmentIDs']))
-					{
-						$subject = $subjectItem;
-						break;
-					}
+					$subject = $subjectItem;
+					break;
 				}
 			}
+		}
 
-			// Default
-			if (empty($subject))
-			{
-				$subject = $subjects[0];
-			}
+		// Default
+		if (empty($subject))
+		{
+			$subject = $subjects[0];
+		}
 
-			$instance['subjectID'] = $subject['id'];
-			$instance['code']      = empty($subject['code']) ? '' : $subject['code'];
-			$instance['fullName']  = empty($subject['fullName']) ? '' : $subject['fullName'];
-			$instance['name']      = empty($subject['name']) ? $instance['name'] : $subject['name'];
+		$instance['subjectID'] = $subject['id'];
+		$instance['code']      = empty($subject['code']) ? '' : $subject['code'];
+		$instance['fullName']  = empty($subject['fullName']) ? '' : $subject['fullName'];
+		$instance['name']      = empty($subject['name']) ? $instance['name'] : $subject['name'];
 
-			if (empty($instance['description']) and !empty($subject['description']))
-			{
-				$instance['description'] = $subject['description'];
-			}
+		if (empty($instance['description']) and !empty($subject['description']))
+		{
+			$instance['description'] = $subject['description'];
 		}
 	}
 }

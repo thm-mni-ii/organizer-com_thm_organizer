@@ -106,7 +106,7 @@ class ScheduleItem extends BaseHTMLView
 		HTML::_('formbehavior.chosen', 'select');
 		$this->addScriptOptions();
 		$doc->addScript(Uri::root() . 'components/com_thm_organizer/js/schedule.js');
-		$doc->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/schedule_grid.css');
+		$doc->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/schedule_item.css');
 		$doc->addStyleSheet(Uri::root() . 'media/jui/css/icomoon.css');
 	}
 

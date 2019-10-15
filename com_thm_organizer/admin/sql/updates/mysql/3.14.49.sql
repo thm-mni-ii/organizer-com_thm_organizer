@@ -115,7 +115,7 @@ ALTER TABLE `v7ocf_thm_organizer_pools`
     ADD COLUMN `groupID` INT(11) UNSIGNED DEFAULT NULL AFTER `fieldID`,
     DROP COLUMN `hisID`,
     DROP COLUMN `externalID`,
-    MODIFY `abbreviation_de` VARCHAR(45) DEFAULT '' AFTER `code`,
+    MODIFY `abbreviation_de` VARCHAR(45) DEFAULT '' AFTER `lsfID`,
     MODIFY `abbreviation_en` VARCHAR(45) DEFAULT '' AFTER `abbreviation_de`,
     CHANGE `short_name_de` `shortName_de` VARCHAR(45) DEFAULT '' AFTER `abbreviation_en`,
     CHANGE `short_name_en` `shortName_en` VARCHAR(45) DEFAULT '' AFTER `shortName_de`,
@@ -123,7 +123,6 @@ ALTER TABLE `v7ocf_thm_organizer_pools`
     MODIFY `name_en` VARCHAR(255) DEFAULT NULL AFTER `name_de`,
     DROP COLUMN `display_type`,
     DROP COLUMN `enable_desc`,
-    ADD INDEX `code` (`code`),
     ADD INDEX `departmentID` (`departmentID`),
     ADD INDEX `groupID` (`groupID`),
     ADD UNIQUE INDEX `lsfID` (`lsfID`);

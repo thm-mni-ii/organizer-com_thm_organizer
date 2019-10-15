@@ -10,9 +10,7 @@
 
 namespace Organizer\Models;
 
-use Exception;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class which manages stored building data.
