@@ -21,7 +21,7 @@ class Instances extends ResourceHelper
 {
 	const SEMESTER_MODE = 1;
 
-	const PERIOD_MODE = 2;
+	const BLOCK_MODE = 2;
 
 	const INSTANCE_MODE = 3;
 
@@ -321,7 +321,7 @@ class Instances extends ResourceHelper
 		if (empty($conditions['showUnpublished']))
 		{
 			$gpConditions = "gp.groupID = ig.groupID AND gp.termID = u.termID";
-			$query->innerJoin("#__thm_organizer_group_publishing AS gp ON $gpConditions")
+			$query->leftJoin("#__thm_organizer_group_publishing AS gp ON $gpConditions")
 				->where('(gp.published = 1 OR gp.published IS NULL)');
 		}
 
@@ -714,6 +714,7 @@ class Instances extends ResourceHelper
 			$instance['subjectID'] = null;
 			$instance['code']      = '';
 			$instance['fullName']  = '';
+
 			return;
 		}
 

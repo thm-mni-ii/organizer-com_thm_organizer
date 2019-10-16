@@ -40,7 +40,7 @@ class Users
             throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
         }
 
-        $mode     = Input::getInt('mode', self::PERIOD_MODE);
+        $mode     = Input::getInt('mode', self::BLOCK_MODE);
         $mappings = self::getMatchingLessons($mode, $ccmID);
 
         $deletedCcmIDs = [];
@@ -161,7 +161,7 @@ class Users
         }
 
         $savedCcmIDs = [];
-        $mode        = Input::getInt('mode', self::PERIOD_MODE);
+        $mode        = Input::getInt('mode', self::BLOCK_MODE);
         $mappings    = self::getMatchingLessons($mode, $ccmID);
 
         foreach ($mappings as $lessonID => $ccmIDs) {

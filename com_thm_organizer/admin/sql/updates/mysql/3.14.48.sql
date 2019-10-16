@@ -116,9 +116,9 @@ ALTER TABLE `v7ocf_thm_organizer_departments`
     CHANGE `short_name_de` `shortName_de` VARCHAR(50) NOT NULL,
     CHANGE `short_name_en` `shortName_en` VARCHAR(50) NOT NULL AFTER `shortName_de`,
     ADD PRIMARY KEY (`id`),
-    ADD COLUMN contactType TINYINT(1) UNSIGNED DEFAULT 0,
-    ADD COLUMN contactID INT(11) DEFAULT NULL,
-    ADD COLUMN contactEmail VARCHAR(100) DEFAULT NULL,
+    ADD COLUMN contactType                TINYINT(1) UNSIGNED DEFAULT 0,
+    ADD COLUMN contactID                  INT(11)             DEFAULT NULL,
+    ADD COLUMN contactEmail               VARCHAR(100)        DEFAULT NULL,
     ADD INDEX `contactID` (`contactID`),
     ADD CONSTRAINT `shortName_de` UNIQUE (`shortName_de`),
     ADD CONSTRAINT `shortName_en` UNIQUE (`shortName_en`),
@@ -188,8 +188,8 @@ ALTER TABLE `v7ocf_thm_organizer_fields`
     DROP INDEX `gpuntisID`;
 
 ALTER TABLE `v7ocf_thm_organizer_fields`
-    CHANGE `field_de` `name_de` VARCHAR(60) NOT NULL AFTER `colorID`,
-    CHANGE `field_en` `name_en` VARCHAR(60) NOT NULL AFTER `name_de`,
+    CHANGE `field_de` `name_de`  VARCHAR(60) NOT NULL AFTER `colorID`,
+    CHANGE `field_en` `name_en`  VARCHAR(60) NOT NULL AFTER `name_de`,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`),
     ADD CONSTRAINT `name_de` UNIQUE (`name_de`),
@@ -382,7 +382,7 @@ ALTER TABLE `v7ocf_thm_organizer_monitors`
     MODIFY `useDefaults` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     CHANGE `schedule_refresh` `scheduleRefresh` INT(3) UNSIGNED NOT NULL DEFAULT 60
         COMMENT 'the amount of seconds before the schedule refreshes',
-    CHANGE `content_refresh` `contentRefresh` INT(3) UNSIGNED NOT NULL DEFAULT 60
+    CHANGE `content_refresh` `contentRefresh`   INT(3) UNSIGNED NOT NULL DEFAULT 60
         COMMENT 'the amount of time in seconds before the content refreshes';
 
 ALTER TABLE `v7ocf_thm_organizer_monitors`
@@ -398,9 +398,9 @@ ALTER TABLE `v7ocf_thm_organizer_participants`
     DROP INDEX `participants_programid_fk`;
 
 ALTER TABLE `v7ocf_thm_organizer_participants`
-    CHANGE `zip_code` `zipCode` INT(11) NOT NULL DEFAULT 0,
+    CHANGE `zip_code` `zipCode` INT(11)             NOT NULL DEFAULT 0,
     MODIFY `programID` INT(11) UNSIGNED DEFAULT NULL,
-    ADD COLUMN `notify` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    ADD COLUMN `notify`         TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     ADD INDEX `programID` (`programID`);
 
 ALTER TABLE `v7ocf_thm_organizer_participants`

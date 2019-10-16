@@ -274,7 +274,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
             </table>
         </div>
     </div>
-    <div class="event-menu">
+    <div class="instance-menu">
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
         <div class="event-data">
             <div class="subjectNameNr">

@@ -122,7 +122,7 @@ class ScheduleItem extends BaseHTMLView
 
 		$variables = [
 			'SEMESTER_MODE'   => 1,
-			'PERIOD_MODE'     => 2,
+			'BLOCK_MODE'      => 2,
 			'INSTANCE_MODE'   => 3,
 			'ajaxBase'        => $root . 'index.php?option=com_thm_organizer&format=json&departmentIDs=',
 			'dateFormat'      => $this->dateFormat,

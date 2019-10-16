@@ -20,7 +20,7 @@ class Schedules
 {
     const SEMESTER_MODE = 1;
 
-    const PERIOD_MODE = 2;
+    const BLOCK_MODE = 2;
 
     const INSTANCE_MODE = 3;
 
@@ -42,7 +42,7 @@ class Schedules
             throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
         }
 
-        $mode     = Input::getInt('mode', self::PERIOD_MODE);
+        $mode     = Input::getInt('mode', self::BLOCK_MODE);
         $mappings = self::getMatchingLessons($mode, $ccmID);
 
         $deletedCcmIDs = [];
@@ -158,7 +158,7 @@ class Schedules
         }
 
         $savedCcmIDs = [];
-        $mode        = Input::getInt('mode', self::PERIOD_MODE);
+        $mode        = Input::getInt('mode', self::BLOCK_MODE);
         $mappings    = self::getMatchingLessons($mode, $ccmID);
 
         foreach ($mappings as $lessonID => $ccmIDs) {

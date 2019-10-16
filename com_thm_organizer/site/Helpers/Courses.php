@@ -19,7 +19,7 @@ use Joomla\CMS\Factory;
 class Courses extends ResourceHelper
 {
 	const MANUAL_ACCEPTANCE = 1;
-	const PERIOD_MODE = 2;
+	const BLOCK_MODE = 2;
 	const INSTANCE_MODE = 3;
 	const TEACHER = 1;
 	const TUTOR = 2;
@@ -497,7 +497,7 @@ class Courses extends ResourceHelper
 //            ->where("delta != 'removed'");
 //
 //        // Restrictions
-//        if ($mode == self::PERIOD_MODE or $mode == self::INSTANCE_MODE) {
+//        if ($mode == self::BLOCK_MODE or $mode == self::INSTANCE_MODE) {
 //            $query->where("cal.startTime = '$calReference->startTime'");
 //            $query->where("cal.endTime = '$calReference->endTime'");
 //
