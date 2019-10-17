@@ -564,7 +564,7 @@ class Instances extends ResourceHelper
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$query->select('ig.groupID, ig.delta, ig.id as instanceGroupID, g.untisID AS code, g.name, g.fullName, g.gridID')
+		$query->select('ig.groupID, ig.delta, g.untisID AS code, g.name, g.fullName, g.gridID')
 			->from('#__thm_organizer_instance_groups AS ig')
 			->innerJoin('#__thm_organizer_groups AS g ON g.id = ig.groupID')
 			->where("ig.assocID = {$person['assocID']}");
@@ -581,12 +581,10 @@ class Instances extends ResourceHelper
 		{
 			$groupID = $groupAssoc['groupID'];
 			$group   = [
-				'code'            => $groupAssoc['code'],
-				'fullName'        => $groupAssoc['fullName'],
-				'group'           => $groupAssoc['name'],
-                'groupID'         => $groupID,
-                'instanceGroupID' => $groupAssoc['instanceGroupID'],
-				'status'          => $groupAssoc['delta']
+				'code'     => $groupAssoc['code'],
+				'fullName' => $groupAssoc['fullName'],
+				'group'    => $groupAssoc['name'],
+				'status'   => $groupAssoc['delta']
 			];
 
 			$groups[$groupID] = $group;
@@ -628,13 +626,12 @@ class Instances extends ResourceHelper
 			$assocID  = $personAssoc['assocID'];
 			$personID = $personAssoc['personID'];
 			$person   = [
-				'assocID'  => $assocID,
-				'code'     => $personAssoc['roleCode'],
-				'person'   => Persons::getLNFName($personID, true),
-                'personID' => $personID,
-				'role'     => $personAssoc['role'],
-                'roleID'   => $personAssoc['roleID'],
-				'status'   => $personAssoc['status']
+				'assocID' => $assocID,
+				'code'    => $personAssoc['roleCode'],
+				'person'  => Persons::getLNFName($personID, true),
+				'role'    => $personAssoc['role'],
+				'roleID'  => $personAssoc['roleID'],
+				'status'  => $personAssoc['status']
 			];
 
 			self::setGroups($person, $conditions);
@@ -659,7 +656,7 @@ class Instances extends ResourceHelper
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$query->select('ir.roomID, ir.delta, r.name, ir.id as instanceRoomID')
+		$query->select('ir.roomID, ir.delta, r.name')
 			->from('#__thm_organizer_instance_rooms AS ir')
 			->innerJoin('#__thm_organizer_rooms AS r ON r.id = ir.roomID')
 			->where("ir.assocID = {$person['assocID']}");
@@ -676,10 +673,8 @@ class Instances extends ResourceHelper
 		{
 			$roomID = $room['roomID'];
 			$room   = [
-                'instanceRoomID' => $room['instanceRoomID'],
-				'room'           => $room['name'],
-                'roomID'         => $roomID,
-				'status'         => $room['delta']
+				'room'   => $room['name'],
+				'status' => $room['delta']
 			];
 
 			$rooms[$roomID] = $room;

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="instanceGroup">
-        <field name="instanceGroupID" type="hidden"/>
         <field name="groupID" type="GenericOptions" label="GROUP"
                valuecolumn="id" textcolumn="fullName" table= "thm_organizer_groups"/>
     </fieldset>

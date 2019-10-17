@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="instanceResources">
-        <field name="assocID" type="hidden"/>
         <field name="roleID" type="hidden"/>
         <field name="personID" type="GenericOptions" label="PERSON"
                valuecolumn="id" textcolumn="surname" table= "thm_organizer_persons"/>

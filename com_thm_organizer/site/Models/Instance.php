@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Organizer\Helpers\Input;
+use Organizer\Helpers\OrganizerHelper;
 
 defined('_JEXEC') or die;
 
@@ -19,157 +20,189 @@ defined('_JEXEC') or die;
  */
 class Instance extends BaseModel
 {
+	/**
+	 * Method to save instances
+	 *
+	 * @param   array  $data  the data to be used to create the instance
+	 *
+	 * @return Boolean
+	 */
+	public function save($data = [])
+	{
+		$data = empty($data) ? Input::getFormItems()->toArray() : $data;
 
-    /**
-     * Method to save instances
-     *
-     * @param array $data the data to be used to create the instance
-     *
-     * @return Boolean
-     */
-    public function save($data = [])
-    {
-        $data = empty($data) ? Input::getFormItems()->toArray() : $data;
+		$table = $this->getTable();
+		if (!$table->save($data))
+		{
+			return false;
+		}
 
-        $table = $this->getTable();
-        $addInstance = $table->save($data);
 
-        $data['id'] = $table->id;
+		$data['id'] = $table->id;
 
-        $data['checkAssocID'] = isset($data['checkAssocID']) ? $data['checkAssocID'] : false;
+		$this->_db->transactionStart();
 
-        if ($addInstance) {
+		if ($this->saveResourceData($data))
+		{
 
-            $this->_db->transactionStart();
-            $groupData = $this->saveInstanceData($data);
+			$this->_db->transactionCommit();
 
-            if ($groupData) {
+			return $table->id;
+		}
 
-                $this->_db->transactionCommit();
+		$this->_db->transactionRollback();
 
-                return $table->id;
-            } else {
+		return false;
+	}
 
-                $this->_db->transactionRollback();
+	/**
+	 * Method to check the new instance data and to save it
+	 *
+	 * @param   array  $data  the new instance data
+	 *
+	 * checkAssocID to check the existing assocID or create a new one
+	 *
+	 * @return Boolean
+	 */
+	private function saveResourceData($data)
+	{
+		$instanceID = $data['id'];
+		$ipIDs      = [];
+		foreach ($data['resources'] as $person)
+		{
+			$ipData  = ['instanceID' => $instanceID, 'personID' => $person["personID"]];
+			$ipTable = $this->getTable('InstancePersons');
+			$roleID  = !empty($person['roleID']) ? $person['roleID'] : 1;
+			if ($ipTable->load($ipData))
+			{
+				if ($ipTable->delta === 'removed') {
+					$ipTable->delta  = 'new';
+				}
+				else if ($ipTable->roleID != $roleID)
+				{
+					$ipTable->delta  = 'changed';
+					$ipTable->roleID = $roleID;
+				}
+				else
+				{
+					$ipTable->delta = '';
+				}
 
-                return false;
-            }
-        }
-        return false;
-    }
+				if (!$ipTable->store())
+				{
+					return false;
+				}
+			}
+			else
+			{
+				$ipData['delta']  = 'new';
+				$ipData['roleID'] = $roleID;
+				if (!$ipTable->save($ipData))
+				{
+					return false;
+				}
+			}
 
-    /**
-     * Method to check the new instance data and to save it
-     *
-     * @param array $newData the new instance data
-     *
-     * checkAssocID to check the existing assocID or create a new one
-     * @return Boolean
-     */
-    private function saveInstanceData($newData)
-    {
+			$ipID    = $ipTable->id;
+			$ipIDs[] = $ipID;
 
-        foreach ($newData['resources'] as $person) {
+			$igIDs = [];
+			foreach ($person['groups'] as $group)
+			{
+				$igData  = ['assocID' => $ipID, 'groupID' => $group['groupID']];
+				$igTable = $this->getTable('InstanceGroups');
+				if ($igTable->load($igData))
+				{
+					$igTable->delta = $igTable->delta === 'removed' ? 'new' : '';
+					if (!$igTable->store())
+					{
+						return false;
+					}
+				}
+				else
+				{
+					$igData['delta'] = 'new';
+					if (!$igTable->save($igData))
+					{
+						return false;
+					}
+				}
 
-            $instancePersonsData  = [];
-            $instancePersonsTable = $this->getTable('InstancePersons');
+				$igIDs[] = $igTable->id;
+			}
 
-            $instancePersonsData['personID']   = $person["personID"];
-            $instancePersonsData['instanceID'] = $newData['id'];
-            $instancePersonsData['roleID']     = 1;
+			$this->setRemoved('instance_groups', 'assocID', $ipID, $igIDs);
 
-            if (!empty($person['assocID']) && !$newData['checkAssocID']) {
-                $instancePersonsData['id'] = $person['assocID'];
-            } else {
-                $instancePersonsData['delta'] = "new";
-            }
+			$irIDs = [];
+			foreach ($person['rooms'] as $room)
+			{
+				$irData  = ['assocID' => $ipID, 'roomID' => $room['roomID']];
+				$irTable = $this->getTable('InstanceRooms');
+				if ($irTable->load($irData))
+				{
+					$irTable->delta = $irTable->delta === 'removed' ? 'new' : '';
+					if (!$irTable->store())
+					{
+						return false;
+					}
+				}
+				else
+				{
+					$irData['delta'] = 'new';
+					if (!$irTable->save($irData))
+					{
+						return false;
+					}
+				}
 
-            $instancePerson = $instancePersonsTable->save($instancePersonsData);
+				$irIDs[] = $irTable->id;
+			}
 
-            if (!$instancePerson) {
-                return false;
-            }
+			$this->setRemoved('instance_rooms', 'assocID', $ipID, $irIDs);
+		}
 
-            foreach ($person['groups'] as $group) {
+		$this->setRemoved('instance_persons', 'instanceID', $instanceID, $ipIDs);
 
-                $instanceGroupsData  = [];
-                $instanceGroupsTable = $this->getTable('InstanceGroups');
+		return true;
+	}
 
-                if (empty($person["assocID"]) || $newData['checkAssocID']) {
+	/**
+	 * Sets resource associations which are no longer current to 'removed';
+	 *
+	 * @param   string  $suffix       the unique table name ending
+	 * @param   string  $assocColumn  the name of the column referencing an association
+	 * @param   int     $assocValue   the value of the referenced association's id
+	 * @param   array   $idValues     the values of the current resource association ids
+	 *
+	 * @return bool
+	 */
+	private function setRemoved($suffix, $assocColumn, $assocValue, $idValues)
+	{
+		$table = "#__thm_organizer_$suffix";
+		$query = $this->_db->getQuery(true);
+		$query->update($table)
+			->set("delta = 'removed'")
+			->where("$assocColumn = $assocValue")
+			->where('id NOT IN (' . implode(',', $idValues) . ')');
 
-                    $personID = $instancePersonsTable->id;
-                } else {
-                    $personID = $person["assocID"];
-                }
+		$this->_db->setQuery($query);
 
-                $instanceGroupsData['assocID'] = $personID;
-                $instanceGroupsData['groupID'] = $group["groupID"];
+		return OrganizerHelper::executeQuery('execute', false) ? true : false;
+	}
 
-                if (!empty($group['instanceGroupID']) && !$newData["checkAssocID"]) {
+	/**
+	 * Method to save existing instances as copies
+	 *
+	 * @param   array  $data  the data to be used to create the instance
+	 *
+	 * @return $saveInstance
+	 */
+	public function save2copy($data = [])
+	{
+		$data = empty($data) ? Input::getFormItems()->toArray() : $data;
 
-                    $instanceGroupsData['id'] = $group['instanceGroupID'];
-                } else {
-                    $instanceGroupsData['delta'] = "new";
-                }
+		unset($data['id']);
 
-                $instanceGroup = $instanceGroupsTable->save($instanceGroupsData);
-
-                if (!$instanceGroup) {
-                    return false;
-                }
-
-            }
-
-            foreach ($person['rooms'] as $room) {
-
-                $instanceRoomsData  = [];
-                $instanceRoomsTable = $this->getTable('InstanceRooms');
-
-                if (empty($person["assocID"]) || $newData['checkAssocID']) {
-
-                    $personID = $instancePersonsTable->id;
-                } else {
-                    $personID = $person["assocID"];
-                }
-
-                $instanceRoomsData['assocID'] = $personID;
-                $instanceRoomsData['roomID']  = $room["roomID"];
-
-                if (!empty($room['instanceRoomID']) && !$newData['checkAssocID']) {
-
-                    $instanceRoomsData['id'] = $room['instanceRoomID'];
-                } else {
-                    $instanceRoomsData['delta'] = "new";
-                }
-
-                $instanceRoom = $instanceRoomsTable->save($instanceRoomsData);
-
-                if (!$instanceRoom) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Method to save existing instances as copies
-     *
-     * @param array $data the data to be used to create the instance
-     *
-     * @return $saveInstance
-     */
-    public function save2copy($data = [])
-    {
-        $data = empty($data) ? Input::getFormItems()->toArray() : $data;
-
-        if (isset($data['id'])) {
-            unset($data['id']);
-        }
-
-        $data['checkAssocID'] = true;
-        $saveInstance = $this->save($data);
-
-        return $saveInstance;
-    }
+		return $this->save($data);
+	}
 }
