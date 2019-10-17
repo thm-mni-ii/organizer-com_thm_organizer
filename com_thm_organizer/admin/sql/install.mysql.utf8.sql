@@ -602,8 +602,8 @@ CREATE TABLE `#__thm_organizer_runs` (
     `name_de` VARCHAR(50)      NOT NULL,
     `name_en` VARCHAR(50)      NOT NULL,
     `termID`  INT(11) UNSIGNED NOT NULL,
-    `period`  TEXT             NOT NULL
-        COMMENT 'Period contains the start date and end date of lessons which are saved in JSON string.',
+    `run`  TEXT             NOT NULL
+        COMMENT 'run contains the start date and end date of lessons which are saved in JSON string.',
     PRIMARY KEY (`id`),
     INDEX `termID` (`termID`)
 )

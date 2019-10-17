@@ -29,7 +29,7 @@ class Runs extends ListModel
     {
         $tag = Languages::getTag();
         $query = $this->_db->getQuery(true);
-        $query->select("r.id, r.name_$tag as name, r.period, r.termID, t.name as term")
+        $query->select("r.id, r.name_$tag as name, r.run, r.termID, t.name as term")
             ->leftJoin('#__thm_organizer_terms AS t ON t.id = r.termID')
             ->from('#__thm_organizer_runs as r');
 

@@ -7,7 +7,7 @@
                description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
         <field name="name_en" type="text" label="THM_ORGANIZER_NAME_EN"
                description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="period" type="dates" formsource="run_blocks" multiple="true"
+        <field name="run" type="runs" formsource="run_blocks" multiple="true"
                buttons="add,remove" layout="joomla.form.field.subform.repeatable-table"
                label="THM_ORGANIZER_RUN_SECTION"/>
     </fieldset>

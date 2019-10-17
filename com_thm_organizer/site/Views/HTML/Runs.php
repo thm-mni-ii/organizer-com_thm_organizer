@@ -95,11 +95,11 @@ class Runs extends ListView
             $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
             $processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name. ' - '.$item->term);
 
-            $period = json_decode($item->period, true);
+            $run = json_decode($item->run, true);
 
-            if (!empty($period['dates'])) {
-                $processedItems[$index]['startDate'] = Dates::formatDate(reset($period['dates'])['startDate']);
-                $processedItems[$index]['endDate'] = Dates::formatDate(end($period['dates'])['endDate']);
+            if (!empty($run['runs'])) {
+                $processedItems[$index]['startDate'] = Dates::formatDate(reset($run['runs'])['startDate']);
+                $processedItems[$index]['endDate'] = Dates::formatDate(end($run['runs'])['endDate']);
             } else {
                 $processedItems[$index]['startDate'] = '';
                 $processedItems[$index]['endDate'] = '';

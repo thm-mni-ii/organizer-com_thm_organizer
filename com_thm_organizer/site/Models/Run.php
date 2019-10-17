@@ -37,15 +37,15 @@ class Run extends BaseModel
 
         $data = empty($data) ? Input::getFormItems()->toArray() : $data;
 
-        $dates = [];
+        $runs = [];
         $index = 1;
-        foreach ($data['period'] as $row) {
-            $dates[$index] = $row;
+        foreach ($data['run'] as $row) {
+            $runs[$index] = $row;
             ++$index;
         }
 
-        $period = ['dates' => $dates];
-        $data['period'] = json_encode($period, JSON_UNESCAPED_UNICODE);
+        $run = ['runs' => $runs];
+        $data['run'] = json_encode($run, JSON_UNESCAPED_UNICODE);
 
         $table = $this->getTable();
         $success = $table->save($data);

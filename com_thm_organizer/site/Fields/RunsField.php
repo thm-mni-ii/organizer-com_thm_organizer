@@ -18,14 +18,14 @@ FormHelper::loadFieldClass('subform');
  * Class loads multiple/repeatable period blocks from database and make it possible to advance them.
  * This needs an own form field to load the values, maybe because the dates are saved as json string.
  */
-class DatesField extends \JFormFieldSubform
+class RunsField extends \JFormFieldSubform
 {
     /**
      * Type
      *
      * @var    String
      */
-    protected $type = 'Dates';
+    protected $type = 'Runs';
 
     /**
      * Method to get the multiple field input of the loaded Runs Section
@@ -34,7 +34,7 @@ class DatesField extends \JFormFieldSubform
      */
     protected function getInput()
     {
-        $this->value = isset($this->value['dates']) ? $this->value['dates'] : [];
+        $this->value = isset($this->value['runs']) ? $this->value['runs'] : [];
 
         return parent::getInput();
     }
