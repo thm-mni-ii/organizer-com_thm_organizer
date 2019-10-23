@@ -22,154 +22,157 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class ListView extends BaseHTMLView
 {
-    protected $_layout = 'list';
+	protected $_layout = 'list';
 
-    protected $administration = false;
+	protected $administration = false;
 
-    public $filterForm = null;
+	public $filterForm = null;
 
-    public $headers = null;
+	public $headers = null;
 
-    public $items = null;
+	public $items = null;
 
-    public $pagination = null;
+	public $pagination = null;
 
-    public $state = null;
+	public $state = null;
 
-    /**
-     * Constructor
-     *
-     * @param array $config A named configuration array for object construction.
-     */
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-        $this->administration = OrganizerHelper::getApplication()->isClient('administrator');
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  A named configuration array for object construction.
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$this->administration = OrganizerHelper::getApplication()->isClient('administrator');
+	}
 
-    /**
-     * Concrete classes are supposed to use this method to add a toolbar.
-     *
-     * @return void  sets context variables
-     */
-    abstract protected function addToolBar();
+	/**
+	 * Concrete classes are supposed to use this method to add a toolbar.
+	 *
+	 * @return void  sets context variables
+	 */
+	abstract protected function addToolBar();
 
-    /**
-     * Function determines whether the user may access the view.
-     *
-     * @return bool true if the use may access the view, otherwise false
-     */
-    abstract protected function allowAccess();
+	/**
+	 * Function determines whether the user may access the view.
+	 *
+	 * @return bool true if the use may access the view, otherwise false
+	 */
+	abstract protected function allowAccess();
 
-    /**
-     * Method to create a list output
-     *
-     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function display($tpl = null)
-    {
-        if (!$this->allowAccess()) {
-            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
-        }
+	/**
+	 * Method to create a list output
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function display($tpl = null)
+	{
+		if (!$this->allowAccess())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+		}
 
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
-        $this->headers       = $this->getHeaders();
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->headers       = $this->getHeaders();
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 
-        $this->addToolBar();
-        $this->addMenu();
-        $this->modifyDocument();
-        $this->preProcessItems();
+		$this->addToolBar();
+		$this->addMenu();
+		$this->modifyDocument();
+		$this->preProcessItems();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Generates a string containing attribute information for an HTML element to be output
-     *
-     * @param mixed &$element the element being processed
-     *
-     * @return string the HTML attribute output for the item
-     */
-    public function getAttributesOutput(&$element)
-    {
-        $output = '';
-        if (!is_array($element)) {
-            return $output;
-        }
+	/**
+	 * Generates a string containing attribute information for an HTML element to be output
+	 *
+	 * @param   mixed &$element  the element being processed
+	 *
+	 * @return string the HTML attribute output for the item
+	 */
+	public function getAttributesOutput(&$element)
+	{
+		$output = '';
+		if (!is_array($element))
+		{
+			return $output;
+		}
 
-        $relevant = (!empty($element['attributes']) and is_array($element['attributes']));
-        if ($relevant) {
-            foreach ($element['attributes'] as $attribute => $attributeValue) {
-                $output .= $attribute . '="' . $attributeValue . '" ';
-            }
-        }
-        unset($element['attributes']);
+		$relevant = (!empty($element['attributes']) and is_array($element['attributes']));
+		if ($relevant)
+		{
+			foreach ($element['attributes'] as $attribute => $attributeValue)
+			{
+				$output .= $attribute . '="' . $attributeValue . '" ';
+			}
+		}
+		unset($element['attributes']);
 
-        return $output;
-    }
+		return $output;
+	}
 
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    abstract protected function getHeaders();
+	/**
+	 * Function to get table headers
+	 *
+	 * @return array including headers
+	 */
+	abstract protected function getHeaders();
 
-    /**
-     * Generates a toggle for the attribute in question
-     *
-     * @param int    $id        the id of the database entry
-     * @param bool   $value     the value currently set for the attribute (saves asking it later)
-     * @param string $resource  the name of the data management controller
-     * @param string $tip       the tooltip
-     * @param string $attribute the resource attribute to be changed (useful if multiple entries can be toggled)
-     *
-     * @return string  a HTML string
-     */
-    protected function getToggle($id, $value, $resource, $tip, $attribute = null)
-    {
-        $iconClass = empty($value) ? 'unpublish' : 'publish';
-        $icon      = '<i class="icon-' . $iconClass . '"></i>';
+	/**
+	 * Generates a toggle for the attribute in question
+	 *
+	 * @param   int     $id         the id of the database entry
+	 * @param   bool    $value      the value currently set for the attribute (saves asking it later)
+	 * @param   string  $resource   the name of the data management controller
+	 * @param   string  $tip        the tooltip
+	 * @param   string  $attribute  the resource attribute to be changed (useful if multiple entries can be toggled)
+	 *
+	 * @return string  a HTML string
+	 */
+	protected function getToggle($id, $value, $resource, $tip, $attribute = null)
+	{
+		$iconClass = empty($value) ? 'unpublish' : 'publish';
+		$icon      = '<i class="icon-' . $iconClass . '"></i>';
 
-        $attributes          = [];
-        $attributes['title'] = $tip;
-        $attributes['class'] = 'btn btn-micro hasTooltip';
-        $attributes['class'] .= empty($value) ? ' inactive' : '';
+		$attributes          = [];
+		$attributes['title'] = $tip;
+		$attributes['class'] = 'btn btn-micro hasTooltip';
+		$attributes['class'] .= empty($value) ? ' inactive' : '';
 
-        $url  = "index.php?option=com_thm_organizer&id=$id&value=$value";
-        $url  .= "&task=$resource.toggle";
-        $url  .= empty($attribute) ? '' : "&attribute=$attribute";
-        $link = HTML::_('link', $url, $icon, $attributes);
+		$url  = "index.php?option=com_thm_organizer&id=$id&task=$resource.toggle";
+		$url  .= empty($attribute) ? '' : "&attribute=$attribute";
+		$link = HTML::_('link', $url, $icon, $attributes);
 
-        return '<div class="button-grp">' . $link . '</div>';
-    }
+		return '<div class="button-grp">' . $link . '</div>';
+	}
 
-    /**
-     * Adds styles and scripts to the document
-     *
-     * @return void  modifies the document
-     */
-    protected function modifyDocument()
-    {
-        $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
-        $document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
+	/**
+	 * Adds styles and scripts to the document
+	 *
+	 * @return void  modifies the document
+	 */
+	protected function modifyDocument()
+	{
+		$document = Factory::getDocument();
+		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
+		$document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
 
-        HTML::_('bootstrap.framework');
-        HTML::_('searchtools.form', '#adminForm', []);
-    }
+		HTML::_('bootstrap.framework');
+		HTML::_('searchtools.form', '#adminForm', []);
+	}
 
-    /**
-     * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-     *
-     * @return void processes the class items property
-     */
-    abstract protected function preProcessItems();
+	/**
+	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
+	 *
+	 * @return void processes the class items property
+	 */
+	abstract protected function preProcessItems();
 }

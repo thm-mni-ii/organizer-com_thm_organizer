@@ -19,79 +19,79 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Monitor extends BaseModel
 {
-    /**
-     * save
-     *
-     * attempts to save the monitor form data
-     *
-     * @return bool true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function save()
-    {
-        $data = Input::getFormItems()->toArray();
+	/**
+	 * save
+	 *
+	 * attempts to save the monitor form data
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function save()
+	{
+		$data = Input::getFormItems()->toArray();
 
-        if (empty($data['roomID'])) {
-            unset($data['roomID']);
-        }
+		if (empty($data['roomID']))
+		{
+			unset($data['roomID']);
+		}
 
-        $data['content'] = $data['content'] == '-1' ? '' : $data['content'];
+		$data['content'] = $data['content'] == '-1' ? '' : $data['content'];
 
-        return parent::save($data);
-    }
+		return parent::save($data);
+	}
 
-    /**
-     * Saves the default behaviour as chosen in the monitor manager
-     *
-     * @return boolean  true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function saveDefaultBehaviour()
-    {
-        if (!Access::isAdmin()) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+	/**
+	 * Saves the default behaviour as chosen in the monitor manager
+	 *
+	 * @return boolean  true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function saveDefaultBehaviour()
+	{
+		if (!Access::isAdmin())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        $monitorID   = Input::getID();
-        $plausibleID = ($monitorID > 0);
+		$monitorID   = Input::getID();
+		$plausibleID = ($monitorID > 0);
 
-        if ($plausibleID) {
-            $table = $this->getTable();
-            $table->load($monitorID);
-            $table->set('useDefaults', Input::getInt('useDefaults'));
+		if ($plausibleID)
+		{
+			$table = $this->getTable();
+			$table->load($monitorID);
+			$table->set('useDefaults', Input::getInt('useDefaults'));
 
-            return $table->store();
-        }
+			return $table->store();
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Toggles the monitor's use of default settings
-     *
-     * @return boolean  true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function toggle()
-    {
-        if (!Access::allowFMAccess()) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+	/**
+	 * Toggles the monitor's use of default settings
+	 *
+	 * @return boolean  true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function toggle()
+	{
+		if (!Access::allowFMAccess())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        $monitorID = Input::getID();
-        if (empty($monitorID)) {
-            return false;
-        }
+		$monitorID = Input::getID();
+		$table     = $this->getTable();
+		if (empty($monitorID) or !$table->load($monitorID))
+		{
+			return false;
+		}
 
-        // Set to the opposite of current
-        $value = Input::getInt('value', 1) ? 0 : 1;
+		$newValue = !$table->useDefaults;
+		$table->set('useDefaults', $newValue);
 
-        $query = $this->_db->getQuery(true);
-        $query->update('#__thm_organizer_monitors');
-        $query->set("useDefaults = '$value'");
-        $query->where("id = '$monitorID'");
-        $this->_db->setQuery($query);
-
-        return (bool)OrganizerHelper::executeQuery('execute');
-    }
+		return $table->store();
+	}
 }

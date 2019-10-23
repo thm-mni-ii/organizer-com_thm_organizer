@@ -59,34 +59,14 @@ class Controller extends BaseController
 	{
 		$model = $this->getModel($this->resource);
 
-		$functionsAvailable = (method_exists($model, 'activate') and method_exists($model, 'checkIfActive'));
-		if ($functionsAvailable)
+		$success = $model->activate();
+		if ($success)
 		{
-			$count = $this->input->getInt('boxchecked', 0);
-			if ($count === 1)
-			{
-				$active = $model->checkIfActive();
-				if ($active)
-				{
-					OrganizerHelper::message('THM_ORGANIZER_SCHEDULE_IS_ACTIVE', 'warning');
-				}
-				else
-				{
-					$success = $model->activate();
-					if ($success)
-					{
-						OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
-					}
-					else
-					{
-						OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
-					}
-				}
-			}
-			else
-			{
-				OrganizerHelper::message('THM_ORGANIZER_ONLY_ONE_ALLOWED', 'error');
-			}
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
+		}
+		else
+		{
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
 		}
 
 		$this->setRedirect("index.php?option=com_thm_organizer&view={$this->listView}");
@@ -810,31 +790,15 @@ class Controller extends BaseController
 			return;
 		}
 
-		$count = $this->input->getInt('boxchecked', 0);
-		if ($count === 1)
+		$model   = $this->getModel('schedule');
+		$success = $model->setReference();
+		if ($success)
 		{
-			$model  = $this->getModel('schedule');
-			$active = $model->checkIfActive();
-			if ($active)
-			{
-				OrganizerHelper::message('THM_ORGANIZER_SCHEDULE_IS_ACTIVE', 'error');
-			}
-			else
-			{
-				$success = $model->setReference();
-				if ($success)
-				{
-					OrganizerHelper::message('THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
-				}
-				else
-				{
-					OrganizerHelper::message('THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
-				}
-			}
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_ONLY_ONE_ALLOWED', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();
@@ -849,22 +813,15 @@ class Controller extends BaseController
 	 */
 	public function toggle()
 	{
-		$model = $this->getModel($this->resource);
-		if (method_exists($model, 'toggle'))
+		$model   = $this->getModel($this->resource);
+		$success = $model->toggle();
+		if ($success)
 		{
-			$success = $model->toggle();
-			if ($success)
-			{
-				OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'error');
-			}
-			else
-			{
-				OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
-			}
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();
@@ -903,6 +860,7 @@ class Controller extends BaseController
 	 * @param   boolean  $shouldNotify  true if Upload and Notify button is pressed
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function upload($shouldNotify = false)
 	{
@@ -918,36 +876,29 @@ class Controller extends BaseController
 
 		$model = $this->getModel($this->resource);
 
-		if (method_exists($model, 'upload'))
-		{
-			$form      = $this->input->files->get('jform', [], '[]');
-			$file      = $form['file'];
-			$validType = (!empty($file['type']) and $file['type'] == 'text/xml');
+		$form      = $this->input->files->get('jform', [], '[]');
+		$file      = $form['file'];
+		$validType = (!empty($file['type']) and $file['type'] == 'text/xml');
 
-			if ($validType)
+		if ($validType)
+		{
+			if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8')
 			{
-				if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8')
-				{
-					$success = $model->upload($shouldNotify);
-					$view    = $success ? 'Schedules' : 'Schedule_Edit';
-				}
-				else
-				{
-					$view = 'Schedule_Edit';
-					OrganizerHelper::message('THM_ORGANIZER_FILE_ENCODING_INVALID', 'error');
-				}
+				$success = $model->upload($shouldNotify);
+				$view    = $success ? 'Schedules' : 'Schedule_Edit';
 			}
 			else
 			{
 				$view = 'Schedule_Edit';
-				OrganizerHelper::message('THM_ORGANIZER_FILE_TYPE_NOT_ALLOWED', 'error');
+				OrganizerHelper::message('THM_ORGANIZER_FILE_ENCODING_INVALID', 'error');
 			}
 		}
 		else
 		{
-			$view = 'Schedules';
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_FUNCTION_UNAVAILABLE', 'error');
+			$view = 'Schedule_Edit';
+			OrganizerHelper::message('THM_ORGANIZER_FILE_TYPE_NOT_ALLOWED', 'error');
 		}
+
 		$url .= "&view={$view}";
 		$this->setRedirect($url);
 	}
@@ -956,6 +907,7 @@ class Controller extends BaseController
 	 * Calls the upload function and notifies all subscribed users
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function uploadAndNotify()
 	{

@@ -12,344 +12,640 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Factory;
-use Organizer\Helpers\Access;
-use Organizer\Helpers\Input;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Pools;
-use Organizer\Helpers\Rooms;
-use Organizer\Helpers\Persons;
+use Organizer\Helpers as Helpers;
+use Organizer\Helpers\Validators\Schedules as SchedulesValidator;
 
 /**
  * Class which manages stored schedule data.
+ * Note on access checks: since schedule access rights are set by department, checking the access rights for one
+ * schedule is sufficient for any other schedule modified in the same context.
  */
 class Schedule extends BaseModel
 {
-    /**
-     * JSON Object modeling the schedule
-     *
-     * @var object
-     */
-    public $schedule = null;
+	private $departmentID;
+	private $instanceIDs;
+	private $instances;
+	private $termID;
+	private $unitIDs;
 
-    /**
-     * Activates the selected schedule
-     *
-     * @return true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function activate()
-    {
-        $active = $this->getScheduleRow();
+	/**
+	 * Activates the selected schedule
+	 *
+	 * @return true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function activate()
+	{
+		$scheduleID = Helpers\Input::getSelectedIDs()[0];
 
-        if (empty($active)) {
-            return true;
-        }
+		if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+		{
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        if (!Access::allowSchedulingAccess($active->id)) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+		$table = $this->getTable();
 
-        if (!empty($active->active)) {
-            return true;
-        }
+		if (!$table->load($scheduleID) or $table->active)
+		{
+			return true;
+		}
 
-        $jsonModel = new ScheduleJSON;
+		if ($this->setDeltaContext($scheduleID))
+		{
+			$this->setActive();
+			$this->setRemoved();
+			$this->authorizedDeactivate(0, $table->departmentID, $table->termID);
+			$table->set('active', 1);
+			$table->store();
 
-        // No access checks for the reference schedule, because access rights are inherited through the department.
-        $reference = $this->getScheduleRow($active->departmentID, $active->termID);
+			return true;
+		}
 
-        if (empty($reference) or empty($reference->id)) {
-            $jsonModel->save($active->schedule);
-            $active->set('active', 1);
-            $active->store();
+		return false;
+	}
 
-            return true;
-        }
+	/**
+	 * Sets the selected schedule to inactive.
+	 *
+	 * @param   int  $scheduleID    the id of the schedule to deactivate
+	 * @param   int  $departmentID  the id of the department context for the schedule to deactivate
+	 * @param   int  $termID        the id of the term context for the schedule to deactivate
+	 *
+	 * @return bool
+	 */
+	private function authorizedDeactivate($scheduleID = 0, $departmentID = 0, $termID = 0)
+	{
+		$conditions = empty($scheduleID) ?
+			['active' => 1, 'departmentID' => $departmentID, 'termID' => $termID] : $scheduleID;
+		$table      = $this->getTable();
 
-        return $jsonModel->setReference($reference, $active);
-    }
+		if (!$table->load($conditions))
+		{
+			return false;
+		}
 
-    /**
-     * Checks if the first selected schedule is active
-     *
-     * @return boolean true if the schedule is active otherwise false
-     */
-    public function checkIfActive()
-    {
-        $scheduleIDs = Input::getSelectedIDs();
-        if (!empty($scheduleIDs)) {
-            $scheduleID = $scheduleIDs[0];
-            $schedule   = $this->getTable();
-            $schedule->load($scheduleID);
+		$table->set('active', 0);
 
-            return $schedule->active;
-        }
+		return $table->store();
+	}
 
-        return false;
-    }
+	/**
+	 * Sets the selected schedule to inactive.
+	 *
+	 * @return bool
+	 * @throws Exception Unauthorized Access
+	 */
+	public function deactivate()
+	{
+		$scheduleID = Helpers\Input::getSelectedIDs()[0];
+		if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+		{
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-    /**
-     * Deletes the selected schedules
-     *
-     * @return boolean true on successful deletion of all selected schedules
-     *                 otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function delete()
-    {
-        if (!Access::allowSchedulingAccess()) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+		return $this->authorizedDeactivate($scheduleID);
+	}
 
-        $this->_db->transactionStart();
-        $scheduleIDs = Input::getSelectedIDs();
-        foreach ($scheduleIDs as $scheduleID) {
-            if (!Access::allowSchedulingAccess($scheduleID)) {
-                $this->_db->transactionRollback();
-                throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-            }
+	/**
+	 * Deletes the selected schedules
+	 *
+	 * @return boolean true on successful deletion of all selected schedules, otherwise false
+	 * @throws Exception Unauthorized Access
+	 */
+	public function delete()
+	{
+		if (!Helpers\Access::allowSchedulingAccess())
+		{
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-            try {
-                $success = $this->deleteSingle($scheduleID);
-            } catch (Exception $exc) {
-                OrganizerHelper::message($exc->getMessage(), 'error');
-                $this->_db->transactionRollback();
+		$scheduleIDs = Helpers\Input::getSelectedIDs();
+		foreach ($scheduleIDs as $scheduleID)
+		{
+			if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+			{
+				throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			}
 
-                return false;
-            }
+			$schedule = $this->getTable();
+			$schedule->load($scheduleID);
+			if (!$schedule->delete())
+			{
+				return false;
+			}
+		}
 
-            if (!$success) {
-                $this->_db->transactionRollback();
+		return true;
+	}
 
-                return false;
-            }
-        }
-        $this->_db->transactionCommit();
+	/**
+	 * Retrieves the unit ids associated with the given instanceIDs
+	 *
+	 * @param   array  $instanceIDs  the ids of the currently active instances
+	 *
+	 * @return array the unitIDs associated with the instances
+	 */
+	private function getUnitIDs($instanceIDs)
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT unitID')
+			->from('#__thm_organizer_instances')
+			->where('id IN (' . implode(',', $instanceIDs) . ')');
+		$dbo->setQuery($query);
 
-        return true;
-    }
+		return Helpers\OrganizerHelper::executeQuery('loadColumn', []);
+	}
 
-    /**
-     * Deletes a single schedule
-     *
-     * @param int $scheduleID the id of the schedule to be deleted
-     *
-     * @return boolean true on success otherwise false
-     */
-    private function deleteSingle($scheduleID)
-    {
-        $schedule = $this->getTable();
-        $schedule->load($scheduleID);
+	/**
+	 * Sets resources to removed which are no longer valid in the context of a recently activated/uploaded schedule.
+	 *
+	 * @param   int  $activeID  the if of the active schedule
+	 *
+	 * @return bool
+	 */
+	private function setActive()
+	{
+		$this->setActiveInstances();
+		$this->setActiveUnits();
 
-        return $schedule->delete();
-    }
+		foreach ($this->instances as $instanceID => $persons)
+		{
+			foreach ($persons as $personID => $associations)
+			{
+				$instancePersons = Helpers\OrganizerHelper::getTable('InstancePersons');
+				if (!$instancePersons->load(['instanceID' => $instanceID, 'personID' => $personID]))
+				{
+					continue;
+				}
 
-    /**
-     * Gets a schedule row for referencing.
-     *
-     * @param int $departmentID the department id of the reference row
-     * @param int $termID       the term id of the reference row
-     *
-     * @return mixed  object if successful, otherwise null
-     */
-    private function getScheduleRow($departmentID = null, $termID = null)
-    {
-        if (empty($departmentID) or empty($termID)) {
-            $selectedIDs = Input::getSelectedIDs();
+				$roleID = empty($associations['roleID']) ? 1 : $associations['roleID'];
+				if ($instancePersons->delta or $instancePersons->roleID != $roleID)
+				{
+					if ($instancePersons->delta === 'removed')
+					{
+						$instancePersons->set('delta', 'new');
+						$instancePersons->set('roleID', $roleID);
+					}
+					elseif ($instancePersons->roleID != $roleID)
+					{
+						$instancePersons->set('delta', 'changed');
+						$instancePersons->set('roleID', $roleID);
+					}
+					else
+					{
+						// Delta was 'changed' or 'new' both are no longer applicable.
+						$instancePersons->set('delta', '');
+					}
+					$instancePersons->store();
+				}
 
-            if (empty($selectedIDs)) {
-                return null;
-            }
+				$assocID = $instancePersons->id;
+				$this->setActiveResources($assocID, 'group', $associations['groups']);
+				$roomIDs = empty($associations['rooms']) ? [] : $associations['rooms'];
+				$this->setActiveResources($assocID, 'room', $roomIDs);
+			}
+		}
 
-            $pullData = $selectedIDs[0];
-        } else {
-            $pullData = [
-                'departmentID' => $departmentID,
-                'termID'       => $termID,
-                'active'       => 1
-            ];
-        }
+		return true;
+	}
 
-        $scheduleRow = $this->getTable();
-        $scheduleRow->load($pullData);
+	/**
+	 * Sets the status of removed instances to new which are a part of the active schedule.
+	 *
+	 * @return void
+	 */
+	private function setActiveInstances()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->update('#__thm_organizer_instances')
+			->set("delta = 'new'")
+			->where('id IN (' . implode(',', $this->instanceIDs) . ')')
+			->where("delta = 'removed'");
+		$dbo->setQuery($query);
 
-        return !empty($scheduleRow->id) ? $scheduleRow : null;
-    }
+		Helpers\OrganizerHelper::executeQuery('execute');
+	}
 
-    /**
-     * Returns title of given resource
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        $resource = Input::getCMD('resource');
-        $value    = Input::getInt('value');
+	/**
+	 * Sets the status of removed resources to removed.
+	 *
+	 * @param   int     $assocValue    the id value of the superior association
+	 * @param   string  $resourceName  the name of the resource to change
+	 * @param   array   $resourceIDs   the ids of the currently associated resources
+	 *
+	 * @return void
+	 */
+	private static function setActiveResources($assocValue, $resourceName, $resourceIDs)
+	{
+		$column = $resourceName . 'ID';
+		$table  = "#__thm_organizer_instance_{$resourceName}s";
+		$dbo    = Factory::getDbo();
+		$query  = $dbo->getQuery(true);
+		$query->update($table)
+			->set("delta = 'new'")
+			->where("assocID = $assocValue")
+			->where("$column IN (" . implode(',', $resourceIDs) . ")")
+			->where("delta = 'removed'");
+		$dbo->setQuery($query);
 
-        switch ($resource) {
-            case 'room':
-                $title = Languages::_('THM_ORGANIZER_ROOM') . ' ' . Rooms::getName($value);
-                break;
-            case 'pool':
-                $title = Pools::getFullName($value);
-                break;
-            case 'person':
-                $title = Persons::getDefaultName($value);
-                break;
-            default:
-                $title = '';
-        }
+		Helpers\OrganizerHelper::executeQuery('execute');
+	}
 
-        return $title;
-    }
+	/**
+	 * Sets the status of units to new which are a part of the active schedule.
+	 *
+	 * @return void
+	 */
+	private function setActiveUnits()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->update('#__thm_organizer_units')
+			->set("delta = 'new'")
+			->where('id IN (' . implode(',', $this->unitIDs) . ')')
+			->where("delta = 'removed'");
+		$dbo->setQuery($query);
 
-    /**
-     * sets notification value in user_profile table depending on user selection
-     *
-     */
-    public function setNotify()
-    {
-        $isChecked = Input::getBool('isChecked');
-        $userID    = Factory::getUser()->id;
-        if ($userID == 0) {
-            return;
-        }
-        $table       = '#__user_profiles';
-        $profile_key = 'organizer_notify';
-        $query       = $this->_db->getQuery(true);
+		Helpers\OrganizerHelper::executeQuery('execute');
+	}
 
-        $query->select('COUNT(*)')
-            ->from($table)
-            ->where("profile_key = '$profile_key'")
-            ->where("user_id = $userID");
-        $this->_db->setQuery($query);
-        $result = OrganizerHelper::executeQuery('loadResult');
+	/**
+	 * Sets context variables used to set active or removed schedule items.
+	 *
+	 * @param   int  $scheduleID  the id of the schedule
+	 *
+	 * @return void sets object properties
+	 */
+	private function setDeltaContext($scheduleID)
+	{
+		$table = $this->getTable();
+		if ($table->load($scheduleID))
+		{
+			$this->departmentID = $table->departmentID;
+			$this->instances    = json_decode($table->schedule, true);
+			$this->instanceIDs  = array_keys($this->instances);
+			$this->termID       = $table->termID;
+			$this->unitIDs      = $this->getUnitIDs($this->instanceIDs);
 
-        if ($result == 0) {
-            $query   = $this->_db->getQuery(true);
-            $columns = array('user_id', 'profile_key', 'profile_value', 'ordering');
-            $values  = array($userID, $this->_db->quote($profile_key), $this->_db->quote($isChecked), 0);
+			return true;
+		}
 
-            $query
-                ->insert($table)
-                ->columns($columns)
-                ->values(implode(',', $values));
-        } else {
-            $query = $this->_db->getQuery(true);
-            $query
-                ->update($table)
-                ->set("profile_value =  '$isChecked'")
-                ->where("user_id = '$userID'")
-                ->where("profile_key = 'organizer_notify'");
-        }
-        $this->_db->setQuery($query);
-        OrganizerHelper::executeQuery('execute');
-    }
+		return false;
+	}
 
-    /**
-     * Creates the delta to the chosen reference schedule
-     *
-     * @return boolean true on successful delta creation, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function setReference()
-    {
-        $reference = $this->getScheduleRow();
+	/**
+	 * Creates the delta to the chosen reference schedule
+	 *
+	 * @return boolean true on successful delta creation, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function setReference()
+	{
+		$referenceID = Helpers\Input::getSelectedIDs()[0];
 
-        if (empty($reference)) {
-            return true;
-        }
+		$reference = $this->getTable();
+		if (empty($referenceID) or !$reference->load($referenceID))
+		{
+			return true;
+		}
 
-        if (!Access::allowSchedulingAccess($reference->id)) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+		if (!Helpers\Access::allowSchedulingAccess($referenceID))
+		{
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        $active = $this->getScheduleRow($reference->departmentID, $reference->termID);
+		$departmentID = $reference->departmentID;
+		$rInstances   = json_decode($reference->schedule, true);
+		$termID       = $reference->termID;
+		unset($reference);
 
-        if (empty($active)) {
-            return true;
-        }
+		$activeID = Helpers\Schedules::getActiveID($departmentID, $termID);
+		$active   = $this->getTable();
+		if (!$active->load($activeID))
+		{
+			return true;
+		}
 
-        // No access checks for the active schedule, they share the same department from which they inherit access.
+		$aInstances = json_decode($active->schedule, true);
+		unset($active);
 
-        $jsonModel  = new ScheduleJSON;
-        $refSuccess = $jsonModel->setReference($reference, $active);
+		// Truncate to relevant items to save memory
+		$nInstanceIDs = array_keys(array_diff_key($aInstances, $rInstances));
+		$aInstances   = array_intersect_key($aInstances, $rInstances);
+		$rInstances   = array_intersect_key($rInstances, $aInstances);
 
-        return $refSuccess;
-    }
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->update('#__thm_organizer_instances')
+			->set("delta = 'new'")
+			->where('id IN (' . implode(',', $nInstanceIDs) . ')');
+		$dbo->setQuery($query);
 
-    /**
-     * Toggles the schedule's active status. Access checks performed in called functions.
-     *
-     * @return boolean  true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function toggle()
-    {
-        $scheduleID = Input::getInt('id');
+		Helpers\OrganizerHelper::executeQuery('execute');
 
-        if (empty($scheduleID)) {
-            return false;
-        }
+		foreach ($aInstances as $instanceID => $aInstance)
+		{
+			$rInstance = $rInstances[$instanceID];
+			if ($nPersonIDs = array_keys(array_diff_key($aInstance, $rInstance)))
+			{
+				$query->clear();
+				$query->update('#__thm_organizer_instance_persons')
+					->set("delta = 'new'")
+					->where('id IN (' . implode(',', $nPersonIDs) . ')');
+				$dbo->setQuery($query);
 
-        $active = Input::getBool('value', true);
+				Helpers\OrganizerHelper::executeQuery('execute');
+			}
 
-        if ($active) {
-            return true;
-        }
+			if (!$ePersons = array_intersect_key($aInstance, $rInstance))
+			{
+				continue;
+			}
 
-        return $this->activate();
-    }
+			// Reset the deltas for existing entries before adjusting them manually dependent on the roleID
+			$ePersonIDs = array_keys($ePersons);
+			$query->clear();
+			$query->update('#__thm_organizer_instance_persons')
+				->set("delta = ''")
+				->where('id IN (' . implode(',', $ePersonIDs) . ')');
+			$dbo->setQuery($query);
 
-    /**
-     * Saves a schedule in the database for later use
-     *
-     * @param boolean $notify if the user should get notified
-     *
-     * @return  boolean true on success, otherwise false
-     * @throws Exception => invalid request / unauthorized access
-     */
-    public function upload($notify)
-    {
-        $departmentID = Input::getInt('departmentID');
-        $invalidForm  = (empty($departmentID));
+			Helpers\OrganizerHelper::executeQuery('execute');
+			foreach ($ePersons as $personID => $assocs)
+			{
+				$instancePersons = Helpers\OrganizerHelper::getTable('InstancePersons');
+				if (!$instancePersons->load(['instanceID' => $instanceID, 'personID' => $personID]))
+				{
+					continue;
+				}
 
-        if ($invalidForm) {
-            throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        }
+				$assocID = $instancePersons->id;
+				if (empty($assocs['roleID']) or $assocs['roleID'] != $rInstance[$personID]['roleID'])
+				{
+					$instancePersons->delta = 'changed';
+					$instancePersons->store();
+				}
 
-        if (!Access::allowSchedulingAccess(null, $departmentID)) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+				if ($nGroupIDs = array_keys(array_diff_key($assocs['groups'], $rInstance[$personID]['groups'])))
+				{
+					$query->clear();
+					$query->update('#__thm_organizer_instance_groups')
+						->set("delta = 'new'")
+						->where("assocID = '$assocID'")
+						->where('groupID IN (' . implode(',', $nGroupIDs) . ')');
+					$dbo->setQuery($query);
 
-        $xmlModel = new ScheduleXML;
-        $valid    = $xmlModel->validate();
+					Helpers\OrganizerHelper::executeQuery('execute');
+				}
 
-        if (!$valid) {
-            return false;
-        }
+				if ($eGroupIDs = array_keys(array_intersect_key($assocs['groups'], $rInstance[$personID]['groups'])))
+				{
+					$query->clear();
+					$query->update('#__thm_organizer_instance_groups')
+						->set("delta = ''")
+						->where("assocID = '$assocID'")
+						->where('groupID IN (' . implode(',', $eGroupIDs) . ')');
+					$dbo->setQuery($query);
 
-        $this->schedule = $xmlModel->schedule;
+					Helpers\OrganizerHelper::executeQuery('execute');
+				}
 
-        $new = $this->getTable();
-        $new->set('creationDate', $this->schedule->creationDate);
-        $new->set('creationTime', $this->schedule->creationTime);
-        $new->set('departmentID', $this->schedule->departmentID);
-        $new->set('termID', $this->schedule->termID);
-        $new->set('schedule', json_encode($this->schedule));
-        $new->set('userID', Factory::getUser()->id);
+				if (empty($assocs['rooms']))
+				{
+					continue;
+				}
 
-        $reference = $this->getScheduleRow($new->departmentID, $new->termID);
-        $jsonModel = new ScheduleJSON;
+				if (empty($rInstance[$personID]['rooms']))
+				{
+					$nRoomIDs = array_keys($assocs['rooms']);
+				}
+				else
+				{
+					$nRoomIDs = array_keys(array_diff_key($assocs['rooms'], $rInstance[$personID]['rooms']));
+					$eRoomIDs = array_keys(array_intersect_key($assocs['rooms'], $rInstance[$personID]['rooms']));
+				}
 
-        if (empty($reference) or empty($reference->id)) {
-            $new->set('active', 1);
-            $new->store();
+				if (!empty($nRoomIDs))
+				{
+					$query->clear();
+					$query->update('#__thm_organizer_instance_rooms')
+						->set("delta = 'new'")
+						->where("assocID = '$assocID'")
+						->where('roomID IN (' . implode(',', $nRoomIDs) . ')');
+					$dbo->setQuery($query);
 
-            return $jsonModel->save($this->schedule);
-        }
+					Helpers\OrganizerHelper::executeQuery('execute');
+				}
 
-        return $jsonModel->setReference($reference, $new, $notify);
-    }
+				if (!empty($eRoomIDs))
+				{
+					$query->clear();
+					$query->update('#__thm_organizer_instance_rooms')
+						->set("delta = ''")
+						->where("assocID = '$assocID'")
+						->where('roomID IN (' . implode(',', $eRoomIDs) . ')');
+					$dbo->setQuery($query);
+
+					Helpers\OrganizerHelper::executeQuery('execute');
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Sets resources to removed which are no longer valid in the context of a recently activated/uploaded schedule.
+	 *
+	 * @return bool
+	 */
+	private function setRemoved()
+	{
+		$this->setRemovedInstances();
+		$this->setRemovedUnits();
+
+		foreach ($this->instances as $instanceID => $persons)
+		{
+			$personIDs = array_keys($persons);
+			$this->setRemovedResources('instanceID', $instanceID, 'person', $personIDs);
+
+			foreach ($persons as $personID => $associations)
+			{
+				$instancePersons = Helpers\OrganizerHelper::getTable('InstancePersons');
+				if (!$instancePersons->load(['instanceID' => $instanceID, 'personID' => $personID]))
+				{
+					continue;
+				}
+				$assocID = $instancePersons->id;
+				$this->setRemovedResources('assocID', $assocID, 'group', $associations['groups']);
+				$roomIDs = empty($associations['rooms']) ? [] : $associations['rooms'];
+				$this->setRemovedResources('assocID', $assocID, 'room', $roomIDs);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Sets the status of instances to removed which are not a part of the active schedule.
+	 *
+	 * @return void
+	 */
+	private function setRemovedInstances()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->update('#__thm_organizer_instances')
+			->set("delta = 'removed'")
+			->where('id NOT IN (' . implode(',', $this->instanceIDs) . ')')
+			->where('unitID IN (' . implode(',', $this->unitIDs) . ')')
+			->where("delta != 'removed'");
+		$dbo->setQuery($query);
+
+		Helpers\OrganizerHelper::executeQuery('execute');
+	}
+
+	/**
+	 * Sets the status of removed resources to removed.
+	 *
+	 * @param   string  $assocColumn   the name of the column referencing the superior association
+	 * @param   int     $assocValue    the id value of the superior association
+	 * @param   string  $resourceName  the name of the resource to change
+	 * @param   array   $resourceIDs   the ids of the currently associated resources
+	 *
+	 * @return void
+	 */
+	private static function setRemovedResources($assocColumn, $assocValue, $resourceName, $resourceIDs)
+	{
+		$column = $resourceName . 'ID';
+		$table  = "#__thm_organizer_instance_{$resourceName}s";
+		$dbo    = Factory::getDbo();
+		$query  = $dbo->getQuery(true);
+		$query->update($table)
+			->set("delta = 'removed'")
+			->where("$assocColumn = $assocValue")
+			->where("$column NOT IN (" . implode(',', $resourceIDs) . ")")
+			->where("delta != 'removed'");
+		$dbo->setQuery($query);
+
+		Helpers\OrganizerHelper::executeQuery('execute');
+	}
+
+	/**
+	 * Sets the status of units to removed which are not a part of the active schedule.
+	 *
+	 * @return void
+	 */
+	private function setRemovedUnits()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->update('#__thm_organizer_units')
+			->set("delta = 'removed'")
+			->where("departmentID = {$this->departmentID}")
+			->where("termID = {$this->termID}")
+			->where('id NOT IN (' . implode(',', $this->unitIDs) . ')')
+			->where("delta != 'removed'");
+		$dbo->setQuery($query);
+
+		Helpers\OrganizerHelper::executeQuery('execute');
+	}
+
+	/**
+	 * Toggles the schedule's active status. Adjusting referenced resources as appropriate.
+	 *
+	 * @return boolean  true on success, otherwise false
+	 * @throws Exception Unauthorized Access
+	 */
+	public function toggle()
+	{
+		$scheduleID = Helpers\Input::getInt('id');
+		$table      = $this->getTable();
+
+		if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+		{
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+		}
+
+		if (empty($scheduleID) or !$table->load($scheduleID))
+		{
+			return false;
+		}
+
+		if ($table->active)
+		{
+			$table->set('active', 0);
+
+			return $table->store();
+		}
+
+		if ($this->setDeltaContext($scheduleID))
+		{
+			$this->setActive();
+			$this->setRemoved();
+			$this->authorizedDeactivate(0, $table->departmentID, $table->termID);
+			$table->set('active', 1);
+			$table->store();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Saves a schedule in the database for later use
+	 *
+	 * @param   bool  $notify  true if affected participants/persons should be notified
+	 *
+	 * @return  boolean true on success, otherwise false
+	 * @throws Exception Invalid Request / Unauthorized Access
+	 */
+	public function upload($notify = false)
+	{
+		$departmentID = Helpers\Input::getInt('departmentID');
+		$invalidForm  = (empty($departmentID));
+
+		if ($invalidForm)
+		{
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
+		}
+
+		if (!Helpers\Access::allowSchedulingAccess(null, $departmentID))
+		{
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+		}
+
+		$validator = new SchedulesValidator();
+		$valid     = $validator->validate();
+
+		if (!$valid)
+		{
+			return false;
+		}
+
+		$this->authorizedDeactivate(0, $departmentID, $validator->termID);
+
+		$data = [
+			'active'       => 1,
+			'creationDate' => $validator->creationDate,
+			'creationTime' => $validator->creationTime,
+			'departmentID' => $departmentID,
+			'schedule'     => json_encode($validator->instances),
+			'termID'       => $validator->termID,
+			'userID'       => Factory::getUser()->id
+		];
+
+		$newTable = $this->getTable();
+		if (!$newTable->save($data))
+		{
+			return false;
+		}
+
+		$this->setDeltaContext($newTable->id);
+
+		return $this->setRemoved();
+	}
 }
