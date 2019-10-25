@@ -25,8 +25,6 @@ use Organizer\Helpers\Subjects as SubjectsHelper;
  */
 class Subjects extends ListModel implements FiltersFormFilters
 {
-    private $admin = true;
-
     /**
      * Filters out form inputs which should not be displayed due to menu settings.
      *
@@ -44,7 +42,7 @@ class Subjects extends ListModel implements FiltersFormFilters
         } else {
             $form->removeField('languageTag', 'list');
 
-            if ($this->admin) {
+            if ($this->clientContext === self::BACKEND) {
                 $allowedDepartments = Access::getAccessibleDepartments('documentation');
                 if (count($allowedDepartments) === 1) {
                     $form->removeField('departmentID', 'filter');
@@ -145,7 +143,7 @@ class Subjects extends ListModel implements FiltersFormFilters
      */
     private function setDepartmentFilter(&$query)
     {
-        if ($this->admin) {
+        if ($this->clientContext === self::BACKEND) {
             $allowedDepartments = Access::getAccessibleDepartments('document');
             $query->where('(s.departmentID IN (' . implode(',', $allowedDepartments) . ') OR s.departmentID IS NULL)');
         }
@@ -169,8 +167,7 @@ class Subjects extends ListModel implements FiltersFormFilters
     {
         parent::populateState($ordering, $direction);
 
-        $this->admin = OrganizerHelper::getApplication()->isClient('administrator') ? true : false;
-        if ($this->admin) {
+        if ($this->clientContext === self::BACKEND) {
             $allowedDepartments = Access::getAccessibleDepartments('documentation');
             if (count($allowedDepartments) === 1) {
                 $this->state->set('filter.departmentID', $allowedDepartments[0]);

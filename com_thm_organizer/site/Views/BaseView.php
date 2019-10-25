@@ -24,19 +24,36 @@ abstract class BaseView extends HtmlView
 {
 	use Named;
 
-    /**
-     * Sets the layout name to use
-     *
-     * @param string $layout The layout name or a string in format <template>:<layout file>
-     *
-     * @return  string  Previous value.
-     *
-     * @throws Exception
-     */
-    public function setLayout($layout)
-    {
-        // I have no idea what this does but don't want to break it.
-        $joomlaValid = strpos($layout, ':') === false;
+	const BACKEND = true, FRONTEND = false;
+
+	public $clientContext;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  A named configuration array for object construction.
+	 *
+	 * @since   3.0
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$this->clientContext = OrganizerHelper::getApplication()->isClient('administrator');
+	}
+
+	/**
+	 * Sets the layout name to use
+	 *
+	 * @param   string  $layout  The layout name or a string in format <template>:<layout file>
+	 *
+	 * @return  string  Previous value.
+	 *
+	 * @throws Exception
+	 */
+	public function setLayout($layout)
+	{
+		// I have no idea what this does but don't want to break it.
+		$joomlaValid = strpos($layout, ':') === false;
 
 		// This was explicitly set
 		$nonStandard = $layout !== 'default';

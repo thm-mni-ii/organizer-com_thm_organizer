@@ -24,8 +24,6 @@ abstract class ListView extends BaseHTMLView
 {
 	protected $_layout = 'list';
 
-	protected $administration = false;
-
 	public $filterForm = null;
 
 	public $headers = null;
@@ -35,17 +33,6 @@ abstract class ListView extends BaseHTMLView
 	public $pagination = null;
 
 	public $state = null;
-
-	/**
-	 * Constructor
-	 *
-	 * @param   array  $config  A named configuration array for object construction.
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-		$this->administration = OrganizerHelper::getApplication()->isClient('administrator');
-	}
 
 	/**
 	 * Concrete classes are supposed to use this method to add a toolbar.
@@ -83,10 +70,10 @@ abstract class ListView extends BaseHTMLView
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 
+		$this->preProcessItems();
 		$this->addToolBar();
 		$this->addMenu();
 		$this->modifyDocument();
-		$this->preProcessItems();
 
 		parent::display($tpl);
 	}

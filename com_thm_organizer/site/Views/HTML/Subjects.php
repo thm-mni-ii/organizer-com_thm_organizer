@@ -23,11 +23,7 @@ use Organizer\Helpers\Programs;
  */
 class Subjects extends ListView
 {
-    const COORDINATES = 1;
-
-    const TEACHES = 2;
-
-    protected $administration = false;
+	const COORDINATES = 1, TEACHES = 2;
 
 	private $documentAccess = false;
 
@@ -44,23 +40,26 @@ class Subjects extends ListView
 		$this->params = Input::getParams();
 	}
 
-    /**
-     * Sets Joomla view title and action buttons
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        $resourceName = '';
-        if (!OrganizerHelper::getApplication()->isClient('administrator')) {
-            if ($programID = Input::getInt('programID')) {
-                $resourceName = Programs::getName($programID);
-            }
-            if ($poolID = $this->state->get('calledPoolID', 0)) {
-                $poolName     = Pools::getName($poolID);
-                $resourceName .= empty($resourceName) ? $poolName : ", $poolName";
-            }
-        }
+	/**
+	 * Sets Joomla view title and action buttons
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		$resourceName = '';
+		if ($this->clientContext == self::FRONTEND)
+		{
+			if ($programID = Input::getInt('programID'))
+			{
+				$resourceName = Programs::getName($programID);
+			}
+			if ($poolID = $this->state->get('calledPoolID', 0))
+			{
+				$poolName     = Pools::getName($poolID);
+				$resourceName .= empty($resourceName) ? $poolName : ", $poolName";
+			}
+		}
 
 		HTML::setMenuTitle('THM_ORGANIZER_SUBJECTS_TITLE', $resourceName, 'book');
 		$toolbar = Toolbar::getInstance();
@@ -84,11 +83,12 @@ class Subjects extends ListView
 				true
 			);
 
-            if (OrganizerHelper::getApplication()->isClient('administrator') and Access::isAdmin()) {
-                HTML::setPreferencesButton();
-            }
-        }
-    }
+			if ($this->clientContext === self::BACKEND and Access::isAdmin())
+			{
+				HTML::setPreferencesButton();
+			}
+		}
+	}
 
 	/**
 	 * Function determines whether the user may access the view.
@@ -99,8 +99,8 @@ class Subjects extends ListView
 	{
 		$this->documentAccess = Access::allowDocumentAccess();
 
-        return $this->administration ? $this->documentAccess : true;
-    }
+		return $this->clientContext === self::BACKEND ? $this->documentAccess : true;
+	}
 
 	/**
 	 * Function to get table headers
@@ -196,10 +196,12 @@ class Subjects extends ListView
 		$editLink       = 'index.php?option=com_thm_organizer&view=subject_edit&id=';
 		$processedItems = [];
 
-        foreach ($this->items as $subject) {
-            $access   = Access::allowSubjectAccess($subject->id);
-            $checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
-            $thisLink = ($this->administration and $access) ? $editLink . $subject->id : $itemLink . $subject->id;
+		foreach ($this->items as $subject)
+		{
+			$access   = Access::allowSubjectAccess($subject->id);
+			$checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
+			$thisLink = ($this->clientContext === self::BACKEND and $access) ?
+				$editLink . $subject->id : $itemLink . $subject->id;
 
 			$processedItems[$index]                 = [];
 			$processedItems[$index]['checkbox']     = $checkbox;

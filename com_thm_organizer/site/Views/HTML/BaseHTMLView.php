@@ -35,7 +35,7 @@ abstract class BaseHTMLView extends BaseView
 	 */
 	protected function addDisclaimer()
 	{
-		if (OrganizerHelper::getApplication()->isClient('administrator'))
+		if ($this->clientContext === self::BACKEND)
 		{
 			return;
 		}
@@ -83,7 +83,7 @@ abstract class BaseHTMLView extends BaseView
 	 */
 	protected function addMenu()
 	{
-		if (OrganizerHelper::getApplication()->isClient('site'))
+		if ($this->clientContext == self::FRONTEND)
 		{
 			return;
 		}

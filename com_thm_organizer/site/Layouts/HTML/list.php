@@ -15,11 +15,12 @@ use Organizer\Helpers\OrganizerHelper;
 
 $query = Uri::getInstance()->getQuery();
 
+$isSite = OrganizerHelper::getApplication()->isClient('site');
 $items       = $this->items;
 $iteration   = 0;
 $columnCount = count($this->headers);
 
-if (!$this->administration) {
+if ($isSite) {
     echo OrganizerHelper::getApplication()->JComponentTitle;
 }
 if (!empty($this->submenu)) {
@@ -27,7 +28,7 @@ if (!empty($this->submenu)) {
 } ?>
 <div id="j-main-container" class="span10">
     <form action="?<?php echo $query; ?>" id="adminForm" method="post" name="adminForm">
-        <?php if (!$this->administration) : ?>
+        <?php if ($isSite) : ?>
             <?php echo Toolbar::getInstance()->render(); ?>
         <?php endif; ?>
         <?php require_once 'filters.php'; ?>
@@ -51,7 +52,7 @@ if (!empty($this->submenu)) {
                     ?>
                 </tr>
             <?php endforeach; ?>
-            <?php if ($this->administration) : ?>
+            <?php if (!$isSite) : ?>
             <tfoot>
             <tr>
                 <td colspan="<?php echo $columnCount; ?>">
