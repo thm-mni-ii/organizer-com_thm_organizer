@@ -19,315 +19,380 @@ use stdClass;
  */
 class Subjects extends ResourceHelper implements Selectable
 {
-    /**
-     * Check if user is registered as a subject's coordinator.
-     *
-     * @param int $subjectID id of the subject
-     *
-     * @return boolean true if the user registered as a coordinator, otherwise false
-     */
-    public static function coordinates($subjectID)
-    {
-        $user = Factory::getUser();
+	/**
+	 * Check if user is registered as a subject's coordinator.
+	 *
+	 * @param   int  $subjectID  the optional id of the subject
+	 * @param   int  $personID   the optional id of the person entry
+	 *
+	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 */
+	public static function coordinates($subjectID = 0, $personID = 0)
+	{
+		if (!$personID)
+		{
+			$user     = Factory::getUser();
+			$personID = Persons::getIDByUserID($user->id);
+		}
 
-        // Person / role association from the documentation system
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
 
-        $query->select('COUNT(*)')
-            ->from('#__thm_organizer_subject_persons AS st')
-            ->innerJoin('#__thm_organizer_persons AS t ON t.id = st.personID')
-            ->where("t.username = '{$user->username}'")
-            ->where("st.subjectID = '$subjectID'")
-            ->where("role = '1'");
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_subject_persons')
+			->where("personID = $personID")
+			->where("role = 1");
 
-        $dbo->setQuery($query);
+		if ($subjectID)
+		{
+			$query->where("subjectID = '$subjectID'");
+		}
 
-        return (bool)OrganizerHelper::executeQuery('loadResult');
-    }
+		$dbo->setQuery($query);
 
-    /**
-     * Retrieves the left and right boundaries of the nested program or pool
-     *
-     * @return array
-     */
-    private static function getBoundaries()
-    {
-        $programBoundaries = Mappings::getMappings('program', Input::getInt('programID'));
+		return (bool) OrganizerHelper::executeQuery('loadResult');
+	}
 
-        if (empty($programBoundaries)) {
-            return [];
-        }
+	/**
+	 * Retrieves the left and right boundaries of the nested program or pool
+	 *
+	 * @return array
+	 */
+	private static function getBoundaries()
+	{
+		$programBoundaries = Mappings::getMappings('program', Input::getInt('programID'));
 
-        $poolBoundaries = Mappings::getMappings('pool', Input::getInt('poolID'));
+		if (empty($programBoundaries))
+		{
+			return [];
+		}
 
-        $validBoundaries = (!empty($poolBoundaries) and self::poolInProgram($poolBoundaries, $programBoundaries));
-        if ($validBoundaries) {
-            return $poolBoundaries;
-        }
+		$poolBoundaries = Mappings::getMappings('pool', Input::getInt('poolID'));
 
-        return $programBoundaries;
-    }
+		$validBoundaries = (!empty($poolBoundaries) and self::poolInProgram($poolBoundaries, $programBoundaries));
+		if ($validBoundaries)
+		{
+			return $poolBoundaries;
+		}
 
-    /**
-     * Retrieves the subject name
-     *
-     * @param int     $subjectID the table id for the subject
-     * @param boolean $withNumber
-     *
-     * @return string the subject name
-     */
-    public static function getName($subjectID = 0, $withNumber = false)
-    {
-        $subjectID = $subjectID ? $subjectID : Input::getID();
+		return $programBoundaries;
+	}
 
-        $dbo = Factory::getDbo();
-        $tag = Languages::getTag();
+	/**
+	 * Retrieves the subject name
+	 *
+	 * @param   int      $subjectID  the table id for the subject
+	 * @param   boolean  $withNumber
+	 *
+	 * @return string the subject name
+	 */
+	public static function getName($subjectID = 0, $withNumber = false)
+	{
+		$subjectID = $subjectID ? $subjectID : Input::getID();
 
-        $query = $dbo->getQuery(true);
-        $query->select("co.name as courseName, s.name_$tag as name")
-            ->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
-            ->select('co.subjectNo as courseSubjectNo, s.code as subjectNo')
-            ->from('#__thm_organizer_subjects AS s')
-            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON s.id = sm.subjectID')
-            ->leftJoin('#__thm_organizer_courses AS co ON co.id = sm.courseID')
-            ->where("s.id = '$subjectID'");
+		$dbo = Factory::getDbo();
+		$tag = Languages::getTag();
 
-        $dbo->setQuery($query);
+		$query = $dbo->getQuery(true);
+		$query->select("co.name as courseName, s.name_$tag as name")
+			->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
+			->select('co.subjectNo AS courseSubjectNo, s.code AS subjectNo')
+			->from('#__thm_organizer_subjects AS s')
+			->leftJoin('#__thm_organizer_subject_mappings AS sm ON s.id = sm.subjectID')
+			->leftJoin('#__thm_organizer_courses AS co ON co.id = sm.courseID')
+			->where("s.id = '$subjectID'");
 
-        $names = OrganizerHelper::executeQuery('loadAssoc', []);
-        if (empty($names)) {
-            return '';
-        }
+		$dbo->setQuery($query);
 
-        $suffix = '';
+		$names = OrganizerHelper::executeQuery('loadAssoc', []);
+		if (empty($names))
+		{
+			return '';
+		}
 
-        if ($withNumber) {
-            if (!empty($names['subjectNo'])) {
-                $suffix .= " ({$names['subjectNo']})";
-            } elseif (!empty($names['courseSubjectNo'])) {
-                $suffix .= " ({$names['courseSubjectNo']})";
-            }
-        }
+		$suffix = '';
 
-        if (!empty($names['name'])) {
-            return $names['name'] . $suffix;
-        }
+		if ($withNumber)
+		{
+			if (!empty($names['subjectNo']))
+			{
+				$suffix .= " ({$names['subjectNo']})";
+			}
+			elseif (!empty($names['courseSubjectNo']))
+			{
+				$suffix .= " ({$names['courseSubjectNo']})";
+			}
+		}
 
-        if (!empty($names['shortName'])) {
-            return $names['shortName'] . $suffix;
-        }
+		if (!empty($names['name']))
+		{
+			return $names['name'] . $suffix;
+		}
 
-        return empty($names['courseName']) ? $names['abbreviation'] . $suffix : $names['courseName'] . $suffix;
-    }
+		if (!empty($names['shortName']))
+		{
+			return $names['shortName'] . $suffix;
+		}
 
-    /**
-     * Retrieves the selectable options for the resource.
-     *
-     * @return array the available options
-     */
-    public static function getOptions()
-    {
-        $options = [];
-        foreach (self::getResources() as $subject) {
-            $options[] = HTML::_('select.option', $subject['id'], $subject['name']);
-        }
+		return empty($names['courseName']) ? $names['abbreviation'] . $suffix : $names['courseName'] . $suffix;
+	}
 
-        return $options;
-    }
+	/**
+	 * Retrieves the selectable options for the resource.
+	 *
+	 * @return array the available options
+	 */
+	public static function getOptions()
+	{
+		$options = [];
+		foreach (self::getResources() as $subject)
+		{
+			$options[] = HTML::_('select.option', $subject['id'], $subject['name']);
+		}
 
-    /**
-     * Retrieves the persons associated with a given subject and their respective roles for it.
-     *
-     * @param int $subjectID the id of the subject with which the persons must be associated
-     * @param int $role      the role to be filtered against default none
-     *
-     * @return array the persons associated with the subject, empty if none were found.
-     */
-    public static function getPersons($subjectID, $role = null)
-    {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('t.id, t.surname, t.forename, t.fieldID, t.title, st.role')
-            ->from('#__thm_organizer_persons AS t')
-            ->innerJoin('#__thm_organizer_subject_persons AS st ON st.personID = t.id')
-            ->where("st.subjectID = '$subjectID'");
+		return $options;
+	}
 
-        if (!empty($role) and is_numeric($role)) {
-            $query->where("st.role = $role");
-        }
-        $dbo->setQuery($query);
+	/**
+	 * Retrieves the persons associated with a given subject and their respective roles for it.
+	 *
+	 * @param   int  $subjectID  the id of the subject with which the persons must be associated
+	 * @param   int  $role       the role to be filtered against default none
+	 *
+	 * @return array the persons associated with the subject, empty if none were found.
+	 */
+	public static function getPersons($subjectID, $role = null)
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('t.id, t.surname, t.forename, t.fieldID, t.title, st.role')
+			->from('#__thm_organizer_persons AS t')
+			->innerJoin('#__thm_organizer_subject_persons AS st ON st.personID = t.id')
+			->where("st.subjectID = '$subjectID'");
 
-        $results = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($results)) {
-            return [];
-        }
+		if (!empty($role) and is_numeric($role))
+		{
+			$query->where("st.role = $role");
+		}
+		$dbo->setQuery($query);
 
-        $persons = [];
-        foreach ($results as $person) {
-            $forename = empty($person['forename']) ? '' : $person['forename'];
-            $fullName = $person['surname'];
-            $fullName .= empty($forename) ? '' : ", {$person['forename']}";
-            if (empty($persons[$person['id']])) {
-                $person['forename'] = $forename;
-                $person['title']    = empty($person['title']) ? '' : $person['title'];
-                $person['role']     = [$person['role'] => $person['role']];
-                $persons[$fullName] = $person;
-                continue;
-            }
+		$results = OrganizerHelper::executeQuery('loadAssocList');
+		if (empty($results))
+		{
+			return [];
+		}
 
-            $persons[$person['id']]['role'] = [$person['role'] => $person['role']];
-        }
+		$persons = [];
+		foreach ($results as $person)
+		{
+			$forename = empty($person['forename']) ? '' : $person['forename'];
+			$fullName = $person['surname'];
+			$fullName .= empty($forename) ? '' : ", {$person['forename']}";
+			if (empty($persons[$person['id']]))
+			{
+				$person['forename'] = $forename;
+				$person['title']    = empty($person['title']) ? '' : $person['title'];
+				$person['role']     = [$person['role'] => $person['role']];
+				$persons[$fullName] = $person;
+				continue;
+			}
 
-        Persons::roleSort($persons);
-        Persons::nameSort($persons);
+			$persons[$person['id']]['role'] = [$person['role'] => $person['role']];
+		}
 
-        return $persons;
-    }
+		Persons::roleSort($persons);
+		Persons::nameSort($persons);
 
-    /**
-     * Looks up the names of the programs associated with the subject
-     *
-     * @param int $subjectID the id of the (plan) subject
-     *
-     * @return array the associated program names
-     */
-    public static function getPrograms($subjectID)
-    {
-        $dbo   = Factory::getDbo();
-        $names = [];
-        $tag   = Languages::getTag();
+		return $persons;
+	}
 
-        $query     = $dbo->getQuery(true);
-        $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-        $query->select('cat.name AS categoryName, ' . $query->concatenate($nameParts, "") . ' AS name')
-            ->select('p.id')
-            ->from('#__thm_organizer_programs AS p')
-            ->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
-            ->innerJoin('#__thm_organizer_mappings AS m1 ON m1.programID = p.id')
-            ->innerJoin('#__thm_organizer_mappings AS m2 ON m1.lft < m2.lft AND m1.rgt > m2.rgt')
-            ->leftJoin('#__thm_organizer_categories AS cat ON cat.id = p.categoryID')
-            ->where("m2.subjectID = '$subjectID'");
+	/**
+	 * Looks up the names of the programs associated with the subject
+	 *
+	 * @param   int  $subjectID  the id of the (plan) subject
+	 *
+	 * @return array the associated program names
+	 */
+	public static function getPrograms($subjectID)
+	{
+		$dbo   = Factory::getDbo();
+		$names = [];
+		$tag   = Languages::getTag();
 
-        $dbo->setQuery($query);
+		$query     = $dbo->getQuery(true);
+		$nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
+		$query->select('cat.name AS categoryName, ' . $query->concatenate($nameParts, "") . ' AS name')
+			->select('p.id')
+			->from('#__thm_organizer_programs AS p')
+			->innerJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
+			->innerJoin('#__thm_organizer_mappings AS m1 ON m1.programID = p.id')
+			->innerJoin('#__thm_organizer_mappings AS m2 ON m1.lft < m2.lft AND m1.rgt > m2.rgt')
+			->leftJoin('#__thm_organizer_categories AS cat ON cat.id = p.categoryID')
+			->where("m2.subjectID = '$subjectID'");
 
-        $results = OrganizerHelper::executeQuery('loadAssocList', []);
-        if (empty($results)) {
-            return $results;
-        }
+		$dbo->setQuery($query);
 
-        foreach ($results as $result) {
-            $names[$result['id']] = empty($result['name']) ? $result['categoryName'] : $result['name'];
-        }
+		$results = OrganizerHelper::executeQuery('loadAssocList', []);
+		if (empty($results))
+		{
+			return $results;
+		}
 
-        return $names;
-    }
+		foreach ($results as $result)
+		{
+			$names[$result['id']] = empty($result['name']) ? $result['categoryName'] : $result['name'];
+		}
 
-    /**
-     * Gets an array modelling the attributes of the resource.
-     *
-     * @param $resourceID
-     *
-     * @return array
-     */
-    public static function getResource($resourceID)
-    {
-        $table  = self::getTable();
-        $exists = $table->load($resourceID);
+		return $names;
+	}
 
-        if (!$exists) {
-            return [];
-        }
+	/**
+	 * Gets an array modelling the attributes of the resource.
+	 *
+	 * @param $resourceID
+	 *
+	 * @return array
+	 */
+	public static function getResource($resourceID)
+	{
+		$table  = self::getTable();
+		$exists = $table->load($resourceID);
 
-        $tag     = Languages::getTag();
-        $subject = [
-            'abbreviation' => $table->{"abbreviation_$tag"},
-            'bgColor'      => Fields::getColor($table->fieldID),
-            'creditpoints' => $table->creditpoints,
-            'field'        => Fields::getName($table->fieldID, 'field'),
-            'fieldID'      => $table->fieldID,
-            'id'           => $table->id,
-            'moduleNo'     => $table->code,
-            'name'         => $table->{"name_$tag"},
-            'shortName'    => $table->{"shortName_$tag"},
-        ];
+		if (!$exists)
+		{
+			return [];
+		}
 
-        return $subject;
-    }
+		$tag     = Languages::getTag();
+		$subject = [
+			'abbreviation' => $table->{"abbreviation_$tag"},
+			'bgColor'      => Fields::getColor($table->fieldID),
+			'creditpoints' => $table->creditpoints,
+			'field'        => Fields::getName($table->fieldID, 'field'),
+			'fieldID'      => $table->fieldID,
+			'id'           => $table->id,
+			'moduleNo'     => $table->code,
+			'name'         => $table->{"name_$tag"},
+			'shortName'    => $table->{"shortName_$tag"},
+		];
 
-    /**
-     * Retrieves the resource items.
-     *
-     * @return array the available resources
-     */
-    public static function getResources()
-    {
-        $programID = Input::getInt('programID', -1);
-        $personID  = Input::getInt('personID', -1);
-        if ($programID === -1 and $personID === -1) {
-            return [];
-        }
+		return $subject;
+	}
 
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
+	/**
+	 * Retrieves the resource items.
+	 *
+	 * @return array the available resources
+	 */
+	public static function getResources()
+	{
+		$programID = Input::getInt('programID', -1);
+		$personID  = Input::getInt('personID', -1);
+		if ($programID === -1 and $personID === -1)
+		{
+			return [];
+		}
 
-        $tag = Languages::getTag();
-        $query->select("DISTINCT s.id, s.name_$tag AS name, s.code, s.creditpoints")
-            ->select('t.surname, t.forename, t.title, t.username')
-            ->from('#__thm_organizer_subjects AS s')
-            ->order('name')
-            ->group('s.id');
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
 
-        $boundarySet = self::getBoundaries();
-        if (!empty($boundarySet)) {
-            $query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
-            $where   = '';
-            $initial = true;
-            foreach ($boundarySet as $boundaries) {
-                $where   .= $initial ?
-                    "((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
-                    : " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
-                $initial = false;
-            }
+		$tag = Languages::getTag();
+		$query->select("DISTINCT s.id, s.name_$tag AS name, s.code, s.creditpoints")
+			->select('t.surname, t.forename, t.title, t.username')
+			->from('#__thm_organizer_subjects AS s')
+			->order('name')
+			->group('s.id');
 
-            $query->where($where . ')');
-        }
+		$boundarySet = self::getBoundaries();
+		if (!empty($boundarySet))
+		{
+			$query->innerJoin('#__thm_organizer_mappings AS m ON m.subjectID = s.id');
+			$where   = '';
+			$initial = true;
+			foreach ($boundarySet as $boundaries)
+			{
+				$where   .= $initial ?
+					"((m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')"
+					: " OR (m.lft >= '{$boundaries['lft']}' AND m.rgt <= '{$boundaries['rgt']}')";
+				$initial = false;
+			}
 
-        if ($personID !== -1) {
-            $query->innerJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id');
-            $query->innerJoin('#__thm_organizer_persons AS t ON st.personID = t.id');
-            $query->where("st.personID = '$personID'");
-        } else {
-            $query->leftJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id');
-            $query->innerJoin('#__thm_organizer_persons AS t ON st.personID = t.id');
-            $query->where("st.role = '1'");
-        }
+			$query->where($where . ')');
+		}
 
-        $dbo->setQuery($query);
+		if ($personID !== -1)
+		{
+			$query->innerJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id');
+			$query->innerJoin('#__thm_organizer_persons AS t ON st.personID = t.id');
+			$query->where("st.personID = '$personID'");
+		}
+		else
+		{
+			$query->leftJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id');
+			$query->innerJoin('#__thm_organizer_persons AS t ON st.personID = t.id');
+			$query->where("st.role = '1'");
+		}
 
-        return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
+		$dbo->setQuery($query);
 
-    /**
-     * Checks whether the pool is subordinate to the selected program
-     *
-     * @param array $poolBoundaries    the pool's left and right values
-     * @param array $programBoundaries the program's left and right values
-     *
-     * @return boolean  true if the pool is subordinate to the program,
-     *                   otherwise false
-     */
-    private static function poolInProgram($poolBoundaries, $programBoundaries)
-    {
-        $first = $poolBoundaries[0];
-        $last  = end($poolBoundaries);
+		return OrganizerHelper::executeQuery('loadAssocList', []);
+	}
 
-        $leftValid  = $first['lft'] > $programBoundaries[0]['lft'];
-        $rightValid = $last['rgt'] < $programBoundaries[0]['rgt'];
-        if ($leftValid and $rightValid) {
-            return true;
-        }
+	/**
+	 * Checks whether the pool is subordinate to the selected program
+	 *
+	 * @param   array  $poolBoundaries     the pool's left and right values
+	 * @param   array  $programBoundaries  the program's left and right values
+	 *
+	 * @return boolean  true if the pool is subordinate to the program,
+	 *                   otherwise false
+	 */
+	private static function poolInProgram($poolBoundaries, $programBoundaries)
+	{
+		$first = $poolBoundaries[0];
+		$last  = end($poolBoundaries);
 
-        return false;
-    }
+		$leftValid  = $first['lft'] > $programBoundaries[0]['lft'];
+		$rightValid = $last['rgt'] < $programBoundaries[0]['rgt'];
+		if ($leftValid and $rightValid)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if user is registered as a subject's teacher.
+	 *
+	 * @param   int  $subjectID  the optional id of the subject
+	 * @param   int  $personID   the optional id of the person entry
+	 *
+	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 */
+	public static function teaches($subjectID= 0, $personID = 0)
+	{
+		if (!$personID)
+		{
+			$user     = Factory::getUser();
+			$personID = Persons::getIDByUserID($user->id);
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_subject_persons')
+			->where("personID = $personID")
+			->where("role = 2");
+
+		if ($subjectID)
+		{
+			$query->where("subjectID = '$subjectID'");
+		}
+
+		$dbo->setQuery($query);
+
+		return (bool) OrganizerHelper::executeQuery('loadResult');
+	}
 }

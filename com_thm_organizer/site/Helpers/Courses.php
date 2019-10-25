@@ -26,6 +26,42 @@ class Courses extends ResourceHelper
 	const SPEAKER = 4;
 
 	/**
+	 * Check if user is registered as a course's coordinator.
+	 *
+	 * @param   int  $courseID  the optional id of the course
+	 * @param   int  $personID  the optional id of the person
+	 *
+	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 */
+	public static function coordinates($courseID = 0, $personID = 0)
+	{
+		if (!$personID)
+		{
+			$user     = Factory::getUser();
+			$personID = Persons::getIDByUserID($user->id);
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_event_coordinators AS ec')
+			->innerJoin('#__thm_organizer_events AS e ON e.id = ed.eventID')
+			->innerJoin('#__thm_organizer_instances AS i ON i.eventID = e.id')
+			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
+			->where("ec.personID = $personID");
+
+		if ($courseID)
+		{
+			$query->where("u.courseID = '$courseID'");
+		}
+
+		$dbo->setQuery($query);
+
+		return (bool) OrganizerHelper::executeQuery('loadResult');
+	}
+
+	/**
 	 * Gets the course start and end dates.
 	 *
 	 * @param   int  $courseID  id of course to be loaded
@@ -270,6 +306,78 @@ class Courses extends ResourceHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if user is registered as a course's tutor.
+	 *
+	 * @param   int  $courseID  the optional id of the course
+	 * @param   int  $personID  the optional id of the person
+	 *
+	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 */
+	public static function teaches($courseID = 0, $personID = 0)
+	{
+		if (!$personID)
+		{
+			$user     = Factory::getUser();
+			$personID = Persons::getIDByUserID($user->id);
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_instance_persons AS ip')
+			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
+			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
+			->where("ip.personID = $personID")
+			->where('ip.roleID = ' . self::TEACHER);
+
+		if ($courseID)
+		{
+			$query->where("u.courseID = '$courseID'");
+		}
+
+		$dbo->setQuery($query);
+
+		return (bool) OrganizerHelper::executeQuery('loadResult');
+	}
+
+	/**
+	 * Check if user is registered as a course's tutor.
+	 *
+	 * @param   int  $courseID  the optional id of the course
+	 * @param   int  $personID  the optional id of the person
+	 *
+	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 */
+	public static function tutors($courseID = 0, $personID = 0)
+	{
+		if (!$personID)
+		{
+			$user     = Factory::getUser();
+			$personID = Persons::getIDByUserID($user->id);
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_instance_persons AS ip')
+			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
+			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
+			->where("ip.personID = $personID")
+			->where('ip.roleID = ' . self::TUTOR);
+
+		if ($courseID)
+		{
+			$query->where("u.courseID = '$courseID'");
+		}
+
+		$dbo->setQuery($query);
+
+		return (bool) OrganizerHelper::executeQuery('loadResult');
 	}
 
 //    /**

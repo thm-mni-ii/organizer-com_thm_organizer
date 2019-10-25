@@ -63,7 +63,7 @@ class Access
     {
         $user = Factory::getUser();
 
-        if (empty($user->id)) {
+        if (empty($user->id) or empty($courseID)) {
             return false;
         }
 
@@ -71,7 +71,7 @@ class Access
             return true;
         }
 
-        return empty($courseID) ? false : Courses::teaches($courseID);
+        return (Courses::teaches($courseID) or Courses::tutors($courseID));
     }
 
     /**
@@ -124,16 +124,16 @@ class Access
     /**
      * Checks whether the user has access to the participant information
      *
-     * @param int $participantID the id of the participant
-     * @param int $lessonID      id of the lesson resource
+     * @param int  $participantID  the id of the participant
+     * @param int  $courseID       id of the lesson resource
      *
      * @return bool true if the user is authorized to manage courses, otherwise false
      */
-    public static function allowParticipantAccess($participantID, $lessonID = 0)
+    public static function allowParticipantAccess($participantID, $courseID = 0)
     {
         $user = Factory::getUser();
 
-        if (empty($user->id)) {
+        if (empty($user->id) or empty($courseID)) {
             return false;
         }
 
@@ -141,7 +141,7 @@ class Access
             return true;
         }
 
-        return empty($lessonID) ? false : Courses::teaches($lessonID);
+	    return (Courses::teaches($courseID) or Courses::tutors($courseID));
     }
 
     /**

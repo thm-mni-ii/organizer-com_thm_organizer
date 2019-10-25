@@ -557,8 +557,8 @@ class Search extends BaseModel
 
         if (!empty($results)) {
             foreach ($results as $person) {
-                $documented = Helpers\Persons::teaches('subject', $person['id']);
-                $teaches    = Helpers\Persons::teaches('lesson', $person['id']);
+                $documented = Helpers\Subjects::teaches(0, $person['id']);
+                $teaches    = Helpers\Events::teaches(0, $person['id']);
 
                 // Nothing to link
                 if (!$documented and !$teaches) {

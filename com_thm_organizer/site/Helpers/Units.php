@@ -43,4 +43,39 @@ class Units extends ResourceHelper
         return $eventID;
 
     }
+
+	/**
+	 * Check if user is registered as a unit's teacher.
+	 *
+	 * @param   int  $unitID    the optional id of the unit
+	 * @param   int  $personID  the optional id of the person
+	 *
+	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 */
+	public static function teaches($unitID = 0, $personID = 0)
+	{
+		if (!$personID)
+		{
+			$user     = Factory::getUser();
+			$personID = Persons::getIDByUserID($user->id);
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_instance_persons AS ip')
+			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
+			->where("ip.personID = $personID")
+			->where('ip.roleID = ' . self::TEACHER);
+
+		if ($unitID)
+		{
+			$query->where("i.unitID = '$unitID'");
+		}
+
+		$dbo->setQuery($query);
+
+		return (bool) OrganizerHelper::executeQuery('loadResult');
+	}
 }

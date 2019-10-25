@@ -23,83 +23,93 @@ use Organizer\Helpers\Input;
  */
 class Course extends BaseModel
 {
-    /**
-     * Saves data for participants when administrator changes state in manager
-     *
-     * @return bool true on success, false on error
-     * @throws Exception => unauthorized access
-     */
-    public function changeParticipantState()
-    {
-        $data     = Input::getInput()->getArray();
-        $courseID = Input::getID();
+	/**
+	 * Saves data for participants when administrator changes state in manager
+	 *
+	 * @return bool true on success, false on error
+	 * @throws Exception => unauthorized access
+	 */
+	public function changeParticipantState()
+	{
+		$data     = Input::getInput()->getArray();
+		$courseID = Input::getID();
 
-        if (!Access::allowCourseAccess($courseID)) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+		if (!Access::allowCourseAccess($courseID))
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        $participantIDs = $data['checked'];
-        $state          = (int)$data['participantState'];
-        $invalidState   = ($state < 0 or $state > 2);
+		$participantIDs = $data['checked'];
+		$state          = (int) $data['participantState'];
+		$invalidState   = ($state < 0 or $state > 2);
 
-        if (empty($participantIDs) or empty($courseID) or $invalidState) {
-            return false;
-        }
+		if (empty($participantIDs) or empty($courseID) or $invalidState)
+		{
+			return false;
+		}
 
-        $return = true;
+		$return = true;
 
-        foreach ($data['checked'] as $participantID) {
-            $success = Participants::changeState($participantID, $courseID, $state);
+		foreach ($data['checked'] as $participantID)
+		{
+			$success = Participants::changeState($participantID, $courseID, $state);
 
-            if (empty($success)) {
-                return false;
-            }
+			if (empty($success))
+			{
+				return false;
+			}
 
-            if ($state === 0) {
-                Courses::refreshWaitList($courseID);
-            }
+			if ($state === 0)
+			{
+				Courses::refreshWaitList($courseID);
+			}
 
-            $return = ($return and $success);
-        }
+			$return = ($return and $success);
+		}
 
-        return $return;
-    }
+		return $return;
+	}
 
-    /**
-     * Sends a circular mail to all course participants
-     *
-     * @return bool true on success, false on error
-     * @throws Exception => not found / unauthorized access
-     */
-    public function circular()
-    {
-        $courseID = Input::getID();
+	/**
+	 * Sends a circular mail to all course participants
+	 *
+	 * @return bool true on success, false on error
+	 * @throws Exception => not found / unauthorized access
+	 */
+	public function circular()
+	{
+		$courseID = Input::getID();
 
-        if (empty($courseID)) {
-            throw new Exception(Languages::_('THM_ORGANIZER_404'), 404);
-        }
+		if (empty($courseID))
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_404'), 404);
+		}
 
-        if (empty(Access::allowCourseAccess($courseID))) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+		if (empty(Access::allowCourseAccess($courseID)))
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        $data = Input::getFormItems()->toArray();
+		$data = Input::getFormItems()->toArray();
 
-        if (empty($data['text'])) {
-            return false;
-        }
+		if (empty($data['text']))
+		{
+			return false;
+		}
 
-        $sender = Factory::getUser(Input::getParams()->get('mailSender'));
+		$sender = Factory::getUser(Input::getParams()->get('mailSender'));
 
-        if (empty($sender->id)) {
-            return false;
-        }
+		if (empty($sender->id))
+		{
+			return false;
+		}
 
-        $recipients = Courses::getFullParticipantData($courseID, (bool)$data['includeWaitList']);
+		$recipients = Courses::getFullParticipantData($courseID, (bool) $data['includeWaitList']);
 
-        if (empty($recipients)) {
-            return false;
-        }
+		if (empty($recipients))
+		{
+			return false;
+		}
 
         $mailer = Factory::getMailer();
         $mailer->setSender([$sender->email, $sender->name]);
