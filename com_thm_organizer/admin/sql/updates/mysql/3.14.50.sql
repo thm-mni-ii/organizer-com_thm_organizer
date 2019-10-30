@@ -10,30 +10,30 @@ ALTER TABLE `v7ocf_thm_organizer_plan_subjects`
 RENAME TABLE `v7ocf_thm_organizer_plan_subjects` TO `v7ocf_thm_organizer_events`;
 
 ALTER TABLE `v7ocf_thm_organizer_events`
-    CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL AFTER `id`,
-    ADD COLUMN `departmentID` INT(11) UNSIGNED NOT NULL AFTER `untisID`,
+    CHANGE `gpuntisID` `untisID`  VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL AFTER `id`,
+    ADD COLUMN `departmentID`     INT(11) UNSIGNED    NOT NULL AFTER `untisID`,
     MODIFY `fieldID` INT(11) UNSIGNED DEFAULT NULL AFTER `departmentID`,
-    CHANGE `name` `name_de` VARCHAR(100) NOT NULL AFTER `fieldID`,
-    ADD COLUMN `name_en` VARCHAR(100) NOT NULL AFTER `name_de`,
-    ADD COLUMN `contact_de` TEXT,
-    ADD COLUMN `contact_en` TEXT,
+    CHANGE `name` `name_de`       VARCHAR(100)        NOT NULL AFTER `fieldID`,
+    ADD COLUMN `name_en`          VARCHAR(100)        NOT NULL AFTER `name_de`,
+    ADD COLUMN `contact_de`       TEXT,
+    ADD COLUMN `contact_en`       TEXT,
     ADD COLUMN `courseContact_de` TEXT,
     ADD COLUMN `courseContact_en` TEXT,
-    ADD COLUMN `content_de` TEXT,
-    ADD COLUMN `content_en` TEXT,
-    ADD COLUMN `description_de` TEXT,
-    ADD COLUMN `description_en` TEXT,
-    ADD COLUMN `organization_de` TEXT,
-    ADD COLUMN `organization_en` TEXT,
-    ADD COLUMN `pretests_de` TEXT ,
-    ADD COLUMN `pretests_en` TEXT,
-    ADD COLUMN `preparatory` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-    ADD COLUMN `campusID` INT(11) UNSIGNED DEFAULT NULL,
-    ADD COLUMN `deadline` INT(2) UNSIGNED DEFAULT 0
+    ADD COLUMN `content_de`       TEXT,
+    ADD COLUMN `content_en`       TEXT,
+    ADD COLUMN `description_de`   TEXT,
+    ADD COLUMN `description_en`   TEXT,
+    ADD COLUMN `organization_de`  TEXT,
+    ADD COLUMN `organization_en`  TEXT,
+    ADD COLUMN `pretests_de`      TEXT,
+    ADD COLUMN `pretests_en`      TEXT,
+    ADD COLUMN `preparatory`      TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    ADD COLUMN `campusID`         INT(11) UNSIGNED                                DEFAULT NULL,
+    ADD COLUMN `deadline`         INT(2) UNSIGNED                                 DEFAULT 0
         COMMENT 'The deadline in days for registration before the course starts.',
-    ADD COLUMN `fee` INT(3) UNSIGNED DEFAULT 0,
-    ADD COLUMN `maxParticipants` INT(4) UNSIGNED DEFAULT 1000,
-    ADD COLUMN `registrationType` INT(1) UNSIGNED DEFAULT NULL
+    ADD COLUMN `fee`              INT(3) UNSIGNED                                 DEFAULT 0,
+    ADD COLUMN `maxParticipants`  INT(4) UNSIGNED                                 DEFAULT 1000,
+    ADD COLUMN `registrationType` INT(1) UNSIGNED                                 DEFAULT NULL
         COMMENT 'The method of registration for the lesson. Possible values: NULL - None, 0 - FIFO, 1 - Manual.',
     ADD INDEX `campusID` (`campusID`),
     ADD INDEX `departmentID` (`departmentID`),
@@ -273,21 +273,21 @@ WHERE `social_competence` > 3;
 
 ALTER TABLE `v7ocf_thm_organizer_subjects`
     DROP COLUMN `hisID`,
-    CHANGE `externalID` `code` VARCHAR(45) DEFAULT '',
-    CHANGE `short_name_de` `shortName_de` VARCHAR(45) NOT NULL DEFAULT '',
-    CHANGE `short_name_en` `shortName_en` VARCHAR(45) NOT NULL DEFAULT '',
-    CHANGE `preliminary_work_de` `preliminaryWork_de` TEXT,
-    CHANGE `preliminary_work_en` `preliminaryWork_en` TEXT,
+    CHANGE `externalID` `code`                                          VARCHAR(45)         DEFAULT '',
+    CHANGE `short_name_de` `shortName_de`                               VARCHAR(45) NOT NULL DEFAULT '',
+    CHANGE `short_name_en` `shortName_en`                               VARCHAR(45) NOT NULL DEFAULT '',
+    CHANGE `preliminary_work_de` `preliminaryWork_de`                   TEXT,
+    CHANGE `preliminary_work_en` `preliminaryWork_en`                   TEXT,
     MODIFY `expertise` TINYINT(1) UNSIGNED DEFAULT NULL,
-    CHANGE `self_competence` `selfCompetence` TINYINT(1) UNSIGNED DEFAULT NULL,
-    CHANGE `method_competence` `methodCompetence` TINYINT(1) UNSIGNED DEFAULT NULL,
-    CHANGE `social_competence` `socialCompetence` TINYINT(1) UNSIGNED DEFAULT NULL,
+    CHANGE `self_competence` `selfCompetence`                           TINYINT(1) UNSIGNED DEFAULT NULL,
+    CHANGE `method_competence` `methodCompetence`                       TINYINT(1) UNSIGNED DEFAULT NULL,
+    CHANGE `social_competence` `socialCompetence`                       TINYINT(1) UNSIGNED DEFAULT NULL,
     CHANGE `recommended_prerequisites_de` `recommendedPrerequisites_de` TEXT,
     CHANGE `recommended_prerequisites_en` `recommendedPrerequisites_en` TEXT,
-    CHANGE `used_for_de` `usedFor_de` TEXT,
-    CHANGE `used_for_en` `usedFor_en` TEXT,
-    CHANGE `bonus_points_de` `bonusPoints_de` TEXT,
-    CHANGE `bonus_points_en` `bonusPoints_en` TEXT,
+    CHANGE `used_for_de` `usedFor_de`                                   TEXT,
+    CHANGE `used_for_en` `usedFor_en`                                   TEXT,
+    CHANGE `bonus_points_de` `bonusPoints_de`                           TEXT,
+    CHANGE `bonus_points_en` `bonusPoints_en`                           TEXT,
     DROP COLUMN `campusID`,
     DROP COLUMN `is_prep_course`,
     DROP COLUMN `max_participants`,
@@ -341,8 +341,8 @@ ALTER TABLE `v7ocf_thm_organizer_subject_teachers`
 RENAME TABLE `v7ocf_thm_organizer_subject_teachers` TO `v7ocf_thm_organizer_subject_persons`;
 
 ALTER TABLE `v7ocf_thm_organizer_subject_persons`
-    CHANGE `teacherID` `personID` INT(11) NOT NULL,
-    CHANGE `teacherResp` `role` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+    CHANGE `teacherID` `personID` INT(11)             NOT NULL,
+    CHANGE `teacherResp` `role`   TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
         COMMENT 'The person\'s role for the given subject. Roles are not mutually exclusive. Possible values: 1 - coordinator, 2 - teacher.',
     ADD UNIQUE INDEX `entry` (`personID`, `subjectID`, `role`),
     ADD INDEX `personID` (`personID`);
@@ -359,7 +359,7 @@ ALTER TABLE `v7ocf_thm_organizer_subject_persons`
 # region courses (fk: campuses, terms)
 CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_courses` (
     `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `campusID`         INT(11) UNSIGNED          DEFAULT NULL,
+    `campusID`         INT(11) UNSIGNED NOT NULL,
     `termID`           INT(11) UNSIGNED NOT NULL,
     `groups`           VARCHAR(100)     NOT NULL DEFAULT '',
     `name_de`          VARCHAR(100)              DEFAULT NULL,
@@ -429,14 +429,14 @@ ALTER TABLE `v7ocf_thm_organizer_lessons`
 RENAME TABLE `v7ocf_thm_organizer_lessons` TO `v7ocf_thm_organizer_units`;
 
 ALTER TABLE `v7ocf_thm_organizer_units`
-    ADD `courseID` INT(11) UNSIGNED DEFAULT NULL AFTER `id`,
+    ADD `courseID`                     INT(11) UNSIGNED DEFAULT NULL AFTER `id`,
     MODIFY `departmentID` INT(11) UNSIGNED DEFAULT NULL AFTER `courseID`,
     CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED DEFAULT NULL AFTER `departmentID`,
-    CHANGE `gpuntisID` `untisID` INT(11) UNSIGNED NOT NULL AFTER `termID`,
-    ADD `gridID` INT(11) UNSIGNED DEFAULT NULL AFTER `untisID`,
-    ADD `runID` INT(11) UNSIGNED DEFAULT NULL AFTER `gridID`,
-    ADD `startDate` DATE DEFAULT NULL AFTER `runID`,
-    ADD `endDate` DATE DEFAULT NULL AFTER `startDate`,
+    CHANGE `gpuntisID` `untisID`       INT(11) UNSIGNED NOT NULL AFTER `termID`,
+    ADD `gridID`                       INT(11) UNSIGNED DEFAULT NULL AFTER `untisID`,
+    ADD `runID`                        INT(11) UNSIGNED DEFAULT NULL AFTER `gridID`,
+    ADD `startDate`                    DATE             DEFAULT NULL AFTER `runID`,
+    ADD `endDate`                      DATE             DEFAULT NULL AFTER `startDate`,
     MODIFY `comment` VARCHAR(200) DEFAULT NULL AFTER `termID`,
     ADD CONSTRAINT `entry` UNIQUE (`departmentID`, `termID`, `untisID`),
     ADD INDEX `departmentID` (`departmentID`),

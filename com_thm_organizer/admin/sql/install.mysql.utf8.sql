@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_course_participants` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_courses` (
     `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `campusID`         INT(11) UNSIGNED          DEFAULT NULL,
+    `campusID`         INT(11) UNSIGNED NOT NULL,
     `termID`           INT(11) UNSIGNED NOT NULL,
     `groups`           VARCHAR(100)     NOT NULL DEFAULT '',
     `name_de`          VARCHAR(100)              DEFAULT NULL,
@@ -602,7 +602,7 @@ CREATE TABLE `#__thm_organizer_runs` (
     `name_de` VARCHAR(50)      NOT NULL,
     `name_en` VARCHAR(50)      NOT NULL,
     `termID`  INT(11) UNSIGNED NOT NULL,
-    `run`  TEXT             NOT NULL
+    `run`     TEXT             NOT NULL
         COMMENT 'run contains the start date and end date of lessons which are saved in JSON string.',
     PRIMARY KEY (`id`),
     INDEX `termID` (`termID`)
