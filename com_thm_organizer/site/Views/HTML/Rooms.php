@@ -20,82 +20,85 @@ use Organizer\Helpers\Languages;
  */
 class Rooms extends ListView
 {
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_ROOMS_TITLE'), 'enter');
-        $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'room.add', false);
-        $toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'room.edit', true);
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		HTML::setTitle(Languages::_('THM_ORGANIZER_ROOMS_TITLE'), 'enter');
+		$toolbar = Toolbar::getInstance();
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'room.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'room.edit', true);
 
-        if (Access::isAdmin()) {
-            $toolbar->appendButton(
-                'Standard',
-                'attachment',
-                Languages::_('THM_ORGANIZER_MERGE'),
-                'room.mergeView',
-                true
-            );
-            HTML::setPreferencesButton();
-        }
-    }
+		if (Access::isAdmin())
+		{
+			$toolbar->appendButton(
+				'Standard',
+				'attachment',
+				Languages::_('THM_ORGANIZER_MERGE'),
+				'room.mergeView',
+				true
+			);
+			HTML::setPreferencesButton();
+		}
+	}
 
-    /**
-     * Function determines whether the user may access the view.
-     *
-     * @return bool true if the use may access the view, otherwise false
-     */
-    protected function allowAccess()
-    {
-        return Access::allowFMAccess();
-    }
+	/**
+	 * Function determines whether the user may access the view.
+	 *
+	 * @return bool true if the use may access the view, otherwise false
+	 */
+	protected function allowAccess()
+	{
+		return Access::allowFMAccess();
+	}
 
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    public function getHeaders()
-    {
-        $ordering  = $this->state->get('list.ordering');
-        $direction = $this->state->get('list.direction');
-        $headers   = [];
+	/**
+	 * Function to get table headers
+	 *
+	 * @return array including headers
+	 */
+	public function getHeaders()
+	{
+		$ordering  = $this->state->get('list.ordering');
+		$direction = $this->state->get('list.direction');
+		$headers   = [];
 
-        $headers['checkbox']   = '';
-        $headers['name']       = HTML::sort('NAME', 'r.name', $direction, $ordering);
-        $headers['buildingID'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
-        $headers['roomtypeID']     = HTML::sort('TYPE', 'roomtype', $direction, $ordering);
+		$headers['checkbox']   = '';
+		$headers['name']       = HTML::sort('NAME', 'r.name', $direction, $ordering);
+		$headers['buildingID'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
+		$headers['roomtypeID'] = HTML::sort('TYPE', 'roomtype', $direction, $ordering);
 
-        return $headers;
-    }
+		return $headers;
+	}
 
-    /**
-     * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-     *
-     * @return void processes the class items property
-     */
-    protected function preProcessItems()
-    {
-        if (empty($this->items)) {
-            return;
-        }
+	/**
+	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
+	 *
+	 * @return void processes the class items property
+	 */
+	protected function preProcessItems()
+	{
+		if (empty($this->items))
+		{
+			return;
+		}
 
-        $index          = 0;
-        $processedItems = [];
+		$index          = 0;
+		$processedItems = [];
 
-        foreach ($this->items as $item) {
-            $processedItems[$index]               = [];
-            $processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
-            $processedItems[$index]['name']       = HTML::_('link', $item->link, $item->name);
-            $processedItems[$index]['buildingID'] = HTML::_('link', $item->link, $item->buildingName);
-            $processedItems[$index]['roomtypeID'] = HTML::_('link', $item->link, $item->roomtype);
-            $index++;
-        }
+		foreach ($this->items as $item)
+		{
+			$processedItems[$index]               = [];
+			$processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
+			$processedItems[$index]['name']       = HTML::_('link', $item->link, $item->name);
+			$processedItems[$index]['buildingID'] = HTML::_('link', $item->link, $item->buildingName);
+			$processedItems[$index]['roomtypeID'] = HTML::_('link', $item->link, $item->roomtype);
+			$index++;
+		}
 
-        $this->items = $processedItems;
-    }
+		$this->items = $processedItems;
+	}
 }

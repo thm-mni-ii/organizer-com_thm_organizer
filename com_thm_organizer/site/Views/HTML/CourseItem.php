@@ -84,13 +84,10 @@ class CourseItem extends ItemView
 	 */
 	protected function setSubtitle()
 	{
+		$dates  = Courses::getDateDisplay($this->item['id']);
 		$termID = $this->item['preparatory'] ? Terms::getNextID($this->item['termID']) : $this->item['termID'];
 		$term   = Terms::getName($termID);
 
-		$dates     = Courses::getDates($this->item['id']);
-		$endDate   = Dates::formatDate($dates['endDate']);
-		$startDate = Dates::formatDate($dates['startDate']);
-
-		$this->subtitle = "<h6 class=\"sub-title\">$term $startDate - $endDate</h6>";
+		$this->subtitle = "<h6 class=\"sub-title\">$term $dates</h6>";
 	}
 }

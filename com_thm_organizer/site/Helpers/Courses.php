@@ -19,11 +19,7 @@ use Joomla\CMS\Factory;
 class Courses extends ResourceHelper
 {
 	const MANUAL_ACCEPTANCE = 1;
-	const BLOCK_MODE = 2;
-	const INSTANCE_MODE = 3;
-	const TEACHER = 1;
-	const TUTOR = 2;
-	const SPEAKER = 4;
+	const TEACHER = 1, TUTOR = 2, SUPERVISOR = 3, SPEAKER = 4;
 
 	/**
 	 * Check if user is registered as a course's coordinator.
@@ -40,7 +36,7 @@ class Courses extends ResourceHelper
 			return true;
 		}
 
-		if (!$personID and !$personID = Persons::getIDByUserID(Factory::getUser()->id))
+		if (empty($personID) and !$personID = Persons::getIDByUserID(Factory::getUser()->id))
 		{
 			return false;
 		}
@@ -50,19 +46,36 @@ class Courses extends ResourceHelper
 
 		$query->select('COUNT(*)')
 			->from('#__thm_organizer_event_coordinators AS ec')
-			->innerJoin('#__thm_organizer_events AS e ON e.id = ed.eventID')
-			->innerJoin('#__thm_organizer_instances AS i ON i.eventID = e.id')
-			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
 			->where("ec.personID = $personID");
 
 		if ($courseID)
 		{
-			$query->where("u.courseID = $courseID");
+			$query->innerJoin('#__thm_organizer_events AS e ON e.id = ec.eventID')
+				->innerJoin('#__thm_organizer_instances AS i ON i.eventID = e.id')
+				->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
+				->where("u.courseID = $courseID");
 		}
 
 		$dbo->setQuery($query);
 
 		return (bool) OrganizerHelper::executeQuery('loadResult');
+	}
+
+	/**
+	 * Creates a display of formatted dates for a course
+	 *
+	 * @param   int  $courseID  the id of the course to be loaded
+	 *
+	 * @return string the dates to display
+	 */
+	public static function getDateDisplay($courseID)
+	{
+		if ($dates = self::getDates($courseID))
+		{
+			return Dates::getDisplay($dates['startDate'], $dates ['endDate']);
+		}
+
+		return '';
 	}
 
 	/**
@@ -279,6 +292,55 @@ class Courses extends ResourceHelper
 	}
 
 	/**
+	 * Check if user is registered as a person with a course responsibility.
+	 *
+	 * @param   int  $courseID  the optional id of the course
+	 * @param   int  $personID  the optional id of the person
+	 * @param   int  $roleID    the optional if of the person's role
+	 *
+	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 */
+	public static function hasResponsibility($courseID = 0, $personID = 0, $roleID = 0)
+	{
+		if (Access::isAdmin())
+		{
+			return true;
+		}
+
+		if (empty($personID))
+		{
+			$user = Factory::getUser();
+			if (!$personID = Persons::getIDByUserID($user->id))
+			{
+				return false;
+			}
+		}
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_instance_persons AS ip')
+			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
+			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
+			->where("ip.personID = $personID");
+
+		if ($courseID)
+		{
+			$query->where("u.courseID = $courseID");
+		}
+
+		if ($roleID)
+		{
+			$query->where("ip.roleID = $roleID");
+		}
+
+		$dbo->setQuery($query);
+
+		return (bool) OrganizerHelper::executeQuery('loadResult');
+	}
+
+	/**
 	 * Checks if the course is expired
 	 *
 	 * @param   int  $courseID  the id of the course
@@ -342,39 +404,42 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a course's tutor.
+	 * Check if user is registered as a course's speaker.
 	 *
 	 * @param   int  $courseID  the optional id of the course
 	 * @param   int  $personID  the optional id of the person
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user registered as a speaker, otherwise false
+	 */
+	public static function speaks($courseID = 0, $personID = 0)
+	{
+		return self::hasResponsibility($courseID, $personID, self::SPEAKER);
+	}
+
+	/**
+	 * Check if user is registered as a course's supervisor.
+	 *
+	 * @param   int  $courseID  the optional id of the course
+	 * @param   int  $personID  the optional id of the person
+	 *
+	 * @return boolean true if the user registered as a supervisor, otherwise false
+	 */
+	public static function supervises($courseID = 0, $personID = 0)
+	{
+		return self::hasResponsibility($courseID, $personID, self::SUPERVISOR);
+	}
+
+	/**
+	 * Check if user is registered as a course's teacher.
+	 *
+	 * @param   int  $courseID  the optional id of the course
+	 * @param   int  $personID  the optional id of the person
+	 *
+	 * @return boolean true if the user registered as a teacher, otherwise false
 	 */
 	public static function teaches($courseID = 0, $personID = 0)
 	{
-		if (!$personID)
-		{
-			$user     = Factory::getUser();
-			$personID = Persons::getIDByUserID($user->id);
-		}
-
-		$dbo   = Factory::getDbo();
-		$query = $dbo->getQuery(true);
-
-		$query->select('COUNT(*)')
-			->from('#__thm_organizer_instance_persons AS ip')
-			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
-			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
-			->where("ip.personID = $personID")
-			->where('ip.roleID = ' . self::TEACHER);
-
-		if ($courseID)
-		{
-			$query->where("u.courseID = '$courseID'");
-		}
-
-		$dbo->setQuery($query);
-
-		return (bool) OrganizerHelper::executeQuery('loadResult');
+		return self::hasResponsibility($courseID, $personID, self::TEACHER);
 	}
 
 	/**
@@ -383,34 +448,11 @@ class Courses extends ResourceHelper
 	 * @param   int  $courseID  the optional id of the course
 	 * @param   int  $personID  the optional id of the person
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user registered as a tutor, otherwise false
 	 */
 	public static function tutors($courseID = 0, $personID = 0)
 	{
-		if (!$personID)
-		{
-			$user     = Factory::getUser();
-			$personID = Persons::getIDByUserID($user->id);
-		}
-
-		$dbo   = Factory::getDbo();
-		$query = $dbo->getQuery(true);
-
-		$query->select('COUNT(*)')
-			->from('#__thm_organizer_instance_persons AS ip')
-			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
-			->innerJoin('#__thm_organizer_units AS u ON u.id = i.unitID')
-			->where("ip.personID = $personID")
-			->where('ip.roleID = ' . self::TUTOR);
-
-		if ($courseID)
-		{
-			$query->where("u.courseID = '$courseID'");
-		}
-
-		$dbo->setQuery($query);
-
-		return (bool) OrganizerHelper::executeQuery('loadResult');
+		return self::hasResponsibility($courseID, $personID, self::TUTOR);
 	}
 
 //    /**
@@ -618,277 +660,6 @@ class Courses extends ResourceHelper
 //    }
 //
 //    /**
-//     * Retrieves the course instances
-//     *
-//     * @param int    $courseID     the id of the course
-//     * @param int    $mode         the retrieval mode (empty => all, 2 => same block, 3 => single instance
-//     * @param object $calReference a reference calendar entry modeled on an object
-//     *
-//     * @return array the instance ids on success, otherwise empty
-//     */
-//    public static function getInstances($courseID, $mode = null, $calReference = null)
-//    {
-//        $dbo   = Factory::getDbo();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select('map.id')
-//            ->from('#__thm_organizer_calendar_configuration_map AS map')
-//            ->innerJoin('#__thm_organizer_calendar AS cal ON cal.id = map.calendarID')
-//            ->where("cal.lessonID = '$courseID'")
-//            ->where("delta != 'removed'");
-//
-//        // Restrictions
-//        if ($mode == self::BLOCK_MODE or $mode == self::INSTANCE_MODE) {
-//            $query->where("cal.startTime = '$calReference->startTime'");
-//            $query->where("cal.endTime = '$calReference->endTime'");
-//
-//            if ($mode == self::INSTANCE_MODE) {
-//                $query->where("cal.schedule_date = '$calReference->schedule_date'");
-//            } else {
-//                $query->where("DAYOFWEEK(cal.schedule_date) = '$calReference->weekday'");
-//            }
-//        }
-//
-//        $query->order('map.id');
-//        $dbo->setQuery($query);
-//
-//        return OrganizerHelper::executeQuery('loadColumn', []);
-//    }
-//
-//    /**
-//     * Loads course information from the database
-//     *
-//     * @param int $subjectID id of subject with which courses must be associated
-//     * @param int $campusID  id of the course campus
-//     *
-//     * @return array  with course data on success, otherwise empty
-//     */
-//    public static function getLatestCourses($subjectID, $campusID = null)
-//    {
-//        if (empty($subjectID)) {
-//            return [];
-//        }
-//
-//        $dbo   = Factory::getDbo();
-//        $tag   = Languages::getTag();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select('DISTINCT l.id, l.max_participants as lessonP, l.campusID AS campusID')
-//            ->from('#__thm_organizer_lessons AS l')
-//            ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.lessonID = l.id')
-//            ->innerJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = lc.courseID')
-//            ->select("s.id as subjectID, s.name_$tag as name, s.campusID AS abstractCampusID")
-//            ->select('s.instructionLanguage, s.max_participants as subjectP')
-//            ->innerJoin('#__thm_organizer_subjects AS s ON sm.subjectID = s.id')
-//            ->innerJoin('#__thm_organizer_calendar AS ca ON ca.lessonID = l.id')
-//            ->select('term.name as termName')
-//            ->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
-//            ->leftJoin('#__thm_organizer_campuses as cp on s.campusID = cp.id')
-//            ->where("s.id = '$subjectID'")
-//            ->where("(s.is_prep_course = '1' OR s.registration_type IS NOT NULL OR l.registration_type IS NOT NULL)");
-//
-//        $query->order('schedule_date DESC');
-//
-//        if (!empty($campusID)) {
-//            $campusConditions = "(l.campusID = '{$campusID}' OR (l.campusID IS NULL AND ";
-//            $campusConditions .= "(c.id = '{$campusID}' OR c.parentID = '{$campusID}' OR s.campusID IS NULL)))";
-//            $query->where($campusConditions);
-//        }
-//
-//        $dbo->setQuery($query);
-//
-//        $courses = OrganizerHelper::executeQuery('loadAssocList');
-//        if (empty($courses)) {
-//            return [];
-//        }
-//
-//        $campuses = [];
-//
-//        foreach ($courses as $index => &$course) {
-//            $campus   = self::getCampus($course);
-//            $campusID = empty($campus['id']) ? 0 : $campus['id'];
-//
-//            if (isset($campuses[$campusID])) {
-//                unset($courses[$index]);
-//                continue;
-//            }
-//
-//            $course['campus']    = $campus;
-//            $campuses[$campusID] = $campusID;
-//        }
-//
-//        return $courses;
-//    }
-//
-//    /**
-//     * Retrieves a list of lessons associated with a subject
-//     *
-//     * @return array the lessons associated with the subject
-//     */
-//    public static function getLessons()
-//    {
-//        $courseIDs = Input::getFilterIDs('course');
-//        if (empty($courseIDs[0])) {
-//            return [];
-//        }
-//        $courseIDs = implode(',', $courseIDs);
-//
-//        $date = Input::getCMD('date');
-//        if (!Dates::isStandardized($date)) {
-//            $date = date('Y-m-d');
-//        }
-//
-//        $interval = Input::getCMD('interval');
-//        if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
-//            $interval = 'semester';
-//        }
-//
-//        $tag = Languages::getTag();
-//
-//        $dbo = Factory::getDbo();
-//
-//        $query = $dbo->getQuery(true);
-//        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$tag AS method")
-//            ->from('#__thm_organizer_lessons AS l')
-//            ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
-//            ->innerJoin('#__thm_organizer_lesson_courses AS lc on lc.lessonID = l.id')
-//            ->where("lc.courseID IN ($courseIDs)")
-//            ->where("l.delta != 'removed'")
-//            ->where("lc.delta != 'removed'");
-//
-//        $dateTime = strtotime($date);
-//        switch ($interval) {
-//            case 'semester':
-//                $query->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
-//                    ->where("'$date' BETWEEN term.startDate AND term.endDate");
-//                break;
-//            case 'month':
-//                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-//                $startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
-//                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-//                $endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
-//                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-//                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
-//                break;
-//            case 'week':
-//                $startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
-//                $endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
-//                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-//                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
-//                break;
-//            case 'day':
-//                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-//                    ->where("c.schedule_date = '$date'");
-//                break;
-//        }
-//
-//        $dbo->setQuery($query);
-//
-//        $results = OrganizerHelper::executeQuery('loadAssocList');
-//        if (empty($results)) {
-//            return [];
-//        }
-//
-//        $lessons = [];
-//        foreach ($results as $lesson) {
-//            $index = '';
-//
-//            $lesson['subjectName'] = Courses::getName($lesson['subjectID'], true);
-//
-//            $index .= $lesson['subjectName'];
-//
-//            if (!empty($lesson['method'])) {
-//                $index .= " - {$lesson['method']}";
-//            }
-//
-//            $index           .= " - {$lesson['id']}";
-//            $lessons[$index] = $lesson;
-//        }
-//
-//        ksort($lessons);
-//
-//        return $lessons;
-//    }
-//
-//    /**
-//     * Get name of course/lesson
-//     *
-//     * @param int $courseID
-//     *
-//     * @return string
-//     */
-//    public static function getNameByLessonID($courseID = 0)
-//    {
-//        $courseID = Input::getInt('lessonID', $courseID);
-//
-//        if (empty($courseID)) {
-//            return '';
-//        }
-//
-//        $tag   = Languages::getTag();
-//        $dbo   = Factory::getDbo();
-//        $query = $dbo->getQuery(true);
-//        $query->select("name_$tag")
-//            ->from('#__thm_organizer_lesson_courses AS lc')
-//            ->innerJoin('#__thm_organizer_subject_mappings AS map ON map.courseID = lc.courseID')
-//            ->innerJoin('#__thm_organizer_subjects AS s ON s.id = map.subjectID')
-//            ->where("lc.lessonID = '{$courseID}'");
-//        $dbo->setQuery($query);
-//
-//        return (string)OrganizerHelper::executeQuery('loadResult');
-//    }
-//
-//    /**
-//     * Retrieves the course name
-//     *
-//     * @param int     $courseID the table id for the subject
-//     * @param boolean $withNumber
-//     *
-//     * @return string the course name
-//     */
-//    public static function getName($courseID, $withNumber = false)
-//    {
-//        $dbo = Factory::getDbo();
-//        $tag = Languages::getTag();
-//
-//        $query = $dbo->getQuery(true);
-//        $query->select("co.name as courseName, s.name_$tag as name")
-//            ->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
-//            ->select('co.subjectNo as courseSubjectNo, s.code as subjectNo')
-//            ->from('#__thm_organizer_courses AS co')
-//            ->leftJoin('#__thm_organizer_subject_mappings AS sm ON sm.courseID = co.id')
-//            ->leftJoin('#__thm_organizer_subjects AS s ON s.id = sm.subjectID')
-//            ->where("co.id = '$courseID'");
-//
-//        $dbo->setQuery($query);
-//
-//        $names = OrganizerHelper::executeQuery('loadAssoc', []);
-//        if (empty($names)) {
-//            return '';
-//        }
-//
-//        $suffix = '';
-//
-//        if ($withNumber) {
-//            if (!empty($names['subjectNo'])) {
-//                $suffix .= " ({$names['subjectNo']})";
-//            } elseif (!empty($names['courseSubjectNo'])) {
-//                $suffix .= " ({$names['courseSubjectNo']})";
-//            }
-//        }
-//
-//        if (!empty($names['name'])) {
-//            return $names['name'] . $suffix;
-//        }
-//
-//        if (!empty($names['shortName'])) {
-//            return $names['shortName'] . $suffix;
-//        }
-//
-//        return empty($names['courseName']) ? $names['abbreviation'] . $suffix : $names['courseName'] . $suffix;
-//    }
-//
-//    /**
 //     * Creates a status display for the user's relation to the respective course.
 //     *
 //     * @param int $courseID the id of the course
@@ -930,32 +701,6 @@ class Courses extends ResourceHelper
 //    }
 //
 //    /**
-//     * Gets the subject id which corresponds to a given lesson id
-//     *
-//     * @param int $lessonID the id of the course
-//     *
-//     * @return int the id of the subject or 0 if the course could not be resolved to a subject
-//     */
-//    public static function getSubjectID($lessonID)
-//    {
-//        if (empty($lessonID)) {
-//            return 0;
-//        }
-//
-//        $dbo   = Factory::getDbo();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select('sm.subjectID AS id')
-//            ->from('#__thm_organizer_subject_mappings AS sm')
-//            ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.courseID = sm.courseID')
-//            ->where("lc.lessonID = '$lessonID'");
-//
-//        $dbo->setQuery($query);
-//
-//        return (int)OrganizerHelper::executeQuery('loadResult');
-//    }
-//
-//    /**
 //     * Check if the course is open for registration
 //     *
 //     * @param int $courseID id of lesson
@@ -986,37 +731,6 @@ class Courses extends ResourceHelper
 //    }
 //
 //    /**
-//     * Get formatted array with all prep courses in format id => name
-//     *
-//     * @return array  assoc array with all prep courses with id => name
-//     */
-//    public static function prepCourseList()
-//    {
-//        $dbo   = Factory::getDbo();
-//        $tag   = Languages::getTag();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select("id, name_$tag AS name")
-//            ->from('#__thm_organizer_subjects')
-//            ->where("is_prep_course = '1'")
-//            ->order('name ASC');
-//
-//        $dbo->setQuery($query);
-//
-//        $courses = OrganizerHelper::executeQuery('loadAssocList');
-//        if (empty($courses)) {
-//            return [];
-//        }
-//
-//        $return = [];
-//        foreach ($courses as $course) {
-//            $return[$course['id']] = $course['name'];
-//        }
-//
-//        return $return;
-//    }
-//
-//    /**
 //     * Might move users from state waiting to registered
 //     *
 //     * @param int $courseID lesson id of lesson where participants have to be moved up
@@ -1044,40 +758,5 @@ class Courses extends ResourceHelper
 //                Participants::changeState($nextParticipantID, $courseID, 1);
 //            }
 //        }
-//    }
-//
-//    /**
-//     * Check if user is registered as a person, optionally for a specific course
-//     *
-//     * @param int $lessonID id of the lesson resource
-//     *
-//     * @return boolean if user is authorized
-//     */
-//    public static function teaches($lessonID = 0)
-//    {
-//        $subjectID = self::getSubjectID($lessonID);
-//
-//        // Documented coordinator
-//        if (Access::allowSubjectAccess($subjectID)) {
-//            return true;
-//        }
-//
-//        $user  = Factory::getUser();
-//        $dbo   = Factory::getDbo();
-//        $query = $dbo->getQuery(true);
-//
-//        $query->select('COUNT(*)')
-//            ->from('#__thm_organizer_lesson_courses AS lc')
-//            ->innerJoin('#__thm_organizer_lesson_persons AS lt ON lt.lessonCourseID = lc.id')
-//            ->innerJoin('#__thm_organizer_persons AS t ON t.id = lt.personID')
-//            ->where("t.username = '{$user->username}'");
-//
-//        if (!empty($lessonID)) {
-//            $query->where("lc.lessonID = '$lessonID'");
-//        }
-//
-//        $dbo->setQuery($query);
-//
-//        return (bool)OrganizerHelper::executeQuery('loadResult');
 //    }
 }

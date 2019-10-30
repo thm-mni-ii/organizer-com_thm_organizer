@@ -65,8 +65,8 @@ class Subjects extends ListView
 		$toolbar = Toolbar::getInstance();
 		if ($this->documentAccess)
 		{
-			$toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'subject.add', false);
-			$toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'subject.edit', true);
+			$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'subject.add', false);
+			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'subject.edit', true);
 			$toolbar->appendButton(
 				'Standard',
 				'upload',
