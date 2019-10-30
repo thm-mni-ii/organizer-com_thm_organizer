@@ -115,6 +115,10 @@ abstract class BaseHTMLView extends BaseView
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=schedules',
 				'active' => $viewName == 'schedules'
 			];
+			$scheduling[Languages::_('THM_ORGANIZER_EVENTS')]     = [
+				'url'    => 'index.php?option=com_thm_organizer&amp;view=events',
+				'active' => $viewName == 'events'
+			];
 			ksort($scheduling);
 
 			// Uploading a schedule should always be the first menu item and will never be the active submenu item.
@@ -159,7 +163,7 @@ abstract class BaseHTMLView extends BaseView
 
 		if (Access::allowCourseAccess())
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_COURSES') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_COURSE_MANAGEMENT') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 
 			$courseItems                                             = [];
@@ -167,18 +171,14 @@ abstract class BaseHTMLView extends BaseView
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=courses',
 				'active' => $viewName == 'courses'
 			];
-			$courseItems[Languages::_('THM_ORGANIZER_EVENTS')]       = [
-				'url'    => 'index.php?option=com_thm_organizer&amp;view=events',
-				'active' => $viewName == 'events'
-			];
 			$courseItems[Languages::_('THM_ORGANIZER_PARTICIPANTS')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=participants',
 				'active' => $viewName == 'participants'
 			];
-            $courseItems[Languages::_('THM_ORGANIZER_UNITS')]        = [
-                'url'    => 'index.php?option=com_thm_organizer&amp;view=units',
-                'active' => $viewName == 'units'
-            ];
+			$courseItems[Languages::_('THM_ORGANIZER_UNITS')]        = [
+				'url'    => 'index.php?option=com_thm_organizer&amp;view=units',
+				'active' => $viewName == 'units'
+			];
 			ksort($courseItems);
 
 			foreach ($courseItems as $key => $value)

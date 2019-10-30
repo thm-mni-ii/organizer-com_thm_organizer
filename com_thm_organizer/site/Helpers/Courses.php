@@ -35,10 +35,14 @@ class Courses extends ResourceHelper
 	 */
 	public static function coordinates($courseID = 0, $personID = 0)
 	{
-		if (!$personID)
+		if (Access::isAdmin())
 		{
-			$user     = Factory::getUser();
-			$personID = Persons::getIDByUserID($user->id);
+			return true;
+		}
+
+		if (!$personID and !$personID = Persons::getIDByUserID(Factory::getUser()->id))
+		{
+			return false;
 		}
 
 		$dbo   = Factory::getDbo();
@@ -53,7 +57,7 @@ class Courses extends ResourceHelper
 
 		if ($courseID)
 		{
-			$query->where("u.courseID = '$courseID'");
+			$query->where("u.courseID = $courseID");
 		}
 
 		$dbo->setQuery($query);
@@ -108,7 +112,8 @@ class Courses extends ResourceHelper
 			->from('#__thm_organizer_events AS e')
 			->innerJoin('#__thm_organizer_instances AS i on i.eventID = e.id')
 			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
-			->where("u.courseID = $courseID");
+			->where("u.courseID = $courseID")
+			->order('name ASC');
 
 		$dbo->setQuery($query);
 		if (!$events = OrganizerHelper::executeQuery('loadAssocList', []))
@@ -124,6 +129,34 @@ class Courses extends ResourceHelper
 		}
 
 		return $events;
+	}
+
+	/**
+	 * Attempts to retrieve the name of the resource.
+	 *
+	 * @param   int  $courseID  the id of the resource
+	 *
+	 * @return string
+	 */
+	public static function getName($courseID)
+	{
+		if ($explicitName = parent::getName($courseID))
+		{
+			return $explicitName;
+		}
+
+		if (!$events = self::getEvents($courseID))
+		{
+			return '';
+		}
+
+		$eventNames = [];
+		foreach ($events as $event)
+		{
+			$eventNames[$event['name']] = $event['name'];
+		}
+
+		return implode(' / ', $eventNames);
 	}
 
 	/**

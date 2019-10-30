@@ -1,40 +1,51 @@
-.main h1.page-title span[class^="icon-"] {
+body.tmpl-index .main h1.page-title span[class^="icon-"] {
     display: none;
 }
 
-.main .btn-toolbar {
+body.tmpl-index .main .btn-toolbar {
     display: flex;
     flex-direction: row;
 }
 
-.main .btn-toolbar .btn-wrapper {
+body.tmpl-index .main .btn-toolbar .btn-wrapper {
     margin-right: 5px;
 }
 
-.main .btn-toolbar button {
+body.tmpl-index .main .btn-toolbar button {
     font-size: .9rem;
 }
 
-.main .js-stools .js-stools-container-bar {
+body.tmpl-index .main .js-stools .js-stools-container-bar {
     display: flex;
 }
 
-.main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+body.tmpl-index .main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
     border-bottom-color: initial;
 }
 
-.main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+body.tmpl-index .main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
     border-top-color: #ffffff;
 }
 
-.main .js-stools .js-stools-container-bar .input-append input {
-    height: 1.4rem;
+body.tmpl-index .main .js-stools .js-stools-container-bar .input-append input {
+    border: 2px solid #4a5c66;
+    height: 1.34rem;
 }
 
-.main .js-stools .js-stools-container-bar .input-append input + button {
+body.tmpl-index .main .js-stools .js-stools-container-bar .input-append input + button {
     font-size: .9rem;
     height: 1.85rem;
     margin-top: .2rem;
+    margin-right: .5rem;
+}
+
+body.tmpl-index .main .js-stools .js-stools-container-list {
+    display: flex;
+}
+
+body.tmpl-index .main .js-stools .js-stools-container-list .js-stools-field-list select {
+    border: 2px solid #4a5c66;
+    width: 10rem;
 }
 
 /* chosen library overwrites ******************************************************************************************/

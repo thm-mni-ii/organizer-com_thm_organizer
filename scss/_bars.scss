@@ -1,5 +1,6 @@
 @import "variables";
 
+body.tmpl-index
 .main {
   h1.page-title span[class^="icon-"] {
     display: none;
@@ -32,13 +33,24 @@
     }
 
     .input-append input {
-      height: 1.4rem;
+      border: $border-darkest-thick;
+      height: 1.34rem;
     }
 
     .input-append input + button {
       font-size: .9rem;
       height: 1.85rem;
       margin-top: .2rem;
+      margin-right: .5rem;
+    }
+  }
+
+  .js-stools .js-stools-container-list {
+    display: flex;
+
+    .js-stools-field-list select {
+      border: $border-darkest-thick;
+      width: 10rem;
     }
   }
 }

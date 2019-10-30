@@ -191,17 +191,17 @@ class Subjects extends ListView
 			return;
 		}
 
+		$backend        = $this->clientContext === self::BACKEND;
+		$editLink       = 'index.php?option=com_thm_organizer&view=subject_edit&id=';
 		$index          = 0;
 		$itemLink       = 'index.php?option=com_thm_organizer&view=subject_item&id=';
-		$editLink       = 'index.php?option=com_thm_organizer&view=subject_edit&id=';
 		$processedItems = [];
 
 		foreach ($this->items as $subject)
 		{
 			$access   = Access::allowSubjectAccess($subject->id);
 			$checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
-			$thisLink = ($this->clientContext === self::BACKEND and $access) ?
-				$editLink . $subject->id : $itemLink . $subject->id;
+			$thisLink = ($backend and $access) ? $editLink . $subject->id : $itemLink . $subject->id;
 
 			$processedItems[$index]                 = [];
 			$processedItems[$index]['checkbox']     = $checkbox;
