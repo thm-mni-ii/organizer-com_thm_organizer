@@ -79,16 +79,11 @@ class Instances extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
 		$index          = 0;
 		$link           = 'index.php?option=com_thm_organizer&view=instance_edit&id=';
-		$processedItems = [];
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
@@ -108,15 +103,15 @@ class Instances extends ListView
 			}
 
 			$thisLink                           = $link . $item->id;
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['term']     = HTML::_('link', $thisLink, $item->term);
-			$processedItems[$index]['status']   = HTML::_('link', $thisLink, $status);
+			$structuredItems[$index]             = [];
+			$structuredItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+			$structuredItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
+			$structuredItems[$index]['term']     = HTML::_('link', $thisLink, $item->term);
+			$structuredItems[$index]['status']   = HTML::_('link', $thisLink, $status);
 
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

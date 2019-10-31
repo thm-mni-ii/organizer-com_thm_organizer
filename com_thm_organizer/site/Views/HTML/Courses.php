@@ -79,7 +79,7 @@ class Courses extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
 		if (empty($this->items))
 		{

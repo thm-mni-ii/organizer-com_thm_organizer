@@ -20,6 +20,8 @@ use Organizer\Helpers\Languages;
  */
 class Degrees extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'name' => 'link', 'abbreviation' => 'link', 'code' => 'link'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -72,33 +74,5 @@ class Degrees extends ListView
 		$headers['code'] = HTML::sort('DEGREE_CODE', 'code', $direction, $ordering);
 
 		return $headers;
-	}
-
-	/**
-	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-	 *
-	 * @return void processes the class items property
-	 */
-	protected function preProcessItems()
-	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
-
-		foreach ($this->items as $item)
-		{
-			$processedItems[$index]                 = [];
-			$processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']         = HTML::_('link', $item->link, $item->name);
-			$processedItems[$index]['abbreviation'] = HTML::_('link', $item->link, $item->abbreviation);
-			$processedItems[$index]['code']         = HTML::_('link', $item->link, $item->code);
-			$index++;
-		}
-
-		$this->items = $processedItems;
 	}
 }

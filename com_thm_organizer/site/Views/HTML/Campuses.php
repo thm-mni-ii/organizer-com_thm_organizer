@@ -21,6 +21,14 @@ use Organizer\Helpers\Languages;
  */
 class Campuses extends ListView
 {
+	protected $rowStructure = [
+		'checkbox' => '',
+		'name'     => 'link',
+		'address'  => 'link',
+		'location' => 'value',
+		'gridID'   => 'link'
+	];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -78,31 +86,21 @@ class Campuses extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$processedItems = [];
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
 			if (empty($item->parentID))
 			{
 				$index = $item->name;
-				$name  = $item->name;
 			}
 			else
 			{
-				$index = "{$item->parentName}-{$item->name}";
-				$name  = "|&nbsp;&nbsp;-&nbsp;{$item->name}";
+				$index      = "{$item->parentName}-{$item->name}";
+				$item->name = "|&nbsp;&nbsp;-&nbsp;{$item->name}";
 			}
-
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']     = HTML::_('link', $item->link, $name);
 
 			$address    = '';
 			$ownAddress = (!empty($item->address) or !empty($item->city) or !empty($item->zipCode));
@@ -118,8 +116,8 @@ class Campuses extends ListView
 				$address        = implode(' ', $addressParts);
 			}
 
-			$processedItems[$index]['address']  = $address;
-			$processedItems[$index]['location'] = CampusesHelper::getPin($item->location);
+			$item->address  = $address;
+			$item->location = CampusesHelper::getPin($item->location);
 
 			if (!empty($item->gridName))
 			{
@@ -133,11 +131,13 @@ class Campuses extends ListView
 			{
 				$gridName = Languages::_('JNONE');
 			}
-			$processedItems[$index]['gridID'] = $gridName;
+			$item->gridID = $gridName;
+
+			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 		}
 
-		asort($processedItems);
+		asort($structuredItems);
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

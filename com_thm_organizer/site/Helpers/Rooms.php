@@ -18,105 +18,90 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Rooms extends ResourceHelper implements Selectable
 {
-    use Filtered;
+	use Filtered;
 
-    /**
-     * Retrieves a list of resources in the form of name => id.
-     *
-     * @return array the resources, or empty
-     */
-    public static function getOptions()
-    {
-        $options = [];
-        foreach (self::getResources() as $room) {
-            $options[] = HTML::_('select.option', $room['id'], $room['name']);
-        }
+	/**
+	 * Retrieves a list of resources in the form of name => id.
+	 *
+	 * @return array the resources, or empty
+	 */
+	public static function getOptions()
+	{
+		$options = [];
+		foreach (self::getResources() as $room)
+		{
+			$options[] = HTML::_('select.option', $room['id'], $room['name']);
+		}
 
-        return $options;
-    }
+		return $options;
+	}
 
-    /**
-     * Retrieves the ids for filtered rooms used in events.
-     *
-     * @return array the rooms used in actual events which meet the filter criteria
-     */
-    public static function getPlannedRooms()
-    {
-        $allRooms = self::getResources();
-        $default  = [];
+	/**
+	 * Retrieves the ids for filtered rooms used in events.
+	 *
+	 * @return array the rooms used in actual events which meet the filter criteria
+	 */
+	public static function getPlannedRooms()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('r.id, r.name, rt.id AS roomtypeID')
+			->from('#__thm_organizer_rooms AS r')
+			->innerJoin('#__thm_organizer_instance_rooms AS ir ON ir.roomID = r.id')
+			->leftJoin('#__thm_organizer_roomtypes AS rt ON ir.roomID = r.id')
+			->order('r.name');
 
-        if (empty($allRooms)) {
-            return $default;
-        }
+		if ($selectedDepartment = Input::getFilterID('department'))
+		{
+			$query->innerJoin('#__thm_organizer_instance_groups AS ig ON ig.assocID = ir.assocID')
+				->innerJoin('#__thm_organizer_groups AS g ON g.id = ig.groupID')
+				->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = g.categoryID')
+				->where("dr.departmentID = $selectedDepartment");
 
-        $app           = OrganizerHelper::getApplication();
-        $dbo           = Factory::getDbo();
-        $relevantRooms = [];
+			if ($selectedCategory = Input::getFilterID('category'))
+			{
+				$query->where("g.categoryID  = $selectedCategory");
+			}
+		}
 
-        $selectedDepartment = $app->input->getInt('departmentIDs');
-        $selectedCategories = explode(',', $app->input->getString('categoryIDs'));
-        $categoryIDs        = $selectedCategories[0] > 0 ?
-            implode(',', ArrayHelper::toInteger($selectedCategories)) : '';
+		$dbo->setQuery($query);
 
-        $query = $dbo->getQuery(true);
-        $query->select('COUNT(DISTINCT lcnf.id)')
-            ->from('#__thm_organizer_lesson_configurations AS lcnf')
-            ->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.id = lcnf.lessonCourseID')
-            ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.lessonCourseID = lcrs.id')
-            ->innerJoin('#__thm_organizer_groups AS gr ON gr.id = lg.groupID')
-            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
+		if (!$results = OrganizerHelper::executeQuery('loadAssocList', []))
+		{
+			return [];
+		}
 
-        foreach ($allRooms as $room) {
-            $query->clear('where');
-            // Negative lookaheads are not possible in MySQL and POSIX (e.g. [[:colon:]]) is not in MariaDB
-            // This regex is compatible with both
-            $regex = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $room['id'] . '":("new"|"")';
-            $query->where("lcnf.configuration REGEXP '$regex'");
+		$plannedRooms = [];
+		foreach ($results as $result)
+		{
+			$plannedRooms[$result['name']] = ['id' => $result['id'], 'roomtypeID' => $result['roomtypeID']];
+		}
 
-            if (!empty($selectedDepartment)) {
-                $query->where("dr.departmentID = $selectedDepartment");
+		return $plannedRooms;
+	}
 
-                if (!empty($categoryIDs)) {
-                    $query->where("gr.programID in ($categoryIDs)");
-                }
-            }
+	/**
+	 * Retrieves all room entries which match the given filter criteria. Ordered by their display names.
+	 *
+	 * @return array the rooms matching the filter criteria or empty if none were found
+	 */
+	public static function getResources()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT r.id, r.*")
+			->from('#__thm_organizer_rooms AS r');
 
-            $dbo->setQuery($query);
+		self::addResourceFilter($query, 'roomtype', 'rt', 'r');
+		self::addResourceFilter($query, 'building', 'b1', 'r');
 
-            $count = OrganizerHelper::executeQuery('loadResult');
+		// This join is used specifically to filter campuses independent of buildings.
+		$query->leftJoin('#__thm_organizer_buildings AS b2 ON b2.id = r.buildingID');
+		self::addCampusFilter($query, 'b2');
 
-            if (!empty($count)) {
-                $relevantRooms[$room['name']] = ['id' => $room['id'], 'roomtypeID' => $room['roomtypeID']];
-            }
-        }
+		$query->order('name');
+		$dbo->setQuery($query);
 
-        ksort($relevantRooms);
-
-        return $relevantRooms;
-    }
-
-    /**
-     * Retrieves all room entries which match the given filter criteria. Ordered by their display names.
-     *
-     * @return array the rooms matching the filter criteria or empty if none were found
-     */
-    public static function getResources()
-    {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT r.id, r.*")
-            ->from('#__thm_organizer_rooms AS r');
-
-        self::addResourceFilter($query, 'roomtype', 'rt', 'r');
-        self::addResourceFilter($query, 'building', 'b1', 'r');
-
-        // This join is used specifically to filter campuses independent of buildings.
-        $query->leftJoin('#__thm_organizer_buildings AS b2 ON b2.id = r.buildingID');
-        self::addCampusFilter($query, 'b2');
-
-        $query->order('name');
-        $dbo->setQuery($query);
-
-        return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
+		return OrganizerHelper::executeQuery('loadAssocList', []);
+	}
 }

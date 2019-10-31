@@ -20,6 +20,14 @@ use Organizer\Helpers\Languages;
  */
 class Programs extends ListView
 {
+	protected $rowStructure = [
+		'checkbox'    => '',
+		'programName' => 'link',
+		'degree'      => 'link',
+		'version'     => 'link',
+		'department'  => 'link'
+	];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -81,42 +89,12 @@ class Programs extends ListView
 		$direction = $this->state->get('list.direction');
 		$headers   = [];
 
-		$headers['checkbox']     = '';
-		$headers['dp.name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-		$headers['degreeID']     = Languages::_('THM_ORGANIZER_DEGREE');
-		$headers['version']      = Languages::_('THM_ORGANIZER_VERSION');
-		$headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
+		$headers['checkbox']    = '';
+		$headers['programName'] = HTML::sort('NAME', 'programName', $direction, $ordering);
+		$headers['degree']      = HTML::sort('DEGREE', 'degree', $direction, $ordering);
+		$headers['version']     = HTML::sort('VERSION', 'version', $direction, $ordering);
+		$headers['department']  = HTML::sort('DEPARTMENT', 'department', $direction, $ordering);
 
 		return $headers;
-	}
-
-	/**
-	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-	 *
-	 * @return void processes the class items property
-	 */
-	protected function preProcessItems()
-	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=program_edit&id=';
-		$processedItems = [];
-
-		foreach ($this->items as $item)
-		{
-			$thisLink                               = $link . $item->id;
-			$processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['dp.name']      = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['degreeID']     = HTML::_('link', $thisLink, $item->abbreviation);
-			$processedItems[$index]['version']      = HTML::_('link', $thisLink, $item->version);
-			$processedItems[$index]['departmentID'] = HTML::_('link', $thisLink, $item->department);
-			$index++;
-		}
-
-		$this->items = $processedItems;
 	}
 }

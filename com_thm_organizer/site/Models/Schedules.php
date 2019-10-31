@@ -18,39 +18,41 @@ use Organizer\Helpers\Languages;
  */
 class Schedules extends ListModel
 {
-    protected $defaultOrdering = 'created';
+	protected $defaultOrdering = 'created';
 
-    protected $defaultDirection = 'DESC';
+	protected $defaultDirection = 'DESC';
 
-    /**
-     * generates the query to be used to fill the output list
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $dbo   = $this->getDbo();
-        $tag   = Languages::getTag();
-        $query = $dbo->getQuery(true);
+	protected $filter_fields = ['active', 'departmentID', 'termID'];
 
-        $createdParts = ['s.creationDate', 's.creationTime'];
-        $query->select('s.id, s.active, s.creationDate, s.creationTime')
-            ->select($query->concatenate($createdParts, ' ') . ' AS created ')
-            ->select("d.id AS departmentID, d.shortName_$tag AS departmentName")
-            ->select('term.id AS termID, term.name AS termName')
-            ->select('u.name AS userName')
-            ->from('#__thm_organizer_schedules AS s')
-            ->innerJoin('#__thm_organizer_departments AS d ON s.departmentID = d.id')
-            ->innerJoin('#__thm_organizer_terms AS term ON term.id = s.termID')
-            ->leftJoin('#__users AS u ON u.id = s.userID');
+	/**
+	 * generates the query to be used to fill the output list
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$dbo   = $this->getDbo();
+		$tag   = Languages::getTag();
+		$query = $dbo->getQuery(true);
 
-        $allowedDepartments = implode(', ', Access::getAccessibleDepartments('schedule'));
-        $query->where("d.id IN ($allowedDepartments)");
+		$createdParts = ['s.creationDate', 's.creationTime'];
+		$query->select('s.id, s.active, s.creationDate, s.creationTime')
+			->select($query->concatenate($createdParts, ' ') . ' AS created ')
+			->select("d.id AS departmentID, d.shortName_$tag AS departmentName")
+			->select('term.id AS termID, term.name AS termName')
+			->select('u.name AS userName')
+			->from('#__thm_organizer_schedules AS s')
+			->innerJoin('#__thm_organizer_departments AS d ON s.departmentID = d.id')
+			->innerJoin('#__thm_organizer_terms AS term ON term.id = s.termID')
+			->leftJoin('#__users AS u ON u.id = s.userID');
 
-        $this->setValueFilters($query, ['departmentID', 'termID', 'active']);
+		$allowedDepartments = implode(', ', Access::getAccessibleDepartments('schedule'));
+		$query->where("d.id IN ($allowedDepartments)");
 
-        $this->setOrdering($query);
+		$this->setValueFilters($query, ['departmentID', 'termID', 'active']);
 
-        return $query;
-    }
+		$this->setOrdering($query);
+
+		return $query;
+	}
 }

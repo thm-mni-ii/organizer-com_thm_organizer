@@ -24,6 +24,14 @@ class Groups extends ListView
 {
 	public $batch;
 
+	protected $rowStructure = [
+		'checkbox' => '',
+		'fullName' => 'link',
+		'name'     => 'link',
+		'grid'     => 'link',
+		'untisID'  => 'link'
+	];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -117,30 +125,19 @@ class Groups extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=group_edit&id=';
-		$processedItems = [];
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=group_edit&id=';
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$thisLink                           = $link . $item->id;
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['fullName'] = HTML::_('link', $thisLink, $item->fullName);
-			$processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
-			$gridName                           = empty($item->gridID) ? '' : Grids::getName($item->gridID);
-			$processedItems[$index]['grid']     = HTML::_('link', $thisLink, $gridName);
-			$processedItems[$index]['untisID']  = HTML::_('link', $thisLink, $item->untisID);
+			$item->grid              = Grids::getName($item->gridID);
+			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

@@ -20,6 +20,8 @@ use Organizer\Helpers\Languages;
  */
 class Rooms extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'roomName' => 'link', 'buildingName' => 'link', 'roomType' => 'link'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -66,39 +68,11 @@ class Rooms extends ListView
 		$direction = $this->state->get('list.direction');
 		$headers   = [];
 
-		$headers['checkbox']   = '';
-		$headers['name']       = HTML::sort('NAME', 'r.name', $direction, $ordering);
-		$headers['buildingID'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
-		$headers['roomtypeID'] = HTML::sort('TYPE', 'roomtype', $direction, $ordering);
+		$headers['checkbox']     = '';
+		$headers['roomName']     = HTML::sort('NAME', 'roomName', $direction, $ordering);
+		$headers['buildingName'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
+		$headers['roomType']     = HTML::sort('TYPE', 'roomType', $direction, $ordering);
 
 		return $headers;
-	}
-
-	/**
-	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-	 *
-	 * @return void processes the class items property
-	 */
-	protected function preProcessItems()
-	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
-
-		foreach ($this->items as $item)
-		{
-			$processedItems[$index]               = [];
-			$processedItems[$index]['checkbox']   = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']       = HTML::_('link', $item->link, $item->name);
-			$processedItems[$index]['buildingID'] = HTML::_('link', $item->link, $item->buildingName);
-			$processedItems[$index]['roomtypeID'] = HTML::_('link', $item->link, $item->roomtype);
-			$index++;
-		}
-
-		$this->items = $processedItems;
 	}
 }

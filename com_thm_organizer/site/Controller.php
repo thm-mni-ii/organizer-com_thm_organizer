@@ -148,10 +148,10 @@ class Controller extends BaseController
 	 */
 	public function changeParticipantState()
 	{
-		$lessonID = Input::getID();
+		$courseID = Input::getID();
 		$url      = Routing::getRedirectBase();
 
-		if (empty($lessonID))
+		if (empty($courseID))
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_INVALID_REQUEST', 'error');
 			$this->setRedirect(Route::_($url, false));
@@ -168,7 +168,7 @@ class Controller extends BaseController
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 		}
 
-		$url .= "&view=courses&lessonID=$lessonID";
+		$url .= "&view=courses&id=$courseID";
 		$this->setRedirect(Route::_($url, false));
 	}
 
@@ -176,6 +176,7 @@ class Controller extends BaseController
 	 * Sends an circular email to all course participants
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function circular()
 	{
@@ -197,6 +198,7 @@ class Controller extends BaseController
 	 * Makes call to the models's delete function, and redirects to the manager view.
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function delete()
 	{
@@ -255,7 +257,7 @@ class Controller extends BaseController
 
 			if (is_array($urlparams))
 			{
-				$app = \JFactory::getApplication();
+				$app = OrganizerHelper::getApplication();
 
 				if (!empty($app->registeredurlparams))
 				{
@@ -328,7 +330,7 @@ class Controller extends BaseController
 			$model->setState('task', $this->task);
 
 			// Let's get the application object and set menu information if it's available
-			$menu = Factory::getApplication()->getMenu();
+			$menu = OrganizerHelper::getApplication()->getMenu();
 
 			if (is_object($menu) && $item = $menu->getActive())
 			{

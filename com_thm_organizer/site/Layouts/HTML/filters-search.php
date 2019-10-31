@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\Registry\Registry;
-use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 // Receive overridable options
@@ -21,11 +20,10 @@ if (is_array($options))
 	$options = new Registry($options);
 }
 
-// Options
-$filterButton = $options->get('filterButton', true);
-$searchButton = $options->get('searchButton', true);
+$filters          = $this->filterForm->getGroup('filter');
+$searchButton     = $options->get('searchButton', true);
+$showFilterButton = empty($filters['filter_search']) ? (bool) count($filters) : count($filters) > 1;
 
-$filters = $this->filterForm->getGroup('filter');
 ?>
 
 <?php if (!empty($filters['filter_search'])) : ?>
@@ -47,7 +45,7 @@ $filters = $this->filterForm->getGroup('filter');
         </div>
 	<?php endif; ?>
 <?php endif; ?>
-<?php if ($filterButton) : ?>
+<?php if ($showFilterButton) : ?>
     <div class="btn-wrapper hidden-phone">
         <button type="button" class="btn hasTooltip js-stools-btn-filter"
                 title="<?php echo Languages::tooltip('THM_ORGANIZER_SEARCH_TOOLS_DESC'); ?>">

@@ -17,90 +17,96 @@ use Organizer\Helpers\Input;
  */
 class Monitors extends ListModel
 {
-    protected $defaultOrdering = 'r.name';
+	protected $defaultOrdering = 'r.name';
 
-    /**
-     * builds the query used to compile the items for the lsit ouput
-     *
-     * @return object
-     */
-    protected function getListQuery()
-    {
-        $query = $this->_db->getQuery(true);
+	protected $filter_fields = ['content', 'display', 'useDefaults'];
 
-        $select = 'm.id, r.name, m.ip, m.useDefaults, m.display, m.content, ';
-        $parts  = ["'index.php?option=com_thm_organizer&view=monitor_edit&id='", 'm.id'];
-        $select .= $query->concatenate($parts, '') . ' AS link ';
-        $query->select($this->state->get('list.select', $select));
-        $query->from('#__thm_organizer_monitors AS m');
-        $query->leftJoin('#__thm_organizer_rooms AS r ON r.id = m.roomID');
+	/**
+	 * builds the query used to compile the items for the lsit ouput
+	 *
+	 * @return object
+	 */
+	protected function getListQuery()
+	{
+		$query = $this->_db->getQuery(true);
 
-        $this->setSearchFilter($query, ['r.name', 'm.ip']);
-        $this->setValueFilters($query, ['name', 'ip', 'useDefaults']);
-        $this->addDisplayFilter($query);
-        $this->addContentFilter($query);
+		$select = 'm.id, r.name, m.ip, m.useDefaults, m.display, m.content, ';
+		$parts  = ["'index.php?option=com_thm_organizer&view=monitor_edit&id='", 'm.id'];
+		$select .= $query->concatenate($parts, '') . ' AS link ';
+		$query->select($this->state->get('list.select', $select));
+		$query->from('#__thm_organizer_monitors AS m');
+		$query->leftJoin('#__thm_organizer_rooms AS r ON r.id = m.roomID');
 
-        $this->setOrdering($query);
+		$this->setSearchFilter($query, ['r.name', 'm.ip']);
+		$this->setValueFilters($query, ['useDefaults']);
+		$this->addDisplayFilter($query);
+		$this->addContentFilter($query);
 
-        return $query;
-    }
+		$this->setOrdering($query);
 
-    /**
-     * Adds the filter settings for display behaviour
-     *
-     * @param object &$query the query object
-     *
-     * @return void
-     */
-    private function addDisplayFilter(&$query)
-    {
-        $requestDisplay = $this->state->get('filter.display', '');
+		return $query;
+	}
 
-        if ($requestDisplay === '') {
-            return;
-        }
+	/**
+	 * Adds the filter settings for display behaviour
+	 *
+	 * @param   object &$query  the query object
+	 *
+	 * @return void
+	 */
+	private function addDisplayFilter(&$query)
+	{
+		$requestDisplay = $this->state->get('filter.display', '');
 
-        $where = "m.display ='$requestDisplay'";
+		if ($requestDisplay === '')
+		{
+			return;
+		}
 
-        $params              = Input::getParams();
-        $defaultDisplay      = $params->get('display', '');
-        $useComponentDisplay = (!empty($defaultDisplay) and $requestDisplay == $defaultDisplay);
-        if ($useComponentDisplay) {
-            $query->where("( $where OR useDefaults = '1')");
+		$where = "m.display ='$requestDisplay'";
 
-            return;
-        }
+		$params              = Input::getParams();
+		$defaultDisplay      = $params->get('display', '');
+		$useComponentDisplay = (!empty($defaultDisplay) and $requestDisplay == $defaultDisplay);
+		if ($useComponentDisplay)
+		{
+			$query->where("( $where OR useDefaults = '1')");
 
-        $query->where($where);
-    }
+			return;
+		}
 
-    /**
-     * Adds the filter settings for displayed content
-     *
-     * @param object &$query the query object
-     *
-     * @return void
-     */
-    private function addContentFilter(&$query)
-    {
-        $params         = Input::getParams();
-        $requestContent = $this->state->get('filter.content', '');
+		$query->where($where);
+	}
 
-        if ($requestContent === '') {
-            return;
-        }
+	/**
+	 * Adds the filter settings for displayed content
+	 *
+	 * @param   object &$query  the query object
+	 *
+	 * @return void
+	 */
+	private function addContentFilter(&$query)
+	{
+		$params         = Input::getParams();
+		$requestContent = $this->state->get('filter.content', '');
 
-        $requestContent = $requestContent == '-1' ? '' : $requestContent;
-        $where          = "m.content ='$requestContent'";
+		if ($requestContent === '')
+		{
+			return;
+		}
 
-        $defaultContent      = $params->get('content', '');
-        $useComponentContent = ($requestContent == $defaultContent);
-        if ($useComponentContent) {
-            $query->where("( $where OR useDefaults = '1')");
+		$requestContent = $requestContent == '-1' ? '' : $requestContent;
+		$where          = "m.content ='$requestContent'";
 
-            return;
-        }
+		$defaultContent      = $params->get('content', '');
+		$useComponentContent = ($requestContent == $defaultContent);
+		if ($useComponentContent)
+		{
+			$query->where("( $where OR useDefaults = '1')");
 
-        $query->where($where);
-    }
+			return;
+		}
+
+		$query->where($where);
+	}
 }

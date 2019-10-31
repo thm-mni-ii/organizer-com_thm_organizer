@@ -20,6 +20,8 @@ use Organizer\Helpers\Languages;
  */
 class Departments extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'shortName' => 'link', 'name' => 'link'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -67,32 +69,5 @@ class Departments extends ListView
 		$headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
 
 		return $headers;
-	}
-
-	/**
-	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-	 *
-	 * @return void processes the class items property
-	 */
-	protected function preProcessItems()
-	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
-
-		foreach ($this->items as $item)
-		{
-			$processedItems[$index]              = [];
-			$processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['shortName'] = HTML::_('link', $item->link, $item->shortName);
-			$processedItems[$index]['name']      = HTML::_('link', $item->link, $item->name);
-			$index++;
-		}
-
-		$this->items = $processedItems;
 	}
 }

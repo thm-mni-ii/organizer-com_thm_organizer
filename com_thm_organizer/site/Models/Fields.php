@@ -17,28 +17,30 @@ use Organizer\Helpers\Languages;
  */
 class Fields extends ListModel
 {
-    protected $defaultOrdering = 'field';
+	protected $defaultOrdering = 'field';
 
-    /**
-     * Method to get all colors from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $tag   = Languages::getTag();
-        $query = $this->_db->getQuery(true);
+	protected $filter_fields = ['colorID'];
 
-        $query->select("f.id, untisID, f.name_$tag AS field, f.colorID")
-            ->from('#__thm_organizer_fields AS f')
-            ->select("c.name_$tag AS color")
-            ->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
+	/**
+	 * Method to get all colors from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$tag   = Languages::getTag();
+		$query = $this->_db->getQuery(true);
 
-        $this->setSearchFilter($query, ['f.name_de', 'f.name_en', 'untisID', 'color']);
-        $this->setValueFilters($query, ['colorID']);
+		$query->select("f.id, untisID, f.name_$tag AS field, f.colorID")
+			->from('#__thm_organizer_fields AS f')
+			->select("c.name_$tag AS color")
+			->leftJoin('#__thm_organizer_colors AS c ON f.colorID = c.id');
 
-        $this->setOrdering($query);
+		$this->setSearchFilter($query, ['f.name_de', 'f.name_en', 'untisID', 'color']);
+		$this->setValueFilters($query, ['colorID']);
 
-        return $query;
-    }
+		$this->setOrdering($query);
+
+		return $query;
+	}
 }

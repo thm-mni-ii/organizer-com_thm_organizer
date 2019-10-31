@@ -303,7 +303,7 @@ CREATE TABLE `v7ocf_thm_organizer_runs` (
     `name_en` VARCHAR(50)      NOT NULL,
     `termID`  INT(11) UNSIGNED NOT NULL,
     `run`  TEXT             NOT NULL
-        COMMENT 'run contains the start date and end date of lessons which are saved in JSON string.',
+        COMMENT 'Contains the start date and end dates of individual runs as a JSON string.',
     PRIMARY KEY (`id`),
     INDEX `termID` (`termID`)
 )

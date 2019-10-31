@@ -89,7 +89,7 @@ class Participants
 	 * @return string JSON coded and deleted ccmIDs
 	 * @throws Exception => invalid request / unauthorized access
 	 */
-	public static function deleteUserLesson()
+	public static function removeInstance()
 	{
 		$ccmID = Input::getInt('ccmID');
 		if (empty($ccmID))

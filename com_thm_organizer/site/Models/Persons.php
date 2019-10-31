@@ -15,30 +15,32 @@ namespace Organizer\Models;
  */
 class Persons extends ListModel
 {
-    protected $defaultOrdering = 'p.surname, p.forename';
+	protected $defaultOrdering = 'p.surname, p.forename';
 
-    /**
-     * Method to get all persons from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $query  = $this->_db->getQuery(true);
-        $select = 'DISTINCT p.id, p.surname, p.forename, p.username, p.untisID, d.id AS departmentID, ';
-        $parts  = ["'index.php?option=com_thm_organizer&view=person_edit&id='", 'p.id'];
-        $select .= $query->concatenate($parts, '') . ' AS link ';
-        $query->select($select);
-        $query->from('#__thm_organizer_persons AS p')
-            ->leftJoin('#__thm_organizer_department_resources AS dr on dr.personID = p.id')
-            ->leftJoin('#__thm_organizer_departments AS d on d.id = dr.id');
+	protected $filter_fields = ['departmentID'];
 
-        $this->setSearchFilter($query, ['surname', 'forename', 'username', 'p.untisID']);
-        $this->setIDFilter($query, 'departmentID', 'list.departmentID');
-        $this->setValueFilters($query, ['forename', 'username', 'p.untisID']);
+	/**
+	 * Method to get all persons from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$query  = $this->_db->getQuery(true);
+		$select = 'DISTINCT p.id, surname, forename, username, untisID, d.id AS departmentID, ';
+		$parts  = ["'index.php?option=com_thm_organizer&view=person_edit&id='", 'p.id'];
+		$select .= $query->concatenate($parts, '') . ' AS link ';
+		$query->select($select);
+		$query->from('#__thm_organizer_persons AS p')
+			->leftJoin('#__thm_organizer_department_resources AS dr on dr.personID = p.id')
+			->leftJoin('#__thm_organizer_departments AS d on d.id = dr.id');
 
-        $this->setOrdering($query);
+		$this->setSearchFilter($query, ['surname', 'forename', 'username', 'untisID']);
+		$this->setIDFilter($query, 'departmentID', 'list.departmentID');
+		$this->setValueFilters($query, ['forename', 'username', 'untisID']);
 
-        return $query;
-    }
+		$this->setOrdering($query);
+
+		return $query;
+	}
 }

@@ -1,7 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
-    <fields name="filter"></fields>
-    <fields name="list">
-        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
-    </fields>
 </form>

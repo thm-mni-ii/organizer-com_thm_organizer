@@ -184,18 +184,13 @@ class Subjects extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$backend        = $this->clientContext === self::BACKEND;
-		$editLink       = 'index.php?option=com_thm_organizer&view=subject_edit&id=';
-		$index          = 0;
-		$itemLink       = 'index.php?option=com_thm_organizer&view=subject_item&id=';
-		$processedItems = [];
+		$backend         = $this->clientContext === self::BACKEND;
+		$editLink        = 'index.php?option=com_thm_organizer&view=subject_edit&id=';
+		$index           = 0;
+		$itemLink        = 'index.php?option=com_thm_organizer&view=subject_item&id=';
+		$structuredItems = [];
 
 		foreach ($this->items as $subject)
 		{
@@ -203,16 +198,16 @@ class Subjects extends ListView
 			$checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
 			$thisLink = ($backend and $access) ? $editLink . $subject->id : $itemLink . $subject->id;
 
-			$processedItems[$index]                 = [];
-			$processedItems[$index]['checkbox']     = $checkbox;
-			$processedItems[$index]['name']         = HTML::_('link', $thisLink, $subject->name);
-			$processedItems[$index]['code']         = HTML::_('link', $thisLink, $subject->code);
-			$processedItems[$index]['persons']      = $this->getPersonDisplay($subject);
-			$processedItems[$index]['creditpoints'] = empty($subject->creditpoints) ? '' : $subject->creditpoints;
+			$structuredItems[$index]                 = [];
+			$structuredItems[$index]['checkbox']     = $checkbox;
+			$structuredItems[$index]['name']         = HTML::_('link', $thisLink, $subject->name);
+			$structuredItems[$index]['code']         = HTML::_('link', $thisLink, $subject->code);
+			$structuredItems[$index]['persons']      = $this->getPersonDisplay($subject);
+			$structuredItems[$index]['creditpoints'] = empty($subject->creditpoints) ? '' : $subject->creditpoints;
 
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

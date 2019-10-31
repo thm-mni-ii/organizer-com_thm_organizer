@@ -23,6 +23,8 @@ use Organizer\Helpers\Languages;
  */
 class Runs extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'name' => 'link', 'startDate' => 'link', 'endDate' => 'link'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -78,41 +80,31 @@ class Runs extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=run_edit&id=';
-		$processedItems = [];
+		$index           = 0;
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
+			$item->name = "$item->name - $item->term";
+			$run        = json_decode($item->run, true);
 
-			$thisLink                           = $link . $item->id;
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name . ' - ' . $item->term);
-
-			$run = json_decode($item->run, true);
-
-			if (!empty($run['runs']))
+			if (empty($run) or empty($run['runs']))
 			{
-				$processedItems[$index]['startDate'] = Dates::formatDate(reset($run['runs'])['startDate']);
-				$processedItems[$index]['endDate']   = Dates::formatDate(end($run['runs'])['endDate']);
+				$item->startDate = '';
+				$item->endDate   = '';
 			}
 			else
 			{
-				$processedItems[$index]['startDate'] = '';
-				$processedItems[$index]['endDate']   = '';
+				$item->startDate = Dates::formatDate(reset($run['runs'])['startDate']);
+				$item->endDate   = Dates::formatDate(end($run['runs'])['endDate']);
 			}
 
+			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

@@ -18,32 +18,36 @@ use Organizer\Helpers\Languages;
  */
 class Programs extends ListModel
 {
-    /**
-     * Method to determine all majors
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $allowedDepartments = Access::getAccessibleDepartments('document');
-        $tag                = Languages::getTag();
+	protected $filter_fields = ['degreeID', 'departmentID', 'fieldID', 'frequencyID', 'version'];
 
-        $query = $this->_db->getQuery(true);
-        $query->select("DISTINCT dp.id AS id, dp.name_$tag AS name, version")
-            ->from('#__thm_organizer_programs AS dp')
-            ->select('d.abbreviation AS abbreviation')
-            ->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID')
-            ->leftJoin('#__thm_organizer_fields AS f ON f.id = dp.fieldID')
-            ->select("dpt.shortName_$tag AS department")
-            ->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id')
-            ->where('(dp.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dp.departmentID IS NULL)');
+	/**
+	 * Method to determine all majors
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$allowedDepartments = Access::getAccessibleDepartments('document');
+		$tag                = Languages::getTag();
 
-        $searchColumns = ['dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en'];
-        $this->setSearchFilter($query, $searchColumns);
-        $this->setValueFilters($query, ['degreeID', 'departmentID', 'fieldID', 'frequencyID', 'version']);
+		$query     = $this->_db->getQuery(true);
+		$linkParts = ["'index.php?option=com_thm_organizer&view=program_edit&id='", 'dp.id'];
+		$query->select("DISTINCT dp.id AS id, dp.name_$tag AS programName, version")
+			->select($query->concatenate($linkParts, '') . ' AS link')
+			->from('#__thm_organizer_programs AS dp')
+			->select('d.abbreviation AS degree')
+			->leftJoin('#__thm_organizer_degrees AS d ON d.id = dp.degreeID')
+			->leftJoin('#__thm_organizer_fields AS f ON f.id = dp.fieldID')
+			->select("dpt.shortName_$tag AS department")
+			->leftJoin('#__thm_organizer_departments AS dpt ON dp.departmentID = dpt.id')
+			->where('(dp.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dp.departmentID IS NULL)');
 
-        $this->setOrdering($query);
+		$searchColumns = ['dp.name_de', 'dp.name_en', 'version', 'd.name', 'description_de', 'description_en'];
+		$this->setSearchFilter($query, $searchColumns);
+		$this->setValueFilters($query, ['degreeID', 'departmentID', 'fieldID', 'frequencyID', 'version']);
 
-        return $query;
-    }
+		$this->setOrdering($query);
+
+		return $query;
+	}
 }

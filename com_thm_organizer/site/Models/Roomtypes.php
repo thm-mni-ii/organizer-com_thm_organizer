@@ -17,25 +17,27 @@ use Organizer\Helpers\Languages;
  */
 class Roomtypes extends ListModel
 {
-    /**
-     * Method to get all room types from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $tag = Languages::getTag();
+	/**
+	 * Method to get all room types from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$tag = Languages::getTag();
 
-        $query = $this->_db->getQuery(true);
-        $query->select("DISTINCT t.id, t.name_$tag AS name, t.minCapacity, t.maxCapacity, t.untisID")
-            ->select('count(r.roomtypeID) AS roomCount')
-            ->from('#__thm_organizer_roomtypes AS t')
-            ->leftJoin('#__thm_organizer_rooms AS r on r.roomtypeID = t.id')
-            ->group('t.id');
+		$linkParts = ["'index.php?option=com_thm_organizer&view=roomtype_edit&id='", 't.id'];
+		$query     = $this->_db->getQuery(true);
+		$query->select("DISTINCT t.id, t.name_$tag AS name, t.minCapacity, t.maxCapacity, t.untisID")
+			->select($query->concatenate($linkParts, '') . ' AS link')
+			->select('count(r.roomtypeID) AS roomCount')
+			->from('#__thm_organizer_roomtypes AS t')
+			->leftJoin('#__thm_organizer_rooms AS r on r.roomtypeID = t.id')
+			->group('t.id');
 
-        $this->setSearchFilter($query, ['untisID', 'name_de', 'name_en', 'minCapacity', 'maxCapacity']);
-        $this->setOrdering($query);
+		$this->setSearchFilter($query, ['untisID', 'name_de', 'name_en', 'minCapacity', 'maxCapacity']);
+		$this->setOrdering($query);
 
-        return $query;
-    }
+		return $query;
+	}
 }

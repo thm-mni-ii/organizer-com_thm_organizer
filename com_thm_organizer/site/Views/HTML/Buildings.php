@@ -21,9 +21,15 @@ use Organizer\Helpers\Languages;
  */
 class Buildings extends ListView
 {
-	const OWNED = 1;
-	const RENTED = 2;
-	const USED = 3;
+	const OWNED = 1, RENTED = 2, USED = 3;
+
+	protected $rowStructure = [
+		'checkbox'     => '',
+		'name'         => 'link',
+		'campusID'     => 'link',
+		'propertyType' => 'link',
+		'address'      => 'link'
+	];
 
 	/**
 	 * Method to generate buttons for user interaction
@@ -83,48 +89,38 @@ class Buildings extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
+		$index           = 0;
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']     = HTML::_('link', $item->link, $item->name);
-			$campusName                         = Campuses::getName($item->campusID);
-			$processedItems[$index]['campusID'] = HTML::_('link', $item->link, $campusName);
+			$item->campusID = Campuses::getName($item->campusID);
 
 			switch ($item->propertyType)
 			{
 				case self::OWNED:
-					$propertyType = Languages::_('THM_ORGANIZER_OWNED');
+					$item->propertyType = Languages::_('THM_ORGANIZER_OWNED');
 					break;
 
 				case self::RENTED:
-					$propertyType = Languages::_('THM_ORGANIZER_RENTED');
+					$item->propertyType = Languages::_('THM_ORGANIZER_RENTED');
 					break;
 
 				case self::USED:
-					$propertyType = Languages::_('THM_ORGANIZER_USED');
+					$item->propertyType = Languages::_('THM_ORGANIZER_USED');
 					break;
 
 				default:
-					$propertyType = Languages::_('THM_ORGANIZER_UNKNOWN');
+					$item->propertyType = Languages::_('THM_ORGANIZER_UNKNOWN');
 					break;
 			}
 
-			$processedItems[$index]['propertyType'] = HTML::_('link', $item->link, $propertyType);
-			$processedItems[$index]['address']      = HTML::_('link', $item->link, $item->address);
+			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

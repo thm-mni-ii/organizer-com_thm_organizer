@@ -12,15 +12,17 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
+use Organizer\Helpers\Categories as CategoriesHelper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Programs;
 
 /**
  * Class loads persistent information a filtered set of event categories into the display context.
  */
 class Categories extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'untisID' => 'link', 'name' => 'link', 'program' => 'link'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -78,28 +80,19 @@ class Categories extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=category_edit&id=';
-		$processedItems = [];
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=category_edit&id=';
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$thisLink                           = $link . $item->id;
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['untisID']  = HTML::_('link', $thisLink, $item->untisID);
-			$processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['program']  = Programs::getName($item->programID);
+			$item->program           = CategoriesHelper::getName($item->id);
+			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

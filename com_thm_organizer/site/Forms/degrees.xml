@@ -1,21 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
-    <fields name="filter">
-        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="name" type="GenericOptions" label="NAME" onchange="this.form.submit();" valuecolumn="id"
-               textcolumn="name" table="thm_organizer_degrees">
-            <option value="">JALL</option>
-        </field>
-        <field name="abbreviation" type="GenericOptions" label="ABBREVIATION" onchange="this.form.submit();"
-               valuecolumn="id" textcolumn="abbreviation" table="thm_organizer_degrees">
-            <option value="">JALL</option>
-        </field>
-        <field name="code" type="GenericOptions" label="DEGREE_CODE" onchange="this.form.submit();" valuecolumn="id"
-               textcolumn="code" table="thm_organizer_degrees">
-            <option value="">JALL</option>
-        </field>
-    </fields>
-    <fields name="list">
-        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
-    </fields>
 </form>

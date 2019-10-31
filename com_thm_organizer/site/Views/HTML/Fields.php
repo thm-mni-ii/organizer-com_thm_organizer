@@ -21,6 +21,8 @@ use Organizer\Helpers\Languages;
  */
 class Fields extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'field' => 'link', 'untisID' => 'link', 'colorID' => 'value'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -77,28 +79,19 @@ class Fields extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=field_edit&id=';
-		$processedItems = [];
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=field_edit&id=';
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$thisLink                           = $link . $item->id;
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['field']    = HTML::_('link', $thisLink, $item->field);
-			$processedItems[$index]['untisID']  = HTML::_('link', $thisLink, $item->untisID);
-			$processedItems[$index]['colorID']  = Colors::getListDisplay($item->color, $item->colorID);
+			$item->colorID           = Colors::getListDisplay($item->color, $item->colorID);
+			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

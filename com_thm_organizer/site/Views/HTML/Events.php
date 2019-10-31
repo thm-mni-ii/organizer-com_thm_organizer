@@ -23,6 +23,14 @@ use Organizer\Helpers\Languages;
  */
 class Events extends ListView
 {
+	protected $rowStructure = [
+		'checkbox'        => '',
+		'name'            => 'link',
+		'department'      => 'link',
+		'campus'          => 'link',
+		'maxParticipants' => 'link'
+	];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -83,34 +91,20 @@ class Events extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=event_edit&id=';
-		$processedItems = [];
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=event_edit&id=';
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-
-			$campus          = Campuses::getName($item->campusID);
-			$maxParticipants = empty($item->maxParticipants) ? 1000 : $item->maxParticipants;
-
-			$thisLink                                  = $link . $item->id;
-			$processedItems[$index]                    = [];
-			$processedItems[$index]['checkbox']        = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']            = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['department']      = HTML::_('link', $thisLink, $item->department);
-			$processedItems[$index]['campus']          = HTML::_('link', $thisLink, $campus);
-			$processedItems[$index]['maxParticipants'] = HTML::_('link', $thisLink, $maxParticipants);
-
+			$item->campus            = Campuses::getName($item->campusID);
+			$item->maxParticipants   = empty($item->maxParticipants) ? 1000 : $item->maxParticipants;
+			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

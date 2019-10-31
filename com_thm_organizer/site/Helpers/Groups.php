@@ -17,267 +17,187 @@ use Joomla\CMS\Factory;
  */
 class Groups extends ResourceHelper implements Selectable
 {
-    use Filtered;
+	use Filtered;
 
-    /**
-     * Checks whether the given group is associated with an allowed department
-     *
-     * @param array $groupIDs the ids of the groups being checked
-     *
-     * @return bool  true if the group is associated with an allowed department, otherwise false
-     */
-    public static function allowEdit($groupIDs)
-    {
-        if (empty(Factory::getUser()->id)) {
-            return false;
-        }
+	/**
+	 * Checks whether the given group is associated with an allowed department
+	 *
+	 * @param   array  $groupIDs  the ids of the groups being checked
+	 *
+	 * @return bool  true if the group is associated with an allowed department, otherwise false
+	 */
+	public static function allowEdit($groupIDs)
+	{
+		if (empty(Factory::getUser()->id))
+		{
+			return false;
+		}
 
-        if (Access::isAdmin()) {
-            return true;
-        }
+		if (Access::isAdmin())
+		{
+			return true;
+		}
 
-        if (empty($groupIDs)) {
-            return false;
-        }
+		if (empty($groupIDs))
+		{
+			return false;
+		}
 
-        $groupIDs           = "'" . implode("', '", $groupIDs) . "'";
-        $allowedDepartments = Access::getAccessibleDepartments('schedule');
+		$groupIDs           = "'" . implode("', '", $groupIDs) . "'";
+		$allowedDepartments = Access::getAccessibleDepartments('schedule');
 
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT dr.id')
-            ->from('#__thm_organizer_department_resources as dr')
-            ->innerJoin('#__thm_organizer_groups as gr on gr.categoryID = dr.categoryID')
-            ->where("gr.id IN ( $groupIDs )")
-            ->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT dr.id')
+			->from('#__thm_organizer_department_resources AS dr')
+			->innerJoin('#__thm_organizer_groups as gr on gr.categoryID = dr.categoryID')
+			->where("gr.id IN ( $groupIDs )")
+			->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
 
-        $dbo->setQuery($query);
+		$dbo->setQuery($query);
 
-        return (bool)OrganizerHelper::executeQuery('loadColumn', []);
-    }
+		return (bool) OrganizerHelper::executeQuery('loadColumn', []);
+	}
 
-    /**
-     * Retrieves a list of lessons associated with a group
-     *
-     * @return array the lessons associated with the group
-     */
-    public static function getLessons()
-    {
-        $groupIDs = Input::getFilterIDs('group');
-        if (empty($groupIDs)) {
-            return $groupIDs;
-        }
+	/**
+	 * Retrieves the selectable options for the resource.
+	 *
+	 * @param   string  $access  any access restriction which should be performed
+	 *
+	 * @return array the available options
+	 */
+	public static function getOptions($access = '')
+	{
+		$categoryIDs = Input::getFilterIDs('category');
+		$options     = [];
+		$short       = count($categoryIDs) === 1;
 
-        $groupIDs = implode(',', $groupIDs);
+		foreach (self::getResources() as $group)
+		{
+			$name      = $short ? $group['name'] : $group['fullName'];
+			$options[] = HTML::_('select.option', $group['id'], $name);
+		}
 
-        $date = Input::getCMD('date');
-        if (!Dates::isStandardized($date)) {
-            $date = date('Y-m-d');
-        }
+		uasort($options, function ($optionOne, $optionTwo) {
+			return $optionOne->text > $optionTwo->text;
+		});
 
-        $interval = Input::getCMD('interval');
-        if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
-            $interval = 'semester';
-        }
+		// Any out of sequence indexes cause JSON to treat this as an object
+		return array_values($options);
+	}
 
-        $dbo = Factory::getDbo();
-        $tag = Languages::getTag();
+	/**
+	 * Retrieves the resource items.
+	 *
+	 * @param   string  $access  any access restriction which should be performed
+	 *
+	 * @return array the available resources
+	 */
+	public static function getResources($access = '')
+	{
+		$dbo = Factory::getDbo();
 
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT l.id, l.comment, lc.courseID, m.abbreviation_$tag AS method")
-            ->from('#__thm_organizer_lessons AS l')
-            ->innerJoin('#__thm_organizer_methods AS m on m.id = l.methodID')
-            ->innerJoin('#__thm_organizer_lesson_courses AS lc on lc.lessonID = l.id')
-            ->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lc.id')
-            ->where("lg.groupID IN ($groupIDs)")
-            ->where("l.delta != 'removed'")
-            ->where("lg.delta != 'removed'")
-            ->where("lc.delta != 'removed'");
+		$query = $dbo->getQuery(true);
+		$query->select('gr.*');
+		$query->from('#__thm_organizer_groups AS gr');
 
-        $dateTime = strtotime($date);
-        switch ($interval) {
-            case 'semester':
-                $query->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
-                    ->where("'$date' BETWEEN term.startDate AND term.endDate");
-                break;
-            case 'month':
-                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-                $startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
-                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-                $endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
-                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
-                break;
-            case 'week':
-                $startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
-                $endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
-                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
-                break;
-            case 'day':
-                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-                    ->where("c.schedule_date = '$date'");
-                break;
-        }
+		if (!empty($access))
+		{
+			$query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
+			self::addAccessFilter($query, 'dr', $access);
+		}
 
-        $dbo->setQuery($query);
+		self::addDeptSelectionFilter($query, 'category', 'gr', 'categoryID');
+		self::addResourceFilter($query, 'category', 'cat', 'gr');
 
-        $results = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($results)) {
-            return [];
-        }
+		$dbo->setQuery($query);
 
-        $lessons = [];
-        foreach ($results as $lesson) {
-            $index = '';
+		return OrganizerHelper::executeQuery('loadAssocList', []);
+	}
 
-            $lesson['subjectName'] = Courses::getName($lesson['subjectID'], true);
+	/**
+	 * Retrieves a list of subjects associated with a group
+	 *
+	 * @return array the subjects associated with the group
+	 */
+	public static function getSubjects()
+	{
+		$groupIDs = Input::getFilterIDs('group');
+		if (empty($groupIDs))
+		{
+			return $groupIDs;
+		}
 
-            $index .= $lesson['subjectName'];
+		$groupIDs = implode(',', $groupIDs);
 
-            if (!empty($lesson['method'])) {
-                $index .= " - {$lesson['method']}";
-            }
-            $index           .= " - {$lesson['id']}";
-            $lessons[$index] = $lesson;
-        }
+		$date = Input::getCMD('date');
+		if (!Dates::isStandardized($date))
+		{
+			$date = date('Y-m-d');
+		}
 
-        ksort($lessons);
+		$interval = Input::getCMD('interval');
+		if (!in_array($interval, ['day', 'week', 'month', 'semester']))
+		{
+			$interval = 'semester';
+		}
 
-        return $lessons;
-    }
+		$dbo = Factory::getDbo();
 
-    /**
-     * Retrieves the selectable options for the resource.
-     *
-     * @param string $access any access restriction which should be performed
-     *
-     * @return array the available options
-     */
-    public static function getOptions($access = '')
-    {
-        $categoryIDs = Input::getFilterIDs('category');
-        $options     = [];
-        $short       = count($categoryIDs) === 1;
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT lc.courseID')
+			->from('#__thm_organizer_lesson_courses AS lc')
+			->innerJoin('#__thm_organizer_lessons AS l on l.id = lc.lessonID')
+			->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lc.id')
+			->where("lg.groupID IN ($groupIDs)")
+			->where("l.delta != 'removed'")
+			->where("lg.delta != 'removed'")
+			->where("lc.delta != 'removed'");
 
-        foreach (self::getResources() as $group) {
-            $name      = $short ? $group['name'] : $group['fullName'];
-            $options[] = HTML::_('select.option', $group['id'], $name);
-        }
+		$dateTime = strtotime($date);
+		switch ($interval)
+		{
+			case 'semester':
+				$query->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
+					->where("'$date' BETWEEN term.startDate AND term.endDate");
+				break;
+			case 'month':
+				$monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
+				$startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
+				$monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
+				$endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
+				$query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+					->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+				break;
+			case 'week':
+				$startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
+				$endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
+				$query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+					->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
+				break;
+			case 'day':
+				$query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
+					->where("c.schedule_date = '$date'");
+				break;
+		}
 
-        uasort($options, function ($optionOne, $optionTwo) {
-            return $optionOne->text > $optionTwo->text;
-        });
+		$dbo->setQuery($query);
+		$courseIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
-        // Any out of sequence indexes cause JSON to treat this as an object
-        return array_values($options);
-    }
+		if (empty($courseIDs))
+		{
+			return [];
+		}
 
-    /**
-     * Retrieves the resource items.
-     *
-     * @param string $access any access restriction which should be performed
-     *
-     * @return array the available resources
-     */
-    public static function getResources($access = '')
-    {
-        $dbo = Factory::getDbo();
+		$subjects = [];
+		foreach ($courseIDs as $courseID)
+		{
+			$name            = Courses::getName($courseID, true);
+			$subjects[$name] = $courseID;
+		}
 
-        $query = $dbo->getQuery(true);
-        $query->select('gr.*');
-        $query->from('#__thm_organizer_groups AS gr');
+		ksort($subjects);
 
-        if (!empty($access)) {
-            $query->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID');
-            self::addAccessFilter($query, 'dr', $access);
-        }
-
-        self::addDeptSelectionFilter($query, 'category', 'gr', 'categoryID');
-        self::addResourceFilter($query, 'category', 'cat', 'gr');
-
-        $dbo->setQuery($query);
-
-        return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
-
-    /**
-     * Retrieves a list of subjects associated with a group
-     *
-     * @return array the subjects associated with the group
-     */
-    public static function getSubjects()
-    {
-        $groupIDs = Input::getFilterIDs('group');
-        if (empty($groupIDs)) {
-            return $groupIDs;
-        }
-
-        $groupIDs = implode(',', $groupIDs);
-
-        $date = Input::getCMD('date');
-        if (!Dates::isStandardized($date)) {
-            $date = date('Y-m-d');
-        }
-
-        $interval = Input::getCMD('interval');
-        if (!in_array($interval, ['day', 'week', 'month', 'semester'])) {
-            $interval = 'semester';
-        }
-
-        $dbo = Factory::getDbo();
-
-        $query = $dbo->getQuery(true);
-        $query->select('DISTINCT lc.courseID')
-            ->from('#__thm_organizer_lesson_courses AS lc')
-            ->innerJoin('#__thm_organizer_lessons AS l on l.id = lc.lessonID')
-            ->innerJoin('#__thm_organizer_lesson_groups AS lg on lg.lessonCourseID = lc.id')
-            ->where("lg.groupID IN ($groupIDs)")
-            ->where("l.delta != 'removed'")
-            ->where("lg.delta != 'removed'")
-            ->where("lc.delta != 'removed'");
-
-        $dateTime = strtotime($date);
-        switch ($interval) {
-            case 'semester':
-                $query->innerJoin('#__thm_organizer_terms AS term ON term.id = l.termID')
-                    ->where("'$date' BETWEEN term.startDate AND term.endDate");
-                break;
-            case 'month':
-                $monthStart = date('Y-m-d', strtotime('first day of this month', $dateTime));
-                $startDate  = date('Y-m-d', strtotime('Monday this week', strtotime($monthStart)));
-                $monthEnd   = date('Y-m-d', strtotime('last day of this month', $dateTime));
-                $endDate    = date('Y-m-d', strtotime('Sunday this week', strtotime($monthEnd)));
-                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
-                break;
-            case 'week':
-                $startDate = date('Y-m-d', strtotime('Monday this week', $dateTime));
-                $endDate   = date('Y-m-d', strtotime('Sunday this week', $dateTime));
-                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-                    ->where("c.schedule_date BETWEEN '$startDate' AND '$endDate'");
-                break;
-            case 'day':
-                $query->innerJoin('#__thm_organizer_calendar AS c ON c.lessonID = l.id')
-                    ->where("c.schedule_date = '$date'");
-                break;
-        }
-
-        $dbo->setQuery($query);
-        $courseIDs = OrganizerHelper::executeQuery('loadColumn', []);
-
-        if (empty($courseIDs)) {
-            return [];
-        }
-
-        $subjects = [];
-        foreach ($courseIDs as $courseID) {
-            $name            = Courses::getName($courseID, true);
-            $subjects[$name] = $courseID;
-        }
-
-        ksort($subjects);
-
-        return $subjects;
-    }
+		return $subjects;
+	}
 }

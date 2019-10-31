@@ -21,12 +21,18 @@ use Organizer\Helpers\Languages;
  */
 class Monitors extends ListView
 {
-	const DAILY = 1;
-	const MIXED = 2;
-	const CONTENT = 3;
-	const EVENT_LIST = 4;
+	const DAILY = 1, MIXED = 2, CONTENT = 3, EVENT_LIST = 4;
 
 	public $displayBehaviour = [];
+
+	protected $rowStructure = [
+		'checkbox'    => '',
+		'name'        => 'link',
+		'ip'          => 'link',
+		'useDefaults' => 'value',
+		'display'     => 'link',
+		'content'     => 'link'
+	];
 
 	/**
 	 * Constructor
@@ -105,15 +111,10 @@ class Monitors extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
+		$index           = 0;
+		$structuredItems = [];
 
 		$params       = Input::getParams();
 		$displayParam = $params->get('display');
@@ -121,25 +122,23 @@ class Monitors extends ListView
 
 		foreach ($this->items as $item)
 		{
-			// Set default attributes
-			if (!empty($item->useDefaults))
+			$tip               = Languages::_('THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
+			$item->useDefaults = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
+
+			if (empty($item->useDefaults))
 			{
-				$item->display = $displayParam;
+				$item->display = $this->displayBehaviour[$item->display];
+			}
+			else
+			{
+				$item->display = $this->displayBehaviour[$displayParam];
 				$item->content = $contentParam;
 			}
 
-			$processedItems[$index]                = [];
-			$processedItems[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']        = HTML::_('link', $item->link, $item->name);
-			$processedItems[$index]['ip']          = HTML::_('link', $item->link, $item->ip);
-			$tip                                   = Languages::_('THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
-			$processedItems[$index]['useDefaults'] = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
-			$display                               = $this->displayBehaviour[$item->display];
-			$processedItems[$index]['display']     = HTML::_('link', $item->link, $display);
-			$processedItems[$index]['content']     = HTML::_('link', $item->link, $item->content);
+			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

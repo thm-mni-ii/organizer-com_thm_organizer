@@ -22,6 +22,8 @@ use Organizer\Helpers\Programs;
  */
 class Participants extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'fullName' => 'link', 'programName' => 'link'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -101,27 +103,19 @@ class Participants extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=participant_edit&id=';
-		$processedItems = [];
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=participant_edit&id=';
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$thisLink                              = $link . $item->id;
-			$processedItems[$index]                = [];
-			$processedItems[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['fullName']    = HTML::_('link', $thisLink, $item->fullName);
-			$processedItems[$index]['programName'] = Programs::getName($item->programID);
+			$item->programName       = Programs::getName($item->programID);
+			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

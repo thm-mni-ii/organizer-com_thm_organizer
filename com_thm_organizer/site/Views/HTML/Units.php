@@ -80,17 +80,12 @@ class Units extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
 		$index = 0;
 		$link  = "index.php?option=com_thm_organizer&view=unit_edit&id=";
 
-		$processedItems = [];
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
@@ -109,17 +104,17 @@ class Units extends ListView
 				$status = Languages::_('THM_ORGANIZER_CURRENT');
 			}
 
-			$thisLink                           = $link . $item->id;
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['grid']     = HTML::_('link', $thisLink, $item->grid);
-			$processedItems[$index]['run']      = HTML::_('link', $thisLink, $item->run);
-			$processedItems[$index]['status']   = HTML::_('link', $thisLink, $status);
+			$thisLink                            = $link . $item->id;
+			$structuredItems[$index]             = [];
+			$structuredItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
+			$structuredItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
+			$structuredItems[$index]['grid']     = HTML::_('link', $thisLink, $item->grid);
+			$structuredItems[$index]['run']      = HTML::_('link', $thisLink, $item->run);
+			$structuredItems[$index]['status']   = HTML::_('link', $thisLink, $status);
 
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

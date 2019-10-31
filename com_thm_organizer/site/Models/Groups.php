@@ -17,30 +17,32 @@ use Organizer\Helpers\Access;
  */
 class Groups extends ListModel
 {
-    protected $defaultOrdering = 'gr.untisID';
+	protected $defaultOrdering = 'gr.untisID';
 
-    /**
-     * Method to get all groups from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $allowedDepartments = Access::getAccessibleDepartments('schedule');
+	protected $filter_fields = ['categoryID', 'departmentID', 'gridID'];
 
-        $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT gr.id, gr.untisID, gr.fullName, gr.name, gr.categoryID, gr.gridID')
-            ->select('dr.departmentID')
-            ->from('#__thm_organizer_groups AS gr')
-            ->innerJoin('#__thm_organizer_categories AS cat ON cat.id = gr.categoryID')
-            ->leftJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID')
-            ->where('(dr.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dr.departmentID IS NULL)');
+	/**
+	 * Method to get all groups from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$allowedDepartments = Access::getAccessibleDepartments('schedule');
 
-        $this->setSearchFilter($query, ['gr.fullName', 'gr.name', 'gr.untisID']);
-        $this->setValueFilters($query, ['gr.categoryID', 'dr.departmentID', 'gr.gridID']);
+		$query = $this->_db->getQuery(true);
+		$query->select('DISTINCT gr.id, gr.untisID, gr.fullName, gr.name, gr.categoryID, gr.gridID')
+			->select('dr.departmentID')
+			->from('#__thm_organizer_groups AS gr')
+			->innerJoin('#__thm_organizer_categories AS cat ON cat.id = gr.categoryID')
+			->leftJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = gr.categoryID')
+			->where('(dr.departmentID IN (' . implode(',', $allowedDepartments) . ') OR dr.departmentID IS NULL)');
 
-        $this->setOrdering($query);
+		$this->setSearchFilter($query, ['gr.fullName', 'gr.name', 'gr.untisID']);
+		$this->setValueFilters($query, ['gr.categoryID', 'dr.departmentID', 'gr.gridID']);
 
-        return $query;
-    }
+		$this->setOrdering($query);
+
+		return $query;
+	}
 }

@@ -17,27 +17,29 @@ use Organizer\Helpers\Languages;
  */
 class Participants extends ListModel
 {
-    protected $defaultOrdering = 'fullName';
+	protected $defaultOrdering = 'fullName';
 
-    /**
-     * Method to get all groups from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $query = $this->_db->getQuery(true);
+	protected $filter_fields = ['programID'];
 
-        $query->select('DISTINCT pa.id, pa.programID')
-            ->select($query->concatenate(['pa.surname', "', '", 'pa.forename'], '') . ' AS fullName')
-            ->from('#__thm_organizer_participants AS pa')
-            ->innerJoin('#__users AS u ON u.id = pa.id');
+	/**
+	 * Method to get all groups from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$query = $this->_db->getQuery(true);
 
-        $this->setSearchFilter($query, ['pa.forename', 'pa.surname']);
-        $this->setValueFilters($query, ['programID']);
+		$query->select('DISTINCT pa.id, pa.programID')
+			->select($query->concatenate(['pa.surname', "', '", 'pa.forename'], '') . ' AS fullName')
+			->from('#__thm_organizer_participants AS pa')
+			->innerJoin('#__users AS u ON u.id = pa.id');
 
-        $this->setOrdering($query);
+		$this->setSearchFilter($query, ['pa.forename', 'pa.surname']);
+		$this->setValueFilters($query, ['programID']);
 
-        return $query;
-    }
+		$this->setOrdering($query);
+
+		return $query;
+	}
 }

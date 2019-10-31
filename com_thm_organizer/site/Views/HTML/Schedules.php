@@ -21,6 +21,15 @@ use Organizer\Helpers\Languages;
  */
 class Schedules extends ListView
 {
+	protected $rowStructure = [
+		'checkbox'       => '',
+		'departmentName' => 'value',
+		'termName'       => 'value',
+		'active'         => 'value',
+		'userName'       => 'value',
+		'created'        => 'value'
+	];
+
 	/**
 	 * creates a joomla administrative tool bar
 	 *
@@ -81,12 +90,12 @@ class Schedules extends ListView
 		$direction = $this->state->get('list.direction');
 		$headers   = [];
 
-		$headers['checkbox']     = '';
-		$headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
-		$headers['termID']       = Languages::_('THM_ORGANIZER_TERM');
-		$headers['active']       = Languages::_('THM_ORGANIZER_STATE');
-		$headers['userName']     = HTML::sort('USERNAME', 'userName', $direction, $ordering);
-		$headers['created']      = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
+		$headers['checkbox']       = '';
+		$headers['departmentName'] = HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering);
+		$headers['termName']       = HTML::sort('TERM', 'termName', $direction, $ordering);
+		$headers['active']         = HTML::sort('STATE', 'active', $direction, $ordering);
+		$headers['userName']       = HTML::sort('USERNAME', 'userName', $direction, $ordering);
+		$headers['created']        = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
 
 		return $headers;
 	}
@@ -96,36 +105,21 @@ class Schedules extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
+		$index           = 0;
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$processedItems[$index] = [];
+			$item->active  =
+				$this->getToggle($item->id, $item->active, 'schedule', Languages::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
+			$item->created = Dates::formatDate($item->creationDate) . ' / ' . Dates::formatTime($item->creationTime);
 
-			$processedItems[$index]['checkbox']     = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['departmentID'] = $item->departmentName;
-			$processedItems[$index]['termID']       = $item->termName;
-
-			$processedItems[$index]['active']
-				= $this->getToggle($item->id, $item->active, 'schedule', Languages::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
-
-			$processedItems[$index]['userName'] = $item->userName;
-
-			$created = Dates::formatDate($item->creationDate) . ' / ' . Dates::formatTime($item->creationTime);
-
-			$processedItems[$index]['created'] = $created;
-
+			$structuredItems[$index] = $this->structureItem($index, $item);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

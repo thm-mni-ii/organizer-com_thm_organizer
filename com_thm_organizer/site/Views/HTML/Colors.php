@@ -21,6 +21,8 @@ use Organizer\Helpers\Languages;
  */
 class Colors extends ListView
 {
+	protected $rowStructure = ['checkbox' => '', 'name' => 'link', 'color' => 'value'];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -74,27 +76,19 @@ class Colors extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=color_edit&id=';
-		$processedItems = [];
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=color_edit&id=';
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$thisLink                           = $link . $item->id;
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['color']    = ColorsHelper::getListDisplay($item->color, $item->id);
+			$item->color             = ColorsHelper::getListDisplay($item->color, $item->id);
+			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

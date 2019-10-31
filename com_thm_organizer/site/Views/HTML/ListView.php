@@ -24,6 +24,8 @@ abstract class ListView extends BaseHTMLView
 {
 	protected $_layout = 'list';
 
+	public $activeFilters = null;
+
 	public $filterForm = null;
 
 	public $headers = null;
@@ -31,6 +33,8 @@ abstract class ListView extends BaseHTMLView
 	public $items = null;
 
 	public $pagination = null;
+
+	protected $rowStructure = [];
 
 	public $state = null;
 
@@ -70,7 +74,11 @@ abstract class ListView extends BaseHTMLView
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 
-		$this->preProcessItems();
+		if ($this->items)
+		{
+			$this->structureItems();
+		}
+
 		$this->addToolBar();
 		$this->addMenu();
 		$this->modifyDocument();
@@ -153,7 +161,6 @@ abstract class ListView extends BaseHTMLView
 		$document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
 
 		HTML::_('bootstrap.framework');
-		HTML::_('searchtools.form', '#adminForm', []);
 	}
 
 	/**
@@ -161,5 +168,61 @@ abstract class ListView extends BaseHTMLView
 	 *
 	 * @return void processes the class items property
 	 */
-	abstract protected function preProcessItems();
+	protected function structureItems()
+	{
+		$index           = 0;
+		$structuredItems = [];
+
+		foreach ($this->items as $item)
+		{
+			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
+			$index++;
+		}
+
+		$this->items = $structuredItems;
+	}
+
+	/**
+	 * Processes an individual list item resolving it to an array of table data values.
+	 *
+	 * @param   mixed   $index  the row index, typically an int value, but can also be string
+	 * @param   object  $item   the item to be displayed in a table row
+	 * @param   string  $link   the link to the individual resource
+	 *
+	 * @return array an array of property columns with their values
+	 */
+	protected function structureItem($index, $item, $link = '')
+	{
+		$processedItem = [];
+
+		foreach ($this->rowStructure as $property => $propertyType)
+		{
+			if ($property === 'checkbox')
+			{
+				$processedItem['checkbox'] = HTML::_('grid.id', $index, $item->id);
+				continue;
+			}
+
+			// Individual code will be added to index later
+			if ($propertyType === '')
+			{
+				$processedItem[$property] = $propertyType;
+				continue;
+			}
+
+			if ($propertyType === 'link')
+			{
+				$processedItem[$property] = HTML::_('link', $link, $item->$property);
+				continue;
+			}
+
+			if ($propertyType === 'value')
+			{
+				$processedItem[$property] = $item->$property;
+				continue;
+			}
+		}
+
+		return $processedItem;
+	}
 }

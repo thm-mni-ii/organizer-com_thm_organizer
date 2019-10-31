@@ -138,7 +138,7 @@ class Access
 	 * Checks whether the user has access to the participant information
 	 *
 	 * @param   int  $participantID  the id of the participant
-	 * @param   int  $courseID       id of the lesson resource
+	 * @param   int  $courseID       id of the course resource
 	 *
 	 * @return bool true if the user is authorized to manage courses, otherwise false
 	 */

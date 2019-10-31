@@ -7,7 +7,7 @@
             <option value="-1">NO_PROGRAMS</option>
         </field>
         <field name="fieldID" type="GenericOptions" label="FIELD" onchange="this.form.submit();" valuecolumn="f.id"
-               textcolumn="f.field" localized="true"
+               textcolumn="f.name" localized="true"
                table="thm_organizer_pools AS p,thm_organizer_fields AS f ON p.fieldID = f.id">
             <option value="">ALL_FIELDS</option>
             <option value="-1">NO_FIELD</option>

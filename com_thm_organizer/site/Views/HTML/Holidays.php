@@ -85,16 +85,11 @@ class Holidays extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
 		$index          = 0;
 		$link           = 'index.php?option=com_thm_organizer&view=holiday_edit&id=';
-		$processedItems = [];
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
@@ -119,19 +114,19 @@ class Holidays extends ListView
 			}
 
 			$thisLink                            = $link . $item->id;
-			$processedItems[$index]              = [];
-			$processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']      = HTML::_('link', $thisLink, $item->name) . ' (' . HTML::_('link',
+			$structuredItems[$index]              = [];
+			$structuredItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
+			$structuredItems[$index]['name']      = HTML::_('link', $thisLink, $item->name) . ' (' . HTML::_('link',
 					$thisLink, $year) . ')';
-			$processedItems[$index]['startDate'] = HTML::_('link', $thisLink, $dateString);
-			$processedItems[$index]['type']      = HTML::_('link', $thisLink,
+			$structuredItems[$index]['startDate'] = HTML::_('link', $thisLink, $dateString);
+			$structuredItems[$index]['type']      = HTML::_('link', $thisLink,
 				($item->type == self::OPTIONAL ? Languages::_('THM_ORGANIZER_PLANNING_OPTIONAL') : ($item->type == self::PARTIAL ? Languages::_('THM_ORGANIZER_PLANNING_MANUAL')
 					: Languages::_('THM_ORGANIZER_PLANNING_BLOCKED'))));
-			$processedItems[$index]['status']    = HTML::_('link', $thisLink, $status);
+			$structuredItems[$index]['status']    = HTML::_('link', $thisLink, $status);
 
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

@@ -20,6 +20,15 @@ use Organizer\Helpers\Languages;
  */
 class Roomtypes extends ListView
 {
+	protected $rowStructure = [
+		'checkbox'    => '',
+		'untisID'     => 'link',
+		'name'        => 'link',
+		'minCapacity' => 'value',
+		'maxCapacity' => 'value',
+		'roomCount'   => 'value'
+	];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -82,37 +91,5 @@ class Roomtypes extends ListView
 		$headers['roomCount']   = HTML::sort('ROOM_COUNT', 'roomCount', $direction, $ordering);
 
 		return $headers;
-	}
-
-	/**
-	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-	 *
-	 * @return void processes the class items property
-	 */
-	protected function preProcessItems()
-	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=roomtype_edit&id=';
-		$processedItems = [];
-
-		foreach ($this->items as $item)
-		{
-			$thisLink                              = $link . $item->id;
-			$processedItems[$index]                = [];
-			$processedItems[$index]['checkbox']    = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['untisID']     = HTML::_('link', $thisLink, $item->untisID);
-			$processedItems[$index]['name']        = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['minCapacity'] = $item->minCapacity;
-			$processedItems[$index]['maxCapacity'] = $item->maxCapacity;
-			$processedItems[$index]['roomCount']   = $item->roomCount;
-			$index++;
-		}
-
-		$this->items = $processedItems;
 	}
 }

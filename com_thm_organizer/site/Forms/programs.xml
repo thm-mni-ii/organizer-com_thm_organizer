@@ -17,13 +17,13 @@
             <option value="">ALL_ACCREDITATION_YEARS</option>
         </field>
         <field name="frequencyID" type="GenericOptions" label="FREQUENCY" onchange="this.form.submit();"
-               valuecolumn="f.id" textcolumn="f.frequency" localized="true"
+               valuecolumn="f.id" textcolumn="f.name" localized="true"
                table="thm_organizer_frequencies AS f,thm_organizer_programs AS p ON f.id = p.frequencyID">
             <option value="">ALL_FREQUENCIES</option>
             <option value="-1">NO_FREQUENCY</option>
         </field>
         <field name="fieldID" type="GenericOptions" label="FIELD" onchange="this.form.submit();" valuecolumn="f.id"
-               textcolumn="f.field" localized="true"
+               textcolumn="f.name" localized="true"
                table="thm_organizer_fields AS f,thm_organizer_programs AS p ON f.id = p.fieldID">
             <option value="">ALL_FIELDS</option>
             <option value="-1">NO_FIELD</option>

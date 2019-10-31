@@ -11,9 +11,7 @@
 
 namespace Organizer\Views\HTML;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -23,90 +21,75 @@ use Organizer\Helpers\Languages;
  */
 class SubjectSelection extends ListView
 {
-    protected $_layout = 'list_modal';
+	protected $_layout = 'list_modal';
 
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'pool.addSubject', true);
-    }
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		$toolbar = Toolbar::getInstance();
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'pool.addSubject', true);
+	}
 
-    /**
-     * Function determines whether the user may access the view.
-     *
-     * @return bool true if the use may access the view, otherwise false
-     */
-    protected function allowAccess()
-    {
-        return Access::allowDocumentAccess();
-    }
+	/**
+	 * Function determines whether the user may access the view.
+	 *
+	 * @return bool true if the use may access the view, otherwise false
+	 */
+	protected function allowAccess()
+	{
+		return Access::allowDocumentAccess();
+	}
 
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    protected function getHeaders()
-    {
-        $direction = $this->state->get('list.direction');
-        $ordering  = $this->state->get('list.ordering');
-        $headers   = [];
+	/**
+	 * Function to get table headers
+	 *
+	 * @return array including headers
+	 */
+	protected function getHeaders()
+	{
+		$direction = $this->state->get('list.direction');
+		$ordering  = $this->state->get('list.ordering');
+		$headers   = [];
 
-        $headers['checkbox'] = '';
-        $headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['program']  = Languages::_('THM_ORGANIZER_PROGRAMS');
+		$headers['checkbox'] = '';
+		$headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
+		$headers['program']  = Languages::_('THM_ORGANIZER_PROGRAMS');
 
-        return $headers;
-    }
+		return $headers;
+	}
 
-    /**
-     * Adds styles and scripts to the document
-     *
-     * @return void  modifies the document
-     */
-    protected function modifyDocument()
-    {
-        parent::modifyDocument();
+	/**
+	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
+	 *
+	 * @return void processes the class items property
+	 */
+	protected function structureItems()
+	{
+		$index           = 0;
+		$structuredItems = [];
 
-        HTML::_('bootstrap.framework');
-        HTML::_('searchtools.form', '#adminForm', []);
-    }
+		foreach ($this->items as $subject)
+		{
+			if (!Access::allowSubjectAccess($subject->id))
+			{
+				continue;
+			}
 
-    /**
-     * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.
-     *
-     * @return void processes the class items property
-     */
-    protected function preProcessItems()
-    {
-        if (empty($this->items)) {
-            return;
-        }
+			$name = $subject->name;
+			$name .= empty($subject->code) ? '' : " - $subject->code";
 
-        $index          = 0;
-        $processedItems = [];
+			$structuredItems[$index]             = [];
+			$structuredItems[$index]['checkbox'] = HTML::_('grid.id', $index, $subject->id);
+			$structuredItems[$index]['name']     = $name;
+			$structuredItems[$index]['programs'] = $name;
 
-        foreach ($this->items as $subject) {
-            if (!Access::allowSubjectAccess($subject->id)) {
-                continue;
-            }
+			$index++;
+		}
 
-            $name = $subject->name;
-            $name .= empty($subject->code) ? '' : " - $subject->code";
-
-            $processedItems[$index]             = [];
-            $processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $subject->id);
-            $processedItems[$index]['name']     = $name;
-            $processedItems[$index]['programs'] = $name;
-
-            $index++;
-        }
-
-        $this->items = $processedItems;
-    }
+		$this->items = $structuredItems;
+	}
 }

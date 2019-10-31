@@ -15,57 +15,61 @@ namespace Organizer\Models;
  */
 class Buildings extends ListModel
 {
-    /**
-     * Method to get all buildings from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $query = $this->_db->getQuery(true);
+	protected $filter_fields = ['campusID', 'propertyType'];
 
-        $select = 'b.id, b.name, propertyType, campusID, c1.parentID, b.address, c1.city, c2.city as parentCity, ';
-        $parts  = ["'index.php?option=com_thm_organizer&view=building_edit&id='", 'b.id'];
-        $select .= $query->concatenate($parts, '') . ' AS link';
-        $query->select($select);
-        $query->from('#__thm_organizer_buildings as b');
-        $query->innerJoin('#__thm_organizer_campuses as c1 on b.campusID = c1.id');
-        $query->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id');
+	/**
+	 * Method to get all buildings from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$query = $this->_db->getQuery(true);
 
-        $this->setSearchFilter($query, ['b.name', 'b.address', 'c1.city', 'c2.city']);
-        $this->setValueFilters($query, ['propertyType']);
-        $this->setCampusFilter($query);
-        $this->setOrdering($query);
+		$select = 'b.id, b.name, propertyType, campusID, c1.parentID, b.address, c1.city, c2.city as parentCity, ';
+		$parts  = ["'index.php?option=com_thm_organizer&view=building_edit&id='", 'b.id'];
+		$select .= $query->concatenate($parts, '') . ' AS link';
+		$query->select($select);
+		$query->from('#__thm_organizer_buildings AS b');
+		$query->innerJoin('#__thm_organizer_campuses as c1 on b.campusID = c1.id');
+		$query->leftJoin('#__thm_organizer_campuses as c2 on c1.parentID = c2.id');
 
-        return $query;
-    }
+		$this->setSearchFilter($query, ['b.name', 'b.address', 'c1.city', 'c2.city']);
+		$this->setValueFilters($query, ['propertyType']);
+		$this->setCampusFilter($query);
+		$this->setOrdering($query);
 
-    /**
-     * Provides a default method for setting filters for non-unique values
-     *
-     * @param object &$query the query object
-     *
-     * @return void
-     */
-    private function setCampusFilter(&$query)
-    {
-        $value = $this->state->get('filter.campusID', '');
+		return $query;
+	}
 
-        if ($value === '') {
-            return;
-        }
+	/**
+	 * Provides a default method for setting filters for non-unique values
+	 *
+	 * @param   object &$query  the query object
+	 *
+	 * @return void
+	 */
+	private function setCampusFilter(&$query)
+	{
+		$value = $this->state->get('filter.campusID', '');
 
-        /**
-         * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
-         * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
-         * be extended we could maybe add a parameter for it later.
-         */
-        if ($value == '-1') {
-            $query->where('campusID IS NULL');
+		if ($value === '')
+		{
+			return;
+		}
 
-            return;
-        }
+		/**
+		 * Special value reserved for empty filtering. Since an empty is dependent upon the column default, we must
+		 * check against multiple 'empty' values. Here we check against empty string and null. Should this need to
+		 * be extended we could maybe add a parameter for it later.
+		 */
+		if ($value == '-1')
+		{
+			$query->where('campusID IS NULL');
 
-        $query->where("(b.campusID = '$value' OR c1.parentID = '$value')");
-    }
+			return;
+		}
+
+		$query->where("(b.campusID = '$value' OR c1.parentID = '$value')");
+	}
 }

@@ -21,11 +21,14 @@ use Organizer\Helpers\Persons as PersonsHelper;
  */
 class Persons extends ListView
 {
-	public $items;
-
-	public $pagination;
-
-	public $state;
+	protected $rowStructure = [
+		'checkbox'     => '',
+		'surname'      => 'link',
+		'forename'     => 'link',
+		'username'     => 'link',
+		'untisID'      => 'link',
+		'departmentID' => 'link'
+	];
 
 	/**
 	 * Method to generate buttons for user interaction
@@ -84,47 +87,34 @@ class Persons extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
+		$index           = 0;
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$itemForename = empty($item->forename) ? '' : $item->forename;
-			$itemUsername = empty($item->username) ? '' : $item->username;
-			$itemUntisID  = empty($item->untisID) ? '' : $item->untisID;
+			$item->forename = empty($item->forename) ? '' : $item->forename;
+			$item->username = empty($item->username) ? '' : $item->username;
+			$item->untisID  = empty($item->untisID) ? '' : $item->untisID;
 
-			$processedItems[$index]              = [];
-			$processedItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['surname']   = HTML::_('link', $item->link, $item->surname);
-			$processedItems[$index]['forename']  = HTML::_('link', $item->link, $itemForename);
-			$processedItems[$index]['username']  = HTML::_('link', $item->link, $itemUsername);
-			$processedItems[$index]['t.untisID'] = HTML::_('link', $item->link, $itemUntisID);
-
-			$departments = PersonsHelper::getDepartmentNames($item->id);
-
-			if (empty($departments))
+			if (!$departments = PersonsHelper::getDepartmentNames($item->id))
 			{
-				$processedItems[$index]['departmentID'] = Languages::_('JNONE');
+				$item->departmentID = Languages::_('JNONE');
 			}
 			elseif (count($departments) === 1)
 			{
-				$processedItems[$index]['departmentID'] = $departments[0];
+				$item->departmentID = $departments[0];
 			}
 			else
 			{
-				$processedItems[$index]['departmentID'] = Languages::_('THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
+				$item->departmentID = Languages::_('THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
 			}
 
+			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

@@ -21,6 +21,16 @@ use Organizer\Helpers\Languages;
  */
 class Grids extends ListView
 {
+	protected $rowStructure = [
+		'checkbox'    => '',
+		'name'        => 'link',
+		'startDay'    => 'value',
+		'endDay'      => 'value',
+		'startTime'   => 'value',
+		'endTime'     => 'value',
+		'defaultGrid' => 'value'
+	];
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -77,22 +87,13 @@ class Grids extends ListView
 	 *
 	 * @return void processes the class items property
 	 */
-	protected function preProcessItems()
+	protected function structureItems()
 	{
-		if (empty($this->items))
-		{
-			return;
-		}
-
-		$index          = 0;
-		$processedItems = [];
+		$index           = 0;
+		$structuredItems = [];
 
 		foreach ($this->items as $item)
 		{
-			$processedItems[$index]             = [];
-			$processedItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']     = HTML::_('link', $item->link, $item->name);
-
 			$grid = json_decode($item->grid, true);
 
 			if (!empty($grid['periods']))
@@ -101,26 +102,25 @@ class Grids extends ListView
 				$startDayConstant = strtoupper(date('l', strtotime("Sunday + {$grid['startDay']} days")));
 				$endDayConstant   = strtoupper(date('l', strtotime("Sunday + {$grid['endDay']} days")));
 
-				$processedItems[$index]['startDay'] = Languages::_($startDayConstant);
-				$processedItems[$index]['endDay']   = Languages::_($endDayConstant);
-
-				$processedItems[$index]['startTime'] = Dates::formatTime(reset($grid['periods'])['startTime']);
-				$processedItems[$index]['endTime']   = Dates::formatTime(end($grid['periods'])['endTime']);
+				$item->startDay  = Languages::_($startDayConstant);
+				$item->endDay    = Languages::_($endDayConstant);
+				$item->startTime = Dates::formatTime(reset($grid['periods'])['startTime']);
+				$item->endTime   = Dates::formatTime(end($grid['periods'])['endTime']);
 			}
 			else
 			{
-				$processedItems[$index]['startDay']  = '';
-				$processedItems[$index]['endDay']    = '';
-				$processedItems[$index]['startTime'] = '';
-				$processedItems[$index]['endTime']   = '';
+				$item->startDay  = '';
+				$item->endDay    = '';
+				$item->startTime = '';
+				$item->endTime   = '';
 			}
 
-			$tip = Languages::_('THM_ORGANIZER_GRID_DEFAULT_DESC');#
-
-			$processedItems[$index]['defaultGrid'] = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
+			$tip                     = Languages::_('THM_ORGANIZER_GRID_DEFAULT_DESC');
+			$item->defaultGrid       = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
+			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;
 		}
 
-		$this->items = $processedItems;
+		$this->items = $structuredItems;
 	}
 }

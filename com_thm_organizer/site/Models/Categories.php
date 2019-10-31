@@ -18,27 +18,29 @@ use Organizer\Helpers\Languages;
  */
 class Categories extends ListModel
 {
-    protected $defaultOrdering = 'cat.name';
+	protected $defaultOrdering = 'cat.name';
 
-    /**
-     * Method to get all categories from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT cat.id, cat.untisID, cat.name')
-            ->from('#__thm_organizer_categories AS cat')
-            ->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
+	protected $filter_fields = ['departmentID'];
 
-        $allowedDepartments = implode(",", Access::getAccessibleDepartments('schedule'));
-        $query->where("dr.departmentID IN ($allowedDepartments)");
+	/**
+	 * Method to get all categories from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('DISTINCT cat.id, cat.untisID, cat.name')
+			->from('#__thm_organizer_categories AS cat')
+			->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
 
-        $this->setSearchFilter($query, ['cat.name', 'cat.untisID']);
-        $this->setValueFilters($query, ['departmentID', 'programID']);
-        $this->setOrdering($query);
+		$allowedDepartments = implode(",", Access::getAccessibleDepartments('schedule'));
+		$query->where("dr.departmentID IN ($allowedDepartments)");
 
-        return $query;
-    }
+		$this->setSearchFilter($query, ['cat.name', 'cat.untisID']);
+		$this->setValueFilters($query, ['departmentID', 'programID']);
+		$this->setOrdering($query);
+
+		return $query;
+	}
 }
