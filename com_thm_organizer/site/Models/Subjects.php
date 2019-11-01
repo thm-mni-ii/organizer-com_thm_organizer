@@ -173,12 +173,12 @@ class Subjects extends ListModel implements FiltersFormFilters
                 $this->state->set('filter.departmentID', $allowedDepartments[0]);
             }
         } else {
-            $params = Input::getParams();
-            if ($poolID = Input::getInput()->get->getInt('poolID', 0) or $programID = $params->get('programID')) {
+	        $programID = Input::getParams()->get('programID');
+            if ($poolID = Input::getInput()->get->getInt('poolID', 0) or $programID) {
                 if ($poolID) {
                     $this->state->set('calledPoolID', $poolID);
                 } else {
-                    $this->state->set('filter.programID', $params->get('programID'));
+                    $this->state->set('filter.programID', $programID);
                 }
                 $this->state->set('list.limit', 0);
             }
