@@ -76,8 +76,10 @@ class Campuses extends ResourceHelper implements Selectable
 		{
 			$name = empty($campus['parentName']) ? $campus['name'] : "{$campus['parentName']} / {$campus['name']}";
 
-			$options[] = HTML::_('select.option', $campus['id'], $name);
+			$options[$name] = HTML::_('select.option', $campus['id'], $name);
 		}
+
+		ksort($options);
 
 		return $options;
 	}
