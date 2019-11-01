@@ -13,7 +13,6 @@
 namespace Organizer\Views\HTML;
 
 use Organizer\Helpers\Courses;
-use Organizer\Helpers\Dates;
 use Organizer\Helpers\Terms;
 
 /**

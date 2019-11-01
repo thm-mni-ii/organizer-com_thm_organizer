@@ -113,7 +113,11 @@ class Subjects extends ListView
 		$ordering  = $this->state->get('list.ordering');
 		$headers   = [];
 
-		$headers['checkbox']     = '';
+		if ($this->clientContext === self::BACKEND OR $this->documentAccess)
+		{
+			$headers['checkbox'] = '';
+		}
+
 		$headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
 		$headers['code']         = HTML::sort('MODULE_CODE', 'code', $direction, $ordering);
 		$headers['persons']      = Languages::_('THM_ORGANIZER_TEACHERS');
@@ -198,8 +202,13 @@ class Subjects extends ListView
 			$checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
 			$thisLink = ($backend and $access) ? $editLink . $subject->id : $itemLink . $subject->id;
 
-			$structuredItems[$index]                 = [];
-			$structuredItems[$index]['checkbox']     = $checkbox;
+			$structuredItems[$index] = [];
+
+			if ($backend OR $this->documentAccess)
+			{
+				$structuredItems[$index]['checkbox'] = $checkbox;
+			}
+
 			$structuredItems[$index]['name']         = HTML::_('link', $thisLink, $subject->name);
 			$structuredItems[$index]['code']         = HTML::_('link', $thisLink, $subject->code);
 			$structuredItems[$index]['persons']      = $this->getPersonDisplay($subject);

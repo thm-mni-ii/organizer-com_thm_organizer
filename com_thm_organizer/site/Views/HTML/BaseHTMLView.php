@@ -28,6 +28,10 @@ abstract class BaseHTMLView extends BaseView
 
 	public $submenu = '';
 
+	public $subtitle = '';
+
+	public $supplement = '';
+
 	/**
 	 * Adds a legal disclaimer to the view.
 	 *

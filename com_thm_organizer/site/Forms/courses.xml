@@ -10,14 +10,12 @@
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
         </field>
-        <field name="status" type="Options" label="STATE" onchange="this.form.submit();">
-            <option value="">ALL_STATES</option>
-            <option value="1">EXPIRED</option>
-            <option value="2">PENDING</option>
-            <option value="3">CURRENT</option>
-        </field>
     </fields>
     <fields name="list">
+        <field name="languageTag" type="Options" label="Language" onchange="this.form.submit();" default="de">
+            <option value="de">GERMAN</option>
+            <option value="en">ENGLISH</option>
+        </field>
         <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
     </fields>
 </form>

@@ -22,6 +22,8 @@ $columnCount = count($this->headers);
 
 if ($isSite) {
     echo OrganizerHelper::getApplication()->JComponentTitle;
+	echo $this->subtitle;
+	echo $this->supplement;
 }
 if (!empty($this->submenu)) {
     echo '<div id="j-sidebar-container" class="span2">' . $this->submenu . '</div>';
@@ -80,6 +82,7 @@ if (!empty($this->submenu)) {
         <input type="hidden" name="view" value="<?php echo $this->get('name'); ?>"/>
         <?php echo HTML::_('form.token'); ?>
     </form>
+    <?php echo $this->disclaimer; ?>
 </div>
 
 

@@ -26,10 +26,6 @@ abstract class ItemView extends BaseHTMLView
 
 	public $item = null;
 
-	public $subtitle = '';
-
-	public $supplement = '';
-
 	/**
 	 * Method to get display
 	 *

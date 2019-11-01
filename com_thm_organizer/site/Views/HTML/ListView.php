@@ -79,6 +79,16 @@ abstract class ListView extends BaseHTMLView
 			$this->structureItems();
 		}
 
+		$this->addDisclaimer();
+		if (method_exists($this, 'setSubtitle'))
+		{
+			$this->setSubtitle();
+		}
+		if (method_exists($this, 'addSupplement'))
+		{
+			$this->addSupplement();
+		}
+
 		$this->addToolBar();
 		$this->addMenu();
 		$this->modifyDocument();
