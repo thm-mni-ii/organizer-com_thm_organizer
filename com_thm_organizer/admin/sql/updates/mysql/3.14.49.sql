@@ -10,7 +10,7 @@ RENAME TABLE `v7ocf_thm_organizer_plan_programs` TO `v7ocf_thm_organizer_categor
 
 ALTER TABLE `v7ocf_thm_organizer_categories`
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    ADD COLUMN `active`          TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`);
 # endregion
 
@@ -31,7 +31,7 @@ ALTER TABLE `v7ocf_thm_organizer_programs`
     MODIFY `frequencyID` INT(1) UNSIGNED DEFAULT NULL AFTER `fieldID`,
     MODIFY `code` VARCHAR(20) DEFAULT '' AFTER `frequencyID`,
     MODIFY `version` YEAR(4) DEFAULT NULL AFTER `code`,
-    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    ADD COLUMN `active`     TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `entry` UNIQUE (`code`, `degreeID`, `version`),
     ADD INDEX `categoryID` (`categoryID`),
     ADD INDEX `departmentID` (`departmentID`),
@@ -76,11 +76,11 @@ ALTER TABLE `v7ocf_thm_organizer_plan_pools`
 RENAME TABLE `v7ocf_thm_organizer_plan_pools` TO `v7ocf_thm_organizer_groups`;
 
 ALTER TABLE `v7ocf_thm_organizer_groups`
-    CHANGE `full_name` `fullName` VARCHAR(100) NOT NULL,
-    CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    CHANGE `full_name` `fullName`   VARCHAR(100)        NOT NULL,
+    CHANGE `gpuntisID` `untisID`    VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
     DROP COLUMN `poolID`,
-    CHANGE `programID` `categoryID` INT(11) UNSIGNED NOT NULL,
-    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    CHANGE `programID` `categoryID` INT(11) UNSIGNED    NOT NULL,
+    ADD COLUMN `active`             TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `entry` UNIQUE (`untisID`, `categoryID`),
     ADD INDEX `categoryID` (`categoryID`),
     ADD INDEX `gridID` (`gridID`),
@@ -112,13 +112,13 @@ WHERE `lsfID` = 0;
 
 ALTER TABLE `v7ocf_thm_organizer_pools`
     MODIFY `fieldID` INT(11) UNSIGNED DEFAULT NULL AFTER `departmentID`,
-    ADD COLUMN `groupID` INT(11) UNSIGNED DEFAULT NULL AFTER `fieldID`,
+    ADD COLUMN `groupID`                  INT(11) UNSIGNED DEFAULT NULL AFTER `fieldID`,
     DROP COLUMN `hisID`,
     DROP COLUMN `externalID`,
     MODIFY `abbreviation_de` VARCHAR(45) DEFAULT '' AFTER `lsfID`,
     MODIFY `abbreviation_en` VARCHAR(45) DEFAULT '' AFTER `abbreviation_de`,
-    CHANGE `short_name_de` `shortName_de` VARCHAR(45) DEFAULT '' AFTER `abbreviation_en`,
-    CHANGE `short_name_en` `shortName_en` VARCHAR(45) DEFAULT '' AFTER `shortName_de`,
+    CHANGE `short_name_de` `shortName_de` VARCHAR(45)      DEFAULT '' AFTER `abbreviation_en`,
+    CHANGE `short_name_en` `shortName_en` VARCHAR(45)      DEFAULT '' AFTER `shortName_de`,
     MODIFY `name_de` VARCHAR(255) DEFAULT NULL AFTER `shortName_en`,
     MODIFY `name_en` VARCHAR(255) DEFAULT NULL AFTER `name_de`,
     DROP COLUMN `display_type`,
@@ -153,7 +153,7 @@ RENAME TABLE `v7ocf_thm_organizer_teachers` TO `v7ocf_thm_organizer_persons`;
 ALTER TABLE `v7ocf_thm_organizer_persons`
     MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    ADD COLUMN `active`          TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`);
 
 ALTER TABLE `v7ocf_thm_organizer_persons`
@@ -171,7 +171,7 @@ ALTER TABLE `v7ocf_thm_organizer_department_resources`
 
 ALTER TABLE `v7ocf_thm_organizer_department_resources`
     CHANGE `programID` `categoryID` INT(11) UNSIGNED DEFAULT NULL,
-    CHANGE `teacherID` `personID` INT(11) DEFAULT NULL,
+    CHANGE `teacherID` `personID`   INT(11)          DEFAULT NULL,
     ADD INDEX `categoryID` (`categoryID`),
     ADD INDEX `personID` (`personID`);
 
@@ -193,10 +193,10 @@ ALTER TABLE `v7ocf_thm_organizer_room_types` DROP INDEX `gpuntisID`;
 RENAME TABLE `v7ocf_thm_organizer_room_types` TO `v7ocf_thm_organizer_roomtypes`;
 
 ALTER TABLE `v7ocf_thm_organizer_roomtypes`
-    CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    CHANGE `min_capacity` `minCapacity` INT(4) UNSIGNED DEFAULT NULL,
-    CHANGE `max_capacity` `maxCapacity` INT(4) UNSIGNED DEFAULT NULL,
-    ADD COLUMN `public` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    CHANGE `gpuntisID` `untisID`        VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+    CHANGE `min_capacity` `minCapacity` INT(4) UNSIGNED                                 DEFAULT NULL,
+    CHANGE `max_capacity` `maxCapacity` INT(4) UNSIGNED                                 DEFAULT NULL,
+    ADD COLUMN `public`                 TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`);
 
 UPDATE `v7ocf_thm_organizer_roomtypes`
@@ -215,8 +215,8 @@ ALTER TABLE `v7ocf_thm_organizer_rooms`
 ALTER TABLE `v7ocf_thm_organizer_rooms`
     DROP COLUMN `longname`,
     CHANGE `gpuntisID` `untisID` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-    CHANGE `typeID` `roomtypeID` INT(11) UNSIGNED DEFAULT NULL,
-    ADD COLUMN `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    CHANGE `typeID` `roomtypeID` INT(11) UNSIGNED                                DEFAULT NULL,
+    ADD COLUMN `active`          TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `untisID` UNIQUE (`untisID`),
     ADD INDEX `buildingID` (`buildingID`),
     ADD INDEX `roomtypeID` (`roomtypeID`);
@@ -235,7 +235,61 @@ ALTER TABLE `v7ocf_thm_organizer_planning_periods` DROP INDEX `pp_long`;
 
 RENAME TABLE `v7ocf_thm_organizer_planning_periods` TO `v7ocf_thm_organizer_terms`;
 
-ALTER TABLE `v7ocf_thm_organizer_terms` ADD UNIQUE INDEX `entry` (`name`, `startDate`, `endDate`);
+ALTER TABLE `v7ocf_thm_organizer_terms`
+    CHANGE `name` `code`     VARCHAR(10) NOT NULL,
+    ADD COLUMN `name_de`     VARCHAR(100) DEFAULT '' AFTER `code`,
+    ADD COLUMN `name_en`     VARCHAR(100) DEFAULT '' AFTER `name_de`,
+    ADD COLUMN `fullName_de` VARCHAR(255) DEFAULT '' AFTER `name_en`,
+    ADD COLUMN `fullName_en` VARCHAR(255) DEFAULT '' AFTER `fullName_de`,
+    ADD CONSTRAINT `entry` UNIQUE (`code`, `startDate`, `endDate`);
+
+UPDATE `v7ocf_thm_organizer_terms`
+SET `code`        = '19WS',
+    `name_de`     = 'WS 2018/19',
+    `name_en`     = 'Fall 2018',
+    `fullName_de` = 'Wintersemester 2018/19',
+    `fullName_en` = 'Fall Term 2018'
+WHERE `code` = 'WS19';
+
+UPDATE `v7ocf_thm_organizer_terms`
+SET `code`        = '19SS',
+    `name_de`     = 'SS 2019',
+    `name_en`     = 'Spring 2019',
+    `fullName_de` = 'Sommersemester 2019',
+    `fullName_en` = 'Spring Term 2019'
+WHERE `code` = 'SS19';
+
+UPDATE `v7ocf_thm_organizer_terms`
+SET `code`        = '20WS',
+    `name_de`     = 'WS 2019/20',
+    `name_en`     = 'Fall 2019',
+    `fullName_de` = 'Wintersemester 2019/20',
+    `fullName_en` = 'Fall Term 2019'
+WHERE `code` = 'WS20';
+
+UPDATE `v7ocf_thm_organizer_terms`
+SET `code`        = '20SS',
+    `name_de`     = 'SS 2020',
+    `name_en`     = 'Spring 2020',
+    `fullName_de` = 'Sommersemester 2020',
+    `fullName_en` = 'Spring Term 2020'
+WHERE `code` = 'SS20';
+
+UPDATE `v7ocf_thm_organizer_terms`
+SET `code`        = '21WS',
+    `name_de`     = 'WS 2020/21',
+    `name_en`     = 'Fall 2020',
+    `fullName_de` = 'Wintersemester 2020/21',
+    `fullName_en` = 'Fall Term 2020'
+WHERE `code` = 'WS21';
+
+UPDATE `v7ocf_thm_organizer_terms`
+SET `code`        = '21SS',
+    `name_de`     = 'SS 2021',
+    `name_en`     = 'Spring 2021',
+    `fullName_de` = 'Sommersemester 2021',
+    `fullName_en` = 'Spring Term 2021'
+WHERE `code` = 'SS21';
 # endregion
 
 # region group publishing (fk: groups, terms)
@@ -248,7 +302,7 @@ ALTER TABLE `v7ocf_thm_organizer_plan_pool_publishing`
 RENAME TABLE `v7ocf_thm_organizer_plan_pool_publishing` TO `v7ocf_thm_organizer_group_publishing`;
 
 ALTER TABLE `v7ocf_thm_organizer_group_publishing`
-    CHANGE `planPoolID` `groupID` INT(11) UNSIGNED NOT NULL,
+    CHANGE `planPoolID` `groupID`      INT(11) UNSIGNED NOT NULL,
     CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED DEFAULT NULL,
     MODIFY `published` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
     ADD CONSTRAINT `entry` UNIQUE (`groupID`, `termID`),
@@ -276,8 +330,8 @@ ALTER TABLE `v7ocf_thm_organizer_schedules`
 ALTER TABLE `v7ocf_thm_organizer_schedules`
     MODIFY `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     MODIFY `departmentID` INT(11) UNSIGNED NOT NULL,
-    CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED NOT NULL,
-    ADD COLUMN `migrated` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    CHANGE `planningPeriodID` `termID` INT(11) UNSIGNED    NOT NULL,
+    ADD COLUMN `migrated`              TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     ADD INDEX `departmentID` (`departmentID`),
     ADD INDEX `termID` (`termID`);
 
@@ -302,7 +356,7 @@ CREATE TABLE `v7ocf_thm_organizer_runs` (
     `name_de` VARCHAR(50)      NOT NULL,
     `name_en` VARCHAR(50)      NOT NULL,
     `termID`  INT(11) UNSIGNED NOT NULL,
-    `run`  TEXT             NOT NULL
+    `run`     TEXT             NOT NULL
         COMMENT 'Contains the start date and end dates of individual runs as a JSON string.',
     PRIMARY KEY (`id`),
     INDEX `termID` (`termID`)

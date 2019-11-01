@@ -7,8 +7,7 @@
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENT</option>
         </field>
-        <field name="termID" type="GenericOptions" label="TERM" valuecolumn="id" textcolumn="name"
-               table="thm_organizer_terms" onchange="this.form.submit();">
+        <field name="termID" type="Terms" label="TERM" onchange="this.form.submit();">
             <option value="">ALL_TERMS</option>
         </field>
         <field name="eventID" type="GenericOptions" label="EVENTS" valuecolumn="id" textcolumn="name"

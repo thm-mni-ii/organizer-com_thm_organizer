@@ -718,12 +718,16 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_subjects` (
     COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_terms` (
-    `id`        INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name`      VARCHAR(10)      NOT NULL,
-    `startDate` DATE DEFAULT NULL,
-    `endDate`   DATE DEFAULT NULL,
+    `id`          INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `code`        VARCHAR(10)      NOT NULL,
+    `name_de`     VARCHAR(100) DEFAULT '',
+    `name_en`     VARCHAR(100) DEFAULT '',
+    `fullName_de` VARCHAR(255) DEFAULT '',
+    `fullName_en` VARCHAR(255) DEFAULT '',
+    `startDate`   DATE         DEFAULT NULL,
+    `endDate`     DATE         DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `entry` (`name`, `startDate`, `endDate`)
+    UNIQUE INDEX `entry` (`code`, `startDate`, `endDate`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4

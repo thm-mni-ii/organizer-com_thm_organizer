@@ -33,7 +33,7 @@ class Runs extends ListModel
 		$tag       = Languages::getTag();
 		$linkParts = ["'index.php?option=com_thm_organizer&view=run_edit&id='", 'r.id'];
 		$query     = $this->_db->getQuery(true);
-		$query->select("r.id, r.name_$tag as name, r.run, r.termID, t.name as term")
+		$query->select("r.id, r.name_$tag as name, r.run, r.termID, t.name_$tag as term")
 			->select($query->concatenate($linkParts, '') . ' AS link')
 			->leftJoin('#__thm_organizer_terms AS t ON t.id = r.termID')
 			->from('#__thm_organizer_runs as r');

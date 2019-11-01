@@ -96,6 +96,10 @@ class Schedules
 		$formFiles          = Input::getInput()->files->get('jform', [], 'array');
 		$this->schedule     = simplexml_load_file($formFiles['file']['tmp_name']);
 
+		// Unused & mostly unfilled nodes
+		unset($this->schedule->lesson_date_schemes, $this->schedule->lesson_tables, $this->schedule->reductions);
+		unset($this->schedule->reduction_reasons, $this->schedule->studentgroups, $this->schedule->students);
+
 		$valid = true;
 
 		// Creation Date & Time, school year dates, term attributes
@@ -106,19 +110,8 @@ class Schedules
 		$validCreationTime = $this->validateText($this->creationTime, 'CREATION_TIME');
 		$valid             = ($valid and $validCreationDate and $validCreationTime);
 
-		$this->schoolYear            = new stdClass;
-		$this->schoolYear->endDate   = trim((string) $this->schedule->general->schoolyearenddate);
-		$this->schoolYear->startDate = trim((string) $this->schedule->general->schoolyearbegindate);
-
-		$validSYED = $this->validateDate($this->schoolYear->endDate, 'SCHOOL_YEAR_END_DATE');
-		$validSYSD = $this->validateDate($this->schoolYear->startDate, 'SCHOOL_YEAR_START_DATE');
-		$valid     = ($valid and $validSYED and $validSYSD);
-
-		$this->term            = new stdClass;
-		$this->term->endDate   = trim((string) $this->schedule->general->termenddate);
-		$this->term->name      = trim((string) $this->schedule->general->footer);
-		$this->term->startDate = trim((string) $this->schedule->general->termbegindate);
-		$valid                 = ($valid and $this->validateTerm());
+		$valid = ($valid and Terms::validate($this, $this->schedule->general));
+		unset($this->schedule->general);
 
 		$this->validateResources($valid);
 
@@ -135,7 +128,7 @@ class Schedules
 	 *
 	 * @return bool true on success, otherwise false
 	 */
-	private function validateDate(&$value, $constant)
+	public function validateDate(&$value, $constant)
 	{
 		if (empty($value))
 		{
@@ -144,9 +137,12 @@ class Schedules
 			return false;
 		}
 
-		$value = date('Y-m-d', strtotime($value));
+		if($value = date('Y-m-d', strtotime($value)))
+		{
+			return true;
+		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -236,7 +232,7 @@ class Schedules
 	 *
 	 * @return mixed string the text if valid, otherwise bool false
 	 */
-	private function validateText($value, $constant, $regex = '')
+	public function validateText($value, $constant, $regex = '')
 	{
 		if (empty($value))
 		{
@@ -253,60 +249,5 @@ class Schedules
 		}
 
 		return true;
-	}
-
-	/**
-	 * Validates the dates given to ensure term consistency. Sets the term ID if valid.
-	 *
-	 * @return bool true if the term dates are existent and consistent, otherwise false
-	 */
-	private function validateTerm()
-	{
-		$validTED = $this->validateDate($this->term->endDate, 'TERM_END_DATE');
-		$validTN  = $this->validateText($this->term->name, 'TERM_NAME', '/[\#\;]/');
-		$validTSD = $this->validateDate($this->term->startDate, 'TERM_START_DATE');
-		$valid    = ($validTED and $validTN and $validTSD);
-
-		if (!$valid)
-		{
-			return false;
-		}
-
-		$endTimeStamp = strtotime($this->term->endDate);
-		$invalidEnd   = $endTimeStamp > strtotime($this->schoolYear->endDate);
-
-		$startTimeStamp = strtotime($this->term->startDate);
-		$invalidStart   = $startTimeStamp < strtotime($this->schoolYear->startDate);
-
-		$invalidPeriod = $startTimeStamp >= $endTimeStamp;
-		$invalid       = ($invalidStart or $invalidEnd or $invalidPeriod);
-
-		if ($invalid)
-		{
-			$this->errors[] = Languages::_('THM_ORGANIZER_TERM_INVALID');
-
-			return false;
-		}
-
-		$termData = ['endDate' => date('Y-m-d', $endTimeStamp), 'startDate' => date('Y-m-d', $startTimeStamp)];
-		$table    = OrganizerHelper::getTable('Terms');
-		if ($table->load($termData))
-		{
-			$this->termID = $table->id;
-
-			return true;
-		}
-
-		$shortYear        = date('y', $termData['endDate']);
-		$termData['name'] = $this->term->name . $shortYear;
-
-		if ($table->save($termData))
-		{
-			$this->termID = $table->id;
-
-			return true;
-		}
-
-		return false;
 	}
 }

@@ -42,7 +42,7 @@ class Instances extends ListModel
         $query->innerJoin('#__thm_organizer_terms as t on u.termID = t.id')
             ->select("DISTINCT i.id")
             ->select("e.name_$tag AS name")
-            ->select("t.name AS term")
+            ->select("t.name_$tag AS term")
             ->select("u.id AS unitID")
             ->select("b.date AS date");
 
