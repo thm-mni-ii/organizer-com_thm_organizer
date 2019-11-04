@@ -2,6 +2,10 @@ body.tmpl-index .main h1.page-title span[class^="icon-"] {
     display: none;
 }
 
+body.tmpl-index .main .btn:hover span[class^="icon-"]:before {
+    color: white;
+}
+
 body.tmpl-index .main .btn-toolbar {
     display: flex;
     flex-direction: row;
@@ -105,6 +109,14 @@ a {
 
 a [class^='icon-'], a [class*=' icon-'] {
     margin-right: .2rem;
+}
+
+td a.btn {
+    margin-right: .2rem;
+}
+
+td a.btn:last-child {
+    margin-right: 0;
 }
 
 /* component icon *****************************************************************************************************/

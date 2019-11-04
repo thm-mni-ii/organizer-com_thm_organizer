@@ -12,16 +12,70 @@
 
 namespace Organizer\Views\HTML;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Campuses;
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\Languages;
+use Organizer\Helpers as Helpers;
+use Organizer\Helpers\Courses as Helper;
+use Organizer\Helpers\Languages as Languages;
 
 /**
  * Class which loads data into the view output context
  */
 class Courses extends ListView
 {
+	private $allowNew = false;
+
+	private $params = null;
+
+	const UNREGISTERED = null, WAIT_LIST = 0;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  A named configuration array for object construction.
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$this->params = Helpers\Input::getParams();
+
+		if ($this->clientContext === self::BACKEND)
+		{
+			$this->rowStructure = [
+				'checkbox' => '',
+				'name'     => 'link',
+				'persons'  => 'link',
+				'groups'   => 'link',
+				'rooms'    => 'link',
+				'dates'    => 'link'
+			];
+		}
+		else
+		{
+			$this->rowStructure = [
+				'name'               => 'link',
+				'dates'              => 'value',
+				'courseStatus'       => 'value',
+				'registrationStatus' => 'value',
+				'tools'              => 'value'
+			];
+		}
+	}
+
+	/**
+	 * Adds supplemental information to the display output.
+	 *
+	 * @return void modifies the object property supplement
+	 */
+	protected function addSupplement()
+	{
+		if (empty(Factory::getUser()->id))
+		{
+			$this->supplement =
+				'<div class="tbox-yellow">' . Languages::_('THM_ORGANIZER_COURSE_LOGIN_WARNING') . '</div>';
+		}
+	}
+
 	/**
 	 * Method to generate buttons for user interaction
 	 *
@@ -29,47 +83,91 @@ class Courses extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_COURSES_TITLE'), 'contract-2');
+		$backend      = $this->clientContext === self::BACKEND;
+		$resourceName = '';
+		if (!$backend)
+		{
+			if (Helpers\Input::getBool('onlyPrepCourses', false))
+			{
+				$resourceName .= Languages::_('THM_ORGANIZER_PREP_COURSES');
+				if ($campusID = $this->state->get('filter.campusID', 0))
+				{
+					$resourceName .= ' ' . Helpers\Campuses::getName($campusID);
+				}
+			}
+		}
+
+		Helpers\HTML::setMenuTitle('THM_ORGANIZER_COURSES_TITLE', $resourceName, 'contract-2');
+
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', 'THM_ORGANIZER_ADD', 'course.add', false);
-		$toolbar->appendButton('Standard', 'edit', 'THM_ORGANIZER_EDIT', 'course.edit', true);
-		$toolbar->appendButton(
-			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
-			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
-			'course.delete',
-			true
-		);
-		HTML::setPreferencesButton();
+		if ($backend or $this->allowNew)
+		{
+			$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'course.add', false);
+		}
+		if ($backend)
+		{
+			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'course.edit', true);
+			$toolbar->appendButton(
+				'Confirm',
+				Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+				'delete',
+				Languages::_('THM_ORGANIZER_DELETE'),
+				'course.delete',
+				true
+			);
+		}
+		else
+		{
+			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT_PROFILE'), 'participant.edit',
+				false);
+		}
 	}
 
-    /**
-     * Function determines whether the user may access the view.
-     *
-     * @return bool true if the user may access the view, otherwise false
-     */
-    protected function allowAccess()
-    {
-        return true;
-    }
+	/**
+	 * Function determines whether the user may access the view.
+	 *
+	 * @return bool true if the user may access the view, otherwise false
+	 */
+	protected function allowAccess()
+	{
+		if ($this->clientContext == self::FRONTEND)
+		{
+			return true;
+		}
 
-    /**
-     * Function to get table headers
-     *
-     * @return array including headers
-     */
-    public function getHeaders()
-    {
-        $ordering  = $this->state->get('list.ordering');
-        $direction = $this->state->get('list.direction');
-        $headers   = [];
-        $headers['checkbox']        = '';
-        $headers['name']            = HTML::sort('NAME', 'name', $direction, $ordering);
-        $headers['campus']          = Languages::_('THM_ORGANIZER_CAMPUS');
-        $headers['term']            = Languages::_('THM_ORGANIZER_TERM');
-        $headers['maxParticipants'] = Languages::_('THM_ORGANIZER_MAX_PARTICIPANTS');
-        $headers['state']           = Languages::_('THM_ORGANIZER_STATE');
+		return (Helpers\Access::isAdmin() or Helper::coordinates());
+	}
+
+	/**
+	 * Function to get table headers
+	 *
+	 * @return array including headers
+	 */
+	public function getHeaders()
+	{
+		$backend = $this->clientContext === self::BACKEND;
+
+		if ($backend)
+		{
+			$headers = [
+				'checkbox' => '',
+				'name'     => Languages::_('THM_ORGANIZER_NAME'),
+				'persons'  => Languages::_('THM_ORGANIZER_PERSONS'),
+				'groups'   => Languages::_('THM_ORGANIZER_GROUPS'),
+				'rooms'    => Languages::_('THM_ORGANIZER_ROOMS'),
+				'dates'    => Languages::_('THM_ORGANIZER_DATES')
+			];
+		}
+		else
+		{
+			$headers = [
+				'name'               => Languages::_('THM_ORGANIZER_NAME'),
+				'dates'              => Languages::_('THM_ORGANIZER_DATES'),
+				'courseStatus'       => Languages::_('THM_ORGANIZER_COURSE_STATE'),
+				'registrationStatus' => Languages::_('THM_ORGANIZER_REGISTRATION_STATE'),
+				'tools'              => Languages::_('THM_ORGANIZER_ACTIONS')
+			];
+		}
 
 		return $headers;
 	}
@@ -81,46 +179,132 @@ class Courses extends ListView
 	 */
 	protected function structureItems()
 	{
-		if (empty($this->items))
+		$backend          = $this->clientContext === self::BACKEND;
+		$buttonTemplate   = '<a class="btn" href="XHREFX" target="_blank">XICONXXTEXTX</a>';
+		$editIcon         = '<span class="icon-edit"></span>';
+		$editLink         = "index.php?option=com_thm_organizer&view=course_edit&id=";
+		$itemLink         = "index.php?option=com_thm_organizer&view=course_item&id=";
+		$participantsLink = "index.php?option=com_thm_organizer&view=participants&courseID=";
+		$participantsIcon = '<span class="icon-users"></span>';
+		if (Helpers\Participants::incomplete())
 		{
-			return;
+			$registrationIcon = '<span class="icon-user-check"></span>';
+			$registrationLink = "index.php?option=com_thm_organizer&view=participant_edit&courseID=";
+			$registrationText = Languages::_('THM_ORGANIZER_PROFILE_REGISTER');
 		}
-
-		$index          = 0;
-		$link           = "index.php?option=com_thm_organizer&view=course_edit&id=";
-		$processedItems = [];
-
-		foreach ($this->items as $item)
+		else
 		{
+			$registrationIcon = '<span class="icon-apply"></span>';
+			$registrationLink = "index.php?option=com_thm_organizer&task=participant.register&id=";
+			$registrationText = Languages::_('THM_ORGANIZER_REGISTER');
+		}
+		$rowLink = $backend ? $editLink : $itemLink;
+		$userID  = Factory::getUser()->id;
 
-			$campus          = Campuses::getName($item->campusID);
-			$maxParticipants = empty($item->maxParticipants) ? 1000 : $item->maxParticipants;
+		$this->allowNew  = Helpers\Access::isAdmin();
+		$personID        = Helpers\Persons::getIDByUserID();
+		$structuredItems = [];
 
-			$today = date('Y-m-d');
-			if ($item->end < $today)
+		foreach ($this->items as $course)
+		{
+			$courseID      = $course->id;
+			$course->dates = Helper::getDateDisplay($courseID);
+			$groups        = empty($course->groups) ? '' : ": {$course->groups}";
+			$course->name  = Helper::getName($courseID) . $groups;
+			$index         = "{$course->name}{$course->dates}{$courseID}";
+
+			$courseCoordinator = Helper::coordinates($courseID, $personID);
+			$this->allowNew    = ($this->allowNew OR $courseCoordinator);
+
+			if ($backend)
 			{
-				$status = Languages::_('THM_ORGANIZER_EXPIRED');
-			}
-			elseif ($item->start > $today)
-			{
-				$status = Languages::_('THM_ORGANIZER_PENDING');
+				$course->persons = implode(', ', Helper::getPersons($courseID));
+				$course->groups  = implode(', ', Helper::getGroups($courseID));
+				$course->rooms   = implode(', ', Helper::getRooms($courseID));
 			}
 			else
 			{
-				$status = Languages::_('THM_ORGANIZER_CURRENT');
+				if (Helper::isExpired($courseID))
+				{
+					$course->courseStatus = Languages::_('THM_ORGANIZER_EXPIRED');
+				}
+				elseif (Helper::isOngoing($courseID))
+				{
+					$course->courseStatus = Languages::_('THM_ORGANIZER_COURSE_ONGOING');
+				}
+				elseif (Helper::isFull($courseID))
+				{
+					$course->courseStatus = Languages::_('THM_ORGANIZER_COURSE_FULL');
+				}
+				else
+				{
+					$course->courseStatus = Languages::_('THM_ORGANIZER_COURSE_OPEN');
+				}
+
+				if ($userID)
+				{
+					$responsible = (Helper::coordinates($courseID) or Helper::hasResponsibility($courseID));
+
+					if ($responsible)
+					{
+						$course->registrationStatus = '';
+
+						$editButton = str_replace('XHREFX', $editLink . $courseID, $buttonTemplate);
+						$editButton = str_replace('XICONX', $editIcon . $courseID, $editButton);
+						$editButton = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_EDIT_COURSE'), $editButton);
+
+						$partsButton = str_replace('XHREFX', $participantsLink . $courseID, $buttonTemplate);
+						$partsButton = str_replace('XICONX', $participantsIcon, $partsButton);
+						$partsButton = str_replace(
+							'XTEXTX',
+							Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS'),
+							$partsButton
+						);
+
+						$course->tools = $editButton . $partsButton;
+					}
+					else
+					{
+						if ($registrationStatus = Helper::getParticipantState($courseID))
+						{
+							$course->registrationStatus = '<span class="icon-checkbox-checked"></span>';
+							$course->registrationStatus .= Languages::_('THM_ORGANIZER_ACCEPTED');
+
+							$course->tools = 'DEREGISTER BUTTON';
+						}
+						elseif ($registrationStatus === self::WAIT_LIST)
+						{
+							$course->registrationStatus = '<span class="icon-checkbox-partial"></span>';
+							$course->registrationStatus .= Languages::_('THM_ORGANIZER_WAIT_LIST');
+
+							$course->tools = 'DEREGISTER BUTTON';
+						}
+						else
+						{
+							$course->registrationStatus = '<span class="icon-checkbox-unchecked"></span>';
+							$course->registrationStatus .= Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
+
+							$registerButton = str_replace('XHREFX', $registrationLink . $courseID, $buttonTemplate);
+							$registerButton = str_replace('XICONX', $registrationIcon, $registerButton);
+							$registerButton = str_replace('XTEXTX', $registrationText, $registerButton);
+							$course->tools  = $registerButton;
+						}
+					}
+				}
+				else
+				{
+					$course->registrationStatus = '<span class="icon-minus-circle"></span>';
+					$course->registrationStatus .= Languages::_('THM_ORGANIZER_NOT_LOGGED_IN');
+					$course->tools              = '';
+				}
+
 			}
 
-			$thisLink                                  = $link . $item->id;
-			$processedItems[$index]                    = [];
-			$processedItems[$index]['checkbox']        = HTML::_('grid.id', $index, $item->id);
-			$processedItems[$index]['name']            = HTML::_('link', $thisLink, $item->name);
-			$processedItems[$index]['campus']          = HTML::_('link', $thisLink, $campus);
-			$processedItems[$index]['term']            = HTML::_('link', $thisLink, $item->term);
-			$processedItems[$index]['maxParticipants'] = HTML::_('link', $thisLink, $maxParticipants);
-			$processedItems[$index]['status']          = HTML::_('link', $thisLink, $status);
-
-			$index++;
+			$structuredItems[$index] = $this->structureItem($index, $course, $rowLink . $courseID);
 		}
-		$this->items = $processedItems;
+
+		ksort($structuredItems);
+
+		$this->items = $structuredItems;
 	}
 }

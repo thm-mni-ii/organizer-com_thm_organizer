@@ -12,7 +12,7 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Colors as ColorsHelper;
+use Organizer\Helpers\Colors as Helper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -42,7 +42,6 @@ class Colors extends ListView
 			'color.delete',
 			true
 		);
-		HTML::setPreferencesButton();
 	}
 
 	/**
@@ -84,7 +83,7 @@ class Colors extends ListView
 
 		foreach ($this->items as $item)
 		{
-			$item->color             = ColorsHelper::getListDisplay($item->color, $item->id);
+			$item->color             = Helper::getListDisplay($item->color, $item->id);
 			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}

@@ -50,10 +50,6 @@ class Buildings extends ListView
 			'building.delete',
 			true
 		);
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 
 	/**

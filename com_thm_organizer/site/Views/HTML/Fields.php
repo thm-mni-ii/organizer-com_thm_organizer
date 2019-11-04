@@ -43,7 +43,6 @@ class Fields extends ListView
 			'field.delete',
 			true
 		);
-		HTML::setPreferencesButton();
 	}
 
 	/**

@@ -50,7 +50,6 @@ class Grids extends ListView
 			'grid.delete',
 			true
 		);
-		HTML::setPreferencesButton();
 	}
 
 	/**

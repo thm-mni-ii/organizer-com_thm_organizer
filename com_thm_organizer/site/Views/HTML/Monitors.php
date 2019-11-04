@@ -68,11 +68,6 @@ class Monitors extends ListView
 			'monitor.delete',
 			true
 		);
-
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 
 	/**

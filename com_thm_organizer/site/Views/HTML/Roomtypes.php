@@ -58,7 +58,6 @@ class Roomtypes extends ListView
 				'roomtype.mergeView',
 				true
 			);
-			HTML::setPreferencesButton();
 		}
 	}
 

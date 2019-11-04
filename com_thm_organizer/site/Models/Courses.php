@@ -12,56 +12,128 @@
 
 namespace Organizer\Models;
 
+use Joomla\CMS\Form\Form;
 use Organizer\Helpers\Filtered;
-use Organizer\Helpers\Languages;
+use Organizer\Helpers\Input;
+use Organizer\Helpers\Terms as TermsHelper;
 
 /**
  * Class retrieves the data regarding a filtered set of courses.
  */
-class Courses extends ListModel
+class Courses extends ListModel implements FiltersFormFilters
 {
 	use Filtered;
 
 	protected $defaultOrdering = 'name';
 
-    /**
-     * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
-     *
-     * Adds filter settings for status, campus, term
-     *
-     * @return \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
-     */
-    protected function getListQuery()
-    {
-        $tag = Languages::getTag();
+	/**
+	 * Filters out form inputs which should not be displayed due to menu settings.
+	 *
+	 * @param   Form  $form  the form to be filtered
+	 *
+	 * @return void modifies $form
+	 */
+	public function filterFilterForm(&$form)
+	{
+		if ($this->clientContext === self::BACKEND)
+		{
+			$form->removeField('languageTag', 'list');
 
-        $query    = $this->_db->getQuery(true);
-        $subQuery = $this->_db->getQuery(true);
+			return;
+		}
 
-        $subQuery->select('MIN(date) as start, MAX(date) as end, ci.courseID')
-            ->from('#__thm_organizer_blocks as b')
-            ->innerJoin('#__thm_organizer_instances as i on i.blockID = b.id')
-            ->innerJoin('#__thm_organizer_course_instances as ci on ci.instanceID = i.id')
-            ->where("i.delta!='removed'")
-            ->group('ci.courseID');
+		$params = Input::getParams();
+		if ($params->get('onlyPrepCourses'))
+		{
+			$form->removeField('limit', 'list');
+			$form->removeField('search', 'filter');
+			$form->removeField('termID', 'filter');
+		}
 
-        $query->select('c.id')
-            ->select("ev.id as eventID, ev.name_$tag as name")
-            ->select("cp.id as campusID, cp.name_$tag as campus")
-            ->select("t.id AS termID, t.name as term")
-            ->select("sq.start, sq.end");
+		if ($params->get('campusID', 0))
+		{
+			$form->removeField('campusID', 'filter');
+		}
+	}
 
-        $query->from('#__thm_organizer_courses AS c')
-            ->innerJoin('#__thm_organizer_events AS ev ON ev.id = c.eventID')
-            ->leftJoin('#__thm_organizer_campuses as cp on cp.id = c.campusID')
-            ->innerJoin('#__thm_organizer_terms as t on t.id = c.termID')
-            ->innerJoin("($subQuery) as sq on sq.courseID = c.id")
-            ->group('c.id');
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  array  item objects on success, otherwise empty
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
 
-        $this->setSearchFilter($query, ['ev.name_de', 'ev.name_en']);
-        $this->setValueFilters($query, ['c.termID', 'c.campusID']);
-        $this->setDateStatusFilter($query, 'status', 'sq.start', 'sq.end');
+		// set the names
 
-        return $query;
-    }
+		if (empty($items))
+		{
+			return [];
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * Adds filter settings for status, campus, term
+	 *
+	 * @return \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
+	 */
+	protected function getListQuery()
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('c.*')
+			->from('#__thm_organizer_courses AS c')
+			->innerJoin('#__thm_organizer_units AS u ON u.courseID = c.id')
+			->innerJoin('#__thm_organizer_instances AS i ON i.unitID = u.id')
+			->innerJoin('#__thm_organizer_events AS e ON e.id = i.eventID')
+			->where("u.delta != 'removed'")
+			->where("i.delta != 'removed'")
+			->group('c.id');
+
+		$this->setSearchFilter($query, ['c.name_de', 'c.name_en', 'e.name_de', 'e.name_en']);
+
+		if ($this->clientContext === self::FRONTEND and Input::getParams()->get('onlyPrepCourses'))
+		{
+			$query->where('c.termID = ' . TermsHelper::getPreviousID($this->state->get('filter.termID')));
+		}
+		else
+		{
+			$this->setValueFilters($query, ['c.termID']);
+		}
+
+		self::addCampusFilter($query, 'c');
+
+		return $query;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return void populates state properties
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		parent::populateState($ordering, $direction);
+
+		if ($this->clientContext === self::FRONTEND)
+		{
+			$params = Input::getParams();
+			if ($campusID = $params->get('campusID', 0))
+			{
+				$this->setState('filter.campusID', $campusID);
+			}
+
+			if ($params->get('onlyPrepCourses'))
+			{
+				$this->setState('filter.termID', TermsHelper::getNextID());
+			}
+		}
+	}
 }

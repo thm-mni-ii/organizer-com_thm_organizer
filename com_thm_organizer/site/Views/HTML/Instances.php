@@ -41,8 +41,6 @@ class Instances extends ListView
 			'instance.delete',
 			true
 		);
-		HTML::setPreferencesButton();
-
 	}
 
 	/**
@@ -81,8 +79,8 @@ class Instances extends ListView
 	 */
 	protected function structureItems()
 	{
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=instance_edit&id=';
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=instance_edit&id=';
 		$structuredItems = [];
 
 		foreach ($this->items as $item)
@@ -102,7 +100,7 @@ class Instances extends ListView
 				$status = Languages::_('THM_ORGANIZER_CURRENT');
 			}
 
-			$thisLink                           = $link . $item->id;
+			$thisLink                            = $link . $item->id;
 			$structuredItems[$index]             = [];
 			$structuredItems[$index]['checkbox'] = HTML::_('grid.id', $index, $item->id);
 			$structuredItems[$index]['name']     = HTML::_('link', $thisLink, $item->name);

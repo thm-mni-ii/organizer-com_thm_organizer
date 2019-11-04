@@ -71,7 +71,6 @@ class Groups extends ListView
 				'group.publishPast',
 				false
 			);
-			HTML::setPreferencesButton();
 		}
 	}
 

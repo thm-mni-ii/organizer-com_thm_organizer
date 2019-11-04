@@ -61,11 +61,6 @@ class Programs extends ListView
 			'program.delete',
 			true
 		);
-
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 
 	/**

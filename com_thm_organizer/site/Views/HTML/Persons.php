@@ -50,7 +50,6 @@ class Persons extends ListView
 				'person.mergeView',
 				true
 			);
-			HTML::setPreferencesButton();
 		}
 	}
 

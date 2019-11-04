@@ -41,7 +41,6 @@ class Departments extends ListView
 			'department.delete',
 			true
 		);
-		HTML::setPreferencesButton();
 	}
 
 	/**

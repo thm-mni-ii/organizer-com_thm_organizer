@@ -82,11 +82,6 @@ class Subjects extends ListView
 				'subject.delete',
 				true
 			);
-
-			if ($this->clientContext === self::BACKEND and Access::isAdmin())
-			{
-				HTML::setPreferencesButton();
-			}
 		}
 	}
 

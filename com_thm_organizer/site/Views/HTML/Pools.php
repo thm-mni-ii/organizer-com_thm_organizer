@@ -39,10 +39,5 @@ class Pools extends PoolsView
 			'pool.delete',
 			true
 		);
-
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 }

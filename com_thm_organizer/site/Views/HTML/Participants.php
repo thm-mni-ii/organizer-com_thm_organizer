@@ -51,7 +51,6 @@ class Participants extends ListView
 				'participant.anonymize',
 				false
 			);
-			HTML::setPreferencesButton();
 		}
 	}
 

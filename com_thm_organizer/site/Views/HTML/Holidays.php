@@ -44,10 +44,6 @@ class Holidays extends ListView
 			'holiday.delete',
 			true
 		);
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 
 	/**
@@ -87,8 +83,8 @@ class Holidays extends ListView
 	 */
 	protected function structureItems()
 	{
-		$index          = 0;
-		$link           = 'index.php?option=com_thm_organizer&view=holiday_edit&id=';
+		$index           = 0;
+		$link            = 'index.php?option=com_thm_organizer&view=holiday_edit&id=';
 		$structuredItems = [];
 
 		foreach ($this->items as $item)
@@ -113,7 +109,7 @@ class Holidays extends ListView
 				$status = Languages::_('THM_ORGANIZER_CURRENT');
 			}
 
-			$thisLink                            = $link . $item->id;
+			$thisLink                             = $link . $item->id;
 			$structuredItems[$index]              = [];
 			$structuredItems[$index]['checkbox']  = HTML::_('grid.id', $index, $item->id);
 			$structuredItems[$index]['name']      = HTML::_('link', $thisLink, $item->name) . ' (' . HTML::_('link',

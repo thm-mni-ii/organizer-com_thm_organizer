@@ -12,7 +12,7 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Categories as CategoriesHelper;
+use Organizer\Helpers\Categories as Helper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -42,7 +42,6 @@ class Categories extends ListView
 				'category.mergeView',
 				true
 			);
-			HTML::setPreferencesButton();
 		}
 	}
 
@@ -88,7 +87,7 @@ class Categories extends ListView
 
 		foreach ($this->items as $item)
 		{
-			$item->program           = CategoriesHelper::getName($item->id);
+			$item->program           = Helper::getName($item->id);
 			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}

@@ -62,11 +62,6 @@ class Schedules extends ListView
 			'schedule.delete',
 			true
 		);
-
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 
 	/**

@@ -18,7 +18,10 @@ use Joomla\CMS\Factory;
  */
 class Courses extends ResourceHelper
 {
-	const MANUAL_ACCEPTANCE = 1;
+	// Registration status codes
+	const UNREGISTERED = null;
+
+	// RoleIDs
 	const TEACHER = 1, TUTOR = 2, SUPERVISOR = 3, SPEAKER = 4;
 
 	/**
@@ -136,12 +139,42 @@ class Courses extends ResourceHelper
 
 		foreach ($events as &$event)
 		{
-			$event['speakers'] = self::getPersons($courseID, $event['id'], self::SPEAKER);
-			$event['teachers'] = self::getPersons($courseID, $event['id'], self::TEACHER);
-			$event['tutors']   = self::getPersons($courseID, $event['id'], self::TUTOR);
+			$event['speakers'] = self::getPersons($courseID, $event['id'], [self::SPEAKER]);
+			$event['teachers'] = self::getPersons($courseID, $event['id'], [self::TEACHER]);
+			$event['tutors']   = self::getPersons($courseID, $event['id'], [self::TUTOR]);
 		}
 
 		return $events;
+	}
+
+	/**
+	 * Gets persons associated with the given course, optionally filtered by event and role.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return array the rooms in which the course takes place
+	 */
+	public static function getRooms($courseID)
+	{
+		$dbo = Factory::getDbo();
+
+		$query = $dbo->getQuery('true');
+		$query->select("DISTINCT r.untisID")
+			->from('#__thm_organizer_rooms AS r')
+			->innerJoin('#__thm_organizer_instance_rooms AS ir ON ir.roomID = r.id')
+			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.id = ir.assocID')
+			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
+			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
+			->where("ir.delta != 'removed'")
+			->where("ip.delta != 'removed'")
+			->where("i.delta != 'removed'")
+			->where("u.delta != 'removed'")
+			->where("u.courseID = $courseID")
+			->order('r.name');
+
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadColumn', []);
 	}
 
 	/**
@@ -213,13 +246,13 @@ class Courses extends ResourceHelper
 	/**
 	 * Gets persons associated with the given course, optionally filtered by event and role.
 	 *
-	 * @param   int  $courseID  the id of the course
-	 * @param   int  $eventID   the id of the event
-	 * @param   int  $roleID    the id of the role
+	 * @param   int    $courseID  the id of the course
+	 * @param   int    $eventID   the id of the event
+	 * @param   array  $roleIDs   the id of the roles the persons should have
 	 *
 	 * @return array the persons matching the search criteria
 	 */
-	public static function getPersons($courseID, $eventID = 0, $roleID = 0)
+	public static function getPersons($courseID, $eventID = 0, $roleIDs = [])
 	{
 		$dbo = Factory::getDbo();
 
@@ -235,9 +268,9 @@ class Courses extends ResourceHelper
 			$query->where("i.eventID = $eventID");
 		}
 
-		if ($roleID)
+		if ($roleIDs)
 		{
-			$query->where("ip.roleID = $roleID");
+			$query->where('ip.roleID IN (' . implode(',', $roleIDs) . ')');
 		}
 
 		$dbo->setQuery($query);
@@ -269,26 +302,58 @@ class Courses extends ResourceHelper
 
 		if (empty($courseID) or empty($participantID))
 		{
-			return null;
+			return self::UNREGISTERED;
 		}
 
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('status')
 			->from('#__thm_organizer_course_participants AS cp')
-			->where("courseID = $courseID")
-			->where("participantID = $participantID");
+			->where("cp.courseID = $courseID")
+			->where("cp.participantID = $participantID");
 
 		if ($eventID)
 		{
 			$query->innerJoin('#__thm_organizer_units AS u ON u.courseID = cp.courseID')
 				->innerJoin('#__thm_organizer_instances AS i ON i.unitID = u.id')
-				->where("i.eventID = $eventID");
+				->innerJoin('#__thm_organizer_instance_participants AS ip ON ip.instanceID = i.id')
+				->where("i.eventID = $eventID")
+				->where("ip.participantID = $participantID");
 		}
 
 		$dbo->setQuery($query);
 
-		return OrganizerHelper::executeQuery('loadResult', null);
+		return OrganizerHelper::executeQuery('loadResult', self::UNREGISTERED);
+	}
+
+	/**
+	 * Gets persons associated with the given course, optionally filtered by event and role.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return array the rooms in which the course takes place
+	 */
+	public static function getGroups($courseID)
+	{
+		$dbo = Factory::getDbo();
+
+		$query = $dbo->getQuery('true');
+		$query->select("DISTINCT g.untisID")
+			->from('#__thm_organizer_groups AS g')
+			->innerJoin('#__thm_organizer_instance_groups AS ig ON ig.groupID = g.id')
+			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.id = ig.assocID')
+			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
+			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
+			->where("ig.delta != 'removed'")
+			->where("ip.delta != 'removed'")
+			->where("i.delta != 'removed'")
+			->where("u.delta != 'removed'")
+			->where("u.courseID = $courseID")
+			->order('g.untisID');
+
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadColumn', []);
 	}
 
 	/**
@@ -548,152 +613,6 @@ class Courses extends ResourceHelper
 //        }
 //
 //        return $register;
-//    }
-//
-//    /**
-//     * Looks up the names of the categories associated with the course
-//     *
-//     * @param int $courseID the id of the course
-//     *
-//     * @return array the associated program names
-//     */
-//    public static function getCategories($courseID)
-//    {
-//        $names = [];
-//        $dbo   = Factory::getDbo();
-//        $tag   = Languages::getTag();
-//
-//        $query     = $dbo->getQuery(true);
-//        $nameParts = ["p.name_$tag", "' ('", 'd.abbreviation', "' '", 'p.version', "')'"];
-//        $query->select('cat.name AS categoryName, ' . $query->concatenate($nameParts, "") . ' AS name')
-//            ->select('cat.id')
-//            ->from('#__thm_organizer_categories AS cat')
-//            ->innerJoin('#__thm_organizer_groups AS gr ON gr.categoryID = cat.id')
-//            ->innerJoin('#__thm_organizer_lesson_groups AS lg ON lg.groupID = gr.id')
-//            ->innerJoin('#__thm_organizer_lesson_courses AS lc ON lc.id = lg.lessonCourseID')
-//            ->leftJoin('#__thm_organizer_programs AS p ON p.categoryID = cat.id')
-//            ->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id')
-//            ->where("lc.courseID = '$courseID'");
-//
-//        $dbo->setQuery($query);
-//
-//        $results = OrganizerHelper::executeQuery('loadAssocList');
-//        if (empty($results)) {
-//            return [];
-//        }
-//
-//        foreach ($results as $result) {
-//            $names[$result['id']] = empty($result['name']) ? $result['categoryName'] : $result['name'];
-//        }
-//
-//        return $names;
-//    }
-//
-//    /**
-//     * Creates a display of formatted dates for a course
-//     *
-//     * @param int $courseID the id of the course to be loaded
-//     *
-//     * @return string the dates to display
-//     */
-//    public static function getDateDisplay($courseID = 0)
-//    {
-//        $courseID = Input::getInt('lessonID', $courseID);
-//
-//        $dates = self::getDates($courseID);
-//
-//        if (!empty($dates)) {
-//            $dateFormat = Input::getParams()->get('dateFormat', 'd.m.Y');
-//            $start      = HTML::_('date', $dates[0], $dateFormat);
-//            $end        = HTML::_('date', end($dates), $dateFormat);
-//
-//            return "$start - $end";
-//        }
-//
-//        return '';
-//    }
-//
-//    /**
-//     * Loads all all participants for specific course from database
-//     *
-//     * @param int     $courseID id of course to be loaded
-//     * @param boolean $includeWaitList
-//     *
-//     * @return array  with course registration data on success, otherwise empty
-//     */
-//    public static function getFullParticipantData($courseID = 0, $includeWaitList = false)
-//    {
-//        if (empty($courseID)) {
-//            return [];
-//        }
-//
-//
-//        $dbo   = Factory::getDbo();
-//        $tag   = Languages::getTag();
-//        $query = $dbo->getQuery(true);
-//
-//        $nameParts    = ['pt.surname', "', '", 'pt.forename'];
-//        $programParts = ["pr.name_$tag", "' ('", 'dg.abbreviation', "' '", 'pr.version', "')'"];
-//
-//        $query->select($query->concatenate($nameParts, '') . ' AS userName, pt.address, pt.zipCode, pt.city')
-//            ->select('u.id, u.email')
-//            ->select($query->concatenate($programParts, '') . ' AS programName, pr.id AS programID')
-//            ->select("dp.shortName_$tag AS departmentName, dp.id AS departmentID");
-//
-//        $query->from('#__thm_organizer_user_lessons AS ul');
-//        $query->innerJoin('#__users AS u ON u.id = ul.userID');
-//        $query->innerJoin('#__thm_organizer_participants AS pt ON pt.id = ul.userID');
-//        $query->innerJoin('#__thm_organizer_programs AS pr ON pr.id = pt.programID');
-//        $query->innerJoin('#__thm_organizer_degrees AS dg ON dg.id = pr.degreeID');
-//        $query->innerJoin('#__thm_organizer_departments AS dp ON dp.id = pr.departmentID');
-//        $query->where("ul.lessonID = '$courseID'");
-//
-//        if (!$includeWaitList) {
-//            $query->where("ul.status = '1'");
-//        }
-//
-//        $query->order('userName');
-//
-//        $dbo->setQuery($query);
-//
-//        return OrganizerHelper::executeQuery('loadAssocList', []);
-//    }
-//
-//    /**
-//     * Creates a status display for the user's relation to the respective course.
-//     *
-//     * @param int $courseID the id of the course
-//     *
-//     * @return string the HTML for the status display
-//     */
-//    public static function getStatusDisplay($courseID)
-//    {
-//        $expired    = !self::isRegistrationOpen($courseID);
-//        $authorized = self::authorized($courseID);
-//
-//        // Personal Status
-//        $none        = $expired ?
-//
-//        if (!empty(Factory::getUser()->id)) {
-//            if ($authorized) {
-//                $userStatus = Languages::_('THM_ORGANIZER_COURSE_ADMINISTRATOR');
-//            } else {
-//                $regState = self::getParticipantState($courseID);
-//
-//                if (empty($regState)) {
-//                    $text = $none;
-//                } else {
-//                    $text = empty($regState['status']) ? $waitList : $registered;
-//                }
-//
-//                $disabled   = '<span class="disabled">%s</span>';
-//                $userStatus = $expired ? sprintf($disabled, $text) : $text;
-//            }
-//        } else {
-//            $userStatus = $expired ? $none : '<span class="disabled">' . $notLoggedIn . '</span>';
-//        }
-//
-//        return $userStatus;
 //    }
 //
 //    /**

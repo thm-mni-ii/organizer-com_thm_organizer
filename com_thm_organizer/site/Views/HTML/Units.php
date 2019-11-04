@@ -42,7 +42,6 @@ class Units extends ListView
 		);
 		$url = 'index.php?option=com_thm_organizer&view=instances';
 		$toolbar->appendButton('Link', 'Instances', 'Instances', $url);
-		HTML::setPreferencesButton();
 
 	}
 

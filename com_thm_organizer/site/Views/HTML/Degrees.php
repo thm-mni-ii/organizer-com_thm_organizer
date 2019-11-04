@@ -41,7 +41,6 @@ class Degrees extends ListView
 			'degree.delete',
 			true
 		);
-		HTML::setPreferencesButton();
 	}
 
 	/**

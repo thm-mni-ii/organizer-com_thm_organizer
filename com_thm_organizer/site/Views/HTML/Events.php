@@ -50,10 +50,6 @@ class Events extends ListView
 			'event.delete',
 			true
 		);
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 
 	/**

@@ -6,6 +6,10 @@ body.tmpl-index
     display: none;
   }
 
+  .btn:hover span[class^="icon-"]:before {
+    color: white;
+  }
+
   .btn-toolbar {
     display: flex;
     flex-direction: row;

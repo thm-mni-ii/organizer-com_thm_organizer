@@ -38,7 +38,6 @@ class Methods extends ListView
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'method.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'method.edit', true);
 		$toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'method.mergeView', true);
-		HTML::setPreferencesButton();
 	}
 
 	/**

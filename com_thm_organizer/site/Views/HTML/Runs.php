@@ -44,7 +44,6 @@ class Runs extends ListView
 			'run.delete',
 			true
 		);
-		HTML::setPreferencesButton();
 	}
 
 	/**

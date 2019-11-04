@@ -12,7 +12,7 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Campuses as CampusesHelper;
+use Organizer\Helpers\Campuses as Helper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -48,10 +48,6 @@ class Campuses extends ListView
 			'campus.delete',
 			true
 		);
-		if (Access::isAdmin())
-		{
-			HTML::setPreferencesButton();
-		}
 	}
 
 	/**
@@ -117,7 +113,7 @@ class Campuses extends ListView
 			}
 
 			$item->address  = $address;
-			$item->location = CampusesHelper::getPin($item->location);
+			$item->location = Helper::getPin($item->location);
 
 			if (!empty($item->gridName))
 			{

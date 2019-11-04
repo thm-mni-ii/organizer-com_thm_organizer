@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides general functions for participant access checks, data retrieval and display.
  */
-class Participants
+class Participants extends ResourceHelper
 {
 	// Course participant status codes
 	const WAIT_LIST = 0, REGISTERED = 1, REMOVED = 2;
@@ -81,6 +81,49 @@ class Participants
 		self::notify($participantID, $courseID, $state);
 
 		return true;
+	}
+
+	/**
+	 * Checks whether all the necessary participant information has been entered.
+	 *
+	 * @param   int     $participantID  the id of the participant to validate
+	 * @param   string  $context        the name of the validation context
+	 *
+	 * @return bool true if the participant entry is incomplete, otherwise false
+	 */
+	public static function incomplete($participantID = 0, $context = 'preparatory')
+	{
+		$participantID = empty($participantID) ? Factory::getUser()->id : $participantID;
+
+		if (empty($participantID))
+		{
+			return true;
+		}
+
+		$table = self::getTable();
+		if (!$table->load($participantID))
+		{
+			return true;
+		}
+
+		if ($context === 'preparatory')
+		{
+			$requiredProperties = ['address', 'city', 'forename', 'programID', 'surname', 'zipCode'];
+		}
+		else
+		{
+			$requiredProperties = [];
+		}
+
+		foreach ($requiredProperties as $property)
+		{
+			if (empty($table->get($property)))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

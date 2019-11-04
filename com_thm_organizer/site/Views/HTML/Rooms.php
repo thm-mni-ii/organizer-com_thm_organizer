@@ -43,7 +43,6 @@ class Rooms extends ListView
 				'room.mergeView',
 				true
 			);
-			HTML::setPreferencesButton();
 		}
 	}
 
