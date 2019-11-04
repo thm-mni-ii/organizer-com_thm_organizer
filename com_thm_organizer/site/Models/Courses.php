@@ -20,8 +20,9 @@ use Organizer\Helpers\Languages;
  */
 class Courses extends ListModel
 {
-    use Filtered;
-    protected $defaultOrdering = 'name';
+	use Filtered;
+
+	protected $defaultOrdering = 'name';
 
     /**
      * Method to get a \JDatabaseQuery object for retrieving the data set from a database.

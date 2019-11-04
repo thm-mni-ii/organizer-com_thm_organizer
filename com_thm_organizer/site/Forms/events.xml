@@ -10,13 +10,13 @@
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
         </field>
-        <field name="preparatory" type="Options" label="THM_ORGANIZER_PREPARATORY" onchange="this.form.submit();">
-            <option value="">ALL_PREPARATORY</option>
-            <option value="0">ONLY_COURSES</option>
-            <option value="1">ONLY_PREP_COURSES</option>
+        <field name="preparatory" type="Options" label="THM_ORGANIZER_PREP_COURSES"
+               description="THM_ORGANIZER_PREP_COURSES_DESC" default="0">
+            <option value="">THM_ORGANIZER_ALL_COURSES</option>
+            <option value="1">THM_ORGANIZER_ONLY_PREP_COURSES</option>
+            <option value="0">THM_ORGANIZER_NOT_PREP_COURSES</option>
         </field>
     </fields>
-
     <fields name="list">
         <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
                description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>

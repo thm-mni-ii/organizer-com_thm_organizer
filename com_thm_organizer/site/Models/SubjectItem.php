@@ -78,7 +78,7 @@ class SubjectItem extends ItemModel
 			return [];
 		}
 
-		$subject = $this->getTemplate();
+		$subject = $this->getStructure();
 		foreach ($result as $property => $value)
 		{
 			$subject[$property]['value'] = $value;
@@ -98,7 +98,7 @@ class SubjectItem extends ItemModel
 	 *
 	 * @return array the subject template
 	 */
-	private function getTemplate()
+	private function getStructure()
 	{
 		$option   = 'THM_ORGANIZER_';
 		$url      = '?option=com_thm_organizer&view=subject_item&languageTag=' . Languages::getTag() . '&id=';

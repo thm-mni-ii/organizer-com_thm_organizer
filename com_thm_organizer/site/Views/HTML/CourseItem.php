@@ -20,12 +20,17 @@ use Organizer\Helpers\Terms;
  */
 class CourseItem extends ItemView
 {
-	const ACCEPTED = 1;
-	const EXPIRED = -1;
-	const ONGOING = 1;
-	const PENDING = 0;
-	const UNREGISTERED = null;
+	// Participant statuses
+	const UNREGISTERED = null, PENDING = 0, ACCEPTED = 1;
 
+	// Course Statuses
+	const EXPIRED = -1, ONGOING = 1;
+
+	/**
+	 * Adds supplemental information to the display output.
+	 *
+	 * @return void modifies the object property supplement
+	 */
 	protected function addSupplement()
 	{
 		$course = $this->item;

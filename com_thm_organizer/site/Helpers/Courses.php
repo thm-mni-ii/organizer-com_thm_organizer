@@ -673,10 +673,6 @@ class Courses extends ResourceHelper
 //
 //        // Personal Status
 //        $none        = $expired ?
-//            Languages::_('THM_ORGANIZER_EXPIRED') : Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
-//        $notLoggedIn = '<span class="icon-warning"></span>' . Languages::_('THM_ORGANIZER_NOT_LOGGED_IN');
-//        $waitList    = '<span class="icon-checkbox-partial"></span>' . Languages::_('THM_ORGANIZER_WAIT_LIST');
-//        $registered  = '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_REGISTERED');
 //
 //        if (!empty(Factory::getUser()->id)) {
 //            if ($authorized) {

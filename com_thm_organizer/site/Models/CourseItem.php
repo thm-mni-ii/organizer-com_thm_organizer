@@ -21,10 +21,7 @@ use Organizer\Helpers\Languages;
  */
 class CourseItem extends ItemModel
 {
-	const EXPIRED = -1;
-	const PLANNED = 0;
-	const ONGOING = 1;
-	const UNREGISTERED = null;
+	const EXPIRED = -1, PLANNED = 0, ONGOING = 1, UNREGISTERED = null;
 
 	/**
 	 * Provides a strict access check which can be overwritten by extending classes.
@@ -63,7 +60,7 @@ class CourseItem extends ItemModel
 		}
 
 		$campusID = $courseTable->campusID;
-		$course   = $this->getTemplate();
+		$course   = $this->getStructure();
 		$tag      = Languages::getTag();
 
 		$course['campus']['value']  = Helpers\Campuses::getPin($campusID) . ' ' . Helpers\Campuses::getName($campusID);
@@ -92,7 +89,7 @@ class CourseItem extends ItemModel
 	 *
 	 * @return array the course template
 	 */
-	private function getTemplate()
+	private function getStructure()
 	{
 		$option   = 'THM_ORGANIZER_';
 		$template = [
@@ -229,7 +226,7 @@ class CourseItem extends ItemModel
 				}
 			}
 
-			$event = $this->getTemplate();
+			$event = $this->getStructure();
 			foreach (array_keys($event) as $attribute)
 			{
 

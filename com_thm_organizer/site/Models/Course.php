@@ -111,21 +111,17 @@ class Course extends BaseModel
 			return false;
 		}
 
-        $mailer = Factory::getMailer();
-        $mailer->setSender([$sender->email, $sender->name]);
-        $mailer->setSubject($data['subject']);
+		$sent = true;
+		foreach ($recipients as $recipient)
+		{
+			$mailer = JFactory::getMailer();
+			$mailer->setSender([$sender->email, $sender->name]);
+			$mailer->setSubject($data['subject']);
+			$mailer->setBody($data['text']);
+			$mailer->addRecipient($recipient['email']);
+			$sent = ($sent and $mailer->Send());
+		}
 
-        foreach ($recipients as $recipient) {
-            $mailer->addRecipient($recipient['email']);
-        }
-
-        $mailer->setBody($data['text']);
-        $sent = $mailer->Send();
-
-        if (!$sent) {
-            return false;
-        }
-
-        return true;
-    }
+		return $sent;
+	}
 }
