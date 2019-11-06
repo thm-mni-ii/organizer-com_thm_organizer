@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/components/com_thm_organizer/Fields">
-    <fields name="params" addfieldpath="/components/com_thm_organizer/Fields">
+<form>
+    <fields name="params" addfieldprefix="Organizer\Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="si" type="Options" label="THM_ORGANIZER_SI_DISPLAY" default="0"
                    description="THM_ORGANIZER_SI_DISPLAY_DESC" class="chzn-color-state">

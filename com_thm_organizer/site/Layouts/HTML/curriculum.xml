@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form addfieldprefix="Organizer\Fields">
-    <fields name="params">
+<form>
+    <fields name="params" addfieldprefix="Organizer\Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
             <field name="programID" type="Programs" label="PROGRAM" required="true">
                 <option value="">SELECT_PROGRAM</option>
