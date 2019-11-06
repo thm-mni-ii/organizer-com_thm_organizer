@@ -16,42 +16,44 @@ use Exception;
 
 spl_autoload_register(function ($originalClassName) {
 
-    $classNameParts = explode('\\', $originalClassName);
+	$classNameParts = explode('\\', $originalClassName);
 
-    $component = array_shift($classNameParts);
-    if ($component !== 'Organizer') {
-        return;
-    }
+	$component = array_shift($classNameParts);
+	if ($component !== 'Organizer')
+	{
+		return;
+	}
 
-    $className = array_pop($classNameParts);
+	$className = array_pop($classNameParts);
 
-    if (reset($classNameParts) === 'Admin') {
-        array_shift($classNameParts);
-    }
+	if (reset($classNameParts) === 'Admin')
+	{
+		array_shift($classNameParts);
+	}
 
-    $classNameParts[] = empty($className) ? 'Organizer' : $className;
+	$classNameParts[] = empty($className) ? 'Organizer' : $className;
 
-    $filepath            = JPATH_ROOT . '/components/com_thm_organizer/' . implode('/', $classNameParts) . '.php';
-    $namespacedClassName = "Organizer\\" . implode('\\', $classNameParts);
+	$filepath            = JPATH_ROOT . '/components/com_thm_organizer/' . implode('/', $classNameParts) . '.php';
+	$namespacedClassName = "Organizer\\" . implode('\\', $classNameParts);
 
-    if (is_file($filepath)) {
-        require_once $filepath;
-        $valid = (
-            class_exists($namespacedClassName)
-            or interface_exists($namespacedClassName)
-            or trait_exists($namespacedClassName)
-        );
-        if (!$valid) {
-            echo "<pre>" . print_r('no class!', true) . "</pre>";
-            echo "<pre>class name:              " . print_r($className, true) . "</pre>";
-            echo "<pre>original fq namespace:   " . print_r($originalClassName, true) . "</pre>";
-            echo "<pre>calculated fq namespace: " . print_r($namespacedClassName, true) . "</pre>";
-            echo "<pre>file path:               " . print_r($filepath, true) . "</pre>";
-            $exc = new Exception;
-            echo "<pre>" . print_r($exc->getTraceAsString(), true) . "</pre>";
-            die;
-        }
-    } else {
-        //echo "<pre>file not found" . print_r($filepath, true) . "</pre>";
-    }
+	if (is_file($filepath))
+	{
+		require_once $filepath;
+		$valid = (
+			class_exists($namespacedClassName)
+			or interface_exists($namespacedClassName)
+			or trait_exists($namespacedClassName)
+		);
+		if (!$valid AND JDEBUG)
+		{
+			echo "<pre>" . print_r('no class!', true) . "</pre>";
+			echo "<pre>class name:              " . print_r($className, true) . "</pre>";
+			echo "<pre>original fq namespace:   " . print_r($originalClassName, true) . "</pre>";
+			echo "<pre>calculated fq namespace: " . print_r($namespacedClassName, true) . "</pre>";
+			echo "<pre>file path:               " . print_r($filepath, true) . "</pre>";
+			$exc = new Exception;
+			echo "<pre>" . print_r($exc->getTraceAsString(), true) . "</pre>";
+			die;
+		}
+	}
 });
