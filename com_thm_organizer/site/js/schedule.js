@@ -2743,7 +2743,6 @@ const ScheduleApp = function (variables) {
      */
     function handleDrops(event)
     {
-        // Only "text" for IE
         const data = JSON.parse(event.dataTransfer.getData('text')),
             element = document.getElementById(data.id),
             left = window.getComputedStyle(element).getPropertyValue('left'),

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
         <field name="departmentID" type="Departments" label="DEPARTMENT" access="document"
                onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
@@ -11,9 +11,9 @@
             <option value="">ALL_PROGRAMS</option>
             <option value="-1">NO_PROGRAMS</option>
         </field>
-        <field name="fieldID" type="GenericOptions" label="FIELD" onchange="this.form.submit();" valuecolumn="f.id"
-               textcolumn="f.name" localized="true"
-               table="thm_organizer_fields AS f,thm_organizer_pools AS p ON p.fieldID = f.id">
+        <field name="fieldID" type="GenericOptions" label="FIELD" localized="true" onchange="this.form.submit();"
+               table="thm_organizer_fields AS f,thm_organizer_pools AS p ON p.fieldID = f.id" textcolumn="f.name"
+               valuecolumn="f.id">
             <option value="">ALL_FIELDS</option>
             <option value="-1">NO_FIELD</option>
         </field>

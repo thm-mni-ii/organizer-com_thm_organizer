@@ -3,13 +3,11 @@
     <fieldset name="details">
         <field name="id" type="hidden"/>
         <field name="roomID" type="GenericOptions" label="ROOM" required="true" table="thm_organizer_rooms"
-               valuecolumn="id" textcolumn="name">
+               textcolumn="name" valuecolumn="id">
             <option value="">SELECT_ROOM</option>
         </field>
-        <field name="ip" type="text" label="THM_ORGANIZER_IP" description="THM_ORGANIZER_IP_DESC"
-               class="required validate-ip" required="true" maxlength="15" default=""/>
-        <field name="useDefaults" type="Options" label="DEFAULT_SETTINGS"
-               description="THM_ORGANIZER_DEFAULT_SETTINGS_DESC" default="1">
+        <field name="ip" type="Blank" label="IP" class="required validate-ip" maxlength="15" required="true"/>
+        <field name="useDefaults" type="Options" label="DEFAULT_SETTINGS" default="1">
             <option value='1'>YES</option>
             <option value='0'>NO</option>
         </field>
@@ -18,10 +16,10 @@
             <option value='2'>MIXED_PLAN</option>
             <option value='3'>CONTENT_DISPLAY</option>
         </field>
-        <field name="scheduleRefresh" type="Integer" label="SCHEDULE_REFRESH_RATE"
-               description="THM_ORGANIZER_SCHEDULE_REFRESH_RATE_DESC" first="10" last="990" step="10" default="60"/>
-        <field name="contentRefresh" type="Integer" label="CONTENT_REFRESH"
-               description="THM_ORGANIZER_CONTENT_REFRESH_DESC" first="10" last="990" step="10" default="60"/>
+        <field name="scheduleRefresh" type="Integer" label="SCHEDULE_REFRESH_RATE" default="60" first="10" last="990"
+               step="10"/>
+        <field name="contentRefresh" type="Integer" label="CONTENT_REFRESH" default="60" first="10" last="990"
+               step="10"/>
         <field name="content" type="FileOptions" label="DISPLAY_CONTENT" directory="images/thm_organizer/" exclude=""/>
     </fieldset>
 </form>

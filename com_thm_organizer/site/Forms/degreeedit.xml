@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name" type="text" class="required" size="80" required="true" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC"/>
-        <field name="abbreviation" type="text" class="required" size="10" required="true"
-               label="THM_ORGANIZER_ABBREVIATION" description="THM_ORGANIZER_ABBREVIATION_DESC"/>
-        <field name="code" type="text" class="required" size="10" required="true" label="THM_ORGANIZER_DEGREE_CODE"
-               description="THM_ORGANIZER_DEGREE_CODE_DESC"/>
+        <field name="name" type="Blank" label="NAME" class="required" required="true" size="80"/>
+        <field name="abbreviation" type="Blank" label="ABBREVIATION" class="required" required="true" size="10"/>
+        <field name="code" type="Blank" label="DEGREE_CODE" class="required" required="true" size="10"/>
     </fieldset>
 </form>

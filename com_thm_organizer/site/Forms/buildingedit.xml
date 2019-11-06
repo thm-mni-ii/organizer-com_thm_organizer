@@ -2,15 +2,12 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name" type="text" class="required" size="60" maxlength="60" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC" required="true"/>
+        <field name="name" type="Blank" label="NAME" class="required" maxlength="60" required="true" size="60"/>
         <field name="campusID" type="Campuses" label="CAMPUS">
             <option value="">NO_CAMPUS</option>
         </field>
-        <field name="location" type="text" class="validate-gps" size="60" maxlength="20" label="THM_ORGANIZER_LOCATION"
-               description="THM_ORGANIZER_LOCATION_DESC"/>
-        <field name="address" type="text" class="validate-german-address" size="60" maxlength="255"
-               label="THM_ORGANIZER_ADDRESS" description="THM_ORGANIZER_ADDRESS_DESC"/>
+        <field name="location" type="Blank" label="LOCATION" class="validate-gps" maxlength="20" size="60"/>
+        <field name="address" type="Blank" label="ADDRESS" class="validate-german-address" maxlength="255" size="60"/>
         <field name="propertyType" type="Options" label="PROPERTY_TYPE" description="THM_ORGANIZER_PROPERTY_TYPE_DESC">
             <option value="0">UNKNOWN</option>
             <option value="1">OWNED</option>

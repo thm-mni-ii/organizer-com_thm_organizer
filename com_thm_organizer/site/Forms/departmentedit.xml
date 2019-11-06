@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="shortName_de" type="text" size="10" maxlength="50" required="true"
-               label="THM_ORGANIZER_SHORT_NAME_DE" description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
-        <field name="name_de" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="shortName_en" type="text" size="10" maxlength="50" required="true"
-               label="THM_ORGANIZER_SHORT_NAME_EN" description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
-        <field name="name_en" type="text" size="200" required="true" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="contact_type" type="Options" label="THM_ORGANIZER_CONTACT_TYPE" required="true">
-            <option value="0">THM_ORGANIZER_CONTACT_PERSON</option>
-            <option value="1">THM_ORGANIZER_CONTACT_EMAIL</option>
+        <field name="shortName_de" type="Blank" label="SHORT_NAME_DE" maxlength="50" required="true" size="10"/>
+        <field name="name_de" type="Blank" label="NAME_DE" required="true" size="200"/>
+        <field name="shortName_en" type="Blank" label="SHORT_NAME_EN" maxlength="50" required="true" size="10"/>
+        <field name="name_en" type="Blank" label="NAME_EN" required="true" size="200"/>
+        <field name="contact_type" type="Options" label="CONTACT_TYPE" required="true">
+            <option value="0">CONTACT_PERSON</option>
+            <option value="1">CONTACT_EMAIL</option>
         </field>
-        <field name="contactID" type="user" label="THM_ORGANIZER_CONTACT_PERSON"
+        <field name="contactID" type="User" label="THM_ORGANIZER_CONTACT_PERSON"
                description="THM_ORGANIZER_CONTACT_PERSON_DESC" showon="contact_type:0"/>
-        <field name="contact_email" type="email" label="THM_ORGANIZER_CONTACT_EMAIL" validate="email"
-               showon="contact_type:1"/>
+        <field name="contact_email" type="Email" label="THM_ORGANIZER_CONTACT_EMAIL" showon="contact_type:1"
+               validate="email"/>
         <field name="asset_id" type="hidden" filter="unset"/>
-        <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" validate="rules" filter="rules"
+        <field name="rules" type="Rules" label="JCONFIG_PERMISSIONS_LABEL" validate="rules" filter="rules"
                component="com_thm_organizer" section="department"/>
     </fieldset>
 </form>

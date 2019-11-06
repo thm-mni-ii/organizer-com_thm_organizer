@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="runs">
-        <field name="startDate" type="calendar" default="today" label="THM_ORGANIZER_START_DATE"
-               class="input-small" required="true"/>
-        <field name="endDate" type="calendar" default="today" label="THM_ORGANIZER_END_DATE"
-               class="input-small" required="true"/>
+        <field name="startDate" type="Date" label="START_DATE" required="true"/>
+        <field name="endDate" type="Date" label="END_DATE" required="true"/>
     </fieldset>
 </form>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
         <field name="departmentID" type="Departments" label="DEPARTMENT" onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENT</option>
@@ -10,13 +10,13 @@
             <option value="">ALL_TERMS</option>
             <option value="-1">NO_TERM</option>
         </field>
-        <field name="gridID" type="GenericOptions" label="GRIDS" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_grids" onchange="this.form.submit();">
+        <field name="gridID" type="GenericOptions" label="GRIDS" localized="true" onchange="this.form.submit();"
+               table="thm_organizer_grids" textcolumn="name" valuecolumn="id">
             <option value="">ALL_GRIDS</option>
             <option value="-1">NO_GRID</option>
         </field>
-        <field name="runID" type="GenericOptions" label="RUNS" valuecolumn="id" textcolumn="name" localized="true"
-               table="thm_organizer_runs" onchange="this.form.submit();">
+        <field name="runID" type="GenericOptions" label="RUNS" localized="true" onchange="this.form.submit();"
+               table="thm_organizer_runs" textcolumn="name" valuecolumn="id">
             <option value="">ALL_RUNS</option>
             <option value="-1">NO_RUN</option>
         </field>

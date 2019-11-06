@@ -3,12 +3,9 @@
     <fieldset name="details">
         <field name="id" type="hidden"/>
         <field name="termID" type="Terms" label="TERM" required="true"/>
-        <field name="name_de" type="text" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
-        <field name="name_en" type="text" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="run" type="runs" formsource="run_blocks" multiple="true"
-               buttons="add,remove" layout="joomla.form.field.subform.repeatable-table"
-               label="THM_ORGANIZER_RUN_SECTION"/>
+        <field name="name_de" type="Blank" label="NAME_DE" required="true"/>
+        <field name="name_en" type="Blank" label="NAME_EN" required="true"/>
+        <field name="run" type="Runs" formsource="run_blocks" multiple="true" buttons="add,remove"
+               layout="joomla.form.field.subform.repeatable-table" label="THM_ORGANIZER_RUN_SECTION"/>
     </fieldset>
 </form>

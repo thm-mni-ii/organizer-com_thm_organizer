@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
         <field name="departmentID" type="Departments" label="DEPARTMENT" access="document"
                onchange="this.form.submit();">
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENT</option>
         </field>
-        <field name="degreeID" type="GenericOptions" label="DEGREE" onchange="this.form.submit();" valuecolumn="d.id"
-               textcolumn="d.abbreviation"
-               table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id">
+        <field name="degreeID" type="GenericOptions" label="DEGREE" onchange="this.form.submit();"
+               table="thm_organizer_programs AS p,thm_organizer_degrees AS d ON p.degreeID = d.id"
+               textcolumn="d.abbreviation" valuecolumn="d.id">
             <option value="">ALL_DEGREES</option>
         </field>
-        <field name="version" type="GenericOptions" label="VERSION" onchange="this.form.submit();" valuecolumn="version"
-               textcolumn="version" table="thm_organizer_programs">
+        <field name="version" type="GenericOptions" label="VERSION" onchange="this.form.submit();"
+               table="thm_organizer_programs" textcolumn="version" valuecolumn="version">
             <option value="">ALL_ACCREDITATION_YEARS</option>
         </field>
-        <field name="frequencyID" type="GenericOptions" label="FREQUENCY" onchange="this.form.submit();"
-               valuecolumn="f.id" textcolumn="f.name" localized="true"
-               table="thm_organizer_frequencies AS f,thm_organizer_programs AS p ON f.id = p.frequencyID">
+        <field name="frequencyID" type="GenericOptions" label="FREQUENCY" localized="true"
+               onchange="this.form.submit();"
+               table="thm_organizer_frequencies AS f,thm_organizer_programs AS p ON f.id = p.frequencyID"
+               textcolumn="f.name" valuecolumn="f.id">
             <option value="">ALL_FREQUENCIES</option>
             <option value="-1">NO_FREQUENCY</option>
         </field>
-        <field name="fieldID" type="GenericOptions" label="FIELD" onchange="this.form.submit();" valuecolumn="f.id"
-               textcolumn="f.name" localized="true"
-               table="thm_organizer_fields AS f,thm_organizer_programs AS p ON f.id = p.fieldID">
+        <field name="fieldID" type="GenericOptions" label="FIELD" localized="true" onchange="this.form.submit();"
+               table="thm_organizer_fields AS f,thm_organizer_programs AS p ON f.id = p.fieldID" textcolumn="f.name"
+               valuecolumn="f.id">
             <option value="">ALL_FIELDS</option>
             <option value="-1">NO_FIELD</option>
         </field>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="fields">
-        <field name="startDate" type="calendar" default="NOW" label="DATE" format="%d.%m.%Y" class="input-small"
-               todaybutton="true" minyear="-3" maxyear="1" translateLabel="false"/>
+        <field name="startDate" type="Date" label="DATE"/>
         <field name="interval" type="Options" label="INTERVAL" class="date-restriction-list" translateLabel="false">
             <option value="">INTERVAL_HINT</option>
             <option value="day">DAY</option>

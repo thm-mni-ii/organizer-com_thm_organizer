@@ -2,15 +2,14 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" required="true" disabled="true" label="THM_ORGANIZER_UNTIS_ID"
-               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
-        <field name="eventID" type="GenericOptions" required="true" label="NAME" valuecolumn="id" textcolumn="name"
-               localized="true" table="thm_organizer_events"/>
+        <field name="untisID" type="Blank" label="UNTIS_ID" disabled="true" required="true"/>
+        <field name="eventID" type="GenericOptions" required="true" label="NAME" localized="true"
+               table="thm_organizer_events" textcolumn="name" valuecolumn="id"/>
         <field name="departmentID" type="Departments" label="DEPARTMENT" required="true"/>
         <field name="termID" type="Terms" label="TERM" required="true"/>
-        <field name="gridID" type="GenericOptions" required="true" label="GRID" valuecolumn="id" textcolumn="name"
-               localized="true" table= "thm_organizer_grids"/>
-        <field name="runID" type="GenericOptions" required="true" label="RUN" valuecolumn="id" textcolumn="name"
-               localized="true" table= "thm_organizer_runs"/>
+        <field name="gridID" type="GenericOptions" required="true" label="GRID" localized="true"
+               table="thm_organizer_grids" textcolumn="name" valuecolumn="id"/>
+        <field name="runID" type="GenericOptions" required="true" label="RUN" localized="true"
+               table="thm_organizer_runs" textcolumn="name" valuecolumn="id"/>
     </fieldset>
 </form>

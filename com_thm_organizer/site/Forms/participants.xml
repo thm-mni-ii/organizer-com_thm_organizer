@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="programID" type="Programs" label="PROGRAM" access="manage" participant="1"
-               onchange="this.form.submit();">
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
+        <field name="programID" type="Programs" label="PROGRAM" access="manage" onchange="this.form.submit();"
+               participant="1">
             <option value="">ALL_PROGRAMS</option>
         </field>
     </fields>

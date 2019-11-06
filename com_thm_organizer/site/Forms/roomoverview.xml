@@ -5,8 +5,7 @@
             <option value="1">SINGLE_DAY</option>
             <option value="2">WEEK</option>
         </field>
-        <field name="date" type="calendar" default="NOW" label="DATE" format="%d.%m.%Y" class="input-small"
-               todaybutton="true" minyear="-3" maxyear="1" translateLabel="false"/>
+        <field name="date" type="Date" label="DATE"/>
         <field name="campusID" type="Campuses" label="CAMPUS" translateLabel="false">
             <option value="">ALL_CAMPUSES</option>
         </field>

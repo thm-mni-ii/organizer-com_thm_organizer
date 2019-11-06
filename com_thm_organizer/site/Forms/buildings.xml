@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
         <field name="campusID" type="Campuses" label="NAME" onchange="this.form.submit();">
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
         </field>
-        <field name="propertyType" type="Options" onchange="this.form.submit();">
+        <field name="propertyType" type="Options" label="PROPERTY_TYPE" onchange="this.form.submit();">
             <option value="">ALL_PROPERTY_TYPES</option>
             <option value="0">UNKNOWN</option>
             <option value="1">OWNED</option>

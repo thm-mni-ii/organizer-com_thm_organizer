@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="periods">
-        <field name="startTime" type="text" label="THM_ORGANIZER_START_TIME"
-               description="THM_ORGANIZER_START_TIME_DESC"/>
-        <field name="endTime" type="text" label="THM_ORGANIZER_END_TIME" description="THM_ORGANIZER_END_TIME_DESC"/>
-        <field name="label_de" type="text" label="THM_ORGANIZER_NAME_DE" description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="label_en" type="text" label="THM_ORGANIZER_NAME_EN" description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="type" type="Options" default="" label="TYPE">
+        <field name="startTime" type="Blank" label="START_TIME"/>
+        <field name="endTime" type="Blank" label="END_TIME"/>
+        <field name="label_de" type="Blank" label="NAME_DE"/>
+        <field name="label_en" type="Blank" label="NAME_EN"/>
+        <field name="type" type="Options" label="TYPE" default="">
             <option value="">DEFAULT</option>
             <option value="break">BREAK</option>
         </field>

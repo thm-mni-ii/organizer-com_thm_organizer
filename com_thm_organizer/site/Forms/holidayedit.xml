@@ -2,14 +2,10 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name_de" type="text" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
-        <field name="name_en" type="text" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="startDate" type="calendar" default="today" label="THM_ORGANIZER_START_DATE"
-               class="input-small" required="true" showtime="false" />
-        <field name="endDate" type="calendar" default="today" label="THM_ORGANIZER_END_DATE"
-               class="input-small" required="true" showtime="false" />
+        <field name="name_de" type="Blank" label="NAME_DE" required="true"/>
+        <field name="name_en" type="Blank" label="NAME_EN" required="true"/>
+        <field name="startDate" type="Date" label="START_DATE" default="today" required="true" showtime="false"/>
+        <field name="endDate" type="Date" label="END_DATE" default="today" required="true" showtime="false"/>
         <field name="type" type="Options" label="HOLIDAY_TYPE" required="true">
             <option value="1">PLANNING_OPTIONAL</option>
             <option value="2">PLANNING_MANUAL</option>

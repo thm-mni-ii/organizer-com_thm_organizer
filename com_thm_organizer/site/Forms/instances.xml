@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
-        <field name="departmentID" type="GenericOptions" label="DEPARTMENT" valuecolumn="id"
-               textcolumn="shortName" localized="true" table="thm_organizer_departments" onchange="this.form.submit();">
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
+        <field name="departmentID" type="GenericOptions" label="DEPARTMENT" localized="true"
+               onchange="this.form.submit();" table="thm_organizer_departments" textcolumn="shortName" valuecolumn="id">
             <option value="">ALL_DEPARTMENTS</option>
             <option value="-1">NO_DEPARTMENT</option>
         </field>
         <field name="termID" type="Terms" label="TERM" onchange="this.form.submit();">
             <option value="">ALL_TERMS</option>
         </field>
-        <field name="eventID" type="GenericOptions" label="EVENTS" valuecolumn="id" textcolumn="name"
-               localized="true" table="thm_organizer_events" onchange="this.form.submit();">
+        <field name="eventID" type="GenericOptions" label="EVENTS" localized="true" onchange="this.form.submit();"
+               table="thm_organizer_events" textcolumn="name" valuecolumn="id">
             <option value="">ALL_EVENTS</option>
         </field>
-        <field name="personID" type="GenericOptions" label="PERSONS" valuecolumn="id" textcolumn="surname"
-               table="thm_organizer_persons" onchange="this.form.submit();">
+        <field name="personID" type="GenericOptions" label="PERSONS" onchange="this.form.submit();"
+               table="thm_organizer_persons" textcolumn="surname" valuecolumn="id">
             <option value="">ALL_PERSONS</option>
         </field>
-        <field name="groupID" type="GenericOptions" label="GROUPS" valuecolumn="id" textcolumn="fullName"
-               table="thm_organizer_groups" onchange="this.form.submit();">
+        <field name="groupID" type="GenericOptions" label="GROUPS" onchange="this.form.submit();" textcolumn="fullName"
+               table="thm_organizer_groups" valuecolumn="id">
             <option value="">ALL_GROUPS</option>
         </field>
-        <field name="roomID" type="GenericOptions" label="ROOMS" valuecolumn="id" textcolumn="name"
-               table="thm_organizer_rooms" onchange="this.form.submit();">
+        <field name="roomID" type="GenericOptions" label="ROOMS" onchange="this.form.submit();"
+               table="thm_organizer_rooms" textcolumn="name" valuecolumn="id">
             <option value="">ALL_ROOMS</option>
         </field>
         <field name="status" type="Options" label="STATE" onchange="this.form.submit();">
@@ -32,13 +32,12 @@
             <option value="2">PENDING</option>
             <option value="3">CURRENT</option>
         </field>
-        <field name="timeBlock" type="GenericOptions" label="TIME_BLOCKS" valuecolumn="concat(startTime,',',endTime)"
-               textcolumn="startTime,endTime" glue=" - " table="thm_organizer_blocks" onchange="this.form.submit();">
+        <field name="timeBlock" type="GenericOptions" label="TIME_BLOCKS" glue=" - " onchange="this.form.submit();"
+               table="thm_organizer_blocks" textcolumn="startTime,endTime" valuecolumn="concat(startTime,',',endTime)">
             <option value="">ALL_BLOCKS</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+        <field name="limit" type="limitbox" class="input-mini" onchange="this.form.submit();"/>
     </fields>
 </form>

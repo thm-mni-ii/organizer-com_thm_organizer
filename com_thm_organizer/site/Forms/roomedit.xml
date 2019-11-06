@@ -2,16 +2,14 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" size="40" label="THM_ORGANIZER_UNTIS_ID"
-               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
-        <field name="name" type="text" size="40" label="THM_ORGANIZER_NAME" description="THM_ORGANIZER_NAME_DESC"
-               required="true"/>
-        <field name="buildingID" type="GenericOptions" label="BUILDING" valuecolumn="id" textcolumn="name"
-               table="thm_organizer_buildings">
+        <field name="untisID" type="Blank" label="UNTIS_ID" required="true" size="40"/>
+        <field name="name" type="Blank" label="NAME" required="true" size="40"/>
+        <field name="buildingID" type="GenericOptions" label="BUILDING" table="thm_organizer_buildings"
+               textcolumn="name" valuecolumn="id">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="roomtypeID" type="GenericOptions" label="ROOMTYPE" required="true" valuecolumn="id" textcolumn="name"
-               localized="true" table="thm_organizer_roomtypes">
+        <field name="roomtypeID" type="GenericOptions" label="ROOMTYPE" localized="true" table="thm_organizer_roomtypes"
+               textcolumn="name" valuecolumn="id">
             <option value="">SELECT_ROOMTYPE</option>
         </field>
         <field name="capacity" type="Integer" label="CAPACITY" last="500" step="1"/>

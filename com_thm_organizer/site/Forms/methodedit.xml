@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" size="60" required="true" label="THM_ORGANIZER_UNTIS_ID"
-               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
+        <field name="untisID" type="Blank" label="UNTIS_ID" required="true" size="60"/>
         <field type="spacer"/>
-        <field name="name_en" type="text" size="50" required="true" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="abbreviation_en" type="text" label="THM_ORGANIZER_ABBREVIATION_EN"
-               description="THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
+        <field name="name_en" type="Blank" label="NAME_EN" required="true" size="50"/>
+        <field name="abbreviation_en" type="Blank" label="ABBREVIATION_EN"/>
         <field type="spacer"/>
-        <field name="name_de" type="text" size="50" required="true" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="abbreviation_de" type="text" label="THM_ORGANIZER_ABBREVIATION_DE"
-               description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
+        <field name="name_de" type="Blank" label="NAME_DE" required="true" size="50"/>
+        <field name="abbreviation_de" type="Blank" label="ABBREVIATION_DE"/>
     </fieldset>
 </form>

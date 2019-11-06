@@ -2,19 +2,16 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name" type="Text" label="THM_ORGANIZER_NAME" description="THM_ORGANIZER_NAME_DESC"
-               hint="THM_ORGANIZER_USE_EVENT_NAMES"/>
-        <field name="groups" type="Text" label="COURSE_GROUP"/>
+        <field name="name" type="Blank" label="NAME" hint="USE_EVENT_NAMES"/>
+        <field name="groups" type="Blank" label="COURSE_GROUP"/>
         <field name="termID" type="Terms" label="TERM" disabled="true"/>
-        <field name="campusID" type="campuses" label="CAMPUS" disabled="true"/>
-        <field name="groups" type="Text" label="THM_ORGANIZER_COURSE_GROUP"
-               description="THM_ORGANIZER_COURSE_GROUP_DESC" hint="Gruppe A; Zug 1, Gruppe B, ..."/>
-        <field name="deadline" type="Integer" label="DEADLINE" first="0" last="30" step="1" default="0"/>
-        <field name="fee" type="Integer" label="COURSE_FEE" first="0" last="500" step="5" default="0"/>
-        <field name="maxParticipants" type="Integer" label="MAX_PARTICIPANTS" first="20" last="1000" step="20"
-               default="1000"/>
-        <field name="registrationType" type="Options" label="REGISTRATION_TYPE"
-               description="THM_ORGANIZER_REGISTRATION_TYPE_DESC">
+        <field name="campusID" type="Campuses" label="CAMPUS" disabled="true"/>
+        <field name="groups" type="Blank" label="COURSE_GROUP" hint="Gruppe A; Zug 1, Gruppe B, ..."/>
+        <field name="deadline" type="Integer" label="DEADLINE" default="0" first="0" last="30" step="1"/>
+        <field name="fee" type="Integer" label="COURSE_FEE" default="0" first="0" last="500" step="5"/>
+        <field name="maxParticipants" type="Integer" label="MAX_PARTICIPANTS" default="1000" first="20" last="1000"
+               step="20"/>
+        <field name="registrationType" type="Options" label="REGISTRATION_TYPE">
             <option value="">NO_REGISTRATION</option>
             <option value="0">FIFO</option>
             <option value="1">MANUAL</option>

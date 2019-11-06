@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
-        <field name="search" type="text" label="THM_ORGANIZER_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER"/>
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
         <field name="termID" type="Terms" label="TERMS" onchange="this.form.submit();">
             <option value="">ALL_TERMS</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="limitbox" class="input-mini" label="COM_CONTENT_LIST_LIMIT"
-               description="COM_CONTENT_LIST_LIMIT_DESC" onchange="this.form.submit();"/>
+        <field name="limit" type="limitbox" class="input-mini" onchange="this.form.submit();"/>
     </fields>
 </form>

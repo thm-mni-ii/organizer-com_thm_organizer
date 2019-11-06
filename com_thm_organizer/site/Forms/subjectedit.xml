@@ -6,17 +6,16 @@
             <option value="">NO_CAMPUS</option>
         </field>
         <field name="departmentID" type="Departments" label="DEPARTMENT" access="document" required="true"/>
-        <field name="lsfID" type="text" size="70" label="THM_ORGANIZER_LSF_ID" description="THM_ORGANIZER_LSF_ID_DESC"/>
-        <field name="code" type="text" size="70" label="THM_ORGANIZER_MODULE_ID"
-               description="THM_ORGANIZER_MODULE_ID_DESC"/>
-        <field name="duration" type="Integer" label="DURATION" first="1" last="30" step="1" default="1">
+        <field name="lsfID" type="Blank" label="LSF_ID" size="70"/>
+        <field name="code" type="Blank" label="MODULE_ID" size="70"/>
+        <field name="duration" type="Integer" label="DURATION" default="1" first="1" last="30" step="1">
             <option value="0">SELECT_DURATION</option>
         </field>
         <field name="instructionLanguage" type="Options" label="INSTRUCTION_LANGUAGE" default="D">
             <option value="D">GERMAN</option>
             <option value="E">ENGLISH</option>
         </field>
-        <field name="is_prep_course" type="Options" class="chzn-color-state" label="PREP_COURSES" default="0">
+        <field name="is_prep_course" type="Options" label="PREP_COURSES" class="chzn-color-state" default="0">
             <option value="1">YES</option>
             <option value="0">NO</option>
         </field>
@@ -31,27 +30,23 @@
             <option value="4">AVAILABILITY_AS_NEEDED</option>
             <option value="0">AVAILABILITY_APPT</option>
         </field>
-        <field name="fieldID" type="GenericOptions" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
-               table="thm_organizer_fields">
+        <field name="fieldID" type="GenericOptions" label="FIELD" localized="true" table="thm_organizer_fields"
+               textcolumn="field" valuecolumn="id">
             <option value="">NO_FIELD</option>
         </field>
-        <field name="planSubjectIDs" type="SubjectCourses" role="1" label="EVENT"/>
+        <field name="planSubjectIDs" type="SubjectCourses" label="EVENT" role="1"/>
         <field name="spacer1" type="spacer" hr="true"/>
-        <field name="creditpoints" type="text" class="inputbox" size="70" label="THM_ORGANIZER_CREDIT_POINTS"
-               description="THM_ORGANIZER_CREDIT_POINTS_DESC" hint="3"/>
-        <field name="creditpoints" type="Integer" label="CREDIT_POINTS" first="1" last="30" step="1" default="0">
-            <option value="0">SELECT_CREDIT_POINTS</option>
-        </field>
-        <field name="sws" type="Integer" label="SWS" first="1" last="30" step="1" default="0">
+        <field name="creditpoints" type="Blank" label="CREDIT_POINTS" class="inputbox" hint="3" size="70"/>
+        <field name="sws" type="Integer" label="SWS" default="0" first="1" last="30" step="1">
             <option value="0">FILTER_SEMESTER_HOURS</option>
         </field>
-        <field name="expenditure" type="Integer" label="EXPENDITURE" first="30" last="900" step="30" default="0">
+        <field name="expenditure" type="Integer" label="EXPENDITURE" default="0" first="30" last="900" step="30">
             <option value="0">NO_INPUT</option>
         </field>
-        <field name="present" type="Integer" label="PRESENT" first="0" last="900" step="30" default="">
+        <field name="present" type="Integer" label="PRESENT" default="" first="0" last="900" step="30">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="independent" type="Integer" label="INDEPENDENT" first="0" last="900" step="30" default="">
+        <field name="independent" type="Integer" label="INDEPENDENT" default="" first="0" last="900" step="30">
             <option value="">NO_INPUT</option>
         </field>
         <field name="frequencyID" type="Options" label="AVAILABILITY">
@@ -64,110 +59,91 @@
             <option value="0">AVAILABILITY_APPT</option>
         </field>
         <field name="spacer2" type="spacer" hr="true"/>
-        <field name="literature" type="editor" label="THM_ORGANIZER_LITERATURE" size="6"
-               description="THM_ORGANIZER_LITERATURE_DESC"/>
+        <field name="literature" type="Editor" label="THM_ORGANIZER_LITERATURE"
+               description="THM_ORGANIZER_LITERATURE_DESC" size="6"/>
     </fieldset>
     <fieldset name="de_texts" label="ATTRIBUTES_DE">
-        <field name="name_de" type="text" label="THM_ORGANIZER_NAME_DE" size="70" hint="Grundlagen der Informatik"
-               description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="shortName_de" type="text" label="THM_ORGANIZER_SHORT_NAME_DE" size="70" hint="Grundl. d. Inf."
-               description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
-        <field name="abbreviation_de" type="text" label="THM_ORGANIZER_ABBREVIATION_DE" size="70" hint="GDI"
-               description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
-        <field name="method_de" type="text" size="70" label="THM_ORGANIZER_METHOD_DE"
-               description="THM_ORGANIZER_METHOD_DE_DESC" hint="2 SWS Vorlesung, 2 SWS Übung"/>
-        <field name="preliminaryWork_de" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_DE"
-               description="THM_ORGANIZER_PRELIMINARY_WORK_DE_DESC" hint="Erfolgreicher Abgabe von 6 Hausübungen."/>
-        <field name="proof_de" type="text" size="70" label="THM_ORGANIZER_PROOF_DE"
-               description="THM_ORGANIZER_PROOF_DE_DESC" hint="schriftliche Klausur"/>
-        <field name="evaluation_de" type="text" size="20" label="THM_ORGANIZER_EVALUATION_DE"
-               description="THM_ORGANIZER_EVALUATION_DE_DESC" hint="gem. § 9 der Allg. Bestimmungen (Teil I der PO)"/>
-        <field name="description_de" type="editor" size="6" label="THM_ORGANIZER_DESC_DE"
+        <field name="name_de" type="Blank" label="NAME_DE" hint="Grundlagen der Informatik" size="70"/>
+        <field name="shortName_de" type="Blank" label="SHORT_NAME_DE" hint="Grundl. d. Inf." size="70"/>
+        <field name="abbreviation_de" type="Blank" label="ABBREVIATION_DE" hint="GDI" size="70"/>
+        <field name="method_de" type="Blank" label="METHOD_DE" hint="2 SWS Vorlesung, 2 SWS Übung" size="70"/>
+        <field name="preliminaryWork_de" type="Blank" label="PRELIMINARY_WORK_DE"
+               hint="Erfolgreicher Abgabe von 6 Hausübungen." size="6"/>
+        <field name="proof_de" type="Blank" label="PROOF_DE" hint="schriftliche Klausur" size="70"/>
+        <field name="evaluation_de" type="Blank" label="EVALUATION_DE"
+               hint="gem. § 9 der Allg. Bestimmungen (Teil I der PO)" size="20"/>
+        <field name="description_de" type="Editor" label="THM_ORGANIZER_DESC_DE"
                description="THM_ORGANIZER_DESC_DE_DESC"/>
-        <field name="objective_de" type="editor" size="6" label="THM_ORGANIZER_OBJECTIVE_DE"
+        <field name="objective_de" type="Editor" label="THM_ORGANIZER_OBJECTIVE_DE"
                description="THM_ORGANIZER_OBJECTIVE_DE_DESC"/>
-        <field name="content_de" type="editor" size="6" label="THM_ORGANIZER_CONTENT_DE"
+        <field name="content_de" type="Editor" label="THM_ORGANIZER_CONTENT_DE"
                description="THM_ORGANIZER_CONTENT_DE_DESC"/>
-        <field name="prerequisites_de" type="editor" size="6" label="THM_ORGANIZER_PREREQUISITES_DE"
+        <field name="prerequisites_de" type="Editor" label="THM_ORGANIZER_PREREQUISITES_DE"
                description="THM_ORGANIZER_PREREQUISITES_DE_DESC"/>
-        <field name="recommendedPrerequisites_de" type="editor" size="6"
-               label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
+        <field name="recommendedPrerequisites_de" type="Editor" label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
                description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC"/>
-        <field name="usedFor_de" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
+        <field name="usedFor_de" type="Editor" label="THM_ORGANIZER_USED_FOR"
                description="THM_ORGANIZER_USED_FOR_DE_DESC"/>
-        <field name="aids_de" type="editor" size="6" label="THM_ORGANIZER_AIDS_DE"
-               description="THM_ORGANIZER_AIDS_DE_DESC"/>
-        <field name="bonusPoints_de" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTS_DE"
+        <field name="aids_de" type="Editor" label="THM_ORGANIZER_AIDS_DE" description="THM_ORGANIZER_AIDS_DE_DESC"/>
+        <field name="bonusPoints_de" type="Editor" label="THM_ORGANIZER_BONUS_POINTS_DE"
                description="THM_ORGANIZER_BONUS_POINTS_DE_DESC"/>
     </fieldset>
     <fieldset name="en_texts" label="ATTRIBUTES_EN">
-        <field name="name_en" type="text" size="70" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC" hint="Fundamentals of Computer Science"/>
-        <field name="shortName_en" type="text" size="70" label="THM_ORGANIZER_SHORT_NAME_EN"
-               description="THM_ORGANIZER_SHORT_NAME_EN_DESC" hint="Fund. Comp. Sci."/>
-        <field name="abbreviation_en" type="text" size="70" label="THM_ORGANIZER_ABBREVIATION_EN"
-               description="THM_ORGANIZER_ABBREVIATION_DE_DESC" hint="FCS"/>
-        <field name="method_en" type="text" size="70" label="THM_ORGANIZER_METHOD_EN"
-               description="THM_ORGANIZER_METHOD_EN_DESC" hint="2 SWS Lecture, 2 SWS Practice"/>
-        <field name="preliminaryWork_en" type="text" size="6" label="THM_ORGANIZER_PRELIMINARY_WORK_EN"
-               description="THM_ORGANIZER_PRELIMINARY_WORK_EN_DESC"
-               hint="Successful completion of six homework assignments."/>
-        <field name="proof_en" type="text" size="70" label="THM_ORGANIZER_PROOF_EN"
-               description="THM_ORGANIZER_PROOF_EN_DESC" hint="Written Exam"/>
-        <field name="evaluation_en" type="text" size="6" label="THM_ORGANIZER_EVALUATION_EN"
-               description="THM_ORGANIZER_EVALUATION_EN_DESC"
-               hint="acc. § 9 of the gen. provisions (Part I of the PO)"/>
-        <field name="description_en" type="editor" size="6" label="THM_ORGANIZER_DESC_EN"
+        <field name="name_en" type="Blank" label="NAME_EN" hint="Fundamentals of Computer Science" size="70"/>
+        <field name="shortName_en" type="Blank" label="SHORT_NAME_EN" hint="Fund. Comp. Sci." size="70"/>
+        <field name="abbreviation_en" type="Blank" label="ABBREVIATION_EN" hint="FCS" size="70"/>
+        <field name="method_en" type="Blank" label="METHOD_EN" hint="2 SWS Lecture, 2 SWS Practice" size="70"/>
+        <field name="preliminaryWork_en" type="Blank" label="PRELIMINARY_WORK_EN"
+               hint="Successful completion of six homework assignments." size="6"/>
+        <field name="proof_en" type="Blank" label="PROOF_EN" hint="Written Exam" size="70"/>
+        <field name="evaluation_en" type="Blank" label="EVALUATION_EN"
+               hint="acc. § 9 of the gen. provisions (Part I of the PO)" size="6"/>
+        <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
                description="THM_ORGANIZER_DESC_EN_DESC"/>
-        <field name="objective_en" type="editor" size="6" label="THM_ORGANIZER_OBJECTIVE_EN"
+        <field name="objective_en" type="Editor" label="THM_ORGANIZER_OBJECTIVE_EN"
                description="THM_ORGANIZER_OBJECTIVE_EN_DESC"/>
-        <field name="content_en" type="editor" size="6" label="THM_ORGANIZER_CONTENT_EN"
+        <field name="content_en" type="Editor" label="THM_ORGANIZER_CONTENT_EN"
                description="THM_ORGANIZER_CONTENT_EN_DESC"/>
-        <field name="prerequisites_en" type="editor" size="6" label="THM_ORGANIZER_PREREQUISITES_EN"
+        <field name="prerequisites_en" type="Editor" label="THM_ORGANIZER_PREREQUISITES_EN"
                description="THM_ORGANIZER_PREREQUISITES_EN_DESC"/>
-        <field name="recommendedPrerequisites_en" type="editor" size="6"
-               label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
+        <field name="recommendedPrerequisites_en" type="Editor" label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
                description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC"/>
-        <field name="usedFor_en" type="editor" size="6" label="THM_ORGANIZER_USED_FOR"
+        <field name="usedFor_en" type="Editor" label="THM_ORGANIZER_USED_FOR"
                description="THM_ORGANIZER_USED_FOR_EN_DESC"/>
-        <field name="aids_en" type="editor" size="6" label="THM_ORGANIZER_AIDS_EN"
-               description="THM_ORGANIZER_AIDS_EN_DESC"/>
-        <field name="bonusPoints_en" type="editor" size="6" label="THM_ORGANIZER_BONUS_POINTS_EN"
+        <field name="aids_en" type="Editor" label="THM_ORGANIZER_AIDS_EN" description="THM_ORGANIZER_AIDS_EN_DESC"/>
+        <field name="bonusPoints_en" type="Editor" label="THM_ORGANIZER_BONUS_POINTS_EN"
                description="THM_ORGANIZER_BONUS_POINTS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
-        <field name="coordinators" type="SubjectPersons" label="COORDINATORS" role="1" multiple="multiple">
+        <field name="coordinators" type="SubjectPersons" label="COORDINATORS" multiple="multiple" role="1">
             <option value="">NO_INPUT</option>
         </field>
-        <field name="persons" type="SubjectPersons" label="TEACHERS" role="2" multiple="multiple">
+        <field name="persons" type="SubjectPersons" label="TEACHERS" multiple="multiple" role="2">
             <option value="">UNSPECIFIED_TEACHERS</option>
         </field>
         <field name="spacer4" type="spacer" hr="true"/>
-        <field name="expertise" type="Options" label="EXPERTISE" description="THM_ORGANIZER_EXPERTISE_DESC" default="">
+        <field name="expertise" type="Options" label="EXPERTISE" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
             <option value='1'>ONE_STAR</option>
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="methodCompetence" type="Options" label="METHOD_COMPETENCE"
-               description="THM_ORGANIZER_METHOD_COMPETENCE_DESC" default="">
+        <field name="methodCompetence" type="Options" label="METHOD_COMPETENCE" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
             <option value='1'>ONE_STAR</option>
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="selfCompetence" type="Options" label="SELF_COMPETENCE"
-               description="THM_ORGANIZER_SELF_COMPETENCE_DESC" default="">
+        <field name="selfCompetence" type="Options" label="SELF_COMPETENCE" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
             <option value='1'>ONE_STAR</option>
             <option value='2'>TWO_STARS</option>
             <option value='3'>THREE_STARS</option>
         </field>
-        <field name="socialCompetence" type="Options" label="SOCIAL_COMPETENCE"
-               description="THM_ORGANIZER_SOCIAL_COMPETENCE_DESC" default="">
+        <field name="socialCompetence" type="Options" label="SOCIAL_COMPETENCE" default="">
             <option value=''>NO_STARS</option>
             <option value='0'>ZERO_STARS</option>
             <option value='1'>ONE_STAR</option>

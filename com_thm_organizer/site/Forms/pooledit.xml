@@ -6,7 +6,7 @@
         <field name="departmentID" type="Departments" label="DEPARTMENT" access="document" required="true">
             <option value="">SELECT_DEPARTMENT</option>
         </field>
-        <field name="lsfID" type="text" size="40" label="THM_ORGANIZER_LSF_ID" description="THM_ORGANIZER_LSF_ID_DESC"/>
+        <field name="lsfID" type="Blank" label="LSF_ID" size="40"/>
         <field name="fieldID" type="GenericOptions" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
                table="thm_organizer_fields">
             <option value="">NO_FIELD</option>
@@ -15,23 +15,17 @@
         <field name="maxCrP" type="Integer" label="CRP_MAX" required="true" first="0" last="120" step="1" default="24"/>
     </fieldset>
     <fieldset name="de" label="ATTRIBUTES_DE">
-        <field name="name_de" type="text" class="required" size="40" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC" required="true"/>
-        <field name="shortName_de" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_DE"
-               description="THM_ORGANIZER_SHORT_NAME_DE_DESC"/>
-        <field name="abbreviation_de" type="text" size="40" label="THM_ORGANIZER_ABBREVIATION_DE"
-               description="THM_ORGANIZER_ABBREVIATION_DE_DESC"/>
-        <field name="description_de" type="textarea" cols="30" row="3" label="THM_ORGANIZER_DESC_DE"
+        <field name="name_de" type="Blank" label="NAME_DE" class="required" required="true" size="40"/>
+        <field name="shortName_de" type="Blank" label="SHORT_NAME_DE" size="40"/>
+        <field name="abbreviation_de" type="Blank" label="ABBREVIATION_DE" size="40"/>
+        <field name="description_de" type="Editor" label="THM_ORGANIZER_DESC_DE"
                description="THM_ORGANIZER_DESC_DE_DESC"/>
     </fieldset>
     <fieldset name="en" label="ATTRIBUTES_EN">
-        <field name="name_en" type="text" class="required" size="40" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC" required="true"/>
-        <field name="shortName_en" type="text" size="40" label="THM_ORGANIZER_SHORT_NAME_EN"
-               description="THM_ORGANIZER_SHORT_NAME_EN_DESC"/>
-        <field name="abbreviation_en" type="text" size="40" label="THM_ORGANIZER_ABBREVIATION_EN"
-               description="THM_ORGANIZER_ABBREVIATION_EN_DESC"/>
-        <field name="description_en" type="textarea" cols="30" row="3" label="DESC_EN"
+        <field name="name_en" type="Blank" label="NAME_EN" class="required" required="true" size="40"/>
+        <field name="shortName_en" type="Blank" label="SHORT_NAME_EN" size="40"/>
+        <field name="abbreviation_en" type="Blank" label="ABBREVIATION_EN" size="40"/>
+        <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
                description="THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
     <fieldset name="mapping" label="ATTRIBUTES_STRUCTURE" displayinitial="0">

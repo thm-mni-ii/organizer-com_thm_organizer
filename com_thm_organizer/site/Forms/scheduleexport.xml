@@ -42,9 +42,7 @@
         </field>
         <field name="gridID" type="Grids" label="GRIDS"/>
         <field name="seeingImpaired" type="hidden" value="0"/>
-        <field name="date" type="calendar" default="NOW" label="DATE" format="%d.%m.%Y" class="input-small"
-               todaybutton="true" minyear="-2" maxyear="1" translateLabel="false" showon="seeingImpaired:0"/>
-        <field name="date" type="date" label="DATE" showon="seeingImpaired:1"/>
+        <field name="date" type="Date" label="DATE"/>
         <field name="interval" type="Options" label="INTERVAL" default="month" showon="format!:ics">
             <option value="day">DAY</option>
             <option value="week">WEEK</option>

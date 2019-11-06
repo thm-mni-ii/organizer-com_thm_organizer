@@ -2,40 +2,35 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details" label="ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
-        <field name="untisID" type="text" required="true" disabled = "true" label="THM_ORGANIZER_UNTIS_ID"
-               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
-        <field name="departmentID" type="Departments" required="true" disabled = "true" label="DEPARTMENT"/>
-        <field name="campusID" type="campuses" label="CAMPUS" required="true">
+        <field name="untisID" type="Blank" label="UNTIS_ID" disabled="true" required="true"/>
+        <field name="departmentID" type="Departments" label="DEPARTMENT" disabled="true" required="true"/>
+        <field name="campusID" type="Campuses" label="CAMPUS" required="true">
             <option value="">NO_CAMPUSES</option>
         </field>
-        <field name="subjectNo" type="text" label="THM_ORGANIZER_SUBJECT"/>
-        <field name="preparatory" type="Options" class="chzn-color-state" required="true" default="0"
-               label="PREP_COURSES">
+        <field name="subjectNo" type="Blank" label="MODULE_ID"/>
+        <field name="preparatory" type="Options" label="PREP_COURSE" class="chzn-color-state" default="0"
+               required="true">
             <option value="1">YES</option>
             <option value="0">NO</option>
         </field>
-        <field name="deadline" type="integer" label="DEADLINE" description="DEADLINE_DESC"
-               first="1" last="30" step="1" default="0"/>
-        <field name="fee" type="Integer" label="COURSE_FEE" first="0" last="500" step="5" default="0"/>
-        <field name="maxParticipants" type="integer" label="MAX_PARTICIPANTS"
-               first="20" last="1000" step="20" default="1000"/>
-        <field name="registrationType" type="Options" label="REGISTRATION_TYPE"
-               description="THM_ORGANIZER_REGISTRATION_TYPE_DESC">
+        <field name="deadline" type="Integer" label="DEADLINE" default="0" first="1" last="30" step="1"/>
+        <field name="fee" type="Integer" label="COURSE_FEE" default="0" first="0" last="500" step="5"/>
+        <field name="maxParticipants" type="Integer" label="MAX_PARTICIPANTS" default="1000" first="20" last="1000"
+               step="20"/>
+        <field name="registrationType" type="Options" label="REGISTRATION_TYPE">
             <option value="">NO_REGISTRATION</option>
             <option value="0">FIFO</option>
             <option value="1">MANUAL</option>
         </field>
     </fieldset>
     <fieldset name="de" label="ATTRIBUTES_DE">
-        <field name="name_de" type="text" required="true" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="description_de" type="textarea" label="THM_ORGANIZER_DESC_DE"
+        <field name="name_de" type="Blank" label="NAME_DE" required="true"/>
+        <field name="description_de" type="Editor" label="THM_ORGANIZER_DESC_DE"
                description="THM_ORGANIZER_DESC_DE_DESC"/>
     </fieldset>
     <fieldset name="en" label="ATTRIBUTES_EN">
-        <field name="name_en" type="text"  required="true" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="description_en" type="textarea" label="THM_ORGANIZER_DESC_EN"
+        <field name="name_en" type="Blank" label="NAME_EN" required="true"/>
+        <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
                description="THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
 </form>

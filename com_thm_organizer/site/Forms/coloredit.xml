@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name_de" type="text" size="60" required="true" label="THM_ORGANIZER_NAME_DE"
-               description="THM_ORGANIZER_NAME_DE_DESC"/>
-        <field name="name_en" type="text" size="60" required="true" label="THM_ORGANIZER_NAME_EN"
-               description="THM_ORGANIZER_NAME_EN_DESC"/>
-        <field name="color" type="color" size="10" required="true" label="THM_ORGANIZER_COLOR"
+        <field name="name_de" type="Blank" label="NAME_DE" required="true" size="60"/>
+        <field name="name_en" type="Blank" label="NAME_EN" required="true" size="60"/>
+        <field name="color" type="Color" size="10" required="true" label="THM_ORGANIZER_COLOR"
                description="THM_ORGANIZER_COLOR_DESC"/>
     </fieldset>
 </form>

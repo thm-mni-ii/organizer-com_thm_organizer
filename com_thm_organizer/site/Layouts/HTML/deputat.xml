@@ -2,15 +2,13 @@
 <form>
     <fields name="params" addfieldprefix="Organizer\Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="departmentID" type="GenericOptions" label="DEPARTMENT" required="true" valuecolumn="id"
-                   textcolumn="shortName" localized="true" table="thm_organizer_departments">
-                <option value="">THM_ORGANIZER_FILTER_DEPARTMENT</option>
+            <field name="departmentID" type="Departments" label="DEPARTMENT">
+                <option value="">ALL_DEPARTMENTS</option>
             </field>
-            <field name="deputat_weeks" type="Integer" label="DEPUTAT_WEEKS" first="1" last="52" step="1" default="13"/>
-            <field name="deputat_weeks" type="Integer" label="DEPUTAT_WEEKS" first="1" last="52" step="1" default="13"/>
+            <field name="deputat_weeks" type="Integer" label="DEPUTAT_WEEKS" default="13" first="1" last="52" step="1"/>
             <field name="bachelor_value" type="Integer" label="BACHELOR_VALUE" default="25" first="5" last="100"
                    step="5"/>
-            <field name="master_value" type="Integer" label="MASTER_VALUE" first="5" last="100" step="5" default="50"/>
+            <field name="master_value" type="Integer" label="MASTER_VALUE" default="50" first="5" last="100" step="5"/>
         </fieldset>
     </fields>
 </form>

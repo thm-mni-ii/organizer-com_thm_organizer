@@ -188,7 +188,7 @@ class Dates
 	 *
 	 * @return string  date sting in format Y-m-d
 	 */
-	public static function standardizeDate($date)
+	public static function standardizeDate($date = '')
 	{
 		$default = date('Y-m-d');
 

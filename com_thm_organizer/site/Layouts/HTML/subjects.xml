@@ -5,16 +5,16 @@
             <field name="programID" type="Programs" label="PROGRAM" required="true">
                 <option value="">SELECT_PROGRAM</option>
             </field>
-            <field name="initialLanguage" type="Options" default="de" required="true" label="LANGUAGE">
+            <field name="initialLanguage" type="Options" label="LANGUAGE" default="de" required="true">
                 <option value="de">GERMAN</option>
                 <option value="en">ENGLISH</option>
             </field>
-            <field name="role" type="Options" default="0" label="SHOW_PERSON_ROLE">
+            <field name="role" type="Options" label="SHOW_PERSON_ROLE" default="0">
                 <option value="0">ALL_ROLES</option>
                 <option value="2">TEACHER</option>
                 <option value="1">COORDINATOR</option>
             </field>
-            <field name="showTitle" type="Options" default="1" label="SHOW_PERSON_TITLES">
+            <field name="showTitle" type="Options" label="SHOW_PERSON_TITLES" default="1">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
             </field>

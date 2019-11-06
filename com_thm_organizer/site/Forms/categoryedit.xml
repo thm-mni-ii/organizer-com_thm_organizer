@@ -2,10 +2,8 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden"/>
-        <field name="name" type="text" size="40" required="true" label="THM_ORGANIZER_NAME"
-               description="THM_ORGANIZER_NAME_DESC"/>
-        <field name="untisID" type="text" size="40" readonly="true" label="THM_ORGANIZER_UNTIS_ID"
-               description="THM_ORGANIZER_UNTIS_ID_DESC"/>
+        <field name="name" type="Blank" label="NAME" size="40" required="true"/>
+        <field name="untisID" type="Blank" label="UNTIS_ID" readonly="true" size="40"/>
         <field name="programID" type="Programs" label="PROGRAM" access="schedule">
             <option value="">NO_PROGRAM</option>
         </field>

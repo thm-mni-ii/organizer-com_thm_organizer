@@ -5,19 +5,15 @@
             <field name="departmentID" type="Departments" label="DEPARTMENT" class="departmentlist">
                 <option value="0">ALL_DEPARTMENTS</option>
             </field>
-            <field name="categoryIDs" type="GenericOptions" label="CATEGORIES" valuecolumn="id" textcolumn="name"
-                   multiple="true" table="thm_organizer_categories" description="THM_ORGANIZER_CATEGORIES_DESC">
+            <field name="categoryIDs" type="GenericOptions" label="CATEGORIES" multiple="true"
+                   table="thm_organizer_categories" textcolumn="name" valuecolumn="id">
                 <option value="">ALL_CATEGORIES</option>
             </field>
-            <field name="groupIDs" type="GenericOptions" label="GROUPS" multiple="true" valuecolumn="id"
-                   textcolumn="name" table="thm_organizer_groups">
+            <field name="groupIDs" type="GenericOptions" label="GROUPS" multiple="true" table="thm_organizer_groups"
+                   textcolumn="name" valuecolumn="id">
                 <option value="">ALL_GROUPS</option>
             </field>
-            <field name="roomIDs" type="GenericOptions" label="ROOMS" multiple="true" valuecolumn="id" textcolumn="name"
-                   table="thm_organizer_rooms">
-                <option value="">ALL_ROOMS</option>
-            </field>
-            <field name="delta" type="Integer" label="SHOW_DELTA_DAYS" first="0" last="100" step="1" default="5"/>
+            <field name="delta" type="Integer" label="SHOW_DELTA_DAYS" default="5" first="0" last="100" step="1"/>
             <field name="showCategories" type="Options" label="SHOW_CATEGORY_OPTIONS" default="1">
                 <option value="1">YES</option>
                 <option value="0">NO</option>
