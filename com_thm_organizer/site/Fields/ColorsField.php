@@ -22,75 +22,81 @@ use stdClass;
  */
 class ColorsField extends OptionsField
 {
-    /**
-     * Type
-     *
-     * @var    String
-     */
-    protected $type = 'Colors';
+	use Translated;
 
-    /**
-     * Returns a select box which contains the colors
-     *
-     * @return string  the HTML for the color select box
-     */
-    public function getInput()
-    {
-        $onChange = empty($this->getAttribute('onchange')) ?
-            '' : ' onchange="' . $this->getAttribute('onchange') . '"';
-        $html     = '<select name="' . $this->name . '"' . $onChange . '>';
-        $options  = $this->getOptions();
-        foreach ($options as $option) {
-            $style    = isset($option->style) ? ' style="' . $option->style . '"' : '';
-            $selected = $this->value == $option->value ? ' selected="selected"' : '';
-            $html     .= '<option value="' . $option->value . '"' . $selected . $style . '>';
-            $html     .= $option->text . '</option>';
-        }
-        $html .= '</select>';
+	/**
+	 * Type
+	 *
+	 * @var    String
+	 */
+	protected $type = 'Colors';
 
-        return $html;
-    }
+	/**
+	 * Returns a select box which contains the colors
+	 *
+	 * @return string  the HTML for the color select box
+	 */
+	public function getInput()
+	{
+		$onChange = empty($this->getAttribute('onchange')) ?
+			'' : ' onchange="' . $this->getAttribute('onchange') . '"';
+		$html     = '<select name="' . $this->name . '"' . $onChange . '>';
+		$options  = $this->getOptions();
+		foreach ($options as $option)
+		{
+			$style    = isset($option->style) ? ' style="' . $option->style . '"' : '';
+			$selected = $this->value == $option->value ? ' selected="selected"' : '';
+			$html     .= '<option value="' . $option->value . '"' . $selected . $style . '>';
+			$html     .= $option->text . '</option>';
+		}
+		$html .= '</select>';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $options = parent::getOptions();
+		return $html;
+	}
 
-        $tag = Languages::getTag();
-        $dbo = Factory::getDbo();
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$options = parent::getOptions();
 
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT c.id AS value, c.name_$tag AS text, c.color")
-            ->from(' #__thm_organizer_colors AS c')
-            ->order('text');
+		$tag = Languages::getTag();
+		$dbo = Factory::getDbo();
 
-        // Filter irrelevant filter colors out.
-        $view = Input::getView();
-        if ($view !== 'field_edit') {
-            $query->innerJoin('#__thm_organizer_fields AS f on f.colorID = c.id');
-        }
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT c.id AS value, c.name_$tag AS text, c.color")
+			->from(' #__thm_organizer_colors AS c')
+			->order('text');
 
-        $dbo->setQuery($query);
+		// Filter irrelevant filter colors out.
+		$view = Input::getView();
+		if ($view !== 'field_edit')
+		{
+			$query->innerJoin('#__thm_organizer_fields AS f on f.colorID = c.id');
+		}
 
-        $colors = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($colors)) {
-            return $options;
-        }
+		$dbo->setQuery($query);
 
-        foreach ($colors as $color) {
-            $option        = new stdClass;
-            $option->text  = $color['text'];
-            $option->value = $color['value'];
+		$colors = OrganizerHelper::executeQuery('loadAssocList');
+		if (empty($colors))
+		{
+			return $options;
+		}
 
-            $textColor     = Colors::getDynamicTextColor($color['color']);
-            $option->style = "background-color:{$color['color']};color:$textColor;";
-            $options[]     = $option;
-        }
+		foreach ($colors as $color)
+		{
+			$option        = new stdClass;
+			$option->text  = $color['text'];
+			$option->value = $color['value'];
 
-        return $options;
-    }
+			$textColor     = Colors::getDynamicTextColor($color['color']);
+			$option->style = "background-color:{$color['color']};color:$textColor;";
+			$options[]     = $option;
+		}
+
+		return $options;
+	}
 }
