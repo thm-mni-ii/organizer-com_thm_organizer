@@ -21,354 +21,391 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Input
 {
-    private static $filter = null;
+	private static $filter = null;
 
-    private static $filterItems = false;
+	private static $filterItems = false;
 
-    private static $formItems = false;
+	private static $formItems = false;
 
-    private static $input = null;
+	private static $input = null;
 
-    private static $listItems = false;
+	private static $listItems = false;
 
-    private static $params = false;
+	private static $params = false;
 
-    /**
-     * Filters the given source data according to the type parameter.
-     *
-     * @param mixed  $source the data to be filtered
-     * @param string $type   the type against which to filter the source data
-     *
-     * @return mixed
-     */
-    private static function filter($source, $type = 'string')
-    {
-        if (empty(self::$filter)) {
-            self::$filter = new InputFilter();
-        }
+	/**
+	 * Filters the given source data according to the type parameter.
+	 *
+	 * @param   mixed   $source  the data to be filtered
+	 * @param   string  $type    the type against which to filter the source data
+	 *
+	 * @return mixed
+	 */
+	private static function filter($source, $type = 'string')
+	{
+		if (empty(self::$filter))
+		{
+			self::$filter = new InputFilter();
+		}
 
-        return self::$filter->clean($source, $type);
-    }
+		return self::$filter->clean($source, $type);
+	}
 
-    /**
-     * Retrieves the specified parameter.
-     *
-     * @param string $property Name of the property to get.
-     *
-     * @return mixed the value found, or false if the property could not be found
-     */
-    private static function find($property)
-    {
-        if ($value = self::getFilterItems()->get($property, false)) {
-            return $value;
-        }
+	/**
+	 * Retrieves the specified parameter.
+	 *
+	 * @param   string  $property  Name of the property to get.
+	 *
+	 * @return mixed the value found, or false if the property could not be found
+	 */
+	private static function find($property)
+	{
+		if ($value = self::getFilterItems()->get($property, false))
+		{
+			return $value;
+		}
 
-        if ($value = self::getFormItems()->get($property, false)) {
-            return $value;
-        }
+		if ($value = self::getFormItems()->get($property, false))
+		{
+			return $value;
+		}
 
-        if ($value = self::getListItems()->get($property, false)) {
-            return $value;
-        }
+		if ($value = self::getListItems()->get($property, false))
+		{
+			return $value;
+		}
 
-        if ($value = self::getParams()->get($property, false)) {
-            return $value;
-        }
+		if ($value = self::getParams()->get($property, false))
+		{
+			return $value;
+		}
 
-        if ($value = self::getInput()->get($property, false, 'raw')) {
-            return $value;
-        }
+		if ($value = self::getInput()->get($property, false, 'raw'))
+		{
+			return $value;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Retrieves the specified parameter.
-     *
-     * @param string $property Name of the property to get.
-     * @param mixed  $default  Default value to return if variable does not exist.
-     *
-     * @return bool
-     */
-    public static function getBool($property, $default = false)
-    {
-        if ($value = self::find($property)) {
-            return self::filter($value, 'bool');
-        }
+	/**
+	 * Retrieves the specified parameter.
+	 *
+	 * @param   string  $property  Name of the property to get.
+	 * @param   mixed   $default   Default value to return if variable does not exist.
+	 *
+	 * @return bool
+	 */
+	public static function getBool($property, $default = false)
+	{
+		if ($value = self::find($property))
+		{
+			return self::filter($value, 'bool');
+		}
 
-        return self::filter($default, 'bool');
-    }
+		return self::filter($default, 'bool');
+	}
 
-    /**
-     * Retrieves the specified parameter.
-     *
-     * @param string $property Name of the property to get.
-     * @param mixed  $default  Default value to return if variable does not exist.
-     *
-     * @return string
-     */
-    public static function getCMD($property, $default = '')
-    {
-        if ($value = self::find($property)) {
-            return self::filter($value, 'cmd');
-        }
+	/**
+	 * Retrieves the specified parameter.
+	 *
+	 * @param   string  $property  Name of the property to get.
+	 * @param   mixed   $default   Default value to return if variable does not exist.
+	 *
+	 * @return string
+	 */
+	public static function getCMD($property, $default = '')
+	{
+		if ($value = self::find($property))
+		{
+			return self::filter($value, 'cmd');
+		}
 
-        return self::filter($default, 'cmd');
-    }
+		return self::filter($default, 'cmd');
+	}
 
-    /**
-     * Returns the application's input object.
-     *
-     * @param string $resource the name of the resource upon which the ids being sought reference
-     * @param int    $default  the default value
-     *
-     * @return array the filter ids
-     */
-    public static function getFilterID($resource, $default = 0)
-    {
-        $filterIDs = self::getFilterIDs($resource);
+	/**
+	 * Returns the application's input object.
+	 *
+	 * @param   string  $resource  the name of the resource upon which the ids being sought reference
+	 * @param   int     $default   the default value
+	 *
+	 * @return array the filter ids
+	 */
+	public static function getFilterID($resource, $default = 0)
+	{
+		$filterIDs = self::getFilterIDs($resource);
 
-        return empty($filterIDs) ? $default : $filterIDs[0];
-    }
+		return empty($filterIDs) ? $default : $filterIDs[0];
+	}
 
-    /**
-     * Returns the application's input object.
-     *
-     * @param string $resource the name of the resource upon which the ids being sought reference
-     *
-     * @return array the filter ids
-     */
-    public static function getFilterIDs($resource)
-    {
-        $pluralIndex = "{$resource}IDs";
-        if ($values = self::find($pluralIndex)) {
-            self::formatIDValues($values);
+	/**
+	 * Returns the application's input object.
+	 *
+	 * @param   string  $resource  the name of the resource upon which the ids being sought reference
+	 *
+	 * @return array the filter ids
+	 */
+	public static function getFilterIDs($resource)
+	{
+		$pluralIndex = "{$resource}IDs";
+		if ($values = self::find($pluralIndex))
+		{
+			self::formatIDValues($values);
 
-            return $values;
-        }
+			return $values;
+		}
 
-        $singularIndex = "{$resource}ID";
-        if ($value = self::find($singularIndex)) {
-            $values = [$value];
-            self::formatIDValues($values);
+		$singularIndex = "{$resource}ID";
+		if ($value = self::find($singularIndex))
+		{
+			$values = [$value];
+			self::formatIDValues($values);
 
-            return $values;
-        }
+			return $values;
+		}
 
-        return [];
-    }
+		return [];
+	}
 
-    /**
-     * Retrieves the filter items from the request and creates a registry with the data.
-     *
-     * @return Registry
-     */
-    public static function getFilterItems()
-    {
-        if (self::$filterItems === false) {
-            self::$filterItems = new Registry(self::getInput()->get('filter', [], 'array'));
-        }
+	/**
+	 * Retrieves the filter items from the request and creates a registry with the data.
+	 *
+	 * @return Registry
+	 */
+	public static function getFilterItems()
+	{
+		if (self::$filterItems === false)
+		{
+			self::$filterItems = new Registry(self::getInput()->get('filter', [], 'array'));
+		}
 
-        return self::$filterItems;
-    }
+		return self::$filterItems;
+	}
 
-    /**
-     * Retrieves the request form.
-     *
-     * @return Registry with the request data if available
-     */
-    public static function getFormItems()
-    {
-        if (self::$formItems === false) {
-            self::$formItems = new Registry(self::getInput()->get('jform', [], 'array'));
-        }
+	/**
+	 * Retrieves the request form.
+	 *
+	 * @return Registry with the request data if available
+	 */
+	public static function getFormItems()
+	{
+		if (self::$formItems === false)
+		{
+			self::$formItems = new Registry(self::getInput()->get('jform', [], 'array'));
+		}
 
-        return self::$formItems;
-    }
+		return self::$formItems;
+	}
 
-    /**
-     * Retrieves the id parameter.
-     *
-     * @return int
-     */
-    public static function getID()
-    {
-        return self::getInt('id');
-    }
+	/**
+	 * Retrieves the id parameter.
+	 *
+	 * @return int
+	 */
+	public static function getID()
+	{
+		return self::getInt('id');
+	}
 
-    /**
-     * Retrieves the specified parameter.
-     *
-     * @param string $property Name of the property to get.
-     * @param mixed  $default  Default value to return if variable does not exist.
-     *
-     * @return int
-     */
-    public static function getInt($property, $default = 0)
-    {
-        if ($value = self::find($property)) {
-            return self::filter($value, 'int');
-        }
+	/**
+	 * Retrieves the specified parameter.
+	 *
+	 * @param   string  $property  Name of the property to get.
+	 * @param   mixed   $default   Default value to return if variable does not exist.
+	 *
+	 * @return int
+	 */
+	public static function getInt($property, $default = 0)
+	{
+		if ($value = self::find($property))
+		{
+			return self::filter($value, 'int');
+		}
 
-        return self::filter($default, 'int');
-    }
+		return self::filter($default, 'int');
+	}
 
-    /**
-     * Retrieves the id of the requested menu item / menu item configuration.
-     *
-     * @return int
-     */
-    public static function getItemid()
-    {
-        $app     = OrganizerHelper::getApplication();
-        $default = (empty($app->getMenu()) or empty($app->getMenu()->getActive())) ?
-            0 : $app->getMenu()->getActive()->id;
+	/**
+	 * Retrieves the id of the requested menu item / menu item configuration.
+	 *
+	 * @return int
+	 */
+	public static function getItemid()
+	{
+		$app     = OrganizerHelper::getApplication();
+		$default = (empty($app->getMenu()) or empty($app->getMenu()->getActive())) ?
+			0 : $app->getMenu()->getActive()->id;
 
-        return self::getInt('Itemid', $default);
-    }
+		return self::getInt('Itemid', $default);
+	}
 
-    /**
-     * Returns the application's input object.
-     *
-     * @return \JInput
-     */
-    public static function getInput()
-    {
-        if (empty(self::$input)) {
-            self::$input = OrganizerHelper::getApplication()->input;
-        }
+	/**
+	 * Returns the application's input object.
+	 *
+	 * @return \JInput
+	 */
+	public static function getInput()
+	{
+		if (empty(self::$input))
+		{
+			self::$input = OrganizerHelper::getApplication()->input;
+		}
 
-        return self::$input;
-    }
+		return self::$input;
+	}
 
-    /**
-     * Retrieves the list items from the request and creates a registry with the data.
-     *
-     * @return Registry
-     */
-    private static function getListItems()
-    {
-        if (self::$listItems === false) {
-            self::$listItems = new Registry(self::getInput()->get('list', [], 'array'));
-        }
+	/**
+	 * Retrieves the list items from the request and creates a registry with the data.
+	 *
+	 * @return Registry
+	 */
+	private static function getListItems()
+	{
+		if (self::$listItems === false)
+		{
+			self::$listItems = new Registry(self::getInput()->get('list', [], 'array'));
+		}
 
-        return self::$listItems;
-    }
+		return self::$listItems;
+	}
 
-    /**
-     * Consolidates the application, component and menu parameters to a single registry with one call.
-     *
-     * @return Registry
-     */
-    public static function getParams()
-    {
-        if (empty(self::$params)) {
-            $app          = OrganizerHelper::getApplication();
-            self::$params = method_exists($app, 'getParams') ?
-                $app->getParams() : ComponentHelper::getParams('com_thm_organizer');
-        }
+	/**
+	 * Consolidates the application, component and menu parameters to a single registry with one call.
+	 *
+	 * @return Registry
+	 */
+	public static function getParams()
+	{
+		if (empty(self::$params))
+		{
+			$app          = OrganizerHelper::getApplication();
+			self::$params = method_exists($app, 'getParams') ?
+				$app->getParams() : ComponentHelper::getParams('com_thm_organizer');
+		}
 
-        return self::$params;
-    }
+		return self::$params;
+	}
 
-    /**
-     * Returns the application's input object.
-     *
-     * @return array the selected ids
-     */
-    public static function getSelectedIDs()
-    {
-        $input = self::getInput();
+	/**
+	 * Returns the selected resource id.
+	 *
+	 * @return int the selected id
+	 */
+	public static function getSelectedID()
+	{
+		$selectedIDs = self::getSelectedIDs();
 
-        // List Views
-        $selectedIDs = $input->get('cid', [], 'array');
-        $selectedIDs = ArrayHelper::toInteger($selectedIDs);
+		return empty($selectedIDs) ? 0 : $selectedIDs[0];
+	}
 
-        if (!empty($selectedIDs)) {
-            return $selectedIDs;
-        }
+	/**
+	 * Returns the selected resource ids.
+	 *
+	 * @return array the selected ids
+	 */
+	public static function getSelectedIDs()
+	{
+		$input = self::getInput();
 
-        // Forms
-        $formItems = self::getFormItems();
-        if ($formItems->count()) {
-            // Merge Views
-            if ($selectedIDs = $formItems->get('ids')) {
-                self::formatIDValues($selectedIDs);
-                if (count($selectedIDs)) {
-                    asort($selectedIDs);
+		// List Views
+		$selectedIDs = $input->get('cid', [], 'array');
+		$selectedIDs = ArrayHelper::toInteger($selectedIDs);
 
-                    return $selectedIDs;
-                }
-            }
+		if (!empty($selectedIDs))
+		{
+			return $selectedIDs;
+		}
 
-            // Edit Views
-            if ($id = $formItems->get('id')) {
-                $selectedIDs = [$id];
-                self::formatIDValues($selectedIDs);
+		// Forms
+		$formItems = self::getFormItems();
+		if ($formItems->count())
+		{
+			// Merge Views
+			if ($selectedIDs = $formItems->get('ids'))
+			{
+				self::formatIDValues($selectedIDs);
+				if (count($selectedIDs))
+				{
+					asort($selectedIDs);
 
-                return $selectedIDs;
-            }
-        }
+					return $selectedIDs;
+				}
+			}
 
-        // Default: explicit GET/POST parameter
-        $selectedID = self::getID();
+			// Edit Views
+			if ($id = $formItems->get('id'))
+			{
+				$selectedIDs = [$id];
+				self::formatIDValues($selectedIDs);
 
-        return empty($selectedID) ? [] : [$selectedID];
-    }
+				return $selectedIDs;
+			}
+		}
 
-    /**
-     * Retrieves the specified parameter.
-     *
-     * @param string $property Name of the property to get.
-     * @param mixed  $default  Default value to return if variable does not exist.
-     *
-     * @return string
-     */
-    public static function getString($property, $default = '')
-    {
-        if ($value = self::find($property)) {
-            return self::filter($value, 'string');
-        }
+		// Default: explicit GET/POST parameter
+		$selectedID = self::getID();
 
-        return self::filter($default, 'string');
-    }
+		return empty($selectedID) ? [] : [$selectedID];
+	}
 
-    /**
-     * Retrieves the task parameter.
-     *
-     * @return string
-     */
-    public static function getTask()
-    {
-        return self::getCmd('task');
-    }
+	/**
+	 * Retrieves the specified parameter.
+	 *
+	 * @param   string  $property  Name of the property to get.
+	 * @param   mixed   $default   Default value to return if variable does not exist.
+	 *
+	 * @return string
+	 */
+	public static function getString($property, $default = '')
+	{
+		if ($value = self::find($property))
+		{
+			return self::filter($value, 'string');
+		}
 
-    /**
-     * Retrieves the view parameter.
-     *
-     * @return string
-     */
-    public static function getView()
-    {
-        return self::getCMD('view');
-    }
+		return self::filter($default, 'string');
+	}
 
-    /**
-     * Resolves a comma separated list of id values to an array of id values.
-     *
-     * @param mixed $idValues the id values as an array or string
-     *
-     * @return array the id values, empty if the values were invalid or the input was not an array or a string
-     */
-    public static function formatIDValues(&$idValues)
-    {
-        if (is_string($idValues)) {
-            $idValues = explode(',', $idValues);
-        } elseif (!is_array($idValues)) {
-            $idValues = [];
-        }
+	/**
+	 * Retrieves the task parameter.
+	 *
+	 * @return string
+	 */
+	public static function getTask()
+	{
+		return self::getCmd('task');
+	}
 
-        $idValues = ArrayHelper::toInteger($idValues);
-        $idValues = array_filter($idValues);
-    }
+	/**
+	 * Retrieves the view parameter.
+	 *
+	 * @return string
+	 */
+	public static function getView()
+	{
+		return self::getCMD('view');
+	}
+
+	/**
+	 * Resolves a comma separated list of id values to an array of id values.
+	 *
+	 * @param   mixed  $idValues  the id values as an array or string
+	 *
+	 * @return array the id values, empty if the values were invalid or the input was not an array or a string
+	 */
+	public static function formatIDValues(&$idValues)
+	{
+		if (is_string($idValues))
+		{
+			$idValues = explode(',', $idValues);
+		}
+		elseif (!is_array($idValues))
+		{
+			$idValues = [];
+		}
+
+		$idValues = ArrayHelper::toInteger($idValues);
+		$idValues = array_filter($idValues);
+	}
 }
