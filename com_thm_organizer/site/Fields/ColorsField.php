@@ -22,8 +22,6 @@ use stdClass;
  */
 class ColorsField extends OptionsField
 {
-	use Translated;
-
 	/**
 	 * Type
 	 *
