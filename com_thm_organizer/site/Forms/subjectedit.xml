@@ -31,10 +31,10 @@
             <option value="0">AVAILABILITY_APPT</option>
         </field>
         <field name="fieldID" type="GenericOptions" label="FIELD" localized="true" table="thm_organizer_fields"
-               textcolumn="field" valuecolumn="id">
+               textcolumn="name" valuecolumn="id">
             <option value="">NO_FIELD</option>
         </field>
-        <field name="planSubjectIDs" type="SubjectCourses" label="EVENT" role="1"/>
+        <field name="planSubjectIDs" type="SubjectEvents" label="EVENT" role="1"/>
         <field name="spacer1" type="spacer" hr="true"/>
         <field name="creditpoints" type="Blank" label="CREDIT_POINTS" class="inputbox" hint="3" size="70"/>
         <field name="sws" type="Integer" label="SWS" default="0" first="1" last="30" step="1">

@@ -14,17 +14,18 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Input;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class creates a select box for explicitly mapping subject documentation to plan subjects. This is also done
  * implicitly during the schedule import process according to degree programs and the subject's module number.
  */
-class SubjectCoursesField extends FormField
+class SubjectEventsField extends FormField
 {
     use Translated;
 
-    protected $type = 'SubjectCourses';
+    protected $type = 'SubjectEvents';
 
     /**
      * Returns a selectionbox where stored coursepool can be chosen as a parent node
@@ -38,25 +39,26 @@ class SubjectCoursesField extends FormField
 
         $dbo          = Factory::getDbo();
         $subjectQuery = $dbo->getQuery(true);
-        $subjectQuery->select('courseID');
-        $subjectQuery->from('#__thm_organizer_subject_mappings');
+        $subjectQuery->select('eventID');
+        $subjectQuery->from('#__thm_organizer_subject_events');
         $subjectQuery->where("subjectID = '$subjectID'");
         $dbo->setQuery($subjectQuery);
         $selected = OrganizerHelper::executeQuery('loadColumn', []);
 
-        $courseQuery = $dbo->getQuery(true);
-        $courseQuery->select('id AS value, name');
-        $courseQuery->from('#__thm_organizer_courses');
-        $courseQuery->order('name');
-        $dbo->setQuery($courseQuery);
+        $tag = Languages::getTag();
+        $eventQuery = $dbo->getQuery(true);
+        $eventQuery->select("id AS value, name_$tag AS name");
+        $eventQuery->from('#__thm_organizer_events');
+        $eventQuery->order('name');
+        $dbo->setQuery($eventQuery);
 
-        $courses = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($courses)) {
-            $courses = [];
+        $events = OrganizerHelper::executeQuery('loadAssocList');
+        if (empty($events)) {
+            $events = [];
         }
 
         $options = [];
-        foreach ($courses as $course) {
+        foreach ($events as $course) {
             $options[] = HTML::_('select.option', $course['value'], $course['name']);
         }
 

@@ -169,7 +169,7 @@ class OrganizerHelper
 	public static function getResource($view)
 	{
 		$initial       = strtolower($view);
-		$withoutSuffix = str_replace(['edit', 'item', 'lsf', 'merge', 'statistics', 'xml'], '', $initial);
+		$withoutSuffix = preg_replace('/_?(edit|item|merge|statistics)$/', '', $initial);
 		if ($withoutSuffix !== $initial)
 		{
 			return $withoutSuffix;
@@ -189,8 +189,7 @@ class OrganizerHelper
 			'roomtypes'    => 'roomtype',
 			'schedules'    => 'schedule',
 			'subjects'     => 'subject',
-			'persons'      => 'person',
-			'topics'       => 'topic'
+			'persons'      => 'person'
 		];
 
 		return $listViews[$initial];

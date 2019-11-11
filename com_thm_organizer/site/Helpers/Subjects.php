@@ -94,13 +94,10 @@ class Subjects extends ResourceHelper implements Selectable
 		$tag = Languages::getTag();
 
 		$query = $dbo->getQuery(true);
-		$query->select("co.name as courseName, s.name_$tag as name")
-			->select("s.shortName_$tag as shortName, s.abbreviation_$tag as abbreviation")
-			->select('co.subjectNo AS courseSubjectNo, s.code AS subjectNo')
-			->from('#__thm_organizer_subjects AS s')
-			->leftJoin('#__thm_organizer_subject_mappings AS sm ON s.id = sm.subjectID')
-			->leftJoin('#__thm_organizer_courses AS co ON co.id = sm.courseID')
-			->where("s.id = '$subjectID'");
+		$query->select("name_$tag as name")
+			->select("shortName_$tag as shortName, abbreviation_$tag as abbreviation, code AS subjectNo")
+			->from('#__thm_organizer_subjects')
+			->where("id = '$subjectID'");
 
 		$dbo->setQuery($query);
 
@@ -112,16 +109,9 @@ class Subjects extends ResourceHelper implements Selectable
 
 		$suffix = '';
 
-		if ($withNumber)
+		if ($withNumber and !empty($names['subjectNo']))
 		{
-			if (!empty($names['subjectNo']))
-			{
-				$suffix .= " ({$names['subjectNo']})";
-			}
-			elseif (!empty($names['courseSubjectNo']))
-			{
-				$suffix .= " ({$names['courseSubjectNo']})";
-			}
+			$suffix .= " ({$names['subjectNo']})";
 		}
 
 		if (!empty($names['name']))
@@ -134,7 +124,7 @@ class Subjects extends ResourceHelper implements Selectable
 			return $names['shortName'] . $suffix;
 		}
 
-		return empty($names['courseName']) ? $names['abbreviation'] . $suffix : $names['courseName'] . $suffix;
+		return $names['abbreviation'] . $suffix;
 	}
 
 	/**
@@ -370,7 +360,7 @@ class Subjects extends ResourceHelper implements Selectable
 	 *
 	 * @return boolean true if the user registered as a coordinator, otherwise false
 	 */
-	public static function teaches($subjectID= 0, $personID = 0)
+	public static function teaches($subjectID = 0, $personID = 0)
 	{
 		if (!$personID)
 		{

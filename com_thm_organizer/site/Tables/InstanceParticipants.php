@@ -11,7 +11,7 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the subject_mappings table.
+ * Class instantiates a Table Object associated with the instance_participants table.
  */
 class InstanceParticipants extends BaseTable
 {
