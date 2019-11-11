@@ -22,68 +22,74 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class TermPublishingField extends FormField
 {
-    use Translated;
+	use Translated;
 
-    /**
-     * @var  string
-     */
-    protected $type = 'TermPublishing';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'TermPublishing';
 
-    /**
-     * Returns a select box where resource attributes can be selected
-     *
-     * @return string  the HTML select box
-     */
-    protected function getInput()
-    {
-        $today       = date('Y-m-d');
-        $dbo         = Factory::getDbo();
-        $periodQuery = $dbo->getQuery(true);
-        $periodQuery->select('id, name')
-            ->from('#__thm_organizer_terms')
-            ->where("endDate > '$today'")
-            ->order('startDate ASC');
-        $dbo->setQuery($periodQuery);
+	/**
+	 * Returns a select box where resource attributes can be selected
+	 *
+	 * @return string  the HTML select box
+	 */
+	protected function getInput()
+	{
+		$tag         = Languages::getTag();
+		$today       = date('Y-m-d');
+		$dbo         = Factory::getDbo();
+		$periodQuery = $dbo->getQuery(true);
+		$periodQuery->select("id, name_$tag as name")
+			->from('#__thm_organizer_terms')
+			->where("endDate > '$today'")
+			->order('startDate ASC');
+		$dbo->setQuery($periodQuery);
 
-        $periods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
-        if (empty($periods)) {
-            return '';
-        }
+		$periods = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+		if (empty($periods))
+		{
+			return '';
+		}
 
-        $groupID   = Input::getID();
-        $poolQuery = $dbo->getQuery(true);
-        $poolQuery->select('termID, published')
-            ->from('#__thm_organizer_group_publishing')
-            ->where("groupID = '$groupID'");
-        $dbo->setQuery($poolQuery);
+		$groupID   = Input::getID();
+		$poolQuery = $dbo->getQuery(true);
+		$poolQuery->select('termID, published')
+			->from('#__thm_organizer_group_publishing')
+			->where("groupID = '$groupID'");
+		$dbo->setQuery($poolQuery);
 
-        $publishingEntries = OrganizerHelper::executeQuery('loadAssocList', [], 'termID');
+		$publishingEntries = OrganizerHelper::executeQuery('loadAssocList', [], 'termID');
 
-        $return = '<div class="publishing-container">';
-        foreach ($periods as $period) {
-            $pID   = "jform_publishing_{$period['id']}";
-            $pName = "jform[publishing][{$period['id']}]";
+		$return = '<div class="publishing-container">';
+		foreach ($periods as $period)
+		{
+			$pID   = "jform_publishing_{$period['id']}";
+			$pName = "jform[publishing][{$period['id']}]";
 
-            $return .= '<div class="period-container">';
-            $return .= '<div class="period-label">' . $period['name'] . '</div>';
-            $return .= '<div class="period-input">';
-            $return .= '<select id="' . $pID . '" name="' . $pName . '" class="chzn-color-state">';
+			$return .= '<div class="period-container">';
+			$return .= '<div class="period-label">' . $period['name'] . '</div>';
+			$return .= '<div class="period-input">';
+			$return .= '<select id="' . $pID . '" name="' . $pName . '" class="chzn-color-state">';
 
-            // Implicitly (new) and explicitly published entries
-            if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published']) {
-                $return .= '<option value="1" selected="selected">' . Languages::_('THM_ORGANIZER_YES') . '</option>';
-                $return .= '<option value="0">' . Languages::_('THM_ORGANIZER_NO') . '</option>';
-            } else {
-                $return .= '<option value="1">' . Languages::_('THM_ORGANIZER_YES') . '</option>';
-                $return .= '<option value="0" selected="selected">' . Languages::_('THM_ORGANIZER_NO') . '</option>';
-            }
+			// Implicitly (new) and explicitly published entries
+			if (!isset($publishingEntries[$period['id']]) or $publishingEntries[$period['id']]['published'])
+			{
+				$return .= '<option value="1" selected="selected">' . Languages::_('THM_ORGANIZER_YES') . '</option>';
+				$return .= '<option value="0">' . Languages::_('THM_ORGANIZER_NO') . '</option>';
+			}
+			else
+			{
+				$return .= '<option value="1">' . Languages::_('THM_ORGANIZER_YES') . '</option>';
+				$return .= '<option value="0" selected="selected">' . Languages::_('THM_ORGANIZER_NO') . '</option>';
+			}
 
-            $return .= '</select>';
-            $return .= '</div>';
-            $return .= '</div>';
-        }
-        $return .= '</div>';
+			$return .= '</select>';
+			$return .= '</div>';
+			$return .= '</div>';
+		}
+		$return .= '</div>';
 
-        return $return;
-    }
+		return $return;
+	}
 }
