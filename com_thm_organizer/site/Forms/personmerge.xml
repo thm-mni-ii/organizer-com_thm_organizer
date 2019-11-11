@@ -6,7 +6,7 @@
         <field name="forename" type="MergeValues" label="FORENAME"/>
         <field name="title" type="MergeValues" label="TITLE"/>
         <field name="username" type="MergeValues" label="USERNAME"/>
-        <field name="fieldID" type="MergeAssociations" label="FIELD" textcolumn="field" localized="true"
+        <field name="fieldID" type="MergeAssociations" label="FIELD" textcolumn="name" localized="true"
                from="persons AS t" innerJoins="fields AS f ON f.id = t.fieldID"/>
         <field name="departmentID" type="MergeDepartments" label="DEPARTMENTS" resource="person" multiple="multiple"/>
         <field name="ids" type="MergeIDs" hidden="true"/>

@@ -7,7 +7,7 @@
             <option value="">SELECT_DEPARTMENT</option>
         </field>
         <field name="lsfID" type="Blank" label="LSF_ID" size="40"/>
-        <field name="fieldID" type="GenericOptions" label="FIELD" valuecolumn="id" textcolumn="field" localized="true"
+        <field name="fieldID" type="GenericOptions" label="FIELD" valuecolumn="id" textcolumn="name" localized="true"
                table="thm_organizer_fields">
             <option value="">NO_FIELD</option>
         </field>

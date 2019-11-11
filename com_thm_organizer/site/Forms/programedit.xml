@@ -11,7 +11,7 @@
         <field name="version" type="Blank" label="VERSION" required="true" size="10"/>
         <field name="code" type="Blank" label="LSF_FIELD_ID" required="true" size="40"/>
         <field name="fieldID" type="GenericOptions" label="FIELD" localized="true" required="true"
-               table="thm_organizer_fields" textcolumn="field" valuecolumn="id">
+               table="thm_organizer_fields" textcolumn="name" valuecolumn="id">
             <option value="">NO_FIELD</option>
         </field>
         <field name="frequencyID" type="Options" label="FREQUENCY" default="3">

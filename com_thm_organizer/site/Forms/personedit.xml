@@ -8,7 +8,7 @@
         <field name="title" type="Blank" label="TITLE" maxlength="45" size="40"/>
         <field name="username" type="Blank" label="USERNAME"/>
         <field name="fieldID" type="GenericOptions" label="FIELD" localized="true" table="thm_organizer_fields"
-               textcolumn="field" valuecolumn="id">
+               textcolumn="name" valuecolumn="id">
             <option value="">NO_FIELD</option>
         </field>
         <field name="departmentID" type="Departments" label="DEPARTMENTS" multiple="multiple" required="true"/>
