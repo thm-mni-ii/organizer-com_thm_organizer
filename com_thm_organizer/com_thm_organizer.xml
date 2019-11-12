@@ -35,6 +35,7 @@
         <filename>LICENSE.txt</filename>
         <filename>metadata.xml</filename>
         <filename>thm_organizer.php</filename>
+        <folder>Controllers</folder>
         <folder>css</folder>
         <folder>Fields</folder>
         <folder>Forms</folder>

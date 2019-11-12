@@ -148,7 +148,8 @@ class OrganizerHelper
 		switch (true)
 		{
 			case $resource == 'equipment':
-				return 'equipment';
+			case $resource == 'organizer':
+				return $resource;
 			case mb_substr($resource, -1) == 's':
 				return $resource . 'es';
 			case mb_substr($resource, -2) == 'ry':
@@ -279,6 +280,13 @@ class OrganizerHelper
 		$handler = explode('.', Input::getTask());
 		if (count($handler) == 2)
 		{
+			$possibleController = ucfirst(self::getPlural($handler[0]));
+			$filepath           = JPATH_ROOT . "/components/com_thm_organizer/Controllers/$possibleController.php";
+			if (is_file($filepath))
+			{
+				$namespacedClassName = "Organizer\\Controllers\\" . $possibleController;
+				$controllerObj       = new $namespacedClassName;
+			}
 			$task = $handler[1];
 		}
 		else
@@ -286,7 +294,10 @@ class OrganizerHelper
 			$task = $handler[0];
 		}
 
-		$controllerObj = new Controller;
+		if (empty($controllerObj))
+		{
+			$controllerObj = new Controller;
+		}
 
 		try
 		{
