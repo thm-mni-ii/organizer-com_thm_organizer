@@ -28,9 +28,13 @@ use Organizer\Helpers\Routing;
  */
 class Controller extends BaseController
 {
-	private $listView = '';
+	const BACKEND = true, FRONTEND = false;
 
-	private $resource = '';
+	public $clientContext;
+
+	protected $listView = '';
+
+	protected $resource = '';
 
 	/**
 	 * Class constructor
@@ -41,11 +45,16 @@ class Controller extends BaseController
 	{
 		$config['base_path']    = JPATH_COMPONENT_SITE;
 		$config['model_prefix'] = '';
+		$this->clientContext    = OrganizerHelper::getApplication()->isClient('administrator');
 		parent::__construct($config);
-		$task           = Input::getTask();
-		$taskParts      = explode('.', $task);
-		$this->resource = $taskParts[0];
-		$this->listView = OrganizerHelper::getPlural($this->resource);
+
+		if (empty($this->resource))
+		{
+			$task           = Input::getTask();
+			$taskParts      = explode('.', $task);
+			$this->resource = $taskParts[0];
+			$this->listView = OrganizerHelper::getPlural($this->resource);
+		}
 	}
 
 	/**
@@ -79,8 +88,8 @@ class Controller extends BaseController
 	 */
 	public function add()
 	{
-		$this->input->set('view', "{$this->resource}_edit");
-		parent::display();
+		$url = Routing::getRedirectBase() . "&view={$this->resource}_edit";
+		$this->setRedirect($url);
 	}
 
 	/**
@@ -90,9 +99,10 @@ class Controller extends BaseController
 	 */
 	public function apply()
 	{
-		$resourceID = $this->getModel($this->resource)->save();
+		$modelName = "Organizer\\Models\\" . OrganizerHelper::getClass($this->resource);
+		$model     = new $modelName;
 
-		if (!empty($resourceID))
+		if ($resourceID = $model->save())
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 		}
@@ -101,8 +111,7 @@ class Controller extends BaseController
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 		}
 
-		$url = Routing::getRedirectBase();
-		$url .= "&view={$this->resource}_edit&id=$resourceID";
+		$url = Routing::getRedirectBase() . "&view={$this->resource}_edit&id=$resourceID";
 		$this->setRedirect($url);
 	}
 
@@ -136,8 +145,8 @@ class Controller extends BaseController
 	 */
 	public function cancel()
 	{
-		$this->input->set('view', $this->listView);
-		parent::display();
+		$url = Routing::getRedirectBase() . "&view={$this->listView}";
+		$this->setRedirect($url);
 	}
 
 	/**
@@ -202,9 +211,10 @@ class Controller extends BaseController
 	 */
 	public function delete()
 	{
-		$success = $this->getModel($this->resource)->delete($this->resource);
+		$modelName = "Organizer\\Models\\" . OrganizerHelper::getClass($this->resource);
+		$model     = new $modelName;
 
-		if ($success)
+		if ($model->delete($this->resource))
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_DELETE_SUCCESS');
 		}
@@ -295,12 +305,9 @@ class Controller extends BaseController
 	 */
 	public function edit()
 	{
-		$selectedIDs = Input::getSelectedIDs();
-		$resourceID  = count($selectedIDs) > 0 ? $selectedIDs[0] : 0;
-
-		$this->input->set('view', "{$this->resource}_edit");
-		$this->input->set('id', $resourceID);
-		parent::display();
+		$selectedID = Input::getSelectedID();
+		$url        = Routing::getRedirectBase() . "&view={$this->resource}_edit&id=$selectedID";
+		$this->setRedirect($url);
 	}
 
 	/**
@@ -425,8 +432,10 @@ class Controller extends BaseController
 	 */
 	public function merge()
 	{
-		$success = $this->getModel($this->resource)->merge($this->resource);
-		if ($success)
+		$modelName = "Organizer\\Models\\" . OrganizerHelper::getClass($this->resource);
+		$model     = new $modelName;
+
+		if ($model->merge($this->resource))
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
 		}
@@ -742,8 +751,10 @@ class Controller extends BaseController
 	 */
 	public function save2copy()
 	{
-		$success = $this->getModel($this->resource)->save2copy();
-		if ($success)
+		$modelName = "Organizer\\Models\\" . OrganizerHelper::getClass($this->resource);
+		$model     = new $modelName;
+
+		if ($model->save2copy())
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 		}
@@ -752,8 +763,7 @@ class Controller extends BaseController
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 		}
 
-		$url = Routing::getRedirectBase();
-		$url .= "&view={$this->listView}";
+		$url = Routing::getRedirectBase() . "&view={$this->listView}";
 		$this->setRedirect($url);
 	}
 
@@ -764,8 +774,10 @@ class Controller extends BaseController
 	 */
 	public function save2new()
 	{
-		$success = $this->getModel($this->resource)->save();
-		if ($success)
+		$modelName = "Organizer\\Models\\" . OrganizerHelper::getClass($this->resource);
+		$model     = new $modelName;
+
+		if ($model->save())
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 		}
@@ -774,8 +786,7 @@ class Controller extends BaseController
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 		}
 
-		$url = Routing::getRedirectBase();
-		$url .= "&view={$this->resource}_edit&id=0";
+		$url = Routing::getRedirectBase() . "&view={$this->resource}_edit&id=0";
 		$this->setRedirect($url);
 	}
 
@@ -815,9 +826,10 @@ class Controller extends BaseController
 	 */
 	public function toggle()
 	{
-		$model   = $this->getModel($this->resource);
-		$success = $model->toggle();
-		if ($success)
+		$modelName = "Organizer\\Models\\" . OrganizerHelper::getClass($this->resource);
+		$model     = new $modelName;
+
+		if ($model->toggle())
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 		}
@@ -826,8 +838,7 @@ class Controller extends BaseController
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 		}
 
-		$url = Routing::getRedirectBase();
-		$url .= "&view={$this->listView}";
+		$url = Routing::getRedirectBase() . "&view={$this->listView}";
 		$this->setRedirect($url);
 	}
 
