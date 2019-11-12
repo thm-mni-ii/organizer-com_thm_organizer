@@ -116,29 +116,6 @@ class Controller extends BaseController
 	}
 
 	/**
-	 * Makes call to the models's batch function, and redirects to the manager view.
-	 *
-	 * @return void
-	 */
-	public function batch()
-	{
-		$success = $this->getModel($this->resource)->batch();
-
-		if ($success)
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
-		}
-		else
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
-		}
-
-		$url = Routing::getRedirectBase();
-		$url .= "&view={$this->listView}";
-		$this->setRedirect($url);
-	}
-
-	/**
 	 * Redirects to the manager from the form.
 	 *
 	 * @return void
@@ -492,28 +469,6 @@ class Controller extends BaseController
 		// Reliance on POST requires a different method of redirection
 		$this->input->set('view', "{$this->resource}_merge");
 		parent::display();
-	}
-
-	/**
-	 * Sets the publication status for any group / complete term pairing to true
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	public function publishPast()
-	{
-		$success = $this->getModel('group')->publishPast();
-		$url     = Routing::getRedirectBase() . '&view=groups';
-		if ($success)
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
-		}
-		else
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
-		}
-
-		$this->setRedirect(Route::_($url, false));
 	}
 
 	/**
