@@ -56,14 +56,12 @@ class ChildrenField extends FormField
     {
         $resourceID   = $this->form->getValue('id');
         $contextParts = explode('.', $this->form->getName());
-
-        // Option.View
-        $resourceType = strtolower(str_replace('Edit', '', $contextParts[1]));
+        $resource = OrganizerHelper::getResource($contextParts[1]);
 
         $dbo     = Factory::getDbo();
         $idQuery = $dbo->getQuery(true);
         $idQuery->select('id')->from('#__thm_organizer_mappings');
-        $idQuery->where("{$resourceType}ID = '$resourceID'");
+        $idQuery->where("{$resource}ID = '$resourceID'");
 
         /**
          * Subordinate structures are the same for every parent mapping,
