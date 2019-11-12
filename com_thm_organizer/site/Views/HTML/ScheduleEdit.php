@@ -19,29 +19,22 @@ use Organizer\Helpers\Languages;
  */
 class ScheduleEdit extends EditView
 {
-    /**
-     * creates the joomla adminstrative toolbar
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULE_EDIT'), 'calendars');
-        $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton(
-            'Standard',
-            'upload',
-            Languages::_('THM_ORGANIZER_UPLOAD'),
-            'schedule.upload',
-            false
-        );
-//        $toolbar->appendButton(
-//            'Standard',
-//            'upload',
-//            Languages::_('THM_ORGANIZER_UPLOAD_NOTIFY'),
-//            'schedule.uploadAndNotify',
-//            false
-//        );
-        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'schedule.cancel', false);
-    }
+	/**
+	 * creates the joomla adminstrative toolbar
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULE_EDIT'), 'calendars');
+		$toolbar = Toolbar::getInstance();
+		$toolbar->appendButton(
+			'Standard',
+			'upload',
+			Languages::_('THM_ORGANIZER_UPLOAD'),
+			'schedule.upload',
+			false
+		);
+		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'schedule.cancel', false);
+	}
 }
