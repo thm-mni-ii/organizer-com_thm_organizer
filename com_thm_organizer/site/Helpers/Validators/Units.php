@@ -21,8 +21,6 @@ use stdClass;
  */
 class Units extends ResourceHelper implements UntisXMLValidator
 {
-	private $unitID;
-
 	/**
 	 * Determines how the missing room attribute will be handled
 	 *
