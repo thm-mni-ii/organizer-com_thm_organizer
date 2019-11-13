@@ -43,11 +43,10 @@ class OrganizerHelper
 	 * @param   string  $function  the name of the query function to execute
 	 * @param   mixed   $default   the value to return if an error occurred
 	 * @param   mixed   $args      the arguments to use in the called function
-	 * @param   bool    $rollback  whether to initiate a transaction rollback on error
 	 *
 	 * @return mixed the various return values appropriate to the functions called.
 	 */
-	public static function executeQuery($function, $default = null, $args = null, $rollback = false)
+	public static function executeQuery($function, $default = null, $args = null)
 	{
 		$dbo = Factory::getDbo();
 		try
@@ -71,20 +70,12 @@ class OrganizerHelper
 		catch (RuntimeException $exc)
 		{
 			self::message($exc->getMessage(), 'error');
-			if ($rollback)
-			{
-				$dbo->transactionRollback();
-			}
 
 			return $default;
 		}
 		catch (Exception $exc)
 		{
 			self::message($exc->getMessage(), 'error');
-			if ($rollback)
-			{
-				$dbo->transactionRollback();
-			}
 
 			return $default;
 		}

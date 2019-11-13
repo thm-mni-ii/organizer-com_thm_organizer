@@ -15,54 +15,54 @@ namespace Organizer\Models;
  */
 class Field extends MergeModel
 {
-    protected $fkColumn = 'fieldID';
+	protected $fkColumn = 'fieldID';
 
-    protected $tableName = 'fields';
+	protected $tableName = 'fields';
 
-    /**
-     * Updates key references to the entry being merged.
-     *
-     * @return boolean  true on success, otherwise false
-     */
-    protected function updateAssociations()
-    {
-        $groupsUpdated = $this->updateAssociation('groups');
-        if (!$groupsUpdated) {
-            return false;
-        }
+	/**
+	 * Updates key references to the entry being merged.
+	 *
+	 * @return boolean  true on success, otherwise false
+	 */
+	protected function updateAssociations()
+	{
+		if (!$this->updateAssociation('groups'))
+		{
+			return false;
+		}
 
-        $coursesUpdated = $this->updateAssociation('courses');
-        if (!$coursesUpdated) {
-            return false;
-        }
+		if (!$this->updateAssociation('courses'))
+		{
+			return false;
+		}
 
-        $poolsUpdated = $this->updateAssociation('pools');
-        if (!$poolsUpdated) {
-            return false;
-        }
+		if (!$this->updateAssociation('pools'))
+		{
+			return false;
+		}
 
-        $programsUpdated = $this->updateAssociation('programs');
-        if (!$programsUpdated) {
-            return false;
-        }
+		if (!$this->updateAssociation('programs'))
+		{
+			return false;
+		}
 
-        $subjectsUpdated = $this->updateAssociation('subjects');
-        if (!$subjectsUpdated) {
-            return false;
-        }
+		if (!$this->updateAssociation('subjects'))
+		{
+			return false;
+		}
 
-        return $this->updateAssociation('persons');
-    }
+		return $this->updateAssociation('persons');
+	}
 
-    /**
-     * Processes the data for an individual schedule
-     *
-     * @param object &$schedule the schedule being processed
-     *
-     * @return void
-     */
-    protected function updateSchedule(&$schedule)
-    {
-        return;
-    }
+	/**
+	 * Processes the data for an individual schedule
+	 *
+	 * @param   object &$schedule  the schedule being processed
+	 *
+	 * @return void
+	 */
+	protected function updateSchedule(&$schedule)
+	{
+		return;
+	}
 }

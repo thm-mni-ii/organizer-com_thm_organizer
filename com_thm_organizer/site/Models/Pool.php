@@ -19,142 +19,123 @@ use Organizer\Helpers\Input;
  */
 class Pool extends BaseModel
 {
-    /**
-     * Attempts to delete the selected subject pool entries and related mappings
-     *
-     * @return boolean true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function delete()
-    {
-        if (!Access::allowDocumentAccess()) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+	/**
+	 * Attempts to delete the selected subject pool entries and related mappings
+	 *
+	 * @return boolean true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function delete()
+	{
+		if (!Access::allowDocumentAccess())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        $poolIDs = Input::getSelectedIDs();
-        if (!empty($poolIDs)) {
-            $this->_db->transactionStart();
-            foreach ($poolIDs as $poolID) {
-                if (!Access::allowDocumentAccess('pool', $poolID)) {
-                    $this->_db->transactionRollback();
-                    throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-                }
+		if ($poolIDs = Input::getSelectedIDs())
+		{
+			foreach ($poolIDs as $poolID)
+			{
+				if (!Access::allowDocumentAccess('pool', $poolID))
+				{
+					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				}
 
-                $deleted = $this->deleteSingle($poolID);
+				if (!$this->deleteSingle($poolID))
+				{
+					return false;
+				}
+			}
+		}
 
-                if (!$deleted) {
-                    $this->_db->transactionRollback();
+		return true;
+	}
 
-                    return false;
-                }
-            }
-            $this->_db->transactionCommit();
-        }
+	/**
+	 * Removes a single pool and mappings. No access checks because of the contexts in which it is called.
+	 *
+	 * @param   int  $poolID  the pool id
+	 *
+	 * @return boolean  true on success, otherwise false
+	 */
+	public function deleteSingle($poolID)
+	{
+		$model = new Mapping;
 
-        return true;
-    }
+		if (!$model->deleteByResourceID($poolID, 'pool'))
+		{
+			return false;
+		}
 
-    /**
-     * Removes a single pool and mappings. No access checks because of the contexts in which it is called.
-     *
-     * @param int $poolID the pool id
-     *
-     * @return boolean  true on success, otherwise false
-     */
-    public function deleteSingle($poolID)
-    {
-        $model           = new Mapping;
-        $mappingsDeleted = $model->deleteByResourceID($poolID, 'pool');
+		$table = $this->getTable();
 
-        if (!$mappingsDeleted) {
-            return false;
-        }
+		return $table->delete($poolID);
+	}
 
-        $table       = $this->getTable();
-        $poolDeleted = $table->delete($poolID);
+	/**
+	 * Attempts to save the resource.
+	 *
+	 * @param   array  $data  form data which has been preprocessed by inheriting classes.
+	 *
+	 * @return mixed int id of the resource on success, otherwise boolean false
+	 * @throws Exception => unauthorized access
+	 */
+	public function save($data = [])
+	{
+		$data = empty($data) ? Input::getFormItems()->toArray() : $data;
 
-        if (!$poolDeleted) {
-            return false;
-        }
+		if (empty($data['id']))
+		{
+			if (!Access::allowDocumentAccess())
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
+		}
+		elseif (is_numeric($data['id']))
+		{
+			if (!Access::allowDocumentAccess('pool', $data['id']))
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
+		}
+		else
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+		}
 
-        return true;
-    }
+		if (empty($data['fieldID']))
+		{
+			unset($data['fieldID']);
+		}
 
-    /**
-     * Attempts to save the resource.
-     *
-     * @param array $data form data which has been preprocessed by inheriting classes.
-     *
-     * @return mixed int id of the resource on success, otherwise boolean false
-     * @throws Exception => unauthorized access
-     */
-    public function save($data = [])
-    {
-        $data = empty($data) ? Input::getFormItems()->toArray() : $data;
+		$table = $this->getTable();
 
-        if (empty($data['id'])) {
-            if (!Access::allowDocumentAccess()) {
-                throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-            }
-        } elseif (is_numeric($data['id'])) {
-            if (!Access::allowDocumentAccess('pool', $data['id'])) {
-                throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-            }
-        } else {
-            throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        }
+		if (!$table->save($data))
+		{
+			return false;
+		}
 
-        if (empty($data['fieldID'])) {
-            unset($data['fieldID']);
-        }
+		$mappingsIrrelevant = (empty($data['programID']) or empty($data['parentID']));
 
-        $table = $this->getTable();
-        $this->_db->transactionStart();
+		// Successfully inserted a new pool
+		if ($mappingsIrrelevant)
+		{
+			return $table->id;
+		} // Process mapping information
+		else
+		{
+			$model      = new Mapping;
+			$data['id'] = $table->id;
 
-        $success = $table->save($data);
-
-        if (!$success or empty($table->id)) {
-            $this->_db->transactionRollback();
-
-            return false;
-        }
-
-        $mappingsIrrelevant = (empty($data['programID']) or empty($data['parentID']));
-
-        // Successfully inserted a new pool
-        if ($mappingsIrrelevant) {
-            $this->_db->transactionCommit();
-
-            return $table->id;
-        } // Process mapping information
-        else {
-            $model      = new Mapping;
-            $data['id'] = $table->id;
-
-            // No mappings desired
-            if (empty($data['parentID'])) {
-                $mappingsDeleted = $model->deleteByResourceID($table->id, 'pool');
-                if ($mappingsDeleted) {
-                    $this->_db->transactionCommit();
-
-                    return $table->id;
-                } else {
-                    $this->_db->transactionRollback();
-
-                    return false;
-                }
-            } else {
-                $mappingSaved = $model->savePool($data);
-                if ($mappingSaved) {
-                    $this->_db->transactionCommit();
-
-                    return $table->id;
-                } else {
-                    $this->_db->transactionRollback();
-
-                    return false;
-                }
-            }
-        }
-    }
+			// No mappings desired
+			if (empty($data['parentID']))
+			{
+				return $model->deleteByResourceID($table->id, 'pool') ? $table->id : false;
+			}
+			else
+			{
+				return $model->savePool($data) ? $table->id : false;
+			}
+		}
+	}
 }

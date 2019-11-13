@@ -49,8 +49,7 @@ abstract class BaseTable extends Table
 	 */
 	public function getProperty($property, $keys = null, $default = null)
 	{
-		$loaded = !empty($this->id);
-		if (!$loaded and !$this->load($keys))
+		if (empty($this->id) and !$this->load($keys))
 		{
 			return $default;
 		}
@@ -104,8 +103,7 @@ abstract class BaseTable extends Table
 	 */
 	public function setProperty($property, $value, $keys = null)
 	{
-		$loaded = !empty($this->id);
-		if (!$loaded and !$this->load($keys))
+		if (empty($this->id) and !$this->load($keys))
 		{
 			return false;
 		}

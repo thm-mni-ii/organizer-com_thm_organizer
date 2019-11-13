@@ -23,242 +23,241 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class ProgramLSF extends BaseModel
 {
-    /**
-     * Retrieves program information relevant for soap queries to the LSF system.
-     *
-     * @param int $programID the id of the degree program
-     *
-     * @return array  empty if the program could not be found
-     */
-    private function getSavedProgramData($programID)
-    {
-        $query = $this->_db->getQuery(true);
-        $query->select('p.code AS program, d.code AS degree, version, departmentID');
-        $query->from('#__thm_organizer_programs AS p');
-        $query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
-        $query->where("p.id = '$programID'");
-        $this->_db->setQuery($query);
+	/**
+	 * Retrieves program information relevant for soap queries to the LSF system.
+	 *
+	 * @param   int  $programID  the id of the degree program
+	 *
+	 * @return array  empty if the program could not be found
+	 */
+	private function getSavedProgramData($programID)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('p.code AS program, d.code AS degree, version, departmentID');
+		$query->from('#__thm_organizer_programs AS p');
+		$query->leftJoin('#__thm_organizer_degrees AS d ON p.degreeID = d.id');
+		$query->where("p.id = '$programID'");
+		$this->_db->setQuery($query);
 
-        return OrganizerHelper::executeQuery('loadAssoc', []);
-    }
+		return OrganizerHelper::executeQuery('loadAssoc', []);
+	}
 
-    /**
-     * Retrieves the distinct subject ids associated with the program
-     *
-     * @param int $programID the program's id
-     *
-     * @return array|mixed the subject ids
-     */
-    private function getSubjectIDs($programID)
-    {
-        $borders = Mappings::getMappings('program', $programID);
+	/**
+	 * Retrieves the distinct subject ids associated with the program
+	 *
+	 * @param   int  $programID  the program's id
+	 *
+	 * @return array|mixed the subject ids
+	 */
+	private function getSubjectIDs($programID)
+	{
+		$borders = Mappings::getMappings('program', $programID);
 
-        $query = $this->_db->getQuery(true);
-        $query->select('DISTINCT subjectID')
-            ->from('#__thm_organizer_mappings')
-            ->where('subjectID IS NOT NULL')
-            ->where("lft > '{$borders[0]['lft']}'")
-            ->where("rgt < '{$borders[0]['rgt']}'");
-        $this->_db->setQuery($query);
+		$query = $this->_db->getQuery(true);
+		$query->select('DISTINCT subjectID')
+			->from('#__thm_organizer_mappings')
+			->where('subjectID IS NOT NULL')
+			->where("lft > '{$borders[0]['lft']}'")
+			->where("rgt < '{$borders[0]['rgt']}'");
+		$this->_db->setQuery($query);
 
-        return OrganizerHelper::executeQuery('loadColumn', []);
-    }
+		return OrganizerHelper::executeQuery('loadColumn', []);
+	}
 
-    /**
-     * Method to get a table object, load it if necessary.
-     *
-     * @param string $name    The table name. Optional.
-     * @param string $prefix  The class prefix. Optional.
-     * @param array  $options Configuration array for model. Optional.
-     *
-     * @return Table  A Table object
-     */
-    public function getTable($name = '', $prefix = '', $options = array())
-    {
-        return parent::getTable('Programs', $prefix, $options);
-    }
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table  A Table object
+	 */
+	public function getTable($name = '', $prefix = '', $options = array())
+	{
+		return parent::getTable('Programs', $prefix, $options);
+	}
 
 
-    /**
-     * Method to import data associated with degree programs from LSF
-     *
-     * @return bool  true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function importBatch()
-    {
-        $programIDs = Input::getSelectedIDs();
+	/**
+	 * Method to import data associated with degree programs from LSF
+	 *
+	 * @return bool  true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function importBatch()
+	{
+		$programIDs = Input::getSelectedIDs();
 
-        $this->_db->transactionStart();
-        foreach ($programIDs as $programID) {
-            if (!Access::allowDocumentAccess('program', $programID)) {
-                $this->_db->transactionRollback();
-                throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-            }
+		foreach ($programIDs as $programID)
+		{
+			if (!Access::allowDocumentAccess('program', $programID))
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
 
-            $programImported = $this->importSingle($programID);
-            if (!$programImported) {
-                $this->_db->transactionRollback();
+			if (!$this->importSingle($programID))
+			{
+				return false;
+			}
+		}
 
-                return false;
-            }
-        }
+		return true;
+	}
 
-        $this->_db->transactionCommit();
+	/**
+	 * Method to import data associated with a degree program from LSF
+	 *
+	 * @param   int  $programID  the id of the program to be imported
+	 *
+	 * @return boolean  true on success, otherwise false
+	 */
+	private function importSingle($programID)
+	{
+		$programData = $this->getSavedProgramData($programID);
+		if (empty($programData))
+		{
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
 
-        return true;
-    }
+			return false;
+		}
 
-    /**
-     * Method to import data associated with a degree program from LSF
-     *
-     * @param int $programID the id of the program to be imported
-     *
-     * @return boolean  true on success, otherwise false
-     */
-    private function importSingle($programID)
-    {
-        $programData = $this->getSavedProgramData($programID);
-        if (empty($programData)) {
-            OrganizerHelper::message('THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
+		$client  = new LSF;
+		$program = $client->getModules($programData['program'], $programData['degree'], $programData['version']);
+		if (empty($program))
+		{
+			return false;
+		}
 
-            return false;
-        }
+		if (!empty($program->gruppe))
+		{
+			$mappingModel = new Mapping;
 
-        $client  = new LSF;
-        $program = $client->getModules($programData['program'], $programData['degree'], $programData['version']);
-        if (empty($program)) {
-            return false;
-        }
+			$programMappingExists = $this->processProgramMapping($programID, $mappingModel);
+			if (!$programMappingExists)
+			{
+				return false;
+			}
 
-        if (!empty($program->gruppe)) {
-            $mappingModel = new Mapping;
+			if (!$this->processChildNodes($program, $programData['departmentID']))
+			{
+				return false;
+			}
 
-            $programMappingExists = $this->processProgramMapping($programID, $mappingModel);
-            if (!$programMappingExists) {
-                return false;
-            }
+			if (!$mappingModel->addLSFMappings($programID, $program))
+			{
+				return false;
+			}
 
-            $childrenImported = $this->processChildNodes($program, $programData['departmentID']);
-            if (!$childrenImported) {
-                return false;
-            }
+			$subjectIDs = $this->getSubjectIDs($programID);
 
-            $mappingsAdded = $mappingModel->addLSFMappings($programID, $program);
-            if (!$mappingsAdded) {
-                return false;
-            }
+			foreach ($subjectIDs as $subjectID)
+			{
+				$subjectModel = new SubjectLSF;
 
-            $subjectIDs = $this->getSubjectIDs($programID);
+				if (!$subjectModel->resolveDependencies($subjectID))
+				{
+					return false;
+				}
+			}
+		}
 
-            foreach ($subjectIDs as $subjectID) {
-                $subjectModel = new SubjectLSF;
+		return true;
+	}
 
-                $dependenciesResolved = $subjectModel->resolveDependencies($subjectID);
-                if (!$dependenciesResolved) {
-                    return false;
-                }
-            }
-        }
+	/**
+	 * Processes the child nodes of the program root node
+	 *
+	 * @param   object &$program       the simplexml object object containing program information
+	 * @param   int     $departmentID  the id of the department to which this data belongs
+	 *
+	 * @return boolean  true on success, otherwise false
+	 */
+	private function processChildNodes(&$program, $departmentID)
+	{
+		$lsfSubjectModel = new SubjectLSF;
+		$lsfPoolModel    = new PoolLSF;
 
-        return true;
-    }
+		foreach ($program->gruppe as $resource)
+		{
+			$type    = LSF::determineType($resource);
+			$success = true;
 
-    /**
-     * Processes the child nodes of the program root node
-     *
-     * @param object &$program      the simplexml object object containing program information
-     * @param int     $departmentID the id of the department to which this data belongs
-     *
-     * @return boolean  true on success, otherwise false
-     */
-    private function processChildNodes(&$program, $departmentID)
-    {
-        $lsfSubjectModel = new SubjectLSF;
-        $lsfPoolModel    = new PoolLSF;
+			if ($type == 'subject')
+			{
+				$success = $lsfSubjectModel->processStub($resource, $departmentID);
+			}
+			elseif ($type == 'pool')
+			{
+				$success = $lsfPoolModel->processStub($resource, $departmentID);
+			}
 
-        foreach ($program->gruppe as $resource) {
-            $type    = LSF::determineType($resource);
-            $success = true;
+			// Malformed xml, invalid/incomplete data, database errors
+			if (!$success)
+			{
+				return false;
+			}
+		}
 
-            if ($type == 'subject') {
-                $success = $lsfSubjectModel->processStub($resource, $departmentID);
-            } elseif ($type == 'pool') {
-                $success = $lsfPoolModel->processStub($resource, $departmentID);
-            }
+		return true;
+	}
 
-            // Malformed xml, invalid/incomplete data, database errors
-            if (!$success) {
-                return false;
-            }
-        }
+	/**
+	 * Checks for a program mapping, creating one if non-existant
+	 *
+	 * @param   int     $programID     the id of the program
+	 * @param   object &$mappingModel  the mapping model
+	 *
+	 * @return boolean  true on existant/created mapping, otherwise false
+	 */
+	private function processProgramMapping($programID, &$mappingModel)
+	{
+		if (!$mappingModel->checkForMapping($programID, 'program') and !$mappingModel->saveProgram($programID))
+		{
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Checks for a program mapping, creating one if non-existant
-     *
-     * @param int     $programID    the id of the program
-     * @param object &$mappingModel the mapping model
-     *
-     * @return boolean  true on existant/created mapping, otherwise false
-     */
-    private function processProgramMapping($programID, &$mappingModel)
-    {
-        $mappingExists = $mappingModel->checkForMapping($programID, 'program');
-        if (empty($mappingExists)) {
-            $mappingCreated = $mappingModel->saveProgram($programID);
-            if (empty($mappingCreated)) {
-                return false;
-            }
-        }
+	/**
+	 * Method to update subject data associated with degree programs from LSF
+	 *
+	 * @return bool  true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function updateBatch()
+	{
+		$programIDs = Input::getSelectedIDs();
 
-        return true;
-    }
+		if (empty($programIDs))
+		{
+			return false;
+		}
 
-    /**
-     * Method to update subject data associated with degree programs from LSF
-     *
-     * @return bool  true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function updateBatch()
-    {
-        $programIDs = Input::getSelectedIDs();
+		$subjectModel = new SubjectLSF;
 
-        if (empty($programIDs)) {
-            return false;
-        }
+		foreach ($programIDs as $programID)
+		{
+			if (!Access::allowDocumentAccess('program', $programID))
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
 
-        $this->_db->transactionStart();
-        $subjectModel = new SubjectLSF;
+			if (!$subjectIDs = $this->getSubjectIDs($programID))
+			{
+				continue;
+			}
 
-        foreach ($programIDs as $programID) {
-            if (!Access::allowDocumentAccess('program', $programID)) {
-                $this->_db->transactionRollback();
-                throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-            }
+			foreach ($subjectIDs as $subjectID)
+			{
+				if (!$subjectModel->importSingle($subjectID))
+				{
+					return false;
+				}
+			}
+		}
 
-            $subjectIDs = $this->getSubjectIDs($programID);
-
-            if (empty($subjectIDs)) {
-                continue;
-            }
-
-            foreach ($subjectIDs as $subjectID) {
-                $success = $subjectModel->importSingle($subjectID);
-
-                if (!$success) {
-                    $this->_db->transactionRollback();
-
-                    return false;
-                }
-            }
-        }
-
-        $this->_db->transactionCommit();
-
-        return true;
-    }
+		return true;
+	}
 }

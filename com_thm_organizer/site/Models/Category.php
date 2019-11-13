@@ -17,46 +17,46 @@ use Organizer\Helpers\Categories;
  */
 class Category extends MergeModel
 {
-    protected $deptResource = 'categoryID';
+	protected $deptResource = 'categoryID';
 
-    protected $fkColumn = 'categoryID';
+	protected $fkColumn = 'categoryID';
 
-    protected $tableName = 'categories';
+	protected $tableName = 'categories';
 
-    /**
-     * Provides resource specific user access checks
-     *
-     * @return boolean  true if the user may edit the given resource, otherwise false
-     */
-    protected function allowEdit()
-    {
-        return Categories::allowEdit($this->selected);
-    }
+	/**
+	 * Provides resource specific user access checks
+	 *
+	 * @return boolean  true if the user may edit the given resource, otherwise false
+	 */
+	protected function allowEdit()
+	{
+		return Categories::allowEdit($this->selected);
+	}
 
-    /**
-     * Updates key references to the entry being merged.
-     *
-     * @return boolean  true on success, otherwise false
-     */
-    protected function updateAssociations()
-    {
-        $drUpdated = $this->updateDRAssociation();
-        if (!$drUpdated) {
-            return false;
-        }
+	/**
+	 * Updates key references to the entry being merged.
+	 *
+	 * @return boolean  true on success, otherwise false
+	 */
+	protected function updateAssociations()
+	{
+		if (!$this->updateDRAssociation())
+		{
+			return false;
+		}
 
-        return $this->updateAssociation('groups');
-    }
+		return $this->updateAssociation('groups');
+	}
 
-    /**
-     * Processes the data for an individual schedule
-     *
-     * @param object &$schedule the schedule being processed
-     *
-     * @return void
-     */
-    protected function updateSchedule(&$schedule)
-    {
-        return;
-    }
+	/**
+	 * Processes the data for an individual schedule
+	 *
+	 * @param   object &$schedule  the schedule being processed
+	 *
+	 * @return void
+	 */
+	protected function updateSchedule(&$schedule)
+	{
+		return;
+	}
 }

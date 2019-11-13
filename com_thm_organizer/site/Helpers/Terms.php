@@ -46,18 +46,7 @@ class Terms extends ResourceHelper implements Selectable
 	{
 		$table = self::getTable();
 
-		try
-		{
-			$success = $table->load($termID);
-		}
-		catch (Exception $exc)
-		{
-			OrganizerHelper::message($exc->getMessage(), 'error');
-
-			return null;
-		}
-
-		return $success ? $table->endDate : null;
+		return $table->load($termID) ? $table->endDate : null;
 	}
 
 	/**
@@ -69,33 +58,20 @@ class Terms extends ResourceHelper implements Selectable
 	 */
 	public static function getID($data)
 	{
+		if (empty($data))
+		{
+			return null;
+		}
+
 		$table        = self::getTable();
 		$loadCriteria = ['startDate' => $data['startDate'], 'endDate' => $data['endDate']];
 
-		try
-		{
-			$success = $table->load($loadCriteria);
-		}
-		catch (Exception $exc)
-		{
-			OrganizerHelper::message($exc->getMessage(), 'error');
-
-			return null;
-		}
-
-		if ($success)
+		if ($table->load($loadCriteria))
 		{
 			return $table->id;
 		}
-		elseif (empty($data))
-		{
-			return null;
-		}
 
-		// Entry not found
-		$success = $table->save($data);
-
-		return $success ? $table->id : null;
+		return $table->save($data) ? $table->id : null;
 	}
 
 	/**
@@ -134,7 +110,7 @@ class Terms extends ResourceHelper implements Selectable
 	 */
 	public static function getOptions($withDates = false)
 	{
-		$tag = Languages::getTag();
+		$tag     = Languages::getTag();
 		$options = [];
 		foreach (Terms::getResources() as $term)
 		{
@@ -206,17 +182,6 @@ class Terms extends ResourceHelper implements Selectable
 	{
 		$table = self::getTable();
 
-		try
-		{
-			$success = $table->load($termID);
-		}
-		catch (Exception $exc)
-		{
-			OrganizerHelper::message($exc->getMessage(), 'error');
-
-			return null;
-		}
-
-		return $success ? $table->startDate : null;
+		return $table->load($termID) ? $table->startDate : null;
 	}
 }

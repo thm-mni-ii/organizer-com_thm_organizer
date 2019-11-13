@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 use Organizer\Controller;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Routing;
+use Organizer\Models\Group;
 
 /**
  * Class receives user actions and performs access checks and redirection.
@@ -58,9 +59,9 @@ class Groups extends Controller
 	 */
 	public function publishPast()
 	{
-		$success = $this->getModel('group')->publishPast();
-		$url     = Routing::getRedirectBase() . '&view=groups';
-		if ($success)
+		$group = new Group;
+
+		if ($group->publishPast())
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
 		}
@@ -69,6 +70,7 @@ class Groups extends Controller
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 		}
 
+		$url = Routing::getRedirectBase() . '&view=groups';
 		$this->setRedirect(Route::_($url, false));
 	}
 }

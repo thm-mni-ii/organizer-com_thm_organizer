@@ -378,8 +378,7 @@ class Controller extends BaseController
 		$model = $this->getModel($this->resource);
 		if (method_exists($model, 'autoMerge'))
 		{
-			$autoMerged = $model->autoMerge();
-			if ($autoMerged)
+			if ($model->autoMerge())
 			{
 				$msg = Languages::_('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
 				$this->setRedirect(Route::_($url, false), $msg);

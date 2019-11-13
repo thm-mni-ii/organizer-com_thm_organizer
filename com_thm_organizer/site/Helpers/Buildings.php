@@ -17,103 +17,106 @@ use Joomla\CMS\Factory;
  */
 class Buildings extends ResourceHelper implements Selectable
 {
-    use Filtered;
+	use Filtered;
 
-    /**
-     * Checks for the building entry in the database, creating it as necessary. Adds the id to the building entry in the
-     * schedule.
-     *
-     * @param string $name the building name
-     *
-     * @return mixed  int the id if the room could be resolved/added, otherwise null
-     */
-    public static function getID($name)
-    {
-        $table   = self::getTable();
-        $data    = ['name' => $name];
-        $success = $table->load($data);
+	/**
+	 * Checks for the building entry in the database, creating it as necessary. Adds the id to the building entry in the
+	 * schedule.
+	 *
+	 * @param   string  $name  the building name
+	 *
+	 * @return mixed  int the id if the room could be resolved/added, otherwise null
+	 */
+	public static function getID($name)
+	{
+		$table = self::getTable();
+		$data  = ['name' => $name];
 
-        if ($success) {
-            return $table->id;
-        }
+		if ($table->load($data))
+		{
+			return $table->id;
+		}
 
-        // Entry not found
-        $success = $table->save($data);
+		return $table->save($data) ? $table->id : null;
+	}
 
-        return $success ? $table->id : null;
-    }
+	/**
+	 * Retrieves the selectable options for the resource.
+	 *
+	 * @return array the available options
+	 */
+	public static function getOptions()
+	{
+		$buildings = self::getResources();
+		if (empty($buildings))
+		{
+			return $buildings;
+		}
 
-    /**
-     * Retrieves the selectable options for the resource.
-     *
-     * @return array the available options
-     */
-    public static function getOptions()
-    {
-        $buildings = self::getResources();
-        if (empty($buildings)) {
-            return $buildings;
-        }
+		$options = [];
+		for ($index = 0; $index < count($buildings); $index++)
+		{
+			$thisBuilding = $buildings[$index];
+			$buildingName = $thisBuilding['name'];
 
-        $options = [];
-        for ($index = 0; $index < count($buildings); $index++) {
-            $thisBuilding = $buildings[$index];
-            $buildingName = $thisBuilding['name'];
+			$listEnd          = empty($buildings[$index + 1]);
+			$standardHandling = ($listEnd or $thisBuilding['name'] != $buildings[$index + 1]['name']);
 
-            $listEnd          = empty($buildings[$index + 1]);
-            $standardHandling = ($listEnd or $thisBuilding['name'] != $buildings[$index + 1]['name']);
+			if ($standardHandling)
+			{
+				$buildingName .= empty($thisBuilding['campusName']) ? '' : " ({$thisBuilding['campusName']})";
+				$options[]    = HTML::_('select.option', $thisBuilding['id'], $buildingName);
+				continue;
+			}
 
-            if ($standardHandling) {
-                $buildingName .= empty($thisBuilding['campusName']) ? '' : " ({$thisBuilding['campusName']})";
-                $options[]    = HTML::_('select.option', $thisBuilding['id'], $buildingName);
-                continue;
-            }
+			// The campus name is relevant to unique identification
+			$nextBuilding = $buildings[$index + 1];
 
-            // The campus name is relevant to unique identification
-            $nextBuilding = $buildings[$index + 1];
+			$thisCampusID = empty($thisBuilding['parentID']) ? $thisBuilding['campusID'] : $thisBuilding['parentID'];
+			$nextCampusID = empty($nextBuilding['parentID']) ? $nextBuilding['campusID'] : $nextBuilding['parentID'];
 
-            $thisCampusID = empty($thisBuilding['parentID']) ? $thisBuilding['campusID'] : $thisBuilding['parentID'];
-            $nextCampusID = empty($nextBuilding['parentID']) ? $nextBuilding['campusID'] : $nextBuilding['parentID'];
+			$thisBuilding['campusName'] = Campuses::getName($thisCampusID);
+			$nextBuilding['campusName'] = Campuses::getName($nextCampusID);
 
-            $thisBuilding['campusName'] = Campuses::getName($thisCampusID);
-            $nextBuilding['campusName'] = Campuses::getName($nextCampusID);
+			if ($thisBuilding['campusName'] < $nextBuilding['campusName'])
+			{
+				$buildingID   = $thisBuilding['id'];
+				$buildingName .= " ({$thisBuilding['campusName']})";
 
-            if ($thisBuilding['campusName'] < $nextBuilding['campusName']) {
-                $buildingID   = $thisBuilding['id'];
-                $buildingName .= " ({$thisBuilding['campusName']})";
+				$buildings[$index + 1] = $nextBuilding;
+			}
+			else
+			{
+				$buildingID   = $nextBuilding['id'];
+				$buildingName .= " ({$nextBuilding['campusName']})";
 
-                $buildings[$index + 1] = $nextBuilding;
-            } else {
-                $buildingID   = $nextBuilding['id'];
-                $buildingName .= " ({$nextBuilding['campusName']})";
+				$buildings[$index + 1] = $thisBuilding;
+			}
 
-                $buildings[$index + 1] = $thisBuilding;
-            }
+			$options[] = HTML::_('select.option', $buildingID, $buildingName);
+		}
 
-            $options[] = HTML::_('select.option', $buildingID, $buildingName);
-        }
+		return $options;
+	}
 
-        return $options;
-    }
+	/**
+	 * Retrieves the resource items.
+	 *
+	 * @return array the available resources
+	 */
+	public static function getResources()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
 
-    /**
-     * Retrieves the resource items.
-     *
-     * @return array the available resources
-     */
-    public static function getResources()
-    {
-        $dbo   = Factory::getDbo();
-        $query = $dbo->getQuery(true);
+		$query->select('DISTINCT b.*, c.parentID');
+		$query->from('#__thm_organizer_buildings AS b');
 
-        $query->select('DISTINCT b.*, c.parentID');
-        $query->from('#__thm_organizer_buildings AS b');
+		self::addCampusFilter($query, 'b');
 
-        self::addCampusFilter($query, 'b');
+		$query->order('name');
+		$dbo->setQuery($query);
 
-        $query->order('name');
-        $dbo->setQuery($query);
-
-        return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
+		return OrganizerHelper::executeQuery('loadAssocList', []);
+	}
 }

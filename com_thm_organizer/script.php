@@ -204,8 +204,7 @@ class Com_THM_OrganizerInstallerScript
 	 */
 	public function uninstall($parent)
 	{
-		$dirDeleted = Folder::delete(JPATH_ROOT . '/images/thm_organizer');
-		if (!$dirDeleted)
+		if (!Folder::delete(JPATH_ROOT . '/images/thm_organizer'))
 		{
 			echo Text::_('The directory located at &quot;/images/thm_organizer&quot; could not be removed.');
 		}
@@ -225,10 +224,9 @@ class Com_THM_OrganizerInstallerScript
 		$licenseLink .= 'target="_blank">GNU General Public License</a>';
 		$version     = (string) $parent->get('manifest')->version;
 
-		$dirSpan    = '';
-		$imagePath  = '/images/thm_organizer';
-		$dirCreated = $this->createImageDirectory();
-		if (!$dirCreated)
+		$dirSpan   = '';
+		$imagePath = '/images/thm_organizer';
+		if (!$this->createImageDirectory())
 		{
 			$failText = sprintf(Text::_('THM_ORGANIZER_IMAGE_FOLDER_FAIL'), $imagePath);
 			$dirSpan  .= '<span style="color:red" >' . $failText . '</span>';

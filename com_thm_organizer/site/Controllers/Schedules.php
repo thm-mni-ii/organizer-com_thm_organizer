@@ -14,6 +14,7 @@ use Exception;
 use Organizer\Controller;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Routing;
+use Organizer\Models\Schedule;
 
 /**
  * Class receives user actions and performs access checks and redirection.
@@ -33,10 +34,9 @@ class Schedules extends Controller
 	 */
 	public function activate()
 	{
-		$model = $this->getModel($this->resource);
+		$model = new Schedule;
 
-		$success = $model->activate();
-		if ($success)
+		if ($model->activate())
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
 		}
@@ -56,14 +56,9 @@ class Schedules extends Controller
 	 */
 	public function setReference()
 	{
-		if ($this->resource != 'schedule')
-		{
-			return;
-		}
+		$model = new Schedule;
 
-		$model   = $this->getModel('schedule');
-		$success = $model->setReference();
-		if ($success)
+		if ($model->setReference())
 		{
 			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
 		}
@@ -98,7 +93,6 @@ class Schedules extends Controller
 			return;
 		}
 
-		$model = $this->getModel($this->resource);
 
 		$form      = $this->input->files->get('jform', [], '[]');
 		$file      = $form['file'];
@@ -108,8 +102,8 @@ class Schedules extends Controller
 		{
 			if (mb_detect_encoding($file['tmp_name'], 'UTF-8', true) === 'UTF-8')
 			{
-				$success = $model->upload($shouldNotify);
-				$view    = $success ? 'Schedules' : 'Schedule_Edit';
+				$model = new Schedule;
+				$view  = $model->upload($shouldNotify) ? 'Schedules' : 'Schedule_Edit';
 			}
 			else
 			{

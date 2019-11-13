@@ -45,15 +45,13 @@ class Courses extends Controller
 			$this->setRedirect(Route::_($url, false));
 		}
 
-		$success = $this->getModel('course')->changeParticipantState();
-
-		if (empty($success))
+		if ($this->getModel('course')->changeParticipantState())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 		}
 
 		$url .= "&view=courses&id=$courseID";
@@ -84,9 +82,7 @@ class Courses extends Controller
 		// Called from participant profile form
 		if (!empty($formItems->count()))
 		{
-			$participantSaved = $participantModel->save();
-
-			if (empty($participantSaved))
+			if (!$participantModel->save())
 			{
 				OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
 				$this->setRedirect(Route::_($participantEditURL, false));
@@ -118,10 +114,9 @@ class Courses extends Controller
 		$userState = CoursesHelper::getParticipantState();
 
 		// 1 = Register | 2 = Deregister
-		$action  = empty($userState) ? 1 : 2;
-		$success = $participantModel->register($participant->id, $courseID, $action);
+		$action = empty($userState) ? 1 : 2;
 
-		if ($success)
+		if ($participantModel->register($participant->id, $courseID, $action))
 		{
 			if (!empty($userState))
 			{

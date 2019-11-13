@@ -450,16 +450,20 @@ class Organizer extends BaseModel
 		else
 		{
 			$altered = false;
+
 			if ($cParticipants->participantDate < $userLesson['user_date'])
 			{
 				$cParticipants->participantDate = $userLesson['user_date'];
-				$altered                        = true;
+
+				$altered = true;
 			}
+
 			if ($cParticipants->statusDate < $userLesson['status_date'])
 			{
 				$cParticipants->statusDate = $userLesson['status_date'];
 				$cParticipants->status     = $userLesson['status'];
-				$altered                   = true;
+
+				$altered = true;
 			}
 
 			if ($altered)
@@ -503,9 +507,9 @@ class Organizer extends BaseModel
 		$this->_db->setQuery('SHOW TABLES');
 		$tables = OrganizerHelper::executeQuery('loadColumn', []);
 
-		$userLessonsTable    = $prefix . 'thm_organizer_user_lessons';
-		$userLessonsMigrated = !in_array($userLessonsTable, $tables);
-		if (!$userLessonsMigrated)
+		$userLessonsTable = $prefix . 'thm_organizer_user_lessons';
+
+		if (in_array($userLessonsTable, $tables))
 		{
 			$this->supplementParticipants();
 
@@ -530,13 +534,11 @@ class Organizer extends BaseModel
 				$this->_db->setQuery('DROP TABLE `#__thm_organizer_user_lessons`');
 				OrganizerHelper::executeQuery('execute');
 			}
-
 		}
 
+		$mapTable = $prefix . 'thm_organizer_calendar_configuration_map';
 
-		$mapTable         = $prefix . 'thm_organizer_calendar_configuration_map';
-		$mappingsMigrated = !in_array($mapTable, $tables);
-		if (!$mappingsMigrated)
+		if (in_array($mapTable, $tables))
 		{
 			$configCountQuery = $this->_db->getQuery(true);
 			$configCountQuery->select('COUNT(*)')->from('#__thm_organizer_calendar_configuration_map');

@@ -48,13 +48,9 @@ class Course extends BaseModel
 			return false;
 		}
 
-		$return = true;
-
 		foreach ($data['checked'] as $participantID)
 		{
-			$success = Participants::changeState($participantID, $courseID, $state);
-
-			if (empty($success))
+			if (!Participants::changeState($participantID, $courseID, $state))
 			{
 				return false;
 			}
@@ -63,11 +59,9 @@ class Course extends BaseModel
 			{
 				Courses::refreshWaitList($courseID);
 			}
-
-			$return = ($return and $success);
 		}
 
-		return $return;
+		return true;
 	}
 
 	/**

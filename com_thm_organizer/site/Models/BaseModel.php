@@ -72,9 +72,8 @@ abstract class BaseModel extends BaseDatabaseModel
 		$success     = true;
 		foreach ($selectedIDs as $selectedID)
 		{
-			$table             = $this->getTable();
-			$individualSuccess = $table->delete($selectedID);
-			$success           = ($success and $individualSuccess);
+			$table   = $this->getTable();
+			$success = ($success and $table->delete($selectedID));
 		}
 
 		// TODO: create a message with an accurate count of successes.
@@ -117,11 +116,10 @@ abstract class BaseModel extends BaseDatabaseModel
 			throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
 		}
 
-		$data    = empty($data) ? Input::getFormItems()->toArray() : $data;
-		$table   = $this->getTable();
-		$success = $table->save($data);
+		$data  = empty($data) ? Input::getFormItems()->toArray() : $data;
+		$table = $this->getTable();
 
-		return $success ? $table->id : false;
+		return $table->save($data) ? $table->id : false;
 	}
 
 	/**

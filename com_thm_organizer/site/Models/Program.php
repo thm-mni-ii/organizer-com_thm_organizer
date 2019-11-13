@@ -19,129 +19,125 @@ use Organizer\Helpers\Input;
  */
 class Program extends BaseModel
 {
-    /**
-     * Attempts to delete the selected degree program entries and related mappings
-     *
-     * @return boolean  True if successful, false if an error occurs.
-     * @throws Exception => unauthorized access
-     */
-    public function delete()
-    {
-        if (!Access::allowDocumentAccess()) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+	/**
+	 * Attempts to delete the selected degree program entries and related mappings
+	 *
+	 * @return boolean  True if successful, false if an error occurs.
+	 * @throws Exception => unauthorized access
+	 */
+	public function delete()
+	{
+		if (!Access::allowDocumentAccess())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        $programIDs = Input::getSelectedIDs();
-        if (!empty($programIDs)) {
-            $this->_db->transactionStart();
-            $table = $this->getTable();
-            $model = new Mapping;
-            foreach ($programIDs as $programID) {
-                if (!Access::allowDocumentAccess('program', $programID)) {
-                    $this->_db->transactionRollback();
-                    throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-                }
-                $mappingDeleted = $model->deleteByResourceID($programID, 'program');
-                if (!$mappingDeleted) {
-                    $this->_db->transactionRollback();
+		if ($programIDs = Input::getSelectedIDs())
+		{
+			$table = $this->getTable();
+			$model = new Mapping;
+			foreach ($programIDs as $programID)
+			{
+				if (!Access::allowDocumentAccess('program', $programID))
+				{
+					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				}
 
-                    return false;
-                }
+				if (!$model->deleteByResourceID($programID, 'program'))
+				{
+					return false;
+				}
 
-                $resourceDeleted = $table->delete($programID);
-                if (!$resourceDeleted) {
-                    $this->_db->transactionRollback();
+				if (!$table->delete($programID))
+				{
+					return false;
+				}
+			}
+		}
 
-                    return false;
-                }
-            }
-            $this->_db->transactionCommit();
-        }
+		return true;
+	}
 
-        return true;
-    }
+	/**
+	 * Method to save degree programs
+	 *
+	 * @param   array  $data  the data to be used to create the program when called from the program helper
+	 *
+	 * @return Boolean
+	 * @throws Exception => invalid request / unauthorized access
+	 */
+	public function save($data = [])
+	{
+		$data = empty($data) ? Input::getFormItems()->toArray() : $data;
 
-    /**
-     * Method to save degree programs
-     *
-     * @param array $data the data to be used to create the program when called from the program helper
-     *
-     * @return Boolean
-     * @throws Exception => invalid request / unauthorized access
-     */
-    public function save($data = [])
-    {
-        $data = empty($data) ? Input::getFormItems()->toArray() : $data;
+		if (empty($data['id']))
+		{
+			$documentationAccess = Access::allowDocumentAccess();
 
-        if (empty($data['id'])) {
-            $documentationAccess = Access::allowDocumentAccess();
+			// New Programs often are introduced through schedules.
+			$schedulingAccess = Access::allowSchedulingAccess();
+			if (!($documentationAccess or $schedulingAccess))
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
+		}
+		elseif (is_numeric($data['id']))
+		{
+			if (!Access::allowDocumentAccess('program', $data['id']))
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
+		}
+		else
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+		}
 
-            // New Programs often are introduced through schedules.
-            $schedulingAccess = Access::allowSchedulingAccess();
-            if (!($documentationAccess or $schedulingAccess)) {
-                throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-            }
-        } elseif (is_numeric($data['id'])) {
-            if (!Access::allowDocumentAccess('program', $data['id'])) {
-                throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-            }
-        } else {
-            throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-        }
+		$table = $this->getTable();
 
-        $this->_db->transactionStart();
-        $table     = $this->getTable();
-        $dpSuccess = $table->save($data);
+		if ($table->save($data))
+		{
+			$model = new Mapping;
 
-        if ($dpSuccess) {
-            $model = new Mapping;
+			if ($model->saveProgram($table->id))
+			{
+				return $table->id;
+			}
+		}
 
-            $mappingSuccess = $model->saveProgram($table->id);
-            if ($mappingSuccess) {
-                $this->_db->transactionCommit();
+		return false;
+	}
 
-                return $table->id;
-            }
-        }
-        $this->_db->transactionRollback();
+	/**
+	 * Method to save existing degree programs as copies
+	 *
+	 * @param   array  $data  the data to be used to create the program when called from the program helper
+	 *
+	 * @return Boolean
+	 * @throws Exception => unauthorized access
+	 */
+	public function save2copy($data = [])
+	{
+		if (!Access::allowDocumentAccess())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
 
-        return false;
-    }
+		$data = empty($data) ? Input::getFormItems()->toArray() : $data;
+		if (isset($data['id']))
+		{
+			unset($data['id']);
+		}
 
-    /**
-     * Method to save existing degree programs as copies
-     *
-     * @param array $data the data to be used to create the program when called from the program helper
-     *
-     * @return Boolean
-     * @throws Exception => unauthorized access
-     */
-    public function save2copy($data = [])
-    {
-        if (!Access::allowDocumentAccess()) {
-            throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-        }
+		$table = $this->getTable();
 
-        $data = empty($data) ? Input::getFormItems()->toArray() : $data;
-        if (isset($data['id'])) {
-            unset($data['id']);
-        }
+		if (!$table->save($data))
+		{
+			return false;
+		}
 
-        $this->_db->transactionStart();
-        $table     = $this->getTable();
-        $dpSuccess = $table->save($data);
-        if ($dpSuccess) {
-            $model = new Mapping;
+		$model = new Mapping;
 
-            $mappingSuccess = $model->saveProgram($table->id);
-            if ($mappingSuccess) {
-                $this->_db->transactionCommit();
-
-                return true;
-            }
-        }
-        $this->_db->transactionRollback();
-
-        return false;
-    }
+		return $model->saveProgram($table->id);
+	}
 }

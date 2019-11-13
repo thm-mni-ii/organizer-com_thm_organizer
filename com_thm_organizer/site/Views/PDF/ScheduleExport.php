@@ -23,50 +23,50 @@ jimport('tcpdf.tcpdf');
  */
 class ScheduleExport extends BaseView
 {
-    public $document;
+	public $document;
 
-    /**
-     * Sets context variables and renders the view.
-     *
-     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return void
-     * @throws Exception => library missing
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function display($tpl = null)
-    {
-        $libraryInstalled = $this->checkLibraries();
+	/**
+	 * Sets context variables and renders the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return void
+	 * @throws Exception => library missing
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function display($tpl = null)
+	{
+		if (!$this->checkLibraries())
+		{
+			return;
+		}
 
-        if (!$libraryInstalled) {
-            return;
-        }
+		$model      = $this->getModel();
+		$parameters = $model->parameters;
+		$grid       = empty($model->grid) ? null : $model->grid;
+		$lessons    = $model->lessons;
 
-        $model      = $this->getModel();
-        $parameters = $model->parameters;
-        $grid       = empty($model->grid) ? null : $model->grid;
-        $lessons    = $model->lessons;
+		$fileName = "{$parameters['documentFormat']}_{$parameters['displayFormat']}_{$parameters['pdfWeekFormat']}";
+		require_once __DIR__ . "/tmpl/$fileName.php";
+		new THM_OrganizerTemplateSchedule_Export_PDF($parameters, $lessons, $grid);
+	}
 
-        $fileName = "{$parameters['documentFormat']}_{$parameters['displayFormat']}_{$parameters['pdfWeekFormat']}";
-        require_once __DIR__ . "/tmpl/$fileName.php";
-        new THM_OrganizerTemplateSchedule_Export_PDF($parameters, $lessons, $grid);
-    }
+	/**
+	 * Imports libraries and sets library variables
+	 *
+	 * @return bool true if the tcpdf library is installed, otherwise false
+	 * @throws Exception => library missing
+	 */
+	private function checkLibraries()
+	{
+		$this->compiler = jimport('tcpdf.tcpdf');
 
-    /**
-     * Imports libraries and sets library variables
-     *
-     * @return bool true if the tcpdf library is installed, otherwise false
-     * @throws Exception => library missing
-     */
-    private function checkLibraries()
-    {
-        $this->compiler = jimport('tcpdf.tcpdf');
+		if (!$this->compiler)
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_501'), 501);
+		}
 
-        if (!$this->compiler) {
-            throw new Exception(Languages::_('THM_ORGANIZER_501'), 501);
-        }
-
-        return true;
-    }
+		return true;
+	}
 }

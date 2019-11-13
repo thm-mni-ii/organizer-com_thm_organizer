@@ -14,6 +14,7 @@ use Exception;
 use Organizer\Controller;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Routing;
+use Organizer\Models\Organizer as Model;
 
 /**
  * Class receives user actions and performs access checks and redirection.
@@ -28,9 +29,9 @@ class Organizer extends Controller
 	 */
 	public function migrateConfigurations()
 	{
-		$success = $this->getModel('organizer')->migrateConfigurations();
+		$model = new Model;
 
-		if (!empty($success))
+		if ($model->migrateConfigurations())
 		{
 			OrganizerHelper::message('Configurations have been migrated');
 		}
@@ -51,9 +52,9 @@ class Organizer extends Controller
 	 */
 	public function migrateSchedules()
 	{
-		$success = $this->getModel('organizer')->migrateSchedules();
+		$model = new Model;
 
-		if (!empty($success))
+		if ($model->migrateSchedules())
 		{
 			OrganizerHelper::message('Schedules have been migrated');
 		}
@@ -74,9 +75,9 @@ class Organizer extends Controller
 	 */
 	public function migrateUserLessons()
 	{
-		$success = $this->getModel('organizer')->migrateUserLessons();
+		$model = new Model;
 
-		if (!empty($success))
+		if ($model->migrateUserLessons())
 		{
 			OrganizerHelper::message('User lessons have been migrated');
 		}
