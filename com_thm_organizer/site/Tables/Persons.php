@@ -15,30 +15,41 @@ namespace Organizer\Tables;
  */
 class Persons extends Nullable
 {
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_persons', 'id', $dbo);
-    }
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $nullColumns = ['fieldID'];
-        foreach ($nullColumns as $nullColumn) {
-            if (!strlen($this->$nullColumn)) {
-                $this->$nullColumn = null;
-            }
-        }
+	/**
+	 * The resource's identifier in Untis scheduling software.
+	 * VARCHAR(60) DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $untisID;
 
-        return true;
-    }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_persons', 'id', $dbo);
+	}
+
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		$nullColumns = ['fieldID'];
+		foreach ($nullColumns as $nullColumn)
+		{
+			if (!strlen($this->$nullColumn))
+			{
+				$this->$nullColumn = null;
+			}
+		}
+
+		return true;
+	}
 }

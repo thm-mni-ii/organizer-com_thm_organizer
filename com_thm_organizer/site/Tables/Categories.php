@@ -24,26 +24,35 @@ class Categories extends Nullable
 	public $name;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_categories', 'id', $dbo);
-    }
+	 * The resource's identifier in Untis scheduling software.
+	 * VARCHAR(60) DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $untisID;
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        if (empty($this->programID)) {
-            $this->programID = null;
-        }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_categories', 'id', $dbo);
+	}
 
-        return true;
-    }
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		if (empty($this->programID))
+		{
+			$this->programID = null;
+		}
+
+		return true;
+	}
 }
