@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_fields` (
     `untisID` VARCHAR(60)      DEFAULT NULL,
     `colorID` INT(11) UNSIGNED DEFAULT NULL,
     `name_de` VARCHAR(60)      NOT NULL,
-    `name_en` VARCHAR(100)     NOT NULL,
+    `name_en` VARCHAR(60)      NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `colorID` (`colorID`),
     UNIQUE INDEX `untisID` (`untisID`)

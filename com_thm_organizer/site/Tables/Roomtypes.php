@@ -15,7 +15,23 @@ namespace Organizer\Tables;
  */
 class Roomtypes extends BaseTable
 {
-    /**
+	/**
+	 * The resource's German name.
+	 * VARCHAR(50) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name_de;
+
+	/**
+	 * The resource's English name.
+	 * VARCHAR(50) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name_en;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object

@@ -18,7 +18,23 @@ use Organizer\Helpers\Languages;
  */
 class Departments extends Assets
 {
-    /**
+	/**
+	 * The resource's German name.
+	 * VARCHAR(150) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name_de;
+
+	/**
+	 * The resource's English name.
+	 * VARCHAR(150) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name_en;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object

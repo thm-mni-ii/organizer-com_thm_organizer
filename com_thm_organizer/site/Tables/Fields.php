@@ -16,7 +16,23 @@ namespace Organizer\Tables;
  */
 class Fields extends Nullable
 {
-    /**
+	/**
+	 * The resource's German name.
+	 * VARCHAR(60) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name_de;
+
+	/**
+	 * The resource's English name.
+	 * VARCHAR(60) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name_en;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object
