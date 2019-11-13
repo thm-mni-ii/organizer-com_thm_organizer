@@ -24,6 +24,14 @@ class Units extends Nullable
 	public $courseID;
 
 	/**
+	 * The textual description of the associations last change. Values: changed, <empty>, new, removed.
+	 * VARCHAR(10) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $delta;
+
+	/**
 	 * The id of the department entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
@@ -38,6 +46,14 @@ class Units extends Nullable
 	 * @var int
 	 */
 	public $gridID;
+
+	/**
+	 * The timestamp of the time at which the last change to the entry occurred.
+	 * TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	 *
+	 * @var int
+	 */
+	public $modified;
 
 	/**
 	 * The id of the run entry referenced.

@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class InstancePersons extends Nullable
 {
 	/**
+	 * The textual description of the associations last change. Values: changed, <empty>, new, removed.
+	 * VARCHAR(10) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $delta;
+
+	/**
 	 * The primary key.
 	 * INT(20) UNSIGNED NOT NULL AUTO_INCREMENT
 	 *
@@ -30,6 +38,14 @@ class InstancePersons extends Nullable
 	 * @var int
 	 */
 	public $instanceID;
+
+	/**
+	 * The timestamp of the time at which the last change to the entry occurred.
+	 * TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	 *
+	 * @var int
+	 */
+	public $modified;
 
 	/**
 	 * The id of the person entry referenced.

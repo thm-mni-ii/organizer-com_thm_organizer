@@ -24,6 +24,14 @@ class InstanceGroups extends Nullable
 	public $assocID;
 
 	/**
+	 * The textual description of the associations last change. Values: changed, <empty>, new, removed.
+	 * VARCHAR(10) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $delta;
+
+	/**
 	 * The id of the group entry referenced.
 	 * INT(11) UNSIGNED NOT NULL
 	 *
@@ -38,6 +46,14 @@ class InstanceGroups extends Nullable
 	 * @var int
 	 */
 	public $id;
+
+	/**
+	 * The timestamp of the time at which the last change to the entry occurred.
+	 * TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	 *
+	 * @var int
+	 */
+	public $modified;
 
 	/**
 	 * Declares the associated table
