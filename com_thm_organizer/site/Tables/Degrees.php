@@ -16,7 +16,15 @@ namespace Organizer\Tables;
  */
 class Degrees extends BaseTable
 {
-    /**
+	/**
+	 * The resource's name.
+	 * VARCHAR(255) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object

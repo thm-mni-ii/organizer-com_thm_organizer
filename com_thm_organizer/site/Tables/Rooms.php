@@ -15,7 +15,15 @@ namespace Organizer\Tables;
  */
 class Rooms extends Nullable
 {
-    /**
+	/**
+	 * The resource's name.
+	 * VARCHAR(10) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object

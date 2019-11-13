@@ -15,7 +15,15 @@ namespace Organizer\Tables;
  */
 class Groups extends Nullable
 {
-    /**
+	/**
+	 * The resource's name.
+	 * VARCHAR(100) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object

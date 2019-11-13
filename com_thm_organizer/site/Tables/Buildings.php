@@ -15,27 +15,36 @@ namespace Organizer\Tables;
  */
 class Buildings extends Nullable
 {
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_buildings', 'id', $dbo);
-    }
+	/**
+	 * The resource's name.
+	 * VARCHAR(60) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $name;
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        if (empty($this->campusID)) {
-            $this->campusID = null;
-        }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_buildings', 'id', $dbo);
+	}
 
-        return true;
-    }
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		if (empty($this->campusID))
+		{
+			$this->campusID = null;
+		}
+
+		return true;
+	}
 }
