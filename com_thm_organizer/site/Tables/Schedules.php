@@ -19,88 +19,113 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class Schedules extends BaseTable
 {
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_schedules', 'id', $dbo);
-    }
+	/**
+	 * The id of the department entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $departmentID;
 
-    /**
-     * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
-     * that there is some context available in a unified access manager.
-     *
-     * @return string  The string to use as the title in the asset table.
-     */
-    protected function _getAssetTitle()
-    {
-        $dbo       = Factory::getDbo();
-        $deptQuery = $dbo->getQuery(true);
-        $deptQuery->select('shortName_en')
-            ->from('#__thm_organizer_departments')
-            ->where("id = '{$this->departmentID}'");
+	/**
+	 * The id of the term entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $termID;
 
-        $dbo->setQuery($deptQuery);
-        $deptName = (string)OrganizerHelper::executeQuery('loadResult');
+	/**
+	 * The id of the user entry referenced.
+	 * INT(11) DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $userID;
 
-        $termQuery = $dbo->getQuery(true);
-        $termQuery->select('name')
-            ->from('#__thm_organizer_terms')
-            ->where("id = '{$this->termID}'");
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_schedules', 'id', $dbo);
+	}
 
-        $dbo->setQuery($termQuery);
-        $termName = (string)OrganizerHelper::executeQuery('loadResult');
+	/**
+	 * Method to return the title to use for the asset table.  In tracking the assets a title is kept for each asset so
+	 * that there is some context available in a unified access manager.
+	 *
+	 * @return string  The string to use as the title in the asset table.
+	 */
+	protected function _getAssetTitle()
+	{
+		$dbo       = Factory::getDbo();
+		$deptQuery = $dbo->getQuery(true);
+		$deptQuery->select('shortName_en')
+			->from('#__thm_organizer_departments')
+			->where("id = '{$this->departmentID}'");
 
-        return "Schedule: $deptName - $termName";
-    }
+		$dbo->setQuery($deptQuery);
+		$deptName = (string) OrganizerHelper::executeQuery('loadResult');
 
-    /**
-     * Sets the department asset name
-     *
-     * @return string
-     */
-    protected function _getAssetName()
-    {
-        return "com_thm_organizer.schedule.$this->id";
-    }
+		$termQuery = $dbo->getQuery(true);
+		$termQuery->select('name')
+			->from('#__thm_organizer_terms')
+			->where("id = '{$this->termID}'");
 
-    /**
-     * Sets the parent as the component root.
-     *
-     * @param Table   $table A Table object for the asset parent.
-     * @param integer $id    Id to look up
-     *
-     * @return int  the asset id of the component root
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _getAssetParentId(Table $table = null, $id = null)
-    {
-        $asset = Table::getInstance('Asset');
-        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
+		$dbo->setQuery($termQuery);
+		$termName = (string) OrganizerHelper::executeQuery('loadResult');
 
-        return $asset->id;
-    }
+		return "Schedule: $deptName - $termName";
+	}
 
-    /**
-     * Overridden bind function
-     *
-     * @param array $array  named array
-     * @param mixed $ignore An optional array or space separated list of properties to ignore while binding.
-     *
-     * @return mixed  Null if operation was satisfactory, otherwise returns an error string
-     */
-    public function bind($array, $ignore = '')
-    {
-        if (isset($array['rules']) && is_array($array['rules'])) {
-            OrganizerHelper::cleanRules($array['rules']);
-            $rules = new AccessRules($array['rules']);
-            $this->setRules($rules);
-        }
+	/**
+	 * Sets the department asset name
+	 *
+	 * @return string
+	 */
+	protected function _getAssetName()
+	{
+		return "com_thm_organizer.schedule.$this->id";
+	}
 
-        return parent::bind($array, $ignore);
-    }
+	/**
+	 * Sets the parent as the component root.
+	 *
+	 * @param   Table    $table  A Table object for the asset parent.
+	 * @param   integer  $id     Id to look up
+	 *
+	 * @return int  the asset id of the component root
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	protected function _getAssetParentId(Table $table = null, $id = null)
+	{
+		$asset = Table::getInstance('Asset');
+		$asset->loadByName("com_thm_organizer.department.$this->departmentID");
+
+		return $asset->id;
+	}
+
+	/**
+	 * Overridden bind function
+	 *
+	 * @param   array  $array   named array
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return mixed  Null if operation was satisfactory, otherwise returns an error string
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['rules']) && is_array($array['rules']))
+		{
+			OrganizerHelper::cleanRules($array['rules']);
+			$rules = new AccessRules($array['rules']);
+			$this->setRules($rules);
+		}
+
+		return parent::bind($array, $ignore);
+	}
 }

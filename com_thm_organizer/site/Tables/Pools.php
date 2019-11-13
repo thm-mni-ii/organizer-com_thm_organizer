@@ -18,6 +18,38 @@ use Joomla\CMS\Table\Table;
 class Pools extends Assets
 {
 	/**
+	 * The id of the department entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $departmentID;
+
+	/**
+	 * The id of the field entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $fieldID;
+
+	/**
+	 * The id of the group entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $groupID;
+
+	/**
+	 * The id of the entry in the LSF software module.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $lsfID;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(255) NOT NULL
 	 *
@@ -34,14 +66,14 @@ class Pools extends Assets
 	public $name_en;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_pools', 'id', $dbo);
-    }
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_pools', 'id', $dbo);
+	}
 
 	/**
 	 * Sets the department asset name
@@ -56,8 +88,8 @@ class Pools extends Assets
 	/**
 	 * Sets the parent as the component root
 	 *
-	 * @param Table   $table A Table object for the asset parent.
-	 * @param integer $id    Id to look up
+	 * @param   Table    $table  A Table object for the asset parent.
+	 * @param   integer  $id     Id to look up
 	 *
 	 * @return int  the asset id of the component root
 	 *
@@ -78,7 +110,8 @@ class Pools extends Assets
 	 */
 	public function check()
 	{
-		if (empty($this->lsfID)) {
+		if (empty($this->lsfID))
+		{
 			$this->lsfID = null;
 		}
 

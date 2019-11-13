@@ -17,6 +17,14 @@ namespace Organizer\Tables;
 class Fields extends Nullable
 {
 	/**
+	 * The id of the color entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $colorID;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(60) NOT NULL
 	 *

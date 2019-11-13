@@ -15,13 +15,45 @@ namespace Organizer\Tables;
  */
 class Mappings extends BaseTable
 {
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_mappings', 'id', $dbo);
-    }
+	/**
+	 * The id of the mappings entry referenced as parent.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $parentID;
+
+	/**
+	 * The id of the pool entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $poolID;
+
+	/**
+	 * The id of the program entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $programID;
+
+	/**
+	 * The id of the subject entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $subjectID;
+
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_mappings', 'id', $dbo);
+	}
 }

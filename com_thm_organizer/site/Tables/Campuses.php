@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class Campuses extends Nullable
 {
 	/**
+	 * The id of the grid entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $gridID;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(60) NOT NULL
 	 *
@@ -32,29 +40,39 @@ class Campuses extends Nullable
 	public $name_en;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_campuses', 'id', $dbo);
-    }
+	 * The id of the campus entry referenced as parent.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $parentID;
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        if (empty($this->parentID)) {
-            $this->parentID = null;
-        }
-        if (empty($this->gridID)) {
-            $this->gridID = null;
-        }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_campuses', 'id', $dbo);
+	}
 
-        return true;
-    }
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		if (empty($this->parentID))
+		{
+			$this->parentID = null;
+		}
+		if (empty($this->gridID))
+		{
+			$this->gridID = null;
+		}
+
+		return true;
+	}
 }

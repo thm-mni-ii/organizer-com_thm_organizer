@@ -19,6 +19,46 @@ use Joomla\CMS\Table\Table;
 class Programs extends Assets
 {
 	/**
+	 * The id of the category entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $categoryID;
+
+	/**
+	 * The id of the degree entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $degreeID;
+
+	/**
+	 * The id of the department entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $departmentID;
+
+	/**
+	 * The id of the field entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $fieldID;
+
+	/**
+	 * The id of the frequency entry referenced.
+	 * INT(1) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $frequencyID;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(60) NOT NULL
 	 *
@@ -35,57 +75,59 @@ class Programs extends Assets
 	public $name_en;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_programs', 'id', $dbo);
-    }
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_programs', 'id', $dbo);
+	}
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $nullColumns = ['fieldID'];
-        foreach ($nullColumns as $nullColumn) {
-            if (!strlen($this->$nullColumn)) {
-                $this->$nullColumn = null;
-            }
-        }
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		$nullColumns = ['fieldID'];
+		foreach ($nullColumns as $nullColumn)
+		{
+			if (!strlen($this->$nullColumn))
+			{
+				$this->$nullColumn = null;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Sets the department asset name
-     *
-     * @return string
-     */
-    protected function _getAssetName()
-    {
-        return "com_thm_organizer.program.$this->id";
-    }
+	/**
+	 * Sets the department asset name
+	 *
+	 * @return string
+	 */
+	protected function _getAssetName()
+	{
+		return "com_thm_organizer.program.$this->id";
+	}
 
-    /**
-     * Sets the parent as the component root
-     *
-     * @param Table   $table A Table object for the asset parent.
-     * @param integer $id    Id to look up
-     *
-     * @return int  the asset id of the component root
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _getAssetParentId(Table $table = null, $id = null)
-    {
-        $asset = Table::getInstance('Asset');
-        $asset->loadByName("com_thm_organizer.department.$this->departmentID");
+	/**
+	 * Sets the parent as the component root
+	 *
+	 * @param   Table    $table  A Table object for the asset parent.
+	 * @param   integer  $id     Id to look up
+	 *
+	 * @return int  the asset id of the component root
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	protected function _getAssetParentId(Table $table = null, $id = null)
+	{
+		$asset = Table::getInstance('Asset');
+		$asset->loadByName("com_thm_organizer.department.$this->departmentID");
 
-        return $asset->id;
-    }
+		return $asset->id;
+	}
 }

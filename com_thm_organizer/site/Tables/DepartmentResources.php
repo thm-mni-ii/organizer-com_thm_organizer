@@ -15,13 +15,37 @@ namespace Organizer\Tables;
  */
 class DepartmentResources extends BaseTable
 {
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_department_resources', 'id', $dbo);
-    }
+	/**
+	 * The id of the category entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $categoryID;
+
+	/**
+	 * The id of the department entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $departmentID;
+
+	/**
+	 * The id of the person entry referenced.
+	 * INT(11)          DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $personID;
+
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_department_resources', 'id', $dbo);
+	}
 }

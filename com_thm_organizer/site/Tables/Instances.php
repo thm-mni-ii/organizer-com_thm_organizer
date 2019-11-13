@@ -16,6 +16,22 @@ namespace Organizer\Tables;
 class Instances extends Nullable
 {
 	/**
+	 * The id of the block entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $blockID;
+
+	/**
+	 * The id of the event entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $eventID;
+
+	/**
 	 * The primary key.
 	 * INT(20) UNSIGNED NOT NULL AUTO_INCREMENT
 	 *
@@ -24,24 +40,40 @@ class Instances extends Nullable
 	public $id;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_instances', 'id', $dbo);
-    }
+	 * The id of the method entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $methodID;
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $this->modified = null;
+	/**
+	 * The id of the unit entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $unitID;
 
-        return true;
-    }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_instances', 'id', $dbo);
+	}
+
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		$this->modified = null;
+
+		return true;
+	}
 }

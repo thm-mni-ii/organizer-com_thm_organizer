@@ -16,6 +16,30 @@ namespace Organizer\Tables;
 class Events extends BaseTable
 {
 	/**
+	 * The id of the campus entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $campusID;
+
+	/**
+	 * The id of the department entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $departmentID;
+
+	/**
+	 * The id of the field entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $fieldID;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(100) NOT NULL
 	 *

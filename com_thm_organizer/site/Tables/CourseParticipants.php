@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class CourseParticipants extends BaseTable
 {
 	/**
+	 * The id of the course entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $courseID;
+
+	/**
 	 * The primary key.
 	 * INT(20) UNSIGNED NOT NULL AUTO_INCREMENT
 	 *
@@ -23,13 +31,22 @@ class CourseParticipants extends BaseTable
 	 */
 	public $id;
 
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_course_participants', 'id', $dbo);
-    }
+	/**
+	 * The id of the participant entry referenced.
+	 * INT(11) NOT NULL
+	 *
+	 * @var int
+	 */
+	public $participantID;
+
+
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_course_participants', 'id', $dbo);
+	}
 }

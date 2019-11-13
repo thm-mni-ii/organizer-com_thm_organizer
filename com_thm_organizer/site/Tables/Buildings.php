@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class Buildings extends Nullable
 {
 	/**
+	 * The id of the campus entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $campusID;
+
+	/**
 	 * The resource's name.
 	 * VARCHAR(60) NOT NULL
 	 *

@@ -24,26 +24,35 @@ class Participants extends Nullable
 	public $id;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_participants', 'id', $dbo);
-    }
+	 * The id of the program entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $programID;
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        if (empty($this->programID)) {
-            $this->programID = null;
-        }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_participants', 'id', $dbo);
+	}
 
-        return true;
-    }
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		if (empty($this->programID))
+		{
+			$this->programID = null;
+		}
+
+		return true;
+	}
 }

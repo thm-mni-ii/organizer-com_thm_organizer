@@ -15,13 +15,29 @@ namespace Organizer\Tables;
  */
 class Prerequisites extends BaseTable
 {
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_prerequisites', 'id', $dbo);
-    }
+	/**
+	 * The id of the subject entry referenced as being a dependency.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $prerequisiteID;
+
+	/**
+	 * The id of the subject entry referenced as requiring a dependency.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $subjectID;
+
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_prerequisites', 'id', $dbo);
+	}
 }

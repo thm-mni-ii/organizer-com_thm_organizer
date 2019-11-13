@@ -16,6 +16,22 @@ namespace Organizer\Tables;
 class InstanceGroups extends Nullable
 {
 	/**
+	 * The id of the instance persons entry referenced.
+	 * INT(20) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $assocID;
+
+	/**
+	 * The id of the group entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $groupID;
+
+	/**
 	 * The primary key.
 	 * INT(20) UNSIGNED NOT NULL AUTO_INCREMENT
 	 *
@@ -23,25 +39,25 @@ class InstanceGroups extends Nullable
 	 */
 	public $id;
 
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_instance_groups', 'id', $dbo);
-    }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_instance_groups', 'id', $dbo);
+	}
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $this->modified = null;
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		$this->modified = null;
 
-        return true;
-    }
+		return true;
+	}
 }

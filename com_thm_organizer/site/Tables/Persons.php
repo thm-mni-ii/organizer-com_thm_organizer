@@ -15,6 +15,13 @@ namespace Organizer\Tables;
  */
 class Persons extends Nullable
 {
+	/**
+	 * The id of the field entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $fieldID;
 
 	/**
 	 * The resource's identifier in Untis scheduling software.

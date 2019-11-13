@@ -23,25 +23,49 @@ class InstancePersons extends Nullable
 	 */
 	public $id;
 
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_instance_persons', 'id', $dbo);
-    }
+	/**
+	 * The id of the instance entry referenced.
+	 * INT(20) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $instanceID;
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        $this->modified = null;
+	/**
+	 * The id of the person entry referenced.
+	 * INT(11) NOT NULL
+	 *
+	 * @var int
+	 */
+	public $personID;
 
-        return true;
-    }
+	/**
+	 * The id of the role entry referenced.
+	 * TINYINT(2) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var int
+	 */
+	public $roleID;
+
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_instance_persons', 'id', $dbo);
+	}
+
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		$this->modified = null;
+
+		return true;
+	}
 }

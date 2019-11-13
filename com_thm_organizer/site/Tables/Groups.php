@@ -16,6 +16,30 @@ namespace Organizer\Tables;
 class Groups extends Nullable
 {
 	/**
+	 * The id of the category entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $categoryID;
+
+	/**
+	 * The id of the field entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $fieldID;
+
+	/**
+	 * The id of the grid entry referenced.
+	 * INT(11) UNSIGNED DEFAULT 1
+	 *
+	 * @var int
+	 */
+	public $gridID;
+
+	/**
 	 * The resource's name.
 	 * VARCHAR(100) NOT NULL
 	 *
@@ -30,7 +54,6 @@ class Groups extends Nullable
 	 * @var string
 	 */
 	public $untisID;
-
 
 	/**
 	 * Declares the associated table

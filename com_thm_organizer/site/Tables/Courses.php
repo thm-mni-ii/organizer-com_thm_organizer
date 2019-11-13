@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class Courses extends Nullable
 {
 	/**
+	 * The id of the campus entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $campusID;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(100) NOT NULL
 	 *
@@ -32,26 +40,35 @@ class Courses extends Nullable
 	public $name_en;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_courses', 'id', $dbo);
-    }
+	 * The id of the term entry referenced.
+	 * INT(11) UNSIGNED NOT NULL
+	 *
+	 * @var int
+	 */
+	public $termID;
 
-    /**
-     * Set the table column names which are allowed to be null
-     *
-     * @return boolean  true
-     */
-    public function check()
-    {
-        if (empty($this->campusID)) {
-            $this->campusID = null;
-        }
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_courses', 'id', $dbo);
+	}
 
-        return true;
-    }
+	/**
+	 * Set the table column names which are allowed to be null
+	 *
+	 * @return boolean  true
+	 */
+	public function check()
+	{
+		if (empty($this->campusID))
+		{
+			$this->campusID = null;
+		}
+
+		return true;
+	}
 }

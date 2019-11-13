@@ -16,12 +16,28 @@ namespace Organizer\Tables;
 class Rooms extends Nullable
 {
 	/**
+	 * The id of the building entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $buildingID;
+
+	/**
 	 * The resource's name.
 	 * VARCHAR(10) NOT NULL
 	 *
 	 * @var string
 	 */
 	public $name;
+
+	/**
+	 * The id of the roomtype entry referenced.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $roomtypeID;
 
 	/**
 	 * The resource's identifier in Untis scheduling software.
