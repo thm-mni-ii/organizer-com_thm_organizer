@@ -37,22 +37,9 @@ class Instance extends BaseModel
 			return false;
 		}
 
-
 		$data['id'] = $table->id;
 
-		$this->_db->transactionStart();
-
-		if ($this->saveResourceData($data))
-		{
-
-			$this->_db->transactionCommit();
-
-			return $table->id;
-		}
-
-		$this->_db->transactionRollback();
-
-		return false;
+		return $this->saveResourceData($data) ? $table->id : false;
 	}
 
 	/**
@@ -75,17 +62,21 @@ class Instance extends BaseModel
 			$roleID  = !empty($person['roleID']) ? $person['roleID'] : 1;
 			if ($ipTable->load($ipData))
 			{
-				if ($ipTable->delta === 'removed') {
-					$ipTable->delta  = 'new';
-				}
-				else if ($ipTable->roleID != $roleID)
+				if ($ipTable->delta === 'removed')
 				{
-					$ipTable->delta  = 'changed';
-					$ipTable->roleID = $roleID;
+					$ipTable->delta = 'new';
 				}
 				else
 				{
-					$ipTable->delta = '';
+					if ($ipTable->roleID != $roleID)
+					{
+						$ipTable->delta  = 'changed';
+						$ipTable->roleID = $roleID;
+					}
+					else
+					{
+						$ipTable->delta = '';
+					}
 				}
 
 				if (!$ipTable->store())
