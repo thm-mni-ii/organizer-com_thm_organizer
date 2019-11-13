@@ -15,6 +15,14 @@ namespace Organizer\Tables;
  */
 class InstancePersons extends Nullable
 {
+	/**
+	 * The primary key.
+	 * INT(20) UNSIGNED NOT NULL AUTO_INCREMENT
+	 *
+	 * @var int
+	 */
+	public $id;
+
     /**
      * Declares the associated table
      *

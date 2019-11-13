@@ -15,7 +15,15 @@ namespace Organizer\Tables;
  */
 class Participants extends Nullable
 {
-    /**
+	/**
+	 * The primary key, FK to #__users.
+	 * INT(11) NOT NULL
+	 *
+	 * @var int
+	 */
+	public $id;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object

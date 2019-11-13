@@ -292,18 +292,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_holidays` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_participants` (
-    `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `instanceID`    INT(20) UNSIGNED NOT NULL,
-    `participantID` INT(11)          NOT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `instanceID` (`instanceID`),
-    INDEX `participantID` (`participantID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_groups` (
     `id`       INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `assocID`  INT(20) UNSIGNED NOT NULL COMMENT 'The instance to person association id.',
@@ -314,6 +302,18 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_groups` (
     PRIMARY KEY (`id`),
     INDEX `assocID` (`assocID`),
     INDEX `groupID` (`groupID`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_instance_participants` (
+    `id`            INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `instanceID`    INT(20) UNSIGNED NOT NULL,
+    `participantID` INT(11)          NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `instanceID` (`instanceID`),
+    INDEX `participantID` (`participantID`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -563,23 +563,6 @@ CREATE TABLE `#__thm_organizer_roles` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_roomtypes` (
-    `id`             INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `untisID`        VARCHAR(60)                  DEFAULT NULL,
-    `name_de`        VARCHAR(50)         NOT NULL,
-    `name_en`        VARCHAR(50)         NOT NULL,
-    `description_de` TEXT                NOT NULL,
-    `description_en` TEXT                NOT NULL,
-    `minCapacity`    INT(4) UNSIGNED              DEFAULT NULL,
-    `maxCapacity`    INT(4) UNSIGNED              DEFAULT NULL,
-    `public`         TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `untisID` (`untisID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
     `id`         INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
     `buildingID` INT(11) UNSIGNED             DEFAULT NULL,
@@ -592,6 +575,23 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_rooms` (
     UNIQUE INDEX `untisID` (`untisID`),
     INDEX `buildingID` (`buildingID`),
     INDEX `roomtypeID` (`roomtypeID`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `#__thm_organizer_roomtypes` (
+    `id`             INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `untisID`        VARCHAR(60)                  DEFAULT NULL,
+    `name_de`        VARCHAR(50)         NOT NULL,
+    `name_en`        VARCHAR(50)         NOT NULL,
+    `description_de` TEXT                NOT NULL,
+    `description_en` TEXT                NOT NULL,
+    `minCapacity`    INT(4) UNSIGNED              DEFAULT NULL,
+    `maxCapacity`    INT(4) UNSIGNED              DEFAULT NULL,
+    `public`         TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `untisID` (`untisID`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4

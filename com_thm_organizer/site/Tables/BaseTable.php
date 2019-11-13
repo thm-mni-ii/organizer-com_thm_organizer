@@ -24,6 +24,14 @@ use UnexpectedValueException;
 abstract class BaseTable extends Table
 {
 	/**
+	 * The primary key.
+	 * INT(11) UNSIGNED NOT NULL AUTO_INCREMENT
+	 *
+	 * @var int
+	 */
+	public $id;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.

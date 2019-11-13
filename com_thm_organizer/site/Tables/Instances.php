@@ -15,7 +15,15 @@ namespace Organizer\Tables;
  */
 class Instances extends Nullable
 {
-    /**
+	/**
+	 * The primary key.
+	 * INT(20) UNSIGNED NOT NULL AUTO_INCREMENT
+	 *
+	 * @var int
+	 */
+	public $id;
+
+	/**
      * Declares the associated table
      *
      * @param \JDatabaseDriver &$dbo A database connector object
