@@ -18,6 +18,54 @@ use Joomla\CMS\Table\Table;
 class Pools extends Assets
 {
 	/**
+	 * The resource's German abbreviation.
+	 * VARCHAR(45) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $abbreviation_de;
+
+	/**
+	 * The resource's English abbreviation.
+	 * VARCHAR(45) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $abbreviation_en;
+
+	/**
+	 * The id used by Joomla as a reference to its assets table.
+	 * INT(11) NOT NULL
+	 *
+	 * @var int
+	 */
+	public $asset_id;
+
+	/**
+	 * The resource's code. (String ID)
+	 * VARCHAR(45) DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $code;
+
+	/**
+	 * The resource's German description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_de;
+
+	/**
+	 * The resource's English description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_en;
+
+	/**
 	 * The id of the department entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
@@ -50,6 +98,22 @@ class Pools extends Assets
 	public $lsfID;
 
 	/**
+	 * The maximum credit points required to be achieved in subjects of this pool.
+	 * INT(3) UNSIGNED DEFAULT 0
+	 *
+	 * @var int
+	 */
+	public $maxCrP;
+
+	/**
+	 * The minimum credit points required to be achieved in subjects of this pool.
+	 * INT(3) UNSIGNED DEFAULT 0
+	 *
+	 * @var int
+	 */
+	public $minCrP;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(255) NOT NULL
 	 *
@@ -64,6 +128,22 @@ class Pools extends Assets
 	 * @var string
 	 */
 	public $name_en;
+
+	/**
+	 * The resource's German shortened name.
+	 * VARCHAR(45) DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $shortName_de;
+
+	/**
+	 * The resource's English shortened name.
+	 * VARCHAR(45) DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $shortName_en;
 
 	/**
 	 * Declares the associated table

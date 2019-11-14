@@ -34,6 +34,14 @@ class Runs extends BaseTable
 	public $name_en;
 
 	/**
+	 * A run object modeled by a JSON string, containing the respective start and end dates of run sections.
+	 * TEXT NOT NULL
+	 *
+	 * @var string
+	 */
+	public $run;
+
+	/**
 	 * The id of the term entry referenced.
 	 * INT(11) UNSIGNED NOT NULL
 	 *

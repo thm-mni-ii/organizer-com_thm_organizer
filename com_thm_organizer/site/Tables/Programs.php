@@ -19,12 +19,36 @@ use Joomla\CMS\Table\Table;
 class Programs extends Assets
 {
 	/**
+	 * A flag which displays whether the resource is currently active.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var bool
+	 */
+	public $active;
+
+	/**
+	 * The id used by Joomla as a reference to its assets table.
+	 * INT(11) NOT NULL
+	 *
+	 * @var int
+	 */
+	public $asset_id;
+
+	/**
 	 * The id of the category entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
 	 * @var int
 	 */
 	public $categoryID;
+
+	/**
+	 * The resource's code. (String ID)
+	 * VARCHAR(20) DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $code;
 
 	/**
 	 * The id of the degree entry referenced.
@@ -41,6 +65,22 @@ class Programs extends Assets
 	 * @var int
 	 */
 	public $departmentID;
+
+	/**
+	 * The resource's German description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_de;
+
+	/**
+	 * The resource's English description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_en;
 
 	/**
 	 * The id of the field entry referenced.
@@ -73,6 +113,14 @@ class Programs extends Assets
 	 * @var string
 	 */
 	public $name_en;
+
+	/**
+	 * The year in which the program was accredited.
+	 * YEAR(4) DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $version;
 
 	/**
 	 * Declares the associated table

@@ -19,12 +19,36 @@ use Organizer\Helpers\Languages;
 class Departments extends Assets
 {
 	/**
+	 * The id used by Joomla as a reference to its assets table.
+	 * INT(11) NOT NULL
+	 *
+	 * @var int
+	 */
+	public $asset_id;
+
+	/**
 	 * The id of the user entry referenced.
 	 * INT(11) DEFAULT NULL
 	 *
 	 * @var int
 	 */
 	public $contactID;
+
+	/**
+	 * The email address to be used for contacting participants
+	 * VARCHAR(100) DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $contactEmail;
+
+	/**
+	 * The way way in which department contact is to be carried out. Values: 0 - User Entry, 1 - Email Address
+	 * TINYINT(1) UNSIGNED DEFAULT 0
+	 *
+	 * @var int
+	 */
+	public $contactType;
 
 	/**
 	 * The resource's German name.
@@ -41,6 +65,22 @@ class Departments extends Assets
 	 * @var string
 	 */
 	public $name_en;
+
+	/**
+	 * The resource's German shortened name.
+	 * VARCHAR(50) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $shortName_de;
+
+	/**
+	 * The resource's English shortened name.
+	 * VARCHAR(50) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $shortName_en;
 
 	/**
 	 * Declares the associated table

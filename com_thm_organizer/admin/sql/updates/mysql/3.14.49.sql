@@ -122,6 +122,7 @@ ALTER TABLE `v7ocf_thm_organizer_pools`
     MODIFY `name_de` VARCHAR(255) DEFAULT NULL AFTER `shortName_en`,
     MODIFY `name_en` VARCHAR(255) DEFAULT NULL AFTER `name_de`,
     DROP COLUMN `display_type`,
+    DROP COLUMN `distance`,
     DROP COLUMN `enable_desc`,
     ADD INDEX `departmentID` (`departmentID`),
     ADD INDEX `groupID` (`groupID`),

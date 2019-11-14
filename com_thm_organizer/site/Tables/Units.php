@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class Units extends Nullable
 {
 	/**
+	 * A supplementary text description.
+	 * VARCHAR(200) DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $comment;
+
+	/**
 	 * The id of the course entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
@@ -40,6 +48,14 @@ class Units extends Nullable
 	public $departmentID;
 
 	/**
+	 * The end date of the resource.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $endDate;
+
+	/**
 	 * The id of the grid entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
@@ -62,6 +78,14 @@ class Units extends Nullable
 	 * @var int
 	 */
 	public $runID;
+
+	/**
+	 * The start date of the resource.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $startDate;
 
 	/**
 	 * The id of the term entry referenced.

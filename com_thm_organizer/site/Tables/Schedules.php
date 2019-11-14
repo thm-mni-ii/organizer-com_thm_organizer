@@ -20,12 +20,52 @@ use Organizer\Helpers\OrganizerHelper;
 class Schedules extends BaseTable
 {
 	/**
+	 * A flag which displays whether the resource is currently active.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var bool
+	 */
+	public $active;
+
+	/**
+	 * The id used by Joomla as a reference to its assets table.
+	 * INT(11) NOT NULL
+	 *
+	 * @var int
+	 */
+	public $asset_id;
+
+	/**
+	 * The date of the schedule's creation.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $creationDate;
+
+	/**
+	 * The time of the schedule's creation.
+	 * TIME DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $creationTime;
+
+	/**
 	 * The id of the department entry referenced.
 	 * INT(11) UNSIGNED NOT NULL
 	 *
 	 * @var int
 	 */
 	public $departmentID;
+
+	/**
+	 * A collection of instance objects modeled by a JSON string.
+	 * MEDIUMTEXT NOT NULL
+	 *
+	 * @var string
+	 */
+	public $schedule;
 
 	/**
 	 * The id of the term entry referenced.

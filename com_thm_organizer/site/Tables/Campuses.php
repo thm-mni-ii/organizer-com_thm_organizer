@@ -16,12 +16,44 @@ namespace Organizer\Tables;
 class Campuses extends Nullable
 {
 	/**
+	 * The physical address of the resource.
+	 * VARCHAR(255) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $address;
+
+	/**
+	 * The city in which the resource is located.
+	 * VARCHAR(60) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $city;
+
+	/**
 	 * The id of the grid entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
 	 * @var int
 	 */
 	public $gridID;
+
+	/**
+	 * A flag displaying if the campus is equatable with a city for internal purposes.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 0
+	 *
+	 * @var bool
+	 */
+	public $isCity;
+
+	/**
+	 * The GPS coordinates of the resource.
+	 * VARCHAR(20) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $location;
 
 	/**
 	 * The resource's German name.
@@ -46,6 +78,14 @@ class Campuses extends Nullable
 	 * @var int
 	 */
 	public $parentID;
+
+	/**
+	 * The ZIP code of the resource.
+	 * VARCHAR(60) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $zipCode;
 
 	/**
 	 * Declares the associated table

@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class Categories extends Nullable
 {
 	/**
+	 * A flag which displays whether the resource is currently active.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var bool
+	 */
+	public $active;
+
+	/**
 	 * The resource's name.
 	 * VARCHAR(100) NOT NULL
 	 *

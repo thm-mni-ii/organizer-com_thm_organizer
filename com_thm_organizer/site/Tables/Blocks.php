@@ -15,13 +15,37 @@ namespace Organizer\Tables;
  */
 class Blocks extends BaseTable
 {
-    /**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_blocks', 'id', $dbo);
-    }
+	/**
+	 * The date of the block.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $date;
+
+	/**
+	 * The end time of the block.
+	 * TIME DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $endTime;
+
+	/**
+	 * The start time of the block.
+	 * TIME DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $startTime;
+
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_blocks', 'id', $dbo);
+	}
 }

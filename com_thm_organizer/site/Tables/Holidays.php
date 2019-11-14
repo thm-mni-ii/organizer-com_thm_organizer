@@ -20,6 +20,14 @@ defined('_JEXEC') or die;
 class Holidays extends BaseTable
 {
 	/**
+	 * The end date of the resource.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $endDate;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(50) NOT NULL
 	 *
@@ -36,30 +44,47 @@ class Holidays extends BaseTable
 	public $name_en;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
+	 * The start date of the resource.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $startDate;
 
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_holidays', 'id', $dbo);
-    }
+	/**
+	 * The impact of the holiday on the planning process. Values: 1 - Automatic, 2 - Manual, 3 - Unplannable
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 3
+	 *
+	 * @var int
+	 */
+	public $type;
 
-    /**
-     * Checks the start date and end date
-     *
-     * @return boolean true on success, otherwise false
-     */
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
 
-    public function check()
-    {
-        if ($this->endDate < $this->startDate) {
-            OrganizerHelper::message('THM_ORGANIZER_DATE_CHECK', 'error');
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_holidays', 'id', $dbo);
+	}
 
-            return false;
-        }
+	/**
+	 * Checks the start date and end date
+	 *
+	 * @return boolean true on success, otherwise false
+	 */
 
-        return true;
-    }
+	public function check()
+	{
+		if ($this->endDate < $this->startDate)
+		{
+			OrganizerHelper::message('THM_ORGANIZER_DATE_CHECK', 'error');
+
+			return false;
+		}
+
+		return true;
+	}
 }

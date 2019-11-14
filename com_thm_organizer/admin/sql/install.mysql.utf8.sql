@@ -495,7 +495,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
     `description_en`  TEXT,
     `minCrP`          INT(3) UNSIGNED           DEFAULT 0,
     `maxCrP`          INT(3) UNSIGNED           DEFAULT 0,
-    `distance`        INT(2) UNSIGNED           DEFAULT 10,
     PRIMARY KEY (`id`),
     INDEX `code` (`code`),
     INDEX `departmentID` (`departmentID`),

@@ -16,6 +16,38 @@ namespace Organizer\Tables;
 class Terms extends BaseTable
 {
 	/**
+	 * The resource's code. (String ID)
+	 * VARCHAR(10) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $code;
+
+	/**
+	 * The end date of the resource.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $endDate;
+
+	/**
+	 * The resource's full German name.
+	 * VARCHAR(255) DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $fullName_de;
+
+	/**
+	 * The resource's full English name.
+	 * VARCHAR(255) DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $fullName_en;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(100) NOT NULL
 	 *
@@ -32,12 +64,20 @@ class Terms extends BaseTable
 	public $name_en;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_terms', 'id', $dbo);
-    }
+	 * The start date of the resource.
+	 * DATE DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $startDate;
+
+	/**
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_terms', 'id', $dbo);
+	}
 }

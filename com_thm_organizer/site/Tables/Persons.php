@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class Persons extends Nullable
 {
 	/**
+	 * A flag which displays whether the resource is currently active.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var bool
+	 */
+	public $active;
+
+	/**
 	 * The id of the field entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
@@ -24,12 +32,44 @@ class Persons extends Nullable
 	public $fieldID;
 
 	/**
+	 * The person's first and middle names.
+	 * VARCHAR(255) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $forename;
+
+	/**
+	 * The person's surnames.
+	 * VARCHAR(255) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $surname;
+
+	/**
+	 * The person's titles.
+	 * VARCHAR(45) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $title;
+
+	/**
 	 * The resource's identifier in Untis scheduling software.
 	 * VARCHAR(60) DEFAULT NULL
 	 *
 	 * @var string
 	 */
 	public $untisID;
+
+	/**
+	 * The person's user name.
+	 * VARCHAR(150) DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $username;
 
 	/**
 	 * Declares the associated table

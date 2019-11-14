@@ -16,6 +16,22 @@ namespace Organizer\Tables;
 class Methods extends BaseTable
 {
 	/**
+	 * The resource's German abbreviation.
+	 * VARCHAR(45) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $abbreviation_de;
+
+	/**
+	 * The resource's English abbreviation.
+	 * VARCHAR(45) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $abbreviation_en;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(255) NOT NULL
 	 *
@@ -38,7 +54,6 @@ class Methods extends BaseTable
 	 * @var string
 	 */
 	public $untisID;
-
 
 	/**
 	 * Declares the associated table

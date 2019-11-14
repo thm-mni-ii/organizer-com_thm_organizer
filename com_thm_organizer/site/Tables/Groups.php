@@ -16,6 +16,14 @@ namespace Organizer\Tables;
 class Groups extends Nullable
 {
 	/**
+	 * A flag which displays whether the resource is currently active.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var bool
+	 */
+	public $active;
+
+	/**
 	 * The id of the category entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
@@ -30,6 +38,14 @@ class Groups extends Nullable
 	 * @var int
 	 */
 	public $fieldID;
+
+	/**
+	 * The resource's full name.
+	 * VARCHAR(100) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $fullName;
 
 	/**
 	 * The id of the grid entry referenced.

@@ -24,6 +24,30 @@ class Events extends BaseTable
 	public $campusID;
 
 	/**
+	 * The number of days before course begin when registration is closed.
+	 * INT(2) UNSIGNED DEFAULT 0
+	 *
+	 * @var int
+	 */
+	public $deadline;
+
+	/**
+	 * The resource's German description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_de;
+
+	/**
+	 * The resource's English description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_en;
+
+	/**
 	 * The id of the department entry referenced.
 	 * INT(11) UNSIGNED NOT NULL
 	 *
@@ -32,12 +56,28 @@ class Events extends BaseTable
 	public $departmentID;
 
 	/**
+	 * The fee for participation in the course.
+	 * INT(3) UNSIGNED DEFAULT 0
+	 *
+	 * @var int
+	 */
+	public $fee;
+
+	/**
 	 * The id of the field entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
 	 * @var int
 	 */
 	public $fieldID;
+
+	/**
+	 * The maximum number of participants the course allows.
+	 * INT(4) UNSIGNED DEFAULT 1000
+	 *
+	 * @var int
+	 */
+	public $maxParticipants;
 
 	/**
 	 * The resource's German name.
@@ -54,6 +94,30 @@ class Events extends BaseTable
 	 * @var string
 	 */
 	public $name_en;
+
+	/**
+	 * Whether or not the event is a preparatory event.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 0
+	 *
+	 * @var bool
+	 */
+	public $preparatory;
+
+	/**
+	 * The method of processing used to accept course registrations. Values: NULL - None, 0 - FIFO, 1 - Manual.
+	 * INT(1) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $registrationType;
+
+	/**
+	 * The resource's alphanumeric identifier in degree program documentation.
+	 * VARCHAR(45) NOT NULL DEFAULT ''
+	 *
+	 * @var string
+	 */
+	public $subjectNo;
 
 	/**
 	 * The resource's identifier in Untis scheduling software.

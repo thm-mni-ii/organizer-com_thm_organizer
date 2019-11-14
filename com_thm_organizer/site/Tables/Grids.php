@@ -16,6 +16,22 @@ namespace Organizer\Tables;
 class Grids extends BaseTable
 {
 	/**
+	 * A flag to determine which grid is to be used if none is specified.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 0
+	 *
+	 * @var bool
+	 */
+	public $defaultGrid;
+
+	/**
+	 * A grid object modeled by a JSON string, containing the respective start and end times of the grid blocks.
+	 * TEXT NOT NULL
+	 *
+	 * @var string
+	 */
+	public $grid;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(255) NOT NULL
 	 *

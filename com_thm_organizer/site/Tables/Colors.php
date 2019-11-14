@@ -17,6 +17,14 @@ namespace Organizer\Tables;
 class Colors extends BaseTable
 {
 	/**
+	 * The six digit hexadecimal value of the color with leading #.
+	 * VARCHAR(60) NOT NULL
+	 *
+	 * @var string
+	 */
+	public $color;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(60) NOT NULL
 	 *
@@ -33,12 +41,12 @@ class Colors extends BaseTable
 	public $name_en;
 
 	/**
-     * Declares the associated table
-     *
-     * @param \JDatabaseDriver &$dbo A database connector object
-     */
-    public function __construct(&$dbo = null)
-    {
-        parent::__construct('#__thm_organizer_colors', 'id', $dbo);
-    }
+	 * Declares the associated table
+	 *
+	 * @param   \JDatabaseDriver &$dbo  A database connector object
+	 */
+	public function __construct(&$dbo = null)
+	{
+		parent::__construct('#__thm_organizer_colors', 'id', $dbo);
+	}
 }

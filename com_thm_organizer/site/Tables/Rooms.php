@@ -16,12 +16,28 @@ namespace Organizer\Tables;
 class Rooms extends Nullable
 {
 	/**
+	 * A flag which displays whether the resource is currently active.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var bool
+	 */
+	public $active;
+
+	/**
 	 * The id of the building entry referenced.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
 	 * @var int
 	 */
 	public $buildingID;
+
+	/**
+	 * The rooms maximum occupancy for participants.
+	 * INT(4) UNSIGNED DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $capacity;
 
 	/**
 	 * The resource's name.

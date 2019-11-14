@@ -16,6 +16,38 @@ namespace Organizer\Tables;
 class Roomtypes extends BaseTable
 {
 	/**
+	 * The resource's German description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_de;
+
+	/**
+	 * The resource's English description.
+	 * TEXT
+	 *
+	 * @var string
+	 */
+	public $description_en;
+
+	/**
+	 * The maximum occupancy for rooms of this type.
+	 * INT(4) UNSIGNED DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $maxCapacity;
+
+	/**
+	 * The minimum occupancy for rooms of this type.
+	 * INT(4) UNSIGNED DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $minCapacity;
+
+	/**
 	 * The resource's German name.
 	 * VARCHAR(50) NOT NULL
 	 *
@@ -30,6 +62,14 @@ class Roomtypes extends BaseTable
 	 * @var string
 	 */
 	public $name_en;
+
+	/**
+	 * A flag which displays whether rooms of this type should be displayed publicly.
+	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
+	 *
+	 * @var bool
+	 */
+	public $public;
 
 	/**
 	 * The resource's identifier in Untis scheduling software.

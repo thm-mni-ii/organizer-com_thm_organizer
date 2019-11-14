@@ -16,6 +16,30 @@ namespace Organizer\Tables;
 class Mappings extends BaseTable
 {
 	/**
+	 * The depth of this element in the mapping hierarchy.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $level;
+
+	/**
+	 * The left most value of this resource as viewed on a numbered line.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $lft;
+
+	/**
+	 * The order of this element among its hierarchical siblings.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $ordering;
+
+	/**
 	 * The id of the mappings entry referenced as parent.
 	 * INT(11) UNSIGNED DEFAULT NULL
 	 *
@@ -38,6 +62,14 @@ class Mappings extends BaseTable
 	 * @var int
 	 */
 	public $programID;
+
+	/**
+	 * The right most value of this resource as viewed on a numbered line.
+	 * INT(11) UNSIGNED DEFAULT NULL
+	 *
+	 * @var int
+	 */
+	public $rgt;
 
 	/**
 	 * The id of the subject entry referenced.

@@ -32,6 +32,14 @@ class CourseParticipants extends BaseTable
 	public $id;
 
 	/**
+	 * The date and time of the last participant initiated change.
+	 * DATETIME DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $participantDate;
+
+	/**
 	 * The id of the participant entry referenced.
 	 * INT(11) NOT NULL
 	 *
@@ -39,6 +47,21 @@ class CourseParticipants extends BaseTable
 	 */
 	public $participantID;
 
+	/**
+	 * The participant's course status. Values: 0 - Pending, 1 - Registered.
+	 * INT(1) UNSIGNED DEFAULT 0
+	 *
+	 * @var int
+	 */
+	public $status;
+
+	/**
+	 * The date and time of the last change.
+	 * DATETIME DEFAULT NULL
+	 *
+	 * @var string
+	 */
+	public $statusDate;
 
 	/**
 	 * Declares the associated table
