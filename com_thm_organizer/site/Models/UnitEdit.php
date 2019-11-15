@@ -10,25 +10,43 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Units;
+use Joomla\CMS\Table\Table;
+use Organizer\Helpers\Units as UnitsHelper;
+use Organizer\Tables\Units as UnitsTable;
 
 /**
  * Class loads a form for editing unit data.
  */
 class UnitEdit extends EditModel
 {
-    /**
-     * Method to get a single record.
-     *
-     * @param integer $pk The id of the primary key
-     *
-     * @return mixed Object on success, false on failure
-     */
-    public function getItem($pk = null)
-    {
-        $this->item          = parent::getItem($pk);
-        $this->item->eventID = Units::getEventID($this->item->id);
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key
+	 *
+	 * @return mixed Object on success, false on failure
+	 */
+	public function getItem($pk = null)
+	{
+		$this->item          = parent::getItem($pk);
+		$this->item->eventID = UnitsHelper::getEventID($this->item->id);
 
-        return $this->item;
-    }
+		return $this->item;
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new UnitsTable;
+	}
 }

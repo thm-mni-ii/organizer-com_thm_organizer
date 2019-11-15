@@ -108,24 +108,6 @@ abstract class EditModel extends AdminModel
 	}
 
 	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return Table  A Table object
-	 */
-	public function getTable($name = '', $prefix = '', $options = array())
-	{
-		$name         = OrganizerHelper::getClass($this);
-		$resourceName = str_replace('Edit', '', $name);
-		$tableName    = OrganizerHelper::getPlural($resourceName);
-
-		return OrganizerHelper::getTable($tableName);
-	}
-
-	/**
 	 * Method to get a form object.
 	 *
 	 * @param   string   $name     The name of the form.

@@ -11,39 +11,57 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Table\Table;
+use Organizer\Helpers as Helpers;
 use Organizer\Helpers\Access;
-use Organizer\Helpers\Persons;
+use Organizer\Tables\Persons as PersonsTable;
 
 /**
  * Class loads a form for editing person data.
  */
 class PersonEdit extends EditModel
 {
-    protected $deptResource = 'person';
+	protected $deptResource = 'person';
 
-    /**
-     * Checks for user authorization to access the view.
-     *
-     * @return bool  true if the user can access the view, otherwise false
-     */
-    protected function allowEdit()
-    {
-        return Access::allowHRAccess();
-    }
+	/**
+	 * Checks for user authorization to access the view.
+	 *
+	 * @return bool  true if the user can access the view, otherwise false
+	 */
+	protected function allowEdit()
+	{
+		return Access::allowHRAccess();
+	}
 
-    /**
-     * Method to get a single record.
-     *
-     * @param integer $pk The id of the primary key.
-     *
-     * @return mixed    Object on success, false on failure.
-     * @throws Exception => unauthorized access
-     */
-    public function getItem($pk = null)
-    {
-        $this->item               = parent::getItem($pk);
-        $this->item->departmentID = Persons::getDepartmentIDs($this->item->id);
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return mixed    Object on success, false on failure.
+	 * @throws Exception => unauthorized access
+	 */
+	public function getItem($pk = null)
+	{
+		$this->item               = parent::getItem($pk);
+		$this->item->departmentID = Helpers\Persons::getDepartmentIDs($this->item->id);
 
-        return $this->item;
-    }
+		return $this->item;
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new PersonsTable;
+	}
 }

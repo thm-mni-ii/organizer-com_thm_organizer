@@ -10,7 +10,9 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Instances;
+use Joomla\CMS\Table\Table;
+use Organizer\Helpers\Instances as InstancesHelper;
+use Organizer\Tables\Instances as InstancesTable;
 
 /**
  * Class loads a form for editing instance data.
@@ -30,11 +32,27 @@ class InstanceEdit extends EditModel
 
 		$instance = ['instanceID' => $this->item->id];
 
-		Instances::setPersons($instance, ['delta' => '']);
+		InstancesHelper::setPersons($instance, ['delta' => '']);
 
 		$this->item->resources = $instance['resources'];
 
 		return $this->item;
 
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new InstancesTable;
 	}
 }

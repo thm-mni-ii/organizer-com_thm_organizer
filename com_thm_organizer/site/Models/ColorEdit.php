@@ -10,10 +10,27 @@
 
 namespace Organizer\Models;
 
+use Joomla\CMS\Table\Table;
+use Organizer\Tables\Colors as ColorsTable;
+
 /**
  * Class loads a form for editing color data.
  */
 class ColorEdit extends EditModel
 {
-    // Everything is taken care of in the inheritance hierarchy.
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new ColorsTable;
+	}
 }
