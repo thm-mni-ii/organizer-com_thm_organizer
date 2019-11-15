@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\LSF;
+use Organizer\Tables\Pools as PoolsTable;
 
 /**
  * Class used to import lsf pool data.
@@ -25,11 +26,13 @@ class PoolLSF extends BaseModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return Table  A Table object
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = '', $options = [])
 	{
-		return parent::getTable('Pools', $prefix, $options);
+		return new PoolsTable;
 	}
 
 	/**

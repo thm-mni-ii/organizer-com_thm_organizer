@@ -17,6 +17,7 @@ use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Subjects as SubjectsTable;
 
 /**
  * Class used to import lsf subject data.
@@ -229,11 +230,13 @@ class SubjectLSF extends BaseModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return Table  A Table object
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = '', $options = [])
 	{
-		return parent::getTable('Subjects', $prefix, $options);
+		return new SubjectsTable;
 	}
 
 	/**

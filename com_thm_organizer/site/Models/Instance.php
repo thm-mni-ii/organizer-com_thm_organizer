@@ -10,14 +10,32 @@
 
 namespace Organizer\Models;
 
+use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Instances as InstancesTable;
 
 /**
  * Class which manages stored instance data.
  */
 class Instance extends BaseModel
 {
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new InstancesTable;
+	}
+
 	/**
 	 * Method to save instances
 	 *

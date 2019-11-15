@@ -12,14 +12,32 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Input;
+use Organizer\Tables\Grids as GridsTable;
 
 /**
  * Class which manages stored grid data.
  */
 class Grid extends BaseModel
 {
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new GridsTable;
+	}
+
 	/**
 	 * Attempts to save the resource.
 	 *

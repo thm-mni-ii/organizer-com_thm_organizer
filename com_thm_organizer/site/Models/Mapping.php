@@ -13,6 +13,8 @@ namespace Organizer\Models;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables as Tables;
+use Organizer\Tables\Mappings;
 
 /**
  * Class which manages stored (curriculum) mapping data.
@@ -30,9 +32,9 @@ class Mapping extends BaseModel
 	 */
 	public function addLSFMappings($programID, &$lsfData)
 	{
-		$mappingsTable = $this->getTable();
+		$table = new Mappings;
 
-		if (!$mappingsTable->load(['programID' => $programID]))
+		if (!$table->load(['programID' => $programID]))
 		{
 			return false;
 		}
@@ -44,11 +46,11 @@ class Mapping extends BaseModel
 
 			if ($type == 'M')
 			{
-				$mapped = $this->addLSFSubject($resource, $mappingsTable->id);
+				$mapped = $this->addLSFSubject($resource, $table->id);
 			}
 			elseif ($type == 'K')
 			{
-				$mapped = $this->addLSFPool($resource, $mappingsTable->id);
+				$mapped = $this->addLSFPool($resource, $table->id);
 			}
 
 			if (!$mapped)
@@ -74,7 +76,7 @@ class Mapping extends BaseModel
 		$blocked = !empty($pool->sperrmh) and strtolower((string) $pool->sperrmh) == 'x';
 		$invalidTitle = LSF::invalidTitle($pool);
 		$noChildren   = !isset($pool->modulliste->modul);
-		$poolsTable   = OrganizerHelper::getTable('Pools');
+		$poolsTable   = new Tables\Pools;
 		$poolExists   = $poolsTable->load(['lsfID' => $lsfID]);
 
 		if ($poolExists)
@@ -86,10 +88,9 @@ class Mapping extends BaseModel
 				return $poolModel->deleteSingle($poolsTable->id);
 			}
 
-			$mappingsTable = $this->getTable();
-			$mappingExists = $mappingsTable->load(['parentID' => $parentMappingID, 'poolID' => $poolsTable->id]);
+			$mappingsTable = new Mappings;
 
-			if (!$mappingExists)
+			if (!$mappingsTable->load(['parentID' => $parentMappingID, 'poolID' => $poolsTable->id]))
 			{
 				$poolMapping              = [];
 				$poolMapping['parentID']  = $parentMappingID;
@@ -155,12 +156,11 @@ class Mapping extends BaseModel
 		$blocked = !empty($subject->sperrmh) and strtolower((string) $subject->sperrmh) == 'x';
 		$invalidTitle = LSF::invalidTitle($subject);
 
-		$subjectsTable = OrganizerHelper::getTable('Subjects');
-		$subjectExists = $subjectsTable->load(['lsfID' => $lsfID]);
+		$subjectsTable = new Tables\Subjects;
 
-		if ($subjectExists)
+		if ($subjectsTable->load(['lsfID' => $lsfID]))
 		{
-			$mappingsTable = $this->getTable();
+			$mappingsTable = new Mappings;
 			$mappingExists = $mappingsTable->load(['parentID' => $parentMappingID, 'subjectID' => $subjectsTable->id]);
 
 			if ($mappingExists)
@@ -232,7 +232,7 @@ class Mapping extends BaseModel
 			return false;
 		}
 
-		$mapping = $this->getTable();
+		$mapping = new Mappings;
 
 		if ($mapping->save($pool))
 		{
@@ -302,7 +302,7 @@ class Mapping extends BaseModel
 			return false;
 		}
 
-		$mapping = $this->getTable();
+		$mapping = new Mappings;
 
 		if ($mapping->save($subject))
 		{
@@ -754,7 +754,9 @@ class Mapping extends BaseModel
 			$data['level']     = 0;
 			$data['ordering']  = 0;
 
-			return $this->getTable()->save($data);
+			$mappingsTable = new Mappings;
+
+			return $mappingsTable->save($data);
 		}
 		else
 		{
@@ -823,7 +825,7 @@ class Mapping extends BaseModel
 
 		foreach ($selectedParents as $newParentID)
 		{
-			$parent = $this->getTable();
+			$parent = new Mappings;
 
 			if (!$exists = $parent->load($newParentID) or empty($parent->poolID))
 			{

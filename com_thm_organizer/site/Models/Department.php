@@ -10,13 +10,27 @@
 
 namespace Organizer\Models;
 
-use Exception;
-use Organizer\Helpers\OrganizerHelper;
+use Joomla\CMS\Table\Table;
+use Organizer\Tables\Departments as DepartmentsTable;
 
 /**
  * Class which manages stored department data.
  */
 class Department extends BaseModel
 {
-    // This model requires no resource specific code.
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new DepartmentsTable;
+	}
 }

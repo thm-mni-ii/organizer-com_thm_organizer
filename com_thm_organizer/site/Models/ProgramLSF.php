@@ -17,6 +17,7 @@ use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Programs as ProgramsTable;
 
 /**
  * Class used to import lsf program data.
@@ -71,13 +72,14 @@ class ProgramLSF extends BaseModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return Table  A Table object
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = '', $options = [])
 	{
-		return parent::getTable('Programs', $prefix, $options);
+		return new ProgramsTable;
 	}
-
 
 	/**
 	 * Method to import data associated with degree programs from LSF

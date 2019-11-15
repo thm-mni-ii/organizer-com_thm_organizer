@@ -11,8 +11,10 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Input;
+use Organizer\Tables\Programs as ProgramsTable;
 
 /**
  * Class which manages stored (degree) program data.
@@ -56,6 +58,22 @@ class Program extends BaseModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new ProgramsTable;
 	}
 
 	/**

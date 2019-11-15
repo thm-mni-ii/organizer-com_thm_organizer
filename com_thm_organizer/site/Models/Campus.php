@@ -11,39 +11,59 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Input;
+use Organizer\Tables\Campuses as CampusesTable;
 
 /**
  * Class which manages stored campus data.
  */
 class Campus extends BaseModel
 {
-    /**
-     * Authenticates the user
-     */
-    protected function allow()
-    {
-        return Access::isAdmin();
-    }
+	/**
+	 * Authenticates the user
+	 */
+	protected function allow()
+	{
+		return Access::isAdmin();
+	}
 
-    /**
-     * Attempts to save the resource.
-     *
-     * @return bool true on success, otherwise false
-     * @throws Exception => unauthorized access
-     */
-    public function save()
-    {
-        if ($parentID = Input::getInt('parentID')) {
-            $table = $this->getTable();
-            $table->load($parentID);
-            if (!empty($table->parentID)) {
-                // TODO: add a message saying that it failed because the maximum depth was reached.
-                return false;
-            }
-        }
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table  A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new CampusesTable;
+	}
 
-        return parent::save();
-    }
+	/**
+	 * Attempts to save the resource.
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception => unauthorized access
+	 */
+	public function save()
+	{
+		if ($parentID = Input::getInt('parentID'))
+		{
+			$table = $this->getTable();
+			$table->load($parentID);
+			if (!empty($table->parentID))
+			{
+				// TODO: add a message saying that it failed because the maximum depth was reached.
+				return false;
+			}
+		}
+
+		return parent::save();
+	}
 }
