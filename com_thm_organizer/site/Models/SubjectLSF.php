@@ -17,6 +17,7 @@ use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Persons as PersonsTable;
 use Organizer\Tables\Subjects as SubjectsTable;
 
 /**
@@ -224,22 +225,6 @@ class SubjectLSF extends BaseModel
 	}
 
 	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return Table A Table object
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	public function getTable($name = '', $prefix = '', $options = [])
-	{
-		return new SubjectsTable;
-	}
-
-	/**
 	 * Method to import data associated with subjects from LSF
 	 *
 	 * @return bool  true on success, otherwise false
@@ -279,7 +264,7 @@ class SubjectLSF extends BaseModel
 	 */
 	public function importSingle($subjectID)
 	{
-		$subject = $this->getTable();
+		$subject = new SubjectsTable;
 
 		$entryExists = $subject->load($subjectID);
 		if (!$entryExists)
@@ -452,7 +437,7 @@ class SubjectLSF extends BaseModel
 			return false;
 		}
 
-		$table = $this->getTable();
+		$table = new SubjectsTable;
 
 		// Attempt to load using the departmentID
 		$data = ['lsfID' => $lsfID, 'departmentID' => $departmentID];
@@ -499,7 +484,7 @@ class SubjectLSF extends BaseModel
 	 */
 	public function resolveDependencies($subjectID)
 	{
-		$subjectTable = $this->getTable();
+		$subjectTable = new SubjectsTable;
 		$exists       = $subjectTable->load($subjectID);
 
 		// Entry doesn't exist. Should not occur.
@@ -897,7 +882,7 @@ class SubjectLSF extends BaseModel
 				$loadCriteria[] = ['surname' => $personData['surname'], 'forename' => $personData['forename']];
 			}
 
-			$personTable = OrganizerHelper::getTable('Persons');
+			$personTable = new PersonsTable;
 			$loaded      = false;
 
 			foreach ($loadCriteria as $criteria)

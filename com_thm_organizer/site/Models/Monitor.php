@@ -77,7 +77,7 @@ class Monitor extends BaseModel
 
 		if ($plausibleID)
 		{
-			$table = $this->getTable();
+			$table = new MonitorsTable;
 			$table->load($monitorID);
 			$table->set('useDefaults', Input::getInt('useDefaults'));
 
@@ -101,7 +101,7 @@ class Monitor extends BaseModel
 		}
 
 		$monitorID = Input::getID();
-		$table     = $this->getTable();
+		$table     = new MonitorsTable;
 		if (empty($monitorID) or !$table->load($monitorID))
 		{
 			return false;

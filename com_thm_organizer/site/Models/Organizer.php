@@ -11,30 +11,13 @@
 namespace Organizer\Models;
 
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables as Tables;
 
 /**
  * Class which sets permissions for the view.
  */
 class Organizer extends BaseModel
 {
-	// This class only exists to be conform with the standard structure. The view does not access the database.
-
-	/**
-	 * Checks whether the given id exists in the table.
-	 *
-	 * @param   string  $tableClass  the name of the table class
-	 * @param   int     $resourceID  the id of the resource being checked
-	 *
-	 * @return bool true if the id exists in the table, otherwise false
-	 */
-	private function checkResourceID($tableClass, $resourceID)
-	{
-		$resources = OrganizerHelper::getTable($tableClass);
-		$resources->load($resourceID);
-
-		return empty($resources->id) ? false : $resourceID;
-	}
-
 	/**
 	 * Retrieves the id of the block matching the parameters
 	 *
@@ -48,7 +31,7 @@ class Organizer extends BaseModel
 		list($startTime, $endTime) = explode('-', $blockTimes);
 		$startTime = preg_replace('/([\d]{2})$/', ':${1}:00', $startTime);
 		$endTime   = preg_replace('/([\d]{2})$/', ':${1}:00', $endTime);
-		$blocks    = OrganizerHelper::getTable('Blocks');
+		$blocks    = new Tables\Blocks;
 		$blocks->load(['date' => $date, 'startTime' => $startTime, 'endTime' => $endTime]);
 
 		return empty($blocks->id) ? false : $blocks->id;
@@ -63,7 +46,7 @@ class Organizer extends BaseModel
 	 */
 	private function getTerm($termID)
 	{
-		$terms = OrganizerHelper::getTable('Terms');
+		$terms = new Tables\Terms;
 		$terms->load($termID);
 
 		return empty($terms->id) ?
@@ -79,7 +62,7 @@ class Organizer extends BaseModel
 	 */
 	private function getUnitID($unit)
 	{
-		$units = OrganizerHelper::getTable('Units');
+		$units = new Tables\Units;
 		$units->load($unit);
 
 		return empty($units->id) ? false : $units->id;
@@ -118,14 +101,14 @@ class Organizer extends BaseModel
 			foreach ($configuration['teachers'] as $personID => $personDelta)
 			{
 
-				$instancePersons = OrganizerHelper::getTable('InstancePersons');
+				$instancePersons = new Tables\InstancePersons;
 				$instancePersons->load(['instanceID' => $key['instanceID'], 'personID' => $personID]);
 
 				if ($assocID = $instancePersons->id)
 				{
 					foreach ($configuration['rooms'] as $roomID => $roomDelta)
 					{
-						$instanceRooms = OrganizerHelper::getTable('InstanceRooms');
+						$instanceRooms = new Tables\InstanceRooms;
 						$data          = ['assocID' => $assocID, 'roomID' => $roomID];
 						$instanceRooms->load($data);
 
@@ -249,7 +232,7 @@ class Organizer extends BaseModel
 	 */
 	private function migrateSchedule($scheduleID)
 	{
-		$schedules = OrganizerHelper::getTable('Schedules');
+		$schedules = new Tables\Schedules;
 		$schedules->load($scheduleID);
 
 		if (empty($schedules->id))
@@ -322,7 +305,8 @@ class Organizer extends BaseModel
 						$rooms                 = array_keys($instanceConfiguration['rooms']);
 
 						// The event (plan subject) no longer exists or is no longer associated with the unit
-						if (!$eventID = $this->checkResourceID('Events', $instanceConfiguration['subjectID'])
+						$eventsTable = new Tables\Events;
+						if (!$eventID = $eventsTable->load($instanceConfiguration['subjectID'])
 							or !$eventConfiguration = $unitConfiguration['subjects'][$eventID]
 						)
 						{
@@ -339,7 +323,7 @@ class Organizer extends BaseModel
 
 						$instance = ['blockID' => $blockID, 'unitID' => $unitID, 'eventID' => $eventID];
 
-						$instancesTable = OrganizerHelper::getTable('Instances');
+						$instancesTable = new Tables\Instances;
 						$instancesTable->load($instance);
 						if (!$instanceID = $instancesTable->id)
 						{
@@ -356,7 +340,8 @@ class Organizer extends BaseModel
 						$persons = [];
 						foreach ($instanceConfiguration['teachers'] as $personID => $instancePersonDelta)
 						{
-							if (!$this->checkResourceID('Persons', $personID)
+							$personsTable = new Tables\Persons;
+							if (!$personsTable->load($personID)
 								or !array_key_exists($personID, $eventConfiguration['teachers']))
 							{
 								unset($instanceConfiguration['teachers'][$personID]);
@@ -437,7 +422,7 @@ class Organizer extends BaseModel
 	 */
 	private function saveCourseParticipant($courseID, $participantID, $userLesson)
 	{
-		$cParticipants = OrganizerHelper::getTable('CourseParticipants');
+		$cParticipants = new Tables\CourseParticipants;
 		$cParticipant  = ['courseID' => $courseID, 'participantID' => $participantID];
 		$cParticipants->load($cParticipant);
 		if (empty($cParticipants->id))
@@ -484,7 +469,7 @@ class Organizer extends BaseModel
 	 */
 	private function saveInstanceParticipant($instanceID, $participantID, $userLesson)
 	{
-		$iParticipants = OrganizerHelper::getTable('InstanceParticipants');
+		$iParticipants = new Tables\InstanceParticipants;
 		$iParticipant  = ['instanceID' => $instanceID, 'participantID' => $participantID];
 		$iParticipants->load($iParticipant);
 		if (empty($iParticipants->id))
@@ -583,7 +568,7 @@ class Organizer extends BaseModel
 	 */
 	public function showScheduleMigrationButton($toolbar)
 	{
-		$schedules = OrganizerHelper::getTable('Schedules');
+		$schedules = new Tables\Schedules;
 		$fields    = $schedules->getFields();
 		if (array_key_exists('migrated', $fields))
 		{

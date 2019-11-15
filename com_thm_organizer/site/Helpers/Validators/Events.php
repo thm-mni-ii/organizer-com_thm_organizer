@@ -13,6 +13,7 @@ namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\ResourceHelper;
+use Organizer\Tables\Events as EventsTable;
 use stdClass;
 
 /**
@@ -31,7 +32,7 @@ class Events extends ResourceHelper implements UntisXMLValidator
 	public static function setID(&$model, $untisID)
 	{
 		$event = $model->events->$untisID;
-		$table = self::getTable();
+		$table = new EventsTable;
 
 		if ($table->load(['departmentID' => $event->departmentID, 'untisID' => $untisID]))
 		{

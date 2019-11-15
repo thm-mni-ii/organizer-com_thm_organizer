@@ -10,8 +10,7 @@
 
 namespace Organizer\Helpers;
 
-use Exception;
-use Joomla\CMS\Factory;
+use Organizer\Tables\Schedules as SchedulesTable;
 
 /**
  * Provides general functions for schedule access checks, data retrieval and display.
@@ -33,7 +32,7 @@ class Schedules extends ResourceHelper
 			return 0;
 		}
 
-		$table = self::getTable();
+		$table = new SchedulesTable;
 
 		return $table->load(['active' => 1, 'departmentID' => $departmentID, 'termID' => $termID]) ? $table->id : 0;
 	}

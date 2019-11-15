@@ -11,14 +11,8 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Organizer\Helpers\Dates;
-use Organizer\Helpers\Departments;
-use Organizer\Helpers\Input;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\Schedules;
-use Organizer\Helpers\Persons;
-use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Users;
+use Organizer\Helpers as Helpers;
+use Organizer\Tables as Tables;
 
 /**
  * Class retrieves information for the creation of a schedule export form.
@@ -45,7 +39,7 @@ class ScheduleExport extends BaseModel
 	public function __construct(array $config)
 	{
 		parent::__construct($config);
-		$format        = Input::getCMD('format', 'html');
+		$format        = Helpers\Input::getCMD('format', 'html');
 		$lessonFormats = ['pdf', 'ics', 'xls'];
 
 		// Don't bother setting these variables for html and raw formats
@@ -59,7 +53,7 @@ class ScheduleExport extends BaseModel
 			}
 
 			$this->setTitles();
-			$this->lessons = Schedules::getLessons($this->parameters);
+			$this->lessons = Helpers\Schedules::getLessons($this->parameters);
 		}
 	}
 
@@ -70,9 +64,9 @@ class ScheduleExport extends BaseModel
 	 */
 	public function getDepartmentOptions()
 	{
-		$departments = Departments::getOptions(false);
+		$departments = Helpers\Departments::getOptions(false);
 		$options     = [];
-		$options[''] = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
+		$options[''] = Helpers\Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
 
 		foreach ($departments as $departmentID => $departmentName)
 		{
@@ -89,14 +83,14 @@ class ScheduleExport extends BaseModel
 	 */
 	public function getGridOptions()
 	{
-		$tag   = Languages::getTag();
+		$tag   = Helpers\Languages::getTag();
 		$query = $this->_db->getQuery(true);
 		$query->select("id, name_$tag AS name, defaultGrid")->from('#__thm_organizer_grids');
 		$this->_db->setQuery($query);
 
 		$options = [];
 
-		$grids = OrganizerHelper::executeQuery('loadAssocList', []);
+		$grids = Helpers\OrganizerHelper::executeQuery('loadAssocList', []);
 
 		foreach ($grids as $grid)
 		{
@@ -126,7 +120,7 @@ class ScheduleExport extends BaseModel
 			return $titles;
 		}
 
-		$table       = OrganizerHelper::getTable('Groups');
+		$table       = new Tables\Groups;
 		$oneResource = count($poolIDs) === 1;
 
 		foreach ($poolIDs as $poolID)
@@ -166,7 +160,7 @@ class ScheduleExport extends BaseModel
 			return $titles;
 		}
 
-		$table       = OrganizerHelper::getTable('Rooms');
+		$table       = new Tables\Rooms;
 		$oneResource = count($roomIDs) === 1;
 
 		foreach ($roomIDs as $roomID)
@@ -207,7 +201,7 @@ class ScheduleExport extends BaseModel
 		}
 
 		$oneResource = count($courseIDs) === 1;
-		$tag         = Languages::getTag();
+		$tag         = Helpers\Languages::getTag();
 
 		$query = $this->_db->getQuery(true);
 		$query->select('co.name AS courseName, co.untisID AS untisID')
@@ -221,7 +215,7 @@ class ScheduleExport extends BaseModel
 			$query->clear('where');
 			$query->where("co.id = '$courseID'");
 			$this->_db->setQuery($query);
-			$courseNames = OrganizerHelper::executeQuery('loadAssoc', []);
+			$courseNames = Helpers\OrganizerHelper::executeQuery('loadAssoc', []);
 
 			if (!empty($courseNames))
 			{
@@ -274,7 +268,7 @@ class ScheduleExport extends BaseModel
 			return $titles;
 		}
 
-		$table       = OrganizerHelper::getTable('Persons');
+		$table       = new Tables\Persons;
 		$oneResource = count($personIDs) === 1;
 
 		foreach ($personIDs as $personID)
@@ -283,14 +277,14 @@ class ScheduleExport extends BaseModel
 			{
 				if ($oneResource)
 				{
-					$displayName         = Persons::getDefaultName($personID);
+					$displayName         = Helpers\Persons::getDefaultName($personID);
 					$titles['docTitle']  = ApplicationHelper::stringURLSafe($displayName) . '_';
 					$titles['pageTitle'] = $displayName;
 
 					return $titles;
 				}
 
-				$displayName         = Persons::getLNFName($personID, true);
+				$displayName         = Helpers\Persons::getLNFName($personID, true);
 				$untisID             = ApplicationHelper::stringURLSafe($table->untisID);
 				$titles['docTitle']  .= $untisID . '_';
 				$titles['pageTitle'] .= empty($titles['pageTitle']) ? $displayName : ", {$displayName}";
@@ -321,7 +315,7 @@ class ScheduleExport extends BaseModel
 
 		$this->_db->setQuery($query);
 
-		$rawGrid = OrganizerHelper::executeQuery('loadResult');
+		$rawGrid = Helpers\OrganizerHelper::executeQuery('loadResult');
 		if (empty($rawGrid))
 		{
 			return;
@@ -346,47 +340,47 @@ class ScheduleExport extends BaseModel
 	private function setParameters()
 	{
 		$parameters                  = [];
-		$parameters['departmentIDs'] = Input::getFilterIDs('department');
-		$parameters['format']        = Input::getCMD('format', 'pdf');
-		$parameters['mySchedule']    = Input::getBool('myschedule', false);
+		$parameters['departmentIDs'] = Helpers\Input::getFilterIDs('department');
+		$parameters['format']        = Helpers\Input::getCMD('format', 'pdf');
+		$parameters['mySchedule']    = Helpers\Input::getBool('myschedule', false);
 
 		if (empty($parameters['mySchedule']))
 		{
-			if (count($poolIDs = Input::getFilterIDs('pool')))
+			if (count($poolIDs = Helpers\Input::getFilterIDs('pool')))
 			{
 				$parameters["poolIDs"] = [$poolIDs];
 			}
-			if (count($personIDs = Input::getFilterIDs('person')))
+			if (count($personIDs = Helpers\Input::getFilterIDs('person')))
 			{
 				$parameters["personIDs"] = [$personIDs];
 			}
-			if (count($roomIDs = Input::getFilterIDs('room')))
+			if (count($roomIDs = Helpers\Input::getFilterIDs('room')))
 			{
 				$parameters["roomIDs"] = [$roomIDs];
 			}
 		}
 
-		$parameters['userID'] = Users::getUser()->id;
+		$parameters['userID'] = Helpers\Users::getUser()->id;
 
 		$allowedIntervals       = ['day', 'week', 'month', 'semester', 'custom'];
-		$reqInterval            = Input::getCMD('interval');
+		$reqInterval            = Helpers\Input::getCMD('interval');
 		$parameters['interval'] = in_array($reqInterval, $allowedIntervals) ? $reqInterval : 'week';
 
-		$parameters['date'] = Dates::standardizeDate(Input::getCMD('date'));
+		$parameters['date'] = Helpers\Dates::standardizeDate(Helpers\Input::getCMD('date'));
 
 		switch ($parameters['format'])
 		{
 			case 'pdf':
-				$parameters['documentFormat'] = Input::getCMD('documentFormat', 'a4');
-				$parameters['displayFormat']  = Input::getCMD('displayFormat', 'schedule');
-				$parameters['gridID']         = Input::getInt('gridID');
-				$parameters['grouping']       = Input::getInt('grouping', 1);
-				$parameters['pdfWeekFormat']  = Input::getCMD('pdfWeekFormat', 'sequence');
-				$parameters['titles']         = Input::getInt('titles', 1);
+				$parameters['documentFormat'] = Helpers\Input::getCMD('documentFormat', 'a4');
+				$parameters['displayFormat']  = Helpers\Input::getCMD('displayFormat', 'schedule');
+				$parameters['gridID']         = Helpers\Input::getInt('gridID');
+				$parameters['grouping']       = Helpers\Input::getInt('grouping', 1);
+				$parameters['pdfWeekFormat']  = Helpers\Input::getCMD('pdfWeekFormat', 'sequence');
+				$parameters['titles']         = Helpers\Input::getInt('titles', 1);
 				break;
 			case 'xls':
-				$parameters['documentFormat'] = Input::getCMD('documentFormat', 'si');
-				$parameters['xlsWeekFormat']  = Input::getCMD('xlsWeekFormat', 'sequence');
+				$parameters['documentFormat'] = Helpers\Input::getCMD('documentFormat', 'si');
+				$parameters['xlsWeekFormat']  = Helpers\Input::getCMD('xlsWeekFormat', 'sequence');
 				break;
 		}
 
@@ -402,7 +396,7 @@ class ScheduleExport extends BaseModel
 	 */
 	private function setTitles()
 	{
-		$docTitle      = Languages::_('THM_ORGANIZER_SCHEDULE') . '_';
+		$docTitle      = Helpers\Languages::_('THM_ORGANIZER_SCHEDULE') . '_';
 		$pageTitle     = '';
 		$useMySchedule = !empty($this->parameters['mySchedule']);
 		$useLessons    = !empty($this->parameters['lessonIDs']);
@@ -415,7 +409,7 @@ class ScheduleExport extends BaseModel
 		if ($useMySchedule)
 		{
 			$docTitle  = 'mySchedule_';
-			$pageTitle = Languages::_('THM_ORGANIZER_MY_SCHEDULE');
+			$pageTitle = Helpers\Languages::_('THM_ORGANIZER_MY_SCHEDULE');
 		}
 		elseif ((!$useLessons and !$useInstances) and ($usePools xor $usePersons xor $useRooms xor $useSubjects))
 		{

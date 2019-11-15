@@ -138,7 +138,7 @@ class Participant extends BaseModel
 		array_walk($surnames, array($this, 'normalize'));
 		$data['surname'] = implode('-', $surnames);
 
-		$table = $this->getTable();
+		$table = new ParticipantsTable;
 
 		if (empty($table))
 		{

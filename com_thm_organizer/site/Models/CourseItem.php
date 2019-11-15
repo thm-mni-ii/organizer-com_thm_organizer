@@ -55,7 +55,7 @@ class CourseItem extends ItemModel
 			return [];
 		}
 
-		$courseTable = $this->getTable();
+		$courseTable = new CoursesTable;
 		if (!$courseTable->load($courseID))
 		{
 			return [];

@@ -13,6 +13,9 @@ namespace Organizer\Models;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\InstanceGroups;
+use Organizer\Tables\InstancePersons;
+use Organizer\Tables\InstanceRooms;
 use Organizer\Tables\Instances as InstancesTable;
 
 /**
@@ -20,6 +23,30 @@ use Organizer\Tables\Instances as InstancesTable;
  */
 class Instance extends BaseModel
 {
+	/**
+	 * Updates an association table's delta value.
+	 *
+	 * @param   Table  $assoc  the association table to update
+	 * @param   array  $data   the data used to identify/create
+	 *
+	 * @return bool true on success, otherwise false
+	 */
+	private function associate($assoc, $data)
+	{
+		if ($assoc->load($data))
+		{
+			$assoc->delta = $assoc->delta === 'removed' ? 'new' : '';
+
+			return $assoc->store() ? true : false;
+		}
+		else
+		{
+			$data['delta'] = 'new';
+
+			return $assoc->save($data) ? true : false;
+		}
+	}
+
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
@@ -47,7 +74,7 @@ class Instance extends BaseModel
 	{
 		$data = empty($data) ? Input::getFormItems()->toArray() : $data;
 
-		$table = $this->getTable();
+		$table = new InstancesTable;
 		if (!$table->save($data))
 		{
 			return false;
@@ -74,7 +101,7 @@ class Instance extends BaseModel
 		foreach ($data['resources'] as $person)
 		{
 			$ipData  = ['instanceID' => $instanceID, 'personID' => $person["personID"]];
-			$ipTable = $this->getTable('InstancePersons');
+			$ipTable = new InstancePersons;
 			$roleID  = !empty($person['roleID']) ? $person['roleID'] : 1;
 			if ($ipTable->load($ipData))
 			{
@@ -117,22 +144,10 @@ class Instance extends BaseModel
 			foreach ($person['groups'] as $group)
 			{
 				$igData  = ['assocID' => $ipID, 'groupID' => $group['groupID']];
-				$igTable = $this->getTable('InstanceGroups');
-				if ($igTable->load($igData))
+				$igTable = new InstanceGroups;
+				if (!$this->associate($igTable, $igData))
 				{
-					$igTable->delta = $igTable->delta === 'removed' ? 'new' : '';
-					if (!$igTable->store())
-					{
-						return false;
-					}
-				}
-				else
-				{
-					$igData['delta'] = 'new';
-					if (!$igTable->save($igData))
-					{
-						return false;
-					}
+					return false;
 				}
 
 				$igIDs[] = $igTable->id;
@@ -144,22 +159,10 @@ class Instance extends BaseModel
 			foreach ($person['rooms'] as $room)
 			{
 				$irData  = ['assocID' => $ipID, 'roomID' => $room['roomID']];
-				$irTable = $this->getTable('InstanceRooms');
-				if ($irTable->load($irData))
+				$irTable = new InstanceRooms;
+				if (!$this->associate($irTable, $irData))
 				{
-					$irTable->delta = $irTable->delta === 'removed' ? 'new' : '';
-					if (!$irTable->store())
-					{
-						return false;
-					}
-				}
-				else
-				{
-					$irData['delta'] = 'new';
-					if (!$irTable->save($irData))
-					{
-						return false;
-					}
+					return false;
 				}
 
 				$irIDs[] = $irTable->id;

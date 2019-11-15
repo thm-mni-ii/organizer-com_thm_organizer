@@ -13,6 +13,7 @@ namespace Organizer\Helpers;
 use Exception;
 use JDatabaseQuery;
 use Joomla\CMS\Factory;
+use Organizer\Tables as Tables;
 
 /**
  * Provides functions for XML lesson validation and modeling.
@@ -193,7 +194,7 @@ class Instances extends ResourceHelper
 	{
 		$tag = Languages::getTag();
 
-		$instancesTable = self::getTable();
+		$instancesTable = new Tables\Instances;
 		if (!$instancesTable->load($instanceID))
 		{
 			return [];
@@ -210,7 +211,7 @@ class Instances extends ResourceHelper
 
 		unset($instancesTable);
 
-		$blocksTable = OrganizerHelper::getTable('Blocks');
+		$blocksTable = new Tables\Blocks;
 		if (!$blocksTable->load($instance['blockID']))
 		{
 			return [];
@@ -224,7 +225,7 @@ class Instances extends ResourceHelper
 
 		unset($blocksTable);
 
-		$eventsTable = OrganizerHelper::getTable('Events');
+		$eventsTable = new Tables\Events;
 		if (!$eventsTable->load($instance['eventID']))
 		{
 			return [];
@@ -243,7 +244,7 @@ class Instances extends ResourceHelper
 		unset($eventsTable);
 
 		$method       = ['methodCode' => '', 'methodName' => ''];
-		$methodsTable = OrganizerHelper::getTable('Methods');
+		$methodsTable = new Tables\Methods;
 		if ($methodsTable->load($instance['methodID']))
 		{
 			$method = [
@@ -254,7 +255,7 @@ class Instances extends ResourceHelper
 
 		unset($methodsTable);
 
-		$unitsTable = OrganizerHelper::getTable('Units');
+		$unitsTable = new Tables\Units;
 		if (!$unitsTable->load($instance['unitID']))
 		{
 			return [];
@@ -531,7 +532,7 @@ class Instances extends ResourceHelper
 	 */
 	private static function setCourse(&$instance)
 	{
-		$coursesTable = OrganizerHelper::getTable('Courses');
+		$coursesTable = new Tables\Courses;
 		if (empty($instance['courseID']) or !$coursesTable->load($instance['courseID']))
 		{
 			return;

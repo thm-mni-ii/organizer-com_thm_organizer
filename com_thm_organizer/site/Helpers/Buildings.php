@@ -11,6 +11,7 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
+use Organizer\Tables\Buildings as BuildingsTable;
 
 /**
  * Class provides general functions for retrieving building data.
@@ -29,7 +30,7 @@ class Buildings extends ResourceHelper implements Selectable
 	 */
 	public static function getID($name)
 	{
-		$table = self::getTable();
+		$table = new BuildingsTable;
 		$data  = ['name' => $name];
 
 		if ($table->load($data))

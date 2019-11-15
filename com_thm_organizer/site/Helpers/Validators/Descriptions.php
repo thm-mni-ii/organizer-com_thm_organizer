@@ -11,7 +11,9 @@
 namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Fields;
+use Organizer\Tables\Methods;
+use Organizer\Tables\Roomtypes;
 
 /**
  * Provides functions for XML description validation and modeling.
@@ -36,21 +38,27 @@ class Descriptions implements UntisXMLValidator
 			case 'f':
 				$error    .= 'FIELD_INVALID';
 				$resource = 'Fields';
+				$table    = new Fields;
 
 				break;
 			case 'r':
 				$error    .= 'ROOMTYPE_INVALID';
 				$resource = 'Roomtypes';
+				$table    = new Roomtypes;
 
 				break;
 			case 'u':
 				$error    .= 'METHOD_INVALID';
 				$resource = 'Methods';
+				$table    = new Methods;
 
 				break;
 		}
 
-		$table = OrganizerHelper::getTable($resource);
+		if (empty($table))
+		{
+			return;
+		}
 
 		// These are set by the administrator, so there is no case for saving a new resource on upload.
 		if ($table->load(['untisID' => $untisID]))

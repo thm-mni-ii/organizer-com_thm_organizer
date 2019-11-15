@@ -11,8 +11,7 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
-use stdClass;
+use Organizer\Tables\Subjects as SubjectsTable;
 
 /**
  * Provides general functions for subject access checks, data retrieval and display.
@@ -245,7 +244,7 @@ class Subjects extends ResourceHelper implements Selectable
 	 */
 	public static function getResource($resourceID)
 	{
-		$table  = self::getTable();
+		$table  = new SubjectsTable;
 		$exists = $table->load($resourceID);
 
 		if (!$exists)

@@ -20,22 +20,6 @@ use Organizer\Tables\Pools as PoolsTable;
 class PoolLSF extends BaseModel
 {
 	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return Table A Table object
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	public function getTable($name = '', $prefix = '', $options = [])
-	{
-		return new PoolsTable;
-	}
-
-	/**
 	 * Creates a pool entry if none exists and calls
 	 *
 	 * @param   object &$stub          a simplexml object containing rudimentary subject data
@@ -57,7 +41,7 @@ class PoolLSF extends BaseModel
 
 		$lsfID = empty($stub->pordid) ? (int) $stub->modulid : (int) $stub->pordid;
 
-		$pool = $this->getTable();
+		$pool = new PoolsTable;
 		$pool->load(['lsfID' => $lsfID]);
 
 		if (!empty($pool->id) and ($blocked or $invalidTitle))

@@ -69,7 +69,7 @@ class Pool extends BaseModel
 			return false;
 		}
 
-		$table = $this->getTable();
+		$table = new PoolsTable;
 
 		return $table->delete($poolID);
 	}
@@ -126,7 +126,7 @@ class Pool extends BaseModel
 			unset($data['fieldID']);
 		}
 
-		$table = $this->getTable();
+		$table = new PoolsTable;
 
 		if (!$table->save($data))
 		{

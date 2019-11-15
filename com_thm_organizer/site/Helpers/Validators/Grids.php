@@ -12,6 +12,7 @@ namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\ResourceHelper;
+use Organizer\Tables\Grids as GridsTable;
 use stdClass;
 
 /**
@@ -28,7 +29,7 @@ class Grids extends ResourceHelper implements UntisXMLValidator
 	 */
 	public static function getID($untisID)
 	{
-		$table = self::getTable();
+		$table = new GridsTable;
 
 		return $table->load(['untisID' => $untisID]) ? $table->id : null;
 	}
@@ -50,7 +51,7 @@ class Grids extends ResourceHelper implements UntisXMLValidator
 
 		$grid       = $model->schedule->periods->$gridName;
 		$grid->grid = json_encode($grid, JSON_UNESCAPED_UNICODE);
-		$table      = self::getTable();
+		$table      = new GridsTable;
 
 		// No overwrites for global resources
 		if (!$table->load(['untisID' => $gridName]))

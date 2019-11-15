@@ -12,6 +12,7 @@ namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\ResourceHelper;
+use Organizer\Tables\Groups as GroupsTable;
 use stdClass;
 
 /**
@@ -31,7 +32,7 @@ class Groups extends ResourceHelper implements UntisXMLValidator
 	{
 		$group = $model->groups->$untisID;
 
-		$table  = self::getTable();
+		$table  = new GroupsTable;
 		$exists = $table->load(['untisID' => $group->untisID]);
 
 		if ($exists)

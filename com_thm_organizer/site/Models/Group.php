@@ -16,6 +16,7 @@ use Organizer\Helpers\Groups;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Terms;
+use Organizer\Tables\GroupPublishing;
 use Organizer\Tables\Groups as GroupsTable;
 
 /**
@@ -167,7 +168,7 @@ class Group extends MergeModel
 		{
 			foreach ($publishing as $termID => $publish)
 			{
-				$table = OrganizerHelper::getTable('GroupPublishing');
+				$table = new GroupPublishing;
 				$data  = ['groupID' => $groupID, 'termID' => $termID];
 				$table->load($data);
 				$data['published'] = $publish;

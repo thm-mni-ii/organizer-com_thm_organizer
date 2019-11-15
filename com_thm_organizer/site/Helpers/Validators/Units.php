@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\ResourceHelper;
+use Organizer\Tables\Units as UnitsTable;
 use stdClass;
 
 /**
@@ -164,7 +165,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 	public static function setID(&$model, $untisID)
 	{
 		$unit  = $model->units->$untisID;
-		$table = self::getTable();
+		$table = new UnitsTable;
 
 		if ($table->load(['departmentID' => $unit->departmentID, 'termID' => $unit->termID, 'untisID' => $untisID]))
 		{

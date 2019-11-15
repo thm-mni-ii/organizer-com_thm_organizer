@@ -14,6 +14,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Organizer\Models\Program;
 use Organizer\Tables\Participants;
+use Organizer\Tables\Programs as ProgramsTable;
 
 /**
  * Provides general functions for program access checks, data retrieval and display.
@@ -33,9 +34,8 @@ class Programs extends ResourceHelper implements Selectable
 	 */
 	public static function getID($programData, $initialName)
 	{
-		$programTable = self::getTable();
-		$exists       = $programTable->load($programData);
-		if ($exists)
+		$programTable = new ProgramsTable;
+		if ($programTable->load($programData))
 		{
 			return $programTable->id;
 		}

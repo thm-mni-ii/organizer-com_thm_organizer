@@ -11,9 +11,9 @@
 namespace Organizer\Helpers\Validators;
 
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\ResourceHelper;
 use Organizer\Models\ScheduleXML;
+use Organizer\Tables as Tables;
 
 /**
  * Provides functions for XML lesson validation and modeling.
@@ -105,7 +105,7 @@ class Instances extends ResourceHelper
 		$endTime      = preg_replace('/([\d]{2})$/', ':${1}:00', $rawEndTime);
 		$startTime    = preg_replace('/([\d]{2})$/', ':${1}:00', $rawStartTime);
 
-		$blocks    = OrganizerHelper::getTable('Blocks');
+		$blocks    = new Tables\Blocks;
 		$blockData = ['date' => $currentDate, 'startTime' => $startTime, 'endTime' => $endTime];
 		if (!$blocks->load($blockData))
 		{
@@ -147,7 +147,7 @@ class Instances extends ResourceHelper
 		foreach ($newGroups as $groupID)
 		{
 			$instanceGroup = ['assocID' => $assocID, 'groupID' => $groupID];
-			$table         = OrganizerHelper::getTable('InstanceGroups');
+			$table         = new Tables\InstanceGroups;
 
 			if ($table->load($instanceGroup))
 			{
@@ -184,7 +184,7 @@ class Instances extends ResourceHelper
 			'eventID' => $unit->eventID,
 			'unitID'  => $unit->id
 		];
-		$table    = self::getTable();
+		$table    = new Tables\Instances;
 
 		if ($table->load($instance))
 		{
@@ -249,7 +249,7 @@ class Instances extends ResourceHelper
 
 		$instancePerson = ['instanceID' => $instanceID, 'personID' => $personID];
 		$roleID         = $unit->roleID;
-		$table          = OrganizerHelper::getTable('InstancePersons');
+		$table          = new Tables\InstancePersons;
 		if ($table->load($instancePerson))
 		{
 			$altered = false;
@@ -320,7 +320,7 @@ class Instances extends ResourceHelper
 		foreach ($newRooms as $roomID)
 		{
 			$instanceRoom = ['assocID' => $assocID, 'roomID' => $roomID];
-			$table        = OrganizerHelper::getTable('InstanceRooms');
+			$table        = new Tables\InstanceRooms;
 
 			if ($table->load($instanceRoom))
 			{

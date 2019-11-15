@@ -14,6 +14,7 @@ use Exception;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Schedules as SchedulesTable;
 
 /**
  * Class provides methods for merging resources. Resource specific tasks are implemented in the extending classes.
@@ -506,7 +507,7 @@ abstract class MergeModel extends BaseModel
 			$scheduleObject->configurations = (array) $scheduleObject->configurations;
 			$this->updateSchedule($scheduleObject);
 
-			$scheduleTable = OrganizerHelper::getTable('Schedules');
+			$scheduleTable = new SchedulesTable;
 			$scheduleTable->load($scheduleID);
 			$scheduleTable->schedule = json_encode($scheduleObject, JSON_UNESCAPED_UNICODE);
 			$success                 = $scheduleTable->store();

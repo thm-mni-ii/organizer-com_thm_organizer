@@ -13,6 +13,7 @@ namespace Organizer\Helpers\Validators;
 use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\ResourceHelper;
+use Organizer\Tables\Persons as PersonsTable;
 use stdClass;
 
 /**
@@ -32,7 +33,7 @@ class Persons extends ResourceHelper implements UntisXMLValidator
 	{
 		$exists       = false;
 		$person       = $model->persons->$untisID;
-		$table        = self::getTable();
+		$table        = new PersonsTable;
 		$loadCriteria = [];
 
 		if (!empty($person->username))

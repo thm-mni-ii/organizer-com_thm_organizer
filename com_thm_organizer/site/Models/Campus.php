@@ -55,7 +55,7 @@ class Campus extends BaseModel
 	{
 		if ($parentID = Input::getInt('parentID'))
 		{
-			$table = $this->getTable();
+			$table = new CampusesTable;
 			$table->load($parentID);
 			if (!empty($table->parentID))
 			{

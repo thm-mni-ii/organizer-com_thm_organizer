@@ -11,6 +11,8 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
+use Organizer\Tables\CourseParticipants;
+use Organizer\Tables\Participants as ParticipantsTable;
 
 /**
  * Provides general functions for participant access checks, data retrieval and display.
@@ -38,7 +40,7 @@ class Participants extends ResourceHelper
 		{
 			case self::WAIT_LIST:
 			case self::REGISTERED:
-				$table = OrganizerHelper::getTable('UserLessons');
+				$table = new CourseParticipants;
 
 				$data = [
 					'lessonID' => $courseID,
@@ -100,7 +102,7 @@ class Participants extends ResourceHelper
 			return true;
 		}
 
-		$table = self::getTable();
+		$table = new ParticipantsTable;
 		if (!$table->load($participantID))
 		{
 			return true;
@@ -152,7 +154,7 @@ class Participants extends ResourceHelper
 		$deletedCcmIDs = [];
 		foreach ($mappings as $lessonID => $ccmIDs)
 		{
-			$userLessonTable = OrganizerHelper::getTable('UserLessons');
+			$userLessonTable = new CourseParticipants;
 
 			if (!$userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]))
 			{
@@ -329,7 +331,7 @@ class Participants extends ResourceHelper
 		{
 			try
 			{
-				$userLessonTable = OrganizerHelper::getTable('UserLessons');
+				$userLessonTable = new CourseParticipants;
 				$hasUserLesson   = $userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]);
 			}
 			catch (Exception $e)

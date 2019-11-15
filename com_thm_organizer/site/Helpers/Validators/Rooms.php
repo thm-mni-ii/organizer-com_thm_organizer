@@ -14,6 +14,7 @@ use Organizer\Helpers\Buildings;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\ResourceHelper;
+use Organizer\Tables\Rooms as RoomsTable;
 use stdClass;
 
 /**
@@ -32,7 +33,7 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
 	public static function setID(&$model, $untisID)
 	{
 		$room  = $model->rooms->$untisID;
-		$table = self::getTable();
+		$table = new RoomsTable;
 
 		if ($table->load(['untisID' => $room->untisID]))
 		{

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers as Helpers;
 use Organizer\Helpers\Validators\Schedules as SchedulesValidator;
+use Organizer\Tables\InstancePersons;
 use Organizer\Tables\Schedules as SchedulesTable;
 
 /**
@@ -45,7 +46,7 @@ class Schedule extends BaseModel
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
 
-		$table = $this->getTable();
+		$table = new SchedulesTable;
 
 		if (!$table->load($scheduleID) or $table->active)
 		{
@@ -79,7 +80,7 @@ class Schedule extends BaseModel
 	{
 		$conditions = empty($scheduleID) ?
 			['active' => 1, 'departmentID' => $departmentID, 'termID' => $termID] : $scheduleID;
-		$table      = $this->getTable();
+		$table      = new SchedulesTable;
 
 		if (!$table->load($conditions))
 		{
@@ -129,9 +130,9 @@ class Schedule extends BaseModel
 				throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 			}
 
-			$schedule = $this->getTable();
-			$schedule->load($scheduleID);
-			if (!$schedule->delete())
+			$schedule = new SchedulesTable;
+
+			if ($schedule->load($scheduleID) and !$schedule->delete())
 			{
 				return false;
 			}
@@ -191,7 +192,7 @@ class Schedule extends BaseModel
 		{
 			foreach ($persons as $personID => $associations)
 			{
-				$instancePersons = Helpers\OrganizerHelper::getTable('InstancePersons');
+				$instancePersons = new InstancePersons;
 				if (!$instancePersons->load(['instanceID' => $instanceID, 'personID' => $personID]))
 				{
 					continue;
@@ -298,7 +299,7 @@ class Schedule extends BaseModel
 	 */
 	private function setDeltaContext($scheduleID)
 	{
-		$table = $this->getTable();
+		$table = new SchedulesTable;
 		if ($table->load($scheduleID))
 		{
 			$this->departmentID = $table->departmentID;
@@ -323,7 +324,7 @@ class Schedule extends BaseModel
 	{
 		$referenceID = Helpers\Input::getSelectedIDs()[0];
 
-		$reference = $this->getTable();
+		$reference = new SchedulesTable;
 		if (empty($referenceID) or !$reference->load($referenceID))
 		{
 			return true;
@@ -340,7 +341,7 @@ class Schedule extends BaseModel
 		unset($reference);
 
 		$activeID = Helpers\Schedules::getActiveID($departmentID, $termID);
-		$active   = $this->getTable();
+		$active   = new SchedulesTable;
 		if (!$active->load($activeID))
 		{
 			return true;
@@ -393,7 +394,7 @@ class Schedule extends BaseModel
 			Helpers\OrganizerHelper::executeQuery('execute');
 			foreach ($ePersons as $personID => $assocs)
 			{
-				$instancePersons = Helpers\OrganizerHelper::getTable('InstancePersons');
+				$instancePersons = new InstancePersons;
 				if (!$instancePersons->load(['instanceID' => $instanceID, 'personID' => $personID]))
 				{
 					continue;
@@ -491,7 +492,7 @@ class Schedule extends BaseModel
 
 			foreach ($persons as $personID => $associations)
 			{
-				$instancePersons = Helpers\OrganizerHelper::getTable('InstancePersons');
+				$instancePersons = new InstancePersons;
 				if (!$instancePersons->load(['instanceID' => $instanceID, 'personID' => $personID]))
 				{
 					continue;
@@ -580,7 +581,7 @@ class Schedule extends BaseModel
 	public function toggle()
 	{
 		$scheduleID = Helpers\Input::getInt('id');
-		$table      = $this->getTable();
+		$table      = new SchedulesTable;
 
 		if (!Helpers\Access::allowSchedulingAccess($scheduleID))
 		{
@@ -656,7 +657,7 @@ class Schedule extends BaseModel
 			'userID'       => Factory::getUser()->id
 		];
 
-		$newTable = $this->getTable();
+		$newTable = new SchedulesTable;
 		if (!$newTable->save($data))
 		{
 			return false;

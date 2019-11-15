@@ -16,6 +16,7 @@ use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Rooms;
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Terms;
 
 /**
  * Class calculates room usage statistics.
@@ -325,7 +326,7 @@ class RoomStatistics extends BaseModel
 
 		if ($termID)
 		{
-			$table = OrganizerHelper::getTable('Terms');
+			$table = new Terms;
 
 			if ($table->load($termID))
 			{

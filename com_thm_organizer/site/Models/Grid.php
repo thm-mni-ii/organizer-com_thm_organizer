@@ -70,7 +70,7 @@ class Grid extends BaseModel
 		$grid         = ['periods' => $periods, 'startDay' => $data['startDay'], 'endDay' => $data['endDay']];
 		$data['grid'] = json_encode($grid, JSON_UNESCAPED_UNICODE);
 
-		$table = $this->getTable();
+		$table = new GridsTable;
 
 		return $table->save($data) ? $table->id : false;
 	}

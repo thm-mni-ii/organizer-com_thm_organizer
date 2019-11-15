@@ -11,6 +11,7 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
+use Organizer\Tables\Grids as GridsTable;
 
 /**
  * Class provides general functions for retrieving building data.
@@ -63,7 +64,9 @@ class Grids extends ResourceHelper
 	 */
 	public static function getGrid($gridID)
 	{
-		return self::getTable()->getProperty('grid', $gridID, '');
+		$table = new GridsTable;
+
+		return $table->getProperty('grid', $gridID, '');
 	}
 
 	/**

@@ -151,7 +151,7 @@ class Subject extends BaseModel
 	 */
 	public function deleteSingle($subjectID)
 	{
-		$table        = $this->getTable();
+		$table        = new SubjectsTable;
 		$mappingModel = new Mapping;
 
 		if (!$mappingModel->deleteByResourceID($subjectID, 'subject'))
@@ -415,7 +415,7 @@ class Subject extends BaseModel
 			$this->cleanStarProperty($data, $property);
 		}
 
-		$table = $this->getTable();
+		$table = new SubjectsTable;
 
 		if (!$table->save($data))
 		{

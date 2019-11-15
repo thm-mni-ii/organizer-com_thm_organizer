@@ -12,6 +12,7 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
+use Organizer\Tables\Courses as CoursesTable;
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
@@ -431,7 +432,7 @@ class Courses extends ResourceHelper
 	 */
 	public static function isFull($courseID)
 	{
-		$table = self::getTable();
+		$table = new CoursesTable;
 		if (!$maxParticipants = $table->getProperty('maxParticipants', $courseID))
 		{
 			return false;

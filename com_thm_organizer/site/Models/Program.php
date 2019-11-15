@@ -36,7 +36,7 @@ class Program extends BaseModel
 
 		if ($programIDs = Input::getSelectedIDs())
 		{
-			$table = $this->getTable();
+			$table = new ProgramsTable;
 			$model = new Mapping;
 			foreach ($programIDs as $programID)
 			{
@@ -111,7 +111,7 @@ class Program extends BaseModel
 			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
 		}
 
-		$table = $this->getTable();
+		$table = new ProgramsTable;
 
 		if ($table->save($data))
 		{
@@ -147,7 +147,7 @@ class Program extends BaseModel
 			unset($data['id']);
 		}
 
-		$table = $this->getTable();
+		$table = new ProgramsTable;
 
 		if (!$table->save($data))
 		{
