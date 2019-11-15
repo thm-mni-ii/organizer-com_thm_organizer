@@ -10,12 +10,10 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 /**
  * Class loads a form for editing holiday data.
  */
 class HolidayEdit extends EditModel
 {
-    // Everything is taken care of in the inheritance hierarchy.
+	// Everything is taken care of in the inheritance hierarchy.
 }

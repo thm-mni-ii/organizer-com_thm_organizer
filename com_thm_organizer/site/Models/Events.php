@@ -10,8 +10,6 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 use Organizer\Helpers\Languages;
 
 /**
@@ -19,30 +17,30 @@ use Organizer\Helpers\Languages;
  */
 class Events extends ListModel
 {
-    protected $defaultOrdering = 'name,department';
+	protected $defaultOrdering = 'name,department';
 
-    /**
-     * Method to select all event rows from the database
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $tag = Languages::getTag();
-        $query = $this->_db->getQuery(true);
-        $query->select("DISTINCT ev.id AS id, ev.name_$tag as name, ev.departmentID, ev.campusID")
-            ->select("ev.maxParticipants, ev.registrationType, ev.subjectNo, ev.preparatory")
-            ->select("d.id AS departmentID, d.shortName_$tag AS department")
-            ->select("cp.id AS campusID, cp.name_$tag AS campus")
-            ->from('#__thm_organizer_events as ev')
-            ->leftJoin('#__thm_organizer_departments as d on d.id = ev.departmentID')
-            ->leftJoin('#__thm_organizer_campuses as cp on cp.id = ev.campusID');
+	/**
+	 * Method to select all event rows from the database
+	 *
+	 * @return \JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$tag   = Languages::getTag();
+		$query = $this->_db->getQuery(true);
+		$query->select("DISTINCT ev.id AS id, ev.name_$tag as name, ev.departmentID, ev.campusID")
+			->select("ev.maxParticipants, ev.registrationType, ev.subjectNo, ev.preparatory")
+			->select("d.id AS departmentID, d.shortName_$tag AS department")
+			->select("cp.id AS campusID, cp.name_$tag AS campus")
+			->from('#__thm_organizer_events AS ev')
+			->leftJoin('#__thm_organizer_departments as d on d.id = ev.departmentID')
+			->leftJoin('#__thm_organizer_campuses as cp on cp.id = ev.campusID');
 
-        $this->setSearchFilter($query, ['ev.name_de', 'ev.name_en', 'ev.subjectNo']);
-        $this->setValueFilters($query, ['ev.departmentID', 'ev.campusID', 'ev.preparatory']);
+		$this->setSearchFilter($query, ['ev.name_de', 'ev.name_en', 'ev.subjectNo']);
+		$this->setValueFilters($query, ['ev.departmentID', 'ev.campusID', 'ev.preparatory']);
 
-        $this->setOrdering($query);
+		$this->setOrdering($query);
 
-        return $query;
-    }
+		return $query;
+	}
 }

@@ -12,31 +12,29 @@ namespace Organizer\Models;
 
 use Organizer\Helpers\Instances;
 
-defined('_JEXEC') or die;
-
 /**
  * Class loads a form for editing instance data.
  */
 class InstanceEdit extends EditModel
 {
-    /**
-     * Method to get a single record.
-     *
-     * @param integer $pk The id of the primary key
-     *
-     * @return mixed Object on success, false on failure
-     */
-    public function getItem($pk = null)
-    {
-        $this->item = parent::getItem($pk);
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key
+	 *
+	 * @return mixed Object on success, false on failure
+	 */
+	public function getItem($pk = null)
+	{
+		$this->item = parent::getItem($pk);
 
-        $instance = ['instanceID' => $this->item->id];
+		$instance = ['instanceID' => $this->item->id];
 
-        Instances::setPersons($instance, ['delta' => '']);
+		Instances::setPersons($instance, ['delta' => '']);
 
-        $this->item->resources = $instance['resources'];
+		$this->item->resources = $instance['resources'];
 
-        return $this->item;
+		return $this->item;
 
-    }
+	}
 }

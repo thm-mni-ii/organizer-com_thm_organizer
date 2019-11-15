@@ -10,12 +10,10 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 /**
  * Class which manages stored event data.
  */
 class Event extends BaseModel
 {
-    // This model requires no resource specific code.
+	// This model requires no resource specific code.
 }

@@ -10,12 +10,10 @@
 
 namespace Organizer\Models;
 
-defined('_JEXEC') or die;
-
 /**
  * Class which manages stored holiday data.
  */
 class Holiday extends BaseModel
 {
-    // This model requires no resource specific code.
+	// This model requires no resource specific code.
 }

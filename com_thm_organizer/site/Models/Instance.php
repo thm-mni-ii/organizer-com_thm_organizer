@@ -13,8 +13,6 @@ namespace Organizer\Models;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 
-defined('_JEXEC') or die;
-
 /**
  * Class which manages stored instance data.
  */
