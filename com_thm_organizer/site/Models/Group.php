@@ -11,10 +11,12 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Groups;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Terms;
+use Organizer\Tables\Groups as GroupsTable;
 
 /**
  * Class which manages stored group data.
@@ -55,6 +57,22 @@ class Group extends MergeModel
 		}
 
 		return $this->savePublishing();
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new GroupsTable;
 	}
 
 	/**

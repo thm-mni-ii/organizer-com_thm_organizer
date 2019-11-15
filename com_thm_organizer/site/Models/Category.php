@@ -10,7 +10,9 @@
 
 namespace Organizer\Models;
 
+use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Categories;
+use Organizer\Tables\Categories as CategoriesTable;
 
 /**
  * Class which manages event categories.
@@ -31,6 +33,22 @@ class Category extends MergeModel
 	protected function allowEdit()
 	{
 		return Categories::allowEdit($this->selected);
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new CategoriesTable;
 	}
 
 	/**
