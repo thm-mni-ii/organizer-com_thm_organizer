@@ -159,6 +159,46 @@ class Users
 	}
 
 	/**
+	 * Resolves a user name attribute into forename and surname attributes.
+	 *
+	 * @param   int  $userID  the id of the user whose full name should be resolved
+	 *
+	 * @return array the first and last names of the user
+	 */
+	public static function resolveUserName($userID = 0)
+	{
+		$user           = self::getUser($userID);
+		$sanitizedName  = trim(preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}\.\-\']/', ' ', $user->name));
+		$nameFragments  = array_filter(explode(" ", $sanitizedName));
+		$surname        = array_pop($nameFragments);
+		$nameSupplement = '';
+
+		// The next element is a supplementary preposition.
+		while (preg_match('/^[a-zß-ÿ]+$/', end($nameFragments)))
+		{
+			$nameSupplement = array_pop($nameFragments);
+			$surname        = $nameSupplement . ' ' . $surname;
+		}
+
+		// These supplements indicate the existence of a further noun.
+		if (in_array($nameSupplement, ['zu', 'zum']))
+		{
+			$otherSurname = array_pop($nameFragments);
+			$surname      = $otherSurname . ' ' . $surname;
+
+			while (preg_match('/^[a-zß-ÿ]+$/', end($nameFragments)))
+			{
+				$nameSupplement = array_pop($nameFragments);
+				$surname        = $nameSupplement . ' ' . $surname;
+			}
+		}
+
+		$forename = implode(" ", $nameFragments);
+
+		return ['forename' => $forename, 'surname' => $surname];
+	}
+
+	/**
 	 * Saves event instance references in the personal schedule of the user
 	 *
 	 * @return array saved ccmIDs

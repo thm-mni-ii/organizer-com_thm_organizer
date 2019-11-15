@@ -11,6 +11,7 @@
 namespace Organizer\Models;
 
 use Organizer\Helpers\OrganizerHelper;
+use Organizer\Helpers\Users;
 use Organizer\Tables as Tables;
 
 /**
@@ -616,12 +617,16 @@ class Organizer extends BaseModel
 		{
 			$insertQuery = $this->_db->getQuery(true);
 			$insertQuery->insert('#__thm_organizer_participants');
-			$insertQuery->columns('id');
+			$insertQuery->columns('id, forename, surname');
 			foreach ($missingParticipantIDs as $participantID)
 			{
+				$names    = Users::resolveUserName($participantID);
+				$forename = $insertQuery->quote($names['forename']);
+				$surname  = $insertQuery->quote($names['surname']);
 				$insertQuery->clear('values');
-				$insertQuery->values("$participantID");
+				$insertQuery->values("$participantID, $forename, $surname");
 				$this->_db->setQuery($insertQuery);
+
 				OrganizerHelper::executeQuery('execute');
 			}
 		}
