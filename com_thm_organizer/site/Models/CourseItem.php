@@ -12,9 +12,11 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Organizer\Helpers as Helpers;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Languages;
+use Organizer\Tables\Courses as CoursesTable;
 
 /**
  * Class which retrieves subject information for a detailed display of subject attributes.
@@ -130,6 +132,22 @@ class CourseItem extends ItemModel
 		];
 
 		return $template;
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new CoursesTable;
 	}
 
 	/**

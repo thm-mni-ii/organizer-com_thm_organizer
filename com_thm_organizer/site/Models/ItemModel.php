@@ -45,22 +45,4 @@ class ItemModel extends BaseModel
 	{
 		return Access::isAdmin();
 	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return Table  A Table object
-	 */
-	public function getTable($name = '', $prefix = '', $options = array())
-	{
-		$name         = OrganizerHelper::getClass($this);
-		$resourceName = str_replace('Item', '', $name);
-		$tableName    = OrganizerHelper::getPlural($resourceName);
-
-		return OrganizerHelper::getTable($tableName);
-	}
 }

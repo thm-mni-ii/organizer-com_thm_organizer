@@ -11,12 +11,10 @@
 namespace Organizer\Models;
 
 use Exception;
-use Organizer\Helpers\Campuses;
-use Organizer\Helpers\Input;
+use Joomla\CMS\Table\Table;
+use Organizer\Helpers as Helpers;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\Mappings;
-use Organizer\Helpers\Persons;
-use Organizer\Helpers\OrganizerHelper;
+use Organizer\Tables\Subjects as SubjectsTable;
 
 /**
  * Class which retrieves subject information for a detailed display of subject attributes.
@@ -47,7 +45,7 @@ class SubjectItem extends ItemModel
 			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
 		}
 
-		$subjectID = Input::getID();
+		$subjectID = Helpers\Input::getID();
 		if (empty($subjectID))
 		{
 			return [];
@@ -70,7 +68,7 @@ class SubjectItem extends ItemModel
 
 		$this->_db->setQuery($query);
 
-		$result = OrganizerHelper::executeQuery('loadAssoc');
+		$result = Helpers\OrganizerHelper::executeQuery('loadAssoc');
 
 		// This should not occur.
 		if (empty($result['name']))
@@ -103,7 +101,7 @@ class SubjectItem extends ItemModel
 		$option   = 'THM_ORGANIZER_';
 		$url      = '?option=com_thm_organizer&view=subject_item&languageTag=' . Languages::getTag() . '&id=';
 		$template = [
-			'subjectID'                => Input::getID(),
+			'subjectID'                => Helpers\Input::getID(),
 			'name'                     => ['label' => Languages::_($option . 'NAME'), 'type' => 'text'],
 			'departmentID'             => [],
 			'campus'                   => ['label' => Languages::_($option . 'CAMPUS'), 'type' => 'location'],
@@ -151,6 +149,22 @@ class SubjectItem extends ItemModel
 	}
 
 	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new SubjectsTable;
+	}
+
+	/**
 	 * Sets campus information in a form that can be processed by external systems.
 	 *
 	 * @param   array  $subject  the subject being processed.
@@ -162,8 +176,8 @@ class SubjectItem extends ItemModel
 		if (!empty($subject['campus']['value']))
 		{
 			$campusID                      = $subject['campus']['value'];
-			$subject['campus']['value']    = Campuses::getName($campusID);
-			$subject['campus']['location'] = Campuses::getLocation($campusID);
+			$subject['campus']['value']    = Helpers\Campuses::getName($campusID);
+			$subject['campus']['location'] = Helpers\Campuses::getLocation($campusID);
 		}
 		else
 		{
@@ -183,7 +197,7 @@ class SubjectItem extends ItemModel
 	{
 		$subjectID = $subject['subjectID'];
 		$tag       = Languages::getTag();
-		$programs  = Mappings::getSubjectPrograms($subjectID);
+		$programs  = Helpers\Mappings::getSubjectPrograms($subjectID);
 
 		$query  = $this->_db->getQuery(true);
 		$select = 'DISTINCT pr.id AS id, ';
@@ -204,7 +218,7 @@ class SubjectItem extends ItemModel
 			$query->where("(s1.id = $subjectID OR s2.id = $subjectID)");
 			$this->_db->setQuery($query);
 
-			$dependencies = OrganizerHelper::executeQuery('loadAssocList', [], 'id');
+			$dependencies = Helpers\OrganizerHelper::executeQuery('loadAssocList', [], 'id');
 			if (empty($dependencies))
 			{
 				continue;
@@ -332,7 +346,7 @@ class SubjectItem extends ItemModel
 	 */
 	private function setPersons(&$subject)
 	{
-		$personData = Persons::getDataBySubject($subject['subjectID'], null, true, false);
+		$personData = Helpers\Persons::getDataBySubject($subject['subjectID'], null, true, false);
 
 		if (empty($personData))
 		{
