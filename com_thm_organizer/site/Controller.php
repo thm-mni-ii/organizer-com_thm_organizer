@@ -301,29 +301,6 @@ class Controller extends BaseController
 	}
 
 	/**
-	 * Makes call to the models's importLSFData function, and redirects to the manager view.
-	 *
-	 * @return void
-	 */
-	public function importLSFData()
-	{
-		$modelName = ucfirst($this->resource) . 'LSF';
-		$success   = $this->getModel($modelName)->importBatch();
-		if ($success)
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
-		}
-		else
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
-		}
-
-		$url = Routing::getRedirectBase();
-		$url .= "&view={$this->listView}";
-		$this->setRedirect($url);
-	}
-
-	/**
 	 * Performs access checks, makes call to the models's merge function, and
 	 * redirects to the room manager view
 	 *
@@ -524,30 +501,6 @@ class Controller extends BaseController
 		}
 
 		$url = Routing::getRedirectBase() . "&view={$this->listView}";
-		$this->setRedirect($url);
-	}
-
-	/**
-	 * Makes call to the models's updateLSFData function, and redirects to the manager view.
-	 *
-	 * @return void
-	 */
-	public function updateLSFData()
-	{
-		$modelName = ucfirst($this->resource) . 'LSF';
-		$success   = $this->getModel($modelName)->updateBatch();
-
-		if ($success)
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_UPDATE_SUCCESS');
-		}
-		else
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_UPDATE_FAIL', 'error');
-		}
-
-		$url = Routing::getRedirectBase();
-		$url .= "&view={$this->listView}";
 		$this->setRedirect($url);
 	}
 }

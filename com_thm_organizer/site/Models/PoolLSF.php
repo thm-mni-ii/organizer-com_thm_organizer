@@ -10,7 +10,6 @@
 
 namespace Organizer\Models;
 
-use Joomla\CMS\Table\Table;
 use Organizer\Helpers\LSF;
 use Organizer\Tables\Pools as PoolsTable;
 
@@ -22,16 +21,14 @@ class PoolLSF extends BaseModel
 	/**
 	 * Creates a pool entry if none exists and calls
 	 *
-	 * @param   object &$stub          a simplexml object containing rudimentary subject data
+	 * @param   object &$stub          a SimpleXML object containing rudimentary subject data
 	 * @param   int     $departmentID  the id of the department to which this data belongs
 	 *
 	 * @return mixed  int value of subject id on success, otherwise false
 	 */
 	public function processStub(&$stub, $departmentID)
 	{
-		$valid = ((!empty($stub->pordid) or !empty($stub->modulid))
-			and (!empty($stub->nrhis) or !empty($stub->modulnrhis)));
-		if (!$valid)
+		if (empty($stub->pordid) and empty($stub->modulid))
 		{
 			return false;
 		}

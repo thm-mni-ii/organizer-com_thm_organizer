@@ -55,7 +55,7 @@ class SubjectSelection extends ListView
 		$ordering  = $this->state->get('list.ordering');
 		$headers   = [];
 
-		$headers['checkbox'] = '';
+		$headers['checkbox'] = HTML::_('grid.checkall');
 		$headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
 		$headers['program']  = Languages::_('THM_ORGANIZER_PROGRAMS');
 

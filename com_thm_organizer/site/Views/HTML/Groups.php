@@ -110,7 +110,7 @@ class Groups extends ListView
 		$ordering             = $this->state->get('list.ordering');
 		$direction            = $this->state->get('list.direction');
 		$headers              = [];
-		$headers['checkbox']  = '';
+		$headers['checkbox']  = HTML::_('grid.checkall');
 		$headers['full_name'] = HTML::sort('FULL_NAME', 'gr.fullName', $direction, $ordering);
 		$headers['name']      = HTML::sort('SELECT_BOX_DISPLAY', 'gr.name', $direction, $ordering);
 		$headers['grid']      = Languages::_('THM_ORGANIZER_GRID');

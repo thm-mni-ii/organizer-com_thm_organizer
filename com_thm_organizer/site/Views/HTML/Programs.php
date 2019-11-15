@@ -43,14 +43,14 @@ class Programs extends ListView
 			'Standard',
 			'upload',
 			Languages::_('THM_ORGANIZER_IMPORT_LSF'),
-			'program.importLSFData',
+			'program.import',
 			true
 		);
 		$toolbar->appendButton(
 			'Standard',
 			'loop',
 			Languages::_('THM_ORGANIZER_UPDATE_SUBJECTS'),
-			'program.updateLSFData',
+			'program.update',
 			true
 		);
 		$toolbar->appendButton(

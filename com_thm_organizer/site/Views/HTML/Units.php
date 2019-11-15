@@ -65,7 +65,7 @@ class Units extends ListView
 		$ordering            = $this->state->get('list.ordering');
 		$direction           = $this->state->get('list.direction');
 		$headers             = [];
-		$headers['checkbox'] = '';
+		$headers['checkbox'] = HTML::_('grid.checkall');
 		$headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
 		$headers['grid']     = Languages::_('THM_ORGANIZER_GRID');
 		$headers['run']      = Languages::_('THM_ORGANIZER_RUN');

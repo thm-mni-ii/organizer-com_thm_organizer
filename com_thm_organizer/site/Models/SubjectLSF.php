@@ -230,7 +230,7 @@ class SubjectLSF extends BaseModel
 	 * @return bool  true on success, otherwise false
 	 * @throws Exception => unauthorized access
 	 */
-	public function importBatch()
+	public function import()
 	{
 		$subjectIDs = Input::getSelectedIDs();
 

@@ -71,7 +71,7 @@ class Subjects extends ListView
 				'Standard',
 				'upload',
 				Languages::_('THM_ORGANIZER_IMPORT_LSF'),
-				'subject.importLSFData',
+				'subject.import',
 				true
 			);
 			$toolbar->appendButton(

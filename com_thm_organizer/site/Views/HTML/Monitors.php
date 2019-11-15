@@ -91,7 +91,7 @@ class Monitors extends ListView
 		$direction = $this->state->get('list.direction');
 		$headers   = [];
 
-		$headers['checkbox']    = '';
+		$headers['checkbox']    = HTML::_('grid.checkall');
 		$headers['name']        = HTML::sort('ROOM', 'r.name', $direction, $ordering);
 		$headers['ip']          = HTML::sort('IP', 'm.ip', $direction, $ordering);
 		$headers['useDefaults'] = HTML::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering);

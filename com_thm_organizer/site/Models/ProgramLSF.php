@@ -71,7 +71,7 @@ class ProgramLSF extends BaseModel
 	 * @return bool  true on success, otherwise false
 	 * @throws Exception => unauthorized access
 	 */
-	public function importBatch()
+	public function import()
 	{
 		$programIDs = Input::getSelectedIDs();
 
@@ -212,7 +212,7 @@ class ProgramLSF extends BaseModel
 	 * @return bool  true on success, otherwise false
 	 * @throws Exception => unauthorized access
 	 */
-	public function updateBatch()
+	public function update()
 	{
 		$programIDs = Input::getSelectedIDs();
 

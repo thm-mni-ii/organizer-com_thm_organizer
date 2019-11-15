@@ -42,14 +42,6 @@ class Pools extends Assets
 	public $asset_id;
 
 	/**
-	 * The resource's code. (String ID)
-	 * VARCHAR(45) DEFAULT ''
-	 *
-	 * @var string
-	 */
-	public $code;
-
-	/**
 	 * The resource's German description.
 	 * TEXT
 	 *

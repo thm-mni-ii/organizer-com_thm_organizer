@@ -90,7 +90,7 @@ class Participants extends ListView
 		$ordering               = $this->state->get('list.ordering');
 		$direction              = $this->state->get('list.direction');
 		$headers                = [];
-		$headers['checkbox']    = '';
+		$headers['checkbox']    = HTML::_('grid.checkall');
 		$headers['fullName']    = HTML::sort('NAME', 'fullName', $direction, $ordering);
 		$headers['programName'] = HTML::sort('PROGRAM', 'programName', $direction, $ordering);
 

@@ -76,12 +76,12 @@ class Access
 			return true;
 		}
 
-		if (self::allowSchedulingAccess())
+		if (empty($courseID))
 		{
-			return true;
+			return false;
 		}
 
-		return (Courses::teaches($courseID) or Courses::tutors($courseID));
+		return (Courses::coordinates($courseID) or Courses::hasResponsibility($courseID));
 	}
 
 	/**

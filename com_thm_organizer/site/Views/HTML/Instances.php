@@ -62,7 +62,7 @@ class Instances extends ListView
 		$direction = $this->state->get('list.direction');
 		$headers   = [];
 
-		$headers['checkbox'] = '';
+		$headers['checkbox'] = HTML::_('grid.checkall');
 		$headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
 		$headers['term']     = Languages::_('THM_ORGANIZER_TERM');
 		$headers['status']   = Languages::_('THM_ORGANIZER_STATE');
