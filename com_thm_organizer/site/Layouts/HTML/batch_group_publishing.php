@@ -18,23 +18,23 @@ use Organizer\Helpers\Languages;
         <h3><?php echo Languages::_('THM_ORGANIZER_BATCH_GROUPS'); ?></h3>
     </div>
     <div class="modal-body modal-batch form-horizontal">
-        <?php foreach ($this->filterForm->getGroup('batch') as $batchField) : ?>
+		<?php foreach ($this->filterForm->getGroup('batch') as $batchField) : ?>
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo $batchField->label; ?>
+					<?php echo $batchField->label; ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $batchField->input; ?>
+					<?php echo $batchField->input; ?>
                 </div>
             </div>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
     </div>
     <div class="modal-footer">
         <button class="btn" type="button" data-dismiss="modal">
-            <?php echo Languages::_('THM_ORGANIZER_CANCEL'); ?>
+			<?php echo Languages::_('THM_ORGANIZER_CANCEL'); ?>
         </button>
         <button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('group.batch');">
-            <?php echo Languages::_('THM_ORGANIZER_SAVE'); ?>
+			<?php echo Languages::_('THM_ORGANIZER_SAVE'); ?>
         </button>
     </div>
 </div>

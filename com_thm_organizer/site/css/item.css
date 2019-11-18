@@ -21,6 +21,7 @@ body.tmpl-index .main .btn-toolbar button {
 
 body.tmpl-index .main .js-stools .js-stools-container-bar {
     display: flex;
+    margin-bottom: .8rem;
 }
 
 body.tmpl-index .main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {

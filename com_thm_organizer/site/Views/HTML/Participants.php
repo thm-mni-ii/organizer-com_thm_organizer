@@ -10,10 +10,10 @@
 
 namespace Organizer\Views\HTML;
 
-use Exception;
 use Joomla\CMS\Toolbar\Toolbar;
 use Organizer\Helpers\Access;
 use Organizer\Helpers\HTML;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Programs;
 
@@ -54,23 +54,7 @@ class Participants extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowCourseAccess();
-	}
-
-	/**
-	 * Method to get display
-	 *
-	 * @param   Object  $tpl  template  (default: null)
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	public function display($tpl = null)
-	{
-		// Set batch template path
-		$this->batch = ['batch_group_publishing'];
-
-		parent::display($tpl);
+		return Access::allowCourseAccess(Input::getFilterID('course', 0));
 	}
 
 	/**
