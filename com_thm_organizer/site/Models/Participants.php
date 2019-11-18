@@ -10,7 +10,8 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Languages;
+use Joomla\CMS\Form\Form;
+use Organizer\Helpers\Input;
 
 /**
  * Class retrieves information for a filtered set of participants.
@@ -20,6 +21,24 @@ class Participants extends ListModel
 	protected $defaultOrdering = 'fullName';
 
 	protected $filter_fields = ['programID'];
+
+	/**
+	 * Filters out form inputs which should not be displayed due to menu settings.
+	 *
+	 * @param   Form  $form  the form to be filtered
+	 *
+	 * @return void modifies $form
+	 */
+	public function filterFilterForm(&$form)
+	{
+		parent::filterFilterForm($form);
+		if ($this->clientContext === self::BACKEND)
+		{
+			return;
+		}
+
+		$form->removeField('limit', 'list');
+	}
 
 	/**
 	 * Method to get all groups from the database
@@ -41,5 +60,26 @@ class Participants extends ListModel
 		$this->setOrdering($query);
 
 		return $query;
+	}
+
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return void
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		parent::populateState($ordering, $direction);
+
+		if ($this->clientContext === self::FRONTEND)
+		{
+			$this->state->set('list.limit', 0);
+		}
+
+		return;
 	}
 }

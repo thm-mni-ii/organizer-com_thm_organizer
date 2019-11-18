@@ -53,6 +53,23 @@ abstract class ListModel extends ParentModel
 	}
 
 	/**
+	 * Filters out form inputs which should not be displayed due to menu settings.
+	 *
+	 * @param   Form  $form  the form to be filtered
+	 *
+	 * @return void modifies $form
+	 */
+	protected function filterFilterForm(&$form)
+	{
+		if ($this->clientContext === self::BACKEND)
+		{
+			$form->removeField('languageTag', 'list');
+
+			return;
+		}
+	}
+
+	/**
 	 * Method to get the total number of items for the data set. Joomla erases critical fields for complex data sets.
 	 * This method fixes the erroneous output of undesired duplicate entries.
 	 *
@@ -106,11 +123,7 @@ abstract class ListModel extends ParentModel
 		Form::addFormPath(JPATH_COMPONENT_SITE . '/Forms');
 		Form::addFieldPath(JPATH_COMPONENT_SITE . '/Fields');
 		$form = parent::loadForm($name, $source, $options, $clear, $xpath);
-
-		if ($this instanceof FiltersFormFilters)
-		{
-			$this->filterFilterForm($form);
-		}
+		$this->filterFilterForm($form);
 
 		return $form;
 	}

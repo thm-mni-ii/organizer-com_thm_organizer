@@ -20,7 +20,7 @@ use Organizer\Helpers\Terms as TermsHelper;
 /**
  * Class retrieves the data regarding a filtered set of courses.
  */
-class Courses extends ListModel implements FiltersFormFilters
+class Courses extends ListModel
 {
 	use Filtered;
 
@@ -33,19 +33,18 @@ class Courses extends ListModel implements FiltersFormFilters
 	 *
 	 * @return void modifies $form
 	 */
-	public function filterFilterForm(&$form)
+	protected function filterFilterForm(&$form)
 	{
+		parent::filterFilterForm($form);
 		if ($this->clientContext === self::BACKEND)
 		{
-			$form->removeField('languageTag', 'list');
-
 			return;
 		}
 
+		$form->removeField('limit', 'list');
 		$params = Input::getParams();
 		if ($params->get('onlyPrepCourses'))
 		{
-			$form->removeField('limit', 'list');
 			$form->removeField('search', 'filter');
 			$form->removeField('termID', 'filter');
 		}
@@ -124,6 +123,7 @@ class Courses extends ListModel implements FiltersFormFilters
 
 		if ($this->clientContext === self::FRONTEND)
 		{
+			$this->state->set('list.limit', 0);
 			$params = Input::getParams();
 			if ($campusID = $params->get('campusID', 0))
 			{

@@ -17,173 +17,194 @@ use Joomla\CMS\Factory;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Mappings;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Subjects as SubjectsHelper;
 
 /**
  * Class retrieves information for a filtered set of subjects.
  */
-class Subjects extends ListModel implements FiltersFormFilters
+class Subjects extends ListModel
 {
-    /**
-     * Filters out form inputs which should not be displayed due to menu settings.
-     *
-     * @param Form $form the form to be filtered
-     *
-     * @return void modifies $form
-     */
-    public function filterFilterForm(&$form)
-    {
-        $params = Input::getParams();
-        if (!empty($params->get('programID')) or !empty($this->state->get('calledPoolID'))) {
-            $form->removeField('departmentID', 'filter');
-            $form->removeField('limit', 'list');
-            $form->removeField('programID', 'filter');
-        } else {
-            $form->removeField('languageTag', 'list');
+	/**
+	 * Filters out form inputs which should not be displayed due to menu settings.
+	 *
+	 * @param   Form  $form  the form to be filtered
+	 *
+	 * @return void modifies $form
+	 */
+	public function filterFilterForm(&$form)
+	{
+		parent::filterFilterForm($form);
+		$params = Input::getParams();
+		if (!empty($params->get('programID')) or !empty($this->state->get('calledPoolID')))
+		{
+			$form->removeField('departmentID', 'filter');
+			$form->removeField('limit', 'list');
+			$form->removeField('programID', 'filter');
+		}
+		elseif ($this->clientContext === self::BACKEND)
+		{
+			$allowedDepartments = Access::getAccessibleDepartments('documentation');
+			if (count($allowedDepartments) === 1)
+			{
+				$form->removeField('departmentID', 'filter');
+			}
+		}
 
-            if ($this->clientContext === self::BACKEND) {
-                $allowedDepartments = Access::getAccessibleDepartments('documentation');
-                if (count($allowedDepartments) === 1) {
-                    $form->removeField('departmentID', 'filter');
-                }
-            }
-        }
+		return;
+	}
 
-        return;
-    }
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  array  item objects on success, otherwise empty
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
 
-    /**
-     * Method to get an array of data items.
-     *
-     * @return  array  item objects on success, otherwise empty
-     */
-    public function getItems()
-    {
-        $items = parent::getItems();
+		if (empty($items))
+		{
+			return [];
+		}
 
-        if (empty($items)) {
-            return [];
-        }
+		foreach ($items as $item)
+		{
+			$item->persons = SubjectsHelper::getPersons($item->id);
+		}
 
-        foreach ($items as $item) {
-            $item->persons = SubjectsHelper::getPersons($item->id);
-        }
+		return $items;
+	}
 
-        return $items;
-    }
+	/**
+	 * Method to select all existent assets from the database
+	 *
+	 * @return JDatabaseQuery  the query object
+	 */
+	protected function getListQuery()
+	{
+		$dbo = Factory::getDbo();
+		$tag = Languages::getTag();
 
-    /**
-     * Method to select all existent assets from the database
-     *
-     * @return JDatabaseQuery  the query object
-     */
-    protected function getListQuery()
-    {
-        $dbo = Factory::getDbo();
-        $tag = Languages::getTag();
+		// Create the sql query
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT s.id, s.code, s.name_$tag AS name, s.fieldID, s.creditpoints")
+			->from('#__thm_organizer_subjects AS s');
 
-        // Create the sql query
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT s.id, s.code, s.name_$tag AS name, s.fieldID, s.creditpoints")
-            ->from('#__thm_organizer_subjects AS s');
+		$searchFields = [
+			's.name_de',
+			'shortName_de',
+			'abbreviation_de',
+			's.name_en',
+			'shortName_en',
+			'abbreviation_en',
+			'code',
+			'description_de',
+			'objective_de',
+			'content_de',
+			'description_en',
+			'objective_en',
+			'content_en',
+			'lsfID'
+		];
 
-        $searchFields = [
-            's.name_de',
-            'shortName_de',
-            'abbreviation_de',
-            's.name_en',
-            'shortName_en',
-            'abbreviation_en',
-            'code',
-            'description_de',
-            'objective_de',
-            'content_de',
-            'description_en',
-            'objective_en',
-            'content_en',
-            'lsfID'
-        ];
+		$this->setDepartmentFilter($query);
+		$this->setSearchFilter($query, $searchFields);
 
-        $this->setDepartmentFilter($query);
-        $this->setSearchFilter($query, $searchFields);
+		$programID = $this->state->get('filter.programID', '');
+		Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
 
-        $programID = $this->state->get('filter.programID', '');
-        Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
+		// The selected pool supercedes any original called pool
+		if ($poolID = $this->state->get('filter.poolID', ''))
+		{
+			Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
+		}
+		elseif ($calledPoolID = $this->state->get('calledPoolID', ''))
+		{
+			Mappings::setResourceIDFilter($query, $calledPoolID, 'pool', 'subject');
+		}
 
-        // The selected pool supercedes any original called pool
-        if ($poolID = $this->state->get('filter.poolID', '')) {
-            Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
-        } elseif ($calledPoolID = $this->state->get('calledPoolID', '')) {
-            Mappings::setResourceIDFilter($query, $calledPoolID, 'pool', 'subject');
-        }
+		$personID = $this->state->get('filter.personID', '');
+		if (!empty($personID))
+		{
+			if ($personID === '-1')
+			{
+				$query->leftJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id')
+					->where('st.subjectID IS NULL');
+			}
+			else
+			{
+				$query->innerJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id')
+					->where("st.personID = $personID");
+			}
+		}
 
-        $personID = $this->state->get('filter.personID', '');
-        if (!empty($personID)) {
-            if ($personID === '-1') {
-                $query->leftJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id')
-                    ->where('st.subjectID IS NULL');
-            } else {
-                $query->innerJoin('#__thm_organizer_subject_persons AS st ON st.subjectID = s.id')
-                    ->where("st.personID = $personID");
-            }
-        }
+		$this->setOrdering($query);
 
-        $this->setOrdering($query);
+		return $query;
+	}
 
-        return $query;
-    }
+	/**
+	 * Sets restrictions to the subject's departmentID field
+	 *
+	 * @param   JDatabaseQuery &$query  the query to be modified
+	 *
+	 * @return void modifies the query
+	 */
+	private function setDepartmentFilter(&$query)
+	{
+		if ($this->clientContext === self::BACKEND)
+		{
+			$allowedDepartments = Access::getAccessibleDepartments('document');
+			$query->where('(s.departmentID IN (' . implode(',', $allowedDepartments) . ') OR s.departmentID IS NULL)');
+		}
+		$departmentID = $this->state->get('filter.departmentID');
+		if (empty($departmentID))
+		{
+			return;
+		}
+		elseif ($departmentID == '-1')
+		{
+			$query->where('(s.departmentID IS NULL)');
+		}
+	}
 
-    /**
-     * Sets restrictions to the subject's departmentID field
-     *
-     * @param JDatabaseQuery &$query the query to be modified
-     *
-     * @return void modifies the query
-     */
-    private function setDepartmentFilter(&$query)
-    {
-        if ($this->clientContext === self::BACKEND) {
-            $allowedDepartments = Access::getAccessibleDepartments('document');
-            $query->where('(s.departmentID IN (' . implode(',', $allowedDepartments) . ') OR s.departmentID IS NULL)');
-        }
-        $departmentID = $this->state->get('filter.departmentID');
-        if (empty($departmentID)) {
-            return;
-        } elseif ($departmentID == '-1') {
-            $query->where('(s.departmentID IS NULL)');
-        }
-    }
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return void
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		parent::populateState($ordering, $direction);
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param string $ordering  An optional ordering field.
-     * @param string $direction An optional direction (asc|desc).
-     *
-     * @return void
-     */
-    protected function populateState($ordering = null, $direction = null)
-    {
-        parent::populateState($ordering, $direction);
+		if ($this->clientContext === self::BACKEND)
+		{
+			$allowedDepartments = Access::getAccessibleDepartments('documentation');
+			if (count($allowedDepartments) === 1)
+			{
+				$this->state->set('filter.departmentID', $allowedDepartments[0]);
+			}
+		}
+		else
+		{
+			$programID = Input::getParams()->get('programID');
+			if ($poolID = Input::getInput()->get->getInt('poolID', 0) or $programID)
+			{
+				if ($poolID)
+				{
+					$this->state->set('calledPoolID', $poolID);
+				}
+				else
+				{
+					$this->state->set('filter.programID', $programID);
+				}
+				$this->state->set('list.limit', 0);
+			}
+		}
 
-        if ($this->clientContext === self::BACKEND) {
-            $allowedDepartments = Access::getAccessibleDepartments('documentation');
-            if (count($allowedDepartments) === 1) {
-                $this->state->set('filter.departmentID', $allowedDepartments[0]);
-            }
-        } else {
-	        $programID = Input::getParams()->get('programID');
-            if ($poolID = Input::getInput()->get->getInt('poolID', 0) or $programID) {
-                if ($poolID) {
-                    $this->state->set('calledPoolID', $poolID);
-                } else {
-                    $this->state->set('filter.programID', $programID);
-                }
-                $this->state->set('list.limit', 0);
-            }
-        }
-
-        return;
-    }
+		return;
+	}
 }

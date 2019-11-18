@@ -44,13 +44,6 @@ class Participants extends ListView
 				'participant.mergeView',
 				true
 			);
-			$toolbar->appendButton(
-				'Standard',
-				'eye-close',
-				Languages::_('THM_ORGANIZER_ANONYMIZE'),
-				'participant.anonymize',
-				false
-			);
 		}
 	}
 

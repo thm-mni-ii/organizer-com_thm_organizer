@@ -12,28 +12,63 @@
 namespace Organizer\Models;
 
 use Exception;
-use Organizer\Helpers\Input;
-use Organizer\Helpers\Languages;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Organizer\Helpers as Helpers;
+use Organizer\Tables\Participants as ParticipantsTable;
 
 /**
  * Class loads a form for editing participant data.
  */
 class ParticipantEdit extends EditModel
 {
-    /**
-     * Method to get a single record.
-     *
-     * @param integer $pk The id of the primary key.
-     *
-     * @return mixed    Object on success, false on failure.
-     * @throws Exception => unauthorized access
-     */
-    public function getItem($pk = null)
-    {
-        $item           = parent::getItem($pk);
-        $item->tag      = Languages::getTag();
-        $item->lessonID = Input::getInt('lessonID');
+	public $item = null;
 
-        return $item;
-    }
+	/**
+	 * Checks for user authorization to access the view
+	 *
+	 * @return bool  true if the user can access the view, otherwise false
+	 */
+	protected function allowEdit()
+	{
+		$userID = Factory::getUser()->id;
+		if ($this->item->id === $userID)
+		{
+			return true;
+		}
+
+		return Helpers\Access::isAdmin($userID);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return mixed    Object on success, false on failure.
+	 * @throws Exception => unauthorized access
+	 */
+	public function getItem($pk = null)
+	{
+		$pk         = empty($pk) ? Factory::getUser()->id : $pk;
+		$this->item = parent::getItem($pk);
+
+		return $this->item;
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return Table A Table object
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getTable($name = '', $prefix = '', $options = [])
+	{
+		return new ParticipantsTable;
+	}
 }
