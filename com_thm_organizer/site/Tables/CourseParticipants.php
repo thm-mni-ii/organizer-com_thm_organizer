@@ -32,6 +32,14 @@ class CourseParticipants extends BaseTable
 	public $id;
 
 	/**
+	 * The participant's course payment status. Values: 0 - Unpaid, 1 - Paid.
+	 * TINYINT(1) UNSIGNED DEFAULT 0
+	 *
+	 * @var bool
+	 */
+	public $paid;
+
+	/**
 	 * The date and time of the last participant initiated change.
 	 * DATETIME DEFAULT NULL
 	 *
@@ -49,7 +57,7 @@ class CourseParticipants extends BaseTable
 
 	/**
 	 * The participant's course status. Values: 0 - Pending, 1 - Registered.
-	 * INT(1) UNSIGNED DEFAULT 0
+	 * TINYINT(1) UNSIGNED DEFAULT 0
 	 *
 	 * @var int
 	 */

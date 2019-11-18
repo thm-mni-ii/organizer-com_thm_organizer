@@ -79,10 +79,10 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_course_participants` (
     `id`              INT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `courseID`        INT(11) UNSIGNED NOT NULL,
     `participantID`   INT(11)          NOT NULL,
-    `participantDate` DATETIME        DEFAULT NULL COMMENT 'The last date of participant action.',
-    `status`          INT(1) UNSIGNED DEFAULT 0
-        COMMENT 'The participant''s course status. Possible values: 0 - pending, 1 - registered',
-    `statusDate`      DATETIME        DEFAULT NULL COMMENT 'The last date of status action.',
+    `participantDate` DATETIME            DEFAULT NULL COMMENT 'The last date of participant action.',
+    `status`          TINYINT(1) UNSIGNED DEFAULT 0 COMMENT 'Possible values: 0 - pending, 1 - registered',
+    `statusDate`      DATETIME            DEFAULT NULL COMMENT 'The last date of status action.',
+    `paid`            TINYINT(1) UNSIGNED DEFAULT 0 COMMENT 'Possible values: 0 - unpaid, 1 - paid',
     PRIMARY KEY (`id`),
     INDEX `courseID` (`courseID`),
     INDEX `participantID` (`participantID`)
