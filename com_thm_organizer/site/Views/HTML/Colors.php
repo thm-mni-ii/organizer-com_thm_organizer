@@ -30,7 +30,7 @@ class Colors extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_COLORS_TITLE'), 'palette');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_COLORS'), 'palette');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'color.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'color.edit', true);

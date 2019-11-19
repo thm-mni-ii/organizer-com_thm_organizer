@@ -28,7 +28,7 @@ class Units extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_UNITS_TITLE'), 'contract-2');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_UNITS'), 'contract-2');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'unit.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'unit.edit', true);

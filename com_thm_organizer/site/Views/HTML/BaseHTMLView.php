@@ -196,7 +196,7 @@ abstract class BaseHTMLView extends BaseView
 			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 			JHtmlSidebar::addEntry(
-				Languages::_('THM_ORGANIZER_TEACHERS'),
+				Languages::_('THM_ORGANIZER_PERSONS'),
 				'index.php?option=com_thm_organizer&amp;view=persons',
 				$viewName == 'persons'
 			);

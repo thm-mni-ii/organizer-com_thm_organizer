@@ -30,7 +30,7 @@ class Holidays extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_HOLIDAYS_TITLE'), 'calendar');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_HOLIDAYS'), 'calendar');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'holiday.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'holiday.edit', true);

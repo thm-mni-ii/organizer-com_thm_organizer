@@ -35,7 +35,7 @@ class Programs extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_PROGRAMS_TITLE'), 'list');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_PROGRAMS'), 'list');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'program.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'program.edit', true);

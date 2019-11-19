@@ -27,7 +27,7 @@ class Pools extends PoolsView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_POOLS_TITLE'), 'list-2');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_POOLS'), 'list-2');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'pool.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'pool.edit', true);

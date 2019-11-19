@@ -39,7 +39,7 @@ class Groups extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_GROUPS_TITLE'), 'list-2');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_GROUPS'), 'list-2');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'group.edit', true);
 

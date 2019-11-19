@@ -17,79 +17,84 @@ use Organizer\Helpers\Languages;
     <form action="" method="post" name="adminForm" id="adminForm">
         <input type="hidden" name="languageTag" value=""/>
         <div id="form-container" class="form-container">
-            <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_ROOM_OVERVIEW_TITLE'); ?></h1>
+            <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_ROOM_OVERVIEW'); ?></h1>
             <div class="right">
                 <button class="btn submit-button" onclick="showPostLoader();form.submit();">
-                    <?php echo Languages::_('THM_ORGANIZER_REFRESH'); ?>
+					<?php echo Languages::_('THM_ORGANIZER_REFRESH'); ?>
                     <span class="icon-loop"></span>
                 </button>
             </div>
             <div class="clear"></div>
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo $this->getLabel('template'); ?>
+					<?php echo $this->getLabel('template'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('template')->input; ?>
+					<?php echo $this->form->getField('template')->input; ?>
                 </div>
             </div>
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo $this->getLabel('date'); ?>
+					<?php echo $this->getLabel('date'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('date')->input; ?>
+					<?php echo $this->form->getField('date')->input; ?>
                 </div>
             </div>
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo $this->getLabel('campusID'); ?>
+					<?php echo $this->getLabel('campusID'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('campusID')->input; ?>
+					<?php echo $this->form->getField('campusID')->input; ?>
                 </div>
             </div>
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo $this->getLabel('buildingID'); ?>
+					<?php echo $this->getLabel('buildingID'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('buildingID')->input; ?>
+					<?php echo $this->form->getField('buildingID')->input; ?>
                 </div>
             </div>
             <div class="clear"></div>
             <div class='control-group-wide'>
                 <div class='control-label'>
-                    <?php echo $this->getLabel('types'); ?>
+					<?php echo $this->getLabel('types'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('types')->input; ?>
+					<?php echo $this->form->getField('types')->input; ?>
                 </div>
             </div>
             <div class='control-group-wide'>
                 <div class='control-label'>
-                    <?php echo $this->getLabel('rooms'); ?>
+					<?php echo $this->getLabel('rooms'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('rooms')->input; ?>
+					<?php echo $this->form->getField('rooms')->input; ?>
                 </div>
             </div>
             <div class="clear"></div>
         </div>
     </form>
     <div id="overview-container" class="overview-container">
-        <?php
-        if (empty($this->model->data) or empty($this->model->rooms)) {
-            echo $this->loadTemplate('empty');
-        } else {
-            $template = $this->state->get('template', self::DAY);
-            if ($template == self::DAY) {
-                echo $this->loadTemplate('day');
-            }
-            if ($template == self::WEEK) {
-                echo $this->loadTemplate('week');
-            }
-        }
-        ?>
+		<?php
+		if (empty($this->model->data) or empty($this->model->rooms))
+		{
+			echo $this->loadTemplate('empty');
+		}
+		else
+		{
+			$template = $this->state->get('template', self::DAY);
+			if ($template == self::DAY)
+			{
+				echo $this->loadTemplate('day');
+			}
+			if ($template == self::WEEK)
+			{
+				echo $this->loadTemplate('week');
+			}
+		}
+		?>
     </div>
 </div>

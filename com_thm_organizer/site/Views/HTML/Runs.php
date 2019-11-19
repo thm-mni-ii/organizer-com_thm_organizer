@@ -30,7 +30,7 @@ class Runs extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_RUNS_TITLE'), 'list');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_RUNS'), 'list');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'run.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'run.edit', true);

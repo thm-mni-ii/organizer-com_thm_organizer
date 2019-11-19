@@ -56,7 +56,7 @@ class Monitors extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_MONITORS_TITLE'), 'screen');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_MONITORS'), 'screen');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'monitor.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'monitor.edit', true);

@@ -97,7 +97,7 @@ class Courses extends ListView
 			}
 		}
 
-		Helpers\HTML::setMenuTitle('THM_ORGANIZER_COURSES_TITLE', $resourceName, 'contract-2');
+		Helpers\HTML::setMenuTitle('THM_ORGANIZER_COURSES', $resourceName, 'contract-2');
 
 		$toolbar = Toolbar::getInstance();
 		if ($backend or $this->allowNew)

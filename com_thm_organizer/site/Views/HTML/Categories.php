@@ -30,7 +30,7 @@ class Categories extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORIES_TITLE'), 'list');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORIES'), 'list');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'category.edit', true);
 		if (Access::isAdmin())

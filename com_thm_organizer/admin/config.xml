@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-    <fieldset name="general" label="THM_ORGANIZER_GENERAL_SETTINGS_TITLE"
+    <fieldset name="general" label="THM_ORGANIZER_GENERAL_SETTINGS"
               description="THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
         <field name="dateFormat" type="text" label="THM_ORGANIZER_DATE_FORMAT"
                description="THM_ORGANIZER_DATE_FORMAT_DESC" size="40" required="true" default="d.m.Y"/>

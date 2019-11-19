@@ -37,7 +37,7 @@ class Schedules extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULES_TITLE'), 'calendars');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULES'), 'calendars');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'schedule.add', false);
 		$toolbar->appendButton(

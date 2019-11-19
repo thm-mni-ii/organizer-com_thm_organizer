@@ -31,7 +31,7 @@ class Participants extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_PARTICIPANTS_TITLE'), 'users');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_PARTICIPANTS'), 'users');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'participant.edit', true);
 

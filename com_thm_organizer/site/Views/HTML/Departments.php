@@ -29,7 +29,7 @@ class Departments extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_DEPARTMENTS_TITLE'), 'tree-2');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_DEPARTMENTS'), 'tree-2');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'department.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'department.edit', true);

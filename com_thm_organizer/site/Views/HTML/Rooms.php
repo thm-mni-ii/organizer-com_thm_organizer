@@ -29,7 +29,7 @@ class Rooms extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_ROOMS_TITLE'), 'enter');
+		HTML::setTitle(Languages::_('THM_ORGANIZER_ROOMS'), 'enter');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'room.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'room.edit', true);
