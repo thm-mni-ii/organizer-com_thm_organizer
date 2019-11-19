@@ -21,95 +21,106 @@ use Organizer\Helpers\OrganizerHelper;
  */
 class MergeAssociationsField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'MergeAssociations';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'MergeAssociations';
 
-    /**
-     * Returns a select box where resource attributes can be selected
-     *
-     * @return array the options for the select box
-     */
-    protected function getOptions()
-    {
-        $selectedIDs = Input::getSelectedIDs();
-        $valueColumn = $this->getAttribute('name');
-        if (empty($selectedIDs) or empty($valueColumn)) {
-            return [];
-        }
+	/**
+	 * Returns a select box where resource attributes can be selected
+	 *
+	 * @return array the options for the select box
+	 */
+	protected function getOptions()
+	{
+		$selectedIDs = Input::getSelectedIDs();
+		$valueColumn = $this->getAttribute('name');
+		if (empty($selectedIDs) or empty($valueColumn))
+		{
+			return [];
+		}
 
-        $dbo        = Factory::getDbo();
-        $query      = $dbo->getQuery(true);
-        $textColumn = $this->resolveTextColumn($query);
-        if (empty($textColumn)) {
-            return [];
-        }
+		$dbo        = Factory::getDbo();
+		$query      = $dbo->getQuery(true);
+		$textColumn = $this->resolveTextColumn($query);
+		if (empty($textColumn))
+		{
+			return [];
+		}
 
-        $query->select("DISTINCT $valueColumn AS value, $textColumn AS text")
-            ->order('text ASC');
+		$query->select("DISTINCT $valueColumn AS value, $textColumn AS text")
+			->order('text ASC');
 
-        // 1 => table, 2 => alias, 4 => conditions
-        $pattern = '/([a-z_]+) AS ([a-z]+)( ON ([a-z]+\.[A-Za-z]+ = [a-z]+\.[A-Za-z]+))?/';
-        $from    = $this->getAttribute('from', '');
+		// 1 => table, 2 => alias, 4 => conditions
+		$pattern = '/([a-z_]+) AS ([a-z]+)( ON ([a-z]+\.[A-Za-z]+ = [a-z]+\.[A-Za-z]+))?/';
+		$from    = $this->getAttribute('from', '');
 
-        $validFrom = preg_match($pattern, $from, $parts);
-        if (!$validFrom) {
-            return [];
-        }
+		$validFrom = preg_match($pattern, $from, $parts);
+		if (!$validFrom)
+		{
+			return [];
+		}
 
-        $alias = $parts[2];
-        $query->from("#__thm_organizer_$from")
-            ->where("$alias.id IN ( '" . implode("', '", $selectedIDs) . "' )");
+		$external = (bool) $this->getAttribute('external', false);
+		$from     = $external ? "#__$from" : "#__thm_organizer_$from";
 
-        $innerJoins = explode(',', $this->getAttribute('innerJoins', ''));
+		$alias = $parts[2];
+		$query->from($from)->where("$alias.id IN ( '" . implode("', '", $selectedIDs) . "' )");
 
-        foreach ($innerJoins as $innerJoin) {
-            $validJoin = preg_match($pattern, $innerJoin, $parts);
-            if (!$validJoin) {
-                return [];
-            }
-            $query->innerJoin("#__thm_organizer_$innerJoin");
-        }
+		$innerJoins = explode(',', $this->getAttribute('innerJoins', ''));
 
-        $dbo->setQuery($query);
+		foreach ($innerJoins as $innerJoin)
+		{
+			$validJoin = preg_match($pattern, $innerJoin, $parts);
+			if (!$validJoin)
+			{
+				return [];
+			}
+			$query->innerJoin("#__thm_organizer_$innerJoin");
+		}
 
-        $valuePairs = OrganizerHelper::executeQuery('loadAssocList');
-        if (empty($valuePairs)) {
-            return [];
-        }
+		$dbo->setQuery($query);
 
-        $options = [];
-        foreach ($valuePairs as $valuePair) {
-            $options[] = HTML::_('select.option', $valuePair['value'], $valuePair['text']);
-        }
+		$valuePairs = OrganizerHelper::executeQuery('loadAssocList');
+		if (empty($valuePairs))
+		{
+			return [];
+		}
 
-        return empty($options) ? [] : $options;
-    }
+		$options = [];
+		foreach ($valuePairs as $valuePair)
+		{
+			$options[] = HTML::_('select.option', $valuePair['value'], $valuePair['text']);
+		}
 
-    /**
-     * Resolves the textColumns for localization and concatenation of column names
-     *
-     * @param object &$query the query object by reference is an optimization, not a necessity
-     *
-     * @return string  the string to use for text selection
-     */
-    private function resolveTextColumn(&$query)
-    {
-        $textColumn  = $this->getAttribute('textcolumn', '');
-        $textColumns = explode(',', $textColumn);
-        $localized   = $this->getAttribute('localized', false);
+		return empty($options) ? [] : $options;
+	}
 
-        if ($localized) {
-            $textColumns[0] = $textColumns[0] . '_' . Languages::getTag();
-        }
+	/**
+	 * Resolves the textColumns for localization and concatenation of column names
+	 *
+	 * @param   object &$query  the query object by reference is an optimization, not a necessity
+	 *
+	 * @return string  the string to use for text selection
+	 */
+	private function resolveTextColumn(&$query)
+	{
+		$textColumn  = $this->getAttribute('textcolumn', '');
+		$textColumns = explode(',', $textColumn);
+		$localized   = $this->getAttribute('localized', false);
 
-        $glue = $this->getAttribute('glue');
+		if ($localized)
+		{
+			$textColumns[0] = $textColumns[0] . '_' . Languages::getTag();
+		}
 
-        if (count($textColumns) === 1 or empty($glue)) {
-            return $textColumns[0];
-        }
+		$glue = $this->getAttribute('glue');
 
-        return '( ' . $query->concatenate($textColumns, $glue) . ' )';
-    }
+		if (count($textColumns) === 1 or empty($glue))
+		{
+			return $textColumns[0];
+		}
+
+		return '( ' . $query->concatenate($textColumns, $glue) . ' )';
+	}
 }
