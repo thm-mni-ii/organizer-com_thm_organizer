@@ -21,7 +21,7 @@ use Organizer\Tables\CourseParticipants;
  */
 class Users
 {
-	static $user;
+	static $user = null;
 
 	/**
 	 * Deletes events from the user's personal schedule
@@ -102,9 +102,7 @@ class Users
 	 */
 	public static function getID()
 	{
-		$user = empty(self::$user) ? self::getUser() : self::$user;
-
-		return $user->id;
+		return self::getUser()->id;
 	}
 
 	/**
@@ -112,18 +110,16 @@ class Users
 	 *
 	 * Returns the global {@link User} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   integer  $id  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 * @param   integer  $userID  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
 	 * @return  User object
 	 */
-	public static function getUser($id = null)
+	public static function getUser($userID = 0)
 	{
 		// A user was specifically requested by id.
-		if (!empty($id))
+		if ($userID)
 		{
-			self::$user = Factory::getUser($id);
-
-			return self::$user;
+			self::$user = Factory::getUser($userID);
 		}
 
 		// A static user already exists.
