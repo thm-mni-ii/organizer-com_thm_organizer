@@ -29,7 +29,7 @@ class Access
 	 */
 	public static function allowDocumentAccess($resource = '', $resourceID = 0, $userID = null)
 	{
-		if (self::isAdmin($userID))
+		if (self::isAdmin())
 		{
 			return true;
 		}
@@ -114,7 +114,7 @@ class Access
 	 */
 	public static function allowManagementAccess($departmentID = 0, $userID = null)
 	{
-		if (self::isAdmin($userID))
+		if (self::isAdmin())
 		{
 			return true;
 		}
@@ -170,7 +170,7 @@ class Access
 	 */
 	public static function allowSchedulingAccess($scheduleID = 0, $departmentID = 0, $userID = null)
 	{
-		if (self::isAdmin($userID))
+		if (self::isAdmin())
 		{
 			return true;
 		}
@@ -235,7 +235,7 @@ class Access
 	 */
 	public static function allowViewAccess($departmentID = 0, $userID = null)
 	{
-		if (self::isAdmin($userID))
+		if (self::isAdmin())
 		{
 			return true;
 		}
@@ -290,7 +290,7 @@ class Access
 		$departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
 		// Don't bother checking departments if the user is an administrator
-		if (self::isAdmin($userID))
+		if (self::isAdmin())
 		{
 			return $departmentIDs;
 		}
@@ -332,15 +332,13 @@ class Access
 	}
 
 	/**
-	 * Checks whether the user is an authorized administrator
-	 *
-	 * @param   int  $userID  the id of the user
+	 * Checks whether the user is an authorized administrator.
 	 *
 	 * @return bool true if the user is an administrator, otherwise false
 	 */
-	public static function isAdmin($userID = null)
+	public static function isAdmin()
 	{
-		$user = Factory::getUser($userID);
+		$user = Users::getUser();
 
 		return ($user->authorise('core.admin') or $user->authorise('core.admin', 'com_thm_organizer'));
 	}

@@ -409,7 +409,7 @@ class Instances extends ResourceHelper
 			return;
 		}
 
-		if (Access::isAdmin($userID) or Access::allowHRAccess())
+		if (Access::isAdmin() or Access::allowHRAccess())
 		{
 			return;
 		}

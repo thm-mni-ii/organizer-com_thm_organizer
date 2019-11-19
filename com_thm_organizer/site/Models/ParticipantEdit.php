@@ -37,7 +37,7 @@ class ParticipantEdit extends EditModel
 			return true;
 		}
 
-		return Helpers\Access::isAdmin($userID);
+		return Helpers\Access::isAdmin();
 	}
 
 	/**
