@@ -10,20 +10,12 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 
 /**
  * Class loads a form for merging group data.
  */
 class GroupMerge extends FormModel
 {
-    /**
-     * Checks for user authorization to access the view
-     *
-     * @return bool  true if the user can access the view, otherwise false
-     */
-    protected function allowEdit()
-    {
-        return Access::isAdmin();
-    }
+	// Necessary code is performed in inheritance hierarchy.
 }

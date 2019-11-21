@@ -10,7 +10,8 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Access;
+use JDatabaseQuery;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Languages;
 
 /**
@@ -25,9 +26,9 @@ class Schedules extends ListModel
 	protected $filter_fields = ['active', 'departmentID', 'termID'];
 
 	/**
-	 * generates the query to be used to fill the output list
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -46,8 +47,8 @@ class Schedules extends ListModel
 			->innerJoin('#__thm_organizer_terms AS term ON term.id = s.termID')
 			->leftJoin('#__users AS u ON u.id = s.userID');
 
-		$allowedDepartments = implode(', ', Access::getAccessibleDepartments('schedule'));
-		$query->where("d.id IN ($allowedDepartments)");
+		$authorizedDepartments = implode(', ', Can::scheduleTheseDepartments());
+		$query->where("d.id IN ($authorizedDepartments)");
 
 		$this->setValueFilters($query, ['departmentID', 'termID', 'active']);
 

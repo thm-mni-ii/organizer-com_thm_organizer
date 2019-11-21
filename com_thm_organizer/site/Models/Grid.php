@@ -13,7 +13,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Tables\Grids as GridsTable;
 
@@ -48,7 +48,7 @@ class Grid extends BaseModel
 	 */
 	public function save($data = [])
 	{
-		if (!Access::isAdmin())
+		if (!Can::administrate())
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}

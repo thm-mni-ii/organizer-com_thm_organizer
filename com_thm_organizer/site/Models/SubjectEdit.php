@@ -12,7 +12,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Tables\Subjects as SubjectsTable;
 
 /**
@@ -27,13 +27,13 @@ class SubjectEdit extends EditModel
 	/**
 	 * Checks for user authorization to access the view
 	 *
-	 * @param   int  $subjectID  the id of the subject for which authorization is to be checked
-	 *
 	 * @return bool  true if the user can access the view, otherwise false
 	 */
-	protected function allowEdit($subjectID = null)
+	protected function allowEdit()
 	{
-		return Access::allowSubjectAccess($subjectID);
+		$subjectID = empty($this->item->id) ? 0 : $this->item->id;
+
+		return Can::document('subject', $subjectID);
 	}
 
 	/**

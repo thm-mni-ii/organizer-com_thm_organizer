@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use JDatabaseQuery;
 use Joomla\CMS\Form\Form;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Joomla\CMS\Factory;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Mappings;
@@ -43,8 +43,7 @@ class Subjects extends ListModel
 		}
 		elseif ($this->clientContext === self::BACKEND)
 		{
-			$allowedDepartments = Access::getAccessibleDepartments('documentation');
-			if (count($allowedDepartments) === 1)
+			if (count(Can::documentTheseDepartments()) === 1)
 			{
 				$form->removeField('departmentID', 'filter');
 			}
@@ -76,7 +75,7 @@ class Subjects extends ListModel
 	}
 
 	/**
-	 * Method to select all existent assets from the database
+	 * Method to get a list of resources from the database.
 	 *
 	 * @return JDatabaseQuery  the query object
 	 */
@@ -154,8 +153,8 @@ class Subjects extends ListModel
 	{
 		if ($this->clientContext === self::BACKEND)
 		{
-			$allowedDepartments = Access::getAccessibleDepartments('document');
-			$query->where('(s.departmentID IN (' . implode(',', $allowedDepartments) . ') OR s.departmentID IS NULL)');
+			$authorizedDepts = Can::documentTheseDepartments();
+			$query->where('(s.departmentID IN (' . implode(',', $authorizedDepts) . ') OR s.departmentID IS NULL)');
 		}
 		$departmentID = $this->state->get('filter.departmentID');
 		if (empty($departmentID))
@@ -182,10 +181,10 @@ class Subjects extends ListModel
 
 		if ($this->clientContext === self::BACKEND)
 		{
-			$allowedDepartments = Access::getAccessibleDepartments('documentation');
-			if (count($allowedDepartments) === 1)
+			$authorizedDepartments = Can::documentTheseDepartments();
+			if (count($authorizedDepartments) === 1)
 			{
-				$this->state->set('filter.departmentID', $allowedDepartments[0]);
+				$this->state->set('filter.departmentID', $authorizedDepartments[0]);
 			}
 		}
 		else

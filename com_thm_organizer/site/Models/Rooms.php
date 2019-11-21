@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Organizer\Helpers\Filtered;
 use Organizer\Helpers\Languages;
 
@@ -25,9 +26,9 @@ class Rooms extends ListModel
 	protected $filter_fields = ['campusID', 'buildingID', 'roomtypeID'];
 
 	/**
-	 * Method to get all rooms from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

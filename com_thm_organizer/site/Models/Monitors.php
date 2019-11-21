@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Organizer\Helpers\Input;
 
 /**
@@ -22,9 +23,9 @@ class Monitors extends ListModel
 	protected $filter_fields = ['content', 'display', 'useDefaults'];
 
 	/**
-	 * builds the query used to compile the items for the lsit ouput
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return object
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

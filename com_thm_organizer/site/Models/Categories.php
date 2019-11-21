@@ -10,7 +10,8 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Access;
+use JDatabaseQuery;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Languages;
 
 /**
@@ -23,9 +24,9 @@ class Categories extends ListModel
 	protected $filter_fields = ['departmentID'];
 
 	/**
-	 * Method to get all categories from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -34,8 +35,8 @@ class Categories extends ListModel
 			->from('#__thm_organizer_categories AS cat')
 			->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = cat.id');
 
-		$allowedDepartments = implode(",", Access::getAccessibleDepartments('schedule'));
-		$query->where("dr.departmentID IN ($allowedDepartments)");
+		$authorizedDepartments = implode(",", Can::scheduleTheseDepartments());
+		$query->where("dr.departmentID IN ($authorizedDepartments)");
 
 		$this->setSearchFilter($query, ['cat.name', 'cat.untisID']);
 		$this->setValueFilters($query, ['departmentID', 'programID']);

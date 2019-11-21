@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Tables\Programs as ProgramsTable;
 
 /**
@@ -28,13 +28,9 @@ class ProgramEdit extends EditModel
 	 */
 	public function allowEdit()
 	{
-		$programID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
-		if (empty($programID) or !Access::checkAssetInitialization('program', $programID))
-		{
-			return Access::allowDocumentAccess();
-		}
+		$programID = empty($this->item->id) ? 0 : $this->item->id;
 
-		return Access::allowDocumentAccess('program', $programID);
+		return Can::document('program', $programID);
 	}
 
 	/**

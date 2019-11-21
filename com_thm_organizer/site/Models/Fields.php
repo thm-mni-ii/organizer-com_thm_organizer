@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Organizer\Helpers\Languages;
 
 /**
@@ -22,9 +23,9 @@ class Fields extends ListModel
 	protected $filter_fields = ['colorID'];
 
 	/**
-	 * Method to get all colors from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

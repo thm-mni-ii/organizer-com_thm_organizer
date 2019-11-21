@@ -14,7 +14,7 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers\Can;
 use Organizer\Tables\Participants as ParticipantsTable;
 
 /**
@@ -31,13 +31,7 @@ class ParticipantEdit extends EditModel
 	 */
 	protected function allowEdit()
 	{
-		$userID = Factory::getUser()->id;
-		if ($this->item->id === $userID)
-		{
-			return true;
-		}
-
-		return Helpers\Access::isAdmin();
+		return Can::edit('participant', $this->item->id);
 	}
 
 	/**

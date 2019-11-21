@@ -18,7 +18,7 @@ class Buildings extends ListModel
 	protected $filter_fields = ['campusID', 'propertyType'];
 
 	/**
-	 * Method to get all buildings from the database
+	 * Method to get a list of resources from the database.
 	 *
 	 * @return \JDatabaseQuery
 	 */

@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Tables\Monitors as MonitorsTable;
 
@@ -67,7 +67,7 @@ class Monitor extends BaseModel
 	 */
 	public function saveDefaultBehaviour()
 	{
-		if (!Access::isAdmin())
+		if (!Can::administrate())
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -95,7 +95,7 @@ class Monitor extends BaseModel
 	 */
 	public function toggle()
 	{
-		if (!Access::allowFMAccess())
+		if (!Can::manage('facilities'))
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}

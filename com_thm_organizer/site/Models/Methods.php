@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Organizer\Helpers\Languages;
 
 /**
@@ -20,9 +21,9 @@ class Methods extends ListModel
 	protected $defaultOrdering = 'abbreviation';
 
 	/**
-	 * Method to get all methodss from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

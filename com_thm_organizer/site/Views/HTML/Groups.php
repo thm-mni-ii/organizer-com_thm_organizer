@@ -12,7 +12,7 @@ namespace Organizer\Views\HTML;
 
 use Exception;
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Grids;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -55,7 +55,7 @@ class Groups extends ListView
 
 		$toolbar->appendButton('Custom', $batchButton, 'batch');
 
-		if (Access::isAdmin())
+		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
@@ -81,7 +81,7 @@ class Groups extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowSchedulingAccess();
+		return (bool) Can::scheduleTheseDepartments();
 	}
 
 	/**

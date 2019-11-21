@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\HTML;
 
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Fields;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -30,7 +30,7 @@ abstract class PoolsView extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowDocumentAccess();
+		return (bool) Can::documentTheseDepartments();
 	}
 
 	/**

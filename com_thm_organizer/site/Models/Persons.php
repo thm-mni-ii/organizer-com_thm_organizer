@@ -10,6 +10,8 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
+
 /**
  * Class retrieves information for a filtered set of persons.
  */
@@ -20,9 +22,9 @@ class Persons extends ListModel
 	protected $filter_fields = ['departmentID'];
 
 	/**
-	 * Method to get all persons from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

@@ -47,7 +47,7 @@ class ScheduleItem extends BaseModel
 		$this->params['showRoomtypes']  = Input::getInt('showRoomtypes', $params->get('showRoomtypes', 1));
 
 		$showPersonsParam            = Input::getInt('showPersons', $params->get('showPersons', 1));
-		$privilegedAccess            = Helpers\Access::allowViewAccess($departmentID);
+		$privilegedAccess            = Helpers\Can::view('department', $departmentID);
 		$personEntryExists           = Helpers\Persons::getIDByUserID();
 		$showPersons                 = (($privilegedAccess or $personEntryExists) and $showPersonsParam);
 		$this->params['showPersons'] = $showPersons;

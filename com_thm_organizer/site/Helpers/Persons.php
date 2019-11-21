@@ -264,7 +264,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 	 */
 	public static function getIDByUserID($userID = null)
 	{
-		$user = Factory::getUser($userID);
+		$user = Users::getUser($userID);
 		if (empty($user->id))
 		{
 			return false;
@@ -320,7 +320,7 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 
 		foreach ($departmentIDs as $key => $departmentID)
 		{
-			$departmentAccess = Access::allowViewAccess($departmentID);
+			$departmentAccess = Can::view('department', $departmentID);
 			if (!$departmentAccess)
 			{
 				unset($departmentIDs[$key]);

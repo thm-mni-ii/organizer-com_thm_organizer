@@ -11,7 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Categories as Helper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -33,7 +33,7 @@ class Categories extends ListView
 		HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORIES'), 'list');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'category.edit', true);
-		if (Access::isAdmin())
+		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
@@ -52,7 +52,7 @@ class Categories extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowSchedulingAccess();
+		return (bool) Can::scheduleTheseDepartments();
 	}
 
 	/**

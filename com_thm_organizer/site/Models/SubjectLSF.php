@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
@@ -236,7 +236,7 @@ class SubjectLSF extends BaseModel
 
 		foreach ($subjectIDs as $subjectID)
 		{
-			if (!Access::allowDocumentAccess('subject', $subjectID))
+			if (!Can::document('subject', $subjectID))
 			{
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 			}

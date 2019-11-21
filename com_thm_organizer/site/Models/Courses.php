@@ -12,6 +12,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Joomla\CMS\Form\Form;
 use Organizer\Helpers\Filtered;
 use Organizer\Helpers\Input;
@@ -75,11 +76,9 @@ class Courses extends ListModel
 	}
 
 	/**
-	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a list of resources from the database.
 	 *
-	 * Adds filter settings for status, campus, term
-	 *
-	 * @return \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Tables\Pools as PoolsTable;
 
@@ -29,7 +29,7 @@ class Pool extends BaseModel
 	 */
 	public function delete()
 	{
-		if (!Access::allowDocumentAccess())
+		if (!Can::documentTheseDepartments())
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -38,7 +38,7 @@ class Pool extends BaseModel
 		{
 			foreach ($poolIDs as $poolID)
 			{
-				if (!Access::allowDocumentAccess('pool', $poolID))
+				if (!Can::document('pool', $poolID))
 				{
 					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 				}
@@ -104,14 +104,14 @@ class Pool extends BaseModel
 
 		if (empty($data['id']))
 		{
-			if (!Access::allowDocumentAccess())
+			if (!Can::documentTheseDepartments())
 			{
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 			}
 		}
 		elseif (is_numeric($data['id']))
 		{
-			if (!Access::allowDocumentAccess('pool', $data['id']))
+			if (!Can::document('pool', $data['id']))
 			{
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 			}

@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Exception;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Tables\Schedules as SchedulesTable;
@@ -57,7 +57,7 @@ abstract class MergeModel extends BaseModel
 	 */
 	protected function allowEdit()
 	{
-		return Access::isAdmin();
+		return Can::administrate();
 	}
 
 	/**

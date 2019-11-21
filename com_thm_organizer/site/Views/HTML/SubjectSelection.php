@@ -12,7 +12,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -41,7 +41,7 @@ class SubjectSelection extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowDocumentAccess();
+		return (bool) Can::documentTheseDepartments();
 	}
 
 	/**
@@ -74,7 +74,7 @@ class SubjectSelection extends ListView
 
 		foreach ($this->items as $subject)
 		{
-			if (!Access::allowSubjectAccess($subject->id))
+			if (!Can::document('subject', $subject->id))
 			{
 				continue;
 			}

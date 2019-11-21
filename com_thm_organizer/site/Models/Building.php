@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Tables\Buildings as BuildingsTable;
 
 /**
@@ -24,7 +24,7 @@ class Building extends BaseModel
 	 */
 	protected function allow()
 	{
-		return Access::allowFMAccess();
+		return Can::manage('facilities');
 	}
 
 	/**

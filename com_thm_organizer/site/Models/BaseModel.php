@@ -13,7 +13,7 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Named;
@@ -52,7 +52,7 @@ abstract class BaseModel extends BaseDatabaseModel
 	 */
 	protected function allow()
 	{
-		return Access::isAdmin();
+		return Can::administrate();
 	}
 
 	/**

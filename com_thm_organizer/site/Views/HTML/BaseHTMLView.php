@@ -9,10 +9,8 @@
 namespace Organizer\Views\HTML;
 
 use JHtmlSidebar;
-use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
-use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Views\BaseView;
@@ -100,7 +98,7 @@ abstract class BaseHTMLView extends BaseView
 			$viewName == 'organizer'
 		);
 
-		if (Access::allowSchedulingAccess())
+		if (Can::scheduleTheseDepartments())
 		{
 			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_SCHEDULING') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
@@ -139,7 +137,7 @@ abstract class BaseHTMLView extends BaseView
 			}
 		}
 
-		if (Access::allowDocumentAccess())
+		if (Can::documentTheseDepartments())
 		{
 			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_DOCUMENTATION') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
@@ -165,7 +163,7 @@ abstract class BaseHTMLView extends BaseView
 			}
 		}
 
-		if (Access::allowCourseAccess())
+		if (Can::manage('courses'))
 		{
 			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_COURSE_MANAGEMENT') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
@@ -191,7 +189,7 @@ abstract class BaseHTMLView extends BaseView
 			}
 		}
 
-		if (Access::allowHRAccess())
+		if (Can::manage('persons'))
 		{
 			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
@@ -202,7 +200,7 @@ abstract class BaseHTMLView extends BaseView
 			);
 		}
 
-		if (Access::allowFMAccess())
+		if (Can::manage('facilities'))
 		{
 			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
@@ -236,7 +234,7 @@ abstract class BaseHTMLView extends BaseView
 			}
 		}
 
-		if (Access::isAdmin())
+		if (Can::administrate())
 		{
 			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_ADMINISTRATION') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);

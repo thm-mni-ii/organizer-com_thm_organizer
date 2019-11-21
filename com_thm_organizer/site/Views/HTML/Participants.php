@@ -11,7 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
@@ -35,7 +35,7 @@ class Participants extends ListView
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'participant.edit', true);
 
-		if (Access::isAdmin())
+		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
@@ -54,7 +54,9 @@ class Participants extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowCourseAccess(Input::getFilterID('course', 0));
+		$courseID = Input::getFilterID('course', 0);
+
+		return Can::manage('course', $courseID);
 	}
 
 	/**

@@ -12,7 +12,7 @@ namespace Organizer\Fields;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
@@ -22,53 +22,55 @@ use Organizer\Helpers\Mappings;
  */
 class ProgramMappingsField extends FormField
 {
-    use Translated;
+	use Translated;
 
-    /**
-     * @var  string
-     */
-    protected $type = 'ProgramMappings';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'ProgramMappings';
 
-    /**
-     * Returns a select box where stored degree program can be chosen
-     *
-     * @return string  the HTML for the select box
-     */
-    public function getInput()
-    {
-        $resourceID   = $this->form->getValue('id');
-        $contextParts = explode('.', $this->form->getName());
-        $resourceType = str_replace('edit', '', $contextParts[1]);
-        $this->addScript($resourceID, $resourceType);
+	/**
+	 * Returns a select box where stored degree program can be chosen
+	 *
+	 * @return string  the HTML for the select box
+	 */
+	public function getInput()
+	{
+		$resourceID   = $this->form->getValue('id');
+		$contextParts = explode('.', $this->form->getName());
+		$resourceType = str_replace('edit', '', $contextParts[1]);
+		$this->addScript($resourceID, $resourceType);
 
-        $ranges           = Mappings::getResourceRanges($resourceType, $resourceID);
-        $selectedPrograms = empty($ranges) ? [] : Mappings::getSelectedPrograms($ranges);
-        $options          = Mappings::getProgramOptions();
+		$ranges           = Mappings::getResourceRanges($resourceType, $resourceID);
+		$selectedPrograms = empty($ranges) ? [] : Mappings::getSelectedPrograms($ranges);
+		$options          = Mappings::getProgramOptions();
 
-        foreach ($options as $key => $option) {
-            if (!Access::allowDocumentAccess('program', $option->value)) {
-                unset($options[$key]);
-            }
-        }
+		foreach ($options as $key => $option)
+		{
+			if (!Can::document('program', $option->value))
+			{
+				unset($options[$key]);
+			}
+		}
 
-        $defaultOptions = [HTML::_('select.option', '-1', Languages::_('THM_ORGANIZER_NONE'))];
-        $programs       = $defaultOptions + $options;
-        $attributes     = ['multiple' => 'multiple', 'size' => '10'];
+		$defaultOptions = [HTML::_('select.option', '-1', Languages::_('THM_ORGANIZER_NONE'))];
+		$programs       = $defaultOptions + $options;
+		$attributes     = ['multiple' => 'multiple', 'size' => '10'];
 
-        return HTML::selectBox($programs, 'programID', $attributes, $selectedPrograms, true);
-    }
+		return HTML::selectBox($programs, 'programID', $attributes, $selectedPrograms, true);
+	}
 
-    /**
-     * Adds the javascript to the page necessary to refresh the parent pool options
-     *
-     * @param int    $resourceID   the resource's id
-     * @param string $resourceType the resource's type
-     *
-     * @return void
-     */
-    private function addScript($resourceID, $resourceType)
-    {
-        ?>
+	/**
+	 * Adds the javascript to the page necessary to refresh the parent pool options
+	 *
+	 * @param   int     $resourceID    the resource's id
+	 * @param   string  $resourceType  the resource's type
+	 *
+	 * @return void
+	 */
+	private function addScript($resourceID, $resourceType)
+	{
+		?>
         <script type="text/javascript" charset="utf-8">
             jQuery(document).ready(function () {
                 jQuery('#jformprogramID').change(function () {
@@ -166,6 +168,6 @@ class ProgramMappingsField extends FormField
                 addAddHandler();
             });
         </script>
-        <?php
-    }
+		<?php
+	}
 }

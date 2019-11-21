@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Tables\Schedules as SchedulesTable;
 
 /**
@@ -26,7 +26,7 @@ class ScheduleEdit extends EditModel
 	 */
 	public function allowEdit()
 	{
-		return Access::allowSchedulingAccess();
+		return (bool) Can::scheduleTheseDepartments();
 	}
 
 	/**

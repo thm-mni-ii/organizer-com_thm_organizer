@@ -27,12 +27,7 @@ class GroupEdit extends EditModel
 	 */
 	public function allowEdit()
 	{
-		if (empty($this->item->id))
-		{
-			return false;
-		}
-
-		return Groups::allowEdit([$this->item->id]);
+		return Can::edit('group', $this->item->id);
 	}
 
 	/**

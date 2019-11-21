@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Tables\Pools as PoolsTable;
 
 /**
@@ -26,13 +26,9 @@ class PoolEdit extends EditModel
 	 */
 	public function allowEdit()
 	{
-		$poolID = (isset($this->item->id) and !empty($this->item->id)) ? $this->item->id : 0;
-		if (empty($poolID) or !Access::checkAssetInitialization('pool', $poolID))
-		{
-			return Access::allowDocumentAccess();
-		}
+		$poolID = empty($this->item->id) ? 0 : $this->item->id;
 
-		return Access::allowDocumentAccess('pool', $poolID);
+		return Can::document('pool', $poolID);
 	}
 
 	/**

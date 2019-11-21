@@ -21,7 +21,7 @@ class Holidays extends ListModel
 	protected $defaultOrdering = 'name';
 
 	/**
-	 * Method to select all holiday rows from the database
+	 * Method to get a list of resources from the database.
 	 *
 	 * @return \JDatabaseQuery
 	 */

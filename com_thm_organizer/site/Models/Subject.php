@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Tables\Subjects as SubjectsTable;
@@ -117,7 +117,7 @@ class Subject extends BaseModel
 	 */
 	public function delete()
 	{
-		if (!Access::allowDocumentAccess())
+		if (!Can::documentTheseDepartments())
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -126,7 +126,7 @@ class Subject extends BaseModel
 		{
 			foreach ($subjectIDs as $subjectID)
 			{
-				if (!Access::allowDocumentAccess('subject', $subjectID))
+				if (!Can::document('subject', $subjectID))
 				{
 					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 				}
@@ -402,7 +402,7 @@ class Subject extends BaseModel
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
 		}
-		elseif (!Access::allowSubjectAccess($data['id']))
+		elseif (!Can::document('subject', $data['id']))
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}

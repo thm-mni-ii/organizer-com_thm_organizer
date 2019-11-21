@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Persons;
 use Organizer\Tables\Persons as PersonsTable;
@@ -34,26 +34,7 @@ class Person extends MergeModel
 	 */
 	protected function allowEdit()
 	{
-		if (Access::allowHRAccess())
-		{
-			return true;
-		}
-
-		$plannerFor = Access::getAccessibleDepartments('schedule');
-
-		foreach ($this->selected as $selected)
-		{
-			$personDepartments = Persons:: getDepartmentIDs($selected);
-			foreach ($personDepartments as $personDepartment)
-			{
-				if (in_array($personDepartment, $plannerFor))
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
+		return Can::edit('persons', $this->selected);
 	}
 
 	/**

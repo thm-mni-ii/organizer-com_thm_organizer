@@ -20,43 +20,23 @@ class Groups extends ResourceHelper implements Selectable
 	use Filtered;
 
 	/**
-	 * Checks whether the given group is associated with an allowed department
+	 * Retrieves the ids of departments associated with the resource
 	 *
-	 * @param   array  $groupIDs  the ids of the groups being checked
+	 * @param   int  $resourceID  the id of the resource for which the associated departments are requested
 	 *
-	 * @return bool  true if the group is associated with an allowed department, otherwise false
+	 * @return array the ids of departments associated with the resource
 	 */
-	public static function allowEdit($groupIDs)
+	public static function getDepartmentIDs($resourceID)
 	{
-		if (empty(Factory::getUser()->id))
-		{
-			return false;
-		}
-
-		if (Access::isAdmin())
-		{
-			return true;
-		}
-
-		if (empty($groupIDs))
-		{
-			return false;
-		}
-
-		$groupIDs           = "'" . implode("', '", $groupIDs) . "'";
-		$allowedDepartments = Access::getAccessibleDepartments('schedule');
-
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('DISTINCT dr.id')
 			->from('#__thm_organizer_department_resources AS dr')
 			->innerJoin('#__thm_organizer_groups as gr on gr.categoryID = dr.categoryID')
-			->where("gr.id IN ( $groupIDs )")
-			->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
-
+			->where("gr.id  = $resourceID");
 		$dbo->setQuery($query);
 
-		return (bool) OrganizerHelper::executeQuery('loadColumn', []);
+		return OrganizerHelper::executeQuery('loadColumn', []);
 	}
 
 	/**

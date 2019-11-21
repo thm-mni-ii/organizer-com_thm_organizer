@@ -20,47 +20,6 @@ class Categories implements DepartmentAssociated, Selectable
 	use Filtered;
 
 	/**
-	 * Checks whether the given plan program is associated with an allowed department
-	 *
-	 * @param   array  $categoryIDs  the ids of the plan programs being checked
-	 *
-	 * @return bool  true if the plan program is associated with an allowed department, otherwise false
-	 */
-	public static function allowEdit($categoryIDs)
-	{
-		$user = Factory::getUser();
-
-		if (empty($user->id))
-		{
-			return false;
-		}
-
-		if (Access::isAdmin())
-		{
-			return true;
-		}
-
-		if (empty($categoryIDs))
-		{
-			return false;
-		}
-
-		$categoryIDs        = "'" . implode("', '", $categoryIDs) . "'";
-		$allowedDepartments = Access::getAccessibleDepartments('schedule');
-
-		$dbo   = Factory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('DISTINCT id')
-			->from('#__thm_organizer_department_resources')
-			->where("categoryID IN ( $categoryIDs )")
-			->where("departmentID IN ('" . implode("', '", $allowedDepartments) . "')");
-
-		$dbo->setQuery($query);
-
-		return (bool) OrganizerHelper::executeQuery('loadResult');
-	}
-
-	/**
 	 * Retrieves the ids of departments associated with the resource
 	 *
 	 * @param   int  $resourceID  the id of the resource for which the associated departments are requested
@@ -75,9 +34,8 @@ class Categories implements DepartmentAssociated, Selectable
 			->from('#__thm_organizer_department_resources')
 			->where("categoryID = $resourceID");
 		$dbo->setQuery($query);
-		$departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
-		return empty($departmentIDs) ? [] : $departmentIDs;
+		return OrganizerHelper::executeQuery('loadColumn', []);
 	}
 
 	/**

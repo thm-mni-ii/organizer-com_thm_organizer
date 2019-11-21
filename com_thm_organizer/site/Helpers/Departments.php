@@ -37,21 +37,33 @@ class Departments extends ResourceHelper implements Selectable
 		}
 
 		$resource = OrganizerHelper::getResource($view);
-		if ($access === 'schedule')
+
+		switch ($access)
 		{
-			$query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
-			if (in_array($resource, ['category', 'person']))
-			{
-				$query->where("dpr.{$resource}ID IS NOT NULL");
-			}
-		}
-		elseif ($access === 'document')
-		{
-			$table = OrganizerHelper::getPlural($resource);
-			$query->innerJoin("#__thm_organizer_$table AS res ON res.departmentID = depts.id");
+			case 'document':
+				$table = OrganizerHelper::getPlural($resource);
+				$query->innerJoin("#__thm_organizer_$table AS res ON res.departmentID = depts.id");
+				$allowedIDs = Can::documentTheseDepartments();
+				break;
+			case 'manage':
+				$allowedIDs = Can::manageTheseDepartments();
+				break;
+			case 'schedule':
+				$query->innerJoin('#__thm_organizer_department_resources AS dpr ON dpr.departmentID = depts.id');
+				if (in_array($resource, ['category', 'person']))
+				{
+					$query->where("dpr.{$resource}ID IS NOT NULL");
+				}
+				$allowedIDs = Can::scheduleTheseDepartments();
+				break;
+			case 'view':
+				$allowedIDs = Can::viewTheseDepartments();
+				break;
+			default:
+				// Access right does not exist for department resource.
+				return;
 		}
 
-		$allowedIDs = Access::getAccessibleDepartments($access);
 		$query->where("depts.id IN ( '" . implode("', '", $allowedIDs) . "' )");
 	}
 
@@ -82,6 +94,25 @@ class Departments extends ResourceHelper implements Selectable
 		$departmentIDs = OrganizerHelper::executeQuery('loadColumn', []);
 
 		return empty($departmentIDs) ? [] : $departmentIDs;
+	}
+
+	/**
+	 * Retrieves the resource items.
+	 *
+	 * @param   string  $access  any access restriction which should be performed
+	 *
+	 * @return array the available resources
+	 */
+	public static function getIDs()
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('id')->from('#__thm_organizer_departments');
+
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadColumn', []);
 	}
 
 	/**

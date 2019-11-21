@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Organizer\Helpers\Languages;
 
 /**
@@ -18,9 +19,9 @@ use Organizer\Helpers\Languages;
 class Roomtypes extends ListModel
 {
 	/**
-	 * Method to get all room types from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

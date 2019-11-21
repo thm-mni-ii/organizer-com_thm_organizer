@@ -32,7 +32,7 @@ class Category extends MergeModel
 	 */
 	protected function allowEdit()
 	{
-		return Categories::allowEdit($this->selected);
+		return Can::edit('categories', $this->selected);
 	}
 
 	/**

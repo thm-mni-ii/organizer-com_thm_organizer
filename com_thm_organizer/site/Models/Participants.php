@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Joomla\CMS\Form\Form;
 use Organizer\Helpers\Input;
 
@@ -41,9 +42,9 @@ class Participants extends ListModel
 	}
 
 	/**
-	 * Method to get all groups from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

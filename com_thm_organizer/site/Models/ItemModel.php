@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
 
@@ -43,6 +43,6 @@ class ItemModel extends BaseModel
 	 */
 	protected function allowView()
 	{
-		return Access::isAdmin();
+		return Can::administrate();
 	}
 }

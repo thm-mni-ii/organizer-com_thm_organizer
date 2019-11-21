@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\Mappings;
@@ -77,7 +77,7 @@ class ProgramLSF extends BaseModel
 
 		foreach ($programIDs as $programID)
 		{
-			if (!Access::allowDocumentAccess('program', $programID))
+			if (!Can::document('program', $programID))
 			{
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 			}
@@ -225,7 +225,7 @@ class ProgramLSF extends BaseModel
 
 		foreach ($programIDs as $programID)
 		{
-			if (!Access::allowDocumentAccess('program', $programID))
+			if (!Can::document('program', $programID))
 			{
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 			}

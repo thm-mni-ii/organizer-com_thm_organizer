@@ -10,6 +10,8 @@
 
 namespace Organizer\Models;
 
+use Exception;
+use JDatabaseQuery;
 use Organizer\Helpers\Filtered;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Instances as InstancesHelper;
@@ -24,9 +26,10 @@ class Instances extends ListModel
 	protected $defaultOrdering = 'name';
 
 	/**
-	 * Method to select all instance rows from the database
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
+	 * @throws Exception
 	 */
 	protected function getListQuery()
 	{

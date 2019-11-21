@@ -29,12 +29,7 @@ class CategoryEdit extends EditModel
 	 */
 	public function allowEdit()
 	{
-		if (empty($this->item->id))
-		{
-			return false;
-		}
-
-		return Categories::allowEdit([$this->item->id]);
+		return Can::edit('category', $this->item->id);
 	}
 
 	/**

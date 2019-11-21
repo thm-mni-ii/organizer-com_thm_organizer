@@ -11,7 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
@@ -34,7 +34,7 @@ class Rooms extends ListView
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'room.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'room.edit', true);
 
-		if (Access::isAdmin())
+		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
@@ -53,7 +53,7 @@ class Rooms extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowFMAccess();
+		return Can::manage('facilities');
 	}
 
 	/**

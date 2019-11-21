@@ -21,44 +21,44 @@ use Organizer\Helpers\Languages;
  */
 class SubjectSelection extends ListModel
 {
-    /**
-     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
-     *
-     * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
-     */
-    protected function getListQuery()
-    {
-        $dbo   = Factory::getDbo();
-        $tag   = Languages::getTag();
-        $query = $dbo->getQuery(true);
+	/**
+	 * Method to get a list of resources from the database.
+	 *
+	 * @return JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$dbo   = Factory::getDbo();
+		$tag   = Languages::getTag();
+		$query = $dbo->getQuery(true);
 
-        $query->select("DISTINCT s.id, code, name_$tag AS name")->from('#__thm_organizer_subjects AS s');
+		$query->select("DISTINCT s.id, code, name_$tag AS name")->from('#__thm_organizer_subjects AS s');
 
-        $searchFields = [
-            'name_de',
-            'shortName_de',
-            'abbreviation_de',
-            'name_en',
-            'shortName_en',
-            'abbreviation_en',
-            'code',
-            'description_de',
-            'objective_de',
-            'content_de',
-            'description_en',
-            'objective_en',
-            'content_en'
-        ];
-        $this->setSearchFilter($query, $searchFields);
-        $this->setValueFilters($query, ['code', 'fieldID']);
+		$searchFields = [
+			'name_de',
+			'shortName_de',
+			'abbreviation_de',
+			'name_en',
+			'shortName_en',
+			'abbreviation_en',
+			'code',
+			'description_de',
+			'objective_de',
+			'content_de',
+			'description_en',
+			'objective_en',
+			'content_en'
+		];
+		$this->setSearchFilter($query, $searchFields);
+		$this->setValueFilters($query, ['code', 'fieldID']);
 
-        $programID = $this->state->get('filter.programID', '');
-        Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
-        $poolID = $this->state->get('filter.poolID', '');
-        Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
+		$programID = $this->state->get('filter.programID', '');
+		Mappings::setResourceIDFilter($query, $programID, 'program', 'subject');
+		$poolID = $this->state->get('filter.poolID', '');
+		Mappings::setResourceIDFilter($query, $poolID, 'pool', 'subject');
 
-        $this->setOrdering($query);
+		$this->setOrdering($query);
 
-        return $query;
-    }
+		return $query;
+	}
 }

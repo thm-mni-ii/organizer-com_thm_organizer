@@ -11,6 +11,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Organizer\Helpers\Languages;
 
 /**
@@ -18,23 +19,23 @@ use Organizer\Helpers\Languages;
  */
 class Grids extends ListModel
 {
-    /**
-     * Method to get all grids from the database and set filters for name and default state
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $tag   = Languages::getTag();
-        $query = $this->getDbo()->getQuery(true);
+	/**
+	 * Method to get a list of resources from the database.
+	 *
+	 * @return JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$tag   = Languages::getTag();
+		$query = $this->getDbo()->getQuery(true);
 
-        $select = "id, name_$tag AS name, grid, defaultGrid, ";
-        $parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", 'id'];
-        $select .= $query->concatenate($parts, '') . ' AS link';
-        $query->select($select);
-        $query->from('#__thm_organizer_grids');
-        $this->setOrdering($query);
+		$select = "id, name_$tag AS name, grid, defaultGrid, ";
+		$parts  = ["'index.php?option=com_thm_organizer&view=grid_edit&id='", 'id'];
+		$select .= $query->concatenate($parts, '') . ' AS link';
+		$query->select($select);
+		$query->from('#__thm_organizer_grids');
+		$this->setOrdering($query);
 
-        return $query;
-    }
+		return $query;
+	}
 }

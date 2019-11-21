@@ -10,6 +10,7 @@
 
 namespace Organizer\Models;
 
+use JDatabaseQuery;
 use Organizer\Helpers\Languages;
 
 /**
@@ -22,9 +23,9 @@ class Runs extends ListModel
 	protected $filter_fields = ['termID'];
 
 	/**
-	 * Method to get all runs from the database and set filters for term
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -34,7 +35,7 @@ class Runs extends ListModel
 		$query->select("r.id, r.name_$tag as name, r.run, r.termID, t.name_$tag as term")
 			->select($query->concatenate($linkParts, '') . ' AS link')
 			->leftJoin('#__thm_organizer_terms AS t ON t.id = r.termID')
-			->from('#__thm_organizer_runs as r');
+			->from('#__thm_organizer_runs AS r');
 
 		$this->setSearchFilter($query, ['name_de', 'name_en']);
 		$this->setValueFilters($query, ['termID']);

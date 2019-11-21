@@ -135,7 +135,7 @@ class Courses extends ListView
 			return true;
 		}
 
-		return (Helpers\Access::isAdmin() or Helper::coordinates());
+		return (Helpers\Can::administrate() or Helper::coordinates());
 	}
 
 	/**
@@ -201,8 +201,7 @@ class Courses extends ListView
 		$rowLink = $backend ? $editLink : $itemLink;
 		$userID  = Factory::getUser()->id;
 
-		$this->allowNew  = Helpers\Access::isAdmin();
-		$personID        = Helpers\Persons::getIDByUserID();
+		$this->allowNew  = Helpers\Can::administrate();
 		$structuredItems = [];
 
 		foreach ($this->items as $course)
@@ -213,7 +212,7 @@ class Courses extends ListView
 			$course->name  = Helper::getName($courseID) . $groups;
 			$index         = "{$course->name}{$course->dates}{$courseID}";
 
-			$courseCoordinator = Helper::coordinates($courseID, $personID);
+			$courseCoordinator = Helper::coordinates($courseID);
 			$this->allowNew    = ($this->allowNew OR $courseCoordinator);
 
 			if ($backend)

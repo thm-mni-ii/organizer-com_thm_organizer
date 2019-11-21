@@ -51,6 +51,25 @@ class Events extends ResourceHelper
 	}
 
 	/**
+	 * Retrieves the ids of departments associated with the resource
+	 *
+	 * @param   int  $resourceID  the id of the resource for which the associated departments are requested
+	 *
+	 * @return array the ids of departments associated with the resource
+	 */
+	public static function getDepartmentIDs($resourceID)
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('departmentID')
+			->from('#__thm_organizer_events')
+			->where("eventID = $resourceID");
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadColumn', []);
+	}
+
+	/**
 	 * Check if user is registered as a subject's teacher.
 	 *
 	 * @param   int  $eventID   the optional id of the subject

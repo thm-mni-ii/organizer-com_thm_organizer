@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Tables\Rooms as RoomsTable;
 
@@ -31,7 +31,7 @@ class Room extends MergeModel
 	 */
 	protected function allowEdit()
 	{
-		return Access::allowFMAccess();
+		return Can::manage('facilities');
 	}
 
 	/**

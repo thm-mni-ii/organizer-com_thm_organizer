@@ -14,7 +14,7 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
@@ -102,8 +102,7 @@ class Participant extends BaseModel
 			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
 		}
 
-		$lessonID = empty($data['lessonID']) ? null : $data['lessonID'];
-		if (!Access::allowParticipantAccess($data['id'], $lessonID))
+		if (!Can::edit('participant', $data['id']))
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}

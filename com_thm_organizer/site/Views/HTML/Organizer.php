@@ -11,7 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
@@ -22,51 +22,52 @@ use Organizer\Helpers\Languages;
  */
 class Organizer extends BaseHTMLView
 {
-    public $menuItems;
+	public $menuItems;
 
-    /**
-     * Method to get display
-     *
-     * @param Object $tpl template  (default: null)
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->addMenu();
-        $this->modifyDocument();
-        $this->addToolBar();
+	/**
+	 * Method to get display
+	 *
+	 * @param   Object  $tpl  template  (default: null)
+	 *
+	 * @return void
+	 */
+	public function display($tpl = null)
+	{
+		$this->addMenu();
+		$this->modifyDocument();
+		$this->addToolBar();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Creates a toolbar
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_MAIN'), 'organizer');
+	/**
+	 * Creates a toolbar
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		HTML::setTitle(Languages::_('THM_ORGANIZER_MAIN'), 'organizer');
 
-        if (Access::isAdmin()) {
-            $toolbar = Toolbar::getInstance();
-            $this->getModel()->showConfigurationMigrationButtons($toolbar);
-            $this->getModel()->showScheduleMigrationButton($toolbar);
-            HTML::setPreferencesButton();
-        }
-    }
+		if (Can::administrate())
+		{
+			$toolbar = Toolbar::getInstance();
+			$this->getModel()->showConfigurationMigrationButtons($toolbar);
+			$this->getModel()->showScheduleMigrationButton($toolbar);
+			HTML::setPreferencesButton();
+		}
+	}
 
-    /**
-     * Adds styles and scripts to the document
-     *
-     * @return void  modifies the document
-     */
-    protected function modifyDocument()
-    {
-        HTML::_('bootstrap.framework');
+	/**
+	 * Adds styles and scripts to the document
+	 *
+	 * @return void  modifies the document
+	 */
+	protected function modifyDocument()
+	{
+		HTML::_('bootstrap.framework');
 
-        $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
-    }
+		$document = Factory::getDocument();
+		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
+	}
 }

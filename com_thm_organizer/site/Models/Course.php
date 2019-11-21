@@ -15,7 +15,7 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Input;
 use Organizer\Tables\Courses as CoursesTable;
@@ -36,7 +36,7 @@ class Course extends BaseModel
 		$data     = Input::getInput()->getArray();
 		$courseID = Input::getID();
 
-		if (!Access::allowCourseAccess($courseID))
+		if (!Can::manage('course', $courseID))
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -81,7 +81,7 @@ class Course extends BaseModel
 			throw new Exception(Languages::_('THM_ORGANIZER_404'), 404);
 		}
 
-		if (empty(Access::allowCourseAccess($courseID)))
+		if (empty(Can::manage('course', $courseID)))
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}

@@ -11,7 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Persons as PersonsHelper;
@@ -41,7 +41,7 @@ class Persons extends ListView
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'person.add', false);
 		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'person.edit', true);
-		if (Access::isAdmin())
+		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
@@ -60,7 +60,7 @@ class Persons extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowHRAccess();
+		return Can::manage('persons');
 	}
 
 	/**

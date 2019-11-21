@@ -14,7 +14,7 @@ use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Named;
@@ -52,7 +52,7 @@ abstract class EditModel extends AdminModel
 	 */
 	protected function allowEdit()
 	{
-		return Access::isAdmin();
+		return Can::administrate();
 	}
 
 	/**
@@ -68,12 +68,6 @@ abstract class EditModel extends AdminModel
 	 */
 	public function getForm($data = [], $loadData = true)
 	{
-		$allowEdit = $this->allowEdit();
-		if (!$allowEdit)
-		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
-		}
-
 		$name = $this->get('name');
 		$form = $this->loadForm($this->context, $name, ['control' => 'jform', 'load_data' => $loadData]);
 
@@ -137,6 +131,6 @@ abstract class EditModel extends AdminModel
 		$resourceIDs = Input::getSelectedIDs();
 		$resourceID  = empty($resourceIDs) ? 0 : $resourceIDs[0];
 
-		return $this->getItem($resourceID);
+		return $this->item ? $this->item : $this->getItem($resourceID);
 	}
 }

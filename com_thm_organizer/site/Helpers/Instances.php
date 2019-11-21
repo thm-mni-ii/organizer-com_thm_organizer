@@ -117,7 +117,7 @@ class Instances extends ResourceHelper
 
 			if (!empty($conditions['departmentIDs']))
 			{
-				$allowedIDs   = Access::getAccessibleDepartments('schedule');
+				$allowedIDs   = Can::scheduleTheseDepartments();
 				$overlap      = array_intersect($conditions['departmentIDs'], $allowedIDs);
 				$overlapCount = count($overlap);
 
@@ -134,7 +134,7 @@ class Instances extends ResourceHelper
 			}
 			else
 			{
-				$conditions['showUnpublished'] = Access::isAdmin();
+				$conditions['showUnpublished'] = Can::administrate();
 			}
 		}
 		elseif ($personID = Persons::getIDByUserID($conditions['userID']))
@@ -409,13 +409,13 @@ class Instances extends ResourceHelper
 			return;
 		}
 
-		if (Access::isAdmin() or Access::allowHRAccess())
+		if (Can::administrate() or Can::manage('persons'))
 		{
 			return;
 		}
 
 		$thisPersonID      = Persons::getIDByUserID($userID);
-		$accessibleDeptIDs = Access::getAccessibleDepartments('view', $userID);
+		$accessibleDeptIDs = Can::viewTheseDepartments();
 
 		foreach ($personIDs as $key => $personID)
 		{

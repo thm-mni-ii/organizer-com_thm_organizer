@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Tables\Programs as ProgramsTable;
 
@@ -29,7 +29,7 @@ class Program extends BaseModel
 	 */
 	public function delete()
 	{
-		if (!Access::allowDocumentAccess())
+		if (!Can::documentTheseDepartments())
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -40,7 +40,7 @@ class Program extends BaseModel
 			$model = new Mapping;
 			foreach ($programIDs as $programID)
 			{
-				if (!Access::allowDocumentAccess('program', $programID))
+				if (!Can::document('program', $programID))
 				{
 					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 				}
@@ -90,10 +90,9 @@ class Program extends BaseModel
 
 		if (empty($data['id']))
 		{
-			$documentationAccess = Access::allowDocumentAccess();
+			$documentationAccess = (bool) Can::documentTheseDepartments();
+			$schedulingAccess    = (bool) Can::scheduleTheseDepartments();
 
-			// New Programs often are introduced through schedules.
-			$schedulingAccess = Access::allowSchedulingAccess();
 			if (!($documentationAccess or $schedulingAccess))
 			{
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
@@ -101,7 +100,7 @@ class Program extends BaseModel
 		}
 		elseif (is_numeric($data['id']))
 		{
-			if (!Access::allowDocumentAccess('program', $data['id']))
+			if (!Can::document('program', $data['id']))
 			{
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 			}
@@ -136,7 +135,7 @@ class Program extends BaseModel
 	 */
 	public function save2copy($data = [])
 	{
-		if (!Access::allowDocumentAccess())
+		if (!Can::documentTheseDepartments())
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}

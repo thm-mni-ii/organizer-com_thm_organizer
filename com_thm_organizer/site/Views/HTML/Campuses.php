@@ -11,7 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Campuses as Helper;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -57,7 +57,7 @@ class Campuses extends ListView
 	 */
 	protected function allowAccess()
 	{
-		return Access::allowFMAccess();
+		return Can::manage('facilities');
 	}
 
 	/**

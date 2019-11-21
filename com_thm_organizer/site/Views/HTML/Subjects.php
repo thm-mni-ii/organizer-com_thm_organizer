@@ -11,7 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
@@ -92,7 +92,7 @@ class Subjects extends ListView
 	 */
 	protected function allowAccess()
 	{
-		$this->documentAccess = Access::allowDocumentAccess();
+		$this->documentAccess = (bool) Can::documentTheseDepartments();
 
 		return $this->clientContext === self::BACKEND ? $this->documentAccess : true;
 	}
@@ -193,7 +193,7 @@ class Subjects extends ListView
 
 		foreach ($this->items as $subject)
 		{
-			$access   = Access::allowSubjectAccess($subject->id);
+			$access   = Can::document('subject', $subject->id);
 			$checkbox = $access ? HTML::_('grid.id', $index, $subject->id) : '';
 			$thisLink = ($backend and $access) ? $editLink . $subject->id : $itemLink . $subject->id;
 

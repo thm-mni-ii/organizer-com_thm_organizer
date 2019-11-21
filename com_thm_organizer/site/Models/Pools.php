@@ -10,7 +10,8 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Access;
+use JDatabaseQuery;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 
@@ -22,9 +23,9 @@ class Pools extends ListModel
 	protected $filter_fields = ['departmentID', 'fieldID', 'programID'];
 
 	/**
-	 * Method to select the tree of a given major
+	 * Method to get a list of resources from the database.
 	 *
-	 * @return \JDatabaseQuery
+	 * @return JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -34,8 +35,8 @@ class Pools extends ListModel
 		$query->select("DISTINCT p.id, p.name_$tag AS name, p.fieldID")
 			->from('#__thm_organizer_pools AS p');
 
-		$allowedDepartments = Access::getAccessibleDepartments('document');
-		$query->where('(p.departmentID IN (' . implode(',', $allowedDepartments) . ') OR p.departmentID IS NULL)');
+		$authorizedDepts = Can::documentTheseDepartments();
+		$query->where('(p.departmentID IN (' . implode(',', $authorizedDepts) . ') OR p.departmentID IS NULL)');
 
 		$searchColumns = [
 			'p.name_de',

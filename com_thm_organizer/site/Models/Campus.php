@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Tables\Campuses as CampusesTable;
 
@@ -26,7 +26,7 @@ class Campus extends BaseModel
 	 */
 	protected function allow()
 	{
-		return Access::isAdmin();
+		return Can::administrate();
 	}
 
 	/**

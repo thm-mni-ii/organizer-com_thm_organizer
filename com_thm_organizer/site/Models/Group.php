@@ -35,7 +35,7 @@ class Group extends MergeModel
 	 */
 	protected function allowEdit()
 	{
-		return Groups::allowEdit($this->selected);
+		return Can::edit('groups', $this->selected);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Group extends MergeModel
 			return false;
 		}
 
-		if (!Groups::allowEdit($this->selected))
+		if (!Can::edit('groups', $this->selected))
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}

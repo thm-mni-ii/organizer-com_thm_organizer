@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Access;
+use Organizer\Helpers\Can;
 use Organizer\Tables\Monitors as MonitorsTable;
 
 /**
@@ -26,7 +26,7 @@ class MonitorEdit extends EditModel
 	 */
 	protected function allowEdit()
 	{
-		return Access::allowFMAccess();
+		return Can::manage('facilities');
 	}
 
 	/**

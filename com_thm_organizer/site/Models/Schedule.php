@@ -41,7 +41,7 @@ class Schedule extends BaseModel
 	{
 		$scheduleID = Helpers\Input::getSelectedIDs()[0];
 
-		if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+		if (!Helpers\Can::schedule('schedule', $scheduleID))
 		{
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -101,7 +101,7 @@ class Schedule extends BaseModel
 	public function deactivate()
 	{
 		$scheduleID = Helpers\Input::getSelectedIDs()[0];
-		if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+		if (!Helpers\Can::schedule('schedule', $scheduleID))
 		{
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -117,7 +117,7 @@ class Schedule extends BaseModel
 	 */
 	public function delete()
 	{
-		if (!Helpers\Access::allowSchedulingAccess())
+		if (!Helpers\Can::scheduleTheseDepartments())
 		{
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -125,7 +125,7 @@ class Schedule extends BaseModel
 		$scheduleIDs = Helpers\Input::getSelectedIDs();
 		foreach ($scheduleIDs as $scheduleID)
 		{
-			if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+			if (!Helpers\Can::schedule('schedule', $scheduleID))
 			{
 				throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 			}
@@ -330,7 +330,7 @@ class Schedule extends BaseModel
 			return true;
 		}
 
-		if (!Helpers\Access::allowSchedulingAccess($referenceID))
+		if (!Helpers\Can::schedule('schedule', $referenceID))
 		{
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -583,7 +583,7 @@ class Schedule extends BaseModel
 		$scheduleID = Helpers\Input::getInt('id');
 		$table      = new SchedulesTable;
 
-		if (!Helpers\Access::allowSchedulingAccess($scheduleID))
+		if (!Helpers\Can::schedule('schedule', $scheduleID))
 		{
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -632,7 +632,7 @@ class Schedule extends BaseModel
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
 		}
 
-		if (!Helpers\Access::allowSchedulingAccess(null, $departmentID))
+		if (!Helpers\Can::schedule('schedule', $departmentID))
 		{
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}

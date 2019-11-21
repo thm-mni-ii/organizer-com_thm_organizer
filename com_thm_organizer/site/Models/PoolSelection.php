@@ -11,7 +11,8 @@
 
 namespace Organizer\Models;
 
-use Organizer\Helpers\Access;
+use JDatabaseQuery;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Mappings;
 
@@ -20,40 +21,40 @@ use Organizer\Helpers\Mappings;
  */
 class PoolSelection extends ListModel
 {
-    /**
-     * Method to select the tree of a given major
-     *
-     * @return \JDatabaseQuery
-     */
-    protected function getListQuery()
-    {
-        $tag   = Languages::getTag();
-        $query = $this->_db->getQuery(true);
+	/**
+	 * Method to get a list of resources from the database.
+	 *
+	 * @return JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$tag   = Languages::getTag();
+		$query = $this->_db->getQuery(true);
 
-        $query->select("DISTINCT p.id, p.name_$tag AS name, p.fieldID")
-            ->from('#__thm_organizer_pools AS p');
+		$query->select("DISTINCT p.id, p.name_$tag AS name, p.fieldID")
+			->from('#__thm_organizer_pools AS p');
 
-        $allowedDepartments = Access::getAccessibleDepartments('document');
-        $query->where('(p.departmentID IN (' . implode(',', $allowedDepartments) . ') OR p.departmentID IS NULL)');
+		$authorizedDepts = Can::documentTheseDepartments();
+		$query->where('(p.departmentID IN (' . implode(',', $authorizedDepts) . ') OR p.departmentID IS NULL)');
 
-        $searchColumns = [
-            'p.name_de',
-            'p.shortName_de',
-            'p.abbreviation_de',
-            'p.description_de',
-            'p.name_en',
-            'p.shortName_en',
-            'p.abbreviation_en',
-            'p.description_en'
-        ];
-        $this->setSearchFilter($query, $searchColumns);
-        $this->setValueFilters($query, ['departmentID', 'fieldID']);
+		$searchColumns = [
+			'p.name_de',
+			'p.shortName_de',
+			'p.abbreviation_de',
+			'p.description_de',
+			'p.name_en',
+			'p.shortName_en',
+			'p.abbreviation_en',
+			'p.description_en'
+		];
+		$this->setSearchFilter($query, $searchColumns);
+		$this->setValueFilters($query, ['departmentID', 'fieldID']);
 
-        $programID = $this->state->get('filter.programID', '');
-        Mappings::setResourceIDFilter($query, $programID, 'program', 'pool');
+		$programID = $this->state->get('filter.programID', '');
+		Mappings::setResourceIDFilter($query, $programID, 'program', 'pool');
 
-        $this->setOrdering($query);
+		$this->setOrdering($query);
 
-        return $query;
-    }
+		return $query;
+	}
 }
