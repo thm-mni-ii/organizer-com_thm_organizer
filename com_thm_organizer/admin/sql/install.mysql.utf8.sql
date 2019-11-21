@@ -464,19 +464,6 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_persons` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__thm_organizer_pool_mappings` (
-    `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `poolID`  INT(11) UNSIGNED NOT NULL,
-    `groupID` INT(11) UNSIGNED NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `entry` (`poolID`, `groupID`),
-    INDEX `poolID` (`poolID`),
-    INDEX `groupID` (`groupID`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_pools` (
     `id`              INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `asset_id`        INT(11)          NOT NULL DEFAULT 0,
