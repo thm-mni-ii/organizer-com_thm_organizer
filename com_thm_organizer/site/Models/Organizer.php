@@ -307,7 +307,8 @@ class Organizer extends BaseModel
 
 						// The event (plan subject) no longer exists or is no longer associated with the unit
 						$eventsTable = new Tables\Events;
-						if (!$eventID = $eventsTable->load($instanceConfiguration['subjectID'])
+						$eventsTable->load($instanceConfiguration['subjectID']);
+						if (!$eventID = $eventsTable->id
 							or !$eventConfiguration = $unitConfiguration['subjects'][$eventID]
 						)
 						{
