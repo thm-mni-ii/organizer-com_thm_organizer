@@ -12,6 +12,7 @@ namespace Organizer\Tables;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 
 /**
@@ -110,8 +111,9 @@ class Schedules extends BaseTable
 		$dbo->setQuery($deptQuery);
 		$deptName = (string) OrganizerHelper::executeQuery('loadResult');
 
+		$tag = Languages::getTag();
 		$termQuery = $dbo->getQuery(true);
-		$termQuery->select('name')
+		$termQuery->select("name_$tag")
 			->from('#__thm_organizer_terms')
 			->where("id = '{$this->termID}'");
 
