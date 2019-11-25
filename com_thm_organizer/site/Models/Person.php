@@ -11,15 +11,13 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Can;
-use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Persons;
-use Organizer\Tables\Persons as PersonsTable;
+use Organizer\Helpers as Helpers;
+use Organizer\Tables as Tables;
 
 /**
  * Class which manages stored person data.
  */
-class Person extends MergeModel
+class Person extends MergeModel implements ScheduleResource
 {
 	protected $deptResource = 'personID';
 
@@ -28,13 +26,57 @@ class Person extends MergeModel
 	protected $tableName = 'persons';
 
 	/**
+	 * Aggregates the attributes/resources associated with a person for a particular instance.
+	 *
+	 * @param   array  $assocs  the attributes/resources associated with the persons before the merge process.
+	 *
+	 * @return array the aggregated associations
+	 */
+	private function aggregateAssocs($assocs)
+	{
+		if (count($assocs) === 1)
+		{
+			return $assocs[0];
+		}
+
+		$groups  = [];
+		$roleIDs = [];
+		$rooms   = [];
+		foreach ($assocs as $assoc)
+		{
+			foreach ($assoc['groups'] as $groupID)
+			{
+				$groups[$groupID] = $groupID;
+			}
+
+			if ($roleIDs[$assoc['roleID']])
+			{
+				$roleIDs[$assoc['roleID']]++;
+			}
+			else
+			{
+				$roleIDs[$assoc['roleID']] = 1;
+			}
+
+			foreach ($assoc['rooms'] as $roomID)
+			{
+				$rooms[$roomID] = $roomID;
+			}
+		}
+
+		$roleID = array_keys($roleIDs, max($roleIDs))[0];
+
+		return ['groups' => array_values($groups), 'roleID' => $roleID, 'rooms' => array_values($rooms)];
+	}
+
+	/**
 	 * Provides user access checks to persons
 	 *
 	 * @return boolean  true if the user may edit the given resource, otherwise false
 	 */
 	protected function allowEdit()
 	{
-		return Can::edit('persons', $this->selected);
+		return Helpers\Can::edit('persons', $this->selected);
 	}
 
 	/**
@@ -50,50 +92,7 @@ class Person extends MergeModel
 	 */
 	public function getTable($name = '', $prefix = '', $options = [])
 	{
-		return new PersonsTable;
-	}
-
-	/**
-	 * Removes potential duplicates before the subject person associations are updated.
-	 *
-	 * @return bool true if no error occurred, otherwise false
-	 */
-	private function removeDuplicateRoles()
-	{
-		$updateIDs = $this->selected;
-		$mergeID   = array_shift($updateIDs);
-		$updateIDs = "'" . implode("', '", $updateIDs) . "'";
-		$table     = '#__thm_organizer_subject_persons';
-
-		$selectQuery = $this->_db->getQuery(true);
-		$selectQuery->select('DISTINCT subjectID, role')
-			->from($table)
-			->where("personID = $mergeID");
-		$this->_db->setQuery($selectQuery);
-
-		$existingRoles = OrganizerHelper::executeQuery('loadAssocList');
-
-		if (!empty($existingRoles))
-		{
-			$potentialDuplicates = [];
-			foreach ($existingRoles as $role)
-			{
-				$potentialDuplicates[]
-					= "(subjectID = '{$role['subjectID']}' AND role = '{$role['role']}')";
-			}
-			$potentialDuplicates = '(' . implode(' OR ', $potentialDuplicates) . ')';
-
-			$deleteQuery = $this->_db->getQuery(true);
-			$deleteQuery->delete($table)->where("personID IN ( $updateIDs )")->where($potentialDuplicates);
-			$this->_db->setQuery($deleteQuery);
-			$success = (bool) OrganizerHelper::executeQuery('execute');
-			if (!$success)
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return new Tables\Persons;
 	}
 
 	/**
@@ -108,24 +107,204 @@ class Person extends MergeModel
 			return false;
 		}
 
-		if (!$this->updateAssociation('instance_persons'))
+		if (!$this->updateEventCoordinators())
 		{
 			return false;
 		}
 
-		if (!$this->removeDuplicateRoles())
+		if (!$this->updateInstancePersons())
 		{
 			return false;
 		}
 
-		if (!$this->updateAssociation('subject_persons'))
+		return $this->updateSubjectPersons();
+	}
+
+	/**
+	 * Updates the event coordinators table to reflect the merge of the persons.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateEventCoordinators()
+	{
+		if (!$relevantEvents = $this->getAssociatedResourceIDs('eventID', 'event_coordinators'))
 		{
-			return false;
+			return true;
 		}
 
-		if (!$this->updateStoredConfigurations())
+		$mergeID = reset($this->selected);
+
+		foreach ($relevantEvents as $eventID)
 		{
-			return false;
+			$existing    = new Tables\EventCoordinators;
+			$entryExists = $existing->load(['eventID' => $eventID, 'personID' => $mergeID]);
+
+			foreach ($this->selected as $personID)
+			{
+				$ecTable        = new Tables\EventCoordinators;
+				$loadConditions = ['eventID' => $eventID, 'personID' => $personID];
+				if ($ecTable->load($loadConditions))
+				{
+					if ($entryExists)
+					{
+						if ($existing->id !== $ecTable->id)
+						{
+							$ecTable->delete();
+						}
+
+						continue;
+					}
+
+					$ecTable->personID = $mergeID;
+					if ($ecTable->store())
+					{
+						$entryExists = true;
+						continue;
+					}
+
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Updates the instance persons table to reflect the merge of the persons.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateInstancePersons()
+	{
+		if (!$relevantInstances = $this->getAssociatedResourceIDs('instanceID', 'instance_persons'))
+		{
+			return true;
+		}
+
+		$mergeID = reset($this->selected);
+
+		foreach ($relevantInstances as $instanceID)
+		{
+			$delta    = '';
+			$modified = '';
+			$roleID   = '';
+
+			$existing    = new Tables\InstancePersons;
+			$entryExists = $existing->load(['instanceID' => $instanceID, 'personID' => $mergeID]);
+
+			foreach ($this->selected as $personID)
+			{
+				$ipTable        = new Tables\InstancePersons;
+				$loadConditions = ['instanceID' => $instanceID, 'personID' => $personID];
+				if (!$ipTable->load($loadConditions))
+				{
+					continue;
+				}
+
+				if ($ipTable->modified > $modified)
+				{
+					$delta    = $ipTable->delta;
+					$modified = $ipTable->modified;
+					$roleID   = $ipTable->roleID;
+				}
+
+				if ($entryExists)
+				{
+					if ($existing->id !== $ipTable->id)
+					{
+						$ipTable->delete();
+					}
+
+					continue;
+				}
+
+				$ipTable->delta    = $delta;
+				$ipTable->modified = $modified;
+				$ipTable->personID = $mergeID;
+				$ipTable->roleID   = $roleID;
+				if (!$ipTable->store())
+				{
+					return false;
+				}
+
+				$entryExists = true;
+				$existing    = $ipTable;
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * Updates the subject persons table to reflect the merge of the persons.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateSubjectPersons()
+	{
+		$mergeIDs = implode(', ', $this->selected);
+		$query    = $this->_db->getQuery(true);
+		$query->select("DISTINCT subjectID, role")
+			->from("#__thm_organizer_subject_persons")
+			->where("personID IN ($mergeIDs)");
+		$this->_db->setQuery($query);
+		if (!$relevantAssocs = Helpers\OrganizerHelper::executeQuery('loadAssocList', []))
+		{
+			return true;
+		}
+
+		$mergeID          = reset($this->selected);
+		$responsibilities = [];
+
+		foreach ($relevantAssocs as $assoc)
+		{
+			$subjectID = $assoc['subjectID'];
+			if (empty($responsibilities[$subjectID]))
+			{
+				$responsibilities[$subjectID] = [];
+			}
+
+			$responsibilities[$subjectID][$assoc['role']] = $assoc['role'];
+		}
+
+		foreach ($responsibilities as $subjectID => $roles)
+		{
+			foreach ($roles as $role)
+			{
+				$existing    = new Tables\SubjectPersons;
+				$entryExists = $existing->load(['personID' => $mergeID, 'role' => $role, 'subjectID' => $subjectID]);
+
+				foreach ($this->selected as $personID)
+				{
+					$spTable        = new Tables\SubjectPersons;
+					$loadConditions = ['personID' => $personID, 'role' => $role, 'subjectID' => $subjectID];
+					if (!$spTable->load($loadConditions))
+					{
+						continue;
+					}
+
+					if ($entryExists)
+					{
+						if ($existing->id !== $spTable->id)
+						{
+							$spTable->delete();
+						}
+
+						continue;
+					}
+
+					$entryExists = true;
+					$existing    = $spTable;
+				}
+
+				$existing->personID = $mergeID;
+				if (!$existing->store())
+				{
+					return false;
+				}
+			}
 		}
 
 		return true;
@@ -134,111 +313,42 @@ class Person extends MergeModel
 	/**
 	 * Processes the data for an individual schedule
 	 *
-	 * @param   object &$schedule  the schedule being processed
+	 * @param   Tables\Schedules  $schedule  the schedule being processed
 	 *
-	 * @return void
+	 * @return bool true if the schedule was changed, otherwise false
 	 */
-	protected function updateSchedule(&$schedule)
+	public function updateSchedule($schedule)
 	{
-		$updateIDs = $this->selected;
-		$mergeID   = array_shift($updateIDs);
+		$instances = json_decode($schedule->schedule, true);
+		$mergeID   = reset($this->selected);
+		$relevant  = false;
 
-		foreach ($schedule->lessons as $lessonIndex => $lesson)
+		foreach ($instances as $instanceID => $persons)
 		{
-			foreach ($lesson->events as $subjectID => $subjectConfig)
-			{
-				foreach ($subjectConfig->persons as $personID => $delta)
-				{
-					if (in_array($personID, $updateIDs))
-					{
-						unset($schedule->lessons->$lessonIndex->events->$subjectID->persons->$personID);
-						$schedule->lessons->$lessonIndex->events->$subjectID->persons->$mergeID = $delta;
-					}
-				}
-			}
-		}
-
-		foreach ($schedule->configurations as $index => $configuration)
-		{
-			$inConfig      = false;
-			$configuration = json_decode($configuration);
-
-			foreach ($configuration->persons as $personID => $delta)
-			{
-				if (in_array($personID, $updateIDs))
-				{
-					$inConfig = true;
-					unset($configuration->persons->$personID);
-					$configuration->persons->$mergeID = $delta;
-				}
-			}
-
-			if ($inConfig)
-			{
-				$schedule->configurations[$index] = json_encode($configuration, JSON_UNESCAPED_UNICODE);
-			}
-		}
-	}
-
-	/**
-	 * Updates the lesson configurations table with the person id changes.
-	 *
-	 * @return bool
-	 */
-	private function updateStoredConfigurations()
-	{
-		$updateIDs = $this->selected;
-		$mergeID   = array_shift($updateIDs);
-
-		$table       = '#__thm_organizer_lesson_configurations';
-		$selectQuery = $this->_db->getQuery(true);
-		$selectQuery->select('id, configuration')
-			->from($table);
-
-		$updateQuery = $this->_db->getQuery(true);
-		$updateQuery->update($table);
-
-		foreach ($updateIDs as $updateID)
-		{
-			$selectQuery->clear('where');
-			$regexp = '"persons":\\{("[0-9]+":"[\w]*",)*"' . $updateID . '"';
-			$selectQuery->where("configuration REGEXP '$regexp'");
-			$this->_db->setQuery($selectQuery);
-
-			$storedConfigurations = OrganizerHelper::executeQuery('loadAssocList');
-			if (empty($storedConfigurations))
+			if (!$relevantPersons = array_intersect(array_keys($persons), $this->selected))
 			{
 				continue;
 			}
 
-			foreach ($storedConfigurations as $storedConfiguration)
+			$relevant = true;
+
+			$assocs = [];
+			foreach ($relevantPersons as $personID)
 			{
-				$configuration = json_decode($storedConfiguration['configuration'], true);
-
-				$oldDelta = $configuration['persons'][$updateID];
-				unset($configuration['persons'][$updateID]);
-
-				// The new id is not yet an index, or it is, but has no delta value and the old id did
-				if (!isset($configuration['persons'][$mergeID])
-					or (empty($configuration['persons'][$mergeID]) and !empty($oldDelta)))
-				{
-					$configuration['persons'][$mergeID] = $oldDelta;
-				}
-
-				$configuration = json_encode($configuration, JSON_UNESCAPED_UNICODE);
-				$updateQuery->clear('set');
-				$updateQuery->set("configuration = '$configuration'");
-				$updateQuery->clear('where');
-				$updateQuery->where("id = '{$storedConfiguration['id']}'");
-				$this->_db->setQuery($updateQuery);
-				$success = (bool) OrganizerHelper::executeQuery('execute');
-				if (!$success)
-				{
-					return false;
-				}
+				$assocs[] = $instances[$instanceID][$personID];
+				unset($instances[$instanceID][$personID]);
 			}
+
+			$instances[$instanceID][$mergeID] = $this->aggregateAssocs($assocs);
 		}
 
-		return true;
+		if ($relevant)
+		{
+			$schedule->schedule = json_encode($instances);
+
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -12,13 +12,12 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Can;
-use Organizer\Helpers\OrganizerHelper;
-use Organizer\Tables\Rooms as RoomsTable;
+use Organizer\Tables as Tables;
 
 /**
  * Class which manages stored room data.
  */
-class Room extends MergeModel
+class Room extends MergeModel implements ScheduleResource
 {
 	protected $fkColumn = 'roomID';
 
@@ -47,7 +46,7 @@ class Room extends MergeModel
 	 */
 	public function getTable($name = '', $prefix = '', $options = [])
 	{
-		return new RoomsTable;
+		return new Tables\Rooms;
 	}
 
 	/**
@@ -57,14 +56,71 @@ class Room extends MergeModel
 	 */
 	protected function updateAssociations()
 	{
-		if (!$this->updateAssociation('monitors'))
+		if (!$this->updateDirectAssociation('monitors'))
 		{
 			return false;
 		}
 
-		if (!$this->updateStoredConfigurations())
+		return $this->updateInstanceRooms();
+	}
+
+	/**
+	 * Updates the instance groups table to reflect the merge of the groups.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateInstanceRooms()
+	{
+		if (!$relevantAssocs = $this->getAssociatedResourceIDs('assocID', 'instance_rooms'))
 		{
-			return false;
+			return true;
+		}
+
+		$mergeID = reset($this->selected);
+
+		foreach ($relevantAssocs as $assocID)
+		{
+			$delta       = '';
+			$modified    = '';
+			$existing    = new Tables\InstanceRooms;
+			$entryExists = $existing->load(['assocID' => $assocID, 'roomID' => $mergeID]);
+
+			foreach ($this->selected as $roomID)
+			{
+				$irTable        = new Tables\InstanceRooms;
+				$loadConditions = ['assocID' => $assocID, 'roomID' => $roomID];
+				if (!$irTable->load($loadConditions))
+				{
+					continue;
+				}
+
+				if ($irTable->modified > $modified)
+				{
+					$delta    = $irTable->delta;
+					$modified = $irTable->modified;
+				}
+
+				if ($entryExists)
+				{
+					if ($existing->id !== $irTable->id)
+					{
+						$irTable->delete();
+					}
+
+					continue;
+				}
+
+				$entryExists = true;
+				$existing    = $irTable;
+			}
+
+			$existing->delta    = $delta;
+			$existing->roomID   = $mergeID;
+			$existing->modified = $modified;
+			if (!$existing->store())
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -75,94 +131,47 @@ class Room extends MergeModel
 	 *
 	 * @param   object &$schedule  the schedule being processed
 	 *
-	 * @return void
+	 * @return bool true if the schedule was changed, otherwise false
 	 */
-	protected function updateSchedule(&$schedule)
+	public function updateSchedule($schedule)
 	{
-		$updateIDs = $this->selected;
-		$mergeID   = array_shift($updateIDs);
+		$instances = json_decode($schedule->schedule, true);
+		$mergeID   = reset($this->selected);
+		$relevant  = false;
 
-		foreach ($schedule->configurations as $index => $configuration)
+		foreach ($instances as $instanceID => $persons)
 		{
-			$inConfig      = false;
-			$configuration = json_decode($configuration);
-
-			foreach ($configuration->rooms as $roomID => $delta)
+			foreach ($persons as $personID => $data)
 			{
-				if (in_array($roomID, $updateIDs))
+				if (!$relevantRooms = array_intersect($data['rooms'], $this->selected))
 				{
-					$inConfig = true;
-					unset($configuration->rooms->$roomID);
-					$configuration->rooms->$mergeID = $delta;
-				}
-			}
-
-			if ($inConfig)
-			{
-				$schedule->configurations[$index] = json_encode($configuration, JSON_UNESCAPED_UNICODE);
-			}
-		}
-	}
-
-	/**
-	 * Updates the lesson configurations table with the room id changes.
-	 *
-	 * @return bool
-	 */
-	private function updateStoredConfigurations()
-	{
-		$table       = '#__thm_organizer_lesson_configurations';
-		$selectQuery = $this->_db->getQuery(true);
-		$selectQuery->select('id, configuration')
-			->from($table);
-
-		$updateQuery = $this->_db->getQuery(true);
-		$updateQuery->update($table);
-
-		$updateIDs = $this->selected;
-		$mergeID   = array_shift($updateIDs);
-
-		foreach ($updateIDs as $updateID)
-		{
-			$selectQuery->clear('where');
-			$regexp = '"rooms":\\{("[0-9]+":"[\w]*",)*"' . $updateID . '"';
-			$selectQuery->where("configuration REGEXP '$regexp'");
-			$this->_db->setQuery($selectQuery);
-
-			$storedConfigurations = OrganizerHelper::executeQuery('loadAssocList');
-			if (empty($storedConfigurations))
-			{
-				continue;
-			}
-
-			foreach ($storedConfigurations as $storedConfiguration)
-			{
-				$configuration = json_decode($storedConfiguration['configuration'], true);
-
-				$oldDelta = $configuration['rooms'][$updateID];
-				unset($configuration['rooms'][$updateID]);
-
-				// The new id is not yet an index, or it is, but has no delta value and the old id did
-				if (!isset($configuration['rooms'][$mergeID])
-					or (empty($configuration['rooms'][$mergeID]) and !empty($oldDelta)))
-				{
-					$configuration['rooms'][$mergeID] = $oldDelta;
+					continue;
 				}
 
-				$configuration = json_encode($configuration, JSON_UNESCAPED_UNICODE);
-				$updateQuery->clear('set');
-				$updateQuery->set("configuration = '$configuration'");
-				$updateQuery->clear('where');
-				$updateQuery->where("id = '{$storedConfiguration['id']}'");
-				$this->_db->setQuery($updateQuery);
-				$success = (bool) OrganizerHelper::executeQuery('execute');
-				if (!$success)
+				$relevant = true;
+
+				// Unset all relevant to avoid conditional and unique handling
+				foreach (array_keys($relevantRooms) as $relevantIndex)
 				{
-					return false;
+					unset($instances[$instanceID][$personID]['rooms'][$relevantIndex]);
 				}
+
+				// Put the merge id in/back in
+				$instances[$instanceID][$personID]['rooms'][] = $mergeID;
+
+				// Resequence to avoid JSON encoding treating the array as associative (object)
+				$instances[$instanceID][$personID]['rooms']
+					= array_values($instances[$instanceID][$personID]['rooms']);
 			}
 		}
 
-		return true;
+		if ($relevant)
+		{
+			$schedule->schedule = json_encode($instances);
+
+			return true;
+		}
+
+		return false;
 	}
 }

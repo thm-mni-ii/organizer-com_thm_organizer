@@ -56,18 +56,6 @@ class Roomtype extends MergeModel
 	 */
 	protected function updateAssociations()
 	{
-		return $this->updateAssociation('rooms');
-	}
-
-	/**
-	 * Processes the data for an individual schedule
-	 *
-	 * @param   object &$schedule  the schedule being processed
-	 *
-	 * @return void
-	 */
-	protected function updateSchedule(&$schedule)
-	{
-		return;
+		return $this->updateDirectAssociation('rooms');
 	}
 }

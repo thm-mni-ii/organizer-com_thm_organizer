@@ -61,92 +61,6 @@ abstract class MergeModel extends BaseModel
 	}
 
 	/**
-	 * Performs an automated merge of field entries, if allowed by to plausibility constraints. No access checks here
-	 * because this function is just a preprocessor for the function merge, which does have access checks.
-	 *
-	 * @return boolean  true on success, otherwise false
-	 * @throws Exception => unauthorized access
-	 */
-	public function autoMerge()
-	{
-		$this->selected = Input::getSelectedIDs();
-		$entries        = $this->getEntries();
-
-		$keyProperties = ['untisID'];
-		if ($this->fkColumn == 'personID')
-		{
-			$keyProperties[] = 'username';
-		}
-
-		$updateIDs = $this->selected;
-
-		$data       = [];
-		$data['id'] = array_shift($updateIDs);
-
-		foreach ($entries as $entry)
-		{
-			foreach ($entry as $property => $value)
-			{
-				if ($property == 'id')
-				{
-					continue;
-				}
-
-				$value = trim($value);
-
-				if (empty($value))
-				{
-					continue;
-				}
-
-				if (empty($data[$property]))
-				{
-					$data[$property] = $value;
-					continue;
-				}
-
-				if ($data[$property] == $value)
-				{
-					continue;
-				}
-
-				// Differing key property or numerical values => auto merge impossible
-				$isKeyProperty = in_array($property, $keyProperties);
-				if ($isKeyProperty or is_int($value))
-				{
-					return false;
-				}
-
-				$leftInRight = (strpos($value, $data[$property]) !== false
-					and strlen($value) > strlen($data[$property]));
-				if ($leftInRight)
-				{
-					$data[$property] = $value;
-					continue;
-				}
-
-				$rightInLeft = (strpos($data[$property], $value) !== false
-					and strlen($data[$property]) > strlen($value));
-				if ($rightInLeft)
-				{
-					$data[$property] = $value;
-					continue;
-				}
-
-				// string values are incompatible => auto merge impossible
-				return false;
-			}
-		}
-
-		if (!empty($data['id']))
-		{
-			$this->data = $data;
-		}
-
-		return $this->merge();
-	}
-
-	/**
 	 * Attempts to delete resource entries
 	 *
 	 * @return boolean  true on success, otherwise false
@@ -197,6 +111,26 @@ abstract class MergeModel extends BaseModel
 	}
 
 	/**
+	 * Get the ids of the resources associated over an association table.
+	 *
+	 * @param   string  $assocColumn  the name of the column which has the associated ids
+	 * @param   string  $assocTable   the unique part of the association table name
+	 *
+	 * @return array the associated ids
+	 */
+	protected function getAssociatedResourceIDs($assocColumn, $assocTable)
+	{
+		$mergeIDs = implode(', ', $this->selected);
+		$query    = $this->_db->getQuery(true);
+		$query->select("DISTINCT $assocColumn")
+			->from("#__thm_organizer_$assocTable")
+			->where("$this->fkColumn IN ($mergeIDs)");
+		$this->_db->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadColumn', []);
+	}
+
+	/**
 	 * Retrieves resource entries from the database
 	 *
 	 * @return mixed  array on success, otherwise null
@@ -230,26 +164,6 @@ abstract class MergeModel extends BaseModel
 	}
 
 	/**
-	 * Retrieves the schedule for the given id.
-	 *
-	 * @param   int  $scheduleID  the id of the schedule
-	 *
-	 * @return mixed  object on success, otherwise null
-	 */
-	protected function getScheduleObject($scheduleID)
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select('schedule');
-		$query->from('#__thm_organizer_schedules');
-		$query->where("id = '$scheduleID'");
-		$this->_db->setQuery($query);
-
-		$schedule = OrganizerHelper::executeQuery('loadResult');
-
-		return empty($schedule) ? null : json_decode($schedule);
-	}
-
-	/**
 	 * Merges resource entries and cleans association tables.
 	 *
 	 * @return boolean  true on success, otherwise false
@@ -258,6 +172,7 @@ abstract class MergeModel extends BaseModel
 	public function merge()
 	{
 		$this->selected = Input::getSelectedIDs();
+		sort($this->selected);
 
 		if (!$this->allowEdit())
 		{
@@ -280,7 +195,6 @@ abstract class MergeModel extends BaseModel
 		{
 			if (!$table->delete($deprecated))
 			{
-
 				return false;
 			}
 		}
@@ -288,13 +202,11 @@ abstract class MergeModel extends BaseModel
 		// Save the merged values of the current entry
 		if (!$table->save($data))
 		{
-
 			return false;
 		}
 
-		if (!$this->updateSchedules())
+		if ($this instanceof ScheduleResource and !$this->updateSchedules())
 		{
-
 			return false;
 		}
 
@@ -345,13 +257,13 @@ abstract class MergeModel extends BaseModel
 	}
 
 	/**
-	 * Updates an association
+	 * Updates an association where the associated resource itself has a fk reference to the resource being merged.
 	 *
 	 * @param   string  $tableName  the unique part of the table name
 	 *
 	 * @return boolean  true on success, otherwise false
 	 */
-	protected function updateAssociation($tableName)
+	protected function updateDirectAssociation($tableName)
 	{
 		$updateIDs = $this->selected;
 		$mergeID   = array_shift($updateIDs);
@@ -363,7 +275,7 @@ abstract class MergeModel extends BaseModel
 		$query->where("{$this->fkColumn} IN ( $updateIDs )");
 		$this->_db->setQuery($query);
 
-		return (bool) OrganizerHelper::executeQuery('execute', false, null, true);
+		return (bool) OrganizerHelper::executeQuery('execute', false);
 	}
 
 	/**
@@ -474,15 +386,6 @@ abstract class MergeModel extends BaseModel
 	}
 
 	/**
-	 * Processes the data for an individual schedule
-	 *
-	 * @param   object &$schedule  the schedule being processed
-	 *
-	 * @return void
-	 */
-	abstract protected function updateSchedule(&$schedule);
-
-	/**
 	 * Updates room data and lesson associations in active schedules
 	 *
 	 * @return bool  true on success, otherwise false
@@ -497,21 +400,14 @@ abstract class MergeModel extends BaseModel
 
 		foreach ($scheduleIDs as $scheduleID)
 		{
-			$scheduleObject = $this->getScheduleObject($scheduleID);
+			$scheduleTable = new SchedulesTable;
 
-			if (empty($scheduleObject))
+			if (!$scheduleTable->load($scheduleID))
 			{
 				continue;
 			}
 
-			$scheduleObject->configurations = (array) $scheduleObject->configurations;
-			$this->updateSchedule($scheduleObject);
-
-			$scheduleTable = new SchedulesTable;
-			$scheduleTable->load($scheduleID);
-			$scheduleTable->schedule = json_encode($scheduleObject, JSON_UNESCAPED_UNICODE);
-			$success                 = $scheduleTable->store();
-			if (!$success)
+			if ($this->updateSchedule($scheduleTable) and !$scheduleTable->store())
 			{
 				return false;
 			}

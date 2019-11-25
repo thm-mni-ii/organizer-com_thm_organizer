@@ -45,27 +45,6 @@ class Method extends MergeModel
 	 */
 	protected function updateAssociations()
 	{
-		return $this->updateAssociation('lessons');
-	}
-
-	/**
-	 * Processes the data for an individual schedule
-	 *
-	 * @param   object &$schedule  the schedule being processed
-	 *
-	 * @return void
-	 */
-	protected function updateSchedule(&$schedule)
-	{
-		$updateIDs = $this->selected;
-		$mergeID   = array_shift($updateIDs);
-
-		foreach ($schedule->lessons as $lessonIndex => $lesson)
-		{
-			if (isset($lesson->methodID) and in_array($lesson->methodID, $updateIDs))
-			{
-				$schedule->lessons->$lessonIndex->methodID = $mergeID;
-			}
-		}
+		return $this->updateDirectAssociation('instances');
 	}
 }

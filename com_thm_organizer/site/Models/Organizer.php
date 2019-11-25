@@ -306,11 +306,12 @@ class Organizer extends BaseModel
 						$rooms                 = array_keys($instanceConfiguration['rooms']);
 
 						// The event (plan subject) no longer exists or is no longer associated with the unit
-						$eventsTable = new Tables\Events;
-						$eventsTable->load($instanceConfiguration['subjectID']);
-						if (!$eventID = $eventsTable->id
-							or !$eventConfiguration = $unitConfiguration['subjects'][$eventID]
-						)
+						$eventsTable        = new Tables\Events;
+						$eventExists        = $eventsTable->load($instanceConfiguration['subjectID']);
+						$eventID            = $eventExists ? $eventsTable->id : false;
+						$eventConfiguration = empty($eventConfiguration = $unitConfiguration['subjects'][$eventID]) ?
+							false : $eventConfiguration = $unitConfiguration['subjects'][$eventID];
+						if (!$eventID or !$eventConfiguration)
 						{
 							unset($schedule['configurations'][$configurationIndex]);
 							continue;

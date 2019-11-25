@@ -12,17 +12,13 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Groups;
-use Organizer\Helpers\Input;
-use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Terms;
-use Organizer\Tables\GroupPublishing;
-use Organizer\Tables\Groups as GroupsTable;
+use Organizer\Helpers as Helpers;
+use Organizer\Tables as Tables;
 
 /**
  * Class which manages stored group data.
  */
-class Group extends MergeModel
+class Group extends MergeModel implements ScheduleResource
 {
 	protected $fkColumn = 'groupID';
 
@@ -35,7 +31,7 @@ class Group extends MergeModel
 	 */
 	protected function allowEdit()
 	{
-		return Can::edit('groups', $this->selected);
+		return Helpers\Can::edit('groups', $this->selected);
 	}
 
 	/**
@@ -46,13 +42,13 @@ class Group extends MergeModel
 	 */
 	public function batch()
 	{
-		$this->selected = Input::getSelectedIDs();
+		$this->selected = Helpers\Input::getSelectedIDs();
 		if (empty($this->selected))
 		{
 			return false;
 		}
 
-		if (!Can::edit('groups', $this->selected))
+		if (!Helpers\Can::edit('groups', $this->selected))
 		{
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
@@ -73,7 +69,7 @@ class Group extends MergeModel
 	 */
 	public function getTable($name = '', $prefix = '', $options = [])
 	{
-		return new GroupsTable;
+		return new Tables\Groups;
 	}
 
 	/**
@@ -99,7 +95,7 @@ class Group extends MergeModel
 	 */
 	public function publishPast()
 	{
-		$terms = Terms::getResources();
+		$terms = Helpers\Terms::getResources();
 		$today = date('Y-m-d');
 
 		$query = $this->_db->getQuery(true);
@@ -116,7 +112,7 @@ class Group extends MergeModel
 			$query->where("termID = {$term['id']}");
 
 			$this->_db->setQuery($query);
-			$success = OrganizerHelper::executeQuery('execute');
+			$success = Helpers\OrganizerHelper::executeQuery('execute');
 			if (!$success)
 			{
 				return false;
@@ -136,7 +132,7 @@ class Group extends MergeModel
 	 */
 	public function save($data = [])
 	{
-		$this->selected = Input::getSelectedIDs();
+		$this->selected = Helpers\Input::getSelectedIDs();
 
 		if (empty(parent::save($data)))
 		{
@@ -158,7 +154,7 @@ class Group extends MergeModel
 	 */
 	private function savePublishing()
 	{
-		$publishing = Input::getFormItems()->get('publishing');
+		$publishing = Helpers\Input::getFormItems()->get('publishing');
 		if (empty($publishing))
 		{
 			return true;
@@ -168,7 +164,7 @@ class Group extends MergeModel
 		{
 			foreach ($publishing as $termID => $publish)
 			{
-				$table = new GroupPublishing;
+				$table = new Tables\GroupPublishing;
 				$data  = ['groupID' => $groupID, 'termID' => $termID];
 				$table->load($data);
 				$data['published'] = $publish;
@@ -190,55 +186,68 @@ class Group extends MergeModel
 	 */
 	protected function updateAssociations()
 	{
-		if (!$this->updateAssociation('lesson_groups'))
+		if (!$this->updateDirectAssociation('pools'))
 		{
 			return false;
 		}
 
-		$mergeID = reset($this->selected);
-		$query   = $this->_db->getQuery(true);
-		$query->select('*')->from('#__thm_organizer_lesson_groups')->where("groupID = $mergeID");
-		$this->_db->setQuery($query);
+		return $this->updateInstanceGroups();
+	}
 
-		$assocs = OrganizerHelper::executeQuery('loadAssocList');
-		if (empty($assocs))
+	/**
+	 * Updates the instance groups table to reflect the merge of the groups.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateInstanceGroups()
+	{
+		if (!$relevantAssocs = $this->getAssociatedResourceIDs('assocID', 'instance_groups'))
 		{
 			return true;
 		}
 
-		$uniqueLessonCourses = [];
-		$duplicateIDs        = [];
+		$mergeID = reset($this->selected);
 
-		foreach ($assocs as $assoc)
+		foreach ($relevantAssocs as $assocID)
 		{
-			if (!isset($uniqueLessonCourses[$assoc['lessonCourseID']]))
+			$delta       = '';
+			$modified    = '';
+			$existing    = new Tables\InstanceGroups;
+			$entryExists = $existing->load(['assocID' => $assocID, 'groupID' => $mergeID]);
+
+			foreach ($this->selected as $groupID)
 			{
-				$uniqueLessonCourses[$assoc['lessonCourseID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
-				continue;
-			} // Duplicate
-			else
-			{
-				// An already iterated duplicate has the removed flag => replace and remove it
-				if ($uniqueLessonCourses[$assoc['lessonCourseID']]['delta'] == 'removed')
+				$igTable        = new Tables\InstanceGroups;
+				$loadConditions = ['assocID' => $assocID, 'groupID' => $groupID];
+				if (!$igTable->load($loadConditions))
 				{
-					$duplicateIDs[]                                = $uniqueLessonCourses[$assoc['subjectID']]['id'];
-					$uniqueLessonCourses[$assoc['lessonCourseID']] = ['id' => $assoc['id'], 'delta' => $assoc['delta']];
-				} // The other duplicate is sufficient => remove this one
-				else
-				{
-					$duplicateIDs[] = $assoc['id'];
+					continue;
 				}
-			}
-		}
 
-		if (count($duplicateIDs))
-		{
-			$idsToDelete = "('" . implode("', '", $duplicateIDs) . "')";
-			$query       = $this->_db->getQuery(true);
-			$query->delete('#__thm_organizer_lesson_groups')->where("id IN $idsToDelete");
-			$this->_db->setQuery($query);
-			$success = (bool) OrganizerHelper::executeQuery('execute');
-			if (!$success)
+				if ($igTable->modified > $modified)
+				{
+					$delta    = $igTable->delta;
+					$modified = $igTable->modified;
+				}
+
+				if ($entryExists)
+				{
+					if ($existing->id !== $igTable->id)
+					{
+						$igTable->delete();
+					}
+
+					continue;
+				}
+
+				$entryExists = true;
+				$existing    = $igTable;
+			}
+
+			$existing->delta    = $delta;
+			$existing->groupID  = $mergeID;
+			$existing->modified = $modified;
+			if (!$existing->store())
 			{
 				return false;
 			}
@@ -250,31 +259,49 @@ class Group extends MergeModel
 	/**
 	 * Processes the data for an individual schedule
 	 *
-	 * @param   object &$schedule  the schedule being processed
+	 * @param   Tables\Schedules  $schedule  the schedule being processed
 	 *
-	 * @return void
+	 * @return bool true if the schedule was changed, otherwise false
 	 */
-	protected function updateSchedule(&$schedule)
+	public function updateSchedule($schedule)
 	{
-		$updateIDs = $this->selected;
-		$mergeID   = array_shift($updateIDs);
+		$instances = json_decode($schedule->schedule, true);
+		$mergeID   = reset($this->selected);
+		$relevant  = false;
 
-		$lessons = (array) $schedule->lessons;
-		foreach ($lessons as $lessonIndex => $lesson)
+		foreach ($instances as $instanceID => $persons)
 		{
-			$courses = (array) $lesson->events;
-			foreach ($courses as $courseID => $courseConfig)
+			foreach ($persons as $personID => $data)
 			{
-				$groups = (array) $courseConfig->groups;
-				foreach ($groups as $groupID => $delta)
+				if (!$relevantGroups = array_intersect($data['groups'], $this->selected))
 				{
-					if (in_array($groupID, $updateIDs))
-					{
-						unset($schedule->lessons->$lessonIndex->events->$courseID->groups->$groupID);
-						$schedule->lessons->$lessonIndex->events->$courseID->groups->$mergeID = $delta;
-					}
+					continue;
 				}
+
+				$relevant = true;
+
+				// Unset all relevant to avoid conditional and unique handling
+				foreach (array_keys($relevantGroups) as $relevantIndex)
+				{
+					unset($instances[$instanceID][$personID]['groups'][$relevantIndex]);
+				}
+
+				// Put the merge id in/back in
+				$instances[$instanceID][$personID]['groups'][] = $mergeID;
+
+				// Resequence to avoid JSON encoding treating the array as associative (object)
+				$instances[$instanceID][$personID]['groups']
+					= array_values($instances[$instanceID][$personID]['groups']);
 			}
 		}
+
+		if ($relevant)
+		{
+			$schedule->schedule = json_encode($instances);
+
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -11,25 +11,17 @@
 namespace Organizer\Tables;
 
 /**
- * Class instantiates a Table Object associated with the department_resources table.
+ * Class instantiates a Table Object associated with the subject_events table.
  */
-class DepartmentResources extends BaseTable
+class EventCoordinators extends BaseTable
 {
 	/**
-	 * The id of the category entry referenced.
-	 * INT(11) UNSIGNED DEFAULT NULL
-	 *
-	 * @var int
-	 */
-	public $categoryID;
-
-	/**
-	 * The id of the department entry referenced.
+	 * The id of the event entry referenced.
 	 * INT(11) UNSIGNED NOT NULL
 	 *
 	 * @var int
 	 */
-	public $departmentID;
+	public $eventID;
 
 	/**
 	 * The id of the person entry referenced.
@@ -46,6 +38,6 @@ class DepartmentResources extends BaseTable
 	 */
 	public function __construct(&$dbo = null)
 	{
-		parent::__construct('#__thm_organizer_department_resources', 'id', $dbo);
+		parent::__construct('#__thm_organizer_event_coordinators', 'id', $dbo);
 	}
 }

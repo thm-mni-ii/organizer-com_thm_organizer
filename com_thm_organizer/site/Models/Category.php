@@ -63,18 +63,6 @@ class Category extends MergeModel
 			return false;
 		}
 
-		return $this->updateAssociation('groups');
-	}
-
-	/**
-	 * Processes the data for an individual schedule
-	 *
-	 * @param   object &$schedule  the schedule being processed
-	 *
-	 * @return void
-	 */
-	protected function updateSchedule(&$schedule)
-	{
-		return;
+		return $this->updateDirectAssociation('groups');
 	}
 }

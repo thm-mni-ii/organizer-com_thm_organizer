@@ -352,18 +352,6 @@ class Controller extends BaseController
 			return;
 		}
 
-		$model = $this->getModel($this->resource);
-		if (method_exists($model, 'autoMerge'))
-		{
-			if ($model->autoMerge())
-			{
-				$msg = Languages::_('THM_ORGANIZER_MESSAGE_MERGE_SUCCESS');
-				$this->setRedirect(Route::_($url, false), $msg);
-
-				return;
-			}
-		}
-
 		// Reliance on POST requires a different method of redirection
 		$this->input->set('view', "{$this->resource}_merge");
 		parent::display();

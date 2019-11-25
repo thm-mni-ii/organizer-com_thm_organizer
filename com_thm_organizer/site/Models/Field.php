@@ -45,43 +45,31 @@ class Field extends MergeModel
 	 */
 	protected function updateAssociations()
 	{
-		if (!$this->updateAssociation('groups'))
+		if (!$this->updateDirectAssociation('events'))
 		{
 			return false;
 		}
 
-		if (!$this->updateAssociation('courses'))
+		if (!$this->updateDirectAssociation('groups'))
 		{
 			return false;
 		}
 
-		if (!$this->updateAssociation('pools'))
+		if (!$this->updateDirectAssociation('persons'))
 		{
 			return false;
 		}
 
-		if (!$this->updateAssociation('programs'))
+		if (!$this->updateDirectAssociation('pools'))
 		{
 			return false;
 		}
 
-		if (!$this->updateAssociation('subjects'))
+		if (!$this->updateDirectAssociation('programs'))
 		{
 			return false;
 		}
 
-		return $this->updateAssociation('persons');
-	}
-
-	/**
-	 * Processes the data for an individual schedule
-	 *
-	 * @param   object &$schedule  the schedule being processed
-	 *
-	 * @return void
-	 */
-	protected function updateSchedule(&$schedule)
-	{
-		return;
+		return $this->updateDirectAssociation('subjects');
 	}
 }
