@@ -22,8 +22,6 @@ class Group extends MergeModel implements ScheduleResource
 {
 	protected $fkColumn = 'groupID';
 
-	protected $tableName = 'groups';
-
 	/**
 	 * Provides resource specific user access checks
 	 *
@@ -134,7 +132,7 @@ class Group extends MergeModel implements ScheduleResource
 	{
 		$this->selected = Helpers\Input::getSelectedIDs();
 
-		if (empty(parent::save($data)))
+		if (!parent::save($data))
 		{
 			return false;
 		}

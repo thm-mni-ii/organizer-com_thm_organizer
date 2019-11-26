@@ -23,8 +23,6 @@ class Category extends MergeModel
 
 	protected $fkColumn = 'categoryID';
 
-	protected $tableName = 'categories';
-
 	/**
 	 * Provides resource specific user access checks
 	 *

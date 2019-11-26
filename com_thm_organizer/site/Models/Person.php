@@ -23,8 +23,6 @@ class Person extends MergeModel implements ScheduleResource
 
 	protected $fkColumn = 'personID';
 
-	protected $tableName = 'persons';
-
 	/**
 	 * Aggregates the attributes/resources associated with a person for a particular instance.
 	 *

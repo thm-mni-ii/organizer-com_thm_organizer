@@ -31,8 +31,6 @@ abstract class EditModel extends AdminModel
 
 	public $item = null;
 
-	public $tableName = null;
-
 	/**
 	 * Constructor.
 	 *

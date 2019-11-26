@@ -21,8 +21,6 @@ class Roomtype extends MergeModel
 {
 	protected $fkColumn = 'roomtypeID';
 
-	protected $tableName = 'roomtypes';
-
 	/**
 	 * Provides room type specific user access checks
 	 *

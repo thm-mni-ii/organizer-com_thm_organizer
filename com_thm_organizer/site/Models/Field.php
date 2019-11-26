@@ -20,8 +20,6 @@ class Field extends MergeModel
 {
 	protected $fkColumn = 'fieldID';
 
-	protected $tableName = 'fields';
-
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *

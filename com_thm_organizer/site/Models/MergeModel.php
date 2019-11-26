@@ -45,12 +45,6 @@ abstract class MergeModel extends BaseModel
 	protected $selected = [];
 
 	/**
-	 * The name of the table where this resource is stored.
-	 * @var string
-	 */
-	protected $tableName = '';
-
-	/**
 	 * Provides resource specific user access checks
 	 *
 	 * @return boolean  true if the user may edit the given resource, otherwise false
@@ -128,24 +122,6 @@ abstract class MergeModel extends BaseModel
 		$this->_db->setQuery($query);
 
 		return OrganizerHelper::executeQuery('loadColumn', []);
-	}
-
-	/**
-	 * Retrieves resource entries from the database
-	 *
-	 * @return mixed  array on success, otherwise null
-	 */
-	protected function getEntries()
-	{
-		$query = $this->_db->getQuery(true);
-		$query->select('*')
-			->from("#__thm_organizer_{$this->tableName}")
-			->where("id IN ('" . implode("', '", $this->selected) . "')")
-			->order('id ASC');
-
-		$this->_db->setQuery($query);
-
-		return OrganizerHelper::executeQuery('loadAssocList');
 	}
 
 	/**
@@ -259,18 +235,18 @@ abstract class MergeModel extends BaseModel
 	/**
 	 * Updates an association where the associated resource itself has a fk reference to the resource being merged.
 	 *
-	 * @param   string  $tableName  the unique part of the table name
+	 * @param   string  $tableSuffix  the unique part of the table name
 	 *
 	 * @return boolean  true on success, otherwise false
 	 */
-	protected function updateDirectAssociation($tableName)
+	protected function updateDirectAssociation($tableSuffix)
 	{
 		$updateIDs = $this->selected;
 		$mergeID   = array_shift($updateIDs);
 		$updateIDs = "'" . implode("', '", $updateIDs) . "'";
 
 		$query = $this->_db->getQuery(true);
-		$query->update("#__thm_organizer_$tableName");
+		$query->update("#__thm_organizer_$tableSuffix");
 		$query->set("{$this->fkColumn} = '$mergeID'");
 		$query->where("{$this->fkColumn} IN ( $updateIDs )");
 		$this->_db->setQuery($query);

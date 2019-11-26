@@ -21,8 +21,6 @@ class Room extends MergeModel implements ScheduleResource
 {
 	protected $fkColumn = 'roomID';
 
-	protected $tableName = 'rooms';
-
 	/**
 	 * Provides user access checks to rooms
 	 *

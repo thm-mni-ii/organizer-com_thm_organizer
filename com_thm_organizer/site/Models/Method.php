@@ -20,8 +20,6 @@ class Method extends MergeModel
 {
 	protected $fkColumn = 'methodID';
 
-	protected $tableName = 'methods';
-
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
