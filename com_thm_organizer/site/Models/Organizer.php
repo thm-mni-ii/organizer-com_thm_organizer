@@ -433,6 +433,8 @@ class Organizer extends BaseModel
 			$cParticipant['participantDate'] = $userLesson['user_date'];
 			$cParticipant['status']          = $userLesson['status'];
 			$cParticipant['statusDate']      = $userLesson['status_date'];
+			$cParticipant['attended']        = true;
+			$cParticipant['paid']            = true;
 			$cParticipants->save($cParticipant);
 		}
 		else
