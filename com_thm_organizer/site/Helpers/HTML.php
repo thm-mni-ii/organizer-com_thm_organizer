@@ -172,21 +172,23 @@ class HTML extends HTMLHelper
 	 *
 	 * @return  void
 	 */
-	public static function setMenuTitle($default, $resourceName = '', $icon = 'generic.png')
+	public static function setMenuTitle($default, $resourceName = '', $icon = '')
 	{
 		$app    = OrganizerHelper::getApplication();
-		$layout = new FileLayout('joomla.toolbar.title');
 		$params = Input::getParams();
 
-		if ($params->get('show_page_heading') and $title = $params->get('page_title'))
+		if ($params->get('show_page_heading') and $params->get('page_title'))
 		{
-			$html = $layout->render(array('title' => $title, 'icon' => $icon));
+			$title = $params->get('page_title');
 		}
 		else
 		{
 			$title = empty($resourceName) ? Languages::_($default) : $resourceName;
-			$html  = $layout->render(array('title' => $title, 'icon' => $icon));
 		}
+
+		$icon = $icon ? "<span class=\"icon-$icon\"></span>" : '';
+
+		$html = "<h1 class=\"page-title\">$icon$title</h1>";
 
 		$app->JComponentTitle = $html;
 		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename'));
