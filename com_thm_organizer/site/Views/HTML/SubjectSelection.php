@@ -45,21 +45,21 @@ class SubjectSelection extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	protected function getHeaders()
+	protected function setHeaders()
 	{
 		$direction = $this->state->get('list.direction');
 		$ordering  = $this->state->get('list.ordering');
-		$headers   = [];
+		$headers   = [
+			'checkbox' => HTML::_('grid.checkall'),
+			'name'     => HTML::sort('NAME', 'name', $direction, $ordering),
+			'program'  => Languages::_('THM_ORGANIZER_PROGRAMS')
+		];
 
-		$headers['checkbox'] = HTML::_('grid.checkall');
-		$headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
-		$headers['program']  = Languages::_('THM_ORGANIZER_PROGRAMS');
-
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

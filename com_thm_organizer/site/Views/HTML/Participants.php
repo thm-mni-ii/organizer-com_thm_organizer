@@ -60,20 +60,21 @@ class Participants extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	protected function getHeaders()
+	protected function setHeaders()
 	{
-		$ordering               = $this->state->get('list.ordering');
-		$direction              = $this->state->get('list.direction');
-		$headers                = [];
-		$headers['checkbox']    = HTML::_('grid.checkall');
-		$headers['fullName']    = HTML::sort('NAME', 'fullName', $direction, $ordering);
-		$headers['programName'] = HTML::sort('PROGRAM', 'programName', $direction, $ordering);
+		$ordering  = $this->state->get('list.ordering');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox'    => HTML::_('grid.checkall'),
+			'fullName'    => HTML::sort('NAME', 'fullName', $direction, $ordering),
+			'programName' => HTML::sort('PROGRAM', 'programName', $direction, $ordering)
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

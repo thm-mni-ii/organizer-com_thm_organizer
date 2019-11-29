@@ -64,21 +64,22 @@ class Persons extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$headers                 = [];
-		$headers['checkbox']     = '';
-		$headers['surname']      = Languages::_('THM_ORGANIZER_SURNAME');
-		$headers['forename']     = Languages::_('THM_ORGANIZER_FORENAME');
-		$headers['username']     = Languages::_('THM_ORGANIZER_USERNAME');
-		$headers['t.untisID']    = Languages::_('THM_ORGANIZER_UNTIS_ID');
-		$headers['departmentID'] = Languages::_('THM_ORGANIZER_DEPARTMENT');
+		$headers = [
+			'checkbox'     => '',
+			'surname'      => Languages::_('THM_ORGANIZER_SURNAME'),
+			'forename'     => Languages::_('THM_ORGANIZER_FORENAME'),
+			'username'     => Languages::_('THM_ORGANIZER_USERNAME'),
+			't.untisID'    => Languages::_('THM_ORGANIZER_UNTIS_ID'),
+			'departmentID' => Languages::_('THM_ORGANIZER_DEPARTMENT')
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

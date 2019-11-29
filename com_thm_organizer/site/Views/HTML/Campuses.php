@@ -61,20 +61,21 @@ class Campuses extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$headers             = [];
-		$headers['checkbox'] = '';
-		$headers['name']     = Languages::_('THM_ORGANIZER_NAME');
-		$headers['address']  = Languages::_('THM_ORGANIZER_ADDRESS');
-		$headers['location'] = Languages::_('THM_ORGANIZER_LOCATION');
-		$headers['gridID']   = Languages::_('THM_ORGANIZER_GRID');
+		$headers = [
+			'checkbox' => '',
+			'name'     => Languages::_('THM_ORGANIZER_NAME'),
+			'address'  => Languages::_('THM_ORGANIZER_ADDRESS'),
+			'location' => Languages::_('THM_ORGANIZER_LOCATION'),
+			'gridID'   => Languages::_('THM_ORGANIZER_GRID')
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

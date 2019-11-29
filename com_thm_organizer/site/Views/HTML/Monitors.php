@@ -81,24 +81,24 @@ class Monitors extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'    => HTML::_('grid.checkall'),
+			'name'        => HTML::sort('ROOM', 'r.name', $direction, $ordering),
+			'ip'          => HTML::sort('IP', 'm.ip', $direction, $ordering),
+			'useDefaults' => HTML::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering),
+			'display'     => Languages::_('THM_ORGANIZER_DISPLAY_BEHAVIOUR'),
+			'content'     => HTML::sort('DISPLAY_CONTENT', 'm.content', $direction, $ordering)
+		];
 
-		$headers['checkbox']    = HTML::_('grid.checkall');
-		$headers['name']        = HTML::sort('ROOM', 'r.name', $direction, $ordering);
-		$headers['ip']          = HTML::sort('IP', 'm.ip', $direction, $ordering);
-		$headers['useDefaults'] = HTML::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering);
-		$headers['display']     = Languages::_('THM_ORGANIZER_DISPLAY_BEHAVIOUR');
-		$headers['content']     = HTML::sort('DISPLAY_CONTENT', 'm.content', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

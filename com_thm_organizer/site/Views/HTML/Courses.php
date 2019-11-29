@@ -139,11 +139,11 @@ class Courses extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$backend = $this->clientContext === self::BACKEND;
 
@@ -169,7 +169,7 @@ class Courses extends ListView
 			];
 		}
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

@@ -63,21 +63,22 @@ class Buildings extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$direction               = $this->state->get('list.direction');
-		$headers                 = [];
-		$headers['checkbox']     = '';
-		$headers['name']         = HTML::sort('NAME', 'name', $direction, 'name');
-		$headers['campusID']     = Languages::_('THM_ORGANIZER_CAMPUS');
-		$headers['propertyType'] = Languages::_('THM_ORGANIZER_PROPERTY_TYPE');
-		$headers['address']      = Languages::_('THM_ORGANIZER_ADDRESS');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox'     => '',
+			'name'         => HTML::sort('NAME', 'name', $direction, 'name'),
+			'campusID'     => Languages::_('THM_ORGANIZER_CAMPUS'),
+			'propertyType' => Languages::_('THM_ORGANIZER_PROPERTY_TYPE'),
+			'address'      => Languages::_('THM_ORGANIZER_ADDRESS')
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

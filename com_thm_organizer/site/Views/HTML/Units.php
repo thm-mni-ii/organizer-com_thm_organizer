@@ -56,22 +56,23 @@ class Units extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$ordering            = $this->state->get('list.ordering');
-		$direction           = $this->state->get('list.direction');
-		$headers             = [];
-		$headers['checkbox'] = HTML::_('grid.checkall');
-		$headers['name']     = HTML::sort('NAME', 'name', $direction, $ordering);
-		$headers['grid']     = Languages::_('THM_ORGANIZER_GRID');
-		$headers['run']      = Languages::_('THM_ORGANIZER_RUN');
-		$headers['status']   = Languages::_('THM_ORGANIZER_STATE');
+		$ordering  = $this->state->get('list.ordering');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox' => HTML::_('grid.checkall'),
+			'name'     => HTML::sort('NAME', 'name', $direction, $ordering),
+			'grid'     => Languages::_('THM_ORGANIZER_GRID'),
+			'run'      => Languages::_('THM_ORGANIZER_RUN'),
+			'status'   => Languages::_('THM_ORGANIZER_STATE')
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

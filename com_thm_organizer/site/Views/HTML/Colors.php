@@ -55,19 +55,20 @@ class Colors extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$direction           = $this->state->get('list.direction');
-		$headers             = [];
-		$headers['checkbox'] = '';
-		$headers['name']     = HTML::sort('NAME', 'name', $direction, 'name');
-		$headers['color']    = Languages::_('THM_ORGANIZER_COLOR');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox' => '',
+			'name'     => HTML::sort('NAME', 'name', $direction, 'name'),
+			'color'    => Languages::_('THM_ORGANIZER_COLOR')
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

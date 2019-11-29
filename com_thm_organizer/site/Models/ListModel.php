@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\ListModel as ParentModel;
 use Organizer\Helpers\Named;
 use Organizer\Helpers\OrganizerHelper;
+use stdClass;
 
 /**
  * Class provides a standardized framework for the display of listed resources.
@@ -136,7 +137,7 @@ abstract class ListModel extends ParentModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = OrganizerHelper::getApplication()->getUserState($this->context, new \stdClass);
+		$data = OrganizerHelper::getApplication()->getUserState($this->context, new stdClass);
 
 		// Pre-create the list options
 		if (!property_exists($data, 'list'))

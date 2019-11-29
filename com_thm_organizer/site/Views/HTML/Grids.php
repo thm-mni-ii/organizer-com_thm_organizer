@@ -63,22 +63,23 @@ class Grids extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$headers                = [];
-		$headers['checkbox']    = '';
-		$headers['name']        = Languages::_('THM_ORGANIZER_NAME');
-		$headers['startDay']    = Languages::_('THM_ORGANIZER_START_DAY');
-		$headers['endDay']      = Languages::_('THM_ORGANIZER_END_DAY');
-		$headers['startTime']   = Languages::_('THM_ORGANIZER_START_TIME');
-		$headers['endTime']     = Languages::_('THM_ORGANIZER_END_TIME');
-		$headers['defaultGrid'] = Languages::_('THM_ORGANIZER_DEFAULT');
+		$headers = [
+			'checkbox'    => '',
+			'name'        => Languages::_('THM_ORGANIZER_NAME'),
+			'startDay'    => Languages::_('THM_ORGANIZER_START_DAY'),
+			'endDay'      => Languages::_('THM_ORGANIZER_END_DAY'),
+			'startTime'   => Languages::_('THM_ORGANIZER_START_TIME'),
+			'endTime'     => Languages::_('THM_ORGANIZER_END_TIME'),
+			'defaultGrid' => Languages::_('THM_ORGANIZER_DEFAULT')
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

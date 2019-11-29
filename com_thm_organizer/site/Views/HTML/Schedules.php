@@ -75,24 +75,24 @@ class Schedules extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'       => '',
+			'departmentName' => HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering),
+			'termName'       => HTML::sort('TERM', 'termName', $direction, $ordering),
+			'active'         => HTML::sort('STATE', 'active', $direction, $ordering),
+			'userName'       => HTML::sort('USERNAME', 'userName', $direction, $ordering),
+			'created'        => HTML::sort('CREATION_DATE', 'created', $direction, $ordering)
+		];
 
-		$headers['checkbox']       = '';
-		$headers['departmentName'] = HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering);
-		$headers['termName']       = HTML::sort('TERM', 'termName', $direction, $ordering);
-		$headers['active']         = HTML::sort('STATE', 'active', $direction, $ordering);
-		$headers['userName']       = HTML::sort('USERNAME', 'userName', $direction, $ordering);
-		$headers['created']        = HTML::sort('CREATION_DATE', 'created', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

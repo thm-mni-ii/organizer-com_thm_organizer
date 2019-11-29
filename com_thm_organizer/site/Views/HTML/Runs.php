@@ -55,21 +55,22 @@ class Runs extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$ordering             = $this->state->get('list.ordering');
-		$direction            = $this->state->get('list.direction');
-		$headers              = [];
-		$headers['checkbox']  = '';
-		$headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-		$headers['startDate'] = Languages::_('THM_ORGANIZER_START_DATE');
-		$headers['endDate']   = Languages::_('THM_ORGANIZER_END_DATE');
+		$ordering  = $this->state->get('list.ordering');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox'  => '',
+			'name'      => HTML::sort('NAME', 'name', $direction, $ordering),
+			'startDate' => Languages::_('THM_ORGANIZER_START_DATE'),
+			'endDate'   => Languages::_('THM_ORGANIZER_END_DATE')
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

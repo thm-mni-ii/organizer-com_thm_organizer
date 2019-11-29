@@ -56,21 +56,22 @@ class Fields extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$ordering            = $this->state->get('list.ordering');
-		$direction           = $this->state->get('list.direction');
-		$headers             = [];
-		$headers['checkbox'] = '';
-		$headers['field']    = HTML::sort('NAME', 'field', $direction, $ordering);
-		$headers['untisID']  = HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering);
-		$headers['colorID']  = HTML::sort('COLOR', 'c.name', $direction, $ordering);
+		$ordering  = $this->state->get('list.ordering');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox' => '',
+			'field'    => HTML::sort('NAME', 'field', $direction, $ordering),
+			'untisID'  => HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering),
+			'colorID'  => HTML::sort('COLOR', 'c.name', $direction, $ordering)
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

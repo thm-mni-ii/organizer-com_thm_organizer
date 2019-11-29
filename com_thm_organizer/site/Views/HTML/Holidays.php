@@ -55,23 +55,23 @@ class Holidays extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'  => '',
+			'name'      => HTML::sort('NAME', 'name', $direction, $ordering),
+			'startDate' => HTML::sort('DATE', 'startDate', $direction, $ordering),
+			'type'      => HTML::sort('TYPE', 'type', $direction, $ordering),
+			'status'    => Languages::_('THM_ORGANIZER_STATE')
+		];
 
-		$headers['checkbox']  = '';
-		$headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-		$headers['startDate'] = HTML::sort('DATE', 'startDate', $direction, $ordering);
-		$headers['type']      = HTML::sort('TYPE', 'type', $direction, $ordering);
-		$headers['status']    = Languages::_('THM_ORGANIZER_STATE');
-
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

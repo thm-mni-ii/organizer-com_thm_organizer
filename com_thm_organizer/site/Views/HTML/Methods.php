@@ -51,20 +51,20 @@ class Methods extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'     => '',
+			'abbreviation' => HTML::sort('ABBREVIATION', 'abbreviation', $direction, $ordering),
+			'name'         => HTML::sort('NAME', 'name', $direction, $ordering)
+		];
 
-		$headers['checkbox']     = '';
-		$headers['abbreviation'] = HTML::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
-		$headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 }

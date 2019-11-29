@@ -72,23 +72,23 @@ class Roomtypes extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'    => '',
+			'untisID'     => HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering),
+			'name'        => HTML::sort('NAME', 'name', $direction, $ordering),
+			'minCapacity' => HTML::sort('MIN_CAPACITY', 'minCapacity', $direction, $ordering),
+			'maxCapacity' => HTML::sort('MAX_CAPACITY', 'maxCapacity', $direction, $ordering),
+			'roomCount'   => HTML::sort('ROOM_COUNT', 'roomCount', $direction, $ordering)
+		];
 
-		$headers['checkbox']    = '';
-		$headers['untisID']     = HTML::sort('UNTIS_ID', 'untisID', $direction, $ordering);
-		$headers['name']        = HTML::sort('NAME', 'name', $direction, $ordering);
-		$headers['minCapacity'] = HTML::sort('MIN_CAPACITY', 'minCapacity', $direction, $ordering);
-		$headers['maxCapacity'] = HTML::sort('MAX_CAPACITY', 'maxCapacity', $direction, $ordering);
-		$headers['roomCount']   = HTML::sort('ROOM_COUNT', 'roomCount', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 }

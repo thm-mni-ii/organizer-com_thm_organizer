@@ -11,11 +11,11 @@
 namespace Organizer\Views\HTML;
 
 use Exception;
+use Joomla\Registry\Registry;
 use Organizer\Helpers\HTML;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Languages;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads a filtered set of resources into the display context. Specific resource determined by extending class.
@@ -28,7 +28,11 @@ abstract class ListView extends BaseHTMLView
 
 	public $filterForm = null;
 
-	public $headers = null;
+	/**
+	 * The header information to display indexed by the referenced attribute.
+	 * @var array
+	 */
+	public $headers = [];
 
 	public $items = null;
 
@@ -36,6 +40,9 @@ abstract class ListView extends BaseHTMLView
 
 	protected $rowStructure = [];
 
+	/**
+	 * @var Registry
+	 */
 	public $state = null;
 
 	/**
@@ -70,9 +77,9 @@ abstract class ListView extends BaseHTMLView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->headers       = $this->getHeaders();
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
+		$this->setHeaders();
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 
 		if ($this->items)
 		{
@@ -125,13 +132,6 @@ abstract class ListView extends BaseHTMLView
 	}
 
 	/**
-	 * Function to get table headers
-	 *
-	 * @return array including headers
-	 */
-	abstract protected function getHeaders();
-
-	/**
 	 * Generates a toggle for the attribute in question
 	 *
 	 * @param   int     $id         the id of the database entry
@@ -172,6 +172,13 @@ abstract class ListView extends BaseHTMLView
 
 		HTML::_('bootstrap.framework');
 	}
+
+	/**
+	 * Function to set the object's headers property
+	 *
+	 * @return void sets the object headers property
+	 */
+	abstract protected function setHeaders();
 
 	/**
 	 * Processes the items in a manner specific to the view, so that a generalized  output in the layout can occur.

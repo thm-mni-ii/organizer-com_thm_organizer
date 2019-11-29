@@ -74,22 +74,22 @@ class Programs extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'    => '',
+			'programName' => HTML::sort('NAME', 'programName', $direction, $ordering),
+			'degree'      => HTML::sort('DEGREE', 'degree', $direction, $ordering),
+			'version'     => HTML::sort('VERSION', 'version', $direction, $ordering),
+			'department'  => HTML::sort('DEPARTMENT', 'department', $direction, $ordering)
+		];
 
-		$headers['checkbox']    = '';
-		$headers['programName'] = HTML::sort('NAME', 'programName', $direction, $ordering);
-		$headers['degree']      = HTML::sort('DEGREE', 'degree', $direction, $ordering);
-		$headers['version']     = HTML::sort('VERSION', 'version', $direction, $ordering);
-		$headers['department']  = HTML::sort('DEPARTMENT', 'department', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 }

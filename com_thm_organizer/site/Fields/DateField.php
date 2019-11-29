@@ -38,13 +38,15 @@ class DateField extends FormField
 	 */
 	protected function getInput()
 	{
+		$empty = $this->getAttribute('empty', 'true');
+
 		if ($this->value)
 		{
 			$value = Dates::standardizeDate($this->value);
 		}
 		else
 		{
-			$value = (isset($this->empty) and $this->empty == false) ? Dates::standardizeDate() : '';
+			$value = $empty === 'false' ? Dates::standardizeDate() : '';
 		}
 
 		$attributes = [

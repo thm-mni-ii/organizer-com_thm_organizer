@@ -101,22 +101,23 @@ class Groups extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	protected function getHeaders()
+	protected function setHeaders()
 	{
-		$ordering             = $this->state->get('list.ordering');
-		$direction            = $this->state->get('list.direction');
-		$headers              = [];
-		$headers['checkbox']  = HTML::_('grid.checkall');
-		$headers['full_name'] = HTML::sort('FULL_NAME', 'gr.fullName', $direction, $ordering);
-		$headers['name']      = HTML::sort('SELECT_BOX_DISPLAY', 'gr.name', $direction, $ordering);
-		$headers['grid']      = Languages::_('THM_ORGANIZER_GRID');
-		$headers['untisID']   = HTML::sort('UNTIS_ID', 'gr.untisID', $direction, $ordering);
+		$ordering  = $this->state->get('list.ordering');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox' => HTML::_('grid.checkall'),
+			'fullName' => HTML::sort('FULL_NAME', 'gr.fullName', $direction, $ordering),
+			'name'     => HTML::sort('SELECT_BOX_DISPLAY', 'gr.name', $direction, $ordering),
+			'grid'     => Languages::_('THM_ORGANIZER_GRID'),
+			'untisID'  => HTML::sort('UNTIS_ID', 'gr.untisID', $direction, $ordering)
+		];
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

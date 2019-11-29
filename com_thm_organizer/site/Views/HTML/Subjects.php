@@ -98,11 +98,11 @@ class Subjects extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$direction = $this->state->get('list.direction');
 		$ordering  = $this->state->get('list.ordering');
@@ -118,7 +118,7 @@ class Subjects extends ListView
 		$headers['persons']      = Languages::_('THM_ORGANIZER_TEACHERS');
 		$headers['creditpoints'] = Languages::_('THM_ORGANIZER_CREDIT_POINTS');
 
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

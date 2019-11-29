@@ -57,21 +57,21 @@ class Rooms extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'     => '',
+			'roomName'     => HTML::sort('NAME', 'roomName', $direction, $ordering),
+			'buildingName' => HTML::sort('BUILDING', 'buildingName', $direction, $ordering),
+			'roomType'     => HTML::sort('TYPE', 'roomType', $direction, $ordering)
+		];
 
-		$headers['checkbox']     = '';
-		$headers['roomName']     = HTML::sort('NAME', 'roomName', $direction, $ordering);
-		$headers['buildingName'] = HTML::sort('BUILDING', 'buildingName', $direction, $ordering);
-		$headers['roomType']     = HTML::sort('TYPE', 'roomType', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 }

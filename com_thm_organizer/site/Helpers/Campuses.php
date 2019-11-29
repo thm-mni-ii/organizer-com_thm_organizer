@@ -19,6 +19,34 @@ use Organizer\Tables\Campuses as CampusesTable;
 class Campuses extends ResourceHelper implements Selectable
 {
 	/**
+	 * Retrieves the default grid id for the given campus
+	 *
+	 * @param   int  $campusID  the id of the campus
+	 *
+	 * @return int the id of the associated grid
+	 */
+	public static function getGridID($campusID)
+	{
+		$table = new CampusesTable;
+		if (!$table->load($campusID))
+		{
+			return 0;
+		}
+
+		if ($gridID = $table->gridID)
+		{
+			return $gridID;
+		}
+
+		if ($parentID = $table->parentID)
+		{
+			return self::getGridID($parentID);
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Creates a link to the campus' location
 	 *
 	 * @param   int  $campusID  the id of the campus

@@ -34,22 +34,22 @@ abstract class PoolsView extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox'  => '',
+			'name'      => HTML::sort('NAME', 'name', $direction, $ordering),
+			'programID' => Languages::_('THM_ORGANIZER_PROGRAM'),
+			'fieldID'   => HTML::sort('FIELD', 'field', $direction, $ordering)
+		];
 
-		$headers['checkbox']  = '';
-		$headers['name']      = HTML::sort('NAME', 'name', $direction, $ordering);
-		$headers['programID'] = Languages::_('THM_ORGANIZER_PROGRAM');
-		$headers['fieldID']   = HTML::sort('FIELD', 'field', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

@@ -56,22 +56,22 @@ class Categories extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
-		$headers   = [];
+		$headers   = [
+			'checkbox' => '',
+			'untisID'  => HTML::sort('UNTIS_ID', 'ppr.untisID', $direction, $ordering),
+			'name'     => HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering),
+			'program'  => Languages::_('THM_ORGANIZER_PROGRAM')
+		];
 
-		$headers['checkbox'] = '';
-		$headers['untisID']  = HTML::sort('UNTIS_ID', 'ppr.untisID', $direction, $ordering);
-		$headers['name']     = HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering);
-		$headers['program']  = Languages::_('THM_ORGANIZER_PROGRAM');
-
-		return $headers;
+		$this->headers = $headers;
 	}
 
 	/**

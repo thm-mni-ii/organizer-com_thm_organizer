@@ -54,24 +54,21 @@ class Degrees extends ListView
 	}
 
 	/**
-	 * Function to get table headers
+	 * Function to set the object's headers property
 	 *
-	 * @return array including headers
+	 * @return void sets the object headers property
 	 */
-	public function getHeaders()
+	public function setHeaders()
 	{
-		$ordering            = $this->state->get('list.ordering');
-		$direction           = $this->state->get('list.direction');
-		$headers             = [];
-		$headers['checkbox'] = '';
+		$ordering  = $this->state->get('list.ordering');
+		$direction = $this->state->get('list.direction');
+		$headers   = [
+			'checkbox'     => '',
+			'name'         => HTML::sort('NAME', 'name', $direction, $ordering),
+			'abbreviation' => HTML::sort('ABBREVIATION', 'abbreviation', $direction, $ordering),
+			'code'         => HTML::sort('DEGREE_CODE', 'code', $direction, $ordering)
+		];
 
-		$headers['name'] = HTML::sort('NAME', 'name', $direction, $ordering);
-
-		$headers['abbreviation']
-			= HTML::sort('ABBREVIATION', 'abbreviation', $direction, $ordering);
-
-		$headers['code'] = HTML::sort('DEGREE_CODE', 'code', $direction, $ordering);
-
-		return $headers;
+		$this->headers = $headers;
 	}
 }
