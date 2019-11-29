@@ -85,11 +85,9 @@ abstract class ItemView extends BaseHTMLView
 	 */
 	protected function modifyDocument()
 	{
-		HTML::_('bootstrap.framework');
+		parent::modifyDocument();
 
-		$document = Factory::getDocument();
-		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/item.css');
-		$document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/item.css');
 	}
 
 	/**

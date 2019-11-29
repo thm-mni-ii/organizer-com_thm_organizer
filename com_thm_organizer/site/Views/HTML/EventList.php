@@ -51,10 +51,11 @@ class EventList extends BaseHTMLView
      *
      * @return void  modifies the document
      */
-    private function modifyDocument()
+    protected function modifyDocument()
     {
+        parent::modifyDocument();;
         HTML::_('bootstrap.framework');
-        $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/event_list.css');
+
+	    Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/event_list.css');
     }
 }

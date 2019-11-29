@@ -8,7 +8,6 @@
         <field name="categoryID" type="GenericOptions" label="CATEGORY" required="true" table="thm_organizer_categories"
                textcolumn="name" valuecolumn="id"/>
         <field name="publishing" type="TermPublishing" label="PUBLISHING"/>
-        <field name="gridID" type="GenericOptions" label="GRID" localized="true" required="true"
-               table="thm_organizer_grids" textcolumn="name" valuecolumn="id"/>
+        <field name="gridID" type="Grids" label="GRID"/>
     </fieldset>
 </form>

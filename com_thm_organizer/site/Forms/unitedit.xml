@@ -7,8 +7,7 @@
                table="thm_organizer_events" textcolumn="name" valuecolumn="id"/>
         <field name="departmentID" type="Departments" label="DEPARTMENT" required="true"/>
         <field name="termID" type="Terms" label="TERM" required="true"/>
-        <field name="gridID" type="GenericOptions" required="true" label="GRID" localized="true"
-               table="thm_organizer_grids" textcolumn="name" valuecolumn="id"/>
+        <field name="gridID" type="Grids" label="GRID"/>
         <field name="runID" type="GenericOptions" required="true" label="RUN" localized="true"
                table="thm_organizer_runs" textcolumn="name" valuecolumn="id"/>
     </fieldset>

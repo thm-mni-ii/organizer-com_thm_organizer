@@ -10,8 +10,7 @@
             <option value="">ALL_TERMS</option>
             <option value="-1">NO_TERM</option>
         </field>
-        <field name="gridID" type="GenericOptions" label="GRIDS" localized="true" onchange="this.form.submit();"
-               table="thm_organizer_grids" textcolumn="name" valuecolumn="id">
+        <field name="gridID" type="Grids" label="GRID" onchange="this.form.submit();">
             <option value="">ALL_GRIDS</option>
             <option value="-1">NO_GRID</option>
         </field>

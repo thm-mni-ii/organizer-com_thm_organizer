@@ -9,6 +9,8 @@
 namespace Organizer\Views\HTML;
 
 use JHtmlSidebar;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -281,5 +283,20 @@ abstract class BaseHTMLView extends BaseView
 		}
 
 		$this->submenu = JHtmlSidebar::render();
+	}
+
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		$document = Factory::getDocument();
+		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
+		$document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
+		$document->setCharset('utf-8');
+
+		HTML::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'right'));
 	}
 }

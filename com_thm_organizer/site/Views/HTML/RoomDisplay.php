@@ -10,6 +10,7 @@
 
 namespace Organizer\Views\HTML;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
@@ -36,13 +37,12 @@ class RoomDisplay extends BaseHTMLView
     }
 
     /**
-     * Adds css and javascript files to the document
+     * Modifies document variables and adds links to external files
      *
-     * @return void  modifies the document
+     * @return void
      */
-    private function modifyDocument()
+    protected function modifyDocument()
     {
-        $document = Factory::getDocument();
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_display.css');
+        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_display.css');
     }
 }

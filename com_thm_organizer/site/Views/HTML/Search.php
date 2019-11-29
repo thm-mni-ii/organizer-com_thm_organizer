@@ -45,9 +45,9 @@ class Search extends BaseHTMLView
      *
      * @return void
      */
-    private function modifyDocument()
+    protected function modifyDocument()
     {
-        HTML::_('bootstrap.framework');
+        parent::modifyDocument();
 
         $document = Factory::getDocument();
         $document->setTitle(Languages::_('THM_ORGANIZER_SEARCH'));

@@ -160,20 +160,6 @@ abstract class ListView extends BaseHTMLView
 	}
 
 	/**
-	 * Adds styles and scripts to the document
-	 *
-	 * @return void  modifies the document
-	 */
-	protected function modifyDocument()
-	{
-		$document = Factory::getDocument();
-		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
-		$document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
-
-		HTML::_('bootstrap.framework');
-	}
-
-	/**
 	 * Function to set the object's headers property
 	 *
 	 * @return void sets the object headers property

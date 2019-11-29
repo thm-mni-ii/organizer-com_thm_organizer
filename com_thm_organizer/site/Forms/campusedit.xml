@@ -16,8 +16,7 @@
         <field name="address" type="Blank" label="ADDRESS" class="validate-german-address" maxlength="255" size="60"/>
         <field name="city" type="Blank" label="CITY" class="validate-alpha-german" maxlength="60" size="60"/>
         <field name="zipCode" type="Blank" label="ZIP_CODE" class="validate-alphanumeric" maxlength="60" size="60"/>
-        <field name="gridID" type="GenericOptions" label="GRID" localized="true" table="thm_organizer_grids"
-               textcolumn="name" valuecolumn="id">
+        <field name="gridID" type="Grids" label="GRIDS">
             <option value="">DEFAULT_GRID</option>
         </field>
     </fieldset>

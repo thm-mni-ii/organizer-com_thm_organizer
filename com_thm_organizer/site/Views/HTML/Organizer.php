@@ -57,17 +57,4 @@ class Organizer extends BaseHTMLView
 			HTML::setPreferencesButton();
 		}
 	}
-
-	/**
-	 * Adds styles and scripts to the document
-	 *
-	 * @return void  modifies the document
-	 */
-	protected function modifyDocument()
-	{
-		HTML::_('bootstrap.framework');
-
-		$document = Factory::getDocument();
-		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
-	}
 }

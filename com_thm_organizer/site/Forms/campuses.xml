@@ -3,12 +3,11 @@
     <fields name="filter">
         <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
         <field name="city" type="GenericOptions" label="NAME" conditions="city != ''" default=""
-               onchange="this.form.submit();" table="thm_organizer_campuses" extcolumn="city" valuecolumn="city">
+               onchange="this.form.submit();" table="thm_organizer_campuses" textcolumn="city" valuecolumn="city">
             <option value="">ALL_CITIES</option>
             <option value="-1">NO_CITY</option>
         </field>
-        <field name="gridID" type="GenericOptions" label="GRID" localized="true" onchange="this.form.submit();"
-               table="thm_organizer_grids" textcolumn="name" valuecolumn="id">
+        <field name="gridID" type="Grids" label="GRID" onchange="this.form.submit();">
             <option value="">ALL_GRIDS</option>
             <option value="-1">NO_GRID</option>
         </field>

@@ -50,8 +50,18 @@ class LessonStatistics extends BaseHTMLView
         $this->lessons = $model->lessons;
         $this->total   = $model->total;
 
-        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
-
         parent::display($tpl);
+    }
+
+    /**
+     * Modifies document variables and adds links to external files
+     *
+     * @return void
+     */
+    protected function modifyDocument()
+    {
+	    parent::modifyDocument();
+
+        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
     }
 }

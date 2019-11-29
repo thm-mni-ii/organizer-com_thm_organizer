@@ -72,14 +72,11 @@ class Deputat extends BaseHTMLView
      *
      * @return void
      */
-    private function modifyDocument()
+    protected function modifyDocument()
     {
-        HTML::_('behavior.calendar');
-        HTML::_('formbehavior.chosen', 'select');
-        $document = Factory::getDocument();
-        $document->setCharset('utf-8');
-        $document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/deputat.css');
-        $document->addScript(Uri::root() . 'components/com_thm_organizer/js/deputat.js');
+	    parent::modifyDocument();
+
+        Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/deputat.js');
     }
 
     /**

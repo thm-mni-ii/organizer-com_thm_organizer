@@ -48,15 +48,4 @@ class SubjectEdit extends EditView
         $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
         $toolbar->appendButton('Standard', 'cancel', $cancelText, 'subject.cancel', false);
     }
-
-    /**
-     * Adds resource files to the document
-     *
-     * @return void
-     */
-    protected function modifyDocument()
-    {
-        HTML::_('bootstrap.framework');
-        HTML::_('formbehavior.chosen', 'select');
-    }
 }
