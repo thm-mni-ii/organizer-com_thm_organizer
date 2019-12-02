@@ -50,6 +50,8 @@ abstract class BaseHTMLView extends BaseView
 			return;
 		}
 
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/disclaimer.css');
+
 		$attributes = ['target' => '_blank'];
 
 		$lsfLink = HTML::link(
@@ -91,6 +93,8 @@ abstract class BaseHTMLView extends BaseView
 		{
 			return;
 		}
+
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/sidebar.css');
 
 		$viewName = strtolower($this->get('name'));
 

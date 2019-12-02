@@ -66,16 +66,6 @@ body.tmpl-index .main .js-stools .js-stools-container-list .js-stools-field-list
     padding: 0 10px 0 0;
 }
 
-div.disclaimer {
-    margin-top: 2rem;
-    padding-left: 8px;
-}
-
-div.disclaimer li, div.disclaimer p {
-    font-size: .8rem;
-    font-style: italic;
-}
-
 .clearfix {
     *zoom: 1;
 }

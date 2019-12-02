@@ -66,16 +66,6 @@ body.tmpl-index .main .js-stools .js-stools-container-list .js-stools-field-list
     padding: 0 10px 0 0;
 }
 
-div.disclaimer {
-    margin-top: 2rem;
-    padding-left: 8px;
-}
-
-div.disclaimer li, div.disclaimer p {
-    font-size: .8rem;
-    font-style: italic;
-}
-
 .clearfix {
     *zoom: 1;
 }
@@ -129,25 +119,6 @@ a[href$="view=thm_organizer"]::before {
 
 a[href$="view=thm_organizer"]::before {
     margin-right: .2rem;
-}
-
-/* sidebar ************************************************************************************************************/
-.sidebar-nav {
-    color: #394a59;
-}
-
-.menu-spacer {
-    background-color: #dfe5e6;
-    display: block;
-    font-size: 1.1rem;
-    margin: .3rem -2rem 0 -2rem;
-    padding: .3rem 1.6rem .3rem 2rem;
-    width: 100%;
-}
-
-.organizer-logo, .organizer-description {
-    font-size: .9rem;
-    margin-bottom: .6rem;
 }
 
 /* modal toolbar adjustments to emulate joomla ************************************************************************/

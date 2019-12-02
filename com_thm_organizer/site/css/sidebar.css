@@ -1,0 +1,17 @@
+.sidebar-nav {
+    color: #394a59;
+}
+
+.menu-spacer {
+    background-color: #dfe5e6;
+    display: block;
+    font-size: 1.1rem;
+    margin: .3rem -2rem 0 -2rem;
+    padding: .3rem 1.6rem .3rem 2rem;
+    width: 100%;
+}
+
+.organizer-logo, .organizer-description {
+    font-size: .9rem;
+    margin-bottom: .6rem;
+}
