@@ -28,7 +28,7 @@
         <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
                description="THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
-    <fieldset name="mapping" label="ATTRIBUTES_STRUCTURE" displayinitial="0">
+    <fieldset name="mappings" label="ATTRIBUTES_STRUCTURE" displayinitial="0">
         <field name="programID" type="ProgramMappings" access="true" label="PROGRAMS"
                description="THM_ORGANIZER_PROGRAMS_DESC" required="false"/>
         <field name="parentID" type="ParentPool" label="PARENT_POOLS" description="THM_ORGANIZER_PARENT_POOLS_DESC"

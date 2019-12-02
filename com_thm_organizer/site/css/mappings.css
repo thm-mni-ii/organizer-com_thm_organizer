@@ -1,0 +1,47 @@
+@media (min-width: 768px) {
+    #mappings .control-group:nth-of-type(1) {
+        width: 50%;
+        float: left;
+    }
+
+    #mappings .control-group:nth-of-type(1) .controls select {
+        width: 95%;
+    }
+
+    #mappings .control-group:nth-of-type(2) {
+        width: 50%;
+        float: right;
+    }
+
+    #mappings .control-group:nth-of-type(2) .controls select {
+        width: 95%;
+    }
+
+    #mappings .control-group:nth-of-type(3) {
+        clear: both;
+    }
+}
+
+#mappings table {
+    width: 98%;
+}
+
+#mappings thead tr:nth-child(1) th {
+    padding: 5px 0 5px 8px;
+}
+
+#mappings thead .thm_organizer_pools_ordering {
+    width: 16rem;
+}
+
+#mappings tbody .child-order .btn-small {
+    padding: 1px 4px;
+    font-size: 12px;
+    line-height: 8px;
+}
+
+#mappings tbody .child-order .text-area-order {
+    padding: 1px 2px;
+    text-align: center;
+    height: 14px;
+}

@@ -31,7 +31,7 @@
         <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
                description="THM_ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
-    <fieldset name="mapping" label="POOLS" displayinitial="0">
+    <fieldset name="mappings" label="POOLS" displayinitial="0">
         <field name="children" type="Children" label="CHILDREN"/>
     </fieldset>
 </form>
