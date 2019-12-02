@@ -1,0 +1,61 @@
+@import "fields";
+@import "filter_bars";
+@import "pagination";
+@import "variables";
+
+/* table styles *******************************************************************************************************/
+
+.organizer-table {
+
+  thead th,
+  tbody td {
+    text-align: center;
+  }
+
+  .resource-column {
+    padding-left: .2rem;
+    padding-right: .2rem;
+    width: calc(2.8rem - .4rem);
+  }
+
+  .data-column span {
+    margin: 0;
+  }
+
+  thead tr.level-2.columns-36 th.data-column,
+  tbody tr.columns-36 td.data-column {
+    padding-left: .2rem;
+    padding-right: .2rem;
+    width: calc((100% - 2.8rem - (.4rem * 36)) / 36);
+  }
+
+  thead tr.level-2.columns-48 th.data-column,
+  tbody tr.columns-48 td.data-column {
+    padding-left: 0rem;
+    padding-right: 0rem;
+    width: calc((100% - 2.8rem) / 48);
+  }
+}
+
+/* Tooltip styles specific to table views ****************************************************************************/
+
+.tooltip-inner {
+  .cellTip {
+    padding: .4rem;
+    text-align: center;
+
+    .cellTip, .labelTip {
+      margin-top: .4rem;
+      text-align: left;
+    }
+
+    .cellTip {
+      border: $border-dark;
+    }
+  }
+
+  .cellTitle {
+    font-weight: bold;
+    size: 1.1rem;
+  }
+}

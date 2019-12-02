@@ -1,0 +1,58 @@
+@import "variables";
+
+.main tfoot {
+  .limit {
+    display: none;
+  }
+
+  .counter, .pagination-box {
+    text-align: center;
+  }
+
+  .pagination-box {
+
+    ul {
+      // inline block centers the output
+      display: inline-block;
+      list-style-type: none;
+      position: relative;
+    }
+
+    li {
+      float: left;
+      height: auto;
+      line-height: 1.5rem;
+      margin: 0;
+      padding: 0;
+      position: relative;
+
+      &.active-page a,
+      &.active-page span {
+        background-color: $background-active;
+      }
+
+      &::before {
+        left: .7rem;
+        position: absolute;
+        top: .05rem;
+      }
+
+      &[class*="icon-"] {
+
+        width: 2.5rem;
+
+        a {
+          padding: .3rem .6rem;
+        }
+      }
+    }
+
+    a, span {
+      border: $border-darkest-thick;
+      margin: 0 .4rem;
+      padding: .3rem .5rem;
+    }
+  }
+}
+
+

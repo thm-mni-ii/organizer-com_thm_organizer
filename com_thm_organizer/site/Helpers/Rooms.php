@@ -11,7 +11,6 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class provides general functions for retrieving room data.

@@ -297,7 +297,7 @@ abstract class BaseHTMLView extends BaseView
 	protected function modifyDocument()
 	{
 		$document = Factory::getDocument();
-		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
+		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/global.css');
 		$document->addStyleSheet(Uri::root() . 'media/jui/css/bootstrap-extended.css');
 		$document->setCharset('utf-8');
 

@@ -1,0 +1,51 @@
+.btn:hover span[class^="icon-"]:before {
+    color: white;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.disabled {
+    opacity: .6;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.tooltip-inner {
+    background-color: #f2f5f6;
+    color: #394a59;
+    border: 1px solid #77858c;
+    border-radius: 0;
+    padding: .2rem;
+    font-size: .8rem;
+}
+
+a {
+    cursor: pointer;
+}
+
+a [class^='icon-'], a [class*=' icon-'] {
+    margin-right: .2rem;
+}
+
+h1.page-title span[class*="icon-"] {
+    display: none;
+}

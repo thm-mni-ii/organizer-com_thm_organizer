@@ -57,4 +57,15 @@ class Organizer extends BaseHTMLView
 			HTML::setPreferencesButton();
 		}
 	}
+
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/organizer.css');
+	}
 }

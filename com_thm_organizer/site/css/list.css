@@ -1,0 +1,139 @@
+body.tmpl-index div.main .chzn-container {
+    max-width: inherit;
+}
+
+body.tmpl-index div.main .chzn-container,
+body.tmpl-index div.main input,
+body.tmpl-index div.main select {
+    border: 2px solid #4a5c66;
+}
+
+body.tmpl-index div.main .chzn-container,
+body.tmpl-index div.main select {
+    height: 2rem;
+    width: 10rem !important;
+}
+
+body.tmpl-index div.main .chzn-container-multi .chzn-choices li {
+    float: none;
+}
+
+body.tmpl-index div.main .chzn-container-multi,
+body.tmpl-index div.main select[multiple] {
+    height: auto;
+    min-height: 2rem;
+}
+
+body.tmpl-index div.main input[type='date'] {
+    height: 1.2rem;
+    margin-bottom: 0;
+    padding: .35rem .2rem .5rem .2rem;
+}
+
+body.tmpl-index div.main .input-4,
+body.tmpl-index div.main .input-4 + .chzn-container,
+body.tmpl-index div.main .input-mini,
+body.tmpl-index div.main .input-mini + .chzn-container {
+    width: 4rem !important;
+}
+
+body.tmpl-index div.main .input-6,
+body.tmpl-index div.main .input-6 + .chzn-container {
+    width: 6rem !important;
+}
+
+body.tmpl-index div.main .input-8,
+body.tmpl-index div.main .input-8 + .chzn-container {
+    width: 8rem !important;
+}
+
+body.tmpl-index div.main .input-12,
+body.tmpl-index div.main .input-12 + .chzn-container {
+    width: 12rem !important;
+}
+
+body.tmpl-index div.main .input-15,
+body.tmpl-index div.main .input-15 + .chzn-container {
+    width: 12rem !important;
+}
+
+.main .btn-toolbar {
+    display: flex;
+    flex-direction: row;
+}
+
+.main .btn-toolbar .btn-wrapper {
+    margin-right: 5px;
+}
+
+.main .btn-toolbar button {
+    font-size: .9rem;
+}
+
+.main .btn-toolbar .input-append input {
+    height: 1.34rem;
+}
+
+.main .btn-toolbar .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem;
+    margin-right: .5rem;
+}
+
+.main .js-stools .js-stools-container-bar {
+    display: flex;
+    margin-bottom: .8rem;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+    border-bottom-color: initial;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+    border-top-color: #ffffff;
+}
+
+.main .js-stools .js-stools-container-list {
+    display: flex;
+}
+
+.main .js-stools .js-stools-container-list .js-stools-field-list select {
+    width: 10rem;
+}
+
+/* In-Row Tools *******************************************************************************************************/
+td a.btn {
+    margin-right: .2rem;
+}
+
+td a.btn:last-child {
+    margin-right: 0;
+}
+
+/* Phone **************************************************************************************************************/
+@media (max-width: 480px) {
+    .table-striped thead th,
+    .table-striped tbody td {
+        display: none;
+    }
+
+    .table-striped thead th:nth-child(2),
+    .table-striped tbody td:nth-child(2) {
+        display: table-cell;
+    }
+
+    .table-striped thead th:nth-child(2),
+    .table-striped tbody td:nth-child(2) {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* Tablet *************************************************************************************************************/
+@media (min-width: 480px) and (max-width: 768px) {
+    .table-striped thead th:nth-child(n+5),
+    .table-striped tbody td:nth-child(n+5) {
+        display: none;
+    }
+}

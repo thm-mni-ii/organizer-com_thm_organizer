@@ -1,0 +1,54 @@
+@import "variables";
+
+body.tmpl-index div.main {
+
+  .chzn-container {
+    max-width: inherit;
+  }
+
+  .chzn-container, input, select {
+    border: $border-darkest-thick;
+  }
+
+  .chzn-container, select {
+    height: 2rem;
+    width: 10rem !important;
+  }
+
+  // Prevents selected items from being displayed in the same line potentially widening the field.
+  .chzn-container-multi .chzn-choices li {
+    float: none;
+  }
+
+  .chzn-container-multi, select[multiple] {
+    height: auto;
+    min-height: 2rem;
+  }
+
+  input[type='date'] {
+    height: 1.2rem;
+    margin-bottom: 0;
+    padding: .35rem .2rem .5rem .2rem;
+  }
+
+  .input-4, .input-4 + .chzn-container,
+  .input-mini, .input-mini + .chzn-container {
+    width: 4rem !important;
+  }
+
+  .input-6, .input-6 + .chzn-container {
+    width: 6rem !important;
+  }
+
+  .input-8, .input-8 + .chzn-container {
+    width: 8rem !important;
+  }
+
+  .input-12, .input-12 + .chzn-container {
+    width: 12rem !important;
+  }
+
+  .input-15, .input-15 + .chzn-container {
+    width: 12rem !important;
+  }
+}

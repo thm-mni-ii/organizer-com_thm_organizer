@@ -67,5 +67,6 @@ abstract class FormView extends BaseHTMLView
 		$document = Factory::getDocument();
 		$document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');
 		$document->addScript(Uri::root() . 'components/com_thm_organizer/js/submitButton.js');
+		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/form.css');
 	}
 }

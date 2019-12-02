@@ -1,0 +1,32 @@
+@import "fields";
+@import "filter_bars";
+@import "mixins";
+@import "variables";
+
+/* In-Row Tools *******************************************************************************************************/
+
+td a.btn {
+  margin-right: .2rem;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+/* Phone **************************************************************************************************************/
+
+@include breakpoint($mq-phone) {
+  // for all tables. Just display the second column.
+  .table-striped {
+    @include displayAndHideColumns(2);
+  }
+}
+
+/* Tablet *************************************************************************************************************/
+
+@include breakpoint($mq-tablet) {
+  // for all tables. Hide the last columns from the fifth column, so four columns are displayed
+  .table-striped {
+    @include hideColumns(5);
+  }
+}

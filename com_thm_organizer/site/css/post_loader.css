@@ -1,0 +1,28 @@
+div.loading-background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background-color: #4a5c66;
+    opacity: 0.4;
+}
+
+div.postloader {
+    background: white url(../images/thm.gif) no-repeat center 10px;
+    height: 4.8rem;
+    left: 50%;
+    margin: -2.8rem -1.5rem 0 0;
+    opacity: 1;
+    overflow: visible;
+    padding: .4rem;
+    position: fixed;
+    text-align: center;
+    text-transform: uppercase;
+    top: 50%;
+    vertical-align: bottom;
+    width: 3.2rem;
+    z-index: 999;
+}

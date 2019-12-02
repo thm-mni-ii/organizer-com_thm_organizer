@@ -1,0 +1,203 @@
+body.tmpl-index div.main .chzn-container {
+    max-width: inherit;
+}
+
+body.tmpl-index div.main .chzn-container,
+body.tmpl-index div.main input,
+body.tmpl-index div.main select {
+    border: 2px solid #4a5c66;
+}
+
+body.tmpl-index div.main .chzn-container,
+body.tmpl-index div.main select {
+    height: 2rem;
+    width: 10rem !important;
+}
+
+body.tmpl-index div.main .chzn-container-multi .chzn-choices li {
+    float: none;
+}
+
+body.tmpl-index div.main .chzn-container-multi,
+body.tmpl-index div.main select[multiple] {
+    height: auto;
+    min-height: 2rem;
+}
+
+body.tmpl-index div.main input[type='date'] {
+    height: 1.2rem;
+    margin-bottom: 0;
+    padding: .35rem .2rem .5rem .2rem;
+}
+
+body.tmpl-index div.main .input-4,
+body.tmpl-index div.main .input-4 + .chzn-container,
+body.tmpl-index div.main .input-mini,
+body.tmpl-index div.main .input-mini + .chzn-container {
+    width: 4rem !important;
+}
+
+body.tmpl-index div.main .input-6,
+body.tmpl-index div.main .input-6 + .chzn-container {
+    width: 6rem !important;
+}
+
+body.tmpl-index div.main .input-8,
+body.tmpl-index div.main .input-8 + .chzn-container {
+    width: 8rem !important;
+}
+
+body.tmpl-index div.main .input-12,
+body.tmpl-index div.main .input-12 + .chzn-container {
+    width: 12rem !important;
+}
+
+body.tmpl-index div.main .input-15,
+body.tmpl-index div.main .input-15 + .chzn-container {
+    width: 12rem !important;
+}
+
+.main .btn-toolbar {
+    display: flex;
+    flex-direction: row;
+}
+
+.main .btn-toolbar .btn-wrapper {
+    margin-right: 5px;
+}
+
+.main .btn-toolbar button {
+    font-size: .9rem;
+}
+
+.main .btn-toolbar .input-append input {
+    height: 1.34rem;
+}
+
+.main .btn-toolbar .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem;
+    margin-right: .5rem;
+}
+
+.main .js-stools .js-stools-container-bar {
+    display: flex;
+    margin-bottom: .8rem;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+    border-bottom-color: initial;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+    border-top-color: #ffffff;
+}
+
+.main .js-stools .js-stools-container-list {
+    display: flex;
+}
+
+.main .js-stools .js-stools-container-list .js-stools-field-list select {
+    width: 10rem;
+}
+
+.main tfoot .limit {
+    display: none;
+}
+
+.main tfoot .counter, .main tfoot .pagination-box {
+    text-align: center;
+}
+
+.main tfoot .pagination-box ul {
+    display: inline-block;
+    list-style-type: none;
+    position: relative;
+}
+
+.main tfoot .pagination-box li {
+    float: left;
+    height: auto;
+    line-height: 1.5rem;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.main tfoot .pagination-box li.active-page a,
+.main tfoot .pagination-box li.active-page span {
+    background-color: #dfeec8;
+}
+
+.main tfoot .pagination-box li::before {
+    left: .7rem;
+    position: absolute;
+    top: .05rem;
+}
+
+.main tfoot .pagination-box li[class*="icon-"] {
+    width: 2.5rem;
+}
+
+.main tfoot .pagination-box li[class*="icon-"] a {
+    padding: .3rem .6rem;
+}
+
+.main tfoot .pagination-box a,
+.main tfoot .pagination-box span {
+    border: 2px solid #4a5c66;
+    margin: 0 .4rem;
+    padding: .3rem .5rem;
+}
+
+/* table styles *******************************************************************************************************/
+.organizer-table thead th,
+.organizer-table tbody td {
+    text-align: center;
+}
+
+.organizer-table .resource-column {
+    padding-left: .2rem;
+    padding-right: .2rem;
+    width: calc(2.8rem - .4rem);
+}
+
+.organizer-table .data-column span {
+    margin: 0;
+}
+
+.organizer-table thead tr.level-2.columns-36 th.data-column,
+.organizer-table tbody tr.columns-36 td.data-column {
+    padding-left: .2rem;
+    padding-right: .2rem;
+    width: calc((100% - 2.8rem - (.4rem * 36)) / 36);
+}
+
+.organizer-table thead tr.level-2.columns-48 th.data-column,
+.organizer-table tbody tr.columns-48 td.data-column {
+    padding-left: 0rem;
+    padding-right: 0rem;
+    width: calc((100% - 2.8rem) / 48);
+}
+
+/* Tooltip styles specific to table views ****************************************************************************/
+.tooltip-inner .cellTip {
+    padding: .4rem;
+    text-align: center;
+}
+
+.tooltip-inner .cellTip .cellTip,
+.tooltip-inner .cellTip .labelTip {
+    margin-top: .4rem;
+    text-align: left;
+}
+
+.tooltip-inner .cellTip .cellTip {
+    border: 1px solid #77858c;
+}
+
+.tooltip-inner .cellTitle {
+    font-weight: bold;
+    size: 1.1rem;
+}

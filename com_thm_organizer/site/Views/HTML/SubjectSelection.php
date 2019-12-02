@@ -11,7 +11,9 @@
 
 namespace Organizer\Views\HTML;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
@@ -42,6 +44,18 @@ class SubjectSelection extends ListView
 	protected function allowAccess()
 	{
 		return (bool) Can::documentTheseDepartments();
+	}
+
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/modal.css');
 	}
 
 	/**

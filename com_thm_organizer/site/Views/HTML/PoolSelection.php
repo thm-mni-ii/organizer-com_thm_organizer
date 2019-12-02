@@ -11,7 +11,9 @@
 
 namespace Organizer\Views\HTML;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Languages;
 
 /**
@@ -30,5 +32,17 @@ class PoolSelection extends PoolsView
 	{
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'program.addPool', true);
+	}
+
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/modal.css');
 	}
 }

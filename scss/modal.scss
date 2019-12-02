@@ -1,0 +1,18 @@
+@import "variables";
+
+.modal-body {
+  overflow: hidden !important;
+  min-height: 450px;
+}
+
+.contentpane.component {
+  padding: 0 .5rem;
+
+  .toolbar {
+    background-color: $background-color;
+    border-bottom: $border-middle;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    width: calc(100% - 1rem);
+  }
+}

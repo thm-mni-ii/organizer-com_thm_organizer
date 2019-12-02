@@ -11,7 +11,9 @@
 namespace Organizer\Views\HTML;
 
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\Grids;
 use Organizer\Helpers\HTML;
@@ -98,6 +100,19 @@ class Groups extends ListView
 		$this->batch = ['batch_group_publishing'];
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/group_publishing.css');
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/modal.css');
 	}
 
 	/**

@@ -83,7 +83,7 @@ abstract class SelectionView extends BaseHTMLView
 		$rootURI  = Uri::root();
 		$document = Factory::getDocument();
 		$document->addScriptDeclaration("const rootURI = '$rootURI';");
-		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/selection.css');
+		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/table.css');
 	}
 
 	/**

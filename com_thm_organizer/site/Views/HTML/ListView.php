@@ -160,6 +160,18 @@ abstract class ListView extends BaseHTMLView
 	}
 
 	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/list.css');
+	}
+
+	/**
 	 * Function to set the object's headers property
 	 *
 	 * @return void sets the object headers property

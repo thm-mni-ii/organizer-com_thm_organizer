@@ -1,0 +1,57 @@
+.main .btn-toolbar {
+    display: flex;
+    flex-direction: row;
+}
+
+.main .btn-toolbar .btn-wrapper {
+    margin-right: 5px;
+}
+
+.main .btn-toolbar button {
+    font-size: .9rem;
+}
+
+.main .btn-toolbar .input-append input {
+    height: 1.34rem;
+}
+
+.main .btn-toolbar .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem;
+    margin-right: .5rem;
+}
+
+.main .js-stools .js-stools-container-bar {
+    display: flex;
+    margin-bottom: .8rem;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+    border-bottom-color: initial;
+}
+
+.main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+    border-top-color: #ffffff;
+}
+
+.main .js-stools .js-stools-container-list {
+    display: flex;
+}
+
+.main .js-stools .js-stools-container-list .js-stools-field-list select {
+    width: 10rem;
+}
+
+.period-container {
+    margin-bottom: .5rem;
+}
+
+.period-label {
+    margin-right: 1rem;
+    min-width: 5rem;
+}
+
+.period-label, .period-input {
+    display: inline-block;
+}

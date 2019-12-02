@@ -1,0 +1,16 @@
+.modal-body {
+    overflow: hidden !important;
+    min-height: 450px;
+}
+
+.contentpane.component {
+    padding: 0 .5rem;
+}
+
+.contentpane.component .toolbar {
+    background-color: #f2f5f6;
+    border-bottom: 1px solid #a4adb2;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    width: calc(100% - 1rem);
+}
