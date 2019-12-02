@@ -138,7 +138,6 @@ class GenericOptionsField extends OptionsField
 		$order = $this->getAttribute('order', 'text ASC');
 		$query->order($order);
 		$dbo->setQuery($query);
-		echo "<pre>" . print_r((string) $query, true) . "</pre>";
 
 		$defaultOptions = parent::getOptions();
 		$resources      = OrganizerHelper::executeQuery('loadAssocList');
