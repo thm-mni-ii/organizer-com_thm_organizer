@@ -110,8 +110,9 @@ class Buildings extends ResourceHelper implements Selectable
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
 
-		$query->select('DISTINCT b.*, c.parentID');
-		$query->from('#__thm_organizer_buildings AS b');
+		$query->select('DISTINCT b.*, c.parentID')
+			->from('#__thm_organizer_buildings AS b')
+			->leftJoin('#__thm_organizer_campuses AS c on c.id = b.campusID');
 
 		self::addCampusFilter($query, 'b');
 
