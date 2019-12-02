@@ -33,6 +33,12 @@ echo $this->supplement;
         <table class="table table-striped organizer-table">
             <thead><?php echo $this->renderHeaders(); ?></thead>
             <tbody><?php echo $this->renderRows(); ?></tbody>
+            <tfoot>
+            <tr>
+                <td colspan="<?php echo $columnCount; ?>">
+					<?php echo $this->pagination->getListFooter(); ?>
+            </tr>
+            </tfoot>
         </table>
         <input type="hidden" name="task" value=""/>
         <input type="hidden" name="option" value="com_thm_organizer"/>

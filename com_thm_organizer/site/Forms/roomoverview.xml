@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
-    <fieldset name="fields">
-        <field name="template" type="Templates" label="DISPLAY_RANGE" default="1" translateLabel="false">
+    <fields name="filter">
+        <field name="campusID" type="Campuses" label="CAMPUS" class="input-12" onchange="this.form.submit();">
+            <option value="">ALL_CAMPUSES</option>
+            <option value="-1">NO_CAMPUS</option>
+        </field>
+        <field name="buildingID" type="Buildings" label="BUILDING" class="input-8" onchange="this.form.submit();">
+            <option value="">ALL_BUILDINGS</option>
+            <option value="-1">NO_BUILDING</option>
+        </field>
+        <field name="roomtypeID" type="Roomtypes" label="TYPE" class="input-12" onchange="this.form.submit();">
+            <option value="">ALL_ROOMTYPES</option>
+            <option value="-1">NO_ROOMTYPE</option>
+        </field>
+        <field name="roomIDs" type="Rooms" label="ROOMS" multiple="true" onblur="this.form.submit();">
+            <option value="">ALL_ROOMS</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field name="template" type="Options" label="DISPLAY_RANGE" class="input-6" default="1"
+               onchange="this.form.submit();">
             <option value="1">SINGLE_DAY</option>
             <option value="2">WEEK</option>
         </field>
-        <field name="date" type="Date" label="DATE"/>
-        <field name="campusID" type="Campuses" label="CAMPUS" translateLabel="false">
-            <option value="">ALL_CAMPUSES</option>
-        </field>
-        <field name="buildingID" type="Buildings" label="BUILDING" translateLabel="false">
-            <option value="">ALL_BUILDINGS</option>
-        </field>
-        <field name="roomtypeIDs" type="Roomtypes" label="ROOMTYPES" multiple="true" translateLabel="false">
-            <option value="">ALL_ROOMTYPES</option>
-        </field>
-        <field name="roomIDs" type="Rooms" label="ROOMS" multiple="true" translateLabel="false">
-            <option value="">ALL_ROOMS</option>
-        </field>
-    </fieldset>
+        <field name="gridID" type="Grids" label="GRIDS" class="input-12" onchange="this.form.submit();"/>
+        <field name="date" type="Date" label="DATE" class="input-8" empty="false" onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" class="input-4" onchange="this.form.submit();"/>
+    </fields>
 </form>

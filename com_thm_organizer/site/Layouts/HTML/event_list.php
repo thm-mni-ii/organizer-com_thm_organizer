@@ -13,8 +13,9 @@ $showHeading = $this->model->params->get('show_page_heading', '');
 $title       = $this->model->params->get('page_title', '');
 
 echo '<div id="event-list" class="component-container">';
-if (!empty($showHeading)) {
-    echo '<h2 class="componentheading">' . $title . '</h2>';
+if (!empty($showHeading))
+{
+	echo '<h2 class="componentheading">' . $title . '</h2>';
 }
 
 ?>
@@ -23,23 +24,23 @@ if (!empty($showHeading)) {
         <div id="form-container" class="form-container clearfix">
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo HTML::getLabel($this, 'startDate'); ?>
+					<?php echo HTML::getLabel($this, 'startDate'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('startDate')->input; ?>
+					<?php echo $this->form->getField('startDate')->input; ?>
                 </div>
             </div>
             <div class='control-group'>
                 <div class='control-label'>
-                    <?php echo HTML::getLabel($this, 'interval'); ?>
+					<?php echo HTML::getLabel($this, 'interval'); ?>
                 </div>
                 <div class='controls'>
-                    <?php echo $this->form->getField('interval')->input; ?>
+					<?php echo $this->form->getField('interval')->input; ?>
                 </div>
             </div>
             <div class="control-group">
-                <button class="btn submit-button" onclick="showPostLoader();form.submit();">
-                    <?php echo Languages::_('THM_ORGANIZER_REFRESH'); ?>
+                <button class="btn submit-button" onclick="form.submit();">
+					<?php echo Languages::_('THM_ORGANIZER_REFRESH'); ?>
                     <span class="icon-loop"></span>
                 </button>
             </div>
@@ -47,46 +48,52 @@ if (!empty($showHeading)) {
     </form>
 <?php
 
-if (empty($this->model->events)) {
-    echo '<h3 class="no-entries-found"> ' . Languages::_('THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
+if (empty($this->model->events))
+{
+	echo '<h3 class="no-entries-found"> ' . Languages::_('THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
 }
 
-foreach ($this->model->events as $date => $times) {
-    echo '<div class="event-date">';
-    echo '<div class="event-date-head">' . Dates::formatDate($date) . '</div>';
-    echo '<table><thead><tr class="list-head">';
-    echo '<th class="time-column">' . Languages::_('THM_ORGANIZER_TIMES') . '</th>';
-    echo '<th class="name-column">' . Languages::_('THM_ORGANIZER_EVENT') . '</th>';
-    echo '<th class="persons-column">' . Languages::_('THM_ORGANIZER_TEACHERS') . '</th>';
-    echo '<th class="rooms-column">' . Languages::_('THM_ORGANIZER_ROOMS') . '</th>';
-    echo '<th class="org-column">' . Languages::_('THM_ORGANIZER_ORGANIZATION') . '</th>';
-    echo '</tr></thead>';
+foreach ($this->model->events as $date => $times)
+{
+	echo '<div class="event-date">';
+	echo '<div class="event-date-head">' . Dates::formatDate($date) . '</div>';
+	echo '<table><thead><tr class="list-head">';
+	echo '<th class="time-column">' . Languages::_('THM_ORGANIZER_TIMES') . '</th>';
+	echo '<th class="name-column">' . Languages::_('THM_ORGANIZER_EVENT') . '</th>';
+	echo '<th class="persons-column">' . Languages::_('THM_ORGANIZER_TEACHERS') . '</th>';
+	echo '<th class="rooms-column">' . Languages::_('THM_ORGANIZER_ROOMS') . '</th>';
+	echo '<th class="org-column">' . Languages::_('THM_ORGANIZER_ORGANIZATION') . '</th>';
+	echo '</tr></thead>';
 
-    $rowNumber = 0;
-    foreach ($times as $time => $lessons) {
-        foreach ($lessons as $lesson) {
-            $rowClass = 'row' . ($rowNumber % 2);
-            $rowNumber++;
-            echo '<tr class="' . $rowClass . '">';
-            echo '<td class="time-column">';
-            echo Dates::formatTime($lesson['startTime']) . ' - ';
-            echo Dates::formatTime($lesson['endTime']);
-            echo '</td>';
-            echo '<td class="name-column">';
-            echo implode(' / ', $lesson['titles']);
-            if (!empty($lesson['method'])) {
-                echo ' - ' . $lesson['method'];
-            }
-            if (!empty($lesson['comment'])) {
-                echo '<br />(' . $lesson['comment'] . ')';
-            }
-            echo '</td>';
-            echo '<td class="persons-column">' . implode(' / ', $lesson['persons']) . '</td>';
-            echo '<td class="rooms-column">' . implode(', ', $lesson['rooms']) . '</td>';
-            echo '<td class="org-column">' . implode(', ', $lesson['departments']) . '</td>';
-            echo '</tr>';
-        }
-    }
-    echo '</table></div>';
+	$rowNumber = 0;
+	foreach ($times as $time => $lessons)
+	{
+		foreach ($lessons as $lesson)
+		{
+			$rowClass = 'row' . ($rowNumber % 2);
+			$rowNumber++;
+			echo '<tr class="' . $rowClass . '">';
+			echo '<td class="time-column">';
+			echo Dates::formatTime($lesson['startTime']) . ' - ';
+			echo Dates::formatTime($lesson['endTime']);
+			echo '</td>';
+			echo '<td class="name-column">';
+			echo implode(' / ', $lesson['titles']);
+			if (!empty($lesson['method']))
+			{
+				echo ' - ' . $lesson['method'];
+			}
+			if (!empty($lesson['comment']))
+			{
+				echo '<br />(' . $lesson['comment'] . ')';
+			}
+			echo '</td>';
+			echo '<td class="persons-column">' . implode(' / ', $lesson['persons']) . '</td>';
+			echo '<td class="rooms-column">' . implode(', ', $lesson['rooms']) . '</td>';
+			echo '<td class="org-column">' . implode(', ', $lesson['departments']) . '</td>';
+			echo '</tr>';
+		}
+	}
+	echo '</table></div>';
 }
 echo '</div>';

@@ -76,7 +76,7 @@ abstract class TableView extends BaseHTMLView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		$this->setIndividualAttributes();
+		$this->setInheritingProperties();
 		$this->setHeaders();
 		$this->setRows($this->get('Items'));
 		$this->pagination = $this->get('Pagination');
@@ -99,19 +99,15 @@ abstract class TableView extends BaseHTMLView
 	}
 
 	/**
-	 * Adds styles and scripts to the document
+	 * Creates the HTML which will later be rendered. This is not output directly to allow for multilevel headers.
 	 *
-	 * @return void  modifies the document
+	 * @param   array   $cell       the data to use for HTML generation
+	 * @param   string  $dataClass  the class denoting the displayed information's column type
+	 * @param   int     $colSpan    the number of columns the generated header cell will span
+	 *
+	 * @return string
 	 */
-	protected function modifyDocument()
-	{
-		parent::modifyDocument();
-
-		$document = Factory::getDocument();
-		$document->addScript(Uri::root() . 'components/com_thm_organizer/js/postloader.js');
-	}
-
-	private function getHeaderCellOutput($cell, $dataClass, $colSpan = 0)
+	private function getHeaderCell($cell, $dataClass, $colSpan = 0)
 	{
 		$attributes = "class=\"$dataClass\"";
 		$attributes .= $colSpan ? " colspan=\"$colSpan\"" : '';
@@ -145,8 +141,25 @@ abstract class TableView extends BaseHTMLView
 	 *
 	 * @return array structured cell information
 	 */
-	abstract protected function getCell($data);
+	abstract protected function getDataCell($data);
 
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/table.css');
+	}
+
+	/**
+	 * Generates the HTML output for the table headers.
+	 *
+	 * @return void outputs HTML
+	 */
 	public function renderHeaders()
 	{
 		$levelOne = '';
@@ -165,12 +178,12 @@ abstract class TableView extends BaseHTMLView
 					$this->columnCount += $colspan;
 					foreach ($header['columns'] as $column)
 					{
-						$levelTwo .= $this->getHeaderCellOutput($column, $dataClass);
+						$levelTwo .= $this->getHeaderCell($column, $dataClass);
 					}
 				}
 				else
 				{
-					$levelTwo .= $this->getHeaderCellOutput([], $dataClass);
+					$levelTwo .= $this->getHeaderCell([], $dataClass);
 				}
 
 			}
@@ -179,7 +192,7 @@ abstract class TableView extends BaseHTMLView
 				$this->columnCount++;
 			}
 
-			$levelOne .= $this->getHeaderCellOutput($header, $dataClass, $colspan);
+			$levelOne .= $this->getHeaderCell($header, $dataClass, $colspan);
 		}
 
 		$columnClass = "columns-$this->columnCount";
@@ -193,6 +206,11 @@ abstract class TableView extends BaseHTMLView
 		return;
 	}
 
+	/**
+	 * Generates the HTML output for the individual rows.
+	 *
+	 * @return void outputs HTML
+	 */
 	public function renderRows()
 	{
 		$columnClass = "class=\"columns-$this->columnCount\"";
