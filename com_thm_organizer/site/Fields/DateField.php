@@ -38,7 +38,8 @@ class DateField extends FormField
 	 */
 	protected function getInput()
 	{
-		$empty = $this->getAttribute('empty', 'true');
+		$empty    = $this->getAttribute('empty', 'true');
+		$onchange = $this->getAttribute('onchange', '');
 
 		if ($this->value)
 		{
@@ -55,7 +56,7 @@ class DateField extends FormField
 			$this->disabled ? 'disabled' : '',
 			"id=\"$this->id\"",
 			"name=\"$this->name\"",
-			!empty($this->onChange) ? "onChange=\"$this->onChange\"" : '',
+			$onchange ? "onChange=\"$onchange\"" : '',
 			$this->readonly ? 'readonly' : '',
 			$this->required ? 'required aria-required="true"' : '',
 			'type="date"',

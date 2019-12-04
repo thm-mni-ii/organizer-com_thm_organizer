@@ -23,6 +23,8 @@ class RoomOverview extends ListModel
 
 	const DAY = 1, WEEK = 2;
 
+	protected $defaultLimit = 10;
+
 	protected $defaultOrdering = 'r.name';
 
 	/**

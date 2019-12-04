@@ -24,6 +24,8 @@ use Organizer\Helpers\Subjects as SubjectsHelper;
  */
 class Subjects extends ListModel
 {
+	protected $filter_fields = ['departmentID', 'personID', 'poolID', 'programID'];
+
 	/**
 	 * Filters out form inputs which should not be displayed due to menu settings.
 	 *
