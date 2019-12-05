@@ -6,6 +6,16 @@
                participant="1">
             <option value="">ALL_PROGRAMS</option>
         </field>
+        <field name="paid" type="Options" label="PAYMENT_STATUS" onchange="this.form.submit();">
+            <option value="">PAYMENT_STATUS</option>
+            <option value="1">PAID</option>
+            <option value="0">UNPAID</option>
+        </field>
+        <field name="attended" type="Options" label="ATTENDANCE" onchange="this.form.submit();">
+            <option value="">ATTENDANCE</option>
+            <option value="1">ATTENDED</option>
+            <option value="0">UNATTENDED</option>
+        </field>
     </fields>
     <fields name="list">
         <field name="limit" type="Limitbox" onchange="this.form.submit();"/>

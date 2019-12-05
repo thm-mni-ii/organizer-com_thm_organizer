@@ -56,14 +56,12 @@ if (!empty($this->submenu))
 					?>
                 </tr>
 			<?php endforeach; ?>
-			<?php if (!$isSite) : ?>
             <tfoot>
             <tr>
                 <td colspan="<?php echo $columnCount; ?>">
 					<?php echo $this->pagination->getListFooter(); ?>
             </tr>
             </tfoot>
-			<?php endif; ?>
 			<?php
 			if (isset($this->batch) && !empty($this->batch))
 			{

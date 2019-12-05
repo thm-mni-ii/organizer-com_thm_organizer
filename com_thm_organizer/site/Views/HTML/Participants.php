@@ -22,7 +22,15 @@ use Organizer\Helpers\Programs;
  */
 class Participants extends ListView
 {
-	protected $rowStructure = ['checkbox' => '', 'fullName' => 'link', 'programName' => 'link'];
+	protected $rowStructure = [
+		'checkbox'    => '',
+		'fullName'    => 'value',
+		'email'       => 'value',
+		'programName' => 'value',
+		'status'      => 'value',
+		'paid'        => 'value',
+		'attended'    => 'value'
+	];
 
 	/**
 	 * Method to generate buttons for user interaction
@@ -71,8 +79,16 @@ class Participants extends ListView
 		$headers   = [
 			'checkbox'    => HTML::_('grid.checkall'),
 			'fullName'    => HTML::sort('NAME', 'fullName', $direction, $ordering),
-			'programName' => HTML::sort('PROGRAM', 'programName', $direction, $ordering)
+			'email'       => HTML::sort('EMAIL', 'email', $direction, $ordering),
+			'programName' => HTML::sort('PROGRAM', 'programName', $direction, $ordering),
 		];
+
+		if ($courseID = Input::getFilterID('course') and $courseID !== -1)
+		{
+			$headers['status']   = HTML::sort('STATE', 'status', $direction, $ordering);
+			$headers['paid']     = HTML::sort('PAID', 'paid', $direction, $ordering);
+			$headers['attended'] = HTML::sort('ATTENDED', 'attended', $direction, $ordering);
+		}
 
 		$this->headers = $headers;
 	}
@@ -86,11 +102,39 @@ class Participants extends ListView
 	{
 		$index           = 0;
 		$link            = 'index.php?option=com_thm_organizer&view=participant_edit&id=';
+		$statusTemplate  = '<span class="icon-ICONCLASS hasTooltip" title="STATUSTIP"></span>';
 		$structuredItems = [];
 
+		$setCourseToggles = ($courseID = Input::getFilterID('course') and $courseID !== -1) ? true : false;
 		foreach ($this->items as $item)
 		{
-			$item->programName       = Programs::getName($item->programID);
+			$item->programName = Programs::getName($item->programID);
+
+			if ($setCourseToggles)
+			{
+				if ($item->status)
+				{
+					$iconClass = 'checkbox-checked';
+					$statusTip = Languages::_('THM_ORGANIZER_ACCEPTED');
+				}
+				else
+				{
+					$iconClass = 'checkbox-partial';
+					$statusTip = Languages::_('THM_ORGANIZER_WAIT_LIST');
+				}
+
+				$status       = str_replace('ICONCLASS', $iconClass, $statusTemplate);
+				$status       = str_replace('STATUSTIP', $statusTip, $status);
+				$item->status = $status;
+
+				$tip            = Languages::_('THM_ORGANIZER_COURSE_STATUS');
+				$item->paid     = $this->getToggle($item->id, $item->paid, 'course_participants', $tip, 'paid');
+				$tip            = Languages::_('THM_ORGANIZER_TOGGLE_PAID');
+				$item->paid     = $this->getToggle($item->id, $item->paid, 'course_participants', $tip, 'paid');
+				$tip            = Languages::_('THM_ORGANIZER_TOGGLE_ATTENDED');
+				$item->attended = $this->getToggle($item->id, $item->paid, 'course_participants', $tip, 'attended');
+			}
+
 			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
 			$index++;
 		}

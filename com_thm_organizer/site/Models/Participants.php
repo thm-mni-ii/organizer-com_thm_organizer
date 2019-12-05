@@ -24,24 +24,6 @@ class Participants extends ListModel
 	protected $filter_fields = ['programID'];
 
 	/**
-	 * Filters out form inputs which should not be displayed due to menu settings.
-	 *
-	 * @param   Form  $form  the form to be filtered
-	 *
-	 * @return void modifies $form
-	 */
-	public function filterFilterForm(&$form)
-	{
-		parent::filterFilterForm($form);
-		if ($this->clientContext === self::BACKEND)
-		{
-			return;
-		}
-
-		$form->removeField('limit', 'list');
-	}
-
-	/**
 	 * Method to get a list of resources from the database.
 	 *
 	 * @return JDatabaseQuery
@@ -50,37 +32,26 @@ class Participants extends ListModel
 	{
 		$query = $this->_db->getQuery(true);
 
-		$query->select('DISTINCT pa.id, pa.programID')
+		$query->select('DISTINCT pa.id, pa.programID, u.email')
 			->select($query->concatenate(['pa.surname', "', '", 'pa.forename'], '') . ' AS fullName')
 			->from('#__thm_organizer_participants AS pa')
-			->innerJoin('#__users AS u ON u.id = pa.id');
+			->innerJoin('#__users AS u ON u.id = pa.id')
+			->innerJoin('#__thm_organizer_programs AS pr ON pr.id = pa.programID');
 
-		$this->setSearchFilter($query, ['pa.forename', 'pa.surname']);
+		$this->setSearchFilter($query, ['pa.forename', 'pa.surname', 'pr.name_de', 'pr.name_en']);
 		$this->setValueFilters($query, ['programID']);
+
+		if ($courseID = Input::getFilterID('course'))
+		{
+			$query->select('cp.attended, cp.paid, cp.status')
+				->innerJoin('#__thm_organizer_course_participants AS cp on cp.participantID = pa.id')
+				->where("cp.courseID = $courseID");
+
+
+		}
 
 		$this->setOrdering($query);
 
 		return $query;
-	}
-
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return void
-	 */
-	protected function populateState($ordering = null, $direction = null)
-	{
-		parent::populateState($ordering, $direction);
-
-		if ($this->clientContext === self::FRONTEND)
-		{
-			$this->state->set('list.limit', 0);
-		}
-
-		return;
 	}
 }

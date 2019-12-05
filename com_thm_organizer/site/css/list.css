@@ -147,6 +147,57 @@ body.tmpl-index div.main .js-stools-container-filters .js-stools-field-filter {
     margin-bottom: 0;
 }
 
+.main tfoot .limit {
+    display: none;
+}
+
+.main tfoot .counter,
+.main tfoot .pagination-box {
+    text-align: center;
+}
+
+.main tfoot .pagination-box ul {
+    display: inline-block;
+    list-style-type: none;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.main tfoot .pagination-box li {
+    float: left;
+    height: auto;
+    line-height: 1.5rem;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.main tfoot .pagination-box li.active-page a,
+.main tfoot .pagination-box li.active-page span {
+    background-color: #dfeec8;
+}
+
+.main tfoot .pagination-box li::before {
+    left: .8rem;
+    position: absolute;
+    top: .05rem;
+}
+
+.main tfoot .pagination-box li[class*="icon-"] {
+    width: 2.5rem;
+}
+
+.main tfoot .pagination-box li[class*="icon-"] a {
+    padding: .3rem .6rem;
+}
+
+.main tfoot .pagination-box a,
+.main tfoot .pagination-box span {
+    border: 2px solid #4a5c66;
+    margin: 0 .4rem;
+    padding: .3rem .5rem;
+}
+
 /* In-Row Tools *******************************************************************************************************/
 td a.btn {
     margin-right: .2rem;

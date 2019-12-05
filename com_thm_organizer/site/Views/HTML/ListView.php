@@ -144,12 +144,12 @@ abstract class ListView extends BaseHTMLView
 	 */
 	protected function getToggle($id, $value, $resource, $tip, $attribute = null)
 	{
-		$iconClass = empty($value) ? 'unpublish' : 'publish';
-		$icon      = '<i class="icon-' . $iconClass . '"></i>';
+		$iconClass = empty($value) ? 'checkbox-unchecked' : 'checkbox-checked';
+		$icon      = '<span class="icon-' . $iconClass . '"></span>';
 
 		$attributes          = [];
 		$attributes['title'] = $tip;
-		$attributes['class'] = 'btn btn-micro hasTooltip';
+		$attributes['class'] = 'hasTooltip';
 		$attributes['class'] .= empty($value) ? ' inactive' : '';
 
 		$url  = "index.php?option=com_thm_organizer&id=$id&task=$resource.toggle";
@@ -215,6 +215,11 @@ abstract class ListView extends BaseHTMLView
 			if ($property === 'checkbox')
 			{
 				$processedItem['checkbox'] = HTML::_('grid.id', $index, $item->id);
+				continue;
+			}
+
+			if (!isset($item->$property))
+			{
 				continue;
 			}
 
