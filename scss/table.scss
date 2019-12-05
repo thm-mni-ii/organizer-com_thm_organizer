@@ -18,8 +18,15 @@
     width: calc(2.8rem - .4rem);
   }
 
-  .data-column span {
-    margin: 0;
+  .data-column {
+    .icon-square::before,
+    .icon-grid::before {
+      color: $thm;
+    }
+
+    span {
+      margin: 0;
+    }
   }
 
   thead tr.level-2.columns-36 th.data-column,
@@ -50,7 +57,7 @@
     }
 
     .cellTip {
-      border: $border-dark;
+      border-top: $border-dark;
     }
   }
 

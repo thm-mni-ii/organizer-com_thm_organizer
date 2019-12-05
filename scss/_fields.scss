@@ -11,7 +11,6 @@ body.tmpl-index div.main {
   }
 
   .chzn-container, select {
-    height: 2rem;
     width: 10rem !important;
   }
 
@@ -26,9 +25,11 @@ body.tmpl-index div.main {
   }
 
   input[type='date'] {
-    height: 1.2rem;
     margin-bottom: 0;
-    padding: .35rem .2rem .5rem .2rem;
+  }
+
+  button, input, select {
+    padding: .3rem .5rem;
   }
 
   .input-4, .input-4 + .chzn-container,
@@ -40,12 +41,20 @@ body.tmpl-index div.main {
     width: 6rem !important;
   }
 
+  .input-7, .input-7 + .chzn-container {
+    width: 7rem !important;
+  }
+
   .input-8, .input-8 + .chzn-container {
     width: 8rem !important;
   }
 
   .input-12, .input-12 + .chzn-container {
     width: 12rem !important;
+  }
+
+  .input-13, .input-13 + .chzn-container {
+    width: 13rem !important;
   }
 
   .input-15, .input-15 + .chzn-container {

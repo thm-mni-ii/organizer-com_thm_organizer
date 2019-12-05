@@ -35,7 +35,8 @@ class RoomOverview extends TableView
 		{
 			if ($campusID = Helpers\Input::getInt('campusID'))
 			{
-				$resourceName .= ': ' . Helpers\Campuses::getName($campusID);
+				$resourceName .= ': ' . Helpers\Languages::_('THM_ORGANIZER_CAMPUS');
+				$resourceName .= ' ' . Helpers\Campuses::getName($campusID);
 			}
 		}
 
@@ -292,16 +293,20 @@ class RoomOverview extends TableView
 				}
 			}
 
-			$tip = '<div class="cellTip">';
+			$times = "{$instance['startTime']} - {$instance['endTime']}";
+			$tip   = '<div class="cellTip">';
 			if ($noGrid or $instance['endTime'] !== $endTime or $instance['startTime'] !== $startTime)
 			{
-				$tip .= "({$instance['startTime']} - {$instance['endTime']})<br>";
+				$tip .= "($times)<br>";
 			}
 
-			$tip .= '<span class="cellTitle">' . Helpers\Languages::_('THM_ORGANIZER_EVENT') . ": {$instance['name']}";
+			$tip .= '<span class="cellTitle">' . $instance['name'];
 			$tip .= $instance['method'] ? " - {$instance['method']}" : '';
 			$tip .= '</span><br>';
-			$tip .= Helpers\Languages::_('THM_ORGANIZER_DEPT_ORG') . ": {$instance['department']}<br>";
+
+			$tip .= Helpers\Languages::_('THM_ORGANIZER_DEPT_ORG') . ":";
+			$tip .= strlen($instance['department']) > 20 ? '<br>' : ' ';
+			$tip .= "{$instance['department']}<br>";
 
 			$persons = [];
 			foreach ($instance['resources'] as $personID => $personAssoc)
@@ -314,16 +319,20 @@ class RoomOverview extends TableView
 
 			if ($persons)
 			{
-				$tip .= Helpers\Languages::_('THM_ORGANIZER_PERSONS') . ": ";
-				$tip .= implode(', ', $persons) . "<br>";
+				$tip     .= Helpers\Languages::_('THM_ORGANIZER_PERSONS') . ":";
+				$persons = implode(', ', $persons);
+				$tip     .= strlen($persons) > 20 ? '<br>' : ' ';
+				$tip     .= "$persons<br>";
 			}
 
 			if ($instance['comment'])
 			{
-				$tip .= Helpers\Languages::_('THM_ORGANIZER_EXTRA_INFORMATION') . ": {$instance['comment']}<br>";
+				$tip .= Helpers\Languages::_('THM_ORGANIZER_EXTRA_INFORMATION') . ":";
+				$tip .= strlen($instance['comment']) > 20 ? '<br>' : ' ';
+				$tip .= "{$instance['comment']}<br>";
 			}
 
-			$index = "{$instance['departmentID']} {$instance['name']} {$instance['method']}";
+			$index = "$times {$instance['departmentID']} {$instance['name']} {$instance['method']}";
 
 			$tip          .= '</div>';
 			$tips[$index] = $tip;
@@ -348,9 +357,9 @@ class RoomOverview extends TableView
 			else
 			{
 				$iconClass    = count($tips) > 1 ? 'grid' : 'square';
-				$date         = Helpers\Dates::formatDate($data['date']);
+				$date         = Helpers\Dates::formatDate($data['date'], true);
 				$cellTip      = '<div class="cellTip">';
-				$cellTip      .= "<span class=\"cellTitle\">{$data['name']} - $date ($startTime - $endTime)</span>";
+				$cellTip      .= "<span class=\"cellTitle\">$date<br>$startTime - $endTime</span>";
 				$cellTip      .= implode('', $tips);
 				$cellTip      .= '<div>';
 				$cellTip      = htmlentities($cellTip);
@@ -359,17 +368,6 @@ class RoomOverview extends TableView
 		}
 
 		return $cell;
-	}
-
-	/**
-	 * Adds css and javascript files to the document
-	 *
-	 * @return void  modifies the document
-	 */
-	protected function modifyDocument()
-	{
-		parent::modifyDocument();
-		Helpers\HTML::_('formbehavior.chosen', 'select');
 	}
 
 	/**

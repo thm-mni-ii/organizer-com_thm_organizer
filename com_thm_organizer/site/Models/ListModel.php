@@ -32,9 +32,9 @@ abstract class ListModel extends ParentModel
 
 	protected $defaultDirection = 'ASC';
 
-	protected $defaultLimit;
+	protected $defaultLimit = null;
 
-	protected $defaultStart = '0';
+	protected $defaultStart = 0;
 
 	protected $option = 'com_thm_organizer';
 
@@ -49,8 +49,12 @@ abstract class ListModel extends ParentModel
 
 		$app                  = OrganizerHelper::getApplication();
 		$this->clientContext  = $app->isClient('administrator');
-		$this->defaultLimit   = $app->get('list_limit', '20');
 		$this->filterFormName = strtolower(OrganizerHelper::getClass($this));
+
+		if (!is_int($this->defaultLimit))
+		{
+			$this->defaultLimit = $app->get('list_limit', 50);
+		}
 	}
 
 	/**
@@ -188,8 +192,7 @@ abstract class ListModel extends ParentModel
 		$list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array');
 		$this->setListState($list);
 
-		$validLimit = (isset($list['limit']) && is_numeric($list['limit']));
-		$limit      = $validLimit ? $list['limit'] : $this->defaultLimit;
+		$limit = (isset($list['limit']) && is_numeric($list['limit'])) ? $list['limit'] : $this->defaultLimit;
 		$this->setState('list.limit', $limit);
 
 		$value = $this->getUserStateFromRequest('limitstart', 'limitstart', 0);

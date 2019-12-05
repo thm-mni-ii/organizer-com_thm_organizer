@@ -1,6 +1,6 @@
 @import "variables";
 
-.main {
+body.tmpl-index div.main {
   .btn-toolbar {
     display: flex;
     flex-direction: row;
@@ -12,22 +12,46 @@
     button {
       font-size: .9rem;
     }
+  }
 
-    .input-append input {
-      height: 1.34rem;
+  .js-stools-container-bar,
+  .js-stools-container-list,
+  .js-stools-container-filters {
+    margin-bottom: .8rem;
+    display: flex;
+
+    .active .chzn-single,
+    .chzn-single {
+      background: none;
+      border: none;
+    }
+
+    input[type='date'] {
+      height: 1.35rem;
+      margin-bottom: 0;
+    }
+
+    select {
+      margin-bottom: 0;
+    }
+  }
+
+  .js-stools-container-bar {
+    input {
+      width: 12rem;
+    }
+
+    input, button {
+      font-family: $font-family;
+      font-size: .9rem;
     }
 
     .input-append input + button {
       font-size: .9rem;
       height: 1.85rem;
       margin-top: .2rem;
-      margin-right: .5rem;
+      margin-left: -2.2rem;
     }
-  }
-
-  .js-stools .js-stools-container-bar {
-    display: flex;
-    margin-bottom: .8rem;
 
     .js-stools-btn-filter {
       .caret {
@@ -40,11 +64,12 @@
     }
   }
 
-  .js-stools .js-stools-container-list {
-    display: flex;
+  .js-stools-container-list .js-stools-field-list {
+    margin-right: 0;
+  }
 
-    .js-stools-field-list select {
-      width: 10rem;
-    }
+  .js-stools-container-list .js-stools-field-list,
+  .js-stools-container-filters .js-stools-field-filter {
+    margin-bottom: 0;
   }
 }

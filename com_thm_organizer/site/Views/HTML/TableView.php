@@ -25,11 +25,13 @@ abstract class TableView extends BaseHTMLView
 
 	public $activeFilters = null;
 
-	private $columnCount = 0;
+	public $columnCount = 0;
 
 	public $filterForm = null;
 
 	public $headers = null;
+
+	public $labelCount = 1;
 
 	public $pagination = null;
 

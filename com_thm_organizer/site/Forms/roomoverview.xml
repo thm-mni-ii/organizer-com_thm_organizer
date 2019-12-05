@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
+        <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
         <field name="campusID" type="Campuses" label="CAMPUS" class="input-12" onchange="this.form.submit();">
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
@@ -13,17 +14,18 @@
             <option value="">ALL_ROOMTYPES</option>
             <option value="-1">NO_ROOMTYPE</option>
         </field>
-        <field name="roomIDs" type="Rooms" label="ROOMS" multiple="true" onblur="this.form.submit();">
-            <option value="">ALL_ROOMS</option>
+        <field name="capacity" type="Integer" label="CAPACITY" first="5" last="500" onchange="this.form.submit();"
+               prefix="> " step="5" unit="SEATS">
+            <option value="">ALL_SIZES</option>
         </field>
     </fields>
     <fields name="list">
-        <field name="template" type="Options" label="DISPLAY_RANGE" class="input-6" default="1"
+        <field name="template" type="Options" label="DISPLAY_RANGE" class="input-7" default="1"
                onchange="this.form.submit();">
             <option value="1">SINGLE_DAY</option>
             <option value="2">WEEK</option>
         </field>
-        <field name="gridID" type="Grids" label="GRIDS" class="input-12" onchange="this.form.submit();"/>
+        <field name="gridID" type="Grids" label="GRIDS" class="input-13" onchange="this.form.submit();"/>
         <field name="date" type="Date" label="DATE" class="input-8" empty="false" onchange="this.form.submit();"/>
         <field name="limit" type="Limitbox" class="input-4" onchange="this.form.submit();"/>
     </fields>

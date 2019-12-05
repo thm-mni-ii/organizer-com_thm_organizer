@@ -10,7 +10,6 @@ body.tmpl-index div.main select {
 
 body.tmpl-index div.main .chzn-container,
 body.tmpl-index div.main select {
-    height: 2rem;
     width: 10rem !important;
 }
 
@@ -25,9 +24,13 @@ body.tmpl-index div.main select[multiple] {
 }
 
 body.tmpl-index div.main input[type='date'] {
-    height: 1.2rem;
     margin-bottom: 0;
-    padding: .35rem .2rem .5rem .2rem;
+}
+
+body.tmpl-index div.main button,
+body.tmpl-index div.main input,
+body.tmpl-index div.main select {
+    padding: .3rem .5rem;
 }
 
 body.tmpl-index div.main .input-4,
@@ -42,6 +45,11 @@ body.tmpl-index div.main .input-6 + .chzn-container {
     width: 6rem !important;
 }
 
+body.tmpl-index div.main .input-7,
+body.tmpl-index div.main .input-7 + .chzn-container {
+    width: 7rem !important;
+}
+
 body.tmpl-index div.main .input-8,
 body.tmpl-index div.main .input-8 + .chzn-container {
     width: 8rem !important;
@@ -52,54 +60,91 @@ body.tmpl-index div.main .input-12 + .chzn-container {
     width: 12rem !important;
 }
 
+body.tmpl-index div.main .input-13,
+body.tmpl-index div.main .input-13 + .chzn-container {
+    width: 13rem !important;
+}
+
 body.tmpl-index div.main .input-15,
 body.tmpl-index div.main .input-15 + .chzn-container {
     width: 12rem !important;
 }
 
-.main .btn-toolbar {
+body.tmpl-index div.main .btn-toolbar {
     display: flex;
     flex-direction: row;
 }
 
-.main .btn-toolbar .btn-wrapper {
+body.tmpl-index div.main .btn-toolbar .btn-wrapper {
     margin-right: 5px;
 }
 
-.main .btn-toolbar button {
+body.tmpl-index div.main .btn-toolbar button {
     font-size: .9rem;
 }
 
-.main .btn-toolbar .input-append input {
-    height: 1.34rem;
+body.tmpl-index div.main .js-stools-container-bar,
+body.tmpl-index div.main .js-stools-container-list,
+body.tmpl-index div.main .js-stools-container-filters {
+    margin-bottom: .8rem;
+    display: flex;
 }
 
-.main .btn-toolbar .input-append input + button {
+body.tmpl-index div.main .js-stools-container-bar .active .chzn-single,
+body.tmpl-index div.main .js-stools-container-bar .chzn-single,
+body.tmpl-index div.main .js-stools-container-list .active .chzn-single,
+body.tmpl-index div.main .js-stools-container-list .chzn-single,
+body.tmpl-index div.main .js-stools-container-filters .active .chzn-single,
+body.tmpl-index div.main .js-stools-container-filters .chzn-single {
+    background: none;
+    border: none;
+}
+
+body.tmpl-index div.main .js-stools-container-bar input[type='date'],
+body.tmpl-index div.main .js-stools-container-list input[type='date'],
+body.tmpl-index div.main .js-stools-container-filters input[type='date'] {
+    height: 1.35rem;
+    margin-bottom: 0;
+}
+
+body.tmpl-index div.main .js-stools-container-bar select,
+body.tmpl-index div.main .js-stools-container-list select,
+body.tmpl-index div.main .js-stools-container-filters select {
+    margin-bottom: 0;
+}
+
+body.tmpl-index div.main .js-stools-container-bar input {
+    width: 12rem;
+}
+
+body.tmpl-index div.main .js-stools-container-bar input,
+body.tmpl-index div.main .js-stools-container-bar button {
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: .9rem;
+}
+
+body.tmpl-index div.main .js-stools-container-bar .input-append input + button {
     font-size: .9rem;
     height: 1.85rem;
     margin-top: .2rem;
-    margin-right: .5rem;
+    margin-left: -2.2rem;
 }
 
-.main .js-stools .js-stools-container-bar {
-    display: flex;
-    margin-bottom: .8rem;
-}
-
-.main .js-stools .js-stools-container-bar .js-stools-btn-filter .caret {
+body.tmpl-index div.main .js-stools-container-bar .js-stools-btn-filter .caret {
     border-bottom-color: initial;
 }
 
-.main .js-stools .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+body.tmpl-index div.main .js-stools-container-bar .js-stools-btn-filter:hover .caret {
     border-top-color: #ffffff;
 }
 
-.main .js-stools .js-stools-container-list {
-    display: flex;
+body.tmpl-index div.main .js-stools-container-list .js-stools-field-list {
+    margin-right: 0;
 }
 
-.main .js-stools .js-stools-container-list .js-stools-field-list select {
-    width: 10rem;
+body.tmpl-index div.main .js-stools-container-list .js-stools-field-list,
+body.tmpl-index div.main .js-stools-container-filters .js-stools-field-filter {
+    margin-bottom: 0;
 }
 
 /* In-Row Tools *******************************************************************************************************/

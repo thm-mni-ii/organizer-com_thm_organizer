@@ -27,6 +27,8 @@ class RoomOverview extends ListModel
 
 	protected $defaultOrdering = 'r.name';
 
+	protected $filter_fields = ['buildingID', 'capacity', 'roomtypeID'];
+
 	/**
 	 * Filters out form inputs which should not be displayed due to menu settings.
 	 *
@@ -66,11 +68,17 @@ class RoomOverview extends ListModel
 		// Only display public room types, i.e. no offices or toilets...
 		$query->where('t.public = 1');
 
+		$this->setSearchFilter($query, ['r.name']);
 		$this->setValueFilters($query, ['campusID', 'buildingID', 'roomtypeID']);
 
 		if ($roomIDs = Helpers\Input::getFilterIDs('room'))
 		{
 			$query->where('r.id IN (' . implode(',', $roomIDs) . ')');
+		}
+
+		if ($capacity = Helpers\Input::getInt('capacity'))
+		{
+			$query->where("r.capacity >= $capacity");
 		}
 
 		self::addCampusFilter($query, 'b');

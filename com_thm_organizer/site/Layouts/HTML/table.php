@@ -13,11 +13,10 @@ use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\HTML;
 use Organizer\Helpers\OrganizerHelper;
 
-$columnCount = count($this->headers);
-$isSite      = OrganizerHelper::getApplication()->isClient('site');
-$rows        = $this->rows;
-$iteration   = 0;
-$query       = Uri::getInstance()->getQuery();
+$isSite    = OrganizerHelper::getApplication()->isClient('site');
+$rows      = $this->rows;
+$iteration = 0;
+$query     = Uri::getInstance()->getQuery();
 
 echo OrganizerHelper::getApplication()->JComponentTitle;
 echo $this->subtitle;
@@ -35,7 +34,7 @@ echo $this->supplement;
             <tbody><?php echo $this->renderRows(); ?></tbody>
             <tfoot>
             <tr>
-                <td colspan="<?php echo $columnCount; ?>">
+                <td colspan="<?php echo $this->labelCount + $this->columnCount; ?>">
 					<?php echo $this->pagination->getListFooter(); ?>
             </tr>
             </tfoot>

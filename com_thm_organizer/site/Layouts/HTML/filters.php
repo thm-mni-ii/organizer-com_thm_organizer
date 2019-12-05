@@ -33,7 +33,7 @@ if (isset($this->filterForm) && !empty($this->filterForm))
 $options['filtersHidden']       = $hideActiveFilters;
 $options['filterButton']        = $showFilterButton;
 $options['defaultLimit']        = isset($options['defaultLimit']) ?
-	$options['defaultLimit'] : OrganizerHelper::getApplication()->get('list_limit', 50);
+	$options['defaultLimit'] : $this->state->get('list.limit');
 $options['searchFieldSelector'] = '#filter_search';
 $options['orderFieldSelector']  = '#list_fullordering';
 

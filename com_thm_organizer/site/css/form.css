@@ -10,7 +10,6 @@ body.tmpl-index div.main select {
 
 body.tmpl-index div.main .chzn-container,
 body.tmpl-index div.main select {
-    height: 2rem;
     width: 10rem !important;
 }
 
@@ -25,9 +24,13 @@ body.tmpl-index div.main select[multiple] {
 }
 
 body.tmpl-index div.main input[type='date'] {
-    height: 1.2rem;
     margin-bottom: 0;
-    padding: .35rem .2rem .5rem .2rem;
+}
+
+body.tmpl-index div.main button,
+body.tmpl-index div.main input,
+body.tmpl-index div.main select {
+    padding: .3rem .5rem;
 }
 
 body.tmpl-index div.main .input-4,
@@ -42,6 +45,11 @@ body.tmpl-index div.main .input-6 + .chzn-container {
     width: 6rem !important;
 }
 
+body.tmpl-index div.main .input-7,
+body.tmpl-index div.main .input-7 + .chzn-container {
+    width: 7rem !important;
+}
+
 body.tmpl-index div.main .input-8,
 body.tmpl-index div.main .input-8 + .chzn-container {
     width: 8rem !important;
@@ -50,6 +58,11 @@ body.tmpl-index div.main .input-8 + .chzn-container {
 body.tmpl-index div.main .input-12,
 body.tmpl-index div.main .input-12 + .chzn-container {
     width: 12rem !important;
+}
+
+body.tmpl-index div.main .input-13,
+body.tmpl-index div.main .input-13 + .chzn-container {
+    width: 13rem !important;
 }
 
 body.tmpl-index div.main .input-15,

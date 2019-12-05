@@ -15,6 +15,7 @@
       // inline block centers the output
       display: inline-block;
       list-style-type: none;
+      margin-bottom: 0;
       position: relative;
     }
 
@@ -32,7 +33,7 @@
       }
 
       &::before {
-        left: .7rem;
+        left: .8rem;
         position: absolute;
         top: .05rem;
       }
