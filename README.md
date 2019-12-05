@@ -12,7 +12,6 @@ Features include:
     <li>General Resource Administration</li>    
 </ul>
 
-
 If you <a href="https://icampus.thm.de/jira/secure/CreateIssue.jspa?pid=10011&issuetype=2">would like a feature implemented</a>, <a href="https://icampus.thm.de/jira/secure/CreateIssue.jspa?pid=10011&issuetype=1">have a bug to report</a>, 
  or otherwise <a href="https://icampus.thm.de/jira/secure/CreateIssue.jspa?pid=10011&issuetype=4">have an idea that could improve</a> THM Organizer,
 let us know and it will be taken under consideration.
