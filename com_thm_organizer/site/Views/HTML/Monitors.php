@@ -117,18 +117,18 @@ class Monitors extends ListView
 
 		foreach ($this->items as $item)
 		{
-			$tip               = Languages::_('THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
-			$item->useDefaults = $this->getToggle($item->id, $item->useDefaults, 'monitor', $tip);
-
-			if (empty($item->useDefaults))
-			{
-				$item->display = $this->displayBehaviour[$item->display];
-			}
-			else
+			if ($item->useDefaults)
 			{
 				$item->display = $this->displayBehaviour[$displayParam];
 				$item->content = $contentParam;
 			}
+			else
+			{
+				$item->display = $this->displayBehaviour[$item->display];
+			}
+
+			$tip               = Languages::_('THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
+			$item->useDefaults = $this->getToggle('monitor', $item->id, $item->useDefaults, $tip);
 
 			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;

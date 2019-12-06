@@ -218,7 +218,7 @@ abstract class ListView extends BaseHTMLView
 				continue;
 			}
 
-			if (!isset($item->$property))
+			if (!property_exists($item, $property))
 			{
 				continue;
 			}
