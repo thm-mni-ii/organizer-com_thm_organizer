@@ -108,7 +108,7 @@ class Schedules extends ListView
 		foreach ($this->items as $item)
 		{
 			$item->active  =
-				$this->getToggle($item->id, $item->active, 'schedule', Languages::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
+				$this->getToggle('schedule', $item->id, $item->active, Languages::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
 			$item->created = Dates::formatDate($item->creationDate) . ' / ' . Dates::formatTime($item->creationTime);
 
 			$structuredItems[$index] = $this->structureItem($index, $item);

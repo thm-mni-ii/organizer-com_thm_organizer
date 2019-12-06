@@ -116,7 +116,7 @@ class Grids extends ListView
 			}
 
 			$tip                     = Languages::_('THM_ORGANIZER_GRID_DEFAULT_DESC');
-			$item->defaultGrid       = $this->getToggle($item->id, $item->defaultGrid, 'grid', $tip);
+			$item->defaultGrid       = $this->getToggle('grid', $item->id, $item->defaultGrid, $tip);
 			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;
 		}

@@ -104,6 +104,42 @@ abstract class ListView extends BaseHTMLView
 	}
 
 	/**
+	 * Generates a toggle for an attribute of an association
+	 *
+	 * @param   string  $controller    the name of the controller which executes the task
+	 * @param   string  $columnOne     the name of the first identifying column
+	 * @param   int     $valueOne      the value of the first identifying column
+	 * @param   string  $columnTwo     the name of the second identifying column
+	 * @param   int     $valueTwo      the value of the second identifying column
+	 * @param   bool    $currentValue  the value currently set for the attribute (saves asking it later)
+	 * @param   string  $tip           the tooltip
+	 * @param   string  $attribute     the resource attribute to be changed (useful if multiple entries can be toggled)
+	 *
+	 * @return string  a HTML string
+	 */
+	protected function getAssocToggle(
+		$controller,
+		$columnOne,
+		$valueOne,
+		$columnTwo,
+		$valueTwo,
+		$currentValue,
+		$tip,
+		$attribute = null
+	) {
+		$url = Uri::base() . "?option=com_thm_organizer&task=$controller.toggle";
+		$url .= "&$columnOne=$valueOne&$columnTwo=$valueTwo";
+		$url .= $attribute ? "&attribute=$attribute" : '';
+
+		$iconClass = empty($currentValue) ? 'checkbox-unchecked' : 'checkbox-checked';
+		$icon      = '<span class="icon-' . $iconClass . '"></span>';
+
+		$attributes = ['title' => $tip, 'class' => 'hasTooltip'];
+
+		return HTML::_('link', $url, $icon, $attributes);
+	}
+
+	/**
 	 * Generates a string containing attribute information for an HTML element to be output
 	 *
 	 * @param   mixed &$element  the element being processed
@@ -132,31 +168,27 @@ abstract class ListView extends BaseHTMLView
 	}
 
 	/**
-	 * Generates a toggle for the attribute in question
+	 * Generates a toggle for a binary resource attribute
 	 *
-	 * @param   int     $id         the id of the database entry
-	 * @param   bool    $value      the value currently set for the attribute (saves asking it later)
-	 * @param   string  $resource   the name of the data management controller
-	 * @param   string  $tip        the tooltip
-	 * @param   string  $attribute  the resource attribute to be changed (useful if multiple entries can be toggled)
+	 * @param   string  $controller    the name of the data management controller
+	 * @param   int     $resourceID    the id of the resource
+	 * @param   bool    $currentValue  the value currently set for the attribute (saves asking it later)
+	 * @param   string  $tip           the tooltip
+	 * @param   string  $attribute     the resource attribute to be changed (useful if multiple entries can be toggled)
 	 *
 	 * @return string  a HTML string
 	 */
-	protected function getToggle($id, $value, $resource, $tip, $attribute = null)
+	protected function getToggle($controller, $resourceID, $currentValue, $tip, $attribute = null)
 	{
-		$iconClass = empty($value) ? 'checkbox-unchecked' : 'checkbox-checked';
+		$url = Uri::base() . "?option=com_thm_organizer&task=$controller.toggle&id=$resourceID";
+		$url .= $attribute ? "&attribute=$attribute" : '';
+
+		$iconClass = empty($currentValue) ? 'checkbox-unchecked' : 'checkbox-checked';
 		$icon      = '<span class="icon-' . $iconClass . '"></span>';
 
-		$attributes          = [];
-		$attributes['title'] = $tip;
-		$attributes['class'] = 'hasTooltip';
-		$attributes['class'] .= empty($value) ? ' inactive' : '';
+		$attributes = ['title' => $tip, 'class' => 'hasTooltip'];
 
-		$url  = "index.php?option=com_thm_organizer&id=$id&task=$resource.toggle";
-		$url  .= empty($attribute) ? '' : "&attribute=$attribute";
-		$link = HTML::_('link', $url, $icon, $attributes);
-
-		return '<div class="button-grp">' . $link . '</div>';
+		return HTML::_('link', $url, $icon, $attributes);
 	}
 
 	/**

@@ -46,8 +46,6 @@ class Participants extends ListModel
 			$query->select('cp.attended, cp.paid, cp.status')
 				->innerJoin('#__thm_organizer_course_participants AS cp on cp.participantID = pa.id')
 				->where("cp.courseID = $courseID");
-
-
 		}
 
 		$this->setOrdering($query);

@@ -127,12 +127,27 @@ class Participants extends ListView
 				$status       = str_replace('STATUSTIP', $statusTip, $status);
 				$item->status = $status;
 
-				$tip            = Languages::_('THM_ORGANIZER_COURSE_STATUS');
-				$item->paid     = $this->getToggle($item->id, $item->paid, 'course_participants', $tip, 'paid');
-				$tip            = Languages::_('THM_ORGANIZER_TOGGLE_PAID');
-				$item->paid     = $this->getToggle($item->id, $item->paid, 'course_participants', $tip, 'paid');
-				$tip            = Languages::_('THM_ORGANIZER_TOGGLE_ATTENDED');
-				$item->attended = $this->getToggle($item->id, $item->paid, 'course_participants', $tip, 'attended');
+				$item->attended = $this->getAssocToggle(
+					'courses',
+					'courseID',
+					$courseID,
+					'participantID',
+					$item->id,
+					$item->attended,
+					Languages::_('THM_ORGANIZER_TOGGLE_ATTENDED'),
+					'attended'
+				);
+
+				$item->paid = $this->getAssocToggle(
+					'courses',
+					'courseID',
+					$courseID,
+					'participantID',
+					$item->id,
+					$item->paid,
+					Languages::_('THM_ORGANIZER_TOGGLE_PAID'),
+					'paid'
+				);
 			}
 
 			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);
