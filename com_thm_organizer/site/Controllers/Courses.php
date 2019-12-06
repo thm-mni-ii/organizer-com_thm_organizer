@@ -47,11 +47,11 @@ class Courses extends Controller
 
 		if ($this->getModel('course')->changeParticipantState())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS');
+			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$url .= "&view=courses&id=$courseID";
@@ -84,7 +84,7 @@ class Courses extends Controller
 		{
 			if (!$participantModel->save())
 			{
-				OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+				OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
 				$this->setRedirect(Route::_($participantEditURL, false));
 
 				return;

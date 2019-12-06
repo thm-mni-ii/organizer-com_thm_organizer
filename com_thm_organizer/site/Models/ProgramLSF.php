@@ -103,7 +103,7 @@ class ProgramLSF extends BaseModel
 		$programData = $this->getSavedProgramData($programID);
 		if (empty($programData))
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_LSFDATA_MISSING', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_LSF_DATA_MISSING', 'error');
 
 			return false;
 		}

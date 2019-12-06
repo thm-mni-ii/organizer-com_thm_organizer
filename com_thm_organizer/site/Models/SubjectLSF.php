@@ -266,16 +266,12 @@ class SubjectLSF extends BaseModel
 	{
 		$subject = new SubjectsTable;
 
-		$entryExists = $subject->load($subjectID);
-		if (!$entryExists)
+		if (!$entryExists = $subject->load($subjectID))
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_BAD_ENTRY', 'error');
-
-			return false;
+			throw new Exception(Languages::_('THM_ORGANIZER_404'), 404);
 		}
 
-		$cantBeImported = (empty($subject->lsfID));
-		if ($cantBeImported)
+		if (empty($subject->lsfID))
 		{
 			return true;
 		}
@@ -311,7 +307,7 @@ class SubjectLSF extends BaseModel
 
 		if (!$personsSet)
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
 
 			return false;
 		}

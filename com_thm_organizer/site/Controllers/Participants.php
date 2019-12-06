@@ -36,11 +36,11 @@ class Participants extends Controller
 	{
 		if (empty($this->getModel('course')->circular()))
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_MAIL_SEND_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_MAIL_SEND_FAIL', 'error');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_MAIL_SEND_SUCCESS', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_MAIL_SEND_SUCCESS', 'error');
 		}
 
 		$lessonID = $this->input->get('lessonID');
@@ -62,11 +62,11 @@ class Participants extends Controller
 
 		if ($participantID = $model->save())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_SUCCESS', 'success');
+			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS', 'success');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SAVE_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		if ($backend)

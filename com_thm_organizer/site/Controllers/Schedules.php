@@ -38,11 +38,11 @@ class Schedules extends Controller
 
 		if ($model->activate())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ACTIVATE_SUCCESS');
+			OrganizerHelper::message('THM_ORGANIZER_ACTIVATE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_ACTIVATE_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_ACTIVATE_FAIL', 'error');
 		}
 
 		$this->setRedirect("index.php?option=com_thm_organizer&view={$this->listView}");
@@ -60,11 +60,11 @@ class Schedules extends Controller
 
 		if ($model->setReference())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_REFERENCE_SUCCESS');
+			OrganizerHelper::message('THM_ORGANIZER_REFERENCE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_REFERENCE_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_REFERENCE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();

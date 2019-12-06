@@ -136,7 +136,7 @@ class Mapping extends BaseModel
 			return true;
 		}
 
-		OrganizerHelper::message('THM_ORGANIZER_MESSAGE_POOL_MAP_FAIL', 'error');
+		OrganizerHelper::message('THM_ORGANIZER_POOL_MAPPING_FAIL', 'error');
 
 		return false;
 	}
@@ -195,7 +195,7 @@ class Mapping extends BaseModel
 			return true;
 		}
 
-		OrganizerHelper::message('THM_ORGANIZER_MESSAGE_SUBJECT_MAP_FAIL', 'error');
+		OrganizerHelper::message('THM_ORGANIZER_SUBJECT_MAP_FAIL', 'error');
 
 		return false;
 	}

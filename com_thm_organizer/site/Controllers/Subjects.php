@@ -36,11 +36,11 @@ class Subjects extends Controller
 		$model = new SubjectLSF;
 		if ($model->import())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_IMPORT_SUCCESS');
+			OrganizerHelper::message('THM_ORGANIZER_IMPORT_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MESSAGE_IMPORT_FAIL', 'error');
+			OrganizerHelper::message('THM_ORGANIZER_IMPORT_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();
