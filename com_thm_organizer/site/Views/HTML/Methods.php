@@ -35,9 +35,10 @@ class Methods extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_METHODS'), 'cog');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'method.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'method.edit', true);
-		$toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'method.mergeView', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'methods.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'methods.edit', true);
+		$toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'methods.mergeView',
+			true);
 	}
 
 	/**

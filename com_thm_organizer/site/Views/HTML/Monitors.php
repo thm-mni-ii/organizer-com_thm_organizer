@@ -58,14 +58,14 @@ class Monitors extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_MONITORS'), 'screen');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'monitor.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'monitor.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'monitors.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'monitors.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
 			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 			'delete',
 			Languages::_('THM_ORGANIZER_DELETE'),
-			'monitor.delete',
+			'monitors.delete',
 			true
 		);
 	}

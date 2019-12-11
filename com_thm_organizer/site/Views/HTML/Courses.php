@@ -102,23 +102,23 @@ class Courses extends ListView
 		$toolbar = Toolbar::getInstance();
 		if ($backend or $this->allowNew)
 		{
-			$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'course.add', false);
+			$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'courses.add', false);
 		}
 		if ($backend)
 		{
-			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'course.edit', true);
+			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'courses.edit', true);
 			$toolbar->appendButton(
 				'Confirm',
 				Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 				'delete',
 				Languages::_('THM_ORGANIZER_DELETE'),
-				'course.delete',
+				'courses.delete',
 				true
 			);
 		}
 		else
 		{
-			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT_PROFILE'), 'participant.edit',
+			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT_PROFILE'), 'participants.edit',
 				false);
 		}
 	}
@@ -195,7 +195,7 @@ class Courses extends ListView
 		else
 		{
 			$registrationIcon = '<span class="icon-apply"></span>';
-			$registrationLink = "index.php?option=com_thm_organizer&task=participant.register&id=";
+			$registrationLink = "index.php?option=com_thm_organizer&task=participants.register&id=";
 			$registrationText = Languages::_('THM_ORGANIZER_REGISTER');
 		}
 		$rowLink = $backend ? $editLink : $itemLink;

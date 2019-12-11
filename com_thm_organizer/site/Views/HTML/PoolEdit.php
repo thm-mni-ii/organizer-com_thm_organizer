@@ -36,16 +36,16 @@ class PoolEdit extends EditView
 		HTML::setTitle($title, 'list-2');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'pool.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'pool.save', false);
-		$toolbar->appendButton('Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'pool.save2new', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'pools.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'pools.save', false);
+		$toolbar->appendButton('Standard', 'save-new', Languages::_('THM_ORGANIZER_SAVE2NEW'), 'pools.save2new', false);
 		if (!$new)
 		{
 			$toolbar->appendButton(
 				'Standard',
 				'save-copy',
 				Languages::_('THM_ORGANIZER_SAVE2COPY'),
-				'pool.save2copy',
+				'pools.save2copy',
 				false
 			);
 
@@ -58,7 +58,7 @@ class PoolEdit extends EditView
 			$toolbar->appendButton('Popup', 'book', Languages::_('THM_ORGANIZER_ADD_SUBJECT'), $subjectLink);
 		}
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'pool.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'pools.cancel', false);
 	}
 
 	/**

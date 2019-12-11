@@ -38,14 +38,14 @@ class Campuses extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_CAMPUSES'), 'location');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'campus.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'campus.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'campuses.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'campuses.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
 			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 			'delete',
 			Languages::_('THM_ORGANIZER_DELETE'),
-			'campus.delete',
+			'campuses.delete',
 			true
 		);
 	}

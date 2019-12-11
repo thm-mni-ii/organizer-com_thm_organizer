@@ -374,6 +374,7 @@ class Input
 	 */
 	public static function getTask()
 	{
+		// TODO add parameters and parsing of/for the controller.task format
 		return self::getCmd('task');
 	}
 

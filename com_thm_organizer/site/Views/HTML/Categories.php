@@ -32,14 +32,14 @@ class Categories extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORIES'), 'list');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'category.edit', true);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'categories.edit', true);
 		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
 				'attachment',
 				Languages::_('THM_ORGANIZER_MERGE'),
-				'category.mergeView',
+				'categories.mergeView',
 				true
 			);
 		}

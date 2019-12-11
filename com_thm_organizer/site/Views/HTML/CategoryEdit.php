@@ -19,16 +19,16 @@ use Organizer\Helpers\Languages;
  */
 class CategoryEdit extends EditView
 {
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORY_EDIT'), 'list');
-        $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'category.save', false);
-        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'category.cancel', false);
-    }
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORY_EDIT'), 'list');
+		$toolbar = Toolbar::getInstance();
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'categories.save', false);
+		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'categories.cancel', false);
+	}
 }

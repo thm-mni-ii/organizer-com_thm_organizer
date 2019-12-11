@@ -38,14 +38,14 @@ class Roomtypes extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_ROOMTYPES'), 'cog');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'roomtype.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'roomtype.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'roomtypes.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'roomtypes.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
 			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 			'delete',
 			Languages::_('THM_ORGANIZER_DELETE'),
-			'roomtype.delete',
+			'roomtypes.delete',
 			true
 		);
 
@@ -55,7 +55,7 @@ class Roomtypes extends ListView
 				'Standard',
 				'attachment',
 				Languages::_('THM_ORGANIZER_MERGE'),
-				'roomtype.mergeView',
+				'roomtypes.mergeView',
 				true
 			);
 		}

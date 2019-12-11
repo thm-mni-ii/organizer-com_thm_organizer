@@ -32,9 +32,9 @@ class RunEdit extends EditView
 		HTML::setTitle($title, 'list');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'run.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'run.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'runs.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'runs.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'run.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'runs.cancel', false);
 	}
 }

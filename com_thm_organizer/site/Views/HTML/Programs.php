@@ -37,20 +37,20 @@ class Programs extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_PROGRAMS'), 'list');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'program.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'program.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'programs.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'programs.edit', true);
 		$toolbar->appendButton(
 			'Standard',
 			'upload',
 			Languages::_('THM_ORGANIZER_IMPORT_LSF'),
-			'program.import',
+			'programs.import',
 			true
 		);
 		$toolbar->appendButton(
 			'Standard',
 			'loop',
 			Languages::_('THM_ORGANIZER_UPDATE_SUBJECTS'),
-			'program.update',
+			'programs.update',
 			true
 		);
 		$toolbar->appendButton(
@@ -58,7 +58,7 @@ class Programs extends ListView
 			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 			'delete',
 			Languages::_('THM_ORGANIZER_DELETE'),
-			'program.delete',
+			'programs.delete',
 			true
 		);
 	}

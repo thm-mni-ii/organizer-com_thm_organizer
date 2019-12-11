@@ -31,9 +31,9 @@ class BuildingEdit extends EditView
 		HTML::setTitle($title, 'home-2');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'building.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'building.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'buildings.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'buildings.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'building.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'buildings.cancel', false);
 	}
 }

@@ -20,22 +20,22 @@ use Organizer\Helpers\Languages;
  */
 class GridEdit extends EditView
 {
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        $new   = empty($this->item->id);
-        $title = $new ?
-            Languages::_('THM_ORGANIZER_GRID_NEW') : Languages::_('THM_ORGANIZER_GRID_EDIT');
-        HTML::setTitle($title, 'grid-2');
-        $toolbar   = Toolbar::getInstance();
-        $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-        $toolbar->appendButton('Standard', 'apply', $applyText, 'grid.apply', false);
-        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'grid.save', false);
-        $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'grid.cancel', false);
-    }
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		$new   = empty($this->item->id);
+		$title = $new ?
+			Languages::_('THM_ORGANIZER_GRID_NEW') : Languages::_('THM_ORGANIZER_GRID_EDIT');
+		HTML::setTitle($title, 'grid-2');
+		$toolbar   = Toolbar::getInstance();
+		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'grids.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'grids.save', false);
+		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'grids.cancel', false);
+	}
 }

@@ -34,9 +34,9 @@ class EventEdit extends EditView
 		HTML::setTitle($title, 'contract-2');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'event.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'event.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'events.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'events.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'event.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'events.cancel', false);
 	}
 }

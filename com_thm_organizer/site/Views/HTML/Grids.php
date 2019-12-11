@@ -40,14 +40,14 @@ class Grids extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_GRIDS'), 'grid-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'grid.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'grid.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'grids.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'grids.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
 			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 			'delete',
 			Languages::_('THM_ORGANIZER_DELETE'),
-			'grid.delete',
+			'grids.delete',
 			true
 		);
 	}

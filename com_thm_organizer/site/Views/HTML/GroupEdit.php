@@ -19,16 +19,16 @@ use Organizer\Helpers\Languages;
  */
 class GroupEdit extends EditView
 {
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        HTML::setTitle(Languages::_('THM_ORGANIZER_GROUP_EDIT'), 'list-2');
-        $toolbar = Toolbar::getInstance();
-        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'group.save', false);
-        $toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'group.cancel', false);
-    }
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		HTML::setTitle(Languages::_('THM_ORGANIZER_GROUP_EDIT'), 'list-2');
+		$toolbar = Toolbar::getInstance();
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'groups.save', false);
+		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'groups.cancel', false);
+	}
 }

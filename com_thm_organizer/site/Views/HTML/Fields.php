@@ -32,15 +32,15 @@ class Fields extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_FIELDS'), 'lamp');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'field.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'field.edit', true);
-		$toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'field.mergeView', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'fields.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'fields.edit', true);
+		$toolbar->appendButton('Standard', 'attachment', Languages::_('THM_ORGANIZER_MERGE'), 'fields.mergeView', true);
 		$toolbar->appendButton(
 			'Confirm',
 			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 			'delete',
 			Languages::_('THM_ORGANIZER_DELETE'),
-			'field.delete',
+			'fields.delete',
 			true
 		);
 	}

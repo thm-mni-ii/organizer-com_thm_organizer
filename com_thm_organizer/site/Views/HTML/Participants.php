@@ -41,7 +41,7 @@ class Participants extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_PARTICIPANTS'), 'users');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'participant.edit', true);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'participants.edit', true);
 
 		if (Can::administrate())
 		{
@@ -49,7 +49,7 @@ class Participants extends ListView
 				'Standard',
 				'attachment',
 				Languages::_('THM_ORGANIZER_MERGE'),
-				'participant.mergeView',
+				'participants.mergeView',
 				true
 			);
 		}

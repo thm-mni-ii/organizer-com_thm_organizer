@@ -32,9 +32,9 @@ class ScheduleEdit extends EditView
 			'Standard',
 			'upload',
 			Languages::_('THM_ORGANIZER_UPLOAD'),
-			'schedule.upload',
+			'schedules.upload',
 			false
 		);
-		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'schedule.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'schedules.cancel', false);
 	}
 }

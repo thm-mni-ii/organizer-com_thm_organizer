@@ -20,30 +20,31 @@ use Organizer\Helpers\OrganizerHelper;
  */
 abstract class MergeView extends FormView
 {
-    /**
-     * Concrete classes are supposed to use this method to add a toolbar.
-     *
-     * @return void  adds toolbar items to the view
-     */
-    protected function addToolBar()
-    {
-        $name = OrganizerHelper::getClass($this);
-        HTML::setTitle(Languages::_(Languages::getConstant($name)));
-        $dataModel = str_replace('merge', '', strtolower($name));
-        $toolbar   = Toolbar::getInstance();
-        $toolbar->appendButton(
-            'Standard',
-            'attachment',
-            Languages::_('THM_ORGANIZER_MERGE'),
-            $dataModel . '.merge',
-            false
-        );
-        $toolbar->appendButton(
-            'Standard',
-            'cancel',
-            Languages::_('THM_ORGANIZER_CANCEL'),
-            $dataModel . '.cancel',
-            false
-        );
-    }
+	/**
+	 * Concrete classes are supposed to use this method to add a toolbar.
+	 *
+	 * @return void  adds toolbar items to the view
+	 */
+	protected function addToolBar()
+	{
+		$name = OrganizerHelper::getClass($this);
+		HTML::setTitle(Languages::_(Languages::getConstant($name)));
+		$resource   = str_replace('merge', '', strtolower($name));
+		$controller = OrganizerHelper::getPlural($resource);
+		$toolbar    = Toolbar::getInstance();
+		$toolbar->appendButton(
+			'Standard',
+			'attachment',
+			Languages::_('THM_ORGANIZER_MERGE'),
+			$controller . '.merge',
+			false
+		);
+		$toolbar->appendButton(
+			'Standard',
+			'cancel',
+			Languages::_('THM_ORGANIZER_CANCEL'),
+			$controller . '.cancel',
+			false
+		);
+	}
 }

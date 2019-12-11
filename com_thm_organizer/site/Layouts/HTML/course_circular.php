@@ -13,7 +13,7 @@
 <div class="modal fade" id="circular">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="?option=com_thm_organizer&task=course.circular"
+            <form action="?option=com_thm_organizer&task=courses.circular"
                   method="post" id="adminForm" name="adminForm">
                 <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
                 <div class="modal-header">
@@ -22,12 +22,12 @@
                 <div class="modal-body" style="overflow-y: auto;">
                     <input type="hidden" name="lessonID" value="<?php echo $this->course['id']; ?>"/>
                     <input type="hidden" name="subjectID" value="<?php echo $this->course['subjectID']; ?>"/>
-                    <?php foreach ($this->form->getFieldset('circular') as $field) : ?>
+					<?php foreach ($this->form->getFieldset('circular') as $field) : ?>
                         <div class='control-group'>
                             <div class='control-label'><?php echo $field->label; ?></div>
                             <div class='controls'><?php echo $field->input; ?></div>
                         </div>
-                    <?php endforeach; ?>
+					<?php endforeach; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="validate btn btn-mini">

@@ -39,19 +39,19 @@ class Schedules extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULES'), 'calendars');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'schedule.add', false);
+		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'schedules.add', false);
 		$toolbar->appendButton(
 			'Standard',
 			'default',
 			Languages::_('THM_ORGANIZER_ACTIVATE'),
-			'schedule.activate',
+			'schedules.activate',
 			true
 		);
 		$toolbar->appendButton(
 			'Standard',
 			'tree',
 			Languages::_('THM_ORGANIZER_CALCULATE_DELTA'),
-			'schedule.setReference',
+			'schedules.setReference',
 			true
 		);
 		$toolbar->appendButton(
@@ -59,7 +59,7 @@ class Schedules extends ListView
 			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 			'delete',
 			Languages::_('THM_ORGANIZER_DELETE'),
-			'schedule.delete',
+			'schedules.delete',
 			true
 		);
 	}

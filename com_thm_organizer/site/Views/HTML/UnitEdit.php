@@ -34,9 +34,9 @@ class UnitEdit extends EditView
 		HTML::setTitle($title, 'contract-2');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'unit.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'unit.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'units.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'units.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'unit.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'units.cancel', false);
 	}
 }

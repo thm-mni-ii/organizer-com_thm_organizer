@@ -32,9 +32,9 @@ class PersonEdit extends EditView
 		HTML::setTitle($title, 'users');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'person.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'person.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'persons.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'persons.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'person.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'persons.cancel', false);
 	}
 }

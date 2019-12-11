@@ -35,15 +35,15 @@ class InstanceEdit extends EditView
 		HTML::setTitle($title, 'contract-2');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'instance.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'instance.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'instances.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'instances.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'instance.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'instances.cancel', false);
 		$toolbar->appendButton(
 			'Standard',
 			'save-copy',
 			Languages::_('THM_ORGANIZER_SAVE2COPY'),
-			'instance.save2copy',
+			'instances.save2copy',
 			false
 		);
 	}

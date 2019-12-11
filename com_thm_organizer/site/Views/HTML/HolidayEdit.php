@@ -33,9 +33,9 @@ class HolidayEdit extends EditView
 		HTML::setTitle($title, 'calendar');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'holiday.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'holiday.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'holidays.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'holidays.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'holiday.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'holidays.cancel', false);
 	}
 }

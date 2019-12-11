@@ -136,10 +136,10 @@ class OrganizerHelper
 	 */
 	public static function getPlural($resource)
 	{
-		switch (true)
+		switch ($resource)
 		{
-			case $resource == 'equipment':
-			case $resource == 'organizer':
+			case 'equipment':
+			case 'organizer':
 				return $resource;
 			case mb_substr($resource, -1) == 's':
 				return $resource . 'es';
@@ -271,7 +271,7 @@ class OrganizerHelper
 		$handler = explode('.', Input::getTask());
 		if (count($handler) == 2)
 		{
-			$possibleController = ucfirst(self::getPlural($handler[0]));
+			$possibleController = ucfirst($handler[0]);
 			$filepath           = JPATH_ROOT . "/components/com_thm_organizer/Controllers/$possibleController.php";
 			if (is_file($filepath))
 			{

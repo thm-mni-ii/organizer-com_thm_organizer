@@ -65,13 +65,13 @@ class Subjects extends ListView
 		$toolbar = Toolbar::getInstance();
 		if ($this->documentAccess)
 		{
-			$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'subject.add', false);
-			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'subject.edit', true);
+			$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'subjects.add', false);
+			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'subjects.edit', true);
 			$toolbar->appendButton(
 				'Standard',
 				'upload',
 				Languages::_('THM_ORGANIZER_IMPORT_LSF'),
-				'subject.import',
+				'subjects.import',
 				true
 			);
 			$toolbar->appendButton(
@@ -79,7 +79,7 @@ class Subjects extends ListView
 				Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
 				'delete',
 				Languages::_('THM_ORGANIZER_DELETE'),
-				'subject.delete',
+				'subjects.delete',
 				true
 			);
 		}

@@ -43,7 +43,7 @@ class Groups extends ListView
 	{
 		HTML::setTitle(Languages::_('THM_ORGANIZER_GROUPS'), 'list-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'group.edit', true);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'groups.edit', true);
 
 		$if          = "alert('" . Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING') . "');";
 		$else        = "jQuery('#modal-publishing').modal('show'); return true;";
@@ -63,14 +63,14 @@ class Groups extends ListView
 				'Standard',
 				'attachment',
 				Languages::_('THM_ORGANIZER_MERGE'),
-				'group.mergeView',
+				'groups.mergeView',
 				true
 			);
 			$toolbar->appendButton(
 				'Standard',
 				'eye-open',
 				Languages::_('THM_ORGANIZER_PUBLISH_EXPIRED_TERMS'),
-				'group.publishPast',
+				'groups.publishPast',
 				false
 			);
 		}

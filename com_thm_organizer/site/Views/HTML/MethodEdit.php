@@ -19,22 +19,22 @@ use Organizer\Helpers\Languages;
  */
 class MethodEdit extends EditView
 {
-    /**
-     * Method to generate buttons for user interaction
-     *
-     * @return void
-     */
-    protected function addToolBar()
-    {
-        $new   = empty($this->item->id);
-        $title = $new ?
-            Languages::_('THM_ORGANIZER_METHOD_NEW') : Languages::_('THM_ORGANIZER_METHOD_EDIT');
-        HTML::setTitle($title, 'cog');
-        $toolbar   = Toolbar::getInstance();
-        $applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-        $toolbar->appendButton('Standard', 'apply', $applyText, 'method.apply', false);
-        $toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'method.save', false);
-        $cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-        $toolbar->appendButton('Standard', 'cancel', $cancelText, 'method.cancel', false);
-    }
+	/**
+	 * Method to generate buttons for user interaction
+	 *
+	 * @return void
+	 */
+	protected function addToolBar()
+	{
+		$new   = empty($this->item->id);
+		$title = $new ?
+			Languages::_('THM_ORGANIZER_METHOD_NEW') : Languages::_('THM_ORGANIZER_METHOD_EDIT');
+		HTML::setTitle($title, 'cog');
+		$toolbar   = Toolbar::getInstance();
+		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'methods.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'methods.save', false);
+		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'methods.cancel', false);
+	}
 }

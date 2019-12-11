@@ -36,9 +36,9 @@ class CourseEdit extends EditView
 		HTML::setTitle($title, 'contract-2');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'course.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'course.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'courses.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'course.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'courses.cancel', false);
 	}
 }

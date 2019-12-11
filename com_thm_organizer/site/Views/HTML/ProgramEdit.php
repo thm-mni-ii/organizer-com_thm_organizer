@@ -36,13 +36,13 @@ class ProgramEdit extends EditView
 		HTML::setTitle($title, 'list');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'program.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'program.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'programs.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'programs.save', false);
 		$toolbar->appendButton(
 			'Standard',
 			'save-new',
 			Languages::_('THM_ORGANIZER_SAVE2NEW'),
-			'program.save2new',
+			'programs.save2new',
 			false
 		);
 		if (!$new)
@@ -51,7 +51,7 @@ class ProgramEdit extends EditView
 				'Standard',
 				'save-copy',
 				Languages::_('THM_ORGANIZER_SAVE2COPY'),
-				'program.save2copy',
+				'programs.save2copy',
 				false
 			);
 
@@ -59,7 +59,7 @@ class ProgramEdit extends EditView
 			$toolbar->appendButton('Popup', 'list', Languages::_('THM_ORGANIZER_ADD_POOL'), $poolLink);
 		}
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'program.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'programs.cancel', false);
 	}
 
 	/**

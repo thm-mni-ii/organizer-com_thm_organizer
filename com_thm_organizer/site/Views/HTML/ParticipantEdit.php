@@ -36,10 +36,9 @@ class ParticipantEdit extends EditView
 			Languages::_('THM_ORGANIZER_PARTICIPANT_NEW') : Languages::_('THM_ORGANIZER_PARTICIPANT_EDIT');
 		HTML::setTitle($title, 'user');
 		$toolbar   = Toolbar::getInstance();
-		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'participant.save', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'participants.save', false);
 		$cancelText = $new ?
 			Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'participant.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'participants.cancel', false);
 	}
 }

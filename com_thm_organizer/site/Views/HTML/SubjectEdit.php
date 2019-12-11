@@ -36,17 +36,17 @@ class SubjectEdit extends EditView
 		HTML::setTitle($title, 'book');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'subject.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'subject.save', false);
+		$toolbar->appendButton('Standard', 'apply', $applyText, 'subjects.apply', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'subjects.save', false);
 		$toolbar->appendButton(
 			'Standard',
 			'save-new',
 			Languages::_('THM_ORGANIZER_SAVE2NEW'),
-			'subject.save2new',
+			'subjects.save2new',
 			false
 		);
 		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'subject.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'subjects.cancel', false);
 	}
 
 	/**
