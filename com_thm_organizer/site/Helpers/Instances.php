@@ -467,6 +467,21 @@ class Instances extends ResourceHelper
 	}
 
 	/**
+	 * Retrieves the name of the instance.
+	 *
+	 * @param   int  $instanceID  the instance id
+	 *
+	 * @return string the name of the instance
+	 */
+	public static function getName($instanceID)
+	{
+		$instance = self::getInstance($instanceID);
+
+		// TODO: Generate the name
+		return 'Generated Name';
+	}
+
+	/**
 	 * Sets the start and end date parameters and adjusts the date parameter as appropriate.
 	 *
 	 * @param   array &$parameters  the parameters used for event retrieval

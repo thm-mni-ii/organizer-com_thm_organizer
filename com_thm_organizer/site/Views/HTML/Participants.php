@@ -11,11 +11,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\Can;
-use Organizer\Helpers\HTML;
-use Organizer\Helpers\Input;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\Programs;
+use Organizer\Helpers as Helpers;
 
 /**
  * Class loads persistent information a filtered set of course participants into the display context.
@@ -39,16 +35,36 @@ class Participants extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_PARTICIPANTS'), 'users');
-		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'participants.edit', true);
+		$title = Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
+		if ($this->clientContext !== self::BACKEND)
+		{
+			if ($courseID = Helpers\Input::getFilterID('course'))
+			{
+				$title .= ': ' . Helpers\Courses::getName($courseID);
+			}
+			elseif ($instanceID = Helpers\Input::getFilterID('course'))
+			{
+				$title .= ': ' . Helpers\Instances::getName($courseID);
+			}
+		}
 
-		if (Can::administrate())
+		Helpers\HTML::setTitle($title, 'users');
+
+		$toolbar = Toolbar::getInstance();
+		$toolbar->appendButton(
+			'Standard',
+			'edit',
+			Helpers\Languages::_('THM_ORGANIZER_EDIT'),
+			'participants.edit',
+			true
+		);
+
+		if (Helpers\Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
 				'attachment',
-				Languages::_('THM_ORGANIZER_MERGE'),
+				Helpers\Languages::_('THM_ORGANIZER_MERGE'),
 				'participants.mergeView',
 				true
 			);
@@ -62,9 +78,9 @@ class Participants extends ListView
 	 */
 	protected function allowAccess()
 	{
-		$courseID = Input::getFilterID('course', 0);
+		$courseID = Helpers\Input::getFilterID('course', 0);
 
-		return Can::manage('course', $courseID);
+		return Helpers\Can::manage('course', $courseID);
 	}
 
 	/**
@@ -77,17 +93,17 @@ class Participants extends ListView
 		$ordering  = $this->state->get('list.ordering');
 		$direction = $this->state->get('list.direction');
 		$headers   = [
-			'checkbox'    => HTML::_('grid.checkall'),
-			'fullName'    => HTML::sort('NAME', 'fullName', $direction, $ordering),
-			'email'       => HTML::sort('EMAIL', 'email', $direction, $ordering),
-			'programName' => HTML::sort('PROGRAM', 'programName', $direction, $ordering),
+			'checkbox'    => Helpers\HTML::_('grid.checkall'),
+			'fullName'    => Helpers\HTML::sort('NAME', 'fullName', $direction, $ordering),
+			'email'       => Helpers\HTML::sort('EMAIL', 'email', $direction, $ordering),
+			'programName' => Helpers\HTML::sort('PROGRAM', 'programName', $direction, $ordering),
 		];
 
-		if ($courseID = Input::getFilterID('course') and $courseID !== -1)
+		if ($courseID = Helpers\Input::getFilterID('course') and $courseID !== -1)
 		{
-			$headers['status']   = HTML::sort('STATE', 'status', $direction, $ordering);
-			$headers['paid']     = HTML::sort('PAID', 'paid', $direction, $ordering);
-			$headers['attended'] = HTML::sort('ATTENDED', 'attended', $direction, $ordering);
+			$headers['status']   = Helpers\HTML::sort('STATE', 'status', $direction, $ordering);
+			$headers['paid']     = Helpers\HTML::sort('PAID', 'paid', $direction, $ordering);
+			$headers['attended'] = Helpers\HTML::sort('ATTENDED', 'attended', $direction, $ordering);
 		}
 
 		$this->headers = $headers;
@@ -105,22 +121,22 @@ class Participants extends ListView
 		$statusTemplate  = '<span class="icon-ICONCLASS hasTooltip" title="STATUSTIP"></span>';
 		$structuredItems = [];
 
-		$setCourseToggles = ($courseID = Input::getFilterID('course') and $courseID !== -1) ? true : false;
+		$setCourseToggles = ($courseID = Helpers\Input::getFilterID('course') and $courseID !== -1) ? true : false;
 		foreach ($this->items as $item)
 		{
-			$item->programName = Programs::getName($item->programID);
+			$item->programName = Helpers\Programs::getName($item->programID);
 
 			if ($setCourseToggles)
 			{
 				if ($item->status)
 				{
 					$iconClass = 'checkbox-checked';
-					$statusTip = Languages::_('THM_ORGANIZER_ACCEPTED');
+					$statusTip = Helpers\Languages::_('THM_ORGANIZER_ACCEPTED');
 				}
 				else
 				{
 					$iconClass = 'checkbox-partial';
-					$statusTip = Languages::_('THM_ORGANIZER_WAIT_LIST');
+					$statusTip = Helpers\Languages::_('THM_ORGANIZER_WAIT_LIST');
 				}
 
 				$status       = str_replace('ICONCLASS', $iconClass, $statusTemplate);
@@ -134,7 +150,7 @@ class Participants extends ListView
 					'participantID',
 					$item->id,
 					$item->attended,
-					Languages::_('THM_ORGANIZER_TOGGLE_ATTENDED'),
+					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_ATTENDED'),
 					'attended'
 				);
 
@@ -145,7 +161,7 @@ class Participants extends ListView
 					'participantID',
 					$item->id,
 					$item->paid,
-					Languages::_('THM_ORGANIZER_TOGGLE_PAID'),
+					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_PAID'),
 					'paid'
 				);
 			}

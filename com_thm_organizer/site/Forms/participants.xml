@@ -18,6 +18,6 @@
         </field>
     </fields>
     <fields name="list">
-        <field name="limit" type="Limitbox" onchange="this.form.submit();"/>
+        <field name="limit" type="Limitbox" class="input-mini" onchange="this.form.submit();"/>
     </fields>
 </form>
