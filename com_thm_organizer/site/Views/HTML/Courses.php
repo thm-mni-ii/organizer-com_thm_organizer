@@ -264,7 +264,7 @@ class Courses extends ListView
 					}
 					else
 					{
-						if ($registrationStatus = Helper::getParticipantState($courseID))
+						if ($registrationStatus = Helpers\CourseParticipants::getState($courseID, 0, $userID))
 						{
 							$course->registrationStatus = '<span class="icon-checkbox-checked"></span>';
 							$course->registrationStatus .= Languages::_('THM_ORGANIZER_ACCEPTED');

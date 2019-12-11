@@ -22,37 +22,20 @@ use Organizer\Models\Participant;
  */
 class Participants extends Controller
 {
+	const UNREGISTERED = null;
+
+	use CourseParticipants;
+
 	protected $listView = 'participants';
 
 	protected $resource = 'participant';
-
-	/**
-	 * Sends an circular email to all course participants
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	public function circular()
-	{
-		if (empty($this->getModel('course')->circular()))
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MAIL_SEND_FAIL', 'error');
-		}
-		else
-		{
-			OrganizerHelper::message('THM_ORGANIZER_MAIL_SEND_SUCCESS', 'error');
-		}
-
-		$lessonID = $this->input->get('lessonID');
-		$redirect = Routing::getRedirectBase() . "view=courses&lessonID=$lessonID";
-		$this->setRedirect(Route::_($redirect, false));
-	}
 
 	/**
 	 * Save user information from form and if course id defined sign in or out of course
 	 * then redirect to course list view
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function save()
 	{

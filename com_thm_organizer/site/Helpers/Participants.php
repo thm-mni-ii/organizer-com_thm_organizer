@@ -11,8 +11,7 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use Organizer\Tables\CourseParticipants;
-use Organizer\Tables\Participants as ParticipantsTable;
+use Organizer\Tables as Tables;
 
 /**
  * Provides general functions for participant access checks, data retrieval and display.
@@ -24,6 +23,31 @@ class Participants extends ResourceHelper
 
 	// Constants providing context for adding/removing instances to/from personal schedules.
 	const SEMESTER_MODE = 1, BLOCK_MODE = 2, INSTANCE_MODE = 3;
+
+	/**
+	 * Determines whether the necessary participant properties have been set to register for a course.
+	 *
+	 * @param   int  $participantID  the id of the participant
+	 *
+	 * @return bool true if the necessary participant information has been set, otherwise false
+	 */
+	public static function canRegister($participantID)
+	{
+		$table = new Tables\Participants;
+		if ($table->load($participantID))
+		{
+			$valid = true;
+			$valid = ($valid and (bool) $table->address);
+			$valid = ($valid and (bool) $table->city);
+			$valid = ($valid and (bool) $table->forename);
+			$valid = ($valid and (bool) $table->programID);
+			$valid = ($valid and (bool) $table->surname);
+
+			return ($valid and (bool) $table->zipCode);
+		}
+
+		return false;
+	}
 
 	/**
 	 * Changes a participants state.
@@ -40,7 +64,7 @@ class Participants extends ResourceHelper
 		{
 			case self::WAIT_LIST:
 			case self::REGISTERED:
-				$table = new CourseParticipants;
+				$table = new Tables\CourseParticipants;
 
 				$data = [
 					'lessonID' => $courseID,
@@ -86,6 +110,25 @@ class Participants extends ResourceHelper
 	}
 
 	/**
+	 * Retrieves the ids of the courses with which the participant is associated.
+	 *
+	 * @param   int  $participantID  the id of the participant
+	 *
+	 * @return array the associated course ids if existent, otherwise empty
+	 */
+	public static function getCourses($participantID)
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('courseID')
+			->from('#__thm_organizer_course_participants')
+			->where("participantID = $participantID");
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadColumn', []);
+	}
+
+	/**
 	 * Checks whether all the necessary participant information has been entered.
 	 *
 	 * @param   int     $participantID  the id of the participant to validate
@@ -102,7 +145,7 @@ class Participants extends ResourceHelper
 			return true;
 		}
 
-		$table = new ParticipantsTable;
+		$table = new Tables\Participants;
 		if (!$table->load($participantID))
 		{
 			return true;
@@ -154,7 +197,7 @@ class Participants extends ResourceHelper
 		$deletedCcmIDs = [];
 		foreach ($mappings as $lessonID => $ccmIDs)
 		{
-			$userLessonTable = new CourseParticipants;
+			$userLessonTable = new Tables\CourseParticipants;
 
 			if (!$userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]))
 			{
@@ -211,6 +254,7 @@ class Participants extends ResourceHelper
 	 */
 	private static function notify($participantID, $courseID, $state)
 	{
+		return;
 		$mailer = Factory::getMailer();
 
 		$user       = Factory::getUser($participantID);
@@ -331,7 +375,7 @@ class Participants extends ResourceHelper
 		{
 			try
 			{
-				$userLessonTable = new CourseParticipants;
+				$userLessonTable = new Tables\CourseParticipants;
 				$hasUserLesson   = $userLessonTable->load(['userID' => $userID, 'lessonID' => $lessonID]);
 			}
 			catch (Exception $e)

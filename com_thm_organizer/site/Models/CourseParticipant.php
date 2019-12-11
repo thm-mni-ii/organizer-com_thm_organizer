@@ -25,6 +25,67 @@ use Organizer\Tables\CourseParticipants as CourseParticipantsTable;
 class CourseParticipant extends BaseModel
 {
 	/**
+	 * Sends a circular mail to all course participants.
+	 *
+	 * @return bool true on success, false on error
+	 * @throws Exception => invalid / unauthorized access
+	 */
+	public function circular()
+	{
+		if (!$courseID = Input::getInt('courseID'))
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+		}
+		elseif (!Can::manage('course', $courseID))
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
+
+		return true;
+
+		// Get data from input.
+		//$data = Input::getFormItems()->toArray();
+
+		// Validate data
+		//if (empty($data['text']))
+		//{
+		//	return false;
+		//}
+
+		// Get the sender
+		//$sender = Factory::getUser(Input::getParams()->get('mailSender'));
+		//if (empty($sender->id))
+		//{
+		//	return false;
+		//}
+
+		// Get the ids of the intended recipients
+		//$status = include wait list? yes, no, no input
+		//$recipients = Courses::getParticipants($courseID, $status);
+
+		//if (empty($recipients))
+		//{
+		//	return false;
+		//}
+
+		// Send the circular
+		//$sent = true;
+		//foreach ($recipients as $recipient)
+		//{
+		//	$mailer = JFactory::getMailer();
+		//	$mailer->setSender([$sender->email, $sender->name]);
+		//	$mailer->setSubject($data['subject']);
+		//	$mailer->setBody($data['text']);
+		//	$mailer->addRecipient($recipient['email']);
+		//	$sent = ($sent and $mailer->Send());
+		//}
+
+		// Send a receipt to responsible persons.
+
+		//return $sent;
+	}
+
+	/**
 	 * Saves data for participants when administrator changes state in manager
 	 *
 	 * @return bool true on success, false on error
@@ -66,69 +127,6 @@ class CourseParticipant extends BaseModel
 	}
 
 	/**
-	 * Sends a circular mail to selected course participants defaults to all.
-	 *
-	 * @return bool true on success, false on error
-	 * @throws Exception => invalid / unauthorized access
-	 */
-	public function circular()
-	{
-		if (!$courseID = Input::getInt('courseID'))
-		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
-		}
-		elseif (!Can::manage('course', $courseID))
-		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
-		}
-
-		return true;
-
-		// Get data from input.
-		//$data = Input::getFormItems()->toArray();
-
-		// Validate data
-		//if (empty($data['text']))
-		//{
-		//	return false;
-		//}
-
-		// Get the sender
-		//$sender = Factory::getUser(Input::getParams()->get('mailSender'));
-		//if (empty($sender->id))
-		//{
-		//	return false;
-		//}
-
-		// Get the ids of the intended recipients. Filter for status?
-		//$status = include wait list? yes, no, no input
-		//$selectedParticipants = Input::getSelectedIDs();
-		// or
-		//$recipients = Courses::getFullParticipantData($courseID, (bool) $data['includeWaitList']);
-
-		//if (empty($recipients))
-		//{
-		//	return false;
-		//}
-
-		// Send the circular
-		//$sent = true;
-		//foreach ($recipients as $recipient)
-		//{
-		//	$mailer = JFactory::getMailer();
-		//	$mailer->setSender([$sender->email, $sender->name]);
-		//	$mailer->setSubject($data['subject']);
-		//	$mailer->setBody($data['text']);
-		//	$mailer->addRecipient($recipient['email']);
-		//	$sent = ($sent and $mailer->Send());
-		//}
-
-		// Send a receipt to responsible persons.
-
-		//return $sent;
-	}
-
-	/**
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @param   string  $name     The table name. Optional.
@@ -144,6 +142,12 @@ class CourseParticipant extends BaseModel
 		return new CourseParticipantsTable;
 	}
 
+	/**
+	 * Toggles binary attributes of the course participant association.
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception invalid / unauthorized access
+	 */
 	public function toggle()
 	{
 		$attribute     = Input::getCMD('attribute', '');
@@ -159,6 +163,19 @@ class CourseParticipant extends BaseModel
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
 
+		$table = $this->getTable();
+		if (!property_exists($table, $attribute))
+		{
+			return false;
+		}
 
+		if (!$table->load(['courseID' => $courseID, 'participantID' => $participantID]))
+		{
+			return false;
+		}
+
+		$table->$attribute = !$table->$attribute;
+
+		return $table->store();
 	}
 }
