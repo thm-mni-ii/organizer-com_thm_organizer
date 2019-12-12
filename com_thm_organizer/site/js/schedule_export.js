@@ -1,7 +1,3 @@
-/**
- * Created by James Antrim on 11/15/2016.
- */
-
 jQuery(document).ready(function () {
     jQuery('label').tooltip({delay: 200, placement: 'right'});
 });
