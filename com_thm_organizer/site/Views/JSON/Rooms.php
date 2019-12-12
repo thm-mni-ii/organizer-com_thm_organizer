@@ -18,18 +18,21 @@ use Organizer\Helpers\Rooms as RoomsHelper;
  */
 class Rooms extends BaseView
 {
-    /**
-     * loads model data into view context
-     *
-     * @return void
-     */
-    public function display()
-    {
-        $function = Input::getTask();
-        if (method_exists('Organizer\\Helpers\\Rooms', $function)) {
-            echo json_encode(RoomsHelper::$function(), JSON_UNESCAPED_UNICODE);
-        } else {
-            echo false;
-        }
-    }
+	/**
+	 * loads model data into view context
+	 *
+	 * @return void
+	 */
+	public function display()
+	{
+		$function = Input::getTask();
+		if (method_exists('Organizer\\Helpers\\Rooms', $function))
+		{
+			echo json_encode(RoomsHelper::$function(), JSON_UNESCAPED_UNICODE);
+		}
+		else
+		{
+			echo false;
+		}
+	}
 }

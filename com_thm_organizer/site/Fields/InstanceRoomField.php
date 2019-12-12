@@ -19,22 +19,22 @@ FormHelper::loadFieldClass('subform');
  */
 class InstanceRoomField extends \JFormFieldSubform
 {
-    /**
-     * Type
-     *
-     * @var    String
-     */
-    protected $type = 'InstanceRoom';
+	/**
+	 * Type
+	 *
+	 * @var    String
+	 */
+	protected $type = 'InstanceRoom';
 
-    /**
-     * Method to get the multiple field input of the loaded Rooms in Instance Section
-     *
-     * @return string  The field input markup.
-     */
-    protected function getInput()
-    {
-        $this->value = isset($this->value) ? $this->value : [];
+	/**
+	 * Method to get the multiple field input of the loaded Rooms in Instance Section
+	 *
+	 * @return string  The field input markup.
+	 */
+	protected function getInput()
+	{
+		$this->value = isset($this->value) ? $this->value : [];
 
-        return parent::getInput();
-    }
+		return parent::getInput();
+	}
 }

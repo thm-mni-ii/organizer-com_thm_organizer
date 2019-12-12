@@ -18,18 +18,21 @@ use Organizer\Helpers\Subjects as SubjectsHelper;
  */
 class Subjects extends BaseView
 {
-    /**
-     * loads model data into view context
-     *
-     * @return void
-     */
-    public function display()
-    {
-        $function = Input::getTask();
-        if (method_exists('Organizer\\Helpers\\Subjects', $function)) {
-            echo json_encode(SubjectsHelper::$function(), JSON_UNESCAPED_UNICODE);
-        } else {
-            echo false;
-        }
-    }
+	/**
+	 * loads model data into view context
+	 *
+	 * @return void
+	 */
+	public function display()
+	{
+		$function = Input::getTask();
+		if (method_exists('Organizer\\Helpers\\Subjects', $function))
+		{
+			echo json_encode(SubjectsHelper::$function(), JSON_UNESCAPED_UNICODE);
+		}
+		else
+		{
+			echo false;
+		}
+	}
 }

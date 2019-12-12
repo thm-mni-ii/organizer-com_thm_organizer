@@ -18,18 +18,21 @@ use Organizer\Helpers\Campuses as CampusesHelper;
  */
 class Campuses extends BaseView
 {
-    /**
-     * loads model data into view context
-     *
-     * @return void
-     */
-    public function display()
-    {
-        $function = Input::getTask();
-        if (method_exists('Organizer\\Helpers\\Campuses', $function)) {
-            echo json_encode(CampusesHelper::$function(), JSON_UNESCAPED_UNICODE);
-        } else {
-            echo false;
-        }
-    }
+	/**
+	 * loads model data into view context
+	 *
+	 * @return void
+	 */
+	public function display()
+	{
+		$function = Input::getTask();
+		if (method_exists('Organizer\\Helpers\\Campuses', $function))
+		{
+			echo json_encode(CampusesHelper::$function(), JSON_UNESCAPED_UNICODE);
+		}
+		else
+		{
+			echo false;
+		}
+	}
 }

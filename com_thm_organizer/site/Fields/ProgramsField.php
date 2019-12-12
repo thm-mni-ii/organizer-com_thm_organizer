@@ -17,21 +17,21 @@ use Organizer\Helpers\Programs;
  */
 class ProgramsField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Programs';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Programs';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $options  = parent::getOptions();
-        $programs = Programs::getOptions($this->getAttribute('access', ''));
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$options  = parent::getOptions();
+		$programs = Programs::getOptions($this->getAttribute('access', ''));
 
-        return array_merge($options, $programs);
-    }
+		return array_merge($options, $programs);
+	}
 }

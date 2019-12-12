@@ -137,7 +137,7 @@ class Schedules
 			return false;
 		}
 
-		if($value = date('Y-m-d', strtotime($value)))
+		if ($value = date('Y-m-d', strtotime($value)))
 		{
 			return true;
 		}

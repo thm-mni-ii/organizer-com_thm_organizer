@@ -18,18 +18,18 @@ use Organizer\Helpers\HTML;
  */
 class TemplatesField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Templates';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Templates';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        return HTML::getTranslatedOptions($this, $this->element);
-    }
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		return HTML::getTranslatedOptions($this, $this->element);
+	}
 }

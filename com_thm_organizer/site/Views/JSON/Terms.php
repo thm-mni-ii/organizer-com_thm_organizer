@@ -18,18 +18,21 @@ use Organizer\Helpers\Terms as TermsHelper;
  */
 class Terms extends BaseView
 {
-    /**
-     * loads model data into view context
-     *
-     * @return void
-     */
-    public function display()
-    {
-        $function = Input::getTask();
-        if (method_exists('Organizer\\Helpers\\Terms', $function)) {
-            echo json_encode(TermsHelper::$function(), JSON_UNESCAPED_UNICODE);
-        } else {
-            echo false;
-        }
-    }
+	/**
+	 * loads model data into view context
+	 *
+	 * @return void
+	 */
+	public function display()
+	{
+		$function = Input::getTask();
+		if (method_exists('Organizer\\Helpers\\Terms', $function))
+		{
+			echo json_encode(TermsHelper::$function(), JSON_UNESCAPED_UNICODE);
+		}
+		else
+		{
+			echo false;
+		}
+	}
 }

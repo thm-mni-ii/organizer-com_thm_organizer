@@ -6,8 +6,7 @@ jQuery(document).ready(function () {
         e.preventDefault();
     });
 
-    function downloadTable()
-    {
+    function downloadTable() {
         var tableToExcel;
         var dt = new Date(),
             day = dt.getDate(),
@@ -32,27 +31,21 @@ jQuery(document).ready(function () {
                     })
                 };
             return function (table, name, filename) {
-                if (!table.nodeType)
-                {
+                if (!table.nodeType) {
                     table = document.getElementById(table);
                 }
                 var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML};
 
-                if (jQuery.isFunction(window.navigator.msSaveOrOpenBlob))
-                {
+                if (jQuery.isFunction(window.navigator.msSaveOrOpenBlob)) {
                     // IE
                     var fileData = [format(template, ctx)];
                     var blobObject = new Blob(fileData);
                     window.navigator.msSaveOrOpenBlob(blobObject, filename);
-                }
-                else if (navigator.userAgent.indexOf('Safari') >= 0 && navigator.userAgent.indexOf('OPR') === -1 && navigator.userAgent.indexOf('Chrome') === -1)
-                {
+                } else if (navigator.userAgent.indexOf('Safari') >= 0 && navigator.userAgent.indexOf('OPR') === -1 && navigator.userAgent.indexOf('Chrome') === -1) {
                     // Safari
                     // No possibility to define the file name :(
                     window.location.href = uri + base64(format(template, ctx));
-                }
-                else
-                {
+                } else {
                     // Other Browsers
                     var downloadLink = document.getElementById('dLink');
                     downloadLink.href = uri + base64(format(template, ctx));
@@ -67,15 +60,13 @@ jQuery(document).ready(function () {
 
     jQuery('#deputat').keypress(function (e) {
         var form = jQuery('#statistic-form');
-        if (e.keyCode === 13)
-        {
+        if (e.keyCode === 13) {
             form.submit();
         }
     });
 });
 
-function removeRow(link)
-{
+function removeRow(link) {
     var personID = link.id.split('-')[3], rowNumber = link.id.split('-')[4], rowSum, rowTotal, swsSum, swsSumValue,
         swsTotal, swsTotalValue, tallyBodyExists;
 
@@ -86,8 +77,7 @@ function removeRow(link)
     swsSumValue = parseInt(swsSum.text()) - rowSum;
 
     // The removal does not close out the sum rows
-    if (swsSumValue > 0)
-    {
+    if (swsSumValue > 0) {
         jQuery('#data-row-' + personID + '-' + rowNumber).remove();
         swsSum.text(swsSumValue);
 
@@ -98,8 +88,7 @@ function removeRow(link)
     }
 
     tallyBodyExists = jQuery('#deputat-table-body-tally-' + personID).length;
-    if (tallyBodyExists)
-    {
+    if (tallyBodyExists) {
         jQuery('#deputat-table-body-sum-' + personID).remove();
         return;
     }

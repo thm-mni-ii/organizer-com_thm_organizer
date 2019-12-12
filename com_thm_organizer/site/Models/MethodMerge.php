@@ -15,5 +15,5 @@ namespace Organizer\Models;
  */
 class MethodMerge extends FormModel
 {
-    // Everything is taken care of in the inheritance hierarchy.
+	// Everything is taken care of in the inheritance hierarchy.
 }

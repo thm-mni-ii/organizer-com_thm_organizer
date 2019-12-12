@@ -6,8 +6,7 @@
  * @param divID the id of the div
  * @param type the type of the source
  */
-function closeIframeWindow(divID, type)
-{
+function closeIframeWindow(divID, type) {
     getCheckedItems(divID, type);
     jQuery('button.close').trigger('click');
 }
@@ -26,13 +25,11 @@ window.onload = function () {
 
     poolButton.appendTo(childToolbar);
 
-    if (subjectButton.length)
-    {
+    if (subjectButton.length) {
         subjectButton.appendTo(childToolbar);
     }
 
-    for (var i = 0; i < forms.length; i++)
-    {
+    for (var i = 0; i < forms.length; i++) {
         forms[i].onsubmit = function () {
             return false
         };
@@ -45,8 +42,7 @@ window.onload = function () {
  * @param {int} position the index at which a blank row should be added
  * @returns {void} modifies the dom
  */
-function addBlankChild(position)
-{
+function addBlankChild(position) {
     let children = getChildren(),
         length = children.length,
         newOrder,
@@ -56,8 +52,7 @@ function addBlankChild(position)
     addChildRow(length);
 
     // Increments existing rows starting from the last one.
-    while (position <= length)
-    {
+    while (position <= length) {
         newOrder = length + 1;
         oldIndex = length - 1;
 
@@ -80,8 +75,7 @@ function addBlankChild(position)
  *
  * @returns {void}  adds a new row to the end of the table
  */
-function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceType = '')
-{
+function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceType = '') {
     let mID = 0,
         name = '',
         icon = '',
@@ -92,21 +86,17 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
         resourceHTML,
         orderingHTML;
 
-    if (resourceID !== '')
-    {
+    if (resourceID !== '') {
         mID = resourceID;
     }
-    if (resourceName !== '')
-    {
+    if (resourceName !== '') {
         name = resourceName;
     }
 
     rawID = resourceID.substring(0, resourceID.length - 1);
 
-    if (resourceType !== '')
-    {
-        switch (resourceType)
-        {
+    if (resourceType !== '') {
+        switch (resourceType) {
             case 'p':
                 link = 'index.php?option=com_thm_organizer&view=pool_edit&id=' + rawID;
                 icon = 'icon-list';
@@ -178,8 +168,7 @@ function addChildRow(lastPosition, resourceID = '', resourceName = '', resourceT
  * @param {int} position the row position to clear
  * @returns {void} modifies the dom
  */
-function clearChildData(position)
-{
+function clearChildData(position) {
     jQuery('#child' + position + 'Icon').attr('class', '');
     jQuery('#child' + position + 'Name').text('');
     jQuery('#child' + position).val('');
@@ -194,8 +183,7 @@ function clearChildData(position)
  * @param {Object} child the element whose data will be used for cloning
  * @returns {void} modifies the dom
  */
-function cloneChild(position, child)
-{
+function cloneChild(position, child) {
     jQuery('#child' + position + 'Icon').attr('class', (child.class));
     jQuery('#child' + position + 'Name').text(child.name);
     jQuery('#child' + position).val(child.id);
@@ -210,8 +198,7 @@ function cloneChild(position, child)
  * @param {string} type the type of the source
  * @return {void} modifies the dom
  */
-function getCheckedItems(divID, type)
-{
+function getCheckedItems(divID, type) {
     const iFrame = jQuery('iframe');
     let children, id, name;
 
@@ -228,16 +215,14 @@ function getCheckedItems(divID, type)
  *
  * @returns {array} the map of the current children and their values
  */
-function getChildren()
-{
+function getChildren() {
     // -1 Because of the header row.
     const childCount = jQuery('#childList').find('tr').length - 1;
     let currentChildren = [],
         index,
         order;
 
-    for (index = 0; index < childCount; index++)
-    {
+    for (index = 0; index < childCount; index++) {
         order = index + 1;
         currentChildren[index] = {};
         currentChildren[index].class = jQuery('#child' + order + 'Icon').attr('class').trim();
@@ -256,13 +241,11 @@ function getChildren()
  *
  * @returns {void}
  */
-function moveChildDown(position)
-{
+function moveChildDown(position) {
     let children = getChildren(), currentOrder = parseInt(position, 10), current, next;
 
     // Child is currently the last child or the child is a blank
-    if (currentOrder >= children.length || (children.length === currentOrder + 1 && children[currentOrder - 1].name === ""))
-    {
+    if (currentOrder >= children.length || (children.length === currentOrder + 1 && children[currentOrder - 1].name === "")) {
         return;
     }
 
@@ -283,8 +266,7 @@ function moveChildDown(position)
  *
  * @returns  {void}
  */
-function moveChildToIndex(currentPosition)
-{
+function moveChildToIndex(currentPosition) {
     let children = getChildren(),
         length = children.length,
         child = children[currentPosition - 1],
@@ -293,18 +275,14 @@ function moveChildToIndex(currentPosition)
 
     requestedPosition = parseInt(requestedPosition, 10);
 
-    if (isNaN(requestedPosition) === true || requestedPosition > length || (Number(requestedPosition) === length && child.name === ""))
-    {
+    if (isNaN(requestedPosition) === true || requestedPosition > length || (Number(requestedPosition) === length && child.name === "")) {
         secondPosOrder.val(currentPosition);
         return;
     }
 
-    if (currentPosition < requestedPosition)
-    {
+    if (currentPosition < requestedPosition) {
         shiftUp(currentPosition, requestedPosition, children);
-    }
-    else
-    {
+    } else {
         shiftDown(currentPosition, requestedPosition, children);
     }
 
@@ -318,13 +296,11 @@ function moveChildToIndex(currentPosition)
  *
  * @returns {void}
  */
-function moveChildUp(position)
-{
+function moveChildUp(position) {
     let children = getChildren(), currentOrder = Number(position), current, previous;
 
     // Child is currently the first child or the child is a blank
-    if (currentOrder <= 1 || (children.length === currentOrder && children[currentOrder - 2].name === ""))
-    {
+    if (currentOrder <= 1 || (children.length === currentOrder && children[currentOrder - 2].name === "")) {
         return;
     }
 
@@ -345,12 +321,10 @@ function moveChildUp(position)
  * @param {int} position the position of the child to be moved
  * @returns {void} modifies the dom
  */
-function setFirst(position)
-{
+function setFirst(position) {
     const children = getChildren(), child = children[position - 1];
 
-    if (child.name !== "")
-    {
+    if (child.name !== "") {
         shiftDown(position, 1, children);
 
         cloneChild(1, child);
@@ -363,12 +337,10 @@ function setFirst(position)
  * @param {int} position the position of the child to be moved
  * @returns {void} modifies the dom
  */
-function setLast(position)
-{
+function setLast(position) {
     const children = getChildren(), child = children[position - 1];
 
-    if (child.name !== "")
-    {
+    if (child.name !== "") {
         shiftUp(position, children.length, children);
 
         cloneChild(children.length, child);
@@ -383,12 +355,10 @@ function setLast(position)
  * @param {array} children the map of the children
  * @returns {void} modifies the dom
  */
-function shiftDown(position, stopPosition, children)
-{
+function shiftDown(position, stopPosition, children) {
     let newPosition, sourcePosition;
 
-    while (position > stopPosition)
-    {
+    while (position > stopPosition) {
         newPosition = position;
         sourcePosition = position - 2;
 
@@ -405,10 +375,8 @@ function shiftDown(position, stopPosition, children)
  * @param {array} children the map of the children
  * @returns {void} modifies the dom
  */
-function shiftUp(position, stopPosition, children)
-{
-    while (position < stopPosition)
-    {
+function shiftUp(position, stopPosition, children) {
+    while (position < stopPosition) {
         cloneChild(position, children[position]);
         position++;
     }
@@ -420,8 +388,7 @@ function shiftUp(position, stopPosition, children)
  * @param {int} position the current position of the child to be removed
  * @returns  {void} modifies the dom
  */
-function trash(position)
-{
+function trash(position) {
     let children = getChildren(),
         length = children.length;
 

@@ -17,23 +17,23 @@ use Organizer\Views\BaseView;
  */
 class Deputat extends BaseView
 {
-    use PHPExcelDependent;
+	use PHPExcelDependent;
 
-    /**
-     * Sets context variables and renders the view.
-     *
-     * @param string $tpl template
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $templateNameParameter = 'thm';
-        $fileName              = 'deputat_' . $templateNameParameter;
-        require_once __DIR__ . "/tmpl/$fileName.php";
-        $model  = $this->getModel();
-        $export = new \THM_OrganizerTemplateDeputat($model);
-        $export->render();
-        ob_flush();
-    }
+	/**
+	 * Sets context variables and renders the view.
+	 *
+	 * @param   string  $tpl  template
+	 *
+	 * @return void
+	 */
+	public function display($tpl = null)
+	{
+		$templateNameParameter = 'thm';
+		$fileName              = 'deputat_' . $templateNameParameter;
+		require_once __DIR__ . "/tmpl/$fileName.php";
+		$model  = $this->getModel();
+		$export = new \THM_OrganizerTemplateDeputat($model);
+		$export->render();
+		ob_flush();
+	}
 }

@@ -7,8 +7,7 @@ $(document).ready(function () {
  *
  * @param  {object}  rooms   the rooms received
  */
-function addRooms(rooms)
-{
+function addRooms(rooms) {
     'use strict';
 
     var roomSelection = $('#roomIDs'), selectedRooms = roomSelection.val(), selected;
@@ -27,8 +26,7 @@ function addRooms(rooms)
 /**
  * Load rooms dependent on the selected departments and programs
  */
-function repopulateRooms()
-{
+function repopulateRooms() {
     'use strict';
 
     var selectedRoomTypes = $('#roomtypeIDs').val(), validRoomTypes, componentParameters;
@@ -37,8 +35,7 @@ function repopulateRooms()
 
     componentParameters = 'index.php?option=com_thm_organizer&view=room_options&format=json';
 
-    if (validRoomTypes)
-    {
+    if (validRoomTypes) {
         componentParameters += '&roomtypeIDs=' + selectedRoomTypes;
     }
 
@@ -50,8 +47,7 @@ function repopulateRooms()
             addRooms(data);
         },
         error: function (xhr, textStatus, errorThrown) {
-            if (xhr.status === 404 || xhr.status === 500)
-            {
+            if (xhr.status === 404 || xhr.status === 500) {
                 $.ajax(repopulateRooms());
             }
         }

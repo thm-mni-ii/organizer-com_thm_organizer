@@ -2,6 +2,6 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="instanceRoom">
         <field name="roomID" type="GenericOptions" label="ROOM"
-               valuecolumn="id" textcolumn="name" table= "thm_organizer_rooms"/>
+               valuecolumn="id" textcolumn="name" table="thm_organizer_rooms"/>
     </fieldset>
 </form>

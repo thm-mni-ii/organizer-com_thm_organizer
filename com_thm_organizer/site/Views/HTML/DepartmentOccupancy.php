@@ -24,76 +24,76 @@ use Organizer\Helpers\Languages;
  */
 class DepartmentOccupancy extends SelectionView
 {
-    /**
-     * Modifies document variables and adds links to external files
-     *
-     * @return void
-     */
-    protected function modifyDocument()
-    {
-        parent::modifyDocument();
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
 
-        Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/department_occupancy.js');
-    }
+		Factory::getDocument()->addScript(Uri::root() . 'components/com_thm_organizer/js/department_occupancy.js');
+	}
 
-    private function setBaseFields()
-    {
-        $attribs                    = [];
-        $this->sets['baseSettings'] = [];
+	private function setBaseFields()
+	{
+		$attribs                    = [];
+		$this->sets['baseSettings'] = [];
 
-        $options    = $this->model->getYearOptions();
-        $default    = date('Y');
-        $termSelect = HTML::selectBox($options, 'year', $attribs, $default);
+		$options    = $this->model->getYearOptions();
+		$default    = date('Y');
+		$termSelect = HTML::selectBox($options, 'year', $attribs, $default);
 
-        $this->sets['baseSettings']['termIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_YEAR'),
-            'description' => Languages::_('THM_ORGANIZER_YEAR_DESC'),
-            'input'       => $termSelect
-        ];
-    }
+		$this->sets['baseSettings']['termIDs'] = [
+			'label'       => Languages::_('THM_ORGANIZER_YEAR'),
+			'description' => Languages::_('THM_ORGANIZER_YEAR_DESC'),
+			'input'       => $termSelect
+		];
+	}
 
-    /**
-     * Function to define field sets and fill sets with fields
-     *
-     * @return void sets the fields property
-     */
-    protected function setSets()
-    {
-        $this->sets['baseSettings'] = [];
-        $this->setBaseFields();
-        $this->sets['filterFields'] = ['label' => 'THM_ORGANIZER_FILTERS'];
-        $this->setFilterFields();
-    }
+	/**
+	 * Function to define field sets and fill sets with fields
+	 *
+	 * @return void sets the fields property
+	 */
+	protected function setSets()
+	{
+		$this->sets['baseSettings'] = [];
+		$this->setBaseFields();
+		$this->sets['filterFields'] = ['label' => 'THM_ORGANIZER_FILTERS'];
+		$this->setFilterFields();
+	}
 
-    /**
-     * Creates resource selection fields for the form
-     *
-     * @return void sets indexes in $this->fields['resouceSettings'] with html content
-     */
-    private function setFilterFields()
-    {
-        $this->sets['filterFields'] = [];
-        $attribs                    = ['multiple' => 'multiple'];
+	/**
+	 * Creates resource selection fields for the form
+	 *
+	 * @return void sets indexes in $this->fields['resouceSettings'] with html content
+	 */
+	private function setFilterFields()
+	{
+		$this->sets['filterFields'] = [];
+		$attribs                    = ['multiple' => 'multiple'];
 
-        $roomAttribs                     = $attribs;
-        $roomOptions                     = $this->model->getRoomOptions();
-        $roomSelect                      = HTML::selectBox($roomOptions, 'roomIDs', $roomAttribs);
+		$roomAttribs = $attribs;
+		$roomOptions = $this->model->getRoomOptions();
+		$roomSelect  = HTML::selectBox($roomOptions, 'roomIDs', $roomAttribs);
 
-        $this->sets['filterFields']['roomIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_ROOMS'),
-            'description' => Languages::_('THM_ORGANIZER_ROOMS_DESC'),
-            'input'       => $roomSelect
-        ];
+		$this->sets['filterFields']['roomIDs'] = [
+			'label'       => Languages::_('THM_ORGANIZER_ROOMS'),
+			'description' => Languages::_('THM_ORGANIZER_ROOMS_DESC'),
+			'input'       => $roomSelect
+		];
 
-        $roomtypeAttribs                     = $attribs;
-        $roomtypeAttribs['onChange']         = 'repopulateRooms();';
-        $typeOptions                         = $this->model->getRoomtypeOptions();
-        $roomtypeSelect                      = HTML::selectBox($typeOptions, 'roomtypeIDs', $roomtypeAttribs);
+		$roomtypeAttribs             = $attribs;
+		$roomtypeAttribs['onChange'] = 'repopulateRooms();';
+		$typeOptions                 = $this->model->getRoomtypeOptions();
+		$roomtypeSelect              = HTML::selectBox($typeOptions, 'roomtypeIDs', $roomtypeAttribs);
 
-        $this->sets['filterFields']['roomtypeIDs'] = [
-            'label'       => Languages::_('THM_ORGANIZER_ROOMTYPES'),
-            'description' => Languages::_('THM_ORGANIZER_ROOMS_TYPES_DESC'),
-            'input'       => $roomtypeSelect
-        ];
-    }
+		$this->sets['filterFields']['roomtypeIDs'] = [
+			'label'       => Languages::_('THM_ORGANIZER_ROOMTYPES'),
+			'description' => Languages::_('THM_ORGANIZER_ROOMS_TYPES_DESC'),
+			'input'       => $roomtypeSelect
+		];
+	}
 }

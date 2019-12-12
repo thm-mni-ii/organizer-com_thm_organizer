@@ -19,22 +19,22 @@ FormHelper::loadFieldClass('subform');
  */
 class InstanceResourcesField extends \JFormFieldSubform
 {
-    /**
-     * Type
-     *
-     * @var    String
-     */
-    protected $type = 'InstanceResources';
+	/**
+	 * Type
+	 *
+	 * @var    String
+	 */
+	protected $type = 'InstanceResources';
 
-    /**
-     * Method to get the multiple field input of the loaded Resources in Instances Section
-     *
-     * @return string  The field input markup.
-     */
-    protected function getInput()
-    {
-        $this->value = isset($this->value) ? $this->value : [];
+	/**
+	 * Method to get the multiple field input of the loaded Resources in Instances Section
+	 *
+	 * @return string  The field input markup.
+	 */
+	protected function getInput()
+	{
+		$this->value = isset($this->value) ? $this->value : [];
 
-        return parent::getInput();
-    }
+		return parent::getInput();
+	}
 }

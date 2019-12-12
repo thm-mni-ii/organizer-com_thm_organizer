@@ -7,6 +7,7 @@
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
+
 namespace Organizer\Views;
 
 use Exception;

@@ -1,7 +1,5 @@
-function listAction(state)
-{
-    if (listItemChecked())
-    {
+function listAction(state) {
+    if (listItemChecked()) {
         document.getElementById('participantState').value = state;
         return true;
     }
@@ -12,15 +10,12 @@ function listAction(state)
     return false;
 }
 
-function listItemChecked()
-{
+function listItemChecked() {
     let checkboxes = document.getElementsByName('checked[]'), checked = false;
 
-    for (let index in checkboxes)
-    {
+    for (let index in checkboxes) {
         checked = checkboxes[index].checked;
-        if (checked === true)
-        {
+        if (checked === true) {
             return true;
         }
     }
@@ -28,38 +23,31 @@ function listItemChecked()
     return false;
 }
 
-function toggleAll(box)
-{
+function toggleAll(box) {
     let checkboxes = document.getElementsByName('checked[]');
 
-    for (let index in checkboxes)
-    {
+    for (let index in checkboxes) {
         checkboxes[index].checked = box.checked;
     }
 }
 
-function toggleToggle(box)
-{
+function toggleToggle(box) {
     let toggleBox = document.getElementById('toggleSelect'),
         checkboxes = document.getElementsByName('checked[]');
 
     // Deselecting one means deselects all box
-    if (box.checked !== true)
-    {
+    if (box.checked !== true) {
         toggleBox.checked = undefined;
         return true;
     }
 
     // If one box is not checked take no action
-    for (let index in checkboxes)
-    {
-        if (!checkboxes.hasOwnProperty(index))
-        {
+    for (let index in checkboxes) {
+        if (!checkboxes.hasOwnProperty(index)) {
             continue;
         }
 
-        if (checkboxes[index].checked !== true)
-        {
+        if (checkboxes[index].checked !== true) {
             return true;
         }
     }

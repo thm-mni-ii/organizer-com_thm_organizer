@@ -19,21 +19,21 @@ use Organizer\Helpers\Languages;
  */
 class CampusesField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Campuses';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Campuses';
 
-    /**
-     * Returns an array of options
-     *
-     * @return array  the options
-     */
-    protected function getOptions()
-    {
-        $options  = parent::getOptions();
-        $campuses = Campuses::getOptions();
+	/**
+	 * Returns an array of options
+	 *
+	 * @return array  the options
+	 */
+	protected function getOptions()
+	{
+		$options  = parent::getOptions();
+		$campuses = Campuses::getOptions();
 
-        return array_merge($options, $campuses);
-    }
+		return array_merge($options, $campuses);
+	}
 }

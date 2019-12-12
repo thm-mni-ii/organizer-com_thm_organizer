@@ -18,21 +18,21 @@ use Organizer\Helpers\HTML;
  */
 class BuildingsField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Buildings';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Buildings';
 
-    /**
-     * Returns a select box where stored buildings can be chosen
-     *
-     * @return array  the available buildings
-     */
-    protected function getOptions()
-    {
-        $defaultOptions = parent::getOptions();
-        $options        = Buildings::getOptions();
+	/**
+	 * Returns a select box where stored buildings can be chosen
+	 *
+	 * @return array  the available buildings
+	 */
+	protected function getOptions()
+	{
+		$defaultOptions = parent::getOptions();
+		$options        = Buildings::getOptions();
 
-        return array_merge($defaultOptions, $options);
-    }
+		return array_merge($defaultOptions, $options);
+	}
 }

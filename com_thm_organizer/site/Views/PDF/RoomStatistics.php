@@ -21,33 +21,33 @@ jimport('tcpdf.tcpdf');
  */
 class RoomStatistics extends BaseView
 {
-    public $fields = [];
+	public $fields = [];
 
-    public $date;
+	public $date;
 
-    public $timePeriods;
+	public $timePeriods;
 
-    public $terms;
+	public $terms;
 
-    public $departments;
+	public $departments;
 
-    public $programs;
+	public $programs;
 
-    public $roomIDs;
+	public $roomIDs;
 
-    /**
-     * Sets context variables and renders the view.
-     *
-     * @param string $tpl template
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->modifyDocument();
+	/**
+	 * Sets context variables and renders the view.
+	 *
+	 * @param   string  $tpl  template
+	 *
+	 * @return void
+	 */
+	public function display($tpl = null)
+	{
+		$this->modifyDocument();
 
-        $this->model = $this->getModel();
+		$this->model = $this->getModel();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

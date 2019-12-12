@@ -19,21 +19,21 @@ use Organizer\Helpers\Input;
  */
 class MergeIDsField extends FormField
 {
-    use Translated;
+	use Translated;
 
-    protected $type = 'MergeIDs';
+	protected $type = 'MergeIDs';
 
-    /**
-     * Method to get the field input markup for a generic list.
-     *
-     * @return  string  The field input markup.
-     */
-    protected function getInput()
-    {
-        $selectedIDs = Input::getSelectedIDs();
-        asort($selectedIDs);
-        $values = implode(',', $selectedIDs);
+	/**
+	 * Method to get the field input markup for a generic list.
+	 *
+	 * @return  string  The field input markup.
+	 */
+	protected function getInput()
+	{
+		$selectedIDs = Input::getSelectedIDs();
+		asort($selectedIDs);
+		$values = implode(',', $selectedIDs);
 
-        return '<input type="hidden" name="' . $this->name . '" value="' . $values . '"/>';
-    }
+		return '<input type="hidden" name="' . $this->name . '" value="' . $values . '"/>';
+	}
 }

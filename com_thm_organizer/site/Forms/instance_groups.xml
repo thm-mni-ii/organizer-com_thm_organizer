@@ -2,6 +2,6 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="instanceGroup">
         <field name="groupID" type="GenericOptions" label="GROUP"
-               valuecolumn="id" textcolumn="fullName" table= "thm_organizer_groups"/>
+               valuecolumn="id" textcolumn="fullName" table="thm_organizer_groups"/>
     </fieldset>
 </form>

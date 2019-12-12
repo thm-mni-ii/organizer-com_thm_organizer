@@ -17,21 +17,21 @@ use Organizer\Helpers\Rooms;
  */
 class RoomsField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Rooms';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Rooms';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $options = parent::getOptions();
-        $rooms   = Rooms::getOptions();
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$options = parent::getOptions();
+		$rooms   = Rooms::getOptions();
 
-        return array_merge($options, $rooms);
-    }
+		return array_merge($options, $rooms);
+	}
 }

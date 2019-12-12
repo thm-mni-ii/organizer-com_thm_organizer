@@ -17,24 +17,24 @@ use Organizer\Views\BaseView;
  */
 class RoomStatistics extends BaseView
 {
-    use PHPExcelDependent;
+	use PHPExcelDependent;
 
-    /**
-     * Sets context variables and renders the view.
-     *
-     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function display($tpl = null)
-    {
-        $model = $this->getModel();
+	/**
+	 * Sets context variables and renders the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function display($tpl = null)
+	{
+		$model = $this->getModel();
 
-        require_once __DIR__ . '/tmpl/document.php';
-        $export = new \THM_OrganizerTemplateRoom_Statistics_XLS($model);
-        $export->render();
-        ob_flush();
-    }
+		require_once __DIR__ . '/tmpl/document.php';
+		$export = new \THM_OrganizerTemplateRoom_Statistics_XLS($model);
+		$export->render();
+		ob_flush();
+	}
 }

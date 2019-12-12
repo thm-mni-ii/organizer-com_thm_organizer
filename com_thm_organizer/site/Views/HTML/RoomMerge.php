@@ -15,5 +15,5 @@ namespace Organizer\Views\HTML;
  */
 class RoomMerge extends MergeView
 {
-    // Everything is taken care of in the inheritance hierarchy.
+	// Everything is taken care of in the inheritance hierarchy.
 }

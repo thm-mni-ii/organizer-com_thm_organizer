@@ -15,12 +15,12 @@ namespace Organizer\Helpers;
  */
 interface DepartmentAssociated
 {
-    /**
-     * Retrieves the ids of departments associated with the resource
-     *
-     * @param int $resourceID the id of the resource for which the associated departments are requested
-     *
-     * @return array the ids of departments associated with the resource
-     */
-    public static function getDepartmentIDs($resourceID);
+	/**
+	 * Retrieves the ids of departments associated with the resource
+	 *
+	 * @param   int  $resourceID  the id of the resource for which the associated departments are requested
+	 *
+	 * @return array the ids of departments associated with the resource
+	 */
+	public static function getDepartmentIDs($resourceID);
 }

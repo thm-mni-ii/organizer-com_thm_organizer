@@ -18,44 +18,44 @@ use Joomla\CMS\Uri\Uri;
  */
 class EventList extends BaseHTMLView
 {
-    public $form = null;
+	public $form = null;
 
-    public $model;
+	public $model;
 
-    public $state;
+	public $state;
 
-    /**
-     * Loads persistent data into the view context
-     *
-     * @param string $tpl the name of the template to load
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->model = $this->getModel();
-        $layout      = $this->model->params['layout'];
-        $this->state = $this->get('State');
-        $this->form  = $this->get('Form');
-        $this->form->setValue('startDate', null, $this->state->get('startDate'));
+	/**
+	 * Loads persistent data into the view context
+	 *
+	 * @param   string  $tpl  the name of the template to load
+	 *
+	 * @return void
+	 */
+	public function display($tpl = null)
+	{
+		$this->model = $this->getModel();
+		$layout      = $this->model->params['layout'];
+		$this->state = $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->form->setValue('startDate', null, $this->state->get('startDate'));
 
-        $this->form->setValue('interval', null, $this->state->get('interval'));
+		$this->form->setValue('interval', null, $this->state->get('interval'));
 
-        $this->modifyDocument();
-        $this->setLayout($layout);
-        parent::display($tpl);
-    }
+		$this->modifyDocument();
+		$this->setLayout($layout);
+		parent::display($tpl);
+	}
 
-    /**
-     * Adds css and javascript files to the document
-     *
-     * @return void  modifies the document
-     */
-    protected function modifyDocument()
-    {
-        parent::modifyDocument();;
-        HTML::_('bootstrap.framework');
+	/**
+	 * Adds css and javascript files to the document
+	 *
+	 * @return void  modifies the document
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();;
+		HTML::_('bootstrap.framework');
 
-	    Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/event_list.css');
-    }
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/event_list.css');
+	}
 }

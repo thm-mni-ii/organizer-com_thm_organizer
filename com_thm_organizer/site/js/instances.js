@@ -1,9 +1,9 @@
 window.onload = function () {
 
     const blockID = document.getElementById("jform_blockID"),
-          eventID = document.getElementById("jform_eventID");
+        eventID = document.getElementById("jform_eventID");
 
-    oldObj        = {};
+    oldObj = {};
     saveAsCopyBtn = document.getElementsByClassName("btn btn-small button-save-copy");
 
     saveAsCopyBtn[0].disabled = true;
@@ -13,17 +13,17 @@ window.onload = function () {
 
 function disableBtns() {
     const blockID = document.getElementById("jform_blockID"),
-          eventID = document.getElementById("jform_eventID"),
-          newObj  = {},
-          saveBtn = document.getElementsByClassName("btn btn-small button-save");
+        eventID = document.getElementById("jform_eventID"),
+        newObj = {},
+        saveBtn = document.getElementsByClassName("btn btn-small button-save");
 
     newObj.blockID = blockID.options[blockID.selectedIndex].value;
     newObj.eventID = eventID.options[eventID.selectedIndex].value;
 
-    if(oldObj.eventID !== newObj.eventID || oldObj.blockID !== newObj.blockID) {
+    if (oldObj.eventID !== newObj.eventID || oldObj.blockID !== newObj.blockID) {
         saveBtn[0].disabled = true;
         saveAsCopyBtn[0].disabled = false;
-    } else if(oldObj.eventID === newObj.eventID && oldObj.blockID === newObj.blockID) {
+    } else if (oldObj.eventID === newObj.eventID && oldObj.blockID === newObj.blockID) {
         saveBtn[0].disabled = false;
         saveAsCopyBtn[0].disabled = true;
     }

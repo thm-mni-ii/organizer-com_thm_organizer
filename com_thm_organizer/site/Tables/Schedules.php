@@ -111,7 +111,7 @@ class Schedules extends BaseTable
 		$dbo->setQuery($deptQuery);
 		$deptName = (string) OrganizerHelper::executeQuery('loadResult');
 
-		$tag = Languages::getTag();
+		$tag       = Languages::getTag();
 		$termQuery = $dbo->getQuery(true);
 		$termQuery->select("name_$tag")
 			->from('#__thm_organizer_terms')

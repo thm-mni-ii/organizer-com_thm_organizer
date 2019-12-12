@@ -19,30 +19,30 @@ use Joomla\CMS\Uri\Uri;
  */
 class RoomDisplay extends BaseHTMLView
 {
-    /**
-     * Loads persistent data into the view context
-     *
-     * @param string $tpl the name of the template to load
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->modifyDocument();
-        $model       = $this->getModel();
-        $this->model = $model;
-        $layout      = $model->params['layout'];
-        $this->setLayout($layout);
-        parent::display($tpl);
-    }
+	/**
+	 * Loads persistent data into the view context
+	 *
+	 * @param   string  $tpl  the name of the template to load
+	 *
+	 * @return void
+	 */
+	public function display($tpl = null)
+	{
+		$this->modifyDocument();
+		$model       = $this->getModel();
+		$this->model = $model;
+		$layout      = $model->params['layout'];
+		$this->setLayout($layout);
+		parent::display($tpl);
+	}
 
-    /**
-     * Modifies document variables and adds links to external files
-     *
-     * @return void
-     */
-    protected function modifyDocument()
-    {
-        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_display.css');
-    }
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/room_display.css');
+	}
 }

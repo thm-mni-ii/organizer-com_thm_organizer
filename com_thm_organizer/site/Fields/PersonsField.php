@@ -17,21 +17,21 @@ use Organizer\Helpers\Persons;
  */
 class PersonsField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Persons';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Persons';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $options = parent::getOptions();
-        $persons = Persons::getOptions();
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$options = parent::getOptions();
+		$persons = Persons::getOptions();
 
-        return array_merge($options, $persons);
-    }
+		return array_merge($options, $persons);
+	}
 }

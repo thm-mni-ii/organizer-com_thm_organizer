@@ -20,22 +20,22 @@ FormHelper::loadFieldClass('subform');
  */
 class PeriodsField extends \JFormFieldSubform
 {
-    /**
-     * Type
-     *
-     * @var    String
-     */
-    protected $type = 'Periods';
+	/**
+	 * Type
+	 *
+	 * @var    String
+	 */
+	protected $type = 'Periods';
 
-    /**
-     * Method to get the multiple field input of the loaded grids periods
-     *
-     * @return string  The field input markup.
-     */
-    protected function getInput()
-    {
-        $this->value = isset($this->value['periods']) ? $this->value['periods'] : [];
+	/**
+	 * Method to get the multiple field input of the loaded grids periods
+	 *
+	 * @return string  The field input markup.
+	 */
+	protected function getInput()
+	{
+		$this->value = isset($this->value['periods']) ? $this->value['periods'] : [];
 
-        return parent::getInput();
-    }
+		return parent::getInput();
+	}
 }

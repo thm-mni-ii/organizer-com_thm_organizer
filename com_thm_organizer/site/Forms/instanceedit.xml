@@ -4,11 +4,13 @@
         <field name="id" type="hidden"/>
         <field name="unitID" type="hidden"/>
         <field name="eventID" type="GenericOptions" required="true" label="EVENT"
-               valuecolumn="id" textcolumn="name" localized="true" table= "thm_organizer_events" onchange="disableBtns()"/>
+               valuecolumn="id" textcolumn="name" localized="true" table="thm_organizer_events"
+               onchange="disableBtns()"/>
         <field name="blockID" type="GenericOptions" required="true" glue=" - " label="BLOCK"
-               valuecolumn="id" textcolumn="date,startTime,endTime" table= "thm_organizer_blocks" onchange="disableBtns()"/>
+               valuecolumn="id" textcolumn="date,startTime,endTime" table="thm_organizer_blocks"
+               onchange="disableBtns()"/>
         <field name="methodID" type="GenericOptions" required="true" label="METHOD"
-               valuecolumn="id" textcolumn="name" localized="true" table= "thm_organizer_methods"/>
+               valuecolumn="id" textcolumn="name" localized="true" table="thm_organizer_methods"/>
         <field name="resources" type="InstanceResources" formsource="instance_persons" multiple="true"
                buttons="add,remove" layout="joomla.form.field.subform.repeatable-table"
                label="THM_ORGANIZER_INSTANCE_PERSONS"/>

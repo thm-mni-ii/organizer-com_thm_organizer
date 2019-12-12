@@ -18,21 +18,21 @@ use Organizer\Helpers\Groups;
 class GroupsField extends OptionsField
 {
 
-    /**
-     * @var  string
-     */
-    protected $type = 'Groups';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Groups';
 
-    /**
-     * Returns a select box where resource attributes can be selected
-     *
-     * @return array the options for the select box
-     */
-    protected function getOptions()
-    {
-        $options = parent::getOptions();
-        $groups  = Groups::getOptions();
+	/**
+	 * Returns a select box where resource attributes can be selected
+	 *
+	 * @return array the options for the select box
+	 */
+	protected function getOptions()
+	{
+		$options = parent::getOptions();
+		$groups  = Groups::getOptions();
 
-        return array_merge($options, $groups);
-    }
+		return array_merge($options, $groups);
+	}
 }

@@ -15,18 +15,18 @@ namespace Organizer\Views\HTML;
  */
 abstract class EditView extends FormView
 {
-    public $item = null;
+	public $item = null;
 
-    /**
-     * Method to get display
-     *
-     * @param Object $tpl template  (default: null)
-     *
-     * @return void
-     */
-    public function display($tpl = null)
-    {
-        $this->item = $this->get('Item');
-        parent::display($tpl);
-    }
+	/**
+	 * Method to get display
+	 *
+	 * @param   Object  $tpl  template  (default: null)
+	 *
+	 * @return void
+	 */
+	public function display($tpl = null)
+	{
+		$this->item = $this->get('Item');
+		parent::display($tpl);
+	}
 }

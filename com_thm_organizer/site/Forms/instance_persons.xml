@@ -3,7 +3,7 @@
     <fieldset name="instanceResources">
         <field name="roleID" type="hidden"/>
         <field name="personID" type="GenericOptions" label="PERSON"
-               valuecolumn="id" textcolumn="surname" table= "thm_organizer_persons"/>
+               valuecolumn="id" textcolumn="surname" table="thm_organizer_persons"/>
         <field name="groups" type="InstanceGroup" formsource="instance_groups" multiple="true"
                buttons="add,remove" layout="joomla.form.field.subform.repeatable-table"
                label="THM_ORGANIZER_GROUPS"/>

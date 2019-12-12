@@ -22,46 +22,52 @@ use Organizer\Helpers\Programs;
  */
 class Curriculum extends ItemModel
 {
-    /**
-     * Provides a strict access check which can be overwritten by extending classes.
-     *
-     * @return bool  true if the user can access the view, otherwise false
-     */
-    protected function allowView()
-    {
-        return true;
-    }
+	/**
+	 * Provides a strict access check which can be overwritten by extending classes.
+	 *
+	 * @return bool  true if the user can access the view, otherwise false
+	 */
+	protected function allowView()
+	{
+		return true;
+	}
 
-    /**
-     * Method to get an array of data items.
-     *
-     * @return mixed  An array of data items on success, false on failure.
-     * @throws Exception
-     */
-    public function getItem()
-    {
-        $allowView = $this->allowView();
-        if (!$allowView) {
-            throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
-        }
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return mixed  An array of data items on success, false on failure.
+	 * @throws Exception
+	 */
+	public function getItem()
+	{
+		$allowView = $this->allowView();
+		if (!$allowView)
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+		}
 
-        $resource = [];
-        if ($poolID = Input::getFilterID('pool')) {
-            $mappings         = Mappings::getMappings('pool', $poolID);
-            $resource['name'] = Pools::getName($poolID);
-            $resource['type'] = 'pool';
-        } elseif ($programID = Input::getFilterID('program')) {
-            $mappings         = Mappings::getMappings('program', $programID);
-            $resource['name'] = Programs::getName($programID);
-            $resource['type'] = 'program';
-        } else {
-            return $resource;
-        }
+		$resource = [];
+		if ($poolID = Input::getFilterID('pool'))
+		{
+			$mappings         = Mappings::getMappings('pool', $poolID);
+			$resource['name'] = Pools::getName($poolID);
+			$resource['type'] = 'pool';
+		}
+		elseif ($programID = Input::getFilterID('program'))
+		{
+			$mappings         = Mappings::getMappings('program', $programID);
+			$resource['name'] = Programs::getName($programID);
+			$resource['type'] = 'program';
+		}
+		else
+		{
+			return $resource;
+		}
 
-        $mapping  = array_pop($mappings);
-        $resource += $mapping;
-        Mappings::getChildren($resource);
+		$mapping  = array_pop($mappings);
+		$resource += $mapping;
+		Mappings::getChildren($resource);
 
-        return $resource;
-    }
+		return $resource;
+	}
 }

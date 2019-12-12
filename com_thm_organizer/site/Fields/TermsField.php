@@ -17,21 +17,21 @@ use Organizer\Helpers\Terms;
  */
 class TermsField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Terms';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Terms';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $options = parent::getOptions();
-        $terms   = Terms::getOptions((bool)$this->getAttribute('withDates'));
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$options = parent::getOptions();
+		$terms   = Terms::getOptions((bool) $this->getAttribute('withDates'));
 
-        return array_merge($options, $terms);
-    }
+		return array_merge($options, $terms);
+	}
 }

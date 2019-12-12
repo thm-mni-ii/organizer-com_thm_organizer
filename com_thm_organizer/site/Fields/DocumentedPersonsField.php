@@ -22,55 +22,60 @@ use Organizer\Helpers\Subjects;
  */
 class DocumentedPersonsField extends OptionsField
 {
-    protected $type = 'DocumentedPersons';
+	protected $type = 'DocumentedPersons';
 
-    /**
-     * Method to get the field input markup for a generic list.
-     *
-     * @return  string  The field input markup.
-     */
-    protected function getInput()
-    {
-        if (empty(Input::getInt('programID'))) {
-            return '';
-        }
+	/**
+	 * Method to get the field input markup for a generic list.
+	 *
+	 * @return  string  The field input markup.
+	 */
+	protected function getInput()
+	{
+		if (empty(Input::getInt('programID')))
+		{
+			return '';
+		}
 
-        return parent::getInput();
-    }
+		return parent::getInput();
+	}
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $options      = parent::getOptions();
-        $calledPoolID = Input::getInput()->get->getInt('poolID', 0);
-        $poolID       = Input::getFilterID('pool', $calledPoolID);
-        $programID    = Input::getInt('programID');
-        $subjectIDs   = $poolID ? Mappings::getPoolSubjects($poolID) : Mappings::getProgramSubjects($programID);
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$options      = parent::getOptions();
+		$calledPoolID = Input::getInput()->get->getInt('poolID', 0);
+		$poolID       = Input::getFilterID('pool', $calledPoolID);
+		$programID    = Input::getInt('programID');
+		$subjectIDs   = $poolID ? Mappings::getPoolSubjects($poolID) : Mappings::getProgramSubjects($programID);
 
-        if (empty($subjectIDs)) {
-            return $options;
-        }
+		if (empty($subjectIDs))
+		{
+			return $options;
+		}
 
-        $aggregatedPersons = [];
-        foreach ($subjectIDs as $subjectID) {
-            $subjectPersons = Subjects::getPersons($subjectID);
-            if (empty($subjectPersons)) {
-                continue;
-            }
+		$aggregatedPersons = [];
+		foreach ($subjectIDs as $subjectID)
+		{
+			$subjectPersons = Subjects::getPersons($subjectID);
+			if (empty($subjectPersons))
+			{
+				continue;
+			}
 
-            $aggregatedPersons = array_merge($aggregatedPersons, $subjectPersons);
-        }
+			$aggregatedPersons = array_merge($aggregatedPersons, $subjectPersons);
+		}
 
-        ksort($aggregatedPersons);
+		ksort($aggregatedPersons);
 
-        foreach ($aggregatedPersons as $name => $person) {
-            $options[] = HTML::_('select.option', $person['id'], $name);
-        }
+		foreach ($aggregatedPersons as $name => $person)
+		{
+			$options[] = HTML::_('select.option', $person['id'], $name);
+		}
 
-        return $options;
-    }
+		return $options;
+	}
 }

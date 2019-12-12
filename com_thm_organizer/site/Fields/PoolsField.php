@@ -18,22 +18,22 @@ use Organizer\Helpers\Pools;
  */
 class PoolsField extends OptionsField
 {
-    /**
-     * @var  string
-     */
-    protected $type = 'Pools';
+	/**
+	 * @var  string
+	 */
+	protected $type = 'Pools';
 
-    /**
-     * Returns an array of pool options
-     *
-     * @return array  the pool options
-     */
-    protected function getOptions()
-    {
-        $options = parent::getOptions();
-        $access  = OrganizerHelper::getApplication()->isClient('administrator') ? 'document' : '';
-        $pools   = Pools::getOptions($access);
+	/**
+	 * Returns an array of pool options
+	 *
+	 * @return array  the pool options
+	 */
+	protected function getOptions()
+	{
+		$options = parent::getOptions();
+		$access  = OrganizerHelper::getApplication()->isClient('administrator') ? 'document' : '';
+		$pools   = Pools::getOptions($access);
 
-        return array_merge($options, $pools);
-    }
+		return array_merge($options, $pools);
+	}
 }

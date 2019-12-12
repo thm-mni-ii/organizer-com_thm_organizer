@@ -15,15 +15,15 @@ namespace Organizer\Tables;
  */
 abstract class Nullable extends BaseTable
 {
-    /**
-     * This functions overwrites Table's default of $updateNulls = false.
-     *
-     * @param boolean $updateNulls True to update fields even if they are null.
-     *
-     * @return boolean  True on success.
-     */
-    public function store($updateNulls = true)
-    {
-        return parent::store($updateNulls);
-    }
+	/**
+	 * This functions overwrites Table's default of $updateNulls = false.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return boolean  True on success.
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
+	}
 }

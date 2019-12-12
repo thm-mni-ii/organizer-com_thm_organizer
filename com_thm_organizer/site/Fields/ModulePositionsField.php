@@ -19,18 +19,18 @@ use Organizer\Helpers\Input;
  */
 class ModulePositionsField extends OptionsField
 {
-    protected $type = 'ModulePositions';
+	protected $type = 'ModulePositions';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $clientId = Input::getInt('client_id');
-        $options  = ModulesHelper::getPositions($clientId);
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$clientId = Input::getInt('client_id');
+		$options  = ModulesHelper::getPositions($clientId);
 
-        return array_merge(parent::getOptions(), $options);
-    }
+		return array_merge(parent::getOptions(), $options);
+	}
 }

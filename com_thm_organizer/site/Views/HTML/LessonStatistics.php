@@ -18,50 +18,50 @@ use Joomla\CMS\Uri\Uri;
  */
 class LessonStatistics extends BaseHTMLView
 {
-    public $columns = [];
+	public $columns = [];
 
-    public $form = null;
+	public $form = null;
 
-    public $lessons = [];
+	public $lessons = [];
 
-    public $rows = [];
+	public $rows = [];
 
-    public $total = 0;
+	public $total = 0;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return void sets context variables and uses the parent's display method
-     */
-    public function display($tpl = null)
-    {
-        // Use language_selection layout
-        $this->state = $this->get('State');
-        $this->form  = $this->get('Form');
-        $this->form->setValue('termID', null, $this->state->get('termID'));
-        $this->form->setValue('departmentID', null, $this->state->get('departmentID'));
-        $this->form->setValue('categoryID', null, $this->state->get('categoryID'));
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return void sets context variables and uses the parent's display method
+	 */
+	public function display($tpl = null)
+	{
+		// Use language_selection layout
+		$this->state = $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->form->setValue('termID', null, $this->state->get('termID'));
+		$this->form->setValue('departmentID', null, $this->state->get('departmentID'));
+		$this->form->setValue('categoryID', null, $this->state->get('categoryID'));
 
-        $model         = $this->getModel();
-        $this->columns = $model->columns;
-        $this->rows    = $model->rows;
-        $this->lessons = $model->lessons;
-        $this->total   = $model->total;
+		$model         = $this->getModel();
+		$this->columns = $model->columns;
+		$this->rows    = $model->rows;
+		$this->lessons = $model->lessons;
+		$this->total   = $model->total;
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Modifies document variables and adds links to external files
-     *
-     * @return void
-     */
-    protected function modifyDocument()
-    {
-	    parent::modifyDocument();
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
 
-        Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
-    }
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/lesson_statistics.css');
+	}
 }
