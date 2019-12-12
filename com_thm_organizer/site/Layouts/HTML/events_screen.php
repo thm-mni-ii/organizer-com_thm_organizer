@@ -14,8 +14,7 @@ $metric = 0;
 <script type="text/javascript">
     var timer = null;
 
-    function auto_reload()
-    {
+    function auto_reload() {
         window.location = document.URL;
     }
 
@@ -36,64 +35,72 @@ $metric = 0;
     </div>
     <div class="display-area">
         <div class="exp-text"><?php echo Languages::_('THM_ORGANIZER_NEXT_4'); ?></div>
-        <?php
-        foreach ($this->model->events as $date => $times) {
-            if ($metric >= 4) {
-                break;
-            }
-            $displayedEvents = 0; ?>
+		<?php
+		foreach ($this->model->events as $date => $times)
+		{
+			if ($metric >= 4)
+			{
+				break;
+			}
+			$displayedEvents = 0; ?>
             <div class="event-date">
                 <div class="event-date-head"><span><?php echo Dates::formatDate($date); ?></span>
                 </div>
-                <?php
-                $rowNumber = 0;
-                foreach ($times as $time => $lessons) {
-                    if ($metric >= 4) {
-                        break;
-                    }
-                    foreach ($lessons as $lesson) {
-                        $metric++;
-                        if ($metric > 4) {
-                            break;
-                        }
-                        $rowClass = 'row' . ($rowNumber % 2);
-                        $rowNumber++;
-                        $paddingClass = empty($lesson['comment']) ? 'fluffy' : '';
-                        ?>
+				<?php
+				$rowNumber = 0;
+				foreach ($times as $time => $lessons)
+				{
+					if ($metric >= 4)
+					{
+						break;
+					}
+					foreach ($lessons as $lesson)
+					{
+						$metric++;
+						if ($metric > 4)
+						{
+							break;
+						}
+						$rowClass = 'row' . ($rowNumber % 2);
+						$rowNumber++;
+						$paddingClass = empty($lesson['comment']) ? 'fluffy' : '';
+						?>
                         <div class="<?php echo $rowClass; ?> ym-clearfix">
                             <div class="event-times">
-                                <?php echo Dates::formatTime($lesson['startTime']); ?><br/>
+								<?php echo Dates::formatTime($lesson['startTime']); ?><br/>
                                 -<br/>
-                                <?php echo Dates::formatTime($lesson['endTime']); ?>
+								<?php echo Dates::formatTime($lesson['endTime']); ?>
                             </div>
                             <div class="event-main">
                                 <div class="event-names <?php echo $paddingClass; ?>">
-                                    <?php
-                                    echo implode(' / ', $lesson['titles']);
-                                    if (!empty($lesson['method'])) {
-                                        echo ' - ' . $lesson['method'];
-                                    }
-                                    ?>
+									<?php
+									echo implode(' / ', $lesson['titles']);
+									if (!empty($lesson['method']))
+									{
+										echo ' - ' . $lesson['method'];
+									}
+									?>
                                 </div>
                                 <div class="event-persons"><?php echo implode(' / ', $lesson['persons']); ?></div>
-                                <?php
-                                if (!empty($lesson['comment'])) {
-                                    ?>
+								<?php
+								if (!empty($lesson['comment']))
+								{
+									?>
                                     <div class="event-comment">
                                         (<?php echo $lesson['comment']; ?>)
                                     </div>
-                                    <?php
-                                }
-                                ?>
+									<?php
+								}
+								?>
                             </div>
                         </div>
-                        <?php
-                    }
-                }
-                ?>
+						<?php
+					}
+				}
+				?>
             </div>
-            <?php
-        }
-        ?>
+			<?php
+		}
+		?>
     </div>
 </div>

@@ -35,84 +35,101 @@ $attribs = ['target' => '_blank'];
         <input type="hidden" name="languageTag" value="<?php echo $this->tag; ?>"/>
         <input type="hidden" name="option" value="com_thm_organizer"/>
         <input type="hidden" name="view" value="search"/>
-        <?php
-        $containerOpened = false;
+		<?php
+		$containerOpened = false;
 
-        foreach ($this->results as $strength => $sResults) {
-            if (!empty($sResults)) {
-                $headerShown = false;
+		foreach ($this->results as $strength => $sResults)
+		{
+			if (!empty($sResults))
+			{
+				$headerShown = false;
 
-                foreach ($sResults as $resource => $rResults) {
-                    foreach ($rResults as $result) {
-                        if (!$containerOpened) {
-                            echo '<div class="results-container">';
-                            $containerOpened = true;
-                        }
+				foreach ($sResults as $resource => $rResults)
+				{
+					foreach ($rResults as $result)
+					{
+						if (!$containerOpened)
+						{
+							echo '<div class="results-container">';
+							$containerOpened = true;
+						}
 
-                        if (!$headerShown) {
-                            $strengthTitle       = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
-                            $strengthDescription = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
-                            echo '<h3>' . Languages::_($strengthTitle) . '</h3><hr><ul>';
-                            $headerShown = true;
-                        }
+						if (!$headerShown)
+						{
+							$strengthTitle       = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
+							$strengthDescription = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
+							echo '<h3>' . Languages::_($strengthTitle) . '</h3><hr><ul>';
+							$headerShown = true;
+						}
 
-                        echo '<li>';
-                        echo '<div class="resource-item">' . $result['text'] . '</div>';
-                        echo '<div class="resource-links">';
+						echo '<li>';
+						echo '<div class="resource-item">' . $result['text'] . '</div>';
+						echo '<div class="resource-links">';
 
-                        foreach ($result['links'] as $type => $link) {
-                            $constant = 'THM_ORGANIZER_' . strtoupper($type);
+						foreach ($result['links'] as $type => $link)
+						{
+							$constant = 'THM_ORGANIZER_' . strtoupper($type);
 
-                            if ($type == 'curriculum') {
-                                $icon = '<span class="icon-grid-2"></span>';
-                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
-                            }
+							if ($type == 'curriculum')
+							{
+								$icon = '<span class="icon-grid-2"></span>';
+								echo HTML::link($link, $icon . Languages::_($constant), $attribs);
+							}
 
-                            if ($type == 'schedule') {
-                                $icon = '<span class="icon-calendar"></span>';
-                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
-                            }
+							if ($type == 'schedule')
+							{
+								$icon = '<span class="icon-calendar"></span>';
+								echo HTML::link($link, $icon . Languages::_($constant), $attribs);
+							}
 
-                            if ($type == 'subjects') {
-                                $icon = '<span class="icon-list"></span>';
-                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
-                            }
+							if ($type == 'subjects')
+							{
+								$icon = '<span class="icon-list"></span>';
+								echo HTML::link($link, $icon . Languages::_($constant), $attribs);
+							}
 
-                            if ($type == 'subject_item') {
-                                $icon = '<span class="icon-book"></span>';
-                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
-                            }
+							if ($type == 'subject_item')
+							{
+								$icon = '<span class="icon-book"></span>';
+								echo HTML::link($link, $icon . Languages::_($constant), $attribs);
+							}
 
-                            if ($type == 'event_list') {
-                                $icon = '<span class="icon-list"></span>';
-                                echo HTML::link($link, $icon . Languages::_($constant), $attribs);
-                            }
-                        }
+							if ($type == 'event_list')
+							{
+								$icon = '<span class="icon-list"></span>';
+								echo HTML::link($link, $icon . Languages::_($constant), $attribs);
+							}
+						}
 
-                        echo '</div>';
+						echo '</div>';
 
-                        if (!empty($result['description'])) {
-                            echo '<div class="resource-description">';
+						if (!empty($result['description']))
+						{
+							echo '<div class="resource-description">';
 
-                            if (is_string($result['description'])) {
-                                echo $result['description'];
-                            } elseif (is_array($result['description'])) {
-                                echo implode(', ', $result['description']);
-                            }
+							if (is_string($result['description']))
+							{
+								echo $result['description'];
+							}
+                            elseif (is_array($result['description']))
+							{
+								echo implode(', ', $result['description']);
+							}
 
-                            echo '</div>';
-                        }
-                        echo '</li>';
-                    }
-                }
+							echo '</div>';
+						}
+						echo '</li>';
+					}
+				}
 
-                echo '</ul>';
-            }
-        }
+				echo '</ul>';
+			}
+		}
 
-        if ($containerOpened) {
-            echo '</div>';
-        }
-        ?>
+		if ($containerOpened)
+		{
+			echo '</div>';
+		}
+		?>
     </form>
 </div>

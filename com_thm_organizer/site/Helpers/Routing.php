@@ -18,24 +18,28 @@ use Joomla\CMS\Uri\Uri;
  */
 class Routing
 {
-    /**
-     * Builds a the base url for redirection
-     *
-     * @return string the root url to redirect to
-     */
-    public static function getRedirectBase()
-    {
-        $url = Uri::base();
-        if ($menuID = Input::getItemid()) {
-            $url .= OrganizerHelper::getApplication()->getMenu()->getItem($menuID)->route . '?';
-        } else {
-            $url .= '?option=com_thm_organizer';
-        }
+	/**
+	 * Builds a the base url for redirection
+	 *
+	 * @return string the root url to redirect to
+	 */
+	public static function getRedirectBase()
+	{
+		$url = Uri::base();
+		if ($menuID = Input::getItemid())
+		{
+			$url .= OrganizerHelper::getApplication()->getMenu()->getItem($menuID)->route . '?';
+		}
+		else
+		{
+			$url .= '?option=com_thm_organizer';
+		}
 
-        if ($tag = Input::getCMD('languageTag')) {
-            $url .= "&languageTag=$tag";
-        }
+		if ($tag = Input::getCMD('languageTag'))
+		{
+			$url .= "&languageTag=$tag";
+		}
 
-        return $url;
-    }
+		return $url;
+	}
 }

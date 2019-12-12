@@ -12,51 +12,53 @@ use Joomla\CMS\Uri\Uri;
 
 $showHeading = $this->params->get('show_page_heading', '');
 $title       = $this->params->get('page_title', '');
-if (!empty($this->departmentName)) {
-    $title .= " - $this->departmentName";
+if (!empty($this->departmentName))
+{
+	$title .= " - $this->departmentName";
 }
 $weeks = $this->params->get('deputat_weeks', 13);
 ?>
 <div id="deputat" class="deputat">
-    <?php
-    if (!empty($showHeading)) {
-        ?>
+	<?php
+	if (!empty($showHeading))
+	{
+		?>
         <div class="componentheading">
-            <?php echo $title; ?>
+			<?php echo $title; ?>
         </div>
-        <?php
-    }
-    ?>
+		<?php
+	}
+	?>
     <form id='deputat-form' name='deputat-form' enctype='multipart/form-data' method='post'
           action='<?php echo Uri::current(); ?>'>
         <div class="filter-bar">
             <div class="filter-header">
                 <div class="deputat-settings">
                     <div class="deputat-settings-description">
-                        <?php echo Languages::_('THM_ORGANIZER_DEPUTAT_CALCULATION_SETTINGS'); ?>
+						<?php echo Languages::_('THM_ORGANIZER_DEPUTAT_CALCULATION_SETTINGS'); ?>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            <?php echo Languages::_('THM_ORGANIZER_DEPUTAT_WEEKS'); ?>
+							<?php echo Languages::_('THM_ORGANIZER_DEPUTAT_WEEKS'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $weeks . ' ' . Languages::_('THM_ORGANIZER_WEEKS'); ?>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">
-                            <?php echo Languages::_('THM_ORGANIZER_BACHELOR_VALUE'); ?>
-                        </div>
-                        <div class="controls">
-                            <?php echo $this->params->get('bachelor_value', 25) . '%'; ?>
+							<?php echo $weeks . ' ' . Languages::_('THM_ORGANIZER_WEEKS'); ?>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="control-label">
-                            <?php echo Languages::_('THM_ORGANIZER_MASTER_VALUE'); ?>
+							<?php echo Languages::_('THM_ORGANIZER_BACHELOR_VALUE'); ?>
                         </div>
                         <div class="controls">
-                            <?php echo $this->params->get('master_value', 50) . '%'; ?>
+							<?php echo $this->params->get('bachelor_value', 25) . '%'; ?>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+							<?php echo Languages::_('THM_ORGANIZER_MASTER_VALUE'); ?>
+                        </div>
+                        <div class="controls">
+							<?php echo $this->params->get('master_value', 50) . '%'; ?>
                         </div>
                     </div>
                 </div>
@@ -64,43 +66,45 @@ $weeks = $this->params->get('deputat_weeks', 13);
                     <div class="control-group">
                         <div class="control-label">
                             <label for="schedules">
-                                <?php echo Languages::_('THM_ORGANIZER_DATA_SOURCE') ?>
+								<?php echo Languages::_('THM_ORGANIZER_DATA_SOURCE') ?>
                             </label>
                         </div>
                         <div class="controls">
-                            <?php echo $this->scheduleSelectBox; ?>
+							<?php echo $this->scheduleSelectBox; ?>
                         </div>
                     </div>
-                    <?php
-                    if (!empty($this->model->schedule)) {
-                        ?>
+					<?php
+					if (!empty($this->model->schedule))
+					{
+						?>
                         <div class="control-group">
                             <div class="control-label">
                                 <label for="persons">
-                                    <?php echo Languages::_('THM_ORGANIZER_TEACHERS') ?>
+									<?php echo Languages::_('THM_ORGANIZER_TEACHERS') ?>
                                 </label>
                             </div>
                             <div class="controls">
-                                <?php echo $this->persons; ?>
+								<?php echo $this->persons; ?>
                             </div>
                         </div>
                         <div class="button-group">
                             <button type="submit">
-                                <?php echo Languages::_('THM_ORGANIZER_SHOW') ?>
+								<?php echo Languages::_('THM_ORGANIZER_SHOW') ?>
                                 <span class="icon-play"></span>
                             </button>
                         </div>
-                        <?php
-                    }
-                    ?>
+						<?php
+					}
+					?>
                 </div>
             </div>
         </div>
-        <?php
-        if (!empty($this->model->schedule)) {
-            echo $this->tables;
-        }
-        ?>
+		<?php
+		if (!empty($this->model->schedule))
+		{
+			echo $this->tables;
+		}
+		?>
     </form>
     <a href="https://www.thm.de/semesterplan-dev/service/werkzeug/deputat-fb-bau.html?format=xls">form</a>
     <a id="dLink" style="display:none;"></a>

@@ -16,13 +16,14 @@ $logoURL = 'components/com_thm_organizer/images/thm_organizer.png';
 $logo    = HTML::_('image', $logoURL, Languages::_('THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);
 ?>
 <div id="j-sidebar-container" class="span2">
-    <?php echo $this->submenu; ?>
+	<?php echo $this->submenu; ?>
 </div>
 <div id="j-main-container" class="span10">
-    <form action="?<?php echo $query = Uri::getInstance()->getQuery();; ?>" id="adminForm" method="post" name="adminForm">
+    <form action="?<?php echo $query = Uri::getInstance()->getQuery();; ?>" id="adminForm" method="post"
+          name="adminForm">
         <div class="organizer-header">
             <div class="organizer-logo">
-                <?php echo $logo; ?>
+				<?php echo $logo; ?>
             </div>
         </div>
         <input type="hidden" name="task" value=""/>

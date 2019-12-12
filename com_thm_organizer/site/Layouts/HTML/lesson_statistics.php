@@ -25,48 +25,49 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
         <input type="hidden" name="option" value="com_thm_organizer">
         <input type="hidden" name="view" value="lesson_statistics">
         <input type='hidden' name='Itemid' value='<?php echo $menuID; ?>'>
-        <?php echo $this->form->getField('termID')->input; ?>
-        <?php echo $this->form->getField('departmentID')->input; ?>
-        <?php echo $this->form->getField('programID')->input; ?>
+		<?php echo $this->form->getField('termID')->input; ?>
+		<?php echo $this->form->getField('departmentID')->input; ?>
+		<?php echo $this->form->getField('programID')->input; ?>
     </form>
     <div class="table-container">
         <table>
             <tr>
-                <?php if ($showTable) : ?>
+				<?php if ($showTable) : ?>
                     <td>
                         <span class="name"><?php echo Languages::_('THM_ORGANIZER_TOTAL'); ?></span>
                         <br>
-                        <?php echo $this->total; ?>
+						<?php echo $this->total; ?>
                     </td>
-                    <?php foreach ($this->columns as $column) : ?>
+					<?php foreach ($this->columns as $column) : ?>
                         <td>
                             <span class="name"><?php echo $column['name']; ?></span>
                             <br>
                             <span class="total"><?php echo '(' . $column['total'] . ')'; ?></span>
                         </td>
-                    <?php endforeach; ?>
-                <?php else : ?>
+					<?php endforeach; ?>
+				<?php else : ?>
                     <td>
                         <span class="name"><?php echo Languages::_('THM_ORGANIZER_NO_EVENTS_FOUND'); ?></span>
                     </td>
-                <?php endif; ?>
+				<?php endif; ?>
             </tr>
-            <?php foreach ($this->rows as $row) : ?>
+			<?php foreach ($this->rows as $row) : ?>
                 <tr>
                     <td>
                         <span class="name"><?php echo $row['name']; ?></span>
                         <br>
                         <span class="total"><?php echo '(' . $row['total'] . ')'; ?></span>
                     </td>
-                    <?php
-                    foreach (array_keys($this->columns) as $columnID) {
-                        $invalid = (empty($this->lessons[$row['id']]) or empty($this->lessons[$row['id']][$columnID]));
-                        $value   = $invalid ? 0 : $this->lessons[$row['id']][$columnID];
-                        echo "<td>$value</td>";
-                    }
-                    ?>
+					<?php
+					foreach (array_keys($this->columns) as $columnID)
+					{
+						$invalid = (empty($this->lessons[$row['id']]) or empty($this->lessons[$row['id']][$columnID]));
+						$value   = $invalid ? 0 : $this->lessons[$row['id']][$columnID];
+						echo "<td>$value</td>";
+					}
+					?>
                 </tr>
-            <?php endforeach; ?>
+			<?php endforeach; ?>
         </table>
     </div>
 </div>

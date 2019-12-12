@@ -15,17 +15,17 @@ namespace Organizer\Helpers;
  */
 interface Selectable
 {
-    /**
-     * Retrieves the selectable options for the resource.
-     *
-     * @return array the available options
-     */
-    public static function getOptions();
+	/**
+	 * Retrieves the selectable options for the resource.
+	 *
+	 * @return array the available options
+	 */
+	public static function getOptions();
 
-    /**
-     * Retrieves the resource items.
-     *
-     * @return array the available resources
-     */
-    public static function getResources();
+	/**
+	 * Retrieves the resource items.
+	 *
+	 * @return array the available resources
+	 */
+	public static function getResources();
 }

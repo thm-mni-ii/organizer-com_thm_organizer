@@ -303,7 +303,7 @@ class Instances extends ResourceHelper
 	 *
 	 * @return JDatabaseQuery the query object
 	 */
-    public static function getInstanceQuery($conditions)
+	public static function getInstanceQuery($conditions)
 	{
 		$dbo   = Factory::getDbo();
 		$query = $dbo->getQuery(true);
@@ -372,7 +372,7 @@ class Instances extends ResourceHelper
 			self::addDeltaClause($query, 'ir', $conditions['delta']);
 		}
 
-        if (!empty($conditions['eventIDs']) or !empty($conditions['subjectIDs']) or !empty($conditions['isEventsRequired']))
+		if (!empty($conditions['eventIDs']) or !empty($conditions['subjectIDs']) or !empty($conditions['isEventsRequired']))
 		{
 			$query->innerJoin('#__thm_organizer_events AS e ON i.eventID = e.id');
 
@@ -618,7 +618,7 @@ class Instances extends ResourceHelper
 	 *
 	 * @return void modifies the instance array
 	 */
-    public static function setPersons(&$instance, $conditions)
+	public static function setPersons(&$instance, $conditions)
 	{
 		$tag   = Languages::getTag();
 		$dbo   = Factory::getDbo();

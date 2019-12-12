@@ -27,34 +27,34 @@ $type     = $viewName === 'Subject_Selection' ? 's' : 'p';
 ?>
 <form action="index.php?" id="adminForm" method="post" name="adminForm">
     <div class="toolbar clearfix">
-        <?php foreach ($toolbar->getItems() as $button) : ?>
-            <?php echo $toolbar->renderButton($button); ?>
-        <?php endforeach; ?>
+		<?php foreach ($toolbar->getItems() as $button) : ?>
+			<?php echo $toolbar->renderButton($button); ?>
+		<?php endforeach; ?>
     </div>
     <div class="js-stools-container-bar">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
     </div>
     <table class="table table-striped" id="<?php echo $viewName; ?>-list">
         <thead>
         <tr>
-            <?php foreach ($this->headers as $header) : ?>
+			<?php foreach ($this->headers as $header) : ?>
                 <th><?php echo $header; ?></th>
-            <?php endforeach; ?>
+			<?php endforeach; ?>
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($this->items as $row) : ?>
+		<?php foreach ($this->items as $row) : ?>
             <tr>
-                <?php foreach ($row as $column) : ?>
+				<?php foreach ($row as $column) : ?>
                     <td><?php echo $column; ?></td>
-                <?php endforeach; ?>
+				<?php endforeach; ?>
             </tr>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
         </tbody>
         <tfoot>
         <tr>
             <td colspan="<?php echo $columnCount; ?>">
-                <?php echo $this->pagination->getListFooter(); ?>
+				<?php echo $this->pagination->getListFooter(); ?>
             </td>
         </tr>
         </tfoot>
@@ -64,7 +64,7 @@ $type     = $viewName === 'Subject_Selection' ? 's' : 'p';
     <input type="hidden" name="option" value="com_thm_organizer"/>
     <input type="hidden" name="view" value="<?php echo $viewName; ?>"/>
     <input type="hidden" name="tmpl" value="component"/>
-    <?php echo HTML::_('form.token'); ?>
+	<?php echo HTML::_('form.token'); ?>
 </form>
 <script>
     jQuery(document).ready(function () {

@@ -17,63 +17,68 @@ use Joomla\CMS\Factory;
  */
 class Roomtypes extends ResourceHelper implements Selectable
 {
-    use Filtered;
+	use Filtered;
 
-    const NO = 0;
+	const NO = 0;
 
-    const YES = 1;
+	const YES = 1;
 
-    /**
-     * Retrieves a list of resources in the form of name => id.
-     *
-     * @return array the resources, or empty
-     */
-    public static function getOptions()
-    {
-        $options = [];
-        foreach (self::getResources() as $type) {
-            $options[] = HTML::_('select.option', $type['id'], $type['name']);
-        }
+	/**
+	 * Retrieves a list of resources in the form of name => id.
+	 *
+	 * @return array the resources, or empty
+	 */
+	public static function getOptions()
+	{
+		$options = [];
+		foreach (self::getResources() as $type)
+		{
+			$options[] = HTML::_('select.option', $type['id'], $type['name']);
+		}
 
-        return $options;
-    }
+		return $options;
+	}
 
-    /**
-     * Retrieves the resource items.
-     *
-     * @param bool $associated whether the type needs to be associated with a room
-     * @param bool $public
-     *
-     * @return array the available resources
-     */
-    public static function getResources($associated = self::YES, $public = self::YES)
-    {
-        $dbo = Factory::getDbo();
-        $tag = Languages::getTag();
+	/**
+	 * Retrieves the resource items.
+	 *
+	 * @param   bool  $associated  whether the type needs to be associated with a room
+	 * @param   bool  $public
+	 *
+	 * @return array the available resources
+	 */
+	public static function getResources($associated = self::YES, $public = self::YES)
+	{
+		$dbo = Factory::getDbo();
+		$tag = Languages::getTag();
 
-        $query = $dbo->getQuery(true);
-        $query->select("DISTINCT t.*, t.id AS id, t.name_$tag AS name")->from('#__thm_organizer_roomtypes AS t');
+		$query = $dbo->getQuery(true);
+		$query->select("DISTINCT t.*, t.id AS id, t.name_$tag AS name")->from('#__thm_organizer_roomtypes AS t');
 
-        if ($public !== null) {
-            $query->where('t.public = ' . $public);
-        }
+		if ($public !== null)
+		{
+			$query->where('t.public = ' . $public);
+		}
 
-        if ($associated === self::YES) {
-            $query->innerJoin('#__thm_organizer_rooms AS r ON r.roomtypeID = t.id');
-        } elseif ($associated === self::NO) {
-            $query->leftJoin('#__thm_organizer_rooms AS r ON r.roomtypeID = t.id');
-            $query->where('r.roomtypeID IS NULL');
-        }
+		if ($associated === self::YES)
+		{
+			$query->innerJoin('#__thm_organizer_rooms AS r ON r.roomtypeID = t.id');
+		}
+		elseif ($associated === self::NO)
+		{
+			$query->leftJoin('#__thm_organizer_rooms AS r ON r.roomtypeID = t.id');
+			$query->where('r.roomtypeID IS NULL');
+		}
 
-        self::addResourceFilter($query, 'building', 'b1', 'r');
+		self::addResourceFilter($query, 'building', 'b1', 'r');
 
-        // This join is used specifically to filter campuses independent of buildings.
-        $query->leftJoin('#__thm_organizer_buildings AS b2 ON b2.id = r.buildingID');
-        self::addCampusFilter($query, 'b2');
+		// This join is used specifically to filter campuses independent of buildings.
+		$query->leftJoin('#__thm_organizer_buildings AS b2 ON b2.id = r.buildingID');
+		self::addCampusFilter($query, 'b2');
 
-        $query->order('name');
-        $dbo->setQuery($query);
+		$query->order('name');
+		$dbo->setQuery($query);
 
-        return OrganizerHelper::executeQuery('loadAssocList', []);
-    }
+		return OrganizerHelper::executeQuery('loadAssocList', []);
+	}
 }
