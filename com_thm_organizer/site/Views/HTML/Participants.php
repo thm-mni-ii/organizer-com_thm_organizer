@@ -101,7 +101,7 @@ class Participants extends ListView
 
 		if ($courseID = Helpers\Input::getFilterID('course') and $courseID !== -1)
 		{
-			$headers['status']   = Helpers\HTML::sort('STATE', 'status', $direction, $ordering);
+			$headers['status']   = Helpers\HTML::sort('STATUS', 'status', $direction, $ordering);
 			$headers['paid']     = Helpers\HTML::sort('PAID', 'paid', $direction, $ordering);
 			$headers['attended'] = Helpers\HTML::sort('ATTENDED', 'attended', $direction, $ordering);
 		}

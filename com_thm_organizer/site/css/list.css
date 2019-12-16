@@ -130,6 +130,10 @@ body.tmpl-index div.main .js-stools-container-bar .input-append input + button {
     margin-left: -2.2rem;
 }
 
+body.tmpl-index div.main .js-stools-container-bar .input-append input + button:hover span[class^="icon-"]:before {
+    color: #394a59;
+}
+
 body.tmpl-index div.main .js-stools-container-bar .js-stools-btn-filter .caret {
     border-bottom-color: initial;
 }

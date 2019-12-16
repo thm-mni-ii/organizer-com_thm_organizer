@@ -16,6 +16,11 @@
             <option value="1">ATTENDED</option>
             <option value="0">UNATTENDED</option>
         </field>
+        <field name="duplicates" type="Options" label="DUPLICATES_FILTER" class="input-12"
+               onchange="this.form.submit();">
+            <option value="">DUPLICATES_FILTER_INACTIVE</option>
+            <option value="1">DUPLICATES_FILTER_ACTIVE</option>
+        </field>
     </fields>
     <fields name="list">
         <field name="limit" type="Limitbox" class="input-mini" onchange="this.form.submit();"/>

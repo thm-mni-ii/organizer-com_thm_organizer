@@ -51,6 +51,10 @@ body.tmpl-index div.main {
       height: 1.85rem;
       margin-top: .2rem;
       margin-left: -2.2rem;
+
+      &:hover span[class^="icon-"]:before {
+        color: $font-color;
+      }
     }
 
     .js-stools-btn-filter {

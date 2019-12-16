@@ -21,7 +21,25 @@ class Participants extends ListModel
 {
 	protected $defaultOrdering = 'fullName';
 
-	protected $filter_fields = ['programID'];
+	protected $filter_fields = ['attended', 'duplicates', 'paid', 'programID'];
+
+	/**
+	 * Filters out form inputs which should not be displayed due to menu settings.
+	 *
+	 * @param   Form  $form  the form to be filtered
+	 *
+	 * @return void modifies $form
+	 */
+	protected function filterFilterForm(&$form)
+	{
+		parent::filterFilterForm($form);
+
+		if (!$courseID = Input::getFilterID('course'))
+		{
+			$form->removeField('attended', 'filter');
+			$form->removeField('paid', 'filter');
+		}
+	}
 
 	/**
 	 * Method to get a list of resources from the database.
@@ -32,20 +50,42 @@ class Participants extends ListModel
 	{
 		$query = $this->_db->getQuery(true);
 
-		$query->select('DISTINCT pa.id, pa.programID, u.email')
+		$query->select('pa.id, pa.programID, u.email')
 			->select($query->concatenate(['pa.surname', "', '", 'pa.forename'], '') . ' AS fullName')
 			->from('#__thm_organizer_participants AS pa')
 			->innerJoin('#__users AS u ON u.id = pa.id')
-			->innerJoin('#__thm_organizer_programs AS pr ON pr.id = pa.programID');
+			->leftJoin('#__thm_organizer_programs AS pr ON pr.id = pa.programID');
 
 		$this->setSearchFilter($query, ['pa.forename', 'pa.surname', 'pr.name_de', 'pr.name_en']);
-		$this->setValueFilters($query, ['programID']);
+		$this->setValueFilters($query, ['attended', 'paid', 'programID']);
 
 		if ($courseID = Input::getFilterID('course'))
 		{
 			$query->select('cp.attended, cp.paid, cp.status')
 				->innerJoin('#__thm_organizer_course_participants AS cp on cp.participantID = pa.id')
 				->where("cp.courseID = $courseID");
+		}
+
+		if (Input::getBool('duplicates'))
+		{
+			$likePAFN   = $query->concatenate(["'%'", 'TRIM(pa.forename)', "'%'"], '');
+			$likePA2FN  = $query->concatenate(["'%'", 'TRIM(pa2.forename)', "'%'"], '');
+			$conditions = "((pa.forename LIKE $likePA2FN OR pa2.forename LIKE $likePAFN)";
+
+			$conditions .= " AND ";
+
+			$likePASN   = $query->concatenate(["'%'", 'TRIM(pa.surname)', "'%'"], '');
+			$likePA2SN  = $query->concatenate(["'%'", 'TRIM(pa2.surname)', "'%'"], '');
+			$conditions .= "(pa.surname LIKE $likePA2SN OR pa2.surname LIKE $likePASN))";
+			$query->leftJoin("#__thm_organizer_participants AS pa2 on $conditions")
+				->where('pa.id != pa2.id')
+				->group('pa.id');
+
+			if ($courseID)
+			{
+				$query->innerJoin('#__thm_organizer_course_participants AS cp2 on cp2.participantID = pa2.id')
+					->where("cp2.courseID = $courseID");
+			}
 		}
 
 		$this->setOrdering($query);

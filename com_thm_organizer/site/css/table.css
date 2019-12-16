@@ -119,10 +119,7 @@ body.tmpl-index div.main .js-stools-container-bar input {
 
 body.tmpl-index div.main .js-stools-container-bar input,
 body.tmpl-index div.main .js-stools-container-bar button {
-    font-family: "Open Sans",
-    Arial,
-    Helvetica,
-    sans-serif;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
     font-size: .9rem;
 }
 
@@ -131,6 +128,10 @@ body.tmpl-index div.main .js-stools-container-bar .input-append input + button {
     height: 1.85rem;
     margin-top: .2rem;
     margin-left: -2.2rem;
+}
+
+body.tmpl-index div.main .js-stools-container-bar .input-append input + button:hover span[class^="icon-"]:before {
+    color: #394a59;
 }
 
 body.tmpl-index div.main .js-stools-container-bar .js-stools-btn-filter .caret {

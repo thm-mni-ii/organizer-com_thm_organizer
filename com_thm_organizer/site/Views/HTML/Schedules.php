@@ -87,7 +87,7 @@ class Schedules extends ListView
 			'checkbox'       => '',
 			'departmentName' => HTML::sort('DEPARTMENT', 'departmentName', $direction, $ordering),
 			'termName'       => HTML::sort('TERM', 'termName', $direction, $ordering),
-			'active'         => HTML::sort('STATE', 'active', $direction, $ordering),
+			'active'         => HTML::sort('STATUS', 'active', $direction, $ordering),
 			'userName'       => HTML::sort('USERNAME', 'userName', $direction, $ordering),
 			'created'        => HTML::sort('CREATION_DATE', 'created', $direction, $ordering)
 		];

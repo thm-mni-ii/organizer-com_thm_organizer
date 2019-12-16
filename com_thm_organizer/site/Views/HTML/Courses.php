@@ -163,8 +163,8 @@ class Courses extends ListView
 			$headers = [
 				'name'               => Languages::_('THM_ORGANIZER_NAME'),
 				'dates'              => Languages::_('THM_ORGANIZER_DATES'),
-				'courseStatus'       => Languages::_('THM_ORGANIZER_COURSE_STATE'),
-				'registrationStatus' => Languages::_('THM_ORGANIZER_REGISTRATION_STATE'),
+				'courseStatus'       => Languages::_('THM_ORGANIZER_COURSE_STATUS'),
+				'registrationStatus' => Languages::_('THM_ORGANIZER_REGISTRATION_STATUS'),
 				'tools'              => Languages::_('THM_ORGANIZER_ACTIONS')
 			];
 		}

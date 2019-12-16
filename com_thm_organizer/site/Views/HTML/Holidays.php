@@ -68,7 +68,7 @@ class Holidays extends ListView
 			'name'      => HTML::sort('NAME', 'name', $direction, $ordering),
 			'startDate' => HTML::sort('DATE', 'startDate', $direction, $ordering),
 			'type'      => HTML::sort('TYPE', 'type', $direction, $ordering),
-			'status'    => Languages::_('THM_ORGANIZER_STATE')
+			'status'    => Languages::_('THM_ORGANIZER_STATUS')
 		];
 
 		$this->headers = $headers;

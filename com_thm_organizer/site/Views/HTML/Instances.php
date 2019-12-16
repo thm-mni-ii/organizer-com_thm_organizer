@@ -64,7 +64,7 @@ class Instances extends ListView
 			'checkbox' => HTML::_('grid.checkall'),
 			'name'     => HTML::sort('NAME', 'name', $direction, $ordering),
 			'term'     => Languages::_('THM_ORGANIZER_TERM'),
-			'status'   => Languages::_('THM_ORGANIZER_STATE')
+			'status'   => Languages::_('THM_ORGANIZER_STATUS')
 		];
 
 		$this->headers = $headers;
