@@ -13,7 +13,6 @@
 namespace Organizer\Models;
 
 use Exception;
-use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Input;
@@ -24,6 +23,65 @@ use Organizer\Tables\CourseParticipants as CourseParticipantsTable;
  */
 class CourseParticipant extends BaseModel
 {
+	const PENDING = 0, REGISTERED = 1;
+
+	/**
+	 * Sets the status for the course participant to registered
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception invalid / unauthorized access
+	 */
+	public function accept()
+	{
+		return $this->batch('status', self::REGISTERED);
+	}
+
+	/**
+	 * Sets the status for the course participant to registered
+	 *
+	 * @param   string  $property  the property to update
+	 * @param   int     $value     the new value for the property
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception invalid / unauthorized access
+	 */
+	private function batch($property, $value)
+	{
+		if (!$courseID = Input::getInt('courseID') or !$participantIDs = Input::getSelectedIDs())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+		}
+
+		if (!Can::manage('course', $courseID))
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
+
+		foreach ($participantIDs as $participantID)
+		{
+			if (!Can::manage('participant', $participantID))
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
+
+			$table = $this->getTable();
+
+			if (!$table->load(['courseID' => $courseID, 'participantID' => $participantID]))
+			{
+				return false;
+			}
+
+			$table->$property = $value;
+
+			if (!$table->store())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	/**
 	 * Sends a circular mail to all course participants.
 	 *
@@ -133,7 +191,7 @@ class CourseParticipant extends BaseModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return Table A Table object
+	 * @return CourseParticipantsTable A Table object
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
@@ -177,5 +235,16 @@ class CourseParticipant extends BaseModel
 		$table->$attribute = !$table->$attribute;
 
 		return $table->store();
+	}
+
+	/**
+	 * Sets the status for the course participant to registered
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception invalid / unauthorized access
+	 */
+	public function wait()
+	{
+		return $this->batch('status', self::PENDING);
 	}
 }

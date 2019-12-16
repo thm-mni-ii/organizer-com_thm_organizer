@@ -19,6 +19,28 @@ use Organizer\Models\CourseParticipant;
 trait CourseParticipants
 {
 	/**
+	 * Accepts the selected participants into the course.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function accept()
+	{
+		$model = new CourseParticipant;
+
+		if ($model->accept())
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
+		}
+		else
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+		}
+
+		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
+	}
+
+	/**
 	 * Sends an circular email to all course participants
 	 *
 	 * @return void
@@ -85,7 +107,7 @@ trait CourseParticipants
 		{
 			if ($previousState !== self::UNREGISTERED)
 			{
-				Helpers\OrganizerHelper::message('THM_ORGANIZER_DEREGISTER_SUCCESS');
+				Helpers\OrganizerHelper::message('THM_ORGANIZER_DEREGISTER_SUCCESS', 'success');
 			}
 			else
 			{
@@ -120,6 +142,28 @@ trait CourseParticipants
 		else
 		{
 			Helpers\OrganizerHelper::message('THM_ORGANIZER_TOGGLE_FAIL', 'error');
+		}
+
+		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
+	}
+
+	/**
+	 * Accepts the selected participants into the course.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function wait()
+	{
+		$model = new CourseParticipant;
+
+		if ($model->wait())
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
+		}
+		else
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));

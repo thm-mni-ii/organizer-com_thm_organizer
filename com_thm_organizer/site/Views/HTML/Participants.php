@@ -82,7 +82,7 @@ class Participants extends ListView
 
 			$toolbar->appendButton(
 				'Standard',
-				'list-3',
+				'clock',
 				Helpers\Languages::_('THM_ORGANIZER_PLACE_WAIT_LIST'),
 				'participants.wait',
 				true
@@ -211,7 +211,6 @@ class Participants extends ListView
 	{
 		$index           = 0;
 		$link            = 'index.php?option=com_thm_organizer&view=participant_edit&id=';
-		$statusTemplate  = '<span class="icon-ICONCLASS hasTooltip" title="STATUSTIP"></span>';
 		$structuredItems = [];
 
 		$setCourseToggles = ($courseID = Helpers\Input::getFilterID('course') and $courseID !== -1) ? true : false;
@@ -223,21 +222,25 @@ class Participants extends ListView
 			{
 				if ($item->status)
 				{
-					$iconClass = 'checkbox-checked';
+					$iconClass = 'signup';
 					$statusTip = Helpers\Languages::_('THM_ORGANIZER_ACCEPTED');
 				}
 				else
 				{
-					$iconClass = 'checkbox-partial';
+					$iconClass = 'clock';
 					$statusTip = Helpers\Languages::_('THM_ORGANIZER_WAIT_LIST');
 				}
 
-				$status       = str_replace('ICONCLASS', $iconClass, $statusTemplate);
-				$status       = str_replace('STATUSTIP', $statusTip, $status);
-				$item->status = $status;
+				$attributes = ['title' => $statusTip, 'class' => 'hasTooltip'];
+				$icon       = '<span class="icon-' . $iconClass . '"></span>';
+				$url        = Uri::base() . "?option=com_thm_organizer&task=participants.toggle";
+				$url        .= "&courseID=$courseID&participantID=$item->id&attribute=status";
+
+				$item->status = Helpers\HTML::_('link', $url, $icon, $attributes);
+
 
 				$item->attended = $this->getAssocToggle(
-					'courses',
+					'participants',
 					'courseID',
 					$courseID,
 					'participantID',
@@ -248,7 +251,7 @@ class Participants extends ListView
 				);
 
 				$item->paid = $this->getAssocToggle(
-					'courses',
+					'participants',
 					'courseID',
 					$courseID,
 					'participantID',
