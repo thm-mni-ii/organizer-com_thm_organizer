@@ -24,8 +24,6 @@ use Organizer\Helpers\Languages;
  */
 class Groups extends ListView
 {
-	public $batch;
-
 	protected $rowStructure = [
 		'checkbox' => '',
 		'fullName' => 'link',

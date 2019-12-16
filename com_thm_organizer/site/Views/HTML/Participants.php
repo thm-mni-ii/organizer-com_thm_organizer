@@ -10,7 +10,10 @@
 
 namespace Organizer\Views\HTML;
 
+use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers as Helpers;
 
 /**
@@ -35,31 +38,90 @@ class Participants extends ListView
 	 */
 	protected function addToolBar()
 	{
+		$isSite             = $this->clientContext !== self::BACKEND;
+		$courseID           = Helpers\Input::getFilterID('course');
+		$courseParticipants = ($courseID and $isSite);
+
 		$title = Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
-		if ($this->clientContext !== self::BACKEND)
+		if ($courseParticipants)
 		{
-			if ($courseID = Helpers\Input::getFilterID('course'))
-			{
-				$title .= ': ' . Helpers\Courses::getName($courseID);
-			}
-			elseif ($instanceID = Helpers\Input::getFilterID('course'))
-			{
-				$title .= ': ' . Helpers\Instances::getName($courseID);
-			}
+			$teaches = Helpers\Courses::teaches($courseID);
+			$title   .= ': ' . Helpers\Courses::getName($courseID);
+		}
+		else
+		{
+			$teaches = false;
 		}
 
 		Helpers\HTML::setTitle($title, 'users');
 
-		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton(
-			'Standard',
-			'edit',
-			Helpers\Languages::_('THM_ORGANIZER_EDIT'),
-			'participants.edit',
-			true
-		);
+		$admin       = Helpers\Can::administrate();
+		$coordinates = $courseID ? Helpers\Courses::coordinates($courseID) : false;
+		$toolbar     = Toolbar::getInstance();
 
-		if (Helpers\Can::administrate())
+		if ($admin or $coordinates)
+		{
+			$toolbar->appendButton(
+				'Standard',
+				'edit',
+				Helpers\Languages::_('THM_ORGANIZER_EDIT'),
+				'participants.edit',
+				true
+			);
+		}
+
+		if ($courseParticipants)
+		{
+			$toolbar->appendButton(
+				'Standard',
+				'signup',
+				Helpers\Languages::_('THM_ORGANIZER_ACCEPT'),
+				'participants.accept',
+				true
+			);
+
+			$toolbar->appendButton(
+				'Standard',
+				'list-3',
+				Helpers\Languages::_('THM_ORGANIZER_PLACE_WAIT_LIST'),
+				'participants.wait',
+				true
+			);
+
+			if ($admin or $coordinates or $teaches)
+			{
+				$toolbar->appendButton(
+					'Confirm',
+					Helpers\Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+					'delete',
+					Helpers\Languages::_('THM_ORGANIZER_DELETE'),
+					'participants.delete',
+					true
+				);
+			}
+
+			$if          = "alert('" . Helpers\Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING') . "');";
+			$else        = "jQuery('#modal-circular').modal('show'); return true;";
+			$script      = 'onclick="if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}"';
+			$batchButton = '<button id="group-publishing" data-toggle="modal" class="btn btn-small" ' . $script . '>';
+
+			$title       = Helpers\Languages::_('THM_ORGANIZER_MAIL');
+			$batchButton .= '<span class="icon-envelope" title="' . $title . '"></span>' . " $title";
+
+			$batchButton .= '</button>';
+
+			$toolbar->appendButton('Custom', $batchButton, 'batch');
+
+			$toolbar->appendButton(
+				'Standard',
+				'tags',
+				Helpers\Languages::_('THM_ORGANIZER_BADGE_SHEETS'),
+				'participants.printBadges',
+				true
+			);
+		}
+
+		if ($admin)
 		{
 			$toolbar->appendButton(
 				'Standard',
@@ -78,9 +140,40 @@ class Participants extends ListView
 	 */
 	protected function allowAccess()
 	{
-		$courseID = Helpers\Input::getFilterID('course', 0);
+		if ($courseID = Helpers\Input::getFilterID('course'))
+		{
+			return Helpers\Can::manage('course', $courseID);
+		}
 
-		return Helpers\Can::manage('course', $courseID);
+		return Helpers\Can::administrate();
+	}
+
+	/**
+	 * Method to create a list output
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function display($tpl = null)
+	{
+		// Set batch template path
+		$this->batch = ['batch_circular'];
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Modifies document variables and adds links to external files
+	 *
+	 * @return void
+	 */
+	protected function modifyDocument()
+	{
+		parent::modifyDocument();
+
+		Factory::getDocument()->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/modal.css');
 	}
 
 	/**

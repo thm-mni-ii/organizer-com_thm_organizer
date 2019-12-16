@@ -26,6 +26,8 @@ abstract class ListView extends BaseHTMLView
 
 	public $activeFilters = null;
 
+	public $batch = [];
+
 	public $filterForm = null;
 
 	/**
@@ -126,8 +128,7 @@ abstract class ListView extends BaseHTMLView
 		$currentValue,
 		$tip,
 		$attribute = null
-	)
-	{
+	) {
 		$url = Uri::base() . "?option=com_thm_organizer&task=$controller.toggle";
 		$url .= "&$columnOne=$valueOne&$columnTwo=$valueTwo";
 		$url .= $attribute ? "&attribute=$attribute" : '';
