@@ -21,13 +21,13 @@ class CourseParticipants extends ResourceHelper
 	const UNREGISTERED = null;
 
 	/**
-	 * Retrieves the participant state for the given course
+	 * Retrieves the participant's state for the given course
 	 *
 	 * @param   int  $courseID       the course id
 	 * @param   int  $eventID        the id of the specific course event
 	 * @param   int  $participantID  the id of the participant
 	 *
-	 * @return  mixed int (0 - pending or 1- accepted) if the user has registered for the course, otherwise null
+	 * @return  mixed int if the user has a course participant state, otherwise null
 	 */
 	public static function getState($courseID, $eventID, $participantID)
 	{

@@ -14,7 +14,7 @@ namespace Organizer\Layouts\PDF;
 require_once 'course_export.php';
 
 /**
- * Class generates sheets of participant badges based on the registered participants.
+ * Class generates sheets of participant badges based on the participants.
  */
 class Badges extends CourseExport
 {

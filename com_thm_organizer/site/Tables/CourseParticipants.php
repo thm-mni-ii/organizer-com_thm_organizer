@@ -64,7 +64,7 @@ class CourseParticipants extends BaseTable
 	public $participantID;
 
 	/**
-	 * The participant's course status. Values: 0 - Pending, 1 - Registered.
+	 * The participant's course status. Values: 0 - Pending, 1 - Accepted.
 	 * TINYINT(1) UNSIGNED DEFAULT 0
 	 *
 	 * @var int

@@ -45,12 +45,12 @@ class Units extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a unit's teacher.
+	 * Check if person is associated with a unit as a teacher.
 	 *
 	 * @param   int  $unitID    the optional id of the unit
 	 * @param   int  $personID  the optional id of the person
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the person is a unit teacher, otherwise false
 	 */
 	public static function teaches($unitID = 0, $personID = 0)
 	{

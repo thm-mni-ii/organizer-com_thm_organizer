@@ -12,7 +12,7 @@
 namespace Organizer\Layouts\PDF;
 
 /**
- * Class generates statistics of registered participants by department and degree program.
+ * Class generates statistics of course participants by department and degree program.
  */
 class DepartmentParticipants extends CourseExport
 {

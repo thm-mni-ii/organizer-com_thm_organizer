@@ -113,7 +113,7 @@ trait CourseParticipants
 			{
 				$currentState = Helpers\CourseParticipants::getState($courseID, $eventID, $participantID);
 
-				$msg = $currentState ? 'THM_ORGANIZER_REGISTRATION_REGISTERED' : 'THM_ORGANIZER_REGISTRATION_WAIT';
+				$msg = $currentState ? 'THM_ORGANIZER_REGISTRATION_ACCEPTED' : 'THM_ORGANIZER_REGISTRATION_WAIT';
 				Helpers\OrganizerHelper::message($msg);
 			}
 		}

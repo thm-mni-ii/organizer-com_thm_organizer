@@ -396,7 +396,7 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_course_participants` (
     `courseID`        INT(11) UNSIGNED NOT NULL,
     `participantID`   INT(11)          NOT NULL,
     `participantDate` DATETIME            DEFAULT NULL COMMENT 'The last date of participant action.',
-    `status`          TINYINT(1) UNSIGNED DEFAULT 0 COMMENT 'Possible values: 0 - pending, 1 - registered',
+    `status`          TINYINT(1) UNSIGNED DEFAULT 0 COMMENT 'Possible values: 0 - pending, 1 - accepted',
     `statusDate`      DATETIME            DEFAULT NULL COMMENT 'The last date of status action.',
     `attended`        TINYINT(1) UNSIGNED DEFAULT 0 COMMENT 'Possible values: 0 - unattended, 1 - attended',
     `paid`            TINYINT(1) UNSIGNED DEFAULT 0 COMMENT 'Possible values: 0 - unpaid, 1 - paid',

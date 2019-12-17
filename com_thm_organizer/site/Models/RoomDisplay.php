@@ -328,7 +328,7 @@ class RoomDisplay extends BaseModel
 	}
 
 	/**
-	 * Checks whether the accessing agent is a registered monitor
+	 * Checks whether the accessing agent is a monitor
 	 *
 	 * @return void sets instance variables
 	 */

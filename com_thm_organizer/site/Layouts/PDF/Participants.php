@@ -12,7 +12,7 @@
 namespace Organizer\Layouts\PDF;
 
 /**
- * Class generates a list of participants based on the registered participants.
+ * Displays a list of participant entries.
  */
 class Participants extends CourseExport
 {

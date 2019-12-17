@@ -485,7 +485,7 @@ class EventList extends FormModel
 	}
 
 	/**
-	 * Checks whether the accessing agent is a registered monitor
+	 * Checks whether the accessing agent is a monitor
 	 *
 	 * @return mixed  int roomID on success, otherwise boolean false
 	 */
@@ -647,7 +647,6 @@ class EventList extends FormModel
 	 */
 	private function setRooms()
 	{
-		// Registered room(s) would have already been set
 		if (empty($this->rooms))
 		{
 			$invalidSelection = (

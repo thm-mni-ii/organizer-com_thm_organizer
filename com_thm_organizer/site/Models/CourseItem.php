@@ -306,7 +306,7 @@ class CourseItem extends ItemModel
 			if ($course['registrationStatus'] !== self::UNREGISTERED)
 			{
 				$course['registrationText'] = $course['registrationStatus'] ?
-					Languages::_($option . 'REGISTRATION_REGISTERED') : Languages::_($option . 'REGISTRATION_WAIT');
+					Languages::_($option . 'REGISTRATION_ACCEPTED') : Languages::_($option . 'REGISTRATION_WAIT');
 			}
 			else
 			{

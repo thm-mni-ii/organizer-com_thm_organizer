@@ -22,8 +22,8 @@ $participantListRoute = Route::_($baseURL . 0, false);
 $departmentListRoute  = Route::_($baseURL . 1, false);
 $badgesRoute          = Route::_($baseURL . 2, false);
 
-$registeredText = Languages::_('THM_ORGANIZER_REGISTERED');
-$waitListText   = Languages::_('THM_ORGANIZER_WAIT_LIST');
+$acceptedText = Languages::_('THM_ORGANIZER_ACCEPTED');
+$waitListText = Languages::_('THM_ORGANIZER_WAIT_LIST');
 
 $params     = OrganizerHelper::getParams();
 $dateFormat = $params->get('dateFormat', 'd.m.Y') . ' ';
@@ -110,7 +110,7 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
                 <td><?php echo $participant['name']; ?></td>
                 <td><?php echo $participant['program']; ?></td>
                 <td><?php echo $participant['email']; ?></td>
-                <td><?php echo $participant['status'] ? $registeredText : $waitListText; ?></td>
+                <td><?php echo $participant['status'] ? $acceptedText : $waitListText; ?></td>
                 <td><?php echo HTML::_('date', $participant['status_date'], $dateFormat); ?></td>
             </tr>
 		<?php endforeach; ?>

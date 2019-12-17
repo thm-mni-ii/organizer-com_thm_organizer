@@ -19,12 +19,12 @@ use Organizer\Tables\Subjects as SubjectsTable;
 class Subjects extends ResourceHelper implements Selectable
 {
 	/**
-	 * Check if user is registered as a subject's coordinator.
+	 * Check if user one of the subject's coordinators.
 	 *
 	 * @param   int  $subjectID  the optional id of the subject
 	 * @param   int  $personID   the optional id of the person entry
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user is a coordinator, otherwise false
 	 */
 	public static function coordinates($subjectID = 0, $personID = 0)
 	{
@@ -352,12 +352,12 @@ class Subjects extends ResourceHelper implements Selectable
 	}
 
 	/**
-	 * Check if user is registered as a subject's teacher.
+	 * Check if the user is one of the subject's teachers.
 	 *
 	 * @param   int  $subjectID  the optional id of the subject
 	 * @param   int  $personID   the optional id of the person entry
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user a teacher for the subject, otherwise false
 	 */
 	public static function teaches($subjectID = 0, $personID = 0)
 	{

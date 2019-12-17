@@ -19,18 +19,15 @@ use Organizer\Tables\Courses as CoursesTable;
  */
 class Courses extends ResourceHelper
 {
-	// Registration status codes
-	const UNREGISTERED = null;
-
 	// RoleIDs
 	const TEACHER = 1, TUTOR = 2, SUPERVISOR = 3, SPEAKER = 4;
 
 	/**
-	 * Check if user is registered as a course's coordinator.
+	 * Check if the user is a course coordinator.
 	 *
 	 * @param   int  $courseID  the optional id of the course
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user is a coordinator, otherwise false
 	 */
 	public static function coordinates($courseID = 0)
 	{
@@ -206,10 +203,10 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Get list of registered participants in specific course
+	 * Gets an array of participant IDs for a given course, optionally filtered by the participant's status
 	 *
-	 * @param   int  $courseID  identifier of course
-	 * @param   int  $status    status of participants (1 registered, 0 waiting)
+	 * @param   int  $courseID  the course id
+	 * @param   int  $status    the participant status
 	 *
 	 * @return array list of participants in course
 	 */
@@ -224,18 +221,14 @@ class Courses extends ResourceHelper
 		$tag   = Languages::getTag();
 		$query = $dbo->getQuery(true);
 
-		$query->select("pt.*, us.name AS usersName, us.email, us.username, pr.name_$tag as program")
-			->select('CONCAT(pt.surname, ", ", pt.forename) AS name')
-			->from('#__thm_organizer_course_participants AS cp')
-			->innerJoin('#__thm_organizer_participants as pt on pt.id = cp.participantID')
-			->innerJoin('#__users as us on us.id = pt.id')
-			->leftJoin('#__thm_organizer_programs as pr on pr.id = pt.programID')
-			->where("cp.courseID = '$courseID'")
-			->order('name ASC');
+		$query->select("participantID")
+			->from('#__thm_organizer_course_participants')
+			->where("courseID = $courseID")
+			->order('participantID ASC');
 
 		if ($status !== null and is_numeric($status))
 		{
-			$query->where("cp.status = '$status'");
+			$query->where("status = $status");
 		}
 
 		$dbo->setQuery($query);
@@ -319,13 +312,13 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a person with a course responsibility.
+	 * Check if user has a course responsibility.
 	 *
 	 * @param   int  $courseID  the optional id of the course
 	 * @param   int  $personID  the optional id of the person
 	 * @param   int  $roleID    the optional if of the person's role
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user has a course responsibility, otherwise false
 	 */
 	public static function hasResponsibility($courseID = 0, $personID = 0, $roleID = 0)
 	{
@@ -431,12 +424,12 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a course's speaker.
+	 * Check if user is a speaker.
 	 *
 	 * @param   int  $courseID  the optional id of the course
 	 * @param   int  $personID  the optional id of the person
 	 *
-	 * @return boolean true if the user registered as a speaker, otherwise false
+	 * @return boolean true if the user is a speaker, otherwise false
 	 */
 	public static function speaks($courseID = 0, $personID = 0)
 	{
@@ -444,12 +437,12 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a course's supervisor.
+	 * Check if user a course supervisor.
 	 *
 	 * @param   int  $courseID  the optional id of the course
 	 * @param   int  $personID  the optional id of the person
 	 *
-	 * @return boolean true if the user registered as a supervisor, otherwise false
+	 * @return boolean true if the user is a supervisor, otherwise false
 	 */
 	public static function supervises($courseID = 0, $personID = 0)
 	{
@@ -457,12 +450,12 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a course's teacher.
+	 * Check if user is a course teacher.
 	 *
 	 * @param   int  $courseID  the optional id of the course
 	 * @param   int  $personID  the optional id of the person
 	 *
-	 * @return boolean true if the user registered as a teacher, otherwise false
+	 * @return boolean true if the user is a course teacher, otherwise false
 	 */
 	public static function teaches($courseID = 0, $personID = 0)
 	{
@@ -470,12 +463,12 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a course's tutor.
+	 * Check if user is a course tutor.
 	 *
 	 * @param   int  $courseID  the optional id of the course
 	 * @param   int  $personID  the optional id of the person
 	 *
-	 * @return boolean true if the user registered as a tutor, otherwise false
+	 * @return boolean true if the user is a tutor, otherwise false
 	 */
 	public static function tutors($courseID = 0, $personID = 0)
 	{
@@ -608,7 +601,7 @@ class Courses extends ResourceHelper
 //    }
 //
 //    /**
-//     * Might move users from state waiting to registered
+//     * Might move users from state pending to accepted
 //     *
 //     * @param int $courseID lesson id of lesson where participants have to be moved up
 //     *

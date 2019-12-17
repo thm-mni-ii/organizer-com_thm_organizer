@@ -133,13 +133,20 @@ class ScheduleItem extends BaseHTMLView
 			'username'        => $user->id ? $user->username : ''
 		];
 
-		if ($variables['registered'] = $user->id)
+		if ($user->email)
 		{
-			$variables['auth']     = urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT));
-			$variables['username'] = $user->username;
+			$domain = substr($user->email, strpos($user->email, '@'));
+			if (empty($this->emailFilter) or strpos($domain, $this->emailFilter) !== false)
+			{
+				$variables['userID']   = $user->id;
+				$variables['auth']     = urlencode(password_hash($user->email . $user->registerDate, PASSWORD_BCRYPT));
+				$variables['username'] = $user->username;
+			}
 		}
-		else
+
+		if (empty($variables['userID']))
 		{
+			$variables['userID']   = 0;
 			$variables['auth']     = '';
 			$variables['username'] = '';
 		}
@@ -158,16 +165,6 @@ class ScheduleItem extends BaseHTMLView
 			if ($grid['defaultGrid'])
 			{
 				$this->params['defaultGrid'] = $gridString;
-			}
-		}
-
-		$variables['internalUser'] = false;
-		if ($user->email)
-		{
-			$atSignPos = strpos($user->email, '@');
-			if (empty($this->emailFilter) or strpos($user->email, $this->emailFilter, $atSignPos) !== false)
-			{
-				$variables['internalUser'] = true;
 			}
 		}
 

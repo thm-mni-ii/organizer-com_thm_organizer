@@ -23,21 +23,21 @@ use Organizer\Tables\CourseParticipants as CourseParticipantsTable;
  */
 class CourseParticipant extends BaseModel
 {
-	const PENDING = 0, REGISTERED = 1;
+	const ACCEPTED = 1, PAID = 1, PENDING = 0;
 
 	/**
-	 * Sets the status for the course participant to registered
+	 * Sets the status for the course participant to accepted
 	 *
 	 * @return bool true on success, otherwise false
 	 * @throws Exception invalid / unauthorized access
 	 */
 	public function accept()
 	{
-		return $this->batch('status', self::REGISTERED);
+		return $this->batch('status', self::ACCEPTED);
 	}
 
 	/**
-	 * Sets the status for the course participant to registered
+	 * Sets the property the given property to the given value for the selected participants.
 	 *
 	 * @param   string  $property  the property to update
 	 * @param   int     $value     the new value for the property
@@ -201,6 +201,17 @@ class CourseParticipant extends BaseModel
 	}
 
 	/**
+	 * Sets the payment status to paid.
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception invalid / unauthorized access
+	 */
+	public function receivePayment()
+	{
+		return $this->batch('paid', self::PAID);
+	}
+
+	/**
 	 * Toggles binary attributes of the course participant association.
 	 *
 	 * @return bool true on success, otherwise false
@@ -235,16 +246,5 @@ class CourseParticipant extends BaseModel
 		$table->$attribute = !$table->$attribute;
 
 		return $table->store();
-	}
-
-	/**
-	 * Sets the status for the course participant to registered
-	 *
-	 * @return bool true on success, otherwise false
-	 * @throws Exception invalid / unauthorized access
-	 */
-	public function wait()
-	{
-		return $this->batch('status', self::PENDING);
 	}
 }

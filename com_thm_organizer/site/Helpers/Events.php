@@ -18,12 +18,12 @@ use Joomla\CMS\Factory;
 class Events extends ResourceHelper
 {
 	/**
-	 * Check if user is registered as a subject's coordinator.
+	 * Check if user is a subject coordinator.
 	 *
 	 * @param   int  $eventID   the optional id of the subject
 	 * @param   int  $personID  the optional id of the person entry
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user is a coordinator, otherwise false
 	 */
 	public static function coordinates($eventID = 0, $personID = 0)
 	{
@@ -70,12 +70,12 @@ class Events extends ResourceHelper
 	}
 
 	/**
-	 * Check if user is registered as a subject's teacher.
+	 * Check if user is a subject teacher.
 	 *
 	 * @param   int  $eventID   the optional id of the subject
 	 * @param   int  $personID  the optional id of the person entry
 	 *
-	 * @return boolean true if the user registered as a coordinator, otherwise false
+	 * @return boolean true if the user is a teacher, otherwise false
 	 */
 	public static function teaches($eventID = 0, $personID = 0)
 	{

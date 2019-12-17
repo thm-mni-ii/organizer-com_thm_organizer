@@ -256,11 +256,12 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 	}
 
 	/**
-	 * Checks whether the user is a registered person returning their internal person id if existent.
+	 * Checks whether the user has an associated person resource by their username, returning the id of the person
+	 * entry if existent.
 	 *
 	 * @param   int  $userID  the user id if empty the current user is used
 	 *
-	 * @return int the person id if the user is a person, otherwise 0
+	 * @return int the id of the person entry if existent, otherwise 0
 	 */
 	public static function getIDByUserID($userID = null)
 	{
