@@ -586,7 +586,7 @@ class ScheduleListA3 extends ScheduleList
 	{
 		$this->document->AddPage();
 
-		$this->document->SetFont('helvetica', '', 10, '', 'default', true);
+		$this->document->SetFont('helvetica', '', 10, '');
 		$this->document->SetLineStyle([
 			'width' => 0.5,
 			'cap'   => 'butt',
@@ -647,7 +647,7 @@ class ScheduleListA3 extends ScheduleList
 		$this->document->Ln();
 
 		// Reset font after header
-		$this->document->SetFont('helvetica', '', 6, '', 'default', true);
+		$this->document->SetFont('helvetica', '', 6, '');
 	}
 
 	/**
@@ -670,8 +670,7 @@ class ScheduleListA3 extends ScheduleList
 		$startDate,
 		$breakDate,
 		$rowHeader = null
-	)
-	{
+	) {
 		// Less one because of the line count index
 		$lastRowNumber = $resourceCells['rowCount'];
 		$rowNumber     = 1;
@@ -882,8 +881,7 @@ class ScheduleListA3 extends ScheduleList
 		$startDate,
 		$breakDate,
 		$rowHeader = null
-	)
-	{
+	) {
 		// Less one because of the line count index
 		$lastRowNumber = count($rowCells) - 1;
 		$rowNumber     = 1;

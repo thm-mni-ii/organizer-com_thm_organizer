@@ -84,6 +84,50 @@ trait CourseParticipants
 	}
 
 	/**
+	 * Accepts the selected participants into the course.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function confirmAttendance()
+	{
+		$model = new CourseParticipant;
+
+		if ($model->confirmAttendance())
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
+		}
+		else
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+		}
+
+		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
+	}
+
+	/**
+	 * Accepts the selected participants into the course.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function confirmPayment()
+	{
+		$model = new CourseParticipant;
+
+		if ($model->receivePayment())
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
+		}
+		else
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+		}
+
+		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
+	}
+
+	/**
 	 * De-/registers a participant from/to a course.
 	 *
 	 * @return void
@@ -120,6 +164,28 @@ trait CourseParticipants
 		else
 		{
 			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+		}
+
+		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
+	}
+
+	/**
+	 * Accepts the selected participants into the course.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function remove()
+	{
+		$model = new CourseParticipant;
+
+		if ($model->remove())
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_REMOVE_SUCCESS', 'success');
+		}
+		else
+		{
+			Helpers\OrganizerHelper::message('THM_ORGANIZER_REMOVE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));

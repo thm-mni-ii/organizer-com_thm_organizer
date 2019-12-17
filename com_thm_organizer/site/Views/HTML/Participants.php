@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers as Helpers;
+use Organizer\Helpers\HTML;
 
 /**
  * Class loads persistent information a filtered set of course participants into the display context.
@@ -28,7 +29,8 @@ class Participants extends ListView
 		'programName' => 'value',
 		'status'      => 'value',
 		'paid'        => 'value',
-		'attended'    => 'value'
+		'attended'    => 'value',
+		'tools'       => 'value'
 	];
 
 	/**
@@ -80,11 +82,22 @@ class Participants extends ListView
 				true
 			);
 
+			if ($admin or $coordinates)
+			{
+				$toolbar->appendButton(
+					'Standard',
+					'info-euro',
+					Helpers\Languages::_('THM_ORGANIZER_CONFIRM_PAYMENT'),
+					'participants.confirmPayment',
+					true
+				);
+			}
+
 			$toolbar->appendButton(
 				'Standard',
-				'clock',
-				Helpers\Languages::_('THM_ORGANIZER_PLACE_WAIT_LIST'),
-				'participants.wait',
+				'checkbox-checked',
+				Helpers\Languages::_('THM_ORGANIZER_CONFIRM_ATTENDANCE'),
+				'participants.confirmAttendance',
 				true
 			);
 
@@ -93,9 +106,9 @@ class Participants extends ListView
 				$toolbar->appendButton(
 					'Confirm',
 					Helpers\Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
-					'delete',
+					'user-minus',
 					Helpers\Languages::_('THM_ORGANIZER_DELETE'),
-					'participants.delete',
+					'participants.remove',
 					true
 				);
 			}
@@ -103,7 +116,7 @@ class Participants extends ListView
 			$if          = "alert('" . Helpers\Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING') . "');";
 			$else        = "jQuery('#modal-circular').modal('show'); return true;";
 			$script      = 'onclick="if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}"';
-			$batchButton = '<button id="group-publishing" data-toggle="modal" class="btn btn-small" ' . $script . '>';
+			$batchButton = '<button id="participant-mail" data-toggle="modal" class="btn btn-small" ' . $script . '>';
 
 			$title       = Helpers\Languages::_('THM_ORGANIZER_MAIL');
 			$batchButton .= '<span class="icon-envelope" title="' . $title . '"></span>' . " $title";
@@ -111,14 +124,6 @@ class Participants extends ListView
 			$batchButton .= '</button>';
 
 			$toolbar->appendButton('Custom', $batchButton, 'batch');
-
-			$toolbar->appendButton(
-				'Standard',
-				'tags',
-				Helpers\Languages::_('THM_ORGANIZER_BADGE_SHEETS'),
-				'participants.printBadges',
-				true
-			);
 		}
 
 		if ($admin)
@@ -197,6 +202,7 @@ class Participants extends ListView
 			$headers['status']   = Helpers\HTML::sort('STATUS', 'status', $direction, $ordering);
 			$headers['paid']     = Helpers\HTML::sort('PAID', 'paid', $direction, $ordering);
 			$headers['attended'] = Helpers\HTML::sort('ATTENDED', 'attended', $direction, $ordering);
+			$headers['tools']    = '';
 		}
 
 		$this->headers = $headers;
@@ -220,24 +226,16 @@ class Participants extends ListView
 
 			if ($setCourseToggles)
 			{
-				if ($item->status)
-				{
-					$iconClass = 'signup';
-					$statusTip = Helpers\Languages::_('THM_ORGANIZER_ACCEPTED');
-				}
-				else
-				{
-					$iconClass = 'clock';
-					$statusTip = Helpers\Languages::_('THM_ORGANIZER_WAIT_LIST');
-				}
-
-				$attributes = ['title' => $statusTip, 'class' => 'hasTooltip'];
-				$icon       = '<span class="icon-' . $iconClass . '"></span>';
-				$url        = Uri::base() . "?option=com_thm_organizer&task=participants.toggle";
-				$url        .= "&courseID=$courseID&participantID=$item->id&attribute=status";
-
-				$item->status = Helpers\HTML::_('link', $url, $icon, $attributes);
-
+				$item->status = $this->getAssocToggle(
+					'participants',
+					'courseID',
+					$courseID,
+					'participantID',
+					$item->id,
+					$item->status,
+					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_ACCEPTED'),
+					'status'
+				);
 
 				$item->attended = $this->getAssocToggle(
 					'participants',
@@ -260,6 +258,17 @@ class Participants extends ListView
 					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_PAID'),
 					'paid'
 				);
+
+				$attributes = [
+					'class'  => 'hasTooltip',
+					'target' => '_blank',
+					'title'  => Helpers\Languages::_('THM_ORGANIZER_PRINT_BADGE')
+				];
+				$icon       = '<span class="icon-tags"></span>';
+				$url        = Uri::base() . '?option=com_thm_organizer&view=badges&format=pdf';
+				$url        .= "&courseID=$courseID&participantID=$item->id";
+
+				$item->tools = HTML::_('link', $url, $icon, $attributes);
 			}
 
 			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);

@@ -112,14 +112,14 @@ abstract class CourseExport
 		$subHeader        = "$location$dates\n$participants: $participantCount";
 
 		$this->document->SetHeaderData('thm_logo.png', '50', $header, $subHeader);
-		$this->document->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
-		$this->document->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
+		$this->document->SetHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+		$this->document->SetFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
 		$this->document->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 		$this->document->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 		$this->document->SetHeaderMargin(PDF_MARGIN_HEADER);
 		$this->document->SetFooterMargin(PDF_MARGIN_FOOTER);
 		$this->document->SetAutoPageBreak(true, 0);
-		$this->document->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		$this->document->SetImageScale(PDF_IMAGE_SCALE_RATIO);
 		$this->document->SetFont('', '', 10);
 	}
 

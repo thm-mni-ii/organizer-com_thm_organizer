@@ -168,7 +168,7 @@ class ScheduleListA4 extends ScheduleList
 			$this->outputHeader($columnHeaders, $startDate, $breakDate, true);
 		}
 
-		$this->document->SetFont('helvetica', '', 8, '', 'default', true);
+		$this->document->SetFont('helvetica', '', 8, '');
 
 		$rowHeight = 0;
 		foreach ($rowCells as $rowName => $row)
@@ -253,7 +253,7 @@ class ScheduleListA4 extends ScheduleList
 	{
 		$this->document->AddPage();
 
-		$this->document->SetFont('helvetica', '', 10, '', 'default', true);
+		$this->document->SetFont('helvetica', '', 10, '');
 		$this->document->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [0, 0, 0]]);
 
 		if ($outputTimeGrid)
@@ -293,7 +293,7 @@ class ScheduleListA4 extends ScheduleList
 		}
 
 		$this->document->Ln();
-		$this->document->SetFont('helvetica', '', 8, '', 'default', true);
+		$this->document->SetFont('helvetica', '', 8, '');
 	}
 
 	/**
@@ -382,7 +382,7 @@ class ScheduleListA4 extends ScheduleList
 				$originalY = $this->document->getY();
 			}
 
-			$this->document->SetFont('helvetica', '', 8, '', 'default', true);
+			$this->document->SetFont('helvetica', '', 8, '');
 
 			if (empty($rowCells))
 			{

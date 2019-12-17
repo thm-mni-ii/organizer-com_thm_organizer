@@ -151,23 +151,46 @@ class Courses extends ResourceHelper
 	 *
 	 * @return array the rooms in which the course takes place
 	 */
-	public static function getRooms($courseID)
+	public static function getGroups($courseID)
 	{
 		$dbo = Factory::getDbo();
 
 		$query = $dbo->getQuery('true');
-		$query->select("DISTINCT r.untisID")
-			->from('#__thm_organizer_rooms AS r')
-			->innerJoin('#__thm_organizer_instance_rooms AS ir ON ir.roomID = r.id')
-			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.id = ir.assocID')
+		$query->select("DISTINCT g.untisID")
+			->from('#__thm_organizer_groups AS g')
+			->innerJoin('#__thm_organizer_instance_groups AS ig ON ig.groupID = g.id')
+			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.id = ig.assocID')
 			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
 			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
-			->where("ir.delta != 'removed'")
+			->where("ig.delta != 'removed'")
 			->where("ip.delta != 'removed'")
 			->where("i.delta != 'removed'")
 			->where("u.delta != 'removed'")
 			->where("u.courseID = $courseID")
-			->order('r.name');
+			->order('g.untisID');
+
+		$dbo->setQuery($query);
+
+		return OrganizerHelper::executeQuery('loadColumn', []);
+	}
+
+	/**
+	 * Gets instances associated with the given course.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return array the instances which are a part of the course
+	 */
+	public static function getInstances($courseID)
+	{
+		$dbo = Factory::getDbo();
+
+		$query = $dbo->getQuery('true');
+		$query->select("DISTINCT i.id")
+			->from('#__thm_organizer_instances AS i')
+			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
+			->where("u.courseID = $courseID")
+			->order('i.id');
 
 		$dbo->setQuery($query);
 
@@ -288,23 +311,23 @@ class Courses extends ResourceHelper
 	 *
 	 * @return array the rooms in which the course takes place
 	 */
-	public static function getGroups($courseID)
+	public static function getRooms($courseID)
 	{
 		$dbo = Factory::getDbo();
 
 		$query = $dbo->getQuery('true');
-		$query->select("DISTINCT g.untisID")
-			->from('#__thm_organizer_groups AS g')
-			->innerJoin('#__thm_organizer_instance_groups AS ig ON ig.groupID = g.id')
-			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.id = ig.assocID')
+		$query->select("DISTINCT r.untisID")
+			->from('#__thm_organizer_rooms AS r')
+			->innerJoin('#__thm_organizer_instance_rooms AS ir ON ir.roomID = r.id')
+			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.id = ir.assocID')
 			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
 			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
-			->where("ig.delta != 'removed'")
+			->where("ir.delta != 'removed'")
 			->where("ip.delta != 'removed'")
 			->where("i.delta != 'removed'")
 			->where("u.delta != 'removed'")
 			->where("u.courseID = $courseID")
-			->order('g.untisID');
+			->order('r.name');
 
 		$dbo->setQuery($query);
 

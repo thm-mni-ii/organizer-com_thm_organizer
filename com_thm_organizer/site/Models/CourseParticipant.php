@@ -16,6 +16,7 @@ use Exception;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Input;
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Tables\CourseParticipants as CourseParticipantsTable;
 
 /**
@@ -23,7 +24,7 @@ use Organizer\Tables\CourseParticipants as CourseParticipantsTable;
  */
 class CourseParticipant extends BaseModel
 {
-	const ACCEPTED = 1, PAID = 1, PENDING = 0;
+	const ACCEPTED = 1, ATTENDED = 1, PAID = 1;
 
 	/**
 	 * Sets the status for the course participant to accepted
@@ -185,6 +186,28 @@ class CourseParticipant extends BaseModel
 	}
 
 	/**
+	 * Sets the status for the course participant to attended
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception invalid / unauthorized access
+	 */
+	public function confirmAttendance()
+	{
+		return $this->batch('attended', self::ATTENDED);
+	}
+
+	/**
+	 * Sets the payment status to paid.
+	 *
+	 * @return bool true on success, otherwise false
+	 * @throws Exception invalid / unauthorized access
+	 */
+	public function confirmPayment()
+	{
+		return $this->batch('paid', self::PAID);
+	}
+
+	/**
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @param   string  $name     The table name. Optional.
@@ -206,9 +229,53 @@ class CourseParticipant extends BaseModel
 	 * @return bool true on success, otherwise false
 	 * @throws Exception invalid / unauthorized access
 	 */
-	public function receivePayment()
+	public function remove()
 	{
-		return $this->batch('paid', self::PAID);
+		if (!$courseID = Input::getInt('courseID') or !$participantIDs = Input::getSelectedIDs())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+		}
+
+		if (!Can::manage('course', $courseID))
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+		}
+
+		$instances = Courses::getInstances();
+
+		foreach ($participantIDs as $participantID)
+		{
+			if (!Can::manage('participant', $participantID))
+			{
+				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			}
+
+			$table = $this->getTable();
+
+			if (!$table->load(['courseID' => $courseID, 'participantID' => $participantID]))
+			{
+				return false;
+			}
+
+			if (!$table->delete())
+			{
+				return false;
+			}
+
+
+			$query = $this->_db->getQuery('true');
+			$query->select("DISTINCT i.id")
+				->from('#__thm_organizer_instances AS i')
+				->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
+				->where("u.courseID = $courseID")
+				->order('i.id');
+
+			$this->_db->setQuery($query);
+
+			return OrganizerHelper::executeQuery('loadColumn', []);
+		}
+
+		return true;
 	}
 
 	/**

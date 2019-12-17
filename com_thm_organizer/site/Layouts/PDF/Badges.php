@@ -34,8 +34,8 @@ class Badges extends CourseExport
 		$exportType = Languages::_('THM_ORGANIZER_BADGE_SHEETS');
 		$this->setNames($exportType);
 
-		$this->document->setPrintHeader(false);
-		$this->document->setPrintFooter(false);
+		$this->document->SetPrintHeader(false);
+		$this->document->SetPrintFooter(false);
 		$this->document->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 		$this->document->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 		$this->document->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
