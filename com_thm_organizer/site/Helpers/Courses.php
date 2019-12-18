@@ -241,7 +241,6 @@ class Courses extends ResourceHelper
 		}
 
 		$dbo   = Factory::getDbo();
-		$tag   = Languages::getTag();
 		$query = $dbo->getQuery(true);
 
 		$query->select("participantID")
@@ -256,7 +255,7 @@ class Courses extends ResourceHelper
 
 		$dbo->setQuery($query);
 
-		return OrganizerHelper::executeQuery('loadAssocList', []);
+		return OrganizerHelper::executeQuery('loadColumn', []);
 	}
 
 	/**
@@ -444,6 +443,30 @@ class Courses extends ResourceHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks if the course is a preparatory course.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return bool true if the course is expired, otherwise false
+	 */
+	public static function isPreparatory($courseID)
+	{
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+
+		$query->select('COUNT(*)')
+			->from('#__thm_organizer_units AS u')
+			->innerJoin('#__thm_organizer_instances AS i ON i.unitID = u.id')
+			->innerJoin('#__thm_organizer_events AS e ON e.id = i.eventID')
+			->where("u.courseID = $courseID")
+			->where('e.preparatory = 1');
+
+		$dbo->setQuery($query);
+
+		return (bool) OrganizerHelper::executeQuery('loadResult', 0);
 	}
 
 	/**

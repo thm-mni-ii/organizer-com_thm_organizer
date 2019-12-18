@@ -96,7 +96,8 @@ class Courses extends ListModel
 
 		if ($this->clientContext === self::FRONTEND and Input::getParams()->get('onlyPrepCourses'))
 		{
-			$query->where('c.termID = ' . TermsHelper::getPreviousID($this->state->get('filter.termID')));
+			$query->where('c.termID = ' . TermsHelper::getPreviousID($this->state->get('filter.termID')))
+				->where('e.preparatory = 1');
 		}
 		else
 		{

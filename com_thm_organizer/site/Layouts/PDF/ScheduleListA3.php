@@ -15,9 +15,17 @@ use Joomla\CMS\Factory;
 /**
  * Class generates a PDF file in A3 format.
  */
-class ScheduleListA3 extends ScheduleList
+class ScheduleListA3 extends BaseLayout
 {
 	private $resources;
+
+	/**
+	 * Performs initial construction of the TCPDF Object.
+	 */
+	public function __construct()
+	{
+		parent::__construct('l', 'mm', 'A3');
+	}
 
 	/**
 	 * Aggregates the disparate requested resources to a single array for ease of later iteration.
@@ -62,7 +70,7 @@ class ScheduleListA3 extends ScheduleList
 	 * @param   array &$lessons     the lessons to be displayed
 	 * @param   array  $grid        the lesson grid for use in display
 	 */
-	public function __construct($parameters, &$lessons, $grid = null)
+	public function x($parameters, &$lessons, $grid = null)
 	{
 		parent::__construct($parameters, $lessons, $grid);
 
@@ -103,7 +111,7 @@ class ScheduleListA3 extends ScheduleList
 		$this->parameters['timeWidth']     = 11;
 		$this->parameters['resourceWidth'] = 24;
 
-		$this->render();
+		$this->fill();
 	}
 
 	/**
@@ -111,7 +119,7 @@ class ScheduleListA3 extends ScheduleList
 	 *
 	 * @return array an array of border styles
 	 */
-	private function getCellBorder()
+	protected function getCellBorder()
 	{
 		return [
 			'R' => ['width' => '.1', 'color' => [223, 229, 230]],
@@ -128,11 +136,8 @@ class ScheduleListA3 extends ScheduleList
 	{
 		$orientation = $this->parameters['interval'] == 'day' ? 'p' : 'l';
 		$document    = new \THM_OrganizerTCPDFScheduleA3($orientation);
-		$document->SetCreator('THM Organizer');
-		$document->SetAuthor(Factory::getUser()->name);
 		$document->SetTitle($this->parameters['pageTitle']);
-		$document->SetMargins(5, 25, 5);
-		$document->setHeaderMargin(5);
+		$this->margins(5, 25, 5);
 
 		// This is here to access the bottom margin.
 		$document->setPageOrientation($orientation, false, '15');
@@ -946,92 +951,85 @@ class ScheduleListA3 extends ScheduleList
 }
 
 /**
- * Class extends TCPDF for ease of instantiation and customized header/footer.
+ * Constructs using the implementation of the parent class restricted to the relevant parameters.
+ *
+ * @param   string  $orientation  the page orientation 'p' => portrait, 'l' => landscape
  */
-class THM_OrganizerTCPDFScheduleA3 extends TCPDF
+/*public function __construct($orientation = 'l')
 {
+	parent::__construct($orientation, 'mm', 'A3');
+}*/
 
-	/**
-	 * Constructs using the implementation of the parent class restricted to the relevant parameters.
-	 *
-	 * @param   string  $orientation  the page orientation 'p' => portrait, 'l' => landscape
-	 */
-	public function __construct($orientation = 'l')
+//Page header
+/*public function Header()
+{
+	if ($this->header_xobjid === false)
 	{
-		parent::__construct($orientation, 'mm', 'A3');
+		// start a new XObject Template
+		$this->header_xobjid = $this->startTemplate($this->w, $this->tMargin);
+
+		$this->y = $this->header_margin;
+		$this->x = $this->original_lMargin;
+
+		$this->Image(K_PATH_IMAGES . 'thm_logo.png', 5, 5, 46, 15);
+
+		$headerFont  = $this->getHeaderFont();
+		$headerData  = $this->getHeaderData();
+		$cell_height = $this->getCellHeight($headerFont[2] / $this->k);
+
+		// set starting margin for text data cell
+		$header_x = 70;
+		$cw       = $this->w - $this->original_lMargin - $this->original_rMargin - 200;
+		$this->SetTextColorArray($this->header_text_color);
+
+		// Plan title
+		$this->SetFont($headerFont[0], 'B', $headerFont[2] + 1);
+		$this->SetX($header_x);
+		$this->Cell($cw, $cell_height, $headerData['title'], 0, 1, '', 0, '', 0);
+
+		// Plan format and date
+		$this->SetFont($headerFont[0], $headerFont[1], $headerFont[2]);
+		$this->SetX($header_x);
+		$this->MultiCell(
+			$cw,
+			$cell_height,
+			$headerData['string'],
+			0,
+			'',
+			0,
+			1,
+			'',
+			'',
+			true,
+			0,
+			false,
+			true,
+			0,
+			'T',
+			false
+		);
+
+		$this->endTemplate();
 	}
 
-	//Page header
-	public function Header()
+	// print header template
+	$this->printTemplate($this->header_xobjid, 0, 0, 0, 0, '', '', false);
+
+	// reset header xobject template at each page
+	if ($this->header_xobj_autoreset)
 	{
-		if ($this->header_xobjid === false)
-		{
-			// start a new XObject Template
-			$this->header_xobjid = $this->startTemplate($this->w, $this->tMargin);
-
-			$this->y = $this->header_margin;
-			$this->x = $this->original_lMargin;
-
-			$this->Image(K_PATH_IMAGES . 'thm_logo.png', 5, 5, 46, 15);
-
-			$headerFont  = $this->getHeaderFont();
-			$headerData  = $this->getHeaderData();
-			$cell_height = $this->getCellHeight($headerFont[2] / $this->k);
-
-			// set starting margin for text data cell
-			$header_x = 70;
-			$cw       = $this->w - $this->original_lMargin - $this->original_rMargin - 200;
-			$this->SetTextColorArray($this->header_text_color);
-
-			// Plan title
-			$this->SetFont($headerFont[0], 'B', $headerFont[2] + 1);
-			$this->SetX($header_x);
-			$this->Cell($cw, $cell_height, $headerData['title'], 0, 1, '', 0, '', 0);
-
-			// Plan format and date
-			$this->SetFont($headerFont[0], $headerFont[1], $headerFont[2]);
-			$this->SetX($header_x);
-			$this->MultiCell(
-				$cw,
-				$cell_height,
-				$headerData['string'],
-				0,
-				'',
-				0,
-				1,
-				'',
-				'',
-				true,
-				0,
-				false,
-				true,
-				0,
-				'T',
-				false
-			);
-
-			$this->endTemplate();
-		}
-
-		// print header template
-		$this->printTemplate($this->header_xobjid, 0, 0, 0, 0, '', '', false);
-
-		// reset header xobject template at each page
-		if ($this->header_xobj_autoreset)
-		{
-			$this->header_xobjid = false;
-		}
+		$this->header_xobjid = false;
 	}
+}*/
 
-	// Page footer
-	public function Footer()
-	{
-		// Position at 15 mm from bottom
-		$this->SetY(-10);
-		// Set font
-		$this->SetFont('helvetica', 'I', 7);
-		// Page number
-		$pagination = 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages();
-		$this->Cell(0, 10, $pagination, 0, false, 'C', 0, '', 0, false, 'T', 'M');
-	}
-}
+// Page footer
+/*public function Footer()
+{
+	// Position at 15 mm from bottom
+	$this->SetY(-10);
+	// Set font
+	$this->SetFont('helvetica', 'I', 7);
+	// Page number
+	$pagination = 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages();
+	$this->Cell(0, 10, $pagination, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+}*/

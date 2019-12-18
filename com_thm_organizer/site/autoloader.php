@@ -16,6 +16,13 @@ use Exception;
 
 spl_autoload_register(function ($originalClassName) {
 
+	if ($originalClassName === 'TCPDF')
+	{
+		require_once JPATH_LIBRARIES . '/tcpdf/tcpdf.php';
+
+		return;
+	}
+
 	$classNameParts = explode('\\', $originalClassName);
 
 	$component = array_shift($classNameParts);

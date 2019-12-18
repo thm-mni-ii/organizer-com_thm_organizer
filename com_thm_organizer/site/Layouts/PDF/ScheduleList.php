@@ -410,7 +410,7 @@ abstract class ScheduleList
 	 *
 	 * @return void
 	 */
-	protected function render()
+	/*protected function render()
 	{
 		if (empty($this->lessons['pastDate']) and empty($this->lessons['futureDate']))
 		{
@@ -421,7 +421,5 @@ abstract class ScheduleList
 			$this->document->AddPage();
 			$this->document->cell('', '', Languages::_('THM_ORGANIZER_NO_EVENTS_PLANNED'));
 		}
-		$this->document->Output($this->parameters['docTitle'] . '.pdf', 'I');
-		ob_flush();
-	}
+	}*/
 }

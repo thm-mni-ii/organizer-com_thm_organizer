@@ -14,8 +14,10 @@ namespace Organizer\Layouts\PDF;
 /**
  * Class generates statistics of course participants by department and degree program.
  */
-class DepartmentParticipants extends CourseExport
+class DepartmentParticipants extends BaseLayout
 {
+	use CourseContext;
+
 	/**
 	 * THM_OrganizerTemplatePrep_Course_Participant_List_Export_PDF constructor.
 	 *
@@ -33,91 +35,6 @@ class DepartmentParticipants extends CourseExport
 		$this->setHeader();
 
 		$this->createDepartmentTable();
-
-		$this->document->Output($this->filename, 'I');
-
-		ob_flush();
-	}
-
-	/**
-	 * Get data for department list
-	 *
-	 * @return array Course data
-	 */
-	private function getDepartmentsOfCourse()
-	{
-		$departments = [];
-
-		foreach ($this->course['participants'] as $participant)
-		{
-			if (empty($participant['departmentID']) or empty($participant['departmentName']))
-			{
-				$departments[0] = Languages::_('JNONE');
-			}
-			else
-			{
-				$departments[$participant['departmentID']] = $participant['departmentName'];
-			}
-		}
-
-		asort($departments);
-
-		return $departments;
-	}
-
-	/**
-	 * Get data for course of study
-	 *
-	 * @param   int  $dp  Department id
-	 *
-	 * @return array Course data
-	 */
-	private function evaluateCoursesOfStudy($dp)
-	{
-		$departmentData = [];
-		$departments    = [];
-
-		foreach ($this->course['participants'] as $data)
-		{
-			if ($data['programName'] === null)
-			{
-				$data['programName'] = Languages::_('JNONE');
-			}
-
-			if ($data['departmentName'] === null)
-			{
-				$data['departmentName'] = Languages::_('JNONE');
-			}
-
-			array_push($departments, $data['departmentName']);
-			array_push($departmentData, [$data['departmentName'], $data['programName']]);
-		}
-
-		$courseOfStudy = array_count_values(
-			array_map(
-				function ($item) {
-					return $item['1'];
-				},
-				$departmentData
-			)
-		);
-
-		$results = [];
-		foreach ($departmentData as $fb)
-		{
-			array_push($results, [$fb[0], $fb[1], $courseOfStudy[$fb[1]]]);
-		}
-
-		$last = [];
-		foreach ($results as $erg)
-		{
-			if ($erg[0] === $dp)
-			{
-				$last[$erg[1]] = [$erg[1], $erg[2]];
-			}
-		}
-
-		return $last;
 	}
 
 	/**
@@ -247,5 +164,98 @@ class DepartmentParticipants extends CourseExport
 		}
 
 		$this->document->Cell(array_sum($widths), 0, '', 'T');
+	}
+
+	/**
+	 * Get data for course of study
+	 *
+	 * @param   int  $dp  Department id
+	 *
+	 * @return array Course data
+	 */
+	private function evaluateCoursesOfStudy($dp)
+	{
+		$departmentData = [];
+		$departments    = [];
+
+		foreach ($this->course['participants'] as $data)
+		{
+			if ($data['programName'] === null)
+			{
+				$data['programName'] = Languages::_('JNONE');
+			}
+
+			if ($data['departmentName'] === null)
+			{
+				$data['departmentName'] = Languages::_('JNONE');
+			}
+
+			array_push($departments, $data['departmentName']);
+			array_push($departmentData, [$data['departmentName'], $data['programName']]);
+		}
+
+		$courseOfStudy = array_count_values(
+			array_map(
+				function ($item) {
+					return $item['1'];
+				},
+				$departmentData
+			)
+		);
+
+		$results = [];
+		foreach ($departmentData as $fb)
+		{
+			array_push($results, [$fb[0], $fb[1], $courseOfStudy[$fb[1]]]);
+		}
+
+		$last = [];
+		foreach ($results as $erg)
+		{
+			if ($erg[0] === $dp)
+			{
+				$last[$erg[1]] = [$erg[1], $erg[2]];
+			}
+		}
+
+		return $last;
+	}
+
+	/**
+	 * Adds the contents of the document to it.
+	 *
+	 * @param   BaseView  $data  the view object, containing the information necessary to render the document.
+	 *
+	 * @return void modifies the document
+	 */
+	public function fill($data)
+	{
+		// TODO: Implement fill() method.
+	}
+
+	/**
+	 * Get data for department list
+	 *
+	 * @return array Course data
+	 */
+	private function getDepartmentsOfCourse()
+	{
+		$departments = [];
+
+		foreach ($this->course['participants'] as $participant)
+		{
+			if (empty($participant['departmentID']) or empty($participant['departmentName']))
+			{
+				$departments[0] = Languages::_('JNONE');
+			}
+			else
+			{
+				$departments[$participant['departmentID']] = $participant['departmentName'];
+			}
+		}
+
+		asort($departments);
+
+		return $departments;
 	}
 }

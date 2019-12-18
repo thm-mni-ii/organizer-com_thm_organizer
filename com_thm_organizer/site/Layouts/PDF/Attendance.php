@@ -14,8 +14,10 @@ namespace Organizer\Layouts\PDF;
 /**
  * Displays a list of participant entries.
  */
-class Participants extends CourseExport
+class Attendance extends BaseLayout
 {
+	use CourseContext;
+
 	private $columnHeaders;
 
 	private $widths;
@@ -62,10 +64,29 @@ class Participants extends CourseExport
 		}
 
 		$this->createParticipantTable();
+	}
 
-		$this->document->Output($this->filename, 'I');
+	/**
+	 * Adds a new page to the document and creates the column headers for the table
+	 *
+	 * @return void
+	 */
+	private function addPage()
+	{
+		$this->document->AddPage();
 
-		ob_flush();
+		// create the column headers for the page
+		$this->document->SetFillColor(210);
+		$this->document->SetFont('', 'B');
+		foreach (array_keys($this->columnHeaders) as $columnName)
+		{
+			$this->document->Cell($this->widths[$columnName], 7, $this->columnHeaders[$columnName], 1, 0, 'L', 1);
+		}
+		$this->document->Ln();
+
+		// reset styles
+		$this->document->SetFillColor(235, 252, 238);
+		$this->document->SetFont('');
 	}
 
 	/**
@@ -162,25 +183,14 @@ class Participants extends CourseExport
 	}
 
 	/**
-	 * Adds a new page to the document and creates the column headers for the table
+	 * Adds the contents of the document to it.
 	 *
-	 * @return void
+	 * @param   BaseView  $data  the view object, containing the information necessary to render the document.
+	 *
+	 * @return void modifies the document
 	 */
-	private function addPage()
+	public function fill($data)
 	{
-		$this->document->AddPage();
-
-		// create the column headers for the page
-		$this->document->SetFillColor(210);
-		$this->document->SetFont('', 'B');
-		foreach (array_keys($this->columnHeaders) as $columnName)
-		{
-			$this->document->Cell($this->widths[$columnName], 7, $this->columnHeaders[$columnName], 1, 0, 'L', 1);
-		}
-		$this->document->Ln();
-
-		// reset styles
-		$this->document->SetFillColor(235, 252, 238);
-		$this->document->SetFont('');
+		// TODO: Implement fill() method.
 	}
 }
