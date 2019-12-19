@@ -15,7 +15,6 @@ define('K_PATH_IMAGES', JPATH_ROOT . '/components/com_thm_organizer/images/');
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Organizer\Helpers\Input;
 use TCPDF;
 
 /**

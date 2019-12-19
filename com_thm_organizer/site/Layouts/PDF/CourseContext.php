@@ -100,8 +100,5 @@ trait CourseContext
 		$subHeader = "{$this->campus} {$this->dates}";
 
 		$this->SetHeaderData('thm_logo.png', '50', $header, $subHeader);
-		// This will need to be pulled into the non-badges course item classes over the margins function
-		//$this->document->SetAutoPageBreak(true, 0);
-		//$this->document->SetFont('', '', 10);
 	}
 }

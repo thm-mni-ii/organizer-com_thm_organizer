@@ -246,22 +246,6 @@ class OrganizerHelper
 	}
 
 	/**
-	 * Resolves a comma separated list of id values to an array of id values
-	 *
-	 * @param   string  $list  the list to be resolved
-	 *
-	 * @return array
-	 */
-	public static function resolveListIDs($list)
-	{
-		$idValues         = explode(',', $list);
-		$cleanedIDValues  = ArrayHelper::toInteger($idValues);
-		$filteredIDValues = array_filter($cleanedIDValues);
-
-		return $filteredIDValues;
-	}
-
-	/**
 	 * Instantiates the controller.
 	 *
 	 * @return void
