@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Router\Route;
-use Organizer\Helpers\Courses;
+use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
@@ -159,39 +159,14 @@ class Controller extends BaseController
 
 		$view->document = $document;
 
-		// Display the view
-		if ($cachable && $viewType !== 'feed' && \JFactory::getConfig()->get('caching') >= 1)
-		{
-			$option = $this->input->get('option');
-
-			if (is_array($urlparams))
-			{
-				$app = OrganizerHelper::getApplication();
-
-				if (!empty($app->registeredurlparams))
-				{
-					$registeredurlparams = $app->registeredurlparams;
-				}
-				else
-				{
-					$registeredurlparams = new \stdClass;
-				}
-
-				foreach ($urlparams as $key => $value)
-				{
-					// Add your safe URL parameters with variable type as value {@see \JFilterInput::clean()}.
-					$registeredurlparams->$key = $value;
-				}
-
-				$app->registeredurlparams = $registeredurlparams;
-			}
-
-			$cache = Factory::getCache($option, 'view');
-			$cache->get($view, 'display');
-		}
-		else
+		try
 		{
 			$view->display();
+		}
+		catch (Exception $exception)
+		{
+			OrganizerHelper::message($exception->getMessage(), 'error');
+			$this->setRedirect(Uri::base());
 		}
 
 		return $this;
