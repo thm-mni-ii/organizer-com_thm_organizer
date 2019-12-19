@@ -181,16 +181,29 @@ abstract class ListModel extends ParentModel
 
 		// Receive & set filters
 		$filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
-		if (!empty($filters))
+		foreach ($filters as $input => $value)
 		{
-			foreach ($filters as $name => $value)
-			{
-				$this->setState('filter.' . $name, $value);
-			}
+			$this->setState('filter.' . $input, $value);
 		}
 
 		$list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array');
-		$this->setListState($list);
+		foreach ($list as $input => $value)
+		{
+			$this->setState("list.$input", $value);
+		}
+
+		$relevant = (!empty($list['ordering']) and strpos($list['ordering'], 'null') !== false);
+		$ordering = $relevant ? $list['ordering'] : $this->defaultOrdering;
+
+		$validDirections = ['ASC', 'DESC', ''];
+		$relevant = (!empty($list['direction']) and in_array(strtoupper($list['direction']), $validDirections));
+		$direction = $relevant ? $list['direction'] : $this->defaultDirection;
+
+		$fullOrdering = "$ordering $direction";
+		Factory::getSession()->set($this->context . '.ordering', $fullOrdering);
+		$this->setState('list.fullordering', $fullOrdering);
+		$this->setState('list.ordering', $ordering);
+		$this->setState('list.direction', $direction);
 
 		$limit = (isset($list['limit']) && is_numeric($list['limit'])) ? $list['limit'] : $this->defaultLimit;
 		$this->setState('list.limit', $limit);
@@ -198,36 +211,6 @@ abstract class ListModel extends ParentModel
 		$value = $this->getUserStateFromRequest('limitstart', 'limitstart', 0);
 		$start = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
 		$this->setState('list.start', $start);
-	}
-
-	/**
-	 * Handles the full ordering list input if existent
-	 *
-	 * @param   array  &$list       the list section of the form request
-	 * @param   object &$session    the session object
-	 * @param   string  $ordering   the attribute upon which the ordering is determined
-	 * @param   string  $direction  the direction of the sort
-	 *
-	 * @return void  alters the input parameters
-	 */
-	protected function processFullOrdering(&$list, &$session, &$ordering, &$direction)
-	{
-		// Joomla lost the ordering part through pagination use
-		if (strpos($list['fullordering'], 'null') !== false)
-		{
-			$list['fullordering'] = $session->get($this->context . '.ordering', "$ordering $direction");
-		}
-		$orderingParts = explode(' ', $list['fullordering']);
-		if (count($orderingParts) == 2)
-		{
-			$plausibleOrdering = $orderingParts[0] != 'null';
-			$validDirection    = in_array(strtoupper($orderingParts[1]), ['ASC', 'DESC', '']);
-			if ($plausibleOrdering and $validDirection)
-			{
-				$ordering  = $orderingParts[0];
-				$direction = $orderingParts[1];
-			}
-		}
 	}
 
 	/**
@@ -263,43 +246,6 @@ abstract class ListModel extends ParentModel
 		$query->where("$idColumn = '$value'");
 
 		return;
-	}
-
-	/**
-	 * Sets the ordering and direction filters should a valid full ordering request be made
-	 *
-	 * @param   array  $list  an array of list variables
-	 *
-	 * @return void  sets state variables
-	 */
-	protected function setListState($list)
-	{
-		$validReqOrdering = (!empty($list['ordering']) and strpos('null', $list['ordering']) !== null);
-		$ordering         = $validReqOrdering ? $list['ordering'] : $this->defaultOrdering;
-
-		$validReqDirection = (!empty($list['direction'])
-			and in_array(strtoupper($list['direction']), ['ASC', 'DESC', '']));
-		$direction         = $validReqDirection ? $list['direction'] : $this->defaultDirection;
-
-		$session = Factory::getSession();
-		if (!empty($list['fullordering']))
-		{
-			$this->processFullOrdering($list, $session, $ordering, $direction);
-		}
-
-		$session->set($this->context . '.ordering', "$ordering $direction");
-		$this->setState('list.fullordering', "$ordering $direction");
-		$this->setState('list.ordering', $ordering);
-		$this->setState('list.direction', $direction);
-
-		$alreadyProcessed = ['ordering, direction, fullordering'];
-		foreach ($list as $item => $value)
-		{
-			if (!in_array($item, $alreadyProcessed))
-			{
-				$this->setState("list.$item", $value);
-			}
-		}
 	}
 
 	/**
