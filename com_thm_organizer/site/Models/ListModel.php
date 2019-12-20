@@ -154,14 +154,19 @@ abstract class ListModel extends ParentModel
 			$data->filter = [];
 		}
 
-		// Joomla doesn't fill these correctly but requires some of them
-		$data->list['fullordering']
-			= $this->state->get('list.fullordering', "$this->defaultOrdering $this->defaultDirection");
-
-		$data->list['ordering']  = $this->state->get('list.ordering', $this->defaultOrdering);
-		$data->list['direction'] = $this->state->get('list.direction', $this->defaultDirection);
-		$data->list['limit']     = $this->state->get('list.limit', $this->defaultLimit);
-		$data->list['start']     = $this->state->get('list.start', $this->defaultStart);
+		foreach ((array) $this->state as $property => $value)
+		{
+			if (strpos($property, 'list.') === 0)
+			{
+				$listProperty = substr($property, 5);
+				$data->list[$listProperty] = $value;
+			}
+			elseif (strpos($property, 'filter.') === 0)
+			{
+				$filterProperty = substr($property, 7);
+				$data->filter[$filterProperty] = $value;
+			}
+		}
 
 		return $data;
 	}
