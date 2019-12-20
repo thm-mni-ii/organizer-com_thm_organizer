@@ -29,8 +29,7 @@ class Participants extends ListView
 		'programName' => 'value',
 		'status'      => 'value',
 		'paid'        => 'value',
-		'attended'    => 'value',
-		'tools'       => 'value'
+		'attended'    => 'value'
 	];
 
 	/**
@@ -126,6 +125,14 @@ class Participants extends ListView
 			$toolbar->appendButton('Custom', $batchButton, 'batch');
 		}
 
+		$toolbar->appendButton(
+			'Standard',
+			'checkbox-checked',
+			Helpers\Languages::_('THM_ORGANIZER_BADGES'),
+			'participants.printBadges',
+			false
+		);
+
 		if ($admin)
 		{
 			$toolbar->appendButton(
@@ -202,7 +209,6 @@ class Participants extends ListView
 			$headers['status']   = Helpers\HTML::sort('STATUS', 'status', $direction, $ordering);
 			$headers['paid']     = Helpers\HTML::sort('PAID', 'paid', $direction, $ordering);
 			$headers['attended'] = Helpers\HTML::sort('ATTENDED', 'attended', $direction, $ordering);
-			$headers['tools']    = '';
 		}
 
 		$this->headers = $headers;
@@ -258,17 +264,6 @@ class Participants extends ListView
 					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_PAID'),
 					'paid'
 				);
-
-				$attributes = [
-					'class'  => 'hasTooltip',
-					'target' => '_blank',
-					'title'  => Helpers\Languages::_('THM_ORGANIZER_PRINT_BADGE')
-				];
-				$icon       = '<span class="icon-tags"></span>';
-				$url        = Uri::base() . '?option=com_thm_organizer&view=badges&format=pdf';
-				$url        .= "&courseID=$courseID&participantID=$item->id";
-
-				$item->tools = HTML::_('link', $url, $icon, $attributes);
 			}
 
 			$structuredItems[$index] = $this->structureItem($index, $item, $link . $item->id);

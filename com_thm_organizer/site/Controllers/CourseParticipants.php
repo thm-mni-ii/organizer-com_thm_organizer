@@ -128,6 +128,20 @@ trait CourseParticipants
 	}
 
 	/**
+	 * Prints badges for the selected participants.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function printBadges()
+	{
+		// Reliance on POST requires a different method of redirection
+		$this->input->set('format', "pdf");
+		$this->input->set('view', "badges");
+		parent::display();
+	}
+
+	/**
 	 * De-/registers a participant from/to a course.
 	 *
 	 * @return void
@@ -208,28 +222,6 @@ trait CourseParticipants
 		else
 		{
 			Helpers\OrganizerHelper::message('THM_ORGANIZER_TOGGLE_FAIL', 'error');
-		}
-
-		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
-	}
-
-	/**
-	 * Accepts the selected participants into the course.
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	public function wait()
-	{
-		$model = new CourseParticipant;
-
-		if ($model->wait())
-		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
-		}
-		else
-		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));

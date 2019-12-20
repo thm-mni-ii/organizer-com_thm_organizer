@@ -14,12 +14,8 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers\Can;
-use Organizer\Helpers\Courses;
-use Organizer\Helpers\Input;
-use Organizer\Helpers\Languages;
-use Organizer\Helpers\Participants;
-use Organizer\Tables\Participants as ParticipantsTable;
+use Organizer\Helpers as Helpers;
+use Organizer\Tables as Tables;
 
 /**
  * Class which manages stored participant data.
@@ -39,7 +35,7 @@ class Participant extends BaseModel
 	 */
 	public function getTable($name = '', $prefix = '', $options = [])
 	{
-		return new ParticipantsTable;
+		return new Tables\Participants;
 	}
 
 	/**
@@ -59,6 +55,7 @@ class Participant extends BaseModel
 
 			return;
 		}
+
 		$item = ucfirst(strtolower($item));
 	}
 
@@ -76,13 +73,13 @@ class Participant extends BaseModel
 	{
 		if (!Factory::getUser()->id === $participantID)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
 
-		$canAccept = (int) Courses::canAcceptParticipant($courseID);
+		$canAccept = (int) Helpers\Courses::canAcceptParticipant($courseID);
 		$state     = $state == 1 ? $canAccept : 2;
 
-		return Participants::changeState($participantID, $courseID, $state);
+		return Helpers\Participants::changeState($participantID, $courseID, $state);
 	}
 
 	/**
@@ -95,19 +92,19 @@ class Participant extends BaseModel
 	 */
 	public function save($data = [])
 	{
-		$data = empty($data) ? Input::getFormItems()->toArray() : $data;
+		$data = empty($data) ? Helpers\Input::getFormItems()->toArray() : $data;
 
 		if (!isset($data['id']))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
 		}
 
-		if (!Can::edit('participant', $data['id']))
+		if (!Helpers\Can::edit('participant', $data['id']))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
 		}
 
-		$numericFields  = ['id', 'programID', 'zipCode'];
+		$numericFields  = ['id', 'programID'];
 		$requiredFields = ['address', 'city', 'forename', 'id', 'programID', 'surname', 'zipCode'];
 
 		foreach ($data as $index => $value)
@@ -126,18 +123,15 @@ class Participant extends BaseModel
 			}
 		}
 
-		$forenames = explode(' ', $data['forename']);
-		array_filter($forenames);
-		array_walk($forenames, array($this, 'normalize'));
-		$data['forename'] = implode(' ', $forenames);
+		$forename = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['forename']);
+		$forename = preg_replace('/ +/', ' ', $forename);
+		$data['forename'] = $forename;
 
-		$surname  = str_replace('-', ' ', $data['surname']);
-		$surnames = explode(' ', $surname);
-		$surnames = array_filter($surnames);
-		array_walk($surnames, array($this, 'normalize'));
-		$data['surname'] = implode('-', $surnames);
+		$surname = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['surname']);
+		$surname = preg_replace('/ +/', ' ', $surname);
+		$data['surname'] = $surname;
 
-		$table = new ParticipantsTable;
+		$table = new Tables\Participants;
 
 		if (empty($table))
 		{

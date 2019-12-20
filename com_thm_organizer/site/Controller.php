@@ -138,20 +138,20 @@ class Controller extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document   = Factory::getDocument();
-		$viewType   = $document->getType();
-		$viewName   = $this->input->get('view', $this->default_view);
-		$viewLayout = $this->input->get('layout', 'default', 'string');
+		$document = Factory::getDocument();
+		$format   = $this->input->get('format', $document->getType());
+		$name     = $this->input->get('view', $this->default_view);
+		$template = $this->input->get('layout', 'default', 'string');
 
 		$view = $this->getView(
-			$viewName,
-			$viewType,
+			$name,
+			$format,
 			'',
-			array('base_path' => $this->basePath, 'layout' => $viewLayout)
+			array('base_path' => $this->basePath, 'layout' => $template)
 		);
 
-		// JSON Views rely on standard functions available in helper files
-		if ($viewType !== 'json' and $model = $this->getModel($viewName))
+		// Only html views require models
+		if ($format === 'html' and $model = $this->getModel($name))
 		{
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
