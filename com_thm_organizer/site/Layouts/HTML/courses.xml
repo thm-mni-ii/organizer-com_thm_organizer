@@ -2,14 +2,16 @@
 <form>
     <fields name="params" addfieldprefix="Organizer\Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="campusID" type="Campuses" label="THM_ORGANIZER_CAMPUS">
-                <option value="">NO_CAMPUS</option>
+            <field name="campusID" type="Campuses" label="CAMPUS">
+                <option value="">All_CAMPUSES</option>
             </field>
-            <field name="onlyPrepCourses" type="Options" label="THM_ORGANIZER_PREP_COURSES"
-                   description="THM_ORGANIZER_PREP_COURSES_DESC" default="0">
-                <option value="">THM_ORGANIZER_ALL_COURSES</option>
-                <option value="1">THM_ORGANIZER_ONLY_PREP_COURSES</option>
-                <option value="-1">THM_ORGANIZER_NOT_PREP_COURSES</option>
+            <field name="departmentID" type="Departments" label="Department">
+                <option value="">ALL_DEPARTMENTS</option>
+            </field>
+            <field name="onlyPrepCourses" type="Options" label="COURSE_TYPE">
+                <option value="">ALL_COURSE_TYPES</option>
+                <option value="1">ONLY_PREP_COURSES</option>
+                <option value="-1">NOT_PREP_COURSES</option>
             </field>
         </fieldset>
     </fields>

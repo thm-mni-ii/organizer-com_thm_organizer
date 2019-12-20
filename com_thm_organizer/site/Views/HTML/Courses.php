@@ -165,7 +165,7 @@ class Courses extends ListView
 				'dates'              => Languages::_('THM_ORGANIZER_DATES'),
 				'courseStatus'       => Languages::_('THM_ORGANIZER_COURSE_STATUS'),
 				'registrationStatus' => Languages::_('THM_ORGANIZER_REGISTRATION_STATUS'),
-				'tools'              => Languages::_('THM_ORGANIZER_ACTIONS')
+				'tools'              => ''
 			];
 		}
 
@@ -179,13 +179,11 @@ class Courses extends ListView
 	 */
 	protected function structureItems()
 	{
-		$backend          = $this->clientContext === self::BACKEND;
-		$buttonTemplate   = '<a class="btn" href="XHREFX" target="_blank">XICONXXTEXTX</a>';
-		$editIcon         = '<span class="icon-edit"></span>';
-		$editLink         = "index.php?option=com_thm_organizer&view=course_edit&id=";
-		$itemLink         = "index.php?option=com_thm_organizer&view=course_item&id=";
-		$participantsLink = "index.php?option=com_thm_organizer&view=participants&courseID=";
-		$participantsIcon = '<span class="icon-users"></span>';
+		$backend        = $this->clientContext === self::BACKEND;
+		$buttonTemplate = '<a class="btn" href="XHREFX" target="_blank">XICONXXTEXTX</a>';
+		$itemLink       = "index.php?option=com_thm_organizer&view=course_item&id=";
+		$manageIcon     = '<span class="icon-equalizer"></span>';
+		$manageLink     = "index.php?option=com_thm_organizer&view=course_edit&id=";
 		if (Helpers\Participants::incomplete())
 		{
 			$registrationIcon = '<span class="icon-user-check"></span>';
@@ -198,7 +196,7 @@ class Courses extends ListView
 			$registrationLink = "index.php?option=com_thm_organizer&task=participants.register&id=";
 			$registrationText = Languages::_('THM_ORGANIZER_REGISTER');
 		}
-		$rowLink = $backend ? $editLink : $itemLink;
+		$rowLink = $backend ? $manageLink : $itemLink;
 		$userID  = Factory::getUser()->id;
 
 		$this->allowNew  = Helpers\Can::administrate();
@@ -248,19 +246,11 @@ class Courses extends ListView
 					{
 						$course->registrationStatus = '';
 
-						$editButton = str_replace('XHREFX', $editLink . $courseID, $buttonTemplate);
-						$editButton = str_replace('XICONX', $editIcon . $courseID, $editButton);
-						$editButton = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_EDIT_COURSE'), $editButton);
+						$editButton = str_replace('XHREFX', $manageLink . $courseID, $buttonTemplate);
+						$editButton = str_replace('XICONX', $manageIcon, $editButton);
+						$editButton = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_COURSE'), $editButton);
 
-						$partsButton = str_replace('XHREFX', $participantsLink . $courseID, $buttonTemplate);
-						$partsButton = str_replace('XICONX', $participantsIcon, $partsButton);
-						$partsButton = str_replace(
-							'XTEXTX',
-							Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS'),
-							$partsButton
-						);
-
-						$course->tools = $editButton . $partsButton;
+						$course->tools = $editButton;
 					}
 					else
 					{

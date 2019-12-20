@@ -16,6 +16,7 @@ use JDatabaseQuery;
 use Joomla\CMS\Form\Form;
 use Organizer\Helpers\Filtered;
 use Organizer\Helpers\Input;
+use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Terms as TermsHelper;
 
 /**
@@ -26,6 +27,8 @@ class Courses extends ListModel
 	use Filtered;
 
 	protected $defaultOrdering = 'name';
+
+	protected $filter_fields = ['campusID', 'termID'];
 
 	/**
 	 * Filters out form inputs which should not be displayed due to menu settings.
@@ -42,17 +45,10 @@ class Courses extends ListModel
 			return;
 		}
 
-		$form->removeField('limit', 'list');
 		$params = Input::getParams();
 		if ($params->get('onlyPrepCourses'))
 		{
 			$form->removeField('search', 'filter');
-			$form->removeField('termID', 'filter');
-		}
-
-		if ($params->get('campusID', 0))
-		{
-			$form->removeField('campusID', 'filter');
 		}
 	}
 
@@ -123,16 +119,18 @@ class Courses extends ListModel
 
 		if ($this->clientContext === self::FRONTEND)
 		{
-			$this->state->set('list.limit', 0);
-			$params = Input::getParams();
-			if ($campusID = $params->get('campusID', 0))
+			$app             = OrganizerHelper::getApplication();
+			$params          = Input::getParams();
+			$requestedCampus = $app->getUserStateFromRequest($this->context . '.filter.campusID', 'filter.campusID');
+			if (!$requestedCampus and $campusID = $params->get('campusID', 0))
 			{
-				$this->setState('filter.campusID', $campusID);
+				$this->state->set('filter.campusID', $campusID);
 			}
 
-			if ($params->get('onlyPrepCourses'))
+			$requestedTerm = $app->getUserStateFromRequest($this->context . '.filter.termID', 'filter.termID');
+			if (!$requestedTerm and $params->get('onlyPrepCourses'))
 			{
-				$this->setState('filter.termID', TermsHelper::getNextID());
+				$this->state->set('filter.termID', TermsHelper::getNextID());
 			}
 		}
 	}
