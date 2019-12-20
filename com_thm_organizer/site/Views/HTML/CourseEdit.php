@@ -30,8 +30,8 @@ class CourseEdit extends EditView
 	protected function addToolBar()
 	{
 		$courseID = $this->item->id;
-		$new    = empty($courseID);
-		$title  = Helpers\Languages::_('THM_ORGANIZER_MANAGE_COURSE');
+		$new      = empty($courseID);
+		$title    = Helpers\Languages::_('THM_ORGANIZER_MANAGE_COURSE');
 		Helpers\HTML::setTitle($title, 'contract-2');
 		$toolbar   = Toolbar::getInstance();
 		$applyText = $new ? Helpers\Languages::_('THM_ORGANIZER_CREATE') : Helpers\Languages::_('THM_ORGANIZER_APPLY');
@@ -50,7 +50,34 @@ class CourseEdit extends EditView
 		$button = str_replace('XHREFX', $link, $buttonTemplate);
 		$button = str_replace('XICONX', $icon, $button);
 		$button = str_replace('XTEXTX', $text, $button);
-		$toolbar->appendButton('Custom', $button, 'users');
+		$toolbar->appendButton('Custom', $button, 'participants');
+
+		$icon = '<span class="icon-user-check"></span>';
+		$link = "$baseLink&view=attendance&format=pdf";
+		$text = Helpers\Languages::_('THM_ORGANIZER_PRINT_ATTENDANCE');
+
+		$button = str_replace('XHREFX', $link, $buttonTemplate);
+		$button = str_replace('XICONX', $icon, $button);
+		$button = str_replace('XTEXTX', $text, $button);
+		$toolbar->appendButton('Custom', $button, 'attendance');
+
+		$icon = '<span class="icon-tags"></span>';
+		$link = "$baseLink&view=badges&format=pdf";
+		$text = Helpers\Languages::_('THM_ORGANIZER_PRINT_BADGES');
+
+		$button = str_replace('XHREFX', $link, $buttonTemplate);
+		$button = str_replace('XICONX', $icon, $button);
+		$button = str_replace('XTEXTX', $text, $button);
+		$toolbar->appendButton('Custom', $button, 'attendance');
+
+		$icon = '<span class="icon-bars"></span>';
+		$link = "$baseLink&view=department_participants&format=pdf";
+		$text = Helpers\Languages::_('THM_ORGANIZER_PRINT_DEPARTMENT_PARTICIPANTS');
+
+		$button = str_replace('XHREFX', $link, $buttonTemplate);
+		$button = str_replace('XICONX', $icon, $button);
+		$button = str_replace('XTEXTX', $text, $button);
+		$toolbar->appendButton('Custom', $button, 'departmentparticipants');
 	}
 
 	/**
