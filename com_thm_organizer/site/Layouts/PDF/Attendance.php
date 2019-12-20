@@ -11,6 +11,8 @@
 
 namespace Organizer\Layouts\PDF;
 
+use Organizer\Helpers;
+
 /**
  * Displays a list of participant entries.
  */
@@ -23,47 +25,43 @@ class Attendance extends BaseLayout
 	private $widths;
 
 	/**
-	 * THM_OrganizerTemplatePrep_Course_Participant_List_Export_PDF constructor.
+	 * Performs initial construction of the TCPDF Object.
 	 *
-	 * @param   int  $lessonID  the lessonID of the exported course
-	 *
-	 * @throws Exception => invalid request / unauthorized access / not found
+	 * @param   int  $courseID  the id of the course for which the badges are valid
 	 */
-	public function __construct($lessonID)
+	public function __construct($courseID)
 	{
-		parent::__construct($lessonID);
+		parent::__construct();
 
-		$exportType = Languages::_('THM_ORGANIZER_PARTICIPANTS');
+		$this->setCourse($courseID);
+
+		$exportType = Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
 		$this->setNames($exportType);
 
 		$this->setHeader();
 
-		$feeApplies = !empty($this->course['fee']);
-
 		$this->columnHeaders = [
 			'index'      => '#',
 			'name'       => 'Name',
-			'department' => Languages::_('THM_ORGANIZER_DEPARTMENT'),
-			'program'    => Languages::_('THM_ORGANIZER_PROGRAM'),
-			'room'       => Languages::_('THM_ORGANIZER_ROOM')
+			'department' => Helpers\Languages::_('THM_ORGANIZER_DEPARTMENT'),
+			'program'    => Helpers\Languages::_('THM_ORGANIZER_PROGRAM'),
+			'room'       => Helpers\Languages::_('THM_ORGANIZER_ROOM')
 		];
 
 		$this->widths = [
 			'index'      => 8,
-			'name'       => 79,
+			'name'       => 60,
 			'department' => 28,
-			'program'    => 40,
+			'program'    => 59,
 			'room'       => 25
 		];
 
-		if ($feeApplies)
+		if ($this->fee)
 		{
-			$this->columnHeaders['paid'] = Languages::_('THM_ORGANIZER_PAID');
-			$this->widths['name']        = 59;
+			$this->columnHeaders['paid'] = Helpers\Languages::_('THM_ORGANIZER_PAID');
+			$this->widths['name']        = 40;
 			$this->widths['paid']        = 20;
 		}
-
-		$this->createParticipantTable();
 	}
 
 	/**
@@ -71,22 +69,22 @@ class Attendance extends BaseLayout
 	 *
 	 * @return void
 	 */
-	private function addPage()
+	private function addAttendancePage()
 	{
-		$this->document->AddPage();
+		$this->AddPage();
 
 		// create the column headers for the page
-		$this->document->SetFillColor(210);
-		$this->document->SetFont('', 'B');
+		$this->SetFillColor(210);
+		$this->SetFont('', 'B');
 		foreach (array_keys($this->columnHeaders) as $columnName)
 		{
-			$this->document->Cell($this->widths[$columnName], 7, $this->columnHeaders[$columnName], 1, 0, 'L', 1);
+			$this->Cell($this->widths[$columnName], 7, $this->columnHeaders[$columnName], 1, 0, 'L', 1);
 		}
-		$this->document->Ln();
+		$this->Ln();
 
 		// reset styles
-		$this->document->SetFillColor(235, 252, 238);
-		$this->document->SetFont('');
+		$this->SetFillColor(235, 252, 238);
+		$this->SetFont('');
 	}
 
 	/**
@@ -96,16 +94,45 @@ class Attendance extends BaseLayout
 	 */
 	private function createParticipantTable()
 	{
-		$this->addPage();
 
-		$itemNo       = 1;
-		$participants = $this->course['participants'];
+		// Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
+		$bufferSize = ceil(count($participants) * 1.25) + 1;
+		for ($itemNo; $itemNo < $bufferSize; $itemNo++)
+		{
+			foreach (array_keys($this->columnHeaders) as $columnName)
+			{
+				$value = $columnName == 'index' ? $itemNo : '';
+				$this->MultiCell($this->widths[$columnName], 5, $value, 'LRB', 'L', 0, 0);
+			}
+
+			$this->Ln();
+
+			if ($this->getY() > 260)
+			{
+				$this->Cell(array_sum($this->widths), 0, '', 'T');
+				$this->addPage();
+			}
+		}
+	}
+
+	/**
+	 * Renders the document.
+	 *
+	 * @param   array  $participants  the course participants
+	 *
+	 * @return void renders the document and closes the application
+	 */
+	public function fill($participants)
+	{
+		$this->addAttendancePage();
+
+		$itemNo = 1;
 
 		foreach ($participants as $participant)
 		{
 			// Get the starting coordinates for later use with borders
-			$startX = $this->document->GetX();
-			$startY = $this->document->GetY();
+			$startX = $this->GetX();
+			$startY = $this->GetY();
 
 			$maxLength = 0;
 
@@ -117,7 +144,8 @@ class Attendance extends BaseLayout
 						$value = $itemNo;
 						break;
 					case 'name':
-						$value = $participant['userName'];
+						$value = empty($participant['forename']) ?
+							$participant['surname'] : "{$participant['surname']},  {$participant['forename']}";
 						break;
 					case 'department':
 						$value = $participant['departmentName'];
@@ -130,7 +158,7 @@ class Attendance extends BaseLayout
 						break;
 				}
 
-				$length = $this->document->MultiCell($this->widths[$columnName], 5, $value, '', 'L', 0, 0);
+				$length = $this->MultiCell($this->widths[$columnName], 5, $value, '', 'L', 0, 0);
 				if ($length > $maxLength)
 				{
 					$maxLength = $length;
@@ -138,59 +166,28 @@ class Attendance extends BaseLayout
 			}
 
 			// Reset for borders
-			$this->document->SetXY($startX, $startY);
+			$this->SetXY($startX, $startY);
 
 			foreach ($this->widths as $index => $width)
 			{
 				if ($index == 'index')
 				{
-					$this->document->MultiCell($width, $maxLength * 5, '', 'LRB', 'L', 0, 0);
+					$this->MultiCell($width, $maxLength * 5, '', 'LRB', 'L', 0, 0);
 				}
 				else
 				{
-					$this->document->MultiCell($width, $maxLength * 5, '', 'RB', 'L', 0, 0);
+					$this->MultiCell($width, $maxLength * 5, '', 'RB', 'L', 0, 0);
 				}
 			}
 
-			$this->document->Ln();
+			$this->Ln();
 
-			if ($this->document->getY() > 260)
+			if ($this->getY() > 260)
 			{
 				$this->addPage();
 			}
 
 			$itemNo++;
 		}
-
-		// Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
-		$bufferSize = ceil(count($participants) * 1.25) + 1;
-		for ($itemNo; $itemNo < $bufferSize; $itemNo++)
-		{
-			foreach (array_keys($this->columnHeaders) as $columnName)
-			{
-				$value = $columnName == 'index' ? $itemNo : '';
-				$this->document->MultiCell($this->widths[$columnName], 5, $value, 'LRB', 'L', 0, 0);
-			}
-
-			$this->document->Ln();
-
-			if ($this->document->getY() > 260)
-			{
-				$this->document->Cell(array_sum($this->widths), 0, '', 'T');
-				$this->addPage();
-			}
-		}
-	}
-
-	/**
-	 * Adds the contents of the document to it.
-	 *
-	 * @param   BaseView  $data  the view object, containing the information necessary to render the document.
-	 *
-	 * @return void modifies the document
-	 */
-	public function fill($data)
-	{
-		// TODO: Implement fill() method.
 	}
 }

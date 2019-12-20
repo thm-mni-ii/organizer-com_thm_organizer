@@ -243,7 +243,7 @@ class Badges extends BaseLayout
 	/**
 	 * Renders the document.
 	 *
-	 * @param   BaseView  $participants  the view object, containing the information necessary to render the document.
+	 * @param   array  $participants  the course participants
 	 *
 	 * @return void renders the document and closes the application
 	 */

@@ -24,6 +24,25 @@ class Programs extends ResourceHelper implements Selectable
 	use Filtered;
 
 	/**
+	 * Retrieves the departmentIDs associated with the program
+	 *
+	 * @param   int  $programID  the table id for the program
+	 *
+	 * @return int the departmentID associated with the program's documentation
+	 */
+	public static function getDepartment($programID)
+	{
+		if (empty($programID))
+		{
+			return Languages::_('THM_ORGANIZER_NO_DEPARTMENT');
+		}
+
+		$table = new ProgramsTable;
+
+		return ($table->load($programID) and $departmentID = $table->departmentID) ? $departmentID : 0;
+	}
+
+	/**
 	 * Attempts to get the real program's id, creating the stub if non-existent.
 	 *
 	 * @param   array   $programData  the program data

@@ -43,9 +43,18 @@ trait CourseParticipants
 			return [];
 		}
 
-		$participantTemplate = ['address', 'city', 'forename', 'id', 'surname', 'zipCode'];
-		$selected            = $selected ? $selected : $allParticipants;
-		$participants        = [];
+		$participantTemplate = [
+			'address',
+			'city',
+			'forename',
+			'id',
+			'programID',
+			'surname',
+			'zipCode'
+		];
+
+		$selected     = $selected ? $selected : $allParticipants;
+		$participants = [];
 		foreach ($selected as $participantID)
 		{
 			$table = new Participants;
@@ -64,6 +73,13 @@ trait CourseParticipants
 				}
 
 				$participant[$property] = $table->$property;
+
+				if ($property === 'programID')
+				{
+					$participant['programName']    = Helpers\Programs::getName($table->$property);
+					$departmentID                  = Helpers\Programs::getDepartment($table->$property);
+					$participant['departmentName'] = Helpers\Departments::getShortName($departmentID);
+				}
 			}
 
 			$participants[] = $participant;

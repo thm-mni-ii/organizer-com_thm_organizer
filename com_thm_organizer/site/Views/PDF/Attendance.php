@@ -12,7 +12,7 @@
 namespace Organizer\Views\PDF;
 
 use Exception;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Layouts\PDF\Attendance as AttendanceLayout;
 use Organizer\Views\BaseView;
 
@@ -21,6 +21,8 @@ use Organizer\Views\BaseView;
  */
 class Attendance extends BaseView
 {
+	use CourseParticipants;
+
 	protected $_layout = 'Attendance';
 
 	/**
@@ -44,9 +46,7 @@ class Attendance extends BaseView
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_401'), 401);
 		}
 
-		$model = $this->getModel();
-
-		if (!$participants = $model->getParticipants($courseID))
+		if (!$participants = $this->getParticipants($courseID))
 		{
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
 		}
