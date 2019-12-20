@@ -21,6 +21,23 @@ use Organizer\Tables\Courses as CoursesTable;
 class CourseEdit extends EditModel
 {
 	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return mixed    Object on success, false on failure.
+	 * @throws Exception => unauthorized access
+	 */
+	public function getItem($pk = null)
+	{
+		$this->item = parent::getItem($pk);
+
+		$this->item->preparatory = \Organizer\Helpers\Courses::isPreparatory($this->item->id);
+
+		return $this->item;
+	}
+
+	/**
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @param   string  $name     The table name. Optional.

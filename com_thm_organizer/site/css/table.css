@@ -79,6 +79,7 @@ body.tmpl-index div.main .btn-toolbar .btn-wrapper {
     margin-right: 5px;
 }
 
+body.tmpl-index div.main .btn-toolbar a.btn,
 body.tmpl-index div.main .btn-toolbar button {
     font-size: .9rem;
 }
@@ -117,6 +118,7 @@ body.tmpl-index div.main .js-stools-container-bar input {
     width: 12rem;
 }
 
+body.tmpl-index div.main .js-stools-container-bar a.btn,
 body.tmpl-index div.main .js-stools-container-bar input,
 body.tmpl-index div.main .js-stools-container-bar button {
     font-family: "Open Sans", Arial, Helvetica, sans-serif;

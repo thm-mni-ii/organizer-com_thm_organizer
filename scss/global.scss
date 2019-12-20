@@ -51,3 +51,12 @@ a {
 h1.page-title span[class*="icon-"] {
   display: none;
 }
+
+div[class^='tbox-'] {
+  position: relative;
+
+  a.btn {
+    display: block;
+    float: right;
+  }
+}

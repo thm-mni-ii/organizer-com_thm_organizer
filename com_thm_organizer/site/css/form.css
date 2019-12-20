@@ -70,6 +70,89 @@ body.tmpl-index div.main .input-15 + .chzn-container {
     width: 12rem !important;
 }
 
+body.tmpl-index div.main .btn-toolbar {
+    display: flex;
+    flex-direction: row;
+}
+
+body.tmpl-index div.main .btn-toolbar .btn-wrapper {
+    margin-right: 5px;
+}
+
+body.tmpl-index div.main .btn-toolbar a.btn,
+body.tmpl-index div.main .btn-toolbar button {
+    font-size: .9rem;
+}
+
+body.tmpl-index div.main .js-stools-container-bar,
+body.tmpl-index div.main .js-stools-container-list,
+body.tmpl-index div.main .js-stools-container-filters {
+    margin-bottom: .8rem;
+    display: flex;
+}
+
+body.tmpl-index div.main .js-stools-container-bar .active .chzn-single,
+body.tmpl-index div.main .js-stools-container-bar .chzn-single,
+body.tmpl-index div.main .js-stools-container-list .active .chzn-single,
+body.tmpl-index div.main .js-stools-container-list .chzn-single,
+body.tmpl-index div.main .js-stools-container-filters .active .chzn-single,
+body.tmpl-index div.main .js-stools-container-filters .chzn-single {
+    background: none;
+    border: none;
+}
+
+body.tmpl-index div.main .js-stools-container-bar input[type='date'],
+body.tmpl-index div.main .js-stools-container-list input[type='date'],
+body.tmpl-index div.main .js-stools-container-filters input[type='date'] {
+    height: 1.35rem;
+    margin-bottom: 0;
+}
+
+body.tmpl-index div.main .js-stools-container-bar select,
+body.tmpl-index div.main .js-stools-container-list select,
+body.tmpl-index div.main .js-stools-container-filters select {
+    margin-bottom: 0;
+}
+
+body.tmpl-index div.main .js-stools-container-bar input {
+    width: 12rem;
+}
+
+body.tmpl-index div.main .js-stools-container-bar a.btn,
+body.tmpl-index div.main .js-stools-container-bar input,
+body.tmpl-index div.main .js-stools-container-bar button {
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: .9rem;
+}
+
+body.tmpl-index div.main .js-stools-container-bar .input-append input + button {
+    font-size: .9rem;
+    height: 1.85rem;
+    margin-top: .2rem;
+    margin-left: -2.2rem;
+}
+
+body.tmpl-index div.main .js-stools-container-bar .input-append input + button:hover span[class^="icon-"]:before {
+    color: #394a59;
+}
+
+body.tmpl-index div.main .js-stools-container-bar .js-stools-btn-filter .caret {
+    border-bottom-color: initial;
+}
+
+body.tmpl-index div.main .js-stools-container-bar .js-stools-btn-filter:hover .caret {
+    border-top-color: #ffffff;
+}
+
+body.tmpl-index div.main .js-stools-container-list .js-stools-field-list {
+    margin-right: 0;
+}
+
+body.tmpl-index div.main .js-stools-container-list .js-stools-field-list,
+body.tmpl-index div.main .js-stools-container-filters .js-stools-field-filter {
+    margin-bottom: 0;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     .controls input[type="file"] {
         line-height: 0;

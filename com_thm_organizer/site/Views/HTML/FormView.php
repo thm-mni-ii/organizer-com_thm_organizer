@@ -41,6 +41,16 @@ abstract class FormView extends BaseHTMLView
 
 		// Allows for view specific toolbar handling
 		$this->addToolBar();
+
+		if (method_exists($this, 'setSubtitle'))
+		{
+			$this->setSubtitle();
+		}
+		if (method_exists($this, 'addSupplement'))
+		{
+			$this->addSupplement();
+		}
+
 		$this->modifyDocument();
 		parent::display($tpl);
 	}
@@ -62,7 +72,6 @@ abstract class FormView extends BaseHTMLView
 		parent::modifyDocument();
 
 		HTML::_('behavior.formvalidator');
-		HTML::_('formbehavior.chosen', 'select');
 
 		$document = Factory::getDocument();
 		$document->addScript(Uri::root() . 'components/com_thm_organizer/js/validators.js');

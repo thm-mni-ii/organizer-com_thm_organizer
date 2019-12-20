@@ -9,7 +9,7 @@ body.tmpl-index div.main {
       margin-right: 5px;
     }
 
-    button {
+    a.btn, button {
       font-size: .9rem;
     }
   }
@@ -41,7 +41,7 @@ body.tmpl-index div.main {
       width: 12rem;
     }
 
-    input, button {
+    a.btn, input, button {
       font-family: $font-family;
       font-size: .9rem;
     }

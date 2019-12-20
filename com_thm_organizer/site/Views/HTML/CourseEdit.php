@@ -12,16 +12,15 @@
 
 namespace Organizer\Views\HTML;
 
-use Organizer\Helpers\Languages;
+use Joomla\CMS\Uri\Uri;
+use Organizer\Helpers as Helpers;
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers\HTML;
 
 /**
  * Class loads persistent information about a course into the display context.
  */
 class CourseEdit extends EditView
 {
-
 	/**
 	 * Concrete classes are supposed to use this method to add a toolbar.
 	 *
@@ -30,15 +29,43 @@ class CourseEdit extends EditView
 
 	protected function addToolBar()
 	{
-		$new   = empty($this->item->id);
-		$title = $new ?
-			Languages::_('THM_ORGANIZER_COURSE_NEW') : Languages::_('THM_ORGANIZER_COURSE_EDIT');
-		HTML::setTitle($title, 'contract-2');
+		$courseID = $this->item->id;
+		$new    = empty($courseID);
+		$title  = Helpers\Languages::_('THM_ORGANIZER_MANAGE_COURSE');
+		Helpers\HTML::setTitle($title, 'contract-2');
 		$toolbar   = Toolbar::getInstance();
-		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+		$applyText = $new ? Helpers\Languages::_('THM_ORGANIZER_CREATE') : Helpers\Languages::_('THM_ORGANIZER_APPLY');
 		$toolbar->appendButton('Standard', 'apply', $applyText, 'courses.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
-		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+		$toolbar->appendButton('Standard', 'save', Helpers\Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
+		$cancelText = $new ? Helpers\Languages::_('THM_ORGANIZER_CANCEL') : Helpers\Languages::_('THM_ORGANIZER_CLOSE');
 		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'courses.cancel', false);
+
+		$baseLink       = Uri::base() . "?option=com_thm_organizer&courseID=$courseID";
+		$buttonTemplate = '<a class="btn" href="XHREFX" target="_blank">XICONXXTEXTX</a>';
+
+		$icon = '<span class="icon-users"></span>';
+		$link = "$baseLink&view=participants";
+		$text = Helpers\Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS');
+
+		$button = str_replace('XHREFX', $link, $buttonTemplate);
+		$button = str_replace('XICONX', $icon, $button);
+		$button = str_replace('XTEXTX', $text, $button);
+		$toolbar->appendButton('Custom', $button, 'users');
+	}
+
+	/**
+	 * Creates a subtitle element from the term name and the start and end dates of the course.
+	 *
+	 * @return void modifies the course
+	 */
+	protected function setSubtitle()
+	{
+		$course = $this->item;
+		$name   = Helpers\Courses::getName($course->id);
+		$dates  = Helpers\Courses::getDateDisplay($course->id);
+		$termID = $course->preparatory ? Helpers\Terms::getNextID($course->termID) : $course->termID;
+		$term   = Helpers\Terms::getName($termID);
+
+		$this->subtitle = "<h6 class=\"sub-title\">$name ($course->id)<br>$term - $dates</h6>";
 	}
 }
