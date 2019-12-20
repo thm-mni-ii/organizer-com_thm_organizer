@@ -11,7 +11,7 @@
 namespace Organizer\Helpers\Validators;
 
 use Exception;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Helpers\Languages;
 use Organizer\Tables\Categories as CategoriesTable;
 use Organizer\Tables\Degrees as DegreesTable;

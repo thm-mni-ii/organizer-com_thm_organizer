@@ -14,8 +14,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers as Helpers;
-use Organizer\Helpers\HTML;
+use Organizer\Helpers;
 
 /**
  * Class loads persistent information a filtered set of course participants into the display context.

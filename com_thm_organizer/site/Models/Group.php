@@ -12,8 +12,8 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers as Helpers;
-use Organizer\Tables as Tables;
+use Organizer\Helpers;
+use Organizer\Tables;
 
 /**
  * Class which manages stored group data.

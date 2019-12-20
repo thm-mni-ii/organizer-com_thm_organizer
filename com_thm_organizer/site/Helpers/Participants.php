@@ -11,7 +11,7 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
-use Organizer\Tables as Tables;
+use Organizer\Tables;
 
 /**
  * Provides general functions for participant access checks, data retrieval and display.

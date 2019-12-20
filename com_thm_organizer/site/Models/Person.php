@@ -11,8 +11,8 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers as Helpers;
-use Organizer\Tables as Tables;
+use Organizer\Helpers;
+use Organizer\Tables;
 
 /**
  * Class which manages stored person data.

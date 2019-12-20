@@ -11,8 +11,8 @@
 
 namespace Organizer\Layouts\PDF;
 
-use Organizer\Helpers as Helpers;
-use Organizer\Tables as Tables;
+use Organizer\Helpers;
+use Organizer\Tables;
 
 /**
  * Base PDF export class used for the generation of various course exports.

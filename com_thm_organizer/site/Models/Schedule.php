@@ -13,7 +13,7 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Helpers\Validators\Schedules as SchedulesValidator;
 use Organizer\Tables\InstancePersons;
 use Organizer\Tables\Schedules as SchedulesTable;

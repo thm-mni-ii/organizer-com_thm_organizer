@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Helpers\Can;
 use Organizer\Tables\Persons as PersonsTable;
 

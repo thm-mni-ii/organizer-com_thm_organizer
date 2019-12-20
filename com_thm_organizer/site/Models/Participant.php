@@ -14,8 +14,8 @@ namespace Organizer\Models;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers as Helpers;
-use Organizer\Tables as Tables;
+use Organizer\Helpers;
+use Organizer\Tables;
 
 /**
  * Class which manages stored participant data.
@@ -123,12 +123,12 @@ class Participant extends BaseModel
 			}
 		}
 
-		$forename = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['forename']);
-		$forename = preg_replace('/ +/', ' ', $forename);
+		$forename         = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['forename']);
+		$forename         = preg_replace('/ +/', ' ', $forename);
 		$data['forename'] = $forename;
 
-		$surname = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['surname']);
-		$surname = preg_replace('/ +/', ' ', $surname);
+		$surname         = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['surname']);
+		$surname         = preg_replace('/ +/', ' ', $surname);
 		$data['surname'] = $surname;
 
 		$table = new Tables\Participants;

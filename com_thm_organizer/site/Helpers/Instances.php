@@ -13,7 +13,7 @@ namespace Organizer\Helpers;
 use Exception;
 use JDatabaseQuery;
 use Joomla\CMS\Factory;
-use Organizer\Tables as Tables;
+use Organizer\Tables;
 
 /**
  * Provides functions for XML lesson validation and modeling.

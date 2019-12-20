@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Helpers\Languages;
 use Organizer\Tables\Subjects as SubjectsTable;
 

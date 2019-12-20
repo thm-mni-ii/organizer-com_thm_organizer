@@ -13,7 +13,7 @@ namespace Organizer\Models;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\LSF;
 use Organizer\Helpers\OrganizerHelper;
-use Organizer\Tables as Tables;
+use Organizer\Tables;
 use Organizer\Tables\Mappings;
 
 /**

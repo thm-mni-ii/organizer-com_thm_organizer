@@ -13,7 +13,7 @@ namespace Organizer\Controllers;
 
 use Exception;
 use Joomla\CMS\Router\Route;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Models\CourseParticipant;
 
 trait CourseParticipants

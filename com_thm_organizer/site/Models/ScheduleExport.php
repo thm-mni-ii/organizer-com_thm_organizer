@@ -11,8 +11,8 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Organizer\Helpers as Helpers;
-use Organizer\Tables as Tables;
+use Organizer\Helpers;
+use Organizer\Tables;
 
 /**
  * Class retrieves information for the creation of a schedule export form.

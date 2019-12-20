@@ -14,7 +14,7 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\Toolbar;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Helpers\Courses as Helper;
 use Organizer\Helpers\Languages as Languages;
 

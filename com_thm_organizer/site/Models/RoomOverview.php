@@ -11,7 +11,7 @@
 namespace Organizer\Models;
 
 use Joomla\CMS\Form\Form;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Helpers\Input;
 
 /**

@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Can;
-use Organizer\Tables as Tables;
+use Organizer\Tables;
 
 /**
  * Class which manages stored room data.

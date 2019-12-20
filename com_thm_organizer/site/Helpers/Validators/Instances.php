@@ -13,7 +13,7 @@ namespace Organizer\Helpers\Validators;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\ResourceHelper;
 use Organizer\Models\ScheduleXML;
-use Organizer\Tables as Tables;
+use Organizer\Tables;
 
 /**
  * Provides functions for XML lesson validation and modeling.

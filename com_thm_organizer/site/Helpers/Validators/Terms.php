@@ -11,7 +11,7 @@
 namespace Organizer\Helpers\Validators;
 
 use Exception;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Helpers\Languages;
 use Organizer\Tables\Terms as TermsTable;
 use stdClass;

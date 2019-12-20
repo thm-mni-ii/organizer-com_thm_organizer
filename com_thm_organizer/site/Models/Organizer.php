@@ -12,7 +12,7 @@ namespace Organizer\Models;
 
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Helpers\Users;
-use Organizer\Tables as Tables;
+use Organizer\Tables;
 
 /**
  * Class which sets permissions for the view.

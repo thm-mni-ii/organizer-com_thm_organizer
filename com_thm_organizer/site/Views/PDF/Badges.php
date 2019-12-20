@@ -12,9 +12,8 @@
 namespace Organizer\Views\PDF;
 
 use Exception;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Organizer\Layouts\PDF\Badges as BadgesLayout;
-use Organizer\Tables\Participants;
 use Organizer\Views\BaseView;
 
 /**
@@ -22,6 +21,8 @@ use Organizer\Views\BaseView;
  */
 class Badges extends BaseView
 {
+	use CourseParticipants;
+
 	protected $_layout = 'Badges';
 
 	/**
@@ -53,59 +54,5 @@ class Badges extends BaseView
 		$badges = new BadgesLayout($courseID);
 		$badges->fill($participants);
 		$badges->render();
-	}
-
-	/**
-	 * Retrieves a list of relevant participants.
-	 *
-	 * @param   int  $courseID  the id of the course
-	 *
-	 * @return array the participants
-	 */
-	private function getParticipants($courseID)
-	{
-		$allParticipants = Helpers\Courses::getParticipants($courseID);
-		if ($participantID = Helpers\Input::getInt('participantID'))
-		{
-			$selected = [$participantID];
-		}
-		else
-		{
-			$selected = Helpers\Input::getSelectedIDs();
-		}
-
-		// Participants were requested who are not registered to the course.
-		if (array_diff($selected, $allParticipants))
-		{
-			return [];
-		}
-
-		$participantTemplate = ['address', 'city', 'forename', 'id', 'surname', 'zipCode'];
-		$selected            = $selected ? $selected : $allParticipants;
-		$participants        = [];
-		foreach ($selected as $participantID)
-		{
-			$table = new Participants;
-			if (!$table->load($participantID))
-			{
-				continue;
-			}
-
-			$participant = [];
-			foreach ($participantTemplate as $property)
-			{
-				if (empty($table->$property))
-				{
-					unset($participants[$participantID]);
-					continue 2;
-				}
-
-				$participant[$property] = $table->$property;
-			}
-
-			$participants[] = $participant;
-		}
-
-		return $participants;
 	}
 }

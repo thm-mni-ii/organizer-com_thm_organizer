@@ -12,7 +12,7 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.

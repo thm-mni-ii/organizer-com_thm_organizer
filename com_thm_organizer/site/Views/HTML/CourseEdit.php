@@ -13,7 +13,7 @@
 namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 use Joomla\CMS\Toolbar\Toolbar;
 
 /**

@@ -10,7 +10,7 @@
 
 namespace Organizer\Views\HTML;
 
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 
 /**
  * Loads lesson and event data for a filtered set of rooms into the view context.

@@ -12,7 +12,7 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Organizer\Helpers as Helpers;
+use Organizer\Helpers;
 
 /**
  * Class loads the schedule export filter form into the display context.
