@@ -85,6 +85,20 @@ trait CourseParticipants
 			$participants[] = $participant;
 		}
 
+		usort($participants, function ($participantOne, $participantTwo) {
+			if ($participantOne['surname'] > $participantTwo['surname'])
+			{
+				return true;
+			}
+
+			if ($participantTwo['surname'] > $participantOne['surname'])
+			{
+				return false;
+			}
+
+			return $participantOne['forename'] > $participantTwo['forename'];
+		});
+
 		return $participants;
 	}
 }
