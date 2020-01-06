@@ -75,7 +75,6 @@ trait CourseContext
 		$this->startDate = Helpers\Dates::formatDate($dates['startDate']);
 		$this->dates     = $this->startDate === $this->endDate ? $this->startDate : "$this->startDate - $this->endDate";
 
-
 		$this->name = Helpers\Courses::getName($courseID);
 
 		$table = new Tables\Courses;
@@ -87,18 +86,5 @@ trait CourseContext
 		$termID     = $table->termID;
 		$this->term = Helpers\Courses::isPreparatory($courseID) ?
 			Helpers\Terms::getName(Helpers\Terms::getNextID($termID)) : Helpers\Terms::getName($termID);
-	}
-
-	/**
-	 * Create a new TCPDF document and format the header with course information
-	 *
-	 * @return void
-	 */
-	protected function setHeader()
-	{
-		$header    = "$this->name $this->term";
-		$subHeader = "{$this->campus} {$this->dates}";
-
-		$this->SetHeaderData('thm_logo.png', '50', $header, $subHeader);
 	}
 }

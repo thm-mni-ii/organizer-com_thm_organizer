@@ -419,7 +419,7 @@ abstract class ScheduleList
 		else
 		{
 			$this->document->AddPage();
-			$this->document->cell('', '', Languages::_('THM_ORGANIZER_NO_EVENTS_PLANNED'));
+			$this->renderCell('', '', Languages::_('THM_ORGANIZER_NO_EVENTS_PLANNED'));
 		}
 	}*/
 }

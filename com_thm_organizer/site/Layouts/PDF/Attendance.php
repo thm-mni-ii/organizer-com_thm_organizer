@@ -20,9 +20,15 @@ class Attendance extends BaseLayout
 {
 	use CourseContext;
 
-	private $columnHeaders;
+	private $headers;
 
-	private $widths;
+	private $widths = [
+		'index'      => 10,
+		'name'       => 55,
+		'department' => 25,
+		'program'    => 85,
+		'room'       => 15
+	];
 
 	/**
 	 * Performs initial construction of the TCPDF Object.
@@ -35,12 +41,13 @@ class Attendance extends BaseLayout
 
 		$this->setCourse($courseID);
 
-		$exportType = Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
-		$this->setNames($exportType);
-
+		$documentName = "$this->name - $this->term - " . Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
+		$this->setNames($documentName);
+		$this->margins(10, 30, -1, 0, 10, 10);
 		$this->setHeader();
+		$this->showPrintOverhead(true);
 
-		$this->columnHeaders = [
+		$this->headers = [
 			'index'      => '#',
 			'name'       => 'Name',
 			'department' => Helpers\Languages::_('THM_ORGANIZER_DEPARTMENT'),
@@ -48,19 +55,13 @@ class Attendance extends BaseLayout
 			'room'       => Helpers\Languages::_('THM_ORGANIZER_ROOM')
 		];
 
-		$this->widths = [
-			'index'      => 8,
-			'name'       => 60,
-			'department' => 28,
-			'program'    => 59,
-			'room'       => 25
-		];
-
+		// Adjust for more information
 		if ($this->fee)
 		{
-			$this->columnHeaders['paid'] = Helpers\Languages::_('THM_ORGANIZER_PAID');
-			$this->widths['name']        = 40;
-			$this->widths['paid']        = 20;
+			$this->headers['paid'] = Helpers\Languages::_('THM_ORGANIZER_PAID');
+			$this->widths['name']  = 42;
+			$this->widths['paid']  = 14;
+			$this->widths['room']  = 14;
 		}
 	}
 
@@ -75,44 +76,26 @@ class Attendance extends BaseLayout
 
 		// create the column headers for the page
 		$this->SetFillColor(210);
-		$this->SetFont('', 'B');
-		foreach (array_keys($this->columnHeaders) as $columnName)
+		$this->changeSize(10);
+		$initial = true;
+		foreach (array_keys($this->headers) as $column)
 		{
-			$this->Cell($this->widths[$columnName], 7, $this->columnHeaders[$columnName], 1, 0, 'L', 1);
+			$border = [];
+			if ($initial)
+			{
+				$border['BLRT'] = $this->border;
+				$this->renderCell($this->widths[$column], 7, $this->headers[$column], self::CENTER, 'BLRT', 1);
+				$initial = false;
+				continue;
+			}
+			$border['BRT'] = $this->border;
+			$this->renderCell($this->widths[$column], 7, $this->headers[$column], self::CENTER, 'BRT', 1);
 		}
 		$this->Ln();
 
 		// reset styles
-		$this->SetFillColor(235, 252, 238);
-		$this->SetFont('');
-	}
-
-	/**
-	 * Add Table with participant information and additional places for students to TCPDF
-	 *
-	 * @return void
-	 */
-	private function createParticipantTable()
-	{
-
-		// Create empty cells for 25% more participants and round to a multiple of 6 due to the passports nature
-		$bufferSize = ceil(count($participants) * 1.25) + 1;
-		for ($itemNo; $itemNo < $bufferSize; $itemNo++)
-		{
-			foreach (array_keys($this->columnHeaders) as $columnName)
-			{
-				$value = $columnName == 'index' ? $itemNo : '';
-				$this->MultiCell($this->widths[$columnName], 5, $value, 'LRB', 'L', 0, 0);
-			}
-
-			$this->Ln();
-
-			if ($this->getY() > 260)
-			{
-				$this->Cell(array_sum($this->widths), 0, '', 'T');
-				$this->addPage();
-			}
-		}
+		$this->SetFillColor(255);
+		$this->changeSize(8);
 	}
 
 	/**
@@ -136,12 +119,14 @@ class Attendance extends BaseLayout
 
 			$maxLength = 0;
 
-			foreach (array_keys($this->columnHeaders) as $columnName)
+			foreach (array_keys($this->headers) as $columnName)
 			{
+				$border = ['BR' => $this->border];
 				switch ($columnName)
 				{
 					case 'index':
-						$value = $itemNo;
+						$border = ['BLR' => $this->border];
+						$value  = $itemNo;
 						break;
 					case 'name':
 						$value = empty($participant['forename']) ?
@@ -158,36 +143,35 @@ class Attendance extends BaseLayout
 						break;
 				}
 
-				$length = $this->MultiCell($this->widths[$columnName], 5, $value, '', 'L', 0, 0);
+				$length = $this->MultiCell($this->widths[$columnName], 5, $value, $border, self::LEFT);
 				if ($length > $maxLength)
 				{
 					$maxLength = $length;
 				}
 			}
 
-			// Reset for borders
-			$this->SetXY($startX, $startY);
-
-			foreach ($this->widths as $index => $width)
-			{
-				if ($index == 'index')
-				{
-					$this->MultiCell($width, $maxLength * 5, '', 'LRB', 'L', 0, 0);
-				}
-				else
-				{
-					$this->MultiCell($width, $maxLength * 5, '', 'RB', 'L', 0, 0);
-				}
-			}
-
 			$this->Ln();
 
-			if ($this->getY() > 260)
+			if ($this->getY() > 275)
 			{
-				$this->addPage();
+				$this->addAttendancePage();
 			}
 
 			$itemNo++;
 		}
+	}
+
+	/**
+	 * Set header items.
+	 *
+	 * @return void
+	 */
+	public function setHeader()
+	{
+		$header    = "$this->name $this->term";
+		$subHeader = "{$this->campus} {$this->dates}";
+
+		$this->SetHeaderData('thm_logo.png', '50', $header, $subHeader);
+		parent::setHeader();
 	}
 }

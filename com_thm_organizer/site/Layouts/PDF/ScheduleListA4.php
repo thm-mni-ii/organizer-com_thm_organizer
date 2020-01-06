@@ -20,7 +20,8 @@ class ScheduleListA4 extends BaseLayout
 	 */
 	public function __construct()
 	{
-		parent::__construct('l');
+		$orientation = self::LANDSCAPE; //$this->parameters['interval'] == 'day' ? self::PORTRAIT : self::LANDSCAPE;
+		parent::__construct($orientation);
 	}
 
 	/**
@@ -58,15 +59,11 @@ class ScheduleListA4 extends BaseLayout
 	 */
 	protected function getDocument()
 	{
-		$orientation = $this->parameters['interval'] == 'day' ? 'p' : 'l';
-		$document    = new \THM_OrganizerTCPDFScheduleA4($orientation);
-		$document->SetTitle($this->parameters['pageTitle']);
+		$this->SetTitle($this->parameters['pageTitle']);
 		$this->margins(5, 25, 5, 5);
-		$document->setCellPaddings('', 1, '', 1);
-		$document->SetTextColor(0, 0, 0);
-		$document->setHeaderTemplateAutoreset(true);
-
-		return $document;
+		$this->setCellPaddings('', 1, '', 1);
+		$this->SetTextColor(0, 0, 0);
+		$this->setHeaderTemplateAutoreset(true);
 	}
 
 	/**
@@ -125,7 +122,7 @@ class ScheduleListA4 extends BaseLayout
 			$counts = [];
 			foreach ($instances as $instance)
 			{
-				$counts[] = $this->document->getNumLines($instance, $this->parameters['dataWidth']);
+				$counts[] = $this->getNumLines($instance, $this->parameters['dataWidth']);
 			}
 			$lineCount = max($counts);
 
@@ -151,7 +148,7 @@ class ScheduleListA4 extends BaseLayout
 	protected function outputGrid(&$columnHeaders, $dimensions, $startDate, $breakDate)
 	{
 		$rowCells  = $this->getRowCells($columnHeaders);
-		$originalY = $this->document->getY();
+		$originalY = $this->getY();
 
 		if (empty($rowCells))
 		{
@@ -166,11 +163,11 @@ class ScheduleListA4 extends BaseLayout
 		// The row size would cause it to traverse the page break
 		if (($originalY + $totalRowHeight + $totalPaddingHeight + $dimensions['bm']) > ($dimensions['hk']))
 		{
-			$this->document->Ln();
+			$this->Ln();
 			$this->outputHeader($columnHeaders, $startDate, $breakDate, true);
 		}
 
-		$this->document->SetFont('helvetica', '', 8, '');
+		$this->SetFont('helvetica', '', 8, '');
 
 		$rowHeight = 0;
 		foreach ($rowCells as $rowName => $row)
@@ -180,11 +177,11 @@ class ScheduleListA4 extends BaseLayout
 				continue;
 			}
 
-			$this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
+			$this->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
 
-			$originalY = $this->document->getY();
+			$originalY = $this->getY();
 			$newY      = $originalY + $rowHeight + $this->parameters['padding'];
-			$this->document->setY($newY);
+			$this->setY($newY);
 
 			$cellHeight = $row['lineCount'] * $this->parameters['cellLineHeight'];
 
@@ -199,7 +196,7 @@ class ScheduleListA4 extends BaseLayout
 				if ($validIndex)
 				{
 					// Small horizontal spacer
-					$this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
+					$this->MultiCell(1, $cellHeight, '');
 
 					if (empty($row[$columnHeaders[$currentDate]['value']]))
 					{
@@ -213,29 +210,28 @@ class ScheduleListA4 extends BaseLayout
 					}
 
 					// Lesson instance cell
-					$this->document->MultiCell(
+					$this->MultiCell(
 						$this->parameters['dataWidth'],
 						$cellHeight,
 						$dataText,
 						$border,
-						'C',
-						0,
-						0,
-						'',
-						'',
-						true,
-						0,
-						false,
-						true,
-						$cellHeight,
-						'M'
+						self::CENTER, //d
+						0, //d
+						0, //d
+						'', //d
+						'', //d
+						true, //d
+						0, //d
+						false, //d
+						true, //d
+						$cellHeight
 					);
 				}
 
 				$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
 			}
 
-			$this->document->Ln();
+			$this->Ln();
 		}
 
 		$this->outputRowEnd();
@@ -253,22 +249,14 @@ class ScheduleListA4 extends BaseLayout
 	 */
 	protected function outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid)
 	{
-		$this->document->AddPage();
+		$this->AddPage();
 
-		$this->document->SetFont('helvetica', '', 10, '');
-		$this->document->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [0, 0, 0]]);
+		$this->SetFont('helvetica', '', 10, '');
+		$this->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [0, 0, 0]]);
 
 		if ($outputTimeGrid)
 		{
-			$this->document->MultiCell(
-				$this->parameters['timeWidth'],
-				0,
-				Languages::_('THM_ORGANIZER_TIME'),
-				'TB',
-				'C',
-				0,
-				0
-			);
+			$this->MultiCell($this->parameters['timeWidth'], 0, Languages::_('THM_ORGANIZER_TIME'), self::HORIZONTAL);
 		}
 
 		for ($currentDate = $startDate; $currentDate != $breakDate;)
@@ -280,22 +268,15 @@ class ScheduleListA4 extends BaseLayout
 
 			if ($validIndex)
 			{
-				$this->document->MultiCell(
-					$this->parameters['dataWidth'] + 1,
-					0,
-					$columnHeaders[$currentDate]['text'],
-					'TB',
-					'C',
-					0,
-					0
-				);
+				$this->MultiCell($this->parameters['dataWidth'] + 1, 0, $columnHeaders[$currentDate]['text'],
+					self::HORIZONTAL);
 			}
 
 			$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
 		}
 
-		$this->document->Ln();
-		$this->document->SetFont('helvetica', '', 8, '');
+		$this->Ln();
+		$this->SetFont('helvetica', '', 8, '');
 	}
 
 	/**
@@ -305,11 +286,12 @@ class ScheduleListA4 extends BaseLayout
 	 */
 	private function outputRowEnd()
 	{
-		$originalY = $this->document->getY();
-		$this->document->setY($originalY - 4);
+		$originalY = $this->getY();
+		$this->setY($originalY - 4);
 
-		$this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
-		$this->document->cell(0, 0, '', 'B', 1, 0, 0);
+		$this->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
+		$this->renderCell(0, 0, '', self::LEFT, self::BOTTOM);
+		$this->Ln();
 	}
 
 	/**
@@ -322,22 +304,21 @@ class ScheduleListA4 extends BaseLayout
 	 */
 	private function outputTimeCell($height, $text)
 	{
-		$this->document->MultiCell(
+		$this->MultiCell(
 			$this->parameters['timeWidth'],
 			$height,
 			$text,
-			0,
-			'C',
-			0,
-			0,
-			'',
-			'',
-			true,
-			0,
-			false,
-			true,
-			$height,
-			'M'
+			0,//d
+			self::CENTER, //d
+			0, //d
+			0, //d
+			'', //d
+			'', //d
+			true, //d
+			0, //d
+			false, //d
+			true, ///d
+			$height
 		);
 	}
 
@@ -356,9 +337,9 @@ class ScheduleListA4 extends BaseLayout
 	{
 		foreach ($rowHeaders as $rowHeader)
 		{
-			$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
+			$headerLineCount = $this->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
 			$rowCells        = $this->getRowCells($columnHeaders, $rowHeader);
-			$originalY       = $this->document->getY();
+			$originalY       = $this->getY();
 
 			if (empty($rowCells))
 			{
@@ -377,28 +358,28 @@ class ScheduleListA4 extends BaseLayout
 			// The row size would cause it to traverse the page break
 			if (($originalY + $totalRowHeight + $totalPaddingHeight + $dimensions['bm']) > ($dimensions['hk']))
 			{
-				$this->document->Ln();
+				$this->Ln();
 				$this->outputHeader($columnHeaders, $startDate, $breakDate, true);
 
 				// New page, new Y
-				$originalY = $this->document->getY();
+				$originalY = $this->getY();
 			}
 
-			$this->document->SetFont('helvetica', '', 8, '');
+			$this->SetFont('helvetica', '', 8, '');
 
 			if (empty($rowCells))
 			{
 				$newY = $originalY + $this->parameters['padding'];
-				$this->document->setY($newY);
+				$this->setY($newY);
 
 				$height = $headerLineCount * $this->parameters['cellLineHeight'];
 				$text   = $rowHeader['text'];
 				$this->outputTimeCell($height, $text);
 
 				// One long cell for the border
-				$this->document->MultiCell(0, $height, '', 0, 0, 0, 0, '', '', true);
+				$this->MultiCell(0, $height, '');
 
-				$this->document->Ln();
+				$this->Ln();
 
 				$this->outputRowEnd();
 
@@ -414,11 +395,11 @@ class ScheduleListA4 extends BaseLayout
 					continue;
 				}
 
-				$this->document->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
+				$this->SetLineStyle(['width' => 0.1, 'dash' => 0, 'color' => [0, 0, 0]]);
 
-				$originalY = $this->document->getY();
+				$originalY = $this->getY();
 				$newY      = $originalY + $rowHeight + $this->parameters['padding'];
-				$this->document->setY($newY);
+				$this->setY($newY);
 
 				$lineCount  = $outputTime ? max($headerLineCount, $row['lineCount']) : $row['lineCount'];
 				$cellHeight = $lineCount * $this->parameters['cellLineHeight'];
@@ -436,7 +417,7 @@ class ScheduleListA4 extends BaseLayout
 					if ($validIndex)
 					{
 						// Small horizontal spacer
-						$this->document->MultiCell(1, $cellHeight, '', 0, 0, 0, 0);
+						$this->MultiCell(1, $cellHeight, '');
 
 						if (empty($row[$columnHeaders[$currentDate]['value']]))
 						{
@@ -450,33 +431,40 @@ class ScheduleListA4 extends BaseLayout
 						}
 
 						// Lesson instance cell
-						$this->document->MultiCell(
+						$this->MultiCell(
 							$this->parameters['dataWidth'],
 							$cellHeight,
 							$dataText,
 							$border,
-							'C',
+							self::CENTER,
 							0,
 							0,
-							'',
-							'',
-							true,
-							0,
-							false,
-							true,
-							$cellHeight,
-							'M'
+							'', //d
+							'', //d
+							true, //d
+							0, //d
+							false, //d
+							true, //d
+							$cellHeight
 						);
 					}
 
 					$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
 				}
 
-				$this->document->Ln();
+				$this->Ln();
 			}
 
 			$this->outputRowEnd();
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function fill($data)
+	{
+		// TODO: Implement fill() method.
 	}
 }
 
@@ -504,7 +492,7 @@ class ScheduleListA4 extends BaseLayout
 		$this->SetTextColorArray($this->header_text_color);
 
 		// Plan title
-		$this->SetFont($headerFont[0], 'B', $headerFont[2] + 1);
+		$this->SetFont($headerFont[0], self::BOLD, $headerFont[2] + 1);
 		$this->SetX($header_x);
 		$this->Cell($cw, $cell_height, $headerData['title'], 0, 1, '', 0, '', 0);
 
@@ -514,20 +502,7 @@ class ScheduleListA4 extends BaseLayout
 		$this->MultiCell(
 			$cw,
 			$cell_height,
-			$headerData['string'],
-			0,
-			'',
-			0,
-			1,
-			'',
-			'',
-			true,
-			0,
-			false,
-			true,
-			0,
-			'T',
-			false
+			$headerData['string']
 		);
 
 		$this->endTemplate();
@@ -552,5 +527,5 @@ class ScheduleListA4 extends BaseLayout
 	$this->SetFont('helvetica', 'I', 7);
 	// Page number
 	$pagination = 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages();
-	$this->Cell(0, 10, $pagination, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+	$this->Cell(0, 10, $pagination, 0, false, self::CENTER, 0, '', 0, false, 'T', 'M');
 }*/

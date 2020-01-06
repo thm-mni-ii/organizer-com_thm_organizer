@@ -24,7 +24,8 @@ class ScheduleListA3 extends BaseLayout
 	 */
 	public function __construct()
 	{
-		parent::__construct('l', 'mm', 'A3');
+		$orientation = self::LANDSCAPE; //$this->parameters['interval'] == 'day' ? 'p' : 'l';
+		parent::__construct(self::LANDSCAPE, 'mm', 'A3');
 	}
 
 	/**
@@ -134,18 +135,14 @@ class ScheduleListA3 extends BaseLayout
 	 */
 	protected function getDocument()
 	{
-		$orientation = $this->parameters['interval'] == 'day' ? 'p' : 'l';
-		$document    = new \THM_OrganizerTCPDFScheduleA3($orientation);
-		$document->SetTitle($this->parameters['pageTitle']);
+		$this->SetTitle($this->parameters['pageTitle']);
 		$this->margins(5, 25, 5);
 
 		// This is here to access the bottom margin.
-		$document->setPageOrientation($orientation, false, '15');
-		$document->setCellPaddings('', .5, '', .5);
-		$document->SetTextColor(0, 0, 0);
-		$document->setHeaderTemplateAutoreset(true);
-
-		return $document;
+		//$this->setPageOrientation($orientation, false, '15');
+		$this->setCellPaddings('', .5, '', .5);
+		$this->SetTextColor(0, 0, 0);
+		$this->setHeaderTemplateAutoreset(true);
 	}
 
 	/**
@@ -406,7 +403,7 @@ class ScheduleListA3 extends BaseLayout
 				$lineCount                     = max(
 					array_map(
 						function ($instance) {
-							return $this->document->getNumLines($instance, $this->parameters['dataWidth']);
+							return $this->getNumLines($instance, $this->parameters['dataWidth']);
 						},
 						$dates
 					)
@@ -425,7 +422,7 @@ class ScheduleListA3 extends BaseLayout
 					$lineCount                                    = max(
 						array_map(
 							function ($instance) {
-								return $this->document->getNumLines($instance, $this->parameters['dataWidth']);
+								return $this->getNumLines($instance, $this->parameters['dataWidth']);
 							},
 							$dates
 						)
@@ -495,21 +492,7 @@ class ScheduleListA3 extends BaseLayout
 
 		if ($this->parameters['resourceCount'] > 1)
 		{
-			$this->document->MultiCell(
-				$this->parameters['resourceWidth'],
-				$height,
-				'',
-				'RB',
-				'C',
-				0,
-				0,
-				'',
-				'',
-				true,
-				0,
-				false,
-				true
-			);
+			$this->MultiCell($this->parameters['resourceWidth'], $height, '', self::GINSBERG);
 		}
 
 		for ($currentDate = $startDate; $currentDate != $breakDate;)
@@ -521,27 +504,13 @@ class ScheduleListA3 extends BaseLayout
 			);
 			if ($validIndex)
 			{
-				$this->document->MultiCell(
-					$this->parameters['dataWidth'],
-					$height,
-					'',
-					'RB',
-					'C',
-					0,
-					0,
-					'',
-					'',
-					true,
-					0,
-					false,
-					true
-				);
+				$this->MultiCell($this->parameters['dataWidth'], $height, '', self::GINSBERG);
 			}
 
 			$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
 		}
 
-		$this->document->Ln();
+		$this->Ln();
 	}
 
 	/**
@@ -557,13 +526,13 @@ class ScheduleListA3 extends BaseLayout
 	protected function outputGrid(&$columnHeaders, $dimensions, $startDate, $breakDate)
 	{
 		$rowCells       = $this->getRowCells($columnHeaders);
-		$originalY      = $this->document->getY();
+		$originalY      = $this->getY();
 		$totalRowHeight = $rowCells['lineCount'] * $this->parameters['cellLineHeight'];
 
 		// The row size would cause it to traverse the page break
 		if (($originalY + $totalRowHeight + $dimensions['bm']) > ($dimensions['hk']))
 		{
-			$this->document->Ln();
+			$this->Ln();
 			$this->outputHeader($columnHeaders, $startDate, $breakDate, false);
 		}
 
@@ -589,10 +558,10 @@ class ScheduleListA3 extends BaseLayout
 	 */
 	protected function outputHeader($columnHeaders, $startDate, $breakDate, $outputTimeGrid)
 	{
-		$this->document->AddPage();
+		$this->AddPage();
 
-		$this->document->SetFont('helvetica', '', 10, '');
-		$this->document->SetLineStyle([
+		$this->SetFont('helvetica', '', 10, '');
+		$this->SetLineStyle([
 			'width' => 0.5,
 			'cap'   => 'butt',
 			'join'  => 'miter',
@@ -602,28 +571,13 @@ class ScheduleListA3 extends BaseLayout
 
 		if ($outputTimeGrid)
 		{
-			$this->document->MultiCell(
-				$this->parameters['timeWidth'],
-				0,
-				Languages::_('THM_ORGANIZER_TIME'),
-				'TB',
-				'C',
-				0,
-				0
-			);
+			$this->MultiCell($this->parameters['timeWidth'], 0, Languages::_('THM_ORGANIZER_TIME'), self::HORIZONTAL);
 		}
 
 		if ($this->parameters['resourceCount'] > 1)
 		{
-			$this->document->MultiCell(
-				$this->parameters['resourceWidth'],
-				0,
-				Languages::_('THM_ORGANIZER_RESOURCE'),
-				'TB',
-				'C',
-				0,
-				0
-			);
+			$this->MultiCell($this->parameters['resourceWidth'], 0, Languages::_('THM_ORGANIZER_RESOURCE'),
+				self::HORIZONTAL);
 		}
 
 		for ($currentDate = $startDate; $currentDate != $breakDate;)
@@ -635,24 +589,17 @@ class ScheduleListA3 extends BaseLayout
 
 			if ($validIndex)
 			{
-				$this->document->MultiCell(
-					$this->parameters['dataWidth'],
-					0,
-					$columnHeaders[$currentDate]['text'],
-					'TB',
-					'C',
-					0,
-					0
-				);
+				$this->MultiCell($this->parameters['dataWidth'], 0, $columnHeaders[$currentDate]['text'],
+					self::HORIZONTAL);
 			}
 
 			$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
 		}
 
-		$this->document->Ln();
+		$this->Ln();
 
 		// Reset font after header
-		$this->document->SetFont('helvetica', '', 6, '');
+		$this->SetFont('helvetica', '', 6, '');
 	}
 
 	/**
@@ -718,22 +665,21 @@ class ScheduleListA3 extends BaseLayout
 					$dataBorder     = $this->getCellBorder();
 				}
 
-				$this->document->MultiCell(
+				$this->MultiCell(
 					$this->parameters['resourceWidth'],
 					$cellHeight,
 					$resourceText,
 					$resourceBorder,
-					'C',
-					0,
-					0,
-					'',
-					'',
-					true,
-					0,
-					false,
-					true,
-					$cellHeight,
-					'M'
+					self::CENTER, //d
+					0, //d
+					0, //d
+					'', //d
+					'', //d
+					true, //d
+					0, //d
+					false, //d
+					true, //d
+					$cellHeight
 				);
 				$outputResource = false;
 				$resourceRowNumber++;
@@ -751,29 +697,28 @@ class ScheduleListA3 extends BaseLayout
 						$dataText = empty($row[$columnHeaders[$currentDate]['value']]) ?
 							'' : $row[$columnHeaders[$currentDate]['value']];
 						// Lesson instance cell
-						$this->document->MultiCell(
+						$this->MultiCell(
 							$this->parameters['dataWidth'],
 							$cellHeight,
 							$dataText,
 							$dataBorder,
-							'C',
-							0,
-							0,
-							'',
-							'',
-							true,
-							0,
-							false,
-							true,
-							$cellHeight,
-							'M'
+							self::CENTER, //d
+							0, //d
+							0, //d
+							'', //d
+							'', //d
+							true, //d
+							0, //d
+							false, //d
+							true, //d
+							$cellHeight
 						);
 					}
 
 					$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
 				}
 
-				$this->document->Ln();
+				$this->Ln();
 			}
 		}
 	}
@@ -789,22 +734,21 @@ class ScheduleListA3 extends BaseLayout
 	 */
 	private function outputTimeCell($height, $text, $border = 'R')
 	{
-		$this->document->MultiCell(
+		$this->MultiCell(
 			$this->parameters['timeWidth'],
 			$height,
 			$text,
 			$border,
-			'C',
-			0,
-			0,
-			'',
-			'',
-			true,
-			0,
-			false,
-			true,
-			$height,
-			'M'
+			self::CENTER, //d
+			0, //d
+			0, //d
+			'', //d
+			'', //d
+			true, //d
+			0, //d
+			false, //d
+			true, //d
+			$height
 		);
 	}
 
@@ -823,9 +767,9 @@ class ScheduleListA3 extends BaseLayout
 	{
 		foreach ($rowHeaders as $rowHeader)
 		{
-			$headerLineCount = $this->document->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
+			$headerLineCount = $this->getNumLines($rowHeader['text'], $this->parameters['dataWidth']);
 			$rowCells        = $this->getRowCells($columnHeaders, $rowHeader);
-			$originalY       = $this->document->getY();
+			$originalY       = $this->getY();
 
 			if (empty($rowCells))
 			{
@@ -840,7 +784,7 @@ class ScheduleListA3 extends BaseLayout
 			// The row size would cause it to traverse the page break
 			if (($originalY + $totalRowHeight + $dimensions['bm']) > ($dimensions['hk']))
 			{
-				$this->document->Ln();
+				$this->Ln();
 				$this->outputHeader($columnHeaders, $startDate, $breakDate, true);
 			}
 
@@ -923,30 +867,37 @@ class ScheduleListA3 extends BaseLayout
 					$dataText = empty($row[$columnHeaders[$currentDate]['value']]) ?
 						'' : $row[$columnHeaders[$currentDate]['value']];
 					// Lesson instance cell
-					$this->document->MultiCell(
+					$this->MultiCell(
 						$this->parameters['dataWidth'],
 						$cellHeight,
 						$dataText,
-						'RB',
-						'C',
-						0,
-						0,
-						'',
-						'',
-						true,
-						0,
-						false,
-						true,
-						$cellHeight,
-						'M'
+						self::GINSBERG,
+						self::CENTER, //d
+						0, //d
+						0, //d
+						'', //d
+						'', //d
+						true, //d
+						0, //d
+						false, //d
+						true, //d
+						$cellHeight
 					);
 				}
 
 				$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
 			}
 
-			$this->document->Ln();
+			$this->Ln();
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function fill($data)
+	{
+		// TODO: Implement fill() method.
 	}
 }
 
@@ -983,7 +934,7 @@ class ScheduleListA3 extends BaseLayout
 		$this->SetTextColorArray($this->header_text_color);
 
 		// Plan title
-		$this->SetFont($headerFont[0], 'B', $headerFont[2] + 1);
+		$this->SetFont($headerFont[0], self::BOLD, $headerFont[2] + 1);
 		$this->SetX($header_x);
 		$this->Cell($cw, $cell_height, $headerData['title'], 0, 1, '', 0, '', 0);
 
@@ -993,20 +944,7 @@ class ScheduleListA3 extends BaseLayout
 		$this->MultiCell(
 			$cw,
 			$cell_height,
-			$headerData['string'],
-			0,
-			'',
-			0,
-			1,
-			'',
-			'',
-			true,
-			0,
-			false,
-			true,
-			0,
-			'T',
-			false
+			$headerData['string']
 		);
 
 		$this->endTemplate();
@@ -1031,5 +969,5 @@ class ScheduleListA3 extends BaseLayout
 	$this->SetFont('helvetica', 'I', 7);
 	// Page number
 	$pagination = 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages();
-	$this->Cell(0, 10, $pagination, 0, false, 'C', 0, '', 0, false, 'T', 'M');
+	$this->Cell(0, 10, $pagination, 0, false, self::CENTER, 0, '', 0, false, 'T', 'M');
 }*/

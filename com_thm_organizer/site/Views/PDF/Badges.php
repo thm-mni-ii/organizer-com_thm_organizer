@@ -13,7 +13,7 @@ namespace Organizer\Views\PDF;
 
 use Exception;
 use Organizer\Helpers;
-use Organizer\Layouts\PDF\Badges as BadgesLayout;
+use Organizer\Layouts\PDF\Badges as Layout;
 use Organizer\Views\BaseView;
 
 /**
@@ -51,7 +51,7 @@ class Badges extends BaseView
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
 		}
 
-		$badges = new BadgesLayout($courseID);
+		$badges = new Layout($courseID);
 		$badges->fill($participants);
 		$badges->render();
 	}

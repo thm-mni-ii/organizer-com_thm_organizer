@@ -13,7 +13,7 @@ namespace Organizer\Views\PDF;
 
 use Exception;
 use Organizer\Helpers;
-use Organizer\Layouts\PDF\Attendance as AttendanceLayout;
+use Organizer\Layouts\PDF\Attendance as Layout;
 use Organizer\Views\BaseView;
 
 /**
@@ -51,7 +51,7 @@ class Attendance extends BaseView
 			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
 		}
 
-		$attendance = new AttendanceLayout($courseID);
+		$attendance = new Layout($courseID);
 		$attendance->fill($participants);
 		$attendance->render();
 	}
