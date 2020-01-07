@@ -12,9 +12,9 @@
 namespace Organizer\Models;
 
 use Exception;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Can;
+use Organizer\Helpers\Input;
 use Organizer\Tables\Participants as ParticipantsTable;
 
 /**
@@ -22,8 +22,6 @@ use Organizer\Tables\Participants as ParticipantsTable;
  */
 class ParticipantEdit extends EditModel
 {
-	public $item = null;
-
 	/**
 	 * Checks for user authorization to access the view
 	 *
@@ -44,8 +42,8 @@ class ParticipantEdit extends EditModel
 	 */
 	public function getItem($pk = null)
 	{
-		$pk         = empty($pk) ? Factory::getUser()->id : $pk;
-		$this->item = parent::getItem($pk);
+		$this->item           = parent::getItem($pk);
+		$this->item->referrer = Input::getInput()->server->getString('HTTP_REFERER');
 
 		return $this->item;
 	}

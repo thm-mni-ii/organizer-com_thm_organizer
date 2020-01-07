@@ -115,7 +115,7 @@ trait CourseParticipants
 	{
 		$model = new CourseParticipant;
 
-		if ($model->receivePayment())
+		if ($model->confirmPayment())
 		{
 			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
 		}

@@ -22,13 +22,6 @@ use Organizer\Helpers\Languages;
  */
 class ParticipantEdit extends EditView
 {
-
-	public $item;
-
-	public $form;
-
-	public $course;
-
 	protected function addToolBar()
 	{
 		$new   = empty($this->item->id);

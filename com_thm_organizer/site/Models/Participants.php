@@ -59,7 +59,7 @@ class Participants extends ListModel
 		$this->setSearchFilter($query, ['pa.forename', 'pa.surname', 'pr.name_de', 'pr.name_en']);
 		$this->setValueFilters($query, ['attended', 'paid', 'programID']);
 
-		if ($courseID = Input::getFilterID('course'))
+		if ($courseID = $this->state->get('filter.courseID'))
 		{
 			$query->select('cp.attended, cp.paid, cp.status')
 				->innerJoin('#__thm_organizer_course_participants AS cp on cp.participantID = pa.id')
@@ -91,5 +91,23 @@ class Participants extends ListModel
 		$this->setOrdering($query);
 
 		return $query;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return void populates state properties
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		parent::populateState($ordering, $direction);
+
+		if ($courseID = Input::getFilterID('course'))
+		{
+			$this->setState("filter.courseID", $courseID);
+		}
 	}
 }

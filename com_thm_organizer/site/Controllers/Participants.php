@@ -11,10 +11,9 @@
 namespace Organizer\Controllers;
 
 use Exception;
-use Joomla\CMS\Router\Route;
 use Organizer\Controller;
+use Organizer\Helpers\Input;
 use Organizer\Helpers\OrganizerHelper;
-use Organizer\Helpers\Routing;
 use Organizer\Models\Participant;
 
 /**
@@ -39,9 +38,7 @@ class Participants extends Controller
 	 */
 	public function save()
 	{
-		$backend = $this->clientContext === self::BACKEND;
-		$model   = new Participant();
-		$url     = Routing::getRedirectBase();
+		$model = new Participant();
 
 		if ($participantID = $model->save())
 		{
@@ -52,15 +49,16 @@ class Participants extends Controller
 			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
 		}
 
-		if ($backend)
-		{
-			$url .= "&view=participants";
-		}
-		else
-		{
-			$url .= "&view=courses";
-		}
+		$this->setRedirect(Input::getString('referrer'));
+	}
 
-		$this->setRedirect(Route::_($url, false));
+	/**
+	 * Redirects to the referring view.
+	 *
+	 * @return void
+	 */
+	public function cancel()
+	{
+		$this->setRedirect(Input::getString('referrer'));
 	}
 }

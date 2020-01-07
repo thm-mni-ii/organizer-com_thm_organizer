@@ -2,14 +2,13 @@
 <form addfieldprefix="Organizer\Fields">
     <fieldset name="details">
         <field name="id" type="hidden" default="0"/>
-        <field name="languageTag" type="hidden" default=""/>
-        <field name="lessonID" type="hidden" default=""/>
+        <field name="referrer" type="hidden"/>
         <field name="forename" type="Blank" label="FORENAME" required="true"/>
         <field name="surname" type="Blank" label="SURNAME" required="true"/>
         <field name="address" type="Blank" label="ADDRESS" required="true"/>
         <field name="zipCode" type="Blank" label="ZIP_CODE" required="true"/>
         <field name="city" type="Blank" label="RESIDENCE" required="true"/>
-        <field name="programID" type="Programs" label="PROGRAM" required="true">
+        <field name="programID" type="Programs" label="PROGRAM" class="input-15" required="true">
             <option value="">SELECT_PROGRAM</option>
         </field>
     </fieldset>

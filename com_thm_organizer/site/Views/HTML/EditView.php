@@ -10,6 +10,8 @@
 
 namespace Organizer\Views\HTML;
 
+use Organizer\Helpers\Input;
+
 /**
  * Class loads the resource form into display context. Specific resource determined by extending class.
  */
@@ -26,7 +28,7 @@ abstract class EditView extends FormView
 	 */
 	public function display($tpl = null)
 	{
-		$this->item = $this->get('Item');
+		$this->item = $this->getModel()->getItem(Input::getSelectedID());
 		parent::display($tpl);
 	}
 }

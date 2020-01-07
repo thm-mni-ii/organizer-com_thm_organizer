@@ -124,14 +124,6 @@ class Participants extends ListView
 			$toolbar->appendButton('Custom', $batchButton, 'batch');
 		}
 
-		$toolbar->appendButton(
-			'Standard',
-			'checkbox-checked',
-			Helpers\Languages::_('THM_ORGANIZER_BADGES'),
-			'participants.printBadges',
-			false
-		);
-
 		if ($admin)
 		{
 			$toolbar->appendButton(

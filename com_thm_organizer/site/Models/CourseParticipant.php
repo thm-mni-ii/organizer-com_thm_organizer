@@ -13,9 +13,11 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Factory;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\Courses;
 use Organizer\Helpers\Input;
+use Organizer\Helpers\Languages;
 use Organizer\Helpers\OrganizerHelper;
 use Organizer\Tables\CourseParticipants as CourseParticipantsTable;
 
@@ -222,6 +224,102 @@ class CourseParticipant extends BaseModel
 	{
 		return new CourseParticipantsTable;
 	}
+/*
+	private function mailRemoval($courseID, $participantID)
+	{
+		return;
+		$mailer = Factory::getMailer();
+
+		$user       = Factory::getUser($participantID);
+		$userParams = json_decode($user->params, true);
+		$mailer->addRecipient($user->email);
+
+		if (!empty($userParams['language']))
+		{
+			Input::getInput()->set('languageTag', explode('-', $userParams['language'])[0]);
+		}
+
+		$params = Input::getParams();
+		$sender = Factory::getUser($params->get('mailSender'));
+
+		if (empty($sender->id))
+		{
+			return;
+		}
+
+		$mailer->setSender([$sender->email, $sender->name]);
+
+		$course   = Courses::getCourse($courseID);
+		$dateText = Courses::getDateDisplay($courseID);
+
+		if (empty($course) or empty($dateText))
+		{
+			return;
+		}
+
+		$campus     = Courses::getCampus($courseID);
+		$courseName = (empty($campus) or empty($campus['name'])) ?
+			$course['name'] : "{$course['name']} ({$campus['name']})";
+		$mailer->setSubject($courseName);
+		$body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
+
+		$dates = explode(' - ', $dateText);
+
+		if (count($dates) == 1 or $dates[0] == $dates[1])
+		{
+			$body .= sprintf(Languages::_('THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
+		}
+		else
+		{
+			$body .= sprintf(
+				Languages::_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n',
+				$courseName,
+				$dates[0],
+				$dates[1]
+			);
+		}
+
+		$statusText = '';
+
+		switch ($state)
+		{
+			case 0:
+				$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
+				break;
+			case 1:
+				$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
+				break;
+			case 2:
+				$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
+				break;
+			default:
+				return;
+		}
+
+		$body .= ' => ' . $statusText . '\n\n';
+
+		$body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
+		$body .= $sender->name . '\n\n';
+		$body .= $sender->email . '\n';
+
+		$addressParts = explode(' – ', $params->get('address'));
+
+		foreach ($addressParts as $aPart)
+		{
+			$body .= $aPart . '\n';
+		}
+
+		$contactParts = explode(' – ', $params->get('contact'));
+
+		foreach ($contactParts as $cPart)
+		{
+			$body .= $cPart . '\n';
+		}
+
+		$mailer->setBody($body);
+		$mailer->Send();
+	}
+*/
 
 	/**
 	 * Sets the payment status to paid.
@@ -241,7 +339,14 @@ class CourseParticipant extends BaseModel
 			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 		}
 
-		$instances = Courses::getInstances();
+		$query = $this->_db->getQuery('true');
+		$query->select("DISTINCT i.id")
+			->from('#__thm_organizer_instances AS i')
+			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
+			->where("u.courseID = $courseID")
+			->order('i.id');
+		$this->_db->setQuery($query);
+		$instances = implode(',', OrganizerHelper::executeQuery('loadColumn', []));
 
 		foreach ($participantIDs as $participantID)
 		{
@@ -250,32 +355,52 @@ class CourseParticipant extends BaseModel
 				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
 			}
 
-			$table = $this->getTable();
-
-			if (!$table->load(['courseID' => $courseID, 'participantID' => $participantID]))
+			if (!$this->removeAssociations($courseID, $instances, $participantID))
 			{
+				// Break for error handling
 				return false;
 			}
 
-			if (!$table->delete())
-			{
-				return false;
-			}
-
-
-			$query = $this->_db->getQuery('true');
-			$query->select("DISTINCT i.id")
-				->from('#__thm_organizer_instances AS i')
-				->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
-				->where("u.courseID = $courseID")
-				->order('i.id');
-
-			$this->_db->setQuery($query);
-
-			return OrganizerHelper::executeQuery('loadColumn', []);
+			// Send mail
+			// Aggregate mail for confirmation
 		}
 
+		// Send a confirmation e-mail to the sender.
+
 		return true;
+	}
+
+	/**
+	 * Removes the participants associations relevant to the course.
+	 *
+	 * @param   int     $courseID       the course id
+	 * @param   string  $instanceIDs    the instance ids concatenated for use in a where clause
+	 * @param   int     $participantID  the id of the participant
+	 *
+	 * @return bool
+	 */
+	private function removeAssociations($courseID, $instanceIDs, $participantID)
+	{
+		$table = $this->getTable();
+
+		if (!$table->load(['courseID' => $courseID, 'participantID' => $participantID]))
+		{
+			return false;
+		}
+
+		if (!$table->delete())
+		{
+			return false;
+		}
+
+		$query = $this->_db->getQuery('true');
+		$query->delete('#__thm_organizer_instance_participants')
+			->where("instanceID IN ($instanceIDs)")
+			->where("participantID = $participantID");
+		$this->_db->setQuery($query);
+
+		return OrganizerHelper::executeQuery('execute') ? true : false;
+
 	}
 
 	/**

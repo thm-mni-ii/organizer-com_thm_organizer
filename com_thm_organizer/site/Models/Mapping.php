@@ -26,7 +26,7 @@ class Mapping extends BaseModel
 	 *
 	 * @param   int              $programID  the id of the program in the local
 	 *                                       database
-	 * @param   SimpleXMLObject &$lsfData    the data recieved from the LSF system
+	 * @param   SimpleXMLObject &$lsfData    the data received from the LSF system
 	 *
 	 * @return boolean  true if the data was mapped, otherwise false
 	 */

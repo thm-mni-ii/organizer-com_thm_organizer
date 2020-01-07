@@ -48,7 +48,7 @@ class Participants extends Nullable
 	public $id;
 
 	/**
-	 * A flag displaying whether the user wishes to recieve emails regarding schedule changes.
+	 * A flag displaying whether the user wishes to receive emails regarding schedule changes.
 	 * TINYINT(1) UNSIGNED NOT NULL DEFAULT 0
 	 *
 	 * @var bool

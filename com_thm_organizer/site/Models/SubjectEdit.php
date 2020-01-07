@@ -22,8 +22,6 @@ class SubjectEdit extends EditModel
 {
 	protected $deptResource;
 
-	public $item = null;
-
 	/**
 	 * Checks for user authorization to access the view
 	 *

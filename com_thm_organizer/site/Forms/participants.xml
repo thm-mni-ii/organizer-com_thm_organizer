@@ -2,6 +2,7 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
+        <field name="courseID" type="hidden"/>
         <field name="programID" type="Programs" label="PROGRAM" access="manage" onchange="this.form.submit();"
                participant="1">
             <option value="">ALL_PROGRAMS</option>
