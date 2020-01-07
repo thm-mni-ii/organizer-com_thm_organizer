@@ -196,7 +196,7 @@ class ScheduleListA4 extends BaseLayout
 				if ($validIndex)
 				{
 					// Small horizontal spacer
-					$this->MultiCell(1, $cellHeight, '');
+					$this->renderMultiCell(1, $cellHeight, '');
 
 					if (empty($row[$columnHeaders[$currentDate]['value']]))
 					{
@@ -210,20 +210,14 @@ class ScheduleListA4 extends BaseLayout
 					}
 
 					// Lesson instance cell
-					$this->MultiCell(
+					$this->renderMultiCell(
 						$this->parameters['dataWidth'],
 						$cellHeight,
 						$dataText,
+						self::CENTER,
 						$border,
-						self::CENTER, //d
-						0, //d
-						0, //d
-						'', //d
-						'', //d
-						true, //d
-						0, //d
-						false, //d
-						true, //d
+						false,
+						self::CENTER,
 						$cellHeight
 					);
 				}
@@ -256,7 +250,13 @@ class ScheduleListA4 extends BaseLayout
 
 		if ($outputTimeGrid)
 		{
-			$this->MultiCell($this->parameters['timeWidth'], 0, Languages::_('THM_ORGANIZER_TIME'), self::HORIZONTAL);
+			$this->renderMultiCell(
+				$this->parameters['timeWidth'],
+				0,
+				Languages::_('THM_ORGANIZER_TIME'),
+				self::CENTER,
+				self::HORIZONTAL
+			);
 		}
 
 		for ($currentDate = $startDate; $currentDate != $breakDate;)
@@ -268,8 +268,13 @@ class ScheduleListA4 extends BaseLayout
 
 			if ($validIndex)
 			{
-				$this->MultiCell($this->parameters['dataWidth'] + 1, 0, $columnHeaders[$currentDate]['text'],
-					self::HORIZONTAL);
+				$this->renderMultiCell(
+					$this->parameters['dataWidth'] + 1,
+					0,
+					$columnHeaders[$currentDate]['text'],
+					self::CENTER,
+					self::HORIZONTAL
+				);
 			}
 
 			$currentDate = date('Y-m-d', strtotime("+1 day", strtotime($currentDate)));
@@ -304,20 +309,14 @@ class ScheduleListA4 extends BaseLayout
 	 */
 	private function outputTimeCell($height, $text)
 	{
-		$this->MultiCell(
+		$this->renderMultiCell(
 			$this->parameters['timeWidth'],
 			$height,
 			$text,
-			0,//d
-			self::CENTER, //d
-			0, //d
-			0, //d
-			'', //d
-			'', //d
-			true, //d
-			0, //d
-			false, //d
-			true, ///d
+			self::CENTER,
+			self::NONE,
+			false,
+			self::CENTER,
 			$height
 		);
 	}
@@ -377,7 +376,7 @@ class ScheduleListA4 extends BaseLayout
 				$this->outputTimeCell($height, $text);
 
 				// One long cell for the border
-				$this->MultiCell(0, $height, '');
+				$this->renderMultiCell(0, $height, '');
 
 				$this->Ln();
 
@@ -417,7 +416,7 @@ class ScheduleListA4 extends BaseLayout
 					if ($validIndex)
 					{
 						// Small horizontal spacer
-						$this->MultiCell(1, $cellHeight, '');
+						$this->renderMultiCell(1, $cellHeight, '');
 
 						if (empty($row[$columnHeaders[$currentDate]['value']]))
 						{
@@ -431,20 +430,14 @@ class ScheduleListA4 extends BaseLayout
 						}
 
 						// Lesson instance cell
-						$this->MultiCell(
+						$this->renderMultiCell(
 							$this->parameters['dataWidth'],
 							$cellHeight,
 							$dataText,
-							$border,
 							self::CENTER,
-							0,
-							0,
-							'', //d
-							'', //d
-							true, //d
-							0, //d
-							false, //d
-							true, //d
+							$border,
+							false,
+							self::CENTER,
 							$cellHeight
 						);
 					}
@@ -499,11 +492,7 @@ class ScheduleListA4 extends BaseLayout
 		// Plan format and date
 		$this->SetFont($headerFont[0], $headerFont[1], $headerFont[2]);
 		$this->SetX($header_x);
-		$this->MultiCell(
-			$cw,
-			$cell_height,
-			$headerData['string']
-		);
+		$this->renderMultiCell($cw, $cell_height, $headerData['string']);
 
 		$this->endTemplate();
 	}

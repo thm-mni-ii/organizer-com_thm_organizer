@@ -43,7 +43,7 @@ class Attendance extends BaseLayout
 
 		$documentName = "$this->name - $this->term - " . Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
 		$this->setNames($documentName);
-		$this->margins(10, 30, -1, 0, 10, 10);
+		$this->margins(10, 30, -1, 0, 8, 10);
 		$this->setHeader();
 		$this->showPrintOverhead(true);
 
@@ -121,12 +121,10 @@ class Attendance extends BaseLayout
 
 			foreach (array_keys($this->headers) as $columnName)
 			{
-				$border = ['BR' => $this->border];
 				switch ($columnName)
 				{
 					case 'index':
-						$border = ['BLR' => $this->border];
-						$value  = $itemNo;
+						$value = $itemNo;
 						break;
 					case 'name':
 						$value = empty($participant['forename']) ?
@@ -143,11 +141,20 @@ class Attendance extends BaseLayout
 						break;
 				}
 
-				$length = $this->MultiCell($this->widths[$columnName], 5, $value, $border, self::LEFT);
+				$length = $this->renderMultiCell($this->widths[$columnName], 5, $value);
 				if ($length > $maxLength)
 				{
 					$maxLength = $length;
 				}
+			}
+
+			// Reset for borders
+			$this->changePosition($startX, $startY);
+
+			foreach ($this->widths as $index => $width)
+			{
+				$border = $index === 'index' ? ['BLR' => $this->border] : ['BR' => $this->border];
+				$this->renderMultiCell($width, $maxLength * 5, '', self::LEFT, $border);
 			}
 
 			$this->Ln();
@@ -171,7 +178,8 @@ class Attendance extends BaseLayout
 		$header    = "$this->name $this->term";
 		$subHeader = "{$this->campus} {$this->dates}";
 
-		$this->SetHeaderData('thm_logo.png', '50', $header, $subHeader);
+		$this->setHeaderData('thm_logo_pdf_header.png', '55', $header, $subHeader, self::BLACK, self::WHITE);
+		$this->setFooterData(self::BLACK, self::WHITE);
 		parent::setHeader();
 	}
 }

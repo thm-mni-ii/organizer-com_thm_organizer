@@ -35,6 +35,9 @@ abstract class BaseLayout extends TCPDF
 		TOP = 'T',
 		VERTICAL = 'LR';
 
+	// Colors
+	const BLACK = [0, 0, 0], WHITE = [255, 255, 255];
+
 	// Font Families
 	const COURIER = 'courier', CURRENT_FAMILY = '', HELVETICA = 'helvetica', TIMES = 'times';
 
@@ -193,23 +196,55 @@ abstract class BaseLayout extends TCPDF
 		$this->Cell($width, $height, $text, $border, 0, $hAlign, $fill, $link, 0, false, self::TOP, $vAlign);
 	}
 
-	protected function renderMultiCell($width, $height, $text)
-	{
-		// width        height      text            border      align           fill    ln      x       y       reset   stretch     ishtml      autopad     maxh    valign      fitcell
-		// $this...,    5,          $value,         $border,    self::LEFT,     0,      0
-		// 80,          5,          $headerLine,    0,          self::CENTER,   0,      2
-		// 80,          5,          text,           0,          self::CENTER
-		// pdw,         $height,    '',             'RB',       self::CENTER,   0,      0
-		/*$this->MultiCell(
+	/**
+	 * This method allows printing text with line breaks.
+	 * They can be automatic (as soon as the text reaches the right border of the cell) or explicit (via the \n character). As many cells as necessary are output, one below the other.<br />
+	 * Text can be aligned, centered or justified. The cell block can be framed and the background painted.
+	 *
+	 * @param   int     $width      the cell width
+	 * @param   int     $height     the cell height
+	 * @param   string  $text       the cell text
+	 * @param   string  $hAlign     the cell's horizontal alignment
+	 * @param   mixed   $border     number 0/1: none/all,
+	 *                              string B/L/R/T: corresponding side
+	 *                              array border settings coded by side
+	 * @param   bool    $fill       true if the cell should render a background color, otherwise false
+	 * @param   string  $vAlign     the cell's vertical alignment
+	 * @param   int     $maxHeight  the maximum height, explicilty set to ensure correct line height in a multicell row
+	 *
+	 * @return int Return the number of cells or 1 for html mode.
+	 * @public
+	 * @since 1.3
+	 * @see   SetFont(), SetDrawColor(), SetFillColor(), SetTextColor(), SetLineWidth(), Cell(), Write(), SetAutoPageBreak()
+	 */
+	protected function renderMultiCell(
+		$width,
+		$height,
+		$text,
+		$hAlign = self::LEFT,
+		$border = self::NONE,
+		$fill = false,
+		$vAlign = self::CENTER,
+		$maxHeight = 0
+	) {
+		return $this->MultiCell(
 			$width,
 			$height,
 			$text,
-			$border, //0 - used
-			$hAlign, //center - used
-			$fill, //false - not used atm
-			0 //never
-		);*/
-		//$w, $h, $txt, $border=0, $align='J', $fill=false, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0, $valign='T', $fitcell=false
+			$border,
+			$hAlign,
+			$fill,
+			0,
+			'',
+			'',
+			true,
+			0,
+			false,
+			true,
+			$maxHeight,
+			$vAlign,
+			false
+		);
 	}
 
 	/**
