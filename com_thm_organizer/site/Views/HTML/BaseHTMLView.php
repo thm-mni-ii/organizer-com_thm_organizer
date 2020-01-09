@@ -173,7 +173,7 @@ abstract class BaseHTMLView extends BaseView
 
 		if (Can::manage('courses'))
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_COURSE_MANAGEMENT') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_EVENT_MANAGEMENT') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 
 			$courseItems                                             = [];
