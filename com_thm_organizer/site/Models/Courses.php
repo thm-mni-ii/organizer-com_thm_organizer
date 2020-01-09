@@ -53,25 +53,6 @@ class Courses extends ListModel
 	}
 
 	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return  array  item objects on success, otherwise empty
-	 */
-	public function getItems()
-	{
-		$items = parent::getItems();
-
-		// set the names
-
-		if (empty($items))
-		{
-			return [];
-		}
-
-		return $items;
-	}
-
-	/**
 	 * Method to get a list of resources from the database.
 	 *
 	 * @return JDatabaseQuery
