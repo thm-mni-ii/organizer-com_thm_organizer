@@ -159,7 +159,7 @@ trait CourseParticipants
 		$courseID      = Helpers\Input::getInt('participantID');
 		$eventID       = Helpers\Input::getInt('eventID');
 		$model         = new CourseParticipant;
-		$previousState = Helpers\CourseParticipants::getState($courseID, $eventID, $participantID);
+		$previousState = Helpers\CourseParticipants::getState($courseID, $participantID, $eventID);
 
 		if ($model->register())
 		{
@@ -169,7 +169,7 @@ trait CourseParticipants
 			}
 			else
 			{
-				$currentState = Helpers\CourseParticipants::getState($courseID, $eventID, $participantID);
+				$currentState = Helpers\CourseParticipants::getState($courseID, $participantID, $eventID);
 
 				$msg = $currentState ? 'THM_ORGANIZER_REGISTRATION_ACCEPTED' : 'THM_ORGANIZER_REGISTRATION_WAIT';
 				Helpers\OrganizerHelper::message($msg);

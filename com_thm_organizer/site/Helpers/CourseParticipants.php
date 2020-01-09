@@ -12,13 +12,14 @@
 namespace Organizer\Helpers;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Provides general functions for course access checks, data retrieval and display.
  */
 class CourseParticipants extends ResourceHelper
 {
-	const UNREGISTERED = null;
+	const UNREGISTERED = null, WAIT_LIST = 0;
 
 	/**
 	 * Retrieves the participant's state for the given course
@@ -29,7 +30,7 @@ class CourseParticipants extends ResourceHelper
 	 *
 	 * @return  mixed int if the user has a course participant state, otherwise null
 	 */
-	public static function getState($courseID, $eventID, $participantID)
+	public static function getState($courseID, $participantID, $eventID = 0)
 	{
 		if (empty($courseID) or empty($participantID))
 		{
@@ -55,5 +56,94 @@ class CourseParticipants extends ResourceHelper
 		$dbo->setQuery($query);
 
 		return OrganizerHelper::executeQuery('loadResult', self::UNREGISTERED);
+	}
+
+	/**
+	 * Generates a status text for the course itself.
+	 *
+	 * @param   int  $courseID       the id of the course
+	 * @param   int  $participantID  the id of the participant, defaults to the user id
+	 * @param   int  $eventID        the id of the event, if relevant
+	 *
+	 * @return string the course status text
+	 */
+	public static function getStatusText($courseID, $participantID = 0, $eventID = 0)
+	{
+		$participantID = $participantID ? $participantID : Factory::getUser()->id;
+		if ($personID = Persons::getIDByUserID($participantID))
+		{
+			if (Courses::hasResponsibility($courseID, $personID, self::TEACHER))
+			{
+				return Languages::_('THM_ORGANIZER_TEACHER');
+			}
+			elseif (Courses::hasResponsibility($courseID, $personID, self::TUTOR))
+			{
+				return Languages::_('THM_ORGANIZER_TUTOR');
+			}
+			elseif (Courses::hasResponsibility($courseID, $personID, self::SUPERVISOR))
+			{
+				return Languages::_('THM_ORGANIZER_SUPERVISOR');
+			}
+			elseif (Courses::hasResponsibility($courseID, $personID, self::SPEAKER))
+			{
+				return Languages::_('THM_ORGANIZER_SPEAKER');
+			}
+		}
+
+		if ($state = self::getState($courseID, $participantID, $eventID))
+		{
+			return '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_ACCEPTED');
+		}
+		elseif ($state === self::WAIT_LIST)
+		{
+			return '<span class="icon-checkbox-partial"></span>' . Languages::_('THM_ORGANIZER_WAIT_LIST');
+		}
+
+		return '<span class="icon-checkbox-unchecked"></span>' . Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
+	}
+
+	/**
+	 * Generates a status text for the course itself.
+	 *
+	 * @param   int  $courseID       the id of the course
+	 * @param   int  $participantID  the id of the participant, defaults to the user id
+	 * @param   int  $eventID        the id of the event, if relevant
+	 *
+	 * @return string the course status text
+	 */
+	public static function getToolBar($courseID, $participantID = 0, $eventID = 0)
+	{
+		$baseURL        = Uri::base() . '?option=com_thm_organizer';
+		$buttonTemplate = '<a class="btn" href="XHREFX">XICONXXTEXTX</a>';
+		$participantID  = $participantID ? $participantID : Factory::getUser()->id;
+
+		if ($personID = Persons::getIDByUserID($participantID) and Courses::hasResponsibility($courseID, $personID))
+		{
+			$button = str_replace('XHREFX', $baseURL . "&view=course_edit&id=$courseID", $buttonTemplate);
+			$button = str_replace('XICONX', '<span class="icon-equalizer"></span>', $button);
+			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_COURSE'), $button);
+		}
+		elseif (self::getState($courseID, $participantID, $eventID) !== self::UNREGISTERED)
+		{
+			$URL = $baseURL . "&task=participant.deregister&courseID=$courseID";
+			$button = str_replace('XHREFX',$URL, $buttonTemplate);
+			$button = str_replace('XICONX', '<span class="icon-out-2"></span>', $button);
+			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_DEREGISTER'), $button);
+		}
+		elseif (Participants::incomplete())
+		{
+			$button = str_replace('XHREFX', $baseURL . "&view=participant_edit", $buttonTemplate);
+			$button = str_replace('XICONX', '<span class="icon-user-plus"></span>', $button);
+			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COMPLETE_PROFILE'), $button);
+		}
+		else
+		{
+			$URL = $baseURL . "&task=participant.register&courseID=$courseID";
+			$button = str_replace('XHREFX',$URL, $buttonTemplate);
+			$button = str_replace('XICONX', '<span class="icon-apply"></span>', $button);
+			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_REGISTER'), $button);
+		}
+
+		return $button;
 	}
 }

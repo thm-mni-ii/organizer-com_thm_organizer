@@ -69,7 +69,14 @@ class Courses extends ListModel
 			->where("i.delta != 'removed'")
 			->group('c.id');
 
-		$this->setSearchFilter($query, ['c.name_de', 'c.name_en', 'e.name_de', 'e.name_en']);
+		if ($search = $this->state->get('filter.search', '') and preg_match('/^[\d]+$/', $search))
+		{
+			$query->where("c.id = $search");
+		}
+		else
+		{
+			$this->setSearchFilter($query, ['c.name_de', 'c.name_en', 'e.name_de', 'e.name_en']);
+		}
 
 		if ($this->clientContext === self::FRONTEND and Input::getParams()->get('onlyPrepCourses'))
 		{

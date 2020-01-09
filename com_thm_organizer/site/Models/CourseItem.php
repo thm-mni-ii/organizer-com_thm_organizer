@@ -302,7 +302,7 @@ class CourseItem extends ItemModel
 		$userID                 = Factory::getUser()->id;
 		if ($userID)
 		{
-			$course['registrationStatus'] = Helpers\CourseParticipants::getState($courseID, 0, $userID);
+			$course['registrationStatus'] = Helpers\CourseParticipants::getState($courseID, $userID);
 			if ($course['registrationStatus'] !== self::UNREGISTERED)
 			{
 				$course['registrationText'] = $course['registrationStatus'] ?

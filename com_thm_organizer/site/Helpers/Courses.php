@@ -334,6 +334,31 @@ class Courses extends ResourceHelper
 	}
 
 	/**
+	 * Generates a status text for the course itself.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return string the course status text
+	 */
+	public static function getStatusText($courseID)
+	{
+		if (self::isExpired($courseID))
+		{
+			return Languages::_('THM_ORGANIZER_EXPIRED');
+		}
+		elseif (self::isOngoing($courseID))
+		{
+			return Languages::_('THM_ORGANIZER_COURSE_ONGOING');
+		}
+		elseif (self::isFull($courseID))
+		{
+			return Languages::_('THM_ORGANIZER_COURSE_FULL');
+		}
+
+		return Languages::_('THM_ORGANIZER_COURSE_OPEN');
+	}
+
+	/**
 	 * Check if user has a course responsibility.
 	 *
 	 * @param   int  $courseID  the optional id of the course
