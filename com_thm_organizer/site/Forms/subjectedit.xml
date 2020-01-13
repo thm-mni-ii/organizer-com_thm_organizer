@@ -115,7 +115,7 @@
                description="THM_ORGANIZER_BONUS_POINTS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
-        <field name="coordinators" type="SubjectPersons" label="COORDINATORS" multiple="multiple" role="1">
+        <field name="coordinators" type="SubjectPersons" label="SUBJECT_COORDINATORS" multiple="multiple" role="1">
             <option value="">NO_INPUT</option>
         </field>
         <field name="persons" type="SubjectPersons" label="TEACHERS" multiple="multiple" role="2">

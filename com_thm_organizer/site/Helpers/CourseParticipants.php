@@ -70,24 +70,9 @@ class CourseParticipants extends ResourceHelper
 	public static function getStatusText($courseID, $participantID = 0, $eventID = 0)
 	{
 		$participantID = $participantID ? $participantID : Factory::getUser()->id;
-		if ($personID = Persons::getIDByUserID($participantID))
+		if (Can::manage('course', $courseID))
 		{
-			if (Courses::hasResponsibility($courseID, $personID, self::TEACHER))
-			{
-				return Languages::_('THM_ORGANIZER_TEACHER');
-			}
-			elseif (Courses::hasResponsibility($courseID, $personID, self::TUTOR))
-			{
-				return Languages::_('THM_ORGANIZER_TUTOR');
-			}
-			elseif (Courses::hasResponsibility($courseID, $personID, self::SUPERVISOR))
-			{
-				return Languages::_('THM_ORGANIZER_SUPERVISOR');
-			}
-			elseif (Courses::hasResponsibility($courseID, $personID, self::SPEAKER))
-			{
-				return Languages::_('THM_ORGANIZER_SPEAKER');
-			}
+			return '';
 		}
 
 		if ($state = self::getState($courseID, $participantID, $eventID))
@@ -114,36 +99,50 @@ class CourseParticipants extends ResourceHelper
 	public static function getToolBar($courseID, $participantID = 0, $eventID = 0)
 	{
 		$baseURL        = Uri::base() . '?option=com_thm_organizer';
+		$buttons        = '';
 		$buttonTemplate = '<a class="btn" href="XHREFX">XICONXXTEXTX</a>';
 		$participantID  = $participantID ? $participantID : Factory::getUser()->id;
+		$personID       = Persons::getIDByUserID($participantID);
 
-		if ($personID = Persons::getIDByUserID($participantID) and Courses::hasResponsibility($courseID, $personID))
+		if (Can::administrate() or ($personID and Courses::hasResponsibility($courseID, $personID)))
 		{
-			$button = str_replace('XHREFX', $baseURL . "&view=course_edit&id=$courseID", $buttonTemplate);
-			$button = str_replace('XICONX', '<span class="icon-equalizer"></span>', $button);
-			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_COURSE'), $button);
+			if (OrganizerHelper::getApplication()->isClient('site'))
+			{
+				$button  = str_replace('XHREFX', $baseURL . "&view=course_edit&id=$courseID", $buttonTemplate);
+				$button  = str_replace('XICONX', '<span class="icon-options"></span>', $button);
+				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_COURSE'), $button);
+				$buttons .= $button;
+			}
+
+			$button  = str_replace('XHREFX', $baseURL . "&view=course_participants&id=$courseID", $buttonTemplate);
+			$button  = str_replace('XICONX', '<span class="icon-users"></span>', $button);
+			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS'), $button);
+			$buttons .= $button;
 		}
 		elseif (self::getState($courseID, $participantID, $eventID) !== self::UNREGISTERED)
 		{
-			$URL = $baseURL . "&task=participant.deregister&courseID=$courseID";
-			$button = str_replace('XHREFX',$URL, $buttonTemplate);
-			$button = str_replace('XICONX', '<span class="icon-out-2"></span>', $button);
-			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_DEREGISTER'), $button);
+			$URL     = $baseURL . "&task=participant.deregister&courseID=$courseID";
+			$button  = str_replace('XHREFX', $URL, $buttonTemplate);
+			$button  = str_replace('XICONX', '<span class="icon-out-2"></span>', $button);
+			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_DEREGISTER'), $button);
+			$buttons .= $button;
 		}
 		elseif (Participants::incomplete())
 		{
-			$button = str_replace('XHREFX', $baseURL . "&view=participant_edit", $buttonTemplate);
-			$button = str_replace('XICONX', '<span class="icon-user-plus"></span>', $button);
-			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COMPLETE_PROFILE'), $button);
+			$button  = str_replace('XHREFX', $baseURL . "&view=participant_edit", $buttonTemplate);
+			$button  = str_replace('XICONX', '<span class="icon-user-plus"></span>', $button);
+			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COMPLETE_PROFILE'), $button);
+			$buttons .= $button;
 		}
 		else
 		{
-			$URL = $baseURL . "&task=participant.register&courseID=$courseID";
-			$button = str_replace('XHREFX',$URL, $buttonTemplate);
-			$button = str_replace('XICONX', '<span class="icon-apply"></span>', $button);
-			$button = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_REGISTER'), $button);
+			$URL     = $baseURL . "&task=participant.register&courseID=$courseID";
+			$button  = str_replace('XHREFX', $URL, $buttonTemplate);
+			$button  = str_replace('XICONX', '<span class="icon-apply"></span>', $button);
+			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_REGISTER'), $button);
+			$buttons .= $button;
 		}
 
-		return $button;
+		return $buttons;
 	}
 }

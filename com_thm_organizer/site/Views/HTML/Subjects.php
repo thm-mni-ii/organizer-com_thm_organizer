@@ -138,7 +138,7 @@ class Subjects extends ListView
 			$roles = [];
 			if (isset($person['role'][self::COORDINATES]))
 			{
-				$roles[] = Languages::_('THM_ORGANIZER_COORDINATOR_ABBR');
+				$roles[] = Languages::_('THM_ORGANIZER_SUBJECT_COORDINATOR_ABBR');
 			}
 			if (isset($person['role'][self::TEACHES]))
 			{

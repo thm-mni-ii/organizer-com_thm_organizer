@@ -132,31 +132,4 @@ trait Filtered
 				->where("$newAlias.id IN (" . implode(',', $resourceIDs) . ")");
 		}
 	}
-
-	/**
-	 * Adds a date status filter for a given resource.
-	 *
-	 * @param   object &$query   the query object
-	 * @param   string  $status  name of the field in filter
-	 * @param   string  $start   , $end field names in the table
-	 */
-
-	protected function setDateStatusFilter(&$query, $status, $start, $end)
-	{
-		$value = $this->state->get("filter." . $status);
-
-		switch ($value)
-		{
-			case '1' :
-				$query->where($end . " < CURDATE()");
-				break;
-			case '2' :
-				$query->where($start . " > CURDATE()");
-				break;
-			case '3' :
-				$query->where("CURDATE() BETWEEN $start AND $end");
-				break;
-		}
-
-	}
 }

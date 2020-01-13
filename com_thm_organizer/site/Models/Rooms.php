@@ -11,7 +11,6 @@
 namespace Organizer\Models;
 
 use JDatabaseQuery;
-use Organizer\Helpers\Filtered;
 use Organizer\Helpers\Languages;
 
 /**
@@ -47,7 +46,7 @@ class Rooms extends ListModel
 
 		$this->setSearchFilter($query, ['r.name', 'b.name', 't.name_de', 't.name_en']);
 		$this->setValueFilters($query, ['buildingID', 'roomtypeID']);
-		self::addCampusFilter($query, 'b');
+		$this->addCampusFilter($query, 'b');
 
 		$this->setOrdering($query);
 

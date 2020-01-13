@@ -106,7 +106,7 @@ class SubjectItem extends ItemModel
 			'departmentID'             => [],
 			'campus'                   => ['label' => Languages::_($option . 'CAMPUS'), 'type' => 'location'],
 			'moduleCode'               => ['label' => Languages::_($option . 'MODULE_CODE'), 'type' => 'text'],
-			'executors'                => ['label' => Languages::_($option . 'COORDINATOR'), 'type' => 'list'],
+			'coordinators'             => ['label' => Languages::_($option . 'SUBJECT_COORDINATOR'), 'type' => 'list'],
 			'persons'                  => ['label' => Languages::_($option . 'TEACHERS'), 'type' => 'list'],
 			'description'              => ['label' => Languages::_($option . 'SHORT_DESCRIPTION'), 'type' => 'text'],
 			'objective'                => ['label' => Languages::_($option . 'OBJECTIVES'), 'type' => 'text'],
@@ -353,8 +353,8 @@ class SubjectItem extends ItemModel
 			return;
 		}
 
-		$executors = [];
-		$persons   = [];
+		$coordinators = [];
+		$persons      = [];
 
 		foreach ($personData as $person)
 		{
@@ -365,7 +365,7 @@ class SubjectItem extends ItemModel
 
 			if ($person['role'] == '1')
 			{
-				$executors[$person['id']] = $name;
+				$coordinators[$person['id']] = $name;
 			}
 			else
 			{
@@ -373,9 +373,9 @@ class SubjectItem extends ItemModel
 			}
 		}
 
-		if (count($executors))
+		if (count($coordinators))
 		{
-			$subject['executors']['value'] = $executors;
+			$subject['coordinators']['value'] = $coordinators;
 		}
 
 		if (count($persons))

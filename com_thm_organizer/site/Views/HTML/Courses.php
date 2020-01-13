@@ -52,7 +52,7 @@ class Courses extends ListView
 		else
 		{
 
-			$structure = ['name' => 'link', 'dates' => 'value', 'courseStatus' => 'value'];
+			$structure = ['id' => 'link', 'name' => 'link', 'dates' => 'value', 'courseStatus' => 'value'];
 
 			if (Factory::getUser()->id)
 			{
@@ -174,6 +174,7 @@ class Courses extends ListView
 		else
 		{
 			$headers = [
+				'id'           => '#',
 				'name'         => Languages::_('THM_ORGANIZER_NAME'),
 				'dates'        => Languages::_('THM_ORGANIZER_DATES'),
 				'courseStatus' => Languages::_('THM_ORGANIZER_COURSE_STATUS')
@@ -210,7 +211,6 @@ class Courses extends ListView
 			$course->dates = Helper::getDateDisplay($courseID);
 			$groups        = empty($course->groups) ? '' : ": {$course->groups}";
 			$course->name  = Helper::getName($courseID) . $groups;
-			$course->name  .= $backend ? '' : " ($courseID)";
 			$index         = "{$course->name}{$course->dates}{$courseID}";
 
 			if ($backend)
@@ -225,8 +225,12 @@ class Courses extends ListView
 				if ($participantID)
 				{
 					$course->participantStatus = Helpers\CourseParticipants::getStatusText($courseID, $participantID);
-					$course->toolbar           = Helpers\CourseParticipants::getToolbar($courseID, $participantID);
 				}
+			}
+
+			if ($participantID)
+			{
+				$course->toolbar = Helpers\CourseParticipants::getToolbar($courseID, $participantID);
 			}
 
 			$structuredItems[$index] = $this->structureItem($index, $course, $URL . $courseID);

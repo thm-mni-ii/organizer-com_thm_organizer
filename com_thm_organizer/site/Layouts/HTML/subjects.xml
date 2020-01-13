@@ -12,7 +12,7 @@
             <field name="role" type="Options" label="SHOW_PERSON_ROLE" default="0">
                 <option value="0">ALL_ROLES</option>
                 <option value="2">TEACHER</option>
-                <option value="1">COORDINATOR</option>
+                <option value="1">SUBJECT_COORDINATOR</option>
             </field>
             <field name="showTitle" type="Options" label="SHOW_PERSON_TITLES" default="1">
                 <option value="1">YES</option>

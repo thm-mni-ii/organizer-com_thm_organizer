@@ -12,7 +12,6 @@ namespace Organizer\Models;
 
 use Exception;
 use JDatabaseQuery;
-use Organizer\Helpers\Filtered;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Instances as InstancesHelper;
 

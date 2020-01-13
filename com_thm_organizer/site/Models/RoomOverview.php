@@ -81,7 +81,7 @@ class RoomOverview extends ListModel
 			$query->where("r.capacity >= $capacity");
 		}
 
-		self::addCampusFilter($query, 'b');
+		$this->addCampusFilter($query, 'b');
 
 		$query->order($this->defaultOrdering);
 
