@@ -3,7 +3,7 @@
  * @package     THM_Organizer
  * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2019 TH Mittelhessen
+ * @copyright   2020 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -79,26 +79,6 @@ abstract class BaseModel extends BaseDatabaseModel
 		// TODO: create a message with an accurate count of successes.
 
 		return $success;
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return Table  A Table object
-	 */
-	public function getTable($name = '', $prefix = '', $options = [])
-	{
-		if (empty($name))
-		{
-			$className = OrganizerHelper::getClass($this);
-			$name      = OrganizerHelper::getPlural($className);
-		}
-
-		return OrganizerHelper::getTable($name);
 	}
 
 	/**

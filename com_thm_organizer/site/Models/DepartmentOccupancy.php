@@ -3,7 +3,7 @@
  * @package     THM_Organizer
  * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2019 TH Mittelhessen
+ * @copyright   2020 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -318,7 +318,7 @@ class DepartmentOccupancy extends BaseModel
 			->innerJoin('#__thm_organizer_lessons AS l ON l.id = c.lessonID')
 			->select("d.id AS departmentID, d.shortName_$tag AS department")
 			->innerJoin('#__thm_organizer_departments AS d ON l.departmentID = d.id')
-			->select('lcrs.id as lcrsID')
+			->select('lcrs.id AS lcrsID')
 			->innerJoin('#__thm_organizer_lesson_courses AS lcrs ON lcrs.lessonID = l.id');
 
 

@@ -3,7 +3,7 @@
  * @package     THM_Organizer
  * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2019 TH Mittelhessen
+ * @copyright   2020 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -49,7 +49,7 @@ class MergeDepartmentsField extends OptionsField
 		$query = $dbo->getQuery(true);
 
 		$query->select("DISTINCT depts.id AS value, depts.$textColumn AS text")
-			->from("#__thm_organizer_departments as depts")
+			->from("#__thm_organizer_departments AS depts")
 			->innerJoin("#__thm_organizer_department_resources AS dr ON dr.departmentID = depts.id")
 			->innerJoin("#__thm_organizer_$table AS res ON res.id = dr.{$resource}ID")
 			->where("res.id IN ( '" . implode("', '", $selectedIDs) . "' )")

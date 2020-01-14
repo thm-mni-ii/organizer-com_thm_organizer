@@ -3,7 +3,7 @@
  * @package     THM_Organizer
  * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2019 TH Mittelhessen
+ * @copyright   2020 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -12,6 +12,7 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Table\Table;
+use Organizer\Helpers\Can;
 use Organizer\Helpers\Categories;
 use Organizer\Tables\Categories as CategoriesTable;
 

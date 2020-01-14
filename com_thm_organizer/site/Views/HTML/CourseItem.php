@@ -5,7 +5,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Wolf Rost,  <Wolf.Rost@mni.thm.de>
  * @author      Alexander Boll, <alexander.boll@mni.thm.de>
- * @copyright   2019 TH Mittelhessen
+ * @copyright   2020 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */

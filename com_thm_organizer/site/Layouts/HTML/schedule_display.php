@@ -3,7 +3,7 @@
  * @package     THM_Organizer
  * @extension   com_thm_organizer
  * @author      James Antrim, <james.antrim@nm.thm.de>
- * @copyright   2019 TH Mittelhessen
+ * @copyright   2020 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -14,7 +14,8 @@ $blockNo = 0;
 <script type="text/javascript">
     var timer = null;
 
-    function auto_reload() {
+    function auto_reload()
+    {
         window.location = document.URL;
     }
 
@@ -28,8 +29,10 @@ $blockNo = 0;
          * Falls keine aktive Veranstaltung vorliegt, soll der vorhandene Platz genutzt werden,
          * dazu wird ein neuer Klassennamen benötigt.
          */
-        if (activeExists === false) {
-            for (var i = 0; i < scheduleBlockElement.length; i++) {
+        if (activeExists === false)
+        {
+            for (var i = 0; i < scheduleBlockElement.length; i++)
+            {
                 scheduleBlockElement[i].className += ' nothingActive';
             }
         }
@@ -38,8 +41,10 @@ $blockNo = 0;
     checkIfActiveExists = function (scheduleBlockElement) {
         var active = false;
 
-        for (var i = 0; i < scheduleBlockElement.length; i++) {
-            if (scheduleBlockElement[i].classList.contains('active')) {
+        for (var i = 0; i < scheduleBlockElement.length; i++)
+        {
+            if (scheduleBlockElement[i].classList.contains('active'))
+            {
                 active = true;
             }
         }

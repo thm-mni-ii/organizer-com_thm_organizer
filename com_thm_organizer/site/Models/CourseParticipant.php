@@ -5,7 +5,7 @@
  * @author      James Antrim, <james.antrim@nm.thm.de>
  * @author      Florian Fenzl, <florian.fenzl@mni.thm.de>
  * @author      Krishna Priya Madakkagari, <krishna.madakkagari@iem.thm.de>
- * @copyright   2019 TH Mittelhessen
+ * @copyright   2020 TH Mittelhessen
  * @license     GNU GPL v.2
  * @link        www.thm.de
  */
@@ -224,102 +224,102 @@ class CourseParticipant extends BaseModel
 	{
 		return new CourseParticipantsTable;
 	}
-/*
-	private function mailRemoval($courseID, $participantID)
-	{
-		return;
-		$mailer = Factory::getMailer();
-
-		$user       = Factory::getUser($participantID);
-		$userParams = json_decode($user->params, true);
-		$mailer->addRecipient($user->email);
-
-		if (!empty($userParams['language']))
-		{
-			Input::getInput()->set('languageTag', explode('-', $userParams['language'])[0]);
-		}
-
-		$params = Input::getParams();
-		$sender = Factory::getUser($params->get('mailSender'));
-
-		if (empty($sender->id))
+	/*
+		private function mailRemoval($courseID, $participantID)
 		{
 			return;
-		}
+			$mailer = Factory::getMailer();
 
-		$mailer->setSender([$sender->email, $sender->name]);
+			$user       = Factory::getUser($participantID);
+			$userParams = json_decode($user->params, true);
+			$mailer->addRecipient($user->email);
 
-		$course   = Courses::getCourse($courseID);
-		$dateText = Courses::getDateDisplay($courseID);
+			if (!empty($userParams['language']))
+			{
+				Input::getInput()->set('languageTag', explode('-', $userParams['language'])[0]);
+			}
 
-		if (empty($course) or empty($dateText))
-		{
-			return;
-		}
+			$params = Input::getParams();
+			$sender = Factory::getUser($params->get('mailSender'));
 
-		$campus     = Courses::getCampus($courseID);
-		$courseName = (empty($campus) or empty($campus['name'])) ?
-			$course['name'] : "{$course['name']} ({$campus['name']})";
-		$mailer->setSubject($courseName);
-		$body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
-
-		$dates = explode(' - ', $dateText);
-
-		if (count($dates) == 1 or $dates[0] == $dates[1])
-		{
-			$body .= sprintf(Languages::_('THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
-		}
-		else
-		{
-			$body .= sprintf(
-				Languages::_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n',
-				$courseName,
-				$dates[0],
-				$dates[1]
-			);
-		}
-
-		$statusText = '';
-
-		switch ($state)
-		{
-			case 0:
-				$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
-				break;
-			case 1:
-				$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
-				break;
-			case 2:
-				$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
-				break;
-			default:
+			if (empty($sender->id))
+			{
 				return;
+			}
+
+			$mailer->setSender([$sender->email, $sender->name]);
+
+			$course   = Courses::getCourse($courseID);
+			$dateText = Courses::getDateDisplay($courseID);
+
+			if (empty($course) or empty($dateText))
+			{
+				return;
+			}
+
+			$campus     = Courses::getCampus($courseID);
+			$courseName = (empty($campus) or empty($campus['name'])) ?
+				$course['name'] : "{$course['name']} ({$campus['name']})";
+			$mailer->setSubject($courseName);
+			$body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
+
+			$dates = explode(' - ', $dateText);
+
+			if (count($dates) == 1 or $dates[0] == $dates[1])
+			{
+				$body .= sprintf(Languages::_('THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
+			}
+			else
+			{
+				$body .= sprintf(
+					Languages::_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n',
+					$courseName,
+					$dates[0],
+					$dates[1]
+				);
+			}
+
+			$statusText = '';
+
+			switch ($state)
+			{
+				case 0:
+					$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
+					break;
+				case 1:
+					$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
+					break;
+				case 2:
+					$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
+					break;
+				default:
+					return;
+			}
+
+			$body .= ' => ' . $statusText . '\n\n';
+
+			$body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
+			$body .= $sender->name . '\n\n';
+			$body .= $sender->email . '\n';
+
+			$addressParts = explode(' – ', $params->get('address'));
+
+			foreach ($addressParts as $aPart)
+			{
+				$body .= $aPart . '\n';
+			}
+
+			$contactParts = explode(' – ', $params->get('contact'));
+
+			foreach ($contactParts as $cPart)
+			{
+				$body .= $cPart . '\n';
+			}
+
+			$mailer->setBody($body);
+			$mailer->Send();
 		}
-
-		$body .= ' => ' . $statusText . '\n\n';
-
-		$body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
-		$body .= $sender->name . '\n\n';
-		$body .= $sender->email . '\n';
-
-		$addressParts = explode(' – ', $params->get('address'));
-
-		foreach ($addressParts as $aPart)
-		{
-			$body .= $aPart . '\n';
-		}
-
-		$contactParts = explode(' – ', $params->get('contact'));
-
-		foreach ($contactParts as $cPart)
-		{
-			$body .= $cPart . '\n';
-		}
-
-		$mailer->setBody($body);
-		$mailer->Send();
-	}
-*/
+	*/
 
 	/**
 	 * Sets the payment status to paid.
