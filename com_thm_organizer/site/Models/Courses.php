@@ -27,7 +27,7 @@ class Courses extends ListModel
 
 	protected $defaultOrdering = 'name';
 
-	protected $filter_fields = ['campusID', 'termID'];
+	protected $filter_fields = ['campusID', 'categoryID', 'departmentID', 'groupID', 'personID', 'termID'];
 
 	/**
 	 * Filters out form inputs which should not be displayed due to menu settings.
@@ -49,11 +49,24 @@ class Courses extends ListModel
 		{
 			$form->removeField('campusID', 'filter');
 		}
+
 		if ($params->get('onlyPrepCourses'))
 		{
+			$form->removeField('categoryID', 'filter');
+			$form->removeField('departmentID', 'filter');
 			$form->removeField('groupID', 'filter');
 			$form->removeField('personID', 'filter');
 			$form->removeField('search', 'filter');
+		}
+		elseif (empty($this->state->get('filter.departmentID')))
+		{
+			$form->removeField('categoryID', 'filter');
+			$form->removeField('personID', 'filter');
+			$form->removeField('groupID', 'filter');
+		}
+		elseif (empty($this->state->get('filter.categoryID')))
+		{
+			$form->removeField('groupID', 'filter');
 		}
 	}
 
@@ -70,6 +83,10 @@ class Courses extends ListModel
 			->innerJoin('#__thm_organizer_units AS u ON u.courseID = c.id')
 			->innerJoin('#__thm_organizer_instances AS i ON i.unitID = u.id')
 			->innerJoin('#__thm_organizer_events AS e ON e.id = i.eventID')
+			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.instanceID = i.id')
+			->innerJoin('#__thm_organizer_instance_groups AS ig ON ig.assocID = ip.id')
+			->innerJoin('#__thm_organizer_groups AS g ON g.id = ig.groupID')
+			->innerJoin('#__thm_organizer_department_resources AS dr ON dr.categoryID = g.categoryID')
 			->where("u.delta != 'removed'")
 			->where("i.delta != 'removed'")
 			->group('c.id');
@@ -85,12 +102,17 @@ class Courses extends ListModel
 
 		if ($this->clientContext === self::FRONTEND and Input::getParams()->get('onlyPrepCourses'))
 		{
-			$query->where('c.termID = ' . TermsHelper::getPreviousID($this->state->get('filter.termID')))
-				->where('e.preparatory = 1');
+			$termID = TermsHelper::getPreviousID($this->state->get('filter.termID'));
+			$query->where("c.termID = $termID")->where('e.preparatory = 1');
 		}
 		else
 		{
 			$this->setValueFilters($query, ['c.termID']);
+		}
+
+		if ($this->state->get('filter.departmentID'))
+		{
+			$this->setValueFilters($query, ['g.categoryID', 'dr.departmentID', 'ig.groupID', 'ip.personID']);
 		}
 
 		$this->addCampusFilter($query, 'c');

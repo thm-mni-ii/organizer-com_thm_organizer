@@ -37,10 +37,11 @@ class Courses extends ListView
 	{
 		parent::__construct($config);
 		$this->params = Helpers\Input::getParams();
+		$userID       = Factory::getUser()->id;
 
 		if ($this->clientContext === self::BACKEND)
 		{
-			$this->rowStructure = [
+			$structure = [
 				'checkbox' => '',
 				'id'       => 'link',
 				'name'     => 'link',
@@ -54,14 +55,18 @@ class Courses extends ListView
 
 			$structure = ['id' => 'link', 'name' => 'link', 'dates' => 'value', 'courseStatus' => 'value'];
 
-			if (Factory::getUser()->id)
+			if ($userID)
 			{
-				$structure ['participantStatus'] = 'value';
-				$structure ['toolbar']           = 'value';
+				$structure ['toolbar'] = 'value';
 			}
-
-			$this->rowStructure = $structure;
 		}
+
+		if ($userID)
+		{
+			$structure ['toolbar'] = 'value';
+		}
+
+		$this->rowStructure = $structure;
 	}
 
 	/**
@@ -159,6 +164,7 @@ class Courses extends ListView
 	public function setHeaders()
 	{
 		$backend = $this->clientContext === self::BACKEND;
+		$userID  = Factory::getUser()->id;
 
 		if ($backend)
 		{
@@ -180,11 +186,15 @@ class Courses extends ListView
 				'courseStatus' => Languages::_('THM_ORGANIZER_COURSE_STATUS')
 			];
 
-			if (Factory::getUser()->id)
+			if ($userID)
 			{
-				$headers ['participantStatus'] = '';
-				$headers ['toolbar']           = '';
+				$headers ['toolbar'] = '';
 			}
+		}
+
+		if ($userID)
+		{
+			$headers ['toolbar'] = '';
 		}
 
 		$this->headers = $headers;

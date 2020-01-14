@@ -17,8 +17,9 @@ body.tmpl-index div.main {
   .js-stools-container-bar,
   .js-stools-container-list,
   .js-stools-container-filters {
-    margin-bottom: .8rem;
     display: flex;
+    flex-wrap: wrap;
+    margin-bottom: .8rem;
 
     .active .chzn-single,
     .chzn-single {
@@ -69,11 +70,7 @@ body.tmpl-index div.main {
   }
 
   .js-stools-container-list .js-stools-field-list {
-    margin-right: 0;
-  }
-
-  .js-stools-container-list .js-stools-field-list,
-  .js-stools-container-filters .js-stools-field-filter {
     margin-bottom: 0;
+    margin-right: 0;
   }
 }

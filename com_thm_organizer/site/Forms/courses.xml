@@ -2,13 +2,28 @@
 <form addfieldprefix="Organizer\Fields">
     <fields name="filter">
         <field name="search" type="Blank" label="SEARCH" hint="SEARCH"/>
-        <field name="termID" type="Terms" label="TERM" onchange="this.form.submit();">
+        <field name="termID" type="Terms" label="TERM" class="input-13" onchange="this.form.submit();">
             <option value="">ALL_TERMS</option>
             <option value="-1">NO_TERM</option>
         </field>
         <field name="campusID" type="Campuses" label="CAMPUS" onchange="this.form.submit();">
             <option value="">ALL_CAMPUSES</option>
             <option value="-1">NO_CAMPUS</option>
+        </field>
+        <field name="departmentID" type="Departments" label="DEPARTMENT" onchange="this.form.submit();">
+            <option value="">ALL_DEPARTMENTS</option>
+            <option value="-1">NO_DEPARTMENT</option>
+        </field>
+        <field name="categoryID" type="Categories" label="CATEGORY" class="input-15" onchange="this.form.submit();">
+            <option value="">ALL_CATEGORIES</option>
+            <option value="-1">NO_CATEGORY</option>
+        </field>
+        <field name="groupID" type="Groups" label="GROUP" class="input-15" onchange="this.form.submit();">
+            <option value="">ALL_GROUPS</option>
+            <option value="-1">NO_GROUP</option>
+        </field>
+        <field name="personID" type="CoursePersons" label="PERSON" onchange="this.form.submit();">
+            <option value="">ALL_PERSONS</option>
         </field>
     </fields>
     <fields name="list">

@@ -291,7 +291,10 @@ class Persons extends ResourceHelper implements DepartmentAssociated, Selectable
 		$options = [];
 		foreach (self::getResources() as $person)
 		{
-			$name      = self::getLNFName($person['id']);
+			$name     = $person['surname'];
+			$forename = trim($person['forename']);
+			$name     .= $forename ? ", $forename" : '';
+
 			$options[] = HTML::_('select.option', $person['id'], $name);
 		}
 

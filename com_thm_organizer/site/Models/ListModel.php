@@ -158,12 +158,12 @@ abstract class ListModel extends ParentModel
 		{
 			if (strpos($property, 'list.') === 0)
 			{
-				$listProperty = substr($property, 5);
+				$listProperty              = substr($property, 5);
 				$data->list[$listProperty] = $value;
 			}
 			elseif (strpos($property, 'filter.') === 0)
 			{
-				$filterProperty = substr($property, 7);
+				$filterProperty                = substr($property, 7);
 				$data->filter[$filterProperty] = $value;
 			}
 		}
@@ -201,8 +201,8 @@ abstract class ListModel extends ParentModel
 		$ordering = $relevant ? $list['ordering'] : $this->defaultOrdering;
 
 		$validDirections = ['ASC', 'DESC', ''];
-		$relevant = (!empty($list['direction']) and in_array(strtoupper($list['direction']), $validDirections));
-		$direction = $relevant ? $list['direction'] : $this->defaultDirection;
+		$relevant        = (!empty($list['direction']) and in_array(strtoupper($list['direction']), $validDirections));
+		$direction       = $relevant ? $list['direction'] : $this->defaultDirection;
 
 		$fullOrdering = "$ordering $direction";
 		Factory::getSession()->set($this->context . '.ordering', $fullOrdering);
@@ -345,7 +345,8 @@ abstract class ListModel extends ParentModel
 				continue;
 			}
 
-			$query->where("$queryColumnName = '$value'");
+			$value = is_numeric($value) ? $value : "'$value'";
+			$query->where("$queryColumnName = $value");
 		}
 	}
 }

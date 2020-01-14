@@ -15,8 +15,9 @@ body.tmpl-index div.main .btn-toolbar button {
 body.tmpl-index div.main .js-stools-container-bar,
 body.tmpl-index div.main .js-stools-container-list,
 body.tmpl-index div.main .js-stools-container-filters {
-    margin-bottom: .8rem;
     display: flex;
+    flex-wrap: wrap;
+    margin-bottom: .8rem;
 }
 
 body.tmpl-index div.main .js-stools-container-bar .active .chzn-single,
@@ -73,12 +74,8 @@ body.tmpl-index div.main .js-stools-container-bar .js-stools-btn-filter:hover .c
 }
 
 body.tmpl-index div.main .js-stools-container-list .js-stools-field-list {
-    margin-right: 0;
-}
-
-body.tmpl-index div.main .js-stools-container-list .js-stools-field-list,
-body.tmpl-index div.main .js-stools-container-filters .js-stools-field-filter {
     margin-bottom: 0;
+    margin-right: 0;
 }
 
 .attribute-item {
