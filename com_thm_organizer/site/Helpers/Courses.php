@@ -105,6 +105,10 @@ class Courses extends ResourceHelper
 		{
 			$dates = Dates::getDisplay($dates['startDate'], $dates ['endDate']);
 		}
+		else
+		{
+			return '';
+		}
 
 		$runText = '';
 		if (OrganizerHelper::getApplication()->isClient('administrator'))
@@ -243,6 +247,11 @@ class Courses extends ResourceHelper
 	 */
 	public static function getName($courseID)
 	{
+		if (empty($courseID))
+		{
+			return '';
+		}
+
 		if ($explicitName = parent::getName($courseID))
 		{
 			return $explicitName;

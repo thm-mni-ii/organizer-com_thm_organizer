@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Organizer\Fields">
-    <fieldset name="details">
+    <fieldset name="details" label="ATTRIBUTES_BASIC">
         <field name="id" type="hidden"/>
-        <field name="name" type="Blank" label="NAME" hint="USE_EVENT_NAMES"/>
+        <field name="name" type="Blank" label="NAME" readonly="true"/>
         <field name="groups" type="Blank" label="COURSE_GROUPS" hint="Gruppe A; Zug 1, Gruppe B, ..."/>
         <field name="termID" type="Terms" label="TERM" disabled="true"/>
         <field name="campusID" type="Campuses" label="CAMPUS" disabled="true"/>
@@ -15,5 +15,18 @@
             <option value="0">FIFO</option>
             <option value="1">MANUAL</option>
         </field>
+    </fieldset>
+    <fieldset name="de" label="ATTRIBUTES_DE">
+        <field name="name_de" type="Blank" label="NAME_DE" class="required" maxlength="255"/>
+        <field name="description_de" type="Editor" label="THM_ORGANIZER_DESC_DE"
+               description="THM_ORGANIZER_DESC_DE_DESC"/>
+    </fieldset>
+    <fieldset name="en" label="ATTRIBUTES_EN">
+        <field name="name_en" type="Blank" label="NAME_EN" class="required" maxlength="255"/>
+        <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
+               description="THM_ORGANIZER_DESC_EN_DESC"/>
+    </fieldset>
+    <fieldset name="units" label="UNITS" displayinitial="0">
+        <field name="units" type="Units" label="UNITS"/>
     </fieldset>
 </form>

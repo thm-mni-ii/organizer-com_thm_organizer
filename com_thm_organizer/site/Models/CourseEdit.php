@@ -12,7 +12,9 @@
 
 namespace Organizer\Models;
 
+use Exception;
 use Joomla\CMS\Table\Table;
+use Organizer\Helpers;
 use Organizer\Tables\Courses as CoursesTable;
 
 /**
@@ -20,6 +22,41 @@ use Organizer\Tables\Courses as CoursesTable;
  */
 class CourseEdit extends EditModel
 {
+	/**
+	 * Provides a strict access check which can be overwritten by extending classes.
+	 *
+	 * @return bool  true if the user can access the view, otherwise false
+	 */
+	protected function allowEdit()
+	{
+		$courseID = Helpers\Input::getSelectedID();
+
+		return Helpers\Can::manage('course', $courseID);
+	}
+
+	/**
+	 * Method to get the form
+	 *
+	 * @param   array  $data      Data         (default: array)
+	 * @param   bool   $loadData  Load data  (default: true)
+	 *
+	 * @return mixed Form object on success, False on error.
+	 * @throws Exception => unauthorized access
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+	 */
+	public function getForm($data = [], $loadData = true)
+	{
+		$form = parent::getForm($data, $loadData);
+
+		if (empty($this->item->id))
+		{
+			$form->removeField('campusID');
+		}
+
+		return empty($form) ? false : $form;
+	}
+
 	/**
 	 * Method to get a single record.
 	 *
@@ -32,7 +69,15 @@ class CourseEdit extends EditModel
 	{
 		$this->item = parent::getItem($pk);
 
-		$this->item->preparatory = \Organizer\Helpers\Courses::isPreparatory($this->item->id);
+		if (empty($this->item->id))
+		{
+			$this->item->name   = Helpers\Languages::_('THM_ORGANIZER_NONE');
+			$this->item->termID = Helpers\Terms::getNextID();
+		}
+		else
+		{
+			$this->item->name = Helpers\Courses::getName($this->item->id);
+		}
 
 		return $this->item;
 	}

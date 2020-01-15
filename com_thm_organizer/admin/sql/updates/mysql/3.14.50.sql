@@ -359,7 +359,7 @@ ALTER TABLE `v7ocf_thm_organizer_subject_persons`
 # region courses (fk: campuses, terms)
 CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_courses` (
     `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `campusID`         INT(11) UNSIGNED NOT NULL,
+    `campusID`         INT(11) UNSIGNED          DEFAULT NULL,
     `termID`           INT(11) UNSIGNED NOT NULL,
     `groups`           VARCHAR(100)     NOT NULL DEFAULT '',
     `name_de`          VARCHAR(100)              DEFAULT NULL,
@@ -383,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `v7ocf_thm_organizer_courses` (
 
 ALTER TABLE `v7ocf_thm_organizer_courses`
     ADD CONSTRAINT `courses_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `v7ocf_thm_organizer_campuses` (`id`)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     ADD CONSTRAINT `courses_termID_fk` FOREIGN KEY (`termID`) REFERENCES `v7ocf_thm_organizer_terms` (`id`)
         ON DELETE CASCADE

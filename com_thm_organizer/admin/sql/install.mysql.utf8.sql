@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `#__thm_organizer_course_participants` (
 
 CREATE TABLE IF NOT EXISTS `#__thm_organizer_courses` (
     `id`               INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `campusID`         INT(11) UNSIGNED NOT NULL,
+    `campusID`         INT(11) UNSIGNED          DEFAULT NULL,
     `termID`           INT(11) UNSIGNED NOT NULL,
     `groups`           VARCHAR(100)     NOT NULL DEFAULT '',
     `name_de`          VARCHAR(100)              DEFAULT NULL,
@@ -764,7 +764,7 @@ ALTER TABLE `#__thm_organizer_course_participants`
 
 ALTER TABLE `#__thm_organizer_courses`
     ADD CONSTRAINT `courses_campusID_fk` FOREIGN KEY (`campusID`) REFERENCES `#__thm_organizer_campuses` (`id`)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     ADD CONSTRAINT `courses_termID_fk` FOREIGN KEY (`termID`) REFERENCES `#__thm_organizer_terms` (`id`)
         ON DELETE CASCADE

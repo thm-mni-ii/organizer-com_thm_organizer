@@ -24,7 +24,7 @@ class RoomOverview extends TableView
 	private $gridID = null;
 
 	/**
-	 * Concrete classes are supposed to use this method to add a toolbar.
+	 * Adds a toolbar and title to the view.
 	 *
 	 * @return void  sets context variables
 	 */

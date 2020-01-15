@@ -110,7 +110,7 @@ class CourseParticipants extends ResourceHelper
 			{
 				$button  = str_replace('XHREFX', $baseURL . "&view=course_edit&id=$courseID", $buttonTemplate);
 				$button  = str_replace('XICONX', '<span class="icon-options"></span>', $button);
-				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_COURSE'), $button);
+				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COURSE_MANAGE'), $button);
 				$buttons .= $button;
 			}
 

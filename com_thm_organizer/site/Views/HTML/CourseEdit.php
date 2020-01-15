@@ -14,6 +14,7 @@ namespace Organizer\Views\HTML;
 
 use Joomla\CMS\Uri\Uri;
 use Organizer\Helpers;
+use Organizer\Helpers\Languages;
 use Joomla\CMS\Toolbar\Toolbar;
 
 /**
@@ -21,63 +22,41 @@ use Joomla\CMS\Toolbar\Toolbar;
  */
 class CourseEdit extends EditView
 {
+	protected $_layout = 'tabs';
+
 	/**
-	 * Concrete classes are supposed to use this method to add a toolbar.
+	 * Adds a toolbar and title to the view.
 	 *
 	 * @return void  adds toolbar items to the view
 	 */
-
 	protected function addToolBar()
 	{
 		$courseID = $this->item->id;
-		$new      = empty($courseID);
-		$title    = Helpers\Languages::_('THM_ORGANIZER_MANAGE_COURSE');
-		Helpers\HTML::setTitle($title, 'contract-2');
-		$toolbar   = Toolbar::getInstance();
-		$applyText = $new ? Helpers\Languages::_('THM_ORGANIZER_CREATE') : Helpers\Languages::_('THM_ORGANIZER_APPLY');
-		$toolbar->appendButton('Standard', 'apply', $applyText, 'courses.apply', false);
-		$toolbar->appendButton('Standard', 'save', Helpers\Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
-		$cancelText = $new ? Helpers\Languages::_('THM_ORGANIZER_CANCEL') : Helpers\Languages::_('THM_ORGANIZER_CLOSE');
-		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'courses.cancel', false);
+		$toolbar  = Toolbar::getInstance();
 
-		$baseLink       = Uri::base() . "?option=com_thm_organizer&courseID=$courseID";
-		$buttonTemplate = '<a class="btn" href="XHREFX" target="_blank">XICONXXTEXTX</a>';
+		if ($courseID)
+		{
+			Helpers\HTML::setTitle(Languages::_('THM_ORGANIZER_COURSE_EDIT'), 'contract-2');
 
-		$icon = '<span class="icon-users"></span>';
-		$link = "$baseLink&view=participants";
-		$text = Helpers\Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS');
+			$toolbar->appendButton('Standard', 'apply', Languages::_('THM_ORGANIZER_APPLY'), 'courses.apply', false);
+			$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
+			$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CLOSE'), 'courses.cancel', false);
 
-		$button = str_replace('XHREFX', $link, $buttonTemplate);
-		$button = str_replace('XICONX', $icon, $button);
-		$button = str_replace('XTEXTX', $text, $button);
-		$toolbar->appendButton('Custom', $button, 'participants');
+			$href = Uri::base() . "?option=com_thm_organizer&view=course_participants&courseID=$courseID";
+			$icon = '<span class="icon-users"></span>';
+			$text = Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS');
 
-		$icon = '<span class="icon-user-check"></span>';
-		$link = "$baseLink&view=attendance&format=pdf";
-		$text = Helpers\Languages::_('THM_ORGANIZER_PRINT_ATTENDANCE');
+			$button = "<a class=\"btn\" href=\"$href\" target=\"_blank\">$icon$text</a>";
+			$toolbar->appendButton('Custom', $button, 'participants');
+		}
+		else
+		{
+			Helpers\HTML::setTitle(Languages::_('THM_ORGANIZER_COURSE_NEW'), 'contract-2');
 
-		$button = str_replace('XHREFX', $link, $buttonTemplate);
-		$button = str_replace('XICONX', $icon, $button);
-		$button = str_replace('XTEXTX', $text, $button);
-		$toolbar->appendButton('Custom', $button, 'attendance');
-
-		$icon = '<span class="icon-tags"></span>';
-		$link = "$baseLink&view=badges&format=pdf";
-		$text = Helpers\Languages::_('THM_ORGANIZER_PRINT_BADGES');
-
-		$button = str_replace('XHREFX', $link, $buttonTemplate);
-		$button = str_replace('XICONX', $icon, $button);
-		$button = str_replace('XTEXTX', $text, $button);
-		$toolbar->appendButton('Custom', $button, 'attendance');
-
-		$icon = '<span class="icon-bars"></span>';
-		$link = "$baseLink&view=department_participants&format=pdf";
-		$text = Helpers\Languages::_('THM_ORGANIZER_PRINT_DEPARTMENT_PARTICIPANTS');
-
-		$button = str_replace('XHREFX', $link, $buttonTemplate);
-		$button = str_replace('XICONX', $icon, $button);
-		$button = str_replace('XTEXTX', $text, $button);
-		$toolbar->appendButton('Custom', $button, 'departmentparticipants');
+			$toolbar->appendButton('Standard', 'apply', Languages::_('THM_ORGANIZER_CREATE'), 'courses.apply', false);
+			$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
+			$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'courses.cancel', false);
+		}
 	}
 
 	/**
@@ -88,6 +67,14 @@ class CourseEdit extends EditView
 	protected function setSubtitle()
 	{
 		$course = $this->item;
+
+		if (empty($course->id))
+		{
+			$this->subtitle = '';
+
+			return;
+		}
+
 		$name   = Helpers\Courses::getName($course->id);
 		$dates  = Helpers\Courses::getDateDisplay($course->id);
 		$termID = $course->preparatory ? Helpers\Terms::getNextID($course->termID) : $course->termID;
