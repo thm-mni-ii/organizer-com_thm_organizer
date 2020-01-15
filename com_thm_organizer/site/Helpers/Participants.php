@@ -110,6 +110,18 @@ class Participants extends ResourceHelper
 	}
 
 	/**
+	 * Checks whether a participant entry already exists for the current user.
+	 *
+	 * @return bool true if the user is already associated with a participant, otherwise false
+	 */
+	public static function exists()
+	{
+		$participants = new Tables\Participants;
+
+		return $participants->load(Factory::getUser()->id) ? true : false;
+	}
+
+	/**
 	 * Retrieves the ids of the courses with which the participant is associated.
 	 *
 	 * @param   int  $participantID  the id of the participant

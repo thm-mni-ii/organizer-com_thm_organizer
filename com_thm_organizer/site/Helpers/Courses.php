@@ -103,10 +103,16 @@ class Courses extends ResourceHelper
 	{
 		if ($dates = self::getDates($courseID))
 		{
-			return Dates::getDisplay($dates['startDate'], $dates ['endDate']);
+			$dates = Dates::getDisplay($dates['startDate'], $dates ['endDate']);
 		}
 
-		return '';
+		$runText = '';
+		if (OrganizerHelper::getApplication()->isClient('administrator'))
+		{
+			$runText = self::getRunText($courseID) . '<br>';
+		}
+
+		return $runText . $dates;
 	}
 
 	/**
@@ -381,33 +387,44 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Gets persons associated with the given course, optionally filtered by event and role.
+	 * Generates a text descriptive of the course run information.
 	 *
 	 * @param   int  $courseID  the id of the course
 	 *
-	 * @return array the rooms in which the course takes place
+	 * @return string the course run text
 	 */
-	public static function getRooms($courseID)
+	public static function getRunText($courseID)
 	{
-		$dbo = Factory::getDbo();
+		$course = new CoursesTable;
 
-		$query = $dbo->getQuery('true');
-		$query->select("DISTINCT r.untisID")
-			->from('#__thm_organizer_rooms AS r')
-			->innerJoin('#__thm_organizer_instance_rooms AS ir ON ir.roomID = r.id')
-			->innerJoin('#__thm_organizer_instance_persons AS ip ON ip.id = ir.assocID')
-			->innerJoin('#__thm_organizer_instances AS i ON i.id = ip.instanceID')
-			->innerJoin('#__thm_organizer_units AS u on u.id = i.unitID')
-			->where("ir.delta != 'removed'")
-			->where("ip.delta != 'removed'")
-			->where("i.delta != 'removed'")
-			->where("u.delta != 'removed'")
-			->where("u.courseID = $courseID")
-			->order('r.name');
+		if (!$course->load($courseID))
+		{
+			return '';
+		}
 
+		if (self::isPreparatory($courseID))
+		{
+			return Terms::getName(Terms::getNextID($course->termID));
+		}
+
+		$term = Terms::getName($course->termID);
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('DISTINCT runID')
+			->from('#__thm_organizer_units AS u')
+			->where("courseID = $courseID");
 		$dbo->setQuery($query);
 
-		return OrganizerHelper::executeQuery('loadColumn', []);
+		if (!$runIDs = OrganizerHelper::executeQuery('loadColumn', []) or COUNT($runIDs) > 1)
+		{
+			return $term;
+		}
+
+		$runName = Runs::getName($runIDs[0]);
+
+		return $runName ? "$runName ($term)" : $term;
+
 	}
 
 	/**

@@ -101,10 +101,12 @@ class Courses extends ListView
 			$toolbar = Toolbar::getInstance();
 			if ($frontend)
 			{
+				$buttonText = Helpers\Participants::exists() ?
+					Languages::_('THM_ORGANIZER_PROFILE_EDIT') : Languages::_('THM_ORGANIZER_PROFILE_NEW');
 				$toolbar->appendButton(
 					'Standard',
-					'edit',
-					Languages::_('THM_ORGANIZER_EDIT_PROFILE'),
+					'vcard',
+					$buttonText,
 					'participants.edit',
 					false
 				);
