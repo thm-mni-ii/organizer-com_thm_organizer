@@ -24,11 +24,12 @@ if ($isSite)
 	echo $this->supplement;
 }
 ?>
-<form action="?<?php echo $query; ?>" id="adminForm" method="post" name="adminForm"
+<?php if ($isSite) : ?>
+	<?php echo Toolbar::getInstance()->render(); ?>
+<?php endif; ?>
+<form action="<?php echo Uri::base() . "?$query"; ?>" id="adminForm" method="post" name="adminForm"
       class="form-horizontal form-validate" enctype="multipart/form-data">
-	<?php if ($isSite) : ?>
-		<?php echo Toolbar::getInstance()->render(); ?>
-	<?php endif; ?>
+
 	<?php
 	echo HTML::_('bootstrap.startTabSet', 'myTab', ['active' => 'details']);
 

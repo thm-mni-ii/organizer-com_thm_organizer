@@ -24,11 +24,11 @@ if ($isSite)
 }
 ?>
 <div id="j-main-container" class="span10">
-    <form action="?<?php echo $query; ?>" id="adminForm" method="post" name="adminForm"
+	<?php if ($isSite) : ?>
+		<?php echo Toolbar::getInstance()->render(); ?>
+	<?php endif; ?>
+    <form action="<?php echo Uri::base() . "?$query"; ?>" id="adminForm" method="post" name="adminForm"
           class="form-horizontal form-validate" enctype="multipart/form-data">
-		<?php if ($isSite) : ?>
-			<?php echo Toolbar::getInstance()->render(); ?>
-		<?php endif; ?>
 		<?php echo $this->form->renderFieldset('details'); ?>
 		<?php echo HTML::_('form.token'); ?>
         <input type="hidden" name="task" value=""/>

@@ -121,10 +121,10 @@ class CourseParticipants extends ResourceHelper
 		}
 		elseif (!Courses::isExpired($courseID))
 		{
+			$registrationURL = $baseURL . "&task=participant.register&courseID=$courseID";
 			if (self::getState($courseID, $participantID, $eventID) !== self::UNREGISTERED)
 			{
-				$URL     = $baseURL . "&task=participant.deregister&courseID=$courseID";
-				$button  = str_replace('XHREFX', $URL, $buttonTemplate);
+				$button  = str_replace('XHREFX', $registrationURL, $buttonTemplate);
 				$button  = str_replace('XICONX', '<span class="icon-out-2"></span>', $button);
 				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_DEREGISTER'), $button);
 				$buttons .= $button;
@@ -138,8 +138,7 @@ class CourseParticipants extends ResourceHelper
 			}
 			else
 			{
-				$URL     = $baseURL . "&task=participant.register&courseID=$courseID";
-				$button  = str_replace('XHREFX', $URL, $buttonTemplate);
+				$button  = str_replace('XHREFX', $registrationURL, $buttonTemplate);
 				$button  = str_replace('XICONX', '<span class="icon-apply"></span>', $button);
 				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_REGISTER'), $button);
 				$buttons .= $button;

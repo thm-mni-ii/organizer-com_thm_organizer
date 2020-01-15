@@ -14,12 +14,13 @@ use Organizer\Helpers\Languages;
 
 $logoURL = 'components/com_thm_organizer/images/thm_organizer.png';
 $logo    = HTML::_('image', $logoURL, Languages::_('THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);
+$query   = Uri::getInstance()->getQuery();
 ?>
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->submenu; ?>
 </div>
 <div id="j-main-container" class="span10">
-    <form action="?<?php echo $query = Uri::getInstance()->getQuery();; ?>" id="adminForm" method="post"
+    <form action="<?php echo Uri::base() . "?$query"; ?>" id="adminForm" method="post"
           name="adminForm">
         <div class="organizer-header">
             <div class="organizer-logo">

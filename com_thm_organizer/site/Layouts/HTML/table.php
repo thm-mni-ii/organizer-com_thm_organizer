@@ -24,10 +24,10 @@ echo $this->supplement;
 
 ?>
 <div id="j-main-container" class="span10">
-    <form action="?<?php echo $query; ?>" id="adminForm" method="post" name="adminForm">
-		<?php if ($isSite) : ?>
-			<?php echo Toolbar::getInstance()->render(); ?>
-		<?php endif; ?>
+	<?php if ($isSite) : ?>
+		<?php echo Toolbar::getInstance()->render(); ?>
+	<?php endif; ?>
+    <form action="<?php echo Uri::base() . "?$query"; ?>" id="adminForm" method="post" name="adminForm">
 		<?php require_once 'filters.php'; ?>
         <table class="table table-striped organizer-table">
             <thead><?php echo $this->renderHeaders(); ?></thead>

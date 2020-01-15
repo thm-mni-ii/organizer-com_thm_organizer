@@ -30,10 +30,10 @@ if (!empty($this->submenu))
 	echo '<div id="j-sidebar-container" class="span2">' . $this->submenu . '</div>';
 } ?>
 <div id="j-main-container" class="span10">
-    <form action="?<?php echo $query; ?>" id="adminForm" method="post" name="adminForm">
-		<?php if ($isSite) : ?>
-			<?php echo Toolbar::getInstance()->render(); ?>
-		<?php endif; ?>
+	<?php if ($isSite) : ?>
+		<?php echo Toolbar::getInstance()->render(); ?>
+	<?php endif; ?>
+    <form action="<?php echo Uri::base() . "?$query"; ?>" id="adminForm" method="post" name="adminForm">
 		<?php require_once 'filters.php'; ?>
         <table class="table table-striped" id="<?php echo $this->get('name'); ?>-list">
             <thead>
