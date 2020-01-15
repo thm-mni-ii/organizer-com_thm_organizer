@@ -292,11 +292,11 @@ class Input
 	 *
 	 * @return int the selected id
 	 */
-	public static function getSelectedID()
+	public static function getSelectedID($default = 0)
 	{
 		$selectedIDs = self::getSelectedIDs();
 
-		return empty($selectedIDs) ? 0 : $selectedIDs[0];
+		return empty($selectedIDs) ? $default : $selectedIDs[0];
 	}
 
 	/**

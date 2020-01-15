@@ -202,6 +202,30 @@ class OrganizerHelper
 	}
 
 	/**
+	 * Inserts an object into the database
+	 *
+	 * @param   string   $table   The name of the database table to insert into.
+	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
+	 * @param   string   $key     The name of the primary key. If provided the object property is updated.
+	 *
+	 * @return mixed the various return values appropriate to the functions called.
+	 */
+	public static function insertObject($table, &$object, $key = 'id')
+	{
+		$dbo = Factory::getDbo();
+		try
+		{
+			return $dbo->insertObject($table, $object, $key);
+		}
+		catch (RuntimeException $exc)
+		{
+			self::message($exc->getMessage(), 'error');
+
+			return false;
+		}
+	}
+
+	/**
 	 * TODO: Including this (someday) to the Joomla Core!
 	 * Checks if the device is a smartphone, based on the 'Mobile Detect' library
 	 *

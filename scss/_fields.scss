@@ -61,3 +61,22 @@ body.tmpl-index div.main {
     width: 15rem !important;
   }
 }
+
+.publishing-container {
+  display: flex;
+  flex-direction: column;
+
+  .period-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: .4rem;
+  }
+
+  .period-label {
+    width: 6rem;
+  }
+
+  .period-input select {
+    width: 4rem;
+  }
+}

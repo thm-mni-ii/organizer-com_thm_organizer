@@ -82,6 +82,8 @@ abstract class EditModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
+		$pk = empty($pk) ? Input::getSelectedID() : $pk;
+
 		// Prevents duplicate execution from getForm and getItem
 		if (isset($this->item->id) and ($this->item->id === $pk or $pk === null))
 		{

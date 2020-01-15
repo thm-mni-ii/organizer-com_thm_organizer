@@ -20,8 +20,25 @@ use Organizer\Tables;
 /**
  * Class which manages stored participant data.
  */
-class Participant extends BaseModel
+class Participant extends MergeModel
 {
+	protected $fkColumn = 'participantID';
+
+	/**
+	 * Filters names (city, forename, surname) for actual letters and accepted special characters.
+	 *
+	 * @param   string  $name  the raw value
+	 *
+	 * @return string the cleaned value
+	 */
+	private function cleanName($name)
+	{
+		$name = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $name);
+		$name = preg_replace('/ +/', ' ', $name);
+
+		return $name;
+	}
+
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
@@ -123,24 +140,236 @@ class Participant extends BaseModel
 			}
 		}
 
-		$forename         = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['forename']);
-		$forename         = preg_replace('/ +/', ' ', $forename);
-		$data['forename'] = $forename;
+		$data['city']     = self::cleanName($data['city']);
+		$data['forename'] = self::cleanName($data['forename']);
+		$data['surname']  = self::cleanName($data['surname']);
 
-		$surname         = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $data['surname']);
-		$surname         = preg_replace('/ +/', ' ', $surname);
-		$data['surname'] = $surname;
+		$success = true;
+		$table   = new Tables\Participants;
+		if ($table->load($data['id']))
+		{
+			$altered = false;
 
-		$table = new Tables\Participants;
+			foreach ($data as $property => $value)
+			{
+				if (property_exists($table, $property))
+				{
+					$table->set($property, $value);
+					$altered = true;
+				}
+			}
 
-		if (empty($table))
+			if ($altered)
+			{
+				$success = $table->store();
+			}
+		}
+		// Manual insertion because the table's primary key is also a foreign key.
+		else
+		{
+			$relevantData = (object) $data;
+
+			foreach ($relevantData as $property => $value)
+			{
+				if (!property_exists($table, $property))
+				{
+					unset($relevantData->$property);
+				}
+			}
+
+			$success = Helpers\OrganizerHelper::insertObject('#__thm_organizer_participants', $relevantData, 'id');
+
+		}
+
+		return $success ? $data['id'] : false;
+	}
+
+	/**
+	 * Updates the resource dependent associations
+	 *
+	 * @return boolean  true on success, otherwise false
+	 */
+	protected function updateAssociations()
+	{
+		if (!$this->updateCourseParticipants())
 		{
 			return false;
 		}
 
-		$table->load($data['id']);
-		$success = $table->save($data);
+		if (!$this->updateInstanceParticipants())
+		{
+			return false;
+		}
 
-		return $success ? $table->id : false;
+		return $this->updateUsers();
+	}
+
+	/**
+	 * Updates the course participants table to reflect the merge of the participants.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateCourseParticipants()
+	{
+		if (!$relevantCourses = $this->getAssociatedResourceIDs('courseID', 'course_participants'))
+		{
+			return true;
+		}
+
+		$mergeID = reset($this->selected);
+
+		foreach ($relevantCourses as $courseID)
+		{
+			$attended        = false;
+			$paid            = false;
+			$participantDate = '';
+			$status          = null;
+			$statusDate      = '';
+
+			$existing = new Tables\CourseParticipants;
+			$exists   = $existing->load(['courseID' => $courseID, 'participantID' => $mergeID]);
+
+			foreach ($this->selected as $participantID)
+			{
+				$cpTable        = new Tables\CourseParticipants;
+				$loadConditions = ['courseID' => $courseID, 'participantID' => $participantID];
+				if (!$cpTable->load($loadConditions))
+				{
+					continue;
+				}
+
+				$attended = ($attended or $cpTable->attended);
+				$paid     = ($paid or $cpTable->paid);
+
+				if ($cpTable->statusDate > $statusDate)
+				{
+					$participantDate = $cpTable->participantDate;
+					$status          = $cpTable->status;
+					$statusDate      = $cpTable->statusDate;
+				}
+
+				if ($exists)
+				{
+					if ($existing->id !== $cpTable->id)
+					{
+						$cpTable->delete();
+					}
+
+					continue;
+				}
+
+				$existing = $cpTable;
+				$exists   = true;
+			}
+
+			$existing->attended        = $attended;
+			$existing->paid            = $paid;
+			$existing->participantID   = $mergeID;
+			$existing->participantDate = $participantDate;
+			$existing->status          = $status;
+			$existing->statusDate      = $statusDate;
+			if (!$existing->store())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Updates the instance participants table to reflect the merge of the participants.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateInstanceParticipants()
+	{
+		if (!$relevantInstances = $this->getAssociatedResourceIDs('instanceID', 'instance_participants'))
+		{
+			return true;
+		}
+
+		$mergeID = reset($this->selected);
+
+		foreach ($relevantInstances as $instanceID)
+		{
+			$existing = new Tables\InstanceParticipants;
+			$exists   = $existing->load(['instanceID' => $instanceID, 'participantID' => $mergeID]);
+
+			foreach ($this->selected as $participantID)
+			{
+				$ipTable        = new Tables\InstanceParticipants;
+				$loadConditions = ['instanceID' => $instanceID, 'participantID' => $participantID];
+				if (!$ipTable->load($loadConditions))
+				{
+					continue;
+				}
+
+				if ($exists)
+				{
+					if ($existing->id !== $ipTable->id)
+					{
+						$ipTable->delete();
+					}
+
+					continue;
+				}
+
+				$existing = $ipTable;
+				$exists   = true;
+			}
+
+			$existing->participantID = $mergeID;
+			if (!$existing->store())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Updates the users table to reflect the merge of the participants.
+	 *
+	 * @return bool true on success, otherwise false;
+	 */
+	private function updateUsers()
+	{
+		$mergeID = reset($this->selected);
+		$user    = Helpers\Users::getUser($mergeID);
+
+		if (empty($user->id))
+		{
+			return false;
+		}
+
+		$email    = '';
+		$name     = '';
+		$pattern  = '/thm.de$/';
+		$username = '';
+
+		foreach ($this->selected as $participantID)
+		{
+			$thisUser = Helpers\Users::getUser($participantID);
+
+			if (preg_match($pattern, $thisUser->email))
+			{
+				$email    = $thisUser->email;
+				$name     = $thisUser->name;
+				$username = $thisUser->username;
+			}
+
+			if ($thisUser->id !== $user->id)
+			{
+				$thisUser->delete();
+			}
+		}
+
+		$user->email    = $email;
+		$user->name     = $name;
+		$user->username = $username;
+
+		return $user->save();
 	}
 }

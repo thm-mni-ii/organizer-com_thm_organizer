@@ -12,6 +12,7 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
@@ -35,15 +36,18 @@ class ParticipantEdit extends EditModel
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer  $pk  The id of the primary key.
+	 * @param   integer  $participantID  The id of the primary key.
 	 *
 	 * @return mixed    Object on success, false on failure.
 	 * @throws Exception => unauthorized access
 	 */
-	public function getItem($pk = null)
+	public function getItem($participantID = null)
 	{
-		$this->item           = parent::getItem($pk);
+		$userID               = Factory::getUser()->id;
+		$participantID        = empty($participantID) ? Input::getSelectedID($userID) : $participantID;
+		$this->item           = parent::getItem($participantID);
 		$this->item->referrer = Input::getInput()->server->getString('HTTP_REFERER');
+		$this->item->id       = $this->item->id ? $this->item->id : Factory::getUser()->id;
 
 		return $this->item;
 	}

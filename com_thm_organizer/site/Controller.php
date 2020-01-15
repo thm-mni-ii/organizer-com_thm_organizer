@@ -45,19 +45,10 @@ class Controller extends BaseController
 	{
 		$config['base_path']    = JPATH_COMPONENT_SITE;
 		$config['model_prefix'] = '';
-		$this->clientContext    = OrganizerHelper::getApplication()->isClient('administrator');
 		parent::__construct($config);
-	}
 
-	/**
-	 * Redirects to the edit view without an item id. Access checks performed in the view.
-	 *
-	 * @return void
-	 */
-	public function add()
-	{
-		$url = Routing::getRedirectBase() . "&view={$this->resource}_edit";
-		$this->setRedirect($url);
+		$this->clientContext = OrganizerHelper::getApplication()->isClient('administrator');
+		$this->registerTask('add', 'edit');
 	}
 
 	/**
@@ -171,9 +162,8 @@ class Controller extends BaseController
 	 */
 	public function edit()
 	{
-		$selectedID = Input::getSelectedID();
-		$url        = Routing::getRedirectBase() . "&view={$this->resource}_edit&id=$selectedID";
-		$this->setRedirect($url);
+		$this->input->set('view', "{$this->resource}_edit");
+		parent::display();
 	}
 
 	/**
