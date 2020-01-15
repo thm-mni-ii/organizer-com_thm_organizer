@@ -131,10 +131,10 @@ class Courses extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		parent::populateState($ordering, $direction);
+		$app = OrganizerHelper::getApplication();
 
 		if ($this->clientContext === self::FRONTEND)
 		{
-			$app    = OrganizerHelper::getApplication();
 			$params = Input::getParams();
 
 			$campusID = $params->get('campusID', 0);
@@ -144,11 +144,24 @@ class Courses extends ListModel
 			}
 			$this->state->set('filter.campusID', $campusID);
 
-			$requestedTerm = $app->getUserStateFromRequest($this->context . '.filter.termID', 'filter.termID');
-			if (!$requestedTerm and $params->get('onlyPrepCourses'))
+			$rTermID = $app->getUserStateFromRequest($this->context . '.filter.termID', 'filter.termID');
+			if (!$rTermID and $params->get('onlyPrepCourses'))
 			{
 				$this->state->set('filter.termID', TermsHelper::getNextID());
 			}
+		}
+
+		$departmentID = $app->getUserStateFromRequest($this->context . '.filter.departmentID', 'filter.departmentID');
+		$categoryID   = $app->getUserStateFromRequest($this->context . '.filter.categoryID', 'filter.categoryID');
+		if (empty($departmentID))
+		{
+			$this->state->set('filter.categoryID', '');
+			$this->state->set('filter.groupID', '');
+			$this->state->set('filter.personID', '');
+		}
+		elseif (empty($categoryID))
+		{
+			$this->state->set('filter.groupID', '');
 		}
 	}
 }

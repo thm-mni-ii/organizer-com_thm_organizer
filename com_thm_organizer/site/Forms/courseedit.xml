@@ -3,10 +3,9 @@
     <fieldset name="details">
         <field name="id" type="hidden"/>
         <field name="name" type="Blank" label="NAME" hint="USE_EVENT_NAMES"/>
-        <field name="groups" type="Blank" label="COURSE_GROUP"/>
+        <field name="groups" type="Blank" label="COURSE_GROUPS" hint="Gruppe A; Zug 1, Gruppe B, ..."/>
         <field name="termID" type="Terms" label="TERM" disabled="true"/>
         <field name="campusID" type="Campuses" label="CAMPUS" disabled="true"/>
-        <field name="groups" type="Blank" label="COURSE_GROUP" hint="Gruppe A; Zug 1, Gruppe B, ..."/>
         <field name="deadline" type="Integer" label="DEADLINE" default="0" first="0" last="30" step="1"/>
         <field name="fee" type="Integer" label="COURSE_FEE" default="0" first="0" last="500" step="5"/>
         <field name="maxParticipants" type="Integer" label="MAX_PARTICIPANTS" default="1000" first="20" last="1000"

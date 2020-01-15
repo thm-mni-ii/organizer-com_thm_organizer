@@ -62,6 +62,37 @@ class Courses extends ResourceHelper
 	}
 
 	/**
+	 * Generates a capacity text for active course participants.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return string the course capacity text
+	 */
+	public static function getCapacityText($courseID)
+	{
+		$course = new CoursesTable;
+
+		if (!$course->load($courseID))
+		{
+			return '';
+		}
+
+		$max = $course->maxParticipants;
+
+		$dbo   = Factory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('COUNT(DISTINCT participantID)')
+			->from('#__thm_organizer_course_participants')
+			->where("courseID = $courseID")
+			->where("status = 1");
+		$dbo->setQuery($query);
+
+		$current = OrganizerHelper::executeQuery('loadResult', 0);
+
+		return "<span class=\"icon-user-check\"></span>$current/$max";
+	}
+
+	/**
 	 * Creates a display of formatted dates for a course
 	 *
 	 * @param   int  $courseID  the id of the course to be loaded
@@ -198,7 +229,7 @@ class Courses extends ResourceHelper
 	}
 
 	/**
-	 * Attempts to retrieve the name of the resource.
+	 * Retrieves the name of the course.
 	 *
 	 * @param   int  $courseID  the id of the resource
 	 *
@@ -223,6 +254,52 @@ class Courses extends ResourceHelper
 		}
 
 		return implode(' / ', $eventNames);
+	}
+
+	/**
+	 * Attempts to retrieve the names of the resource.
+	 *
+	 * @param   int  $courseID  the id of the resource
+	 *
+	 * @return string
+	 */
+	public static function getNames($courseID)
+	{
+		$course = new CoursesTable;
+		if (!$course->load($courseID))
+		{
+			return '';
+		}
+
+		$groups = '';
+		if (trim($course->groups))
+		{
+			$groups = trim($course->groups);
+		}
+
+		$nameProperty = 'name_' . Languages::getTag();
+		$names        = [];
+
+		if ($name = trim($course->$nameProperty))
+		{
+			$names[] = [$name];
+		}
+		elseif ($events = self::getEvents($courseID))
+		{
+			foreach ($events as $event)
+			{
+				$names[] = $event['name'];
+			}
+		}
+		else
+		{
+			return '';
+		}
+
+		$names = implode('<br>', $names);
+		$names .= $groups ? '<br>' . Languages::_('THM_ORGANIZER_COURSE_GROUPS') . ": $groups" : '';
+
+		return $names;
 	}
 
 	/**
@@ -344,18 +421,27 @@ class Courses extends ResourceHelper
 	{
 		if (self::isExpired($courseID))
 		{
-			return Languages::_('THM_ORGANIZER_EXPIRED');
+			$status = Languages::_('THM_ORGANIZER_EXPIRED');
 		}
 		elseif (self::isOngoing($courseID))
 		{
-			return Languages::_('THM_ORGANIZER_COURSE_ONGOING');
+			$status = Languages::_('THM_ORGANIZER_COURSE_ONGOING');
 		}
 		elseif (self::isFull($courseID))
 		{
-			return Languages::_('THM_ORGANIZER_COURSE_FULL');
+			$status = Languages::_('THM_ORGANIZER_COURSE_FULL');
+		}
+		else
+		{
+			$status = Languages::_('THM_ORGANIZER_COURSE_OPEN');
 		}
 
-		return Languages::_('THM_ORGANIZER_COURSE_OPEN');
+		if (self::hasResponsibility($courseID))
+		{
+			$status .= '<br>' . self::getCapacityText($courseID);
+		}
+
+		return $status;
 	}
 
 	/**
@@ -546,131 +632,6 @@ class Courses extends ResourceHelper
 		return self::hasResponsibility($courseID, $personID, self::TUTOR);
 	}
 
-//    /**
-//     * Check if course with specific id is full
-//     *
-//     * @param int $courseID identifier of course
-//     *
-//     * @return bool true when course can accept more participants, false otherwise
-//     */
-//    public static function canAcceptParticipant($courseID)
-//    {
-//        $course = self::getCourse($courseID);
-//
-//        if (empty($course)) {
-//            return false;
-//        }
-//
-//        $open = self::isRegistrationOpen($courseID);
-//        if (empty($open)) {
-//            return false;
-//        }
-//
-//        $regType          = $course['registration_type'];
-//        $manualAcceptance = (!empty($regType) and $regType === self::MANUAL_ACCEPTANCE);
-//
-//        if ($manualAcceptance) {
-//            return false;
-//        }
-//
-//        $acceptedParticipants = count(self::getParticipants($courseID, 1));
-//        $maxParticipants      = empty($course['lessonP']) ? $course['subjectP'] : $course['lessonP'];
-//
-//        if (empty($maxParticipants)) {
-//            return true;
-//        }
-//
-//        return ($acceptedParticipants < $maxParticipants);
-//    }
-//
-//    /**
-//     * Creates a button for user interaction with the course. (De-/registration, Administration)
-//     *
-//     * @param string $view     the view to be redirected to after registration action
-//     * @param int    $courseID the id of the course
-//     *
-//     * @return string the HTML for the action button as appropriate for the user
-//     */
-//    public static function getActionButton($view, $courseID)
-//    {
-//        $expired    = !self::isRegistrationOpen($courseID);
-//        $authorized = self::authorized($courseID);
-//
-//        $tag             = Languages::getTag();
-//        $menuID          = Input::getItemid();
-//        $pathPrefix      = 'index.php?option=com_thm_organizer';
-//        $managerURL      = "{$pathPrefix}&view=courses&languageTag=$tag";
-//        $registrationURL = "$pathPrefix&task=$view.register&languageTag=$tag";
-//        $registrationURL .= $view == 'subject' ? '&id=' . Input::getID() : '';
-//
-//        if (!empty($menuID)) {
-//            $managerURL      .= "&Itemid=$menuID";
-//            $registrationURL .= "&Itemid=$menuID";
-//        }
-//
-//        if (!empty(Factory::getUser()->id)) {
-//            $lessonURL = "&lessonID=$courseID";
-//
-//            if ($authorized) {
-//                $manage       = '<span class="icon-cogs"></span>' . Languages::_('THM_ORGANIZER_MANAGE');
-//                $managerRoute = Route::_($managerURL . $lessonURL);
-//                $register     = "<a class='btn' href='$managerRoute'>$manage</a>";
-//            } else {
-//                $regState = self::getParticipantState($courseID);
-//
-//                if ($expired) {
-//                    $register = '';
-//                } else {
-//                    $registerRoute = Route::_($registrationURL . $lessonURL);
-//
-//                    if (!empty($regState)) {
-//                        $registerText = '<span class="icon-out-2"></span>';
-//                        $registerText .= Languages::_('THM_ORGANIZER_DEREGISTER');
-//                    } else {
-//                        $registerText = '<span class="icon-apply"></span>';
-//                        $registerText .= Languages::_('THM_ORGANIZER_REGISTER');
-//                    }
-//
-//                    $register = "<a class='btn' href='$registerRoute' type='button'>$registerText</a>";
-//                }
-//            }
-//        } else {
-//            $register = '';
-//        }
-//
-//        return $register;
-//    }
-//
-//    /**
-//     * Check if the course is open for registration
-//     *
-//     * @param int $courseID id of lesson
-//     *
-//     * @return bool true if registration deadline not yet in the past, false otherwise
-//     */
-//    public static function isRegistrationOpen($courseID = 0)
-//    {
-//        $dates = self::getDates($courseID);
-//        if (empty($dates)) {
-//            return false;
-//        }
-//
-//        try {
-//            $startDate = new DateTime($dates[0]);
-//            $deadline  = self::getCourse($courseID)['deadline'];
-//            $interval  = new DateInterval("P{$deadline}D");
-//        } catch (Exception $exc) {
-//            OrganizerHelper::message($exc->getMessage(), 'error');
-//
-//            return false;
-//        }
-//
-//        $adjustedDate = new DateTime;
-//        $adjustedDate->add($interval);
-//
-//        return $startDate > $adjustedDate;
-//    }
-//
 //    /**
 //     * Might move users from state pending to accepted
 //     *

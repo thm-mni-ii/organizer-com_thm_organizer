@@ -70,7 +70,7 @@ class CourseParticipants extends ResourceHelper
 	public static function getStatusText($courseID, $participantID = 0, $eventID = 0)
 	{
 		$participantID = $participantID ? $participantID : Factory::getUser()->id;
-		if (Can::manage('course', $courseID))
+		if (Can::manage('course', $courseID) or Courses::isExpired($courseID))
 		{
 			return '';
 		}
@@ -119,28 +119,31 @@ class CourseParticipants extends ResourceHelper
 			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS'), $button);
 			$buttons .= $button;
 		}
-		elseif (self::getState($courseID, $participantID, $eventID) !== self::UNREGISTERED)
+		elseif (!Courses::isExpired($courseID))
 		{
-			$URL     = $baseURL . "&task=participant.deregister&courseID=$courseID";
-			$button  = str_replace('XHREFX', $URL, $buttonTemplate);
-			$button  = str_replace('XICONX', '<span class="icon-out-2"></span>', $button);
-			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_DEREGISTER'), $button);
-			$buttons .= $button;
-		}
-		elseif (Participants::incomplete())
-		{
-			$button  = str_replace('XHREFX', $baseURL . "&view=participant_edit", $buttonTemplate);
-			$button  = str_replace('XICONX', '<span class="icon-user-plus"></span>', $button);
-			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COMPLETE_PROFILE'), $button);
-			$buttons .= $button;
-		}
-		else
-		{
-			$URL     = $baseURL . "&task=participant.register&courseID=$courseID";
-			$button  = str_replace('XHREFX', $URL, $buttonTemplate);
-			$button  = str_replace('XICONX', '<span class="icon-apply"></span>', $button);
-			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_REGISTER'), $button);
-			$buttons .= $button;
+			if (self::getState($courseID, $participantID, $eventID) !== self::UNREGISTERED)
+			{
+				$URL     = $baseURL . "&task=participant.deregister&courseID=$courseID";
+				$button  = str_replace('XHREFX', $URL, $buttonTemplate);
+				$button  = str_replace('XICONX', '<span class="icon-out-2"></span>', $button);
+				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_DEREGISTER'), $button);
+				$buttons .= $button;
+			}
+			elseif (Participants::incomplete())
+			{
+				$button  = str_replace('XHREFX', $baseURL . "&view=participant_edit", $buttonTemplate);
+				$button  = str_replace('XICONX', '<span class="icon-user-plus"></span>', $button);
+				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COMPLETE_PROFILE'), $button);
+				$buttons .= $button;
+			}
+			else
+			{
+				$URL     = $baseURL . "&task=participant.register&courseID=$courseID";
+				$button  = str_replace('XHREFX', $URL, $buttonTemplate);
+				$button  = str_replace('XICONX', '<span class="icon-apply"></span>', $button);
+				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_REGISTER'), $button);
+				$buttons .= $button;
+			}
 		}
 
 		return $buttons;

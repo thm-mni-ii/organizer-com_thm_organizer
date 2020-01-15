@@ -39,26 +39,16 @@ class Courses extends ListView
 		$this->params = Helpers\Input::getParams();
 		$userID       = Factory::getUser()->id;
 
+		$structure = ['id' => 'link', 'name' => 'link', 'dates' => 'value', 'courseStatus' => 'value'];
+
 		if ($this->clientContext === self::BACKEND)
 		{
-			$structure = [
-				'checkbox' => '',
-				'id'       => 'link',
-				'name'     => 'link',
-				'dates'    => 'link',
-				'persons'  => 'link',
-				'groups'   => 'link'
-			];
+			$structure = ['checkbox' => ''] + $structure;
+			$structure += ['persons' => 'link', 'groups' => 'link'];
 		}
-		else
+		elseif ($userID)
 		{
-
-			$structure = ['id' => 'link', 'name' => 'link', 'dates' => 'value', 'courseStatus' => 'value'];
-
-			if ($userID)
-			{
-				$structure ['toolbar'] = 'value';
-			}
+			$structure += ['participantStatus' => 'value'];
 		}
 
 		if ($userID)
@@ -166,30 +156,24 @@ class Courses extends ListView
 		$backend = $this->clientContext === self::BACKEND;
 		$userID  = Factory::getUser()->id;
 
+		$headers = [
+			'id'           => '#',
+			'name'         => Languages::_('THM_ORGANIZER_NAME'),
+			'dates'        => Languages::_('THM_ORGANIZER_DATES'),
+			'courseStatus' => Languages::_('THM_ORGANIZER_COURSE_STATUS')
+		];
+
 		if ($backend)
 		{
-			$headers = [
-				'checkbox' => '',
-				'id'       => '#',
-				'name'     => Languages::_('THM_ORGANIZER_NAME'),
-				'dates'    => Languages::_('THM_ORGANIZER_DATES'),
-				'persons'  => Languages::_('THM_ORGANIZER_PERSONS'),
-				'groups'   => Languages::_('THM_ORGANIZER_GROUPS')
+			$headers = ['checkbox' => ''] + $headers;
+			$headers += [
+				'persons' => Languages::_('THM_ORGANIZER_PERSONS'),
+				'groups'  => Languages::_('THM_ORGANIZER_GROUPS')
 			];
 		}
-		else
+		elseif ($userID)
 		{
-			$headers = [
-				'id'           => '#',
-				'name'         => Languages::_('THM_ORGANIZER_NAME'),
-				'dates'        => Languages::_('THM_ORGANIZER_DATES'),
-				'courseStatus' => Languages::_('THM_ORGANIZER_COURSE_STATUS')
-			];
-
-			if ($userID)
-			{
-				$headers ['toolbar'] = '';
-			}
+			$headers += ['participantStatus' => ''];
 		}
 
 		if ($userID)
@@ -207,40 +191,35 @@ class Courses extends ListView
 	 */
 	protected function structureItems()
 	{
-		$backend       = $this->clientContext === self::BACKEND;
-		$URL           = Uri::base() . '?option=com_thm_organizer';
-		$URL           .= $backend ? '&view=course_edit&id=' : '&view=course_item&id=';
-		$participantID = Factory::getUser()->id;
+		$backend = $this->clientContext === self::BACKEND;
+		$URL     = Uri::base() . '?option=com_thm_organizer';
+		$URL     .= $backend ? '&view=course_edit&id=' : '&view=course_item&id=';
+		$userID  = Factory::getUser()->id;
 
 		$this->allowNew  = Helper::coordinates();
 		$structuredItems = [];
 
 		foreach ($this->items as $course)
 		{
-			$courseID      = $course->id;
-			$course->dates = Helper::getDateDisplay($courseID);
-			$groups        = empty($course->groups) ? '' : ": {$course->groups}";
-			$course->name  = Helper::getName($courseID) . $groups;
-			$index         = "{$course->name}{$course->dates}{$courseID}";
+			$courseID             = $course->id;
+			$course->dates        = Helper::getDateDisplay($courseID);
+			$course->name         = Helper::getNames($courseID);
+			$index                = "{$course->name}{$course->dates}{$courseID}";
+			$course->courseStatus = Helper::getStatusText($courseID);
 
 			if ($backend)
 			{
 				$course->persons = implode(', ', Helper::getPersons($courseID));
 				$course->groups  = implode(', ', Helper::getGroups($courseID));
 			}
-			else
+			elseif ($userID)
 			{
-				$course->courseStatus = Helper::getStatusText($courseID);
-
-				if ($participantID)
-				{
-					$course->participantStatus = Helpers\CourseParticipants::getStatusText($courseID, $participantID);
-				}
+				$course->participantStatus = Helpers\CourseParticipants::getStatusText($courseID, $userID);
 			}
 
-			if ($participantID)
+			if ($userID)
 			{
-				$course->toolbar = Helpers\CourseParticipants::getToolbar($courseID, $participantID);
+				$course->toolbar = Helpers\CourseParticipants::getToolbar($courseID, $userID);
 			}
 
 			$structuredItems[$index] = $this->structureItem($index, $course, $URL . $courseID);
