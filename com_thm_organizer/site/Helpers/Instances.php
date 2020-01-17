@@ -638,7 +638,6 @@ class Instances extends ResourceHelper
 
 			self::setGroups($person, $conditions);
 			self::setRooms($person, $conditions);
-
 			$persons[$personID] = $person;
 		}
 

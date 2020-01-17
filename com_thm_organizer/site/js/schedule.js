@@ -21,8 +21,8 @@ jQuery(document).ready(function () {
  * @param {number} variables.INSTANCE_MODE - mode for saving/deleting single event instances
  * @param {boolean} variables.isMobile - checks type of device
  * @param {string} variables.menuID - active menu id (used as session key)
- * @param {number} variables.PERIOD_MODE - mode for saving/deleting all event instances for a single dow/block
- * @param {boolean} variables.registered - indicates whether an user is logged in
+ * @param {number} variables.BLOCK_MODE - mode for saving/deleting all event instances for a single dow/block
+ * @param {boolean} variables.userID - indicates whether an user is logged in
  * @param {number} variables.SEMESTER_MODE - mode for saving/deleting all event instances
  * @param {number} variables.showGroups - whether groups are allowed to show
  * @param {string} variables.subjectDetailBase - basic url for subject item
@@ -68,7 +68,7 @@ const ScheduleApp = function (variables) {
             return new RegExp(pattern);
         })();
     // Get initialised in constructor
-    let calendar, form, eventMenu, scheduleObjects;
+    let calendar, form, instanceMenu, scheduleObjects;
 
     /**
      * Calendar class for a date input field with HTMLTableElement as calendar.
@@ -572,13 +572,14 @@ const ScheduleApp = function (variables) {
      * Class for the HTMLTableElement of a schedule
      * @param {Schedule} schedule
      */
-    function ScheduleTable(schedule) {
-        const table = document.createElement('table'),
+    function ScheduleTable(schedule)
+    {
+        const table = document.createElement('table'), SPEAKER = 4, SUPERVISOR = 3, TEACHER = 1, TUTOR = 2,
             isUserSchedule = schedule.getId() === 'user',
             weekend = 7;
         let defaultGrid = null,
-            eventElements = [],
-            eventData = {},
+            instanceElements = [],
+            instances = {},
             /**
              * @param {number} timeGrid.endDay - 1 for monday etc.
              * @param {number} timeGrid.startDay - 2 for tuesday etc.
@@ -587,6 +588,641 @@ const ScheduleApp = function (variables) {
             timeGridID = getSelectedValues('grid'),
             useDefaultGrid = true,
             visibleDay = getDateFieldsDateObject().getDay();
+
+        /**
+         * Method to a add a button to the item output.
+         *
+         * @param item the display item
+         * @param instance the instance to display
+         * @param action the action which the button should perform
+         */
+        function addButton(item, instance, action)
+        {
+            const container = document.createElement('div'),
+                button = document.createElement('button'),
+                questionButton = document.createElement('button');
+
+            button.className = action == 'save' ? 'icon-plus' : 'icon-delete';
+            button.addEventListener('click', function () {
+                handleEvent(item.dataset.instanceID, variables.BLOCK_MODE, true);
+            });
+            questionButton.className = 'icon-question';
+            questionButton.addEventListener('click', function () {
+                instanceMenu.getMenu(item, instance, action);
+            });
+            container.className = action == 'save' ? 'add-instance' : 'delete-instance';
+            container.appendChild(button);
+            container.appendChild(questionButton);
+            item.appendChild(container);
+        }
+
+        /**
+         * Adds DOM-elements pertaining to the comment to the item
+         *
+         * @param item the div in which the instance item will be displayed
+         * @param object instance the instance data
+         */
+        function addComment(item, instance)
+        {
+            if (instance.comment)
+            {
+                const commentDiv = document.createElement('div');
+                commentDiv.innerHTML = instance.comment;
+                commentDiv.className = 'comment-container';
+                item.appendChild(commentDiv);
+            }
+        }
+
+        /**
+         * Adds an eventListener to the given element, which triggers a eventRequest with further params
+         * @param {HTMLElement} element
+         * @param {string} resource
+         * @param {string|int} id
+         * @param {string} title
+         */
+        function addInternalLinkEvent(element, resource, id, title)
+        {
+            element.addEventListener('click', function () {
+                sendEventRequest(resource, id, title);
+            });
+        }
+
+        /**
+         * Adds DOM-elements with subject name and eventListener directing to subject item
+         * @param item the div in which the instance item will be displayed
+         * @param object instance the instance data
+         */
+        function addIdentifiers(item, instance)
+        {
+            const indentifiersDiv = document.createElement('div'),
+                subjectItemLink = function () {
+                    window.open(variables.subjectItemBase.replace(/&id=\d+/, '&id=' + instance.subjectID), '_blank');
+                };
+
+            let nameElement, numberElement;
+
+            if (instance.subjectID)
+            {
+                nameElement = document.createElement('a');
+                nameElement.addEventListener('click', subjectItemLink);
+            }
+            else
+            {
+                nameElement = document.createElement('span');
+            }
+
+            nameElement.className = 'name';
+            nameElement.innerHTML = instance.name;
+            nameElement.innerHTML += instance.methodCode ? ' - ' + instance.methodCode : '';
+
+            // Append whitespace to slashes for better word break
+            nameElement.innerHTML = nameElement.innerHTML.replace(/(\S)\/(\S)/g, '$1 / $2');
+            indentifiersDiv.appendChild(nameElement);
+
+            if (instance.subjectNo)
+            {
+                if (instance.subjectID)
+                {
+                    numberElement = document.createElement('a');
+                    numberElement.addEventListener('click', subjectItemLink);
+                }
+                else
+                {
+                    numberElement = document.createElement('span');
+                }
+
+                numberElement.className = 'module';
+                numberElement.innerHTML = instance.subjectNo;
+                indentifiersDiv.appendChild(numberElement);
+            }
+
+            item.appendChild(indentifiersDiv);
+        }
+
+        /**
+         * Adds context menu to given instance item.
+         *
+         * @param {HTMLElement} item - the html element which will display the instance
+         * @param {Object} instance - the instance to be displayed
+         */
+        function addMenu(item, instance)
+        {
+            if (variables.userID)
+            {
+                item.addEventListener('contextmenu', function (item) {
+                    if (!item.classList.contains('instance-removed'))
+                    {
+                        item.preventDefault();
+                        instanceMenu.getMenu(item, instance, 'save');
+                    }
+
+                    if (item.classList.contains('added'))
+                    {
+                        item.preventDefault();
+                        instanceMenu.getMenu(item, instance, 'delete');
+                    }
+                });
+            }
+        }
+
+        /**
+         * Adds the persons and dependent resources of a role collection to the instance item.
+         * @param container the container used for resource output
+         * @param collection the aggregated persons of the given role for the instance
+         */
+        function addSortedResources(container, collection)
+        {
+            if (Object.keys(collection).length)
+            {
+                const keys = Object.keys(collection).sort();
+                let key;
+
+                for (key in keys)
+                {
+                    container.appendChild(collection[keys[key]]);
+                }
+            }
+        }
+
+        /**
+         * Adds DOM-elements pertaining to groups, persons and rooms to the item.
+         *
+         * @param item the div in which the instance item will be displayed
+         * @param object instance the instance data
+         */
+        function addResources(item, instance)
+        {
+            const resource = schedule.getResource(),
+                updateItem = !(item.classList.contains('instance-new') || item.classList.contains('instance-removed'));
+            let addGroups = false,
+                aggregateGroups = true,
+                aggregateRooms = true,
+                initial = true,
+                group,
+                groupsDiv,
+                groupID,
+                groupIDs,
+                groupKey,
+                groupName,
+                groups = {},
+                groupStatus,
+                person,
+                personDiv,
+                personID,
+                personIDs,
+                personKey,
+                personName,
+                personSpan,
+                personStatus,
+                addRooms = false,
+                room,
+                roomsDiv,
+                roomID,
+                roomIDs,
+                roomKey,
+                roomName,
+                rooms = {},
+                roomStatus,
+                speakers = [],
+                supervisors = [],
+                teachers = [],
+                tutors = [];
+
+            if (resource === 'group')
+            {
+                addGroupResources(item, instance);
+            }
+
+            /*filterResources(instance);
+
+            // Prefilter prototype properties
+            personIDs = Object.keys(instance.resources);
+            for (personKey in personIDs)
+            {
+                personID = personIDs[personKey];
+
+                // Irrelevant person
+                if (resource === 'person' && !resourceIDs.includes(personID))
+                {
+                    delete instance.resources.personID;
+                    continue;
+                }
+
+                person = instance.resources[personID];
+
+                if (person.groups)
+                {
+                    groupIDs = Object.keys(person.groups);
+                    for (groupKey in groupIDs)
+                    {
+                        groupID = groupIDs[groupKey];
+
+                        // Irrelevant group
+                        if (resource === 'group' && !resourceIDs.includes(groupID))
+                        {
+                            delete instance.resources[personID].groups[groupID];
+                            continue;
+                        }
+
+                        group = person.groups[groupID];
+                        groupName = group.fullName;
+                        groupStatus = group.status;
+
+                        if (resource === 'group')
+                        {
+                            if (groupStatus && updateItem)
+                            {
+                                item.classList.add('instance-' + groupStatus);
+                            }
+                        }
+                        else
+                        {
+                            addSubordinateResource(groups, groupID, group.code, groupName, groupStatus, 'group');
+                            addGroups = true;
+                        }
+                    }
+                }
+
+                // No relevant groups
+                if (resource === 'group' && !Object.keys(instance.resources[personID].groups).length)
+                {
+                    delete instance.resources.personID;
+                    continue;
+                }
+
+                personDiv = document.createElement('div');
+                personDiv.className = 'persons';
+                personName = person.person;
+                personStatus = person.status || '';
+
+                if (resource === 'person')
+                {
+                    if (personStatus && updateItem)
+                    {
+                        item.classList.add('instance-' + personStatus);
+                    }
+                }
+                else
+                {
+                    personSpan = document.createElement('span');
+                    personSpan.classList.add('person');
+
+                    if (personStatus)
+                    {
+                        personSpan.classList.add(personStatus);
+                    }
+
+                    personSpan.innerHTML = personCount > 1 ? person.role + ': ' + personName : personName;
+                    personDiv.appendChild(personSpan);
+                }
+
+                if (addGroups)
+                {
+                    groupsDiv = document.createElement('div');
+                    addSortedResources(groupsDiv, groups);
+                    personDiv.appendChild(groupsDiv);
+                }
+
+                if (person.rooms)
+                {
+                    roomIDs = Object.keys(person.rooms);
+                    for (roomKey in roomIDs)
+                    {
+                        roomID = roomIDs[roomKey];
+                        room = person.rooms[roomID];
+                        roomName = room.room;
+                        roomStatus = room.status;
+
+                        if (resource === 'room')
+                        {
+                            if (roomStatus && updateItem)
+                            {
+                                item.classList.add('instance-' + roomStatus);
+                            }
+                        }
+                        else
+                        {
+                            addSubordinateResource(rooms, roomID, roomName, roomName, roomStatus, 'room');
+                            addRooms = true;
+                        }
+                    }
+                }
+                else
+                {
+                    item.classList.add('in-planning');
+                }
+
+                if (addRooms)
+                {
+                    roomsDiv = document.createElement('div');
+                    addSortedResources(roomsDiv, rooms);
+                    personDiv.appendChild(roomsDiv);
+                }
+
+                if (person.roleID == SPEAKER)
+                {
+                    speakers[personName] = personDiv;
+                }
+                else if (person.roleID == SUPERVISOR)
+                {
+                    supervisors[personName] = personDiv;
+                }
+                else if (person.roleID == TEACHER)
+                {
+                    teachers[personName] = personDiv;
+                }
+                else if (person.roleID == TUTOR)
+                {
+                    tutors[personName] = personDiv;
+                }
+
+                initial = false;
+            }
+
+            addSortedResources(item, speakers);
+            addSortedResources(item, teachers);
+            addSortedResources(item, tutors);
+            addSortedResources(item, supervisors);*/
+        }
+
+        function addGroupResources(item, instance)
+        {
+            const personIDs = Object.keys(instance.resources),
+                resourceIDs = schedule.getResourceIDs(),
+                updateItem = !(item.classList.contains('instance-new') || item.classList.contains('instance-removed'));
+            let aggregateRooms = true, count,
+                groupIDs, groupKey, groupID, groupStatus,
+                initial = true, initialRooms = true, instanceGroupStatus, instanceRooms = {},
+                person, personDiv, personDivs, personKey, personID, personName, persons = [], personSpan,
+                personRelevant, personStatus,
+                roleDiv, roleID, roleIDs, roleKey, roleName, rolePersons = [],
+                roomID, roomIDs, roomKey, roomName, roomNames, rooms, roomsDiv, roomStatus;
+
+            for (personKey in personIDs)
+            {
+                personID = personIDs[personKey];
+                person = instance.resources[personID];
+                if (!person.groups)
+                {
+                    // Person is not associated with any groups and is therefore irrelevant.
+                    continue;
+                }
+
+                personRelevant = false;
+                groupIDs = Object.keys(person.groups);
+                for (groupKey in groupIDs)
+                {
+                    groupID = groupIDs[groupKey];
+                    if (!resourceIDs.includes(groupID))
+                    {
+                        continue;
+                    }
+
+                    personRelevant = true;
+                    groupStatus = person.groups[groupID].status;
+
+                    // Determines whether all person <-> group associations have the same status.
+                    if (initial)
+                    {
+                        instanceGroupStatus = groupStatus;
+                        initial = false;
+                    }
+                    else if (instanceGroupStatus !== false && instanceGroupStatus !== groupStatus)
+                    {
+                        instanceGroupStatus = false;
+                    }
+                }
+
+                // Person is not associated with the group sought.
+                if (!personRelevant)
+                {
+                    continue;
+                }
+
+                // Relevance has been determined.
+                personDiv = document.createElement('div');
+                personDiv.className = 'persons';
+                personName = person.person;
+                roleID = person.roleID;
+                personSpan = document.createElement('span');
+                personSpan.classList.add('person');
+                personStatus = groupStatus === 'removed' || person.status === 'removed' ? 'removed' : person.status || '';
+                personSpan.innerHTML = personName;
+
+                if (personStatus)
+                {
+                    personSpan.classList.add(personStatus);
+                }
+
+                if (!rolePersons[roleID])
+                {
+                    rolePersons[roleID] = {}
+                }
+                rolePersons[roleID][personName] = personSpan;
+                personDiv.appendChild(personSpan);
+
+                // If the person has become irrelevant, so too have their associated rooms.
+                if (personStatus !== 'removed' && person.rooms)
+                {
+                    rooms = {};
+                    roomIDs = Object.keys(person.rooms);
+                    for (roomKey in roomIDs)
+                    {
+                        roomID = roomIDs[roomKey];
+                        roomName = person.rooms[roomID].room;
+                        roomStatus = person.rooms[roomID].status;
+                        addSubordinateResource(rooms, roomID, roomName, roomName, roomStatus, 'room');
+                    }
+
+                    if (Object.keys(rooms))
+                    {
+                        roomsDiv = document.createElement('div');
+                        addSortedResources(roomsDiv, rooms);
+                        personDiv.appendChild(roomsDiv);
+                    }
+
+                    if (initialRooms)
+                    {
+                        instanceRooms = rooms;
+                        initialRooms = false;
+                    }
+                    else if (instanceRooms !== false && JSON.stringify(instanceRooms) !== JSON.stringify(rooms))
+                    {
+                        aggregateRooms = false;
+                        instanceRooms = false;
+                    }
+                }
+            }
+
+            if (aggregateRooms)
+            {
+                personDiv = document.createElement('div');
+                personDiv.className = 'persons';
+                roleIDs = Object.keys(rolePersons);
+                for (roleKey in roleIDs)
+                {
+                    roleID = roleIDs[roleKey];
+                    count = Object.keys(rolePersons[roleID]).length;
+                    roleDiv = document.createElement('div');
+                    if (roleID === SPEAKER)
+                    {
+                        roleName = count > 1 ?
+                            Joomla.JText._('THM_ORGANIZER_SPEAKERS') : Joomla.JText._('THM_ORGANIZER_SPEAKER');
+                        roleDiv.classList.add('speakers');
+                    }
+                    else if (roleID === TUTOR)
+                    {
+                        roleName = count > 1 ?
+                            Joomla.JText._('THM_ORGANIZER_TUTORS') : Joomla.JText._('THM_ORGANIZER_TUTOR');
+                        roleDiv.classList.add('tutors');
+                    }
+                    else if (roleID === SUPERVISOR)
+                    {
+                        roleName = count > 1 ?
+                            Joomla.JText._('THM_ORGANIZER_SUPERVISORS') : Joomla.JText._('THM_ORGANIZER_SUPERVISOR');
+                        roleDiv.classList.add('supervisors');
+                    }
+                    else
+                    {
+                        roleName = count > 1 ?
+                            Joomla.JText._('THM_ORGANIZER_TEACHERS') : Joomla.JText._('THM_ORGANIZER_TEACHER');
+                        roleDiv.classList.add('teachers');
+                    }
+                    roleDiv.innerHTML = roleName + ': ' + Object.keys(rolePersons[roleID]).sort().join(', ');
+                    personDiv.appendChild(roleDiv);
+                }
+
+                if (Object.keys(instanceRooms).length)
+                {
+                    roomsDiv = document.createElement('div');
+                    roomsDiv.classList.add('rooms');
+                    roomNames = Object.keys(instanceRooms).sort();
+                    for (roomName in roomNames)
+                    {
+                        roomsDiv.append(instanceRooms[roomNames[roomName]]);
+                        roomsDiv.innerHTML += ', ';
+                    }
+
+                    // Remove the last separators.
+                    roomsDiv.innerHTML = roomsDiv.innerHTML.substr(0, roomsDiv.innerHTML.length - 2);
+                    personDiv.appendChild(roomsDiv);
+                }
+                item.appendChild(personDiv);
+            }
+        }
+
+        /**
+         * Adds the display of subordinate resources to a collection for later sorting before appending them to the
+         * container.
+         *
+         * @param collection the collection to which the subordinate resource displays will be added
+         * @param id the id of the subordinate resource
+         * @param name the name of the subordinate resource
+         * @param status the status of the subordinate resource
+         * @param type the type of subordinate resource
+         */
+        function addSubordinateResource(collection, id, name, fullName, status, type)
+        {
+            const link = document.createElement('a'),
+                span = document.createElement('span');
+            link.innerHTML = name;
+
+            addInternalLinkEvent(link, type, id, fullName);
+
+            span.classList.add(type);
+            span.appendChild(link);
+
+            if (status)
+            {
+                span.classList.add(status);
+            }
+
+            collection[name] = span;
+        }
+
+        /**
+         * Creates an event which means a div element filled by data
+         * @param {Object} instance - event data
+         * @param {string} instance.ccmID - id of calendar configuration mapping
+         * @param {string} instance.calendarDelta - changes of calendar date/time
+         * @param {string} instance.comment - some comment for the event
+         * @param {string} instance.eventDelta - changes of events
+         * @param {string} instance.method - method (e.g. lecture) of a event
+         * @param {boolean} instance.regType - 0 for fifo, 1 for manual
+         * @param {Object} instance.subjects - subjects of a event
+         * @param {string} instance.startTime - instance start time
+         * @param {string} instance.endTime - instance end time
+         * @param {boolean} [ownTime=false] - show own time
+         * @returns {HTMLDivElement[]|boolean} HTMLDivElements in an array or false in case of wrong input
+         */
+        function createItem(instance, ownTime)
+        {
+            const instanceGroups = [],
+                instanceRooms = [],
+                item = document.createElement('div'),
+                openScheduleID = schedule.getId(),
+                resource = schedule.getResource(),
+                speakers = [],
+                supervisors = [],
+                teachers = [],
+                tutors = [];
+            let propertyName;
+
+            item.classList.add('instance');
+            item.dataset.instanceID = instance.instanceID;
+            item.dataset.registrationType = instance.registrationType;
+
+            if (instance.unitStatus || instance.status)
+            {
+                if (instance.unitStatus === 'removed' || instance.status === 'removed')
+                {
+                    item.classList.add('instance-removed');
+                }
+                else if (instance.unitStatus === 'new' || instance.status === 'new')
+                {
+                    item.classList.add('instance-removed');
+                }
+            }
+
+            // Show deviant time first
+            ownTime = typeof ownTime === 'undefined' ? false : ownTime;
+            if (ownTime && instance.startTime && instance.endTime)
+            {
+                const ownTimeSpan = document.createElement('span');
+                ownTimeSpan.className = 'own-time';
+                ownTimeSpan.innerHTML = instance.startTime + ' - ' + instance.endTime;
+                item.appendChild(ownTimeSpan);
+            }
+
+            addIdentifiers(item, instance);
+            addComment(item, instance);
+            addResources(item, instance);
+
+            if (instance.full)
+            {
+                item.classList.add('full');
+            }
+
+            addMenu(item, instance);
+            if (variables.userID)
+            {
+                addMenu(item, instance);
+                addButton(item, instance, 'delete');
+                addButton(item, instance, 'save');
+
+                // Makes delete button visible only
+                /*if (isUserSchedule || isSavedByUser(item))
+                {
+                    item.classList.add('added');
+                }*/
+            }
+            else
+            {
+                item.classList.add('no-saving');
+            }
+
+            return item;
+        }
 
         /**
          * Creates a table DOM-element with an input and label for selecting it and a caption with the given title.
@@ -630,6 +1266,196 @@ const ScheduleApp = function (variables) {
         }
 
         /**
+         * Sets default gridID of schedule, select it in grid form field and returns it
+         * @return {Object}
+         */
+        function getDefaultGrid()
+        {
+            if (!defaultGrid)
+            {
+                // Function returns first found gridID
+                const defaultGridID = (function () {
+                    let day, event, time;
+
+                    for (day in instances)
+                    {
+                        if (!instances.hasOwnProperty(day))
+                        {
+                            continue;
+                        }
+
+                        for (time in instances[day])
+                        {
+                            if (!instances[day].hasOwnProperty(time))
+                            {
+                                continue;
+                            }
+
+                            for (event in instances[day][time])
+                            {
+                                if (instances[day][time].hasOwnProperty(event) && instances[day][time][event].gridID)
+                                {
+                                    return instances[day][time][event].gridID;
+                                }
+                            }
+                        }
+                    }
+                })();
+
+                if (defaultGridID)
+                {
+                    setGrid(defaultGridID);
+                    defaultGrid = JSON.parse(variables.grids[defaultGridID].grid);
+                }
+            }
+
+            return defaultGrid || timeGrid;
+        }
+
+        /**
+         *
+         * @param string iEndTime the instance end time
+         * @param string iStartTime the instance start time
+         * @return {[]} the blocks relevant to the display of the instance
+         */
+        function getRelevantBlocks(iEndTime, iStartTime)
+        {
+            const blocks = [];
+            let block, blockIndex, contains, ends, equals, overlaps, starts;
+
+            for (blockIndex in timeGrid.periods)
+            {
+                // This is being resolved to table rows which start numbering with 0.
+                block = timeGrid.periods[blockIndex];
+
+                // Irrelevant and the search is over
+                if (block.startTime > iEndTime)
+                {
+                    break;
+                }
+
+                // Irrelevant and nothing was found yet
+                if (block.endTime < iStartTime)
+                {
+                    continue;
+                }
+
+                contains = block.endTime >= iEndTime && block.startTime <= iStartTime;
+                ends = block.endTime > iEndTime && block.startTime < iEndTime;
+                equals = block.endTime === iEndTime && block.startTime === iStartTime;
+                if (contains || ends || equals)
+                {
+                    blocks.push(blockIndex - 1);
+                    break;
+                }
+
+                overlaps = block.endTime < iEndTime && block.startTime > iStartTime;
+                starts = block.endTime > iStartTime && block.startTime < iStartTime;
+                if (overlaps || starts)
+                {
+                    blocks.push(blockIndex - 1);
+                    continue;
+                }
+            }
+
+            return blocks;
+        }
+
+        /** Filters resources irrelevant to the filter criteria
+         *
+         * @param instance the instance whose resources are to be filtered
+         */
+        function filterResources(instance)
+        {
+
+            const resource = schedule.getResource(),
+                resourceIDs = schedule.getResourceIDs();
+
+            let groupID, person, personID, roomID;
+
+            for (personID in instance.resources)
+            {
+                for (groupID in person.groups)
+                {
+                    if (!person.groups.hasOwnProperty(groupID))
+                    {
+                        continue;
+                    }
+                }
+
+                for (roomID in person.rooms)
+                {
+                    if (!person.rooms.hasOwnProperty(roomID))
+                    {
+                        continue;
+                    }
+
+                    if (resource === 'room' && !resourceIDs.includes(roomID))
+                    {
+                        delete instance.resources.personID.rooms.roomID;
+                        continue;
+                    }
+                }
+
+                if (resource === 'room' && !Object.keys(instance.resources[personID].rooms).length)
+                {
+                    delete instance.resources.personID;
+                    continue;
+                }
+            }
+        }
+
+        /**
+         * Inserts instances into a schedule
+         * @param {Object} instances
+         */
+        function insertInstances(instances)
+        {
+            const instanceIndexes = Object.keys(instances),
+                rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            let block, blockIndex, cell, iDoW, iEndTime, index, instance,
+                iStartTime, item, relevantBlocks, showOwnTime;
+
+            /*
+            // this needs to go somewhere where every cell is iterated
+            if (variables.userID && !isUserSchedule && isOccupiedByUserEvent(rowIndex, dayNo))
+            {
+                jQuery(cell).addClass('occupied');
+            }*/
+
+            for (index in instanceIndexes)
+            {
+                instance = instances[instanceIndexes[index]];
+                iDoW = new Date(instance.date).getDay();
+
+                if (timeGrid.periods)
+                {
+                    iEndTime = instance.endTime.replace(':', '');
+                    iStartTime = instance.startTime.replace(':', '');
+                    relevantBlocks = getRelevantBlocks(iEndTime, iStartTime);
+                    showOwnTime = relevantBlocks.length > 1;
+                }
+                else
+                {
+                    // There is no column displaying block times so the index is one less.
+                    iDoW = iDoW - 1
+                    relevantBlocks = [0];
+                    showOwnTime = true;
+                }
+
+                item = createItem(instance, showOwnTime);
+
+                for (blockIndex in relevantBlocks)
+                {
+                    block = relevantBlocks[blockIndex];
+                    cell = rows[block].getElementsByTagName('td')[iDoW];
+                    cell.appendChild(item);
+                    cell.classList.add('instances');
+                }
+            }
+        }
+
+        /**
          * Insert table head and side cells with time data
          */
         function insertTableHead()
@@ -647,8 +1473,9 @@ const ScheduleApp = function (variables) {
                 th.innerHTML = (headIndex === 0) ? Joomla.JText._('THM_ORGANIZER_TIME') : weekdays[headIndex - 1] +
                     ' (' + headerDate.getPresentationFormat(true) + ')';
 
-                if (headIndex === visibleDay) {
-                    jQuery(th).addClass('activeColumn');
+                if (headIndex === visibleDay)
+                {
+                    th.classList.add('activeColumn');
                 }
                 tr.appendChild(th);
                 headerDate.setDate(headerDate.getDate() + 1);
@@ -656,486 +1483,19 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Sets the chosen times of the grid in the schedules tables
+         * Checks for a block if the user has events in it already
+         * @param {number} rowIndex
+         * @param {number} colIndex
+         * @return {boolean}
          */
-        function setGridTime() {
-            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            let endTime, period = 1, row, startTime;
-
-            // No periods -> no times
-            if (!timeGrid.periods) {
-                return;
-            }
-
-            for (row = 0; row < rows.length; ++row) {
-                const gap = endTime ? timeGrid.periods[period].startTime - timeGrid.periods[period - 1].endTime : 0,
-                    timeCell = rows[row].getElementsByTagName('td')[0];
-
-                // Indicate bigger breaks between blocks (more than 30 minutes)
-                if (gap >= 100) {
-                    rows[row - 1].classList.add('long-break-after');
-                }
-
-                startTime = timeGrid.periods[period].startTime.replace(/(\d{2})(\d{2})/, '$1:$2');
-                endTime = timeGrid.periods[period].endTime.replace(/(\d{2})(\d{2})/, '$1:$2');
-                timeCell.innerHTML = startTime + '<br> - <br>' + endTime;
-
-                ++period;
-            }
-        }
-
-        /**
-         * Here the table head changes to the grids specified weekdays with start day and end day
-         */
-        function setGridDays() {
-            const headItems = table.getElementsByTagName('thead')[0].getElementsByTagName('th'),
-                headerDate = getDateFieldsDateObject(),
-                day = headerDate.getDay();
-            let currentDay = parseInt(timeGrid.startDay), thElement;
-
-            // Set date to monday of the coming week
-            if (day === 0) {
-                headerDate.setDate(headerDate.getDate() + 1);
-            } else {
-                // Sunday is 0, so we add a one for monday
-                headerDate.setDate(headerDate.getDate() - day + 1);
-            }
-
-            // Show TIME header on the left side ?
-            headItems[0].style.display = timeGrid.hasOwnProperty('periods') ? '' : 'none';
-
-            // Fill tHead with days of week
-            for (thElement = 1; thElement < headItems.length; ++thElement) {
-                if (thElement === currentDay && currentDay <= timeGrid.endDay) {
-                    headItems[thElement].innerHTML = weekdays[currentDay - 1] +
-                        ' (' + headerDate.getPresentationFormat(true) + ')';
-                    headerDate.setDate(headerDate.getDate() + 1);
-                    ++currentDay;
-                } else {
-                    headItems[thElement].innerHTML = '';
-                }
-            }
-        }
-
-        /**
-         * Inserts events into a schedule
-         * @param {Object} events
-         */
-        function insertEvents(events) {
-            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            let block, blockEnd, blockStart, blockTimes, cell,
-                colNumber = variables.isMobile ? visibleDay : 1,
-                date, elementIndex, event, eventElements, nextBlock,
-                nextCell, nextRow, showOwnTime, tableStartTime, tableEndTime;
-
-            if (timeGrid.periods) {
-                for (date in events) {
-                    if (!events.hasOwnProperty(date)) {
-                        continue;
-                    }
-
-                    let gridIndex = 1, rowIndex = 0;
-
-                    for (block in events[date]) {
-                        if (!events[date].hasOwnProperty(block)) {
-                            continue;
-                        }
-
-                        blockTimes = block.match(/^(\d{4})-(\d{4})$/);
-                        blockStart = blockTimes[1];
-                        blockEnd = blockTimes[2];
-
-                        // Prevent going into next period, when this block fits into previous too
-                        // e.g. block0 = 08:00 - 09:30, block1 = 08:00 - 10:00 o'clock
-                        // tableEndTime from last iterated block
-                        if (gridIndex > 1 && tableEndTime && blockStart < tableEndTime) {
-                            --gridIndex;
-                            --rowIndex;
-                        }
-
-                        tableStartTime = timeGrid.periods[gridIndex].startTime;
-                        tableEndTime = timeGrid.periods[gridIndex].endTime;
-
-                        // Block does not fit? go to next block
-                        while (tableEndTime <= blockStart && timeGrid.periods[gridIndex + 1]) {
-                            ++gridIndex;
-                            ++rowIndex;
-                            tableStartTime = timeGrid.periods[gridIndex].startTime;
-                            tableEndTime = timeGrid.periods[gridIndex].endTime;
-                        }
-
-                        cell = rows[rowIndex].getElementsByTagName('td')[colNumber];
-                        if (variables.registered && !isUserSchedule && isOccupiedByUserEvent(rowIndex, colNumber)) {
-                            jQuery(cell).addClass('occupied');
-                        }
-
-                        for (event in events[date][block]) {
-                            if (!events[date][block].hasOwnProperty(event)) {
-                                continue;
-                            }
-
-                            showOwnTime = tableStartTime !== blockStart || tableEndTime !== blockEnd;
-                            eventElements = createEvent(events[date][block][event], showOwnTime);
-
-                            for (elementIndex = 0; elementIndex < eventElements.length; ++elementIndex) {
-                                cell.appendChild(eventElements[elementIndex]);
-                            }
-
-                            jQuery(cell).addClass('events');
-
-                            // Event fits into next cell too? Add a copy to this
-                            nextBlock = timeGrid.periods[gridIndex + 1];
-                            nextRow = rows[rowIndex + 1];
-
-                            if (nextRow && nextBlock && blockEnd > nextBlock.startTime) {
-                                nextCell = nextRow.getElementsByTagName('td')[colNumber];
-                                jQuery(nextCell).addClass('events');
-                                eventElements = createEvent(events[date][block][event], showOwnTime);
-
-                                for (elementIndex = 0; elementIndex < eventElements.length; ++elementIndex) {
-                                    nextCell.appendChild(eventElements[elementIndex]);
-                                }
-                            }
-                        }
-
-                        ++gridIndex;
-                        ++rowIndex;
-
-                        // For the case there are events that do not fit into grid
-                        if (!timeGrid.periods[gridIndex]) {
-                            break;
-                        }
-                    }
-
-                    ++colNumber;
-                }
-            } else {
-                insertEventsWithoutPeriod(events);
-            }
-        }
-
-        /**
-         * No times on the left side - every event appears in the first row
-         * @param {Object} events
-         */
-        function insertEventsWithoutPeriod(events) {
-            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            let colNumber = variables.isMobile ? visibleDay : 0, date, block, event, elementIndex;
-
-            for (date in events) {
-                if (!events.hasOwnProperty(date)) {
-                    continue;
-                }
-
-                for (block in events[date]) {
-                    if (!events[date].hasOwnProperty(block)) {
-                        continue;
-                    }
-
-                    for (event in events[date][block]) {
-                        if (!events[date][block].hasOwnProperty(event)) {
-                            continue;
-                        }
-
-                        const eventElements = createEvent(events[date][block][event], true);
-
-                        for (elementIndex = 0; elementIndex < eventElements.length; ++elementIndex) {
-                            const cell = rows[0].getElementsByTagName('td')[colNumber];
-
-                            cell.appendChild(eventElements[elementIndex]);
-                        }
-                    }
-                }
-                ++colNumber;
-            }
-        }
-
-        /**
-         * Creates an event which means a div element filled by data
-         * @param {Object} data - event data
-         * @param {string} data.ccmID - id of calendar configuration mapping
-         * @param {string} data.calendarDelta - changes of calendar date/time
-         * @param {string} data.comment - some comment for the event
-         * @param {string} data.eventDelta - changes of events
-         * @param {string} data.method - method (e.g. lecture) of a event
-         * @param {boolean} data.regType - 0 for fifo, 1 for manual
-         * @param {Object} data.subjects - subjects of a event
-         * @param {string} data.startTime - instance start time
-         * @param {string} data.endTime - instance end time
-         * @param {boolean} [ownTime=false] - show own time
-         * @returns {HTMLDivElement[]|boolean} HTMLDivElements in an array or false in case of wrong input
-         */
-        function createEvent(data, ownTime) {
-            const events = [], scheduleID = schedule.getId(), scheduleResource = schedule.getResource();
-            let subject;
-
-            ownTime = typeof ownTime === 'undefined' ? false : ownTime;
-
-            for (subject in data.subjects) {
-                if (!data.subjects.hasOwnProperty(subject)) {
-                    continue;
-                }
-
-                const eventElement = document.createElement('div'),
-                    subjectData = data.subjects[subject],
-                    irrelevantGroup = (scheduleResource === 'group' &&
-                        subjectData.groupDeltas[scheduleID.replace('group', '')] === 'removed');
-
-                // Data attributes instead of classes for finding the event later
-                eventElement.dataset.ccmID = data.ccmID;
-                eventElement.dataset.regType = data.regType;
-                eventElement.classList.add('event');
-
-                if (irrelevantGroup ||
-                    (data.eventDelta && data.eventDelta === 'removed') ||
-                    (data.calendarDelta && data.calendarDelta === 'removed')) {
-                    eventElement.classList.add('calendar-removed');
-                } else if ((data.eventDelta && data.eventDelta === 'new') ||
-                    (data.calendarDelta && data.calendarDelta === 'new')) {
-                    eventElement.classList.add('calendar-new');
-                }
-
-                if (ownTime && data.startTime && data.endTime) {
-                    const ownTimeSpan = document.createElement('span');
-                    ownTimeSpan.className = 'own-time';
-                    ownTimeSpan.innerHTML =
-                        data.startTime.match(/^(\d{2}:\d{2})/)[1] + ' - ' + data.endTime.match(/^(\d{2}:\d{2})/)[1];
-                    eventElement.appendChild(ownTimeSpan);
-                }
-
-                if (subjectData.name || subjectData.subjectNo) {
-                    const subjectOuterDiv = document.createElement('div');
-                    subjectData.method = data.method || '';
-                    addSubjectElements(subjectOuterDiv, subjectData);
-                    eventElement.appendChild(subjectOuterDiv);
-                }
-
-                if (data.comment) {
-                    const commentDiv = document.createElement('div');
-                    commentDiv.innerHTML = data.comment;
-                    commentDiv.className = 'comment-container';
-                    eventElement.appendChild(commentDiv);
-                }
-
-                if (scheduleResource !== 'group' && subjectData.groups && !isUserSchedule) {
-                    const groupsOuterDiv = document.createElement('div');
-                    groupsOuterDiv.className = 'groups';
-                    addDataElements('group', groupsOuterDiv, subjectData.groups, subjectData.groupDeltas);
-                    eventElement.appendChild(groupsOuterDiv);
-                }
-
-                if (scheduleResource !== 'person' && subjectData.persons) {
-                    const personsOuterDiv = document.createElement('div');
-                    personsOuterDiv.className = 'persons';
-                    addDataElements('person', personsOuterDiv, subjectData.persons, subjectData.personDeltas, 'person');
-                    eventElement.appendChild(personsOuterDiv);
-                }
-
-                if (scheduleResource !== 'room' && subjectData.rooms) {
-                    const roomsOuterDiv = document.createElement('div');
-                    roomsOuterDiv.className = 'locations';
-                    addDataElements('room', roomsOuterDiv, subjectData.rooms, subjectData.roomDeltas, 'location');
-                    eventElement.appendChild(roomsOuterDiv);
-                }
-
-                if (eventData.full) {
-                    eventElement.classList.add('full');
-                }
-
-                if (variables.registered && variables.internalUser) {
-                    addContextMenu(eventElement, subjectData);
-                    addActionButtons(eventElement, subjectData);
-
-                    // Makes delete button visible only
-                    if (isUserSchedule || isSavedByUser(eventElement)) {
-                        eventElement.classList.add('added');
-                    }
-                } else {
-                    eventElement.classList.add('no-saving');
-                }
-
-                eventElements.push(eventElement);
-                events.push(eventElement);
-            }
-
-            return events;
-        }
-
-        /**
-         * Adds context menu to given eventElement
-         * Right click on event show save/delete menu
-         * @param {HTMLElement} event - the html element which needs a context menu
-         * @param {Object} data - the event/subject data
-         */
-        function addContextMenu(event, data) {
-            event.addEventListener('contextmenu', function (event) {
-                if (!event.classList.contains('calendar-removed') && !event.classList.contains('event-removed')) {
-                    event.preventDefault();
-                    eventMenu.getSaveMenu(event, data);
-                }
-
-                if (event.classList.contains('added')) {
-                    event.preventDefault();
-                    eventMenu.getDeleteMenu(event, data);
-                }
-            });
-        }
-
-        /**
-         * Adds buttons for saving and deleting a event
-         * @param {HTMLElement} eventElement
-         * @param {Object} data
-         */
-        function addActionButtons(eventElement, data) {
-            const saveDiv = document.createElement('div'),
-                saveActionButton = document.createElement('button'),
-                deleteDiv = document.createElement('div'),
-                deleteActionButton = document.createElement('button');
-
-            // Let because used twice
-            let questionActionButton;
-
-            // Saving an event
-            saveActionButton.className = 'icon-plus';
-            saveActionButton.addEventListener('click', function () {
-                handleEvent(eventElement.dataset.ccmID, variables.PERIOD_MODE, true);
-            });
-            questionActionButton = document.createElement('button');
-            questionActionButton.className = 'icon-question';
-            questionActionButton.addEventListener('click', function () {
-                eventMenu.getSaveMenu(eventElement, data);
-            });
-            saveDiv.className = 'add-event';
-            saveDiv.appendChild(saveActionButton);
-            saveDiv.appendChild(questionActionButton);
-            eventElement.appendChild(saveDiv);
-
-            // Deleting an event
-            deleteActionButton.className = 'icon-delete';
-            deleteActionButton.addEventListener('click', function () {
-                handleEvent(eventElement.dataset.ccmID, variables.PERIOD_MODE, false);
-            });
-            questionActionButton = document.createElement('button');
-            questionActionButton.className = 'icon-question';
-            questionActionButton.addEventListener('click', function () {
-                eventMenu.getDeleteMenu(eventElement, data);
-            });
-            deleteDiv.className = 'delete-event';
-            deleteDiv.appendChild(deleteActionButton);
-            deleteDiv.appendChild(questionActionButton);
-            eventElement.appendChild(deleteDiv);
-        }
-
-        /**
-         * Adds DOM-elements with subject name and eventListener directing to subject item
-         * @param {HTMLElement} outerElement
-         * @param {Object} data - event data with subjects
-         * @param {string} data.name - name of subject
-         * @param {string} data.method - method (e.g. lecture) of a event
-         * @param {string} data.subjectDelta - changes of subject
-         * @param {string} data.subjectID - ID of subject associated with course
-         * @param {string} data.subjectNo - number of subject
-         * @param {string} data.shortName - short name of subject for small devices
-         */
-        function addSubjectElements(outerElement, data) {
-            const openSubjectItemLink = function () {
-                window.open(variables.subjectItemBase.replace(/&id=\d+/, '&id=' + data.subjectID), '_blank');
-            };
-            let numIndex;
-
-            if (data.name && data.shortName) {
-                let subjectNameElement;
-
-                if (data.subjectID && variables.showGroups) {
-                    subjectNameElement = document.createElement('a');
-                    subjectNameElement.addEventListener('click', openSubjectItemLink);
-                } else {
-                    subjectNameElement = document.createElement('span');
-                }
-
-                subjectNameElement.innerHTML = variables.isMobile ? data.shortName : data.name;
-                subjectNameElement.innerHTML += data.method ? ' - ' + data.method : '';
-
-                // Append whitespace to slashes for better word break
-                subjectNameElement.innerHTML = subjectNameElement.innerHTML.replace(/(\S)\/(\S)/g, '$1 / $2');
-                subjectNameElement.className = 'name ' + (data.subjectDelta ? data.subjectDelta : '');
-                outerElement.appendChild(subjectNameElement);
-            }
-
-            if (data.subjectNo) {
-                // Multiple spans in case of semicolon separated module number for the design
-                const subjectNumbers = data.subjectNo.split(';');
-                let subjectNumberElement;
-
-                for (numIndex = 0; numIndex < subjectNumbers.length; ++numIndex) {
-                    if (data.subjectID) {
-                        subjectNumberElement = document.createElement('a');
-                        subjectNumberElement.addEventListener('click', openSubjectItemLink);
-                    } else {
-                        subjectNumberElement = document.createElement('span');
-                    }
-
-                    subjectNumberElement.className = 'module';
-                    subjectNumberElement.innerHTML = subjectNumbers[numIndex];
-                    outerElement.appendChild(subjectNumberElement);
-                }
-            }
-        }
-
-        /**
-         * Adds HTML elements containing the given data in relation to given resource.
-         * @param {string} resource - resource to add e.g. 'room' or 'group'
-         * @param {HTMLElement} outerElement - wrapper element
-         * @param {Object.<number, string>} data - event data
-         * @param {string} data[].untisID - subject id in the untis scheduling program
-         * @param {Object.<number, string>} [delta] - optional, delta like 'new' or 'remove' assigned to (resource) id
-         * @param {string} [className] - optional, class to style the elements
-         */
-        function addDataElements(resource, outerElement, data, delta, className) {
-            const showX = 'show' + resource.slice(0, 1).toUpperCase() + resource.slice(1) + 's',
-                resourceNames = [], resourceSpans = {};
-            let id, resourceName;
-
-            for (id in data) {
-                if (data.hasOwnProperty(id)) {
-                    const span = document.createElement('span'),
-                        deltaClass = delta[id] || '',
-                        linkElement = showX !== 'showPersons' && variables[showX],
-                        nameElement = linkElement ? document.createElement('a') : document.createElement('span');
-
-                    span.className = (className ? className : resource) + ' ' + deltaClass;
-                    resourceName = data[id].untisID ? data[id].untisID : data[id];
-                    nameElement.innerHTML = resourceName;
-
-                    if (linkElement) {
-                        // Outsourced to avoid closure in for-loop
-                        addEventEvent(nameElement, resource, id, data[id].fullName ? data[id].fullName : data[id]);
-                    }
-
-                    span.appendChild(nameElement);
-                    resourceNames.push(resourceName);
-                    resourceSpans[resourceName] = span;
-                }
-            }
-
-            resourceNames.sort();
-
-            for (id in resourceNames) {
-                outerElement.appendChild(resourceSpans[resourceNames[id]]);
-            }
-        }
-
-        /**
-         * Adds an eventListener to the given element, which triggers a eventRequest with further params
-         * @param {HTMLElement} element
-         * @param {string} resource
-         * @param {string|int} id
-         * @param {string} title
-         */
-        function addEventEvent(element, resource, id, title) {
-            element.addEventListener('click', function () {
-                sendEventRequest(resource, id, title);
-            });
+        function isOccupiedByUserEvent(rowIndex, colIndex)
+        {
+            const userScheduleTable = scheduleObjects.userSchedule.getTable().getTableElement(),
+                rows = userScheduleTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'),
+                row = rows[rowIndex],
+                cell = row ? row.getElementsByTagName('td')[colIndex] : false;
+
+            return cell && cell.classList.contains('events');
         }
 
         /**
@@ -1165,21 +1525,6 @@ const ScheduleApp = function (variables) {
         }
 
         /**
-         * Checks for a block if the user has events in it already
-         * @param {number} rowIndex
-         * @param {number} colIndex
-         * @return {boolean}
-         */
-        function isOccupiedByUserEvent(rowIndex, colIndex) {
-            const userScheduleTable = scheduleObjects.userSchedule.getTable().getTableElement(),
-                rows = userScheduleTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'),
-                row = rows[rowIndex],
-                cell = row ? row.getElementsByTagName('td')[colIndex] : false;
-
-            return cell && cell.classList.contains('events');
-        }
-
-        /**
          * Removes all events and rebuild table structure on time grid
          */
         function resetTable()
@@ -1187,8 +1532,6 @@ const ScheduleApp = function (variables) {
             const newBody = document.createElement('tbody'), oldBody = table.getElementsByTagName('tbody')[0],
                 columnCount = timeGrid.endDay, rowCount = timeGrid.periods ? Object.keys(timeGrid.periods).length : 1;
             let columnIndex, rowIndex;
-
-            eventElements = [];
 
             // Build table on time grid filled with rows and cells (with -1 for last position)
             for (rowIndex = 0; rowIndex < rowCount; ++rowIndex)
@@ -1215,73 +1558,152 @@ const ScheduleApp = function (variables) {
         function setActiveColumn()
         {
             const rows = table.getElementsByTagName('tr');
-            let head, heads, cell, cells, row;
+            let thIndex, ths, tdIndex, tds, row;
 
-            for (row = 0; row < rows.length; ++row) {
-                heads = rows[row].getElementsByTagName('th');
-                for (head = 1; head < heads.length; ++head) {
-                    if (head === visibleDay) {
-                        jQuery(heads[head]).addClass('activeColumn');
-                    } else {
-                        jQuery(heads[head]).removeClass('activeColumn');
+            for (row = 0; row < rows.length; ++row)
+            {
+                ths = rows[row].getElementsByTagName('th');
+                for (thIndex = 1; thIndex < ths.length; ++thIndex)
+                {
+                    if (thIndex === visibleDay)
+                    {
+                        ths[thIndex].classList.add('activeColumn');
+                    }
+                    else
+                    {
+                        ths[thIndex].classList.remove('activeColumn');
                     }
                 }
 
-                cells = rows[row].getElementsByTagName('td');
-                for (cell = 1; cell < cells.length; ++cell) {
-                    if (cell === visibleDay) {
-                        jQuery(cells[cell]).addClass('activeColumn');
-                    } else {
-                        jQuery(cells[cell]).removeClass('activeColumn');
+                tds = rows[row].getElementsByTagName('td');
+                for (tdIndex = 1; tdIndex < tds.length; ++tdIndex)
+                {
+                    if (tdIndex === visibleDay)
+                    {
+                        tds[tdIndex].classList.add('activeColumn');
+                    }
+                    else
+                    {
+                        tds[tdIndex].classList.remove('activeColumn');
                     }
                 }
             }
         }
 
         /**
-         * Sets default gridID of schedule, select it in grid form field and returns it
-         * @return {Object}
+         * Here the table head changes to the grids specified weekdays with start day and end day
          */
-        function getDefaultGrid() {
-            if (!defaultGrid) {
-                // Function returns first found gridID
-                const defaultGridID = (function () {
-                    let day, event, time;
+        function setGridDays()
+        {
+            const headItems = table.getElementsByTagName('thead')[0].getElementsByTagName('th'),
+                headerDate = getDateFieldsDateObject(),
+                day = headerDate.getDay();
+            let currentDay = parseInt(timeGrid.startDay), thElement;
 
-                    for (day in eventData) {
-                        if (!eventData.hasOwnProperty(day)) {
-                            continue;
-                        }
-
-                        for (time in eventData[day]) {
-                            if (!eventData[day].hasOwnProperty(time)) {
-                                continue;
-                            }
-
-                            for (event in eventData[day][time]) {
-                                if (eventData[day][time].hasOwnProperty(event) && eventData[day][time][event].gridID) {
-                                    return eventData[day][time][event].gridID;
-                                }
-                            }
-                        }
-                    }
-                })();
-
-                if (defaultGridID) {
-                    setGrid(defaultGridID);
-                    defaultGrid = JSON.parse(variables.grids[defaultGridID].grid);
-                }
+            // Set date to monday of the coming week
+            if (day === 0)
+            {
+                headerDate.setDate(headerDate.getDate() + 1);
+            }
+            else
+            {
+                // Sunday is 0, so we add a one for monday
+                headerDate.setDate(headerDate.getDate() - day + 1);
             }
 
-            return defaultGrid || timeGrid;
+            // Show TIME header on the left side ?
+            headItems[0].style.display = timeGrid.hasOwnProperty('periods') ? '' : 'none';
+
+            // Fill tHead with days of week
+            for (thElement = 1; thElement < headItems.length; ++thElement)
+            {
+                if (thElement === currentDay && currentDay <= timeGrid.endDay)
+                {
+                    headItems[thElement].innerHTML = weekdays[currentDay - 1] +
+                        ' (' + headerDate.getPresentationFormat(true) + ')';
+                    headerDate.setDate(headerDate.getDate() + 1);
+                    ++currentDay;
+                }
+                else
+                {
+                    headItems[thElement].innerHTML = '';
+                }
+            }
         }
+
+        /**
+         * Sets the chosen times of the grid in the schedules tables
+         */
+        function setGridTime()
+        {
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            let endTime, period = 1, row, startTime;
+
+            // No periods -> no times
+            if (!timeGrid.periods)
+            {
+                return;
+            }
+
+            for (row = 0; row < rows.length; ++row)
+            {
+                const gap = endTime ? timeGrid.periods[period].startTime - timeGrid.periods[period - 1].endTime : 0,
+                    timeCell = rows[row].getElementsByTagName('td')[0];
+
+                // Indicate bigger breaks between blocks (more than 30 minutes)
+                if (gap >= 100)
+                {
+                    rows[row - 1].classList.add('long-break-after');
+                }
+
+                startTime = timeGrid.periods[period].startTime.replace(/(\d{2})(\d{2})/, '$1:$2');
+                endTime = timeGrid.periods[period].endTime.replace(/(\d{2})(\d{2})/, '$1:$2');
+                timeCell.innerHTML = startTime + '<br> - <br>' + endTime;
+
+                ++period;
+            }
+        }
+
+        /**
+         * Getter for HTMLDivElements which represents the events of this table
+         * @returns {Array}
+         */
+        this.getEvents = function () {
+            return instanceElements;
+        };
+
+        /**
+         * Getter for current time grid ID of this table
+         * @returns {int}
+         */
+        this.getGridID = function () {
+            return timeGridID;
+        };
+
+        /**
+         * Getter for the HTMLTableElement
+         * @returns {Element}
+         */
+        this.getTableElement = function () {
+            return table;
+        };
+
+        /**
+         * Removes the HTMLTableElement itself and the related HTMLInputElement
+         */
+        this.remove = function () {
+            // input element
+            scheduleWrapper.removeChild(document.getElementById(schedule.getId() + '-input'));
+            // table element
+            scheduleWrapper.removeChild(document.getElementById(schedule.getId() + '-schedule'));
+        };
 
         /**
          * Updates the table with the actual selected time grid and given events.
-         * @param {Object} [events] - all events of a schedule
+         * @param {Object} [newInstances] - all events of a schedule
          */
-        this.update = function (events) {
-            eventData = events || eventData;
+        this.update = function (newInstances) {
+            instances = newInstances || instances;
             visibleDay = getDateFieldsDateObject().getDay();
 
             if (useDefaultGrid)
@@ -1293,8 +1715,9 @@ const ScheduleApp = function (variables) {
             setGridDays();
             setGridTime();
 
-            if (!(eventData.pastDate || eventData.futureDate)) {
-                insertEvents(eventData);
+            if (!(instances.pastDate || instances.futureDate))
+            {
+                insertInstances(instances);
             }
 
             if (variables.isMobile)
@@ -1314,40 +1737,6 @@ const ScheduleApp = function (variables) {
         };
 
         /**
-         * Removes the HTMLTableElement itself and the related HTMLInputElement
-         */
-        this.remove = function () {
-            // input element
-            scheduleWrapper.removeChild(document.getElementById(schedule.getId() + '-input'));
-            // table element
-            scheduleWrapper.removeChild(document.getElementById(schedule.getId() + '-schedule'));
-        };
-
-        /**
-         * Getter for current time grid ID of this table
-         * @returns {int}
-         */
-        this.getGridID = function () {
-            return timeGridID;
-        };
-
-        /**
-         * Getter for HTMLDivElements which represents the events of this table
-         * @returns {Array}
-         */
-        this.getEvents = function () {
-            return eventElements;
-        };
-
-        /**
-         * Getter for the HTMLTableElement
-         * @returns {Element}
-         */
-        this.getTableElement = function () {
-            return table;
-        };
-
-        /**
          * Constructor-like function to build the HTMLTableElement
          */
         (function () {
@@ -1360,23 +1749,24 @@ const ScheduleApp = function (variables) {
     /**
      * Creates an event menu for saving and deleting an event, which opens by right clicking on it
      */
-    function EventMenu() {
-        const eventMenuElement = document.getElementsByClassName('event-menu')[0],
+    function InstanceMenu()
+    {
+        const instanceMenu = document.getElementsByClassName('instance-menu')[0],
             deleteInstanceMode = document.getElementById('delete-mode-instance'),
-            deleteMenu = eventMenuElement.getElementsByClassName('delete')[0],
+            deleteMenu = instanceMenu.getElementsByClassName('delete')[0],
             deletePeriodMode = document.getElementById('delete-mode-period'),
             deleteSemesterMode = document.getElementById('delete-mode-semester'),
-            descriptionSpan = eventMenuElement.getElementsByClassName('description')[0],
-            moduleSpan = eventMenuElement.getElementsByClassName('module')[0],
-            personsDiv = eventMenuElement.getElementsByClassName('persons')[0],
-            groupsDiv = eventMenuElement.getElementsByClassName('groups')[0],
-            roomsDiv = eventMenuElement.getElementsByClassName('rooms')[0],
+            descriptionSpan = instanceMenu.getElementsByClassName('description')[0],
+            moduleSpan = instanceMenu.getElementsByClassName('module')[0],
+            personsDiv = instanceMenu.getElementsByClassName('persons')[0],
+            groupsDiv = instanceMenu.getElementsByClassName('groups')[0],
+            roomsDiv = instanceMenu.getElementsByClassName('rooms')[0],
             saveInstanceMode = document.getElementById('save-mode-instance'),
-            saveMenu = eventMenuElement.getElementsByClassName('save')[0],
+            saveMenu = instanceMenu.getElementsByClassName('save')[0],
             savePeriodMode = document.getElementById('save-mode-period'),
             saveSemesterMode = document.getElementById('save-mode-semester'),
-            subjectSpan = eventMenuElement.getElementsByClassName('subject')[0];
-        let currentCcmID = '0';
+            subjectSpan = instanceMenu.getElementsByClassName('subject')[0];
+        let currentInstanceID = '0';
 
         /**
          * Resets HTMLDivElements
@@ -1390,54 +1780,62 @@ const ScheduleApp = function (variables) {
 
         /**
          * Inserts data of active event
-         * @param {Object} data - event data like subject name, persons, locations...
-         * @param {string} data.name - name of event subject
-         * @param {string} data.subjectNo - number of subject
-         * @param {Object} data.groups - all groups
-         * @param {Object} data.groupDeltas - changed groups
-         * @param {Object} data.rooms - all rooms
-         * @param {Object} data.roomDeltas - changed rooms
-         * @param {Object} data.persons - all persons
-         * @param {Object} data.personDeltas - changed persons
+         * @param {Object} instance - event data like subject name, persons, locations...
+         * @param {string} instance.name - name of event subject
+         * @param {string} instance.subjectNo - number of subject
+         * @param {Object} instance.groups - all groups
+         * @param {Object} instance.groupDeltas - changed groups
+         * @param {Object} instance.rooms - all rooms
+         * @param {Object} instance.roomDeltas - changed rooms
+         * @param {Object} instance.persons - all persons
+         * @param {Object} instance.personDeltas - changed persons
          */
-        function setEventData(data) {
+        function setInstanceData(instance)
+        {
             let groupID, roomID, personID;
 
             resetElements();
-            subjectSpan.innerHTML = data.name;
+            subjectSpan.innerHTML = instance.name;
 
-            if (data.subjectNo === '') {
+            if (instance.subjectNo === '')
+            {
                 moduleSpan.style.display = 'none';
             }
             else
             {
                 moduleSpan.style.display = 'inline-block';
-                moduleSpan.innerHTML = data.subjectNo;
+                moduleSpan.innerHTML = instance.subjectNo;
             }
 
-            descriptionSpan.innerHTML = eventMenuElement.parentNode.getElementsByClassName('comment-container')[0] ?
-                eventMenuElement.parentNode.getElementsByClassName('comment-container')[0].innerText : '';
+            descriptionSpan.innerHTML = instanceMenu.parentNode.getElementsByClassName('comment-container')[0] ?
+                instanceMenu.parentNode.getElementsByClassName('comment-container')[0].innerText : '';
 
-            for (personID in data.persons) {
-                if (data.persons.hasOwnProperty(personID) && data.personDeltas[personID] !== 'removed') {
+            for (personID in instance.persons)
+            {
+                if (instance.persons.hasOwnProperty(personID) && instance.personDeltas[personID] !== 'removed')
+                {
                     const personSpan = document.createElement('span');
-                    personSpan.innerHTML = data.persons[personID];
+                    personSpan.innerHTML = instance.persons[personID];
                     personsDiv.appendChild(personSpan);
                 }
             }
 
-            for (roomID in data.rooms) {
-                if (data.rooms.hasOwnProperty(roomID) && data.roomDeltas[roomID] !== 'removed') {
+            for (roomID in instance.rooms)
+            {
+                if (instance.rooms.hasOwnProperty(roomID) && instance.roomDeltas[roomID] !== 'removed')
+                {
                     const roomSpan = document.createElement('span');
-                    roomSpan.innerHTML = data.rooms[roomID];
+                    roomSpan.innerHTML = instance.rooms[roomID];
                     roomsDiv.appendChild(roomSpan);
                 }
             }
 
-            for (groupID in data.groups) {
-                if (data.groups.hasOwnProperty(groupID)) {
+            for (groupID in instance.groups)
+            {
+                if (instance.groups.hasOwnProperty(groupID))
+                {
                     const groupSpan = document.createElement('span');
-                    groupSpan.innerHTML = data.groups[groupID].untisID;
+                    groupSpan.innerHTML = instance.groups[groupID].untisID;
                     groupsDiv.appendChild(groupSpan);
                 }
             }
@@ -1448,57 +1846,46 @@ const ScheduleApp = function (variables) {
          */
         (function () {
             saveSemesterMode.addEventListener('click', function () {
-                handleEvent(currentCcmID, variables.SEMESTER_MODE, true);
+                handleEvent(currentInstanceID, variables.SEMESTER_MODE, true);
                 saveMenu.parentNode.style.display = 'none';
             });
             savePeriodMode.addEventListener('click', function () {
-                handleEvent(currentCcmID, variables.PERIOD_MODE, true);
+                handleEvent(currentInstanceID, variables.BLOCK_MODE, true);
                 saveMenu.parentNode.style.display = 'none';
             });
             saveInstanceMode.addEventListener('click', function () {
-                handleEvent(currentCcmID, variables.INSTANCE_MODE, true);
+                handleEvent(currentInstanceID, variables.INSTANCE_MODE, true);
                 saveMenu.parentNode.style.display = 'none';
             });
             deleteSemesterMode.addEventListener('click', function () {
-                handleEvent(currentCcmID, variables.SEMESTER_MODE, false);
+                handleEvent(currentInstanceID, variables.SEMESTER_MODE, false);
                 deleteMenu.parentNode.style.display = 'none';
             });
             deletePeriodMode.addEventListener('click', function () {
-                handleEvent(currentCcmID, variables.PERIOD_MODE, false);
+                handleEvent(currentInstanceID, variables.BLOCK_MODE, false);
                 deleteMenu.parentNode.style.display = 'none';
             });
             deleteInstanceMode.addEventListener('click', function () {
-                handleEvent(currentCcmID, variables.INSTANCE_MODE, false);
+                handleEvent(currentInstanceID, variables.INSTANCE_MODE, false);
                 deleteMenu.parentNode.style.display = 'none';
             });
         }());
 
-        /**
-         * Pops up at clicked event and sends an ajaxRequest to save events ccmID
-         * @param {HTMLDivElement} eventElement
-         * @param {Object} data - event data like subject name, persons, locations...
-         */
-        this.getSaveMenu = function (eventElement, data) {
-            currentCcmID = eventElement.dataset.ccmID;
-            saveMenu.style.display = 'block';
-            deleteMenu.style.display = 'none';
-            eventMenuElement.style.display = 'block';
-            eventElement.appendChild(eventMenuElement);
-            setEventData(data);
-        };
-
-        /**
-         * Pops up at clicked event and sends an ajaxRequest to delete events ccmID
-         * @param {HTMLDivElement} eventElement
-         * @param {Object} data - event data like subject name, persons, locations...
-         */
-        this.getDeleteMenu = function (eventElement, data) {
-            currentCcmID = eventElement.dataset.ccmID;
-            saveMenu.style.display = 'none';
-            deleteMenu.style.display = 'block';
-            eventMenuElement.style.display = 'block';
-            eventElement.appendChild(eventMenuElement);
-            setEventData(data);
+        this.getMenu = function (item, instance, action) {
+            currentInstanceID = item.dataset.instanceID;
+            if (action == 'save')
+            {
+                saveMenu.style.display = 'block';
+                deleteMenu.style.display = 'none';
+            }
+            else
+            {
+                saveMenu.style.display = 'none';
+                deleteMenu.style.display = 'block';
+            }
+            instanceMenu.style.display = 'block';
+            item.appendChild(instanceMenu);
+            setInstanceData(instance);
         };
     }
 
@@ -2167,15 +2554,16 @@ const ScheduleApp = function (variables) {
      * Choose between events of whole semester (1),
      * just this daytime (2)
      * or only the selected instance of a event (3).
-     * @param {string} ccmID - calendar_configuration_map ID
+     * @param {string} instanceID - calendar_configuration_map ID
      * @param {number} [taskNumber=1]
      * @param {boolean} [save=true] - indicate to save or to delete the event
      */
-    function handleEvent(ccmID, taskNumber, save) {
+    function handleEvent(instanceID, taskNumber, save)
+    {
         const saving = (typeof save === 'undefined') ? true : save;
         let actionURL = getAjaxUrl();
 
-        actionURL += '&view=schedules&mode=' + (taskNumber || '1') + '&ccmID=' + ccmID + '&task=';
+        actionURL += '&view=schedules&mode=' + (taskNumber || '1') + '&instanceID=' + instanceID + '&task=';
         actionURL += saving ? 'saveUserLesson' : 'deleteUserLesson'
         ajaxSave.open('GET', actionURL, true);
         ajaxSave.onreadystatechange = function () {
@@ -2804,18 +3192,6 @@ const ScheduleApp = function (variables) {
     };
 
     /**
-     * Called when notification checkbox is clicked
-     */
-    /*this.toggleCheckbox = function () {
-        const notifyChecked = document.getElementById('check-notify-box').checked;
-        jQuery.ajax({
-            type: 'GET',
-            url: getAjaxUrl('setNotify'),
-            data: {isChecked: notifyChecked}
-        });
-    };*/
-
-    /**
      * Get date string in the components specified format.
      * @see http://stackoverflow.com/a/3067896/6355472
      * @param {boolean} [shortYear=false]
@@ -2877,7 +3253,7 @@ const ScheduleApp = function (variables) {
 
         app.dateField.value = date.getPresentationFormat();
         calendar = new Calendar();
-        eventMenu = new EventMenu();
+        instanceMenu = new InstanceMenu();
         scheduleObjects = new Schedules();
         form = new ScheduleForm();
 
@@ -2949,7 +3325,7 @@ const ScheduleApp = function (variables) {
     jQuery(document).mouseup(function (e) {
         const calendarPopup = jQuery('#calendar'),
             messagePopup = jQuery('.message.pop-up'),
-            popup = jQuery('.event-menu');
+            popup = jQuery('.instance-menu');
 
         if (!popup.is(e.target) && popup.has(e.target).length === 0)
         {

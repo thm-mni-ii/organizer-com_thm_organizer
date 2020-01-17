@@ -152,7 +152,7 @@ class Can
 
 			case 'participant':
 
-				if (!is_int($resource))
+				if (!is_numeric($resource))
 				{
 					return false;
 				}

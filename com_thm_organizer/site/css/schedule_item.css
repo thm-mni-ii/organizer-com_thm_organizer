@@ -766,13 +766,21 @@ input[type=radio] {
     display: block;
 }
 
-.calendar-removed,
+.in-planning,
 .removed {
     opacity: 0.5;
+}
+
+.in-planning {
+    border-style: dashed;
+}
+
+.removed {
     text-decoration: line-through;
 }
 
-.calendar-removed .add-instance, .calendar-removed .delete-instance {
+.in-planning .add-instance,
+.in-planning .delete-instance {
     display: none;
 }
 

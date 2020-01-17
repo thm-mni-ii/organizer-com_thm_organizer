@@ -2,12 +2,14 @@
 <form>
     <fields name="params" addfieldprefix="Organizer\Fields">
         <fieldset name="basic" label="THM_ORGANIZER_SETTINGS">
-            <field name="rooms" type="GenericOptions" label="ROOMS" multiple="true" valuecolumn="id" textcolumn="name"
-                   table="thm_organizer_rooms">
-                <option value="">THM_ORGANIZER_FILTER_ALL_ROOMS</option>
+            <field name="campusID" type="Campuses" label="CAMPUS">
+                <option value="">ALL_CAMPUSES</option>
+            </field>
+            <field name="rooms" type="Rooms" label="ROOMS" multiple="true">
+                <option value="">ALL_ROOMS</option>
             </field>
             <field name="days" type="Options" label="DAYS" multiple="true">
-                <option value="">THM_ORGANIZER_FILTER_ALL_DAYS</option>
+                <option value="">ALL_DAYS</option>
                 <option value="1">MONDAY</option>
                 <option value="2">TUESDAY</option>
                 <option value="3">WEDNESDAY</option>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Organizer\Fields">
+    <fieldset name="details">
+        <field name="surname" type="MergeValues" label="SURNAME"/>
+        <field name="forename" type="MergeValues" label="FORENAME"/>
+        <field name="address" type="MergeValues" label="ADDRESS"/>
+        <field name="zipCode" type="MergeValues" label="ZIP_CODE"/>
+        <field name="city" type="MergeValues" label="CITY"/>
+        <field name="programID" type="MergeAssociations" label="PROGRAM"
+               textcolumn="prg.name,prg.version,dgr.abbreviation" localized="true" glue=", " from="participants AS pa"
+               innerJoins="programs AS prg ON prg.id = pa.programID,degrees AS dgr ON dgr.id = prg.degreeID"/>
+        <field name="ids" type="MergeIDs" hidden="true"/>
+    </fieldset>
+</form>

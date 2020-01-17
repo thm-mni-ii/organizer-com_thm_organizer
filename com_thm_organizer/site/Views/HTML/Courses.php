@@ -46,14 +46,10 @@ class Courses extends ListView
 			$structure = ['checkbox' => ''] + $structure;
 			$structure += ['persons' => 'link', 'groups' => 'link'];
 		}
-		elseif ($userID)
-		{
-			$structure += ['participantStatus' => 'value'];
-		}
 
 		if ($userID)
 		{
-			$structure ['toolbar'] = 'value';
+			$structure ['userContent'] = 'value';
 		}
 
 		$this->rowStructure = $structure;
@@ -173,14 +169,10 @@ class Courses extends ListView
 				'groups'  => Languages::_('THM_ORGANIZER_GROUPS')
 			];
 		}
-		elseif ($userID)
-		{
-			$headers += ['participantStatus' => ''];
-		}
 
 		if ($userID)
 		{
-			$headers ['toolbar'] = '';
+			$headers ['userContent'] = '';
 		}
 
 		$this->headers = $headers;
@@ -214,14 +206,10 @@ class Courses extends ListView
 				$course->persons = implode(', ', Helper::getPersons($courseID));
 				$course->groups  = implode(', ', Helper::getGroups($courseID));
 			}
-			elseif ($userID)
-			{
-				$course->participantStatus = Helpers\CourseParticipants::getStatusText($courseID, $userID);
-			}
 
 			if ($userID)
 			{
-				$course->toolbar = Helpers\CourseParticipants::getToolbar($courseID, $userID);
+				$course->userContent = $this->getUserContent($courseID);
 			}
 
 			$structuredItems[$index] = $this->structureItem($index, $course, $URL . $courseID);
@@ -230,5 +218,55 @@ class Courses extends ListView
 		ksort($structuredItems);
 
 		$this->items = $structuredItems;
+	}
+
+	/**
+	 * Generates content for individual courses based on the user's relation to it.
+	 *
+	 * @param   int  $courseID  the id of the course
+	 *
+	 * @return string the user specific HTML to display
+	 */
+	private function getUserContent($courseID)
+	{
+		$participantID = Factory::getUser()->id;
+		$personID      = Helpers\Persons::getIDByUserID($participantID);
+		if (Helpers\Can::administrate() or ($personID and Helper::hasResponsibility($courseID, $personID)))
+		{
+			$baseURL  = Uri::base() . '?option=com_thm_organizer';
+			$buttons  = '';
+			$template = '<a class="btn" href="XHREFX">XICONXXTEXTX</a>';
+			if ($this->clientContext === self::FRONTEND)
+			{
+				$button  = str_replace('XHREFX', $baseURL . "&view=course_edit&id=$courseID", $template);
+				$button  = str_replace('XICONX', '<span class="icon-options"></span>', $button);
+				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COURSE_MANAGE'), $button);
+				$buttons .= $button;
+			}
+
+			$button  = str_replace('XHREFX', $baseURL . "&view=course_participants&id=$courseID", $template);
+			$button  = str_replace('XICONX', '<span class="icon-users"></span>', $button);
+			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS'), $button);
+			$buttons .= $button;
+
+			return $buttons;
+		}
+
+		if (Helper::isExpired($courseID))
+		{
+			return '';
+		}
+
+		if ($state = Helpers\CourseParticipants::getState($courseID, $participantID))
+		{
+			return '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_ACCEPTED');
+		}
+
+		if ($state === self::WAIT_LIST)
+		{
+			return '<span class="icon-checkbox-partial"></span>' . Languages::_('THM_ORGANIZER_WAIT_LIST');
+		}
+
+		return '<span class="icon-checkbox-unchecked"></span>' . Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
 	}
 }

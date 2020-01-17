@@ -141,49 +141,6 @@ class Participants extends ResourceHelper
 	}
 
 	/**
-	 * Checks whether all the necessary participant information has been entered.
-	 *
-	 * @param   int     $participantID  the id of the participant to validate
-	 * @param   string  $context        the name of the validation context
-	 *
-	 * @return bool true if the participant entry is incomplete, otherwise false
-	 */
-	public static function incomplete($participantID = 0, $context = 'preparatory')
-	{
-		$participantID = empty($participantID) ? Factory::getUser()->id : $participantID;
-
-		if (empty($participantID))
-		{
-			return true;
-		}
-
-		$table = new Tables\Participants;
-		if (!$table->load($participantID))
-		{
-			return true;
-		}
-
-		if ($context === 'preparatory')
-		{
-			$requiredProperties = ['address', 'city', 'forename', 'programID', 'surname', 'zipCode'];
-		}
-		else
-		{
-			$requiredProperties = [];
-		}
-
-		foreach ($requiredProperties as $property)
-		{
-			if (empty($table->get($property)))
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * deletes lessons in the personal schedule of a logged in user
 	 *
 	 * @return string JSON coded and deleted ccmIDs

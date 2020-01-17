@@ -95,19 +95,20 @@ class ScheduleItem extends BaseHTMLView
 	}
 
 	/**
-	 * Adds resource files to the document
+	 * Modifies document variables and adds links to external files
 	 *
 	 * @return void
 	 */
-	private function modifyDocument()
+	protected function modifyDocument()
 	{
-		$doc = Factory::getDocument();
-
-		HTML::_('formbehavior.chosen', 'select');
 		$this->addScriptOptions();
+
+		$doc = Factory::getDocument();
 		$doc->addScript(Uri::root() . 'components/com_thm_organizer/js/schedule.js');
 		$doc->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/schedule_item.css');
 		$doc->addStyleSheet(Uri::root() . 'media/jui/css/icomoon.css');
+
+		HTML::_('formbehavior.chosen', 'select');
 	}
 
 	/**
@@ -186,7 +187,11 @@ class ScheduleItem extends BaseHTMLView
 		Languages::script('OCTOBER');
 		Languages::script('SAT');
 		Languages::script('SEPTEMBER');
+		Languages::script('THM_ORGANIZER_SPEAKER');
+		Languages::script('THM_ORGANIZER_SPEAKERS');
 		Languages::script('SUN');
+		Languages::script('THM_ORGANIZER_SUPERVISOR');
+		Languages::script('THM_ORGANIZER_SUPERVISORS');
 		Languages::script('THM_ORGANIZER_GENERATE_LINK');
 		Languages::script('THM_ORGANIZER_LUNCHTIME');
 		Languages::script('THM_ORGANIZER_MY_SCHEDULE');
@@ -195,7 +200,11 @@ class ScheduleItem extends BaseHTMLView
 		Languages::script('THM_ORGANIZER_SELECT_ROOM');
 		Languages::script('THM_ORGANIZER_SELECT_ROOMTYPE');
 		Languages::script('THM_ORGANIZER_SELECT_PERSON');
+		Languages::script('THM_ORGANIZER_TEACHER');
+		Languages::script('THM_ORGANIZER_TEACHERS');
 		Languages::script('THM_ORGANIZER_TIME');
+		Languages::script('THM_ORGANIZER_TUTOR');
+		Languages::script('THM_ORGANIZER_TUTORS');
 		Languages::script('THU');
 		Languages::script('TUE');
 		Languages::script('WED');

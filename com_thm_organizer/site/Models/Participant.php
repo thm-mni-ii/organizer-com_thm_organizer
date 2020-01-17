@@ -31,12 +31,37 @@ class Participant extends MergeModel
 	 *
 	 * @return string the cleaned value
 	 */
-	private function cleanName($name)
+	private function cleanAlpha($name)
 	{
 		$name = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\p{N}_.\-\']/', ' ', $name);
-		$name = preg_replace('/ +/', ' ', $name);
 
-		return $name;
+		return self::cleanSpaces($name);
+	}
+
+	/**
+	 * Filters names (city, forename, surname) for actual letters and accepted special characters.
+	 *
+	 * @param   string  $name  the raw value
+	 *
+	 * @return string the cleaned value
+	 */
+	private function cleanAlphaNum($name)
+	{
+		$name = preg_replace('/[^A-ZÀ-ÖØ-Þa-zß-ÿ\d\p{N}_.\-\']/', ' ', $name);
+
+		return self::cleanSpaces($name);
+	}
+
+	/**
+	 * Filters out extra spaces.
+	 *
+	 * @param   string  $string  the raw value
+	 *
+	 * @return string the cleaned value
+	 */
+	private function cleanSpaces($string)
+	{
+		return preg_replace('/ +/', ' ', $string);
 	}
 
 	/**
@@ -140,9 +165,11 @@ class Participant extends MergeModel
 			}
 		}
 
-		$data['city']     = self::cleanName($data['city']);
-		$data['forename'] = self::cleanName($data['forename']);
-		$data['surname']  = self::cleanName($data['surname']);
+		$data['address']  = self::cleanAlphaNum($data['address']);
+		$data['city']     = self::cleanAlpha($data['city']);
+		$data['forename'] = self::cleanAlpha($data['forename']);
+		$data['surname']  = self::cleanAlpha($data['surname']);
+		$data['zipCode']  = self::cleanAlphaNum($data['zipCode']);
 
 		$success = true;
 		$table   = new Tables\Participants;

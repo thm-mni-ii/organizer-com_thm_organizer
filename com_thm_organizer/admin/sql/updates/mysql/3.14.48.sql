@@ -398,7 +398,7 @@ ALTER TABLE `v7ocf_thm_organizer_participants`
     DROP INDEX `participants_programid_fk`;
 
 ALTER TABLE `v7ocf_thm_organizer_participants`
-    CHANGE `zip_code` `zipCode` INT(11)             NOT NULL DEFAULT 0,
+    CHANGE `zip_code` `zipCode` VARCHAR(60)         NOT NULL DEFAULT '',
     MODIFY `programID` INT(11) UNSIGNED DEFAULT NULL,
     ADD COLUMN `notify`         TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     ADD INDEX `programID` (`programID`);

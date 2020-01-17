@@ -134,34 +134,36 @@ class Person extends MergeModel implements ScheduleResource
 
 		foreach ($relevantEvents as $eventID)
 		{
-			$existing    = new Tables\EventCoordinators;
-			$entryExists = $existing->load(['eventID' => $eventID, 'personID' => $mergeID]);
+			$existing = new Tables\EventCoordinators;
+			$exists   = $existing->load(['eventID' => $eventID, 'personID' => $mergeID]);
 
 			foreach ($this->selected as $personID)
 			{
 				$ecTable        = new Tables\EventCoordinators;
 				$loadConditions = ['eventID' => $eventID, 'personID' => $personID];
-				if ($ecTable->load($loadConditions))
+				if (!$ecTable->load($loadConditions))
 				{
-					if ($entryExists)
-					{
-						if ($existing->id !== $ecTable->id)
-						{
-							$ecTable->delete();
-						}
-
-						continue;
-					}
-
-					$ecTable->personID = $mergeID;
-					if ($ecTable->store())
-					{
-						$entryExists = true;
-						continue;
-					}
-
-					return false;
+					continue;
 				}
+
+				if ($exists)
+				{
+					if ($existing->id !== $ecTable->id)
+					{
+						$ecTable->delete();
+					}
+
+					continue;
+				}
+
+				$existing = $ecTable;
+				$exists   = true;
+			}
+
+			$existing->personID = $mergeID;
+			if (!$existing->store())
+			{
+				return false;
 			}
 		}
 
@@ -188,8 +190,8 @@ class Person extends MergeModel implements ScheduleResource
 			$modified = '';
 			$roleID   = '';
 
-			$existing    = new Tables\InstancePersons;
-			$entryExists = $existing->load(['instanceID' => $instanceID, 'personID' => $mergeID]);
+			$existing = new Tables\InstancePersons;
+			$exists   = $existing->load(['instanceID' => $instanceID, 'personID' => $mergeID]);
 
 			foreach ($this->selected as $personID)
 			{
@@ -207,7 +209,7 @@ class Person extends MergeModel implements ScheduleResource
 					$roleID   = $ipTable->roleID;
 				}
 
-				if ($entryExists)
+				if ($exists)
 				{
 					if ($existing->id !== $ipTable->id)
 					{
@@ -217,19 +219,18 @@ class Person extends MergeModel implements ScheduleResource
 					continue;
 				}
 
-				$ipTable->delta    = $delta;
-				$ipTable->modified = $modified;
-				$ipTable->personID = $mergeID;
-				$ipTable->roleID   = $roleID;
-				if (!$ipTable->store())
-				{
-					return false;
-				}
-
-				$entryExists = true;
-				$existing    = $ipTable;
+				$exists   = true;
+				$existing = $ipTable;
 			}
 
+			$existing->delta    = $delta;
+			$existing->modified = $modified;
+			$existing->personID = $mergeID;
+			$existing->roleID   = $roleID;
+			if (!$existing->store())
+			{
+				return false;
+			}
 		}
 
 		return true;

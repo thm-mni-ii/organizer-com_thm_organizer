@@ -11,14 +11,13 @@
 namespace Organizer\Models;
 
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
 use Organizer\Helpers\Languages;
 use Organizer\Helpers\Named;
-use Organizer\Helpers\OrganizerHelper;
 
 /**
  * Class loads item form data to edit an entry.
@@ -82,6 +81,11 @@ abstract class EditModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
+		if (!Factory::getUser()->id)
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+		}
+
 		$pk = empty($pk) ? Input::getSelectedID() : $pk;
 
 		// Prevents duplicate execution from getForm and getItem
@@ -91,11 +95,10 @@ abstract class EditModel extends AdminModel
 		}
 
 		$this->item = parent::getItem($pk);
-		$allowEdit  = $this->allowEdit();
 
-		if (!$allowEdit)
+		if (!$this->allowEdit())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 401);
 		}
 
 		return $this->item;

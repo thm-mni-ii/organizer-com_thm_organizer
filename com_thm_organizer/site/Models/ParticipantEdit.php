@@ -13,9 +13,11 @@ namespace Organizer\Models;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Organizer\Helpers\Can;
 use Organizer\Helpers\Input;
+use Organizer\Helpers\Languages;
 use Organizer\Tables\Participants as ParticipantsTable;
 
 /**
@@ -43,11 +45,27 @@ class ParticipantEdit extends EditModel
 	 */
 	public function getItem($participantID = null)
 	{
-		$userID               = Factory::getUser()->id;
-		$participantID        = empty($participantID) ? Input::getSelectedID($userID) : $participantID;
-		$this->item           = parent::getItem($participantID);
+		if (!$userID = Factory::getUser()->id)
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+		}
+
+		$participantID = empty($participantID) ? Input::getSelectedID($userID) : $participantID;
+
+		// Prevents duplicate execution from getForm and getItem
+		if (isset($this->item->id) and ($this->item->id === $participantID))
+		{
+			return $this->item;
+		}
+
+		$this->item           = AdminModel::getItem($participantID);
 		$this->item->referrer = Input::getInput()->server->getString('HTTP_REFERER');
-		$this->item->id       = $this->item->id ? $this->item->id : Factory::getUser()->id;
+		$this->item->id       = $this->item->id ? $this->item->id : $participantID;
+
+		if (!$this->allowEdit())
+		{
+			throw new Exception(Languages::_('THM_ORGANIZER_403'), 401);
+		}
 
 		return $this->item;
 	}

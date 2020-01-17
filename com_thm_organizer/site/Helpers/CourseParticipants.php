@@ -59,92 +59,44 @@ class CourseParticipants extends ResourceHelper
 	}
 
 	/**
-	 * Generates a status text for the course itself.
+	 * Checks whether all the necessary participant information has been entered.
 	 *
-	 * @param   int  $courseID       the id of the course
-	 * @param   int  $participantID  the id of the participant, defaults to the user id
-	 * @param   int  $eventID        the id of the event, if relevant
+	 * @param   int  $courseID       the id of the course to check against
+	 * @param   int  $participantID  the id of the participant to validate
 	 *
-	 * @return string the course status text
+	 * @return bool true if the participant entry is incomplete, otherwise false
 	 */
-	public static function getStatusText($courseID, $participantID = 0, $eventID = 0)
+	public static function incomplete($courseID, $participantID)
 	{
-		$participantID = $participantID ? $participantID : Factory::getUser()->id;
-		if (Can::manage('course', $courseID) or Courses::isExpired($courseID))
+		if (empty($participantID))
 		{
-			return '';
+			return true;
 		}
 
-		if ($state = self::getState($courseID, $participantID, $eventID))
+		$table = new Tables\Participants;
+		if (!$table->load($participantID))
 		{
-			return '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_ACCEPTED');
-		}
-		elseif ($state === self::WAIT_LIST)
-		{
-			return '<span class="icon-checkbox-partial"></span>' . Languages::_('THM_ORGANIZER_WAIT_LIST');
+			return true;
 		}
 
-		return '<span class="icon-checkbox-unchecked"></span>' . Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
-	}
-
-	/**
-	 * Generates a status text for the course itself.
-	 *
-	 * @param   int  $courseID       the id of the course
-	 * @param   int  $participantID  the id of the participant, defaults to the user id
-	 * @param   int  $eventID        the id of the event, if relevant
-	 *
-	 * @return string the course status text
-	 */
-	public static function getToolBar($courseID, $participantID = 0, $eventID = 0)
-	{
-		$baseURL        = Uri::base() . '?option=com_thm_organizer';
-		$buttons        = '';
-		$buttonTemplate = '<a class="btn" href="XHREFX">XICONXXTEXTX</a>';
-		$participantID  = $participantID ? $participantID : Factory::getUser()->id;
-		$personID       = Persons::getIDByUserID($participantID);
-
-		if (Can::administrate() or ($personID and Courses::hasResponsibility($courseID, $personID)))
+		if (Courses::isPreparatory($courseID))
 		{
-			if (OrganizerHelper::getApplication()->isClient('site'))
-			{
-				$button  = str_replace('XHREFX', $baseURL . "&view=course_edit&id=$courseID", $buttonTemplate);
-				$button  = str_replace('XICONX', '<span class="icon-options"></span>', $button);
-				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COURSE_MANAGE'), $button);
-				$buttons .= $button;
-			}
-
-			$button  = str_replace('XHREFX', $baseURL . "&view=course_participants&id=$courseID", $buttonTemplate);
-			$button  = str_replace('XICONX', '<span class="icon-users"></span>', $button);
-			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS'), $button);
-			$buttons .= $button;
+			$requiredProperties = ['address', 'city', 'forename', 'programID', 'surname', 'zipCode'];
 		}
-		elseif (!Courses::isExpired($courseID))
+		// Resolve any other contexts here later.
+		else
 		{
-			$registrationURL = $baseURL . "&task=participant.register&courseID=$courseID";
-			if (self::getState($courseID, $participantID, $eventID) !== self::UNREGISTERED)
+			$requiredProperties = [];
+		}
+
+		foreach ($requiredProperties as $property)
+		{
+			if (empty($table->get($property)))
 			{
-				$button  = str_replace('XHREFX', $registrationURL, $buttonTemplate);
-				$button  = str_replace('XICONX', '<span class="icon-out-2"></span>', $button);
-				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_DEREGISTER'), $button);
-				$buttons .= $button;
-			}
-			elseif (Participants::incomplete())
-			{
-				$button  = str_replace('XHREFX', $baseURL . "&view=participant_edit", $buttonTemplate);
-				$button  = str_replace('XICONX', '<span class="icon-user-plus"></span>', $button);
-				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COMPLETE_PROFILE'), $button);
-				$buttons .= $button;
-			}
-			else
-			{
-				$button  = str_replace('XHREFX', $registrationURL, $buttonTemplate);
-				$button  = str_replace('XICONX', '<span class="icon-apply"></span>', $button);
-				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_REGISTER'), $button);
-				$buttons .= $button;
+				return true;
 			}
 		}
 
-		return $buttons;
+		return false;
 	}
 }

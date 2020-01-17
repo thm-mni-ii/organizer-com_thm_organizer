@@ -380,6 +380,7 @@ input[type=radio] {
   margin: 0.25rem auto;
   vertical-align: bottom;
 }
+
 // Content - Schedule-Table
 //********************************************************************************************************************//
 .scheduleWrapper {
@@ -697,6 +698,7 @@ input[type=radio] {
   .add-instance {
     display: none;
   }
+
   .delete-instance {
     display: block;
   }
@@ -715,13 +717,20 @@ input[type=radio] {
   display: block;
 }
 
-.calendar-removed,
+.in-planning,
 .removed {
   opacity: 0.5;
+}
+
+.in-planning {
+  border-style: dashed;
+}
+
+.removed {
   text-decoration: line-through;
 }
 
-.calendar-removed {
+.in-planning {
   .add-instance, .delete-instance {
     display: none;
   }
