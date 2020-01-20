@@ -201,7 +201,7 @@ class HTML extends HTMLHelper
 		$link   = "index.php?option=com_config&view=component&component=com_thm_organizer&return=$return";
 
 		$toolbar = Toolbar::getInstance('toolbar');
-		$toolbar->appendButton('Link', 'options', Languages::_('THM_ORGANIZER_SETTINGS'), $link);
+		$toolbar->appendButton('Link', 'options', Languages::_('ORGANIZER_SETTINGS'), $link);
 	}
 
 	/**
@@ -233,7 +233,7 @@ class HTML extends HTMLHelper
 	 */
 	public static function sort($constant, $column, $direction, $ordering)
 	{
-		$text = Languages::_("THM_ORGANIZER_$constant");
+		$text = Languages::_("ORGANIZER_$constant");
 
 		return self::_('searchtools.sort', $text, $column, $direction, $ordering);
 	}

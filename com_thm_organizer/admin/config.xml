@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-    <fieldset name="general" label="THM_ORGANIZER_GENERAL_SETTINGS"
-              description="THM_ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
-        <field name="dateFormat" type="text" label="THM_ORGANIZER_DATE_FORMAT"
-               description="THM_ORGANIZER_DATE_FORMAT_DESC" size="40" required="true" default="d.m.Y"/>
-        <field name="dateFormatShort" type="text" label="THM_ORGANIZER_DATE_FORMAT_SHORT"
-               description="THM_ORGANIZER_DATE_FORMAT_SHORT_DESC" size="40" required="true" default="d.m"/>
-        <field name="timeFormat" label="THM_ORGANIZER_TIME_FORMAT" description="THM_ORGANIZER_TIME_FORMAT_DESC"
-               type="text" size="40" required="true" default="H:i"/>
-        <field name="buildingRegex" type="text" label="THM_ORGANIZER_BUILDING_REGEX"
-               description="THM_ORGANIZER_BUILDING_REGEX_DESC" size="40" required="false"/>
-        <field name="emailFilter" type="text" label="THM_ORGANIZER_EMAIL_FILTER"
-               description="THM_ORGANIZER_EMAIL_FILTER_DESC" size="40" required="false"/>
-        <field name="backgroundColor" type="color" label="THM_ORGANIZER_BACKGROUND_COLOR"
-               description="THM_ORGANIZER_BACKGROUND_COLOR_DESC" size="10" required="true" default="#f2f5f6"/>
-        <field name="lightTextColor" type="color" label="THM_ORGANIZER_TEXT_LIGHT_COLOR"
-               description="THM_ORGANIZER_TEXT_LIGHT_COLOR_DESC" size="10" required="true" default="#ffffff"/>
-        <field name="darkTextColor" type="color" label="THM_ORGANIZER_TEXT_DARK_COLOR"
-               description="THM_ORGANIZER_TEXT_DARK_COLOR_DESC" size="10" required="true" default="#4a5c66"/>
+    <fieldset name="general" label="ORGANIZER_GENERAL_SETTINGS" description="ORGANIZER_GENERAL_SETTINGS_DESCRIPTION">
+        <field name="dateFormat" type="text" label="ORGANIZER_DATE_FORMAT" description="ORGANIZER_DATE_FORMAT_DESC"
+               size="40" required="true" default="d.m.Y"/>
+        <field name="dateFormatShort" type="text" label="ORGANIZER_DATE_FORMAT_SHORT"
+               description="ORGANIZER_DATE_FORMAT_SHORT_DESC" size="40" required="true" default="d.m"/>
+        <field name="timeFormat" label="ORGANIZER_TIME_FORMAT" description="ORGANIZER_TIME_FORMAT_DESC" type="text"
+               size="40" required="true" default="H:i"/>
+        <field name="buildingRegex" type="text" label="ORGANIZER_BUILDING_REGEX"
+               description="ORGANIZER_BUILDING_REGEX_DESC" size="40" required="false"/>
+        <field name="emailFilter" type="text" label="ORGANIZER_EMAIL_FILTER" description="ORGANIZER_EMAIL_FILTER_DESC"
+               size="40" required="false"/>
+        <field name="backgroundColor" type="color" label="ORGANIZER_BACKGROUND_COLOR"
+               description="ORGANIZER_BACKGROUND_COLOR_DESC" size="10" required="true" default="#f2f5f6"/>
+        <field name="lightTextColor" type="color" label="ORGANIZER_TEXT_LIGHT_COLOR"
+               description="ORGANIZER_TEXT_LIGHT_COLOR_DESC" size="10" required="true" default="#ffffff"/>
+        <field name="darkTextColor" type="color" label="ORGANIZER_TEXT_DARK_COLOR"
+               description="ORGANIZER_TEXT_DARK_COLOR_DESC" size="10" required="true" default="#4a5c66"/>
     </fieldset>
-    <fieldset name="LSF-Service" label="THM_ORGANIZER_LSF_SETTINGS_TITLE"
-              description="THM_ORGANIZER_LSF_SETTINGS_DESCRIPTION">
-        <field name="wsURI" type="text" size="100" label="THM_ORGANIZER_LSF_URI"
-               description="THM_ORGANIZER_LSF_URI_DESC"/>
-        <field name="wsUsername" type="text" size="30" label="THM_ORGANIZER_LSF_USERNAME"
-               description="THM_ORGANIZER_LSF_USERNAME_DESC"/>
-        <field name="wsPassword" type="text" size="30" label="THM_ORGANIZER_PASSWORD"
-               description="THM_ORGANIZER_LSF_PASSWORD_DESC"/>
+    <fieldset name="LSF-Service" label="ORGANIZER_LSF_SETTINGS_TITLE" description="ORGANIZER_LSF_SETTINGS_DESCRIPTION">
+        <field name="wsURI" type="text" size="100" label="ORGANIZER_LSF_URI" description="ORGANIZER_LSF_URI_DESC"/>
+        <field name="wsUsername" type="text" size="30" label="ORGANIZER_LSF_USERNAME"
+               description="ORGANIZER_LSF_USERNAME_DESC"/>
+        <field name="wsPassword" type="text" size="30" label="ORGANIZER_PASSWORD"
+               description="ORGANIZER_LSF_PASSWORD_DESC"/>
     </fieldset>
-    <fieldset name="monitors" label="THM_ORGANIZER_MONITORS"
-              description="THM_ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
-        <field name="display" type="List" label="THM_ORGANIZER_DISPLAY_BEHAVIOUR"
-               description="THM_ORGANIZER_DISPLAY_BEHAVIOUR_DESC">
-            <option value='1'>THM_ORGANIZER_DAILY_PLAN</option>
-            <option value='2'>THM_ORGANIZER_MIXED_PLAN</option>
-            <option value='3'>THM_ORGANIZER_CONTENT_DISPLAY</option>
-            <option value='4'>THM_ORGANIZER_EVENT_LIST</option>
+    <fieldset name="monitors" label="ORGANIZER_MONITORS" description="ORGANIZER_MONITOR_SETTINGS_VIEW_DESCRIPTION">
+        <field name="display" type="List" label="ORGANIZER_DISPLAY_BEHAVIOUR"
+               description="ORGANIZER_DISPLAY_BEHAVIOUR_DESC">
+            <option value='1'>ORGANIZER_DAILY_PLAN</option>
+            <option value='2'>ORGANIZER_MIXED_PLAN</option>
+            <option value='3'>ORGANIZER_CONTENT_DISPLAY</option>
+            <option value='4'>ORGANIZER_EVENT_LIST</option>
         </field>
         <field name="scheduleRefresh" type="Integer" label="SCHEDULE_REFRESH_RATE" first="10" last="990" step="10"
                default="60"/>
@@ -43,18 +39,17 @@
                default="60"/>
         <field name="content" type="FileList" label="DISPLAY_CONTENT" directory="images/thm_organizer/" exclude=""/>
     </fieldset>
-    <fieldset name="prepCourse" label="THM_ORGANIZER_PREP_COURSES">
-        <field name="representativeName" type="text" label="THM_ORGANIZER_REPRESENTATIVE"
-               description="THM_ORGANIZER_REPRESENTATIVE_DESC" size="60" default="Prof. Dr. Matthias Willems"/>
+    <fieldset name="prepCourse" label="ORGANIZER_PREP_COURSES">
+        <field name="representativeName" type="text" label="ORGANIZER_REPRESENTATIVE"
+               description="ORGANIZER_REPRESENTATIVE_DESC" size="60" default="Prof. Dr. Matthias Willems"/>
         <field name="signatureFile" type="imagelist" hide_none="true" directory="components/com_thm_organizer/images"
-               label="THM_ORGANIZER_SIGNATURE_FILE" description="THM_ORGANIZER_SIGNATURE_FILE_DESC" size="60"
+               label="ORGANIZER_SIGNATURE_FILE" description="ORGANIZER_SIGNATURE_FILE_DESC" size="60"
                default="unterschrift-willems.png"/>
-        <field name="address" type="text" label="THM_ORGANIZER_ADDRESS" description="THM_ORGANIZER_CONTACT_ADDRESS_DESC"
+        <field name="address" type="text" label="ORGANIZER_ADDRESS" description="ORGANIZER_CONTACT_ADDRESS_DESC"
                size="100" default="Technische Hochschule Mittelhessen – Wiesenstraße 14 – 35390 Gießen"/>
-        <field name="contact" type="text" label="THM_ORGANIZER_CONTACT" description="THM_ORGANIZER_CONTACT_DESC"
-               size="100" default="Tel.: 0641/309 0 – Fax: 0641/309 2901 – www.thm.de"/>
-        <field name="mailSender" type="user" label="THM_ORGANIZER_SENDER" description="THM_ORGANIZER_SENDER_DESC"
-               default=""/>
+        <field name="contact" type="text" label="ORGANIZER_CONTACT" description="ORGANIZER_CONTACT_DESC" size="100"
+               default="Tel.: 0641/309 0 – Fax: 0641/309 2901 – www.thm.de"/>
+        <field name="mailSender" type="user" label="ORGANIZER_SENDER" description="ORGANIZER_SENDER_DESC" default=""/>
         <field name="deadline" type="Integer" label="DEADLINE" first="1" last="30" default="5"/>
         <field name="fee" type="Integer" label="COURSE_FEE" first="0" last="500" step="5" default="50"/>
     </fieldset>

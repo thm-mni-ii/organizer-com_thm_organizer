@@ -104,9 +104,9 @@ class Grids extends ResourceHelper implements UntisXMLValidator
 
 		if ($invalidPeriod)
 		{
-			if (!in_array(Languages::_('THM_ORGANIZER_PERIODS_INCONSISTENT'), $model->errors))
+			if (!in_array(Languages::_('ORGANIZER_PERIODS_INCONSISTENT'), $model->errors))
 			{
-				$model->errors[] = Languages::_('THM_ORGANIZER_PERIODS_INCONSISTENT');
+				$model->errors[] = Languages::_('ORGANIZER_PERIODS_INCONSISTENT');
 			}
 
 			return;

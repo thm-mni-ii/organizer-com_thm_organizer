@@ -34,10 +34,10 @@ class Deputat
 		$userName    = Factory::getUser()->name;
 		$term        = 'TERM';
 		$date        = \Date::formatDate(date('Y-m-d'));
-		$description = Languages::sprintf('THM_ORGANIZER_DEPUTAT_DESCRIPTION', $term, $date);
+		$description = Languages::sprintf('ORGANIZER_DEPUTAT_DESCRIPTION', $term, $date);
 		$this->spreadSheet->getProperties()->setCreator('THM Organizer')
 			->setLastModifiedBy($userName)
-			->setTitle(Languages::_('THM_ORGANIZER_DEPUTAT'))
+			->setTitle(Languages::_('ORGANIZER_DEPUTAT'))
 			->setDescription($description);
 		$this->spreadSheet->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
 
@@ -865,7 +865,7 @@ class Deputat
 		$objWriter = PHPExcel_IOFactory::createWriter($this->spreadSheet, 'Excel2007');
 		ob_end_clean();
 		header('Content-type: application/vnd.ms-excel');
-		$docTitle = ApplicationHelper::stringURLSafe(Languages::_('THM_ORGANIZER_DEPUTAT') . '_' . date('Ymd'));
+		$docTitle = ApplicationHelper::stringURLSafe(Languages::_('ORGANIZER_DEPUTAT') . '_' . date('Ymd'));
 		header("Content-Disposition: attachment;filename=$docTitle.xlsx");
 		$objWriter->save('php://output');
 		exit();

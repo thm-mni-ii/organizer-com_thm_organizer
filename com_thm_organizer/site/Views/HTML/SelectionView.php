@@ -59,7 +59,7 @@ abstract class SelectionView extends BaseHTMLView
 	 */
 	protected function modifyDocument()
 	{
-		$constant = 'THM_ORGANIZER_' . strtoupper(preg_replace('/([a-z])([A-Z])/', '$1_$2', $this->getName()));
+		$constant = 'ORGANIZER_' . strtoupper(preg_replace('/([a-z])([A-Z])/', '$1_$2', $this->getName()));
 		Helpers\HTML::setMenuTitle($constant);
 		Helpers\HTML::_('bootstrap.framework');
 
@@ -73,12 +73,12 @@ abstract class SelectionView extends BaseHTMLView
 			Helpers\HTML::_('formbehavior.chosen', 'select');
 		}
 
-		Helpers\Languages::script('THM_ORGANIZER_ALL');
-		Helpers\Languages::script('THM_ORGANIZER_COPY_SUBSCRIPTION');
-		Helpers\Languages::script('THM_ORGANIZER_DOWNLOAD');
-		Helpers\Languages::script('THM_ORGANIZER_GENERATE_LINK');
-		Helpers\Languages::script('THM_ORGANIZER_LIST_SELECTION_WARNING');
-		Helpers\Languages::script('THM_ORGANIZER_NONE');
+		Helpers\Languages::script('ORGANIZER_ALL');
+		Helpers\Languages::script('ORGANIZER_COPY_SUBSCRIPTION');
+		Helpers\Languages::script('ORGANIZER_DOWNLOAD');
+		Helpers\Languages::script('ORGANIZER_GENERATE_LINK');
+		Helpers\Languages::script('ORGANIZER_LIST_SELECTION_WARNING');
+		Helpers\Languages::script('ORGANIZER_NONE');
 
 		$rootURI  = Uri::root();
 		$document = Factory::getDocument();
@@ -152,8 +152,8 @@ abstract class SelectionView extends BaseHTMLView
 	{
 		$rawConstant    = empty($constant) ? $fieldName : $constant;
 		$constant       = strtoupper($rawConstant);
-		$label          = "THM_ORGANIZER_$constant";
-		$selectConstant = "THM_ORGANIZER_SELECT_$constant";
+		$label          = "ORGANIZER_$constant";
+		$selectConstant = "ORGANIZER_SELECT_$constant";
 		$options        = [Helpers\HTML::_('select.option', '', Helpers\Languages::_($selectConstant))];
 		$options        += $this->getOptions($values);
 
@@ -188,8 +188,8 @@ abstract class SelectionView extends BaseHTMLView
 			$constant  = strtoupper($rawConstant);
 		}
 
-		$label          = "THM_ORGANIZER_$constant";
-		$selectConstant = "THM_ORGANIZER_SELECT_$constant";
+		$label          = "ORGANIZER_$constant";
+		$selectConstant = "ORGANIZER_SELECT_$constant";
 		$options        = [Helpers\HTML::_('select.option', '', Helpers\Languages::_($selectConstant))];
 		if ($fill)
 		{

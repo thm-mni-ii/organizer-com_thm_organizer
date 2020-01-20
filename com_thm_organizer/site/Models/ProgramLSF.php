@@ -79,7 +79,7 @@ class ProgramLSF extends BaseModel
 		{
 			if (!Can::document('program', $programID))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 
 			if (!$this->importSingle($programID))
@@ -103,7 +103,7 @@ class ProgramLSF extends BaseModel
 		$programData = $this->getSavedProgramData($programID);
 		if (empty($programData))
 		{
-			OrganizerHelper::message('THM_ORGANIZER_LSF_DATA_MISSING', 'error');
+			OrganizerHelper::message('ORGANIZER_LSF_DATA_MISSING', 'error');
 
 			return false;
 		}
@@ -227,7 +227,7 @@ class ProgramLSF extends BaseModel
 		{
 			if (!Can::document('program', $programID))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 
 			if (!$subjectIDs = $this->getSubjectIDs($programID))

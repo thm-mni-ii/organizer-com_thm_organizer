@@ -358,7 +358,7 @@ const ScheduleApp = function (variables) {
 
                 if (resource === 'user')
                 {
-                    return Joomla.JText._('THM_ORGANIZER_MY_SCHEDULE');
+                    return Joomla.JText._('ORGANIZER_MY_SCHEDULE');
                 }
 
                 // Get pre-selected value like 'Informatik Master'
@@ -1067,25 +1067,25 @@ const ScheduleApp = function (variables) {
                     if (roleID === SPEAKER)
                     {
                         roleName = count > 1 ?
-                            Joomla.JText._('THM_ORGANIZER_SPEAKERS') : Joomla.JText._('THM_ORGANIZER_SPEAKER');
+                            Joomla.JText._('ORGANIZER_SPEAKERS') : Joomla.JText._('ORGANIZER_SPEAKER');
                         roleDiv.classList.add('speakers');
                     }
                     else if (roleID === TUTOR)
                     {
                         roleName = count > 1 ?
-                            Joomla.JText._('THM_ORGANIZER_TUTORS') : Joomla.JText._('THM_ORGANIZER_TUTOR');
+                            Joomla.JText._('ORGANIZER_TUTORS') : Joomla.JText._('ORGANIZER_TUTOR');
                         roleDiv.classList.add('tutors');
                     }
                     else if (roleID === SUPERVISOR)
                     {
                         roleName = count > 1 ?
-                            Joomla.JText._('THM_ORGANIZER_SUPERVISORS') : Joomla.JText._('THM_ORGANIZER_SUPERVISOR');
+                            Joomla.JText._('ORGANIZER_SUPERVISORS') : Joomla.JText._('ORGANIZER_SUPERVISOR');
                         roleDiv.classList.add('supervisors');
                     }
                     else
                     {
                         roleName = count > 1 ?
-                            Joomla.JText._('THM_ORGANIZER_TEACHERS') : Joomla.JText._('THM_ORGANIZER_TEACHER');
+                            Joomla.JText._('ORGANIZER_TEACHERS') : Joomla.JText._('ORGANIZER_TEACHER');
                         roleDiv.classList.add('teachers');
                     }
                     roleDiv.innerHTML = roleName + ': ' + Object.keys(rolePersons[roleID]).sort().join(', ');
@@ -1470,7 +1470,7 @@ const ScheduleApp = function (variables) {
             {
                 const th = document.createElement('th');
 
-                th.innerHTML = (headIndex === 0) ? Joomla.JText._('THM_ORGANIZER_TIME') : weekdays[headIndex - 1] +
+                th.innerHTML = (headIndex === 0) ? Joomla.JText._('ORGANIZER_TIME') : weekdays[headIndex - 1] +
                     ' (' + headerDate.getPresentationFormat(true) + ')';
 
                 if (headIndex === visibleDay)
@@ -2009,11 +2009,11 @@ const ScheduleApp = function (variables) {
                 'type': document.getElementById('type')
             },
             placeholder = {
-                'category': Joomla.JText._('THM_ORGANIZER_SELECT_CATEGORY'),
-                'group': Joomla.JText._('THM_ORGANIZER_SELECT_GROUP'),
-                'person': Joomla.JText._('THM_ORGANIZER_SELECT_PERSON'),
-                'room': Joomla.JText._('THM_ORGANIZER_SELECT_ROOM'),
-                'roomtype': Joomla.JText._('THM_ORGANIZER_SELECT_ROOMTYPE')
+                'category': Joomla.JText._('ORGANIZER_SELECT_CATEGORY'),
+                'group': Joomla.JText._('ORGANIZER_SELECT_GROUP'),
+                'person': Joomla.JText._('ORGANIZER_SELECT_PERSON'),
+                'room': Joomla.JText._('ORGANIZER_SELECT_ROOM'),
+                'roomtype': Joomla.JText._('ORGANIZER_SELECT_ROOMTYPE')
             },
             wrappers = {
                 'category': document.getElementById('category-input'),
@@ -3170,7 +3170,7 @@ const ScheduleApp = function (variables) {
 
         if (formats[0] === 'ics')
         {
-            window.prompt(Joomla.JText._('THM_ORGANIZER_GENERATE_LINK'), url);
+            window.prompt(Joomla.JText._('ORGANIZER_GENERATE_LINK'), url);
             exportSelection.val('placeholder');
             exportSelection.trigger('chosen:updated');
             return;

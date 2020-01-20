@@ -30,15 +30,15 @@ class Colors extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_COLORS'), 'palette');
+		HTML::setTitle(Languages::_('ORGANIZER_COLORS'), 'palette');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'colors.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'colors.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'colors.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'colors.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'colors.delete',
 			true
 		);
@@ -65,7 +65,7 @@ class Colors extends ListView
 		$headers   = [
 			'checkbox' => '',
 			'name'     => HTML::sort('NAME', 'name', $direction, 'name'),
-			'color'    => Languages::_('THM_ORGANIZER_COLOR')
+			'color'    => Languages::_('ORGANIZER_COLOR')
 		];
 
 		$this->headers = $headers;

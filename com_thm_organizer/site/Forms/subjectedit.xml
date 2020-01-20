@@ -59,8 +59,8 @@
             <option value="0">AVAILABILITY_APPT</option>
         </field>
         <field name="spacer2" type="spacer" hr="true"/>
-        <field name="literature" type="Editor" label="THM_ORGANIZER_LITERATURE"
-               description="THM_ORGANIZER_LITERATURE_DESC" size="6"/>
+        <field name="literature" type="Editor" label="ORGANIZER_LITERATURE" description="ORGANIZER_LITERATURE_DESC"
+               size="6"/>
     </fieldset>
     <fieldset name="de_texts" label="ATTRIBUTES_DE">
         <field name="name_de" type="Blank" label="NAME_DE" hint="Grundlagen der Informatik" size="70"/>
@@ -72,21 +72,18 @@
         <field name="proof_de" type="Blank" label="PROOF_DE" hint="schriftliche Klausur" size="70"/>
         <field name="evaluation_de" type="Blank" label="EVALUATION_DE"
                hint="gem. § 9 der Allg. Bestimmungen (Teil I der PO)" size="20"/>
-        <field name="description_de" type="Editor" label="THM_ORGANIZER_DESC_DE"
-               description="THM_ORGANIZER_DESC_DE_DESC"/>
-        <field name="objective_de" type="Editor" label="THM_ORGANIZER_OBJECTIVE_DE"
-               description="THM_ORGANIZER_OBJECTIVE_DE_DESC"/>
-        <field name="content_de" type="Editor" label="THM_ORGANIZER_CONTENT_DE"
-               description="THM_ORGANIZER_CONTENT_DE_DESC"/>
-        <field name="prerequisites_de" type="Editor" label="THM_ORGANIZER_PREREQUISITES_DE"
-               description="THM_ORGANIZER_PREREQUISITES_DE_DESC"/>
-        <field name="recommendedPrerequisites_de" type="Editor" label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
-               description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC"/>
-        <field name="usedFor_de" type="Editor" label="THM_ORGANIZER_USED_FOR"
-               description="THM_ORGANIZER_USED_FOR_DE_DESC"/>
-        <field name="aids_de" type="Editor" label="THM_ORGANIZER_AIDS_DE" description="THM_ORGANIZER_AIDS_DE_DESC"/>
-        <field name="bonusPoints_de" type="Editor" label="THM_ORGANIZER_BONUS_POINTS_DE"
-               description="THM_ORGANIZER_BONUS_POINTS_DE_DESC"/>
+        <field name="description_de" type="Editor" label="ORGANIZER_DESC_DE" description="ORGANIZER_DESC_DE_DESC"/>
+        <field name="objective_de" type="Editor" label="ORGANIZER_OBJECTIVE_DE"
+               description="ORGANIZER_OBJECTIVE_DE_DESC"/>
+        <field name="content_de" type="Editor" label="ORGANIZER_CONTENT_DE" description="ORGANIZER_CONTENT_DE_DESC"/>
+        <field name="prerequisites_de" type="Editor" label="ORGANIZER_PREREQUISITES_DE"
+               description="ORGANIZER_PREREQUISITES_DE_DESC"/>
+        <field name="recommendedPrerequisites_de" type="Editor" label="ORGANIZER_RECOMMENDED_PREREQUISITES_DE"
+               description="ORGANIZER_RECOMMENDED_PREREQUISITES_DE_DESC"/>
+        <field name="usedFor_de" type="Editor" label="ORGANIZER_USED_FOR" description="ORGANIZER_USED_FOR_DE_DESC"/>
+        <field name="aids_de" type="Editor" label="ORGANIZER_AIDS_DE" description="ORGANIZER_AIDS_DE_DESC"/>
+        <field name="bonusPoints_de" type="Editor" label="ORGANIZER_BONUS_POINTS_DE"
+               description="ORGANIZER_BONUS_POINTS_DE_DESC"/>
     </fieldset>
     <fieldset name="en_texts" label="ATTRIBUTES_EN">
         <field name="name_en" type="Blank" label="NAME_EN" hint="Fundamentals of Computer Science" size="70"/>
@@ -98,21 +95,18 @@
         <field name="proof_en" type="Blank" label="PROOF_EN" hint="Written Exam" size="70"/>
         <field name="evaluation_en" type="Blank" label="EVALUATION_EN"
                hint="acc. § 9 of the gen. provisions (Part I of the PO)" size="6"/>
-        <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
-               description="THM_ORGANIZER_DESC_EN_DESC"/>
-        <field name="objective_en" type="Editor" label="THM_ORGANIZER_OBJECTIVE_EN"
-               description="THM_ORGANIZER_OBJECTIVE_EN_DESC"/>
-        <field name="content_en" type="Editor" label="THM_ORGANIZER_CONTENT_EN"
-               description="THM_ORGANIZER_CONTENT_EN_DESC"/>
-        <field name="prerequisites_en" type="Editor" label="THM_ORGANIZER_PREREQUISITES_EN"
-               description="THM_ORGANIZER_PREREQUISITES_EN_DESC"/>
-        <field name="recommendedPrerequisites_en" type="Editor" label="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
-               description="THM_ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC"/>
-        <field name="usedFor_en" type="Editor" label="THM_ORGANIZER_USED_FOR"
-               description="THM_ORGANIZER_USED_FOR_EN_DESC"/>
-        <field name="aids_en" type="Editor" label="THM_ORGANIZER_AIDS_EN" description="THM_ORGANIZER_AIDS_EN_DESC"/>
-        <field name="bonusPoints_en" type="Editor" label="THM_ORGANIZER_BONUS_POINTS_EN"
-               description="THM_ORGANIZER_BONUS_POINTS_EN_DESC"/>
+        <field name="description_en" type="Editor" label="ORGANIZER_DESC_EN" description="ORGANIZER_DESC_EN_DESC"/>
+        <field name="objective_en" type="Editor" label="ORGANIZER_OBJECTIVE_EN"
+               description="ORGANIZER_OBJECTIVE_EN_DESC"/>
+        <field name="content_en" type="Editor" label="ORGANIZER_CONTENT_EN" description="ORGANIZER_CONTENT_EN_DESC"/>
+        <field name="prerequisites_en" type="Editor" label="ORGANIZER_PREREQUISITES_EN"
+               description="ORGANIZER_PREREQUISITES_EN_DESC"/>
+        <field name="recommendedPrerequisites_en" type="Editor" label="ORGANIZER_RECOMMENDED_PREREQUISITES_EN"
+               description="ORGANIZER_RECOMMENDED_PREREQUISITES_EN_DESC"/>
+        <field name="usedFor_en" type="Editor" label="ORGANIZER_USED_FOR" description="ORGANIZER_USED_FOR_EN_DESC"/>
+        <field name="aids_en" type="Editor" label="ORGANIZER_AIDS_EN" description="ORGANIZER_AIDS_EN_DESC"/>
+        <field name="bonusPoints_en" type="Editor" label="ORGANIZER_BONUS_POINTS_EN"
+               description="ORGANIZER_BONUS_POINTS_EN_DESC"/>
     </fieldset>
     <fieldset name="advanced" label="ATTRIBUTES_SUBJECT_ADVANCED">
         <field name="coordinators" type="SubjectPersons" label="SUBJECT_COORDINATORS" multiple="multiple" role="1">

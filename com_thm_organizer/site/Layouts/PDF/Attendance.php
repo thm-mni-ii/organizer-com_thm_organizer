@@ -41,7 +41,7 @@ class Attendance extends BaseLayout
 
 		$this->setCourse($courseID);
 
-		$documentName = "$this->name - $this->term - " . Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
+		$documentName = "$this->name - $this->term - " . Helpers\Languages::_('ORGANIZER_PARTICIPANTS');
 		$this->setNames($documentName);
 		$this->margins(10, 30, -1, 0, 8, 10);
 		$this->setHeader();
@@ -50,15 +50,15 @@ class Attendance extends BaseLayout
 		$this->headers = [
 			'index'      => '#',
 			'name'       => 'Name',
-			'department' => Helpers\Languages::_('THM_ORGANIZER_DEPARTMENT'),
-			'program'    => Helpers\Languages::_('THM_ORGANIZER_PROGRAM'),
-			'room'       => Helpers\Languages::_('THM_ORGANIZER_ROOM')
+			'department' => Helpers\Languages::_('ORGANIZER_DEPARTMENT'),
+			'program'    => Helpers\Languages::_('ORGANIZER_PROGRAM'),
+			'room'       => Helpers\Languages::_('ORGANIZER_ROOM')
 		];
 
 		// Adjust for more information
 		if ($this->fee)
 		{
-			$this->headers['paid'] = Helpers\Languages::_('THM_ORGANIZER_PAID');
+			$this->headers['paid'] = Helpers\Languages::_('ORGANIZER_PAID');
 			$this->widths['name']  = 42;
 			$this->widths['paid']  = 14;
 			$this->widths['room']  = 14;

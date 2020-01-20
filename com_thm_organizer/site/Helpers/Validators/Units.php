@@ -38,12 +38,12 @@ class Units extends ResourceHelper implements UntisXMLValidator
 			$pos          = strrpos(', ', $invalidRooms);
 			if ($pos !== false)
 			{
-				$and          = Languages::_('THM_ORGANIZER_AND');
+				$and          = Languages::_('ORGANIZER_AND');
 				$invalidRooms = substr_replace($invalidRooms, " $and ", $pos, strlen($invalidRooms));
 			}
 
 			$model->warnings[] = sprintf(
-				Languages::_('THM_ORGANIZER_UNIT_ROOM_INCOMPLETE'),
+				Languages::_('ORGANIZER_UNIT_ROOM_INCOMPLETE'),
 				$untisID,
 				$invalidRooms
 			);
@@ -69,7 +69,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 					if (count($missingDates) > 2)
 					{
 						$model->warnings[] = sprintf(
-							Languages::_('THM_ORGANIZER_UNIT_ROOMS_MISSING'),
+							Languages::_('ORGANIZER_UNIT_ROOMS_MISSING'),
 							$untisID,
 							$dow,
 							$periodNo
@@ -81,12 +81,12 @@ class Units extends ResourceHelper implements UntisXMLValidator
 					$pos   = strrpos(', ', $dates);
 					if ($pos !== false)
 					{
-						$and   = Languages::_('THM_ORGANIZER_AND');
+						$and   = Languages::_('ORGANIZER_AND');
 						$dates = substr_replace($dates, " $and ", $pos, strlen($dates));
 					}
 
 					$model->warnings[] = sprintf(
-						Languages::_('THM_ORGANIZER_UNIT_ROOMS_MISSING'),
+						Languages::_('ORGANIZER_UNIT_ROOMS_MISSING'),
 						$untisID,
 						$dates,
 						$periodNo
@@ -218,7 +218,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 		{
 			$warningCount = $model->warnings['MID'];
 			unset($model->warnings['MID']);
-			$model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_METHOD_ID_WARNING'), $warningCount);
+			$model->warnings[] = sprintf(Languages::_('ORGANIZER_METHOD_ID_WARNING'), $warningCount);
 		}
 
 		if (!empty($model->warnings['IMR']))
@@ -247,14 +247,14 @@ class Units extends ResourceHelper implements UntisXMLValidator
 
 		if (empty($eventID))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_EVENT_MISSING'), $unitID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_EVENT_MISSING'), $unitID);
 
 			return false;
 		}
 
 		if (empty($model->events->$eventID))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_EVENT_INVALID'), $unitID, $eventID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_EVENT_INVALID'), $unitID, $eventID);
 
 			return false;
 		}
@@ -285,7 +285,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 
 		if (empty($model->methods->$methodID))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_METHOD_INVALID'), $unitID, $methodID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_METHOD_INVALID'), $unitID, $methodID);
 
 			return false;
 		}
@@ -398,14 +398,14 @@ class Units extends ResourceHelper implements UntisXMLValidator
 
 		if (empty($personID))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_PERSON_MISSING'), $unitID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_PERSON_MISSING'), $unitID);
 
 			return false;
 		}
 
 		if (empty($model->persons->$personID))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_PERSON_INVALID'), $unitID, $personID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_PERSON_INVALID'), $unitID, $personID);
 
 			return false;
 		}
@@ -430,7 +430,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 
 		if (empty($rawUntisIDs))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_GROUPS_MISSING'), $unitID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_GROUPS_MISSING'), $unitID);
 
 			return false;
 		}
@@ -443,7 +443,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 		{
 			if (empty($model->groups->$groupID))
 			{
-				$model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_GROUP_INVALID'), $unitID, $groupID);
+				$model->warnings[] = sprintf(Languages::_('ORGANIZER_UNIT_GROUP_INVALID'), $unitID, $groupID);
 
 				continue;
 			}
@@ -468,7 +468,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 		$valid = true;
 		if (empty($unit->startDT))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_START_DATE_MISSING'), $unitID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_START_DATE_MISSING'), $unitID);
 
 			$valid = false;
 		}
@@ -479,7 +479,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 		if ($unit->startDT < $syStartTime or $unit->startDT > $syEndTime)
 		{
 			$model->errors[] = sprintf(
-				Languages::_('THM_ORGANIZER_UNIT_START_DATE_INVALID'),
+				Languages::_('ORGANIZER_UNIT_START_DATE_INVALID'),
 				$unitID,
 				$unit->startDate
 			);
@@ -489,7 +489,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 
 		if (empty($unit->endDT))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_UNIT_END_DATE_MISSING'), $unitID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_UNIT_END_DATE_MISSING'), $unitID);
 
 			$valid = false;
 		}
@@ -498,7 +498,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 		if (!$validEndDate)
 		{
 			$model->errors[] = sprintf(
-				Languages::_('THM_ORGANIZER_UNIT_END_DATE_INVALID'),
+				Languages::_('ORGANIZER_UNIT_END_DATE_INVALID'),
 				$unitID,
 				$unit->endDate
 			);
@@ -510,7 +510,7 @@ class Units extends ResourceHelper implements UntisXMLValidator
 		if ($unit->endDT < $unit->startDT)
 		{
 			$model->errors[] = sprintf(
-				Languages::_('THM_ORGANIZER_UNIT_DATES_INCONSISTENT'),
+				Languages::_('ORGANIZER_UNIT_DATES_INCONSISTENT'),
 				$unitID,
 				$unit->startDate,
 				$unit->endDate

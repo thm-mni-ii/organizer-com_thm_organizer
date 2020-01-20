@@ -48,7 +48,7 @@ class BlankField extends FormField
 		if ($this->hint and $hint = trim($this->hint))
 		{
 			$hint = preg_match('/^[A-Z_]+$/', $hint) ?
-				Languages::_("THM_ORGANIZER_$hint") : htmlspecialchars($hint, ENT_COMPAT, 'UTF-8');
+				Languages::_("ORGANIZER_$hint") : htmlspecialchars($hint, ENT_COMPAT, 'UTF-8');
 		}
 		else
 		{

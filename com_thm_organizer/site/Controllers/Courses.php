@@ -43,11 +43,11 @@ class Courses extends Controller
 
 		if ($courseID = $model->save())
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS', 'success');
+			Helpers\OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS', 'success');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		if ($backend or empty($courseID))

@@ -14,9 +14,9 @@
     </fieldset>
     <fieldset name="formatting" label="FORMAT">
         <field name="format" type="Options" label="FILE_FORMAT" default="pdf">
-            <option value="xls">THM_ORGANIZER_XLS_CALENDAR</option>
-            <option value="ics">THM_ORGANIZER_ICS_CALENDAR</option>
-            <option value="pdf">THM_ORGANIZER_PDF_DOCUMENT</option>
+            <option value="xls">ORGANIZER_XLS_CALENDAR</option>
+            <option value="ics">ORGANIZER_ICS_CALENDAR</option>
+            <option value="pdf">ORGANIZER_PDF_DOCUMENT</option>
         </field>
         <field name="display" type="Options" label="DISPLAY_FORMAT" default="schedule" showon="format:pdf">
             <option value="schedule">SCHEDULE_DISPLAY</option>

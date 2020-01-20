@@ -52,19 +52,19 @@ class CourseParticipant extends BaseModel
 	{
 		if (!$courseID = Input::getInt('courseID') or !$participantIDs = Input::getSelectedIDs())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		if (!Can::manage('course', $courseID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		foreach ($participantIDs as $participantID)
 		{
 			if (!Can::manage('participant', $participantID))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 
 			$table = $this->getTable();
@@ -95,11 +95,11 @@ class CourseParticipant extends BaseModel
 	{
 		if (!$courseID = Input::getInt('courseID'))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 		elseif (!Can::manage('course', $courseID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		return true;
@@ -159,7 +159,7 @@ class CourseParticipant extends BaseModel
 
 		if (!Can::manage('course', $courseID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$participantIDs = $data['checked'];
@@ -261,18 +261,18 @@ class CourseParticipant extends BaseModel
 			$courseName = (empty($campus) or empty($campus['name'])) ?
 				$course['name'] : "{$course['name']} ({$campus['name']})";
 			$mailer->setSubject($courseName);
-			$body = Languages::_('THM_ORGANIZER_GREETING') . ',\n\n';
+			$body = Languages::_('ORGANIZER_GREETING') . ',\n\n';
 
 			$dates = explode(' - ', $dateText);
 
 			if (count($dates) == 1 or $dates[0] == $dates[1])
 			{
-				$body .= sprintf(Languages::_('THM_ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
+				$body .= sprintf(Languages::_('ORGANIZER_CIRCULAR_BODY_ONE_DATE') . ':\n\n', $courseName, $dates[0]);
 			}
 			else
 			{
 				$body .= sprintf(
-					Languages::_('THM_ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n',
+					Languages::_('ORGANIZER_CIRCULAR_BODY_TWO_DATES') . ':\n\n',
 					$courseName,
 					$dates[0],
 					$dates[1]
@@ -284,13 +284,13 @@ class CourseParticipant extends BaseModel
 			switch ($state)
 			{
 				case 0:
-					$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
+					$statusText .= Languages::_('ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST');
 					break;
 				case 1:
-					$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
+					$statusText .= Languages::_('ORGANIZER_COURSE_MAIL_STATUS_REGISTERED');
 					break;
 				case 2:
-					$statusText .= Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
+					$statusText .= Languages::_('ORGANIZER_COURSE_MAIL_STATUS_REMOVED');
 					break;
 				default:
 					return;
@@ -298,7 +298,7 @@ class CourseParticipant extends BaseModel
 
 			$body .= ' => ' . $statusText . '\n\n';
 
-			$body .= Languages::_('THM_ORGANIZER_CLOSING') . ',\n';
+			$body .= Languages::_('ORGANIZER_CLOSING') . ',\n';
 			$body .= $sender->name . '\n\n';
 			$body .= $sender->email . '\n';
 
@@ -331,12 +331,12 @@ class CourseParticipant extends BaseModel
 	{
 		if (!$courseID = Input::getInt('courseID') or !$participantIDs = Input::getSelectedIDs())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		if (!Can::manage('course', $courseID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$query = $this->_db->getQuery('true');
@@ -352,7 +352,7 @@ class CourseParticipant extends BaseModel
 		{
 			if (!Can::manage('participant', $participantID))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 
 			if (!$this->removeAssociations($courseID, $instances, $participantID))
@@ -416,12 +416,12 @@ class CourseParticipant extends BaseModel
 		$participantID = Input::getInt('participantID', 0);
 		if (!$attribute or !$courseID or !$participantID)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		if (!Can::manage('course', $courseID) or !Can::manage('participant', $participantID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$table = $this->getTable();

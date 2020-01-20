@@ -82,7 +82,7 @@ abstract class BaseView extends HtmlView
 				if (!$exists)
 				{
 					throw new Exception(
-						sprintf(Languages::_('THM_ORGANIZER_LAYOUT_NOT_FOUND'), $layoutName),
+						sprintf(Languages::_('ORGANIZER_LAYOUT_NOT_FOUND'), $layoutName),
 						500
 					);
 				}

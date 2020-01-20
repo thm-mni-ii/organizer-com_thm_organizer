@@ -43,7 +43,7 @@ class Schedule extends BaseModel
 
 		if (!Helpers\Can::schedule('schedule', $scheduleID))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$table = new SchedulesTable;
@@ -103,7 +103,7 @@ class Schedule extends BaseModel
 		$scheduleID = Helpers\Input::getSelectedIDs()[0];
 		if (!Helpers\Can::schedule('schedule', $scheduleID))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		return $this->authorizedDeactivate($scheduleID);
@@ -119,7 +119,7 @@ class Schedule extends BaseModel
 	{
 		if (!Helpers\Can::scheduleTheseDepartments())
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$scheduleIDs = Helpers\Input::getSelectedIDs();
@@ -127,7 +127,7 @@ class Schedule extends BaseModel
 		{
 			if (!Helpers\Can::schedule('schedule', $scheduleID))
 			{
-				throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 			}
 
 			$schedule = new SchedulesTable;
@@ -332,7 +332,7 @@ class Schedule extends BaseModel
 
 		if (!Helpers\Can::schedule('schedule', $referenceID))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$departmentID = $reference->departmentID;
@@ -585,7 +585,7 @@ class Schedule extends BaseModel
 
 		if (!Helpers\Can::schedule('schedule', $scheduleID))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		if (empty($scheduleID) or !$table->load($scheduleID))
@@ -629,12 +629,12 @@ class Schedule extends BaseModel
 
 		if ($invalidForm)
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_400'), 400);
 		}
 
 		if (!Helpers\Can::schedule('schedule', $departmentID))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$validator = new SchedulesValidator();

@@ -38,15 +38,15 @@ class Buildings extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_BUILDINGS'), 'home-2');
+		HTML::setTitle(Languages::_('ORGANIZER_BUILDINGS'), 'home-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'buildings.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'buildings.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'buildings.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'buildings.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'building.delete',
 			true
 		);
@@ -73,9 +73,9 @@ class Buildings extends ListView
 		$headers   = [
 			'checkbox'     => '',
 			'name'         => HTML::sort('NAME', 'name', $direction, 'name'),
-			'campusID'     => Languages::_('THM_ORGANIZER_CAMPUS'),
-			'propertyType' => Languages::_('THM_ORGANIZER_PROPERTY_TYPE'),
-			'address'      => Languages::_('THM_ORGANIZER_ADDRESS')
+			'campusID'     => Languages::_('ORGANIZER_CAMPUS'),
+			'propertyType' => Languages::_('ORGANIZER_PROPERTY_TYPE'),
+			'address'      => Languages::_('ORGANIZER_ADDRESS')
 		];
 
 		$this->headers = $headers;
@@ -98,19 +98,19 @@ class Buildings extends ListView
 			switch ($item->propertyType)
 			{
 				case self::OWNED:
-					$item->propertyType = Languages::_('THM_ORGANIZER_OWNED');
+					$item->propertyType = Languages::_('ORGANIZER_OWNED');
 					break;
 
 				case self::RENTED:
-					$item->propertyType = Languages::_('THM_ORGANIZER_RENTED');
+					$item->propertyType = Languages::_('ORGANIZER_RENTED');
 					break;
 
 				case self::USED:
-					$item->propertyType = Languages::_('THM_ORGANIZER_USED');
+					$item->propertyType = Languages::_('ORGANIZER_USED');
 					break;
 
 				default:
-					$item->propertyType = Languages::_('THM_ORGANIZER_UNKNOWN');
+					$item->propertyType = Languages::_('ORGANIZER_UNKNOWN');
 					break;
 			}
 

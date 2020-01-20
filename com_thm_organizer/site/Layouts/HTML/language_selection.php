@@ -15,7 +15,7 @@ use Organizer\Helpers\OrganizerHelper;
 HTML::_('searchtools.form', '#languageForm', []);
 $languageAction = OrganizerHelper::dynamic() ? "?option=com_thm_organizer&view=$view&id=$resourceID" : '?';
 $selectedTag    = Languages::getTag();
-$languages      = [Languages::_('THM_ORGANIZER_ENGLISH') => 'en', Languages::_('THM_ORGANIZER_GERMAN') => 'de'];
+$languages      = [Languages::_('ORGANIZER_ENGLISH') => 'en', Languages::_('ORGANIZER_GERMAN') => 'de'];
 ksort($languages);
 $options = [];
 foreach ($languages as $language => $tag)

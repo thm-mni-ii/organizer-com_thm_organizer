@@ -47,12 +47,12 @@ class Courses extends BaseView
 
 		if (empty($courseID) or !in_array($type, $validTypes))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		if (!Can::manage('course', $courseID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		switch ($type)
@@ -70,7 +70,7 @@ class Courses extends BaseView
 				new THM_OrganizerTemplateParticipants($courseID);
 				break;
 			default:
-				throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+				throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 	}
 }

@@ -31,7 +31,7 @@ class Pool extends BaseModel
 	{
 		if (!Can::documentTheseDepartments())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		if ($poolIDs = Input::getSelectedIDs())
@@ -40,7 +40,7 @@ class Pool extends BaseModel
 			{
 				if (!Can::document('pool', $poolID))
 				{
-					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+					throw new Exception(Languages::_('ORGANIZER_403'), 403);
 				}
 
 				if (!$this->deleteSingle($poolID))
@@ -106,19 +106,19 @@ class Pool extends BaseModel
 		{
 			if (!Can::documentTheseDepartments())
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 		}
 		elseif (is_numeric($data['id']))
 		{
 			if (!Can::document('pool', $data['id']))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 		}
 		else
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		if (empty($data['fieldID']))

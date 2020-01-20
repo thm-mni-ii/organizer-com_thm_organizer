@@ -34,13 +34,13 @@ class Users
 		$userID = self::getID();
 		if (empty($userID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$ccmID = Input::getInt('ccmID');
 		if (empty($ccmID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		$mode     = Input::getInt('mode', self::BLOCK_MODE);
@@ -205,13 +205,13 @@ class Users
 		$userID = Factory::getUser()->id;
 		if (empty($userID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$ccmID = Input::getInt('ccmID');
 		if (empty($ccmID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		$savedCcmIDs = [];

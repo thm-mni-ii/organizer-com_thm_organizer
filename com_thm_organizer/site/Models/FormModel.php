@@ -63,7 +63,7 @@ class FormModel extends ParentModel
 		$allowEdit = $this->allowEdit();
 		if (!$allowEdit)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		$name = $this->get('name');

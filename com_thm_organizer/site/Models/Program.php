@@ -31,7 +31,7 @@ class Program extends BaseModel
 	{
 		if (!Can::documentTheseDepartments())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		if ($programIDs = Input::getSelectedIDs())
@@ -42,7 +42,7 @@ class Program extends BaseModel
 			{
 				if (!Can::document('program', $programID))
 				{
-					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+					throw new Exception(Languages::_('ORGANIZER_403'), 403);
 				}
 
 				if (!$model->deleteByResourceID($programID, 'program'))
@@ -95,19 +95,19 @@ class Program extends BaseModel
 
 			if (!($documentationAccess or $schedulingAccess))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 		}
 		elseif (is_numeric($data['id']))
 		{
 			if (!Can::document('program', $data['id']))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 		}
 		else
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		$table = new ProgramsTable;
@@ -137,7 +137,7 @@ class Program extends BaseModel
 	{
 		if (!Can::documentTheseDepartments())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$data = empty($data) ? Input::getFormItems()->toArray() : $data;

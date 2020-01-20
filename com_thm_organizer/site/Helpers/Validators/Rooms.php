@@ -74,14 +74,14 @@ class Rooms extends ResourceHelper implements UntisXMLValidator
 		{
 			$warningCount = $model->warnings['REX'];
 			unset($model->warnings['REX']);
-			$model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_ROOM_EXTERNAL_IDS_MISSING'), $warningCount);
+			$model->warnings[] = sprintf(Languages::_('ORGANIZER_ROOM_EXTERNAL_IDS_MISSING'), $warningCount);
 		}
 
 		if (!empty($model->warnings['RT']))
 		{
 			$warningCount = $model->warnings['RT'];
 			unset($model->warnings['RT']);
-			$model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_ROOMTYPES_MISSING'), $warningCount);
+			$model->warnings[] = sprintf(Languages::_('ORGANIZER_ROOMTYPES_MISSING'), $warningCount);
 		}
 	}
 

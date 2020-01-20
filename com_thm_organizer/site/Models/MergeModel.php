@@ -71,7 +71,7 @@ abstract class MergeModel extends BaseModel
 
 		if (!$this->allowEdit())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$table = $this->getTable();
@@ -152,7 +152,7 @@ abstract class MergeModel extends BaseModel
 
 		if (!$this->allowEdit())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		// Associations have to be updated before entity references are deleted by foreign keys
@@ -209,7 +209,7 @@ abstract class MergeModel extends BaseModel
 
 		if (!$this->allowEdit())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 

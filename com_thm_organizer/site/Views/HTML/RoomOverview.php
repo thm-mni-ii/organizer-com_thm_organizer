@@ -30,17 +30,17 @@ class RoomOverview extends TableView
 	 */
 	protected function addToolBar()
 	{
-		$resourceName = Helpers\Languages::_('THM_ORGANIZER_ROOM_OVERVIEW');
+		$resourceName = Helpers\Languages::_('ORGANIZER_ROOM_OVERVIEW');
 		if ($this->clientContext == self::FRONTEND)
 		{
 			if ($campusID = Helpers\Input::getInt('campusID'))
 			{
-				$resourceName .= ': ' . Helpers\Languages::_('THM_ORGANIZER_CAMPUS');
+				$resourceName .= ': ' . Helpers\Languages::_('ORGANIZER_CAMPUS');
 				$resourceName .= ' ' . Helpers\Campuses::getName($campusID);
 			}
 		}
 
-		Helpers\HTML::setMenuTitle('THM_ORGANIZER_ROOM_OVERVIEW', $resourceName);
+		Helpers\HTML::setMenuTitle('ORGANIZER_ROOM_OVERVIEW', $resourceName);
 
 		return;
 	}
@@ -241,7 +241,7 @@ class RoomOverview extends TableView
 
 		if ($room->capacity)
 		{
-			$tip .= Helpers\Languages::_('THM_ORGANIZER_CAPACITY');
+			$tip .= Helpers\Languages::_('ORGANIZER_CAPACITY');
 			$tip .= ": $room->capacity";
 		}
 
@@ -304,7 +304,7 @@ class RoomOverview extends TableView
 			$tip .= $instance['method'] ? " - {$instance['method']}" : '';
 			$tip .= '</span><br>';
 
-			$tip .= Helpers\Languages::_('THM_ORGANIZER_DEPT_ORG') . ":";
+			$tip .= Helpers\Languages::_('ORGANIZER_DEPT_ORG') . ":";
 			$tip .= strlen($instance['department']) > 20 ? '<br>' : ' ';
 			$tip .= "{$instance['department']}<br>";
 
@@ -319,7 +319,7 @@ class RoomOverview extends TableView
 
 			if ($persons)
 			{
-				$tip     .= Helpers\Languages::_('THM_ORGANIZER_PERSONS') . ":";
+				$tip     .= Helpers\Languages::_('ORGANIZER_PERSONS') . ":";
 				$persons = implode(', ', $persons);
 				$tip     .= strlen($persons) > 20 ? '<br>' : ' ';
 				$tip     .= "$persons<br>";
@@ -327,7 +327,7 @@ class RoomOverview extends TableView
 
 			if ($instance['comment'])
 			{
-				$tip .= Helpers\Languages::_('THM_ORGANIZER_EXTRA_INFORMATION') . ":";
+				$tip .= Helpers\Languages::_('ORGANIZER_EXTRA_INFORMATION') . ":";
 				$tip .= strlen($instance['comment']) > 20 ? '<br>' : ' ';
 				$tip .= "{$instance['comment']}<br>";
 			}

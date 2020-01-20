@@ -26,9 +26,9 @@ class CategoryEdit extends EditView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORY_EDIT'), 'list');
+		HTML::setTitle(Languages::_('ORGANIZER_CATEGORY_EDIT'), 'list');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'categories.save', false);
-		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'categories.cancel', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('ORGANIZER_SAVE'), 'categories.save', false);
+		$toolbar->appendButton('Standard', 'cancel', Languages::_('ORGANIZER_CANCEL'), 'categories.cancel', false);
 	}
 }

@@ -77,7 +77,7 @@ class Groups extends ResourceHelper implements UntisXMLValidator
 		$fullName = trim((string) $node->longname);
 		if (empty($fullName))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_FULLNAME_MISSING'), $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_GROUP_FULLNAME_MISSING'), $untisID);
 
 			return;
 		}
@@ -85,7 +85,7 @@ class Groups extends ResourceHelper implements UntisXMLValidator
 		$name = trim((string) $node->classlevel);
 		if (empty($name))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_NAME_MISSING'), $fullName, $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_GROUP_NAME_MISSING'), $fullName, $untisID);
 
 			return;
 		}
@@ -93,14 +93,14 @@ class Groups extends ResourceHelper implements UntisXMLValidator
 		$categoryID = str_replace('DP_', '', trim((string) $node->class_department[0]['id']));
 		if (empty($categoryID))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_CATEGORY_MISSING'), $fullName, $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_GROUP_CATEGORY_MISSING'), $fullName, $untisID);
 
 			return;
 		}
 		elseif (empty($model->categories->$categoryID))
 		{
 			$model->errors[] = sprintf(
-				Languages::_('THM_ORGANIZER_GROUP_CATEGORY_INCOMPLETE'),
+				Languages::_('ORGANIZER_GROUP_CATEGORY_INCOMPLETE'),
 				$fullName,
 				$untisID,
 				$categoryID
@@ -112,14 +112,14 @@ class Groups extends ResourceHelper implements UntisXMLValidator
 		$gridName = (string) $node->timegrid;
 		if (empty($gridName))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_GROUP_GRID_MISSING'), $fullName, $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_GROUP_GRID_MISSING'), $fullName, $untisID);
 
 			return;
 		}
 		elseif (empty($model->periods->$gridName))
 		{
 			$model->errors[] = sprintf(
-				Languages::_('THM_ORGANIZER_GROUP_GRID_INCOMPLETE'),
+				Languages::_('ORGANIZER_GROUP_GRID_INCOMPLETE'),
 				$fullName,
 				$untisID,
 				$gridName

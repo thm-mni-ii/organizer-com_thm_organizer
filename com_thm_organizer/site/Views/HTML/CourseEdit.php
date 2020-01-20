@@ -36,26 +36,26 @@ class CourseEdit extends EditView
 
 		if ($courseID)
 		{
-			Helpers\HTML::setTitle(Languages::_('THM_ORGANIZER_COURSE_EDIT'), 'contract-2');
+			Helpers\HTML::setTitle(Languages::_('ORGANIZER_COURSE_EDIT'), 'contract-2');
 
-			$toolbar->appendButton('Standard', 'apply', Languages::_('THM_ORGANIZER_APPLY'), 'courses.apply', false);
-			$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
-			$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CLOSE'), 'courses.cancel', false);
+			$toolbar->appendButton('Standard', 'apply', Languages::_('ORGANIZER_APPLY'), 'courses.apply', false);
+			$toolbar->appendButton('Standard', 'save', Languages::_('ORGANIZER_SAVE'), 'courses.save', false);
+			$toolbar->appendButton('Standard', 'cancel', Languages::_('ORGANIZER_CLOSE'), 'courses.cancel', false);
 
 			$href = Uri::base() . "?option=com_thm_organizer&view=course_participants&courseID=$courseID";
 			$icon = '<span class="icon-users"></span>';
-			$text = Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS');
+			$text = Languages::_('ORGANIZER_MANAGE_PARTICIPANTS');
 
 			$button = "<a class=\"btn\" href=\"$href\" target=\"_blank\">$icon$text</a>";
 			$toolbar->appendButton('Custom', $button, 'participants');
 		}
 		else
 		{
-			Helpers\HTML::setTitle(Languages::_('THM_ORGANIZER_COURSE_NEW'), 'contract-2');
+			Helpers\HTML::setTitle(Languages::_('ORGANIZER_COURSE_NEW'), 'contract-2');
 
-			$toolbar->appendButton('Standard', 'apply', Languages::_('THM_ORGANIZER_CREATE'), 'courses.apply', false);
-			$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'courses.save', false);
-			$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'courses.cancel', false);
+			$toolbar->appendButton('Standard', 'apply', Languages::_('ORGANIZER_CREATE'), 'courses.apply', false);
+			$toolbar->appendButton('Standard', 'save', Languages::_('ORGANIZER_SAVE'), 'courses.save', false);
+			$toolbar->appendButton('Standard', 'cancel', Languages::_('ORGANIZER_CANCEL'), 'courses.cancel', false);
 		}
 	}
 

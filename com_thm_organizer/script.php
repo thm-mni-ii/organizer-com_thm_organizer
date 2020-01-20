@@ -228,13 +228,13 @@ class Com_THM_OrganizerInstallerScript
 		$imagePath = '/images/thm_organizer';
 		if (!$this->createImageDirectory())
 		{
-			$failText = sprintf(Text::_('THM_ORGANIZER_IMAGE_FOLDER_FAIL'), $imagePath);
+			$failText = sprintf(Text::_('ORGANIZER_IMAGE_FOLDER_FAIL'), $imagePath);
 			$dirSpan  .= '<span style="color:red" >' . $failText . '</span>';
 		}
-		$updateText = sprintf(Text::_('THM_ORGANIZER_UPDATE_MESSAGE'), $version, $licenseLink);
+		$updateText = sprintf(Text::_('ORGANIZER_UPDATE_MESSAGE'), $version, $licenseLink);
 		?>
         <div class="span5 form-vertical">
-			<?php echo HTMLHelper::_('image', $logoURL, Text::_('THM_ORGANIZER')); ?>
+			<?php echo HTMLHelper::_('image', $logoURL, Text::_('ORGANIZER')); ?>
             <br/>
             <p><?php echo $updateText . ' ' . $dirSpan; ?></p>
             <br/>

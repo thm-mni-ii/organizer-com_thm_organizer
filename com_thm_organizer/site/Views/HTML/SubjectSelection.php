@@ -33,7 +33,7 @@ class SubjectSelection extends ListView
 	protected function addToolBar()
 	{
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'pools.addSubject', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'pools.addSubject', true);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class SubjectSelection extends ListView
 		$headers   = [
 			'checkbox' => HTML::_('grid.checkall'),
 			'name'     => HTML::sort('NAME', 'name', $direction, $ordering),
-			'program'  => Languages::_('THM_ORGANIZER_PROGRAMS')
+			'program'  => Languages::_('ORGANIZER_PROGRAMS')
 		];
 
 		$this->headers = $headers;

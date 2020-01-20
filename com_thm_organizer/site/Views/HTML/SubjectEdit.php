@@ -32,20 +32,20 @@ class SubjectEdit extends EditView
 	protected function addToolBar()
 	{
 		$new   = empty($this->item->id);
-		$title = $new ? Languages::_('THM_ORGANIZER_SUBJECT_NEW') : Languages::_('THM_ORGANIZER_SUBJECT_EDIT');
+		$title = $new ? Languages::_('ORGANIZER_SUBJECT_NEW') : Languages::_('ORGANIZER_SUBJECT_EDIT');
 		HTML::setTitle($title, 'book');
 		$toolbar   = Toolbar::getInstance();
-		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+		$applyText = $new ? Languages::_('ORGANIZER_CREATE') : Languages::_('ORGANIZER_APPLY');
 		$toolbar->appendButton('Standard', 'apply', $applyText, 'subjects.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'subjects.save', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('ORGANIZER_SAVE'), 'subjects.save', false);
 		$toolbar->appendButton(
 			'Standard',
 			'save-new',
-			Languages::_('THM_ORGANIZER_SAVE2NEW'),
+			Languages::_('ORGANIZER_SAVE2NEW'),
 			'subjects.save2new',
 			false
 		);
-		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+		$cancelText = $new ? Languages::_('ORGANIZER_CANCEL') : Languages::_('ORGANIZER_CLOSE');
 		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'subjects.cancel', false);
 	}
 

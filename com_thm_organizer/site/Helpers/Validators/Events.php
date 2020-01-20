@@ -76,7 +76,7 @@ class Events extends ResourceHelper implements UntisXMLValidator
 		{
 			$warningCount = $model->warnings['SUNO'];
 			unset($model->warnings['SUNO']);
-			$model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_EVENT_SUBJECTNOS_MISSING'), $warningCount);
+			$model->warnings[] = sprintf(Languages::_('ORGANIZER_EVENT_SUBJECTNOS_MISSING'), $warningCount);
 		}
 	}
 
@@ -96,7 +96,7 @@ class Events extends ResourceHelper implements UntisXMLValidator
 
 		if (empty($name))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_EVENT_NAME_MISSING'), $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_EVENT_NAME_MISSING'), $untisID);
 
 			return;
 		}

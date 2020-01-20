@@ -37,28 +37,28 @@ class Schedules extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULES'), 'calendars');
+		HTML::setTitle(Languages::_('ORGANIZER_SCHEDULES'), 'calendars');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'schedules.add', false);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'schedules.add', false);
 		$toolbar->appendButton(
 			'Standard',
 			'default',
-			Languages::_('THM_ORGANIZER_ACTIVATE'),
+			Languages::_('ORGANIZER_ACTIVATE'),
 			'schedules.activate',
 			true
 		);
 		$toolbar->appendButton(
 			'Standard',
 			'tree',
-			Languages::_('THM_ORGANIZER_CALCULATE_DELTA'),
+			Languages::_('ORGANIZER_CALCULATE_DELTA'),
 			'schedules.setReference',
 			true
 		);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'schedules.delete',
 			true
 		);
@@ -108,7 +108,7 @@ class Schedules extends ListView
 		foreach ($this->items as $item)
 		{
 			$item->active  =
-				$this->getToggle('schedule', $item->id, $item->active, Languages::_('THM_ORGANIZER_TOGGLE_ACTIVE'));
+				$this->getToggle('schedule', $item->id, $item->active, Languages::_('ORGANIZER_TOGGLE_ACTIVE'));
 			$item->created = Dates::formatDate($item->creationDate) . ' / ' . Dates::formatTime($item->creationTime);
 
 			$structuredItems[$index] = $this->structureItem($index, $item);

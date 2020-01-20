@@ -58,26 +58,26 @@ abstract class BaseHTMLView extends BaseView
 
 		$lsfLink = HTML::link(
 			'https://studien-sb-service.th-mittelhessen.de/docu/online.html',
-			Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TITLE'),
+			Languages::_('ORGANIZER_DISCLAIMER_LSF_TITLE'),
 			$attributes
 		);
 		$ambLink = HTML::link(
 			'http://www.thm.de/amb/pruefungsordnungen',
-			Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TITLE'),
+			Languages::_('ORGANIZER_DISCLAIMER_AMB_TITLE'),
 			$attributes
 		);
 		$poLink  = HTML::link(
 			'http://www.thm.de/site/studium/sie-studieren/pruefungsordnung.html',
-			Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TITLE'),
+			Languages::_('ORGANIZER_DISCLAIMER_PO_TITLE'),
 			$attributes
 		);
 
 		$disclaimer = '<div class="disclaimer">';
-		$disclaimer .= '<h4>' . Languages::_('THM_ORGANIZER_DISCLAIMER_LEGAL') . '</h4>';
+		$disclaimer .= '<h4>' . Languages::_('ORGANIZER_DISCLAIMER_LEGAL') . '</h4>';
 		$disclaimer .= '<ul>';
-		$disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_LSF_TEXT'), $lsfLink) . '</li>';
-		$disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_AMB_TEXT'), $ambLink) . '</li>';
-		$disclaimer .= '<li>' . sprintf(Languages::_('THM_ORGANIZER_DISCLAIMER_PO_TEXT'), $poLink) . '</li>';
+		$disclaimer .= '<li>' . sprintf(Languages::_('ORGANIZER_DISCLAIMER_LSF_TEXT'), $lsfLink) . '</li>';
+		$disclaimer .= '<li>' . sprintf(Languages::_('ORGANIZER_DISCLAIMER_AMB_TEXT'), $ambLink) . '</li>';
+		$disclaimer .= '<li>' . sprintf(Languages::_('ORGANIZER_DISCLAIMER_PO_TEXT'), $poLink) . '</li>';
 		$disclaimer .= '</ul>';
 		$disclaimer .= '</div>';
 
@@ -101,31 +101,31 @@ abstract class BaseHTMLView extends BaseView
 		$viewName = strtolower($this->get('name'));
 
 		JHtmlSidebar::addEntry(
-			Languages::_('THM_ORGANIZER'),
+			Languages::_('ORGANIZER'),
 			'index.php?option=com_thm_organizer&amp;view=organizer',
 			$viewName == 'organizer'
 		);
 
 		if (Can::scheduleTheseDepartments())
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_SCHEDULING') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('ORGANIZER_SCHEDULING') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 
 			$scheduling = [];
 
-			$scheduling[Languages::_('THM_ORGANIZER_GROUPS')]     = [
+			$scheduling[Languages::_('ORGANIZER_GROUPS')]     = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=groups',
 				'active' => $viewName == 'groups'
 			];
-			$scheduling[Languages::_('THM_ORGANIZER_CATEGORIES')] = [
+			$scheduling[Languages::_('ORGANIZER_CATEGORIES')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=categories',
 				'active' => $viewName == 'categories'
 			];
-			$scheduling[Languages::_('THM_ORGANIZER_SCHEDULES')]  = [
+			$scheduling[Languages::_('ORGANIZER_SCHEDULES')]  = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=schedules',
 				'active' => $viewName == 'schedules'
 			];
-			$scheduling[Languages::_('THM_ORGANIZER_EVENTS')]     = [
+			$scheduling[Languages::_('ORGANIZER_EVENTS')]     = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=events',
 				'active' => $viewName == 'events'
 			];
@@ -133,7 +133,7 @@ abstract class BaseHTMLView extends BaseView
 
 			// Uploading a schedule should always be the first menu item and will never be the active submenu item.
 			$prepend    = [
-				Languages::_('THM_ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>' => [
+				Languages::_('ORGANIZER_SCHEDULE_UPLOAD') . ' <span class="icon-upload"></span>' => [
 					'url'    => 'index.php?option=com_thm_organizer&amp;view=schedule_edit',
 					'active' => false
 				]
@@ -147,20 +147,20 @@ abstract class BaseHTMLView extends BaseView
 
 		if (Can::documentTheseDepartments())
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_DOCUMENTATION') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('ORGANIZER_DOCUMENTATION') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 
 			$documentation = [];
 
-			$documentation[Languages::_('THM_ORGANIZER_POOLS')]    = [
+			$documentation[Languages::_('ORGANIZER_POOLS')]    = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=pools',
 				'active' => $viewName == 'pools'
 			];
-			$documentation[Languages::_('THM_ORGANIZER_PROGRAMS')] = [
+			$documentation[Languages::_('ORGANIZER_PROGRAMS')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=programs',
 				'active' => $viewName == 'programs'
 			];
-			$documentation[Languages::_('THM_ORGANIZER_SUBJECTS')] = [
+			$documentation[Languages::_('ORGANIZER_SUBJECTS')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=subjects',
 				'active' => $viewName == 'subjects'
 			];
@@ -173,19 +173,19 @@ abstract class BaseHTMLView extends BaseView
 
 		if (Can::manage('courses'))
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_EVENT_MANAGEMENT') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('ORGANIZER_EVENT_MANAGEMENT') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 
-			$courseItems                                             = [];
-			$courseItems[Languages::_('THM_ORGANIZER_COURSES')]      = [
+			$courseItems                                         = [];
+			$courseItems[Languages::_('ORGANIZER_COURSES')]      = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=courses',
 				'active' => $viewName == 'courses'
 			];
-			$courseItems[Languages::_('THM_ORGANIZER_PARTICIPANTS')] = [
+			$courseItems[Languages::_('ORGANIZER_PARTICIPANTS')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=participants',
 				'active' => $viewName == 'participants'
 			];
-			$courseItems[Languages::_('THM_ORGANIZER_UNITS')]        = [
+			$courseItems[Languages::_('ORGANIZER_UNITS')]        = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=units',
 				'active' => $viewName == 'units'
 			];
@@ -199,10 +199,10 @@ abstract class BaseHTMLView extends BaseView
 
 		if (Can::manage('persons'))
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_HUMAN_RESOURCES') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('ORGANIZER_HUMAN_RESOURCES') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 			JHtmlSidebar::addEntry(
-				Languages::_('THM_ORGANIZER_PERSONS'),
+				Languages::_('ORGANIZER_PERSONS'),
 				'index.php?option=com_thm_organizer&amp;view=persons',
 				$viewName == 'persons'
 			);
@@ -210,28 +210,28 @@ abstract class BaseHTMLView extends BaseView
 
 		if (Can::manage('facilities'))
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('ORGANIZER_FACILITY_MANAGEMENT') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 
 			$fmEntries = [];
 
-			$fmEntries[Languages::_('THM_ORGANIZER_BUILDINGS')] = [
+			$fmEntries[Languages::_('ORGANIZER_BUILDINGS')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=buildings',
 				'active' => $viewName == 'buildings'
 			];
-			$fmEntries[Languages::_('THM_ORGANIZER_CAMPUSES')]  = [
+			$fmEntries[Languages::_('ORGANIZER_CAMPUSES')]  = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=campuses',
 				'active' => $viewName == 'campuses'
 			];
-			$fmEntries[Languages::_('THM_ORGANIZER_MONITORS')]  = [
+			$fmEntries[Languages::_('ORGANIZER_MONITORS')]  = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=monitors',
 				'active' => $viewName == 'monitors'
 			];
-			$fmEntries[Languages::_('THM_ORGANIZER_ROOMS')]     = [
+			$fmEntries[Languages::_('ORGANIZER_ROOMS')]     = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=rooms',
 				'active' => $viewName == 'rooms'
 			];
-			$fmEntries[Languages::_('THM_ORGANIZER_ROOMTYPES')] = [
+			$fmEntries[Languages::_('ORGANIZER_ROOMTYPES')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=roomtypes',
 				'active' => $viewName == 'roomtypes'
 			];
@@ -244,40 +244,40 @@ abstract class BaseHTMLView extends BaseView
 
 		if (Can::administrate())
 		{
-			$spanText = '<span class="menu-spacer">' . Languages::_('THM_ORGANIZER_ADMINISTRATION') . '</span>';
+			$spanText = '<span class="menu-spacer">' . Languages::_('ORGANIZER_ADMINISTRATION') . '</span>';
 			JHtmlSidebar::addEntry($spanText, '', false);
 
 			$adminEntries = [];
 
-			$adminEntries[Languages::_('THM_ORGANIZER_DEPARTMENTS')] = [
+			$adminEntries[Languages::_('ORGANIZER_DEPARTMENTS')] = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=departments',
 				'active' => $viewName == 'departments'
 			];
-			$adminEntries[Languages::_('THM_ORGANIZER_COLORS')]      = [
+			$adminEntries[Languages::_('ORGANIZER_COLORS')]      = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=colors',
 				'active' => $viewName == 'colors'
 			];
-			$adminEntries[Languages::_('THM_ORGANIZER_DEGREES')]     = [
+			$adminEntries[Languages::_('ORGANIZER_DEGREES')]     = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=degrees',
 				'active' => $viewName == 'degrees'
 			];
-			$adminEntries[Languages::_('THM_ORGANIZER_FIELDS')]      = [
+			$adminEntries[Languages::_('ORGANIZER_FIELDS')]      = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=fields',
 				'active' => $viewName == 'fields'
 			];
-			$adminEntries[Languages::_('THM_ORGANIZER_GRIDS')]       = [
+			$adminEntries[Languages::_('ORGANIZER_GRIDS')]       = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=grids',
 				'active' => $viewName == 'grids'
 			];
-			$adminEntries[Languages::_('THM_ORGANIZER_HOLIDAYS')]    = [
+			$adminEntries[Languages::_('ORGANIZER_HOLIDAYS')]    = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=holidays',
 				'active' => $viewName == 'holidays'
 			];
-			$adminEntries[Languages::_('THM_ORGANIZER_METHODS')]     = [
+			$adminEntries[Languages::_('ORGANIZER_METHODS')]     = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=methods',
 				'active' => $viewName == 'methods'
 			];
-			$adminEntries[Languages::_('THM_ORGANIZER_RUNS')]        = [
+			$adminEntries[Languages::_('ORGANIZER_RUNS')]        = [
 				'url'    => 'index.php?option=com_thm_organizer&amp;view=runs',
 				'active' => $viewName == 'runs'
 			];

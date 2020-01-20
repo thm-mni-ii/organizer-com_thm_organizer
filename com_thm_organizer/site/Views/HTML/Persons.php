@@ -37,16 +37,16 @@ class Persons extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_TEACHERS'), 'users');
+		HTML::setTitle(Languages::_('ORGANIZER_TEACHERS'), 'users');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'persons.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'persons.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'persons.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'persons.edit', true);
 		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
 				'attachment',
-				Languages::_('THM_ORGANIZER_MERGE'),
+				Languages::_('ORGANIZER_MERGE'),
 				'persons.mergeView',
 				true
 			);
@@ -72,11 +72,11 @@ class Persons extends ListView
 	{
 		$headers = [
 			'checkbox'     => '',
-			'surname'      => Languages::_('THM_ORGANIZER_SURNAME'),
-			'forename'     => Languages::_('THM_ORGANIZER_FORENAME'),
-			'username'     => Languages::_('THM_ORGANIZER_USERNAME'),
-			't.untisID'    => Languages::_('THM_ORGANIZER_UNTIS_ID'),
-			'departmentID' => Languages::_('THM_ORGANIZER_DEPARTMENT')
+			'surname'      => Languages::_('ORGANIZER_SURNAME'),
+			'forename'     => Languages::_('ORGANIZER_FORENAME'),
+			'username'     => Languages::_('ORGANIZER_USERNAME'),
+			't.untisID'    => Languages::_('ORGANIZER_UNTIS_ID'),
+			'departmentID' => Languages::_('ORGANIZER_DEPARTMENT')
 		];
 
 		$this->headers = $headers;
@@ -108,7 +108,7 @@ class Persons extends ListView
 			}
 			else
 			{
-				$item->departmentID = Languages::_('THM_ORGANIZER_MULTIPLE_DEPARTMENTS');
+				$item->departmentID = Languages::_('ORGANIZER_MULTIPLE_DEPARTMENTS');
 			}
 
 			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);

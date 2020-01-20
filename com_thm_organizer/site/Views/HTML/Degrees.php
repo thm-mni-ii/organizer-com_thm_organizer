@@ -29,15 +29,15 @@ class Degrees extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_DEGREES'), 'info-cap');
+		HTML::setTitle(Languages::_('ORGANIZER_DEGREES'), 'info-cap');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'degrees.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'degrees.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'degrees.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'degrees.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'degrees.delete',
 			true
 		);

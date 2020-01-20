@@ -41,10 +41,10 @@ class Monitors extends ListView
 	 */
 	public function __construct($config = array())
 	{
-		$this->displayBehaviour[self::DAILY]      = Languages::_('THM_ORGANIZER_DAILY_PLAN');
-		$this->displayBehaviour[self::MIXED]      = Languages::_('THM_ORGANIZER_MIXED_PLAN');
-		$this->displayBehaviour[self::CONTENT]    = Languages::_('THM_ORGANIZER_CONTENT_DISPLAY');
-		$this->displayBehaviour[self::EVENT_LIST] = Languages::_('THM_ORGANIZER_EVENT_LIST');
+		$this->displayBehaviour[self::DAILY]      = Languages::_('ORGANIZER_DAILY_PLAN');
+		$this->displayBehaviour[self::MIXED]      = Languages::_('ORGANIZER_MIXED_PLAN');
+		$this->displayBehaviour[self::CONTENT]    = Languages::_('ORGANIZER_CONTENT_DISPLAY');
+		$this->displayBehaviour[self::EVENT_LIST] = Languages::_('ORGANIZER_EVENT_LIST');
 
 		parent::__construct($config);
 	}
@@ -56,15 +56,15 @@ class Monitors extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_MONITORS'), 'screen');
+		HTML::setTitle(Languages::_('ORGANIZER_MONITORS'), 'screen');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'monitors.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'monitors.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'monitors.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'monitors.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'monitors.delete',
 			true
 		);
@@ -94,7 +94,7 @@ class Monitors extends ListView
 			'name'        => HTML::sort('ROOM', 'r.name', $direction, $ordering),
 			'ip'          => HTML::sort('IP', 'm.ip', $direction, $ordering),
 			'useDefaults' => HTML::sort('DEFAULT_SETTINGS', 'm.useDefaults', $direction, $ordering),
-			'display'     => Languages::_('THM_ORGANIZER_DISPLAY_BEHAVIOUR'),
+			'display'     => Languages::_('ORGANIZER_DISPLAY_BEHAVIOUR'),
 			'content'     => HTML::sort('DISPLAY_CONTENT', 'm.content', $direction, $ordering)
 		];
 
@@ -127,7 +127,7 @@ class Monitors extends ListView
 				$item->display = $this->displayBehaviour[$item->display];
 			}
 
-			$tip               = Languages::_('THM_ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
+			$tip               = Languages::_('ORGANIZER_TOGGLE_COMPONENT_SETTINGS');
 			$item->useDefaults = $this->getToggle('monitor', $item->id, $item->useDefaults, $tip);
 
 			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);

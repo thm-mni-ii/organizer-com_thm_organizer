@@ -53,7 +53,7 @@ class ProgramMappingsField extends FormField
 			}
 		}
 
-		$defaultOptions = [HTML::_('select.option', '-1', Languages::_('THM_ORGANIZER_NONE'))];
+		$defaultOptions = [HTML::_('select.option', '-1', Languages::_('ORGANIZER_NONE'))];
 		$programs       = $defaultOptions + $options;
 		$attributes     = ['multiple' => 'multiple', 'size' => '10'];
 

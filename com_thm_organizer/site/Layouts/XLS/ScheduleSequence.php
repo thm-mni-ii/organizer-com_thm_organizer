@@ -150,31 +150,31 @@ class ScheduleSequence
 	private function addHeader()
 	{
 		$this->spreadSheet->setActiveSheetIndex(0);
-		$this->spreadSheet->getActiveSheet()->setCellValue('A1', Languages::_('THM_ORGANIZER_DATE'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('B1', Languages::_('THM_ORGANIZER_START_TIME'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('C1', Languages::_('THM_ORGANIZER_END_TIME'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('D1', Languages::_('THM_ORGANIZER_SUBJECTS'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('A1', Languages::_('ORGANIZER_DATE'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('B1', Languages::_('ORGANIZER_START_TIME'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('C1', Languages::_('ORGANIZER_END_TIME'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('D1', Languages::_('ORGANIZER_SUBJECTS'));
 
 		$letter = 'D';
 		if ($this->parameters['showPersons'])
 		{
 			$column = ++$letter;
 			$cell   = "{$column}1";
-			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('THM_ORGANIZER_TEACHERS'));
+			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('ORGANIZER_TEACHERS'));
 		}
 
 		if ($this->parameters['showRooms'])
 		{
 			$column = ++$letter;
 			$cell   = "{$column}1";
-			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('THM_ORGANIZER_ROOMS'));
+			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('ORGANIZER_ROOMS'));
 		}
 
 		if ($this->parameters['showPools'])
 		{
 			$column = ++$letter;
 			$cell   = "{$column}1";
-			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('THM_ORGANIZER_POOLS'));
+			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('ORGANIZER_POOLS'));
 		}
 
 		foreach (range('A', $letter) as $columnID)
@@ -194,7 +194,7 @@ class ScheduleSequence
 		$startDate   = Dates::formatDate(reset($lessonDates));
 		$endDate     = Dates::formatDate(end($lessonDates));
 
-		return Languages::_('THM_ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
+		return Languages::_('ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
 	}
 
 	/**

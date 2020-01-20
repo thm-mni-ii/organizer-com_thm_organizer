@@ -305,7 +305,7 @@ class Search extends BaseModel
 				$departmentName = Helpers\Departments::getName($departmentID);
 
 				$departments[$departmentID]         = [];
-				$departments[$departmentID]['text'] = Languages::_('THM_ORGANIZER_DEPARTMENT') . ": {$departmentName}";
+				$departments[$departmentID]['text'] = Languages::_('ORGANIZER_DEPARTMENT') . ": {$departmentName}";
 
 				$links['schedule']   = "?option=com_thm_organizer&view=schedule_item&departmentIDs=$departmentID";
 				$links['event_list'] = "?option=com_thm_organizer&view=event_list&departmentIDs=$departmentID";
@@ -345,7 +345,7 @@ class Search extends BaseModel
 			}
 
 			$pools[$index]          = [];
-			$pools[$index]['text']  = Languages::_('THM_ORGANIZER_POOL') . ": {$result['program']}, $text";
+			$pools[$index]['text']  = Languages::_('ORGANIZER_POOL') . ": {$result['program']}, $text";
 			$pools[$index]['links'] = $links;
 		}
 
@@ -391,7 +391,7 @@ class Search extends BaseModel
 
 				$text                     = Helpers\Programs::getName($programID);
 				$results[$pIndex]['name'] = $text;
-				$results[$pIndex]['text'] = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
+				$results[$pIndex]['text'] = Languages::_('ORGANIZER_PROGRAM') . ": $text";
 
 				$links = [];
 
@@ -445,7 +445,7 @@ class Search extends BaseModel
 				$results[$cIndex]['categoryID'] = $categoryID;
 				$text                           = Helpers\Categories::getName($categoryID);
 				$results[$cIndex]['name']       = $text;
-				$results[$cIndex]['text']       = Languages::_('THM_ORGANIZER_PROGRAM') . ": $text";
+				$results[$cIndex]['text']       = Languages::_('ORGANIZER_PROGRAM') . ": $text";
 
 				$links = [];
 
@@ -487,7 +487,7 @@ class Search extends BaseModel
 				$roomID         = $room['id'];
 				$rooms[$roomID] = [];
 
-				$rooms[$roomID]['text'] = Languages::_('THM_ORGANIZER_ROOM') . ": {$room['name']}";
+				$rooms[$roomID]['text'] = Languages::_('ORGANIZER_ROOM') . ": {$room['name']}";
 
 				$description = empty($room['description']) ? $room['type'] : $room['description'];
 
@@ -497,7 +497,7 @@ class Search extends BaseModel
 				}
 				else
 				{
-					$capacity = ' (~' . $room['capacity'] . ' ' . Languages::_('THM_ORGANIZER_SEATS') . ')';
+					$capacity = ' (~' . $room['capacity'] . ' ' . Languages::_('ORGANIZER_SEATS') . ')';
 				}
 
 				$rooms[$roomID]['description'] = "$description$capacity";
@@ -532,7 +532,7 @@ class Search extends BaseModel
 
 				$text = Helpers\Subjects::getName($sID, true);
 
-				$subjects[$subjectID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
+				$subjects[$subjectID]['text'] = Languages::_('ORGANIZER_SUBJECT') . ": $text";
 
 				$links = [];
 
@@ -579,7 +579,7 @@ class Search extends BaseModel
 
 				$text = Helpers\Courses::getName($courseID, true);
 
-				$subjects[$courseID]['text'] = Languages::_('THM_ORGANIZER_SUBJECT') . ": $text";
+				$subjects[$courseID]['text'] = Languages::_('ORGANIZER_SUBJECT') . ": $text";
 
 				$links = [];
 
@@ -625,7 +625,7 @@ class Search extends BaseModel
 				$personName = Helpers\Persons::getDefaultName($person['id']);
 
 				$persons[$person['id']]         = [];
-				$persons[$person['id']]['text'] = Languages::_('THM_ORGANIZER_TEACHER') . ": {$personName}";
+				$persons[$person['id']]['text'] = Languages::_('ORGANIZER_TEACHER') . ": {$personName}";
 
 				$links = [];
 

@@ -119,7 +119,7 @@ class Subject extends BaseModel
 	{
 		if (!Can::documentTheseDepartments())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		if ($subjectIDs = Input::getSelectedIDs())
@@ -128,7 +128,7 @@ class Subject extends BaseModel
 			{
 				if (!Can::document('subject', $subjectID))
 				{
-					throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+					throw new Exception(Languages::_('ORGANIZER_403'), 403);
 				}
 
 				if (!$this->deleteSingle($subjectID))
@@ -400,11 +400,11 @@ class Subject extends BaseModel
 
 		if (!isset($data['id']))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 		elseif (!Can::document('subject', $data['id']))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$data['creditpoints'] = (float) $data['creditpoints'];

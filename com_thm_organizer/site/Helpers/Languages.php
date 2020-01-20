@@ -72,7 +72,7 @@ class Languages extends Text
 		$parts          = preg_split('/([A-Z][a-z]+)/', $className, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 		$delimitedParts = implode('_', $parts);
 
-		return 'THM_ORGANIZER_' . strtoupper($delimitedParts);
+		return 'ORGANIZER_' . strtoupper($delimitedParts);
 	}
 
 	/**

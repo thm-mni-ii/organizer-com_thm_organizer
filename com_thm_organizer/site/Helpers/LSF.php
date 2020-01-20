@@ -68,14 +68,14 @@ class LSF
 
 		if (!$result)
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SOAP_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SOAP_FAIL', 'error');
 
 			return false;
 		}
 
 		if ($result == 'error in soap-request')
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SOAP_INVALID', 'error');
+			OrganizerHelper::message('ORGANIZER_SOAP_INVALID', 'error');
 
 			return false;
 		}

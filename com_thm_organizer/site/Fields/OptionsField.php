@@ -92,7 +92,7 @@ class OptionsField extends FormField
 			$option->value = (string) $optionTag['value'];
 
 			$text         = trim((string) $optionTag) != '' ? trim((string) $optionTag) : $option->value;
-			$option->text = Languages::alt('THM_ORGANIZER_' . $text, $fieldName);
+			$option->text = Languages::alt('ORGANIZER_' . $text, $fieldName);
 
 			$option->class = (string) $optionTag['class'];
 

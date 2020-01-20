@@ -38,11 +38,11 @@ class Schedules extends Controller
 
 		if ($model->activate())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_ACTIVATE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_ACTIVATE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_ACTIVATE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_ACTIVATE_FAIL', 'error');
 		}
 
 		$this->setRedirect("index.php?option=com_thm_organizer&view={$this->listView}");
@@ -60,11 +60,11 @@ class Schedules extends Controller
 
 		if ($model->setReference())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_REFERENCE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_REFERENCE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_REFERENCE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_REFERENCE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();
@@ -86,7 +86,7 @@ class Schedules extends Controller
 		$url = Routing::getRedirectBase();
 		if (JDEBUG)
 		{
-			OrganizerHelper::message('THM_ORGANIZER_DEBUG_ON', 'error');
+			OrganizerHelper::message('ORGANIZER_DEBUG_ON', 'error');
 			$url .= "&view=Schedules";
 			$this->setRedirect($url);
 
@@ -108,13 +108,13 @@ class Schedules extends Controller
 			else
 			{
 				$view = 'Schedule_Edit';
-				OrganizerHelper::message('THM_ORGANIZER_FILE_ENCODING_INVALID', 'error');
+				OrganizerHelper::message('ORGANIZER_FILE_ENCODING_INVALID', 'error');
 			}
 		}
 		else
 		{
 			$view = 'Schedule_Edit';
-			OrganizerHelper::message('THM_ORGANIZER_FILE_TYPE_NOT_ALLOWED', 'error');
+			OrganizerHelper::message('ORGANIZER_FILE_TYPE_NOT_ALLOWED', 'error');
 		}
 
 		$url .= "&view={$view}";

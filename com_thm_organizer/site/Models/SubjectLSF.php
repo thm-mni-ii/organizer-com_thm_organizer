@@ -238,7 +238,7 @@ class SubjectLSF extends BaseModel
 		{
 			if (!Can::document('subject', $subjectID))
 			{
-				throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+				throw new Exception(Languages::_('ORGANIZER_403'), 403);
 			}
 
 			if (!$this->importSingle($subjectID))
@@ -268,7 +268,7 @@ class SubjectLSF extends BaseModel
 
 		if (!$entryExists = $subject->load($subjectID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_404'), 404);
+			throw new Exception(Languages::_('ORGANIZER_404'), 404);
 		}
 
 		if (empty($subject->lsfID))
@@ -307,7 +307,7 @@ class SubjectLSF extends BaseModel
 
 		if (!$personsSet)
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 
 			return false;
 		}

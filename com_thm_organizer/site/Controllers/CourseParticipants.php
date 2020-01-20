@@ -30,11 +30,11 @@ trait CourseParticipants
 
 		if ($model->accept())
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
@@ -50,11 +50,11 @@ trait CourseParticipants
 	{
 		if (empty($this->getModel('course')->circular()))
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_SEND_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_SEND_FAIL', 'error');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_SEND_SUCCESS', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_SEND_SUCCESS', 'error');
 		}
 
 		$lessonID = $this->input->get('lessonID');
@@ -73,11 +73,11 @@ trait CourseParticipants
 
 		if ($model->changeState())
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_SUCCESS');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
@@ -95,11 +95,11 @@ trait CourseParticipants
 
 		if ($model->confirmAttendance())
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
@@ -117,11 +117,11 @@ trait CourseParticipants
 
 		if ($model->confirmPayment())
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_SUCCESS', 'success');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
@@ -152,7 +152,7 @@ trait CourseParticipants
 
 		if (!Helpers\Participants::canRegister($participantID))
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_PARTICIPANT_REGISTRATION_INCOMPLETE', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_PARTICIPANT_REGISTRATION_INCOMPLETE', 'error');
 			$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
 		}
 
@@ -165,19 +165,19 @@ trait CourseParticipants
 		{
 			if ($previousState !== self::UNREGISTERED)
 			{
-				Helpers\OrganizerHelper::message('THM_ORGANIZER_DEREGISTER_SUCCESS', 'success');
+				Helpers\OrganizerHelper::message('ORGANIZER_DEREGISTER_SUCCESS', 'success');
 			}
 			else
 			{
 				$currentState = Helpers\CourseParticipants::getState($courseID, $participantID, $eventID);
 
-				$msg = $currentState ? 'THM_ORGANIZER_REGISTRATION_ACCEPTED' : 'THM_ORGANIZER_REGISTRATION_WAIT';
+				$msg = $currentState ? 'ORGANIZER_REGISTRATION_ACCEPTED' : 'ORGANIZER_REGISTRATION_WAIT';
 				Helpers\OrganizerHelper::message($msg);
 			}
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_STATUS_CHANGE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_STATUS_CHANGE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
@@ -195,11 +195,11 @@ trait CourseParticipants
 
 		if ($model->remove())
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_REMOVE_SUCCESS', 'success');
+			Helpers\OrganizerHelper::message('ORGANIZER_REMOVE_SUCCESS', 'success');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_REMOVE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_REMOVE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));
@@ -217,11 +217,11 @@ trait CourseParticipants
 
 		if ($model->toggle())
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_TOGGLE_SUCCESS', 'success');
+			Helpers\OrganizerHelper::message('ORGANIZER_TOGGLE_SUCCESS', 'success');
 		}
 		else
 		{
-			Helpers\OrganizerHelper::message('THM_ORGANIZER_TOGGLE_FAIL', 'error');
+			Helpers\OrganizerHelper::message('ORGANIZER_TOGGLE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Helpers\Input::getInput()->server->getString('HTTP_REFERER'));

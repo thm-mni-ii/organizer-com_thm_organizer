@@ -63,11 +63,11 @@ class Controller extends BaseController
 
 		if ($resourceID = $model->save())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase() . "&view={$this->resource}_edit&id=$resourceID";
@@ -98,11 +98,11 @@ class Controller extends BaseController
 
 		if ($model->delete($this->resource))
 		{
-			OrganizerHelper::message('THM_ORGANIZER_DELETE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_DELETE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_DELETE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_DELETE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();
@@ -249,7 +249,7 @@ class Controller extends BaseController
 			}
 			else
 			{
-				$message = sprintf(Languages::_('THM_ORGANIZER_VIEW_NOT_FOUND'), $name, $type, $prefix);
+				$message = sprintf(Languages::_('ORGANIZER_VIEW_NOT_FOUND'), $name, $type, $prefix);
 				throw new Exception($message, 404);
 			}
 		}
@@ -270,11 +270,11 @@ class Controller extends BaseController
 
 		if ($model->merge($this->resource))
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MERGE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_MERGE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_MERGE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_MERGE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();
@@ -294,7 +294,7 @@ class Controller extends BaseController
 
 		if (JDEBUG)
 		{
-			OrganizerHelper::message('THM_ORGANIZER_DEBUG_ON', 'error');
+			OrganizerHelper::message('ORGANIZER_DEBUG_ON', 'error');
 			$this->setRedirect($url);
 
 			return;
@@ -303,7 +303,7 @@ class Controller extends BaseController
 		$selectedIDs = Input::getSelectedIDs();
 		if (count($selectedIDs) == 1)
 		{
-			$msg = Languages::_('THM_ORGANIZER_TOO_FEW');
+			$msg = Languages::_('ORGANIZER_TOO_FEW');
 			$this->setRedirect(Route::_($url, false), $msg, 'warning');
 
 			return;
@@ -330,7 +330,7 @@ class Controller extends BaseController
 		$url       = Routing::getRedirectBase();
 		if (empty($resourceID))
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 
 			if ($isBackend)
 			{
@@ -356,7 +356,7 @@ class Controller extends BaseController
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS', 'success');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS', 'success');
 
 			if ($isBackend)
 			{
@@ -392,11 +392,11 @@ class Controller extends BaseController
 
 		if ($model->save2copy())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase() . "&view={$this->listView}";
@@ -415,11 +415,11 @@ class Controller extends BaseController
 
 		if ($model->save())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase() . "&view={$this->resource}_edit&id=0";
@@ -438,11 +438,11 @@ class Controller extends BaseController
 
 		if ($model->toggle())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase() . "&view={$this->listView}";

@@ -17,7 +17,7 @@
                   method="post" id="adminForm" name="adminForm">
                 <input type="hidden" name="Itemid" value="<?php echo $this->menu['id']; ?>"/>
                 <div class="modal-header">
-                    <h3><?php echo Languages::_('THM_ORGANIZER_CIRCULAR_HEADER') ?></h3>
+                    <h3><?php echo Languages::_('ORGANIZER_CIRCULAR_HEADER') ?></h3>
                 </div>
                 <div class="modal-body" style="overflow-y: auto;">
                     <input type="hidden" name="lessonID" value="<?php echo $this->course['id']; ?>"/>
@@ -33,7 +33,7 @@
                     <button type="submit" class="validate btn btn-mini">
                         <span class="icon-mail"></span><?php echo Languages::_('JSUBMIT') ?></button>
                     <button type="button" class="btn btn-mini" data-dismiss="modal">
-                        <span class="icon-cancel"></span><?php echo Languages::_('THM_ORGANIZER_CLOSE') ?>
+                        <span class="icon-cancel"></span><?php echo Languages::_('ORGANIZER_CLOSE') ?>
                     </button>
                 </div>
             </form>

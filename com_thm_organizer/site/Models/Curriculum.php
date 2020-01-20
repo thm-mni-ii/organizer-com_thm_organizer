@@ -43,7 +43,7 @@ class Curriculum extends ItemModel
 		$allowView = $this->allowView();
 		if (!$allowView)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		$resource = [];

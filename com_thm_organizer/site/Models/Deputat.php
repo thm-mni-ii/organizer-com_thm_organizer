@@ -495,7 +495,7 @@ class Deputat extends BaseModel
 			return;
 		}
 
-		$this->departmentName = Languages::_('THM_ORGANIZER_DEPARTMENT') . ' ' . $departmentName;
+		$this->departmentName = Languages::_('ORGANIZER_DEPARTMENT') . ' ' . $departmentName;
 	}
 
 	/**

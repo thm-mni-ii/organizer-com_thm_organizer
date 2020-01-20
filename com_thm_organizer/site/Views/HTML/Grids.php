@@ -38,15 +38,15 @@ class Grids extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_GRIDS'), 'grid-2');
+		HTML::setTitle(Languages::_('ORGANIZER_GRIDS'), 'grid-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'grids.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'grids.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'grids.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'grids.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'grids.delete',
 			true
 		);
@@ -71,12 +71,12 @@ class Grids extends ListView
 	{
 		$headers = [
 			'checkbox'    => '',
-			'name'        => Languages::_('THM_ORGANIZER_NAME'),
-			'startDay'    => Languages::_('THM_ORGANIZER_START_DAY'),
-			'endDay'      => Languages::_('THM_ORGANIZER_END_DAY'),
-			'startTime'   => Languages::_('THM_ORGANIZER_START_TIME'),
-			'endTime'     => Languages::_('THM_ORGANIZER_END_TIME'),
-			'defaultGrid' => Languages::_('THM_ORGANIZER_DEFAULT')
+			'name'        => Languages::_('ORGANIZER_NAME'),
+			'startDay'    => Languages::_('ORGANIZER_START_DAY'),
+			'endDay'      => Languages::_('ORGANIZER_END_DAY'),
+			'startTime'   => Languages::_('ORGANIZER_START_TIME'),
+			'endTime'     => Languages::_('ORGANIZER_END_TIME'),
+			'defaultGrid' => Languages::_('ORGANIZER_DEFAULT')
 		];
 
 		$this->headers = $headers;
@@ -115,7 +115,7 @@ class Grids extends ListView
 				$item->endTime   = '';
 			}
 
-			$tip                     = Languages::_('THM_ORGANIZER_GRID_DEFAULT_DESC');
+			$tip                     = Languages::_('ORGANIZER_GRID_DEFAULT_DESC');
 			$item->defaultGrid       = $this->getToggle('grid', $item->id, $item->defaultGrid, $tip);
 			$structuredItems[$index] = $this->structureItem($index, $item, $item->link);
 			$index++;

@@ -312,7 +312,7 @@ class Courses extends ResourceHelper
 		}
 
 		$names = implode('<br>', $names);
-		$names .= $groups ? '<br>' . Languages::_('THM_ORGANIZER_COURSE_GROUPS') . ": $groups" : '';
+		$names .= $groups ? '<br>' . Languages::_('ORGANIZER_COURSE_GROUPS') . ": $groups" : '';
 
 		return $names;
 	}
@@ -447,19 +447,19 @@ class Courses extends ResourceHelper
 	{
 		if (self::isExpired($courseID))
 		{
-			$status = Languages::_('THM_ORGANIZER_EXPIRED');
+			$status = Languages::_('ORGANIZER_EXPIRED');
 		}
 		elseif (self::isOngoing($courseID))
 		{
-			$status = Languages::_('THM_ORGANIZER_COURSE_ONGOING');
+			$status = Languages::_('ORGANIZER_COURSE_ONGOING');
 		}
 		elseif (self::isFull($courseID))
 		{
-			$status = Languages::_('THM_ORGANIZER_COURSE_FULL');
+			$status = Languages::_('ORGANIZER_COURSE_FULL');
 		}
 		else
 		{
-			$status = Languages::_('THM_ORGANIZER_COURSE_OPEN');
+			$status = Languages::_('ORGANIZER_COURSE_OPEN');
 		}
 
 		if (self::hasResponsibility($courseID))

@@ -13,7 +13,7 @@ use Organizer\Helpers\Departments;
 use Organizer\Helpers\Languages;
 
 $activeDay      = date('w');
-$categoryPH     = Languages::_('THM_ORGANIZER_SELECT_CATEGORY');
+$categoryPH     = Languages::_('ORGANIZER_SELECT_CATEGORY');
 $datesOfTheWeek = [
 	Dates::formatDate('monday this week'),
 	Dates::formatDate('tuesday this week'),
@@ -32,9 +32,9 @@ $daysOfTheWeek  = [
 	Languages::_('SAT'),
 	Languages::_('SUN')
 ];
-$departmentPH   = Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
+$departmentPH   = Languages::_('ORGANIZER_SELECT_DEPARTMENT');
 $displayName    = empty($this->model->displayName) ?
-	'THM Organizer  - ' . Languages::_('THM_ORGANIZER_SCHEDULES') : $this->model->displayName;
+	'THM Organizer  - ' . Languages::_('ORGANIZER_SCHEDULES') : $this->model->displayName;
 $grid           = json_decode($this->params['defaultGrid'], true);
 $gridOptions    = '';
 foreach ($this->grids as $gridOption)
@@ -42,28 +42,28 @@ foreach ($this->grids as $gridOption)
 	$selected    = $gridOption['defaultGrid'] ? 'selected' : '';
 	$gridOptions .= "<option value=\"{$gridOption['id']}\" $selected>{$gridOption['name']}</option>";
 }
-$groupPH     = Languages::_('THM_ORGANIZER_SELECT_GROUP');
+$groupPH     = Languages::_('ORGANIZER_SELECT_GROUP');
 $mobile      = $this->isMobile ? 'mobile' : '';
 $periods     = $grid['periods'];
-$personPH    = Languages::_('THM_ORGANIZER_SELECT_PERSON');
-$roomPH      = Languages::_('THM_ORGANIZER_SELECT_ROOM');
-$roomTypePH  = Languages::_('THM_ORGANIZER_SELECT_ROOMTYPE');
+$personPH    = Languages::_('ORGANIZER_SELECT_PERSON');
+$roomPH      = Languages::_('ORGANIZER_SELECT_ROOM');
+$roomTypePH  = Languages::_('ORGANIZER_SELECT_ROOMTYPE');
 $typeOptions = '';
 if ($this->params['showCategories'])
 {
-	$typeOptions .= '<option value="category" selected>' . Languages::_('THM_ORGANIZER_EVENT_PLANS') . '</option>';
+	$typeOptions .= '<option value="category" selected>' . Languages::_('ORGANIZER_EVENT_PLANS') . '</option>';
 }
 if ($this->params['showRooms'])
 {
-	$typeOptions .= '<option value="roomtype">' . Languages::_('THM_ORGANIZER_ROOM_PLANS') . '</option>';
+	$typeOptions .= '<option value="roomtype">' . Languages::_('ORGANIZER_ROOM_PLANS') . '</option>';
 }
 
 if ($this->params['showPersons'])
 {
-	$typeOptions .= '<option value="person">' . Languages::_('THM_ORGANIZER_PERSON_PLANS') . '</option>';
+	$typeOptions .= '<option value="person">' . Languages::_('ORGANIZER_PERSON_PLANS') . '</option>';
 }
 
-$typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
+$typePH = Languages::_('ORGANIZER_SELECT_PLAN_TYPE');
 ?>
 <div class="organizer <?php echo $mobile; ?>">
     <div class="page-header">
@@ -76,7 +76,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
                    data-toggle="tab" data-id="schedule-form" role="tab" aria-controls="schedule-form"
                    aria-selected="true">
                     <span class="icon-calendars"></span>
-                    <span class="tab-text"><?php echo Languages::_('THM_ORGANIZER_SCHEDULES'); ?></span>
+                    <span class="tab-text"><?php echo Languages::_('ORGANIZER_SCHEDULES'); ?></span>
                 </a>
             </li>
             <li class="tabs-tab" role="presentation">
@@ -84,7 +84,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
                    data-toggle="tab" data-id="selected-schedules" role="tab" aria-controls="selected-schedules"
                    aria-selected="true">
                     <span class="icon-checkbox-checked"></span>
-                    <span class="tab-text"><?php echo Languages::_('THM_ORGANIZER_SELECTED'); ?></span>
+                    <span class="tab-text"><?php echo Languages::_('ORGANIZER_SELECTED'); ?></span>
                 </a>
             </li>
             <li class="tabs-tab" role="presentation">
@@ -92,7 +92,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
                    data-toggle="tab" data-id="time-selection" role="tab" aria-controls="time-selection"
                    aria-selected="true">
                     <span class="icon-grid-2"></span>
-                    <span class="tab-text"><?php echo Languages::_('THM_ORGANIZER_GRIDS'); ?></span>
+                    <span class="tab-text"><?php echo Languages::_('ORGANIZER_GRIDS'); ?></span>
                 </a>
             </li>
             <li class="date-input">
@@ -149,7 +149,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
                             <td colspan="7">
                                 <button id="today" type="button" class="today"
                                         onclick="scheduleApp.getCalendar().changeSelectedDate(true, 'week');">
-									<?php echo Languages::_('THM_ORGANIZER_TODAY'); ?>
+									<?php echo Languages::_('ORGANIZER_TODAY'); ?>
                                 </button>
                             </td>
                         </tr>
@@ -169,7 +169,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
                 <a href="#exports" class="tabs-toggle" id="tab-exports" data-toggle="tab"
                    data-id="exports" role="tab" aria-controls="exports" aria-selected="true">
                     <span class="icon-download"></span>
-                    <span class="tab-text"><?php echo Languages::_('THM_ORGANIZER_FILE_FORMAT'); ?></span>
+                    <span class="tab-text"><?php echo Languages::_('ORGANIZER_FILE_FORMAT'); ?></span>
                 </a>
             </li>
         </ul>
@@ -219,25 +219,25 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
                 <div class="link-item">
                     <a onclick="scheduleApp.handleExport('pdf.a4');">
                         <span class="icon-file-pdf"></span>
-						<?php echo Languages::_('THM_ORGANIZER_PDF_DOCUMENT'); ?>
+						<?php echo Languages::_('ORGANIZER_PDF_DOCUMENT'); ?>
                     </a>
                 </div>
                 <div class="link-item">
                     <a onclick="scheduleApp.handleExport('xls.si');">
                         <span class="icon-file-excel"></span>
-						<?php echo Languages::_('THM_ORGANIZER_XLS_SPREADSHEET'); ?>
+						<?php echo Languages::_('ORGANIZER_XLS_SPREADSHEET'); ?>
                     </a>
                 </div>
                 <div class="link-item">
                     <a onclick="scheduleApp.handleExport('ics');">
                         <span class="icon-info-calender"></span>
-						<?php echo Languages::_('THM_ORGANIZER_ICS_CALENDAR'); ?>
+						<?php echo Languages::_('ORGANIZER_ICS_CALENDAR'); ?>
                     </a>
                 </div>
                 <div class="link-item">
                     <a href="?option=com_thm_organizer&view=schedule_export" target="_blank">
                         <span class="icon-plus"></span>
-						<?php echo Languages::_('THM_ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
+						<?php echo Languages::_('ORGANIZER_OTHER_EXPORT_OPTIONS'); ?>
                     </a>
                 </div>
             </div>
@@ -249,7 +249,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
             <table>
                 <thead>
                 <tr>
-                    <th><?php echo Languages::_('THM_ORGANIZER_TIME'); ?></th>
+                    <th><?php echo Languages::_('ORGANIZER_TIME'); ?></th>
 					<?php for ($weekday = $grid['startDay'] - 1; $weekday < $grid['endDay']; ++$weekday) : ?>
                         <th <?php echo ($activeDay == $weekday + 1) ? 'class="activeColumn"' : ''; ?>>
 							<?php echo $daysOfTheWeek[$weekday]; ?>
@@ -288,45 +288,45 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
         </div>
         <div class="save">
             <button id="save-mode-semester">
-				<?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_SEMESTER') ?>
+				<?php echo Languages::_('ORGANIZER_SAVE_EVENT_SEMESTER') ?>
             </button>
             <button id="save-mode-period">
-				<?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_PERIOD') ?>
+				<?php echo Languages::_('ORGANIZER_SAVE_EVENT_PERIOD') ?>
             </button>
             <button id="save-mode-instance">
-				<?php echo Languages::_('THM_ORGANIZER_SAVE_EVENT_INSTANCE') ?>
+				<?php echo Languages::_('ORGANIZER_SAVE_EVENT_INSTANCE') ?>
             </button>
         </div>
         <div class="delete">
             <button id="delete-mode-semester">
-				<?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_SEMESTER') ?>
+				<?php echo Languages::_('ORGANIZER_DELETE_EVENT_SEMESTER') ?>
             </button>
             <button id="delete-mode-period">
-				<?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_PERIOD') ?>
+				<?php echo Languages::_('ORGANIZER_DELETE_EVENT_PERIOD') ?>
             </button>
             <button id="delete-mode-instance">
-				<?php echo Languages::_('THM_ORGANIZER_DELETE_EVENT_INSTANCE') ?>
+				<?php echo Languages::_('ORGANIZER_DELETE_EVENT_INSTANCE') ?>
             </button>
         </div>
     </div>
 
     <div id="next-date-selection" class="message pop-up">
-        <p><?php echo Languages::_('THM_ORGANIZER_JUMP_DATE'); ?></p>
+        <p><?php echo Languages::_('ORGANIZER_JUMP_DATE'); ?></p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
         <button id="past-date" onclick="scheduleApp.nextDateEventHandler(event);">
             <span class="icon-arrow-left-2"></span>
-			<?php echo sprintf(Languages::_('THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
+			<?php echo sprintf(Languages::_('ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
         </button>
         <button id="future-date" onclick="scheduleApp.nextDateEventHandler(event);">
             <span class="icon-arrow-right-2"></span>
-			<?php echo sprintf(Languages::_('THM_ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
+			<?php echo sprintf(Languages::_('ORGANIZER_JUMP_TO_DATE'), date("d.m.Y")); ?>
         </button>
     </div>
 
     <div id="no-events" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo Languages::_('THM_ORGANIZER_NO_EVENTS_PLANNED'); ?></span>
+            <span><?php echo Languages::_('ORGANIZER_NO_EVENTS_PLANNED'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>
@@ -334,7 +334,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
     <div id="reg-fifo" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_REGISTERED'); ?></span>
+            <span><?php echo Languages::_('ORGANIZER_COURSE_MAIL_STATUS_REGISTERED'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>
@@ -342,7 +342,7 @@ $typePH = Languages::_('THM_ORGANIZER_SELECT_PLAN_TYPE');
     <div id="reg-manual" class="message pop-up">
         <p>
             <span class="icon-notification"></span>
-            <span><?php echo Languages::_('THM_ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST'); ?></span>
+            <span><?php echo Languages::_('ORGANIZER_COURSE_MAIL_STATUS_WAIT_LIST'); ?></span>
         </p>
         <button class="icon-cancel" onclick="this.parentElement.style.display='none';"></button>
     </div>

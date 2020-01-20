@@ -40,11 +40,11 @@ class Groups extends Controller
 
 		if ($model->batch())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase() . "&view={$this->listView}";
@@ -63,11 +63,11 @@ class Groups extends Controller
 
 		if ($group->publishPast())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS', 'success');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS', 'success');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase() . '&view=groups';

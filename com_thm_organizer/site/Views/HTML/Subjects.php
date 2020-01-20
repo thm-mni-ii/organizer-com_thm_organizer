@@ -61,24 +61,24 @@ class Subjects extends ListView
 			}
 		}
 
-		HTML::setMenuTitle('THM_ORGANIZER_SUBJECTS', $resourceName, 'book');
+		HTML::setMenuTitle('ORGANIZER_SUBJECTS', $resourceName, 'book');
 		$toolbar = Toolbar::getInstance();
 		if ($this->documentAccess)
 		{
-			$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'subjects.add', false);
-			$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'subjects.edit', true);
+			$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'subjects.add', false);
+			$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'subjects.edit', true);
 			$toolbar->appendButton(
 				'Standard',
 				'upload',
-				Languages::_('THM_ORGANIZER_IMPORT_LSF'),
+				Languages::_('ORGANIZER_IMPORT_LSF'),
 				'subjects.import',
 				true
 			);
 			$toolbar->appendButton(
 				'Confirm',
-				Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+				Languages::_('ORGANIZER_DELETE_CONFIRM'),
 				'delete',
-				Languages::_('THM_ORGANIZER_DELETE'),
+				Languages::_('ORGANIZER_DELETE'),
 				'subjects.delete',
 				true
 			);
@@ -115,8 +115,8 @@ class Subjects extends ListView
 
 		$headers['name']         = HTML::sort('NAME', 'name', $direction, $ordering);
 		$headers['code']         = HTML::sort('MODULE_CODE', 'code', $direction, $ordering);
-		$headers['persons']      = Languages::_('THM_ORGANIZER_TEACHERS');
-		$headers['creditpoints'] = Languages::_('THM_ORGANIZER_CREDIT_POINTS');
+		$headers['persons']      = Languages::_('ORGANIZER_TEACHERS');
+		$headers['creditpoints'] = Languages::_('ORGANIZER_CREDIT_POINTS');
 
 		$this->headers = $headers;
 	}
@@ -138,11 +138,11 @@ class Subjects extends ListView
 			$roles = [];
 			if (isset($person['role'][self::COORDINATES]))
 			{
-				$roles[] = Languages::_('THM_ORGANIZER_SUBJECT_COORDINATOR_ABBR');
+				$roles[] = Languages::_('ORGANIZER_SUBJECT_COORDINATOR_ABBR');
 			}
 			if (isset($person['role'][self::TEACHES]))
 			{
-				$roles[] = Languages::_('THM_ORGANIZER_TEACHER_ABBR');
+				$roles[] = Languages::_('ORGANIZER_TEACHER_ABBR');
 			}
 
 			$name    .= ' (' . implode(', ', $roles) . ')';

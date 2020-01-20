@@ -50,7 +50,7 @@ class Grid extends BaseModel
 	{
 		if (!Can::administrate())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$data = empty($data) ? Input::getFormItems()->toArray() : $data;

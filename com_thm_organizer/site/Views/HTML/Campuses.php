@@ -36,15 +36,15 @@ class Campuses extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_CAMPUSES'), 'location');
+		HTML::setTitle(Languages::_('ORGANIZER_CAMPUSES'), 'location');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'campuses.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'campuses.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'campuses.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'campuses.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'campuses.delete',
 			true
 		);
@@ -69,10 +69,10 @@ class Campuses extends ListView
 	{
 		$headers = [
 			'checkbox' => '',
-			'name'     => Languages::_('THM_ORGANIZER_NAME'),
-			'address'  => Languages::_('THM_ORGANIZER_ADDRESS'),
-			'location' => Languages::_('THM_ORGANIZER_LOCATION'),
-			'gridID'   => Languages::_('THM_ORGANIZER_GRID')
+			'name'     => Languages::_('ORGANIZER_NAME'),
+			'address'  => Languages::_('ORGANIZER_ADDRESS'),
+			'location' => Languages::_('ORGANIZER_LOCATION'),
+			'gridID'   => Languages::_('ORGANIZER_GRID')
 		];
 
 		$this->headers = $headers;

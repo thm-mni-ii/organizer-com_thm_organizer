@@ -255,7 +255,7 @@ class LessonStatistics extends FormModel
 		{
 			if (empty($method['name']))
 			{
-				$method['name'] = Languages::_('THM_ORGANIZER_NONE_GIVEN');
+				$method['name'] = Languages::_('ORGANIZER_NONE_GIVEN');
 			}
 			$method['total'] = [];
 		}

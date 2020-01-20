@@ -31,7 +31,7 @@ class Descriptions implements UntisXMLValidator
 	 */
 	public static function setID(&$model, $untisID, $typeFlag = '')
 	{
-		$error    = 'THM_ORGANIZER_';
+		$error    = 'ORGANIZER_';
 		$resource = '';
 		switch ($typeFlag)
 		{
@@ -90,7 +90,7 @@ class Descriptions implements UntisXMLValidator
 
 		if (empty($name))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_DESCRIPTION_NAME_MISSING'), $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_DESCRIPTION_NAME_MISSING'), $untisID);
 
 			return;
 		}
@@ -100,14 +100,14 @@ class Descriptions implements UntisXMLValidator
 
 		if (empty($typeFlag))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_MISSING'), $name, $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_DESCRIPTION_TYPE_MISSING'), $name, $untisID);
 
 			return;
 		}
 
 		if (!in_array($typeFlag, $validFlags))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_DESCRIPTION_TYPE_INVALID'), $name, $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_DESCRIPTION_TYPE_INVALID'), $name, $untisID);
 
 			return;
 		}

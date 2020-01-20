@@ -49,7 +49,7 @@ class Deputat extends BaseHTMLView
 	{
 		if (!Access::isAdmin())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		// Sets js and css
@@ -92,7 +92,7 @@ class Deputat extends BaseHTMLView
 		$schedules  = $this->model->getDepartmentSchedules();
 
 		$options    = [];
-		$options[0] = Languages::_('THM_ORGANIZER_FILTER_SCHEDULE');
+		$options[0] = Languages::_('ORGANIZER_FILTER_SCHEDULE');
 		foreach ($schedules as $schedule)
 		{
 			$options[$schedule['id']] = $schedule['name'];

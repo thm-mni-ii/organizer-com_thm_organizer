@@ -36,15 +36,15 @@ class Events extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_EVENTS'), 'contract-2');
+		HTML::setTitle(Languages::_('ORGANIZER_EVENTS'), 'contract-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'events.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'events.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'events.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'events.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'events.delete',
 			true
 		);
@@ -73,8 +73,8 @@ class Events extends ListView
 			'checkbox'        => '',
 			'name'            => HTML::sort('NAME', 'name', $direction, $ordering),
 			'department'      => HTML::sort('DEPARTMENT', 'name', $direction, $ordering),
-			'campus'          => Languages::_('THM_ORGANIZER_CAMPUS'),
-			'maxParticipants' => Languages::_('THM_ORGANIZER_MAX_PARTICIPANTS')
+			'campus'          => Languages::_('ORGANIZER_CAMPUS'),
+			'maxParticipants' => Languages::_('ORGANIZER_MAX_PARTICIPANTS')
 		];
 
 		$this->headers = $headers;

@@ -37,11 +37,11 @@ class Programs extends Controller
 
 		if ($model->import())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_IMPORT_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_IMPORT_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_IMPORT_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_IMPORT_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();
@@ -61,11 +61,11 @@ class Programs extends Controller
 
 		if ($model->update())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_UPDATE_SUCCESS');
+			OrganizerHelper::message('ORGANIZER_UPDATE_SUCCESS');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_UPDATE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_UPDATE_FAIL', 'error');
 		}
 
 		$url = Routing::getRedirectBase();

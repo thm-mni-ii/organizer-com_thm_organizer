@@ -23,7 +23,7 @@ trait Translated
 	{
 		if (!empty($this->element['label']))
 		{
-			$labelConstant          = 'THM_ORGANIZER_' . (string) $this->element['label'];
+			$labelConstant          = 'ORGANIZER_' . (string) $this->element['label'];
 			$descriptionConstant    = $labelConstant . '_DESC';
 			$this->element['label'] = Languages::_($labelConstant);
 			$this->description      = Languages::_($descriptionConstant);

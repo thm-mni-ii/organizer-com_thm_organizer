@@ -39,16 +39,16 @@ class Badges extends BaseView
 	{
 		if (!$courseID = Helpers\Input::getInt('courseID'))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_400'), 400);
 		}
 		elseif (!Helpers\Can::manage('course', $courseID))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_401'), 401);
 		}
 
 		if (!$participants = $this->getParticipants($courseID))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_400'), 400);
 		}
 
 		$badges = new Layout($courseID);

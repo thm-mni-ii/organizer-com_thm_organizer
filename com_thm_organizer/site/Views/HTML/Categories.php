@@ -30,15 +30,15 @@ class Categories extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_CATEGORIES'), 'list');
+		HTML::setTitle(Languages::_('ORGANIZER_CATEGORIES'), 'list');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'categories.edit', true);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'categories.edit', true);
 		if (Can::administrate())
 		{
 			$toolbar->appendButton(
 				'Standard',
 				'attachment',
-				Languages::_('THM_ORGANIZER_MERGE'),
+				Languages::_('ORGANIZER_MERGE'),
 				'categories.mergeView',
 				true
 			);
@@ -68,7 +68,7 @@ class Categories extends ListView
 			'checkbox' => '',
 			'untisID'  => HTML::sort('UNTIS_ID', 'ppr.untisID', $direction, $ordering),
 			'name'     => HTML::sort('DISPLAY_NAME', 'ppr.name', $direction, $ordering),
-			'program'  => Languages::_('THM_ORGANIZER_PROGRAM')
+			'program'  => Languages::_('ORGANIZER_PROGRAM')
 		];
 
 		$this->headers = $headers;

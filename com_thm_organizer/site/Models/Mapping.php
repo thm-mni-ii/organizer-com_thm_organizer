@@ -100,7 +100,7 @@ class Mapping extends BaseModel
 				$poolAdded                = $this->addPool($poolMapping);
 				if (!$poolAdded)
 				{
-					OrganizerHelper::message('THM_ORGANIZER_POOL_ADD_FAIL', 'error');
+					OrganizerHelper::message('ORGANIZER_POOL_ADD_FAIL', 'error');
 
 					return false;
 				}
@@ -136,7 +136,7 @@ class Mapping extends BaseModel
 			return true;
 		}
 
-		OrganizerHelper::message('THM_ORGANIZER_POOL_MAPPING_FAIL', 'error');
+		OrganizerHelper::message('ORGANIZER_POOL_MAPPING_FAIL', 'error');
 
 		return false;
 	}
@@ -182,7 +182,7 @@ class Mapping extends BaseModel
 
 			if (!$subjectAdded)
 			{
-				OrganizerHelper::message('THM_ORGANIZER_SUBJECT_ADD_FAIL', 'error');
+				OrganizerHelper::message('ORGANIZER_SUBJECT_ADD_FAIL', 'error');
 
 				return false;
 			}
@@ -195,7 +195,7 @@ class Mapping extends BaseModel
 			return true;
 		}
 
-		OrganizerHelper::message('THM_ORGANIZER_SUBJECT_MAP_FAIL', 'error');
+		OrganizerHelper::message('ORGANIZER_SUBJECT_MAP_FAIL', 'error');
 
 		return false;
 	}
@@ -700,7 +700,7 @@ class Mapping extends BaseModel
 				$poolAdded            = $this->addPool($poolData);
 				if (!$poolAdded)
 				{
-					OrganizerHelper::message('THM_ORGANIZER_POOL_ADD_FAIL', 'error');
+					OrganizerHelper::message('ORGANIZER_POOL_ADD_FAIL', 'error');
 
 					return false;
 				}

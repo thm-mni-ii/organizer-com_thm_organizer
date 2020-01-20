@@ -40,7 +40,7 @@ if ($isSite)
 
 		if ($displayInitial or $isInitialized)
 		{
-			echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_('THM_ORGANIZER_' . $set->label, true));
+			echo HTML::_('bootstrap.addTab', 'myTab', $set->name, Languages::_('ORGANIZER_' . $set->label, true));
 			echo $this->form->renderFieldset($set->name);
 			echo HTML::_('bootstrap.endTab');
 		}

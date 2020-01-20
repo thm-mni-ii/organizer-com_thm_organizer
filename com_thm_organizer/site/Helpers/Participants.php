@@ -151,13 +151,13 @@ class Participants extends ResourceHelper
 		$ccmID = Input::getInt('ccmID');
 		if (empty($ccmID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		$userID = Factory::getUser()->id;
 		if (empty($userID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$mode     = Input::getInt('mode', self::BLOCK_MODE);
@@ -223,13 +223,13 @@ class Participants extends ResourceHelper
 		$ccmID = Input::getInt('ccmID');
 		if (empty($ccmID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Languages::_('ORGANIZER_400'), 400);
 		}
 
 		$userID = Factory::getUser()->id;
 		if (empty($userID))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$savedCcmIDs = [];

@@ -25,7 +25,7 @@ echo OrganizerHelper::getApplication()->JComponentTitle; ?>
     </div>
     <div class="legend">
         <div class="panel-head">
-            <div class="panel-title"><?php echo Languages::_('THM_ORGANIZER_LEGEND'); ?></div>
+            <div class="panel-title"><?php echo Languages::_('ORGANIZER_LEGEND'); ?></div>
         </div>
 		<?php foreach ($this->fields as $hex => $field) : ?>
             <div class="legend-item">

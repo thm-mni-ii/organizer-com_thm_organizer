@@ -46,8 +46,8 @@ class DepartmentOccupancy extends SelectionView
 		$termSelect = HTML::selectBox($options, 'year', $attribs, $default);
 
 		$this->sets['baseSettings']['termIDs'] = [
-			'label'       => Languages::_('THM_ORGANIZER_YEAR'),
-			'description' => Languages::_('THM_ORGANIZER_YEAR_DESC'),
+			'label'       => Languages::_('ORGANIZER_YEAR'),
+			'description' => Languages::_('ORGANIZER_YEAR_DESC'),
 			'input'       => $termSelect
 		];
 	}
@@ -61,7 +61,7 @@ class DepartmentOccupancy extends SelectionView
 	{
 		$this->sets['baseSettings'] = [];
 		$this->setBaseFields();
-		$this->sets['filterFields'] = ['label' => 'THM_ORGANIZER_FILTERS'];
+		$this->sets['filterFields'] = ['label' => 'ORGANIZER_FILTERS'];
 		$this->setFilterFields();
 	}
 
@@ -80,8 +80,8 @@ class DepartmentOccupancy extends SelectionView
 		$roomSelect  = HTML::selectBox($roomOptions, 'roomIDs', $roomAttribs);
 
 		$this->sets['filterFields']['roomIDs'] = [
-			'label'       => Languages::_('THM_ORGANIZER_ROOMS'),
-			'description' => Languages::_('THM_ORGANIZER_ROOMS_DESC'),
+			'label'       => Languages::_('ORGANIZER_ROOMS'),
+			'description' => Languages::_('ORGANIZER_ROOMS_DESC'),
 			'input'       => $roomSelect
 		];
 
@@ -91,8 +91,8 @@ class DepartmentOccupancy extends SelectionView
 		$roomtypeSelect              = HTML::selectBox($typeOptions, 'roomtypeIDs', $roomtypeAttribs);
 
 		$this->sets['filterFields']['roomtypeIDs'] = [
-			'label'       => Languages::_('THM_ORGANIZER_ROOMTYPES'),
-			'description' => Languages::_('THM_ORGANIZER_ROOMS_TYPES_DESC'),
+			'label'       => Languages::_('ORGANIZER_ROOMTYPES'),
+			'description' => Languages::_('ORGANIZER_ROOMS_TYPES_DESC'),
 			'input'       => $roomtypeSelect
 		];
 	}

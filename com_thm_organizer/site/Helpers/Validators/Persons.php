@@ -110,14 +110,14 @@ class Persons extends ResourceHelper implements UntisXMLValidator
 		{
 			$warningCount = $model->warnings['PEX'];
 			unset($model->warnings['PEX']);
-			$model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_PERSON_EXTERNAL_IDS_MISSING'), $warningCount);
+			$model->warnings[] = sprintf(Languages::_('ORGANIZER_PERSON_EXTERNAL_IDS_MISSING'), $warningCount);
 		}
 
 		if (!empty($model->warnings['PFN']))
 		{
 			$warningCount = $model->warnings['PFN'];
 			unset($model->warnings['PFN']);
-			$model->warnings[] = sprintf(Languages::_('THM_ORGANIZER_PERSON_FORENAMES_MISSING'), $warningCount);
+			$model->warnings[] = sprintf(Languages::_('ORGANIZER_PERSON_FORENAMES_MISSING'), $warningCount);
 		}
 	}
 
@@ -147,7 +147,7 @@ class Persons extends ResourceHelper implements UntisXMLValidator
 		$surname = trim((string) $node->surname);
 		if (empty($surname))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_PERSON_SURNAME_MISSING'), $internalID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_PERSON_SURNAME_MISSING'), $internalID);
 
 			return;
 		}

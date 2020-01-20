@@ -57,7 +57,7 @@ class ScheduleExport extends SelectionView
 	 */
 	private function setContentFields()
 	{
-		$this->sets['content'] = ['label' => 'THM_ORGANIZER_CONTENT_SETTINGS'];
+		$this->sets['content'] = ['label' => 'ORGANIZER_CONTENT_SETTINGS'];
 
 		$attribs = ['multiple' => 'multiple'];
 
@@ -81,27 +81,27 @@ class ScheduleExport extends SelectionView
 	 */
 	private function setDisplayFields()
 	{
-		$this->sets['display'] = ['label' => 'THM_ORGANIZER_DISPLAY_SETTINGS'];
+		$this->sets['display'] = ['label' => 'ORGANIZER_DISPLAY_SETTINGS'];
 
 		$formatAttributes = ['onChange' => 'setFormat();'];
 
 		$titlesFormats = [
-			'full'        => 'THM_ORGANIZER_FULL_NAMES',
-			'short'       => 'THM_ORGANIZER_SHORT_NAMES',
-			'abbreviated' => 'THM_ORGANIZER_ABBREVIATIONS'
+			'full'        => 'ORGANIZER_FULL_NAMES',
+			'short'       => 'ORGANIZER_SHORT_NAMES',
+			'abbreviated' => 'ORGANIZER_ABBREVIATIONS'
 		];
 
 		$this->setListField('titles', 'display', $titlesFormats, [], 'full');
 		$this->setResourceField('grid', 'display', [], true);
 
 		$date = '<input name="date" type="date" value="' . date('Y-m-d') . '">';
-		$this->setField('date', 'display', 'THM_ORGANIZER_DATE', $date);
+		$this->setField('date', 'display', 'ORGANIZER_DATE', $date);
 
 		$intervals = [
-			'day'      => 'THM_ORGANIZER_DAY',
-			'week'     => 'THM_ORGANIZER_WEEK',
-			'month'    => 'THM_ORGANIZER_MONTH',
-			'semester' => 'THM_ORGANIZER_SEMESTER'
+			'day'      => 'ORGANIZER_DAY',
+			'week'     => 'ORGANIZER_WEEK',
+			'month'    => 'ORGANIZER_MONTH',
+			'semester' => 'ORGANIZER_SEMESTER'
 		];
 
 		$this->setListField('interval', 'display', $intervals, $formatAttributes, 'week');
@@ -114,7 +114,7 @@ class ScheduleExport extends SelectionView
 	 */
 	private function setFilterFields()
 	{
-		$this->sets['filters'] = ['label' => 'THM_ORGANIZER_FILTERS'];
+		$this->sets['filters'] = ['label' => 'ORGANIZER_FILTERS'];
 
 		$deptAttribs = ['onChange' => 'repopulateCategories();repopulateResources();'];
 		$this->setResourceField('department', 'filters', $deptAttribs, true);
@@ -130,35 +130,35 @@ class ScheduleExport extends SelectionView
 	 */
 	private function setFormatFields()
 	{
-		$this->sets['format'] = ['label' => 'THM_ORGANIZER_FORMAT_SETTINGS'];
+		$this->sets['format'] = ['label' => 'ORGANIZER_FORMAT_SETTINGS'];
 		$formatAttributes     = ['onChange' => 'setFormat();'];
 
 		$fileTypes   = [
-			'ics' => 'THM_ORGANIZER_ICS_CALENDAR',
-			'pdf' => 'THM_ORGANIZER_PDF_DOCUMENT',
-			'xls' => 'THM_ORGANIZER_XLS_WORKBOOK'
+			'ics' => 'ORGANIZER_ICS_CALENDAR',
+			'pdf' => 'ORGANIZER_PDF_DOCUMENT',
+			'xls' => 'ORGANIZER_XLS_WORKBOOK'
 		];
 		$defaultType = $this->isSeeingImpaired() ? 'xls' : 'pdf';
 
 		$this->setListField('format', 'format', $fileTypes, $formatAttributes, $defaultType);
 
 		$pdfFormats = [
-			'a3' => 'THM_ORGANIZER_ICS_CALENDAR',
-			'a4' => 'THM_ORGANIZER_PDF_DOCUMENT'
+			'a3' => 'ORGANIZER_ICS_CALENDAR',
+			'a4' => 'ORGANIZER_PDF_DOCUMENT'
 		];
 
 		$this->setListField('pdfFormat', 'format', $pdfFormats, $formatAttributes, 'a4');
 
 		$grouping = [
-			'none'       => 'THM_ORGANIZER_NO_GROUPING',
-			'byresource' => 'THM_ORGANIZER_GROUPED_BY_RESOURCE'
+			'none'       => 'ORGANIZER_NO_GROUPING',
+			'byresource' => 'ORGANIZER_GROUPED_BY_RESOURCE'
 		];
 
 		$this->setListField('grouping', 'format', $grouping, [], 'none');
 
 		$sheets = [
-			'collected'  => 'THM_ORGANIZER_ON_ONE_WORKSHEET',
-			'individual' => 'THM_ORGANIZER_ON_INDIVIDUAL_WORKSHEETS'
+			'collected'  => 'ORGANIZER_ON_ONE_WORKSHEET',
+			'individual' => 'ORGANIZER_ON_INDIVIDUAL_WORKSHEETS'
 		];
 
 		$this->setListField('xlsFormat', 'format', $sheets, [], 'collected');
@@ -171,7 +171,7 @@ class ScheduleExport extends SelectionView
 	 */
 	private function setPersonalFields()
 	{
-		$this->sets['personal'] = ['label' => 'THM_ORGANIZER_MY_PLANS'];
+		$this->sets['personal'] = ['label' => 'ORGANIZER_MY_PLANS'];
 
 		$myScheduleField = '<input type="checkbox" id="myschedule" onclick="toggleMySchedule();">';
 		$this->setField('myschedule', 'personal', 'MY_SCHEDULE', $myScheduleField);

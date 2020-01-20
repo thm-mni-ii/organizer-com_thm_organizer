@@ -71,7 +71,7 @@ class CourseEdit extends EditModel
 
 		if (empty($this->item->id))
 		{
-			$this->item->name   = Helpers\Languages::_('THM_ORGANIZER_NONE');
+			$this->item->name   = Helpers\Languages::_('ORGANIZER_NONE');
 			$this->item->termID = Helpers\Terms::getNextID();
 		}
 		else

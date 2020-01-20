@@ -253,7 +253,7 @@ class ScheduleListA4 extends BaseLayout
 			$this->renderMultiCell(
 				$this->parameters['timeWidth'],
 				0,
-				Languages::_('THM_ORGANIZER_TIME'),
+				Languages::_('ORGANIZER_TIME'),
 				self::CENTER,
 				self::HORIZONTAL
 			);

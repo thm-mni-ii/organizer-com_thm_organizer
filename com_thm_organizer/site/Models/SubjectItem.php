@@ -42,7 +42,7 @@ class SubjectItem extends ItemModel
 		$allowView = $this->allowView();
 		if (!$allowView)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		$subjectID = Helpers\Input::getID();
@@ -98,7 +98,7 @@ class SubjectItem extends ItemModel
 	 */
 	private function getStructure()
 	{
-		$option   = 'THM_ORGANIZER_';
+		$option   = 'ORGANIZER_';
 		$url      = '?option=com_thm_organizer&view=subject_item&languageTag=' . Languages::getTag() . '&id=';
 		$template = [
 			'subjectID'                => Helpers\Input::getID(),
@@ -288,14 +288,14 @@ class SubjectItem extends ItemModel
 			if (empty($subject['expenditure']['value']))
 			{
 				$subject['expenditure']['value'] = sprintf(
-					Languages::_('THM_ORGANIZER_EXPENDITURE_SHORT'),
+					Languages::_('ORGANIZER_EXPENDITURE_SHORT'),
 					$subject['creditpoints']['value']
 				);
 			}
 			elseif (empty($subject['present']['value']))
 			{
 				$subject['expenditure']['value'] = sprintf(
-					Languages::_('THM_ORGANIZER_EXPENDITURE_MEDIUM'),
+					Languages::_('ORGANIZER_EXPENDITURE_MEDIUM'),
 					$subject['creditpoints']['value'],
 					$subject['expenditure']['value']
 				);
@@ -303,7 +303,7 @@ class SubjectItem extends ItemModel
 			else
 			{
 				$subject['expenditure']['value'] = sprintf(
-					Languages::_('THM_ORGANIZER_EXPENDITURE_FULL'),
+					Languages::_('ORGANIZER_EXPENDITURE_FULL'),
 					$subject['creditpoints']['value'],
 					$subject['expenditure']['value'],
 					$subject['present']['value']
@@ -327,12 +327,12 @@ class SubjectItem extends ItemModel
 		{
 			case 'E':
 			case 'e':
-				$subject['instructionLanguage']['value'] = Languages::_('THM_ORGANIZER_ENGLISH');
+				$subject['instructionLanguage']['value'] = Languages::_('ORGANIZER_ENGLISH');
 				break;
 			case 'D':
 			case 'd':
 			default:
-				$subject['instructionLanguage']['value'] = Languages::_('THM_ORGANIZER_GERMAN');
+				$subject['instructionLanguage']['value'] = Languages::_('ORGANIZER_GERMAN');
 		}
 	}
 

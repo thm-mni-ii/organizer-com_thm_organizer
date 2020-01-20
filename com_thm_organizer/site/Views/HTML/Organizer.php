@@ -47,7 +47,7 @@ class Organizer extends BaseHTMLView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_MAIN'), 'organizer');
+		HTML::setTitle(Languages::_('ORGANIZER_MAIN'), 'organizer');
 
 		if (Can::administrate())
 		{

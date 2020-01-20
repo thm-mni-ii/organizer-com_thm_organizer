@@ -26,9 +26,9 @@ class GroupEdit extends EditView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_GROUP_EDIT'), 'list-2');
+		HTML::setTitle(Languages::_('ORGANIZER_GROUP_EDIT'), 'list-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'groups.save', false);
-		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'groups.cancel', false);
+		$toolbar->appendButton('Standard', 'save', Languages::_('ORGANIZER_SAVE'), 'groups.save', false);
+		$toolbar->appendButton('Standard', 'cancel', Languages::_('ORGANIZER_CANCEL'), 'groups.cancel', false);
 	}
 }

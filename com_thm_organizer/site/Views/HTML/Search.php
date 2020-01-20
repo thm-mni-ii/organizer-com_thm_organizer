@@ -50,7 +50,7 @@ class Search extends BaseHTMLView
 		parent::modifyDocument();
 
 		$document = Factory::getDocument();
-		$document->setTitle(Languages::_('THM_ORGANIZER_SEARCH'));
+		$document->setTitle(Languages::_('ORGANIZER_SEARCH'));
 		$document->addStyleSheet(Uri::root() . 'components/com_thm_organizer/css/search.css');
 	}
 }

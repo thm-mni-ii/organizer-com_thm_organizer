@@ -52,7 +52,7 @@ class Badges extends BaseLayout
 		$this->params = Input::getParams();
 		$this->setCourse($courseID);
 
-		$documentName = "$this->name - $this->term - " . Languages::_('THM_ORGANIZER_BADGE_SHEETS');
+		$documentName = "$this->name - $this->term - " . Languages::_('ORGANIZER_BADGE_SHEETS');
 		$this->setNames($documentName);
 		$this->margins();
 		$this->showPrintOverhead(false);
@@ -89,14 +89,14 @@ class Badges extends BaseLayout
 		$this->changePosition($left, $yOffset + $titleOffset + 33);
 		$this->changeFont(self::REGULAR, 10);
 		$dateLine = $this->campus ?
-			$this->dates . ' ' . Languages::_('THM_ORGANIZER_CAMPUS') . ' ' . $this->campus : $this->dates;
+			$this->dates . ' ' . Languages::_('ORGANIZER_CAMPUS') . ' ' . $this->campus : $this->dates;
 		$this->renderMultiCell(80, 5, $dateLine, self::CENTER);
 
 		$halfTitleOffset = $titleOffset / 2;
 		$this->Ln();
 		$this->changeFont(self::BOLD, 20);
 		$this->changePosition($left, $yOffset + $halfTitleOffset + 45);
-		$this->renderCell(80, 5, Languages::_('THM_ORGANIZER_BADGE'), self::CENTER);
+		$this->renderCell(80, 5, Languages::_('ORGANIZER_BADGE'), self::CENTER);
 
 		$this->changePosition($left, $yOffset + 45);
 		$this->changeFont(self::REGULAR, 10);
@@ -106,19 +106,19 @@ class Badges extends BaseLayout
 
 		$this->Ln();
 		$this->changePosition($left, $yOffset + 63);
-		$this->renderCell(20, 5, Languages::_('THM_ORGANIZER_NAME') . ': ');
+		$this->renderCell(20, 5, Languages::_('ORGANIZER_NAME') . ': ');
 		$this->changeFont(self::BOLD);
 		$this->renderCell(65, 5, $participantName);
 		$this->changeFont(self::REGULAR);
 
 		$this->Ln();
 		$this->changePosition($left, $yOffset + 68);
-		$this->renderCell(20, 5, Languages::_('THM_ORGANIZER_ADDRESS') . ': ');
+		$this->renderCell(20, 5, Languages::_('ORGANIZER_ADDRESS') . ': ');
 		$this->renderCell(65, 5, $participant['address']);
 
 		$this->Ln();
 		$this->changePosition($left, $yOffset + 73);
-		$this->renderCell(20, 5, Languages::_('THM_ORGANIZER_RESIDENCE') . ': ');
+		$this->renderCell(20, 5, Languages::_('ORGANIZER_RESIDENCE') . ': ');
 		$this->renderCell(65, 5, "{$participant['zipCode']} {$participant['city']}");
 	}
 
@@ -160,7 +160,7 @@ class Badges extends BaseLayout
 
 		$this->changeFont(self::BOLD, 20);
 		$this->changePosition($badgeCenter, $headerOffset);
-		$this->renderCell(80, 5, Languages::_('THM_ORGANIZER_RECEIPT'), self::CENTER);
+		$this->renderCell(80, 5, Languages::_('ORGANIZER_RECEIPT'), self::CENTER);
 
 		$this->changeFont(self::BOLD, 12);
 		$title       = "$this->name $this->term";
@@ -172,16 +172,16 @@ class Badges extends BaseLayout
 		{
 			$this->changePosition($badgeCenter, 37 + $yOffset);
 			$this->changeFont(self::REGULAR, 11);
-			$this->renderMultiCell(80, 5, Languages::_('THM_ORGANIZER_BADGE_PAYMENT_TEXT'), self::CENTER);
+			$this->renderMultiCell(80, 5, Languages::_('ORGANIZER_BADGE_PAYMENT_TEXT'), self::CENTER);
 
 			$this->changePosition($badgeCenter, 50 + $yOffset);
 			$this->changeFont(self::ITALIC, 6);
-			$this->renderMultiCell(80, 5, Languages::_('THM_ORGANIZER_BADGE_TAX_TEXT'), self::CENTER);
+			$this->renderMultiCell(80, 5, Languages::_('ORGANIZER_BADGE_TAX_TEXT'), self::CENTER);
 		}
 
 		$this->changeSize(8);
 		$this->changePosition($badgeCenter, $labelOffset);
-		$this->renderCell(80, 5, Languages::_('THM_ORGANIZER_REPRESENTATIVE'), self::CENTER);
+		$this->renderCell(80, 5, Languages::_('ORGANIZER_REPRESENTATIVE'), self::CENTER);
 
 		if (!empty($this->params->get('signatureFile')))
 		{

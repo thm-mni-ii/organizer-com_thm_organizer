@@ -6,7 +6,7 @@
         <field name="name_de" type="Blank" label="NAME_DE" required="true" size="60"/>
         <field name="name_en" type="Blank" label="NAME_EN" required="true" size="60"/>
         <field name="grid" type="Periods" formsource="grid_blocks" multiple="true" buttons="add,remove"
-               layout="joomla.form.field.subform.repeatable-table" label="GRID" description="THM_ORGANIZER_GRID_DESC"/>
+               layout="joomla.form.field.subform.repeatable-table" label="GRID" description="ORGANIZER_GRID_DESC"/>
         <field name="startDay" type="Options" label="START_DAY" default="1" required="true">
             <option value='1'>MONDAY</option>
             <option value='2'>TUESDAY</option>

@@ -66,7 +66,7 @@ class ScheduleExport extends BaseModel
 	{
 		$departments = Helpers\Departments::getOptions(false);
 		$options     = [];
-		$options[''] = Helpers\Languages::_('THM_ORGANIZER_SELECT_DEPARTMENT');
+		$options[''] = Helpers\Languages::_('ORGANIZER_SELECT_DEPARTMENT');
 
 		foreach ($departments as $departmentID => $departmentName)
 		{
@@ -396,7 +396,7 @@ class ScheduleExport extends BaseModel
 	 */
 	private function setTitles()
 	{
-		$docTitle      = Helpers\Languages::_('THM_ORGANIZER_SCHEDULE') . '_';
+		$docTitle      = Helpers\Languages::_('ORGANIZER_SCHEDULE') . '_';
 		$pageTitle     = '';
 		$useMySchedule = !empty($this->parameters['mySchedule']);
 		$useLessons    = !empty($this->parameters['lessonIDs']);
@@ -409,7 +409,7 @@ class ScheduleExport extends BaseModel
 		if ($useMySchedule)
 		{
 			$docTitle  = 'mySchedule_';
-			$pageTitle = Helpers\Languages::_('THM_ORGANIZER_MY_SCHEDULE');
+			$pageTitle = Helpers\Languages::_('ORGANIZER_MY_SCHEDULE');
 		}
 		elseif ((!$useLessons and !$useInstances) and ($usePools xor $usePersons xor $useRooms xor $useSubjects))
 		{

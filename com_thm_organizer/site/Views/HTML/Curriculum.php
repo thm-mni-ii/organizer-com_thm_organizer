@@ -78,8 +78,8 @@ class Curriculum extends ItemView
 				$crp = empty($item['creditpoints']) ? '' : "{$item['creditpoints']} CrP";
 				$url = "?option=com_thm_organizer&view=subject_item&id={$item['subjectID']}";
 
-				$documentLinkAttributes = $linkAttributes + ['title' => Languages::_('THM_ORGANIZER_SUBJECT_ITEM')];
-				$scheduleLinkAttributes = $linkAttributes + ['title' => Languages::_('THM_ORGANIZER_SCHEDULE')];
+				$documentLinkAttributes = $linkAttributes + ['title' => Languages::_('ORGANIZER_SUBJECT_ITEM')];
+				$scheduleLinkAttributes = $linkAttributes + ['title' => Languages::_('ORGANIZER_SCHEDULE')];
 
 				$documentLink = HTML::link($url, '<span class="icon-file-2"></span>', $documentLinkAttributes);
 

@@ -31,18 +31,18 @@ class InstanceEdit extends EditView
 	{
 		$new   = empty($this->item->id);
 		$title = $new ?
-			Languages::_('THM_ORGANIZER_INSTANCE_NEW') : Languages::_('THM_ORGANIZER_INSTANCE_EDIT');
+			Languages::_('ORGANIZER_INSTANCE_NEW') : Languages::_('ORGANIZER_INSTANCE_EDIT');
 		HTML::setTitle($title, 'contract-2');
 		$toolbar   = Toolbar::getInstance();
-		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+		$applyText = $new ? Languages::_('ORGANIZER_CREATE') : Languages::_('ORGANIZER_APPLY');
 		$toolbar->appendButton('Standard', 'apply', $applyText, 'instances.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'instances.save', false);
-		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+		$toolbar->appendButton('Standard', 'save', Languages::_('ORGANIZER_SAVE'), 'instances.save', false);
+		$cancelText = $new ? Languages::_('ORGANIZER_CANCEL') : Languages::_('ORGANIZER_CLOSE');
 		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'instances.cancel', false);
 		$toolbar->appendButton(
 			'Standard',
 			'save-copy',
-			Languages::_('THM_ORGANIZER_SAVE2COPY'),
+			Languages::_('ORGANIZER_SAVE2COPY'),
 			'instances.save2copy',
 			false
 		);

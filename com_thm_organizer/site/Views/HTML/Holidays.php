@@ -30,15 +30,15 @@ class Holidays extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_HOLIDAYS'), 'calendar');
+		HTML::setTitle(Languages::_('ORGANIZER_HOLIDAYS'), 'calendar');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'holidays.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'holidays.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'holidays.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'holidays.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'holidays.delete',
 			true
 		);
@@ -68,7 +68,7 @@ class Holidays extends ListView
 			'name'      => HTML::sort('NAME', 'name', $direction, $ordering),
 			'startDate' => HTML::sort('DATE', 'startDate', $direction, $ordering),
 			'type'      => HTML::sort('TYPE', 'type', $direction, $ordering),
-			'status'    => Languages::_('THM_ORGANIZER_STATUS')
+			'status'    => Languages::_('ORGANIZER_STATUS')
 		];
 
 		$this->headers = $headers;
@@ -96,15 +96,15 @@ class Holidays extends ListView
 
 			if ($endDate < $today)
 			{
-				$status = Languages::_('THM_ORGANIZER_EXPIRED');
+				$status = Languages::_('ORGANIZER_EXPIRED');
 			}
 			elseif ($startDate > $today)
 			{
-				$status = Languages::_('THM_ORGANIZER_PENDING');
+				$status = Languages::_('ORGANIZER_PENDING');
 			}
 			else
 			{
-				$status = Languages::_('THM_ORGANIZER_CURRENT');
+				$status = Languages::_('ORGANIZER_CURRENT');
 			}
 
 			$thisLink                             = $link . $item->id;
@@ -114,8 +114,8 @@ class Holidays extends ListView
 					$thisLink, $year) . ')';
 			$structuredItems[$index]['startDate'] = HTML::_('link', $thisLink, $dateString);
 			$structuredItems[$index]['type']      = HTML::_('link', $thisLink,
-				($item->type == self::OPTIONAL ? Languages::_('THM_ORGANIZER_PLANNING_OPTIONAL') : ($item->type == self::PARTIAL ? Languages::_('THM_ORGANIZER_PLANNING_MANUAL')
-					: Languages::_('THM_ORGANIZER_PLANNING_BLOCKED'))));
+				($item->type == self::OPTIONAL ? Languages::_('ORGANIZER_PLANNING_OPTIONAL') : ($item->type == self::PARTIAL ? Languages::_('ORGANIZER_PLANNING_MANUAL')
+					: Languages::_('ORGANIZER_PLANNING_BLOCKED'))));
 			$structuredItems[$index]['status']    = HTML::_('link', $thisLink, $status);
 
 			$index++;

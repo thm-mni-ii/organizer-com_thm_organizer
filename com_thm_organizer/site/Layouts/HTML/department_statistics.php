@@ -16,11 +16,11 @@ $initialHidden = ['date'];
           method="post" name="adminForm" id="adminForm" target="_blank">
         <div id="header-container" class="header-container clearfix">
             <div class="header-title">
-				<?php echo Languages::_('THM_ORGANIZER_DEPARTMENT_OCCUPANCY'); ?>
+				<?php echo Languages::_('ORGANIZER_DEPARTMENT_OCCUPANCY'); ?>
             </div>
             <div class="toolbar">
                 <button id="action-btn" class="btn" type="submit">
-					<?php echo Languages::_('THM_ORGANIZER_DOWNLOAD') ?>
+					<?php echo Languages::_('ORGANIZER_DOWNLOAD') ?>
                     <span class="icon-file-excel"></span>
                 </button>
             </div>
@@ -45,8 +45,8 @@ $initialHidden = ['date'];
         </fieldset>
         <fieldset>
             <legend>
-				<?php echo Languages::_('THM_ORGANIZER_FILTERS'); ?>
-                <span class="disclaimer"><?php echo Languages::_('THM_ORGANIZER_OPTIONAL'); ?></span>
+				<?php echo Languages::_('ORGANIZER_FILTERS'); ?>
+                <span class="disclaimer"><?php echo Languages::_('ORGANIZER_OPTIONAL'); ?></span>
             </legend>
 			<?php
 			foreach ($this->fields['filterFields'] as $filterID => $filter)

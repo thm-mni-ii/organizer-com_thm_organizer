@@ -42,7 +42,7 @@ class Participants extends ListView
 		$courseID           = Helpers\Input::getFilterID('course');
 		$courseParticipants = ($courseID and $isSite);
 
-		$title = Helpers\Languages::_('THM_ORGANIZER_PARTICIPANTS');
+		$title = Helpers\Languages::_('ORGANIZER_PARTICIPANTS');
 		if ($courseParticipants)
 		{
 			$teaches = Helpers\Courses::teaches($courseID);
@@ -64,7 +64,7 @@ class Participants extends ListView
 			$toolbar->appendButton(
 				'Standard',
 				'edit',
-				Helpers\Languages::_('THM_ORGANIZER_EDIT'),
+				Helpers\Languages::_('ORGANIZER_EDIT'),
 				'participants.edit',
 				true
 			);
@@ -75,7 +75,7 @@ class Participants extends ListView
 			$toolbar->appendButton(
 				'Standard',
 				'signup',
-				Helpers\Languages::_('THM_ORGANIZER_ACCEPT'),
+				Helpers\Languages::_('ORGANIZER_ACCEPT'),
 				'participants.accept',
 				true
 			);
@@ -85,7 +85,7 @@ class Participants extends ListView
 				$toolbar->appendButton(
 					'Standard',
 					'info-euro',
-					Helpers\Languages::_('THM_ORGANIZER_CONFIRM_PAYMENT'),
+					Helpers\Languages::_('ORGANIZER_CONFIRM_PAYMENT'),
 					'participants.confirmPayment',
 					true
 				);
@@ -94,7 +94,7 @@ class Participants extends ListView
 			$toolbar->appendButton(
 				'Standard',
 				'checkbox-checked',
-				Helpers\Languages::_('THM_ORGANIZER_CONFIRM_ATTENDANCE'),
+				Helpers\Languages::_('ORGANIZER_CONFIRM_ATTENDANCE'),
 				'participants.confirmAttendance',
 				true
 			);
@@ -103,20 +103,20 @@ class Participants extends ListView
 			{
 				$toolbar->appendButton(
 					'Confirm',
-					Helpers\Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+					Helpers\Languages::_('ORGANIZER_DELETE_CONFIRM'),
 					'user-minus',
-					Helpers\Languages::_('THM_ORGANIZER_DELETE'),
+					Helpers\Languages::_('ORGANIZER_DELETE'),
 					'participants.remove',
 					true
 				);
 			}
 
-			$if          = "alert('" . Helpers\Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING') . "');";
+			$if          = "alert('" . Helpers\Languages::_('ORGANIZER_LIST_SELECTION_WARNING') . "');";
 			$else        = "jQuery('#modal-circular').modal('show'); return true;";
 			$script      = 'onclick="if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}"';
 			$batchButton = '<button id="participant-mail" data-toggle="modal" class="btn btn-small" ' . $script . '>';
 
-			$title       = Helpers\Languages::_('THM_ORGANIZER_MAIL');
+			$title       = Helpers\Languages::_('ORGANIZER_MAIL');
 			$batchButton .= '<span class="icon-envelope" title="' . $title . '"></span>' . " $title";
 
 			$batchButton .= '</button>';
@@ -129,7 +129,7 @@ class Participants extends ListView
 			$toolbar->appendButton(
 				'Standard',
 				'attachment',
-				Helpers\Languages::_('THM_ORGANIZER_MERGE'),
+				Helpers\Languages::_('ORGANIZER_MERGE'),
 				'participants.mergeView',
 				true
 			);
@@ -230,7 +230,7 @@ class Participants extends ListView
 					'participantID',
 					$item->id,
 					$item->status,
-					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_ACCEPTED'),
+					Helpers\Languages::_('ORGANIZER_TOGGLE_ACCEPTED'),
 					'status'
 				);
 
@@ -241,7 +241,7 @@ class Participants extends ListView
 					'participantID',
 					$item->id,
 					$item->attended,
-					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_ATTENDED'),
+					Helpers\Languages::_('ORGANIZER_TOGGLE_ATTENDED'),
 					'attended'
 				);
 
@@ -252,7 +252,7 @@ class Participants extends ListView
 					'participantID',
 					$item->id,
 					$item->paid,
-					Helpers\Languages::_('THM_ORGANIZER_TOGGLE_PAID'),
+					Helpers\Languages::_('ORGANIZER_TOGGLE_PAID'),
 					'paid'
 				);
 			}

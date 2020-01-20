@@ -18,21 +18,19 @@
         <field name="name_de" type="Blank" label="NAME_DE" class="required" required="true" size="40"/>
         <field name="shortName_de" type="Blank" label="SHORT_NAME_DE" size="40"/>
         <field name="abbreviation_de" type="Blank" label="ABBREVIATION_DE" size="40"/>
-        <field name="description_de" type="Editor" label="THM_ORGANIZER_DESC_DE"
-               description="THM_ORGANIZER_DESC_DE_DESC"/>
+        <field name="description_de" type="Editor" label="ORGANIZER_DESC_DE" description="ORGANIZER_DESC_DE_DESC"/>
     </fieldset>
     <fieldset name="en" label="ATTRIBUTES_EN">
         <field name="name_en" type="Blank" label="NAME_EN" class="required" required="true" size="40"/>
         <field name="shortName_en" type="Blank" label="SHORT_NAME_EN" size="40"/>
         <field name="abbreviation_en" type="Blank" label="ABBREVIATION_EN" size="40"/>
-        <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
-               description="THM_ORGANIZER_DESC_EN_DESC"/>
+        <field name="description_en" type="Editor" label="ORGANIZER_DESC_EN" description="ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
     <fieldset name="mappings" label="ATTRIBUTES_STRUCTURE" displayinitial="0">
         <field name="programID" type="ProgramMappings" access="true" label="PROGRAMS"
-               description="THM_ORGANIZER_PROGRAMS_DESC" required="false"/>
-        <field name="parentID" type="ParentPool" label="PARENT_POOLS" description="THM_ORGANIZER_PARENT_POOLS_DESC"
+               description="ORGANIZER_PROGRAMS_DESC" required="false"/>
+        <field name="parentID" type="ParentPool" label="PARENT_POOLS" description="ORGANIZER_PARENT_POOLS_DESC"
                required="false"/>
-        <field name="children" type="Children" label="CHILDREN" description="THM_ORGANIZER_CHILDREN_DESC"/>
+        <field name="children" type="Children" label="CHILDREN" description="ORGANIZER_CHILDREN_DESC"/>
     </fieldset>
 </form>

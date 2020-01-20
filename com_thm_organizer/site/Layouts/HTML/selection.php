@@ -24,7 +24,7 @@ echo OrganizerHelper::getApplication()->JComponentTitle; ?>
 		<?php endforeach; ?>
         <div class="toolbar">
             <a id="action-btn" class="btn" onclick="handleSubmit();">
-				<?php echo Languages::_('THM_ORGANIZER_DOWNLOAD') ?>
+				<?php echo Languages::_('ORGANIZER_DOWNLOAD') ?>
                 <span class="icon-file-pdf"></span>
             </a>
         </div>

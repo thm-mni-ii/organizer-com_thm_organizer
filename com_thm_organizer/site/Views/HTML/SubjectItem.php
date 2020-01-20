@@ -34,7 +34,7 @@ class SubjectItem extends ItemView
 			return;
 		}
 
-		$option = 'THM_ORGANIZER_';
+		$option = 'ORGANIZER_';
 		switch ($value)
 		{
 			case 3:

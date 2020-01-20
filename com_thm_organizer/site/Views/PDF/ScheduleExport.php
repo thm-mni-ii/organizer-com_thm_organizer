@@ -64,7 +64,7 @@ class ScheduleExport extends BaseView
 
 		if (!$this->compiler)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_501'), 501);
+			throw new Exception(Languages::_('ORGANIZER_501'), 501);
 		}
 
 		return true;

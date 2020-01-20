@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" version="3.*" method="upgrade">
-    <name>THM_ORGANIZER</name>
+    <name>ORGANIZER</name>
     <author>James Antrim</author>
     <authorEmail>james.antrim@nm.thm.de</authorEmail>
     <author>Lavinia Popa-Rössel</author>
@@ -49,7 +49,7 @@
         <folder>Views</folder>
     </files>
     <administration>
-        <menu>THM_ORGANIZER</menu>
+        <menu>ORGANIZER</menu>
         <files folder="admin">
             <filename>access.xml</filename>
             <filename>config.xml</filename>

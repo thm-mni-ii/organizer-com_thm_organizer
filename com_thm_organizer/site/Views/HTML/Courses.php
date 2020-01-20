@@ -65,7 +65,7 @@ class Courses extends ListView
 		if (empty(Factory::getUser()->id))
 		{
 			$this->supplement =
-				'<div class="tbox-yellow">' . Languages::_('THM_ORGANIZER_COURSE_LOGIN_WARNING') . '</div>';
+				'<div class="tbox-yellow">' . Languages::_('ORGANIZER_COURSE_LOGIN_WARNING') . '</div>';
 		}
 	}
 
@@ -82,7 +82,7 @@ class Courses extends ListView
 		{
 			if (Helpers\Input::getBool('onlyPrepCourses', false))
 			{
-				$resourceName .= Languages::_('THM_ORGANIZER_PREP_COURSES');
+				$resourceName .= Languages::_('ORGANIZER_PREP_COURSES');
 				if ($campusID = $this->state->get('filter.campusID', 0))
 				{
 					$resourceName .= ' ' . Helpers\Campuses::getName($campusID);
@@ -90,7 +90,7 @@ class Courses extends ListView
 			}
 		}
 
-		Helpers\HTML::setMenuTitle('THM_ORGANIZER_COURSES', $resourceName, 'contract-2');
+		Helpers\HTML::setMenuTitle('ORGANIZER_COURSES', $resourceName, 'contract-2');
 
 		if (Factory::getUser()->id)
 		{
@@ -98,7 +98,7 @@ class Courses extends ListView
 			if ($frontend)
 			{
 				$buttonText = Helpers\Participants::exists() ?
-					Languages::_('THM_ORGANIZER_PROFILE_EDIT') : Languages::_('THM_ORGANIZER_PROFILE_NEW');
+					Languages::_('ORGANIZER_PROFILE_EDIT') : Languages::_('ORGANIZER_PROFILE_NEW');
 				$toolbar->appendButton(
 					'Standard',
 					'vcard',
@@ -110,17 +110,17 @@ class Courses extends ListView
 
 			if (Helper::coordinates())
 			{
-				$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'courses.add', false);
+				$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'courses.add', false);
 			}
 
 			if (!$frontend)
 			{
-				$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'courses.edit', true);
+				$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'courses.edit', true);
 				$toolbar->appendButton(
 					'Confirm',
-					Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+					Languages::_('ORGANIZER_DELETE_CONFIRM'),
 					'delete',
-					Languages::_('THM_ORGANIZER_DELETE'),
+					Languages::_('ORGANIZER_DELETE'),
 					'courses.delete',
 					true
 				);
@@ -156,17 +156,17 @@ class Courses extends ListView
 
 		$headers = [
 			'id'           => '#',
-			'name'         => Languages::_('THM_ORGANIZER_NAME'),
-			'dates'        => Languages::_('THM_ORGANIZER_DATES'),
-			'courseStatus' => Languages::_('THM_ORGANIZER_COURSE_STATUS')
+			'name'         => Languages::_('ORGANIZER_NAME'),
+			'dates'        => Languages::_('ORGANIZER_DATES'),
+			'courseStatus' => Languages::_('ORGANIZER_COURSE_STATUS')
 		];
 
 		if ($backend)
 		{
 			$headers = ['checkbox' => ''] + $headers;
 			$headers += [
-				'persons' => Languages::_('THM_ORGANIZER_PERSONS'),
-				'groups'  => Languages::_('THM_ORGANIZER_GROUPS')
+				'persons' => Languages::_('ORGANIZER_PERSONS'),
+				'groups'  => Languages::_('ORGANIZER_GROUPS')
 			];
 		}
 
@@ -240,13 +240,13 @@ class Courses extends ListView
 			{
 				$button  = str_replace('XHREFX', $baseURL . "&view=course_edit&id=$courseID", $template);
 				$button  = str_replace('XICONX', '<span class="icon-options"></span>', $button);
-				$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_COURSE_MANAGE'), $button);
+				$button  = str_replace('XTEXTX', Languages::_('ORGANIZER_COURSE_MANAGE'), $button);
 				$buttons .= $button;
 			}
 
 			$button  = str_replace('XHREFX', $baseURL . "&view=course_participants&id=$courseID", $template);
 			$button  = str_replace('XICONX', '<span class="icon-users"></span>', $button);
-			$button  = str_replace('XTEXTX', Languages::_('THM_ORGANIZER_MANAGE_PARTICIPANTS'), $button);
+			$button  = str_replace('XTEXTX', Languages::_('ORGANIZER_MANAGE_PARTICIPANTS'), $button);
 			$buttons .= $button;
 
 			return $buttons;
@@ -259,14 +259,14 @@ class Courses extends ListView
 
 		if ($state = Helpers\CourseParticipants::getState($courseID, $participantID))
 		{
-			return '<span class="icon-checkbox-checked"></span>' . Languages::_('THM_ORGANIZER_ACCEPTED');
+			return '<span class="icon-checkbox-checked"></span>' . Languages::_('ORGANIZER_ACCEPTED');
 		}
 
 		if ($state === self::WAIT_LIST)
 		{
-			return '<span class="icon-checkbox-partial"></span>' . Languages::_('THM_ORGANIZER_WAIT_LIST');
+			return '<span class="icon-checkbox-partial"></span>' . Languages::_('ORGANIZER_WAIT_LIST');
 		}
 
-		return '<span class="icon-checkbox-unchecked"></span>' . Languages::_('THM_ORGANIZER_COURSE_NOT_REGISTERED');
+		return '<span class="icon-checkbox-unchecked"></span>' . Languages::_('ORGANIZER_COURSE_NOT_REGISTERED');
 	}
 }

@@ -116,7 +116,7 @@ class Terms extends Helpers\ResourceHelper implements UntisXMLValidator
 		// Data type / value checks failed.
 		if (!$valid)
 		{
-			$model->errors[] = Languages::_('THM_ORGANIZER_TERM_INVALID');
+			$model->errors[] = Languages::_('ORGANIZER_TERM_INVALID');
 
 			return false;
 		}
@@ -135,7 +135,7 @@ class Terms extends Helpers\ResourceHelper implements UntisXMLValidator
 		// Consistency among the dates failed.
 		if ($invalid)
 		{
-			$model->errors[] = Languages::_('THM_ORGANIZER_TERM_INVALID');
+			$model->errors[] = Languages::_('ORGANIZER_TERM_INVALID');
 
 			return false;
 		}

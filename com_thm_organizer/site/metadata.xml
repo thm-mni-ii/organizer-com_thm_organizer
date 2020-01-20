@@ -2,22 +2,19 @@
 <metadata>
     <menu>
         <options var="view">
-            <option name="THM_ORGANIZER_COURSES" msg="THM_ORGANIZER_COURSES_DESC" value="courses"/>
-            <option name="THM_ORGANIZER_CURRICULUM" msg="THM_ORGANIZER_CURRICULUM_DESC" value="curriculum"/>
-            <option name="THM_ORGANIZER_DEPARTMENT_OCCUPANCY" msg="THM_ORGANIZER_DEPARTMENT_OCCUPANCY_DESC"
+            <option name="ORGANIZER_COURSES" msg="ORGANIZER_COURSES_DESC" value="courses"/>
+            <option name="ORGANIZER_CURRICULUM" msg="ORGANIZER_CURRICULUM_DESC" value="curriculum"/>
+            <option name="ORGANIZER_DEPARTMENT_OCCUPANCY" msg="ORGANIZER_DEPARTMENT_OCCUPANCY_DESC"
                     value="department_statistics"/>
-            <option name="THM_ORGANIZER_DEPUTAT" msg="THM_ORGANIZER_DEPUTAT_DESC" value="deputat"/>
-            <option name="THM_ORGANIZER_EVENTS" msg="THM_ORGANIZER_EVENTS_DESC" value="event_list"/>
-            <option name="THM_ORGANIZER_EVENT_STATISTICS" msg="THM_ORGANIZER_EVENT_STATISTICS_DESC"
-                    value="lesson_statistics"/>
-            <option name="THM_ORGANIZER_ROOM_OVERVIEW" msg="THM_ORGANIZER_ROOM_OVERVIEW_DESC" value="room_overview"/>
-            <option name="THM_ORGANIZER_ROOM_STATISTICS" msg="THM_ORGANIZER_ROOM_STATISTICS_DESC"
-                    value="room_statistics"/>
-            <option name="THM_ORGANIZER_SCHEDULE_EXPORT" msg="THM_ORGANIZER_SCHEDULE_EXPORT_DESC"
-                    value="schedule_export"/>
-            <option name="THM_ORGANIZER_SCHEDULE" msg="THM_ORGANIZER_SCHEDULE_DESC" value="schedule_item"/>
-            <option name="THM_ORGANIZER_SEARCH" msg="THM_ORGANIZER_SEARCH_DESC" value="search"/>
-            <option name="THM_ORGANIZER_SUBJECTS" msg="THM_ORGANIZER_SUBJECTS_DESC" value="subjects"/>
+            <option name="ORGANIZER_DEPUTAT" msg="ORGANIZER_DEPUTAT_DESC" value="deputat"/>
+            <option name="ORGANIZER_EVENTS" msg="ORGANIZER_EVENTS_DESC" value="event_list"/>
+            <option name="ORGANIZER_EVENT_STATISTICS" msg="ORGANIZER_EVENT_STATISTICS_DESC" value="lesson_statistics"/>
+            <option name="ORGANIZER_ROOM_OVERVIEW" msg="ORGANIZER_ROOM_OVERVIEW_DESC" value="room_overview"/>
+            <option name="ORGANIZER_ROOM_STATISTICS" msg="ORGANIZER_ROOM_STATISTICS_DESC" value="room_statistics"/>
+            <option name="ORGANIZER_SCHEDULE_EXPORT" msg="ORGANIZER_SCHEDULE_EXPORT_DESC" value="schedule_export"/>
+            <option name="ORGANIZER_SCHEDULE" msg="ORGANIZER_SCHEDULE_DESC" value="schedule_item"/>
+            <option name="ORGANIZER_SEARCH" msg="ORGANIZER_SEARCH_DESC" value="search"/>
+            <option name="ORGANIZER_SUBJECTS" msg="ORGANIZER_SUBJECTS_DESC" value="subjects"/>
         </options>
     </menu>
 </metadata>

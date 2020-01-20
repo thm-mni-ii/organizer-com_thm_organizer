@@ -197,7 +197,7 @@ class Mappings
 		}
 		else
 		{
-			return Languages::_('THM_ORGANIZER_MULTIPLE_POOLS');
+			return Languages::_('ORGANIZER_MULTIPLE_POOLS');
 		}
 	}
 
@@ -350,7 +350,7 @@ class Mappings
 		}
 		else
 		{
-			return Languages::_('THM_ORGANIZER_MULTIPLE_PROGRAMS');
+			return Languages::_('ORGANIZER_MULTIPLE_PROGRAMS');
 		}
 	}
 

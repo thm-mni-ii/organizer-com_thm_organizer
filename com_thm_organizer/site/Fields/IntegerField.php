@@ -64,7 +64,7 @@ class IntegerField extends OptionsField
 			{
 				$text = empty($prefix) ? '' : $prefix;
 				$text .= $number;
-				$text .= empty($unit) ? '' : ' ' . Languages::_("THM_ORGANIZER_$unit");
+				$text .= empty($unit) ? '' : ' ' . Languages::_("ORGANIZER_$unit");
 
 				$options[] = HTML::_('select.option', $number, $text);
 			}
@@ -76,7 +76,7 @@ class IntegerField extends OptionsField
 			{
 				$text = empty($prefix) ? '' : $prefix;
 				$text .= $number;
-				$text .= empty($unit) ? '' : ' ' . Languages::_("THM_ORGANIZER_$unit");
+				$text .= empty($unit) ? '' : ' ' . Languages::_("ORGANIZER_$unit");
 
 				$options[] = HTML::_('select.option', $number, $text);
 			}

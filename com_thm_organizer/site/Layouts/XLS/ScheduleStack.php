@@ -203,35 +203,35 @@ class ScheduleStack
 
 		$this->spreadSheet->getActiveSheet()->setTitle($dates);
 
-		$this->spreadSheet->getActiveSheet()->setCellValue('A2', Languages::_('THM_ORGANIZER_DATE'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('B2', Languages::_('THM_ORGANIZER_START_TIME'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('C2', Languages::_('THM_ORGANIZER_END_TIME'));
-		$this->spreadSheet->getActiveSheet()->setCellValue('D2', Languages::_('THM_ORGANIZER_SUBJECTS'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('A2', Languages::_('ORGANIZER_DATE'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('B2', Languages::_('ORGANIZER_START_TIME'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('C2', Languages::_('ORGANIZER_END_TIME'));
+		$this->spreadSheet->getActiveSheet()->setCellValue('D2', Languages::_('ORGANIZER_SUBJECTS'));
 
 		$letter = 'D';
 		if ($this->parameters['showPersons'])
 		{
 			$column = ++$letter;
 			$cell   = "{$column}2";
-			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('THM_ORGANIZER_TEACHERS'));
+			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('ORGANIZER_TEACHERS'));
 		}
 
 		if ($this->parameters['showRooms'])
 		{
 			$column = ++$letter;
 			$cell   = "{$column}2";
-			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('THM_ORGANIZER_ROOMS'));
+			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('ORGANIZER_ROOMS'));
 		}
 
 		if ($this->parameters['showPools'])
 		{
 			$column = ++$letter;
 			$cell   = "{$column}2";
-			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('THM_ORGANIZER_POOLS'));
+			$this->spreadSheet->getActiveSheet()->setCellValue($cell, Languages::_('ORGANIZER_POOLS'));
 		}
 
 		$this->spreadSheet->getActiveSheet()->mergeCells("A1:{$letter}1");
-		$pageHeading = Languages::_('THM_ORGANIZER_WEEK') . ": $dates";
+		$pageHeading = Languages::_('ORGANIZER_WEEK') . ": $dates";
 		$this->spreadSheet->getActiveSheet()->setCellValue('A1', $pageHeading);
 
 		foreach (range('A', $letter) as $columnID)
@@ -251,7 +251,7 @@ class ScheduleStack
 		$startDate   = Dates::formatDate(reset($lessonDates));
 		$endDate     = Dates::formatDate(end($lessonDates));
 
-		return Languages::_('THM_ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
+		return Languages::_('ORGANIZER_SCHEDULE') . " $startDate - $endDate " . $this->parameters['pageTitle'];
 	}
 
 	/**

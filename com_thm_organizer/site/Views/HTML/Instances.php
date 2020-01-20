@@ -27,15 +27,15 @@ class Instances extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_INSTANCES'), 'contract-2');
+		HTML::setTitle(Languages::_('ORGANIZER_INSTANCES'), 'contract-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'instances.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'instances.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'instances.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'instances.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'instances.delete',
 			true
 		);
@@ -63,8 +63,8 @@ class Instances extends ListView
 		$headers   = [
 			'checkbox' => HTML::_('grid.checkall'),
 			'name'     => HTML::sort('NAME', 'name', $direction, $ordering),
-			'term'     => Languages::_('THM_ORGANIZER_TERM'),
-			'status'   => Languages::_('THM_ORGANIZER_STATUS')
+			'term'     => Languages::_('ORGANIZER_TERM'),
+			'status'   => Languages::_('ORGANIZER_STATUS')
 		];
 
 		$this->headers = $headers;
@@ -87,15 +87,15 @@ class Instances extends ListView
 			$today = date('Y-m-d');
 			if ($item->date < $today)
 			{
-				$status = Languages::_('THM_ORGANIZER_EXPIRED');
+				$status = Languages::_('ORGANIZER_EXPIRED');
 			}
 			elseif ($item->date > $today)
 			{
-				$status = Languages::_('THM_ORGANIZER_PENDING');
+				$status = Languages::_('ORGANIZER_PENDING');
 			}
 			else
 			{
-				$status = Languages::_('THM_ORGANIZER_CURRENT');
+				$status = Languages::_('ORGANIZER_CURRENT');
 			}
 
 			$thisLink                            = $link . $item->id;

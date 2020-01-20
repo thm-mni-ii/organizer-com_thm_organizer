@@ -48,7 +48,7 @@ class Group extends MergeModel implements ScheduleResource
 
 		if (!Helpers\Can::edit('groups', $this->selected))
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('ORGANIZER_403'), 403);
 		}
 
 		return $this->savePublishing();

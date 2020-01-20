@@ -39,16 +39,16 @@ class Groups extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_GROUPS'), 'list-2');
+		HTML::setTitle(Languages::_('ORGANIZER_GROUPS'), 'list-2');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'groups.edit', true);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'groups.edit', true);
 
-		$if          = "alert('" . Languages::_('THM_ORGANIZER_LIST_SELECTION_WARNING') . "');";
+		$if          = "alert('" . Languages::_('ORGANIZER_LIST_SELECTION_WARNING') . "');";
 		$else        = "jQuery('#modal-publishing').modal('show'); return true;";
 		$script      = 'onclick="if(document.adminForm.boxchecked.value==0){' . $if . '}else{' . $else . '}"';
 		$batchButton = '<button id="group-publishing" data-toggle="modal" class="btn btn-small" ' . $script . '>';
 
-		$title       = Languages::_('THM_ORGANIZER_BATCH');
+		$title       = Languages::_('ORGANIZER_BATCH');
 		$batchButton .= '<span class="icon-stack" title="' . $title . '"></span>' . " $title";
 
 		$batchButton .= '</button>';
@@ -60,14 +60,14 @@ class Groups extends ListView
 			$toolbar->appendButton(
 				'Standard',
 				'attachment',
-				Languages::_('THM_ORGANIZER_MERGE'),
+				Languages::_('ORGANIZER_MERGE'),
 				'groups.mergeView',
 				true
 			);
 			$toolbar->appendButton(
 				'Standard',
 				'eye-open',
-				Languages::_('THM_ORGANIZER_PUBLISH_EXPIRED_TERMS'),
+				Languages::_('ORGANIZER_PUBLISH_EXPIRED_TERMS'),
 				'groups.publishPast',
 				false
 			);
@@ -126,7 +126,7 @@ class Groups extends ListView
 			'checkbox' => HTML::_('grid.checkall'),
 			'fullName' => HTML::sort('FULL_NAME', 'gr.fullName', $direction, $ordering),
 			'name'     => HTML::sort('SELECT_BOX_DISPLAY', 'gr.name', $direction, $ordering),
-			'grid'     => Languages::_('THM_ORGANIZER_GRID'),
+			'grid'     => Languages::_('ORGANIZER_GRID'),
 			'untisID'  => HTML::sort('UNTIS_ID', 'gr.untisID', $direction, $ordering)
 		];
 

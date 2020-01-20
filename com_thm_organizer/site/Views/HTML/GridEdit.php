@@ -29,13 +29,13 @@ class GridEdit extends EditView
 	{
 		$new   = empty($this->item->id);
 		$title = $new ?
-			Languages::_('THM_ORGANIZER_GRID_NEW') : Languages::_('THM_ORGANIZER_GRID_EDIT');
+			Languages::_('ORGANIZER_GRID_NEW') : Languages::_('ORGANIZER_GRID_EDIT');
 		HTML::setTitle($title, 'grid-2');
 		$toolbar   = Toolbar::getInstance();
-		$applyText = $new ? Languages::_('THM_ORGANIZER_CREATE') : Languages::_('THM_ORGANIZER_APPLY');
+		$applyText = $new ? Languages::_('ORGANIZER_CREATE') : Languages::_('ORGANIZER_APPLY');
 		$toolbar->appendButton('Standard', 'apply', $applyText, 'grids.apply', false);
-		$toolbar->appendButton('Standard', 'save', Languages::_('THM_ORGANIZER_SAVE'), 'grids.save', false);
-		$cancelText = $new ? Languages::_('THM_ORGANIZER_CANCEL') : Languages::_('THM_ORGANIZER_CLOSE');
+		$toolbar->appendButton('Standard', 'save', Languages::_('ORGANIZER_SAVE'), 'grids.save', false);
+		$cancelText = $new ? Languages::_('ORGANIZER_CANCEL') : Languages::_('ORGANIZER_CLOSE');
 		$toolbar->appendButton('Standard', 'cancel', $cancelText, 'grids.cancel', false);
 	}
 }

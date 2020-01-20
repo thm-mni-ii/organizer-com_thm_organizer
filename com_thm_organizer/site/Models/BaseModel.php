@@ -65,7 +65,7 @@ abstract class BaseModel extends BaseDatabaseModel
 	{
 		if (!$this->allow())
 		{
-			throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('COM_ORGANIZER_403'), 403);
 		}
 
 		$selectedIDs = Input::getSelectedIDs();
@@ -93,7 +93,7 @@ abstract class BaseModel extends BaseDatabaseModel
 	{
 		if (!$this->allow())
 		{
-			throw new Exception(Languages::_('COM_THM_ORGANIZER_403'), 403);
+			throw new Exception(Languages::_('COM_ORGANIZER_403'), 403);
 		}
 
 		$data  = empty($data) ? Input::getFormItems()->toArray() : $data;

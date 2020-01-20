@@ -12,8 +12,8 @@
 use Joomla\CMS\Router\Route;
 
 // Course Status
-$current = Languages::_('THM_ORGANIZER_CURRENT');
-$expired = Languages::_('THM_ORGANIZER_EXPIRED');
+$current = Languages::_('ORGANIZER_CURRENT');
+$expired = Languages::_('ORGANIZER_EXPIRED');
 
 $pathPrefix = 'index.php?option=com_thm_organizer';
 $subjectURL = "{$pathPrefix}&view=subject_item&languageTag={$this->tag}";

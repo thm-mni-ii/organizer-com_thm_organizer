@@ -47,7 +47,7 @@ class ParticipantEdit extends EditModel
 	{
 		if (!$userID = Factory::getUser()->id)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		$participantID = empty($participantID) ? Input::getSelectedID($userID) : $participantID;
@@ -64,7 +64,7 @@ class ParticipantEdit extends EditModel
 
 		if (!$this->allowEdit())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 401);
+			throw new Exception(Languages::_('ORGANIZER_403'), 401);
 		}
 
 		return $this->item;

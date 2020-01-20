@@ -15,18 +15,18 @@ $attribs = ['target' => '_blank'];
 <div id="j-main-container" class="organizer-search-container">
     <form action="<?php Uri::current(); ?>" id="adminForm" method="get" name="adminForm">
         <!-- use language_selection layout -->
-        <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_SEARCH'); ?></h1>
+        <h1 class="componentheading"><?php echo Languages::_('ORGANIZER_SEARCH'); ?></h1>
         <div class="toolbar">
             <div class="tool-wrapper search">
                 <input type="text" name="search" id="search-input" class="search-input"
                        value="<?php echo addslashes($this->query); ?>"
                        size="25"/>
                 <button type="submit" class="btn-search hasTooltip"
-                        title="<?php echo Languages::tooltip('THM_ORGANIZER_SEARCH'); ?>">
+                        title="<?php echo Languages::tooltip('ORGANIZER_SEARCH'); ?>">
                     <i class="icon-search"></i>
                 </button>
                 <button type="reset" class="btn-reset hasTooltip"
-                        title="<?php echo THM_ORGANIZER_SEARCH('THM_ORGANIZER_RESET'); ?>"
+                        title="<?php echo ORGANIZER_SEARCH('ORGANIZER_RESET'); ?>"
                         onclick="document.getElementById('search-input').value='';form.submit();">
                     <i class="icon-delete"></i>
                 </button>
@@ -56,8 +56,8 @@ $attribs = ['target' => '_blank'];
 
 						if (!$headerShown)
 						{
-							$strengthTitle       = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES';
-							$strengthDescription = 'THM_ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
+							$strengthTitle       = 'ORGANIZER_' . strtoupper($strength) . '_MATCHES';
+							$strengthDescription = 'ORGANIZER_' . strtoupper($strength) . '_MATCHES_DESC';
 							echo '<h3>' . Languages::_($strengthTitle) . '</h3><hr><ul>';
 							$headerShown = true;
 						}
@@ -68,7 +68,7 @@ $attribs = ['target' => '_blank'];
 
 						foreach ($result['links'] as $type => $link)
 						{
-							$constant = 'THM_ORGANIZER_' . strtoupper($type);
+							$constant = 'ORGANIZER_' . strtoupper($type);
 
 							if ($type == 'curriculum')
 							{

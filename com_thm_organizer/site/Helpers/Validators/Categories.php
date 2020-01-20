@@ -123,7 +123,7 @@ class Categories extends Helpers\ResourceHelper implements UntisXMLValidator
 		$name = (string) $node->longname;
 		if (!isset($name))
 		{
-			$model->errors[] = sprintf(Languages::_('THM_ORGANIZER_CATEGORY_NAME_MISSING'), $untisID);
+			$model->errors[] = sprintf(Languages::_('ORGANIZER_CATEGORY_NAME_MISSING'), $untisID);
 
 			return;
 		}

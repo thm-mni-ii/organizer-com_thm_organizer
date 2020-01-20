@@ -30,7 +30,7 @@ $showFilterButton = empty($filters['filter_search']) ? (bool) count($filters) : 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
         <label for="filter_search" class="element-invisible">
-			<?php echo Languages::_('THM_ORGANIZER_SEARCH'); ?>
+			<?php echo Languages::_('ORGANIZER_SEARCH'); ?>
         </label>
         <div class="btn-wrapper input-append">
 			<?php echo $filters['filter_search']->input; ?>
@@ -39,8 +39,8 @@ $showFilterButton = empty($filters['filter_search']) ? (bool) count($filters) : 
 					array('title' => Languages::_($filters['filter_search']->description))); ?>
 			<?php endif; ?>
             <button type="submit" class="btn hasTooltip"
-                    title="<?php echo Languages::tooltip('THM_ORGANIZER_SEARCH'); ?>"
-                    aria-label="<?php echo Languages::_('THM_ORGANIZER_SEARCH'); ?>">
+                    title="<?php echo Languages::tooltip('ORGANIZER_SEARCH'); ?>"
+                    aria-label="<?php echo Languages::_('ORGANIZER_SEARCH'); ?>">
                 <span class="icon-search" aria-hidden="true"></span>
             </button>
         </div>
@@ -49,16 +49,16 @@ $showFilterButton = empty($filters['filter_search']) ? (bool) count($filters) : 
 <?php if ($showFilterButton) : ?>
     <div class="btn-wrapper hidden-phone">
         <button type="button" class="btn hasTooltip js-stools-btn-filter"
-                title="<?php echo Languages::tooltip('THM_ORGANIZER_SEARCH_TOOLS_DESC'); ?>">
-			<?php echo Languages::_('THM_ORGANIZER_SEARCH_TOOLS'); ?> <span class="caret"></span>
+                title="<?php echo Languages::tooltip('ORGANIZER_SEARCH_TOOLS_DESC'); ?>">
+			<?php echo Languages::_('ORGANIZER_SEARCH_TOOLS'); ?> <span class="caret"></span>
         </button>
     </div>
 <?php endif; ?>
 <?php if (!empty($filters['filter_search'])) : ?>
     <div class="btn-wrapper">
         <button type="button" class="btn hasTooltip js-stools-btn-clear"
-                title="<?php echo Languages::tooltip('THM_ORGANIZER_RESET'); ?>">
-			<?php echo Languages::_('THM_ORGANIZER_RESET'); ?>
+                title="<?php echo Languages::tooltip('ORGANIZER_RESET'); ?>">
+			<?php echo Languages::_('ORGANIZER_RESET'); ?>
         </button>
     </div>
 <?php endif;

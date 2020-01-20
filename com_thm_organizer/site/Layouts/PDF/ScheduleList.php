@@ -351,7 +351,7 @@ abstract class ScheduleList
 		$columnHeaders = $this->getColumnHeaders();
 		$dimensions    = $this->document->getPageDimensions();
 		$timeConstant  = $this->parameters['interval'] == 'day' ?
-			'' : Languages::_('THM_ORGANIZER_WEEK') . ': ';
+			'' : Languages::_('ORGANIZER_WEEK') . ': ';
 
 		$outputTimeGrid = !empty($rowHeaders);
 		$startDate      = key($columnHeaders);
@@ -419,7 +419,7 @@ abstract class ScheduleList
 		else
 		{
 			$this->document->AddPage();
-			$this->renderCell('', '', Languages::_('THM_ORGANIZER_NO_EVENTS_PLANNED'));
+			$this->renderCell('', '', Languages::_('ORGANIZER_NO_EVENTS_PLANNED'));
 		}
 	}*/
 }

@@ -4,7 +4,7 @@
         <field name="id" type="hidden"/>
         <field name="name_de" type="Blank" label="NAME_DE" required="true" size="60"/>
         <field name="name_en" type="Blank" label="NAME_EN" required="true" size="60"/>
-        <field name="color" type="Color" size="10" required="true" label="THM_ORGANIZER_COLOR"
-               description="THM_ORGANIZER_COLOR_DESC"/>
+        <field name="color" type="Color" size="10" required="true" label="ORGANIZER_COLOR"
+               description="ORGANIZER_COLOR_DESC"/>
     </fieldset>
 </form>

@@ -72,7 +72,7 @@ class Schedules
 	{
 		if (count($this->errors))
 		{
-			$errorMessage = \JText::_('THM_ORGANIZER_ERROR_HEADER') . '<br />';
+			$errorMessage = \JText::_('ORGANIZER_ERROR_HEADER') . '<br />';
 			$errorMessage .= implode('<br />', $this->errors);
 			OrganizerHelper::message($errorMessage, 'error');
 		}
@@ -132,7 +132,7 @@ class Schedules
 	{
 		if (empty($value))
 		{
-			$this->errors[] = Languages::_("THM_ORGANIZER_{$constant}_MISSING");
+			$this->errors[] = Languages::_("ORGANIZER_{$constant}_MISSING");
 
 			return false;
 		}
@@ -236,14 +236,14 @@ class Schedules
 	{
 		if (empty($value))
 		{
-			$this->errors[] = Languages::_("THM_ORGANIZER_{$constant}_MISSING");
+			$this->errors[] = Languages::_("ORGANIZER_{$constant}_MISSING");
 
 			return false;
 		}
 
 		if (!empty($regex) and preg_match($regex, $value))
 		{
-			$this->errors[] = Languages::_("THM_ORGANIZER_{$constant}_INVALID");
+			$this->errors[] = Languages::_("ORGANIZER_{$constant}_INVALID");
 
 			return false;
 		}

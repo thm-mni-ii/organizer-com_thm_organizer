@@ -13,7 +13,7 @@ use Organizer\Helpers\HTML;
 use Organizer\Helpers\Languages;
 
 $logoURL = 'components/com_thm_organizer/images/thm_organizer.png';
-$logo    = HTML::_('image', $logoURL, Languages::_('THM_ORGANIZER'), ['class' => 'thm_organizer_main_image']);
+$logo    = HTML::_('image', $logoURL, Languages::_('ORGANIZER'), ['class' => 'thm_organizer_main_image']);
 $query   = Uri::getInstance()->getQuery();
 ?>
 <div id="j-sidebar-container" class="span2">

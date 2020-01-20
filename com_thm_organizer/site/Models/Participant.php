@@ -115,7 +115,7 @@ class Participant extends MergeModel
 	{
 		if (!Factory::getUser()->id === $participantID)
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$canAccept = (int) Helpers\Courses::canAcceptParticipant($courseID);
@@ -138,12 +138,12 @@ class Participant extends MergeModel
 
 		if (!isset($data['id']))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_400'), 400);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_400'), 400);
 		}
 
 		if (!Helpers\Can::edit('participant', $data['id']))
 		{
-			throw new Exception(Helpers\Languages::_('THM_ORGANIZER_403'), 403);
+			throw new Exception(Helpers\Languages::_('ORGANIZER_403'), 403);
 		}
 
 		$numericFields  = ['id', 'programID'];

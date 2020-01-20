@@ -45,7 +45,7 @@ abstract class PoolsView extends ListView
 		$headers   = [
 			'checkbox'  => '',
 			'name'      => HTML::sort('NAME', 'name', $direction, $ordering),
-			'programID' => Languages::_('THM_ORGANIZER_PROGRAM'),
+			'programID' => Languages::_('ORGANIZER_PROGRAM'),
 			'fieldID'   => HTML::sort('FIELD', 'field', $direction, $ordering)
 		];
 

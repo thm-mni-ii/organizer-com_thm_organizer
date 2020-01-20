@@ -3,18 +3,16 @@
     <section name="component">
         <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC"/>
         <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC"/>
-        <action name="organizer.fm" title="THM_ORGANIZER_FACILITY_MANAGEMENT"
-                description="THM_ORGANIZER_FACILITY_MANAGEMENT_DESC"/>
-        <action name="organizer.hr" title="THM_ORGANIZER_HUMAN_RESOURCES"
-                description="THM_ORGANIZER_HUMAN_RESOURCES_DESC"/>
+        <action name="organizer.fm" title="ORGANIZER_FACILITY_MANAGEMENT"
+                description="ORGANIZER_FACILITY_MANAGEMENT_DESC"/>
+        <action name="organizer.hr" title="ORGANIZER_HUMAN_RESOURCES" description="ORGANIZER_HUMAN_RESOURCES_DESC"/>
     </section>
     <section name="department">
-        <action name="organizer.document" title="THM_ORGANIZER_DOCUMENTATION_ACCESS"
-                description="THM_ORGANIZER_DOCUMENTATION_ACCESS_DESC"/>
-        <action name="organizer.manage" title="THM_ORGANIZER_MANAGE_ACCESS"
-                description="THM_ORGANIZER_MANAGE_ACCESS_DESC"/>
-        <action name="organizer.schedule" title="THM_ORGANIZER_SCHEDULE_ACCESS"
-                description="THM_ORGANIZER_SCHEDULE_ACCESS_DESC"/>
-        <action name="organizer.view" title="THM_ORGANIZER_VIEW_ACCESS" description="THM_ORGANIZER_VIEW_ACCESS_DESC"/>
+        <action name="organizer.document" title="ORGANIZER_DOCUMENTATION_ACCESS"
+                description="ORGANIZER_DOCUMENTATION_ACCESS_DESC"/>
+        <action name="organizer.manage" title="ORGANIZER_MANAGE_ACCESS" description="ORGANIZER_MANAGE_ACCESS_DESC"/>
+        <action name="organizer.schedule" title="ORGANIZER_SCHEDULE_ACCESS"
+                description="ORGANIZER_SCHEDULE_ACCESS_DESC"/>
+        <action name="organizer.view" title="ORGANIZER_VIEW_ACCESS" description="ORGANIZER_VIEW_ACCESS_DESC"/>
     </section>
 </access>

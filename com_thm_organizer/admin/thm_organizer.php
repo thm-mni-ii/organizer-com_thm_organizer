@@ -19,7 +19,7 @@ use Organizer\Helpers\OrganizerHelper;
 
 if (!Factory::getUser()->authorise('core.manage', 'com_thm_organizer'))
 {
-	throw new Exception(Languages::_('THM_ORGANIZER_403'), 403);
+	throw new Exception(Languages::_('ORGANIZER_403'), 403);
 }
 
 OrganizerHelper::setUp();

@@ -40,7 +40,7 @@ if (!empty($showHeading))
             </div>
             <div class="control-group">
                 <button class="btn submit-button" onclick="form.submit();">
-					<?php echo Languages::_('THM_ORGANIZER_REFRESH'); ?>
+					<?php echo Languages::_('ORGANIZER_REFRESH'); ?>
                     <span class="icon-loop"></span>
                 </button>
             </div>
@@ -50,7 +50,7 @@ if (!empty($showHeading))
 
 if (empty($this->model->events))
 {
-	echo '<h3 class="no-entries-found"> ' . Languages::_('THM_ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
+	echo '<h3 class="no-entries-found"> ' . Languages::_('ORGANIZER_NO_ENTRIES_FOUND') . '</h3>';
 }
 
 foreach ($this->model->events as $date => $times)
@@ -58,11 +58,11 @@ foreach ($this->model->events as $date => $times)
 	echo '<div class="event-date">';
 	echo '<div class="event-date-head">' . Dates::formatDate($date) . '</div>';
 	echo '<table><thead><tr class="list-head">';
-	echo '<th class="time-column">' . Languages::_('THM_ORGANIZER_TIMES') . '</th>';
-	echo '<th class="name-column">' . Languages::_('THM_ORGANIZER_EVENT') . '</th>';
-	echo '<th class="persons-column">' . Languages::_('THM_ORGANIZER_TEACHERS') . '</th>';
-	echo '<th class="rooms-column">' . Languages::_('THM_ORGANIZER_ROOMS') . '</th>';
-	echo '<th class="org-column">' . Languages::_('THM_ORGANIZER_ORGANIZATION') . '</th>';
+	echo '<th class="time-column">' . Languages::_('ORGANIZER_TIMES') . '</th>';
+	echo '<th class="name-column">' . Languages::_('ORGANIZER_EVENT') . '</th>';
+	echo '<th class="persons-column">' . Languages::_('ORGANIZER_TEACHERS') . '</th>';
+	echo '<th class="rooms-column">' . Languages::_('ORGANIZER_ROOMS') . '</th>';
+	echo '<th class="org-column">' . Languages::_('ORGANIZER_ORGANIZATION') . '</th>';
 	echo '</tr></thead>';
 
 	$rowNumber = 0;

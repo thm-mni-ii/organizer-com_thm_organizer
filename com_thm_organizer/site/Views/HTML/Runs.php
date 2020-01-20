@@ -30,15 +30,15 @@ class Runs extends ListView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_RUNS'), 'list');
+		HTML::setTitle(Languages::_('ORGANIZER_RUNS'), 'list');
 		$toolbar = Toolbar::getInstance();
-		$toolbar->appendButton('Standard', 'new', Languages::_('THM_ORGANIZER_ADD'), 'runs.add', false);
-		$toolbar->appendButton('Standard', 'edit', Languages::_('THM_ORGANIZER_EDIT'), 'runs.edit', true);
+		$toolbar->appendButton('Standard', 'new', Languages::_('ORGANIZER_ADD'), 'runs.add', false);
+		$toolbar->appendButton('Standard', 'edit', Languages::_('ORGANIZER_EDIT'), 'runs.edit', true);
 		$toolbar->appendButton(
 			'Confirm',
-			Languages::_('THM_ORGANIZER_DELETE_CONFIRM'),
+			Languages::_('ORGANIZER_DELETE_CONFIRM'),
 			'delete',
-			Languages::_('THM_ORGANIZER_DELETE'),
+			Languages::_('ORGANIZER_DELETE'),
 			'runs.delete',
 			true
 		);
@@ -66,8 +66,8 @@ class Runs extends ListView
 		$headers   = [
 			'checkbox'  => '',
 			'name'      => HTML::sort('NAME', 'name', $direction, $ordering),
-			'startDate' => Languages::_('THM_ORGANIZER_START_DATE'),
-			'endDate'   => Languages::_('THM_ORGANIZER_END_DATE')
+			'startDate' => Languages::_('ORGANIZER_START_DATE'),
+			'endDate'   => Languages::_('ORGANIZER_END_DATE')
 		];
 
 		$this->headers = $headers;

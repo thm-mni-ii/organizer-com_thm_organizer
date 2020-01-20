@@ -46,7 +46,7 @@ class CourseItem extends ItemModel
 		$allowView = $this->allowView();
 		if (!$allowView)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		$courseID = Helpers\Input::getID();
@@ -93,7 +93,7 @@ class CourseItem extends ItemModel
 	 */
 	private function getStructure()
 	{
-		$option   = 'THM_ORGANIZER_';
+		$option   = 'ORGANIZER_';
 		$template = [
 			'id'                  => 0,
 			'name'                => ['label' => Languages::_($option . 'NAME'), 'type' => 'text', 'value' => ''],
@@ -287,7 +287,7 @@ class CourseItem extends ItemModel
 		$courseID = $course['id'];
 		$dates    = Courses::getDates($courseID);
 		$deadline = date('Y-m-d', strtotime("{$dates['startDate']} - {$course['deadline']} days"));
-		$option   = 'THM_ORGANIZER_';
+		$option   = 'ORGANIZER_';
 
 		if (Courses::isExpired($courseID))
 		{
@@ -341,7 +341,7 @@ class CourseItem extends ItemModel
 		{
 			$deadline = sprintf(Languages::_($option . 'DEADLINE_TEXT'), Helpers\Dates::formatDate($deadline));
 
-			$course['deadline'] = sprintf(Helpers\Languages::_('THM_ORGANIZER_REGISTRATION_DEADLINE'), $deadline);
+			$course['deadline'] = sprintf(Helpers\Languages::_('ORGANIZER_REGISTRATION_DEADLINE'), $deadline);
 
 			$course['registrationAllowed'] = $full ?
 				Languages::_($option . 'COURSE_FULL') : Languages::_($option . 'COURSE_OPEN');

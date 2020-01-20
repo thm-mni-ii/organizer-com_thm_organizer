@@ -83,7 +83,7 @@ abstract class EditModel extends AdminModel
 	{
 		if (!Factory::getUser()->id)
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		$pk = empty($pk) ? Input::getSelectedID() : $pk;
@@ -98,7 +98,7 @@ abstract class EditModel extends AdminModel
 
 		if (!$this->allowEdit())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_403'), 401);
+			throw new Exception(Languages::_('ORGANIZER_403'), 401);
 		}
 
 		return $this->item;

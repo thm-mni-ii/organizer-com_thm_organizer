@@ -42,11 +42,11 @@ class Participants extends Controller
 
 		if ($participantID = $model->save())
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_SUCCESS', 'success');
+			OrganizerHelper::message('ORGANIZER_SAVE_SUCCESS', 'success');
 		}
 		else
 		{
-			OrganizerHelper::message('THM_ORGANIZER_SAVE_FAIL', 'error');
+			OrganizerHelper::message('ORGANIZER_SAVE_FAIL', 'error');
 		}
 
 		$this->setRedirect(Input::getString('referrer'));

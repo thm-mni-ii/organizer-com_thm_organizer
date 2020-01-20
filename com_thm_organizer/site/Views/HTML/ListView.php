@@ -73,7 +73,7 @@ abstract class ListView extends BaseHTMLView
 	{
 		if (!$this->allowAccess())
 		{
-			throw new Exception(Languages::_('THM_ORGANIZER_401'), 401);
+			throw new Exception(Languages::_('ORGANIZER_401'), 401);
 		}
 
 		$this->state         = $this->get('State');

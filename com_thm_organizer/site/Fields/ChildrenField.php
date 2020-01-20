@@ -152,22 +152,22 @@ class ChildrenField extends FormField
 	{
 		$html = '<table id="childList" class="table table-striped">';
 		$html .= '<thead><tr>';
-		$html .= '<th>' . Languages::_('THM_ORGANIZER_NAME') . '</th>';
-		$html .= '<th class="thm_organizer_pools_ordering">' . Languages::_('THM_ORGANIZER_ORDER') . '</th>';
+		$html .= '<th>' . Languages::_('ORGANIZER_NAME') . '</th>';
+		$html .= '<th class="thm_organizer_pools_ordering">' . Languages::_('ORGANIZER_ORDER') . '</th>';
 		$html .= '</tr></thead>';
 		$html .= '<tbody>';
 
-		$addSpace = Languages::_('THM_ORGANIZER_ADD_EMPTY');
-		Languages::script('THM_ORGANIZER_ADD_EMPTY');
-		$makeFirst = Languages::_('THM_ORGANIZER_MAKE_FIRST');
-		Languages::script('THM_ORGANIZER_MAKE_FIRST');
-		$makeLast = Languages::_('THM_ORGANIZER_MAKE_LAST');
-		Languages::script('THM_ORGANIZER_MAKE_LAST');
-		$moveChildUp = Languages::_('THM_ORGANIZER_MOVE_UP');
-		Languages::script('THM_ORGANIZER_MOVE_UP');
-		$moveChildDown = Languages::_('THM_ORGANIZER_MOVE_DOWN');
-		Languages::script('THM_ORGANIZER_MOVE_DOWN');
-		Languages::script('THM_ORGANIZER_DELETE');
+		$addSpace = Languages::_('ORGANIZER_ADD_EMPTY');
+		Languages::script('ORGANIZER_ADD_EMPTY');
+		$makeFirst = Languages::_('ORGANIZER_MAKE_FIRST');
+		Languages::script('ORGANIZER_MAKE_FIRST');
+		$makeLast = Languages::_('ORGANIZER_MAKE_LAST');
+		Languages::script('ORGANIZER_MAKE_LAST');
+		$moveChildUp = Languages::_('ORGANIZER_MOVE_UP');
+		Languages::script('ORGANIZER_MOVE_UP');
+		$moveChildDown = Languages::_('ORGANIZER_MOVE_DOWN');
+		Languages::script('ORGANIZER_MOVE_DOWN');
+		Languages::script('ORGANIZER_DELETE');
 
 		$rowClass = 'row0';
 		if (!empty($children))
@@ -217,7 +217,7 @@ class ChildrenField extends FormField
 				$blank .= 'title="' . $addSpace . '"><span class="icon-download"></span></button>';
 
 				$trash = '<button class="btn btn-small" onClick="trash(' . $ordering . ');" ';
-				$trash .= 'title="' . Languages::_('THM_ORGANIZER_DELETE') . '" ><span class="icon-trash"></span>';
+				$trash .= 'title="' . Languages::_('ORGANIZER_DELETE') . '" ><span class="icon-trash"></span>';
 				$trash .= '</button>';
 
 				$next = '<button class="btn btn-small" onclick="moveChildDown(\'' . $ordering . '\');" ';

@@ -34,7 +34,7 @@ class Programs extends ResourceHelper implements Selectable
 	{
 		if (empty($programID))
 		{
-			return Languages::_('THM_ORGANIZER_NO_DEPARTMENT');
+			return Languages::_('ORGANIZER_NO_DEPARTMENT');
 		}
 
 		$table = new ProgramsTable;
@@ -85,7 +85,7 @@ class Programs extends ResourceHelper implements Selectable
 	{
 		if (empty($programID))
 		{
-			return Languages::_('THM_ORGANIZER_NO_PROGRAM');
+			return Languages::_('ORGANIZER_NO_PROGRAM');
 		}
 
 		$dbo = Factory::getDbo();

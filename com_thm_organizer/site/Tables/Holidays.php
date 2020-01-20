@@ -78,7 +78,7 @@ class Holidays extends BaseTable
 	{
 		if ($this->endDate < $this->startDate)
 		{
-			OrganizerHelper::message('THM_ORGANIZER_DATE_CHECK', 'error');
+			OrganizerHelper::message('ORGANIZER_DATE_CHECK', 'error');
 
 			return false;
 		}

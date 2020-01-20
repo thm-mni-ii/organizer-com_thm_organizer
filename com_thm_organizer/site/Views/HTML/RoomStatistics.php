@@ -34,17 +34,17 @@ class RoomStatistics extends SelectionView
 
 	private function setBaseFields()
 	{
-		$this->sets['basic'] = ['label' => 'THM_ORGANIZER_BASIC_SETTINGS'];
+		$this->sets['basic'] = ['label' => 'ORGANIZER_BASIC_SETTINGS'];
 
 		$intervals = [
-			'week'     => 'THM_ORGANIZER_WEEK',
-			'month'    => 'THM_ORGANIZER_MONTH',
-			'semester' => 'THM_ORGANIZER_SEMESTER'
+			'week'     => 'ORGANIZER_WEEK',
+			'month'    => 'ORGANIZER_MONTH',
+			'semester' => 'ORGANIZER_SEMESTER'
 		];
 		$this->setListField('interval', 'basic', $intervals, ['onChange' => 'handleInterval();'], 'week');
 
 		$date = '<input name="date" type="date" value="' . date('Y-m-d') . '">';
-		$this->setField('date', 'basic', 'THM_ORGANIZER_DATE', $date);
+		$this->setField('date', 'basic', 'ORGANIZER_DATE', $date);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class RoomStatistics extends SelectionView
 	 */
 	private function setFilterFields()
 	{
-		$this->sets['filters'] = ['label' => 'THM_ORGANIZER_FILTERS'];
+		$this->sets['filters'] = ['label' => 'ORGANIZER_FILTERS'];
 
 		$deptAttribs = [
 			'multiple' => 'multiple',

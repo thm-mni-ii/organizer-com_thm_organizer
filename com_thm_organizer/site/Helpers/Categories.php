@@ -99,7 +99,7 @@ class Categories implements DepartmentAssociated, Selectable
 	 */
 	public static function getProgram($categoryID)
 	{
-		$noName = Languages::_('THM_ORGANIZER_NO_PROGRAM');
+		$noName = Languages::_('ORGANIZER_NO_PROGRAM');
 		if (empty($categoryID))
 		{
 			return $noName;

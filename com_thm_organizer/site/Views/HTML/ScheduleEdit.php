@@ -26,15 +26,15 @@ class ScheduleEdit extends EditView
 	 */
 	protected function addToolBar()
 	{
-		HTML::setTitle(Languages::_('THM_ORGANIZER_SCHEDULE_EDIT'), 'calendars');
+		HTML::setTitle(Languages::_('ORGANIZER_SCHEDULE_EDIT'), 'calendars');
 		$toolbar = Toolbar::getInstance();
 		$toolbar->appendButton(
 			'Standard',
 			'upload',
-			Languages::_('THM_ORGANIZER_UPLOAD'),
+			Languages::_('ORGANIZER_UPLOAD'),
 			'schedules.upload',
 			false
 		);
-		$toolbar->appendButton('Standard', 'cancel', Languages::_('THM_ORGANIZER_CANCEL'), 'schedules.cancel', false);
+		$toolbar->appendButton('Standard', 'cancel', Languages::_('ORGANIZER_CANCEL'), 'schedules.cancel', false);
 	}
 }

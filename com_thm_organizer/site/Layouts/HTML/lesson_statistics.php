@@ -19,7 +19,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
 ?>
 <!-- use language_selection layout -->
 <div class="lesson-statistics-view">
-    <h1 class="componentheading"><?php echo Languages::_('THM_ORGANIZER_EVENT_STATISTICS'); ?></h1>
+    <h1 class="componentheading"><?php echo Languages::_('ORGANIZER_EVENT_STATISTICS'); ?></h1>
     <form enctype="multipart/form-data" method="post"
           id="form-lesson-statistics" class="form-horizontal">
         <input type="hidden" name="option" value="com_thm_organizer">
@@ -34,7 +34,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
             <tr>
 				<?php if ($showTable) : ?>
                     <td>
-                        <span class="name"><?php echo Languages::_('THM_ORGANIZER_TOTAL'); ?></span>
+                        <span class="name"><?php echo Languages::_('ORGANIZER_TOTAL'); ?></span>
                         <br>
 						<?php echo $this->total; ?>
                     </td>
@@ -47,7 +47,7 @@ $showTable    = (!empty($this->columns) and !empty($this->rows));
 					<?php endforeach; ?>
 				<?php else : ?>
                     <td>
-                        <span class="name"><?php echo Languages::_('THM_ORGANIZER_NO_EVENTS_FOUND'); ?></span>
+                        <span class="name"><?php echo Languages::_('ORGANIZER_NO_EVENTS_FOUND'); ?></span>
                     </td>
 				<?php endif; ?>
             </tr>

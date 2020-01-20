@@ -46,7 +46,7 @@ abstract class ItemView extends BaseHTMLView
 			$this->addSupplement();
 		}
 		$this->modifyDocument();
-		$defaultConstant = 'THM_ORGANIZER_' . strtoupper(str_replace('Item', '', $this->getName()));
+		$defaultConstant = 'ORGANIZER_' . strtoupper(str_replace('Item', '', $this->getName()));
 		$itemName        = is_array($this->item['name']) ? $this->item['name']['value'] : $this->item['name'];
 		HTML::setMenuTitle($defaultConstant, $itemName);
 		unset($this->item['name']);

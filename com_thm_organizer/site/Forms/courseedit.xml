@@ -18,13 +18,11 @@
     </fieldset>
     <fieldset name="de" label="ATTRIBUTES_DE">
         <field name="name_de" type="Blank" label="NAME_DE" class="required" maxlength="255"/>
-        <field name="description_de" type="Editor" label="THM_ORGANIZER_DESC_DE"
-               description="THM_ORGANIZER_DESC_DE_DESC"/>
+        <field name="description_de" type="Editor" label="ORGANIZER_DESC_DE" description="ORGANIZER_DESC_DE_DESC"/>
     </fieldset>
     <fieldset name="en" label="ATTRIBUTES_EN">
         <field name="name_en" type="Blank" label="NAME_EN" class="required" maxlength="255"/>
-        <field name="description_en" type="Editor" label="THM_ORGANIZER_DESC_EN"
-               description="THM_ORGANIZER_DESC_EN_DESC"/>
+        <field name="description_en" type="Editor" label="ORGANIZER_DESC_EN" description="ORGANIZER_DESC_EN_DESC"/>
     </fieldset>
     <fieldset name="units" label="UNITS" displayinitial="0">
         <field name="units" type="Units" label="UNITS"/>

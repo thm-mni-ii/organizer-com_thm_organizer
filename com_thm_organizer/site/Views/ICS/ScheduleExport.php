@@ -170,7 +170,7 @@ class ScheduleExport extends BaseView
 		$personsText = implode('/', $persons);
 		$roomsText   = implode('/', $rooms);
 
-		$summary = sprintf(Languages::_('THM_ORGANIZER_ICS_SUMMARY'), $title, $personsText);
+		$summary = sprintf(Languages::_('ORGANIZER_ICS_SUMMARY'), $title, $personsText);
 
 		$organizer = empty($this->parameters['mailto']) ? $personsText : $this->parameters['mailto'];
 		$vEvent->setProperty('ORGANIZER', $organizer);

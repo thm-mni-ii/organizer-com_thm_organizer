@@ -7,7 +7,8 @@ jQuery(document).ready(function () {
  *
  * @param  {object}  pools   the pools received
  */
-function addPools(pools) {
+function addPools(pools)
+{
     'use strict';
 
     const poolSelection = jQuery('#poolIDs'),
@@ -21,7 +22,8 @@ function addPools(pools) {
         poolSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
-    if (si !== true) {
+    if (si !== true)
+    {
         poolSelection.chosen('destroy');
         poolSelection.chosen();
     }
@@ -32,7 +34,8 @@ function addPools(pools) {
  *
  * @param  {object}  categories   the category received
  */
-function addCategories(categories) {
+function addCategories(categories)
+{
     'use strict';
 
     const categorySelection = jQuery('#categoryIDs'),
@@ -47,7 +50,8 @@ function addCategories(categories) {
         categorySelection.append('<option value="' + value.id + '" ' + selected + '>' + name + '</option>');
     });
 
-    if (si !== true) {
+    if (si !== true)
+    {
         categorySelection.chosen('destroy');
         categorySelection.chosen();
     }
@@ -58,7 +62,8 @@ function addCategories(categories) {
  *
  * @param  {object}  rooms   the rooms received
  */
-function addRooms(rooms) {
+function addRooms(rooms)
+{
     'use strict';
 
     const roomSelection = jQuery('#roomIDs'),
@@ -72,7 +77,8 @@ function addRooms(rooms) {
         roomSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
-    if (si !== true) {
+    if (si !== true)
+    {
         roomSelection.chosen('destroy');
         roomSelection.chosen();
     }
@@ -83,7 +89,8 @@ function addRooms(rooms) {
  *
  * @param  {object}  persons   the persons received
  */
-function addPersons(persons) {
+function addPersons(persons)
+{
     'use strict';
 
     const personSelection = jQuery('#personIDs'),
@@ -97,7 +104,8 @@ function addPersons(persons) {
         personSelection.append('<option value="' + id + '" ' + selected + '>' + name + '</option>');
     });
 
-    if (si !== true) {
+    if (si !== true)
+    {
         personSelection.chosen('destroy');
         personSelection.chosen();
     }
@@ -108,12 +116,14 @@ function addPersons(persons) {
  *
  * @returns {boolean}
  */
-function copyLink() {
+function copyLink()
+{
     const format = jQuery('input[name=format]').val();
     let addAuth = false, authDefined = false, emptyPools, emptyRooms, emptyPersons,
         mySchedule, selectedPools, selectedRooms, selectedPersons, url;
 
-    if (format !== 'ics') {
+    if (format !== 'ics')
+    {
         return true;
     }
 
@@ -121,51 +131,61 @@ function copyLink() {
     url = rootURI + 'index.php?option=com_thm_organizer&view=schedule_export&format=ics&interval=ics';
     mySchedule = jQuery('#myschedule:checked').val();
 
-    if (mySchedule === 'on' && authDefined) {
+    if (mySchedule === 'on' && authDefined)
+    {
         url += '&myschedule=1';
         addAuth = true;
-    } else {
+    }
+    else
+    {
         selectedPools = jQuery('#poolIDs').val();
         emptyPools = selectedPools === undefined || selectedPools == null || selectedPools.length === 0;
 
-        if (!emptyPools) {
+        if (!emptyPools)
+        {
             url += '&poolIDs=' + selectedPools;
         }
 
         selectedRooms = jQuery('#roomIDs').val();
         emptyRooms = selectedRooms === undefined || selectedRooms == null || selectedRooms.length === 0;
 
-        if (!emptyRooms) {
+        if (!emptyRooms)
+        {
             url += '&roomIDs=' + selectedRooms;
         }
 
         selectedPersons = jQuery('#personIDs').val();
         emptyPersons = selectedPersons === undefined || selectedPersons == null || selectedPersons.length === 0;
 
-        if (!emptyPersons && authDefined) {
+        if (!emptyPersons && authDefined)
+        {
             addAuth = true;
             url += '&personIDs=' + selectedPersons;
         }
     }
 
-    if (addAuth) {
+    if (addAuth)
+    {
         url += '&username=' + username + '&auth=' + auth;
     }
 
-    window.prompt(Joomla.JText._('THM_ORGANIZER_COPY_SUBSCRIPTION'), url);
+    window.prompt(Joomla.JText._('ORGANIZER_COPY_SUBSCRIPTION'), url);
 
     return false;
 }
 
-function handleSubmit() {
+function handleSubmit()
+{
     const validSelection = validateSelection(),
         formatValue = jQuery('input[name=format]').val();
 
-    if (!validSelection) {
+    if (!validSelection)
+    {
         return false;
     }
 
-    if (formatValue === 'ics') {
+    if (formatValue === 'ics')
+    {
         copyLink();
         return true;
     }
@@ -178,7 +198,8 @@ function handleSubmit() {
 /**
  * Load pools dependent on the selected departments and categories
  */
-function repopulateResources() {
+function repopulateResources()
+{
     'use strict';
 
     const selectedDepartments = jQuery('#departmentIDs').val(),
@@ -189,17 +210,20 @@ function repopulateResources() {
     invalidCategories = selectedCategories == null || selectedCategories.length === 0;
 
     // The all selection was revoked from something.
-    if (invalidDepartments && invalidCategories) {
+    if (invalidDepartments && invalidCategories)
+    {
         return;
     }
 
     componentParameters = 'index.php?option=com_thm_organizer&format=json';
 
-    if (!invalidDepartments) {
+    if (!invalidDepartments)
+    {
         selectionParameters += '&departmentIDs=' + selectedDepartments;
     }
 
-    if (!invalidCategories) {
+    if (!invalidCategories)
+    {
         selectionParameters += '&categoryIDs=' + selectedCategories;
     }
 
@@ -211,7 +235,8 @@ function repopulateResources() {
             addPools(data);
         },
         error: function (xhr, textStatus, errorThrown) {
-            if (xhr.status === 404 || xhr.status === 500) {
+            if (xhr.status === 404 || xhr.status === 500)
+            {
                 jQuery.ajax(repopulateResources());
             }
         }
@@ -225,7 +250,8 @@ function repopulateResources() {
             addPersons(data);
         },
         error: function (xhr, textStatus, errorThrown) {
-            if (xhr.status === 404 || xhr.status === 500) {
+            if (xhr.status === 404 || xhr.status === 500)
+            {
                 jQuery.ajax(repopulateResources());
             }
         }
@@ -239,7 +265,8 @@ function repopulateResources() {
             addRooms(data);
         },
         error: function (xhr, textStatus, errorThrown) {
-            if (xhr.status === 404 || xhr.status === 500) {
+            if (xhr.status === 404 || xhr.status === 500)
+            {
                 jQuery.ajax(repopulateResources());
             }
         }
@@ -249,14 +276,16 @@ function repopulateResources() {
 /**
  * Load categories dependent on the selected departments
  */
-function repopulateCategories() {
+function repopulateCategories()
+{
     'use strict';
 
     const componentParameters = '/index.php?option=com_thm_organizer&view=category_options&format=json',
         selectedDepartments = jQuery('#departmentIDs').val();
     let selectionParameters;
 
-    if (selectedDepartments == null) {
+    if (selectedDepartments == null)
+    {
         return;
     }
 
@@ -270,14 +299,16 @@ function repopulateCategories() {
             addCategories(data);
         },
         error: function (xhr, textStatus, errorThrown) {
-            if (xhr.status === 404 || xhr.status === 500) {
+            if (xhr.status === 404 || xhr.status === 500)
+            {
                 jQuery.ajax(repopulateCategories());
             }
         }
     });
 }
 
-function setFormat() {
+function setFormat()
+{
     const actionButton = jQuery('#action-btn'),
         dateContainer = jQuery('#date-container'),
         formatValue = jQuery('#format').find(':selected').val(),
@@ -296,10 +327,11 @@ function setFormat() {
 
     let documentFormat = formatArray[1];
 
-    switch (format) {
+    switch (format)
+    {
         case 'ics':
             formatInput.val(format);
-            actionButton.text(Joomla.JText._('THM_ORGANIZER_GENERATE_LINK') + ' ');
+            actionButton.text(Joomla.JText._('ORGANIZER_GENERATE_LINK') + ' ');
             actionButton.append('<span class="icon-feed"></span>');
             dateContainer.hide();
             intervalContainer.hide();
@@ -311,7 +343,7 @@ function setFormat() {
             formatInput.val(format);
             documentFormat = documentFormat === undefined ? 'si' : documentFormat;
             documentFormatContainer.val(documentFormat);
-            actionButton.text(Joomla.JText._('THM_ORGANIZER_DOWNLOAD') + ' ').append('<span class="icon-file-excel"></span>');
+            actionButton.text(Joomla.JText._('ORGANIZER_DOWNLOAD') + ' ').append('<span class="icon-file-excel"></span>');
             dateContainer.show();
             intervalContainer.show();
             groupingContainer.hide();
@@ -325,12 +357,15 @@ function setFormat() {
             formatInput.val(format);
             documentFormat = documentFormat === undefined ? 'a4' : documentFormat;
             documentFormatContainer.val(documentFormat);
-            actionButton.text(Joomla.JText._('THM_ORGANIZER_DOWNLOAD') + ' ').append('<span class="icon-file-pdf"></span>');
+            actionButton.text(Joomla.JText._('ORGANIZER_DOWNLOAD') + ' ').append('<span class="icon-file-pdf"></span>');
             linkContainer.hide();
             linkTarget.text('');
-            if (documentFormat === 'a4') {
+            if (documentFormat === 'a4')
+            {
                 groupingContainer.hide();
-            } else {
+            }
+            else
+            {
                 groupingContainer.show();
             }
             dateContainer.show();
@@ -344,16 +379,20 @@ function setFormat() {
 /**
  * Toggles the output of resource and filter fields depenent on the selection of my schedule
  */
-function toggleMySchedule() {
+function toggleMySchedule()
+{
     const mySchedule = jQuery('#myschedule:checked').val();
 
-    if (mySchedule === 'on') {
+    if (mySchedule === 'on')
+    {
         jQuery('#filterFields').hide();
         jQuery('#poolIDs-container').hide();
         jQuery('#roomIDs-container').hide();
         jQuery('#personIDs-container').hide();
         jQuery('input[name=myschedule]').val(1);
-    } else {
+    }
+    else
+    {
         jQuery('#filterFields').show();
         jQuery('#poolIDs-container').show();
         jQuery('#roomIDs-container').show();
@@ -363,14 +402,16 @@ function toggleMySchedule() {
 
 }
 
-function validateSelection() {
+function validateSelection()
+{
     const mySchedule = jQuery('#myschedule:checked').val(),
         selectedPools = jQuery('#poolIDs').val(),
         selectedRooms = jQuery('#roomIDs').val(),
         selectedPersons = jQuery('#personIDs').val();
     let emptyPools, emptyRooms, emptyPersons;
 
-    if (mySchedule === 'on') {
+    if (mySchedule === 'on')
+    {
         return true;
     }
 
@@ -378,8 +419,9 @@ function validateSelection() {
     emptyRooms = selectedRooms == null || selectedRooms.length === 0;
     emptyPersons = selectedPersons == null || selectedPersons.length === 0;
 
-    if (emptyPools && emptyRooms && emptyPersons) {
-        alert(Joomla.JText._('THM_ORGANIZER_LIST_SELECTION_WARNING'),);
+    if (emptyPools && emptyRooms && emptyPersons)
+    {
+        alert(Joomla.JText._('ORGANIZER_LIST_SELECTION_WARNING'),);
         return false;
     }
 

@@ -22,8 +22,8 @@ $participantListRoute = Route::_($baseURL . 0, false);
 $departmentListRoute  = Route::_($baseURL . 1, false);
 $badgesRoute          = Route::_($baseURL . 2, false);
 
-$acceptedText = Languages::_('THM_ORGANIZER_ACCEPTED');
-$waitListText = Languages::_('THM_ORGANIZER_WAIT_LIST');
+$acceptedText = Languages::_('ORGANIZER_ACCEPTED');
+$waitListText = Languages::_('ORGANIZER_WAIT_LIST');
 
 $params     = OrganizerHelper::getParams();
 $dateFormat = $params->get('dateFormat', 'd.m.Y') . ' ';
@@ -38,7 +38,7 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
     <input type="hidden" name="participantState" id="participantState" value=""/>
     <div class="section">
         <div class="left form-header">
-            <h4><?php echo Languages::_('THM_ORGANIZER_PARTICIPANTS'); ?></h4>
+            <h4><?php echo Languages::_('ORGANIZER_PARTICIPANTS'); ?></h4>
         </div>
         <div class="right">
 			<?php echo $this->course['capacityText']; ?>
@@ -46,42 +46,42 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
         <div class="clear"></div>
         <div class="left">
             <button class="btn" onclick="listAction(1);">
-                <span class="icon-checkbox-checked"></span> <?php echo Languages::_('THM_ORGANIZER_ACCEPT'); ?>
+                <span class="icon-checkbox-checked"></span> <?php echo Languages::_('ORGANIZER_ACCEPT'); ?>
             </button>
             <button class="btn" onclick="listAction(0);">
-                <span class="icon-checkbox-partial"></span> <?php echo Languages::_('THM_ORGANIZER_ADD_WAIT_LIST'); ?>
+                <span class="icon-checkbox-partial"></span> <?php echo Languages::_('ORGANIZER_ADD_WAIT_LIST'); ?>
             </button>
             <button class="btn" onclick="listAction(2);">
-                <span class="icon-remove"></span> <?php echo Languages::_('THM_ORGANIZER_DELETE'); ?>
+                <span class="icon-remove"></span> <?php echo Languages::_('ORGANIZER_DELETE'); ?>
             </button>
         </div>
         <div class="right">
             <a href="#" class="btn btn-mini callback-modal" type="button" data-toggle="modal" data-target="#circular">
-                <span class="icon-mail"></span> <?php echo Languages::_('THM_ORGANIZER_CIRCULAR'); ?>
+                <span class="icon-mail"></span> <?php echo Languages::_('ORGANIZER_CIRCULAR'); ?>
             </a>
             <div class="print-container">
                 <a class="dropdown-toggle print btn" data-toggle="dropdown" href="#">
                     <span class="icon-print"></span>
-					<?php echo Languages::_('THM_ORGANIZER_PRINT_OPTIONS'); ?>
+					<?php echo Languages::_('ORGANIZER_PRINT_OPTIONS'); ?>
                     <span class="icon-arrow-down-3"></span>
                 </a>
                 <ul id="print" class="dropdown-menu">
                     <li>
                         <a href="<?php echo $participantListRoute; ?>" target="_blank">
                             <span class="icon-file-pdf"></span>
-							<?php echo Languages::_('THM_ORGANIZER_PARTICIPANTS'); ?>
+							<?php echo Languages::_('ORGANIZER_PARTICIPANTS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $departmentListRoute; ?>" target="_blank">
                             <span class="icon-file-pdf"></span>
-							<?php echo Languages::_('THM_ORGANIZER_DEPARTMENT_STATISTICS'); ?>
+							<?php echo Languages::_('ORGANIZER_DEPARTMENT_STATISTICS'); ?>
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $badgesRoute; ?>" target="_blank">
                             <span class="icon-file-pdf"></span>
-							<?php echo Languages::_('THM_ORGANIZER_BADGE_SHEETS'); ?>
+							<?php echo Languages::_('ORGANIZER_BADGE_SHEETS'); ?>
                         </a>
                     </li>
                 </ul>
@@ -93,11 +93,11 @@ $dateFormat .= $params->get('timeFormat', 'H.i');
         <thead>
         <tr>
             <th><input type="checkbox" name="toggleSelect" id="toggleSelect" onclick="toggleAll(this);"></th>
-            <th><?php echo Languages::_('THM_ORGANIZER_NAME'); ?></th>
-            <th><?php echo Languages::_('THM_ORGANIZER_PROGRAM'); ?></th>
+            <th><?php echo Languages::_('ORGANIZER_NAME'); ?></th>
+            <th><?php echo Languages::_('ORGANIZER_PROGRAM'); ?></th>
             <th><?php echo Languages::_('JGLOBAL_EMAIL'); ?></th>
             <th><?php echo Languages::_('JSTATUS'); ?></th>
-            <th><?php echo Languages::_('THM_ORGANIZER_STATUS_DATE'); ?></th>
+            <th><?php echo Languages::_('ORGANIZER_STATUS_DATE'); ?></th>
         </tr>
         </thead>
         <tbody>

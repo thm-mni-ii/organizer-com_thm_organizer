@@ -179,7 +179,7 @@ ALTER TABLE `v7ocf_thm_organizer_departments` AUTO_INCREMENT = 53;
 # region extensions
 UPDATE `v7ocf_extensions`
 SET `params` = replace(`params`, '_refresh', 'Refresh')
-WHERE `name` = 'THM_ORGANIZER';
+WHERE `name` = 'ORGANIZER';
 # endregion
 
 # region fields
